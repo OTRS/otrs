@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:24:11
+    # Last translation file sync: 2013-10-07 14:16:32
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -212,6 +212,7 @@ sub Data {
         'Medium' => 'Vidutinis',
         'Large' => 'Didelis',
         'Date picker' => 'Datos parinkiklis',
+        'Show Tree Selection' => '',
         'New message' => 'Nauja žinutė',
         'New message!' => 'Nauja žinutė!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -339,6 +340,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             'Pasirinktoje saugykloje arba nėra naujų paketų, arba išvis nėra jokių paketų.',
         'Edit the system configuration settings.' => 'Keisti sistemos konfigūracijos nustatymus',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => 'spausdinta',
         'Loading...' => 'Kraunasi...',
         'Dear Mr. %s,' => 'Gerbiamas pone %s,',
@@ -456,7 +459,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             'Neįmanoma atnaujinti slaptažodžio. Jis turi būti mažiausiai %s simbolių ilgio.',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '',
+            'Neįmanoma atnaujinti slaptažodžio. Slaptažodį turi sudaryti mažiausiai 2 didžiosios ir 2 mažosios raidės.',
         'Can\'t update password, it must contain at least 1 digit!' => 'Neįmanoma atnaujinti slaptažodžio. Slaptažodyje turi būti bent 1 skaitmuo.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Neįmanoma atnaujinti slaptažodžio. Slaptažodis turi būti mažiausiai 2 simbolių ilgio.',
@@ -793,6 +796,7 @@ sub Data {
             'Visos triktys turinčios nustatytus priminimus, kurių priminimo laikai jau atėjo',
         'Archived tickets' => '',
         'Unarchived tickets' => '',
+        'Ticket Information' => '',
         'History::Move' => 'Triktis perkelta iš eilės "%s" (%s) į eilę "%s" (%s).',
         'History::TypeUpdate' => 'Tipas pakeistas į "%s" (ID=%s).',
         'History::ServiceUpdate' => 'Servisas pakeistas į "%s" (ID=%s).',
@@ -1863,7 +1867,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
-        'You need to log in with your OTRS-ID to register your system.' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
         'What are the advantages of system registration?' => '',
@@ -1896,6 +1901,8 @@ sub Data {
         'portal' => '',
         'and file a request.' => '',
         'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
@@ -4082,6 +4089,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Valdyti S/MIME sertifikatus el. laiškų šifravimui.',
         'Manage existing sessions.' => 'Valdyti esamas sesijas.',
         'Manage notifications that are sent to agents.' => '',
+        'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -4241,7 +4249,6 @@ sub Data {
             '',
         'Refresh Overviews after' => '',
         'Refresh interval' => 'Atnaujinimo intervalas',
-        'Manage system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4818,8 +4825,6 @@ sub Data {
         'Add customer company' => 'Pridėti organizaciją',
         'Add response' => 'Pridėti atsakymą',
         'Attachments <-> Responses' => 'Priedai <-> Atsakymai',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Neįmanoma atnaujinti slaptažodžio. Slaptažodį turi sudaryti mažiausiai 2 didžiosios ir 2 mažosios raidės.',
         'Change Attachment Relations for Response' => 'Keisti priedų ryšius atsakymui',
         'Change Queue Relations for Response' => 'Keisti eilių ryšius atsakymui',
         'Change Response Relations for Attachment' => 'Keisti atsakymų ryšius priedui',

@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:24:07
+    # Last translation file sync: 2013-10-07 14:16:28
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -214,6 +214,7 @@ sub Data {
         'Medium' => 'मध्यम',
         'Large' => 'बड़ा',
         'Date picker' => 'दिनांक चयनकर्ता',
+        'Show Tree Selection' => '',
         'New message' => 'नया संदेश',
         'New message!' => 'नया संदेश',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -341,6 +342,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             'कोई संकुल,या कोई नया संकुल,चयनित संग्रह में नहीं मिला हैं।',
         'Edit the system configuration settings.' => 'प्रणाली विन्यास व्यवस्थाऐं संपादित करें।',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => 'पर मुद्रित',
         'Loading...' => 'लोड हो रहा है।',
         'Dear Mr. %s,' => 'प्रिय श्रीमान %s,',
@@ -458,7 +461,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             'कूटशब्द अद्यतन नहीं किया जा सकता,यह कम से कम %s वर्ण लंबा होना चाहिए।',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '',
+            'कूटशब्द अद्यतन नहीं किया जा सकता,इसमें कम से कम 2 लोअरकेस और 2 अपरकेस वर्ण होने चाहिए।',
         'Can\'t update password, it must contain at least 1 digit!' => 'कूटशब्द अद्यतन नहीं किया जा सकता,इसमें कम से कम 1 अंक होना चाहिए।',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'कूटशब्द अद्यतन नहीं किया जा सकता,इसमें कम से कम 2 वर्ण शामिल होने चाहिए।',
@@ -795,6 +798,7 @@ sub Data {
             'सभी टिकट एक अनुस्मारक सेट के साथ जहाँ दिनांक अनुस्मारक पहुँच गया है।',
         'Archived tickets' => '',
         'Unarchived tickets' => '',
+        'Ticket Information' => '',
         'History::Move' => ' "%s" (%s) प्रस्तावित  "%s" (%s)।',
         'History::TypeUpdate' => 'प्रकार अद्यतन %s (ID=%s)।',
         'History::ServiceUpdate' => 'सेवा अद्यतन %s (ID=%s)।',
@@ -1865,7 +1869,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
-        'You need to log in with your OTRS-ID to register your system.' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
         'What are the advantages of system registration?' => '',
@@ -1898,6 +1903,8 @@ sub Data {
         'portal' => '',
         'and file a request.' => '',
         'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
@@ -4084,6 +4091,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'ईमेल कूटलेखन के लिए S/MIME प्रमाणपत्र कुंजी प्रबंधित का प्रबंधन करें।',
         'Manage existing sessions.' => 'मौजूदा सत्र का प्रबंधन करें।',
         'Manage notifications that are sent to agents.' => '',
+        'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'ग्राहक जानकारी तालिका(फोन और ईमेल) के स्क्रीन रचना में अधिकतम आकार(अक्षरों में)।',
@@ -4243,7 +4251,6 @@ sub Data {
             '',
         'Refresh Overviews after' => '',
         'Refresh interval' => 'ताज़ाकरण अंतराल',
-        'Manage system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4824,8 +4831,6 @@ sub Data {
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'प्रतिनिधि अंतरफलक के टिकट खोज में खोज स्थितियों के विस्तार की अनुमति देता है।इस सुविधा के साथ आप खोज कर सकते हैं उदा. इस प्रकार की स्थितियों के साथ "(key1 && key2)"या"(key1 || key2)"।',
         'Attachments <-> Responses' => 'संलग्नक <-> प्रतिक्रिया',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'कूटशब्द अद्यतन नहीं किया जा सकता,इसमें कम से कम 2 लोअरकेस और 2 अपरकेस वर्ण होने चाहिए।',
         'Change Attachment Relations for Response' => 'संलग्नक संबंधों को प्रतिक्रिया के लिए बदलॆ',
         'Change Queue Relations for Response' => 'श्रेणी संबंधों को प्रतिक्रिया के लिए बदलॆ',
         'Change Response Relations for Attachment' => 'संलग्नक के लिए प्रतिक्रिया संबंधों को बदलॆ',

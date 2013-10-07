@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 09:56:08
+    # Last translation file sync: 2013-10-07 14:16:27
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -219,6 +219,7 @@ sub Data {
         'Medium' => 'Moyen (M)',
         'Large' => 'Grand (L)',
         'Date picker' => 'Selection de date',
+        'Show Tree Selection' => '',
         'New message' => 'Nouveau message',
         'New message!' => 'Nouveau message ',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -346,6 +347,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             'Aucun paquet, ou nouveau paquet, n\'a été trouvé dans le répertoire selectionné.',
         'Edit the system configuration settings.' => 'Modifier la configuration du système.',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => 'imprimé à',
         'Loading...' => 'Chargement...',
         'Dear Mr. %s,' => 'Cher M. %s,',
@@ -463,7 +466,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             'Impossible de mettre à jour le mot de passe; il doit contenir au moins %s caractères.',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '',
+            'Impossible de mettre à jour le mot de passe; il doit contenir au moins deux lettres en minuscule et deux lettres en majuscule.',
         'Can\'t update password, it must contain at least 1 digit!' => 'Impossible de mettre à jour le mot de passe; il doit contenir au moins un chiffre.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Impossible de mettre à jour le mot de passe; il doit contenir au moins deux caractères.',
@@ -800,6 +803,7 @@ sub Data {
             'Les demandes dont la date de rappel à été atteinte.',
         'Archived tickets' => 'Demandes archivées',
         'Unarchived tickets' => 'Demandes non archivées',
+        'Ticket Information' => 'Information sur la demande',
         'History::Move' => 'La demande a été déplacée dans la file "%s" (%s) - Ancienne file : "%s" (%s).',
         'History::TypeUpdate' => 'Type positionné à %s (ID=%s).',
         'History::ServiceUpdate' => 'Service positionné à %s (ID=%s).',
@@ -1205,7 +1209,7 @@ sub Data {
         'Archive selected tickets' => 'Archiver les demandes sélectionnées',
         'Add Note' => 'Ajouter une note',
         'Time units' => 'Unité de temps',
-        '(work units)' => 'Unité de travail',
+        ' (work units)' => '',
         'Ticket Commands' => 'Ajouter des directives',
         'Send agent/customer notifications on changes' => 'Envoyer des notifications aux agents et aux clients visés lors de changements ',
         'CMD' => 'Directive ',
@@ -1856,6 +1860,76 @@ sub Data {
         'Templates' => '',
         'Change Queue Relations for Template' => '',
         'Change Template Relations for Queue' => '',
+
+        # Template: AdminRegistration
+        'System Registration Management' => '',
+        'Send update now' => '',
+        'Overview of registered systems' => '',
+        'Deregister system' => '',
+        'System Registration' => '',
+        'This system is registered with OTRS Group.' => '',
+        'Unique ID' => '',
+        'Last communication with registration server' => '',
+        'OTRS-ID Login' => '',
+        'System registration is a service of OTRS group, which provides a lot of advantages!' =>
+            '',
+        'Read more' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
+        'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
+            '',
+        'What are the advantages of system registration?' => '',
+        'You will receive updates about relevant security releases.' => '',
+        'With your system registration we can improve our services for you, because we have all relevant information available.' =>
+            '',
+        'This is only the beginning!' => '',
+        'We will inform you about our new services and offerings soon.' =>
+            '',
+        'Can I use OTRS without being registered?' => '',
+        'System registration is optional.' => '',
+        'You can download and use OTRS without being registered.' => '',
+        'Is it possible to deregister?' => '',
+        'You can deregister at any time.' => '',
+        'Which data is transfered when registering?' => '',
+        'A registered system sends the following data to OTRS Group:' => '',
+        'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
+            '',
+        'Why do I have to provide a description for my system?' => '',
+        'The description of the system is optional.' => '',
+        'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
+            '',
+        'How often does my OTRS system send updates?' => '',
+        'Your system will send updates to the registration server at regular intervals.' =>
+            '',
+        'Typically this would be around once every three days.' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            '',
+        'Please visit our' => '',
+        'portal' => '',
+        'and file a request.' => '',
+        'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
+            '',
+        'OTRS-ID' => '',
+        'You don\'t have an OTRS-ID yet?' => '',
+        'Sign up now' => 'Enregistrez-vous maintenant',
+        'Forgot your password?' => '',
+        'Retrieve a new one' => '',
+        'This data will be frequently transferred to OTRS Group when you register this system.' =>
+            '',
+        'Attribute' => 'Attribut',
+        'FQDN' => '',
+        'OTRS Version' => '',
+        'Operating System' => '',
+        'Perl Version' => '',
+        'System type' => '',
+        'Optional description of this system.' => '',
+        'Register' => '',
+        'Deregister System' => '',
+        'Continuing with this step will deregister the system from OTRS Group.' =>
+            '',
+        'Deregister' => '',
 
         # Template: AdminRole
         'Role Management' => 'Gestion des rôles',
@@ -2558,7 +2632,6 @@ sub Data {
         'Forgot password?' => 'Mot de passe oublié?',
         'Log In' => 'Se connecter',
         'Not yet registered?' => 'Pas encore inscrit?',
-        'Sign up now' => 'Enregistrez-vous maintenant',
         'Request new password' => 'Demande un nouveau mot de passe',
         'Your User Name' => 'Votre nom d\'utilisateur',
         'A new password will be sent to your email address.' => 'Un nouveau mot de passe sera envoyé à votre adresse électronique.',
@@ -2689,7 +2762,6 @@ sub Data {
         'JavaScript not available' => 'JavaScript non disponible',
         'Database Settings' => 'Réglages de la base de données',
         'General Specifications and Mail Settings' => 'Caractéristiques générales et réglages de courriel',
-        'Registration' => 'Enregistrement',
         'Welcome to %s' => 'Bienvenue dans %s',
         'Web site' => 'Site Web',
         'Mail check successful.' => 'Contrôle de courriel effectué avec succès.',
@@ -2721,8 +2793,6 @@ sub Data {
         'Result of mail configuration check' => 'Résultat du contrôle de configuration de courriel',
         'Check mail configuration' => 'Vérifier la configuration courriel',
         'Skip this step' => 'Passer cette étape',
-        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
-            'En passant cette étape, l\'enregistrement de votre OTRS sera systématiquement éviter. Souhaitez-vous poursuivre cette action?',
 
         # Template: InstallerDBResult
         'Database setup successful!' => 'Configuration de la base de données réussie.',
@@ -2768,12 +2838,6 @@ sub Data {
 
         # Template: InstallerLicenseText
 
-        # Template: InstallerRegistration
-        'Organization' => 'Entreprise ',
-        'Position' => 'Poste',
-        'Complete registration and continue' => 'Remplir l\'enregistrement et continuer',
-        'Please fill in all fields marked as mandatory.' => 'Veuillez remplir tous les champs obligatoires.',
-
         # Template: InstallerSystem
         'SystemID' => 'ID Système',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -2782,6 +2846,7 @@ sub Data {
         'Fully qualified domain name of your system.' => 'Nom de domaine complet de votre système',
         'AdminEmail' => 'Adresse électronique de l\'administrateur.',
         'Email address of the system administrator.' => 'L\'adresse électronique de l\'administrateur de votre système.',
+        'Organization' => 'Entreprise ',
         'Log' => 'Journal',
         'LogModule' => 'Module de journalisation',
         'Log backend to use.' => 'Journal à utiliser',
@@ -3456,6 +3521,8 @@ sub Data {
             'Détermine le type de lien des groupes. Le type de lien entre les membres d\'un même groupe détermine le type de lien du groupe. Par exemple, si la demande A est liée à la demande B par un lien « Normal », ces demandes ne pourront en plus être liés par un lien de type « ParentChild » (parent enfant). ',
         'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' =>
             'Détermine la liste des référentiels en ligne. Une autre installation pourrait servir de référentiel, par exemple, clé=« http://exemple.com/otrs/public.pl?Action=Référentielpublic;Fichier= » et Contenu=« Nom ».',
+        'Defines the list of possible next actions on an error screen.' =>
+            '',
         'Defines the list of types for templates.' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' =>
             'Détermine l\'emplacement Web de la liste des référentiels d\'installation de paquets supplémentaires. Le premier résultat affiché sera utilisé.',
@@ -4029,6 +4096,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Gérer les certificats S/MIME pour le cryptage des courriels.',
         'Manage existing sessions.' => 'Gérer les sessions existantes.',
         'Manage notifications that are sent to agents.' => 'Gérer les notifications qui sont envoyées aux agents.',
+        'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Le nombre maximal de caractères de la table de renseignements du client (numéro de téléphone et courriel) dans l\'écran de rédaction.',
@@ -4947,6 +5015,7 @@ sub Data {
         '(Used log backend)' => '(arrière-plan du journal utilisé)',
         '(Used ticket number format)' => '(Format numérique utilisé pour les demandes)',
         '(e.g. Generic Interface asynchronous invoker tasks)' => '(p. ex. Les tâches asynchrones du demandeur de l’interface générique)',
+        '(work units)' => 'Unité de travail',
         '* Normalize Private Secrets Files\n' => '* Régularise les fichiers secrets privés\n',
         '*** out of office till $TillDate/$Till d ***' => '*** absent du bureau jusqu\'au $TillDate/$Till d ***',
         '**Error in Normalize Private Secret Files.\n\n' => '* Erreur dans la régularisation des fichiers secrets privés.\n\n',
@@ -5166,7 +5235,6 @@ sub Data {
         'Attachment size (avg)=$AverageAttachmentSize KB;' => 'Taille de la pièce jointe (moyenne) =$AverageAttachmentSize KB;',
         'Attachments <-> Responses' => 'Pièces jointes <-> Réponses',
         'Attachments per ticket (avg)=$AvgAttachmentTicket;' => 'articles par demandes (moyenne) =$AvgArticlesTicket;',
-        'Attribute' => 'Attribut',
         'Australia' => 'Australie',
         'Austria' => 'Autriche',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
@@ -5256,8 +5324,6 @@ sub Data {
         'Can\'t show history, no TicketID is given!' => 'L\'historique ne peut être affiché, aucun identifiant de demande (TicketID) n\'a été mentionné.',
         'Can\'t sign: $LogMessage! (Command: $Options)' => 'La signature de $LogMessage! est impossible (Commande : $Options)',
         'Can\'t update password, invalid characters!' => 'Mise à jour du mot de passe impossible, les caractères sont invalides.',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Impossible de mettre à jour le mot de passe; il doit contenir au moins deux lettres en minuscule et deux lettres en majuscule.',
         'Can\'t update password, must be at least %s characters!' => 'Mise à jour du mot de passe impossible, il doit avoir au moins %s caractères.',
         'Can\'t update password, must contain 2 lower and 2 upper characters!' =>
             'Mise à jour du mot de passe impossible, il doit comprendre 2 majuscules et 2 minuscules.',
@@ -5372,6 +5438,7 @@ sub Data {
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             'Nom de l\'entreprise pour l\'interface Web du client (il sera également inclus dans les courriels en tant qu\'en-tête « x-* »).',
         'CompanyTickets' => 'Demandes de l\'entreprise cliente',
+        'Complete registration and continue' => 'Remplir l\'enregistrement et continuer',
         'Compose Answer' => 'Rédiger une réponse',
         'Compose Email' => 'Rédiger un courriel',
         'Compose Follow up' => 'Rédiger une note de suivi',
@@ -6973,6 +7040,7 @@ sub Data {
         'Please contact your admin' => 'Veuillez contacter votre admnistrateur',
         'Please enter a search term to look for customer companies.' => 'Pour trouver des entreprises clientes, veuillez entrer un terme de recherche.',
         'Please enter subject.' => 'Veuillez entrer un sujet.',
+        'Please fill in all fields marked as mandatory.' => 'Veuillez remplir tous les champs obligatoires.',
         'Please go back' => 'Veuillez retourner à la page précédente',
         'Please provide a name.' => 'Veuillez fournir un nom.',
         'Please recommend me a Service Subscription to optimize my OTRS. ' =>
@@ -6990,6 +7058,7 @@ sub Data {
         'Please supply a last name' => 'Veuillez fournir un nom de famille',
         'Poland' => 'Pologne',
         'Portugal' => 'Portugal',
+        'Position' => 'Poste',
         'Postmaster' => 'Maître de poste',
         'Postmaster queue.' => 'File « maître de poste ».',
         'Print this ticket!' => 'Imprimer la demande.',
@@ -7022,6 +7091,7 @@ sub Data {
         'Rebuild' => 'Re-construction',
         'Recipients' => 'Destinataires',
         'Register your OTRS' => 'Enregistrer votre OTRS',
+        'Registration' => 'Enregistrement',
         'Registration for field type $FieldType is invalid!' => 'L\'enregistrement du type de champ $FieldType n\'est pas valide.',
         'Reject Follow up Ticket\n' => 'Rejet des suivis de demandes\n',
         'Reloading grant tables' => 'Charger à nouveau les tableaux de subventions',
@@ -7184,6 +7254,8 @@ sub Data {
         'Sint Maarten (Dutch part)' => 'Saint-Martin (Royaume des Pays-Bas)',
         'Site' => 'Site',
         'Size of the current database.' => 'Taille de la base de données actuelle.',
+        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
+            'En passant cette étape, l\'enregistrement de votre OTRS sera systématiquement éviter. Souhaitez-vous poursuivre cette action?',
         'Slim' => 'Compact',
         'Slovakia' => 'Slovaquie',
         'Slovenia' => 'Slovénie',
@@ -7412,7 +7484,6 @@ sub Data {
         'Ticket Forward Email' => 'Courriel de transfert de la demande ',
         'Ticket FreeText' => 'Texte libre de la demande',
         'Ticket History' => 'Historique de la demande',
-        'Ticket Information' => 'Information sur la demande',
         'Ticket Lock' => 'verrou de la demande',
         'Ticket Move' => 'Déplacement de la demande',
         'Ticket Note' => 'Note de la demande',

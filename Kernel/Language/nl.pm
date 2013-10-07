@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:24:14
+    # Last translation file sync: 2013-10-07 14:16:36
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -218,6 +218,7 @@ sub Data {
         'Medium' => 'Middel',
         'Large' => 'Groot',
         'Date picker' => 'Datumkiezer',
+        'Show Tree Selection' => '',
         'New message' => 'Nieuw bericht',
         'New message!' => 'Nieuw bericht.',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -345,6 +346,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             'Geen pakketten, of geen nieuwe pakketten, gevonden in de geselecteerde repository.',
         'Edit the system configuration settings.' => 'Bewerk de systeemconfiguratie.',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => 'afgedrukt op',
         'Loading...' => 'Bezig met laden...',
         'Dear Mr. %s,' => 'Geachte heer %s,',
@@ -462,7 +465,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             'Kan het wachtwoord niet bijwerken, het moet minstens %s tekens lang zijn.',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Kan wachtwoord niet bijwerken. Het moet minstends twee kleine en twee hoofdletter bevatten.',
+            'Kan het wachtwoord niet bijwerken, het moet minstens twee kleine letters en twee hoofdletters bevatten.',
         'Can\'t update password, it must contain at least 1 digit!' => 'Kan het wachtwoord niet bijwerken, het moet minstens 1 cijfer bevatten.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Kan het wachtwoord niet bijwerken, het moet minstens twee tekens lang zijn.',
@@ -799,6 +802,7 @@ sub Data {
             'Alle tickets met een herinnering waarbij het herinnermoment is bereikt',
         'Archived tickets' => 'Gearchiveerde tickets',
         'Unarchived tickets' => 'Ongearchiveerde tickets',
+        'Ticket Information' => '',
         'History::Move' => 'Ticket verplaatst naar wachtrij "%s" (%s) van wachtrij "%s" (%s).',
         'History::TypeUpdate' => 'Type gewijzigd naar %s (ID=%s).',
         'History::ServiceUpdate' => 'Service gewijzigd naar %s (ID=%s).',
@@ -1869,7 +1873,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             'Systeemregistratie is een service van de OTRS Groep, die een aantal voordelen biedt.',
         'Read more' => 'Lees meer',
-        'You need to log in with your OTRS-ID to register your system.' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             'Uw OTRS-ID is het emailadres waarmee u zich heeft ingeschreven op de OTRS.com website.',
         'What are the advantages of system registration?' => 'Wat zijn de voordelen van systeemregistratie?',
@@ -1903,6 +1908,8 @@ sub Data {
         'and file a request.' => 'en dien een verzoek in.',
         'If you deregister your system, you will loose these benefits:' =>
             'Als u uw systeem deregistreert, verliest u deze voordelen:',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
+            '',
         'OTRS-ID' => 'OTRS-ID',
         'You don\'t have an OTRS-ID yet?' => 'Heeft u nog geen OTRS-ID?',
         'Sign up now' => 'Gebruikersnaam registreren',
@@ -2437,7 +2444,7 @@ sub Data {
         'From queue' => 'In wachtrij',
         'To customer user' => 'Aan klant',
         'Please include at least one customer user for the ticket.' => 'Selecteer tenminste een klant voor dit ticket.',
-        'Select this customer user as the main customer.' => 'Selecteer deze klant als hoofdcontact.',
+        'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => 'Verwijder klant van ticket',
         'Get all' => 'Gebruik alle',
         'Text Template' => 'Tekstsjabloon',
@@ -4088,6 +4095,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Beheer S/MIME certificaten voor encryptie van e-mail.',
         'Manage existing sessions.' => 'Beheer sessies van klanten en gebruikers.',
         'Manage notifications that are sent to agents.' => 'Beheer van notificatieteksten.',
+        'Manage system registration.' => 'Beheer systeemregistratie.',
         'Manage tasks triggered by event or time based execution.' => 'Beheer van taken op basis van events of tijdschema\'s',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -4247,7 +4255,6 @@ sub Data {
             '',
         'Refresh Overviews after' => 'Ververs Overzichten na',
         'Refresh interval' => 'Interval',
-        'Manage system registration.' => 'Beheer systeemregistratie.',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4826,8 +4833,6 @@ sub Data {
         'Add customer company' => 'Nieuw bedrijf',
         'Add response' => 'Nieuw antwoord',
         'Attachments <-> Responses' => 'Standaard-antwoorden <-> Bijlagen',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Kan het wachtwoord niet bijwerken, het moet minstens twee kleine letters en twee hoofdletters bevatten.',
         'Change Attachment Relations for Response' => 'Bewerk gekoppelde attachments voor antwoord',
         'Change Queue Relations for Response' => 'Bewerk gekoppelde wachtrijen voor antwoord',
         'Change Response Relations for Attachment' => 'Bewerk gekoppelde antwoorden voor attachment',
@@ -4886,6 +4891,7 @@ sub Data {
         'Responses <-> Queues' => 'Standaard-antwoorden <-> Wachtrijen',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Secure Mode moet gedeactiveerd worden om te kunnen herinstalleren met de web-installer.',
+        'Select this customer user as the main customer.' => 'Selecteer deze klant als hoofdcontact.',
         'Show  article' => 'Toon interactie',
         'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
             'Als u deze stap overslaat dan slaat u ook de registratie van uw OTRS-systeem over. Weet u zeker dat u wilt doorgaan?',

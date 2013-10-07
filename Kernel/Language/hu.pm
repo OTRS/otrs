@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:24:08
+    # Last translation file sync: 2013-10-07 14:16:30
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -217,6 +217,7 @@ sub Data {
         'Medium' => 'Közepes',
         'Large' => 'Nagy',
         'Date picker' => '',
+        'Show Tree Selection' => '',
         'New message' => 'Új üzenet',
         'New message!' => 'Új üzenet!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -344,6 +345,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             '',
         'Edit the system configuration settings.' => '',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => 'nyomtatva',
         'Loading...' => 'Betöltés...',
         'Dear Mr. %s,' => 'Kedves %s Úr!',
@@ -798,6 +801,7 @@ sub Data {
             '',
         'Archived tickets' => 'Arhivált hibajegyek',
         'Unarchived tickets' => 'Arhiválatlan hibajegyek',
+        'Ticket Information' => '',
         'History::Move' => 'Történet::Mozgat',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
         'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
@@ -1868,7 +1872,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
-        'You need to log in with your OTRS-ID to register your system.' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
         'What are the advantages of system registration?' => '',
@@ -1901,6 +1906,8 @@ sub Data {
         'portal' => '',
         'and file a request.' => '',
         'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
@@ -4087,6 +4094,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'S/MIME tanusítványok kezelése levelek titkosításához',
         'Manage existing sessions.' => 'Létező folyamatok kezelése',
         'Manage notifications that are sent to agents.' => '',
+        'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -4246,7 +4254,6 @@ sub Data {
             '',
         'Refresh Overviews after' => '',
         'Refresh interval' => '',
-        'Manage system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>

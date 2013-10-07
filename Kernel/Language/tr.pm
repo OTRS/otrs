@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:24:24
+    # Last translation file sync: 2013-10-07 14:16:43
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -212,6 +212,7 @@ sub Data {
         'Medium' => 'Orta',
         'Large' => 'Büyük',
         'Date picker' => 'Tarih seçici',
+        'Show Tree Selection' => '',
         'New message' => 'Yeni mesaj',
         'New message!' => 'Yeni mesaj!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -339,6 +340,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             'Belirtilen depoda herhangi bir paket yada güncelleme bulunamadı.',
         'Edit the system configuration settings.' => 'Sistem konfigürasyon ayarlarını düzenle',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => 'yazdırıldı',
         'Loading...' => 'Yükleniyor',
         'Dear Mr. %s,' => 'Sayın Bay %s,',
@@ -793,6 +796,7 @@ sub Data {
             '',
         'Archived tickets' => 'Arşivlenen biletler',
         'Unarchived tickets' => 'Arşivlenmeyen biletler',
+        'Ticket Information' => 'Bilet Bilgileri',
         'History::Move' => 'Bilet "%s" (%s) kuyruğuna taşındı, "%s" (%s) kuyruğundan.',
         'History::TypeUpdate' => '"%s" (Kimlik=%s) tipi güncellendi.',
         'History::ServiceUpdate' => '"%s" (Kimlik=%s) servisi güncellendi.',
@@ -1863,7 +1867,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
-        'You need to log in with your OTRS-ID to register your system.' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
         'What are the advantages of system registration?' => '',
@@ -1896,6 +1901,8 @@ sub Data {
         'portal' => '',
         'and file a request.' => '',
         'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
@@ -4082,6 +4089,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Posta şifreleme için S/MIME sertifikalarını yönet.',
         'Manage existing sessions.' => 'Mevcut oturumları yönet.',
         'Manage notifications that are sent to agents.' => 'Aracıya gönderilen bildirimleri yönet.',
+        'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -4241,7 +4249,6 @@ sub Data {
             '',
         'Refresh Overviews after' => 'Genel bakıştan sonra yenile',
         'Refresh interval' => 'Yenileme süresi',
-        'Manage system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -5251,7 +5258,6 @@ sub Data {
         'This is useful if you want that no one can get the result of the stat or the stat isn\'t ready configurated.' =>
             'Eğer istatistik sonuçlarının kimseye açık olmamasını veya istatistiğin yapılandırılmamış olmamasını istiyorsanız bu seçenek kullanışlıdır.',
         'This window must be called from compose window' => 'Bu pencere \'yeni mesaj\' penceresinden açılmalıdır',
-        'Ticket Information' => 'Bilet Bilgileri',
         'Ticket Lock' => 'Bilet Kilidi',
         'Ticket Number Generator' => 'Bilet Numarası Üreteci',
         'Ticket Search' => 'Bilet ara',

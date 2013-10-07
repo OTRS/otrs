@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:24:26
+    # Last translation file sync: 2013-10-07 14:16:45
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -217,6 +217,7 @@ sub Data {
         'Medium' => '基本',
         'Large' => '详细',
         'Date picker' => '日期选择器',
+        'Show Tree Selection' => '',
         'New message' => '新消息',
         'New message!' => '新消息!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -344,6 +345,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             '选中的软件仓库中没有需要安装的软件包。',
         'Edit the system configuration settings.' => '编辑系统配置',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => '打印日期',
         'Loading...' => '加载中...',
         'Dear Mr. %s,' => '尊敬的 %s 先生:',
@@ -461,7 +464,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             '无法更改密码，密码至少 %s 个字符长度！',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '',
+            '无法更改密码，密码必须包含至少2个小写和2个大写字符！',
         'Can\'t update password, it must contain at least 1 digit!' => '无法更改密码，密码必须包含至少1个数字！',
         'Can\'t update password, it must contain at least 2 characters!' =>
             '无法更改密码，密码必须包含至少2个字符！',
@@ -798,6 +801,7 @@ sub Data {
             '所有设置提醒日期已经到达的票单',
         'Archived tickets' => '归档的票单',
         'Unarchived tickets' => '未归档的票单',
+        'Ticket Information' => '',
         'History::Move' => '历史：移动。票单移到队列 "%s" (%s)， 从队列 "%s" (%s).',
         'History::TypeUpdate' => '历史：类型更新。更新类型为 %s (ID=%s).',
         'History::ServiceUpdate' => '历史：服务更新。服务更新为 %s (ID=%s).',
@@ -1868,7 +1872,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
-        'You need to log in with your OTRS-ID to register your system.' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
         'What are the advantages of system registration?' => '',
@@ -1901,6 +1906,8 @@ sub Data {
         'portal' => '',
         'and file a request.' => '',
         'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
@@ -4087,6 +4094,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => '管理邮件的 S/MIME 加密证书.',
         'Manage existing sessions.' => '管理当前登录会话.',
         'Manage notifications that are sent to agents.' => '',
+        'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -4246,7 +4254,6 @@ sub Data {
             '',
         'Refresh Overviews after' => '',
         'Refresh interval' => '刷新间隔时间',
-        'Manage system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4824,8 +4831,6 @@ sub Data {
         'Add customer company' => '新增客户单位',
         'Add response' => '新增回复',
         'Attachments <-> Responses' => '附件 <-> 回复',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '无法更改密码，密码必须包含至少2个小写和2个大写字符！',
         'Change Attachment Relations for Response' => '为回复修改附件',
         'Change Queue Relations for Response' => '为回复修改队列',
         'Change Response Relations for Attachment' => '为附件修改回复',

@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:24:07
+    # Last translation file sync: 2013-10-07 14:16:29
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -216,6 +216,7 @@ sub Data {
         'Medium' => 'Srednje',
         'Large' => 'Krupno',
         'Date picker' => 'Izbor datuma',
+        'Show Tree Selection' => '',
         'New message' => 'Nova poruka',
         'New message!' => 'Nova poruka!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -343,6 +344,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             'U izabranom spremištu nema paketa ili nema novih paketa',
         'Edit the system configuration settings.' => 'Uredi konfiguracijske postavke sustava.',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => 'otisnuto u',
         'Loading...' => 'Učitavanje...',
         'Dear Mr. %s,' => 'Poštovani gospodine %s,',
@@ -460,7 +463,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             'Lozinka ne može biti ažurirana. Minimalna dužina lozinke je %s znakova.',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '',
+            'Lozinka ne može biti ažurirana. Mora sadržavati bar 2 velika i 2 mala slova.',
         'Can\'t update password, it must contain at least 1 digit!' => 'Lozinka ne može biti ažurirana. Mora sadržavati bar jednu znamenku.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Lozinka ne može biti ažurirana. Mora sadržavati najmanje 2 znaka.',
@@ -797,6 +800,7 @@ sub Data {
             'Sve kartice sa postavljenim podsjetnikom, a datum podsjetnika je dostignut',
         'Archived tickets' => '',
         'Unarchived tickets' => '',
+        'Ticket Information' => '',
         'History::Move' => 'premještaj kartice u rep "%s" (%s) iz repa "%s" (%s).',
         'History::TypeUpdate' => 'Ažuriran tip "%s" (ID=%s).',
         'History::ServiceUpdate' => 'Ažuriran servis "%s" (ID=%s).',
@@ -1867,7 +1871,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
-        'You need to log in with your OTRS-ID to register your system.' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
         'What are the advantages of system registration?' => '',
@@ -1900,6 +1905,8 @@ sub Data {
         'portal' => '',
         'and file a request.' => '',
         'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
@@ -4086,6 +4093,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => '',
         'Manage existing sessions.' => 'Upravljanje postojećim sesijama.',
         'Manage notifications that are sent to agents.' => '',
+        'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -4245,7 +4253,6 @@ sub Data {
             '',
         'Refresh Overviews after' => '',
         'Refresh interval' => 'Interval osvježavanja',
-        'Manage system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4824,8 +4831,6 @@ sub Data {
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'Dodaje korisničke e-mail adrese primaocima u prozoru za otvaranje kartice na sučelju zaposlenog.',
         'Attachments <-> Responses' => 'Prilozi <-> Odgovori',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Lozinka ne može biti ažurirana. Mora sadržavati bar 2 velika i 2 mala slova.',
         'Change Attachment Relations for Response' => 'Promijeni veze sa prilozima za odgovor',
         'Change Queue Relations for Response' => 'Promijeni veze repova s odgovorom',
         'Change Response Relations for Attachment' => 'Promijeni veze sa odgovorima za privitke',

@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:24:04
+    # Last translation file sync: 2013-10-07 14:16:25
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -217,6 +217,7 @@ sub Data {
         'Medium' => 'متوسط',
         'Large' => 'بزرگ',
         'Date picker' => 'تقویم',
+        'Show Tree Selection' => '',
         'New message' => 'پیام جدید',
         'New message!' => 'پیام جدید !',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -344,6 +345,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             '',
         'Edit the system configuration settings.' => 'ویرایش تنظیمات پیکربندی سیستم',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => 'چاپ شده در',
         'Loading...' => 'بارگذاری...',
         'Dear Mr. %s,' => 'جناب آقای %s',
@@ -461,7 +464,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             'نمی‌توان کلمه عبور را به روز کرد، باید حداقل شامل %s کاراکتر باشد!',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '',
+            'نمی‌توان کلمه عبور را به روز کرد، باید شامل حداقل ۲ حرف کوچک و ۲ حرف بزرگ باشد!',
         'Can\'t update password, it must contain at least 1 digit!' => 'نمی‌توان کلمه عبور را به روز کرد، باید شامل حداقل یک عدد باشد!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'نمی‌توان کلمه عبور را به روز کرد، حداقل باید شامل ۲ کاراکتر باشد!',
@@ -798,6 +801,7 @@ sub Data {
             'تمام درخواست‌هایی که برای آن‌ها یک یادآوری تنظیم شده و زمان یادآوری فرا رسیده است',
         'Archived tickets' => '',
         'Unarchived tickets' => '',
+        'Ticket Information' => '',
         'History::Move' => 'سابقه::انتقال',
         'History::TypeUpdate' => 'نوع بروز شده به %s (ID=%s).',
         'History::ServiceUpdate' => ' خدمات بروز شده به %s (ID=%s).',
@@ -1868,7 +1872,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
-        'You need to log in with your OTRS-ID to register your system.' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
         'What are the advantages of system registration?' => '',
@@ -1901,6 +1906,8 @@ sub Data {
         'portal' => '',
         'and file a request.' => '',
         'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
@@ -4087,6 +4094,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'مدیریت گواهینامه‌ها برای رمزنگاری ایمیل‌ها',
         'Manage existing sessions.' => 'مدیریت session های موجود',
         'Manage notifications that are sent to agents.' => '',
+        'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -4246,7 +4254,6 @@ sub Data {
             '',
         'Refresh Overviews after' => '',
         'Refresh interval' => 'بارگذاری مجدد ورودی',
-        'Manage system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4825,8 +4832,6 @@ sub Data {
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
             'آدرس‌های ایمیل مشترکین را به صفحه ساختن درخواست در واسط کاربری مربوط به کارشناس می‌افزاید.',
         'Attachments <-> Responses' => 'پاسخ‌ها <-> پیوست‌ها',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'نمی‌توان کلمه عبور را به روز کرد، باید شامل حداقل ۲ حرف کوچک و ۲ حرف بزرگ باشد!',
         'Change Attachment Relations for Response' => 'تغییر روابط پیوست برای پاسخ',
         'Change Queue Relations for Response' => 'تغییر روابط صف درخواست برای پاسخ',
         'Change Response Relations for Attachment' => 'تغییر روابط پاسخ برای پیوست',

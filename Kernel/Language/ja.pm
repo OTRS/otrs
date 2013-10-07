@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:24:10
+    # Last translation file sync: 2013-10-07 14:16:31
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -213,6 +213,7 @@ sub Data {
         'Medium' => '中',
         'Large' => '大',
         'Date picker' => '日付抽出',
+        'Show Tree Selection' => '',
         'New message' => '新規メッセージ',
         'New message!' => '新規メッセージ！',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -340,6 +341,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             '',
         'Edit the system configuration settings.' => 'システム設定の編集',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => '印刷する',
         'Loading...' => '読み込み中...',
         'Dear Mr. %s,' => '%s 様',
@@ -457,7 +460,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             'パスワードが更新できませんでした。%s は長すぎます！',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '',
+            'パスワードが更新できませんでした。英語の大文字小文字が2文字ずつ以上必要です！',
         'Can\'t update password, it must contain at least 1 digit!' => 'パスワードが更新できませんでした。数字が1文字以上必要です！',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'パスワードが更新できませんでした。2文字以上必要です！',
@@ -794,6 +797,7 @@ sub Data {
             '全保留チケット中、期限切れのもの',
         'Archived tickets' => '',
         'Unarchived tickets' => '',
+        'Ticket Information' => '',
         'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
         'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
@@ -1864,7 +1868,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
-        'You need to log in with your OTRS-ID to register your system.' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
         'What are the advantages of system registration?' => '',
@@ -1897,6 +1902,8 @@ sub Data {
         'portal' => '',
         'and file a request.' => '',
         'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
@@ -4085,6 +4092,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Manage S/MIME certificates for email encryption.' => 'メール暗号用のS/MIME証明書管理',
         'Manage existing sessions.' => '既存セッション管理',
         'Manage notifications that are sent to agents.' => '',
+        'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -4245,7 +4253,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '',
         'Refresh Overviews after' => '',
         'Refresh interval' => '更新間隔',
-        'Manage system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4826,8 +4833,6 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '担当者インタフェースのチケット検索で、検索条件の拡張を許可します。この機能により、利用者はw. g.を次のような条件で検索できます"(key1&&key2)" または "(key1||key2)"。',
         'Attachments <-> Responses' => '添付ファイル <-> 応答',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'パスワードが更新できませんでした。英語の大文字小文字が2文字ずつ以上必要です！',
         'Change Attachment Relations for Response' => '応答と添付ファイルの関連性を変更',
         'Change Queue Relations for Response' => '応答とキューの関連性を変更',
         'Change Response Relations for Attachment' => '添付ファイルと応答の関連性を変更',

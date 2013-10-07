@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:24:12
+    # Last translation file sync: 2013-10-07 14:16:34
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -211,6 +211,7 @@ sub Data {
         'Medium' => 'Sederhana',
         'Large' => 'Besar',
         'Date picker' => 'Pemilih tarikh',
+        'Show Tree Selection' => '',
         'New message' => 'Mesej baru',
         'New message!' => 'Mesej baru!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -338,6 +339,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             'Tiada pakej, atau tiada pakej baru, dijumpai didalam repositori yang dipilih.',
         'Edit the system configuration settings.' => 'Mengaudit aturan konfigurasi sistem',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => 'dicetak di',
         'Loading...' => 'Memuatkan...',
         'Dear Mr. %s,' => 'Kepada Encik %s,',
@@ -455,7 +458,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             'Tidak boleh kemaskini kata laluan, ia mesti mengandungi sekurang kurangnya %s karakter panjang.',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '',
+            'Tidak boleh kemaskini kata laluan, ia mesti mengandungi sekurang-kurangnya 2 huruf kecil dan 2 huruf besar karakter.',
         'Can\'t update password, it must contain at least 1 digit!' => 'Tidak boleh mengemaskini kata laluan, ia mesti mengandungi sekurang-kurangnya 1 digit.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Tidak boleh mengemaskini kata laluan, ia mesti mengandungi sekurang-kurangnya 2 karakter.',
@@ -792,6 +795,7 @@ sub Data {
             'Semua tiket dengan set peringatan dimana tarikh peringatan telah tiba',
         'Archived tickets' => 'Tiket Disimpan',
         'Unarchived tickets' => 'Mengeluarkan tiket',
+        'Ticket Information' => 'Informasi Tiket',
         'History::Move' => 'Tiket berpindah ke Queue "% s" (%s) dari "%s" beratur (% s).',
         'History::TypeUpdate' => 'jenis dikemaskini "%s" (ID=%s).',
         'History::ServiceUpdate' => 'perkhidmatan kemas kini "%s" (ID=%s).',
@@ -1862,7 +1866,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
-        'You need to log in with your OTRS-ID to register your system.' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
         'What are the advantages of system registration?' => '',
@@ -1895,6 +1900,8 @@ sub Data {
         'portal' => '',
         'and file a request.' => '',
         'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
@@ -4081,6 +4088,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Mengurus Perakuan S/MIME untuk enkripsi emel.',
         'Manage existing sessions.' => 'Mengurus sesi yang sedia ada.',
         'Manage notifications that are sent to agents.' => 'Mengurus notifikasi yang dihantar kepada ejen.',
+        'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Saiz maksimum (dalam aksara) pada jadual informasi pelanggan (telefon dan emel) dalam skrin karang.',
@@ -4240,7 +4248,6 @@ sub Data {
             '',
         'Refresh Overviews after' => 'Refresh Overview selepas',
         'Refresh interval' => 'Tempoh selang refresh',
-        'Manage system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4826,8 +4833,6 @@ sub Data {
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Membolehkan keadaan carian diperluaskan di dalam pencarian tiket dalam interface ejen. Dengan fungsi ini, anda boleh tetapkan carian menggunakan kondisi seperti "(key1&&key2)" atau "(key1||key2)".',
         'Attachments <-> Responses' => 'Lampiran <-> Tindak Balas',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Tidak boleh kemaskini kata laluan, ia mesti mengandungi sekurang-kurangnya 2 huruf kecil dan 2 huruf besar karakter.',
         'Change Attachment Relations for Response' => 'Tukar Perhubungan Attachment untuk Tindak Balas',
         'Change Queue Relations for Response' => 'Tukar Perhubungan Barisan untuk Tindak Balas',
         'Change Response Relations for Attachment' => 'tindak balas tugasan untuk perubahan sistem',
@@ -4958,7 +4963,6 @@ sub Data {
             'Jika anda melangkau langkah ini, pendaftaran sistem OTRS anda juga dilangkau. Anda benar-benar mahu meneruskan?',
         'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuration, or choose another email address. Notifications are messages such as en::Customer::QueueUpdate or en::Agent::Move.' =>
             'Menentukan alamat e-mel yang boleh digunakan oleh aplikasi apabila menghantar notifikasi. Alamat e-mel yang digunakan untuk membina nama paparan lengkap untuk master notifikasi (iaitu "OTRS Notification Master" otrs@your.example.com). Anda boleh menggunakan OTRS_CONFIG_FQDN pembolehubah seperti yang dinyatakan dalam konfigurasi anda, atau memilih alamat e-mel yang lain. Notifikasi adalah mesej seperti en::Customer::QueueUpdate atau en::Agent::Move.',
-        'Ticket Information' => 'Informasi Tiket',
         'To customer' => 'Kepada Pelanggan',
         'To protect your privacy, active or/and remote content has blocked.' =>
             'Untuk melindungi privasi anda, aktif dan / atau kandungan jauh telah disekat.',

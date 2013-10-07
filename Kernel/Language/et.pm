@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:24:03
+    # Last translation file sync: 2013-10-07 14:16:24
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -212,6 +212,7 @@ sub Data {
         'Medium' => 'Keskmine',
         'Large' => 'Suur',
         'Date picker' => 'Kuupäeva valija',
+        'Show Tree Selection' => '',
         'New message' => 'Uus teade',
         'New message!' => 'Uus kiri!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -339,6 +340,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             '',
         'Edit the system configuration settings.' => 'Süsteemi konfiguratsiooniseadete muutmine.',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => 'trükitud',
         'Loading...' => 'Laadimine...',
         'Dear Mr. %s,' => '',
@@ -793,6 +796,7 @@ sub Data {
             '',
         'Archived tickets' => 'Arhiveeritud intsidendid',
         'Unarchived tickets' => 'Arhiveerimata intsidendid',
+        'Ticket Information' => '',
         'History::Move' => 'Intsident viidi järjekorrast "%s" (%s) järjekorda "%s" (%s).',
         'History::TypeUpdate' => 'Tüüpi muudeti "%s" (ID=%s).',
         'History::ServiceUpdate' => 'Teenust muudeti "%s" (ID=%s).',
@@ -1863,7 +1867,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
-        'You need to log in with your OTRS-ID to register your system.' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
         'What are the advantages of system registration?' => '',
@@ -1896,6 +1901,8 @@ sub Data {
         'portal' => '',
         'and file a request.' => '',
         'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
@@ -4082,6 +4089,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'E-posti krüptimiseks kasutatavate S/MIME sertifikaatide haldamine.',
         'Manage existing sessions.' => 'Olemasolevate seansside haldamine.',
         'Manage notifications that are sent to agents.' => 'Töötajatele saadetavate teadete haldamine.',
+        'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -4241,7 +4249,6 @@ sub Data {
             '',
         'Refresh Overviews after' => '',
         'Refresh interval' => 'Värskendusvahemik',
-        'Manage system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>

@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:23:59
+    # Last translation file sync: 2013-10-07 14:16:20
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -212,6 +212,7 @@ sub Data {
         'Medium' => 'Mittel',
         'Large' => 'Groß',
         'Date picker' => 'Datumsauswahl',
+        'Show Tree Selection' => '',
         'New message' => 'Neue Nachricht',
         'New message!' => 'Neue Nachricht!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -339,6 +340,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             'Keine oder keine neuen Pakete im ausgewählten Verzeichnis gefunden.',
         'Edit the system configuration settings.' => 'Systemeinstellungen bearbeiten.',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => 'gedruckt am',
         'Loading...' => 'Laden...',
         'Dear Mr. %s,' => 'Sehr geehrter Herr %s,',
@@ -456,7 +459,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             'Das Passwort kann nicht aktualisiert werden. Es muss mindestens %s Zeichen lang sein.',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '',
+            'Das Passwort kann nicht aktualisiert werden. Es muss mindestens 2 Gross- und 2 Kleinbuchstaben enthalten.',
         'Can\'t update password, it must contain at least 1 digit!' => 'Das Passwort kann nicht aktualisiert werden. Es muss mindestens eine Ziffer enthalten.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Das Passwort kann nicht aktualisiert werden. Es muss mindestens 2 Zeichen enthalten.',
@@ -793,6 +796,7 @@ sub Data {
             'Alle Tickets, deren Erinnerungszeit erreicht ist',
         'Archived tickets' => 'Archivierte Tickets',
         'Unarchived tickets' => 'Nicht archivierte Tickets',
+        'Ticket Information' => '',
         'History::Move' => 'Ticket verschoben in Queue "%s" (%s) von Queue "%s" (%s).',
         'History::TypeUpdate' => 'Typ aktualisiert "%s" (ID=%s).',
         'History::ServiceUpdate' => 'Service aktualisiert "%s" (ID=%s).',
@@ -1863,8 +1867,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             'Die Systemregistrierung ist ein Service der OTRS Gruppe, die Ihnen viele Vorteile sichert!',
         'Read more' => 'Mehr erfahren',
-        'You need to log in with your OTRS-ID to register your system.' => 'Um Ihr System zu registrieren, loggen Sie sich bitte mit Ihrer OTRS-ID ein.',
-        'You need to log in with your OTRS-ID to deregister your system.' => 'Um Ihr System zu deregistrieren, loggen Sie sich bitte mit Ihrer OTRS-ID ein.',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            'Um Ihr System zu registrieren, loggen Sie sich bitte mit Ihrer OTRS-ID ein.',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             'Verwenden Sie dazu die email Adresse, mit der Sie sich auf der OTRS Webseite angemeldet haben.',
         'What are the advantages of system registration?' => 'Welche Vorteile bietet die Systemregistrierung?',
@@ -1898,8 +1902,9 @@ sub Data {
         'and file a request.' => 'und stellen eine Anfrage.',
         'If you deregister your system, you will loose these benefits:' =>
             'Wenn Sie Ihr System deregistrieren verlieren Sie folgende Vorteile:',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
+            'Um Ihr System zu deregistrieren, loggen Sie sich bitte mit Ihrer OTRS-ID ein.',
         'OTRS-ID' => 'OTRS-ID',
-        'Username and password do not match.' => 'Benutzername und Passwort stimmen nicht überein.',
         'You don\'t have an OTRS-ID yet?' => 'Sie haben noch keine OTRS-ID?',
         'Sign up now' => 'Registrieren Sie sich jetzt',
         'Forgot your password?' => 'Passwort vergessen?',
@@ -4084,6 +4089,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'S/MIME-Zertifikate für E-Mail-Verschlüsselung verwalten.',
         'Manage existing sessions.' => 'Sitzungen verwalten.',
         'Manage notifications that are sent to agents.' => 'Benachrichtigungen für Agenten verwalten',
+        'Manage system registration.' => 'Systemregistrierung verwalten.',
         'Manage tasks triggered by event or time based execution.' => 'Verwaltung von event- oder zeitbasierten Aufgaben.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -4243,7 +4249,6 @@ sub Data {
             '',
         'Refresh Overviews after' => 'Übersichten aktualisieren nach',
         'Refresh interval' => 'Aktualisierungsintervall',
-        'Manage system registration.' => 'Systemregistrierung verwalten.',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4821,8 +4826,6 @@ sub Data {
         'Add Response' => 'Antwort hinzufügen',
         'Add response' => 'Antwort hinzufügen',
         'Attachments <-> Responses' => 'Anlagen <-> Antworten',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Das Passwort kann nicht aktualisiert werden. Es muss mindestens 2 Gross- und 2 Kleinbuchstaben enthalten.',
         'Change Attachment Relations for Response' => 'Alage-Zuordnungen verändern für Antwort',
         'Change Queue Relations for Response' => 'Queue-Zuordnungen verändern für Antwort',
         'Change Response Relations for Attachment' => 'Antwort-Zuordnungen verändern für Anlage',
@@ -4885,6 +4888,7 @@ sub Data {
         'There are no further steps in this process' => 'Es gibt keine weiteren Schritte in diesem Prozess.',
         'Transition Validation Module' => 'Modul zur Übergangsvalidierung',
         'URL' => 'URL',
+        'Username and password do not match.' => 'Benutzername und Passwort stimmen nicht überein.',
         'before' => 'vor',
         'default \'hot\'' => 'voreingestellt \'hot\'',
         'settings' => 'Einstellungen',

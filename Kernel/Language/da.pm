@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:23:58
+    # Last translation file sync: 2013-10-07 14:16:20
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -213,6 +213,7 @@ sub Data {
         'Medium' => 'Medium',
         'Large' => 'Stor',
         'Date picker' => 'Datovælger',
+        'Show Tree Selection' => '',
         'New message' => 'Ny meddelelse',
         'New message!' => 'Ny meddelelse!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -340,6 +341,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             'Ingen pakker, eller ingen nye pakker, fundet i det valgte repositorie.',
         'Edit the system configuration settings.' => 'Rediger systemets konfiguration',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => 'udskrevet den',
         'Loading...' => 'Indlæser...',
         'Dear Mr. %s,' => 'Kære Hr. %s',
@@ -457,7 +460,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             'Kan ikke opdatere password, det skal være mindst %s tegn langt.',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '',
+            'Kan ikke opdatere password, det skal indeholde mindst 2 små og 2 store bogstaver.',
         'Can\'t update password, it must contain at least 1 digit!' => 'Kan ikke opdatere password, det skal indeholde mindst 1 tal.',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Kan ikke opdatere password, det skal indeholde mindst 2 tegn.',
@@ -794,6 +797,7 @@ sub Data {
             'Alle sager med påmindelser, hvor påmindelsesfristen er nået',
         'Archived tickets' => 'Arkiverede sager',
         'Unarchived tickets' => 'Uarkiverede sager',
+        'Ticket Information' => '',
         'History::Move' => 'Sag flyttet til kø "%s" (%s) fra kø "%s".',
         'History::TypeUpdate' => 'Opdaterede Type til %s (ID=%s).',
         'History::ServiceUpdate' => 'Opdaterede Service til %s (ID=%s).',
@@ -1864,7 +1868,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
-        'You need to log in with your OTRS-ID to register your system.' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
         'What are the advantages of system registration?' => '',
@@ -1897,6 +1902,8 @@ sub Data {
         'portal' => '',
         'and file a request.' => '',
         'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
@@ -4083,6 +4090,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Administrer S/MIME-certifikater for mail-kryptering.',
         'Manage existing sessions.' => 'Administrer eksisterende sessioner.',
         'Manage notifications that are sent to agents.' => '',
+        'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -4242,7 +4250,6 @@ sub Data {
             '',
         'Refresh Overviews after' => 'Genopfrisk oversigter efter x minutter',
         'Refresh interval' => 'Opdateringsfrekvens',
-        'Manage system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4821,8 +4828,6 @@ sub Data {
         'Add customer company' => 'Tilføj kunde/firma',
         'Add response' => 'Tilføj svar',
         'Attachments <-> Responses' => 'Vedhæftede filer <-> Svar',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Kan ikke opdatere password, det skal indeholde mindst 2 små og 2 store bogstaver.',
         'Change Attachment Relations for Response' => 'Administrer vedhæftet fil-relationer for svar',
         'Change Queue Relations for Response' => 'Administrer kø-relationer for svar',
         'Change Response Relations for Attachment' => 'Administrer svar-relationer for vedhæftet fil',

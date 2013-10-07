@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:24:25
+    # Last translation file sync: 2013-10-07 14:16:44
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -212,6 +212,7 @@ sub Data {
         'Medium' => 'Середній',
         'Large' => 'Великий',
         'Date picker' => 'Видір дати',
+        'Show Tree Selection' => '',
         'New message' => 'Нове повідомлення',
         'New message!' => 'Нове повідомлення',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -339,6 +340,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             '',
         'Edit the system configuration settings.' => '',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => 'надруковане в',
         'Loading...' => 'Завантаження...',
         'Dear Mr. %s,' => '',
@@ -456,7 +459,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             'Неможливо обновити пароль, тому що його довжина повинна бути не менш %s символів!',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '',
+            'Неможливо обновити пароль, тому що він повинен містити не менш 2-х рядкових і 2-х заголовних символів!',
         'Can\'t update password, it must contain at least 1 digit!' => 'Неможливо обновити пароль, тому що він повинен містити не менш 1-й цифри!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Неможливо обновити пароль, тому що він повинен містити не менш 2 букв!',
@@ -793,6 +796,7 @@ sub Data {
             '',
         'Archived tickets' => '',
         'Unarchived tickets' => '',
+        'Ticket Information' => '',
         'History::Move' => 'Заявка переміщена в чергу «%s» (%s) із черги «%s» (%s).',
         'History::TypeUpdate' => '',
         'History::ServiceUpdate' => '',
@@ -1863,7 +1867,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
-        'You need to log in with your OTRS-ID to register your system.' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
         'What are the advantages of system registration?' => '',
@@ -1896,6 +1901,8 @@ sub Data {
         'portal' => '',
         'and file a request.' => '',
         'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
@@ -4082,6 +4089,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => '',
         'Manage existing sessions.' => 'Керування активними сеансами.',
         'Manage notifications that are sent to agents.' => '',
+        'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -4241,7 +4249,6 @@ sub Data {
             '',
         'Refresh Overviews after' => '',
         'Refresh interval' => 'Оновляти кожні',
-        'Manage system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4818,8 +4825,6 @@ sub Data {
         'Add customer company' => 'Додати компанію клієнта',
         'Add response' => 'Додати відповідь',
         'Attachments <-> Responses' => 'Прикріплені файли <-> Відповіді',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Неможливо обновити пароль, тому що він повинен містити не менш 2-х рядкових і 2-х заголовних символів!',
         'Create and manage companies.' => 'Створення й керування компаніями.',
         'Create and manage response templates.' => 'Створення й керування шаблонами відповідей.',
         'Customer Company Management' => 'Керування компанією клієнта',

@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:23:57
+    # Last translation file sync: 2013-10-07 14:16:19
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -218,6 +218,7 @@ sub Data {
         'Medium' => 'Střední',
         'Large' => 'Velký',
         'Date picker' => '',
+        'Show Tree Selection' => '',
         'New message' => 'Nová zpráva',
         'New message!' => 'Nová zpráva!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -345,6 +346,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             '',
         'Edit the system configuration settings.' => '',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => 'vytištěno na',
         'Loading...' => 'Nahrávám...',
         'Dear Mr. %s,' => 'Vážený Pane %s,',
@@ -462,7 +465,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             'Nelze zaktualizovat heslo, protože neobsahuje minimálně %s znaků. Zkuste to prosím znovu!',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '',
+            'Nelze zaktualizovat heslo, protože neobsahuje alespoň 2 malá a 2 velká písmena!',
         'Can\'t update password, it must contain at least 1 digit!' => 'Nelze zaktualizovat heslo, protože neobsahuje alespoň 1 číslici!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Nelze zaktualizovat heslo, protože neobsahuje alespoň 2 znaky!',
@@ -799,6 +802,7 @@ sub Data {
             '',
         'Archived tickets' => 'Archivované tikety',
         'Unarchived tickets' => '',
+        'Ticket Information' => 'Informace o tiketu',
         'History::Move' => 'Tiket přesunut do Fronty "%s" (%s) z Fronty "%s" (%s).',
         'History::TypeUpdate' => 'Typ Tiketu aktualizován na %s (ID=%s).',
         'History::ServiceUpdate' => 'Služba aktualizována na %s (ID=%s).',
@@ -1869,7 +1873,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
-        'You need to log in with your OTRS-ID to register your system.' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
         'What are the advantages of system registration?' => '',
@@ -1902,6 +1907,8 @@ sub Data {
         'portal' => '',
         'and file a request.' => '',
         'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
@@ -4088,6 +4095,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => '',
         'Manage existing sessions.' => '',
         'Manage notifications that are sent to agents.' => '',
+        'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -4247,7 +4255,6 @@ sub Data {
             '',
         'Refresh Overviews after' => 'Načti prehled po',
         'Refresh interval' => 'Interval obnovy',
-        'Manage system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4823,8 +4830,6 @@ sub Data {
         'Add customer company' => 'Přidat společnost zákazníka',
         'Attachments <-> Responses' => 'Přílohy <-> Odpovědi',
         'Bounce Article to a different mail address' => 'Odeslat na jinou adresu',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Nelze zaktualizovat heslo, protože neobsahuje alespoň 2 malá a 2 velká písmena!',
         'CreateTicket' => 'Vytvořit Tiket',
         'Customer Company Management' => 'Správa Společnosti Zákazníka',
         'Customer Data' => 'Data Zákazníka',
@@ -4846,7 +4851,6 @@ sub Data {
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Bezpečnostní Mód musí být deaktivován za účelem Reinstalu pomocí Web-Installeru.',
         'There are no further steps in this process' => 'V tomto procesu již nejsou žádné další kroky',
-        'Ticket Information' => 'Informace o tiketu',
         'TicketFreeFields' => 'Volná pole Tiketu',
         'TicketZoom' => 'Zobrazení tiketu',
         'To customer' => 'Zákazníkovi',

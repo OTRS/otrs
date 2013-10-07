@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:24:05
+    # Last translation file sync: 2013-10-07 14:16:26
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -214,6 +214,7 @@ sub Data {
         'Medium' => 'Keskikokoinen',
         'Large' => 'Suuri',
         'Date picker' => 'Valitse päivä',
+        'Show Tree Selection' => '',
         'New message' => 'Uusi viesti',
         'New message!' => 'Uusi viesti!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -341,6 +342,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             '',
         'Edit the system configuration settings.' => 'Muokkaa systeemitason asetuksia.',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => 'tulostettu',
         'Loading...' => 'Ladataan...',
         'Dear Mr. %s,' => 'Arvon Hra. %s,',
@@ -458,7 +461,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään %s merkkiä!',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '',
+            'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään 2 pientä ja 2 isoa kirjainta!',
         'Can\'t update password, it must contain at least 1 digit!' => 'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään 1 numero!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään 2 kirjainta',
@@ -795,6 +798,7 @@ sub Data {
             'Kaikki tiketit, joiden muistutusajankohta on saavutettu',
         'Archived tickets' => 'Arkistoidut tiketit',
         'Unarchived tickets' => 'Arkistoimattomat tiketit',
+        'Ticket Information' => '',
         'History::Move' => 'Tiketti siirretty jonoon "%s" (%s) Jonosta "%s" (%s).',
         'History::TypeUpdate' => 'Päivitetty tyyppi %s (ID=%s).',
         'History::ServiceUpdate' => 'Päivitetty palvelu %s (ID=%s).',
@@ -1865,7 +1869,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
-        'You need to log in with your OTRS-ID to register your system.' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
         'What are the advantages of system registration?' => '',
@@ -1898,6 +1903,8 @@ sub Data {
         'portal' => '',
         'and file a request.' => '',
         'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
@@ -4084,6 +4091,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => '',
         'Manage existing sessions.' => 'Halinnoi istuntoja',
         'Manage notifications that are sent to agents.' => '',
+        'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -4243,7 +4251,6 @@ sub Data {
             '',
         'Refresh Overviews after' => '',
         'Refresh interval' => 'Päivitysväli',
-        'Manage system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4818,8 +4825,6 @@ sub Data {
         'Add Customer Company' => 'Lisää asiakasyritys',
         'Add customer company' => 'Lisää asiakasyritys',
         'Attachments <-> Responses' => 'Liitteet <-> Vastaukset',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään 2 pientä ja 2 isoa kirjainta!',
         'Complete registration and continue' => 'Suorita rekisteröinti ja jatka',
         'Create and manage companies.' => 'Luo ja hallinnoi yrityksiä.',
         'Create and manage response templates.' => 'Luo ja hallinnoi vastausmalleja.',

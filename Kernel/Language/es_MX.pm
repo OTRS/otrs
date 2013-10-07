@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:24:02
+    # Last translation file sync: 2013-10-07 14:16:24
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -212,6 +212,7 @@ sub Data {
         'Medium' => 'Mediano',
         'Large' => 'Grande',
         'Date picker' => 'Selector de fecha',
+        'Show Tree Selection' => '',
         'New message' => 'Mensaje nuevo',
         'New message!' => '¡Mensaje nuevo!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -339,6 +340,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             'No se encontraron paquetes (o paquetes nuevos) en el repositorio seleccionado.',
         'Edit the system configuration settings.' => 'Modificar la configuración del sistema.',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => 'impreso en',
         'Loading...' => 'Cargando...',
         'Dear Mr. %s,' => 'Apreciable Sr. %s,',
@@ -456,7 +459,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             '¡No se puede actualizar su contraseña, porque debe contener al menos %s caracteres!',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '',
+            '¡No se puede actualizar su contraseña, porque debe contener al menos 2 caracteres en mayúscula y 2 en minúscula!',
         'Can\'t update password, it must contain at least 1 digit!' => '¡No se puede actualizar su contraseña, porque debe contener al menos 1 dígito!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             '¡No se puede actualizar su contraseña, porque debe contener al menos 2 caracteres!',
@@ -793,6 +796,7 @@ sub Data {
             'Todos los tickets que han llegado a la fecha de recordatorio',
         'Archived tickets' => '',
         'Unarchived tickets' => '',
+        'Ticket Information' => '',
         'History::Move' => 'Ticket movido a la fila "%s" (%s) de la fila "%s" (%s).',
         'History::TypeUpdate' => 'Tipo actualizado a %s (ID=%s).',
         'History::ServiceUpdate' => 'Servicio actualizado a %s (ID=%s).',
@@ -1863,7 +1867,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
-        'You need to log in with your OTRS-ID to register your system.' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
         'What are the advantages of system registration?' => '',
@@ -1896,6 +1901,8 @@ sub Data {
         'portal' => '',
         'and file a request.' => '',
         'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
@@ -4082,6 +4089,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => 'Gestionar certificados S/MIME para encriptación de correos electrónicos.',
         'Manage existing sessions.' => 'Gestionar sesiones existentes.',
         'Manage notifications that are sent to agents.' => '',
+        'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Tamaño máximo (en caracteres) para la tabla de información del cliente (teléfono y correo electrónico) en la ventana de redacción.',
@@ -4241,7 +4249,6 @@ sub Data {
             '',
         'Refresh Overviews after' => '',
         'Refresh interval' => 'Intervalo de actualización',
-        'Manage system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4822,8 +4829,6 @@ sub Data {
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permite el uso de condiciones de búsqueda extendida al buscar tickets en la interfaz del agente. Con esta funcionalidad, es posible buscar condiciones como, por ejemplo, "(llave1&&llave2)" o "(llave1||llave2)".',
         'Attachments <-> Responses' => 'Anexos <-> Respuestas',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '¡No se puede actualizar su contraseña, porque debe contener al menos 2 caracteres en mayúscula y 2 en minúscula!',
         'Change Attachment Relations for Response' => 'Modificar Relaciones de Archivos Adjuntos para las Respuestas',
         'Change Queue Relations for Response' => 'Modificar Relaciones de Fila para las Respuestas',
         'Change Response Relations for Attachment' => 'Modificar Relaciones de Respuesta para los Archivos Adjuntos',

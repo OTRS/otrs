@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:23:57
+    # Last translation file sync: 2013-10-07 14:16:18
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -212,6 +212,7 @@ sub Data {
         'Medium' => 'Mitjà',
         'Large' => 'Gran',
         'Date picker' => 'Seleccionador de data',
+        'Show Tree Selection' => '',
         'New message' => 'Nou missatge',
         'New message!' => 'Nou missatge!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -339,6 +340,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             'Cap paquet, o cap nou paquet, trobat en el repositori seleccionat.',
         'Edit the system configuration settings.' => 'Editar els paràmetres de configuració del sistema.',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => 'imprès en',
         'Loading...' => 'Carregant...',
         'Dear Mr. %s,' => 'Benvolgut Sr. %s',
@@ -456,7 +459,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             'No es pot actualitzar la contrasenya, ha de tenir almenys %s caràcters!',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '',
+            'No es pot actualitzar la contrasenya, ha de contenir almenys 2 lletres minúscules i 2 majúscules!',
         'Can\'t update password, it must contain at least 1 digit!' => 'No es pot actualitzar la contrasenya, ha de contenir almenys un dígit 1!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'No es pot actualitzar la contrasenya, ha de contenir almenys dues lletres!',
@@ -793,6 +796,7 @@ sub Data {
             'Totes els tiquet amb un conjunt de recordatoris on s\'ha arribat a la data de recordatori',
         'Archived tickets' => 'Tiquets arxivats',
         'Unarchived tickets' => 'Tiquets sense arxivar',
+        'Ticket Information' => '',
         'History::Move' => 'Tiquet mogut a la cua "%s" (%s) de la cua "%s" (%s).',
         'History::TypeUpdate' => 'Tipus actualitzat a %s (ANEU=%s).',
         'History::ServiceUpdate' => 'Servei actualitzat a %s (ANEU=%s).',
@@ -1863,7 +1867,8 @@ sub Data {
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
-        'You need to log in with your OTRS-ID to register your system.' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
         'What are the advantages of system registration?' => '',
@@ -1896,6 +1901,8 @@ sub Data {
         'portal' => '',
         'and file a request.' => '',
         'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
@@ -4082,6 +4089,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => '',
         'Manage existing sessions.' => '',
         'Manage notifications that are sent to agents.' => '',
+        'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -4241,7 +4249,6 @@ sub Data {
             '',
         'Refresh Overviews after' => '',
         'Refresh interval' => '',
-        'Manage system registration.' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4824,8 +4831,6 @@ sub Data {
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             'Permet condicions de recerca ampliades en la recerca de tiquets de la interfície de l\'agent. Amb aquesta funció pot buscar amb condicions com "(clau1&&clau2)" o "(clau1||clau2)".',
         'Attachments <-> Responses' => 'Adjunts <-> Respostes',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'No es pot actualitzar la contrasenya, ha de contenir almenys 2 lletres minúscules i 2 majúscules!',
         'Change Attachment Relations for Response' => 'Canviar les relacions de arxiu adjunt per a la resposta',
         'Change Queue Relations for Response' => 'Canviar les relacions de cua per a la resposta',
         'Change Response Relations for Attachment' => 'Canviar les relacions de resposta per a l\'arxiu adjunt',
