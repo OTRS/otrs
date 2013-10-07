@@ -459,7 +459,7 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => 'Geslo ne more biti posodobljeno, vsebuje neveljavne znake.',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Geslo ne more biti posodobljeno. Minimalna dolžilna gesla je %s znakov.',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Geslo ne more biti posodobljeno. Vsebovati mora vsaj eno številko.',
         'Can\'t update password, it must contain at least 2 characters!' =>
