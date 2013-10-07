@@ -16,14 +16,6 @@ use Kernel::Config;
 # create local objects
 my $XMLObject = Kernel::System::XML->new( %{$Self} );
 
-if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
-    $Self->True(
-        1,
-        'ORACLE does not have md5 function built in',
-    );
-    exit;
-}
-
 # create database for tests
 my $XML = '
 <Table Name="test_md5_conversion">
@@ -67,17 +59,42 @@ $Self->True(
 );
 
 # conversion to MD5
-$Self->True(
-    $Self->{DBObject}
-        ->Do( SQL => 'UPDATE test_md5_conversion SET message_id_md5 = MD5(message_id)' ) || 0,
-    "UPDATE statement",
-);
+if (
+    $Self->{DBObject}->GetDatabaseFunction('Type') eq 'mysql'
+    || $Self->{DBObject}->GetDatabaseFunction('Type') eq 'postgresql'
+    )
+{
+    $Self->True(
+        $Self->{DBObject}
+            ->Do( SQL => 'UPDATE test_md5_conversion SET message_id_md5 = MD5(message_id)' ) || 0,
+        "UPDATE statement",
+    );
+}
+else {
+    $Self->{DBObject}->Prepare(
+        SQL => 'SELECT message_id, message_id_md5
+                    FROM test_md5_conversion
+                ',
+    );
+    MESSAGEID:
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        next MESSAGEID if !$Row[0];
+        my $MessageID = $Row[0];
+        my $MD5 = $Self->{MainObject}->MD5sum( String => $Row[0] );
+        $Self->{DBObject}->Do(
+            SQL => "UPDATE test_md5_conversion
+                     SET message_id_md5 = ?
+                     WHERE message_id = ?",
+            Bind => [ \$MD5, \$MessageID ],
+        );
+    }
+}
 
+# test conversion
 return if !$Self->{DBObject}->Prepare(
     SQL => 'SELECT message_id, message_id_md5 FROM test_md5_conversion',
 );
 
-# test result
 my $Result = 1;
 
 RESULT:
@@ -88,7 +105,7 @@ while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
 $Self->True(
     $Result,
-    'Conversion OK',
+    'Conversion result',
 );
 
 # cleanup

@@ -246,7 +246,7 @@ sub _CheckFrameworkVersion {
 
     my $Home = $CommonObject->{ConfigObject}->Get('Home');
 
-    # Compare the configured HOME with the script location and abort if it points to another directory
+  # Compare the configured HOME with the script location and abort if it points to another directory
     $Home =~ s{/+$}{}xmsg;    # remove trailing slashes
     my $HomeCheck = dirname($RealBin);
     $HomeCheck =~ s{/+$}{}xmsg;    # remove trailing slashes
@@ -584,22 +584,43 @@ sub _GenerateMessageIDMD5 {
     # will work on all database backends; warning, we might want to add
     # UPDATE statements for databases that can natively create md5sums
 
-    $CommonObject->{DBObject}->Prepare(
-        SQL => 'SELECT id, a_message_id
-                    FROM article
-                    WHERE a_message_id IS NOT NULL',
-    );
-    MESSAGEID:
-    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
-        next MESSAGEID if !$Row[1];
-        my $ArticleID = $Row[0];
-        my $MD5 = $CommonObject->{MainObject}->MD5sum( String => $Row[1] );
+    # conversion to MD5 - if possible using one UPDATE statement
+    if (
+        $CommonObject->{DBObject}->GetDatabaseFunction('Type') eq 'mysql'
+        || $CommonObject->{DBObject}->GetDatabaseFunction('Type') eq 'postgresql'
+        )
+    {
+
         $CommonObject->{DBObject}->Do(
-            SQL => "UPDATE article
-                     SET a_message_id_md5 = ?
-                     WHERE id = ?",
-            Bind => [ \$MD5, \$ArticleID ],
+            SQL => '
+                UPDATE article
+                SET a_message_id_md5 = MD5(a_message_id)
+                WHERE a_message_id IS NOT NULL
+                ',
         );
+
+    }
+
+    # otherwise convert every row using MainObject - much slower
+    else {
+
+        $CommonObject->{DBObject}->Prepare(
+            SQL => 'SELECT id, a_message_id
+                        FROM article
+                        WHERE a_message_id IS NOT NULL',
+        );
+        MESSAGEID:
+        while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
+            next MESSAGEID if !$Row[1];
+            my $ArticleID = $Row[0];
+            my $MD5 = $CommonObject->{MainObject}->MD5sum( String => $Row[1] );
+            $CommonObject->{DBObject}->Do(
+                SQL => "UPDATE article
+                         SET a_message_id_md5 = ?
+                         WHERE id = ?",
+                Bind => [ \$MD5, \$ArticleID ],
+            );
+        }
     }
 
     return 1;
