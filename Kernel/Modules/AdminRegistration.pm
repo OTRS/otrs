@@ -54,7 +54,6 @@ sub Run {
         if ( $Self->{Subaction} eq 'Deregister' || $Self->{Subaction} eq 'UpdateNow' ) {
             $Self->{Subaction} = 'OTRSIDValidate';
         }
-
     }
 
     # ------------------------------------------------------------ #
@@ -81,7 +80,6 @@ sub Run {
         }
 
         # redirect to current screen with error message
-
         my %Result = (
             Success => $Response{Success} ? 'OK' : 'False',
             Message => $Response{Reason} || '',
@@ -103,7 +101,7 @@ sub Run {
 
         $Self->{LayoutObject}->Block(
             Name => 'OTRSIDValidation',
-            Data => \%Param,,
+            Data => \%Param,
         );
 
         my $Block
@@ -138,7 +136,7 @@ sub Run {
 
         $Self->{LayoutObject}->Block(
             Name => 'OTRSIDValidation',
-            Data => \%Param,,
+            Data => \%Param,
         );
 
         my $Block
@@ -194,7 +192,7 @@ sub Run {
                 %Param,
                 %GetParam,
                 %OSInfo,
-                %DBInfo
+                %DBInfo,
             },
         );
 
@@ -267,7 +265,7 @@ sub Run {
             );
 
             return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AdminRegistration",
+                OP => 'Action=AdminRegistration',
             );
         }
 
@@ -303,7 +301,7 @@ sub Run {
         $Self->{RegistrationObject}->RegistrationUpdateSend();
 
         return $Self->{LayoutObject}->Redirect(
-            OP => "Action=AdminRegistration",
+            OP => 'Action=AdminRegistration',
         );
     }
 
@@ -321,7 +319,7 @@ sub Run {
         );
 
         return $Self->{LayoutObject}->Redirect(
-            OP => "Action=Admin",
+            OP => 'Action=Admin',
         );
     }
 
