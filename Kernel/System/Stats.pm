@@ -2958,6 +2958,19 @@ sub _GenerateDynamicStats {
     elsif ( $ArraySelected[0] ) {
         unshift( @HeaderLine, $ArraySelected[0]{Name} || '' );
     }
+    else {
+        # in cases where there is no value set, then the headers get wrong unless a empty element
+        #    is added in the header, bug 9796
+        #
+        #   e.g. from:
+        #    Raw    | Misc | PostMaster |    |
+        #    Ticket | 10   | 20         | 30 |
+        #
+        #    to:
+        #           | Raw | Misc | PostMaster |
+        #    Ticket | 10  | 20   | 30         |
+        unshift( @HeaderLine, '' );
+    }
 
     # push the first array elements in the StatsArray
     my $Title = $Param{Title};
