@@ -54,7 +54,7 @@ sub new {
     $Self->{ViewAll} = $Self->{ParamObject}->GetParam( Param => 'ViewAll' )  || 0;
     $Self->{Start}   = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
     $Self->{Filter}  = $Self->{ParamObject}->GetParam( Param => 'Filter' )   || 'Unlocked';
-    $Self->{View}    = $Self->{ParamObject}->GetParam( Param => 'View' )     || 'Small';
+    $Self->{View}    = $Self->{ParamObject}->GetParam( Param => 'View' )     || '';
 
     return $Self;
 }
@@ -98,7 +98,7 @@ sub Run {
         if (
             $FilterValue eq 'DeleteFilter'
             && (
-                $ColumnName eq 'CustomerID'
+                $ColumnName    eq 'CustomerID'
                 || $ColumnName eq 'CustomerUserID'
                 || $ColumnName eq 'Owner'
                 || $ColumnName eq 'Responsible'
@@ -250,6 +250,14 @@ sub Run {
     if ( !$Filters{ $Self->{Filter} } ) {
         $Self->{LayoutObject}->FatalError( Message => "Invalid Filter: $Self->{Filter}!" );
     }
+
+    # lookup latest used view mode
+    if ( !$Self->{View} && $Self->{ 'UserTicketOverview' . $Self->{Action} } ) {
+        $Self->{View} = $Self->{ 'UserTicketOverview' . $Self->{Action} };
+    }
+
+    # otherwise use Preview as default as in LayoutTicket
+    $Self->{View} ||= 'Preview';
 
     # get personal page shown count
     my $PageShownPreferencesKey = 'UserTicketOverview' . $Self->{View} . 'PageShown';
@@ -432,7 +440,7 @@ sub Run {
             RequestedURL      => $Self->{RequestedURL},
 
             NavBar => \%NavBar,
-            View   => $Self->{ParamObject}->GetParam( Param => 'View' ) || '',
+            View   => $Self->{View},
 
             Bulk       => 1,
             TitleName  => 'QueueView',
