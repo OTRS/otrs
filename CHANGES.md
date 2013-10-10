@@ -1,4 +1,5 @@
 #3.3.0 beta5 2013-??-??
+ - 2013-10-10 Fixed bug#[9790](http://bugs.otrs.org/show_bug.cgi?id=9790) - OTRSExternalTicketNumberRecognition Feature addon settings are not migrated.
  - 2013-10-08 Fixed bug#[9796](http://bugs.otrs.org/show_bug.cgi?id=9796) - Misaligned Headers on Simple Stats.
  - 2013-10-07 Improved database update to 3.3 on PostgreSQL and MySQL databases; this is now much faster on larger data sets.
  - 2013-10-07 Fixed bug#[9770](http://bugs.otrs.org/show_bug.cgi?id=9770) - JavaScript Execution in ProcessManagement is broken in IE8.

@@ -822,15 +822,6 @@ package from the database if installed.
 sub _MigrateOTRSExternalTicketNumberRecognition {
     my $CommonObject = shift;
 
-    # detect package
-    # check if install field exists
-    my $FieldName = $CommonObject->{ConfigObject}->Get(
-        'ExternalTicketNumberRecognition::InstallationDynamicField'
-    ) || '';
-
-    # if setting was not found return success (the package is not installed)
-    return 1 if !$FieldName;
-
     my $SysConfigObject = Kernel::System::SysConfig->new( %{$CommonObject} );
 
     # convert settings
