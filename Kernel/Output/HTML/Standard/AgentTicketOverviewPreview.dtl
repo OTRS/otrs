@@ -192,7 +192,7 @@
                             <td>
                                 <label>$Text{"$Data{"Label"}"}</label>
 <!-- dtl:block:DynamicFieldTableRowRecordLink -->
-                                <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a></div>
+                                <div title="$Data{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></div>
 <!-- dtl:block:DynamicFieldTableRowRecordLink -->
 <!-- dtl:block:DynamicFieldTableRowRecordPlain -->
                                 <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
@@ -210,7 +210,7 @@
 #                        <td>
 #                            <label>$Text{"$Data{"Label"}"}</label>
 #<!-- dtl:block:DynamicField_Field1_TableRowRecordLink -->
-#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a></div>
+#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></div>
 #<!-- dtl:block:DynamicField_Field1_TableRowRecordLink -->
 #<!-- dtl:block:DynamicField_Field1_TableRowRecordPlain -->
 #                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
@@ -223,7 +223,7 @@
 #                        <td>
 #                            <label>$Text{"$Data{"Label"}"}</label>
 #<!-- dtl:block:DynamicField_Field2_TableRowRecordLink -->
-#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a></div>
+#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></div>
 #<!-- dtl:block:DynamicField_Field2_TableRowRecordLink -->
 #<!-- dtl:block:DynamicField_Field2_TableRowRecordPlain -->
 #                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
@@ -389,7 +389,7 @@ $Data{"Body"}
         return false;
     });
     $('a.DynamicFieldLink').bind('click', function (Event) {
-        Core.UI.Popup.OpenPopup($(this).attr('href'), 'DynamicFieldLink');
+        window.open($(this).attr('href'));
         return false;
     });
 //]]></script>

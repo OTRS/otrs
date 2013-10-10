@@ -400,7 +400,7 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
                     <td>
                         <div title="$QData{"Title"}">
 <!-- dtl:block:RecordDynamicFieldLink -->
-                            <a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a>
+                            <a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a>
 <!-- dtl:block:RecordDynamicFieldLink -->
 <!-- dtl:block:RecordDynamicFieldPlain -->
                             $Data{"Value"}
@@ -418,7 +418,7 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
 #                    <td>
 #                        <div title="$QData{"Title"}">
 #<!-- dtl:block:RecordDynamicField_Field1_Link -->
-#                            <a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a>
+#                            <a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a>
 #<!-- dtl:block:RecordDynamicField_Field1_Link -->
 #<!-- dtl:block:RecordDynamicField_Field1_Plain -->
 #                            $Data{"Value"}
@@ -430,7 +430,7 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
 #                    <td>
 #                        <div title="$QData{"Title"}">
 #<!-- dtl:block:RecordDynamicField_Field2_Link -->
-#                            <a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a>
+#                            <a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a>
 #<!-- dtl:block:RecordDynamicField_Field2_Link -->
 #<!-- dtl:block:RecordDynamicField_Field2_Plain -->
 #                            $Data{"Value"}
@@ -528,7 +528,7 @@ $('.ColumnFilter').bind('change', function (Event) {
 });
 
 $('a.DynamicFieldLink').bind('click', function (Event) {
-    Core.UI.Popup.OpenPopup($(this).attr('href'), 'DynamicFieldLink');
+    window.open($(this).attr('href'));
     return false;
 });
 //]]></script>

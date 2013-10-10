@@ -525,7 +525,7 @@ $('.DashboardHeader').off('click').on('click', '.ColumnSettingsTrigger', functio
                 <td>
                     <div title="$QData{"Title"}">
 <!-- dtl:block:ContentLargeTicketGenericDynamicFieldLink -->
-                        <a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a>
+                        <a href="$Data{"Link"}"  target="_blank" class="DynamicFieldLink">$Data{"Value"}</a>
 <!-- dtl:block:ContentLargeTicketGenericDynamicFieldLink -->
 <!-- dtl:block:ContentLargeTicketGenericDynamicFieldPlain -->
                         $Data{"Value"}
@@ -615,11 +615,20 @@ $('#Dashboard$QData{"Name"}-box').find('.RemoveFilters').remove();
 <script type="text/javascript">//<![CDATA[
     $('.MasterAction').bind('click', function (Event) {
         var $MasterActionLink = $(this).find('.MasterActionLink');
+        // prevent MasterAction on Dynamic Fields links
+        if (typeof Event.target === 'object' && $(Event.target).hasClass('DynamicFieldLink')) {
+            return false;
+        }
         // only act if the link was not clicked directly
         if (Event.target !== $MasterActionLink.get(0)) {
             window.location = $MasterActionLink.attr('href');
             return false;
         }
+    });
+
+    $('a.DynamicFieldLink').unbind('click').bind('click', function (Event) {
+        window.open($(this).attr('href'));
+        return false;
     });
 
     $('#Dashboard$QData{"Name"}-box').find('.Tab.Actions li a').unbind('click').bind('click', function() {

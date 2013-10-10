@@ -1,4 +1,5 @@
 #3.3.0 beta5 2013-??-??
+ - 2013-10-10 Fixed bug#[9698](http://bugs.otrs.org/show_bug.cgi?id=9698) - Dynamic Fields with links open in same tab instead of in new window from overviews.
  - 2013-10-10 Fixed bug#[9788](http://bugs.otrs.org/show_bug.cgi?id=9788) - Preview overviews empty if no templates are available for queue.
  - 2013-10-10 Fixed bug#[9790](http://bugs.otrs.org/show_bug.cgi?id=9790) - OTRSExternalTicketNumberRecognition Feature addon settings are not migrated.
  - 2013-10-08 Fixed bug#[9796](http://bugs.otrs.org/show_bug.cgi?id=9796) - Misaligned Headers on Simple Stats.
