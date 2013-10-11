@@ -300,6 +300,10 @@
     Core.UI.InitCheckboxSelection($('div.Checkbox'));
     $('.MasterAction').bind('click', function (Event) {
         var $MasterActionLink = $(this).find('.MasterActionLink');
+        // prevent MasterAction on Dynamic Fields links
+        if ($(Event.target).hasClass('DynamicFieldLink')) {
+            return true;
+        }
         // only act if the link was not clicked directly
         if (Event.target !== $MasterActionLink.get(0)) {
             window.location = $MasterActionLink.attr('href');
@@ -322,10 +326,6 @@
         }
 
         Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
-        return false;
-    });
-    $('a.DynamicFieldLink').bind('click', function (Event) {
-        window.open($(this).attr('href'));
         return false;
     });
 //]]></script>

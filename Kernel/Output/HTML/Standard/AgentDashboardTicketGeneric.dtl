@@ -616,19 +616,14 @@ $('#Dashboard$QData{"Name"}-box').find('.RemoveFilters').remove();
     $('.MasterAction').bind('click', function (Event) {
         var $MasterActionLink = $(this).find('.MasterActionLink');
         // prevent MasterAction on Dynamic Fields links
-        if (typeof Event.target === 'object' && $(Event.target).hasClass('DynamicFieldLink')) {
-            return false;
+        if ($(Event.target).hasClass('DynamicFieldLink')) {
+            return true;
         }
         // only act if the link was not clicked directly
         if (Event.target !== $MasterActionLink.get(0)) {
             window.location = $MasterActionLink.attr('href');
             return false;
         }
-    });
-
-    $('a.DynamicFieldLink').unbind('click').bind('click', function (Event) {
-        window.open($(this).attr('href'));
-        return false;
     });
 
     $('#Dashboard$QData{"Name"}-box').find('.Tab.Actions li a').unbind('click').bind('click', function() {
