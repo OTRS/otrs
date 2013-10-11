@@ -9,6 +9,7 @@
 *~
 
 # OTRS
+ARCHIVE
 doc/manual/en
 Kernel/Config/Files/ZZZ*.pm
 Kernel/Config/GenericAgent.pm
