@@ -462,6 +462,10 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
     Core.UI.InitCheckboxSelection($('table td.Checkbox'));
     $('.MasterAction').bind('click', function (Event) {
         var $MasterActionLink = $(this).find('.MasterActionLink');
+        // prevent MasterAction on Dynamic Fields links
+        if ($(Event.target).hasClass('DynamicFieldLink')) {
+            return true;
+        }
         // only act if the link was not clicked directly
         if (Event.target !== $MasterActionLink.get(0)) {
             window.location = $MasterActionLink.attr('href');
@@ -525,11 +529,6 @@ $('.ColumnFilter').bind('change', function (Event) {
 
     // redirect
     window.location.href =  URL
-});
-
-$('a.DynamicFieldLink').bind('click', function (Event) {
-    window.open($(this).attr('href'));
-    return false;
 });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
