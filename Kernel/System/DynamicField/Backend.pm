@@ -888,14 +888,14 @@ extracts the value of a dynamic field from the param object.
                                                         #   $Value = 1;
 
     my $Value = $BackendObject->EditFieldValueGet(
-        DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
-        ParamObject          => $ParamObject,           # the current request data
-        TransformDates       => 0                       # 1 || 0, default 1, to transform the dynamic fields that
+        DynamicFieldConfig      => $DynamicFieldConfig, # complete config of the DynamicField
+        ParamObject             => $ParamObject,        # the current request data
+        TransformDates          => 0                    # 1 || 0, default 1, to transform the dynamic fields that
                                                         #   use dates to the user time zone (i.e. Date, DateTime
                                                         #   dynamic fields)
 
-        Template             => $Template               # stored values from DB like Search profile or Generic Agent job
-        ReturnValueStructure => 1,                      # 0 || 1, default 0
+        Template                => $Template            # stored values from DB like Search profile or Generic Agent job
+        ReturnTemplateStructure => 1,                   # 0 || 1, default 0
                                                         #   Returns the structured values as got from the http request
                                                         #   (only for backend internal use).
     );
