@@ -370,8 +370,12 @@ sub EditFieldValueGet {
         $Value = $Param{Template}->{$FieldName};
     }
 
-    # otherwise get dynamic field value from param
-    else {
+    # otherwise get dynamic field value from the web request
+    elsif (
+        defined $Param{ParamObject}
+        && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
+        )
+    {
         my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
 
         $Value = \@Data;

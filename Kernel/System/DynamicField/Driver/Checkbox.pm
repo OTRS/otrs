@@ -176,6 +176,14 @@ sub ValueValidate {
 sub SearchSQLGet {
     my ( $Self, %Param ) = @_;
 
+    if ( !IsInteger( $Param{SearchTerm} ) ) {
+        $Self->{'LogObject'}->Log(
+            'Priority' => 'error',
+            'Message'  => "Unsupported Search Term $Param{SearchTerm}, should be an integer",
+        );
+        return;
+    }
+
     if ( $Param{Operator} eq 'Equals' ) {
         my $SQL = " $Param{TableAlias}.value_int = ";
         $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm}, 'Integer' ) . ' ';
@@ -222,14 +230,14 @@ sub EditFieldRender {
     if ( defined $FieldValue && IsHashRefWithData($FieldValue) ) {
         if (
             !defined $FieldValue->{FieldValue} &&
-            defined $FieldValue->{UsedValue}   && $FieldValue->{UsedValue} eq '1'
+            defined $FieldValue->{UsedValue} && $FieldValue->{UsedValue} eq '1'
             )
         {
             $Value = '0';
         }
         elsif (
             defined $FieldValue->{FieldValue} && $FieldValue->{FieldValue} eq '1' &&
-            defined $FieldValue->{UsedValue} && $FieldValue->{UsedValue} eq '1'
+            defined $FieldValue->{UsedValue}  && $FieldValue->{UsedValue}  eq '1'
             )
         {
             $Value = '1';
@@ -347,8 +355,12 @@ sub EditFieldValueGet {
         $Data{UsedValue} = $Param{Template}->{ $FieldName . 'Used' };
     }
 
-    # otherwise get dynamic field value from param
-    else {
+    # otherwise get dynamic field value from the web request
+    elsif (
+        defined $Param{ParamObject}
+        && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
+        )
+    {
 
         # get dynamic field value from param
         $Data{FieldValue} = $Param{ParamObject}->GetParam( Param => $FieldName );

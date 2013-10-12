@@ -258,16 +258,20 @@ sub EditFieldValueGet {
     # check if there is a Template and retrieve the dynamic field value from there
     if ( IsHashRefWithData( $Param{Template} ) ) {
         for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $DynamicFieldValues{ $Prefix . $Type } = $Param{Template}->{ $Prefix . $Type };
+            $DynamicFieldValues{ $Prefix . $Type } = $Param{Template}->{ $Prefix . $Type } || 0;
         }
     }
 
-    # otherwise get dynamic field value from param
-    else {
+    # otherwise get dynamic field value from the web request
+    elsif (
+        defined $Param{ParamObject}
+        && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
+        )
+    {
         for my $Type (qw(Used Year Month Day Hour Minute)) {
             $DynamicFieldValues{ $Prefix . $Type } = $Param{ParamObject}->GetParam(
                 Param => $Prefix . $Type,
-            );
+            ) || 0;
         }
     }
 
@@ -299,6 +303,9 @@ sub EditFieldValueGet {
     if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
         return \%DynamicFieldValues;
     }
+
+    # add seconds as 0 to the DynamicFieldValues hash
+    $DynamicFieldValues{ 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} . 'Second' } = 0;
 
     my $ManualTimeStamp = '';
 
