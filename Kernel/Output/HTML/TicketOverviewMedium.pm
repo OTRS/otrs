@@ -326,9 +326,6 @@ sub _Show {
         DynamicFields => 0,
     );
 
-    # show ticket create time in current view
-    $Article{Created} = $Ticket{Created};
-
     # Fallback for tickets without articles: get at least basic ticket data
     if ( !%Article ) {
         %Article = %Ticket;
@@ -339,6 +336,9 @@ sub _Show {
         }
         $Article{Subject} = $Article{Title};
     }
+
+    # show ticket create time in current view
+    $Article{Created} = $Ticket{Created};
 
     # user info
     my %UserInfo = $Self->{UserObject}->GetUserData(
