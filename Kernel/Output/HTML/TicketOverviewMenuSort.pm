@@ -108,10 +108,11 @@ sub Run {
     return if !$ReturnData{HTML};
 
     # build redirect param hash for Core.App.InternalRedirect
-    my $RedirectParams = "Action: '$Self->{Action}',\n";
+    my %RedirectParams;
+    $RedirectParams{Action} = "\'$Self->{Action}\'";
     for my $PossibleParam (qw(Filter)) {
         if ( $Param{$PossibleParam} ) {
-            $RedirectParams .= "$PossibleParam: '$Param{ $PossibleParam }',\n";
+            $RedirectParams{$PossibleParam} = "\'$Param{ $PossibleParam }\'";
         }
     }
 
@@ -119,7 +120,26 @@ sub Run {
         my @SplittedLinkFilters = split( /[;&]/, $Param{LinkFilter} );
         for my $CurrentLinkFilter ( sort @SplittedLinkFilters ) {
             my @KeyValue = split( /=/, $CurrentLinkFilter );
-            $RedirectParams .= "$KeyValue[0]: '$KeyValue[1]',\n";
+            $RedirectParams{$KeyValue[0]} = "\'$KeyValue[1]\'";
+        }
+    }
+
+    $RedirectParams{SortBy} = 'Selection[0]';
+    $RedirectParams{OrderBy} = 'Selection[1]';
+
+    my $RedirectParamsString = '';
+    my $ParamLength = scalar keys %RedirectParams;
+    my $ParamCounter = 0;
+    for my $ParamKey ( keys %RedirectParams ) {
+        $ParamCounter++;
+        $RedirectParamsString .= "$ParamKey: $RedirectParams{$ParamKey}";
+
+        # prevent comma after last element for correct functionality in IE
+        if ($ParamCounter < $ParamLength) {
+            $RedirectParamsString .= ",\n";
+        }
+        else {
+            $RedirectParamsString .= "\n";
         }
     }
 
@@ -130,9 +150,7 @@ sub Run {
     var Selection = \$(this).val().split('|');
     if ( Selection.length === 2 ) {
         Core.App.InternalRedirect({
-            ${RedirectParams}
-            SortBy: Selection[0],
-            OrderBy: Selection[1],
+            ${RedirectParamsString}
         });
     }
 });
