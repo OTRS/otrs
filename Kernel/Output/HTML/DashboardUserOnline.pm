@@ -122,7 +122,7 @@ sub Run {
 
     # get config settings
     my $IdleMinutes = $Self->{Config}->{IdleMinutes} || 60;
-    my $SortBy      = $Self->{Config}->{SortBy}      || 'UserLastname';
+    my $SortBy      = $Self->{Config}->{SortBy}      || 'UserFullname';
 
     # get current timestamp
     my $Time = $Self->{TimeObject}->SystemTime();

@@ -5423,7 +5423,7 @@ via the Preferences button after logging in.
                 <Item Key="Description"></Item>
                 <Item Key="ShowEmail">0</Item>
                 <Item Key="IdleMinutes">60</Item>
-                <Item Key="SortBy">UserLastname</Item>
+                <Item Key="SortBy">UserFullname</Item>
                 <Item Key="Filter">Agent</Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Limit">10</Item>
