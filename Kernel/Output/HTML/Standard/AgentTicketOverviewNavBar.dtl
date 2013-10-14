@@ -131,8 +131,8 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
                         });
                     }
                     return true;
-                },
-            },
+                }
+            }
         ], true);
     Event.preventDefault();
     Event.stopPropagation();
