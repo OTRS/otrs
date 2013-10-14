@@ -120,22 +120,22 @@ sub Run {
         my @SplittedLinkFilters = split( /[;&]/, $Param{LinkFilter} );
         for my $CurrentLinkFilter ( sort @SplittedLinkFilters ) {
             my @KeyValue = split( /=/, $CurrentLinkFilter );
-            $RedirectParams{$KeyValue[0]} = "\'$KeyValue[1]\'";
+            $RedirectParams{ $KeyValue[0] } = "\'$KeyValue[1]\'";
         }
     }
 
-    $RedirectParams{SortBy} = 'Selection[0]';
+    $RedirectParams{SortBy}  = 'Selection[0]';
     $RedirectParams{OrderBy} = 'Selection[1]';
 
     my $RedirectParamsString = '';
-    my $ParamLength = scalar keys %RedirectParams;
-    my $ParamCounter = 0;
-    for my $ParamKey ( keys %RedirectParams ) {
+    my $ParamLength          = scalar keys %RedirectParams;
+    my $ParamCounter         = 0;
+    for my $ParamKey ( sort keys %RedirectParams ) {
         $ParamCounter++;
         $RedirectParamsString .= "$ParamKey: $RedirectParams{$ParamKey}";
 
         # prevent comma after last element for correct functionality in IE
-        if ($ParamCounter < $ParamLength) {
+        if ( $ParamCounter < $ParamLength ) {
             $RedirectParamsString .= ",\n";
         }
         else {
