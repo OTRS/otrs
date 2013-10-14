@@ -1674,10 +1674,14 @@ sub _Mask {
 
                 next USER if $SeenInvolvedAgents{ $User->{UserID} };
 
+                my $Value = "$Counter: $User->{UserFullname}";
+                if ( $User->{OutOfOfficeMessage} ) {
+                    $Value .= " $User->{OutOfOfficeMessage}";
+                }
+
                 push @InvolvedAgents, {
-                    Key => $User->{UserID},
-                    Value =>
-                        "$Counter: $User->{UserLastname} $User->{UserFirstname} ($User->{UserLogin})"
+                    Key   => $User->{UserID},
+                    Value => $Value,
                 };
                 $Counter++;
             }
