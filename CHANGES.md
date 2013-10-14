@@ -1,4 +1,5 @@
 #3.2.12 2013-??-??
+ - 2013-10-14 Fixed bug#[9391](http://bugs.otrs.org/show_bug.cgi?id=9391) - Incorrect permissions on .procmailrc.
  - 2013-10-08 Fixed bug#[9796](http://bugs.otrs.org/show_bug.cgi?id=9796) - Misaligned Headers on Simple Stats.
 
 #3.2.11 2013-10-08
