@@ -57,14 +57,14 @@ $Include{"HTMLHead"}
                     <input type="hidden" name="Subaction" value="Search"/>
                     <input type="hidden" name="SearchTemplate" value="$Text{"Search"}"/>
                     <input type="hidden" name="CheckTicketNumberAndRedirect" value="1"/>
-                    <input type="text" size="$QData{"Size"}" name="Fulltext" id="Fulltext" value="$QData{"Fulltext"}" placeholder="$Text{"Fulltext search"}" title="$Text{"Fulltext Search"}"/>
+                    <input type="text" size="$QData{"Size"}" name="Fulltext" id="Fulltext" value="$QData{"Fulltext"}" placeholder="$Text{"$Data{"Description"}"}" title="$Text{"$Data{"Description"}"}"/>
 #                    <a href="#" id="ToolbarFulltextSearch" title="$Text{"$Data{"Description"}"} ($QData{"AccessKey"})" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}</a>
                 </form>
             </li>
 <!-- dtl:block:ToolBarSearchFulltext -->
 <!-- dtl:block:ToolBarCICSearchCustomerID -->
             <li class="Extended SearchFulltext">
-                <input type="text" size="$QData{"Size"}" id="ToolBarCICSearchCustomerID" placeholder="$Text{"CustomerID Search"}" title="$Text{"CustomerID Search"}"/>
+                <input type="text" size="$QData{"Size"}" id="ToolBarCICSearchCustomerID" placeholder="$Text{"$Data{"Description"}"}" title="$Text{"$Data{"Description"}"}"/>
             </li>
 <!-- dtl:js_on_document_complete -->
             <script type="text/javascript">//<![CDATA[
@@ -74,7 +74,7 @@ $Include{"HTMLHead"}
 <!-- dtl:block:ToolBarCICSearchCustomerID -->
 <!-- dtl:block:ToolBarCICSearchCustomerUser -->
             <li class="Extended SearchFulltext">
-                <input type="text" size="$QData{"Size"}" id="ToolBarCICSearchCustomerUser" placeholder="$Text{"CustomerUser Search"}" title="$Text{"CustomerUser Search"}"/>
+                <input type="text" size="$QData{"Size"}" id="ToolBarCICSearchCustomerUser" placeholder="$Text{"$Data{"Description"}"}" title="$Text{"$Data{"Description"}"}"/>
             </li>
 <!-- dtl:js_on_document_complete -->
             <script type="text/javascript">//<![CDATA[

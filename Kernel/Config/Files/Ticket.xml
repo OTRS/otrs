@@ -4645,7 +4645,7 @@ $QData{"Body"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarGeneric</Item>
-                <Item Key="Description">Fulltext-Search</Item>
+                <Item Key="Description">Fulltext search</Item>
                 <Item Key="Name">Fulltext-Search</Item>
                 <Item Key="Block">ToolBarSearchFulltext</Item>
                 <Item Key="Size">10</Item>
@@ -4661,8 +4661,8 @@ $QData{"Body"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarGeneric</Item>
-                <Item Key="Description">CIC search for CustomerID</Item>
-                <Item Key="Name">CostomerID search</Item>
+                <Item Key="Description">CustomerID Search</Item>
+                <Item Key="Name">CustomerID search</Item>
                 <Item Key="Block">ToolBarCICSearchCustomerID</Item>
                 <Item Key="Size">10</Item>
                 <Item Key="CSS">Core.Agent.Toolbar.CICSearch.css</Item>
@@ -4677,8 +4677,8 @@ $QData{"Body"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarGeneric</Item>
-                <Item Key="Description">CIC search for CustomerUser</Item>
-                <Item Key="Name">Costomer user search</Item>
+                <Item Key="Description">CustomerUser Search</Item>
+                <Item Key="Name">Customer user search</Item>
                 <Item Key="Block">ToolBarCICSearchCustomerUser</Item>
                 <Item Key="Size">10</Item>
                 <Item Key="CSS">Core.Agent.Toolbar.CICSearch.css</Item>
