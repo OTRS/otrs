@@ -131,7 +131,7 @@ if ($Secure) {
         $DestDir . "/"
     );    # append / to follow symlinks
 
-    # Also change the toplevel directory/symlink itself
+    # Also change the toplevel directory/symlink itself.
     MakeReadOnly($DestDir);
 }
 else {
@@ -142,8 +142,10 @@ else {
         $DestDir . "/"
     );    # append / to follow symlinks
 
-    # Also change the toplevel directory/symlink itself
-    MakeWritable($DestDir);
+    # Also change the toplevel directory/symlink itself.
+    # This must be readonly, otherwise procmail will refuse to read .procmailrc.
+    # See bug#9391.
+    MakeReadOnly($DestDir);
 
     # set the $HOME to the OTRS user
     if ( !$NotRoot ) {

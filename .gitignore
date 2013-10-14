@@ -82,3 +82,4 @@ var/stats/*.xml.installed
 bin/CodeInstall.pl
 bin/DatabaseInstall.pl
 perltidy.LOG
+.procmailrc

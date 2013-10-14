@@ -1,4 +1,5 @@
 #3.3.0 beta5 2013-??-??
+ - 2013-10-14 Fixed bug#[9391](http://bugs.otrs.org/show_bug.cgi?id=9391) - Incorrect permissions on .procmailrc.
  - 2013-10-14 Fixed bug#[9812](http://bugs.otrs.org/show_bug.cgi?id=9812) - Sysconfig descriptions for tooltips and placeholder values of toolbar widgets are ignored.
  - 2013-10-14 Fixed bug#[9811](http://bugs.otrs.org/show_bug.cgi?id=9811) - JavaScript is not executed in QueueView Large in Strict Mode.
  - 2013-10-14 Fixed bug#[9810](http://bugs.otrs.org/show_bug.cgi?id=9810) - Queue View Settings cannot be opened in IE8.
