@@ -353,8 +353,8 @@ sub EditFieldValueGet {
     }
 
     # complete the rest of the date with 0s to have a valid Date/Time value
-    for my $Type (qw(Hour Minute Second)) {
-        $DynamicFieldValues{ $Prefix . $Type } = '00';
+    for my $Type (qw(Hour Minute)) {
+        $DynamicFieldValues{ $Prefix . $Type } = 0;
     }
 
     # return if the field is empty (e.g. initial screen)
