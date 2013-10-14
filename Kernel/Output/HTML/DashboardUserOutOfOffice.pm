@@ -87,7 +87,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get config settings
-    my $SortBy = $Self->{Config}->{SortBy} || 'UserLastname';
+    my $SortBy = $Self->{Config}->{SortBy} || 'UserFullname';
 
     # check cache
     my $OutOfOffice = $Self->{CacheObject}->Get(

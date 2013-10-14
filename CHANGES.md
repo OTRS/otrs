@@ -1,4 +1,5 @@
 #3.3.0 beta5 2013-??-??
+ - 2013-10-14 Fixed bug#[9818](http://bugs.otrs.org/show_bug.cgi?id=9818) - Wrong default sorting in user out of office widget.
  - 2013-10-14 Updated CPAN module SOAP::Lite to version 1.06.
  - 2013-10-14 Fixed bug#[9817](http://bugs.otrs.org/show_bug.cgi?id=9817) - Wrong default sorting in user online widget.
  - 2013-10-14 Fixed bug#[9814](http://bugs.otrs.org/show_bug.cgi?id=9814) - Tickets without articles not shown correcly in medium view.

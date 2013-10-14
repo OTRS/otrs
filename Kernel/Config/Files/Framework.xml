@@ -5403,7 +5403,7 @@ via the Preferences button after logging in.
                 <Item Key="Title">Out Of Office</Item>
                 <Item Key="Description"></Item>
                 <Item Key="IdleMinutes">60</Item>
-                <Item Key="SortBy">UserLastname</Item>
+                <Item Key="SortBy">UserFullname</Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Group"></Item>
