@@ -125,11 +125,21 @@ if ($Secure) {
 
     # In secure mode, make files read-only by default
     find( \&makeReadOnly, $DestDir );
+
+    # Also change the toplevel directory/symlink itself.
+    $_ = $DestDir;
+    makeReadOnly();
 }
 else {
 
     # set all files writeable for webserver user (needed for package manager)
     find( \&makeWritable, $DestDir );
+
+    # Also change the toplevel directory/symlink itself.
+    # This must be readonly, otherwise procmail will refuse to read .procmailrc.
+    # See bug#9391
+    $_ = $DestDir;
+    makeReadOnly();
 
     # set the $HOME to the OTRS user
     if ( !$NotRoot ) {
@@ -198,7 +208,6 @@ if ( !$Secure ) {
 
 # set owner rw and group ro
 @Dirs = (
-    "$DestDir/",
     "$DestDir/.procmailrc",
     "$DestDir/.fetchmailrc",
 );
