@@ -2306,7 +2306,13 @@ sub NoPermission {
     my ( $Self, %Param ) = @_;
 
     my $WithHeader = $Param{WithHeader} || 'yes';
-    $Param{Message} = 'Insufficient Rights.' if ( !$Param{Message} );
+
+    my $TranslatableMessage = $Self->{LanguageObject}->Get(
+        "We are sorry, you do not have permissions anymore to access this ticket in its'current state. "
+    );
+    $TranslatableMessage .= '<br/>';
+    $TranslatableMessage .= $Self->{LanguageObject}->Get(" You can take one of the next actions:");
+    $Param{Message} = $TranslatableMessage if ( !$Param{Message} );
 
     # get config option for possible next actions
     my $PossibleNextActions = $Self->{ConfigObject}->Get('PossibleNextActions');
