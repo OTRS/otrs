@@ -119,6 +119,9 @@ sub new {
     # reset block data
     delete $Self->{BlockData};
 
+    # empty action if not defined
+    $Self->{Action} = '' if !defined $Self->{Action};
+
     # get/set some common params
     if ( !$Self->{UserTheme} ) {
         $Self->{UserTheme} = $Self->{ConfigObject}->Get('DefaultTheme');
@@ -1474,11 +1477,9 @@ sub Header {
 
     # area and title
     if ( !$Param{Area} ) {
-        $Param{Area} = (
-            defined $Self->{Action}
-            ? $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{NavBarName}
-            : ''
-        );
+        $Param{Area}
+            = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{NavBarName}
+            || '';
     }
     if ( !$Param{Title} ) {
         $Param{Title} = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{Title}
