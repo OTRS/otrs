@@ -77,7 +77,7 @@ sub new {
     if ( !$Self->{TicketID} && $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ) ) {
         $Self->{TicketID} = $Self->{TicketObject}->TicketIDLookup(
             TicketNumber => $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ),
-            UserID       => $Self->{UserID},
+            UserID => $Self->{UserID},
         );
     }
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
@@ -140,7 +140,8 @@ sub Run {
     # error screen, don't show ticket
     if ( !$Access ) {
         my $TranslatableMessage = $Self->{LayoutObject}->{LanguageObject}->Get(
-            "We are sorry, you do not have permissions anymore to access this ticket in its current state. "
+            "We are sorry, you do not have permissions anymore to access this ticket in its"
+                . " current state. "
         );
 
         return $Self->{LayoutObject}->NoPermission(
