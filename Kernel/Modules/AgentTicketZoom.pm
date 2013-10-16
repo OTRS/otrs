@@ -139,7 +139,14 @@ sub Run {
 
     # error screen, don't show ticket
     if ( !$Access ) {
-        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        my $TranslatableMessage = $Self->{LanguageObject}->Get(
+            "We are sorry, you do not have permissions anymore to access this ticket in its current state. "
+        );
+
+        return $Self->{LayoutObject}->NoPermission(
+            Message    => $TranslatableMessage,
+            WithHeader => 'yes',
+        );
     }
 
     # get ticket attributes

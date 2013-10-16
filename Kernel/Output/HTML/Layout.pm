@@ -2309,13 +2309,7 @@ sub NoPermission {
     my ( $Self, %Param ) = @_;
 
     my $WithHeader = $Param{WithHeader} || 'yes';
-
-    my $TranslatableMessage = $Self->{LanguageObject}->Get(
-        "We are sorry, you do not have permissions anymore to access this ticket in its'current state. "
-    );
-    $TranslatableMessage .= '<br/>';
-    $TranslatableMessage .= $Self->{LanguageObject}->Get(" You can take one of the next actions:");
-    $Param{Message} = $TranslatableMessage if ( !$Param{Message} );
+    $Param{Message} = 'Insufficient Rights.' if ( !$Param{Message} );
 
     # get config option for possible next actions
     my $PossibleNextActions = $Self->{ConfigObject}->Get('PossibleNextActions');
@@ -3745,7 +3739,7 @@ sub CustomerNavigationBar {
             if (
                 !$SelectedFlag
                 && $NavBarModule{$Item}->{Link} =~ /Action=$Self->{Action}/
-                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/     # Subaction can be empty
+                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/    # Subaction can be empty
                 )
             {
                 $NavBarModule{$Item}->{Class} .= ' Selected';
@@ -3777,7 +3771,7 @@ sub CustomerNavigationBar {
                 if (
                     !$SelectedFlag
                     && $ItemSub->{Link} =~ /Action=$Self->{Action}/
-                    && $ItemSub->{Link} =~ /$Self->{Subaction}/       # Subaction can be empty
+                    && $ItemSub->{Link} =~ /$Self->{Subaction}/    # Subaction can be empty
                     )
                 {
                     $NavBarModule{$Item}->{Class} .= ' Selected';
@@ -4128,7 +4122,7 @@ sub RichTextDocumentServe {
 
             # replace charset in content
             $Param{Data}->{ContentType} =~ s/\Q$Charset\E/utf-8/gi;
-            $Param{Data}->{Content}     =~ s/(charset=("|'|))\Q$Charset\E/$1utf-8/gi;
+            $Param{Data}->{Content} =~ s/(charset=("|'|))\Q$Charset\E/$1utf-8/gi;
         }
     }
 
