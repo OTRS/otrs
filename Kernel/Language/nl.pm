@@ -218,7 +218,7 @@ sub Data {
         'Medium' => 'Middel',
         'Large' => 'Groot',
         'Date picker' => 'Datumkiezer',
-        'Show Tree Selection' => '',
+        'Show Tree Selection' => 'Toon boomweergave',
         'New message' => 'Nieuw bericht',
         'New message!' => 'Nieuw bericht.',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -347,7 +347,7 @@ sub Data {
             'Geen pakketten, of geen nieuwe pakketten, gevonden in de geselecteerde repository.',
         'Edit the system configuration settings.' => 'Bewerk de systeemconfiguratie.',
         'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
-            '',
+            'De ACL-informatie in de database is niet gesynchroniseerd met het systeem. Activeer alle ACLs.',
         'printed at' => 'afgedrukt op',
         'Loading...' => 'Bezig met laden...',
         'Dear Mr. %s,' => 'Geachte heer %s,',
@@ -405,11 +405,11 @@ sub Data {
         'Redo' => 'Herhalen',
         'Scheduler process is registered but might not be running.' => 'Schedulerproces is geregistreerd, maar niet actief.',
         'Scheduler is not running.' => 'De Scheduler is niet actief.',
-        'Can\'t contact registration server. Please try again later.' => '',
+        'Can\'t contact registration server. Please try again later.' => 'Kan registratieserver niet bereiken. Probeer het later nogmaals.',
         'No content received from registration server. Please try again later.' =>
-            '',
-        'Problems processing server result. Please try again later.' => '',
-        'Username and password do not match. Please try again.' => '',
+            'Geen data ontvangen van registratieserver. Probeer het later nogmaals.',
+        'Problems processing server result. Please try again later.' => 'Problemen met het verwerken van data van registratieserver. Probeer het later nogmaals.',
+        'Username and password do not match. Please try again.' => 'Gebruikersnaam en wachtwoord komen niet overeen.',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Nieuwjaarsdag',
@@ -483,7 +483,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Rapportage',
         'Sum' => 'Totaal',
-        'No (not supported)' => '',
+        'No (not supported)' => 'Nee (niet beschikbaar)',
         'Please fill out the required fields!' => 'Vul de verplichte velden in.',
         'Please select a file!' => 'Selecteer een bestand.',
         'Please select an object!' => 'Selecteer een object.',
@@ -808,7 +808,7 @@ sub Data {
             'Alle tickets met een herinnering waarbij het herinnermoment is bereikt',
         'Archived tickets' => 'Gearchiveerde tickets',
         'Unarchived tickets' => 'Ongearchiveerde tickets',
-        'Ticket Information' => '',
+        'Ticket Information' => 'Ticket-informatie',
         'History::Move' => 'Ticket verplaatst naar wachtrij "%s" (%s) van wachtrij "%s" (%s).',
         'History::TypeUpdate' => 'Type gewijzigd naar %s (ID=%s).',
         'History::ServiceUpdate' => 'Service gewijzigd naar %s (ID=%s).',
@@ -1868,7 +1868,7 @@ sub Data {
 
         # Template: AdminRegistration
         'System Registration Management' => 'Beheer systeemregistratie',
-        'Edit details' => '',
+        'Edit details' => 'Bewerk gegevens',
         'Overview of registered systems' => 'Overzicht van geregistreerde systemen',
         'Deregister system' => 'Deregistreer systeem',
         'System Registration' => 'Systeemregistratie',
@@ -1881,7 +1881,7 @@ sub Data {
             'Systeemregistratie is een service van de OTRS Groep, die een aantal voordelen biedt.',
         'Read more' => 'Lees meer',
         'You need to log in with your OTRS-ID to register your system.' =>
-            '',
+            'U moet inloggen met uw OTRS-ID om uw systeem te registreren',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             'Uw OTRS-ID is het emailadres waarmee u zich heeft ingeschreven op de OTRS.com website.',
         'What are the advantages of system registration?' => 'Wat zijn de voordelen van systeemregistratie?',
@@ -1916,7 +1916,7 @@ sub Data {
         'If you deregister your system, you will loose these benefits:' =>
             'Als u uw systeem deregistreert, verliest u deze voordelen:',
         'You need to log in with your OTRS-ID to deregister your system.' =>
-            '',
+            'U moet inloggen met uw OTRS-ID om uw systeem te deregistreren.',
         'OTRS-ID' => 'OTRS-ID',
         'You don\'t have an OTRS-ID yet?' => 'Heeft u nog geen OTRS-ID?',
         'Sign up now' => 'Gebruikersnaam registreren',
@@ -1935,7 +1935,7 @@ sub Data {
         'Continuing with this step will deregister the system from OTRS Group.' =>
             'Doorgaan met deze stap zal uw systeem deregistreren bij de OTRS Groep.',
         'Deregister' => 'Deregistreer',
-        'You can modify the system type and description here.' => '',
+        'You can modify the system type and description here.' => 'U kunt hier het type en de beschrijving van uw systeem aanpassen.',
 
         # Template: AdminRole
         'Role Management' => 'Beheer rollen',
@@ -2251,7 +2251,7 @@ sub Data {
 
         # Template: AgentDashboardStats
         'The content of this statistic is being prepared for you, please be patient.' =>
-            '',
+            'De inhoud van deze rapportage wordt voor u aangemaakt, even geduld.',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Mijn vergrendelde tickets',
@@ -2341,15 +2341,15 @@ sub Data {
         'Use cache' => 'Gebruik buffer',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'De meeste rapporten kunnen worden gebufferd, dit versnelt het genereren van het rapport.',
-        'Show as dashboard widget' => '',
+        'Show as dashboard widget' => 'Toon als dashboard-widget',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
-            '',
-        'Please note' => '',
+            'Maak een dashboard-widget van dit rapport die behandelaars in hun dashboard kunnen activeren.',
+        'Please note' => 'Let op',
         'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
-            '',
+            'Als rapportages ook als dashboard widgets gebruikt worden dan wordt er caching voor dit rapport geactiveerd.',
         'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
-            '',
-        'IE8 doesn\'t support statistics dashboard widgets.' => '',
+            'Behandelaars kunnen geen datum-parameters voor widgets aanpassen',
+        'IE8 doesn\'t support statistics dashboard widgets.' => 'Internet Explorer 8 ondersteund geen rapport-widgets',
         'If set to invalid end users can not generate the stat.' => 'Als deze op ongeldig staat, kan het rapport niet gebruikt worden.',
 
         # Template: AgentStatsEditValueSeries
@@ -2398,7 +2398,7 @@ sub Data {
         'No element selected.' => 'Geen element geselecteerd.',
         'maximal period from' => 'Maximale periode van',
         'to' => 'tot',
-        'not changable for dashboard statistics' => '',
+        'not changable for dashboard statistics' => 'niet aanpasbaar voor dashboard-widgets',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Wijzig vrije velden',
@@ -2467,7 +2467,7 @@ sub Data {
         'From queue' => 'In wachtrij',
         'To customer user' => 'Aan klant',
         'Please include at least one customer user for the ticket.' => 'Selecteer tenminste een klant voor dit ticket.',
-        'Select this customer as the main customer.' => '',
+        'Select this customer as the main customer.' => 'Selecteer deze klant als hoofd-klant',
         'Remove Ticket Customer User' => 'Verwijder klant van ticket',
         'Get all' => 'Gebruik alle',
         'Text Template' => 'Tekstsjabloon',
