@@ -25,7 +25,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-17 11:31:38
+    # Last translation file sync: 2013-10-17 13:50:10
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -408,6 +408,11 @@ sub Data {
         'Redo' => 'Повторить',
         'Scheduler process is registered but might not be running.' => 'Процесс планировщика зарегистрирован, но может не быть запущен.',
         'Scheduler is not running.' => 'Планировщик не запущен.',
+        'Can\'t contact registration server. Please try again later.' => '',
+        'No content received from registration server. Please try again later.' =>
+            '',
+        'Problems processing server result. Please try again later.' => '',
+        'Username and password do not match. Please try again.' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Новый Год',
@@ -1212,7 +1217,7 @@ sub Data {
         'Archive selected tickets' => 'Архивировать выбранные заявки',
         'Add Note' => 'Добавить заметку',
         'Time units' => 'Единицы времени',
-        '(work units)' => '',
+        ' (work units)' => ' (рабочие единицы)',
         'Ticket Commands' => 'Команды по заявке',
         'Send agent/customer notifications on changes' => 'Отправлять уведомление агенту при изменениях',
         'CMD' => 'Команда',
@@ -1866,11 +1871,12 @@ sub Data {
 
         # Template: AdminRegistration
         'System Registration Management' => '',
-        'Send update now' => '',
+        'Edit details' => '',
         'Overview of registered systems' => '',
         'Deregister system' => '',
         'System Registration' => '',
         'This system is registered with OTRS Group.' => '',
+        'System type' => '',
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'OTRS-ID Login' => '',
@@ -1926,13 +1932,13 @@ sub Data {
         'OTRS Version' => '',
         'Operating System' => '',
         'Perl Version' => '',
-        'System type' => '',
         'Optional description of this system.' => '',
         'Register' => '',
         'Deregister System' => '',
         'Continuing with this step will deregister the system from OTRS Group.' =>
             '',
         'Deregister' => '',
+        'You can modify the system type and description here.' => '',
 
         # Template: AdminRole
         'Role Management' => 'Управление ролями',
@@ -4843,7 +4849,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (рабочие единицы)',
         '%s Tickets affected! Do you really want to use this job?' => '%s заявок будет изменено! Выполнить это задание?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             'Проверять MX-записи домена, на который отправляется email при ответе. Не используйте эту возможность, если сервер с OTRS доступен по слабому каналу!',

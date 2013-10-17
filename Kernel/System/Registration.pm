@@ -117,6 +117,7 @@ sub new {
     );
 
     $Self->{RegistrationURL} = 'https://cloud.otrs.com/otrs/public.pl';
+    $Self->{RegistrationURL} = 'https://windberg.otrs.com/otrs/public.pl';
 
     $Self->{APIVersion} = 1;
 
@@ -201,7 +202,7 @@ sub TokenGet {
             Priority => 'notice',
             Message  => "Registration - Can't contact server - $Response{Status}",
         );
-        $Result{Reason} = "Can't contact registration server, please try again later.";
+        $Result{Reason} = "Can't contact registration server. Please try again later.";
         return %Result;
     }
 
@@ -211,7 +212,7 @@ sub TokenGet {
             Priority => 'notice',
             Message  => "Registration - No content received from server",
         );
-        $Result{Reason} = "No content received from registration server, please try again later.";
+        $Result{Reason} = 'No content received from registration server. Please try again later.';
         return %Result;
     }
 
@@ -224,13 +225,13 @@ sub TokenGet {
             Priority => 'error',
             Message  => "Registration - Can't decode JSON",
         );
-        $Result{Reason} = "Problems processing server result, please try again later.";
+        $Result{Reason} = 'Problems processing server result. Please try again later.';
         return %Result;
     }
 
     # if auth is incorrect
     if ( !defined $ResponseData->{Auth} || $ResponseData->{Auth} ne 'ok' ) {
-        $Result{Reason} = "Username and password do not match.";
+        $Result{Reason} = 'Username and password do not match. Please try again.';
         return %Result;
     }
 
@@ -240,7 +241,7 @@ sub TokenGet {
             Priority => 'error',
             Message  => "Registration - received no Token!",
         );
-        $Result{Reason} = "Problems processing server result, please try again later.";
+        $Result{Reason} = 'Problems processing server result. Please try again later.';
         return %Result;
     }
 
@@ -256,9 +257,10 @@ sub TokenGet {
 Register the system;
 
     my $Success = $RegistrationObject->Register(
-        Token  => '8a85ad4c-e5ff-4b91-a4b3-0b9ea8e2a3dc'
-        OTRSID => 'myname@example.com'
-        Type   => 'production',
+        Token       => '8a85ad4c-e5ff-4b91-a4b3-0b9ea8e2a3dc'
+        OTRSID      => 'myname@example.com'
+        Type        => 'production',
+        Description => 'Main ticketing system',  # optional
     );
 
 =cut
@@ -374,7 +376,7 @@ sub Register {
 
     if ( !$OldRegistration{UniqueID} ) {
 
-        for my $Key (qw(State UniqueID APIKey LastUpdateID LastUpdateTime)) {
+        for my $Key (qw(State UniqueID APIKey LastUpdateID LastUpdateTime Description Type)) {
             $Self->{SystemDataObject}->SystemDataAdd(
                 Key    => 'Registration::' . $Key,
                 Value  => $RegistrationData{$Key} || '',
@@ -395,7 +397,7 @@ sub Register {
         }
 
         # update registration information
-        for my $Key (qw(State UniqueID APIKey LastUpdateID LastUpdateTime)) {
+        for my $Key (qw(State UniqueID APIKey LastUpdateID LastUpdateTime Description Type)) {
             $Self->{SystemDataObject}->SystemDataUpdate(
                 Key    => 'Registration::' . $Key,
                 Value  => $RegistrationData{$Key} || '',
@@ -451,7 +453,14 @@ Register the system as Active.
 This also updates any information on Database, OTRS Version and Perl version that
 might have changed.
 
+If you provide Type and Description, these will be sent to the registration server.
+
     my %Result = $RegistrationObject->RegistrationUpdateSend();
+
+    my %Result = $RegistrationObject->RegistrationUpdateSend(
+        Type        => 'test',
+        Description => 'new test system',
+    );
 
 returns
 
@@ -495,6 +504,13 @@ sub RegistrationUpdateSend {
         DatabaseVersion => $Self->{DBObject}->Version(),
     );
 
+    # add description and type if they are set
+    KEY:
+    for my $Key (qw(Type Description)) {
+        next KEY if !defined $Param{$Key};
+        $System{$Key} = $Param{$Key};
+    }
+
     # define result
     my %Result = (
         Success => 0,
@@ -528,7 +544,7 @@ sub RegistrationUpdateSend {
 
     # check if we have content as a scalar ref
     if ( !$Response{Content} || ref $Response{Content} ne 'SCALAR' ) {
-        $Result{Reason} = "No content received from server";
+        $Result{Reason} = 'No content received from registration server. Please try again later.';
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "RegistrationUpdate - $Result{Reason}",
@@ -550,8 +566,12 @@ sub RegistrationUpdateSend {
     }
 
     # check if data exists
-    if ( !$ResponseData->{UpdateID} ) {
-        $Result{Reason} = "Received no UpdateID: '" . ${ $Response{Content} } . "'!";
+    ATTRIBUTE:
+    for my $Attribute (qw(UpdateID Type Description)) {
+
+        next ATTRIBUTE if defined $ResponseData->{$Attribute};
+
+        $Result{Reason} = "Received no '$Attribute': '" . ${ $Response{Content} } . "'!";
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "RegistrationUpdate - $Result{Reason}!",
@@ -562,19 +582,40 @@ sub RegistrationUpdateSend {
     # log response, write data.
     $Self->{LogObject}->Log(
         Priority => 'info',
-        Message  => "RegistrationUpdate - received UpdateID '$ResponseData->{UpdateID}'."
-            . ${ $Response{Content} },
+        Message  => "RegistrationUpdate - received UpdateID '$ResponseData->{UpdateID}'.",
     );
-    $Self->{SystemDataObject}->SystemDataUpdate(
-        Key    => 'Registration::LastUpdateID',
-        Value  => $ResponseData->{UpdateID},
-        UserID => 1,
+
+    # gather and update provided data in SystemData table
+    my %UpdateData = (
+        LastUpdateID   => $ResponseData->{UpdateID},
+        LastUpdateTime => $Self->{TimeObject}->CurrentTimestamp(),
+        Type           => $ResponseData->{Type},
+        Description    => $ResponseData->{Description},
     );
-    $Self->{SystemDataObject}->SystemDataUpdate(
-        Key    => 'Registration::LastUpdateTime',
-        Value  => $Self->{TimeObject}->CurrentTimestamp(),
-        UserID => 1,
-    );
+
+    # if the registration server provided a new UniqueID and API key, use those.
+    if ( $ResponseData->{UniqueID} && $ResponseData->{APIKey} ) {
+
+        # add data to Update hash
+        $UpdateData{UniqueID} = $ResponseData->{UniqueID};
+        $UpdateData{APIKey}   = $ResponseData->{APIKey};
+
+        # preserve old UniqueID
+        $Self->{SystemDataObject}->SystemDataAdd(
+            Key    => 'RegistrationUniqueIDs::' . $RegistrationData{UniqueID},
+            Value  => $RegistrationData{UniqueID},
+            UserID => 1,
+        );
+    }
+
+    for my $Key ( sort keys %UpdateData ) {
+
+        $Self->{SystemDataObject}->SystemDataUpdate(
+            Key    => 'Registration::' . $Key,
+            Value  => $UpdateData{$Key},
+            UserID => 1,
+        );
+    }
 
     $Result{Success} = 1;
     $Result{ReScheduleIn} = $ResponseData->{NextUpdate} // ( 3600 * 7 * 24 );

@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-17 11:31:39
+    # Last translation file sync: 2013-10-17 13:50:11
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -399,6 +399,11 @@ sub Data {
         'Redo' => '',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
+        'Can\'t contact registration server. Please try again later.' => '',
+        'No content received from registration server. Please try again later.' =>
+            '',
+        'Problems processing server result. Please try again later.' => '',
+        'Username and password do not match. Please try again.' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => '',
@@ -1203,7 +1208,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => '',
         'Time units' => '',
-        '(work units)' => '',
+        ' (work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.',
@@ -1857,11 +1862,12 @@ sub Data {
 
         # Template: AdminRegistration
         'System Registration Management' => '',
-        'Send update now' => '',
+        'Edit details' => '',
         'Overview of registered systems' => '',
         'Deregister system' => '',
         'System Registration' => '',
         'This system is registered with OTRS Group.' => '',
+        'System type' => '',
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'OTRS-ID Login' => '',
@@ -1917,13 +1923,13 @@ sub Data {
         'OTRS Version' => '',
         'Operating System' => '',
         'Perl Version' => '',
-        'System type' => '',
         'Optional description of this system.' => '',
         'Register' => '',
         'Deregister System' => '',
         'Continuing with this step will deregister the system from OTRS Group.' =>
             '',
         'Deregister' => '',
+        'You can modify the system type and description here.' => '',
 
         # Template: AdminRole
         'Role Management' => '',

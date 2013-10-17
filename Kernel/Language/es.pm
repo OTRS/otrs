@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-17 11:31:10
+    # Last translation file sync: 2013-10-17 13:49:53
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -404,6 +404,11 @@ sub Data {
         'Redo' => 'Rehacer',
         'Scheduler process is registered but might not be running.' => 'El proceso del planificador está registrado, pero podría no estar ejecutándose.',
         'Scheduler is not running.' => 'El planificador no está en ejecución.',
+        'Can\'t contact registration server. Please try again later.' => '',
+        'No content received from registration server. Please try again later.' =>
+            '',
+        'Problems processing server result. Please try again later.' => '',
+        'Username and password do not match. Please try again.' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Año nuevo',
@@ -1208,7 +1213,7 @@ sub Data {
         'Archive selected tickets' => 'Archivar los tickets seleccionados',
         'Add Note' => 'Añadir una nota',
         'Time units' => 'Unidades de tiempo',
-        '(work units)' => '',
+        ' (work units)' => ' (unidades de trabajo)',
         'Ticket Commands' => 'Órdenes de ticket',
         'Send agent/customer notifications on changes' => 'Enviar notificaciones al agente/cliente cuando haya cambios',
         'CMD' => 'CMD',
@@ -1862,11 +1867,12 @@ sub Data {
 
         # Template: AdminRegistration
         'System Registration Management' => 'Gestión de Registro del sistema',
-        'Send update now' => 'Enviar actualización ahora',
+        'Edit details' => '',
         'Overview of registered systems' => 'Vista general de sistemas registrados',
         'Deregister system' => 'Dar de baja sistema',
         'System Registration' => 'Registro del sistema',
         'This system is registered with OTRS Group.' => 'Este sistema se encuentra registrado por OTRS Group',
+        'System type' => 'Tipo de sistema',
         'Unique ID' => 'Identificador unico',
         'Last communication with registration server' => 'Última comunicación con el servidor de registro',
         'OTRS-ID Login' => 'Inicio de sesión con OTRS-ID',
@@ -1922,13 +1928,13 @@ sub Data {
         'OTRS Version' => 'Versión de OTRS',
         'Operating System' => 'Sistema Operativo',
         'Perl Version' => 'Versión de Perl',
-        'System type' => 'Tipo de sistema',
         'Optional description of this system.' => 'Descripción opcional de este sistema.',
         'Register' => 'Registrar',
         'Deregister System' => 'Sistema dado de baja',
         'Continuing with this step will deregister the system from OTRS Group.' =>
             'Continuando con este paso se dará de baja el sistema para el grupo OTRS.',
         'Deregister' => 'Dar de baja',
+        'You can modify the system type and description here.' => '',
 
         # Template: AdminRole
         'Role Management' => 'Gestión de Roles',
@@ -4839,7 +4845,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (unidades de trabajo)',
         'Add Customer Company' => 'Añadir una empresa cliente',
         'Add customer company' => 'Añadir una empresa cliente',
         'Attachments <-> Responses' => 'Adjuntos <-> Respuestas',
@@ -4876,6 +4881,7 @@ sub Data {
         'Registration' => 'Registro',
         'Responses' => 'Respuestas',
         'Responses <-> Queues' => 'Respuestas <-> Colas',
+        'Send update now' => 'Enviar actualización ahora',
         'Show  article' => 'Mostrar el artículo',
         'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
             'Saltarse este paso omitirá automáticamente el registro de su OTRS. ¿Seguro que desea continuar?',

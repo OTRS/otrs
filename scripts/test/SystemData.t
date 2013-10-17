@@ -220,6 +220,27 @@ for my $Key ( sort keys %Storage ) {
     );
 }
 
+$SystemDataObject->SystemDataDelete(
+    Key    => $SystemDataGroupRand . '::Beef',
+    UserID => 1,
+);
+
+%Group = $SystemDataObject->SystemDataGroupGet(
+    Group  => $SystemDataGroupRand,
+    UserID => 1,
+);
+
+$Self->False(
+    $Group{Beef},
+    "Key 'Beef' deleted, GroupGet",
+);
+
+$Self->Is(
+    $Group{Foo},
+    'bar',
+    "Key 'Foo' still there, GroupGet",
+);
+
 for my $Key ( sort keys %Group ) {
     my $Result = $SystemDataObject->SystemDataDelete(
         Key    => $SystemDataGroupRand . '::' . $Key,

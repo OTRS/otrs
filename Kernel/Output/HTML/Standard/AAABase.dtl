@@ -394,3 +394,9 @@ $Text{"Redo"}
 # scheduler
 $Text{"Scheduler process is registered but might not be running."}
 $Text{"Scheduler is not running."}
+
+# system registration
+$Text{"Can't contact registration server. Please try again later."}
+$Text{"No content received from registration server. Please try again later."}
+$Text{"Problems processing server result. Please try again later."}
+$Text{"Username and password do not match. Please try again."}

@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-17 11:31:02
+    # Last translation file sync: 2013-10-17 13:49:48
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -400,6 +400,11 @@ sub Data {
         'Redo' => '',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
+        'Can\'t contact registration server. Please try again later.' => '',
+        'No content received from registration server. Please try again later.' =>
+            '',
+        'Problems processing server result. Please try again later.' => '',
+        'Username and password do not match. Please try again.' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => '',
@@ -1204,7 +1209,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Добавяне на бележка',
         'Time units' => 'Мерни единици за времето',
-        '(work units)' => '',
+        ' (work units)' => ' (работни единици)',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -1858,11 +1863,12 @@ sub Data {
 
         # Template: AdminRegistration
         'System Registration Management' => '',
-        'Send update now' => '',
+        'Edit details' => '',
         'Overview of registered systems' => '',
         'Deregister system' => '',
         'System Registration' => '',
         'This system is registered with OTRS Group.' => '',
+        'System type' => '',
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'OTRS-ID Login' => '',
@@ -1918,13 +1924,13 @@ sub Data {
         'OTRS Version' => '',
         'Operating System' => '',
         'Perl Version' => '',
-        'System type' => '',
         'Optional description of this system.' => '',
         'Register' => '',
         'Deregister System' => '',
         'Continuing with this step will deregister the system from OTRS Group.' =>
             '',
         'Deregister' => '',
+        'You can modify the system type and description here.' => '',
 
         # Template: AdminRole
         'Role Management' => 'Управление на роли',
@@ -4835,7 +4841,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (работни единици)',
         'Add Customer Company' => 'Добавяне на клиент-фирма',
         'Attachments <-> Responses' => 'Прикачени файлове <-> Опашки',
         'Customer Company Management' => 'Управление на клиент-фирма',

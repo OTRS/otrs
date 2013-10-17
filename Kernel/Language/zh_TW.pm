@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-17 11:31:50
+    # Last translation file sync: 2013-10-17 13:50:18
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -401,6 +401,11 @@ sub Data {
         'Redo' => '重做',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
+        'Can\'t contact registration server. Please try again later.' => '',
+        'No content received from registration server. Please try again later.' =>
+            '',
+        'Problems processing server result. Please try again later.' => '',
+        'Username and password do not match. Please try again.' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => '',
@@ -1205,7 +1210,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => '增加注解',
         'Time units' => '時間單元',
-        '(work units)' => '工作單元',
+        ' (work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '發送代理/客戶通知變更',
         'CMD' => '命令',
@@ -1859,11 +1864,12 @@ sub Data {
 
         # Template: AdminRegistration
         'System Registration Management' => '',
-        'Send update now' => '',
+        'Edit details' => '',
         'Overview of registered systems' => '',
         'Deregister system' => '',
         'System Registration' => '',
         'This system is registered with OTRS Group.' => '',
+        'System type' => '',
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'OTRS-ID Login' => '',
@@ -1919,13 +1925,13 @@ sub Data {
         'OTRS Version' => '',
         'Operating System' => '',
         'Perl Version' => '',
-        'System type' => '',
         'Optional description of this system.' => '',
         'Register' => '',
         'Deregister System' => '',
         'Continuing with this step will deregister the system from OTRS Group.' =>
             '',
         'Deregister' => '',
+        'You can modify the system type and description here.' => '',
 
         # Template: AdminRole
         'Role Management' => '角色管理',
@@ -4836,6 +4842,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        '(work units)' => '工作單元',
         'Add Customer Company' => '增加客人單位',
         'Attachments <-> Responses' => '附件 <-> 回復',
         'Customer Company Management' => '管理客人單位',

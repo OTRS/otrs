@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-17 11:31:07
+    # Last translation file sync: 2013-10-17 13:49:51
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -399,6 +399,11 @@ sub Data {
         'Redo' => 'Wiederholen',
         'Scheduler process is registered but might not be running.' => 'Scheduler-Prozess ist registriert, scheint aber nicht zu laufen.',
         'Scheduler is not running.' => 'Scheduler läuft nicht.',
+        'Can\'t contact registration server. Please try again later.' => '',
+        'No content received from registration server. Please try again later.' =>
+            '',
+        'Problems processing server result. Please try again later.' => '',
+        'Username and password do not match. Please try again.' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Neujahr',
@@ -1203,7 +1208,7 @@ sub Data {
         'Archive selected tickets' => 'Ausgewählte Tickets archivieren',
         'Add Note' => 'Notiz hinzufügen',
         'Time units' => 'Zeiteinheiten',
-        '(work units)' => '(Arbeitseinheiten)',
+        ' (work units)' => ' (Arbeitseinheiten)',
         'Ticket Commands' => 'Ticket-Kommandos',
         'Send agent/customer notifications on changes' => 'Sende eine Agent/Kunden Benachrichtigung bei Änderungen',
         'CMD' => 'CMD',
@@ -1857,11 +1862,12 @@ sub Data {
 
         # Template: AdminRegistration
         'System Registration Management' => 'Systemregistrierungs-Verwaltung',
-        'Send update now' => 'Update jetzt senden',
+        'Edit details' => '',
         'Overview of registered systems' => 'Übersicht der registrieren Systeme',
         'Deregister system' => 'System deregistrieren',
         'System Registration' => 'Systemregistrierung',
         'This system is registered with OTRS Group.' => 'Dieses System ist bei der OTRS Gruppe registriert.',
+        'System type' => 'System Typ',
         'Unique ID' => 'Unique ID',
         'Last communication with registration server' => 'Letzte Kommunikation mit dem Registrierungsserver',
         'OTRS-ID Login' => 'OTRS-ID Login',
@@ -1917,13 +1923,13 @@ sub Data {
         'OTRS Version' => 'OTRS Version',
         'Operating System' => 'Betriebssystem',
         'Perl Version' => 'Perl Version',
-        'System type' => 'System Typ',
         'Optional description of this system.' => 'Optionale Beschreibung für dieses System.',
         'Register' => 'Registrieren',
         'Deregister System' => 'System deregistrieren',
         'Continuing with this step will deregister the system from OTRS Group.' =>
             'Wenn Sie fortfahren, wird dieses System bei der OTRS Gruppe deregistriert.',
         'Deregister' => 'Deregistrieren',
+        'You can modify the system type and description here.' => '',
 
         # Template: AdminRole
         'Role Management' => 'Rollen-Verwaltung',
@@ -4834,7 +4840,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (Arbeitseinheiten)',
+        '(work units)' => '(Arbeitseinheiten)',
         'A response is a default text which helps your agents to write faster answers to customers.' =>
             'Eine Antwort ist ein vordefinierter Text, mit dem Ihre Agenten den Kunden schneller antworten zu können.',
         'Add Response' => 'Antwort hinzufügen',
@@ -4896,6 +4902,7 @@ sub Data {
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Der Sicherheitsmodus muss ausgeschaltet werden, um mit Hilfe des Web-Installers erneut zu installieren.',
         'Select this customer user as the main customer user.' => 'Diesen Kundenbenutzer als Hauptkunden auswählen',
+        'Send update now' => 'Update jetzt senden',
         'Show  article' => 'Artikel anzeigen',
         'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
             'Wenn Sie diesen Schritt überspringen, wird die Registrierung Ihres OTRS-Systems ebenfalls übersprungen. Möchten Sie wirklich fortfahren?',

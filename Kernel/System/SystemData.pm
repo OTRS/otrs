@@ -105,7 +105,13 @@ later for instance fetch all keys that start with 'SystemRegistration::' in
 one go, using SystemDataGetGroup().
 
     my $Result = $SystemDataObject->SystemDataAdd(
-        Key    => 'OTRS Version',
+        Key    => 'SomeKey',
+        Value  => 'Some Value',
+        UserID => 123,
+    );
+
+    my $Result = $SystemDataObject->SystemDataAdd(
+        Key    => 'SystemRegistration::Version',
         Value  => 'Some Value',
         UserID => 123,
     );
@@ -148,28 +154,9 @@ sub SystemDataAdd {
     );
 
     # delete cache
-    $Self->{CacheInternalObject}->Delete(
-        Key => 'SystemDataGet::' . $Param{Key},
+    $Self->_SystemDataCacheKeyDelete(
+        Key => $Param{Key},
     );
-
-    # delete cache for groups if needed
-    my @Parts = split( '::', $Param{Key} );
-
-    if ( scalar @Parts > 1 ) {
-
-        # remove last value, delete cache
-        PART:
-        for my $Part (@Parts) {
-            pop @Parts;
-            my $CacheKey = join( '::', @Parts );
-            $Self->{CacheInternalObject}->Delete(
-                Key => 'SystemDataGetGroup::' . join( '::', @Parts ),
-            );
-
-            # stop if there is just one value left
-            last PART if scalar @Parts == 1;
-        }
-    }
 
     return 1;
 }
@@ -343,28 +330,9 @@ sub SystemDataUpdate {
     );
 
     # delete cache entry
-    $Self->{CacheInternalObject}->Delete(
-        Key => 'SystemDataGet::' . $Param{Key},
+    $Self->_SystemDataCacheKeyDelete(
+        Key => $Param{Key},
     );
-
-    # delete cache for groups if needed
-    my @Parts = split( '::', $Param{Key} );
-
-    if ( scalar @Parts > 1 ) {
-
-        # remove last value, delete cache
-        PART:
-        for my $Part (@Parts) {
-            pop @Parts;
-            my $CacheKey = join( '::', @Parts );
-            $Self->{CacheInternalObject}->Delete(
-                Key => 'SystemDataGetGroup::' . join( '::', @Parts ),
-            );
-
-            # stop if there is just one value left
-            last PART if scalar @Parts == 1;
-        }
-    }
 
     return 1;
 }
@@ -414,14 +382,68 @@ sub SystemDataDelete {
     );
 
     # delete cache entry
-    $Self->{CacheInternalObject}->Delete(
-        Key => 'SystemDataGet::' . $Param{Key},
+    $Self->_SystemDataCacheKeyDelete(
+        Key => $Param{Key},
     );
 
     return 1;
 }
 
-1;
+=begin Internal:
+
+=cut
+
+=item _SystemDataCacheKeyDelete()
+
+This will delete the cache for the given key and for all groups, if needed.
+
+For a key such as 'Foo::Bar::Baz', it will delete the cache for 'Foo::Bar::Baz'
+as well as for the groups 'Foo::Bar' and 'Foo'.
+
+    $Success = $SystemDataObject->_SystemDataCacheKeyDelete(
+        Key => 'SystemRegistration::Version::DB'
+    );
+
+=cut
+
+sub _SystemDataCacheKeyDelete {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Key} ) {
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => "_SystemDataCacheKeyDelete: need 'Key'!" );
+        return;
+    }
+
+    # delete cache entry
+    $Self->{CacheInternalObject}->Delete(
+        Key => 'SystemDataGet::' . $Param{Key},
+    );
+
+    # delete cache for groups if needed
+    my @Parts = split( '::', $Param{Key} );
+
+    if ( scalar @Parts > 1 ) {
+
+        # remove last value, delete cache
+        PART:
+        for my $Part (@Parts) {
+            pop @Parts;
+            my $CacheKey = join( '::', @Parts );
+            $Self->{CacheInternalObject}->Delete(
+                Key => 'SystemDataGetGroup::' . join( '::', @Parts ),
+            );
+
+            # stop if there is just one value left
+            last PART if scalar @Parts == 1;
+        }
+    }
+
+    return 1;
+}
+
+=end Internal:
 
 =back
 
@@ -434,3 +456,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
+
+1;

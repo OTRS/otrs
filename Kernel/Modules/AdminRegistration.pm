@@ -290,15 +290,73 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
-    # update now action
+    # edit screen
     # ------------------------------------------------------------ #
-    elsif ( $Self->{Subaction} eq 'UpdateNow' ) {
+    elsif ( $Self->{Subaction} eq 'Edit' ) {
+
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Self->{LayoutObject}->Block(
+            Name => 'Overview',
+            Data => \%Param,
+        );
+
+        my %RegistrationData = $Self->{RegistrationObject}->RegistrationDataGet();
+
+        $Param{Description} //= $RegistrationData{Description};
+
+        $Param{SystemTypeOption} = $Self->{LayoutObject}->BuildSelection(
+            Data          => [qw( Production Test Training Development )],
+            PossibleNone  => 1,
+            Name          => 'Type',
+            SelectedValue => $Param{Type} // $RegistrationData{Type},
+            Class         => 'Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'Edit',
+            Data => {
+                FQDN        => $Self->{ConfigObject}->Get('FQDN'),
+                OTRSVersion => $Self->{ConfigObject}->Get('Version'),
+                PerlVersion => sprintf( "%vd", $^V ),
+                %Param,
+            },
+        );
+
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminRegistration',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+
+        return $Output;
+    }
+
+    # ------------------------------------------------------------ #
+    # edit action
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'EditAction' ) {
 
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        # Send an update, redirect to registration screen
-        $Self->{RegistrationObject}->RegistrationUpdateSend();
+        my $RegistrationType = $Self->{ParamObject}->GetParam( Param => 'Type' );
+        my $Description      = $Self->{ParamObject}->GetParam( Param => 'Description' );
+
+        my %Result = $Self->{RegistrationObject}->RegistrationUpdateSend(
+            Type        => $RegistrationType,
+            Description => $Description,
+        );
+
+        # log change
+        if ( $Result{Success} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message =>
+                    "System Registration: User $Self->{UserID} changed Description: '$Description', Type: '$RegistrationType'.",
+            );
+
+        }
 
         return $Self->{LayoutObject}->Redirect(
             OP => 'Action=AdminRegistration',
@@ -328,6 +386,7 @@ sub Run {
     # ------------------------------------------------------------
     else {
 
+        $Self->{RegistrationObject}->RegistrationUpdateSend();
         my %RegistrationData = $Self->{RegistrationObject}->RegistrationDataGet();
 
         $Self->_Overview(
@@ -381,7 +440,7 @@ sub _Overview {
     $Self->{LayoutObject}->Block( Name => 'ActionDeregister' );
 
     $Self->{LayoutObject}->Block(
-        Name => 'OverviewResult',
+        Name => 'OverviewRegistered',
         Data => \%Param,
     );
 

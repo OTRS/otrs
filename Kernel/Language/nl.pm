@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-17 11:31:33
+    # Last translation file sync: 2013-10-17 13:50:07
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -405,6 +405,11 @@ sub Data {
         'Redo' => 'Herhalen',
         'Scheduler process is registered but might not be running.' => 'Schedulerproces is geregistreerd, maar niet actief.',
         'Scheduler is not running.' => 'De Scheduler is niet actief.',
+        'Can\'t contact registration server. Please try again later.' => '',
+        'No content received from registration server. Please try again later.' =>
+            '',
+        'Problems processing server result. Please try again later.' => '',
+        'Username and password do not match. Please try again.' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Nieuwjaarsdag',
@@ -1209,7 +1214,7 @@ sub Data {
         'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Add Note' => 'Notitie toevoegen',
         'Time units' => 'Bestede tijd',
-        '(work units)' => '',
+        ' (work units)' => ' (in minuten)',
         'Ticket Commands' => 'Geavanceerd',
         'Send agent/customer notifications on changes' => 'Stuur behandelaars / klanten een melding bij wijzigingen',
         'CMD' => 'Commando',
@@ -1863,11 +1868,12 @@ sub Data {
 
         # Template: AdminRegistration
         'System Registration Management' => 'Beheer systeemregistratie',
-        'Send update now' => 'Verstuur update',
+        'Edit details' => '',
         'Overview of registered systems' => 'Overzicht van geregistreerde systemen',
         'Deregister system' => 'Deregistreer systeem',
         'System Registration' => 'Systeemregistratie',
         'This system is registered with OTRS Group.' => 'Dit systeem is geregistreerd bij de OTRS Groep.',
+        'System type' => 'Systeemtype',
         'Unique ID' => 'Uniek ID',
         'Last communication with registration server' => 'Laatste communicatie met registratieserver',
         'OTRS-ID Login' => 'OTRS-ID',
@@ -1923,13 +1929,13 @@ sub Data {
         'OTRS Version' => 'OTRS-versie',
         'Operating System' => 'Besturingssysteem',
         'Perl Version' => 'Perl-versie',
-        'System type' => 'Systeemtype',
         'Optional description of this system.' => 'Optionele omschrijving van dit systeem.',
         'Register' => 'Registreer',
         'Deregister System' => 'Deregistreer systeem',
         'Continuing with this step will deregister the system from OTRS Group.' =>
             'Doorgaan met deze stap zal uw systeem deregistreren bij de OTRS Groep.',
         'Deregister' => 'Deregistreer',
+        'You can modify the system type and description here.' => '',
 
         # Template: AdminRole
         'Role Management' => 'Beheer rollen',
@@ -4840,7 +4846,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (in minuten)',
         'A response is a default text which helps your agents to write faster answers to customers.' =>
             'Een antwoord is een standaard-tekst die uw behandelaars helpt sneller te reageren op tickets van klanten.',
         'Add Customer Company' => 'Bedrijf toevoegen',
@@ -4910,6 +4915,7 @@ sub Data {
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Secure Mode moet gedeactiveerd worden om te kunnen herinstalleren met de web-installer.',
         'Select this customer user as the main customer.' => 'Selecteer deze klant als hoofdcontact.',
+        'Send update now' => 'Verstuur update',
         'Show  article' => 'Toon interactie',
         'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
             'Als u deze stap overslaat dan slaat u ook de registratie van uw OTRS-systeem over. Weet u zeker dat u wilt doorgaan?',

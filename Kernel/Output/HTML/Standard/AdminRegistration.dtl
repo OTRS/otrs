@@ -29,8 +29,8 @@
 <!-- dtl:block:ActionOverview -->
 <!-- dtl:block:ActionUpdate -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=UpdateNow;$QEnv{"ChallengeTokenParam"}" class="CallForAction">
-                            <span>$Text{"Send update now"}</span>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Edit" class="CallForAction">
+                            <span>$Text{"Edit details"}</span>
                         </a>
                     </li>
                     <li>
@@ -55,7 +55,7 @@
 
     <div class="ContentColumn">
         <div class="WidgetSimple">
-<!-- dtl:block:OverviewResult -->
+<!-- dtl:block:OverviewRegistered -->
             <div class="Header">
                 <h2>$Text{"System Registration"}</h2>
             </div>
@@ -66,6 +66,14 @@
                 </div>
 
                 <fieldset class="TableLike">
+
+                    <label>$Text{"System type"}:</label>
+                    <div class="Value">$QData{"Type"}</div>
+                    <div class="Clear"></div>
+
+                    <label>$Text{"Description"}:</label>
+                    <div class="Value">$QData{"Description"}</div>
+                    <div class="Clear"></div>
 
                     <label>$Text{"Unique ID"}:</label>
                     <div class="Value">$QData{"UniqueID"}</div>
@@ -78,7 +86,7 @@
                 </fieldset>
             </div>
             <div class="Clear"></div>
-<!-- dtl:block:OverviewResult -->
+<!-- dtl:block:OverviewRegistered -->
 <!-- dtl:block:OTRSIDValidation -->
             <div class="Header">
                 <h2>$Text{"OTRS-ID Login"}</h2>
@@ -325,6 +333,50 @@
                 </form>
             </div>
 <!-- dtl:block:Deregistration -->
+<!-- dtl:block:Edit -->
+            <div class="Header">
+                <h2>$Text{"System Registration"}</h2>
+            </div>
+            <div class="Content">
+                <div class="ServiceDescription">
+                    $Text{"You can modify the system type and description here."}
+                </div>
+
+                <form action="$Env{"CGIHandle"}" method="post" id="FormRegistration" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="EditAction"/>
+
+                    <fieldset class="TableLike Registration">
+
+                        <label class="Mandatory" for="Type"><span class="Marker">*</span> $Text{"System type"}:</label>
+                        <div class="Field">
+                            $Data{"SystemTypeOption"}
+                            <div id="TypeError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="SystemTypeServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Description">$Text{"Description"}:</label>
+                        <div class="Field">
+                            <input type="text" name="Description" id="Description" value="$QData{"Description"}" class="W50pc" maxlength="250"/>
+                            <p class="FieldExplanation">$Text{"Optional description of this system."}</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary" type="submit" id="Submit" value="$Text{"Update"}">$Text{"Update"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+<!-- dtl:block:Edit -->
         </div>
     </div>
     <div class="Clear"></div>
