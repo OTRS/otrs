@@ -2178,7 +2178,12 @@ sub _StatsParamsGenerate {
                 if ( !$Element->{Fixed} ) {
                     if ( $UserGetParam{ $Use . $Element->{Element} } )
                     {
-                        $Element->{SelectedValues} = $UserGetParam{ $Use . $Element->{Element} } || [];
+                        if (ref $UserGetParam{ $Use . $Element->{Element} }) {
+                            $Element->{SelectedValues} = $UserGetParam{ $Use . $Element->{Element} };
+                        }
+                        else {
+                            $Element->{SelectedValues} = [ $UserGetParam{ $Use . $Element->{Element} } ];
+                        }
                     }
                     if ( $Element->{Block} eq 'Time' ) {
                         # Check if it is an absolute time period
