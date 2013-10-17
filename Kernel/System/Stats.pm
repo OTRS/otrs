@@ -2184,9 +2184,15 @@ sub _StatsParamsGenerate {
                             = [ $UserGetParam{ $Use . $Element->{Element} } ] || [];
                     }
                     if ( $Element->{Block} eq 'Time' ) {
-                        if ( $UserGetParam{ $Use . $Element->{Element} . 'StartYear' } )
+                        # Check if it is an absolute time period
+                        if ( $Element->{TimeStart} )
                         {
-                            my %Time;
+                            # Use the stat data as fallback
+                            my %Time = (
+                                TimeStart => $Element->{TimeStart},
+                                TimeStop  => $Element->{TimeStop},
+                            );
+
                             for my $Limit (qw(Start Stop)) {
                                 for my $Unit (qw(Year Month Day Hour Minute Second)) {
                                     if (
@@ -2227,15 +2233,17 @@ sub _StatsParamsGenerate {
                                         $Time{StopSecond} = 59;
                                     }
                                 }
-                                $Time{"Time$Limit"} = sprintf(
-                                    "%04d-%02d-%02d %02d:%02d:%02d",
-                                    $Time{ $Limit . 'Year' },
-                                    $Time{ $Limit . 'Month' },
-                                    $Time{ $Limit . 'Day' },
-                                    $Time{ $Limit . 'Hour' },
-                                    $Time{ $Limit . 'Minute' },
-                                    $Time{ $Limit . 'Second' },
-                                );
+                                if ($Time{ $Limit . 'Year' }) {
+                                    $Time{"Time$Limit"} = sprintf(
+                                        "%04d-%02d-%02d %02d:%02d:%02d",
+                                        $Time{ $Limit . 'Year' },
+                                        $Time{ $Limit . 'Month' },
+                                        $Time{ $Limit . 'Day' },
+                                        $Time{ $Limit . 'Hour' },
+                                        $Time{ $Limit . 'Minute' },
+                                        $Time{ $Limit . 'Second' },
+                                    );
+                                }
                             }
 
                             # integrate this functionality in the completenesscheck
@@ -2293,28 +2301,14 @@ sub _StatsParamsGenerate {
                         }
                         else {
                             my %Time;
-                            my ( $s, $m, $h, $D, $M, $Y )
-                                = $Self->{TimeObject}->SystemTime2Date(
-                                SystemTime => $Self->{TimeObject}->SystemTime(),
-                                );
                             $Time{TimeRelativeUnit}
                                 = $UserGetParam{ $Use . $Element->{Element} . 'TimeRelativeUnit' };
-                            if (
-                                $UserGetParam{ $Use . $Element->{Element} . 'TimeRelativeCount' }
-                                )
-                            {
-                                $Time{TimeRelativeCount}
-                                    = $UserGetParam{
-                                    $Use
-                                        . $Element->{Element}
-                                        . 'TimeRelativeCount'
-                                    };
-                            }
+                            $Time{TimeRelativeCount}
+                                = $UserGetParam{ $Use . $Element->{Element} . 'TimeRelativeCount' };
 
-                            # use fallback options this will make $$TimePeriodAgent = 1 and prevent
-                            #    uninitialized variables and divisions by 0 later in the code
-                            $Time{TimeRelativeCount} //= 1;
-                            $Time{TimeRelativeUnit}  //= 'Second';
+                            # Use Values of the stat as fallback
+                            $Time{TimeRelativeCount} //= $Element->{TimeRelativeCount};
+                            $Time{TimeRelativeUnit}  //= $Element->{TimeRelativeUnit};
 
                             my $TimePeriodAdmin = $Element->{TimeRelativeCount}
                                 * $TimeInSeconds{ $Element->{TimeRelativeUnit} };
@@ -3799,7 +3793,7 @@ sub _DeleteCache {
     my ( $Self, %Param ) = @_;
 
     return $Self->{CacheObject}->CleanUp(
-        Type => 'StatsRun',
+        Type => 'Stats',
     );
 }
 
