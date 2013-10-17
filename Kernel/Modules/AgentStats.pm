@@ -1385,7 +1385,7 @@ sub Run {
                     0 => 'No (not supported)',
                 },
                 SelectedID => 0,
-                Name       => 'SelectShowAsDashboardWidget',
+                Name       => 'ShowAsDashboardWidget',
             );
         }
 
@@ -2367,8 +2367,8 @@ sub EditSpecificationAJAXUpdate {
     $GetParam{Object}   = $Self->{ParamObject}->GetParam( Param => "Object" )   || '';
     $GetParam{File}     = $Self->{ParamObject}->GetParam( Param => "File" )     || '';
     $GetParam{StatType} = $Self->{ParamObject}->GetParam( Param => "StatType" ) || '';
-    $GetParam{SelectShowAsDashboardWidget}
-        = $Self->{ParamObject}->GetParam( Param => "SelectShowAsDashboardWidget" || 0 );
+    $GetParam{ShowAsDashboardWidget}
+        = $Self->{ParamObject}->GetParam( Param => "ShowAsDashboardWidget" || 0 );
 
     my $Data = {
         0 => 'No (not supported)',
@@ -2396,9 +2396,9 @@ sub EditSpecificationAJAXUpdate {
     my $JSON = $Self->{LayoutObject}->BuildSelectionJSON(
         [
             {
-                Name         => 'SelectShowAsDashboardWidget',
+                Name         => 'ShowAsDashboardWidget',
                 Data         => $Data,
-                SelectedID   => $GetParam{SelectShowAsDashboardWidget},
+                SelectedID   => $GetParam{ShowAsDashboardWidget},
                 Translation  => 1,
                 PossibleNone => 0,
             },
