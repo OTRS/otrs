@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:31
+    # Last translation file sync: 2013-10-17 11:31:26
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -473,6 +473,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => '状態',
         'Sum' => '',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => '必須項目を入力してください！',
         'Please select a file!' => 'ファイルを選択してください！',
         'Please select an object!' => '対象を選択してください！',
@@ -1203,7 +1204,7 @@ sub Data {
         'Archive selected tickets' => '書庫の選択済みチケット',
         'Add Note' => '新規注釈',
         'Time units' => '時間単位',
-        ' (work units)' => ' (稼働時間)',
+        '(work units)' => '',
         'Ticket Commands' => 'チケットコマンド',
         'Send agent/customer notifications on changes' => '変更を担当者／顧客に通知する',
         'CMD' => 'コマンド',
@@ -2237,6 +2238,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '%s の前の投稿',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
         'My watched tickets' => '',
@@ -2325,6 +2330,15 @@ sub Data {
         'Use cache' => 'キャッシュの使用',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             '統計情報はほとんどがキャッシュすることができます。この統計でのプレゼンテーションを高速化できます',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => '無効なエンドユーザーに設定されている場合、統計を生成できません。',
 
         # Template: AgentStatsEditValueSeries
@@ -2367,10 +2381,13 @@ sub Data {
         'Graphsize' => 'グラフのサイズ',
         'Cache' => 'キャッシュ',
         'Exchange Axis' => '縦横軸の交換',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => '静的統計情報の設定可能パラメータ',
         'No element selected.' => '要素が選択されていません。',
         'maximal period from' => '最大期間から',
         'to' => '',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'チケットの自由入力を変更',
@@ -2745,9 +2762,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'ログイン中: ',
 
         # Template: HeaderSmall
@@ -4824,6 +4838,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (稼働時間)',
         'Add Customer Company' => '顧客企業を追加',
         'Add Response' => '応答を登録',
         'Add customer company' => '顧客企業を追加',

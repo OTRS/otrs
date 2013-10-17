@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:19
+    # Last translation file sync: 2013-10-17 11:31:05
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -478,6 +478,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Statistika',
         'Sum' => '',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Prosím vyplňte povinná pole!',
         'Please select a file!' => 'Prosím vyberte soubor!',
         'Please select an object!' => 'Prosím zvolte objekt!',
@@ -1208,7 +1209,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Přidat poznámku',
         'Time units' => 'Jednotky času',
-        ' (work units)' => ' (jednotky práce)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Odeslat upozornění Řešiteli/Zákazníkovi při změně',
         'CMD' => '',
@@ -2242,6 +2243,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Odesláno před %s',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Moje uzamčené tikety',
         'My watched tickets' => 'Moje sledované tikety',
@@ -2330,6 +2335,15 @@ sub Data {
         'Use cache' => '',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'Většina Reportů může být uložena do mezipaměti. Toto urychlí jejich následnou presentaci.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => '',
 
         # Template: AgentStatsEditValueSeries
@@ -2372,10 +2386,13 @@ sub Data {
         'Graphsize' => 'Velikost Grafu',
         'Cache' => 'Vyrovnávací paměť',
         'Exchange Axis' => 'Exchange osy',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Konfigurovatelné parametry Statického Reportu',
         'No element selected.' => 'Nebyl vybrán prvek',
         'maximal period from' => 'maximální perioda z',
         'to' => 'komu',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => '',
@@ -2750,9 +2767,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => 'Fulltextové vyhledávání',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Jste přihlášen jako',
 
         # Template: HeaderSmall
@@ -4826,6 +4840,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (jednotky práce)',
         'Add Customer Company' => 'Přidat Společnost Zákazníka',
         'Add customer company' => 'Přidat společnost zákazníka',
         'Attachments <-> Responses' => 'Přílohy <-> Odpovědi',
@@ -4838,6 +4853,7 @@ sub Data {
         'Escalation in' => 'Eskalace v',
         'For more info see:' => 'Pro další informace viz:',
         'From customer' => 'Od zákazníka',
+        'Fulltext search' => 'Fulltextové vyhledávání',
         'Invalid SessionID!' => 'Neplatné ID relace!',
         'Logout successful. Thank you for using OTRS!' => 'Odhlášení bylo úspěsné. Děkujeme Vám za používání OTRS!',
         'Merge this ticket' => 'Sloučit Tiket',

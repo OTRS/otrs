@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:32
+    # Last translation file sync: 2013-10-17 11:31:27
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -472,6 +472,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Statistika',
         'Sum' => 'Suma',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Prašome užpildyti būtinus laukus!',
         'Please select a file!' => 'Prašome pasirinkti failą!',
         'Please select an object!' => 'Prašome pasirinkti objektą!',
@@ -1202,7 +1203,7 @@ sub Data {
         'Archive selected tickets' => 'Archyvuoti pasirinktas triktis',
         'Add Note' => 'Pridėti pastabą',
         'Time units' => 'Laiko vienetai',
-        ' (work units)' => '',
+        '(work units)' => '',
         'Ticket Commands' => 'Trikčių komandos',
         'Send agent/customer notifications on changes' => 'Įvykus pasikeitimams siųsti perspėjimus agentams/klientams',
         'CMD' => 'CMD',
@@ -2236,6 +2237,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Paskelbtas prieš %s.',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
         'My watched tickets' => '',
@@ -2324,6 +2329,15 @@ sub Data {
         'Use cache' => 'Naudoti kešą (cache)',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'Dauguma statistikų gali būti kešuojama. Tai padidins šios statistikos pateikimą.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => 'Jei nustatyta negaliojančiu galutiniai naudotojai negalės generuoti šios statistikos.',
 
         # Template: AgentStatsEditValueSeries
@@ -2366,10 +2380,13 @@ sub Data {
         'Graphsize' => 'Diagramos dydis',
         'Cache' => 'Kešas',
         'Exchange Axis' => 'Apsikeitimo (exchange) ašis',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Statiškos statistikos konfigūruojami parametrai',
         'No element selected.' => 'Nepasirinktas elementas.',
         'maximal period from' => 'maksimalus periodas nuo',
         'to' => 'iki',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Keisti trikties atvirąjį tekstą',
@@ -2744,9 +2761,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Prisijungėte kaip',
 
         # Template: HeaderSmall

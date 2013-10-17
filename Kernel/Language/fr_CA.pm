@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:27
+    # Last translation file sync: 2013-10-17 11:31:19
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -479,6 +479,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Statistique',
         'Sum' => 'Somme',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Veuillez remplir les champs obligatoires.',
         'Please select a file!' => 'Sélectionnez un fichier.',
         'Please select an object!' => 'Sélectionnez un objet.',
@@ -1209,7 +1210,7 @@ sub Data {
         'Archive selected tickets' => 'Archiver les demandes sélectionnées',
         'Add Note' => 'Ajouter une note',
         'Time units' => 'Unité de temps',
-        ' (work units)' => '',
+        '(work units)' => 'Unité de travail',
         'Ticket Commands' => 'Ajouter des directives',
         'Send agent/customer notifications on changes' => 'Envoyer des notifications aux agents et aux clients visés lors de changements ',
         'CMD' => 'Directive ',
@@ -2243,6 +2244,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Envoyé il y a %s',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Mes demandes verrouillées',
         'My watched tickets' => 'Mes demandes sous surveillance',
@@ -2331,6 +2336,15 @@ sub Data {
         'Use cache' => 'Utiliser le cache ',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'Un grand nombre de statistiques peut être emmagasiné en cache et ainsi accélérer l\'affichage de cette statistique.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => 'Si l\'option « non admissible » est choisie, les utilisateurs finaux ne pourront pas générer les statistiques.',
 
         # Template: AgentStatsEditValueSeries
@@ -2373,10 +2387,13 @@ sub Data {
         'Graphsize' => 'Taille du graphique',
         'Cache' => 'Cache ',
         'Exchange Axis' => 'Échangez les axes',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Paramètres des statistiques configurables',
         'No element selected.' => 'Aucun élément n\'est sélectionné.',
         'maximal period from' => 'Période maximale depuis',
         'to' => 'vers',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Modifier le texte libre de la demande no ',
@@ -2751,9 +2768,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Vous êtes connecté en tant que',
 
         # Template: HeaderSmall
@@ -5015,7 +5029,6 @@ sub Data {
         '(Used log backend)' => '(arrière-plan du journal utilisé)',
         '(Used ticket number format)' => '(Format numérique utilisé pour les demandes)',
         '(e.g. Generic Interface asynchronous invoker tasks)' => '(p. ex. Les tâches asynchrones du demandeur de l’interface générique)',
-        '(work units)' => 'Unité de travail',
         '* Normalize Private Secrets Files\n' => '* Régularise les fichiers secrets privés\n',
         '*** out of office till $TillDate/$Till d ***' => '*** absent du bureau jusqu\'au $TillDate/$Till d ***',
         '**Error in Normalize Private Secret Files.\n\n' => '* Erreur dans la régularisation des fichiers secrets privés.\n\n',

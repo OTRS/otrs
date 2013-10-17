@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:44
+    # Last translation file sync: 2013-10-17 11:31:46
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -472,6 +472,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Статистика',
         'Sum' => '',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Заповните обов\'язкові поля!',
         'Please select a file!' => 'Виберіть файл!',
         'Please select an object!' => 'Виберіть об\'єкт!',
@@ -1202,7 +1203,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Додати замітку',
         'Time units' => 'Одиниці часу',
-        ' (work units)' => ' ( робочі одиниці)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Відправляти повідомлення агентові при змінах',
         'CMD' => 'Команда',
@@ -2236,6 +2237,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Опубліковане %s',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
         'My watched tickets' => '',
@@ -2324,6 +2329,15 @@ sub Data {
         'Use cache' => 'Кешувати',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'Більшість звітів можуть кешуватись. Це збільшить швидкість показу звітів.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => '',
 
         # Template: AgentStatsEditValueSeries
@@ -2366,10 +2380,13 @@ sub Data {
         'Graphsize' => 'Розмір графіка',
         'Cache' => 'Кеш',
         'Exchange Axis' => 'Поміняти осі',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Налаштовувані параметри статичного звіту',
         'No element selected.' => 'Елементи не обрані',
         'maximal period from' => 'Максимальний період с',
         'to' => 'по',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => '',
@@ -2744,9 +2761,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Ви ввійшли як',
 
         # Template: HeaderSmall
@@ -4820,6 +4834,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' ( робочі одиниці)',
         'Add Customer Company' => 'Додати компанію клієнта',
         'Add Response' => 'Додати відповідь',
         'Add customer company' => 'Додати компанію клієнта',

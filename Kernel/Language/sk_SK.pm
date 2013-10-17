@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:39
+    # Last translation file sync: 2013-10-17 11:31:39
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -472,6 +472,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => '',
         'Sum' => '',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => '',
         'Please select a file!' => '',
         'Please select an object!' => '',
@@ -1202,7 +1203,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => '',
         'Time units' => '',
-        ' (work units)' => '',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.',
@@ -2236,6 +2237,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
         'My watched tickets' => '',
@@ -2324,6 +2329,15 @@ sub Data {
         'Use cache' => '',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             '',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => '',
 
         # Template: AgentStatsEditValueSeries
@@ -2366,10 +2380,13 @@ sub Data {
         'Graphsize' => '',
         'Cache' => '',
         'Exchange Axis' => '',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => '',
         'No element selected.' => '',
         'maximal period from' => '',
         'to' => '',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => '',
@@ -2744,9 +2761,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => '',
 
         # Template: HeaderSmall

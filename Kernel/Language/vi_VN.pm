@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:45
+    # Last translation file sync: 2013-10-17 11:31:48
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -471,6 +471,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Thống kê',
         'Sum' => '',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Hãy nhập vào các trường bắt buộc!',
         'Please select a file!' => 'Hãy chọn 1 file!',
         'Please select an object!' => 'Hãy chọn 1 đối tượng!',
@@ -1201,7 +1202,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Thêm lưu ý',
         'Time units' => 'Các đơn vị thời gian',
-        ' (work units)' => ' (các đơn vị làm việc)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -2235,6 +2236,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
         'My watched tickets' => '',
@@ -2323,6 +2328,15 @@ sub Data {
         'Use cache' => '',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'Hầu hết các thống kê đều có thể được lưu. Điều này sẽ đẩy nhanh tốc độ trình diễn của thống kê.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => '',
 
         # Template: AgentStatsEditValueSeries
@@ -2365,10 +2379,13 @@ sub Data {
         'Graphsize' => 'Cỡ biểu đồ',
         'Cache' => 'Lưu trữ',
         'Exchange Axis' => 'Trục trao đổi',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Tham số cấu hình của thống kê tĩnh',
         'No element selected.' => 'Không thành tố nào được chọn.',
         'maximal period from' => 'chu kỳ tối đa từ',
         'to' => 'đến',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => '',
@@ -2743,9 +2760,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => '',
 
         # Template: HeaderSmall
@@ -4819,6 +4833,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (các đơn vị làm việc)',
         'Add Customer Company' => 'Thêm công ty khách hàng',
         'Attachments <-> Responses' => 'Các đính kèm <-> Các trả lời',
         'Customer Company Management' => 'Quản trị công ty khách hàng',

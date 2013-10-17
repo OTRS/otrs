@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:42
+    # Last translation file sync: 2013-10-17 11:31:44
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -474,6 +474,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Statistik',
         'Sum' => '',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Fyll i de tvingande fälten!',
         'Please select a file!' => 'Välj en fil!',
         'Please select an object!' => 'Välj ett objekt!',
@@ -1204,7 +1205,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Lägg till anteckning',
         'Time units' => 'Tidsenheter',
-        ' (work units)' => ' (arbetsenheter)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Meddela agent/kund angående ändringar',
         'CMD' => 'CMD',
@@ -2238,6 +2239,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Postad för %s sedan.',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Mina låsta ärenden',
         'My watched tickets' => 'Mina bevakade ärenden',
@@ -2326,6 +2331,15 @@ sub Data {
         'Use cache' => '',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             '',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => '',
 
         # Template: AgentStatsEditValueSeries
@@ -2368,10 +2382,13 @@ sub Data {
         'Graphsize' => '',
         'Cache' => '',
         'Exchange Axis' => '',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => '',
         'No element selected.' => '',
         'maximal period from' => '',
         'to' => '',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => '',
@@ -2746,9 +2763,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Du är inloggad som',
 
         # Template: HeaderSmall
@@ -4822,6 +4836,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (arbetsenheter)',
         'Add Customer Company' => 'Lägg till Kundföretag',
         'Attachments <-> Responses' => '<Bifogade filer <-> Svar',
         'Customer Company Management' => 'Kundföretagshantering',

@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:23
+    # Last translation file sync: 2013-10-17 11:31:11
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -472,6 +472,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Estad√≠sticas',
         'Sum' => 'Suma',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Por favor, proporcione los campos requeridos.',
         'Please select a file!' => 'Por favor, seleccione un archivo.',
         'Please select an object!' => 'Por favor, seleccione un objeto.',
@@ -1202,7 +1203,7 @@ sub Data {
         'Archive selected tickets' => 'Tickets seleccionados del archivo',
         'Add Note' => 'A√±adir Nota',
         'Time units' => 'Unidades de tiempo',
-        ' (work units)' => ' (unidades de trabajo)',
+        '(work units)' => '',
         'Ticket Commands' => 'Instrucciones de Ticket',
         'Send agent/customer notifications on changes' => 'Enviar notificaci√≥n de cambios al agente/cliente',
         'CMD' => 'CMD',
@@ -2236,6 +2237,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Enviado hace %s.',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Mis tickets bloqueados',
         'My watched tickets' => 'Mis tickets en observaci√≥n',
@@ -2324,6 +2329,15 @@ sub Data {
         'Use cache' => 'Usar cach√©',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'La mayor√≠a de las estadisticas pueden ser conservadas en cache. Esto acelera la presentaci√≥n de esta estad√≠stica.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => 'Si se define como inv√°lida, los usuarios finales no podr√°n generar la estad√≠stica.',
 
         # Template: AgentStatsEditValueSeries
@@ -2366,10 +2380,13 @@ sub Data {
         'Graphsize' => 'Tama√±o de la Gr√°fica',
         'Cache' => 'Cach√©',
         'Exchange Axis' => 'Intercambiar Ejes',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Par√°metro configurable de estad√≠stica est√°tica',
         'No element selected.' => 'No hay elemento seleccionado',
         'maximal period from' => 'periodo m√°ximo desde',
         'to' => 'a',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Modificar los Campos Libres del Ticket',
@@ -2744,9 +2761,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Ud. inici√≥ sesi√≥n como',
 
         # Template: HeaderSmall
@@ -4820,6 +4834,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (unidades de trabajo)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets afectados. ¬øRealmente desea utilizar esta tarea?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Chequear registro MX de direcciones utilizadas al responder. ¬° No usarlo si su PC con OTRS est√° detr√°s de una l√≠nea telefonica $!)',

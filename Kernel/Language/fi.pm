@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:26
+    # Last translation file sync: 2013-10-17 11:31:16
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -474,6 +474,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Tilasto',
         'Sum' => 'Summa',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Ole hyvä ja täytä vaaditut kentät!',
         'Please select a file!' => 'Valitse tiedosto!',
         'Please select an object!' => 'Valitse objekti!',
@@ -1204,7 +1205,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Lisää huomautus',
         'Time units' => 'Työaika',
-        ' (work units)' => ' (esim. minuutteina)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -2238,6 +2239,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Lähetetty %s sitten.',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Omat lukitut tiketit',
         'My watched tickets' => 'Omat seuratut tiketit',
@@ -2326,6 +2331,15 @@ sub Data {
         'Use cache' => '',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'Suurin osa tilastoista voidaan lisätä välimuistiin. Tämä nopeuttaa tilaston katsomista.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => '',
 
         # Template: AgentStatsEditValueSeries
@@ -2368,10 +2382,13 @@ sub Data {
         'Graphsize' => 'Graafikoko',
         'Cache' => 'Välimuisti',
         'Exchange Axis' => 'Vaihda akseleita',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Määriteltävät asetukset kiinteälle tilastolle',
         'No element selected.' => 'Ei valittua elementtiä.',
         'maximal period from' => 'maksimi jakso välillä',
         'to' => '-',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Vaihda tiketin vapaata tekstiä',
@@ -2746,9 +2763,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => 'Tekstihaku',
-        'CustomerID Search' => 'AsiakasID haku',
-        'CustomerUser Search' => 'Hae asiakkaista',
         'You are logged in as' => 'Olet kirjautunut käyttäjänä',
 
         # Template: HeaderSmall
@@ -4822,6 +4836,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (esim. minuutteina)',
         'Add Customer Company' => 'Lisää asiakasyritys',
         'Add customer company' => 'Lisää asiakasyritys',
         'Attachments <-> Responses' => 'Liitteet <-> Vastaukset',
@@ -4832,12 +4847,15 @@ sub Data {
         'Customer Company Management' => 'Asiakasyrityksien hallinta',
         'Customer Data' => 'Asiakastieto',
         'Customer automatically added in Cc.' => 'Asiakas lisäättiin automaattisesti CC-kenttäät.',
+        'CustomerID Search' => 'AsiakasID haku',
+        'CustomerUser Search' => 'Hae asiakkaista',
         'Customers <-> Services' => 'Asiakkaat <-> Palvelut',
         'Database-User' => 'Tietokantakäyttäjä',
         'Escalation in' => 'Eskaloituu',
         'False' => 'Virhe',
         'For more info see:' => 'Katso lisätietoa:',
         'From customer' => 'Lähettänyt asiakas',
+        'Fulltext search' => 'Tekstihaku',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>
             'Jos haluat käyttää jotain muuta tietokantatyyppiä tutustu README.database-tiedostoon.',
         'Link attachments to responses templates.' => 'Linkitä liitteet vastausmalleihin.',

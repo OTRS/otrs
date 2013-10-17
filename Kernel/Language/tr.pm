@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:43
+    # Last translation file sync: 2013-10-17 11:31:45
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -472,6 +472,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'İstatistikler',
         'Sum' => 'Toplam',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Lütfen zorunlu alanları doldurun!',
         'Please select a file!' => 'Lütfen bir dosya seçin!',
         'Please select an object!' => 'Lütfen bir nesne seçin!',
@@ -1202,7 +1203,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Not Ekle',
         'Time units' => 'Zaman birimleri',
-        ' (work units)' => ' (iş birimi)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'Komut',
@@ -2236,6 +2237,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '%s önce gönderildi.',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Kilitli biletlerim',
         'My watched tickets' => 'İzlediğim biletler',
@@ -2324,6 +2329,15 @@ sub Data {
         'Use cache' => 'Önbellek kullan',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'İstatistiklerin çoğunluğu önbelleklenebilir. Bu, bu istatistiğin sunulmasını hızlandırır.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => 'Eğer geçersiz kullanıcı ayarlarsanız istatistik oluşturamayabilirsiniz.',
 
         # Template: AgentStatsEditValueSeries
@@ -2366,10 +2380,13 @@ sub Data {
         'Graphsize' => 'Grafik boyutu',
         'Cache' => 'Tampon',
         'Exchange Axis' => 'Eksenlerin Yerini Değiştir',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Değişmez istatistiğin ayarlanabilir parametreleri',
         'No element selected.' => 'Öğe seçilmedi.',
         'maximal period from' => 'en yüksek süre şundan:',
         'to' => 'şuna:',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Biletin yazısı değiştir',
@@ -2744,9 +2761,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Giriş yapan:',
 
         # Template: HeaderSmall
@@ -4820,6 +4834,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (iş birimi)',
         '%s Tickets affected! Do you really want to use this job?' => '%s Bilet etkilendi! Gerçekten bu işi kullanmak istiyor musunuz?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             '(Kullanılan e-posta adreslerinin MX kayıtlarını bir cevap yazarak kontrol eder. Eğer OTRS sisteminiz çevirmeli bir ağın arkasındaysa kullanmayın!)',

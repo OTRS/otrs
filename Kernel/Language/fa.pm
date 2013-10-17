@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:25
+    # Last translation file sync: 2013-10-17 11:31:15
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -477,6 +477,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'گزارش',
         'Sum' => 'جمع',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'لطفا ستون‌های لازم را تکمیل نمائید',
         'Please select a file!' => 'لطفا یک فایل را انتخاب نمائید',
         'Please select an object!' => 'لطفا یک مورد را انتخاب نمائید',
@@ -1207,7 +1208,7 @@ sub Data {
         'Archive selected tickets' => 'آرشیو درخواست‌های انتخاب شده',
         'Add Note' => 'افزودن یادداشت',
         'Time units' => 'واحد زمان',
-        ' (work units)' => ' (واحد کار)',
+        '(work units)' => '',
         'Ticket Commands' => 'دستورهای درخواست',
         'Send agent/customer notifications on changes' => 'آگاه کردن کارشناس/مشتری به هنگام ایجاد تغییرات',
         'CMD' => 'CMD',
@@ -2241,6 +2242,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '%s وقت پیش ارسال شد',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
         'My watched tickets' => '',
@@ -2329,6 +2334,15 @@ sub Data {
         'Use cache' => 'از cache استفاده کن',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'اغلب گزارشات میتوانند نگهداری شوند. این به سرعت تولید گزارش کمک میکند.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => 'اگر به کاربران نهایی نامعتبر تنظیم شده باشد، نمی‌توان گزارش را تولید کرد.',
 
         # Template: AgentStatsEditValueSeries
@@ -2371,10 +2385,13 @@ sub Data {
         'Graphsize' => 'نموداری',
         'Cache' => 'نگهداری',
         'Exchange Axis' => 'جابجایی محورها',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'پارامترهای قابل تنظیم گزارش ثابت',
         'No element selected.' => 'هیچ گزینه ای انتخاب نشده است',
         'maximal period from' => 'بیشترین دوره از',
         'to' => 'تا',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'تغییر متن آزاد درخواست',
@@ -2749,9 +2766,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'شما با این عنوان وارد شده‌اید',
 
         # Template: HeaderSmall
@@ -4825,6 +4839,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (واحد کار)',
         'Add Customer Company' => 'افزودن شرکت مشترک ',
         'Add Response' => 'افزودن پاسخ',
         'Add customer company' => 'افزودن شرکت مشترک',

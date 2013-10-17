@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:46
+    # Last translation file sync: 2013-10-17 11:31:50
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -474,6 +474,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => '統計',
         'Sum' => '',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => '請填寫必填字段',
         'Please select a file!' => '請選擇一個文件!',
         'Please select an object!' => '請選擇一個對象!',
@@ -1204,7 +1205,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => '增加注解',
         'Time units' => '時間單元',
-        ' (work units)' => '',
+        '(work units)' => '工作單元',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '發送代理/客戶通知變更',
         'CMD' => '命令',
@@ -2238,6 +2239,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
         'My watched tickets' => '',
@@ -2326,6 +2331,15 @@ sub Data {
         'Use cache' => '',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             '大多數的統計資料可以緩存,這將加快這一統計的展示.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => '',
 
         # Template: AgentStatsEditValueSeries
@@ -2368,10 +2382,13 @@ sub Data {
         'Graphsize' => '圖形化',
         'Cache' => '緩存',
         'Exchange Axis' => '轉換軸',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => '靜態統計的配置參數',
         'No element selected.' => '沒有被選參數',
         'maximal period from' => '最大周期表',
         'to' => '至',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => '',
@@ -2746,9 +2763,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => '',
 
         # Template: HeaderSmall
@@ -4822,7 +4836,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        '(work units)' => '工作單元',
         'Add Customer Company' => '增加客人單位',
         'Attachments <-> Responses' => '附件 <-> 回復',
         'Customer Company Management' => '管理客人單位',

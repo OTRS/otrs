@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:37
+    # Last translation file sync: 2013-10-17 11:31:35
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -473,6 +473,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Relatórios',
         'Sum' => 'Somatório',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'É necessário preencher os campos necessários',
         'Please select a file!' => 'É necessário escolher um ficheiro',
         'Please select an object!' => 'É necessário escolher um Objeto',
@@ -1203,7 +1204,7 @@ sub Data {
         'Archive selected tickets' => 'Arquivar tickets selecionados',
         'Add Note' => 'Adicionar nota',
         'Time units' => 'UnAntiguidades de tempo',
-        ' (work units)' => ' (unAntiguidades de trabalho)',
+        '(work units)' => '',
         'Ticket Commands' => 'Comandos para tickets',
         'Send agent/customer notifications on changes' => 'Enviar notificações de alterações a agente/cliente ',
         'CMD' => '',
@@ -2237,6 +2238,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Publicado há %s',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
         'My watched tickets' => '',
@@ -2325,6 +2330,15 @@ sub Data {
         'Use cache' => 'Utilizar cache',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'Maioria das estatisticas podem ser guardadas em chache. Isto irá aumentar a rapidez da apresentação da estatística',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => 'Se for colocada como inválida, os utilizadores não pode poderão gerar estatísticas',
 
         # Template: AgentStatsEditValueSeries
@@ -2367,10 +2381,13 @@ sub Data {
         'Graphsize' => 'Tamanho do gráfico',
         'Cache' => '',
         'Exchange Axis' => 'Troca de eixos',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Parâmetros configuráveis de estatisticas estatísticas',
         'No element selected.' => 'Sem elemento selecionado',
         'maximal period from' => 'Período maximo periodo desde',
         'to' => 'para',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Alterar os campos de texto livre do ticket',
@@ -2745,9 +2762,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Autenticado como ',
 
         # Template: HeaderSmall
@@ -4821,6 +4835,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (unAntiguidades de trabalho)',
         'Add Customer Company' => 'Adicionar utilizador de companhia',
         'Add Response' => 'Adicionar resposta',
         'Add customer company' => 'Adicionar empresa de cliente',

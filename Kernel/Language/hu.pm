@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:30
+    # Last translation file sync: 2013-10-17 11:31:23
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -477,6 +477,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Statisztika',
         'Sum' => 'Összesen',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Kérem töltse ki a kötelező mezőket!',
         'Please select a file!' => 'Kérem válasszon egy fájlt!',
         'Please select an object!' => 'Kérem válasszok egy objektumot!',
@@ -1207,7 +1208,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Megjegyzés hozzáadása',
         'Time units' => 'Idő egységek',
-        ' (work units)' => ' (munkaegység)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Küldjön változatásokról értesítést az ügyintézőnek/ügyfélnek',
         'CMD' => 'PARANCS',
@@ -2241,6 +2242,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Beküldve %s ezelőtt.',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Zárolt hibajegyeim',
         'My watched tickets' => 'Figyelt hibajegyeim',
@@ -2329,6 +2334,15 @@ sub Data {
         'Use cache' => '',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'A statisztikák többsége használhat gyorsítótárat. Ez gyorsítja az elkészítését a statisztikának.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => '',
 
         # Template: AgentStatsEditValueSeries
@@ -2371,10 +2385,13 @@ sub Data {
         'Graphsize' => 'Grafikon mérete',
         'Cache' => 'Gyorsítótár',
         'Exchange Axis' => 'Tengelyek fölcserélése',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Állandó statisztika konfigurálható paraméterei',
         'No element selected.' => 'Nincsenek ertékek kiválasztva.',
         'maximal period from' => 'maximális periódus ezóta',
         'to' => 'eddig',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => '',
@@ -2749,9 +2766,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Belépve:',
 
         # Template: HeaderSmall
@@ -4825,6 +4839,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (munkaegység)',
         'Add Customer Company' => 'Ügyfél cég hozzáadása',
         'Attachments <-> Responses' => 'Levélmellékletek <-> Válaszok',
         'Create and manage companies.' => 'Cégek létrehozása és kezelése',

@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:24
+    # Last translation file sync: 2013-10-17 11:31:14
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -472,6 +472,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Statistika',
         'Sum' => '',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Palun täida nõutud väljad!',
         'Please select a file!' => 'Vali fail!',
         'Please select an object!' => 'Vali objekt!',
@@ -1202,7 +1203,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Lisa märkus',
         'Time units' => 'tööühikuid',
-        ' (work units)' => ' (tööühikud)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -2236,6 +2237,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Postitatud %s tagasi.',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Minu lukustatud intsidendid',
         'My watched tickets' => 'Minu jälgitavad intsidendid',
@@ -2324,6 +2329,15 @@ sub Data {
         'Use cache' => 'Puhverda',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'Enamikku statistikaaruannetest saab puhverdada. See kiirendab aruande loomist.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => '',
 
         # Template: AgentStatsEditValueSeries
@@ -2366,10 +2380,13 @@ sub Data {
         'Graphsize' => 'Graafiku suurus',
         'Cache' => 'Puhver',
         'Exchange Axis' => 'Exchange Axis',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Configurable params of static stat',
         'No element selected.' => 'No element selected.',
         'maximal period from' => 'maximal period from',
         'to' => 'to',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Intsidendi vabateksti muutmine',
@@ -2744,9 +2761,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Sisse logitud kasutajana',
 
         # Template: HeaderSmall
@@ -4820,6 +4834,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (tööühikud)',
         'A response is a default text which helps your agents to write faster answers to customers.' =>
             'Vastus on vaiketekst, mis aitab töötajatel klientidele kiiremini vastuseid kirjutada.',
         'Add Customer Company' => 'Klientettevõtte lisamine',

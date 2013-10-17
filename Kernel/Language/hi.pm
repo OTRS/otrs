@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:28
+    # Last translation file sync: 2013-10-17 11:31:21
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -474,6 +474,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'आँकड़े',
         'Sum' => 'योग',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'कृपया आवश्यक क्षेत्र भरें।',
         'Please select a file!' => 'कृपया कोई संचिका चुनें।',
         'Please select an object!' => 'कृपया किसी वस्तु को चुनें।',
@@ -1204,7 +1205,7 @@ sub Data {
         'Archive selected tickets' => 'संग्रह टिकट चयनित',
         'Add Note' => 'टिप्पणी जोड़ें',
         'Time units' => 'समय इकाइयों',
-        ' (work units)' => '',
+        '(work units)' => '',
         'Ticket Commands' => 'टिकट आदेश',
         'Send agent/customer notifications on changes' => 'बदलाव पर प्रतिनिधि/ग्राहक कि अधिसूचना भेजें',
         'CMD' => 'CMD',
@@ -2238,6 +2239,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '%s पहले प्रस्तुत।',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
         'My watched tickets' => '',
@@ -2326,6 +2331,15 @@ sub Data {
         'Use cache' => 'द्रुतिका उपयोग करें',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'आँकड़े अधिकांश संचित कियॆ जा सकतॆ है।यह इस आँकड़े की प्रस्तुति कॊ गति देगा।',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => 'यदि अवैध अंत उपयोगकर्ताओं के लिए निर्धारित तॊ आँकड़े उत्पन्न नहीं कर सकते।',
 
         # Template: AgentStatsEditValueSeries
@@ -2368,10 +2382,13 @@ sub Data {
         'Graphsize' => 'रेखा-चित्र का आकार',
         'Cache' => 'द्रुतिका',
         'Exchange Axis' => 'विनिमय अक्ष',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'स्थिर आँकड़ॊ के विन्यास मापदंड',
         'No element selected.' => 'कोई भी तत्व चयनित नहीं',
         'maximal period from' => 'अधिकतम अवधि से',
         'to' => 'के लिए',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'टिकट का मुक्त पाठ बदलें',
@@ -2746,9 +2763,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'आप इस रूप में प्रवॆशित हैं।',
 
         # Template: HeaderSmall

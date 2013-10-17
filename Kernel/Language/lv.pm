@@ -15,7 +15,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:33
+    # Last translation file sync: 2013-10-17 11:31:28
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -471,6 +471,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Statistika',
         'Sum' => '',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Lūdzu, aizpildiet obligātos laukus!',
         'Please select a file!' => 'Lūdzu, izvēlieties failu (datni)!',
         'Please select an object!' => 'Lūdzu, izvēlieties objektu!',
@@ -1201,7 +1202,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Pievienot piezīmi',
         'Time units' => 'Laika vienības',
-        ' (work units)' => ' (darba laika vienības)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Izmaiņu gadījumā nosūtīt paziņojumus aģentam/klientam',
         'CMD' => 'Komanda',
@@ -2235,6 +2236,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Ievietots %s atpakaļ.',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
         'My watched tickets' => '',
@@ -2323,6 +2328,15 @@ sub Data {
         'Use cache' => '',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'Lielāko daļu atskaišu iespējams kešot. Tas paātrinās atskaites izveidošanu.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => '',
 
         # Template: AgentStatsEditValueSeries
@@ -2365,10 +2379,13 @@ sub Data {
         'Graphsize' => 'Diagrammas izmērs',
         'Cache' => 'Kešatmiņa',
         'Exchange Axis' => 'Samainīt asis',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Statisko atskaišu konfigurējamie parametri',
         'No element selected.' => 'Nav izvēlēts neviens elements.',
         'maximal period from' => 'maksimālais periods no',
         'to' => 'līdz',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => '',
@@ -2743,9 +2760,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => '',
 
         # Template: HeaderSmall
@@ -4819,6 +4833,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (darba laika vienības)',
         'Add Customer Company' => 'Pievienot klienta organizāciju/uzņēmumu',
         'Attachments <-> Responses' => 'Pielikumi <-> Atbildes',
         'Customer Company Management' => 'Klienta organizāciju/uzņēmumu datu pārvaldība',

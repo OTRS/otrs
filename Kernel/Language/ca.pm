@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:18
+    # Last translation file sync: 2013-10-17 11:31:03
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -472,6 +472,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Estadístiques',
         'Sum' => 'Suma',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Per favor empleni els camps requerits',
         'Please select a file!' => 'Per favor seleccioni un arxiu',
         'Please select an object!' => 'Per favor seleccioni un objecte',
@@ -1202,7 +1203,7 @@ sub Data {
         'Archive selected tickets' => 'Guardar tiquets seleccionats',
         'Add Note' => 'Afegir Nota',
         'Time units' => 'Unitats de temps',
-        ' (work units)' => ' (unitats de treball)',
+        '(work units)' => '',
         'Ticket Commands' => 'Ordres de tiquet',
         'Send agent/customer notifications on changes' => 'Enviar a l\'agent/client notificacions sobre els canvis',
         'CMD' => 'CMD',
@@ -2236,6 +2237,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Publicat %s fa.',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
         'My watched tickets' => '',
@@ -2324,6 +2329,15 @@ sub Data {
         'Use cache' => 'Usar caché',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'La majoria de les estadístiques poden ser conservades en memòria cau. Això accelera la presentació d\'aquesta estadística.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => 'Si s\'estableix per a usuaris finals invàlids no es poden generar estadístiques.',
 
         # Template: AgentStatsEditValueSeries
@@ -2366,10 +2380,13 @@ sub Data {
         'Graphsize' => 'TamanyGràfic',
         'Cache' => 'Memòria cau',
         'Exchange Axis' => 'Intercanviar Eixos',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Paràmetre configurable d\'estadística estàtica',
         'No element selected.' => 'No hi ha element seleccionat',
         'maximal period from' => 'període màxim de',
         'to' => 'a',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Canviar el text lliure del tiquet',
@@ -2744,9 +2761,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Està connectat com',
 
         # Template: HeaderSmall
@@ -4820,6 +4834,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (unitats de treball)',
         'A response is a default text which helps your agents to write faster answers to customers.' =>
             'Una resposta és un text predeterminat que ajuda als seus agents a escriure respostes més ràpides als clients.',
         'Add Customer Company' => 'Afegir empresa del client',

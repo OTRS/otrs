@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:17
+    # Last translation file sync: 2013-10-17 11:31:02
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -473,6 +473,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Статистика',
         'Sum' => '',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Моля попълнете задължителните полета!',
         'Please select a file!' => 'Моля изберете файл!',
         'Please select an object!' => 'Моля изберете обект!',
@@ -1203,7 +1204,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Добавяне на бележка',
         'Time units' => 'Мерни единици за времето',
-        ' (work units)' => ' (работни единици)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'CMD',
@@ -2237,6 +2238,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
         'My watched tickets' => '',
@@ -2325,6 +2330,15 @@ sub Data {
         'Use cache' => '',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'По голямата част от статисиките могат да се кешират. Това ще ускори генерирането на Вашата статистика.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => '',
 
         # Template: AgentStatsEditValueSeries
@@ -2367,10 +2381,13 @@ sub Data {
         'Graphsize' => 'Размер на графиката',
         'Cache' => 'Кеш',
         'Exchange Axis' => 'Размяна на осите',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Конфигурируеми параметри на статичната статистика',
         'No element selected.' => 'Няма избран елемент',
         'maximal period from' => 'максимален период от',
         'to' => 'до',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => '',
@@ -2745,9 +2762,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => '',
 
         # Template: HeaderSmall
@@ -4821,6 +4835,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (работни единици)',
         'Add Customer Company' => 'Добавяне на клиент-фирма',
         'Attachments <-> Responses' => 'Прикачени файлове <-> Опашки',
         'Customer Company Management' => 'Управление на клиент-фирма',

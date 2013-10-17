@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:29
+    # Last translation file sync: 2013-10-17 11:31:22
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -476,6 +476,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Statistika',
         'Sum' => 'Suma',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Molimo Vas, popunite obavezna polja!',
         'Please select a file!' => 'Molimo Vas, izaberite datoteku!',
         'Please select an object!' => 'Molimo Vas, izaberite objekt!',
@@ -1206,7 +1207,7 @@ sub Data {
         'Archive selected tickets' => 'Arhiviraj izabrane karticue',
         'Add Note' => 'Dodaj napomenu',
         'Time units' => 'Vremenske jedinice',
-        ' (work units)' => ' (elementi posla)',
+        '(work units)' => '',
         'Ticket Commands' => 'Komande za karticu',
         'Send agent/customer notifications on changes' => 'Pošalji obavijesti zaposleniku/korisniku pri promjenama',
         'CMD' => 'CMD',
@@ -2240,6 +2241,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Poslano prije %s.',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
         'My watched tickets' => '',
@@ -2328,6 +2333,15 @@ sub Data {
         'Use cache' => 'Koristi predmemoriju',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'Većina stat. podataka se može keširati. Ovo će ubrzati prikaz statistike.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => 'Ako je pogrešno, krajnji korisnici ne mogu generisati statistiku.',
 
         # Template: AgentStatsEditValueSeries
@@ -2370,10 +2384,13 @@ sub Data {
         'Graphsize' => 'Veličina grafa',
         'Cache' => 'Predmemorija',
         'Exchange Axis' => 'Zamijeni ose',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Postavi parametri statičke statistike',
         'No element selected.' => 'Nije izabran ni jedan element.',
         'maximal period from' => 'maksimalni period od',
         'to' => 'do',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Promijeni "slobodan" tekst kartice',
@@ -2748,9 +2765,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Prijavljeni ste kao',
 
         # Template: HeaderSmall
@@ -4824,6 +4838,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (elementi posla)',
         'Add Customer Company' => 'Dodaj korisničku tvrtku',
         'Add Response' => 'Dodaj odgovor',
         'Add customer company' => 'Dodaj korisničku tvrtku',

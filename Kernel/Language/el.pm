@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:21
+    # Last translation file sync: 2013-10-17 11:31:08
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -474,6 +474,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => '',
         'Sum' => 'Συνολο',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Παρακαλώ συμπληρώστε τα απαραίτητα πεδία',
         'Please select a file!' => 'Παρακαλώ επιλέξτε αρχείο',
         'Please select an object!' => 'Παρακαλώ επιλέξτε αντικέιμενο',
@@ -1204,7 +1205,7 @@ sub Data {
         'Archive selected tickets' => '',
         'Add Note' => 'Προσθήκη Σημείωσης',
         'Time units' => 'Μονάδες Χρόνου',
-        ' (work units)' => ' (μονάδες εργασίας)',
+        '(work units)' => '',
         'Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
         'CMD' => 'Διαταγή',
@@ -2243,6 +2244,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Κλειδωμένα Δελτία μου',
         'My watched tickets' => 'Δελτια που παρακολουθω',
@@ -2331,6 +2336,15 @@ sub Data {
         'Use cache' => '',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             '',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => '',
 
         # Template: AgentStatsEditValueSeries
@@ -2373,10 +2387,13 @@ sub Data {
         'Graphsize' => '',
         'Cache' => '',
         'Exchange Axis' => '',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => '',
         'No element selected.' => '',
         'maximal period from' => '',
         'to' => 'πρός',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Αλλαγή Ελευθερου Κειμένου του δελτίου',
@@ -2751,9 +2768,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Εχετε συνδεθεί ως',
 
         # Template: HeaderSmall
@@ -4828,6 +4842,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (μονάδες εργασίας)',
         'Add Customer Company' => 'Προσθήκη Οργανισμου Πελάτη',
         'Attachments <-> Responses' => 'Συνημμένα <-> Απαντήσεις',
         'Customer Company Management' => 'Διαχείρηση Οργανισμού Πελάτη',

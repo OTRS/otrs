@@ -24,7 +24,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:35
+    # Last translation file sync: 2013-10-17 11:31:31
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -480,6 +480,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Statistikk',
         'Sum' => 'Sum',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Vennligst fyll ut alle påkrevde felter!',
         'Please select a file!' => 'Vennligst velg en fil!',
         'Please select an object!' => 'Vennligst velg et objekt!',
@@ -1210,7 +1211,7 @@ sub Data {
         'Archive selected tickets' => 'Arkiver valgte saker',
         'Add Note' => 'Legg til notis',
         'Time units' => 'Tidsenheter',
-        ' (work units)' => ' (arbeidsenheter)',
+        '(work units)' => '',
         'Ticket Commands' => 'Sakskommandoer',
         'Send agent/customer notifications on changes' => 'Send en saksbehandler-/kunde-varsling ved endringer',
         'CMD' => 'Kommando',
@@ -2244,6 +2245,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Postet for %s siden',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Mine lukkede saker',
         'My watched tickets' => 'Mine overvåkede saker',
@@ -2332,6 +2337,15 @@ sub Data {
         'Use cache' => 'Bruk mellomlagring',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'De fleste statistikker kan lagres i mellomlageret. Dette vil medføre at grafen genereres raskere.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => 'Hvis satt til ugyldig kan ikke sluttbrukere generere statistikken',
 
         # Template: AgentStatsEditValueSeries
@@ -2374,10 +2388,13 @@ sub Data {
         'Graphsize' => 'Graf-størrelse',
         'Cache' => 'Mellomlagring',
         'Exchange Axis' => 'Bytt akser',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Konfigurer-bare parametre til statisk statistikk',
         'No element selected.' => 'Ingen valgte elementer.',
         'maximal period from' => 'Maksimal periode fra',
         'to' => 'til',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Endre fritekst for sak',
@@ -2752,9 +2769,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Du er innlogget som',
 
         # Template: HeaderSmall
@@ -4828,6 +4842,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (arbeidsenheter)',
         'A response is a default text which helps your agents to write faster answers to customers.' =>
             'Et ferdigsvar er en standard tekst som hjelper saksbehandlere til å skrive raskere tilbakemeldinger til kunder',
         'Add Customer Company' => 'Legg til kundebedrift',

@@ -25,7 +25,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:39
+    # Last translation file sync: 2013-10-17 11:31:38
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -481,6 +481,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Статистика',
         'Sum' => 'Сумма',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Заполните обязательные поля!',
         'Please select a file!' => 'Выберите файл!',
         'Please select an object!' => 'Выберите объект!',
@@ -1211,7 +1212,7 @@ sub Data {
         'Archive selected tickets' => 'Архивировать выбранные заявки',
         'Add Note' => 'Добавить заметку',
         'Time units' => 'Единицы времени',
-        ' (work units)' => ' (рабочие единицы)',
+        '(work units)' => '',
         'Ticket Commands' => 'Команды по заявке',
         'Send agent/customer notifications on changes' => 'Отправлять уведомление агенту при изменениях',
         'CMD' => 'Команда',
@@ -2245,6 +2246,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Опубликовано %s',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Мои заблокированные заявки',
         'My watched tickets' => 'Заявки в моем списке наблюдения',
@@ -2333,6 +2338,15 @@ sub Data {
         'Use cache' => 'Использовать кэш',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'Большинство отчетов могут кэшироваться. Это увеличит скорость показа отчетов.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => 'Если установлен недействительным, конечные пользователи не могут генерировать этот отчет.',
 
         # Template: AgentStatsEditValueSeries
@@ -2375,10 +2389,13 @@ sub Data {
         'Graphsize' => 'Размер графика',
         'Cache' => 'Кэш',
         'Exchange Axis' => 'Поменять оси',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Конфигурируемые параметры статического отчета',
         'No element selected.' => 'Элементы не выбраны',
         'maximal period from' => 'Максимальный период с',
         'to' => 'по',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Изменить свободный текст заявки',
@@ -2753,9 +2770,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => 'Полнотекстовый поиск',
-        'CustomerID Search' => 'Поиск по ID клиента',
-        'CustomerUser Search' => 'Поиск по логину',
         'You are logged in as' => 'Вы вошли как',
 
         # Template: HeaderSmall
@@ -4829,6 +4843,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (рабочие единицы)',
         '%s Tickets affected! Do you really want to use this job?' => '%s заявок будет изменено! Выполнить это задание?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             'Проверять MX-записи домена, на который отправляется email при ответе. Не используйте эту возможность, если сервер с OTRS доступен по слабому каналу!',
@@ -4999,7 +5014,9 @@ sub Data {
             'Учетная запись клиента необходима для ведения истории клиента и для доступа к клиентской панели.',
         'Customer will be needed to have a customer history and to login via customer panel.' =>
             'Учетная запись клиента необходима для ведения истории клиента и для доступа к клиентской панели.',
+        'CustomerID Search' => 'Поиск по ID клиента',
         'CustomerUser' => 'Клиент',
+        'CustomerUser Search' => 'Поиск по логину',
         'Customers <-> Services' => 'Клиенты <-> Сервисы',
         'D' => 'D',
         'DB connect host' => 'Сервер базы данных',
@@ -5060,6 +5077,7 @@ sub Data {
         'Foward ticket: ' => 'Переслать заявку',
         'From customer' => 'От клиента',
         'Frontend' => 'Режим пользователя',
+        'Fulltext search' => 'Полнотекстовый поиск',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Полнотекстовый поиск в заявке (например, «Mar*in» или «Baue*»)',
         'Go' => 'Выполнить',
         'Group Ro' => 'Группа только для чтения',

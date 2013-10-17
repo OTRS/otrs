@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-07 14:16:36
+    # Last translation file sync: 2013-10-17 11:31:33
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -478,6 +478,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Rapportage',
         'Sum' => 'Totaal',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => 'Vul de verplichte velden in.',
         'Please select a file!' => 'Selecteer een bestand.',
         'Please select an object!' => 'Selecteer een object.',
@@ -1208,7 +1209,7 @@ sub Data {
         'Archive selected tickets' => 'Archiveer geselecteerde tickets',
         'Add Note' => 'Notitie toevoegen',
         'Time units' => 'Bestede tijd',
-        ' (work units)' => ' (in minuten)',
+        '(work units)' => '',
         'Ticket Commands' => 'Geavanceerd',
         'Send agent/customer notifications on changes' => 'Stuur behandelaars / klanten een melding bij wijzigingen',
         'CMD' => 'Commando',
@@ -2242,6 +2243,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Geplaatst %s geleden.',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Mijn vergrendelde tickets',
         'My watched tickets' => 'Mijn gevolgde tickets',
@@ -2330,6 +2335,15 @@ sub Data {
         'Use cache' => 'Gebruik buffer',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'De meeste rapporten kunnen worden gebufferd, dit versnelt het genereren van het rapport.',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => 'Als deze op ongeldig staat, kan het rapport niet gebruikt worden.',
 
         # Template: AgentStatsEditValueSeries
@@ -2372,10 +2386,13 @@ sub Data {
         'Graphsize' => 'Grafiek grootte',
         'Cache' => 'Cache',
         'Exchange Axis' => 'Wissel assen',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Configureerbare parameters voor rapport',
         'No element selected.' => 'Geen element geselecteerd.',
         'maximal period from' => 'Maximale periode van',
         'to' => 'tot',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Wijzig vrije velden',
@@ -2750,9 +2767,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => 'Zoeken',
-        'CustomerID Search' => 'Zoeken op klantcode',
-        'CustomerUser Search' => 'Zoeken op klant',
         'You are logged in as' => 'Ingelogd als',
 
         # Template: HeaderSmall
@@ -4826,6 +4840,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (in minuten)',
         'A response is a default text which helps your agents to write faster answers to customers.' =>
             'Een antwoord is een standaard-tekst die uw behandelaars helpt sneller te reageren op tickets van klanten.',
         'Add Customer Company' => 'Bedrijf toevoegen',
@@ -4848,6 +4863,8 @@ sub Data {
         'Customer automatically added in Cc.' => 'Klant automatisch toegevoegd als CC.',
         'Customer will be needed to have a customer history and to login via customer panel.' =>
             'Klanten zijn nodig om een historie te kunnen inzien en om in te loggen via het klantenscherm.',
+        'CustomerID Search' => 'Zoeken op klantcode',
+        'CustomerUser Search' => 'Zoeken op klant',
         'Customers <-> Services' => 'Klanten <-> Services',
         'DB host' => 'Database host',
         'Database-User' => 'OTRS database gebruiker',
@@ -4862,6 +4879,7 @@ sub Data {
         'Filter name' => 'Filter naam',
         'For more info see:' => 'Voor meer informatie zie:',
         'From customer' => 'Van klant',
+        'Fulltext search' => 'Zoeken',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Als er een wachtwoord hoort bij dit account, vul deze hier in. Vanuit beveiligingsoogpunt is het aan te bevelen een wachtwoord te gebruiken. Kijk in de databasedocumentatie voor meer informatie.',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>
