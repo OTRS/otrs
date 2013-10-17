@@ -399,11 +399,11 @@ sub Data {
         'Redo' => 'Wiederholen',
         'Scheduler process is registered but might not be running.' => 'Scheduler-Prozess ist registriert, scheint aber nicht zu laufen.',
         'Scheduler is not running.' => 'Scheduler läuft nicht.',
-        'Can\'t contact registration server. Please try again later.' => '',
+        'Can\'t contact registration server. Please try again later.' => 'Registration-Server konnte nicht erreicht werden. Bitte versuchen Sie es später noch einmal.',
         'No content received from registration server. Please try again later.' =>
-            '',
-        'Problems processing server result. Please try again later.' => '',
-        'Username and password do not match. Please try again.' => '',
+            'Registration-Server lieferte keinen Inhalt. Bitte versuchen Sie es später noch einmal.',
+        'Problems processing server result. Please try again later.' => 'Beim Verarbeiten der Serverantwort ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.',
+        'Username and password do not match. Please try again.' => 'Benutzername und Passwort stimmen nicht überein. Bitte versuchen Sie es noch einmal.',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Neujahr',
@@ -1862,7 +1862,7 @@ sub Data {
 
         # Template: AdminRegistration
         'System Registration Management' => 'Systemregistrierungs-Verwaltung',
-        'Edit details' => '',
+        'Edit details' => 'Details bearbeiten',
         'Overview of registered systems' => 'Übersicht der registrieren Systeme',
         'Deregister system' => 'System deregistrieren',
         'System Registration' => 'Systemregistrierung',
@@ -1929,7 +1929,7 @@ sub Data {
         'Continuing with this step will deregister the system from OTRS Group.' =>
             'Wenn Sie fortfahren, wird dieses System bei der OTRS Gruppe deregistriert.',
         'Deregister' => 'Deregistrieren',
-        'You can modify the system type and description here.' => '',
+        'You can modify the system type and description here.' => 'Hier können Sie den Systemtyp und die Beschreibung bearbeiten.',
 
         # Template: AdminRole
         'Role Management' => 'Rollen-Verwaltung',
@@ -2245,7 +2245,7 @@ sub Data {
 
         # Template: AgentDashboardStats
         'The content of this statistic is being prepared for you, please be patient.' =>
-            '',
+            'Der Inhalt dieser Statistik wird vorbereitet. Bitte haben Sie etwas Geduld.',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Meine gesperrten Tickets',
