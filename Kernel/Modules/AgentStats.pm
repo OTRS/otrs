@@ -2363,10 +2363,10 @@ sub EditSpecificationAJAXUpdate {
     my ( $Self, %Param ) = @_;
 
     my %GetParam;
-    $GetParam{Object} = $Self->{ParamObject}->GetParam( Param => "Object" );
-    $GetParam{File} = $Self->{ParamObject}->GetParam( Param => "File" );
-    $GetParam{StatType} = $Self->{ParamObject}->GetParam( Param => "StatType" );
-    $GetParam{SelectShowAsDashboardWidget} = $Self->{ParamObject}->GetParam( Param => "SelectShowAsDashboardWidget" );
+    $GetParam{Object} = $Self->{ParamObject}->GetParam( Param => "Object" ) || '';
+    $GetParam{File} = $Self->{ParamObject}->GetParam( Param => "File" ) || '';
+    $GetParam{StatType} = $Self->{ParamObject}->GetParam( Param => "StatType" ) || '';
+    $GetParam{SelectShowAsDashboardWidget} = $Self->{ParamObject}->GetParam( Param => "SelectShowAsDashboardWidget" || 0);
 
     my $Data = {
         0 => 'No (not supported)',
