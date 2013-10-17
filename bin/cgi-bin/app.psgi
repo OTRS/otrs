@@ -58,6 +58,7 @@ my $App = CGI::Emulate::PSGI->handler(
         }
 
         eval {
+
             # Reload files in @INC that have changed since the last request.
             Module::Refresh->refresh();
 

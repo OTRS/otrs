@@ -77,7 +77,7 @@ sub Run {
             my $Selected = 0;
             if (
                 $CurrentSortByOption eq $Param{SortBy}
-                && $CurrentOrderBy eq $Param{OrderBy}
+                && $CurrentOrderBy   eq $Param{OrderBy}
                 )
             {
                 $Selected             = 1;

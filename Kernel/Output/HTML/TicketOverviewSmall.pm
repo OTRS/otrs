@@ -113,6 +113,7 @@ sub new {
     $Self->{ColumnsAvailable} = \@ColumnsAvailable;
 
     {
+
         # loop through all the dynamic fields to get the ones that should be shown
         DYNAMICFIELDNAME:
         for my $DynamicFieldName (@ColumnsEnabled) {
@@ -1420,7 +1421,7 @@ sub Run {
                     }
                 }
                 elsif (
-                    $TicketColumn eq 'State'
+                    $TicketColumn    eq 'State'
                     || $TicketColumn eq 'Lock'
                     || $TicketColumn eq 'Priority'
                     )
@@ -1456,6 +1457,7 @@ sub Run {
 
             # dynamic fields
             else {
+
                 # cycle trough the activated dynamic fields for this screen
 
                 my $DynamicFieldConfig;
@@ -1627,6 +1629,7 @@ sub _GetColumnValues {
                     );
             }
             else {
+
                 # get PossibleValues
                 $ColumnFilterValues{$HeaderColumn} = $Self->{BackendObject}->PossibleValuesGet(
                     DynamicFieldConfig => $DynamicFieldConfig,
@@ -1660,7 +1663,7 @@ sub _InitialColumnFilter {
     my $TranslationOption = 0;
 
     if (
-        $Param{ColumnName} eq 'State'
+        $Param{ColumnName}    eq 'State'
         || $Param{ColumnName} eq 'Lock'
         || $Param{ColumnName} eq 'Priority'
         )
@@ -1812,7 +1815,7 @@ sub _ColumnFilterJSON {
     my $TranslationOption = 0;
 
     if (
-        $Param{ColumnName} eq 'State'
+        $Param{ColumnName}    eq 'State'
         || $Param{ColumnName} eq 'Lock'
         || $Param{ColumnName} eq 'Priority'
         )

@@ -30,7 +30,7 @@ sub new {
         die "Got no $_!" if ( !$Self->{$_} );
     }
 
-    $Self->{SessionObject} = Kernel::System::AuthSession->new(%Param);
+    $Self->{SessionObject}      = Kernel::System::AuthSession->new(%Param);
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     # get current filter

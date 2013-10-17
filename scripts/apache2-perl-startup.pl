@@ -26,6 +26,7 @@ use warnings;
 $ENV{MOD_PERL} =~ /mod_perl/ || die "MOD_PERL not used!";
 
 BEGIN {
+
     # switch to unload_package_xs, the PP version is broken in Perl 5.10.1.
     # see http://rt.perl.org/rt3//Public/Bug/Display.html?id=72866
     $ModPerl::Util::DEFAULT_UNLOAD_METHOD = 'unload_package_xs';    ## no critic

@@ -294,7 +294,7 @@ $Self->True(
 );
 
 $Self->True(
-    ref( $DBObject->FetchrowArray() ) eq ''     &&
+    ref( $DBObject->FetchrowArray() )     eq '' &&
         ref( $DBObject->FetchrowArray() ) eq '' &&
         ref( $DBObject->FetchrowArray() ) eq '' &&
         ref( $DBObject->FetchrowArray() ) eq '',

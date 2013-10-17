@@ -359,9 +359,9 @@ sub EditFieldValueGet {
 
     # return if the field is empty (e.g. initial screen)
     return if !$DynamicFieldValues{ $Prefix . 'Used' }
-        && !$DynamicFieldValues{ $Prefix . 'Year' }
-        && !$DynamicFieldValues{ $Prefix . 'Month' }
-        && !$DynamicFieldValues{ $Prefix . 'Day' };
+            && !$DynamicFieldValues{ $Prefix . 'Year' }
+            && !$DynamicFieldValues{ $Prefix . 'Month' }
+            && !$DynamicFieldValues{ $Prefix . 'Day' };
 
     # check if return value structure is nedded
     if ( defined $Param{ReturnValueStructure} && $Param{ReturnValueStructure} eq '1' ) {
@@ -706,8 +706,8 @@ sub SearchFieldValueGet {
 
         # return if the field is empty (e.g. initial screen)
         return if !$DynamicFieldValues{ $Prefix . 'Start' }
-            && !$DynamicFieldValues{ $Prefix . 'Value' }
-            && !$DynamicFieldValues{ $Prefix . 'Format' };
+                && !$DynamicFieldValues{ $Prefix . 'Value' }
+                && !$DynamicFieldValues{ $Prefix . 'Format' };
 
         $DynamicFieldValues{$Prefix} = 1;
 
@@ -763,11 +763,11 @@ sub SearchFieldValueGet {
 
     # return if the field is empty (e.g. initial screen)
     return if !$DynamicFieldValues{ $Prefix . 'StartYear' }
-        && !$DynamicFieldValues{ $Prefix . 'StartMonth' }
-        && !$DynamicFieldValues{ $Prefix . 'StartDay' }
-        && !$DynamicFieldValues{ $Prefix . 'StopYear' }
-        && !$DynamicFieldValues{ $Prefix . 'StopMonth' }
-        && !$DynamicFieldValues{ $Prefix . 'StopDay' };
+            && !$DynamicFieldValues{ $Prefix . 'StartMonth' }
+            && !$DynamicFieldValues{ $Prefix . 'StartDay' }
+            && !$DynamicFieldValues{ $Prefix . 'StopYear' }
+            && !$DynamicFieldValues{ $Prefix . 'StopMonth' }
+            && !$DynamicFieldValues{ $Prefix . 'StopDay' };
 
     $DynamicFieldValues{ $Prefix . 'StartHour' }   = '00';
     $DynamicFieldValues{ $Prefix . 'StartMinute' } = '00';
@@ -847,6 +847,7 @@ sub SearchFieldParameterBuild {
             && $Value->{$Prefix}
             )
         {
+
             # to store the search parameters
             my %Parameter;
 

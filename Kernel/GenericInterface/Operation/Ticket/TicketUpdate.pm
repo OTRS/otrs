@@ -1735,7 +1735,7 @@ sub _TicketUpdate {
 
         my $Success;
         if (
-            $Ticket->{CustomerUser} ne $TicketData{CustomerUserID}
+            $Ticket->{CustomerUser}  ne $TicketData{CustomerUserID}
             || $Ticket->{CustomerID} ne $TicketData{CustomerID}
             )
         {

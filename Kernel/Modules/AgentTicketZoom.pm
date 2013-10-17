@@ -93,7 +93,7 @@ sub new {
             $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketZoom")
                 ->{ProcessWidgetDynamicField}
                 || {}
-        },
+            },
     };
 
     # create additional objects for process management
@@ -204,6 +204,7 @@ sub Run {
             )
             )
         {
+
             # Always use user id 1 because other users also have to see the important flag
             my %ArticleFlag = $Self->{TicketObject}->ArticleFlagGet(
                 ArticleID => $Self->{ArticleID},
@@ -516,7 +517,7 @@ sub MaskAgentZoom {
             # ignore system sender type
             next ARTICLE
                 if $Self->{ConfigObject}->Get('Ticket::NewArticleIgnoreSystemSender')
-                && $Article->{SenderType} eq 'system';
+                    && $Article->{SenderType} eq 'system';
 
             next ARTICLE if $ArticleFlags{ $Article->{ArticleID} }->{Seen};
             $ArticleID = $Article->{ArticleID};
@@ -1483,7 +1484,7 @@ sub MaskAgentZoom {
         # ignore system sender type
         next ARTICLE
             if $Self->{ConfigObject}->Get('Ticket::NewArticleIgnoreSystemSender')
-            && $Article->{SenderType} eq 'system';
+                && $Article->{SenderType} eq 'system';
 
         # last if article was not shown
         if ( !$ArticleFlags{ $Article->{ArticleID} }->{Seen} ) {

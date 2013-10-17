@@ -136,7 +136,7 @@ sub _AddAction {
                 Valid      => 0,
                 ResultType => 'HASH',
                 )
-        };
+            };
 
         %DynamicFieldsList = reverse %DynamicFieldsList;
 
@@ -315,7 +315,7 @@ sub _ChangeAction {
                 Valid      => 0,
                 ResultType => 'HASH',
                 )
-        };
+            };
 
         %DynamicFieldsList = reverse %DynamicFieldsList;
 

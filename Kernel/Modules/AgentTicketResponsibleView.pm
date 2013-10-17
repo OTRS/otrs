@@ -73,7 +73,7 @@ sub Run {
         if (
             $FilterValue eq 'DeleteFilter'
             && (
-                $ColumnName eq 'CustomerID'
+                $ColumnName    eq 'CustomerID'
                 || $ColumnName eq 'CustomerUserID'
                 || $ColumnName eq 'Owner'
                 || $ColumnName eq 'Responsible'

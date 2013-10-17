@@ -481,7 +481,7 @@ sub Run {
 
             next OPTION if !$Option->{FormData};
             next OPTION if $Option->{FormData}
-                && ref $Option->{FormData} eq 'ARRAY' && !@{ $Option->{FormData} };
+                    && ref $Option->{FormData} eq 'ARRAY' && !@{ $Option->{FormData} };
 
             $SearchParam{ $Option->{Key} } = $Option->{FormData};
         }

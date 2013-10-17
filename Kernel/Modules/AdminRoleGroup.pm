@@ -239,7 +239,7 @@ sub _Change {
         );
         for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
             next if !$Type;
-            my $Mark     = $Type eq 'rw'        ? "Highlight"          : '';
+            my $Mark = $Type eq 'rw' ? "Highlight" : '';
             my $Selected = $Param{$Type}->{$ID} ? ' checked="checked"' : '';
 
             $Self->{LayoutObject}->Block(

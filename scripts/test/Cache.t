@@ -553,7 +553,7 @@ for my $ModuleFile (@BackendModuleFiles) {
                     ) || '';
 
                     if (
-                        ref $CacheItem eq 'HASH'
+                        ref $CacheItem    eq 'HASH'
                         || ref $CacheItem eq 'ARRAY'
                         || ref $CacheItem eq 'SCALAR'
                         )

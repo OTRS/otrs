@@ -70,7 +70,7 @@ if ( $Action eq 'create' ) {
     open( $Output, '>', $Archive ) || die "ERROR: Can't write: $Archive";    ## no critic
 }
 else {
-    open( my $In, '<', $Archive ) || die "ERROR: Can't read: $Archive";     ## no critic
+    open( my $In, '<', $Archive ) || die "ERROR: Can't read: $Archive";      ## no critic
     while (<$In>) {
         my @Row = split( /::/, $_ );
         chomp $Row[1];

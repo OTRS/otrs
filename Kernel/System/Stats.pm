@@ -2178,17 +2178,21 @@ sub _StatsParamsGenerate {
                 if ( !$Element->{Fixed} ) {
                     if ( $UserGetParam{ $Use . $Element->{Element} } )
                     {
-                        if (ref $UserGetParam{ $Use . $Element->{Element} }) {
-                            $Element->{SelectedValues} = $UserGetParam{ $Use . $Element->{Element} };
+                        if ( ref $UserGetParam{ $Use . $Element->{Element} } ) {
+                            $Element->{SelectedValues}
+                                = $UserGetParam{ $Use . $Element->{Element} };
                         }
                         else {
-                            $Element->{SelectedValues} = [ $UserGetParam{ $Use . $Element->{Element} } ];
+                            $Element->{SelectedValues}
+                                = [ $UserGetParam{ $Use . $Element->{Element} } ];
                         }
                     }
                     if ( $Element->{Block} eq 'Time' ) {
+
                         # Check if it is an absolute time period
                         if ( $Element->{TimeStart} )
                         {
+
                             # Use the stat data as fallback
                             my %Time = (
                                 TimeStart => $Element->{TimeStart},
@@ -2235,7 +2239,7 @@ sub _StatsParamsGenerate {
                                         $Time{StopSecond} = 59;
                                     }
                                 }
-                                if ($Time{ $Limit . 'Year' }) {
+                                if ( $Time{ $Limit . 'Year' } ) {
                                     $Time{"Time$Limit"} = sprintf(
                                         "%04d-%02d-%02d %02d:%02d:%02d",
                                         $Time{ $Limit . 'Year' },
@@ -2587,9 +2591,9 @@ sub StatsCleanUp {
         );
 
         next STATSID if $HashRef
-            && ref $HashRef eq 'HASH'
-            && $HashRef->{ObjectModule}
-            && $Self->{MainObject}->Require( $HashRef->{ObjectModule} );
+                && ref $HashRef eq 'HASH'
+                && $HashRef->{ObjectModule}
+                && $Self->{MainObject}->Require( $HashRef->{ObjectModule} );
 
         # delete stats
         $Self->StatsDelete( StatID => $StatsID );
@@ -3467,6 +3471,7 @@ sub _GenerateDynamicStats {
         unshift( @HeaderLine, $ArraySelected[0]{Name} || '' );
     }
     else {
+
         # in cases where there is no value set, then the headers get wrong unless a empty element
         #    is added in the header, bug 9796
         #
@@ -3637,9 +3642,9 @@ sub _WriteResultCache {
         return if $GetParam{Year} == $Y && $GetParam{Month} > $M;
         return
             if $GetParam{Year} == $Y
-            && $GetParam{Month} == $M
-            && $GetParam{Day}
-            && $GetParam{Day} >= $D;
+                && $GetParam{Month} == $M
+                && $GetParam{Day}
+                && $GetParam{Day} >= $D;
     }
 
     # write cache file

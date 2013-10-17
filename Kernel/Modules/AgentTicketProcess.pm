@@ -823,7 +823,7 @@ sub _GetParam {
         $ActivityEntityID = $Ticket{
             'DynamicField_'
                 . $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementActivityID")
-        };
+            };
         if ( !$ActivityEntityID ) {
             $Self->{LayoutObject}->FatalError(
                 Message =>
@@ -4080,7 +4080,7 @@ sub _StoreActivityDialog {
         $ActivityEntityID = $Ticket{
             'DynamicField_'
                 . $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementActivityID')
-        };
+            };
         if ( !$ActivityEntityID )
         {
             return $Self->{LayoutObject}->ErrorScreen(
@@ -4092,7 +4092,7 @@ sub _StoreActivityDialog {
         $ProcessEntityID = $Ticket{
             'DynamicField_'
                 . $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementProcessID')
-        };
+            };
 
         if ( !$ProcessEntityID )
         {

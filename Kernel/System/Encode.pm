@@ -58,6 +58,7 @@ sub new {
         $Self->SetIO( \*STDOUT, \*STDERR );
     }
     else {
+
         # use "locale" as an arg to encode/decode
         if ( is_interactive(*STDIN) ) {
             @ARGV = map { decode( locale => $_, 1 ) } @ARGV;

@@ -140,7 +140,7 @@ sub Run {
         my @ModuleJS = @{
             $Self->{ConfigObject}->Get('Frontend::Module')->{AgentDashboard}->{Loader}
                 ->{JavaScript} || []
-        };
+            };
         @ModuleJS = grep { $_ !~ m/d3js/ } @ModuleJS;
         $Self->{ConfigObject}->Get('Frontend::Module')->{AgentDashboard}->{Loader}->{JavaScript}
             = \@ModuleJS;

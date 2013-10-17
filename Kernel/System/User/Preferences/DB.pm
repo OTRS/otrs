@@ -139,7 +139,7 @@ sub SearchPreferences {
         SELECT $Self->{PreferencesTableUserID}, $Self->{PreferencesTableValue}
         FROM $Self->{PreferencesTable}
         WHERE $Self->{PreferencesTableKey} = ?";
-    my @Bind = (\$Key);
+    my @Bind = ( \$Key );
 
     if ($Value) {
         $SQL .= " AND $Lower($Self->{PreferencesTableValue}) LIKE $Lower(?)";
@@ -148,7 +148,7 @@ sub SearchPreferences {
 
     # get preferences
     return if !$Self->{DBObject}->Prepare(
-        SQL => $SQL,
+        SQL  => $SQL,
         Bind => \@Bind,
     );
 

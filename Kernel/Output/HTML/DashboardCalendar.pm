@@ -128,7 +128,7 @@ sub Run {
                 # only show own pending tickets
                 next
                     if $Ticket{OwnerID} ne $Self->{UserID}
-                    && $Ticket{ResponsibleID} ne $Self->{UserID};
+                        && $Ticket{ResponsibleID} ne $Self->{UserID};
                 my $DestDate = $Self->{TimeObject}->SystemTime() + $Ticket{UntilTime};
                 $TimeTill  = $Ticket{UntilTime};
                 $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(

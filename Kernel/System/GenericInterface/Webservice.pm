@@ -427,8 +427,8 @@ sub WebserviceUpdate {
     }
 
     return 1 if $ValidIDCurrent eq $Param{ValidID}
-        && $Config eq $ConfigCurrent
-        && $NameCurrent eq $Param{Name};
+            && $Config eq $ConfigCurrent
+            && $NameCurrent eq $Param{Name};
 
     # sql
     return if !$Self->{DBObject}->Do(

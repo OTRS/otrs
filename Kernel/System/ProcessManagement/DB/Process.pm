@@ -693,10 +693,10 @@ sub ProcessUpdate {
     if ($CurrentEntityID) {
 
         return 1 if $CurrentEntityID eq $Param{EntityID}
-            && $CurrentName eq $Param{Name}
-            && $CurrentStateEntityID eq $Param{StateEntityID}
-            && $CurrentLayout eq $Layout
-            && $CurrentConfig eq $Config;
+                && $CurrentName          eq $Param{Name}
+                && $CurrentStateEntityID eq $Param{StateEntityID}
+                && $CurrentLayout        eq $Layout
+                && $CurrentConfig        eq $Config;
     }
 
     # sql

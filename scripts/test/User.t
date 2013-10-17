@@ -284,7 +284,7 @@ $Self->False(
 
 # look for any value
 %UserList = $UserObject->SearchPreferences(
-    Key   => 'UserLanguage',
+    Key => 'UserLanguage',
 );
 
 $Self->True(
@@ -324,7 +324,6 @@ $Self->Is(
     "da",
     "UpdatePreferences $UserID - da",
 );
-
 
 #check no out of office
 %UserData = $UserObject->GetUserData(

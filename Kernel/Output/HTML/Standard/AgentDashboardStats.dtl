@@ -13,7 +13,7 @@
 <!-- dtl:block:NoData -->
 
 <!-- dtl:block:StatsData -->
-    <svg style="height: 350px;" class="GraphWidget$QData{"Name"}" id="GraphWidget$QData{"Name"}"></svg>
+<svg style="height: 350px;" class="GraphWidget$QData{"Name"}" id="GraphWidget$QData{"Name"}"></svg>
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[

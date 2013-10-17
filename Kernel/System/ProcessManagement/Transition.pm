@@ -329,7 +329,7 @@ sub TransitionCheck {
                 # If there is something else than 'String', 'Regexp', 'Hash', 'Array', 'Module'
                 # log defect Transition Config
                 if (
-                    $FieldType ne 'String'
+                    $FieldType    ne 'String'
                     && $FieldType ne 'Hash'
                     && $FieldType ne 'Array'
                     && $FieldType ne 'Regexp'

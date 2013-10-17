@@ -366,7 +366,7 @@ sub AgentQueueListOption {
                 $OptionTitleHTMLValue = ' title="' . $HTMLValue . '"';
             }
             if (
-                $SelectedID eq $_
+                $SelectedID  eq $_
                 || $Selected eq $Param{Data}->{$_}
                 || $Param{SelectedIDRefArrayOK}->{$_}
                 )

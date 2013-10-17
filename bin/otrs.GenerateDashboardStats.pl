@@ -91,7 +91,8 @@ sub Run {
             Value => 1,
         );
 
-        my $UserWidgetConfigSetting = 'UserDashboardStatsStatsConfiguration' . ( 1000 + $StatID ) . "-Stats";
+        my $UserWidgetConfigSetting
+            = 'UserDashboardStatsStatsConfiguration' . ( 1000 + $StatID ) . "-Stats";
 
         # Calculate the cache for each user, if needed. If several users have the same settings
         #   for a stat, the cache will not be recalculated.
@@ -100,11 +101,11 @@ sub Run {
 
             # Ignore invalid users
             my %UserData = $CommonObject{UserObject}->GetUserData(
-                UserID => $UserID,
-                Valid  => 1,
+                UserID        => $UserID,
+                Valid         => 1,
                 NoOutOfOffice => 1,
             );
-            next if (!%UserData);
+            next if ( !%UserData );
 
             print "    User: $UsersWithActivatedWidget{$UserID}\n";
 
@@ -123,11 +124,11 @@ sub Run {
 
             # Now run the stat to fill the cache with the current parameters
             my $Result = $UserStatsObject->StatsResultCacheCompute(
-                StatID   => $StatID,
+                StatID       => $StatID,
                 UserGetParam => $UserGetParam,
             );
 
-            if (!$Result) {
+            if ( !$Result ) {
                 print "        Stat calculation was not successful.\n";
             }
 
@@ -167,7 +168,7 @@ sub _CommonObjects {
         %CommonObject,
         UserID => 1,
     );
-    $CommonObject{JSONObject}  = Kernel::System::JSON->new(%CommonObject);
+    $CommonObject{JSONObject} = Kernel::System::JSON->new(%CommonObject);
 
     return %CommonObject;
 }

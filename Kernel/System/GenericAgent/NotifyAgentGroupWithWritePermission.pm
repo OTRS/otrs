@@ -124,8 +124,8 @@ sub Run {
         my $Sent = 0;
         for my $Line (@Lines) {
             if (
-                $Line->{Name} =~ /\%\%$EscalationType\%\%/
-                && $Line->{Name} =~ /\Q%%$User{UserEmail}\E$/i
+                $Line->{Name}          =~ /\%\%$EscalationType\%\%/
+                && $Line->{Name}       =~ /\Q%%$User{UserEmail}\E$/i
                 && $Line->{CreateTime} =~ /$Year-$Month-$Day/
                 )
             {

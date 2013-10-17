@@ -538,13 +538,13 @@ sub ACLUpdate {
 
     if (
         $CurrentName
-        && $CurrentName eq $Param{Name}
-        && $CurrentComment eq $Param{Comment}
-        && $CurrentDescription eq $Param{Description}
+        && $CurrentName           eq $Param{Name}
+        && $CurrentComment        eq $Param{Comment}
+        && $CurrentDescription    eq $Param{Description}
         && $CurrentStopAfterMatch eq $Param{StopAfterMatch}
-        && $CurrentValidID eq $Param{ValidID}
-        && $CurrentConfigMatch eq $Param{ConfigMatch}
-        && $CurrentConfigChange eq $Param{ConfigChange}
+        && $CurrentValidID        eq $Param{ValidID}
+        && $CurrentConfigMatch    eq $Param{ConfigMatch}
+        && $CurrentConfigChange   eq $Param{ConfigChange}
         )
     {
         return 1;

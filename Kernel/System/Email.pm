@@ -390,8 +390,8 @@ sub Send {
                     # don't attach duplicate html attachment (aka file-2)
                     next ATTACHMENT if
                         $Upload->{Filename} eq 'file-2'
-                        && $Upload->{ContentType} =~ /html/i
-                        && $Upload->{Content} eq $Param{HTMLBody};
+                            && $Upload->{ContentType} =~ /html/i
+                            && $Upload->{Content} eq $Param{HTMLBody};
 
                     # skip, but remember all attachments except inline images
                     if ( !defined $Upload->{ContentID} ) {
@@ -559,7 +559,7 @@ sub Send {
     if (
         $Param{Crypt}
         && $Param{Crypt}->{Type}
-        && $Param{Crypt}->{Type} eq 'PGP'
+        && $Param{Crypt}->{Type}    eq 'PGP'
         && $Param{Crypt}->{SubType} eq 'Detached'
         )
     {

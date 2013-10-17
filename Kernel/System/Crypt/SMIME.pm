@@ -1040,7 +1040,7 @@ sub PrivateAdd {
     }
     my %CertificateAttributes = $Self->CertificateAttributes(
         Certificate => $Self->CertificateGet( Filename => $Certificates[0]->{Filename} ),
-        Filename    => $Certificates[0]->{Filename},
+        Filename => $Certificates[0]->{Filename},
     );
     if ( $CertificateAttributes{Hash} ) {
         my $File = "$Self->{PrivatePath}/$Certificates[0]->{Filename}";

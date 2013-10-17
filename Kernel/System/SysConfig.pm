@@ -731,7 +731,7 @@ sub ConfigItemGet {
                     my %LoaderFiles;
                     for my $Key2 ( %{ $Hash{$Key} } ) {
                         if (
-                            $Key2 eq 'CSS'
+                            $Key2    eq 'CSS'
                             || $Key2 eq 'CSS_IE8'
                             || $Key2 eq 'JavaScript'
                             )
@@ -775,7 +775,7 @@ sub ConfigItemGet {
                             push(
                                 @{
                                     $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}
-                                },
+                                    },
                                 \%NavBar
                             );
                         }
@@ -875,7 +875,7 @@ sub ConfigItemGet {
                                 @{
                                     $ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]
                                         ->{Item}
-                                },
+                                    },
                                 {
                                     Year    => $Year,
                                     Month   => $Month,
@@ -1132,7 +1132,7 @@ sub ConfigSubGroupConfigItemList {
                                 push(
                                     @{
                                         $Data{ $Group->{Content} . '::' . $SubGroup->{Content} }
-                                    },
+                                        },
                                     $ConfigItem->{Name}
                                 );
                             }
@@ -2139,7 +2139,7 @@ sub _XML2Perl {
                 my %Loader;
                 for my $Key ( sort keys %{$Content} ) {
                     if (
-                        $Key eq 'CSS'
+                        $Key    eq 'CSS'
                         || $Key eq 'CSS_IE8'
                         || $Key eq 'JavaScript'
                         )

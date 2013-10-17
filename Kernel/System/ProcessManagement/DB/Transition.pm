@@ -488,8 +488,8 @@ sub TransitionUpdate {
     if ($CurrentEntityID) {
 
         return 1 if $CurrentEntityID eq $Param{EntityID}
-            && $CurrentName eq $Param{Name}
-            && $CurrentConfig eq $Config;
+                && $CurrentName   eq $Param{Name}
+                && $CurrentConfig eq $Config;
     }
 
     # sql

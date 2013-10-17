@@ -277,11 +277,11 @@ sub EditFieldValueGet {
 
     # return if the field is empty (e.g. initial screen)
     return if !$DynamicFieldValues{ $Prefix . 'Used' }
-        && !$DynamicFieldValues{ $Prefix . 'Year' }
-        && !$DynamicFieldValues{ $Prefix . 'Month' }
-        && !$DynamicFieldValues{ $Prefix . 'Day' }
-        && !$DynamicFieldValues{ $Prefix . 'Hour' }
-        && !$DynamicFieldValues{ $Prefix . 'Minute' };
+            && !$DynamicFieldValues{ $Prefix . 'Year' }
+            && !$DynamicFieldValues{ $Prefix . 'Month' }
+            && !$DynamicFieldValues{ $Prefix . 'Day' }
+            && !$DynamicFieldValues{ $Prefix . 'Hour' }
+            && !$DynamicFieldValues{ $Prefix . 'Minute' };
 
     # check if need and can transform dates
     # transform the dates early for ReturnValueStructure or ManualTimeStamp Bug#8452
@@ -669,8 +669,8 @@ sub SearchFieldValueGet {
 
         # return if the field is empty (e.g. initial screen)
         return if !$DynamicFieldValues{ $Prefix . 'Start' }
-            && !$DynamicFieldValues{ $Prefix . 'Value' }
-            && !$DynamicFieldValues{ $Prefix . 'Format' };
+                && !$DynamicFieldValues{ $Prefix . 'Value' }
+                && !$DynamicFieldValues{ $Prefix . 'Format' };
 
         $DynamicFieldValues{$Prefix} = 1;
 
@@ -726,11 +726,11 @@ sub SearchFieldValueGet {
 
     # return if the field is empty (e.g. initial screen)
     return if !$DynamicFieldValues{ $Prefix . 'StartYear' }
-        && !$DynamicFieldValues{ $Prefix . 'StartMonth' }
-        && !$DynamicFieldValues{ $Prefix . 'StartDay' }
-        && !$DynamicFieldValues{ $Prefix . 'StopYear' }
-        && !$DynamicFieldValues{ $Prefix . 'StopMonth' }
-        && !$DynamicFieldValues{ $Prefix . 'StopDay' };
+            && !$DynamicFieldValues{ $Prefix . 'StartMonth' }
+            && !$DynamicFieldValues{ $Prefix . 'StartDay' }
+            && !$DynamicFieldValues{ $Prefix . 'StopYear' }
+            && !$DynamicFieldValues{ $Prefix . 'StopMonth' }
+            && !$DynamicFieldValues{ $Prefix . 'StopDay' };
 
     $DynamicFieldValues{ $Prefix . 'StartSecond' } = '00';
     $DynamicFieldValues{ $Prefix . 'StopSecond' }  = '59';
@@ -824,6 +824,7 @@ sub SearchFieldParameterBuild {
             && $Value->{$Prefix}
             )
         {
+
             # to store the search parameters
             my %Parameter;
 

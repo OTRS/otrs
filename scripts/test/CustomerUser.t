@@ -617,7 +617,7 @@ $Self->False(
 
 # search for any value
 %UserList = $CustomerUserObject->SearchPreferences(
-    Key   => 'UserLanguage',
+    Key => 'UserLanguage',
 );
 
 $Self->True(

@@ -240,11 +240,10 @@ sub Run {
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketQueueOverviewNone',
             Data => {
-                ColumnCount => (scalar keys %{ $Self->{Config}->{States} }) + 2,
-            }
+                ColumnCount => ( scalar keys %{ $Self->{Config}->{States} } ) + 2,
+                }
         );
     }
-
 
     # check for refresh time
     my $Refresh = '';

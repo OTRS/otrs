@@ -724,6 +724,7 @@ sub JobGet {
                     $Data{ $Type . 'TimeOlderMinutes' } = -$Time;
                 }
                 else {
+
                     # within the last ...
                     $Data{ $Type . 'TimeOlderMinutes' } = 0;
                     $Data{ $Type . 'TimeNewerMinutes' } = $Time;

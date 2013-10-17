@@ -228,6 +228,7 @@ sub EventHandler {
                 #   processed.
             }
             else {
+
                 # This is the regular case. A new event was fired in regular mode, or
                 #   we are processing a queued event in transaction mode. Only execute
                 #   this if the transaction settings of event and listener are the same.

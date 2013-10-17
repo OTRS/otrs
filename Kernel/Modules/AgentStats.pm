@@ -2116,7 +2116,7 @@ sub Run {
                 StatID   => $Param{StatID},
                 GetParam => \%GetParam,
                 )
-        };
+            };
 
         # exchange axis if selected
         if ( $Param{ExchangeAxis} ) {

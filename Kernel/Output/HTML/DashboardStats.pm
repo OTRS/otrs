@@ -251,8 +251,10 @@ sub Preferences {
 
                     if ( $ObjectAttribute->{Block} eq 'MultiSelectField' ) {
 
-                        if (   $StatsSettings
-                            && $StatsSettings->{ $Use . $ObjectAttribute->{Element} } )
+                        if (
+                            $StatsSettings
+                            && $StatsSettings->{ $Use . $ObjectAttribute->{Element} }
+                            )
                         {
                             $ObjectAttribute->{SelectedValues}
                                 = $StatsSettings->{ $Use . $ObjectAttribute->{Element} };
@@ -276,8 +278,10 @@ sub Preferences {
                     }
                     elsif ( $ObjectAttribute->{Block} eq 'SelectField' ) {
 
-                        if (   $StatsSettings
-                            && $StatsSettings->{ $Use . $ObjectAttribute->{Element} } )
+                        if (
+                            $StatsSettings
+                            && $StatsSettings->{ $Use . $ObjectAttribute->{Element} }
+                            )
                         {
                             $ObjectAttribute->{SelectedValues}
                                 = $StatsSettings->{ $Use . $ObjectAttribute->{Element} };
@@ -300,8 +304,10 @@ sub Preferences {
 
                     elsif ( $ObjectAttribute->{Block} eq 'InputField' ) {
 
-                        if (   $StatsSettings
-                            && $StatsSettings->{ $Use . $ObjectAttribute->{Element} } )
+                        if (
+                            $StatsSettings
+                            && $StatsSettings->{ $Use . $ObjectAttribute->{Element} }
+                            )
                         {
                             $ObjectAttribute->{SelectedValues}
                                 = [ $StatsSettings->{ $Use . $ObjectAttribute->{Element} } ];
@@ -323,20 +329,27 @@ sub Preferences {
                             || 'Normal';
 
                         my $RelativeSelectedID;
-                        if (   $StatsSettings
+                        if (
+                            $StatsSettings
                             && $StatsSettings->{ $ObjectAttribute->{Element} . 'TimeRelativeCount' }
                             )
                         {
-                            $RelativeSelectedID = $StatsSettings->{ $ObjectAttribute->{Element}
-                                    . 'TimeRelativeCount' };
+                            $RelativeSelectedID = $StatsSettings->{
+                                $ObjectAttribute->{Element}
+                                    . 'TimeRelativeCount'
+                                };
                         }
 
                         my $ScaleSelectedID;
-                        if (   $StatsSettings
-                            && $StatsSettings->{ $ObjectAttribute->{Element} . 'TimeScaleCount' } )
+                        if (
+                            $StatsSettings
+                            && $StatsSettings->{ $ObjectAttribute->{Element} . 'TimeScaleCount' }
+                            )
                         {
-                            $ScaleSelectedID = $StatsSettings->{ $ObjectAttribute->{Element}
-                                    . 'TimeScaleCount' };
+                            $ScaleSelectedID = $StatsSettings->{
+                                $ObjectAttribute->{Element}
+                                    . 'TimeScaleCount'
+                                };
                         }
 
                         my %TimeData = _Timeoutput(
@@ -366,12 +379,18 @@ sub Preferences {
                                 }
 
                                 my $SelectedID;
-                                if ( $StatsSettings
-                                    && $StatsSettings->{ $ObjectAttribute->{Element}
-                                            . 'TimeRelativeUnit' } )
+                                if (
+                                    $StatsSettings
+                                    && $StatsSettings->{
+                                        $ObjectAttribute->{Element}
+                                            . 'TimeRelativeUnit'
+                                    }
+                                    )
                                 {
-                                    $SelectedID = $StatsSettings->{ $ObjectAttribute->{Element}
-                                            . 'TimeRelativeUnit' };
+                                    $SelectedID = $StatsSettings->{
+                                        $ObjectAttribute->{Element}
+                                            . 'TimeRelativeUnit'
+                                        };
                                 }
 
                                 $BlockData{TimeRelativeUnit}

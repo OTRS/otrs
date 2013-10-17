@@ -192,7 +192,7 @@ sub RequireBaseClass {
     # Check if the base class was already loaded.
     # This can happen in persistent environments as mod_perl (see bug#9686).
     if ( List::Util::first { $_ eq $Module } @{"${CallingClass}::ISA"} ) {
-        return 1;    # nothing to do now
+        return 1;        # nothing to do now
     }
 
     push @{"${CallingClass}::ISA"}, $Module;

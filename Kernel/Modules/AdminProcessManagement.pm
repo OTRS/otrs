@@ -203,7 +203,7 @@ sub Run {
             my @ExistingADs = @{
                 $Self->{ActivityDialogObject}
                     ->ActivityDialogListGet( UserID => $Self->{UserID} ) || []
-            };
+                };
             @ExistingADs = grep {
                 $_->{EntityID} eq
                     $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{EntityID}
@@ -224,6 +224,7 @@ sub Run {
                 }
             }
             else {
+
                 # get next EntityID
                 my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
                     EntityType => 'ActivityDialog',
@@ -257,7 +258,7 @@ sub Run {
             my @ExistingTAs = @{
                 $Self->{TransitionActionObject}
                     ->TransitionActionListGet( UserID => $Self->{UserID} ) || []
-            };
+                };
             @ExistingTAs = grep {
                 $_->{EntityID} eq
                     $ProcessData->{TransitionActions}->{$TransitionActionEntityID}->{EntityID}
@@ -280,6 +281,7 @@ sub Run {
 
             }
             else {
+
                 # get next EntityID
                 my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
                     EntityType => 'TransitionAction',
@@ -396,6 +398,7 @@ sub Run {
                 }
             }
             else {
+
                 # get next EntityID
                 my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
                     EntityType => 'Activity',
@@ -478,6 +481,7 @@ sub Run {
             $ID = $ExistingProcesses[0]->{ID};
         }
         else {
+
             # generate EntityID for the process itself
             my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
                 EntityType => 'Process',
@@ -772,7 +776,7 @@ sub Run {
                         my %Values = %{
                             $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}
                                 ->{Config}->{Fields}->{$AssignedField}
-                        };
+                            };
                         if ( $Values{Config} ) {
                             $Values{Config} = Dumper( $Values{Config} );    ## no critic
                             $Values{Config} =~ s{ \s* \$VAR1 \s* =}{}xms;
@@ -1604,9 +1608,9 @@ sub Run {
         return if !$GetParam{ItemID};
 
         return if $GetParam{EntityType} ne 'Activity'
-            && $GetParam{EntityType} ne 'ActivityDialog'
-            && $GetParam{EntityType} ne 'Transition'
-            && $GetParam{EntityType} ne 'TransitionAction';
+                && $GetParam{EntityType} ne 'ActivityDialog'
+                && $GetParam{EntityType} ne 'Transition'
+                && $GetParam{EntityType} ne 'TransitionAction';
 
         my $EntityCheck = $Self->_CheckEntityUsage(%GetParam);
 
@@ -1703,10 +1707,10 @@ sub Run {
         return if !$GetParam{EntityID} && !$GetParam{ItemID};
 
         return if $GetParam{EntityType} ne 'Activity'
-            && $GetParam{EntityType} ne 'ActivityDialog'
-            && $GetParam{EntityType} ne 'Transition'
-            && $GetParam{EntityType} ne 'TransitionAction'
-            && $GetParam{EntityType} ne 'Process';
+                && $GetParam{EntityType} ne 'ActivityDialog'
+                && $GetParam{EntityType} ne 'Transition'
+                && $GetParam{EntityType} ne 'TransitionAction'
+                && $GetParam{EntityType} ne 'Process';
 
         # get entity
         my $Method = $GetParam{EntityType} . 'Get';

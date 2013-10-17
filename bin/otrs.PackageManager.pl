@@ -671,7 +671,7 @@ sub _MessageGet {
         }
     }
     if ( !$Param{Reformat} || $Param{Reformat} ne 'No' ) {
-        $Title =~ s/(.{4,78})(?:\s|\z)/| $1\n/gm;
+        $Title       =~ s/(.{4,78})(?:\s|\z)/| $1\n/gm;
         $Description =~ s/^\s*//mg;
         $Description =~ s/\n/ /gs;
         $Description =~ s/\r/ /gs;

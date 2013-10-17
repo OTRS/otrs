@@ -59,7 +59,7 @@ sub Run {
     # check acl
     return
         if defined $Param{ACL}->{ $Param{Config}->{Action} }
-        && !$Param{ACL}->{ $Param{Config}->{Action} };
+            && !$Param{ACL}->{ $Param{Config}->{Action} };
 
     $Param{Link} = 'Action=AgentTicketMove;TicketID=$QData{"TicketID"}';
 

@@ -504,7 +504,7 @@ sub LinkAdd {
 
         return 1 if !$TypeData{Pointed};
         return 1 if $Existing{SourceObjectID} eq $Param{SourceObjectID}
-            && $Existing{SourceKey} eq $Param{SourceKey};
+                && $Existing{SourceKey} eq $Param{SourceKey};
 
         # log error
         $Self->{LogObject}->Log(
