@@ -302,6 +302,7 @@ sub Run {
                     Name => 'ItemParam',
                     Data => {
                         Param => $ParamItem->{Frontend},
+                        Name  => $ParamItem->{Name},
                         Field => $Self->{LayoutObject}->BuildSelection(
                             Data       => $ParamItem->{Data},
                             Name       => $ParamItem->{Name},
@@ -582,10 +583,12 @@ sub Run {
         }
         my %YesNo        = ( 0 => 'No',      1 => 'Yes' );
         my %ValidInvalid = ( 0 => 'invalid', 1 => 'valid' );
-        $Stat->{SumRowValue} = $YesNo{ $Stat->{SumRow} };
-        $Stat->{SumColValue} = $YesNo{ $Stat->{SumCol} };
-        $Stat->{CacheValue}  = $YesNo{ $Stat->{Cache} };
-        $Stat->{ValidValue}  = $ValidInvalid{ $Stat->{Valid} };
+        $Stat->{SumRowValue}                = $YesNo{ $Stat->{SumRow} };
+        $Stat->{SumColValue}                = $YesNo{ $Stat->{SumCol} };
+        $Stat->{CacheValue}                 = $YesNo{ $Stat->{Cache} };
+        $Stat->{ShowAsDashboardWidgetValue} = $YesNo{ $Stat->{ShowAsDashboardWidget} // 0 };
+        $Stat->{ValidValue}                 = $ValidInvalid{ $Stat->{Valid} };
+
         for (qw(CreatedBy ChangedBy)) {
             $Stat->{$_} = $Self->{UserObject}->UserName( UserID => $Stat->{$_} );
         }
@@ -829,7 +832,10 @@ sub Run {
 
             # save string
             KEY:
-            for my $Key (qw(Title Description Object File SumRow SumCol Cache StatType Valid)) {
+            for my $Key (
+                qw(Title Description Object File SumRow SumCol Cache ShowAsDashboardWidget StatType Valid)
+                )
+            {
                 if ( defined( $Self->{ParamObject}->GetParam( Param => $Key ) ) ) {
                     $Data{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
                     $Data{$Key} =~ s{(^\s+|\s+$)}{}xg;
@@ -1169,10 +1175,12 @@ sub Run {
             OP => "Action=AgentStats;Subaction=$Subaction;StatID=$Param{StatID}"
         );
     }
-
     # ---------------------------------------------------------- #
     # edit stats specification
     # ---------------------------------------------------------- #
+    elsif ( $Self->{Subaction} eq 'EditSpecificationAJAXUpdate' ) {
+        return $Self->EditSpecificationAJAXUpdate();
+    }
     elsif ( $Self->{Subaction} eq 'EditSpecification' ) {
         my %Frontend;
         my $Stat = {};
@@ -1228,7 +1236,7 @@ sub Run {
                         Data => {
                             Name      => 'Dynamic-Object',
                             StateType => 'dynamic',
-                            }
+                        },
                     );
                 }
 
@@ -1357,7 +1365,7 @@ sub Run {
         }
 
         # create selectboxes 'Cache', 'SumRow', 'SumCol', and 'Valid'
-        for my $Key (qw(Cache SumRow SumCol)) {
+        for my $Key (qw(Cache ShowAsDashboardWidget SumRow SumCol)) {
             $Frontend{ 'Select' . $Key } = $Self->{LayoutObject}->BuildSelection(
                 Data => {
                     0 => 'No',
@@ -1365,6 +1373,18 @@ sub Run {
                 },
                 SelectedID => $Stat->{$Key} || 0,
                 Name => $Key,
+            );
+        }
+
+        # If this is a new stat, assume that it does not support the dashboard widget at the start.
+        #   This is corrected by a call to AJAXUpdate when the page loads and when the user makes changes.
+        if ($Stat->{StatID} eq 'new' || !$Stat->{ObjectBehaviours}->{ProvidesDashboardWidget} ) {
+            $Frontend{ 'SelectShowAsDashboardWidget' } = $Self->{LayoutObject}->BuildSelection(
+                Data => {
+                    0 => 'No (not supported)',
+                },
+                SelectedID => 0,
+                Name => 'SelectShowAsDashboardWidget',
             );
         }
 
@@ -2337,6 +2357,57 @@ sub Run {
     # show error screen
     # ---------------------------------------------------------- #
     return $Self->{LayoutObject}->ErrorScreen( Message => 'Invalid Subaction process!' );
+}
+
+sub EditSpecificationAJAXUpdate {
+    my ( $Self, %Param ) = @_;
+
+    my %GetParam;
+    $GetParam{Object} = $Self->{ParamObject}->GetParam( Param => "Object" );
+    $GetParam{File} = $Self->{ParamObject}->GetParam( Param => "File" );
+    $GetParam{StatType} = $Self->{ParamObject}->GetParam( Param => "StatType" );
+    $GetParam{SelectShowAsDashboardWidget} = $Self->{ParamObject}->GetParam( Param => "SelectShowAsDashboardWidget" );
+
+    my $Data = {
+        0 => 'No (not supported)',
+    };
+
+    my $ObjectName;
+    if ($GetParam{StatType} eq 'static') {
+        $ObjectName = 'Kernel::System::Stats::Static::' . $GetParam{File};
+    }
+    else {
+        $ObjectName = 'Kernel::System::Stats::Dynamic::' . $GetParam{Object};
+    }
+
+    my $ObjectBehaviours = $Self->{StatsObject}->GetObjectBehaviours(
+        ObjectModule => $ObjectName,
+    );
+
+    if ($ObjectBehaviours->{ProvidesDashboardWidget}) {
+        $Data = {
+            0 => 'No',
+            1 => 'Yes'
+        };
+    }
+
+    my $JSON = $Self->{LayoutObject}->BuildSelectionJSON(
+        [
+            {
+                Name         => 'SelectShowAsDashboardWidget',
+                Data         => $Data,
+                SelectedID   => $GetParam{SelectShowAsDashboardWidget},
+                Translation  => 1,
+                PossibleNone => 0,
+            },
+        ],
+    );
+    return $Self->{LayoutObject}->Attachment(
+        ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        Content     => $JSON,
+        Type        => 'inline',
+        NoCache     => 1,
+    );
 }
 
 =begin Internal:

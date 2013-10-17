@@ -18,6 +18,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Stats;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -64,6 +65,7 @@ sub new {
     # create extra needed objects
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{StatsObject}        = Kernel::System::Stats->new(%Param);
 
     return $Self;
 }
@@ -87,6 +89,61 @@ sub Run {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => 'No such config for ' . $BackendConfigKey,
         );
+    }
+
+    # Disable stats widgets in IE8. This can be removed if IE8 support is removed someday.
+    my $IsIE8;
+
+    if (
+        $Self->{LayoutObject}->{Browser} eq 'MSIE'
+        && $Self->{LayoutObject}->{BrowserMajorVersion} <= 8
+        )
+    {
+        $IsIE8 = 1;
+    }
+
+    # Get all configured statistics from the system that should be shown as a dashboard widget
+    #   and register them dynamically in the configuration. This does not work in IE8.
+    if ( $Self->{Action} eq 'AgentDashboard' && !$IsIE8 ) {
+        my $StatsHash = $Self->{StatsObject}->StatsListGet();
+
+        if ( IsHashRefWithData($StatsHash) ) {
+            STATID:
+            for my $StatID ( sort keys %{$StatsHash} ) {
+                next STATID if !$StatsHash->{$StatID}->{ShowAsDashboardWidget};
+
+                # replace all line breaks with spaces (otherwise $Text{""} will not work correctly)
+                $StatsHash->{$StatID}->{Description} =~ s{\r?\n|\r}{ }msxg;
+
+                my $Description = $Self->{LayoutObject}->{LanguageObject}
+                    ->Get( $StatsHash->{$StatID}->{Description} );
+
+                my $Title = $Self->{LayoutObject}->{LanguageObject}
+                    ->Get( $StatsHash->{$StatID}->{Title} );
+                $Title = $Self->{LayoutObject}->{LanguageObject}->Get('Statistic') . ': ' . $Title;
+
+                $Config->{ ( $StatID + 1000 ) . '-Stats' } = {
+                    'Block'       => 'ContentLarge',
+                    'Default'     => 0,
+                    'Module'      => 'Kernel::Output::HTML::DashboardStats',
+                    'Title'       => $Title,
+                    'StatID'      => $StatID,
+                    'Description' => $Description,
+                    'Group'       => 'stats',
+                };
+            }
+        }
+    }
+
+    # Hack: remove JS files for d3 if IE8 is used, because it would break.
+    if ($IsIE8) {
+        my @ModuleJS = @{
+            $Self->{ConfigObject}->Get('Frontend::Module')->{AgentDashboard}->{Loader}
+                ->{JavaScript} || []
+        };
+        @ModuleJS = grep { $_ !~ m/d3js/ } @ModuleJS;
+        $Self->{ConfigObject}->Get('Frontend::Module')->{AgentDashboard}->{Loader}->{JavaScript}
+            = \@ModuleJS;
     }
 
     if ( $Self->{Action} eq 'AgentCustomerInformationCenter' ) {
@@ -381,8 +438,8 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AJAXFilterUpdate' ) {
 
         my $ElementChanged = $Self->{ParamObject}->GetParam( Param => 'ElementChanged' );
-        my ($Name)         = $ElementChanged =~ m{ ( \d{4} - .*? ) \z }gxms;
-        my $Column         = $ElementChanged;
+        my ($Name) = $ElementChanged =~ m{ ( \d{4} - .*? ) \z }gxms;
+        my $Column = $ElementChanged;
         $Column =~ s{ \A ColumnFilter }{}gxms;
         $Column =~ s{ $Name }{}gxms;
 

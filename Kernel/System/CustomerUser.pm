@@ -644,7 +644,7 @@ search in user preferences
 
     my %UserList = $CustomerUserObject->SearchPreferences(
         Key   => 'UserSomeKey',
-        Value => 'SomeValue',
+        Value => 'SomeValue',   # optional, limit to a certain value/pattern
     );
 
 =cut

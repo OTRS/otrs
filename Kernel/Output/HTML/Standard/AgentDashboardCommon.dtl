@@ -214,6 +214,12 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Das
                         </div>
                         <div class="Clear"></div>
 <!-- dtl:block:ContentLargePreferencesItemAllocationList -->
+<!-- dtl:block:ContentLargePreferencesItemRawHTML -->
+                        <input type="hidden" name="$QData{"NamePref"}" class="StatsSettingsJSON" value="$QData{"StatsSettings"}" />
+                        <div class="StatsSettingsBox">
+                            $Data{"HTML"}
+                        </div>
+<!-- dtl:block:ContentLargePreferencesItemRawHTML -->
 <!-- dtl:block:ContentLargePreferencesItem -->
                         <div class="Buttons">
                             <button id="Dashboard$QData{"Name"}_submit" class="CallForAction DontPrint" type="submit" value="$Text{"Submit"}"><span>$Text{"Save Changes"}</span></button>
@@ -251,6 +257,28 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}_cancel'), $('#Das
         }
         $(this).bind('click', function() {
             $(this).toggleClass('Checked', $(this).find('input').prop('checked'));
+        });
+    });
+
+    function CollectStatsData($ParentElement) {
+
+        var $Input = $ParentElement.prev('.StatsSettingsJSON'),
+            Key, 
+            Value, 
+            Data = {};
+
+        $ParentElement.find('select, input').each(function() {
+            Key       = $(this).attr('name');
+            Value     = $(this).val();
+            Data[Key] = Value;
+        });
+
+        $Input.val(Core.JSON.Stringify(Data));
+    }
+
+    $('.StatsSettingsBox').find('select, input').each(function() {
+        $(this).bind('change', function() {
+            CollectStatsData($(this).closest('.StatsSettingsBox'));
         });
     });
 

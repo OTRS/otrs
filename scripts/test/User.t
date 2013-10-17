@@ -28,7 +28,7 @@ my $UserObject = Kernel::System::User->new(
 # add users
 my $UserRand1 = 'example-user' . int( rand(1000000) );
 
-my $UserID1 = $UserObject->UserAdd(
+my $UserID = $UserObject->UserAdd(
     UserFirstname => 'Firstname Test1',
     UserLastname  => 'Lastname Test1',
     UserLogin     => $UserRand1,
@@ -38,11 +38,11 @@ my $UserID1 = $UserObject->UserAdd(
 );
 
 $Self->True(
-    $UserID1,
+    $UserID,
     'UserAdd()',
 );
 
-my %UserData = $UserObject->GetUserData( UserID => $UserID1 );
+my %UserData = $UserObject->GetUserData( UserID => $UserID );
 
 $Self->Is(
     $UserData{UserFirstname} || '',
@@ -71,7 +71,7 @@ my %UserList = $UserObject->UserList(
 );
 
 $Self->Is(
-    $UserList{$UserID1},
+    $UserList{$UserID},
     $UserRand1,
     "UserList valid 0",
 );
@@ -82,7 +82,7 @@ $Self->Is(
 );
 
 $Self->Is(
-    $UserList{$UserID1},
+    $UserList{$UserID},
     $UserRand1,
     "UserList valid 1",
 );
@@ -93,7 +93,7 @@ $Self->Is(
 );
 
 $Self->Is(
-    $UserList{$UserID1},
+    $UserList{$UserID},
     $UserRand1,
     "UserList valid 0 cached",
 );
@@ -104,13 +104,13 @@ $Self->Is(
 );
 
 $Self->Is(
-    $UserList{$UserID1},
+    $UserList{$UserID},
     $UserRand1,
     "UserList valid 1 cached",
 );
 
 my $Update = $UserObject->UserUpdate(
-    UserID        => $UserID1,
+    UserID        => $UserID,
     UserFirstname => 'Firstname Test2',
     UserLastname  => 'Lastname Test2',
     UserLogin     => $UserRand1 . "2",
@@ -124,7 +124,7 @@ $Self->True(
     'UserUpdate()',
 );
 
-%UserData = $UserObject->GetUserData( UserID => $UserID1 );
+%UserData = $UserObject->GetUserData( UserID => $UserID );
 
 $Self->Is(
     $UserData{UserFirstname} || '',
@@ -153,7 +153,7 @@ $Self->Is(
 );
 
 $Self->Is(
-    $UserList{$UserID1},
+    $UserList{$UserID},
     $UserRand1 . "2",
     "UserList valid 0",
 );
@@ -164,7 +164,7 @@ $Self->Is(
 );
 
 $Self->Is(
-    $UserList{$UserID1},
+    $UserList{$UserID},
     undef,
     "UserList valid 1",
 );
@@ -175,7 +175,7 @@ $Self->Is(
 );
 
 $Self->Is(
-    $UserList{$UserID1},
+    $UserList{$UserID},
     $UserRand1 . "2",
     "UserList valid 0 cached",
 );
@@ -186,7 +186,7 @@ $Self->Is(
 );
 
 $Self->Is(
-    $UserList{$UserID1},
+    $UserList{$UserID},
     undef,
     "UserList valid 1 cached",
 );
@@ -228,9 +228,107 @@ $Self->True(
     "TokenCheck() - $Token" . "123",
 );
 
+# testing preferences
+
+my $SetPreferences = $UserObject->SetPreferences(
+    Key    => 'UserLanguage',
+    Value  => 'fr',
+    UserID => $UserID,
+);
+
+$Self->True(
+    $SetPreferences,
+    "SetPreferences - $UserID",
+);
+
+my %UserPreferences = $UserObject->GetPreferences(
+    UserID => $UserID,
+);
+
+$Self->True(
+    %UserPreferences || '',
+    "GetPreferences - $UserID",
+);
+
+$Self->Is(
+    $UserPreferences{UserLanguage},
+    "fr",
+    "GetPreferences $UserID - fr",
+);
+
+%UserList = $UserObject->SearchPreferences(
+    Key   => 'UserLanguage',
+    Value => 'fr',
+);
+
+$Self->True(
+    %UserList || '',
+    "SearchPreferences - $UserID",
+);
+
+$Self->Is(
+    $UserList{$UserID},
+    'fr',
+    "SearchPreferences() - $UserID",
+);
+
+%UserList = $UserObject->SearchPreferences(
+    Key   => 'UserLanguage',
+    Value => 'de',
+);
+
+$Self->False(
+    $UserList{$UserID},
+    "SearchPreferences() - $UserID",
+);
+
+# look for any value
+%UserList = $UserObject->SearchPreferences(
+    Key   => 'UserLanguage',
+);
+
+$Self->True(
+    %UserList || '',
+    "SearchPreferences - $UserID",
+);
+
+$Self->Is(
+    $UserList{$UserID},
+    'fr',
+    "SearchPreferences() - $UserID",
+);
+
+#update existing prefs
+my $UpdatePreferences = $UserObject->SetPreferences(
+    Key    => 'UserLanguage',
+    Value  => 'da',
+    UserID => $UserID,
+);
+
+$Self->True(
+    $UpdatePreferences,
+    "UpdatePreferences - $UserID",
+);
+
+%UserPreferences = $UserObject->GetPreferences(
+    UserID => $UserID,
+);
+
+$Self->True(
+    %UserPreferences || '',
+    "GetPreferences - $UserID",
+);
+
+$Self->Is(
+    $UserPreferences{UserLanguage},
+    "da",
+    "UpdatePreferences $UserID - da",
+);
+
+
 #check no out of office
 %UserData = $UserObject->GetUserData(
-    UserID        => $UserID1,
+    UserID        => $UserID,
     Valid         => 0,
     NoOutOfOffice => 0
 );
@@ -241,7 +339,7 @@ $Self->False(
 );
 
 %UserData = $UserObject->GetUserData(
-    UserID => $UserID1,
+    UserID => $UserID,
     Valid  => 0,
 
     #       NoOutOfOffice => 0
@@ -268,13 +366,13 @@ my %Values = (
 
 for my $Key ( sort keys %Values ) {
     $UserObject->SetPreferences(
-        UserID => $UserID1,
+        UserID => $UserID,
         Key    => $Key,
         Value  => $Values{$Key},
     );
 }
 %UserData = $UserObject->GetUserData(
-    UserID        => $UserID1,
+    UserID        => $UserID,
     Valid         => 0,
     NoOutOfOffice => 0
 );
@@ -285,7 +383,7 @@ $Self->True(
 );
 
 %UserData = $UserObject->GetUserData(
-    UserID => $UserID1,
+    UserID => $UserID,
     Valid  => 0,
 );
 

@@ -599,8 +599,9 @@ $Self->True(
     "SearchPreferences - $UserID",
 );
 
-$Self->True(
+$Self->Is(
     $UserList{$UserID},
+    'fr',
     "SearchPreferences() - $UserID",
 );
 
@@ -611,6 +612,22 @@ $Self->True(
 
 $Self->False(
     $UserList{$UserID},
+    "SearchPreferences() - $UserID",
+);
+
+# search for any value
+%UserList = $CustomerUserObject->SearchPreferences(
+    Key   => 'UserLanguage',
+);
+
+$Self->True(
+    %UserList || '',
+    "SearchPreferences - $UserID",
+);
+
+$Self->Is(
+    $UserList{$UserID},
+    'fr',
     "SearchPreferences() - $UserID",
 );
 

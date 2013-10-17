@@ -1,0 +1,135 @@
+# --
+# AgentDashboardStats.dtl - provides stats output as a dashboard widget
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- dtl:block:NoData -->
+<p>$Text{"The content of this statistic is being prepared for you, please be patient."}
+<!-- dtl:block:NoData -->
+
+<!-- dtl:block:StatsData -->
+    <svg style="height: 350px;" class="GraphWidget$QData{"Name"}" id="GraphWidget$QData{"Name"}"></svg>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+/*global nv, d3 */
+
+(function(){
+
+    var Timeout = 500;
+
+    // check if the container is already expanded, otherwise the graph
+    // would have the wrong size after the widget settings have been saved
+    // and the content is being reloaded using ajax.
+    if ($('#GraphWidget$QData{"Name"}').parent().is(':visible')) {
+        Timeout = 0;
+    }
+
+    window.setTimeout(function () {
+        var RawData = $Data{"StatsData"},
+            Title = RawData.shift(),
+            Headings = RawData.shift(),
+            ResultData = [],
+            ValueFormat = 'd'; // y axis format is by default "integer"
+
+        // just for testing
+        function GetRandomColor() {
+            var Letters = '0123456789ABCDEF'.split(''),
+                Color = '#',
+                Counter;
+            for (Counter = 0; Counter < 6; Counter++ ) {
+                Color += Letters[Math.round(Math.random() * 15)];
+            }
+            return Color;
+        }
+
+        $.each(RawData, function(DataIndex, DataElement) {
+            // Ignore sum row
+            if (DataElement[0] === 'Sum') {
+                return;
+            }
+
+            var ResultLine = {
+                key: DataElement[0],
+                color: GetRandomColor(),
+                values: []
+            };
+
+            $.each(Headings, function(HeadingIndex, HeadingElement){
+                var Value;
+                // First element is x axis label
+                if (HeadingIndex === 0){
+                    return;
+                }
+                // Ignore sum col
+                if (HeadingElement === 'Sum') {
+                    return;
+                }
+
+                Value = parseFloat( DataElement[HeadingIndex] );
+
+                if ( isNaN(Value) ) {
+                    return;
+                }
+
+                // Check if value is a floating point number and not an integer
+                if (Value % 1) {
+                    ValueFormat = ',1f'; // Set y axis format to float
+                }
+
+                // nv d3 does not work correcly with non numeric values
+                ResultLine.values.push({
+                    x: HeadingElement,
+                    y: Value
+                });
+            });
+            ResultData.push(ResultLine);
+        });
+
+        // production mode
+        nv.dev = false;
+
+        nv.addGraph(function() {
+
+            var Chart = nv.models.multiBarChart();
+
+            // don't let nv/d3 exceptions block the rest of OTRS JavaScript
+            try {
+
+                Chart.margin({
+                    top: 20,
+                    right: 20,
+                    bottom: 50,
+                    left: 50
+                });
+
+                Chart.xAxis.axisLabel(Headings[0]);
+                Chart.yAxis.axisLabel("Values").tickFormat(d3.format(ValueFormat));
+
+                d3.select("svg.GraphWidget$QData{"Name"}")
+                    .datum(ResultData)
+                    .transition()
+                    .duration(500)
+                    .call(Chart);
+
+                nv.utils.windowResize(function() {
+                    Chart.update();
+                });
+            }
+            catch (Error) {
+                Core.Debug.Log(Error);
+            }
+
+            return Chart;
+        });
+
+    }, Timeout);
+
+}());
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:StatsData -->

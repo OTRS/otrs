@@ -219,8 +219,13 @@ button.Reset:active {
     font-size: 2px;
 }
 
-.Field .ShowTreeSelection {
+.Field .ShowTreeSelection, .WidgetSettingsForm .ShowTreeSelection {
     display: inline-block;
+}
+
+.WidgetSettingsForm .ShowTreeSelection {
+    position: relative;
+    top: -4px;
 }
 
 #TreeContainer #TreeSearch {

@@ -62,6 +62,16 @@ sub GetObjectName {
     return 'TicketAccumulation';
 }
 
+sub GetObjectBehaviours {
+    my ( $Self, %Param ) = @_;
+
+    my %Behaviours = (
+        ProvidesDashboardWidget => 1,
+    );
+
+    return %Behaviours;
+}
+
 sub GetObjectAttributes {
     my ( $Self, %Param ) = @_;
 

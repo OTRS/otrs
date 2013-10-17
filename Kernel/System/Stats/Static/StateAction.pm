@@ -30,6 +30,16 @@ sub new {
     return $Self;
 }
 
+sub GetObjectBehaviours {
+    my ( $Self, %Param ) = @_;
+
+    my %Behaviours = (
+        ProvidesDashboardWidget => 1,
+    );
+
+    return %Behaviours;
+}
+
 sub Param {
     my $Self = shift;
 

@@ -1094,7 +1094,7 @@ search in user preferences
 
     my %UserList = $UserObject->SearchPreferences(
         Key   => 'UserEmail',
-        Value => 'email@example.com',
+        Value => 'email@example.com',   # optional, limit to a certain value/pattern
     );
 
 =cut

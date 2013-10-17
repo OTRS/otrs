@@ -117,6 +117,60 @@ $Self->Is(
     'StatsGet() check the Title',
 );
 
+$Self->Is(
+    $Stat->{Cache},
+    undef,
+    'StatsGet() Cache was not yet set',
+);
+
+$Self->Is(
+    $Stat->{ShowAsDashboardWidget},
+    undef,
+    'StatsGet() ShowAsDashboardWidget was not yet set',
+);
+
+$Update = $StatsObject->StatsUpdate(
+    StatID => ($StatID1),
+    Hash   => {
+        Cache => 1,
+    },
+);
+
+$Self->True(
+    $Update,
+    'StatsUpdate() add Cache flag',
+);
+
+# check get function
+$Stat = $StatsObject->StatsGet( StatID => $StatID1 );
+
+$Self->Is(
+    $Stat->{Cache},
+    1,
+    'StatsGet() check the Cache flag',
+);
+
+$Update = $StatsObject->StatsUpdate(
+    StatID => ($StatID1),
+    Hash   => {
+        ShowAsDashboardWidget => 1,
+    },
+);
+
+$Self->True(
+    $Update,
+    'StatsUpdate() add ShowAsDashboardWidget flag',
+);
+
+# check get function
+$Stat = $StatsObject->StatsGet( StatID => $StatID1 );
+
+$Self->Is(
+    $Stat->{ShowAsDashboardWidget},
+    1,
+    'StatsGet() check the ShowAsDashboardWidget flag',
+);
+
 # check completenesscheck
 my @Notify = $StatsObject->CompletenessCheck(
     StatData => $Stat,
@@ -147,6 +201,16 @@ $Self->Is(
     'GetStatsList() check if StatID1 and StatID2 available in the statslist',
 );
 
+my $StatsHash = $StatsObject->StatsListGet();
+$Self->Is(
+    $StatsHash->{$StatID1}->{Title},
+    'TestTitle from UnitTest.pl',
+    'StatsListGet() title of Stat1',
+);
+$Self->True(
+    exists $StatsHash->{$StatID2},
+    'StatsListGet() contains Stat2',
+);
 # check the available DynamicFiles
 my $DynamicArrayRef = $StatsObject->GetDynamicFiles();
 $Self->True(
@@ -220,7 +284,7 @@ my $Stat3 = $StatsObject->StatsGet( StatID => $StatID3 );
 $Self->Is(
     $Stat3->{Title},
     'TestTitle from UnitTest.pl',
-    'StatsGet() check importet stat',
+    'StatsGet() check imported stat',
 );
 
 # check delete stat function
@@ -235,6 +299,47 @@ $Self->True(
 $Self->True(
     $StatsObject->StatsDelete( StatID => $StatID3 ),
     'StatsDelete() delete StatID3',
+);
+
+# verify stat is deleted
+$Stat3 = $StatsObject->StatsGet( StatID => $StatID3 );
+$Self->Is(
+    $Stat3->{Title},
+    undef,
+    'StatsGet() check deleted stat',
+);
+
+# check StatsList
+$ArrayRef = $StatsObject->GetStatsList(
+    OrderBy   => 'StatID',
+    Direction => 'ASC',
+);
+
+$Counter = 0;
+for ( @{$ArrayRef} ) {
+    if ( $_ eq $StatID1 || $_ eq $StatID2 ) {
+        $Counter++;
+    }
+}
+
+$Self->Is(
+    $Counter,
+    0,
+    'GetStatsList() check if StatID1 and StatID2 removed from in the statslist',
+);
+
+$StatsHash = $StatsObject->StatsListGet();
+$Self->False(
+    exists $StatsHash->{$StatID1},
+    'StatsListGet() contains Stat1',
+);
+$Self->False(
+    exists $StatsHash->{$StatID2},
+    'StatsListGet() contains Stat2',
+);
+$Self->False(
+    exists $StatsHash->{$StatID3},
+    'StatsListGet() contains Stat2',
 );
 
 # ---
@@ -260,6 +365,25 @@ my $ImportContent = join '', @Lines;
 close $Filehandle;
 
 $StatID = $StatsObject->Import( Content => $ImportContent );
+
+# check StatsList
+$ArrayRef = $StatsObject->GetStatsList(
+    OrderBy   => 'StatID',
+    Direction => 'ASC',
+);
+
+$Counter = 0;
+for ( @{$ArrayRef} ) {
+    if ( $_ eq $StatID ) {
+        $Counter++;
+    }
+}
+
+$Self->Is(
+    $Counter,
+    1,
+    'GetStatsList() check if imported stat is in the statslist',
+);
 
 $ExportContent = $StatsObject->Export( StatID => $StatID );
 

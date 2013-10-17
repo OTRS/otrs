@@ -62,6 +62,16 @@ sub GetObjectName {
     return 'TicketSolutionResponseTime';
 }
 
+sub GetObjectBehaviours {
+    my ( $Self, %Param ) = @_;
+
+    my %Behaviours = (
+        ProvidesDashboardWidget => 0,
+    );
+
+    return %Behaviours;
+}
+
 sub GetObjectAttributes {
     my ( $Self, %Param ) = @_;
 
