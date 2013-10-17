@@ -263,8 +263,8 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}_cancel'), $('#Das
     function CollectStatsData($ParentElement) {
 
         var $Input = $ParentElement.prev('.StatsSettingsJSON'),
-            Key, 
-            Value, 
+            Key,
+            Value,
             Data = {};
 
         $ParentElement.find('select, input').each(function() {
