@@ -1,4 +1,5 @@
-#3.3.0 beta5 2013-??-??
+#3.3.0 beta5 2013-10-22
+ - 2013-10-17 Added new feature "management dashboard". This makes it possible to display statistic charts in the dashboard. Please not that IE8 does not support this feature.
  - 2013-10-14 Fixed bug#[9804](http://bugs.otrs.org/show_bug.cgi?id=9804) - If access to a module not given permission, output the error to httpd log.
  - 2013-10-14 Fixed bug#[9815](http://bugs.otrs.org/show_bug.cgi?id=9815) - Different FirstnameLastname Format in "Involved Agent" window.
  - 2013-10-14 Fixed bug#[9819](http://bugs.otrs.org/show_bug.cgi?id=9819) - Inconsistent API in Date Dynamic Field EditFieldValueGet().
