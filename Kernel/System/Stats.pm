@@ -268,9 +268,11 @@ sub StatsGet {
         }
     }
 
-    $Stat{ObjectBehaviours} = $Self->GetObjectBehaviours(
-        ObjectModule => $Stat{ObjectModule},
-    );
+    if ( $Stat{ObjectModule} ) {
+        $Stat{ObjectBehaviours} = $Self->GetObjectBehaviours(
+            ObjectModule => $Stat{ObjectModule},
+        );
+    }
 
     # get the configuration elements of the dynamic stats
     # %Allowed is used to avoid double selection in different forms
