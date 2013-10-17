@@ -117,7 +117,6 @@ sub new {
     );
 
     $Self->{RegistrationURL} = 'https://cloud.otrs.com/otrs/public.pl';
-    $Self->{RegistrationURL} = 'https://windberg.otrs.com/otrs/public.pl';
 
     $Self->{APIVersion} = 1;
 
