@@ -1175,6 +1175,7 @@ sub Run {
             OP => "Action=AgentStats;Subaction=$Subaction;StatID=$Param{StatID}"
         );
     }
+
     # ---------------------------------------------------------- #
     # edit stats specification
     # ---------------------------------------------------------- #
@@ -1376,15 +1377,15 @@ sub Run {
             );
         }
 
-        # If this is a new stat, assume that it does not support the dashboard widget at the start.
-        #   This is corrected by a call to AJAXUpdate when the page loads and when the user makes changes.
-        if ($Stat->{StatID} eq 'new' || !$Stat->{ObjectBehaviours}->{ProvidesDashboardWidget} ) {
-            $Frontend{ 'SelectShowAsDashboardWidget' } = $Self->{LayoutObject}->BuildSelection(
+  # If this is a new stat, assume that it does not support the dashboard widget at the start.
+  #   This is corrected by a call to AJAXUpdate when the page loads and when the user makes changes.
+        if ( $Stat->{StatID} eq 'new' || !$Stat->{ObjectBehaviours}->{ProvidesDashboardWidget} ) {
+            $Frontend{'SelectShowAsDashboardWidget'} = $Self->{LayoutObject}->BuildSelection(
                 Data => {
                     0 => 'No (not supported)',
                 },
                 SelectedID => 0,
-                Name => 'SelectShowAsDashboardWidget',
+                Name       => 'SelectShowAsDashboardWidget',
             );
         }
 
@@ -2363,17 +2364,18 @@ sub EditSpecificationAJAXUpdate {
     my ( $Self, %Param ) = @_;
 
     my %GetParam;
-    $GetParam{Object} = $Self->{ParamObject}->GetParam( Param => "Object" ) || '';
-    $GetParam{File} = $Self->{ParamObject}->GetParam( Param => "File" ) || '';
+    $GetParam{Object}   = $Self->{ParamObject}->GetParam( Param => "Object" )   || '';
+    $GetParam{File}     = $Self->{ParamObject}->GetParam( Param => "File" )     || '';
     $GetParam{StatType} = $Self->{ParamObject}->GetParam( Param => "StatType" ) || '';
-    $GetParam{SelectShowAsDashboardWidget} = $Self->{ParamObject}->GetParam( Param => "SelectShowAsDashboardWidget" || 0);
+    $GetParam{SelectShowAsDashboardWidget}
+        = $Self->{ParamObject}->GetParam( Param => "SelectShowAsDashboardWidget" || 0 );
 
     my $Data = {
         0 => 'No (not supported)',
     };
 
     my $ObjectName;
-    if ($GetParam{StatType} eq 'static') {
+    if ( $GetParam{StatType} eq 'static' ) {
         $ObjectName = 'Kernel::System::Stats::Static::' . $GetParam{File};
     }
     else {
@@ -2384,7 +2386,7 @@ sub EditSpecificationAJAXUpdate {
         ObjectModule => $ObjectName,
     );
 
-    if ($ObjectBehaviours->{ProvidesDashboardWidget}) {
+    if ( $ObjectBehaviours->{ProvidesDashboardWidget} ) {
         $Data = {
             0 => 'No',
             1 => 'Yes'
