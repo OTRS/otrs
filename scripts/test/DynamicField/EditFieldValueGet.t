@@ -52,13 +52,13 @@ my %DynamicFieldConfigs = (
         CreateTime => '2011-02-08 15:08:00',
         ChangeTime => '2011-06-11 17:22:00',
     },
-    Dropdown => {
+    TextArea => {
         ID            => 123,
         InternalField => 0,
-        Name          => 'DropdownField',
-        Label         => 'DropdownField',
+        Name          => 'TextAreaField',
+        Label         => 'TextAreaField',
         FieldOrder    => 123,
-        FieldType     => 'Dropdown',
+        FieldType     => 'TextArea',
         ObjectType    => 'Ticket',
         Config        => {
             DefaultValue => '',
@@ -385,11 +385,11 @@ my @Tests = (
         Success => 1,
     },
 
-    # Dynamic Field Dropdown
+    # Dynamic Field TextArea
     {
-        Name   => 'Dropdown: Empty template and no ParamObject (Normal)',
+        Name   => 'TextArea: Empty template and no ParamObject (Normal)',
         Config => {
-            DynamicFieldConfig      => $DynamicFieldConfigs{Dropdown},
+            DynamicFieldConfig      => $DynamicFieldConfigs{TextArea},
             Template                => {},
             ParamObject             => undef,
             TransformDates          => 0,
@@ -399,9 +399,9 @@ my @Tests = (
         Success => 0,
     },
     {
-        Name   => 'Dropdown: Empty template and empty ParamObject (Normal)',
+        Name   => 'TextArea: Empty template and empty ParamObject (Normal)',
         Config => {
-            DynamicFieldConfig      => $DynamicFieldConfigs{Dropdown},
+            DynamicFieldConfig      => $DynamicFieldConfigs{TextArea},
             Template                => {},
             ParamObject             => $ParamObject,
             TransformDates          => 0,
@@ -411,11 +411,11 @@ my @Tests = (
         Success => 0,
     },
     {
-        Name   => 'Dropdown: UTF8 template and empty ParamObject (Normal)',
+        Name   => 'TextArea: UTF8 template and empty ParamObject (Normal)',
         Config => {
-            DynamicFieldConfig => $DynamicFieldConfigs{Dropdown},
+            DynamicFieldConfig => $DynamicFieldConfigs{TextArea},
             Template           => {
-                DynamicField_DropdownField =>
+                DynamicField_TextAreaField =>
                     'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
             },
             ParamObject             => $ParamObject,
@@ -427,13 +427,13 @@ my @Tests = (
         ExpectedResults => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
     },
     {
-        Name   => 'Dropdown: empty template and UTF8 ParamObject (Normal)',
+        Name   => 'TextArea: empty template and UTF8 ParamObject (Normal)',
         Config => {
-            DynamicFieldConfig => $DynamicFieldConfigs{Dropdown},
+            DynamicFieldConfig => $DynamicFieldConfigs{TextArea},
             Template           => {},
             ParamObject        => $ParamObject,
             CGIParam           => {
-                DynamicField_DropdownField =>
+                DynamicField_TextAreaField =>
                     'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
             },
             TransformDates          => 0,
@@ -444,9 +444,9 @@ my @Tests = (
         ExpectedResults => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
     },
     {
-        Name   => 'Dropdown: Empty template and no ParamObject (ValueStructure)',
+        Name   => 'TextArea: Empty template and no ParamObject (ValueStructure)',
         Config => {
-            DynamicFieldConfig      => $DynamicFieldConfigs{Dropdown},
+            DynamicFieldConfig      => $DynamicFieldConfigs{TextArea},
             Template                => {},
             ParamObject             => undef,
             TransformDates          => 0,
@@ -456,9 +456,9 @@ my @Tests = (
         Success => 0,
     },
     {
-        Name   => 'Dropdown: Empty template and empty ParamObject (ValueStructure)',
+        Name   => 'TextArea: Empty template and empty ParamObject (ValueStructure)',
         Config => {
-            DynamicFieldConfig      => $DynamicFieldConfigs{Dropdown},
+            DynamicFieldConfig      => $DynamicFieldConfigs{TextArea},
             Template                => {},
             ParamObject             => $ParamObject,
             TransformDates          => 0,
@@ -468,11 +468,11 @@ my @Tests = (
         Success => 0,
     },
     {
-        Name   => 'Dropdown: UTF8 template and empty ParamObject (ValueStructure)',
+        Name   => 'TextArea: UTF8 template and empty ParamObject (ValueStructure)',
         Config => {
-            DynamicFieldConfig => $DynamicFieldConfigs{Dropdown},
+            DynamicFieldConfig => $DynamicFieldConfigs{TextArea},
             Template           => {
-                DynamicField_DropdownField =>
+                DynamicField_TextAreaField =>
                     'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
             },
             ParamObject             => $ParamObject,
@@ -484,13 +484,13 @@ my @Tests = (
         ExpectedResults => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
     },
     {
-        Name   => 'Dropdown: empty template and UTF8 ParamObject (ValueStructure)',
+        Name   => 'TextArea: empty template and UTF8 ParamObject (ValueStructure)',
         Config => {
-            DynamicFieldConfig => $DynamicFieldConfigs{Dropdown},
+            DynamicFieldConfig => $DynamicFieldConfigs{TextArea},
             Template           => {},
             ParamObject        => $ParamObject,
             CGIParam           => {
-                DynamicField_DropdownField =>
+                DynamicField_TextAreaField =>
                     'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
             },
             TransformDates          => 0,
@@ -501,9 +501,9 @@ my @Tests = (
         ExpectedResults => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
     },
     {
-        Name   => 'Dropdown: Empty template and no ParamObject (TemplateStructure)',
+        Name   => 'TextArea: Empty template and no ParamObject (TemplateStructure)',
         Config => {
-            DynamicFieldConfig      => $DynamicFieldConfigs{Dropdown},
+            DynamicFieldConfig      => $DynamicFieldConfigs{TextArea},
             Template                => {},
             ParamObject             => undef,
             TransformDates          => 0,
@@ -511,15 +511,15 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_DropdownField => undef,
+            DynamicField_TextAreaField => undef,
         },
 
         Success => 1,
     },
     {
-        Name   => 'Dropdown: Empty template and empty ParamObject (TemplateStructure)',
+        Name   => 'TextArea: Empty template and empty ParamObject (TemplateStructure)',
         Config => {
-            DynamicFieldConfig      => $DynamicFieldConfigs{Dropdown},
+            DynamicFieldConfig      => $DynamicFieldConfigs{TextArea},
             Template                => {},
             ParamObject             => $ParamObject,
             TransformDates          => 0,
@@ -527,16 +527,16 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_DropdownField => undef,
+            DynamicField_TextAreaField => undef,
         },
         Success => 1,
     },
     {
-        Name   => 'Dropdown: UTF8 template and empty ParamObject (TemplateStructure)',
+        Name   => 'TextArea: UTF8 template and empty ParamObject (TemplateStructure)',
         Config => {
-            DynamicFieldConfig => $DynamicFieldConfigs{Dropdown},
+            DynamicFieldConfig => $DynamicFieldConfigs{TextArea},
             Template           => {
-                DynamicField_DropdownField =>
+                DynamicField_TextAreaField =>
                     'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
             },
             ParamObject             => $ParamObject,
@@ -545,18 +545,18 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_DropdownField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+            DynamicField_TextAreaField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
         },
         Success => 1,
     },
     {
-        Name   => 'Dropdown: empty template and UTF8 ParamObject (TemplateStructure)',
+        Name   => 'TextArea: empty template and UTF8 ParamObject (TemplateStructure)',
         Config => {
-            DynamicFieldConfig => $DynamicFieldConfigs{Dropdown},
+            DynamicFieldConfig => $DynamicFieldConfigs{TextArea},
             Template           => {},
             ParamObject        => $ParamObject,
             CGIParam           => {
-                DynamicField_DropdownField =>
+                DynamicField_TextAreaField =>
                     'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
             },
             TransformDates          => 0,
@@ -564,7 +564,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_DropdownField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+            DynamicField_TextAreaField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
         },
         Success => 1,
     },
