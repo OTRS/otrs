@@ -5446,7 +5446,6 @@ via the Preferences button after logging in.
                 <Item Key="Title">OTRS News</Item>
                 <Item Key="Description"></Item>
                 <Item Key="URL">http://www.otrs.com/en/rss.xml</Item>
-M
                 <Item Key="URL_de">http://www.otrs.com/de/rss.xml</Item>
                 <Item Key="URL_es">http://www.otrs.com/es/rss.xml</Item>
                 <Item Key="URL_nl">http://www.otrs.com/nl/rss.xml</Item>

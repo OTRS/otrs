@@ -346,7 +346,6 @@
     </ConfigItem>
     <ConfigItem Name="OTRSEscalationEvents::DecayTime" Required="0" Valid="1">
         <Description Translatable="1">The duration in minutes after emitting an event, in which the new escalation notify and start events are suppressed.</Description>
-Description>
         <Group>Ticket</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -5442,7 +5441,7 @@ $QData{"Body"}
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
-            <String RegEx="">via</String>
+            <String>via</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DashboardBackend###0100-TicketPendingReminder" Required="0" Valid="1">
