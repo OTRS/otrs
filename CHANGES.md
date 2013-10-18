@@ -1,4 +1,5 @@
 #3.3.0 RC1 ????-??-??
+ - 2013-10-18 Speed up Kernel::System::TemplateGenerator, thanks to Moritz Lenz @ noris network!
  - 2013-10-18 Fixed bug#[9737](http://bugs.otrs.org/show_bug.cgi?id=9737) - Sort order in queue view labelled incorrectly for all columns except age.
 
 #3.3.0 beta5 2013-10-22
