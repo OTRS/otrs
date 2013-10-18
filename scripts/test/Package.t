@@ -172,6 +172,20 @@ $Self->Is(
     "PackageVerify() - package 'Support' is verified",
 );
 
+# test again with changed line endings, see http://bugs.otrs.org/show_bug.cgi?id=9838
+$Download =~ s{\n}{\r\n}xmsg;
+
+$Verification = $PackageObject->PackageVerify(
+    Package => $Download,
+    Name    => 'Support',
+);
+
+$Self->Is(
+    $Verification,
+    'verified',
+    "PackageVerify() - package 'Support' with changed line endings is verified",
+);
+
 # check if the package is already installed - check by name
 my $PackageIsInstalledByName = $PackageObject->PackageIsInstalled( Name => 'Test' );
 $Self->True(

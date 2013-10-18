@@ -195,14 +195,21 @@ sub RepositoryList {
             Status  => $Row[2],
         );
 
+        # correct any 'dos-style' line endings - http://bugs.otrs.org/show_bug.cgi?id=9838
+        $Row[3] =~ s{\r\n}{\n}xmsg;
+        $Package{MD5sum} = $Self->{MainObject}->MD5sum( String => \$Row[3] );
+
         # get package attributes
         if ( $Row[3] && $Result eq 'Short' ) {
-            $Package{MD5sum} = $Self->{MainObject}->MD5sum( String => \$Row[3] );
+
             push @Data, {%Package};
+
         }
         elsif ( $Row[3] ) {
+
             my %Structure = $Self->PackageParse( String => \$Row[3] );
             push @Data, { %Package, %Structure };
+
         }
     }
 
@@ -1415,6 +1422,9 @@ sub PackageVerify {
     # investigate name
     my $Name = $Param{Structure}->{Name}->{Content} || $Param{Name};
 
+    # correct any 'dos-style' line endings - http://bugs.otrs.org/show_bug.cgi?id=9838
+    $Param{Package} =~ s{\r\n}{\n}xmsg;
+
     # create MD5 sum
     my $Sum = $Self->{MainObject}->MD5sum( String => $Param{Package} );
 
@@ -1554,8 +1564,6 @@ sub PackageVerifyAll {
     }
 
     return %Result if !@PackagesToVerify;
-
-    #    my $PackagesString = join ';', @PackagesToVerify;
 
     # create new web user agent object -> note proxy is different from Package::Proxy
     my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
