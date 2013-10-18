@@ -60,9 +60,9 @@
             <IndexColumn Name="article_key"/>
         </IndexCreate>
         <IndexDrop Name="article_flag_create_by"/>
-        <ForeignKey ForeignTable="article">
+        <ForeignKeyCreate ForeignTable="article">
             <Reference Local="article_id" Foreign="id"/>
-        </ForeignKey>
+        </ForeignKeyCreate>
     </TableAlter>
 
     <TableAlter Name="customer_user">
