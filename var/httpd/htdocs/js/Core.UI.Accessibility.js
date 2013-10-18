@@ -43,7 +43,42 @@ Core.UI.Accessibility = (function (TargetNS) {
             .attr('aria-haspopup', 'true');
         $('.Validate_Required, .Validate_DependingRequiredAND, .Validate_DependingRequiredOR')
             .attr('aria-required', 'true');
+
+        TargetNS.AccessibleNavigation();
     };
+
+    /**
+     * @function
+     * @description
+     *      This function enables keyboard navigation for the
+     *      css-based submenus in the main navigation.
+     * @return nothing
+     */
+    TargetNS.AccessibleNavigation = function() {
+
+        $('#Navigation > ul > li a').bind('focus', function() {
+            $(this)
+                .next('ul')
+                .addClass('Expanded');
+        });
+
+        $('#Navigation > ul > li > ul').bind('mouseleave', function() {
+            $(this).removeClass('Expanded');
+        });
+
+        $('#Navigation > ul > li > ul li a').bind('focus', function() {
+            $(this)
+                .closest('ul')
+                .addClass('Expanded');
+        });
+
+        $('#Navigation > ul > li > ul li:last-child').prev('li').find('a').bind('focusout', function() {
+            $(this)
+                .closest('ul')
+                .removeClass('Expanded');
+        });
+    };
+
 
     /**
      * @function
