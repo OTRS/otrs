@@ -1,3 +1,6 @@
+#3.3.0 RC1 ????-??-??
+ - 2013-10-18 Fixed bug#[9737](http://bugs.otrs.org/show_bug.cgi?id=9737) - Sort order in queue view labelled incorrectly for all columns except age.
+
 #3.3.0 beta5 2013-10-22
  - 2013-10-17 Added new feature "management dashboard". This makes it possible to display statistic charts in the dashboard. Please not that IE8 does not support this feature.
  - 2013-10-14 Fixed bug#[9804](http://bugs.otrs.org/show_bug.cgi?id=9804) - If access to a module not given permission, output the error to httpd log.
