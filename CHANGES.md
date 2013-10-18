@@ -1,5 +1,6 @@
 #3.3.0 RC1 ????-??-??
- - 2013-10-18 Fixed bug#[9669](http://bugs.otrs.org/show_bug.cgi?id=9669) - Accessibility: ticket submenu not expandable with the keyboard.
+ - 2013-10-18 Fixed bug#[9834](http://bugs.otrs.org/show_bug.cgi?id=9834) - Remove any double quotes in the email sender.
+ - 2013-10-18 Fixed bug#[9669](http://bugs.otrs.org/show_bug.cgi?id=9669) - Accessibility: ticket submenu not expandable with the
  - 2013-10-18 Speed up Kernel::System::TemplateGenerator, thanks to Moritz Lenz @ noris network!
  - 2013-10-18 Fixed bug#[9737](http://bugs.otrs.org/show_bug.cgi?id=9737) - Sort order in queue view labelled incorrectly for all columns except age.
 
