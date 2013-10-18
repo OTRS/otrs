@@ -154,6 +154,12 @@ $Include{"AgentCustomerSearch"}
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:FromExternalCustomer -->
 
+                    <label for="CustomerID">$Text{"CustomerID"}:</label>
+                    <div class="Field">
+                        <input type="text" name="CustomerID" id="CustomerID" value="$QData{"CustomerID"}" class="W75pc"/>
+                    </div>
+                    <div class="Clear"></div>
+
                     <label class="Mandatory" for="Dest"><span class="Marker">*</span> $Text{"To queue"}:</label>
                     <div class="Field">
                         $Data{"ToStrg"}
@@ -383,12 +389,6 @@ $Include{"RichTextEditor"}
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
-                    </div>
-                    <div class="Clear"></div>
-
-                    <label for="CustomerID">$Text{"CustomerID"}:</label>
-                    <div class="Field">
-                        <input type="text" name="CustomerID" id="CustomerID" value="$QData{"CustomerID"}" class="W50pc"/>
                     </div>
                     <div class="Clear"></div>
 

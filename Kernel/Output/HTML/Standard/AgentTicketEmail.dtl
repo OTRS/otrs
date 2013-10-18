@@ -285,6 +285,12 @@ $('#Dest').bind('change', function (Event) {
                     </div>
                     <div class="Clear"></div>
 
+                    <label for="CustomerID">$Text{"CustomerID"}:</label>
+                    <div class="Field">
+                        <input type="text" name="CustomerID" id="CustomerID" value="$QData{"CustomerID"}" class="W75pc"/>
+                    </div>
+                    <div class="Clear"></div>
+
 <!-- dtl:block:TicketService -->
                     <label for="ServiceID">$Text{"Service"}:</label>
                     <div class="Field">
@@ -512,12 +518,6 @@ $('#FileUpload').bind('change', function () {
 });
 //]]></script>
 <!--dtl:js_on_document_complete-->
-                    </div>
-                    <div class="Clear"></div>
-
-                    <label for="CustomerID">$Text{"CustomerID"}:</label>
-                    <div class="Field">
-                        <input type="text" name="CustomerID" id="CustomerID" value="$QData{"CustomerID"}" class="W50pc"/>
                     </div>
                     <div class="Clear"></div>
 
