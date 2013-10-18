@@ -148,7 +148,7 @@
 </TableCreate>
 
 <TableAlter Name="dynamic_field">
-    <ColumnAdd Name="internal_field" Required="true" Type="SMALLINT" Default="0"/>/>
+    <ColumnAdd Name="internal_field" Required="true" Type="SMALLINT" Default="0"/>
 </TableAlter>
 
 <!-- Internal dynamic fields for ProcessManagement -->
