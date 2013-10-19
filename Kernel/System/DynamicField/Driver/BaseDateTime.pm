@@ -125,6 +125,8 @@ sub EditFieldRender {
     my %SplitedFieldValues;
     if ( defined $Param{Value} ) {
         $Value = $Param{Value};
+    }
+    if ($Value) {
         my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $Value =~
             m{ \A ( \d{4} ) - ( \d{2} ) - ( \d{2} ) \s ( \d{2} ) : ( \d{2} ) : ( \d{2} ) \z }xms;
 
@@ -209,11 +211,11 @@ sub EditFieldRender {
         # for client side validation
         $HTMLString .= <<"EOF";
 
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"This field is required."}
-        </p>
-    </div>
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"This field is required."}
+    </p>
+</div>
 EOF
     }
 
@@ -224,11 +226,12 @@ EOF
 
         # for server side validation
         $HTMLString .= <<"EOF";
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"$ErrorMessage"}
-        </p>
-    </div>
+
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"$ErrorMessage"}
+    </p>
+</div>
 EOF
     }
 
