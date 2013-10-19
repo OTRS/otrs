@@ -179,20 +179,20 @@ EOF
 
     if ( $Param{Mandatory} ) {
         $HTMLString .= <<"EOF";
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"This field is required or The field content is too long! Maximum size is $Self->{MaxLength} characters."}
-        </p>
-    </div>
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"This field is required or The field content is too long! Maximum size is $Self->{MaxLength} characters."}
+    </p>
+</div>
 EOF
     }
     else {
         $HTMLString .= <<"EOF";
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"The field content is too long! Maximum size is $Self->{MaxLength} characters."}
-        </p>
-    </div>
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"The field content is too long! Maximum size is $Self->{MaxLength} characters."}
+    </p>
+</div>
 EOF
     }
 
@@ -203,11 +203,11 @@ EOF
 
         # for server side validation
         $HTMLString .= <<"EOF";
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"$ErrorMessage"}
-        </p>
-    </div>
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"$ErrorMessage"}
+    </p>
+</div>
 EOF
     }
 

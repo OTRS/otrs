@@ -144,13 +144,13 @@ EOF
     # text
     if ( $Param{AdditionalText} ) {
         $HTMLString .= <<"EOF";
-        \$Text{"$LabelText"} (\$Text{"$Param{AdditionalText}"}):
+    \$Text{"$LabelText"} (\$Text{"$Param{AdditionalText}"}):
 EOF
 
     }
     else {
         $HTMLString .= <<"EOF";
-        \$Text{"$LabelText"}:
+    \$Text{"$LabelText"}:
 EOF
     }
 
