@@ -471,6 +471,7 @@ $Separator
 package Kernel::Language::${Language}_$Module;
 
 use strict;
+use warnings;
 
 sub Data {
     my \$Self = shift;
