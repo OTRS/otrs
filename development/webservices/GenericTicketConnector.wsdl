@@ -10,6 +10,7 @@
     <!-- Warning: This WSDL file is for Development and Test purposes ONLY! -->
     <wsdl:types>
         <xsd:schema
+            elementFormDefault="qualified"
             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             targetNamespace="http://www.otrs.org/TicketConnector/">
             <xsd:complexType name="TicketCreate"></xsd:complexType>
@@ -816,7 +817,7 @@
                         minOccurs="0">
                     </xsd:element>
                     <xsd:element
-                        name="CreatedBy"
+                        name="CreateBy"
                         type="xsd:positiveInteger"
                         maxOccurs="1">
                     </xsd:element>
@@ -1078,7 +1079,7 @@
                         maxOccurs="1">
                     </xsd:element>
                     <xsd:element
-                        name="cc"
+                        name="Cc"
                         type="xsd:string"
                         maxOccurs="1">
                     </xsd:element>
@@ -1162,6 +1163,26 @@
                     </xsd:element>
                     <xsd:element
                         name="FirstLock"
+                        type="xsd:string"
+                        minOccurs="0">
+                    </xsd:element>
+                    <xsd:element
+                        name="From"
+                        type="xsd:string"
+                        minOccurs="0">
+                    </xsd:element>
+                    <xsd:element
+                        name="FromRealname"
+                        type="xsd:string"
+                        minOccurs="0">
+                    </xsd:element>
+                    <xsd:element
+                        name="InReplyTo"
+                        type="xsd:string"
+                        minOccurs="0">
+                    </xsd:element>
+                    <xsd:element
+                        name="IncomingTime"
                         type="xsd:string"
                         minOccurs="0">
                     </xsd:element>
@@ -1340,12 +1361,6 @@
                     </xsd:element>
                     <xsd:element
                         name="To"
-                        type="xsd:string"
-                        minOccurs="1"
-                        maxOccurs="1">
-                    </xsd:element>
-                    <xsd:element
-                        name="ToRealname"
                         type="xsd:string"
                         minOccurs="1"
                         maxOccurs="1">
@@ -1980,27 +1995,6 @@
             </xsd:complexType>
         </xsd:schema>
     </wsdl:types>
-    <wsdl:types><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.otrs.org/TicketConnector/">
-    <xsd:element name="TicketUpdate">
-        <xsd:complexType>
-            <xsd:sequence>
-                <xsd:element
-                    name="in"
-                    type="xsd:string">
-                </xsd:element>
-            </xsd:sequence>
-        </xsd:complexType>
-    </xsd:element>
-    <xsd:element name="TicketUpdateResponse">
-        <xsd:complexType>
-            <xsd:sequence>
-                <xsd:element
-                    name="out"
-                    type="xsd:string">
-                </xsd:element>
-            </xsd:sequence>
-        </xsd:complexType>
-    </xsd:element></xsd:schema></wsdl:types>
     <wsdl:message name="TicketCreateRequest">
         <wsdl:part
             name="TicketCreate"
