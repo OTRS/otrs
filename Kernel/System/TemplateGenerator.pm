@@ -411,7 +411,7 @@ sub Sender {
 
     # prepare realname quote
     if ( $Address{RealName} =~ /(,|@|\(|\)|:)/ && $Address{RealName} !~ /^("|')/ ) {
-        $Address{RealName} =~ s/"//g; # remove any quotes that are already present
+        $Address{RealName} =~ s/"//g;    # remove any quotes that are already present
         $Address{RealName} = '"' . $Address{RealName} . '"';
     }
     my $Sender = "$Address{RealName} <$Address{Email}>";
@@ -1118,8 +1118,8 @@ sub _Replace {
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
 
     my $HashGlobalReplace = sub {
-        my ($Tag, %H) = @_;
-        my $Keys = join '|', map { quotemeta } grep { defined $H{$_} } keys %H;
+        my ( $Tag, %H ) = @_;
+        my $Keys = join '|', map {quotemeta} grep { defined $H{$_} } keys %H;
         $Param{Text} =~ s/(?:$Tag)($Keys)$End/$H{$1}/ig;
     };
 
@@ -1142,7 +1142,7 @@ sub _Replace {
         }
 
         # replace it
-        $HashGlobalReplace->($Tag, %Responsible);
+        $HashGlobalReplace->( $Tag, %Responsible );
     }
 
     # cleanup
@@ -1165,7 +1165,7 @@ sub _Replace {
         }
     }
 
-    $HashGlobalReplace->("$Tag|$Tag2", %CurrentUser);
+    $HashGlobalReplace->( "$Tag|$Tag2", %CurrentUser );
 
     # replace other needed stuff
     $Param{Text} =~ s/$Start OTRS_FIRST_NAME $End/$CurrentUser{UserFirstname}/gxms;
@@ -1257,7 +1257,7 @@ sub _Replace {
     }
 
     # replace it
-    $HashGlobalReplace->($Tag, %Ticket, %DynamicFieldDisplayValues);
+    $HashGlobalReplace->( $Tag, %Ticket, %DynamicFieldDisplayValues );
 
     # COMPAT
     $Param{Text} =~ s/$Start OTRS_TICKET_ID $End/$Ticket{TicketID}/gixms;
@@ -1293,7 +1293,7 @@ sub _Replace {
 
         # replace <OTRS_CUSTOMER_*> tags
         $Tag = $Start . 'OTRS_CUSTOMER_';
-        $HashGlobalReplace->($Tag, %Data);
+        $HashGlobalReplace->( $Tag, %Data );
 
         # replace <OTRS_CUSTOMER_BODY> and <OTRS_COMMENT> tags
         for my $Key (qw(OTRS_CUSTOMER_BODY OTRS_COMMENT)) {
@@ -1464,7 +1464,7 @@ sub _Replace {
         }
 
         # replace it
-        $HashGlobalReplace->("$Tag|$Tag2", %CustomerUser);
+        $HashGlobalReplace->( "$Tag|$Tag2", %CustomerUser );
     }
 
     # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
