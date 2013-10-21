@@ -95,8 +95,6 @@ sub Load {
 # ---------------------------------------------------- #
 # needed system stuff (don't edit this)                #
 # ---------------------------------------------------- #
-use strict;
-use warnings;
 
 use base qw(Kernel::Config::Defaults);
 
