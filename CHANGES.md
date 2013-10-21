@@ -1,4 +1,5 @@
 #3.3.0 RC1 ????-??-??
+ - 2013-10-21 Added new toolbar shortcut for "New process ticket".
  - 2013-10-18 Fixed bug#[9838](http://bugs.otrs.org/show_bug.cgi?id=9838) - OPM line endings changed by mail client leading to unverified package.
  - 2013-10-18 Fixed bug#[9835](http://bugs.otrs.org/show_bug.cgi?id=9835) - Redirect on IIS 7 leads to login screen.
  - 2013-10-18 Fixed bug#[9834](http://bugs.otrs.org/show_bug.cgi?id=9834) - Remove any double quotes in the email sender.

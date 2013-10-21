@@ -62,6 +62,7 @@ $Include{"Datepicker"}
     $('#nav-Tickets-Newemailticket a').attr('target', '_blank');
     $('.PhoneTicket a').attr('target', '_blank');
     $('.EmailTicket a').attr('target', '_blank');
+    $('.ProcessTicket a').attr('target', '_blank');
 <!-- dtl:block:NewTicketInNewWindow -->
 
 });
