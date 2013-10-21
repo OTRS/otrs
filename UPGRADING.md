@@ -61,10 +61,11 @@ If possible try this install on a separate machine for testing first.
 With the tarball:
 
     shell> cd /opt
+    shell> mv otrs otrs-old
     shell> tar -xzf otrs-x.x.x.tar.gz
-    shell> ln -s otrs-x.x.x otrs
+    shell> mv otrs-x.x.x otrs
 
-Restore old configuration files.
+Restore old configuration files
 
 - Kernel/Config.pm
 - Kernel/Config/GenericAgent.pm
@@ -72,14 +73,12 @@ Restore old configuration files.
 
 Restore TicketCounter.log
 
-In order to let OTRS continue with the correct ticket number, restore the 'TicketCounter.log' to
-`$OTRS_HOME/var/log/` (default: `OTRS_HOME=/opt/otrs`)
-
-This is especially important if you are using incremental ticketnumbers.
+In order to let OTRS continue with the correct ticket number, restore the `TicketCounter.log` to
+`$OTRS_HOME/var/log/` (default: `OTRS_HOME=/opt/otrs`). This is especially important if you use incremental ticketnumbers.
 
 Restore article data
 
-If you are saving article data to the filesystem you have to restore the 'article' folder to `$OTRS_HOME/var/` (default: `OTRS_HOME=/opt/otrs`)
+If you configured OTRS to store article data in the filesystem you have to restore the `article` folder to `$OTRS_HOME/var/` (default: `OTRS_HOME=/opt/otrs`).
 
 
 With the RPM:
@@ -171,7 +170,7 @@ PostgreSQL, older versions:
 10. Refresh the configuration cache and delete caches
 -----------------------------------------------------
 
-Please run:
+Please run (as user `otrs`, NOT as `root`):
 
     shell> bin/otrs.RebuildConfig.pl
     shell> bin/otrs.DeleteCache.pl
