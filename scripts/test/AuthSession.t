@@ -394,21 +394,6 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         my %RealSessionData = $SessionObject->GetSessionIDData( SessionID => $RealSessionID );
 
-#        KEY:
-#        for my $Key ( sort keys %{$Session} ) {
-#
-#            next KEY if $Key eq 'UserChallengeToken';
-#            next KEY if $Key eq 'UserRemoteAddr';
-#            next KEY if $Key eq 'UserRemoteUserAgent';
-#            next KEY if $Key eq 'UserSessionStart';
-#
-#            $Self->Is(
-#                $RealSessionData{$Key},
-#                $Session->{$Key},
-#                "#$Module - Real Session Element $Key",
-#            );
-#        }
-
         for my $Key ( qw(UserChallengeToken UserRemoteAddr UserRemoteUserAgent UserSessionStart) ) {
             delete $RealSessionData{$Key};
             delete $Session->{$Key};
