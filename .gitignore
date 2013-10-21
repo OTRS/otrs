@@ -75,8 +75,8 @@ perltidy.LOG.old
 Perl/Critic
 TidyAll
 Kernel/cpan-lib/Pod/Strip.pm
-scripts/install-hook.pl
-scripts/uninstall-hook.pl
+scripts/install-git-hooks.pl
+scripts/uninstall-git-hooks.pl
 OTRSCodePolicy*
 
 # ITSM
