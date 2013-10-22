@@ -43,6 +43,12 @@ sub ValueGet {
     return if !IsArrayRefWithData($DFValue);
     return if !IsHashRefWithData( $DFValue->[0] );
 
+    # return empty if comparison mode is active, and no value is set, this will prevent to fire
+    # false update events when value is not set, see bug #9828.
+    if ( $Param{Comparison} && !defined $DFValue->[0]->{ValueDateTime} ) {
+        return '';
+    }
+
     return $DFValue->[0]->{ValueDateTime};
 }
 
@@ -280,11 +286,11 @@ sub EditFieldValueGet {
 
     # return if the field is empty (e.g. initial screen)
     return if !$DynamicFieldValues{ $Prefix . 'Used' }
-            && !$DynamicFieldValues{ $Prefix . 'Year' }
-            && !$DynamicFieldValues{ $Prefix . 'Month' }
-            && !$DynamicFieldValues{ $Prefix . 'Day' }
-            && !$DynamicFieldValues{ $Prefix . 'Hour' }
-            && !$DynamicFieldValues{ $Prefix . 'Minute' };
+        && !$DynamicFieldValues{ $Prefix . 'Year' }
+        && !$DynamicFieldValues{ $Prefix . 'Month' }
+        && !$DynamicFieldValues{ $Prefix . 'Day' }
+        && !$DynamicFieldValues{ $Prefix . 'Hour' }
+        && !$DynamicFieldValues{ $Prefix . 'Minute' };
 
     # check if need and can transform dates
     # transform the dates early for ReturnValueStructure or ManualTimeStamp Bug#8452
@@ -672,8 +678,8 @@ sub SearchFieldValueGet {
 
         # return if the field is empty (e.g. initial screen)
         return if !$DynamicFieldValues{ $Prefix . 'Start' }
-                && !$DynamicFieldValues{ $Prefix . 'Value' }
-                && !$DynamicFieldValues{ $Prefix . 'Format' };
+            && !$DynamicFieldValues{ $Prefix . 'Value' }
+            && !$DynamicFieldValues{ $Prefix . 'Format' };
 
         $DynamicFieldValues{$Prefix} = 1;
 
@@ -729,11 +735,11 @@ sub SearchFieldValueGet {
 
     # return if the field is empty (e.g. initial screen)
     return if !$DynamicFieldValues{ $Prefix . 'StartYear' }
-            && !$DynamicFieldValues{ $Prefix . 'StartMonth' }
-            && !$DynamicFieldValues{ $Prefix . 'StartDay' }
-            && !$DynamicFieldValues{ $Prefix . 'StopYear' }
-            && !$DynamicFieldValues{ $Prefix . 'StopMonth' }
-            && !$DynamicFieldValues{ $Prefix . 'StopDay' };
+        && !$DynamicFieldValues{ $Prefix . 'StartMonth' }
+        && !$DynamicFieldValues{ $Prefix . 'StartDay' }
+        && !$DynamicFieldValues{ $Prefix . 'StopYear' }
+        && !$DynamicFieldValues{ $Prefix . 'StopMonth' }
+        && !$DynamicFieldValues{ $Prefix . 'StopDay' };
 
     $DynamicFieldValues{ $Prefix . 'StartSecond' } = '00';
     $DynamicFieldValues{ $Prefix . 'StopSecond' }  = '59';

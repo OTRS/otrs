@@ -120,6 +120,17 @@ sub ValueGet {
         push @ReturnData, $Item->{ValueText}
     }
 
+    # return empty array if comparison mode is active, and no value is set, this will prevent to
+    # fire false update events when value is not set, see bug #9828.
+    if (
+        $Param{Comparison}
+        && scalar @ReturnData == 1
+        && $ReturnData[0] eq ''
+        )
+    {
+        return [];
+    }
+
     return \@ReturnData;
 }
 

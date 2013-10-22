@@ -476,6 +476,7 @@ sub ValueSet {
     my $OldValue = $Self->ValueGet(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         ObjectID           => $Param{ObjectID},
+        Comparison         => 1,
     );
 
     my $NewValue = $Param{Value};
@@ -689,6 +690,8 @@ get a dynamic field value.
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
         ObjectID           => $ObjectID,                # ID of the current object that the field
                                                         # must be linked to, e. g. TicketID
+        Comparison         => 0,                        # or 1, internal use only! if active it will
+                                                        #    prevent to return undef values.
     );
 
     Return $Value                                       # depends on backend type, i. e.
