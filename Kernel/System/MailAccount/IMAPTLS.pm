@@ -46,7 +46,7 @@ sub Connect {
         Server   => $Param{Host},
         User     => $Param{Login},
         Password => $Param{Password},
-        Starttls => 1,                  # may need to change to param
+        Starttls => [ SSL_verify_mode => 0 ],
         Debug    => $Param{Debug},
         Uid      => 1,
 
