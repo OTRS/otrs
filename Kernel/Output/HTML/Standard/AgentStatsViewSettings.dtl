@@ -130,13 +130,6 @@
         $(this).attr('data-seconds', SecondsMapping[$(this).val()]);
     });
 
-    $('.StatsSettingsBox').find('select, input').each(function() {
-        $(this).bind('change', function() {
-            CollectStatsData($(this).closest('.StatsSettingsBox'));
-            ValidateTimeSettings();
-        });
-    });
-
     // check for validity of relative time settings
     // each time setting has its own maximum value in data-max-seconds attribute on the .Value div.
     // if the combination of unit and count is higher than this value, the select boxes will be
@@ -192,6 +185,13 @@
 
         $Input.val(Core.JSON.Stringify(Data));
     }
+
+    $('.StatsSettingsBox').find('select, input').each(function() {
+        $(this).bind('change', function() {
+            CollectStatsData($(this).closest('.StatsSettingsBox'));
+            ValidateTimeSettings();
+        });
+    });
 
     ValidateTimeSettings();
 }());

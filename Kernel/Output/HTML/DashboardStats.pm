@@ -78,9 +78,6 @@ sub Preferences {
 
     $Self->{LayoutObject}->Block(
         Name => 'WidgetSettingsStart',
-        Data => {
-
-        },
     );
 
     # get static attributes
