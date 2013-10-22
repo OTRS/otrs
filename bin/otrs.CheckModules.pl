@@ -141,6 +141,7 @@ my @NeededModules = (
     },
     {
         Module   => 'Mail::IMAPClient',
+        Version  => '3.22',
         Comment  => 'Required for IMAP TLS connections.',
         Required => 0,
         Depends  => [
