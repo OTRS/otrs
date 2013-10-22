@@ -253,7 +253,31 @@ Core.Agent.Dashboard = (function (TargetNS) {
     TargetNS.RegisterUpdatePreferences = function ($ClickedElement, ElementID, $Form) {
         if (isJQueryObject($ClickedElement) && $ClickedElement.length) {
             $ClickedElement.click(function () {
-                var URL = Core.Config.Get('Baselink') + Core.AJAX.SerializeForm($Form);
+                var URL = Core.Config.Get('Baselink') + Core.AJAX.SerializeForm($Form),
+                    ValidationErrors = false;
+
+                // check for elements to validate
+                $ClickedElement.closest('fieldset').find('.StatsSettingsBox').find('.TimeRelativeUnitGeneric').each(function() {
+                    if (parseInt($(this).prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) > parseInt($(this).closest('.Value').attr('data-max-seconds'), 10)) {
+                        ValidationErrors = true;
+                        $(this)
+                            .add($(this).prev('select'))
+                            .add($(this).closest('.Value'))
+                            .addClass('Error');
+                    }
+                    else {
+                        $(this)
+                            .add($(this).prev('select'))
+                            .add($(this).closest('.Value'))
+                            .removeClass('Error');
+                    }
+                });
+
+                if (ValidationErrors) {
+                    alert(Core.Config.Get('ValidationErrorMsg'));
+                    return false;
+                }
+
                 Core.AJAX.ContentUpdate($('#' + ElementID), URL, function () {
                     Core.UI.ToggleTwoContainer($('#' + ElementID + '-setting'), $('#' + ElementID));
                     Core.UI.Table.InitCSSPseudoClasses();

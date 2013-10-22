@@ -337,7 +337,7 @@ sub Preferences {
                             $RelativeSelectedID = $StatsSettings->{
                                 $ObjectAttribute->{Element}
                                     . 'TimeRelativeCount'
-                                };
+                            };
                         }
 
                         my $ScaleSelectedID;
@@ -349,7 +349,7 @@ sub Preferences {
                             $ScaleSelectedID = $StatsSettings->{
                                 $ObjectAttribute->{Element}
                                     . 'TimeScaleCount'
-                                };
+                            };
                         }
 
                         my %TimeData = _Timeoutput(
@@ -390,12 +390,13 @@ sub Preferences {
                                     $SelectedID = $StatsSettings->{
                                         $ObjectAttribute->{Element}
                                             . 'TimeRelativeUnit'
-                                        };
+                                    };
                                 }
 
                                 $BlockData{TimeRelativeUnit}
                                     = $Self->{LayoutObject}->BuildSelection(
                                     Data       => \%TimeScaleOption,
+                                    Class      => 'TimeRelativeUnitGeneric',
                                     Name       => $ObjectAttribute->{Element} . 'TimeRelativeUnit',
                                     SelectedID => $SelectedID || '',
                                     );
@@ -404,6 +405,10 @@ sub Preferences {
                                 = $ObjectAttribute->{TimeRelativeCount};
                             $BlockData{TimeRelativeUnitMax}
                                 = $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }{Value};
+                            $BlockData{TimeRelativeMaxSeconds}
+                                = $ObjectAttribute->{TimeRelativeCount}
+                                * $Self->_TimeInSeconds(
+                                TimeUnit => $ObjectAttribute->{TimeRelativeUnit} );
 
                             $Self->{LayoutObject}->Block(
                                 Name => 'TimePeriodRelative',
@@ -717,6 +722,31 @@ sub _TimeScale {
     );
 
     return \%TimeScale;
+}
+
+sub _TimeInSeconds {
+    my ( $Self, %Param ) = @_;
+
+    # check if need params are available
+    if ( !$Param{TimeUnit} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => '_TimeInSeconds: Need TimeUnit!'
+        );
+        return;
+    }
+
+    my %TimeInSeconds = (
+        Year   => 31536000,    # 60 * 60 * 60 * 365
+        Month  => 2592000,     # 60 * 60 * 24 * 30
+        Week   => 604800,      # 60 * 60 * 24 * 7
+        Day    => 86400,       # 60 * 60 * 24
+        Hour   => 3600,        # 60 * 60
+        Minute => 60,
+        Second => 1,
+    );
+
+    return $TimeInSeconds{ $Param{TimeUnit} };
 }
 
 1;

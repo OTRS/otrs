@@ -48,6 +48,7 @@ Core.App.Ready(function () {
         LoadingMsg: '$JSText{"Loading..."}',
         EmptySearchMsg: '$JSText{"Please enter at least one search value or * to find anything."}',
         SearchMsg: '$JSText{"Search"}',
+        ValidationErrorMsg: '$JSText{"Please check the fields marked as red for valid inputs."}',
         DeleteMsg: '$JSText{"Delete"}',
         ApplyButtonText: '$JSText{"Apply"}',
         NoElementsToSelectFromMsg: '$JSText{"There are currently no elements available to select from."}'

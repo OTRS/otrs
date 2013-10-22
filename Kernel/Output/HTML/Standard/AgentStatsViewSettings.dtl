@@ -93,13 +93,34 @@
 
 <!--dtl:block:TimePeriodRelative -->
     <label><em>$Text{"The last"}</em>:</label>
-    <div class="Value">
+    <div class="Value" data-max-seconds="$Data{"TimeRelativeMaxSeconds"}">
         <p>
             $Data{"TimeRelativeCount"}
             $Data{"TimeRelativeUnit"} ($Text{"maximal period"} $Data{"TimeRelativeCountMax"} $Text{"$Data{"TimeRelativeUnitMax"}"})
         </p>
     </div>
     <div class="Clear"></div>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+(function(){
+
+    var SecondsMapping = {
+        'Year'   : 31536000,
+        'Month'  : 2592000,
+        'Week'   : 604800,
+        'Day'    : 86400,
+        'Hour'   : 3600,
+        'Minute' : 60,
+        'Second' : 1
+    };
+
+    $('.TimeRelativeUnitGeneric').find('option').each(function() {
+        $(this).attr('data-seconds', SecondsMapping[$(this).val()]);
+    });
+}());
+//]]></script>
+<!-- dtl:js_on_document_complete -->
 
 <!--dtl:block:TimePeriodRelative -->
 
