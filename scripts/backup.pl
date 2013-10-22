@@ -219,7 +219,7 @@ my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
     );
 
 # create directory name - this looks like 2013-09-09_22-19'
-my $Directory = sprintf( "%04d-%02d-%02d_%02d-%02d", $Year, $Month, $Day, $Hour, $Min );
+my $Directory = sprintf( "$Opts{d}/%04d-%02d-%02d_%02d-%02d", $Year, $Month, $Day, $Hour, $Min );
 
 if ( !mkdir($Directory) ) {
     die "ERROR: Can't create directory: $Directory: $!\n";
