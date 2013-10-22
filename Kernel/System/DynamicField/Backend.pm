@@ -476,13 +476,22 @@ sub ValueSet {
     my $OldValue = $Self->ValueGet(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         ObjectID           => $Param{ObjectID},
-        Comparison         => 1,
     );
 
     my $NewValue = $Param{Value};
 
-    # do not proceed if there is nothing to update
-    if ( !DataIsDifferent( Data1 => \$OldValue, Data2 => \$NewValue ) ) {
+    # do not proceed if there is nothing to update, each dynamic field requires special handling to
+    #    determine if two values are different or not, this to prevent false update events,
+    #    see bug #9828. Note: (do not send %Param, as $NewValue is a reference and then Value2 could
+    #    have strange values).
+    if (
+        !$Self->ValueIsDifferent(
+            DynamicFieldConfig => $Param{DynamicFieldConfig},
+            Value1             => $OldValue,
+            Value2             => $NewValue,
+        )
+        )
+    {
         return 1;
     }
 
@@ -508,6 +517,74 @@ sub ValueSet {
     }
 
     return 1;
+}
+
+=item ValueIsDifferent()
+
+compares if two dynamic field values are different.
+
+This function relies on Kernel::System::VariableCheck::DataIsDifferent() but with some exeptions
+depending on each field.
+
+    my $Success = $BackendObject->ValueIsDifferent(
+        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
+                                                        # must be linked to, e. g. TicketID
+        Value1             => $Value1,                  # Dynamic Field Value
+        Value2             => $Value2,                  # Dynamic Field Value
+    );
+
+=cut
+
+sub ValueIsDifferent {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dynamic field specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # use Kernel::System::VariableCheck::DataIsDifferent() as a fall back if function is not
+    #    defined in the backend
+    if ( !$Self->{$DynamicFieldBackend}->can('ValueIsDifferent') ) {
+        return DataIsDifferent( Data1 => \$Param{Value1}, Data2 => \$Param{Value2} );
+    }
+
+    # call ValueIsDifferent on the specific backend
+    return $Self->{$DynamicFieldBackend}->ValueIsDifferent(%Param);
 }
 
 =item ValueDelete()
@@ -690,8 +767,6 @@ get a dynamic field value.
         DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
         ObjectID           => $ObjectID,                # ID of the current object that the field
                                                         # must be linked to, e. g. TicketID
-        Comparison         => 0,                        # or 1, internal use only! if active it will
-                                                        #    prevent to return undef values.
     );
 
     Return $Value                                       # depends on backend type, i. e.

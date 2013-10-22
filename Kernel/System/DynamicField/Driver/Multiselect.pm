@@ -120,17 +120,6 @@ sub ValueGet {
         push @ReturnData, $Item->{ValueText}
     }
 
-    # return empty array if comparison mode is active, and no value is set, this will prevent to
-    # fire false update events when value is not set, see bug #9828.
-    if (
-        $Param{Comparison}
-        && scalar @ReturnData == 1
-        && $ReturnData[0] eq ''
-        )
-    {
-        return [];
-    }
-
     return \@ReturnData;
 }
 
@@ -155,24 +144,60 @@ sub ValueSet {
         @Values = ( $Param{Value} );
     }
 
-    my @ValueText;
+    my $Success;
     if ( IsArrayRefWithData( \@Values ) ) {
+
+        # if there is at least one value to set, this means one or more values are selected,
+        #    set those values!
+        my @ValueText;
         for my $Item (@Values) {
             push @ValueText, { ValueText => $Item };
         }
+
+        $Success = $Self->{DynamicFieldValueObject}->ValueSet(
+            FieldID  => $Param{DynamicFieldConfig}->{ID},
+            ObjectID => $Param{ObjectID},
+            Value    => \@ValueText,
+            UserID   => $Param{UserID},
+        );
     }
     else {
-        push @ValueText, { ValueText => '' };
+
+        # otherwise no value was selected, then in fact this means that any value there should be
+        # deleted
+        $Success = $Self->{DynamicFieldValueObject}->ValueDelete(
+            FieldID  => $Param{DynamicFieldConfig}->{ID},
+            ObjectID => $Param{ObjectID},
+            UserID   => $Param{UserID},
+        );
     }
 
-    my $Success = $Self->{DynamicFieldValueObject}->ValueSet(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
-        ObjectID => $Param{ObjectID},
-        Value    => \@ValueText,
-        UserID   => $Param{UserID},
-    );
-
     return $Success;
+}
+
+sub ValueIsDifferent {
+    my ( $Self, %Param ) = @_;
+
+    # special cases where the values are different but they should be reported as equals
+    if (
+        !defined $Param{Value1}
+        && ref $Param{Value2} eq 'ARRAY'
+        && !IsArrayRefWithData( $Param{Value2} )
+        )
+    {
+        return
+    }
+    if (
+        !defined $Param{Value2}
+        && ref $Param{Value1} eq 'ARRAY'
+        && !IsArrayRefWithData( $Param{Value1} )
+        )
+    {
+        return
+    }
+
+    # compare the results
+    return DataIsDifferent( Data1 => \$Param{Value1}, Data2 => \$Param{Value2} );
 }
 
 sub ValueValidate {

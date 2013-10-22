@@ -116,12 +116,6 @@ sub ValueGet {
     return if !IsArrayRefWithData($DFValue);
     return if !IsHashRefWithData( $DFValue->[0] );
 
-    # return empty if comparison mode is active, and no value is set, this will prevent to fire
-    # false update events when value is not set, see bug #9828.
-    if ( $Param{Comparison} && !defined $DFValue->[0]->{ValueInt} ) {
-        return 0;
-    }
-
     return $DFValue->[0]->{ValueInt};
 }
 
