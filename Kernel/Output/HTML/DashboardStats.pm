@@ -76,6 +76,13 @@ sub Preferences {
 
     my $OutputPresent = 0;
 
+    $Self->{LayoutObject}->Block(
+        Name => 'WidgetSettingsStart',
+        Data => {
+
+        },
+    );
+
     # get static attributes
     if ( $Stat->{StatType} eq 'static' ) {
 
@@ -484,6 +491,9 @@ sub Preferences {
     if ( !$OutputPresent ) {
         return;
     }
+
+    $Self->{LayoutObject}->Block( Name => 'WidgetSettingsJS' );
+    $Self->{LayoutObject}->Block( Name => 'WidgetSettingsEnd' );
 
     my $SettingsHTML = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentStatsViewSettings',

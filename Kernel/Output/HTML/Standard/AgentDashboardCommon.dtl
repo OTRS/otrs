@@ -215,10 +215,7 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}-toggle'), $('#Das
                         <div class="Clear"></div>
 <!-- dtl:block:ContentLargePreferencesItemAllocationList -->
 <!-- dtl:block:ContentLargePreferencesItemRawHTML -->
-                        <input type="hidden" name="$QData{"NamePref"}" class="StatsSettingsJSON" value="$QData{"StatsSettings"}" />
-                        <div class="StatsSettingsBox">
-                            $Data{"HTML"}
-                        </div>
+                        $Data{"HTML"}
 <!-- dtl:block:ContentLargePreferencesItemRawHTML -->
 <!-- dtl:block:ContentLargePreferencesItem -->
                         <div class="Buttons">
@@ -250,38 +247,6 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard$QData{"Name"}_cancel'), $('#Das
 
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-
-    $('.SettingsWidget').find('label').each(function() {
-        if ($(this).find('input').prop('checked')) {
-            $(this).addClass('Checked');
-        }
-        $(this).bind('click', function() {
-            $(this).toggleClass('Checked', $(this).find('input').prop('checked'));
-        });
-    });
-
-    function CollectStatsData($ParentElement) {
-
-        var $Input = $ParentElement.prev('.StatsSettingsJSON'),
-            Key,
-            Value,
-            Data = {};
-
-        $ParentElement.find('select, input').each(function() {
-            Key       = $(this).attr('name');
-            Value     = $(this).val();
-            Data[Key] = Value;
-        });
-
-        $Input.val(Core.JSON.Stringify(Data));
-    }
-
-    $('.StatsSettingsBox').find('select, input').each(function() {
-        $(this).bind('change', function() {
-            CollectStatsData($(this).closest('.StatsSettingsBox'));
-        });
-    });
-
     Core.Config.AddConfig({
 <!-- dtl:block:ColumnTranslation -->
         'Column$QData{"ColumnName"}': '$JSText{"$QData{"TranslateString"}"}'<!-- dtl:block:ColumnTranslationSeparator -->,<!-- dtl:block:ColumnTranslationSeparator -->

@@ -7,100 +7,111 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+<!--dtl:block:WidgetSettingsStart -->
+<input type="hidden" name="$QData{"NamePref"}" class="StatsSettingsJSON" />
+<div class="StatsSettingsBox">
+<!--dtl:block:WidgetSettingsStart -->
+
 <!--dtl:block:Static -->
-<h2>
-    $Text{"Configurable params of static stat"}
-</h2>
-<fieldset class="TableLike">
+    <h2>
+        $Text{"Configurable params of static stat"}
+    </h2>
+    <fieldset class="TableLike">
 <!--dtl:block:ItemParam -->
-    <label for="$QData{"Name"}">$Text{"$Data{"Param"}"}:</label>
-    <div class="Value">$Data{"Field"}</div>
-    <div class="Clear"></div>
+        <label for="$QData{"Name"}">$Text{"$Data{"Param"}"}:</label>
+        <div class="Value">$Data{"Field"}</div>
+        <div class="Clear"></div>
 <!--dtl:block:ItemParam -->
-</fieldset>
+    </fieldset>
 <!--dtl:block:Static -->
 
 
 <!--dtl:block:Dynamic -->
-<h2>$Text{"$Data{"Name"}"}</h2>
-<fieldset class="TableLike">
+    <h2>$Text{"$Data{"Name"}"}</h2>
+    <fieldset class="TableLike">
 <!--dtl:block:NoElement -->
-    <p>$Text{"No element selected."}</p>
+        <p>$Text{"No element selected."}</p>
 <!--dtl:block:NoElement -->
 <!--dtl:block:Element -->
-    <label>$Text{"$Data{"Name"}"}</label>
-    <div class="Value">
-        <p>
+        <label>$Text{"$Data{"Name"}"}</label>
+        <div class="Value">
+            <p>
 <!--dtl:block:TimePeriodFixed -->
-            $Text{"Between"} $Data{"TimeStart"} $Text{"and"} $Data{"TimeStop"}<br/>
+                $Text{"Between"} $Data{"TimeStart"} $Text{"and"} $Data{"TimeStop"}<br/>
 <!--dtl:block:TimePeriodFixed -->
 <!--dtl:block:TimeRelativeFixed -->
-            $Text{"The last"} $Data{"TimeRelativeCount"} $Text{"$Data{"TimeRelativeUnit"}"}<br/>
+                $Text{"The last"} $Data{"TimeRelativeCount"} $Text{"$Data{"TimeRelativeUnit"}"}<br/>
 <!--dtl:block:TimeRelativeFixed -->
 <!--dtl:block:TimeScaleFixed -->
-            $Text{"Scale"}: $Data{"Count"} $Text{"$Data{"Scale"}"}
+                $Text{"Scale"}: $Data{"Count"} $Text{"$Data{"Scale"}"}
 <!--dtl:block:TimeScaleFixed -->
 <!--dtl:block:Fixed -->
-            $Data{"Value"}<br/>
+                $Data{"Value"}<br/>
 <!--dtl:block:Fixed -->
 <!--dtl:block:MultiSelectField -->
-            $Data{"SelectField"}
+                $Data{"SelectField"}
 <!--dtl:block:MultiSelectField -->
 <!--dtl:block:SelectField -->
-            $Data{"SelectField"}
+                $Data{"SelectField"}
 <!--dtl:block:SelectField -->
 <!--dtl:block:InputField -->
-            <input type="text" name="$QData{"Key"}" value="$QData{"Value"}" class="W25pc"/>
+                <input type="text" name="$QData{"Key"}" value="$QData{"Value"}" class="W25pc"/>
 <!--dtl:block:InputField -->
-        </p>
-    </div>
-    <div class="Clear"></div>
+            </p>
+        </div>
+        <div class="Clear"></div>
 
 <!--dtl:block:TimeScale -->
-    <label><em>$Text{"Scale"}</em>:</label>
-    <div class="Value">
-        <p>
-            $Data{"TimeScaleCount"}
-            $Data{"TimeScaleUnit"}
+        <label><em>$Text{"Scale"}</em>:</label>
+        <div class="Value">
+            <p>
+                $Data{"TimeScaleCount"}
+                $Data{"TimeScaleUnit"}
 <!--dtl:block:TimeScaleInfo -->
-            ($Text{"minimal scale"} $Data{"TimeScaleCountMax"} $Text{"$Data{"TimeScaleUnitMax"}"})
+                ($Text{"minimal scale"} $Data{"TimeScaleCountMax"} $Text{"$Data{"TimeScaleUnitMax"}"})
 <!--dtl:block:TimeScaleInfo -->
-        </p>
-    </div>
-    <div class="Clear"></div>
+            </p>
+        </div>
+        <div class="Clear"></div>
 <!--dtl:block:TimeScale -->
 
 <!--dtl:block:TimePeriod -->
-    <label><em>$Text{"Between"}</em>:</label>
-    <div class="Value">
-        <p>
-            $Data{"TimeStart"} $Text{"and"} $Data{"TimeStop"}<br/>
-            ($Text{"maximal period from"} $TimeLong{"$Data{"TimeStartMax"}"} $Text{"to"} $TimeLong{"$Data{"TimeStopMax"}"})
-        </p>
-    </div>
-    <div class="Clear"></div>
+        <label><em>$Text{"Between"}</em>:</label>
+        <div class="Value">
+            <p>
+                $Data{"TimeStart"} $Text{"and"} $Data{"TimeStop"}<br/>
+                ($Text{"maximal period from"} $TimeLong{"$Data{"TimeStartMax"}"} $Text{"to"} $TimeLong{"$Data{"TimeStopMax"}"})
+            </p>
+        </div>
+        <div class="Clear"></div>
 <!--dtl:block:TimePeriod -->
 
 <!--dtl:block:TimePeriodNotChangable -->
-    <label><em>$Text{"Between"}</em>:</label>
-    <div class="Value">
-        <p>
-            $TimeLong{"$Data{"TimeStartMax"}"} $Text{"and"} $TimeLong{"$Data{"TimeStopMax"}"} ($Text{"not changable for dashboard statistics"}).
-        </p>
-    </div>
-    <div class="Clear"></div>
+        <label><em>$Text{"Between"}</em>:</label>
+        <div class="Value">
+            <p>
+                $TimeLong{"$Data{"TimeStartMax"}"} $Text{"and"} $TimeLong{"$Data{"TimeStopMax"}"} ($Text{"not changable for dashboard statistics"}).
+            </p>
+        </div>
+        <div class="Clear"></div>
 <!--dtl:block:TimePeriodNotChangable -->
 
 <!--dtl:block:TimePeriodRelative -->
-    <label><em>$Text{"The last"}</em>:</label>
-    <div class="Value" data-max-seconds="$Data{"TimeRelativeMaxSeconds"}">
-        <p>
-            $Data{"TimeRelativeCount"}
-            $Data{"TimeRelativeUnit"} ($Text{"maximal period"} $Data{"TimeRelativeCountMax"} $Text{"$Data{"TimeRelativeUnitMax"}"})
-        </p>
-    </div>
-    <div class="Clear"></div>
+        <label><em>$Text{"The last"}</em>:</label>
+        <div class="Value" data-max-seconds="$Data{"TimeRelativeMaxSeconds"}">
+            <p>
+                $Data{"TimeRelativeCount"}
+                $Data{"TimeRelativeUnit"} ($Text{"maximal period"} $Data{"TimeRelativeCountMax"} $Text{"$Data{"TimeRelativeUnitMax"}"})
+            </p>
+        </div>
+        <div class="Clear"></div>
+<!--dtl:block:TimePeriodRelative -->
 
+<!--dtl:block:Element -->
+    </fieldset>
+<!--dtl:block:Dynamic -->
+
+<!--dtl:block:WidgetSettingsJS -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 (function(){
@@ -118,12 +129,76 @@
     $('.TimeRelativeUnitGeneric').find('option').each(function() {
         $(this).attr('data-seconds', SecondsMapping[$(this).val()]);
     });
+
+    $('.StatsSettingsBox').find('select, input').each(function() {
+        $(this).bind('change', function() {
+            CollectStatsData($(this).closest('.StatsSettingsBox'));
+            ValidateTimeSettings();
+        });
+    });
+
+    // check for validity of relative time settings
+    // each time setting has its own maximum value in data-max-seconds attribute on the .Value div.
+    // if the combination of unit and count is higher than this value, the select boxes will be
+    // colored with red and the submit button will be blocked.
+    function ValidateTimeSettings() {
+
+        $('.StatsSettingsBox').find('.TimeRelativeUnitGeneric').each(function() {
+            if (parseInt($(this).prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) > parseInt($(this).closest('.Value').attr('data-max-seconds'), 10)) {
+
+                $(this)
+                    .add($(this).prev('select'))
+                    .add($(this).closest('.Value'))
+                    .addClass('Error');
+            }
+            else {
+                $(this)
+                    .add($(this).prev('select'))
+                    .add($(this).closest('.Value'))
+                    .removeClass('Error');
+            }
+        });
+
+        $('.StatsSettingsBox').each(function() {
+            if ($(this).find('.TimeRelativeUnitGeneric.Error').length) {
+                $(this)
+                    .next('.Buttons')
+                    .find('button:first-child')
+                    .attr('disabled', true)
+                    .addClass('Disabled');
+            }
+            else {
+                $(this)
+                    .next('.Buttons')
+                    .find('button:first-child')
+                    .attr('disabled', false)
+                    .removeClass('Disabled');
+            }
+        });
+    }
+
+    function CollectStatsData($ParentElement) {
+
+        var $Input = $ParentElement.prev('.StatsSettingsJSON'),
+            Key,
+            Value,
+            Data = {};
+
+        $ParentElement.find('select, input').each(function() {
+            Key       = $(this).attr('name');
+            Value     = $(this).val();
+            Data[Key] = Value;
+        });
+
+        $Input.val(Core.JSON.Stringify(Data));
+    }
+
+    ValidateTimeSettings();
 }());
 //]]></script>
 <!-- dtl:js_on_document_complete -->
+<!--dtl:block:WidgetSettingsJS -->
 
-<!--dtl:block:TimePeriodRelative -->
-
-<!--dtl:block:Element -->
-</fieldset>
-<!--dtl:block:Dynamic -->
+<!--dtl:block:WidgetSettingsEnd -->
+</div>
+<!--dtl:block:WidgetSettingsEnd -->

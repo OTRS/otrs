@@ -123,7 +123,6 @@
         });
 
     }, Timeout);
-
 }());
 //]]></script>
 <!-- dtl:js_on_document_complete -->

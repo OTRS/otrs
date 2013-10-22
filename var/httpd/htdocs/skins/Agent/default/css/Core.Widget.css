@@ -510,6 +510,11 @@ ul.Tablelike li.Header + li {
     text-shadow: 0 1px 0 #DDD;
 }
 
+.CallForAction.Disabled, .CallForAction.Disabled span {
+    color: #999;
+    cursor: default;
+}
+
 .CallForAction.Plus span {
     background: url(../img/icons/plus-button.png) no-repeat scroll;
 }

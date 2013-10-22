@@ -239,6 +239,15 @@ Core.Agent.Dashboard = (function (TargetNS) {
             }
         );
 
+        $('.SettingsWidget').find('label').each(function() {
+            if ($(this).find('input').prop('checked')) {
+                $(this).addClass('Checked');
+            }
+            $(this).bind('click', function() {
+                $(this).toggleClass('Checked', $(this).find('input').prop('checked'));
+            });
+        });
+
         Core.Agent.TableFilters.SetAllocationList();
     };
 
