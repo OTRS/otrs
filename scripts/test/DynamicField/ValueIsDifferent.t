@@ -392,7 +392,7 @@ my @Tests = (
             Value1             => undef,
             Value2             => 0,
         },
-        Success => 0,
+        Success => 1,
     },
     {
         Name   => 'Checkbox: Value1 0, Value2 undef',
@@ -401,7 +401,7 @@ my @Tests = (
             Value1             => 0,
             Value2             => undef,
         },
-        Success => 0,
+        Success => 1,
     },
     {
         Name   => 'Checkbox: Both undefs',
