@@ -1,4 +1,5 @@
 #3.3.0 RC1 ????-??-??
+ - 2013-10-22 Fixed bug#[9844](http://bugs.otrs.org/show_bug.cgi?id=9844) - Column filter not saved on ticket overviews.
  - 2013-10-22 Fixed bug#[9842](http://bugs.otrs.org/show_bug.cgi?id=9842) - Script backup.pl fails to create backup in given directory..
  - 2013-10-22 Fixed bug#[9855](http://bugs.otrs.org/show_bug.cgi?id=9855) - OTRS can't connect to IMAP/TLS based servers from Windows.
  - 2013-10-21 Fixed bug#[9828](http://bugs.otrs.org/show_bug.cgi?id=9828) - Dynamic field updates of unchanged dynamic fields cause event based actions to fail.

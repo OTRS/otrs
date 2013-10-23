@@ -65,7 +65,16 @@ sub Run {
         Value     => $Self->{RequestedURL},
     );
 
-    # get the column filters from the web request
+    # get filters stored in the user preferences
+    my %Preferences = $Self->{UserObject}->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+    my $StoredFiltersKey = 'UserStoredFilterColumns-' . $Self->{Action};
+    my $StoredFilters    = $Self->{JSONObject}->Decode(
+        Data => $Preferences{$StoredFiltersKey},
+    );
+
+    # get the column filters from the web request or user preferences
     my %ColumnFilter;
     my %GetColumnFilter;
     COLUMNNAME:
@@ -73,8 +82,22 @@ sub Run {
         qw(Owner Responsible State Queue Priority Type Lock Service SLA CustomerID CustomerUserID)
         )
     {
+        # get column filter from web request
         my $FilterValue = $Self->{ParamObject}->GetParam( Param => 'ColumnFilter' . $ColumnName )
             || '';
+
+        # if filter is not present in the web request, try with the user preferences
+        if ( $FilterValue eq '' ) {
+            if ( $ColumnName eq 'CustomerID' ) {
+                $FilterValue = $StoredFilters->{$ColumnName}->[0] || '';
+            }
+            elsif ( $ColumnName eq 'CustomerUserID' ) {
+                $FilterValue = $StoredFilters->{CustomerUserLogin}->[0] || '';
+            }
+            else {
+                $FilterValue = $StoredFilters->{ $ColumnName . 'IDs' }->[0] || '';
+            }
+        }
         next COLUMNNAME if $FilterValue eq '';
 
         if (
@@ -115,9 +138,16 @@ sub Run {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
         next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
 
+        # get filter from web request
         my $FilterValue = $Self->{ParamObject}->GetParam(
             Param => 'ColumnFilterDynamicField_' . $DynamicFieldConfig->{Name}
         );
+
+        # if no filter from web request, try from user preferences
+        if ( !defined $FilterValue || $FilterValue eq '' ) {
+            $FilterValue
+                = $StoredFilters->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }->{Equals};
+        }
 
         next DYNAMICFIELD if !defined $FilterValue;
         next DYNAMICFIELD if $FilterValue eq '';
