@@ -158,7 +158,9 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 <!-- dtl:block:OverviewNavBarPageDynamicFieldNotSortable -->
 
 <!-- dtl:block:OverviewNavBarPageDynamicFieldFiltrableSortable -->
-                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}"></a>
+                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
+                            <i class="icon-filter"></i>
+                        </a>
                         <div class="ColumnSettingsContainer">
                             <div class="ColumnSettingsBox">
                                 $Data{"ColumnFilterStrg"}
@@ -193,18 +195,31 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=DynamicField_$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"}">$Text{"$Data{"Label"}"}</a>
 #<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_Sortable -->
 #<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_NotSortable -->
-#                        <span>$Text{"$Data{"Label"}"}</span>
+#                        <span class="Gray" title="$Data{"Title"}">$Text{"$Data{"Label"}"}</span>
 #<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_NotSortable -->
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_FiltrableSortable -->
+#                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
+#                            <i class="icon-filter"></i>
+#                        </a>
+#                        <div class="ColumnSettingsContainer">
+#                            <div class="ColumnSettingsBox">
+#                                $Data{"ColumnFilterStrg"}
+#                            </div>
+#                        </div>
+#                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=DynamicField_$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"}" title="$Data{"Title"}">$QData{"Label"}</a>
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_FiltrableSortable -->
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_FiltrableNotSortable -->
+#                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
+#                            <i class="icon-filter"></i>
+#                        </a>
+#                        <div class="ColumnSettingsContainer">
+#                            <div class="ColumnSettingsBox">
+#                                $Data{"ColumnFilterStrg"}
+#                            </div>
+#                        </div>
+#                        <span class="Gray" title="$Data{"Title"}">$QData{"Label"}</span>
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_FiltrableNotSortable -->
 #                    </th>
-
-#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_FiltrableSortable -->
-#                        $Data{"ColumnFilterStrg"}
-#                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=DynamicField_$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"}"></a>
-#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_FiltrableSortable -->
-#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_FiltrableNotSortable -->
-#                        $Data{"ColumnFilterStrg"}
-#<!-- dtl:block:OverviewNavBarPageDynamicField_Field1_FiltrableNotSortable -->
-# ---
 #<!-- dtl:block:OverviewNavBarPageDynamicField_Field1 -->
 #<!-- dtl:block:OverviewNavBarPageDynamicField_Field2 -->
 #                    <th class="DynamicField Last $QData{"CSS"}">
@@ -212,9 +227,33 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=DynamicField_$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"}">$Text{"$Data{"Label"}"}</a>
 #<!-- dtl:block:OverviewNavBarPageDynamicField_Field2_Sortable -->
 #<!-- dtl:block:OverviewNavBarPageDynamicField_Field2_NotSortable -->
-#                        <span>$Text{"$Data{"Label"}"}</span>
+#                        <span class="Gray" title="$Data{"Title"}">$Text{"$Data{"Label"}"}</span>
 #<!-- dtl:block:OverviewNavBarPageDynamicField_Field2_NotSortable -->
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2_FiltrableSortable -->
+#                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
+#                            <i class="icon-filter"></i>
+#                        </a>
+#                        <div class="ColumnSettingsContainer">
+#                            <div class="ColumnSettingsBox">
+#                                $Data{"ColumnFilterStrg"}
+#                            </div>
+#                        </div>
+#                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=DynamicField_$LQData{"DynamicFieldName"};OrderBy=$LQData{"OrderBy"}" title="$Data{"Title"}">$QData{"Label"}</a>
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2_FiltrableSortable -->
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2_FiltrableNotSortable -->
+#                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
+#                            <i class="icon-filter"></i>
+#                        </a>
+#                        <div class="ColumnSettingsContainer">
+#                            <div class="ColumnSettingsBox">
+#                                $Data{"ColumnFilterStrg"}
+#                            </div>
+#                        </div>
+#                        <span class="Gray" title="$Data{"Title"}">$QData{"Label"}</span>
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2_FiltrableNotSortable -->
+#<!-- dtl:block:OverviewNavBarPageDynamicField_Field2 -->
 #                    </th>
+# ---
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
