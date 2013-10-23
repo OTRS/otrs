@@ -99,19 +99,7 @@ sub Run {
             }
         }
         next COLUMNNAME if $FilterValue eq '';
-
-        if (
-            $FilterValue eq 'DeleteFilter'
-            && (
-                $ColumnName    eq 'CustomerID'
-                || $ColumnName eq 'CustomerUserID'
-                || $ColumnName eq 'Owner'
-                || $ColumnName eq 'Responsible'
-            )
-            )
-        {
-            next COLUMNNAME;
-        }
+        next COLUMNNAME if $FilterValue eq 'DeleteFilter';
 
         if ( $ColumnName eq 'CustomerID' ) {
             push @{ $ColumnFilter{$ColumnName} }, $FilterValue;
@@ -151,6 +139,7 @@ sub Run {
 
         next DYNAMICFIELD if !defined $FilterValue;
         next DYNAMICFIELD if $FilterValue eq '';
+        next DYNAMICFIELD if $FilterValue eq 'DeleteFilter';
 
         $ColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = {
             Equals => $FilterValue,

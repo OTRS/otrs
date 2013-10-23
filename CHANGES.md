@@ -1,4 +1,5 @@
 #3.3.0 RC1 ????-??-??
+ - 2013-10-23 Fixed bug#[9863](http://bugs.otrs.org/show_bug.cgi?id=9863) - Reset single filter in overviews leads to no results page.
  - 2013-10-22 Fixed bug#[9864](http://bugs.otrs.org/show_bug.cgi?id=9864) - No filter icon for dynamic fields in ticket overviews.
  - 2013-10-22 Fixed bug#[9844](http://bugs.otrs.org/show_bug.cgi?id=9844) - Column filter not saved on ticket overviews.
  - 2013-10-22 Fixed bug#[9842](http://bugs.otrs.org/show_bug.cgi?id=9842) - Script backup.pl fails to create backup in given directory..
