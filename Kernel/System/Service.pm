@@ -900,8 +900,8 @@ sub CustomerUserServiceMemberList {
         return;
     }
 
-    # set default
-    if ( !defined $Param{DefaultServices} ) {
+    # set default (only 1 or 0 is allowed to correctly set the cache key)
+    if ( !defined $Param{DefaultServices} || $Param{DefaultServices} ) {
         $Param{DefaultServices} = 1;
     }
     else {
