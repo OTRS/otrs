@@ -490,5 +490,104 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
     };
 
+    /**
+     * @function
+     * @return nothing
+     *      Initializes the configuration page for a stats dashboard widget
+     */
+    TargetNS.InitStatsConfiguration = function($Container) {
+
+        // Initialize the time multiplicators for the time validation.
+        $('.TimeRelativeUnitGeneric, .TimeScaleUnitGeneric', $Container).find('option').each(function() {
+            var SecondsMapping = {
+                'Year'   : 31536000,
+                'Month'  : 2592000,
+                'Week'   : 604800,
+                'Day'    : 86400,
+                'Hour'   : 3600,
+                'Minute' : 60,
+                'Second' : 1
+            };
+
+            $(this).attr('data-seconds', SecondsMapping[$(this).val()]);
+        });
+
+        // check for validity of relative time settings
+        // each time setting has its own maximum value in data-max-seconds attribute on the .Value div.
+        // if the combination of unit and count is higher than this value, the select boxes will be
+        // colored with red and the submit button will be blocked.
+        function ValidateTimeSettings() {
+
+            $Container.find('.TimeRelativeUnitGeneric').each(function() {
+                if (parseInt($(this).prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) > parseInt($(this).closest('.Value').attr('data-max-seconds'), 10)) {
+
+                    $(this)
+                        .add($(this).prev('select'))
+                        .add($(this).closest('.Value'))
+                        .addClass('Error');
+                }
+                else {
+                    $(this)
+                        .add($(this).prev('select'))
+                        .add($(this).closest('.Value'))
+                        .removeClass('Error');
+                }
+            });
+
+            $Container.find('.TimeScaleUnitGeneric').each(function() {
+                if (parseInt($(this).prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) < parseInt($(this).closest('.Value').attr('data-min-seconds'), 10)) {
+
+                    $(this)
+                        .add($(this).prev('select'))
+                        .add($(this).closest('.Value'))
+                        .addClass('Error');
+                }
+                else {
+                    $(this)
+                        .add($(this).prev('select'))
+                        .add($(this).closest('.Value'))
+                        .removeClass('Error');
+                }
+            });
+
+            $Container.each(function() {
+                if ($(this).find('.TimeRelativeUnitGeneric.Error, .TimeScaleUnitGeneric.Error').length) {
+                    $(this)
+                        .next('.Buttons')
+                        .find('button:first-child')
+                        .attr('disabled', true)
+                        .addClass('Disabled');
+                }
+                else {
+                    $(this)
+                        .next('.Buttons')
+                        .find('button:first-child')
+                        .attr('disabled', false)
+                        .removeClass('Disabled');
+                }
+            });
+        }
+
+        // Serializes all configured settings to a hidden field with JSON
+        function CollectStatsData() {
+            var Data = {};
+
+            $Container.find('select, input').each(function() {
+                Data[$(this).attr('name')] = $(this).val();
+            });
+
+            $Container.prev('.StatsSettingsJSON').val(Core.JSON.Stringify(Data));
+        }
+
+        $Container.find('select, input').each(function() {
+            $(this).bind('change', function() {
+                CollectStatsData();
+                ValidateTimeSettings();
+            });
+        });
+
+        ValidateTimeSettings();
+    };
+
     return TargetNS;
 }(Core.Agent.Dashboard || {}));
