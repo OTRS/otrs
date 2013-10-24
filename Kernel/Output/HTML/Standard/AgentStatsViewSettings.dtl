@@ -8,7 +8,7 @@
 # --
 
 <!--dtl:block:WidgetSettingsStart -->
-<input type="hidden" name="$QData{"NamePref"}" class="StatsSettingsJSON" />
+<input type="hidden" name="$QData{"JSONFieldName"}" class="StatsSettingsJSON" />
 <div class="StatsSettingsBox" id="StatsSettingsBox$QData{"NamePref"}">
 <!--dtl:block:WidgetSettingsStart -->
 
@@ -111,14 +111,11 @@
     </fieldset>
 <!--dtl:block:Dynamic -->
 
-<!--dtl:block:WidgetSettingsJS -->
+<!--dtl:block:WidgetSettingsEnd -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 Core.Agent.Dashboard.InitStatsConfiguration($('#StatsSettingsBox$QData{"NamePref"}'));
 //]]></script>
 <!-- dtl:js_on_document_complete -->
-<!--dtl:block:WidgetSettingsJS -->
-
-<!--dtl:block:WidgetSettingsEnd -->
 </div>
 <!--dtl:block:WidgetSettingsEnd -->

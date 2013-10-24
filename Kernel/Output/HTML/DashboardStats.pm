@@ -75,9 +75,12 @@ sub Preferences {
     }
 
     my $OutputPresent = 0;
-
     $Self->{LayoutObject}->Block(
         Name => 'WidgetSettingsStart',
+        Data => {
+            JSONFieldName => $Self->{PrefKeyStatsConfiguration},
+            NamePref      => $Self->{Name},
+        },
     );
 
     # get static attributes
@@ -392,25 +395,38 @@ sub Preferences {
                                 }
 
                                 my %TimeScaleOption;
-                                for (sort { $TimeScale->{$a}->{Position} <=> $TimeScale->{$b}->{Position} } keys %{$TimeScale} ) {
+                                for (
+                                    sort {
+                                        $TimeScale->{$a}->{Position}
+                                            <=> $TimeScale->{$b}->{Position}
+                                    } keys %{$TimeScale}
+                                    )
+                                {
                                     $TimeScaleOption{$_} = $TimeScale->{$_}{Value};
                                     last if $SelectedID eq $_;
                                 }
 
-
-                                $BlockData{TimeRelativeUnit} = $Self->{LayoutObject}->BuildSelection(
+                                $BlockData{TimeRelativeUnit}
+                                    = $Self->{LayoutObject}->BuildSelection(
                                     Name       => $ObjectAttribute->{Element} . 'TimeRelativeUnit',
                                     Data       => \%TimeScaleOption,
                                     Class      => 'TimeRelativeUnitGeneric',
-                                    Sort => 'IndividualKey',
+                                    Sort       => 'IndividualKey',
                                     SelectedID => $SelectedID || '',
-                                    SortIndividual => [ 'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year' ],
-                                );
+                                    SortIndividual => [
+                                        'Second', 'Minute', 'Hour', 'Day',
+                                        'Week',   'Month',  'Year'
+                                    ],
+                                    );
                             }
-                            $BlockData{TimeRelativeCountMax} = $ObjectAttribute->{TimeRelativeCount};
-                            $BlockData{TimeRelativeUnitMax} = $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }{Value};
-                            $BlockData{TimeRelativeMaxSeconds} = $ObjectAttribute->{TimeRelativeCount}
-                                * $Self->_TimeInSeconds( TimeUnit => $ObjectAttribute->{TimeRelativeUnit} );
+                            $BlockData{TimeRelativeCountMax}
+                                = $ObjectAttribute->{TimeRelativeCount};
+                            $BlockData{TimeRelativeUnitMax}
+                                = $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }{Value};
+                            $BlockData{TimeRelativeMaxSeconds}
+                                = $ObjectAttribute->{TimeRelativeCount}
+                                * $Self->_TimeInSeconds(
+                                TimeUnit => $ObjectAttribute->{TimeRelativeUnit} );
 
                             $Self->{LayoutObject}->Block(
                                 Name => 'TimePeriodRelative',
@@ -427,25 +443,36 @@ sub Preferences {
                             elsif ( $TimeType eq 'Extended' ) {
                                 my $TimeScale = _TimeScale();
                                 my %TimeScaleOption;
-                                for ( sort { $TimeScale->{$b}->{Position} <=> $TimeScale->{$a}->{Position} } keys %{$TimeScale} ) {
+                                for (
+                                    sort {
+                                        $TimeScale->{$b}->{Position}
+                                            <=> $TimeScale->{$a}->{Position}
+                                    } keys %{$TimeScale}
+                                    )
+                                {
                                     $TimeScaleOption{$_} = $TimeScale->{$_}->{Value};
                                     last if $ObjectAttribute->{SelectedValues}[0] eq $_;
                                 }
 
-                                $BlockData{TimeScaleUnitMax} = $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }{Value};
+                                $BlockData{TimeScaleUnitMax}
+                                    = $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }{Value};
                                 $BlockData{TimeScaleCountMax} = $ObjectAttribute->{TimeScaleCount};
 
                                 $BlockData{TimeScaleUnit} = $Self->{LayoutObject}->BuildSelection(
-                                    Name => $ObjectAttribute->{Element},
-                                    Data => \%TimeScaleOption,
-                                    Class      => 'TimeScaleUnitGeneric',
-                                    SelectedID => $ObjectAttribute->{SelectedValues}[0],
-                                    Sort => 'IndividualKey',
-                                    SortIndividual => [ 'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year' ],
+                                    Name           => $ObjectAttribute->{Element},
+                                    Data           => \%TimeScaleOption,
+                                    Class          => 'TimeScaleUnitGeneric',
+                                    SelectedID     => $ObjectAttribute->{SelectedValues}[0],
+                                    Sort           => 'IndividualKey',
+                                    SortIndividual => [
+                                        'Second', 'Minute', 'Hour', 'Day',
+                                        'Week',   'Month',  'Year'
+                                    ],
                                 );
 
                                 $BlockData{TimeScaleMinSeconds} = $ObjectAttribute->{TimeScaleCount}
-                                    * $Self->_TimeInSeconds(TimeUnit => $ObjectAttribute->{SelectedValues}[0]);
+                                    * $Self->_TimeInSeconds(
+                                    TimeUnit => $ObjectAttribute->{SelectedValues}[0] );
 
                                 $Self->{LayoutObject}->Block(
                                     Name => 'TimeScaleInfo',
@@ -493,8 +520,12 @@ sub Preferences {
         return;
     }
 
-    $Self->{LayoutObject}->Block( Name => 'WidgetSettingsJS' );
-    $Self->{LayoutObject}->Block( Name => 'WidgetSettingsEnd' );
+    $Self->{LayoutObject}->Block(
+        Name => 'WidgetSettingsEnd',
+        Data => {
+            NamePref      => $Self->{Name},
+        },
+    );
 
     my $SettingsHTML = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentStatsViewSettings',
@@ -503,7 +534,7 @@ sub Preferences {
 
     my @Params = (
         {
-            Desc  => 'Shown Tickets',
+            Desc  => 'Stats Configuration',
             Name  => $Self->{PrefKeyStatsConfiguration},
             Block => 'RawHTML',
             HTML  => $SettingsHTML,
@@ -551,7 +582,7 @@ sub Run {
             Data => {
                 Name      => $Self->{Name},
                 StatsData => $JSON,
-                }
+            },
         );
     }
     else {
