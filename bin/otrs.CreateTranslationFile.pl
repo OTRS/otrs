@@ -492,16 +492,7 @@ EOF
             if ( $_ =~ /\$\$START\$\$/ && !$MetaData{DataPrinted} ) {
                 $MetaData{DataPrinted} = 1;
 
-                my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-                    = $CommonObject{TimeObject}->SystemTime2Date(
-                    SystemTime => $CommonObject{TimeObject}->SystemTime(),
-                    );
-
-                $NewOut .= <<"EOF";
-    # Last translation file sync: $Year-$Month-$Day $Hour:$Min:$Sec
-
-    # possible charsets
-EOF
+                $NewOut .= "    # possible charsets\n";
                 $NewOut .= "    \$Self->{Charset} = [";
                 for ( $LanguageCoreObject->GetPossibleCharsets() ) {
                     $NewOut .= "'$_', ";
