@@ -435,7 +435,7 @@ sub TicketSearch {
         $SQLSelect = 'SELECT COUNT(DISTINCT(st.id))';
     }
     else {
-        $SQLSelect = 'SELECT DISTINCT(st.id), st.tn';
+        $SQLSelect = 'SELECT DISTINCT st.id, st.tn';
     }
 
     my $SQLFrom = ' FROM ticket st INNER JOIN queue sq ON sq.id = st.queue_id ';
