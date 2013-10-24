@@ -63,7 +63,7 @@
 
 <!--dtl:block:TimeScale -->
         <label><em>$Text{"Scale"}</em>:</label>
-        <div class="Value">
+        <div class="Value" data-min-seconds="$Data{"TimeScaleMinSeconds"}">
             <p>
                 $Data{"TimeScaleCount"}
                 $Data{"TimeScaleUnit"}
@@ -126,7 +126,7 @@
         'Second' : 1
     };
 
-    $('.TimeRelativeUnitGeneric').find('option').each(function() {
+    $('.TimeRelativeUnitGeneric, .TimeScaleUnitGeneric').find('option').each(function() {
         $(this).attr('data-seconds', SecondsMapping[$(this).val()]);
     });
 
@@ -152,8 +152,24 @@
             }
         });
 
+        $('.StatsSettingsBox').find('.TimeScaleUnitGeneric').each(function() {
+            if (parseInt($(this).prev('select').val(), 10) * parseInt($(this).find('option:selected').attr('data-seconds'), 10) < parseInt($(this).closest('.Value').attr('data-min-seconds'), 10)) {
+
+                $(this)
+                    .add($(this).prev('select'))
+                    .add($(this).closest('.Value'))
+                    .addClass('Error');
+            }
+            else {
+                $(this)
+                    .add($(this).prev('select'))
+                    .add($(this).closest('.Value'))
+                    .removeClass('Error');
+            }
+        });
+
         $('.StatsSettingsBox').each(function() {
-            if ($(this).find('.TimeRelativeUnitGeneric.Error').length) {
+            if ($(this).find('.TimeRelativeUnitGeneric.Error, .TimeScaleUnitGeneric.Error').length) {
                 $(this)
                     .next('.Buttons')
                     .find('button:first-child')

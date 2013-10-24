@@ -407,14 +407,10 @@ sub Preferences {
                                     SortIndividual => [ 'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year' ],
                                 );
                             }
-                            $BlockData{TimeRelativeCountMax}
-                                = $ObjectAttribute->{TimeRelativeCount};
-                            $BlockData{TimeRelativeUnitMax}
-                                = $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }{Value};
-                            $BlockData{TimeRelativeMaxSeconds}
-                                = $ObjectAttribute->{TimeRelativeCount}
-                                * $Self->_TimeInSeconds(
-                                TimeUnit => $ObjectAttribute->{TimeRelativeUnit} );
+                            $BlockData{TimeRelativeCountMax} = $ObjectAttribute->{TimeRelativeCount};
+                            $BlockData{TimeRelativeUnitMax} = $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }{Value};
+                            $BlockData{TimeRelativeMaxSeconds} = $ObjectAttribute->{TimeRelativeCount}
+                                * $Self->_TimeInSeconds( TimeUnit => $ObjectAttribute->{TimeRelativeUnit} );
 
                             $Self->{LayoutObject}->Block(
                                 Name => 'TimePeriodRelative',
@@ -440,12 +436,17 @@ sub Preferences {
                                 $BlockData{TimeScaleCountMax} = $ObjectAttribute->{TimeScaleCount};
 
                                 $BlockData{TimeScaleUnit} = $Self->{LayoutObject}->BuildSelection(
-                                    Data => \%TimeScaleOption,
                                     Name => $ObjectAttribute->{Element},
+                                    Data => \%TimeScaleOption,
+                                    Class      => 'TimeScaleUnitGeneric',
                                     SelectedID => $ObjectAttribute->{SelectedValues}[0],
                                     Sort => 'IndividualKey',
                                     SortIndividual => [ 'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year' ],
                                 );
+
+                                $BlockData{TimeScaleMinSeconds} = $ObjectAttribute->{TimeScaleCount}
+                                    * $Self->_TimeInSeconds(TimeUnit => $ObjectAttribute->{SelectedValues}[0]);
+
                                 $Self->{LayoutObject}->Block(
                                     Name => 'TimeScaleInfo',
                                     Data => \%BlockData,
