@@ -44,6 +44,10 @@ $ConfigObject->Set(
     Key   => 'TimeZoneUserBrowserAutoOffset',
     Value => 0,
 );
+$ConfigObject->Set(
+    Key   => 'TimeInputFormat',
+    Value => 'Option',
+);
 
 # create other objects
 my $DynamicFieldObject = Kernel::System::DynamicField->new(
