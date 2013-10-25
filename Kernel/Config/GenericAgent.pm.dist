@@ -25,25 +25,24 @@ use Exporter;
 
     # GenericAgent job that sends escalation notifications.
     #   Activate this if you want to use these notifications in your system.
-#   'send escalation notifications' => {
-#       Escalation => 1,
-#       # new ticket properties
-#       New => {
-#           Module => 'Kernel::System::GenericAgent::NotifyAgentGroupOfCustomQueue',
-#       },
-#   },
+    'send escalation notifications' => {
+        Escalation => 1,
+        # new ticket properties
+        New => {
+            Module => 'Kernel::System::GenericAgent::NotifyAgentGroupOfCustomQueue',
+        },
+    },
 
 
     # GenericAgent job that triggers escalation forewarn and escalation start events.
     #   Activate this if you want to use these events in your system.
-#    'trigger escalation events' => {
-#        Escalation => 1,
-#        # new ticket properties
-#        New => {
-#            Module => 'Kernel::System::GenericAgent::TriggerEscalationStartEvents',
-#        },
-#    },
-
+    'trigger escalation events' => {
+        Escalation => 1,
+        # new ticket properties
+        New => {
+            Module => 'Kernel::System::GenericAgent::TriggerEscalationStartEvents',
+        },
+    },
    # insert your jobs (see Kernel/Config/GenericAgent.pm.examples)
 );
 # -----------------------------------------------------------------------
