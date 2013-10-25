@@ -1,4 +1,5 @@
 #3.3.0 RC1 ????-??-??
+ - 2013-10-25 Fixed bug#[9870](http://bugs.otrs.org/show_bug.cgi?id=9870) - <<OTRS_CUSTOMER_FROM> not replaced in notification emails.
  - 2013-10-25 Moved process import functionality in the backend module Kernel/System/ProcessManagement/DB/Process.pm.
  - 2013-10-25 Fixed bug#[9880](http://bugs.otrs.org/show_bug.cgi?id=9880) - Auto response editor looses HTML formatting.
  - 2013-10-24 Fixed bug#[9872](http://bugs.otrs.org/show_bug.cgi?id=9872) - Default service is not applied to new customerusers.

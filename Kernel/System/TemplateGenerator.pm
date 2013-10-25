@@ -1119,8 +1119,17 @@ sub _Replace {
 
     my $HashGlobalReplace = sub {
         my ( $Tag, %H ) = @_;
+
+        # Generate one single matching string for all keys to save performance.
         my $Keys = join '|', map {quotemeta} grep { defined $H{$_} } keys %H;
-        $Param{Text} =~ s/(?:$Tag)($Keys)$End/$H{$1}/ig;
+
+        # Add all keys also as lowercase to be able to match case insensitive,
+        #   e. g. <OTRS_CUSTOMER_From> and <OTRS_CUSTOMER_FROM>.
+        for my $Key (sort keys %H) {
+            $H{ lc $Key } = $H{$Key};
+        }
+
+        $Param{Text} =~ s/(?:$Tag)($Keys)$End/$H{ lc $1 }/ieg;
     };
 
     # get owner data and replace it with <OTRS_RESPONSIBLE_...
