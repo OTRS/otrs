@@ -1391,7 +1391,7 @@ sub GetObjectName {
     my $Module = $Param{ObjectModule};
 
     # check if it is cached
-    return $Self->{'Cache::ObjectModule'}->{$Module} if $Self->{'Cache::ObjectName'}->{$Module};
+    return $Self->{'Cache::ObjectName'}->{$Module} if $Self->{'Cache::ObjectName'}->{$Module};
 
     # load module, return if module does not exist
     # (this is important when stats are uninstalled, see also bug# 4269)
@@ -1403,7 +1403,7 @@ sub GetObjectName {
     my $Name = $StatObject->GetObjectName();
 
     # cache the result
-    $Self->{'Cache::ObjectModule'}->{$Module} = $Name;
+    $Self->{'Cache::ObjectName'}->{$Module} = $Name;
 
     return $Name;
 }
