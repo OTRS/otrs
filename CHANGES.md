@@ -1,5 +1,6 @@
 #3.2.12 2013-??-??
  - 2013-10-25 Fixed bug#[9883](http://bugs.otrs.org/show_bug.cgi?id=9883) - Stats Overview is slow due Caching bug (object cache does not work).
+ - 2013-10-25 Fixed bug#[9839](http://bugs.otrs.org/show_bug.cgi?id=9839) - Inline images not showing up when cookies are disabled.
  - 2013-10-25 Moved process import functionality in the backend module Kernel/System/ProcessManagement/DB/Process.pm.
  - 2013-10-18 Fixed bug#[9669](http://bugs.otrs.org/show_bug.cgi?id=9669) - Accessibility: ticket submenu not expandable with the keyboard.
  - 2013-10-14 Fixed bug#[9814](http://bugs.otrs.org/show_bug.cgi?id=9814) - Tickets without articles not shown correcly in medium view.

@@ -163,7 +163,7 @@ sub Run {
     # serve new content id and url to rte
     my $Session = '';
     if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-        $Session = '&' . $Self->{SessionName} . '=' . $Self->{SessionID};
+        $Session = ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
     }
     my $URL = $Self->{LayoutObject}->{Baselink}
         . "Action=PictureUpload;FormID=$FormID;ContentID=$ContentIDNew$Session";

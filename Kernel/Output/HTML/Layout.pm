@@ -3688,7 +3688,7 @@ sub CustomerNavigationBar {
             if (
                 !$SelectedFlag
                 && $NavBarModule{$Item}->{Link} =~ /Action=$Self->{Action}/
-                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/     # Subaction can be empty
+                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/    # Subaction can be empty
                 )
             {
                 $NavBarModule{$Item}->{Class} .= ' Selected';
@@ -3720,7 +3720,7 @@ sub CustomerNavigationBar {
                 if (
                     !$SelectedFlag
                     && $ItemSub->{Link} =~ /Action=$Self->{Action}/
-                    && $ItemSub->{Link} =~ /$Self->{Subaction}/       # Subaction can be empty
+                    && $ItemSub->{Link} =~ /$Self->{Subaction}/    # Subaction can be empty
                     )
                 {
                     $NavBarModule{$Item}->{Class} .= ' Selected';
@@ -4005,7 +4005,10 @@ sub _RichTextReplaceLinkOfInlineContent {
         (<img.+?src=("|'))[^>]+ContentID=(.+?)("|')([^>]+>)
     }
     {
-        $1 . 'cid:' . $3 . $4 . $5;
+        my ($Start, $CID, $Close, $End) = ($1, $3, $4, $5);
+        # Make sure we only get the CID and not extra stuff like session information
+        $CID =~ s{^([^;&]+).*}{$1}smx;
+        $Start . 'cid:' . $CID . $Close . $End;
     }esgxi;
 
     return $Param{String};
@@ -4071,7 +4074,7 @@ sub RichTextDocumentServe {
 
             # replace charset in content
             $Param{Data}->{ContentType} =~ s/\Q$Charset\E/utf-8/gi;
-            $Param{Data}->{Content}     =~ s/(charset=("|'|))\Q$Charset\E/$1utf-8/gi;
+            $Param{Data}->{Content} =~ s/(charset=("|'|))\Q$Charset\E/$1utf-8/gi;
         }
     }
 
