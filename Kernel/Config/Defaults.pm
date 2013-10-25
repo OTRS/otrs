@@ -438,6 +438,10 @@ sub LoadDefaults {
 
     # AuthSyncModule::LDAP::UserSyncMap
     # (map if agent should create/synced from LDAP to DB after successful login)
+    # you may specify LDAP-Fields as either
+    #  * list, which will check each field. first existing will be picked ( ["givenName","cn","_empty"] )
+    #  * name of an LDAP-Field (may return empty strings) ("givenName")
+    #  * fixed strings, prefixed with an underscore: "_test", which will always return this fixed string
 #    $Self->{'AuthSyncModule::LDAP::UserSyncMap'} = {
 #        # DB -> LDAP
 #        UserFirstname => 'givenName',
