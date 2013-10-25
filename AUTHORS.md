@@ -45,6 +45,7 @@ The following persons contributed to OTRS:
 * Nils Leideck <nils.leideck@otrs.com>
 * Oberson Dylan <dylan.oberson@epfl.ch>
 * Oliver Tappe <oliver.tappe@otrs.com>
+* Patrick Rauscher <prauscher@ohai.su>
 * Ralf Hildebrandt <hildeb@charite.de>
 * Raphaël Doursenaud <rdoursenaud@gpcsolutions.fr>
 * Renée Bäcker <info@perl-services.de>
