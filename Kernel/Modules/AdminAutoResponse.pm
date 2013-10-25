@@ -281,14 +281,6 @@ sub _Edit {
         Class       => 'Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
     );
 
-    $Self->{LayoutObject}->Block(
-        Name => 'OverviewUpdate',
-        Data => {
-            %Param,
-            %{ $Param{Errors} },
-        },
-    );
-
     # shows header
     if ( $Param{Action} eq 'Change' ) {
         $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
@@ -299,11 +291,6 @@ sub _Edit {
 
     # add rich text editor
     if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'RichText',
-            Data => \%Param,
-        );
-
         # reformat from plain to html
         if ( $Param{ContentType} && $Param{ContentType} =~ /text\/plain/i ) {
             $Param{Response} = $Self->{HTMLUtilsObject}->ToHTML(
@@ -320,6 +307,22 @@ sub _Edit {
             );
         }
     }
+
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewUpdate',
+        Data => {
+            %Param,
+            %{ $Param{Errors} },
+        },
+    );
+
+    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'RichText',
+            Data => \%Param,
+        );
+    }
+
     return 1;
 }
 

@@ -1,5 +1,6 @@
 #3.3.0 RC1 ????-??-??
  - 2013-10-25 Moved process import functionality in the backend module Kernel/System/ProcessManagement/DB/Process.pm.
+ - 2013-10-25 Fixed bug#[9880](http://bugs.otrs.org/show_bug.cgi?id=9880) - Auto response editor looses HTML formatting.
  - 2013-10-24 Fixed bug#[9872](http://bugs.otrs.org/show_bug.cgi?id=9872) - Default service is not applied to new customerusers.
  - 2013-10-23 Fixed bug#[9863](http://bugs.otrs.org/show_bug.cgi?id=9863) - Reset single filter in overviews leads to no results page.
  - 2013-10-22 Fixed bug#[9864](http://bugs.otrs.org/show_bug.cgi?id=9864) - No filter icon for dynamic fields in ticket overviews.
