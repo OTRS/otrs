@@ -13,14 +13,17 @@ The following persons contributed to OTRS:
 * Christopher T. Kuhn <christopher.kuhn@otrs.com>
 * Cyrille Bollu <info@belnet.be>
 * Daniel Zamorano <daniel.zamorano@otrs.com>
+* Denis Nelubin <dnelubin@gmail.com>
 * Dennis Schmelter <dennis.schmelter@otrs.com>
 * Diego Selzlein <diegoselzlein@gmail.com>
+* Dominik Klein <dominik.klein@otrs.com>
 * Elias Probst <elias.probst@otrs.com>
 * Elva Novoa <elva.novoa@otrs.com>
 * Enrique Matías Sánchez (Quique) <cronopios@gmail.com>
 * Felix Niklas <felix.niklas@otrs.com>
 * Gerald Young <gerald.young@noynim.com>
 * Henning Oschwald <henning.oschwald@otrs.com>
+* IB Development Team <dev@ib.pl>
 * Jens Bothe <jens.bothe@otrs.com>
 * Jens Pfeifer <jens.pfeifer@otrs.com>
 * Johannes Hörburger <johannes.hoerburger@otrs.com>
@@ -57,5 +60,6 @@ The following persons contributed to OTRS:
 * Torsten Thau <torsten.thau@cape-it.de>
 * Udo Bretz <udo.bretz@otrs.com>
 * Uwe Dieckmann <uwe.dieckmann@otrs.com>
+* Walter Souto <walter.souto@saude.go.gov.br>
 * juanmclavero <juanm.clavero@ibsalut.es>
 * otrsintern <otrsintern@gmail.com>
