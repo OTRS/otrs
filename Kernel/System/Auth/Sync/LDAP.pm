@@ -228,16 +228,16 @@ sub Sync {
                 }
 
                 my $AttributeNames = $UserSyncMap->{$Key};
-                if ( not ref $AttributeNames eq 'ARRAY' ) {
-                    $AttributeNames = [ $AttributeNames ];
+                if ( ref $AttributeNames ne 'ARRAY' ) {
+                    $AttributeNames = [$AttributeNames];
                 }
                 for my $AttributeName ( @{$AttributeNames} ) {
                     if ( $AttributeName =~ /^_/ ) {
                         $SyncUser{$Key} = substr( $AttributeName, 1 );
                         last;
                     }
-                    elsif ( $Entry->get_value( $AttributeName ) ) {
-                        $SyncUser{$Key} = $Entry->get_value( $AttributeName );
+                    elsif ( $Entry->get_value($AttributeName) ) {
+                        $SyncUser{$Key} = $Entry->get_value($AttributeName);
                         last;
                     }
                 }
