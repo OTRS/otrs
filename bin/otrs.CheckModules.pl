@@ -60,7 +60,7 @@ my @NeededModules = (
     {
         Module   => 'Crypt::Eksblowfish::Bcrypt',
         Required => 0,
-        Comment  => 'For strong password hashing',
+        Comment  => 'For strong password hashing.',
     },
     {
         Module   => 'Crypt::SSLeay',
@@ -111,7 +111,7 @@ my @NeededModules = (
     {
         Module   => 'GD',
         Required => 0,
-        Comment  => 'Required for stats',
+        Comment  => 'Required for stats.',
         Depends  => [
             {
                 Module   => 'GD::Text',
