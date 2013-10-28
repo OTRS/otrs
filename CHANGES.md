@@ -1,4 +1,5 @@
 #3.3.0 RC1 ????-??-??
+ - 2013-10-28 Fixed bug#[9890](http://bugs.otrs.org/show_bug.cgi?id=9890) - Cannot use unicode content in DTL files.
  - 2013-10-28 Fixed bug#[9889](http://bugs.otrs.org/show_bug.cgi?id=9889) - Browser does not interpret CSS/JS files as UTF8.
  - 2013-10-25 Fixed bug#[9839](http://bugs.otrs.org/show_bug.cgi?id=9839) - Inline images not showing up when cookies are disabled.
  - 2013-10-25 Fixed bug#[9870](http://bugs.otrs.org/show_bug.cgi?id=9870) - <<OTRS_CUSTOMER_FROM> not replaced in notification emails.

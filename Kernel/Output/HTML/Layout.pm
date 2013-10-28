@@ -548,11 +548,12 @@ sub Output {
         else {
             $File = "$Self->{TemplateDir}/../Standard/$Param{TemplateFile}.dtl";
         }
-        ## no critic
-        if ( open my $TEMPLATEIN, '<', $File ) {
-            ## use critic
-            $TemplateString = do { local $/; <$TEMPLATEIN> };
-            close $TEMPLATEIN;
+        my $ResultRef = $Self->{MainObject}->FileRead(
+            Location => $File,
+            Mode     => 'utf8',
+        );
+        if ( ref $ResultRef ) {
+            $TemplateString = ${$ResultRef};
         }
         else {
             $Self->{LogObject}->Log(
