@@ -499,15 +499,25 @@ sub Template {
     );
 
     # do text/plain to text/html convert
-    if ( $Self->{RichText} && $Template{ContentType} =~ /text\/plain/i ) {
+    if (
+        $Self->{RichText}
+        && $Template{ContentType} =~ /text\/plain/i
+        && $Template{Template}
+        )
+    {
         $Template{ContentType} = 'text/html';
         $Template{Template}    = $Self->{HTMLUtilsObject}->ToHTML(
-            String => $Template{Text},
+            String => $Template{Template},
         );
     }
 
     # do text/html to text/plain convert
-    if ( !$Self->{RichText} && $Template{ContentType} =~ /text\/html/i ) {
+    if (
+        !$Self->{RichText}
+        && $Template{ContentType} =~ /text\/html/i
+        && $Template{Template}
+        )
+    {
         $Template{ContentType} = 'text/plain';
         $Template{Template}    = $Self->{HTMLUtilsObject}->ToAscii(
             String => $Template{Template},
@@ -1125,7 +1135,7 @@ sub _Replace {
 
         # Add all keys also as lowercase to be able to match case insensitive,
         #   e. g. <OTRS_CUSTOMER_From> and <OTRS_CUSTOMER_FROM>.
-        for my $Key (sort keys %H) {
+        for my $Key ( sort keys %H ) {
             $H{ lc $Key } = $H{$Key};
         }
 
