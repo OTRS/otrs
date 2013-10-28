@@ -309,6 +309,7 @@ sub GetMinifiedFile {
     # no cache available, read and minify file
     my $FileContents = $Self->{MainObject}->FileRead(
         Location => $Location,
+        Mode     => 'utf8',
     );
 
     if ( ref $FileContents ne 'SCALAR' ) {
