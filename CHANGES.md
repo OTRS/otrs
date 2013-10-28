@@ -1,4 +1,6 @@
 #3.2.12 2013-??-??
+ - 2013-10-28 Fixed bug#[9749](http://bugs.otrs.org/show_bug.cgi?id=9749) - Using spell checker in rich text Editor strips HTML formatting.
+ - 2013-10-28 Fixed bug#[4465](http://bugs.otrs.org/show_bug.cgi?id=4465) - Spell checker ispell ignores some characters such German umlauts.
  - 2013-10-25 Fixed bug#[9883](http://bugs.otrs.org/show_bug.cgi?id=9883) - Stats Overview is slow due Caching bug (object cache does not work).
  - 2013-10-25 Fixed bug#[9839](http://bugs.otrs.org/show_bug.cgi?id=9839) - Inline images not showing up when cookies are disabled.
  - 2013-10-25 Moved process import functionality in the backend module Kernel/System/ProcessManagement/DB/Process.pm.
