@@ -23,8 +23,6 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-17 13:49:59
-
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
@@ -1215,7 +1213,7 @@ sub Data {
         'Archive selected tickets' => 'Archiver les demandes sélectionnées',
         'Add Note' => 'Ajouter une note',
         'Time units' => 'Unité de temps',
-        ' (work units)' => '',
+        '(work units)' => 'Unité de travail',
         'Ticket Commands' => 'Ajouter des directives',
         'Send agent/customer notifications on changes' => 'Envoyer des notifications aux agents et aux clients visés lors de changements ',
         'CMD' => 'Directive ',
@@ -2766,6 +2764,7 @@ sub Data {
             'Une fenêtre contextuelle de cet écran est déjà ouverte. Désirez-vous la fermer et télécharger celle-ci à la place?',
         'Please enter at least one search value or * to find anything.' =>
             'Veuillez entrer au moins un critère de recherche ou une « * » pour trouver quoi que ce soit.',
+        'Please check the fields marked as red for valid inputs.' => '',
 
         # Template: FooterSmall
 
@@ -3081,7 +3080,9 @@ sub Data {
             'Vérifie l\'identité du système dans l\'outil de détection du numéro de la demande lors de suivi (Sélectionnez « Non » si l\'identité du système a été changée après que le système a été utilisé).',
         'Closed tickets of customer' => 'Demandes fermées du client',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the status view of the agent interface. PPossible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => 'Commentaire destiné aux nouvelles entrées de l\'historique de l\'interface client.',
         'Company Status' => '',
@@ -3918,7 +3919,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => 'Enregistrement du module interface pour l\'interface client.',
         'Frontend theme' => 'Thème de l\'interface',
         'Fulltext index regex filters to remove parts of the text.' => '',
-        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => 'Agent générique',
         'GenericInterface Debugger GUI' => 'Débogueur IUG de l\'interface générique',
@@ -5035,7 +5036,6 @@ sub Data {
         '(Used log backend)' => '(arrière-plan du journal utilisé)',
         '(Used ticket number format)' => '(Format numérique utilisé pour les demandes)',
         '(e.g. Generic Interface asynchronous invoker tasks)' => '(p. ex. Les tâches asynchrones du demandeur de l’interface générique)',
-        '(work units)' => 'Unité de travail',
         '* Normalize Private Secrets Files\n' => '* Régularise les fichiers secrets privés\n',
         '*** out of office till $TillDate/$Till d ***' => '*** absent du bureau jusqu\'au $TillDate/$Till d ***',
         '**Error in Normalize Private Secret Files.\n\n' => '* Erreur dans la régularisation des fichiers secrets privés.\n\n',

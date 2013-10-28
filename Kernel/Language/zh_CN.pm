@@ -21,8 +21,6 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-17 13:50:17
-
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
@@ -1213,7 +1211,7 @@ sub Data {
         'Archive selected tickets' => '归档选中的票单',
         'Add Note' => '添加注解',
         'Time units' => '时间单元',
-        ' (work units)' => '',
+        '(work units)' => '工作单元',
         'Ticket Commands' => '票单命令',
         'Send agent/customer notifications on changes' => '发送代理/客户通知变更',
         'CMD' => '命令',
@@ -2764,6 +2762,7 @@ sub Data {
             '一个弹出窗口已经打开，是否继续关闭？',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please check the fields marked as red for valid inputs.' => '',
 
         # Template: FooterSmall
 
@@ -3079,7 +3078,9 @@ sub Data {
             '',
         'Closed tickets of customer' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the status view of the agent interface. PPossible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => '',
         'Company Status' => '',
@@ -3916,7 +3917,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '介面风格',
         'Fulltext index regex filters to remove parts of the text.' => '',
-        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => '计划任务',
         'GenericInterface Debugger GUI' => '',
@@ -4845,7 +4846,6 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        '(work units)' => '工作单元',
         'Add Customer Company' => '新增客户单位',
         'Add Response' => '新增回复',
         'Add customer company' => '新增客户单位',

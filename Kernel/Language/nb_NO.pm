@@ -24,8 +24,6 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-17 13:50:06
-
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
@@ -1216,7 +1214,7 @@ sub Data {
         'Archive selected tickets' => 'Arkiver valgte saker',
         'Add Note' => 'Legg til notis',
         'Time units' => 'Tidsenheter',
-        ' (work units)' => ' (arbeidsenheter)',
+        '(work units)' => '',
         'Ticket Commands' => 'Sakskommandoer',
         'Send agent/customer notifications on changes' => 'Send en saksbehandler-/kunde-varsling ved endringer',
         'CMD' => 'Kommando',
@@ -2767,6 +2765,7 @@ sub Data {
             'En sprettoppvindu med denne skjermen er allerede åpen. Vil du stenge vinduet og laste det inn her i stedet?',
         'Please enter at least one search value or * to find anything.' =>
             'Vennligst oppgi minst en søkeverdi eller * for å finne noe.',
+        'Please check the fields marked as red for valid inputs.' => '',
 
         # Template: FooterSmall
 
@@ -3082,7 +3081,9 @@ sub Data {
             'Sjekker SystemID i saksnummer-generatoren for oppfølginger (bruk "Nei" hvis SystemID har blitt endret etter å ha brukt systemet.',
         'Closed tickets of customer' => 'Kundes lukkede saker',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the status view of the agent interface. PPossible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => 'Kommentar for nye historiske innlegg i kundeportalen.',
         'Company Status' => '',
@@ -3919,7 +3920,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Nettsidetema',
         'Fulltext index regex filters to remove parts of the text.' => '',
-        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => 'Administrasjon: Generisk Saksbehandler',
         'GenericInterface Debugger GUI' => '',
@@ -4848,6 +4849,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (arbeidsenheter)',
         'A response is a default text which helps your agents to write faster answers to customers.' =>
             'Et ferdigsvar er en standard tekst som hjelper saksbehandlere til å skrive raskere tilbakemeldinger til kunder',
         'Add Customer Company' => 'Legg til kundebedrift',

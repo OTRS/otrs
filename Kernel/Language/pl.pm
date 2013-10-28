@@ -18,8 +18,6 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-17 13:50:07
-
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
@@ -1210,7 +1208,7 @@ sub Data {
         'Archive selected tickets' => 'Zarchiwizuj zaznaczone zgłoszenia',
         'Add Note' => 'Dodaj notatkę',
         'Time units' => 'Zaraportowany czas obsługi',
-        ' (work units)' => ' (jednostki czasu)',
+        '(work units)' => '',
         'Ticket Commands' => 'Polecenia zgłoszenia',
         'Send agent/customer notifications on changes' => 'Wyślij powidomienia agentowi/klientowi przy zmianie ',
         'CMD' => 'linia poleceń',
@@ -2761,6 +2759,7 @@ sub Data {
             'Okno popup tej strony jest wciąż otwarte. Czy chcesz je zamknąć i załadować zamiast niego to okno?',
         'Please enter at least one search value or * to find anything.' =>
             'Wprowadź przynajmniej jedną wyszukiwaną wartość lub * aby znaleźć cokolwiek.',
+        'Please check the fields marked as red for valid inputs.' => '',
 
         # Template: FooterSmall
 
@@ -3076,7 +3075,9 @@ sub Data {
             '',
         'Closed tickets of customer' => 'Zamknięte zgłoszenia klienta',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the status view of the agent interface. PPossible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => '',
         'Company Status' => 'Status firmy',
@@ -3913,7 +3914,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Schemat graficzny',
         'Fulltext index regex filters to remove parts of the text.' => '',
-        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => 'Agent automatyczny',
         'GenericInterface Debugger GUI' => '',
@@ -4842,6 +4843,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (jednostki czasu)',
         ' On' => 'W dniu',
         'A response is a default text which helps your agents to write faster answers to customers.' =>
             'Odpowiedź to domyślny tekst, który pomaga twoim agentom szybciej tworzyć odpowiedzi do klientów.',

@@ -15,8 +15,6 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-17 13:50:05
-
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
@@ -1207,7 +1205,7 @@ sub Data {
         'Archive selected tickets' => 'Arkib dipilih tiket',
         'Add Note' => 'Tambah Nota',
         'Time units' => 'masa unit',
-        ' (work units)' => ' (unit bekerja)',
+        '(work units)' => '',
         'Ticket Commands' => 'tiket Perintah',
         'Send agent/customer notifications on changes' => 'Hantar ejen / pelanggan pemberitahuan mengenai perubahan',
         'CMD' => 'CMD',
@@ -2758,6 +2756,7 @@ sub Data {
             'Tetingkap timbul untuk skrin ini sudah dibuka. Adakah anda mahu menutupnya dan membuka yang ini?',
         'Please enter at least one search value or * to find anything.' =>
             'Sila masukkan sekurang-kurangnya satu nilai carian atau * untuk mencari apa saja.',
+        'Please check the fields marked as red for valid inputs.' => '',
 
         # Template: FooterSmall
 
@@ -3073,7 +3072,9 @@ sub Data {
             'Menyemak IDSistem di dalam pengesanan nombor tiket untuk susulan (guna "Tidak" jika IDSistem telah diubah selepas menggunakan sistem).',
         'Closed tickets of customer' => 'Tiket customer yang tertutup',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the status view of the agent interface. PPossible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => 'Komen untuk kemasukan sejarah baru di dalam interface pelanggan.',
         'Company Status' => '',
@@ -3910,7 +3911,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => 'Pendaftaran modul frontend untuk paparan pelanggan.',
         'Frontend theme' => 'Tema frontend',
         'Fulltext index regex filters to remove parts of the text.' => '',
-        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => 'GenericAgent',
         'GenericInterface Debugger GUI' => 'GenericInterface Debugger GUI',
@@ -4839,6 +4840,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (unit bekerja)',
         '","18' => '","18',
         '","26' => '","26',
         '","30' => '","30',

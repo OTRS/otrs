@@ -17,8 +17,6 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-17 13:50:03
-
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
@@ -1209,7 +1207,7 @@ sub Data {
         'Archive selected tickets' => '書庫の選択済みチケット',
         'Add Note' => '新規注釈',
         'Time units' => '時間単位',
-        ' (work units)' => ' (稼働時間)',
+        '(work units)' => '',
         'Ticket Commands' => 'チケットコマンド',
         'Send agent/customer notifications on changes' => '変更を担当者／顧客に通知する',
         'CMD' => 'コマンド',
@@ -2760,6 +2758,7 @@ sub Data {
             '既にポップアップウィンドウを開いています。開いているウィンドウを閉じて新しく開きますか？',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please check the fields marked as red for valid inputs.' => '',
 
         # Template: FooterSmall
 
@@ -3075,7 +3074,9 @@ sub Data {
             'チケット番号ディテクションの中のシステムIDを、フォロー・アップのために確認します（もし、システムIDがシステム利用後に変更されていた場合は“No”を使用してください）。',
         'Closed tickets of customer' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the status view of the agent interface. PPossible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => '顧客インタフェースの新規履歴エントリーのためのコメントです。',
         'Company Status' => '',
@@ -3914,7 +3915,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Frontend module registration for the customer interface.' => '担当者インタフェースに関するフロントエンド・モジュールの登録です。',
         'Frontend theme' => 'フロントエンドのテーマ',
         'Fulltext index regex filters to remove parts of the text.' => '',
-        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => '管理用ジョブ',
         'GenericInterface Debugger GUI' => '',
@@ -4844,6 +4845,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => ' (稼働時間)',
         'Add Customer Company' => '顧客企業を追加',
         'Add Response' => '応答を登録',
         'Add customer company' => '顧客企業を追加',

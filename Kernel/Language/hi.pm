@@ -18,8 +18,6 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-17 13:49:59
-
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
@@ -1210,7 +1208,7 @@ sub Data {
         'Archive selected tickets' => 'संग्रह टिकट चयनित',
         'Add Note' => 'टिप्पणी जोड़ें',
         'Time units' => 'समय इकाइयों',
-        ' (work units)' => '',
+        '(work units)' => '',
         'Ticket Commands' => 'टिकट आदेश',
         'Send agent/customer notifications on changes' => 'बदलाव पर प्रतिनिधि/ग्राहक कि अधिसूचना भेजें',
         'CMD' => 'CMD',
@@ -2761,6 +2759,7 @@ sub Data {
             'इस स्क्रीन का एक पॉपअप पहले से ही खुला है। क्या आप उसे बंद करके उसकी बजाय इसे लोड करना चाहते हैं?',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please check the fields marked as red for valid inputs.' => '',
 
         # Template: FooterSmall
 
@@ -3076,7 +3075,9 @@ sub Data {
             'टिकट की अनुवर्ती संख्या का पता लगाने के लिए यह प्रणाली ID की जाँच करता है(प्रयोग "नहीं" अगर प्रणाली ID प्रणाली का उपयोग करने के बाद बदल दिया गया है)।',
         'Closed tickets of customer' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the status view of the agent interface. PPossible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => 'ग्राहक अंतरफलक में इतिहास नई प्रविष्टियों के लिए टिप्पणी।',
         'Company Status' => '',
@@ -3913,7 +3914,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => 'ग्राहक अंतरफलक के लिए दृश्यपटल मॉड्यूल पंजीकरण।',
         'Frontend theme' => 'दृश्यपटल थीम',
         'Fulltext index regex filters to remove parts of the text.' => '',
-        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => 'सामान्य प्रतिनिधि',
         'GenericInterface Debugger GUI' => '',
