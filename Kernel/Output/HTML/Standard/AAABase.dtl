@@ -388,3 +388,6 @@ $Text{"Redo"}
 # scheduler
 $Text{"Scheduler process is registered but might not be running."}
 $Text{"Scheduler is not running."}
+
+# process management
+$Text{"The selected process is invalid!"}

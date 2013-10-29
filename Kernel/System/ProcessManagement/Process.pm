@@ -345,7 +345,10 @@ sub ProcessStartpointGet {
     }
 
     my $Process = $Self->ProcessGet( ProcessEntityID => $Param{ProcessEntityID} );
-    if ( $Process->{State} ne 'Active' ) {
+
+    # include FadeAway processes so they will be listed as available processes to continue working
+    #    with them
+    if ( $Process->{State} ne 'Active' && $Process->{State} ne 'FadeAway' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't get 'StartActivity' for Process '$Param{ProcessEntityID}', State"

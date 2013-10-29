@@ -1,4 +1,5 @@
 #3.2.12 2013-??-??
+ - 2013-10-28 Fixed bug#[9897](http://bugs.otrs.org/show_bug.cgi?id=9897) - process ticket 'fading away' -> Process is invalid.
  - 2013-10-28 Fixed bug#[9749](http://bugs.otrs.org/show_bug.cgi?id=9749) - Using spell checker in rich text Editor strips HTML formatting.
  - 2013-10-28 Fixed bug#[4465](http://bugs.otrs.org/show_bug.cgi?id=4465) - Spell checker ispell ignores some characters such German umlauts.
  - 2013-10-25 Fixed bug#[9883](http://bugs.otrs.org/show_bug.cgi?id=9883) - Stats Overview is slow due Caching bug (object cache does not work).

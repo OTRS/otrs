@@ -86,8 +86,8 @@ sub Run {
     # this list is used later (if is restricted then valid customer activity dialogs it will not be
     # possible to access valid customer activity dialogs)
     my $ProcessList = $Self->{ProcessObject}->ProcessList(
-        ProcessState => ['Active'],
-        Interface    => 'all',
+        ProcessState => [ 'Active', 'FadeAway' ],
+        Interface => 'all',
     );
     my $ProcessEntityID = $Self->{ParamObject}->GetParam( Param => 'ProcessEntityID' );
 
