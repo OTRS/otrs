@@ -261,8 +261,21 @@ sub Run {
         }
     }
 
+    # list only Active processes by default
+    my @ProcessStates = ('Active');
+
+    # set AJAXDialog for proper error responses, screen display and process list
+    $Self->{AJAXDialog} = $Self->{ParamObject}->GetParam( Param => 'AJAXDialog' ) || '';
+
+    # fetch also FadeAway processes to continue working with existing tickets, but not to start new
+    #    ones
+    if ( !$Self->{AJAXDialog} && $Self->{Subaction} ) {
+        push @ProcessStates, 'FadeAway'
+    }
+
+    # get processes
     my $ProcessList = $Self->{ProcessObject}->ProcessList(
-        ProcessState => ['Active'],
+        ProcessState => \@ProcessStates,
         Interface    => ['AgentInterface'],
     );
     my $ProcessEntityID = $Self->{ParamObject}->GetParam( Param => 'ProcessEntityID' );
@@ -286,9 +299,6 @@ sub Run {
         Processes => $ProcessList,
     );
 
-    # set AJAXDialog for proper error responses and screen display
-    $Self->{AJAXDialog} = $Self->{ParamObject}->GetParam( Param => 'AJAXDialog' ) || '';
-
     # If we have no Subaction or Subaction is 'Create' and submitted ProcessEntityID is invalid
     # Display the ProcessList
     if (
@@ -311,6 +321,29 @@ sub Run {
             %Param,
             ProcessList     => $ProcessList,
             ProcessEntityID => $ProcessEntityID
+        );
+    }
+
+    # check if the selected process from the list is valid, prevent tamper with process selection
+    #    list (not existing, invalid an fade away processes must not be able to start a new process
+    #    ticket)
+    elsif (
+        $Self->{Subaction} eq 'DisplayActivityDialogAJAX'
+        && !$ProcessList->{$ProcessEntityID}
+        && $Self->{AJAXDialog}
+        )
+    {
+
+        # translate the error message (as it will be injected in the HTML)
+        my $ErrorMessage
+            = $Self->{LayoutObject}->{LanguageObject}->Get("The selected process is invalid!");
+
+        # return a predefined HTML sctructure as the AJAX call is expecting and HTML response
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/html; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => '<div class="ServerError" data-message="' . $ErrorMessage . '"></div>',
+            Type        => 'inline',
+            NoCache     => 1,
         );
     }
 
@@ -823,7 +856,7 @@ sub _GetParam {
         $ActivityEntityID = $Ticket{
             'DynamicField_'
                 . $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementActivityID")
-            };
+        };
         if ( !$ActivityEntityID ) {
             $Self->{LayoutObject}->FatalError(
                 Message =>
@@ -4080,7 +4113,7 @@ sub _StoreActivityDialog {
         $ActivityEntityID = $Ticket{
             'DynamicField_'
                 . $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementActivityID')
-            };
+        };
         if ( !$ActivityEntityID )
         {
             return $Self->{LayoutObject}->ErrorScreen(
@@ -4092,7 +4125,7 @@ sub _StoreActivityDialog {
         $ProcessEntityID = $Ticket{
             'DynamicField_'
                 . $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementProcessID')
-            };
+        };
 
         if ( !$ProcessEntityID )
         {

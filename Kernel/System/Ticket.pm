@@ -4868,7 +4868,7 @@ sub HistoryTicketGet {
             }
         }
         elsif (
-            $Row[1]    eq 'StateUpdate'
+            $Row[1] eq 'StateUpdate'
             || $Row[1] eq 'Close successful'
             || $Row[1] eq 'Close unsuccessful'
             || $Row[1] eq 'Open'
@@ -4876,7 +4876,7 @@ sub HistoryTicketGet {
             )
         {
             if (
-                $Row[0]    =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
+                $Row[0] =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
                 || $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/
                 || $Row[0] =~ /^Changed Ticket State from '(.+?)' to '(.+?)'/
                 )
@@ -6119,14 +6119,18 @@ sub TicketAcl {
     # to store the restricted actvity dialogs (ProcessManagement)
     my %AllActivityDialogs;
 
-    # to store all active processes (ProcessManagement), later they will be reduced to only the
-    # available processes after ACL rules
+    # to store all active and fadeaway processes (ProcessManagement), later they will be reduced to
+    #    only the available processes after ACL rules
     my %AllProcesses;
 
     my $Processes = $Self->{ConfigObject}->Get('Process');
     if ( IsHashRefWithData($Processes) ) {
         for my $ProcessEntityID ( sort keys %{$Processes} ) {
-            if ( grep { $_ eq $Processes->{$ProcessEntityID}{State} } 'Active' ) {
+            if (
+                grep    { $_ eq $Processes->{$ProcessEntityID}{State} } 'Active'
+                || grep { $_ eq $Processes->{$ProcessEntityID}{State} } 'FadeAway'
+                )
+            {
                 $AllProcesses{$ProcessEntityID} = $Processes->{$ProcessEntityID}{Name} || '';
             }
         }
@@ -6244,7 +6248,7 @@ sub TicketAcl {
         next TICKETATTRIBUTE if !$Checks{Ticket}->{$TicketAttribute};
         next TICKETATTRIBUTE if
             ref $Checks{Ticket}->{$TicketAttribute} eq 'ARRAY'
-                && !IsArrayRefWithData( $Checks{Ticket}->{$TicketAttribute} );
+            && !IsArrayRefWithData( $Checks{Ticket}->{$TicketAttribute} );
 
         # compare if data is different and skip on same data
         if ( $Checks{DynamicField}->{$TicketAttribute} ) {
@@ -6267,7 +6271,7 @@ sub TicketAcl {
         next TICKETATTRIBUTE if !$ChecksDatabase{Ticket}->{$TicketAttribute};
         next TICKETATTRIBUTE if
             ref $ChecksDatabase{Ticket}->{$TicketAttribute} eq 'ARRAY'
-                && !IsArrayRefWithData( $ChecksDatabase{Ticket}->{$TicketAttribute} );
+            && !IsArrayRefWithData( $ChecksDatabase{Ticket}->{$TicketAttribute} );
 
         $ChecksDatabase{DynamicField}->{$TicketAttribute}
             = $ChecksDatabase{Ticket}->{$TicketAttribute};

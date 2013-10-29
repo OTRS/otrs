@@ -66,6 +66,7 @@
             Core.AJAX.FunctionCall('$Env{"Baselink"}', 'Action=$Env{"Action"};Subaction=DisplayActivityDialogAJAX;AJAXDialog=1;ProcessEntityID=' + $('#ProcessEntityID').val(), function (Response) {
                 var $ElementToUpdate = $('#ActivityDialogContent'),
                     JavaScriptString = '';
+
                 if (!Response) {
 
                     // We are out of the OTRS App scope, that's why an exception would not be caught. Therefor we handle the error manually.
@@ -84,6 +85,18 @@
                         eval(JavaScriptString);
                     }
                     catch (Exception) {}
+
+                    // Handle special server errors (Response = <div class="ServerError" data-message="Message"></div>)
+                    // Check if first element has class 'ServerError'
+                    if ( $ElementToUpdate.children().first().hasClass('ServerError') ) {
+                        var ErrorMessage = $ElementToUpdate.children().first().data('message');
+
+                        // Add class ServerError to the process select element
+                        $('#ProcessEntityID').addClass('ServerError');
+                        // Set a custom error message to the proccess select element
+                        $('#ProcessEntityIDServerError').children().first().text(ErrorMessage)
+                    }
+
                     Core.Form.Validate.Init();
 
                     // Register event for tree selection dialog
@@ -94,6 +107,7 @@
 
                     $('#AJAXLoader').addClass('Hidden');
                     $('#AJAXDialog').val('1');
+
                 }
                 else {
 
