@@ -980,6 +980,12 @@ sub Safety {
             }egsxim;
         }
 
+        # remove style/javascript parts
+        $Replaced += ${$String} =~ s{
+            $TagStart meta [^>]+? http-equiv=('|"|)refresh [^>]+? $TagEnd
+        }
+        {}sgxim;
+
         # remove <applet> tags
         if ( $Param{NoApplet} ) {
             $Replaced += ${$String} =~ s{

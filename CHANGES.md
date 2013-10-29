@@ -1,4 +1,5 @@
 #3.3.0 RC1 ????-??-??
+ - 2013-10-29 Fixed bug#[9753](http://bugs.otrs.org/show_bug.cgi?id=9753) - META HTTP-EQUIV="Refresh" tag not stripped from HTML email.
  - 2013-10-29 Improved creation of sequences on Oracle databases to better support Oracle RAC clusters.
  - 2013-10-28 Fixed bug#[9897](http://bugs.otrs.org/show_bug.cgi?id=9897) - process ticket 'fading away' -> Process is invalid.
  - 2013-10-28 Fixed bug#[9850](http://bugs.otrs.org/show_bug.cgi?id=9850) - Dashboard Filter error in ticket and page count.

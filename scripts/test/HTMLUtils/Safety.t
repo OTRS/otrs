@@ -292,30 +292,6 @@ You should be able to continue reading these lessons, however.
     },
     {
         Input => '<center>
-<META HTTP-EQUIV="refresh" CONTENT="0;url=javascript:alert(\'XSS\');">
-</center>',
-        Result => {
-            Output => '<center>
-<META HTTP-EQUIV="refresh" CONTENT="0;url="">
-</center>',
-            Replace => 1,
-        },
-        Name => 'Safety - meta'
-    },
-    {
-        Input => '<center>
-<META HTTP-EQUIV="refresh" CONTENT="0; URL=http://;URL=javascript:alert(\'XSS\');">
-</center>',
-        Result => {
-            Output => '<center>
-<META HTTP-EQUIV="refresh" CONTENT="0; URL=http://;URL="">
-</center>',
-            Replace => 1,
-        },
-        Name => 'Safety - meta'
-    },
-    {
-        Input => '<center>
 <TABLE BACKGROUND="javascript:alert(\'XSS\')">
 </center>',
         Result => {
@@ -606,6 +582,23 @@ EOF
             Replace => 0,
         },
         Name => 'Safety - javascript source in data tag, keep'
+    },
+    {
+        Input => <<EOF,
+Some
+<META HTTP-EQUIV="Refresh" CONTENT="2;
+URL=http://www.rbrasileventos.com.br/9asdasd/">
+Content
+EOF
+        Result => {
+            Output => <<EOF,
+Some
+
+Content
+EOF
+            Replace => 1,
+        },
+        Name => 'Safety - meta refresh tag removed'
     },
 );
 
