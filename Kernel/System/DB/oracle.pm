@@ -245,7 +245,16 @@ sub TableCreate {
                 $Shell = "/\n--";
             }
             push( @Return2, "DROP SEQUENCE $Sequence" );
-            push( @Return2, "CREATE SEQUENCE $Sequence" );
+            push(
+                @Return2,
+                "CREATE SEQUENCE $Sequence\n"
+                    . "INCREMENT BY 1\n"
+                    . "START WITH 1\n"
+                    . "NOMAXVALUE\n"
+                    . "NOCYCLE\n"
+                    . "CACHE 20\n"
+                    . "ORDER",
+            );
             push(
                 @Return2,
                 "CREATE OR REPLACE TRIGGER $Sequence"
