@@ -57,7 +57,9 @@
 
 <!-- dtl:block:DocumentActionRowRemoveColumnFilters -->
                     <li class="$QData{"CSS"}">
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};DeleteFilters=DeleteFilters" title="$Text{"Remove active filters for this screen."}"></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};DeleteFilters=DeleteFilters" title="$Text{"Remove active filters for this screen."}">
+                            <i class="icon-trash"></i>
+                        </a>
                     </li>
 <!-- dtl:block:DocumentActionRowRemoveColumnFilters -->
 
@@ -90,6 +92,9 @@
                                     <ul class="Tablelike">
                                         <li class="Header">$Text{"Available Columns"}</li>
                                     </ul>
+                                    <div class="FilterInputContainer">
+                                        <input type="text" class="FilterAvailableFields" name="FilterAvailableFields" value="" title="$Text{"Filter available fields"}" placeholder="$Text{"Filter available fields"}..." />
+                                    </div>
                                     <ul class="AllocationList Tablelike AvailableFields SettingsOverview" id="AvailableField-Dashboard$QData{"Name"}"></ul>
                                 </div>
                                 <div class="Size1of2">
@@ -121,13 +126,13 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
                         $FieldObj;
                     if (isJQueryObject($ListContainer) && $ListContainer.length) {
                         $.each($ListContainer.find('li'), function() {
-                            $FieldObj = $('<input />').attr('name', 'UserFilterColumnsEnabled').attr('type', 'hidden').attr('value', $(this).text());
+                            $FieldObj = $('<input />').attr('name', 'UserFilterColumnsEnabled').attr('type', 'hidden').attr('value', $(this).attr('data-fieldname'));
                             $ListContainer.append($FieldObj);
                         });
                     }
                     return true;
-                },
-            },
+                }
+            }
         ], true);
     Event.preventDefault();
     Event.stopPropagation();
@@ -183,3 +188,14 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
 </div>
 
 <!-- dtl:block:OverviewNavBar -->
+
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Config.AddConfig({
+<!-- dtl:block:ColumnTranslation -->
+        'Column$QData{"ColumnName"}': '$JSText{"$QData{"TranslateString"}"}'<!-- dtl:block:ColumnTranslationSeparator -->,<!-- dtl:block:ColumnTranslationSeparator -->
+<!-- dtl:block:ColumnTranslation -->
+
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->

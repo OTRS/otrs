@@ -15,8 +15,6 @@ use warnings;
 use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::Group - group and roles lib

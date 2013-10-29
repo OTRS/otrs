@@ -41,7 +41,7 @@ sub Run {
     # only show the escalations on ticket overviews
     return ''
         if $Self->{LayoutObject}->{Action}
-        !~ /^AgentTicket(Queue|(Status|Locked|Watch|Responsible)View)/;
+            !~ /^AgentTicket(Queue|(Status|Locked|Watch|Responsible)View)/;
 
     # check result cache
     my $CacheTime = $Param{Config}->{CacheTime} || 40;

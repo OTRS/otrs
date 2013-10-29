@@ -30,7 +30,7 @@
                     <div class="Field">
                         <div>
                             <input type="radio" id="DBInstallTypeCreateDB" name="DBInstallType" checked value="CreateDB" />
-                            <label for="DBInstallTypeCreateDB">$Text{"Create a database for OTRS"}</label>
+                            <label for="DBInstallTypeCreateDB">$Text{"Create a new database for OTRS"}</label>
                         </div>
                         <div>
                             <input type="radio" id="DBInstallTypeUseDB" name="DBInstallType" value="UseDB" />

@@ -336,7 +336,6 @@ sub JobRun {
             my $SearchParameter = $Self->{BackendObject}->SearchFieldParameterBuild(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Profile            => \%DynamicFieldSearchTemplate,
-                LayoutObject       => $Self->{LayoutObject},
                 Type               => $Preference->{Type},
             );
 
@@ -725,6 +724,7 @@ sub JobGet {
                     $Data{ $Type . 'TimeOlderMinutes' } = -$Time;
                 }
                 else {
+
                     # within the last ...
                     $Data{ $Type . 'TimeOlderMinutes' } = 0;
                     $Data{ $Type . 'TimeNewerMinutes' } = $Time;

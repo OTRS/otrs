@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql_before_8_2, generated: 2013-08-20 09:39:40
+--  driver: postgresql_before_8_2, generated: 2013-10-01 12:28:47
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
@@ -80,10 +80,6 @@ ALTER TABLE queue_standard_template ALTER standard_template_id TYPE INTEGER;
 ALTER TABLE queue_standard_template ALTER standard_template_id DROP DEFAULT;
 UPDATE queue_standard_template SET standard_template_id = 0 WHERE standard_template_id IS NULL;
 ALTER TABLE queue_standard_template ALTER standard_template_id SET NOT NULL;
-ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_standard_template_id_id FOREIGN KEY (standard_template_id) REFERENCES standard_template (id);
-ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue (id);
-ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
-ALTER TABLE queue_standard_template ADD CONSTRAINT FK_queue_standard_template_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 -- ----------------------------------------------------------
 --  alter table standard_template_attachment
 -- ----------------------------------------------------------
@@ -103,5 +99,9 @@ ALTER TABLE standard_template_attachment ADD CONSTRAINT FK_standard_template_att
 --  alter table postmaster_filter
 -- ----------------------------------------------------------
 ALTER TABLE postmaster_filter ADD f_not INTEGER NULL;
+DROP INDEX virtual_fs_filename;
+CREATE INDEX virtual_fs_filename ON virtual_fs (filename);
+DROP INDEX virtual_fs_db_filename;
+CREATE INDEX virtual_fs_db_filename ON virtual_fs_db (filename);
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE system_data ADD CONSTRAINT FK_system_data_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

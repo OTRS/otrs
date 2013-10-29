@@ -94,6 +94,20 @@ for my $Backend (qw(AutoIncrement Date DateChecksum Random)) {
                     "$Backend - $TicketSubjectFormat - $Count - TicketSubjectClean() - result $CleanSubject",
                 );
 
+                my $SubjectWithSpaces = $Subject;
+                $SubjectWithSpaces =~ s{\[(.*)\]}{[ $1 ]};
+
+                my $CleanSubjectFromSpaces = $TicketObject->TicketSubjectClean(
+                    TicketNumber => $TicketNumber,
+                    Subject      => $SubjectWithSpaces,
+                );
+
+                $Self->Is(
+                    $CleanSubjectFromSpaces,
+                    'Test',
+                    "$Backend - $TicketSubjectFormat - $Count - TicketSubjectClean() - result $CleanSubject",
+                );
+
                 my $TicketNumberFound = $TicketObject->GetTNByString($Subject);
 
                 $Self->Is(

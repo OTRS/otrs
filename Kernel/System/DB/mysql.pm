@@ -37,7 +37,11 @@ sub LoadPreferences {
     $Self->{'DB::LikeEscapeString'}     = '';
 
     # how to determine server version
-    $Self->{'DB::Version'} = "SELECT CONCAT('MySQL ', VERSION())";
+    # version can have package prefix, we need to extract that
+    # example of VERSION() output: '5.5.32-0ubuntu0.12.04.1'
+    # if VERSION() contains 'MariaDB', add MariaDB, otherwise MySQL.
+    $Self->{'DB::Version'}
+        = "SELECT CONCAT( IF (INSTR( VERSION(),'MariaDB'),'MariaDB ','MySQL '), SUBSTRING_INDEX(VERSION(),'-',1))";
 
     # DBI/DBD::mysql attributes
     # disable automatic reconnects as they do not execute DB::Connect, which will
@@ -400,7 +404,7 @@ sub TableAlter {
             push @SQL, $SQLStart . " CHANGE $Tag->{NameOld} $Tag->{NameNew} $Tag->{Type} NULL";
 
             # remove possible default (not on TEXT/BLOB/LONGBLOB type, not supported by mysql)
-            if ( $Tag->{Type} !~ /^(TEXT|BLOB|LONGBLOB)$/i ) {
+            if ( $Tag->{Type} !~ /^(TEXT|MEDIUMTEXT|BLOB|LONGBLOB)$/i ) {
                 push @SQL, "ALTER TABLE $Table ALTER $Tag->{NameNew} DROP DEFAULT";
             }
 

@@ -9,6 +9,7 @@
 *~
 
 # OTRS
+ARCHIVE
 doc/manual/en
 Kernel/Config/Files/ZZZ*.pm
 Kernel/Config/GenericAgent.pm
@@ -37,6 +38,8 @@ var/httpd/htdocs/skins/Customer/ivory/css-cache/*
 var/sessions/Data*
 var/sessions/State*
 var/article/*
+var/cron/*
+!var/cron/*.dist
 
 # Fred
 Fred.sopm
@@ -62,19 +65,23 @@ Support.sopm
 CHANGES-Support
 Kernel/Config/Files/Support.xml
 Kernel/cpan-lib/Archive/*
-Kernel/cpan-lib/Linux/*
 Kernel/Language/*_Support.pm
 Kernel/System/Support
 var/httpd/htdocs/skins/Agent/default/css/Support.Default.css
 
 # OTRSCodePolicy
 .tidyall.d
+perltidy.LOG.old
 Perl/Critic
 TidyAll
-scripts/test/OTRSCodePolicy.t
+Kernel/cpan-lib/Pod/Strip.pm
+scripts/install-git-hooks.pl
+scripts/uninstall-git-hooks.pl
+OTRSCodePolicy*
 
 # ITSM
 var/stats/*.xml.installed
 bin/CodeInstall.pl
 bin/DatabaseInstall.pl
 perltidy.LOG
+.procmailrc

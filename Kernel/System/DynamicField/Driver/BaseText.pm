@@ -131,7 +131,7 @@ sub EditFieldRender {
     if ( $Param{UseDefaultValue} ) {
         $Value = ( defined $FieldConfig->{DefaultValue} ? $FieldConfig->{DefaultValue} : '' );
     }
-    $Value = $Param{Value} if defined $Param{Value};
+    $Value = $Param{Value} // $Value;
 
     # extract the dynamic field value form the web request
     my $FieldValue = $Self->EditFieldValueGet(
@@ -150,10 +150,14 @@ sub EditFieldRender {
     }
 
     # set field as mandatory
-    $FieldClass .= ' Validate_Required' if $Param{Mandatory};
+    if ( $Param{Mandatory} ) {
+        $FieldClass .= ' Validate_Required';
+    }
 
     # set error css class
-    $FieldClass .= ' ServerError' if $Param{ServerError};
+    if ( $Param{ServerError} ) {
+        $FieldClass .= ' ServerError';
+    }
 
     my $HTMLString = <<"EOF";
 <input type="text" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabel" value="$Value" />
@@ -164,11 +168,11 @@ EOF
 
         # for client side validation
         $HTMLString .= <<"EOF";
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"This field is required."}
-        </p>
-    </div>
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"This field is required."}
+    </p>
+</div>
 EOF
     }
 
@@ -179,11 +183,11 @@ EOF
 
         # for server side validation
         $HTMLString .= <<"EOF";
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"$ErrorMessage"}
-        </p>
-    </div>
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"$ErrorMessage"}
+    </p>
+</div>
 EOF
     }
 
@@ -214,8 +218,12 @@ sub EditFieldValueGet {
         $Value = $Param{Template}->{$FieldName};
     }
 
-    # otherwise get dynamic field value from param
-    else {
+    # otherwise get dynamic field value from the web request
+    elsif (
+        defined $Param{ParamObject}
+        && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
+        )
+    {
         $Value = $Param{ParamObject}->GetParam( Param => $FieldName );
     }
 

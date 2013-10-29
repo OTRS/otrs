@@ -1,3 +1,4 @@
+# --
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 # --
@@ -72,8 +73,7 @@ sub LoadDefaults {
     # Organization
     # (If this is anything other than '', then the email will have an
     # Organization X-Header)
-    #    $Self->{Organization} = 'Example Company';
-    $Self->{Organization} = '';
+    $Self->{Organization} = 'Example Company';
 
     # ProductName
     # (Application name displayed in frontend.)
@@ -148,53 +148,48 @@ sub LoadDefaults {
     # used languages
     # (short name = long name and file)
     $Self->{DefaultUsedLanguages} = {
-        ar_SA   => 'Arabic (Saudi Arabia)',
-        bg      => 'Bulgarian (&#x0411;&#x044a;&#x043b;&#x0433;&#x0430;&#x0440;&#x0441;&#x043a;&#x0438;)',
-        ca      => 'Catal&agrave;',
-        cs      => 'Czech (&#x010c;esky)',
-        da      => 'Dansk',
-        de      => 'Deutsch',
-        en      => 'English (United States)',
-        en_CA   => 'English (Canada)',
-        en_GB   => 'English (United Kingdom)',
-        el      => 'Greek (&#x0395;&#x03bb;&#x03bb;&#x03b7;&#x03bd;&#x03b9;&#x03ba;&#x03ac;)',
-        es      => 'Espa&ntilde;ol',
-        es_CO   => 'Espa&ntilde;ol (Colombia)',
-        es_MX   => 'Espa&ntilde;ol (M&eacute;xico)',
-        et      => 'Eesti',
-        fa      => 'Persian (&#x0641;&#x0627;&#x0631;&#x0633;&#x0649;)',
-        fr      => 'Fran&ccedil;ais',
-        fr_CA   => 'Fran&ccedil;ais (Canada)',
-        fi      => 'Suomi',
-        hi      => 'Hindi',
-        hr      => 'Hrvatski',
-        hu      => 'Magyar',
-        it      => 'Italiano',
-        ja      => 'Japanese (&#x65e5;&#x672c;&#x8a9e)',
-        lt      => 'Lietuvi&#371; kalba',
-        lv      => 'Latvijas',
-        ms      => 'Malay',
-        nl      => 'Nederlands',
-        nb_NO   => 'Norsk bokm&aring;l',
-        pt_BR   => 'Portugu&ecirc;s Brasileiro',
-        pt      => 'Portugu&ecirc;s',
-        pl      => 'Polski',
-        ru      => 'Russian (&#x0420;&#x0443;&#x0441;&#x0441;&#x043a;&#x0438;&#x0439;)',
-        sl      => 'Slovenian (Sloven&#x0161;&#x010d;ina)',
-        sk_SK   => 'Slovak (Sloven&#x010d;ina)',
-        sr_Cyrl => 'Serbian Latin (Srpski)',
-        sr_Latn => 'Serbian Cyrillic (&#1089;&#1088;&#1087;&#1089;&#1082;&#1080;)',
-        sv      => 'Svenska',
-        tr      => 'T&uuml;rk&ccedil;e',
-        uk      => 'Ukrainian (&#x0423;&#x043a;&#x0440;&#x0430;&#x0457;&#x043d;&#x0441;&#x044c;&#x043a;&#x0430;)',
-        vi_VN   => 'Vietnam (Vi&#x0246;t Nam)',
-        zh_CN   => 'Chinese (Sim.) (&#x7b80;&#x4f53;&#x4e2d;&#x6587;)',
-        zh_TW   => 'Chinese (Tradi.) (&#x6b63;&#x9ad4;&#x4e2d;&#x6587;)',
-
-#            th => 'Thai (&#x0e44;&#x0e17;&#x0e22;)',
-#            ro => 'Rom&acirc;n&auml;',
-#            hr => 'Croatian',
-#            jp => 'Japanese (&#x65e5;&#x672c;&#x8a9e;)',
+        'ar_SA' => 'Arabic (Saudi Arabia)',
+        'bg' => 'Bulgarian (&#x0411;&#x044a;&#x043b;&#x0433;&#x0430;&#x0440;&#x0441;&#x043a;&#x0438;)',
+        'ca' => 'Catal&agrave;',
+        'cs' => 'Czech (&#x010c;esky)',
+        'da' => 'Dansk',
+        'de' => 'Deutsch',
+        'el' => 'Greek (&#x0395;&#x03bb;&#x03bb;&#x03b7;&#x03bd;&#x03b9;&#x03ba;&#x03ac;)',
+        'en' => 'English (United States)',
+        'en_CA' => 'English (Canada)',
+        'en_GB' => 'English (United Kingdom)',
+        'es' => 'Espa&ntilde;ol',
+        'es_CO' => 'Espa&ntilde;ol (Colombia)',
+        'es_MX' => 'Espa&ntilde;ol (M&eacute;xico)',
+        'et' => 'Eesti',
+        'fa' => 'Persian (&#x0641;&#x0627;&#x0631;&#x0633;&#x0649;)',
+        'fi' => 'Suomi',
+        'fr' => 'Fran&ccedil;ais',
+        'fr_CA' => 'Fran&ccedil;ais (Canada)',
+        'hi' => 'Hindi',
+        'hr' => 'Hrvatski',
+        'hu' => 'Magyar',
+        'it' => 'Italiano',
+        'ja' => 'Japanese (&#x65e5;&#x672c;&#x8a9e)',
+        'lt' => 'Lietuvių kalba',
+        'lv' => 'Latvijas',
+        'ms' => 'Malay',
+        'nb_NO' => 'Norsk bokm&aring;l',
+        'nl' => 'Nederlands',
+        'pl' => 'Polski',
+        'pt' => 'Portugu&ecirc;s',
+        'pt_BR' => 'Portugu&ecirc;s Brasileiro',
+        'ru' => 'Russian (&#x0420;&#x0443;&#x0441;&#x0441;&#x043a;&#x0438;&#x0439;)',
+        'sk_SK' => 'Slovak (Sloven&#x010d;ina)',
+        'sl' => 'Slovenian (Slovenščina)',
+        'sr_Cyrl' => 'Serbian Cyrillic (српски)',
+        'sr_Latn' => 'Serbian Latin (Srpski)',
+        'sv' => 'Svenska',
+        'tr' => 'T&uuml;rk&ccedil;e',
+        'uk' => 'Ukrainian (&#x0423;&#x043a;&#x0440;&#x0430;&#x0457;&#x043d;&#x0441;&#x044c;&#x043a;&#x0430;)',
+        'vi_VN' => 'Vietnam (Vi&#x0246;t Nam)',
+        'zh_CN' => 'Chinese (Sim.) (&#x7b80;&#x4f53;&#x4e2d;&#x6587;)',
+        'zh_TW' => 'Chinese (Tradi.) (&#x6b63;&#x9ad4;&#x4e2d;&#x6587;)'
     };
 
     # default theme
@@ -289,7 +284,7 @@ sub LoadDefaults {
     # (if syslog can't work with utf-8, force the log
     # charset with this option, on other chars will be
     # replaces with ?)
-    $Self->{'LogModule::SysLog::Charset'} = 'iso-8859-15';
+    $Self->{'LogModule::SysLog::Charset'} = 'utf-8';
 
 #    $Self->{'LogModule::SysLog::Charset'} = 'utf-8';
 
@@ -309,7 +304,7 @@ sub LoadDefaults {
     # (Where is sendmail located and some options.
     # See 'man sendmail' for details. Or use the SMTP backend.)
     $Self->{SendmailModule}      = 'Kernel::System::Email::Sendmail';
-    $Self->{'SendmailModule::CMD'} = '/usr/sbin/sendmail -i -f ';
+    $Self->{'SendmailModule::CMD'} = '/usr/sbin/sendmail -i -f';
 
 #    $Self->{'SendmailModule'} = 'Kernel::System::Email::SMTP';
 #    $Self->{'SendmailModule::Host'} = 'mail.example.com';
@@ -443,6 +438,10 @@ sub LoadDefaults {
 
     # AuthSyncModule::LDAP::UserSyncMap
     # (map if agent should create/synced from LDAP to DB after successful login)
+    # you may specify LDAP-Fields as either
+    #  * list, which will check each field. first existing will be picked ( ["givenName","cn","_empty"] )
+    #  * name of an LDAP-Field (may return empty strings) ("givenName")
+    #  * fixed strings, prefixed with an underscore: "_test", which will always return this fixed string
 #    $Self->{'AuthSyncModule::LDAP::UserSyncMap'} = {
 #        # DB -> LDAP
 #        UserFirstname => 'givenName',
@@ -611,22 +610,17 @@ sub LoadDefaults {
 
     # agent interface notification module to check the admin user id
     # (don't work with user id 1 notification)
-    $Self->{'Frontend::NotifyModule'}->{'200-UID-Check'} = {
-        Module => 'Kernel::Output::HTML::NotificationUIDCheck',
+    $Self->{'Frontend::NotifyModule'} = {
+        '200-UID-Check' => {
+          'Module' => 'Kernel::Output::HTML::NotificationUIDCheck'
+        },
+        '500-OutofOffice-Check' => {
+          'Module' => 'Kernel::Output::HTML::NotificationOutofOfficeCheck'
+        },
+        '800-Scheduler-Check' => {
+          'Module' => 'Kernel::Output::HTML::NotificationSchedulerCheck'
+        },
     };
-
-    # show online agents
-#    $Self->{'Frontend::NotifyModule'}->{'3-ShowAgentOnline'} = {
-#        Module      => 'Kernel::Output::HTML::NotificationAgentOnline',
-#        ShowEmail   => 1,
-#        IdleMinutes => 60,
-#    };
-    # show online customers
-#    $Self->{'Frontend::NotifyModule'}->{'4-ShowCustomerOnline'} = {
-#        Module      => 'Kernel::Output::HTML::NotificationCustomerOnline',
-#        ShowEmail   => 1,
-#        IdleMinutes => 60,
-#    };
 
     # --------------------------------------------------- #
     #                                                     #
@@ -647,7 +641,7 @@ sub LoadDefaults {
 
     # SessionName
     # (Name of the session key. E. g. Session, SessionID, OTRS)
-    $Self->{SessionName} = 'Session';
+    $Self->{SessionName} = 'OTRSAgentInterface';
 
     # SessionCheckRemoteIP
     # (If the application is used via a proxy-farm then the
@@ -717,40 +711,23 @@ sub LoadDefaults {
         Sun => [],
     };
 
-    # TimeVacationDays
-    # adde new days with:
-    # "$Self->{TimeVacationDays}->{10}->{27} = 'Some Info';"
-
     $Self->{TimeVacationDays} = {
-        1  => { 1 => 'New Year\'s Eve!', },
-        5  => { 1 => '1 St. May', },
+        1  => { 1 => 'New Year\'s Day', },
+        5  => { 1 => 'International Workers\' Day', },
         12 => {
-            24 => 'Christmas',
-            25 => 'Christmas Day',
-            26 => 'Boxing Day',
-            31 => 'Silvester',
+            24 => 'Christmas Eve',
+            25 => 'First Christmas Day',
+            26 => 'Second Christmas Day',
+            31 => 'New Year\'s Eve',
         },
     };
 
-    # TimeVacationDaysOneTime
-    # adde new own days with:
-# "$Self->{TimeVacationDaysOneTime}->{1977}-{10}->{27} = 'Some Info';"
-
     $Self->{TimeVacationDaysOneTime} = {
-#        2004 => {
-#            6 => {
-#                7 => 'Some Day',
-#            },
-#            12 => {
-#                24 => 'Some A Day',
-#                31 => 'Some B Day',
-#            },
-#        },
-#        2005 => {
-#            1 => {
-#                11 => 'Some Day',
-#            },
-#        },
+        2004 => {
+            1 => {
+                1 => 'test',
+            },
+            },
     };
 
     # --------------------------------------------------- #
@@ -809,7 +786,7 @@ sub LoadDefaults {
     # (If ispell or aspell is available, then we will provide a spelling
     # checker.)
     #    $Self->{SpellChecker} = 0;
-    $Self->{SpellChecker}            = 1;
+    $Self->{SpellChecker}            = 0;
     $Self->{SpellCheckerBin}         = '/usr/bin/ispell';
     $Self->{SpellCheckerDictDefault} = 'english';
 
@@ -836,14 +813,17 @@ sub LoadDefaults {
 
     # Customer Common CSS
     $Self->{'Loader::Customer::CommonCSS'}->{'000-Framework'} =  [
-      'Core.Reset.css',
-      'Core.Default.css',
-      'Core.Form.css',
-      'Core.Login.css',
-      'Core.Control.css',
-      'Core.Table.css',
-      'Core.TicketZoom.css',
-      'Core.Print.css'
+        'Core.Reset.css',
+        'Core.Default.css',
+        'Core.Form.css',
+        'Core.Dialog.css',
+        'Core.Tooltip.css',
+        'Core.Login.css',
+        'Core.Control.css',
+        'Core.Table.css',
+        'Core.TicketZoom.css',
+        'Core.Print.css',
+        'thirdparty/fontawesome/font-awesome.css'
     ];
 
     # Customer Common CSS for IE8
@@ -851,23 +831,24 @@ sub LoadDefaults {
 
     # Agent Common CSS
     $Self->{'Loader::Agent::CommonCSS'}->{'000-Framework'} =  [
-      'Core.Reset.css',
-      'Core.Default.css',
-      'Core.Header.css',
-      'Core.OverviewControl.css',
-      'Core.OverviewSmall.css',
-      'Core.OverviewMedium.css',
-      'Core.OverviewLarge.css',
-      'Core.Footer.css',
-      'Core.PageLayout.css',
-      'Core.Form.css',
-      'Core.Table.css',
-      'Core.Widget.css',
-      'Core.WidgetMenu.css',
-      'Core.TicketDetail.css',
-      'Core.Tooltip.css',
-      'Core.Dialog.css',
-      'Core.Print.css'
+        'Core.Reset.css',
+        'Core.Default.css',
+        'Core.Header.css',
+        'Core.OverviewControl.css',
+        'Core.OverviewSmall.css',
+        'Core.OverviewMedium.css',
+        'Core.OverviewLarge.css',
+        'Core.Footer.css',
+        'Core.PageLayout.css',
+        'Core.Form.css',
+        'Core.Table.css',
+        'Core.Widget.css',
+        'Core.WidgetMenu.css',
+        'Core.TicketDetail.css',
+        'Core.Tooltip.css',
+        'Core.Dialog.css',
+        'Core.Print.css',
+        'thirdparty/fontawesome/font-awesome.css',
     ];
 
     # Agent Common CSS for IE8
@@ -881,71 +862,73 @@ sub LoadDefaults {
 
     # Customer Common JS
     $Self->{'Loader::Customer::CommonJS'}->{'000-Framework'} =  [
-      'thirdparty/jquery-1.10.0/jquery.js',
-      'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
-      'thirdparty/jquery-validate-1.11.1/jquery.validate.js',
-      'thirdparty/jquery-ui-1.10.3/jquery-ui.js',
-      'thirdparty/jquery-migrate-1.2.1/jquery-migrate.js',
-      'thirdparty/stacktrace-0.4/stacktrace.js',
-      'thirdparty/jquery-pubsub/pubsub.js',
-      'thirdparty/jquery-jstree-v.pre1.0/jquery.jstree.js',
-      'thirdparty/jquery-jstree-v.pre1.0/_lib/jquery.hotkeys.js',
-      'Core.Debug.js',
-      'Core.Data.js',
-      'Core.Exception.js',
-      'Core.JSON.js',
-      'Core.JavaScriptEnhancements.js',
-      'Core.Config.js',
-      'Core.AJAX.js',
-      'Core.App.js',
-      'Core.UI.js',
-      'Core.UI.Accessibility.js',
-      'Core.UI.Dialog.js',
-      'Core.UI.RichTextEditor.js',
-      'Core.UI.Datepicker.js',
-      'Core.UI.Popup.js',
-      'Core.UI.TreeSelection.js',
-      'Core.UI.Autocomplete.js',
-      'Core.Form.js',
-      'Core.Form.ErrorTooltips.js',
-      'Core.Form.Validate.js',
-      'Core.Customer.js'
+        'thirdparty/jquery-1.10.0/jquery.js',
+        'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
+        'thirdparty/jquery-validate-1.11.1/jquery.validate.js',
+        'thirdparty/jquery-ui-1.10.3/jquery-ui.js',
+        'thirdparty/stacktrace-0.4/stacktrace.js',
+        'thirdparty/jquery-pubsub/pubsub.js',
+        'thirdparty/jquery-jstree-v.pre1.0/jquery.jstree.js',
+        'thirdparty/jquery-jstree-v.pre1.0/_lib/jquery.hotkeys.js',
+        'Core.Debug.js',
+        'Core.Data.js',
+        'Core.Exception.js',
+        'Core.JSON.js',
+        'Core.JavaScriptEnhancements.js',
+        'Core.Config.js',
+        'Core.AJAX.js',
+        'Core.App.js',
+        'Core.UI.js',
+        'Core.UI.Accessibility.js',
+        'Core.UI.Dialog.js',
+        'Core.UI.RichTextEditor.js',
+        'Core.UI.Datepicker.js',
+        'Core.UI.Popup.js',
+        'Core.UI.TreeSelection.js',
+        'Core.UI.Autocomplete.js',
+        'Core.Form.js',
+        'Core.Form.ErrorTooltips.js',
+        'Core.Form.Validate.js',
+        'Core.Customer.js'
     ];
 
     # Agent Common JS
     $Self->{'Loader::Agent::CommonJS'}->{'000-Framework'} =  [
-      'thirdparty/json/json2.js',
-      'thirdparty/jquery-1.10.0/jquery.js',
-      'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
-      'thirdparty/jquery-migrate-1.2.1/jquery-migrate.js',
-      'thirdparty/jquery-ui-1.10.3/jquery-ui.js',
-      'thirdparty/jquery-validate-1.11.1/jquery.validate.js',
-      'thirdparty/stacktrace-0.4/stacktrace.js',
-      'thirdparty/jquery-pubsub/pubsub.js',
-      'Core.JavaScriptEnhancements.js',
-      'Core.Debug.js',
-      'Core.Data.js',
-      'Core.Config.js',
-      'Core.Exception.js',
-      'Core.JSON.js',
-      'Core.AJAX.js',
-      'Core.App.js',
-      'Core.UI.js',
-      'Core.UI.Accordion.js',
-      'Core.UI.Datepicker.js',
-      'Core.UI.Resizable.js',
-      'Core.UI.Table.js',
-      'Core.UI.Accessibility.js',
-      'Core.UI.RichTextEditor.js',
-      'Core.UI.TreeSelection.js',
-      'Core.UI.Autocomplete.js',
-      'Core.Form.js',
-      'Core.Form.ErrorTooltips.js',
-      'Core.UI.Dialog.js',
-      'Core.Form.Validate.js',
-      'Core.UI.ActionRow.js',
-      'Core.UI.Popup.js',
-      'Core.Agent.js'
+        'thirdparty/json/json2.js',
+        'thirdparty/jquery-1.10.0/jquery.js',
+        'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
+        'thirdparty/jquery-ui-1.10.3/jquery-ui.js',
+        'thirdparty/jquery-validate-1.11.1/jquery.validate.js',
+        'thirdparty/stacktrace-0.4/stacktrace.js',
+        'thirdparty/jquery-pubsub/pubsub.js',
+        'thirdparty/jquery-jstree-v.pre1.0/jquery.jstree.js',
+        'thirdparty/jquery-jstree-v.pre1.0/_lib/jquery.hotkeys.js',
+        'Core.JavaScriptEnhancements.js',
+        'Core.Debug.js',
+        'Core.Data.js',
+        'Core.Config.js',
+        'Core.Exception.js',
+        'Core.JSON.js',
+        'Core.AJAX.js',
+        'Core.App.js',
+        'Core.UI.js',
+        'Core.UI.Accordion.js',
+        'Core.UI.Datepicker.js',
+        'Core.UI.Resizable.js',
+        'Core.UI.Table.js',
+        'Core.UI.Accessibility.js',
+        'Core.UI.RichTextEditor.js',
+        'Core.UI.Dialog.js',
+        'Core.UI.ActionRow.js',
+        'Core.UI.Popup.js',
+        'Core.UI.TreeSelection.js',
+        'Core.UI.Autocomplete.js',
+        'Core.Form.js',
+        'Core.Form.ErrorTooltips.js',
+        'Core.Form.Validate.js',
+        'Core.Agent.js',
+        'Core.Agent.Search.js',
+        'Core.Agent.CustomerInformationCenterSearch.js'
     ];
 
     # --------------------------------------------------- #
@@ -958,7 +941,6 @@ sub LoadDefaults {
     # (get online repository list, use the fist availabe result)
     $Self->{'Package::RepositoryRoot'} = [
         'http://ftp.otrs.org/pub/otrs/misc/packages/repository.xml',
-        'http://otrs.org/repository.xml',
     ];
 
     # Package::RepositoryList
@@ -1001,7 +983,15 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # system permissions
     # --------------------------------------------------- #
-    $Self->{'System::Permission'}           = [ 'ro', 'rw' ];
+    $Self->{'System::Permission'}           = [
+        'ro',
+        'move_into',
+        'create',
+        'note',
+        'owner',
+        'priority',
+        'rw',
+    ];
     $Self->{'System::Customer::Permission'} = [ 'ro', 'rw' ];
 
     # --------------------------------------------------- #
@@ -1023,19 +1013,18 @@ sub LoadDefaults {
     $Self->{PreferencesView} = [ 'User Profile', 'Email Settings', 'Other Settings' ];
 
     $Self->{PreferencesGroups}->{Password} = {
-        Module          => 'Kernel::Output::HTML::PreferencesPassword',
-        Column          => 'Other Options',
-        Label           => 'Change Password',
-        Prio            => 1000,
-        Area            => 'Agent',
-
-#        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
-        PasswordRegExp                    => '',
-        PasswordMinSize                   => 0,
-        PasswordMin2Lower2UpperCharacters => 0,
-        PasswordMin2Characters            => 0,
-        PasswordNeedDigit                 => 0,
-        Active                             => 1,
+        'Active' => '1',
+        'Area' => 'Agent',
+        'Column' => 'User Profile',
+        'Label' => 'Change password',
+        'Module' => 'Kernel::Output::HTML::PreferencesPassword',
+        'PasswordMaxLoginFailed' => '0',
+        'PasswordMin2Characters' => '0',
+        'PasswordMin2Lower2UpperCharacters' => '0',
+        'PasswordMinSize' => '0',
+        'PasswordNeedDigit' => '0',
+        'PasswordRegExp' => '',
+        'Prio' => '0500'
     };
     $Self->{PreferencesGroups}->{SpellDict} = {
         Module => 'Kernel::Output::HTML::PreferencesGeneric',
@@ -1058,34 +1047,34 @@ sub LoadDefaults {
         Active   => 1,
     };
     $Self->{PreferencesGroups}->{Comment} = {
-        Module  => 'Kernel::Output::HTML::PreferencesGeneric',
-        Column  => 'Other Options',
-        Label   => 'Comment',
-        Desc    => 'Comment',
-        Block   => 'Input',
-        Data    => '$Env{"UserComment"}',
-        PrefKey => 'UserComment',
-        Prio    => 6000,
-        Active   => 0,
+        'Active' => '0',
+        'Block' => 'Input',
+        'Column' => 'Other Settings',
+        'Data' => '$Env{"UserComment"}',
+        'Key' => 'Comment',
+        'Label' => 'Comment',
+        'Module' => 'Kernel::Output::HTML::PreferencesGeneric',
+        'PrefKey' => 'UserComment',
+        'Prio' => '6000'
     };
 
     $Self->{PreferencesGroups}->{Language} = {
-        Module  => 'Kernel::Output::HTML::PreferencesLanguage',
-        Column  => 'Frontend',
-        Label   => 'Language',
-        Desc    => 'Select your frontend language.',
-        PrefKey => 'UserLanguage',
-        Prio    => 1000,
-        Active   => 1,
+        'Active' => '1',
+        'Column' => 'User Profile',
+        'Key' => 'Frontend language',
+        'Label' => 'Language',
+        'Module' => 'Kernel::Output::HTML::PreferencesLanguage',
+        'PrefKey' => 'UserLanguage',
+        'Prio' => '1000'
     };
     $Self->{PreferencesGroups}->{Theme} = {
-        Module  => 'Kernel::Output::HTML::PreferencesTheme',
-        Column  => 'Frontend',
-        Label   => 'Theme',
-        Desc    => 'Select your frontend Theme.',
-        PrefKey => 'UserTheme',
-        Prio    => 2000,
-        Active   => 1,
+        'Active' => '1',
+        'Column' => 'User Profile',
+        'Key' => 'Frontend theme',
+        'Label' => 'Theme',
+        'Module' => 'Kernel::Output::HTML::PreferencesTheme',
+        'PrefKey' => 'UserTheme',
+        'Prio' => '3000'
     };
 
     # --------------------------------------------------- #
@@ -1100,19 +1089,18 @@ sub LoadDefaults {
     $Self->{NotificationSenderEmail} = 'otrs@<OTRS_CONFIG_FQDN>';
 
     # notification email for new password
-    $Self->{NotificationSubjectLostPassword} = 'New OTRS Password!';
-    $Self->{NotificationBodyLostPassword}    = "
-Hi <OTRS_USERFIRSTNAME>,
+    $Self->{NotificationSubjectLostPassword} = 'New OTRS password';
+    $Self->{NotificationBodyLostPassword}    = 'Hi <OTRS_USERFIRSTNAME>,
 
-you or someone impersonating you has requested to change your OTRS
-password.
 
-New Password: <OTRS_NEWPW>
+Here\'s your new OTRS password.
+
+New password: <OTRS_NEWPW>
+
+You can log in via the following URL:
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl
-
-Your OTRS Notification Master
-";
+            ';
 
     # --------------------------------------------------- #
     #                                                     #
@@ -1123,7 +1111,7 @@ Your OTRS Notification Master
 
     # SessionName
     # (Name of the session key. E. g. Session, SessionID, OTRS)
-    $Self->{CustomerPanelSessionName} = 'CSID';
+    $Self->{CustomerPanelSessionName} = 'OTRSCustomerInterface';
 
     # CustomerPanelUserID
     # (The customer panel db-uid.) [default: 1]
@@ -1139,7 +1127,7 @@ Your OTRS Notification Master
     # (if CustomerGroupSupport is true and you don't want to manage
     # each customer user for this groups, then put the groups
     # for all customer user in there)
-    $Self->{CustomerGroupAlwaysGroups} = [ 'users', 'info' ];
+    $Self->{CustomerGroupAlwaysGroups} = [ 'users', ];
 
     # show online agents
 #    $Self->{'CustomerFrontend::NotifyModule'}->{'1-ShowAgentOnline'} = {
@@ -1188,37 +1176,33 @@ Your OTRS Notification Master
     # --------------------------------------------------- #
     # notification email about new password               #
     # --------------------------------------------------- #
-    $Self->{CustomerPanelSubjectLostPassword} = 'New OTRS Password!';
-    $Self->{CustomerPanelBodyLostPassword}    = "
-Hi <OTRS_USERFIRSTNAME>,
+    $Self->{CustomerPanelSubjectLostPassword} = 'New OTRS password';
+    $Self->{CustomerPanelBodyLostPassword}    = 'Hi <OTRS_USERFIRSTNAME>,
 
-you or someone impersonating you has requested to change your OTRS
-password.
 
-New Password: <OTRS_NEWPW>
+New password: <OTRS_NEWPW>
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl
-
-Your OTRS Notification Master
-";
+            ';
 
     # --------------------------------------------------- #
     # notification email about new account                #
     # --------------------------------------------------- #
     $Self->{CustomerPanelSubjectNewAccount} = 'New OTRS Account!';
-    $Self->{CustomerPanelBodyNewAccount}    = "
-Hi <OTRS_USERFIRSTNAME>,
+    $Self->{CustomerPanelBodyNewAccount}    = 'Hi <OTRS_USERFIRSTNAME>,
 
-you or someone impersonating you has created a new OTRS account for
-you (<OTRS_USERFIRSTNAME> <OTRS_USERLASTNAME>).
+You or someone impersonating you has created a new OTRS account for
+you.
 
-Login: <OTRS_USERLOGIN>
-Password: <OTRS_USERPASSWORD>
+Full name: <OTRS_USERFIRSTNAME> <OTRS_USERLASTNAME>
+User name: <OTRS_USERLOGIN>
+Password : <OTRS_USERPASSWORD>
+
+You can log in via the following URL. We encourage you to change your password
+via the Preferences button after logging in.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl
-
-Your OTRS Notification Master
-";
+            ';
 
     # --------------------------------------------------- #
     # customer authentication settings                    #
@@ -1344,6 +1328,9 @@ Your OTRS Notification Master
         # customer #
         CustomerID             => 'customer_id',
         CustomerValid          => 'valid_id',
+
+        # The last field must always be the email address so that a valid
+        #   email address like "John Doe" <john.doe@domain.com> can be constructed from the fields.
         CustomerUserListFields => [ 'first_name', 'last_name', 'email' ],
 
 #        CustomerUserListFields => ['login', 'first_name', 'last_name', 'customer_id', 'email'],
@@ -1507,7 +1494,7 @@ Your OTRS Notification Master
         Map => [
             # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
             [ 'CustomerID',             'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
-            [ 'CustomerCompanyName',    'Company',    'name',        1, 1, 'var', '', 0 ],
+            [ 'CustomerCompanyName',    'Customer',   'name',        1, 1, 'var', '', 0 ],
             [ 'CustomerCompanyStreet',  'Street',     'street',      1, 0, 'var', '', 0 ],
             [ 'CustomerCompanyZIP',     'Zip',        'zip',         1, 0, 'var', '', 0 ],
             [ 'CustomerCompanyCity',    'City',       'city',        1, 0, 'var', '', 0 ],
@@ -1577,40 +1564,59 @@ Your OTRS Notification Master
 
     # admin interface
     $Self->{'Frontend::Module'}->{Admin} = {
-        Group       => ['admin'],
-        Description => 'Admin-Area',
-        Title       => '',
-        NavBarName  => 'Admin',
-        NavBar      => [
-            {   Description => 'Admin-Area',
-                Type        => 'Menu',
-                Block       => 'ItemArea',
-                Name        => 'Admin',
-                Image       => 'admin.png',
-                Link        => 'Action=Admin',
-                NavBar      => 'Admin',
-                Prio        => 10000,
-                AccessKey   => 'a',
-            },
+        'Description' => 'Admin-Area',
+        'Group' => [
+            'admin'
         ],
-        NavBarModule => { Module => 'Kernel::Output::HTML::NavBarModuleAdmin', },
+        'Loader' => {
+            'CSS' => [
+                'Core.Agent.Admin.css'
+            ],
+                'JavaScript' => [
+                'Core.Agent.Admin.SysConfig.js'
+            ]
+        },
+        'NavBar' => [
+            {
+                'AccessKey' => 'a',
+                'Block' => 'ItemArea',
+                'Description' => '',
+                'Link' => 'Action=Admin',
+                'LinkOption' => '',
+                'Name' => 'Admin',
+                'NavBar' => 'Admin',
+                'Prio' => '10000',
+                'Type' => 'Menu'
+            }
+        ],
+        'NavBarModule' => {
+            'Module' => 'Kernel::Output::HTML::NavBarModuleAdmin'
+        },
+        'NavBarName' => 'Admin',
+        'Title' => ''
     };
     $Self->{'Frontend::Module'}->{AdminInit} = {
-        Group       => ['admin'],
-        Description => 'Admin',
-        Title       => 'Init',
+        'Description' => 'Admin',
+        'Group' => [
+            'admin'
+        ],
+        'NavBarName' => '',
+        'Title' => 'Init'
     };
     $Self->{'Frontend::Module'}->{AdminLog} = {
-        Group        => ['admin'],
-        Description  => 'Admin',
-        Title        => 'System Log',
-        NavBarName   => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'System Log',
-            Block  => 'Block4',
-            Prio   => 600,
+        'Description' => 'Admin',
+        'Group' => [
+            'admin'
+        ],
+        'NavBarModule' => {
+            'Block' => 'System',
+            'Description' => 'View system log messages.',
+            'Module' => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            'Name' => 'System Log',
+            'Prio' => '600'
         },
+        'NavBarName' => 'Admin',
+        'Title' => 'System Log'
     };
     $Self->{'Frontend::Module'}->{AdminSysConfig} = {
         Group        => ['admin'],
@@ -1634,16 +1640,19 @@ Your OTRS Notification Master
         },
     };
     $Self->{'Frontend::Module'}->{AdminPackageManager} = {
-        Group        => ['admin'],
-        Description  => 'Software Package Manager',
-        Title        => 'Package Manager',
-        NavBarName   => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name   => 'Package Manager',
-            Block  => 'Block4',
-            Prio   => 1000,
+        'Description' => 'Software Package Manager',
+        'Group' => [
+            'admin'
+        ],
+        'NavBarModule' => {
+            'Block' => 'System',
+            'Description' => 'Update and extend your system with software packages.',
+            'Module' => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            'Name' => 'Package Manager',
+            'Prio' => '1000'
         },
+        'NavBarName' => 'Admin',
+        'Title' => 'Package Manager'
     };
     # specify Loader settings for Login screens
     $Self->{'Frontend::Module'}->{Login} = {

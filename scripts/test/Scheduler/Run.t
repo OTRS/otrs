@@ -731,7 +731,7 @@ $CurrentSchedulerStatus = `$Scheduler -a status`;
 
 # check if the scheduler status is the same as before the test
 $PreviousSchedulerStatus =~ s{\d}{}g;
-$CurrentSchedulerStatus =~ s{\d}{}g;
+$CurrentSchedulerStatus  =~ s{\d}{}g;
 
 $Self->Is(
     $CurrentSchedulerStatus,

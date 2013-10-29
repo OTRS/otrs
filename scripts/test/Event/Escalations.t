@@ -20,6 +20,12 @@ use Kernel::System::UnitTest::Helper;
 
 my $ConfigObject = Kernel::Config->new();
 
+# make use to disable EstalationStopEvents modules
+$ConfigObject->Set(
+    Key   => 'Ticket::EventModulePost###900-EscalationStopEvents',
+    Value => undef,
+);
+
 # create common objects
 my $TimeObject = Kernel::System::Time->new(
     %{$Self},

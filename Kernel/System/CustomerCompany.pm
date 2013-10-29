@@ -16,7 +16,7 @@ use Kernel::System::EventHandler;
 use Kernel::System::Valid;
 use Kernel::System::Cache;
 
-use vars qw(@ISA);
+use base qw(Kernel::System::EventHandler);
 
 =head1 NAME
 
@@ -105,7 +105,6 @@ sub new {
     }
 
     # init of event handler
-    push @ISA, 'Kernel::System::EventHandler';
     $Self->EventHandlerInit(
         Config     => 'CustomerCompany::EventModulePost',
         BaseObject => 'CustomerCompanyObject',

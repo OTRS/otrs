@@ -19,6 +19,7 @@
     <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
             <h1>$Text{"Move Ticket"}: $QData{"TicketNumber"}</h1>
+            <p class="AsteriskExplanation">$Text{"All fields marked with an asterisk (*) are mandatory."}</p>
 
 <!-- dtl:block:TicketBack -->
             <p>

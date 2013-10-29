@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# bin/otrs.AUTHORS.pl - generate contributors list from git history
+# bin/otrs.CreateAUTHORS.pl - generate contributors list from git history
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify

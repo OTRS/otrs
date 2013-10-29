@@ -8,6 +8,7 @@
 # --
 
 package Kernel::Modules::AgentTicketPhone;
+## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
 
 use strict;
 use warnings;
@@ -1432,6 +1433,7 @@ sub Run {
         my $Tos = $Self->_GetTos(
             %GetParam,
             %ACLCompatGetParam,
+            CustomerUserID => $CustomerUser || '',
             QueueID => $QueueID,
         );
 

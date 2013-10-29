@@ -104,11 +104,11 @@
                     <tbody>
 <!-- dtl:block:ACLRow -->
                         <tr>
-                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLEdit;ID=$QData{"ID"}">$QData{"Name"}</a></td>
+                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLEdit;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                             <td>$QData{"Comment"}</td>
                             <td>$Text{"$Data{"ValidID"}"}</td>
-                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLExport;ID=$QData{"ID"};$QEnv{"ChallengeTokenParam"}" class="Export AsBlock">$Text{"Export"}</a></td>
-                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLCopy;ID=$QData{"ID"};$QEnv{"ChallengeTokenParam"}" class="Copy AsBlock">$Text{"Copy"}</a></td>
+                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLExport;ID=$LQData{"ID"};$QEnv{"ChallengeTokenParam"}" class="Export AsBlock">$Text{"Export"}</a></td>
+                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLCopy;ID=$LQData{"ID"};$QEnv{"ChallengeTokenParam"}" class="Copy AsBlock">$Text{"Copy"}</a></td>
                         </tr>
 <!-- dtl:block:ACLRow -->
 <!-- dtl:block:ACLNoDataRow -->

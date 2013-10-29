@@ -42,10 +42,14 @@
                 </div>
 <!-- dtl:block:EditWarning -->
 
+                <div class="WidgetSimple Expanded WidgetNotice">
+                    <div class="Content">$Text{"Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID."}</div>
+                </div>
+
                 <div class="WidgetSimple Expanded">
                     <div class="Header">
                         <div class="WidgetAction Toggle">
-                            <a href="#" title="$Text{"Show or hide the content"}"></a>
+                            <a href="#" title="$Text{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                         </div>
                         <h2>$Text{"Activity Dialog"}</h2>
                     </div>
@@ -123,7 +127,7 @@
                 <div class="WidgetSimple Expanded">
                     <div class="Header">
                         <div class="WidgetAction Toggle">
-                            <a href="#" title="$Text{"Show or hide the content"}"></a>
+                            <a href="#" title="$Text{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                         </div>
                         <h2>$Text{"Fields"}</h2>
                     </div>
@@ -172,7 +176,7 @@
                     </div>
                 </div>
 <!-- Invisible submit button to allow form submit on pressing enter/return without javascript -->
-                <input type="image" width="0" height="0" />
+                <input type="image" width="0" height="0" style="display: none;" />
             </form>
         </div>
     </div>

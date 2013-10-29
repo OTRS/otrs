@@ -219,8 +219,13 @@ button.Reset:active {
     font-size: 2px;
 }
 
-.Field .ShowTreeSelection {
+.Field .ShowTreeSelection, .WidgetSettingsForm .ShowTreeSelection {
     display: inline-block;
+}
+
+.WidgetSettingsForm .ShowTreeSelection {
+    position: relative;
+    top: -4px;
 }
 
 #TreeContainer #TreeSearch {
@@ -387,8 +392,8 @@ form label.LabelError {
 }
 
 .CustomerContainer .CustomerTicketText.MainCustomer {
-    background-color: #FFD6BC;
-    border: 1px solid #E77A34;
+    background-color: #F7ECC3;
+    border: 1px solid #E8CC8B;
 }
 
 .CustomerContainer .CustomerTicketText.Radio {

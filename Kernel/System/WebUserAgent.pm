@@ -16,8 +16,6 @@ use LWP::UserAgent;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::WebUserAgent - a web user agent lib
@@ -131,8 +129,7 @@ sub Request {
     my ( $Self, %Param ) = @_;
 
     # define method - default to GET
-    $Param{Type} = 'GET' if !defined $Param{Type};
-    $Param{Type} = 'GET' if $Param{Type} ne 'POST';
+    $Param{Type} ||= 'GET';
 
     my $Response;
 
@@ -181,7 +178,8 @@ sub Request {
             # perform get request on URL
             $Response = $UserAgent->get( $Param{URL} );
         }
-        elsif ( $Param{Type} eq 'POST' ) {
+
+        else {
 
             # check for Data param
             if ( !IsArrayRefWithData( $Param{Data} ) && !IsHashRefWithData( $Param{Data} ) ) {

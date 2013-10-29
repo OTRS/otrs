@@ -127,7 +127,7 @@
             <div class="WidgetSimple">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Filter Condition"} <span class="FieldExplanation">($Text{"AND Condition"})</span></h2>
                 </div>
@@ -139,7 +139,7 @@
                             <p>$Text{"This field is required."}</p>
                         </div>
 
-                        <label for="MatchNot1">$Text{"Negate"} 1:</label> 
+                        <label for="MatchNot1">$Text{"Negate"} 1:</label>
                         <input type="checkbox" name="MatchNot1" id="MatchNot1" value="1" $QData{"MatchNot1"} />
 
                         <label for="MatchValue1">$Text{"Value"} 1:</label>
@@ -157,7 +157,7 @@
                             <p>$Text{"This field is required."}</p>
                         </div>
 
-                        <label for="MatchNot2">$Text{"Negate"} 2:</label> 
+                        <label for="MatchNot2">$Text{"Negate"} 2:</label>
                         <input type="checkbox" name="MatchNot2" id="MatchNot2" value="1" $QData{"MatchNot2"} />
 
                         <label for="MatchValue2">$Text{"Value"} 2:</label>
@@ -175,7 +175,7 @@
                             <p>$Text{"This field is required."}</p>
                         </div>
 
-                        <label for="MatchNot3">$Text{"Negate"} 3:</label> 
+                        <label for="MatchNot3">$Text{"Negate"} 3:</label>
                         <input type="checkbox" name="MatchNot3" id="MatchNot3" value="1" $QData{"MatchNot3"} />
 
                         <label for="MatchValue3">$Text{"Value"} 3:</label>
@@ -193,7 +193,7 @@
                             <p>$Text{"This field is required."}</p>
                         </div>
 
-                        <label for="MatchNot4">$Text{"Negate"} 4:</label> 
+                        <label for="MatchNot4">$Text{"Negate"} 4:</label>
                         <input type="checkbox" name="MatchNot4" id="MatchNot4" value="1" $QData{"MatchNot4"} />
 
                         <label for="MatchValue4">$Text{"Value"} 4:</label>
@@ -209,7 +209,7 @@
             <div class="WidgetSimple">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Set Email Headers"}</h2>
                 </div>
@@ -300,9 +300,7 @@
 
                     <label for="MatchHeaderExample">$Text{"Header"} 1:</label>
                     <div class="Field">
-                        <select name="MatchHeaderExample" id="MatchHeaderExample" class="W33pc">
-                            <option selected="selected" value="To">To</option>
-                        </select>
+                        <select name="MatchHeaderExample" id="MatchHeaderExample" class="W33pc"><option selected="selected" value="To">To</option></select>
                         <label for="MatchValueExample">$Text{"Value"} 1:</label>
                         <input type="text" name="MatchValueExample" id="MatchValueExample" value="(me|test)@example.com" class="W33pc" maxlength="50"/>
                     </div>
@@ -312,9 +310,7 @@
 
                     <label for="SetHeaderExample">$Text{"Header"} 1:</label>
                     <div class="Field">
-                        <select name="SetHeaderExample" id="SetHeaderExample" class="W33pc">
-                            <option selected="selected" value="X-OTRS-Queue">X-OTRS-Queue</option>
-                        </select>
+                        <select name="SetHeaderExample" id="SetHeaderExample" class="W33pc"><option selected="selected" value="X-OTRS-Queue">X-OTRS-Queue</option></select>
                         <label for="SetValueExample">$Text{"Value"} 1:</label>
                         <input type="text" name="SetValueExample" id="SetValueExample" value="SomeQueue" class="W33pc" maxlength="50"/>
                     </div>

@@ -95,13 +95,8 @@ sub Load {
 # ---------------------------------------------------- #
 # needed system stuff (don't edit this)                #
 # ---------------------------------------------------- #
-use strict;
-use warnings;
 
-use vars qw(@ISA);
-
-use Kernel::Config::Defaults;
-push (@ISA, 'Kernel::Config::Defaults');
+use base qw(Kernel::Config::Defaults);
 
 # -----------------------------------------------------#
 

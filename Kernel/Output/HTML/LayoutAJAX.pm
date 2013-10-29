@@ -12,8 +12,6 @@ package Kernel::Output::HTML::LayoutAJAX;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::Output::HTML::LayoutAJAX - all AJAX-related HTML functions

@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::ProcessManagement::Transition - Transition lib
@@ -331,7 +329,7 @@ sub TransitionCheck {
                 # If there is something else than 'String', 'Regexp', 'Hash', 'Array', 'Module'
                 # log defect Transition Config
                 if (
-                    $FieldType ne 'String'
+                    $FieldType    ne 'String'
                     && $FieldType ne 'Hash'
                     && $FieldType ne 'Array'
                     && $FieldType ne 'Regexp'
@@ -580,7 +578,6 @@ sub TransitionCheck {
                         );
                         return;
                     }
-                    push @ISA, $ActualCondition->{Fields}{$Field}{Match};
 
                     # create new ValidateModuleObject
                     my $ValidateModuleObject =

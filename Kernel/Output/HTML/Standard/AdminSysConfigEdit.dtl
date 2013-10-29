@@ -435,3 +435,47 @@
     </div>
     <div class="Clear"></div>
 </div>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('fieldset > p.Description').each(function() {
+
+        var MaxLength = 200,
+            Length = $(this).text().length,
+            ShortText,
+            FullText,
+            LinkText = '$JSText{"Show more"}',
+            OverlayTitle = $(this)
+                .closest('fieldset')
+                .find('h3')
+                .find('label')
+                .text();
+
+        // if the full description text is too long, cut it and
+        // show a "info" button which will open a dialog.
+        if ( Length > MaxLength && Length > MaxLength + 100 ) {
+
+            FullText  = $(this).text();
+            $(this).text(FullText.substr(0, MaxLength) + '...');
+
+            $(this)
+                .append('&nbsp;<a href="#" class="DescriptionOverlay">' + LinkText + '</a>')
+                .find('a.DescriptionOverlay')
+                .bind('click', function() {
+
+                    Core.UI.Dialog.ShowDialog({
+                        Modal: true,
+                        Title: OverlayTitle,
+                        HTML: '<div style="padding: 15px; line-height: 150%; width: 550px;">' + FullText + '</div>',
+                        PositionTop: '100px',
+                        PositionLeft: 'Center',
+                        CloseOnEscape: true,
+                        CloseOnClickOutside: true
+                    });
+
+                    return false;
+                });
+        }
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->

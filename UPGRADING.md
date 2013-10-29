@@ -1,13 +1,22 @@
 Upgrading OTRS from 3.2 to 3.3
 ==============================
 
-These instructions are for people upgrading OTRS from "3.2" to "3.3",
+These instructions are for people upgrading OTRS from *3.2* to *3.3*,
 and applies both for RPM and source code (tarball) upgrades.
+
+Please note that OTRS 3.3 requires at least perl version *5.10.0*. Make sure
+before you plan your upgrade that your server runs this version. You can check
+the version with the command `perl -v` on the command line. The only known
+Linux distribution that uses perl 5.8 and is still supported by its vendor is
+Red Hat Enterprise Linux (RHEL) 5 and its community supported derivative
+CentOS 5.
+If you're on any of these platforms and you plan to upgrade to OTRS 3.3 you
+should also plan migrating your operating system to a version with a supported perl, such as RHEL 6 or CentOS 6.
 
 If you are running a lower version of OTRS you have to follow the upgrade path
 to 3.2 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0->3.1->3.2->3.3 ...)!
-You need to perform a full upgrade to every version in between, including database
-changes and upgrading perl script.
+You need to perform a full upgrade to every version in between, including
+database changes and the upgrading perl script.
 
 Please note that if you upgrade from OTRS 2.2 or earlier, you have to
 take an extra step; please read http://bugs.otrs.org/show_bug.cgi?id=6798
@@ -15,7 +24,7 @@ take an extra step; please read http://bugs.otrs.org/show_bug.cgi?id=6798
 Within a single minor version you can skip patch level releases if you want to
 upgrade. For instance you can upgrade directly from OTRS 3.3.1 to version
 3.3.4. If you need to do such a "patch level upgrade", you should skip steps
-9, 13 and 14.
+9 and 13-16.
 
 
 1. Stop all relevant services
@@ -52,10 +61,11 @@ If possible try this install on a separate machine for testing first.
 With the tarball:
 
     shell> cd /opt
+    shell> mv otrs otrs-old
     shell> tar -xzf otrs-x.x.x.tar.gz
-    shell> ln -s otrs-x.x.x otrs
+    shell> mv otrs-x.x.x otrs
 
-Restore old configuration files.
+Restore old configuration files
 
 - Kernel/Config.pm
 - Kernel/Config/GenericAgent.pm
@@ -63,14 +73,12 @@ Restore old configuration files.
 
 Restore TicketCounter.log
 
-In order to let OTRS continue with the correct ticket number, restore the 'TicketCounter.log' to
-`$OTRS_HOME/var/log/` (default: `OTRS_HOME=/opt/otrs`)
-
-This is especially important if you are using incremental ticketnumbers.
+In order to let OTRS continue with the correct ticket number, restore the `TicketCounter.log` to
+`$OTRS_HOME/var/log/` (default: `OTRS_HOME=/opt/otrs`). This is especially important if you use incremental ticketnumbers.
 
 Restore article data
 
-If you are saving article data to the filesystem you have to restore the 'article' folder to `$OTRS_HOME/var/` (default: `OTRS_HOME=/opt/otrs`)
+If you configured OTRS to store article data in the filesystem you have to restore the `article` folder to `$OTRS_HOME/var/` (default: `OTRS_HOME=/opt/otrs`).
 
 
 With the RPM:
@@ -162,7 +170,7 @@ PostgreSQL, older versions:
 10. Refresh the configuration cache and delete caches
 -----------------------------------------------------
 
-Please run:
+Please run (as user `otrs`, NOT as `root`):
 
     shell> bin/otrs.RebuildConfig.pl
     shell> bin/otrs.DeleteCache.pl
@@ -199,9 +207,13 @@ installed before):
 - OTRSMultiServiceSelect
 - OTRSMultiQueueSelect
 - OTRSDynamicFieldMultiLevelSelection
-- OTRSKeepFAQAttachments
+- OTRSEventBasedTicketActions
 - OTRSTicketAclEditor
 - OTRSCustomerProcessSelection
+- OTRSACLExtensions
+- OTRSGenericStandardTemplates
+- OTRSExtendedDynamicDateFieldSearch
+- OTRSDashboardTicketOverviewFilters
 
 13. Check config settings of OTRSFreeTextFromCustomerUser
 -------------------------------------------------------
@@ -229,5 +241,69 @@ you will need to use the deploy button in the ACL administration frontend in ord
 ACLs to your system.
 
 
-15. Well done!
+15. Update your web server configuration
+----------------------------------------
+
+Note: this applies only if you use the Apache web server,
+and do not use the configuration file directly from the OTRS installation directory
+(e. g. with a symlink from the Apache configuration directory).
+
+Please update the caching settings in the the Apache configuration file for OTRS:
+
+```
+<IfModule mod_headers.c>
+    # Cache css-cache for 30 days
+    <Directory "/opt/otrs/var/httpd/htdocs/skins/*/*/css-cache">
+        <FilesMatch "\.(css|CSS)$">
+            Header set Cache-Control "max-age=2592000 must-revalidate"
+        </FilesMatch>
+    </Directory>
+
+    # Cache css thirdparty for 4 hours, including icon fonts
+    <Directory "/opt/otrs/var/httpd/htdocs/skins/*/*/css/thirdparty">
+        <FilesMatch "\.(css|CSS|woff|svg)$">
+            Header set Cache-Control "max-age=14400 must-revalidate"
+        </FilesMatch>
+    </Directory>
+
+    # Cache js-cache for 30 days
+    <Directory "/opt/otrs/var/httpd/htdocs/js/js-cache">
+        <FilesMatch "\.(js|JS)$">
+            Header set Cache-Control "max-age=2592000 must-revalidate"
+        </FilesMatch>
+    </Directory>
+
+    # Cache js thirdparty for 4 hours
+    <Directory "/opt/otrs/var/httpd/htdocs/js/thirdparty/">
+        <FilesMatch "\.(js|JS)$">
+            Header set Cache-Control "max-age=14400 must-revalidate"
+        </FilesMatch>
+    </Directory>
+</IfModule>
+```
+
+Please activate this in your local installation too, and make sure that mod_headers
+is installed and active.
+
+
+16. Update and activate cronjobs
+--------------------------------
+
+There are several OTRS default cronjobs in $OTRS_HOME/var/cron/*.dist.
+They can be activated by copying them without the ".dist" filename extension.
+Do this to make sure you get the latest versions of the cronjobs and new cronjobs
+as well.
+
+    shell> cd var/cron
+    shell> for foo in *.dist; do cp $foo `basename $foo .dist`; done
+
+Please check the copied files and re-apply any customizations that you might have made.
+
+To schedule these cronjobs on your system, you can use the script Cron.sh.
+Make sure to execute it as the OTRS system user!
+
+        shell> /opt/otrs/bin/Cron.sh start
+
+
+17. Well done!
 --------------

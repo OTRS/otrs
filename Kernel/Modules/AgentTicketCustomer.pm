@@ -204,6 +204,7 @@ sub Run {
             )
             )
         {
+
             # redirect
             return $Self->{LayoutObject}->PopupClose(
                 URL => "Action=AgentTicketZoom;TicketID=$Self->{TicketID}",

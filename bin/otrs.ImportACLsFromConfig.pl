@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # --
 # bin/otrs.ImportACLsFromConfig.pl - import existing ACLs from Config.pm to database
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
@@ -85,7 +85,7 @@ if ( !$ACLs || ref $ACLs ne 'HASH' ) {
 my $TimeStamp = $CommonObject{TimeObject}->CurrentTimestamp();
 
 ACL:
-for my $ACLName ( keys %{$ACLs} ) {
+for my $ACLName ( sort keys %{$ACLs} ) {
 
     # try adding the ACL
     my $ACLID = $CommonObject{ACLObject}->ACLAdd(

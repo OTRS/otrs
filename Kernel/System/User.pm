@@ -19,8 +19,6 @@ use Kernel::System::CacheInternal;
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::User - user lib
@@ -1096,7 +1094,7 @@ search in user preferences
 
     my %UserList = $UserObject->SearchPreferences(
         Key   => 'UserEmail',
-        Value => 'email@example.com',
+        Value => 'email@example.com',   # optional, limit to a certain value/pattern
     );
 
 =cut

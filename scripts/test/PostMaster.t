@@ -982,7 +982,7 @@ my %OwnerResponsibleTests = (
     },
 );
 
-for my $Test ( keys %OwnerResponsibleTests ) {
+for my $Test ( sort keys %OwnerResponsibleTests ) {
     my $FileSuffix = $OwnerResponsibleTests{$Test}->{File};
     my $Location   = $ConfigObject->Get('Home')
         . "/scripts/test/sample/PostMaster/PostMaster-Test-$FileSuffix.box";
@@ -1025,7 +1025,7 @@ for my $Test ( keys %OwnerResponsibleTests ) {
         DynamicFields => 0,
     );
 
-    for my $Field ( keys %{ $OwnerResponsibleTests{$Test}->{Check} } ) {
+    for my $Field ( sort keys %{ $OwnerResponsibleTests{$Test}->{Check} } ) {
         $Self->Is(
             $Ticket{$Field},
             $OwnerResponsibleTests{$Test}->{Check}->{$Field},

@@ -10,6 +10,7 @@
 # Common
 $Text{"Stat"}
 $Text{"Sum"}
+$Text{"No (not supported)"}
 
 # Error messages
 $Text{"Please fill out the required fields!"}

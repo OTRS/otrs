@@ -8,6 +8,7 @@
 # --
 
 package Kernel::Modules::AdminPackageManager;
+## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
 
 use strict;
 use warnings;
@@ -78,7 +79,7 @@ sub Run {
 
     # secure mode message (don't allow this action until secure mode is enabled)
     if ( !$Self->{ConfigObject}->Get('SecureMode') ) {
-        $Self->{LayoutObject}->SecureMode();
+        return $Self->{LayoutObject}->SecureMode();
     }
 
     # ------------------------------------------------------------ #
@@ -245,8 +246,22 @@ sub Run {
             }
         }
         my @DatabaseBuffer;
+
+        # correct any 'dos-style' line endings - http://bugs.otrs.org/show_bug.cgi?id=9838
+        ${$Package} =~ s{\r\n}{\n}xmsg;
+
+        # create MD5 sum and add it into existing package structure
+        my $MD5sum = $Self->{MainObject}->MD5sum( String => $Package );
+
+        $Structure{MD5sum} = {
+            Tag     => 'MD5sum',
+            Content => $MD5sum,
+        };
+
         for my $Key ( sort keys %Structure ) {
+
             if ( ref $Structure{$Key} eq 'HASH' ) {
+
                 if ( $Key =~ /^(Description|Filelist)$/ ) {
                     $Self->{LayoutObject}->Block(
                         Name => "PackageItem$Key",
@@ -254,6 +269,7 @@ sub Run {
                     );
                 }
                 elsif ( $Key =~ /^Database(Install|Reinstall|Upgrade|Uninstall)$/ ) {
+
                     for my $Type (qw(pre post)) {
                         for my $Hash ( @{ $Structure{$Key}->{$Type} } ) {
                             if ( $Hash->{TagType} eq 'Start' ) {
@@ -298,6 +314,7 @@ sub Run {
                 }
             }
             elsif ( ref $Structure{$Key} eq 'ARRAY' ) {
+
                 for my $Hash ( @{ $Structure{$Key} } ) {
                     if ( $Key =~ /^(Description|ChangeLog)$/ ) {
                         $Self->{LayoutObject}->Block(
@@ -1207,7 +1224,11 @@ sub Run {
             },
         );
 
-        if ( $VerificationData{ $Package->{Name}->{Content} } && $VerificationData{ $Package->{Name}->{Content} } eq 'verified' ) {
+        if (
+            $VerificationData{ $Package->{Name}->{Content} }
+            && $VerificationData{ $Package->{Name}->{Content} } eq 'verified'
+            )
+        {
             $Self->{LayoutObject}->Block(
                 Name => 'ShowLocalPackageVerifyLogo',
             );
@@ -1567,7 +1588,7 @@ sub _InstallHandling {
             },
         );
 
-        if ($Verified eq 'verified') {
+        if ( $Verified eq 'verified' ) {
             $Self->{LayoutObject}->Block(
                 Name => 'OTRSVerifyLogo',
             );
@@ -1606,7 +1627,7 @@ sub _InstallHandling {
                 },
             );
 
-            if ($Verified eq 'verified') {
+            if ( $Verified eq 'verified' ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'OTRSVerifyLogo',
                 );

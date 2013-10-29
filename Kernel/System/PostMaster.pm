@@ -22,8 +22,6 @@ use Kernel::System::PostMaster::FollowUp;
 use Kernel::System::PostMaster::NewTicket;
 use Kernel::System::PostMaster::DestQueue;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::PostMaster - postmaster lib
@@ -306,7 +304,7 @@ sub Run {
                 $Param{QueueID} = $TQueueID;
             }
 
-            # Clean out the old TicketNumber from the subject (see bug#9180).
+            # Clean out the old TicketNumber from the subject (see bug#9108).
             # This avoids false ticket number detection on customer replies.
             if ( $GetParam->{Subject} ) {
                 $GetParam->{Subject} = $Self->{TicketObject}->TicketSubjectClean(

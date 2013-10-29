@@ -199,7 +199,8 @@ sub Form {
             );
             if ( !$AccessOk ) {
                 my $Output = $Self->{LayoutObject}->Header(
-                    Type => 'Small',
+                    Type      => 'Small',
+                    BodyClass => 'Popup',
                 );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => $Self->{LayoutObject}->{LanguageObject}
@@ -513,9 +514,15 @@ sub Form {
     # build view ...
     # start with page ...
     $Output .= $Self->{LayoutObject}->Header(
-        Value => $Ticket{TicketNumber},
-        Type  => 'Small',
+        Value     => $Ticket{TicketNumber},
+        Type      => 'Small',
+        BodyClass => 'Popup',
     );
+
+    # build references string
+    my $References = defined $Data{References} ? $Data{References} . ' ' : '';
+    $References .= defined $Data{MessageID} ? $Data{MessageID} : '';
+
     $Output .= $Self->_Mask(
         TicketNumber => $Ticket{TicketNumber},
         TicketID     => $Self->{TicketID},
@@ -537,7 +544,7 @@ sub Form {
         %Data,
         %GetParam,
         InReplyTo        => $Data{MessageID},
-        References       => "$Data{References} $Data{MessageID}",
+        References       => $References,
         DynamicFieldHTML => \%DynamicFieldHTML,
     );
     $Output .= $Self->{LayoutObject}->Footer(
@@ -840,8 +847,9 @@ sub SendEmail {
 
         my $QueueID = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
         my $Output = $Self->{LayoutObject}->Header(
-            Value => $TicketNumber,
-            Type  => 'Small',
+            Value     => $TicketNumber,
+            Type      => 'Small',
+            BodyClass => 'Popup',
         );
         $Output .= $Self->_Mask(
             TicketNumber => $TicketNumber,

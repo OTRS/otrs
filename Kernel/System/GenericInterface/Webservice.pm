@@ -21,8 +21,6 @@ use Kernel::System::Cache;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::Webservice
@@ -429,8 +427,8 @@ sub WebserviceUpdate {
     }
 
     return 1 if $ValidIDCurrent eq $Param{ValidID}
-        && $Config eq $ConfigCurrent
-        && $NameCurrent eq $Param{Name};
+            && $Config eq $ConfigCurrent
+            && $NameCurrent eq $Param{Name};
 
     # sql
     return if !$Self->{DBObject}->Do(

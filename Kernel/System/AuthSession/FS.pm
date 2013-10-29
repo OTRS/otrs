@@ -245,7 +245,7 @@ sub CreateSessionID {
     my $RemoteUserAgent = $ENV{HTTP_USER_AGENT} || 'none';
 
     # create session id
-    my $SessionID = $Self->{MainObject}->GenerateRandomString(
+    my $SessionID = $Self->{SystemID} . $Self->{MainObject}->GenerateRandomString(
         Length => 32,
     );
 

@@ -508,7 +508,7 @@ $ResetMembership->(
             },
         ],
         ExpectedResult => [ $GroupObject->GroupLookup( GroupID => $GID1 ) ],
-        Success        => 1,
+        Success => 1,
         ResetMembership => 0,
     },
     {
@@ -532,7 +532,7 @@ $ResetMembership->(
             GroupID => undef,
         },
         ExpectedResult => { $GID1 => $GroupObject->GroupLookup( GroupID => $GID1 ), },
-        Success        => 1,
+        Success => 1,
         ResetMembership => 1,
     },
     {
@@ -559,7 +559,7 @@ $ResetMembership->(
             },
         ],
         ExpectedResult => [ $GroupObject->GroupLookup( GroupID => $GID1 ) ],
-        Success        => 1,
+        Success => 1,
         ResetMembership => 0,
     },
     {
@@ -583,7 +583,7 @@ $ResetMembership->(
             GroupID => $GID1,
         },
         ExpectedResult => { $UID => $GroupObject->GroupLookup( GroupID => $GID1 ), },
-        Success        => 1,
+        Success => 1,
         ResetMembership => 1,
     },
     {
@@ -921,7 +921,7 @@ for my $Test (@Tests) {
             GroupID => $GID1,
         },
         ExpectedResult => $GroupObject->GroupLookup( GroupID => $GID1 ),
-        Success        => 1,
+        Success => 1,
     },
 );
 

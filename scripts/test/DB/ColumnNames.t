@@ -24,12 +24,12 @@ my @Tests = (
     {
         Name   => 'SELECT with named columns',
         Data   => 'SELECT id, name FROM groups',
-        Result => [qw (id name)],
+        Result => [qw(id name)],
     },
     {
         Name   => 'SELECT with all columns',
         Data   => 'SELECT * FROM groups',
-        Result => [qw (id name comments valid_id create_time create_by change_time change_by)],
+        Result => [qw(id name comments valid_id create_time create_by change_time change_by)],
     },
 );
 

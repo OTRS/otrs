@@ -1,0 +1,55 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  AdminRegistration
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     General
+ */
+
+.ordered > li {
+    display: list-item;
+    list-style-type: disc;
+    list-style-position: inside;
+    margin-bottom: 10px;
+    padding-left: 12px;
+    text-indent: -12px;
+    margin-right: 5%;
+}
+
+.Question {
+    margin-bottom: 4px;
+    margin-top: 7px;
+    font-size: 14px;
+}
+
+.QA > p {
+    font-size: 13px;
+    margin-bottom: 12px;
+    margin-left: 8px;
+}
+
+.ServiceDescription {
+    font-size: 13px;
+    margin-left: 30%;
+    margin-right: 5%;
+    margin-bottom: 40px;
+}
+
+.SystemDataListContainer {
+    margin-left: 25%;
+    width: 600px;
+    margin-bottom: 12px;
+}
+
+
+} /* end @media */

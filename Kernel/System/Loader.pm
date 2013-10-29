@@ -12,8 +12,6 @@ package Kernel::System::Loader;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 use Kernel::System::CacheInternal;
 
 use CSS::Minifier qw();
@@ -311,6 +309,10 @@ sub GetMinifiedFile {
     # no cache available, read and minify file
     my $FileContents = $Self->{MainObject}->FileRead(
         Location => $Location,
+        # It would be more correct to use UTF8 mode, but then the JavaScript::Minifier
+        #   will cause timeouts due to extreme slowness on some UT servers. Disable for now.
+        #   Unicode in the files still works correctly.
+        #Mode     => 'utf8',
     );
 
     if ( ref $FileContents ne 'SCALAR' ) {
@@ -446,8 +448,8 @@ sub CacheDelete {
                 Directory => $Folder,
                 Filter    => 'css-cache',
             );
-            if (@CacheFolder) {
-                push @CacheFoldersList, $CacheFolder[0] if -d $CacheFolder[0];
+            if ( @CacheFolder && -d $CacheFolder[0] ) {
+                push @CacheFoldersList, $CacheFolder[0];
             }
         }
     }

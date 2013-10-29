@@ -8,6 +8,7 @@
 # --
 
 package Kernel::Modules::AgentTicketEmail;
+## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
 
 use strict;
 use warnings;
@@ -432,7 +433,7 @@ sub Run {
                     # check if field has PossibleValues property in its configuration
                     if ( IsHashRefWithData($PossibleValues) ) {
 
-                    # convert possible values key => value to key => key for ACLs usign a Hash slice
+                    # convert possible values key => value to key => key for ACLs using a Hash slice
                         my %AclData = %{$PossibleValues};
                         @AclData{ keys %AclData } = keys %AclData;
 
@@ -603,7 +604,12 @@ sub Run {
             my $Dest = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
             ($QueueID) = split( /\|\|/, $Dest );
         }
-        my $Signature = $Self->_GetSignature( QueueID => $QueueID || 1 );
+
+        # start with empty signature (no queue selected) - if we have a queue, get the sig.
+        my $Signature = '';
+        if ($QueueID) {
+            $Signature = $Self->_GetSignature( QueueID => $QueueID );
+        }
         my $MimeType = 'text/plain';
         if ( $Self->{LayoutObject}->{BrowserRichText} ) {
             $MimeType  = 'text/html';
@@ -760,7 +766,7 @@ sub Run {
                 # check if field has PossibleValues property in its configuration
                 if ( IsHashRefWithData($PossibleValues) ) {
 
-                    # convert possible values key => value to key => key for ACLs usign a Hash slice
+                    # convert possible values key => value to key => key for ACLs using a Hash slice
                     my %AclData = %{$PossibleValues};
                     @AclData{ keys %AclData } = keys %AclData;
 
@@ -1397,6 +1403,7 @@ sub Run {
         my $Tos = $Self->_GetTos(
             %GetParam,
             %ACLCompatGetParam,
+            CustomerUserID => $CustomerUser || '',
             QueueID => $QueueID,
         );
 
@@ -1473,7 +1480,7 @@ sub Run {
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
 
-            # convert possible values key => value to key => key for ACLs usign a Hash slice
+            # convert possible values key => value to key => key for ACLs using a Hash slice
             my %AclData = %{$PossibleValues};
             @AclData{ keys %AclData } = keys %AclData;
 

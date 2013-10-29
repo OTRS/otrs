@@ -147,7 +147,7 @@ sub ACLAdd {
     }
 
     # define Description field if not present
-    $Param{Description} = '' if !defined $Param{Description};
+    $Param{Description} //= '';
 
     my $ConfigMatch  = '';
     my $ConfigChange = '';
@@ -459,7 +459,7 @@ sub ACLUpdate {
     }
 
     # define Description field if not present
-    $Param{Description} = '' if !defined $Param{Description};
+    $Param{Description} //= '';
 
     my $ConfigMatch  = '';
     my $ConfigChange = '';
@@ -538,13 +538,13 @@ sub ACLUpdate {
 
     if (
         $CurrentName
-        && $CurrentName eq $Param{Name}
-        && $CurrentComment eq $Param{Comment}
-        && $CurrentDescription eq $Param{Description}
+        && $CurrentName           eq $Param{Name}
+        && $CurrentComment        eq $Param{Comment}
+        && $CurrentDescription    eq $Param{Description}
         && $CurrentStopAfterMatch eq $Param{StopAfterMatch}
-        && $CurrentValidID eq $Param{ValidID}
-        && $CurrentConfigMatch eq $Param{ConfigMatch}
-        && $CurrentConfigChange eq $Param{ConfigChange}
+        && $CurrentValidID        eq $Param{ValidID}
+        && $CurrentConfigMatch    eq $Param{ConfigMatch}
+        && $CurrentConfigChange   eq $Param{ConfigChange}
         )
     {
         return 1;
@@ -894,7 +894,7 @@ sub ACLDump {
     );
 
     my $Output = '';
-    for my $ACLName ( keys %ACLDump ) {
+    for my $ACLName ( sort keys %ACLDump ) {
 
         # create output
         $Output .= $Self->_ACLItemOutput(

@@ -53,7 +53,7 @@ sub Run {
     # only update if fields have really changed
     if (
         $Param{Data}->{OldData}->{UserCustomerID} ne $Param{Data}->{NewData}->{UserCustomerID}
-        || $Param{Data}->{OldData}->{UserLogin} ne $Param{Data}->{NewData}->{UserLogin}
+        || $Param{Data}->{OldData}->{UserLogin}   ne $Param{Data}->{NewData}->{UserLogin}
         )
     {
 

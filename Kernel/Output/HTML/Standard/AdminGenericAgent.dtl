@@ -123,7 +123,7 @@
             <div class="WidgetSimple Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Automatic execution (multiple tickets)"}</h2>
                 </div>
@@ -166,7 +166,7 @@
             <div class="WidgetSimple SpacingTop Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Event based execution (single ticket)"}</h2>
                 </div>
@@ -266,7 +266,7 @@ Core.Agent.Admin.GenericAgent.Init({
             <div class="WidgetSimple SpacingTop Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Ticket Filter"}</h2>
                 </div>
@@ -581,7 +581,7 @@ Core.Agent.Admin.GenericAgent.Init({
             <div class="WidgetSimple SpacingTop Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Ticket Action"}</h2>
                 </div>
@@ -693,7 +693,7 @@ Core.Agent.Admin.GenericAgent.Init({
             <div class="WidgetSimple SpacingTop Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Add Note"}</h2>
                 </div>
@@ -728,7 +728,7 @@ Core.Agent.Admin.GenericAgent.Init({
             <div class="WidgetSimple SpacingTop Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Ticket Commands"}</h2>
                 </div>
@@ -764,7 +764,7 @@ Core.Agent.Admin.GenericAgent.Init({
             <div class="WidgetSimple SpacingTop Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Execute Custom Module"}</h2>
                 </div>

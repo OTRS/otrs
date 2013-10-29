@@ -1053,7 +1053,10 @@ sub _Show {
                         TemplateTypes => 1,
                     );
 
-                    my %StandardResponses = %{ $StandardTemplates{Answer} };
+                    my %StandardResponses;
+                    if ( IsHashRefWithData( $StandardTemplates{Answer} ) ) {
+                        %StandardResponses = %{ $StandardTemplates{Answer} };
+                    }
 
                     # get StandardResponsesStrg
                     $StandardResponses{0}

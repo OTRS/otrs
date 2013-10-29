@@ -14,8 +14,6 @@ use warnings;
 
 use JSON;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::JSON - the JSON wrapper lib

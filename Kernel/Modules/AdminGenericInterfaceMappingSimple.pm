@@ -618,7 +618,7 @@ sub _GetParams {
             my $Suffix = $KeyCounter . '_' . $ValueCounter;
             next
                 if $Self->{ParamObject}->GetParam( Param => 'ValueName' . $Suffix ) eq
-                $Self->{DeletedString};
+                    $Self->{DeletedString};
             $ValueIndex++;
             for my $ValueItem (qw(ValueMapTypeStrg ValueName ValueMapNew)) {
                 my $ValAux = $Self->{ParamObject}->GetParam( Param => $ValueItem . $Suffix ) || '';

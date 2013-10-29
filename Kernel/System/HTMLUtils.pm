@@ -816,8 +816,8 @@ sub LinkQuote {
                 [a-zA-Z0-9&;=%]*                   # hash string content, this will also catch entities like &amp;
             )?
         )
-        (                                          # $4
-            ?=(?:
+        (?=                                        # $4
+            (?:
                 [\?,;!\.\)] (?: \s | $ )           # \)\s this construct is because of bug# 2450
                 | \"
                 | \]
@@ -1082,7 +1082,7 @@ sub Safety {
 
         $Safety{Replace} += $Replaced;
 
-    } while ($Replaced);
+    } while ($Replaced);    ## no critic
 
     # check ref && return result like called
     if ($StringScalar) {

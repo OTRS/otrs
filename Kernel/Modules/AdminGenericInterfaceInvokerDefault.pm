@@ -273,9 +273,9 @@ sub _Change {
     }
 
     if (
-        ref $WebserviceData->{Config} ne 'HASH'
-        || ref $WebserviceData->{Config}->{Requester} ne 'HASH'
-        || ref $WebserviceData->{Config}->{Requester}->{Invoker} ne 'HASH'
+        ref $WebserviceData->{Config}                                        ne 'HASH'
+        || ref $WebserviceData->{Config}->{Requester}                        ne 'HASH'
+        || ref $WebserviceData->{Config}->{Requester}->{Invoker}             ne 'HASH'
         || ref $WebserviceData->{Config}->{Requester}->{Invoker}->{$Invoker} ne 'HASH'
         )
     {
@@ -321,8 +321,8 @@ sub _ChangeAction {
 
     # Get config data of existing invoker.
     if (
-        ref $WebserviceData->{Config} ne 'HASH'
-        || ref $WebserviceData->{Config}->{Requester} ne 'HASH'
+        ref $WebserviceData->{Config}                            ne 'HASH'
+        || ref $WebserviceData->{Config}->{Requester}            ne 'HASH'
         || ref $WebserviceData->{Config}->{Requester}->{Invoker} ne 'HASH'
         || ref $WebserviceData->{Config}->{Requester}->{Invoker}->{ $GetParam{OldInvoker} } ne
         'HASH'
@@ -711,9 +711,9 @@ sub _AddEvent {
 
     # Get config data of existing invoker.
     if (
-        ref $WebserviceData->{Config} ne 'HASH'
-        || ref $WebserviceData->{Config}->{Requester} ne 'HASH'
-        || ref $WebserviceData->{Config}->{Requester}->{Invoker} ne 'HASH'
+        ref $WebserviceData->{Config}                                                    ne 'HASH'
+        || ref $WebserviceData->{Config}->{Requester}                                    ne 'HASH'
+        || ref $WebserviceData->{Config}->{Requester}->{Invoker}                         ne 'HASH'
         || ref $WebserviceData->{Config}->{Requester}->{Invoker}->{ $GetParam{Invoker} } ne
         'HASH'
         )
@@ -786,9 +786,9 @@ sub _DeleteEvent {
 
     # Get config data of existing invoker.
     if (
-        ref $WebserviceData->{Config} ne 'HASH'
-        || ref $WebserviceData->{Config}->{Requester} ne 'HASH'
-        || ref $WebserviceData->{Config}->{Requester}->{Invoker} ne 'HASH'
+        ref $WebserviceData->{Config}                                                    ne 'HASH'
+        || ref $WebserviceData->{Config}->{Requester}                                    ne 'HASH'
+        || ref $WebserviceData->{Config}->{Requester}->{Invoker}                         ne 'HASH'
         || ref $WebserviceData->{Config}->{Requester}->{Invoker}->{ $GetParam{Invoker} } ne
         'HASH'
         )

@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsString IsStringWithData);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::GenericInterface::Invoker::Test::Test - GenericInterface test Invoker backend

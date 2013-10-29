@@ -15,8 +15,6 @@ use warnings;
 use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::DynamicField::Backend
@@ -227,12 +225,9 @@ sub new {
         next EXTENSION if !$Extension->{Module};
 
         # check if module can be loaded
-        if ( !$Self->{MainObject}->Require( $Extension->{Module} ) ) {
+        if ( !$Self->{MainObject}->RequireBaseClass( $Extension->{Module} ) ) {
             die "Can't load dynamic fields backend module $Extension->{Backend}! $@";
         }
-
-        # load the module
-        push @ISA, $Extension->{Module};
     }
 
     return $Self;
@@ -245,6 +240,7 @@ creates the field HTML to be used in edit masks.
     my $FieldHTML = $BackendObject->EditFieldRender(
         DynamicFieldConfig   => $DynamicFieldConfig,      # complete config of the DynamicField
         ParamObject          => $ParamObject,
+        LayoutObject         => $LayoutObject,
         PossibleValuesFilter => {                         # Optional. Some backends may support this.
             'Key1' => 'Value1',                           #     This may be needed to realize ACL support for ticket masks,
             'Key2' => 'Value2',                           #     where the possible values can be limited with and ACL.
@@ -269,8 +265,8 @@ creates the field HTML to be used in edit masks.
         AJAXUpdate           => 1,                        # Optional, 0 ir 1. To create JS code for field change to update
                                                           #     the form using ACLs triggered by the field.
         UpdatableFields      => [                         # Optional, to use if AJAXUpdate is 1. List of fields to display a
-            NetxStateID,                                  #     spinning wheel when reloading via AJAXUpdate.
-            PriorityID,
+            'NetxStateID',                                  #     spinning wheel when reloading via AJAXUpdate.
+            'PriorityID',
         ],
     );
 
@@ -484,8 +480,18 @@ sub ValueSet {
 
     my $NewValue = $Param{Value};
 
-    # do not proceed if there is nothing to update
-    if ( !DataIsDifferent( Data1 => \$OldValue, Data2 => \$NewValue ) ) {
+    # do not proceed if there is nothing to update, each dynamic field requires special handling to
+    #    determine if two values are different or not, this to prevent false update events,
+    #    see bug #9828. Note: (do not send %Param, as $NewValue is a reference and then Value2 could
+    #    have strange values).
+    if (
+        !$Self->ValueIsDifferent(
+            DynamicFieldConfig => $Param{DynamicFieldConfig},
+            Value1             => $OldValue,
+            Value2             => $NewValue,
+        )
+        )
+    {
         return 1;
     }
 
@@ -511,6 +517,74 @@ sub ValueSet {
     }
 
     return 1;
+}
+
+=item ValueIsDifferent()
+
+compares if two dynamic field values are different.
+
+This function relies on Kernel::System::VariableCheck::DataIsDifferent() but with some exeptions
+depending on each field.
+
+    my $Success = $BackendObject->ValueIsDifferent(
+        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
+                                                        # must be linked to, e. g. TicketID
+        Value1             => $Value1,                  # Dynamic Field Value
+        Value2             => $Value2,                  # Dynamic Field Value
+    );
+
+=cut
+
+sub ValueIsDifferent {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(DynamicFieldConfig)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    # check DynamicFieldConfig (general)
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # check DynamicFieldConfig (internally)
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!"
+            );
+            return;
+        }
+    }
+
+    # set the dynamic field specific backend
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # use Kernel::System::VariableCheck::DataIsDifferent() as a fall back if function is not
+    #    defined in the backend
+    if ( !$Self->{$DynamicFieldBackend}->can('ValueIsDifferent') ) {
+        return DataIsDifferent( Data1 => \$Param{Value1}, Data2 => \$Param{Value2} );
+    }
+
+    # call ValueIsDifferent on the specific backend
+    return $Self->{$DynamicFieldBackend}->ValueIsDifferent(%Param);
 }
 
 =item ValueDelete()
@@ -892,14 +966,14 @@ extracts the value of a dynamic field from the param object.
                                                         #   $Value = 1;
 
     my $Value = $BackendObject->EditFieldValueGet(
-        DynamicFieldConfig   => $DynamicFieldConfig,    # complete config of the DynamicField
-        ParamObject          => $ParamObject,           # the current request data
-        TransformDates       => 0                       # 1 || 0, default 1, to transform the dynamic fields that
+        DynamicFieldConfig      => $DynamicFieldConfig, # complete config of the DynamicField
+        ParamObject             => $ParamObject,        # the current request data
+        TransformDates          => 0                    # 1 || 0, default 1, to transform the dynamic fields that
                                                         #   use dates to the user time zone (i.e. Date, DateTime
                                                         #   dynamic fields)
 
-        Template             => $Template               # stored values from DB like Search profile or Generic Agent job
-        ReturnValueStructure => 1,                      # 0 || 1, default 0
+        Template                => $Template            # stored values from DB like Search profile or Generic Agent job
+        ReturnTemplateStructure => 1,                   # 0 || 1, default 0
                                                         #   Returns the structured values as got from the http request
                                                         #   (only for backend internal use).
     );

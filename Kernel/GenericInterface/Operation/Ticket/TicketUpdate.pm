@@ -24,8 +24,6 @@ use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::GenericInterface::Operation::Ticket::TicketCreate - GenericInterface Ticket TicketCreate Operation backend
@@ -298,8 +296,6 @@ sub Run {
             ErrorCode    => 'TicketUpdate.AccessDenied',
             ErrorMessage => "TicketUpdate: User does not have access to the ticket!",
         );
-
-        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
     }
 
     # check optional hashes
@@ -1195,6 +1191,7 @@ check if user has permissions to update ticket attributes.
         ErrorCode    => "function.error",           # if error
         ErrorMessage => "Error description"
     }
+
 =cut
 
 sub _CheckUpdatePermissions {
@@ -1375,6 +1372,7 @@ updates a ticket and creates an article and sets dynamic fields and attachments 
         Success      => 0,                         # if unexpected error
         ErrorMessage => "$Param{ErrorCode}: $Param{ErrorMessage}",
     }
+
 =cut
 
 sub _TicketUpdate {
@@ -1737,7 +1735,7 @@ sub _TicketUpdate {
 
         my $Success;
         if (
-            $Ticket->{CustomerUser} ne $TicketData{CustomerUserID}
+            $Ticket->{CustomerUser}  ne $TicketData{CustomerUserID}
             || $Ticket->{CustomerID} ne $TicketData{CustomerID}
             )
         {

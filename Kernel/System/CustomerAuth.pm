@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::CustomerUser;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::CustomerAuth - customer authentication module.
@@ -174,7 +172,7 @@ sub Auth {
         return;
     }
 
-    # check if user is vaild
+    # check if user is valid
     my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $User );
     if ( defined $CustomerData{ValidID} && $CustomerData{ValidID} ne 1 ) {
         $Self->{LogObject}->Log(

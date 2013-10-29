@@ -77,7 +77,7 @@ sub new {
     if ( !$Self->{TicketID} && $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ) ) {
         $Self->{TicketID} = $Self->{TicketObject}->TicketIDLookup(
             TicketNumber => $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ),
-            UserID       => $Self->{UserID},
+            UserID => $Self->{UserID},
         );
     }
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
@@ -93,7 +93,7 @@ sub new {
             $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketZoom")
                 ->{ProcessWidgetDynamicField}
                 || {}
-        },
+            },
     };
 
     # create additional objects for process management
@@ -139,7 +139,15 @@ sub Run {
 
     # error screen, don't show ticket
     if ( !$Access ) {
-        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        my $TranslatableMessage = $Self->{LayoutObject}->{LanguageObject}->Get(
+            "We are sorry, you do not have permissions anymore to access this ticket in its"
+                . " current state. "
+        );
+
+        return $Self->{LayoutObject}->NoPermission(
+            Message    => $TranslatableMessage,
+            WithHeader => 'yes',
+        );
     }
 
     # get ticket attributes
@@ -196,6 +204,7 @@ sub Run {
             )
             )
         {
+
             # Always use user id 1 because other users also have to see the important flag
             my %ArticleFlag = $Self->{TicketObject}->ArticleFlagGet(
                 ArticleID => $Self->{ArticleID},
@@ -508,7 +517,7 @@ sub MaskAgentZoom {
             # ignore system sender type
             next ARTICLE
                 if $Self->{ConfigObject}->Get('Ticket::NewArticleIgnoreSystemSender')
-                && $Article->{SenderType} eq 'system';
+                    && $Article->{SenderType} eq 'system';
 
             next ARTICLE if $ArticleFlags{ $Article->{ArticleID} }->{Seen};
             $ArticleID = $Article->{ArticleID};
@@ -1475,7 +1484,7 @@ sub MaskAgentZoom {
         # ignore system sender type
         next ARTICLE
             if $Self->{ConfigObject}->Get('Ticket::NewArticleIgnoreSystemSender')
-            && $Article->{SenderType} eq 'system';
+                && $Article->{SenderType} eq 'system';
 
         # last if article was not shown
         if ( !$ArticleFlags{ $Article->{ArticleID} }->{Seen} ) {
@@ -2547,6 +2556,14 @@ sub _ArticleItem {
         if ( my $CharsetText = $Self->{LayoutObject}->CheckCharset( %Ticket, %Article ) ) {
             $Article{BodyNote} = $CharsetText;
         }
+    }
+
+    # security="restricted" may break SSO - disable this feature if requested
+    if ( $Self->{ConfigObject}->Get('DisableMSIFrameSecurityRestricted') ) {
+        $Article{MSSecurityRestricted} = '';
+    }
+    else {
+        $Article{MSSecurityRestricted} = 'security="restricted"';
     }
 
     # show body

@@ -125,8 +125,9 @@ sub Run {
             );
             if ( !$AccessOk ) {
                 my $Output = $Self->{LayoutObject}->Header(
-                    Value => $Ticket{Number},
-                    Type  => 'Small',
+                    Value     => $Ticket{Number},
+                    Type      => 'Small',
+                    BodyClass => 'Popup',
                 );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => $Self->{LayoutObject}->{LanguageObject}
@@ -269,8 +270,9 @@ $Param{Signature}";
 
         # print form ...
         my $Output = $Self->{LayoutObject}->Header(
-            Value => $Ticket{TicketNumber},
-            Type  => 'Small',
+            Value     => $Ticket{TicketNumber},
+            Type      => 'Small',
+            BodyClass => 'Popup',
         );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketBounce',
@@ -398,7 +400,8 @@ $Param{Signature}";
             $Param{InformSenderChecked} = $Param{InformSender} ? 'checked="checked"' : '';
 
             my $Output = $Self->{LayoutObject}->Header(
-                Type => 'Small',
+                Type      => 'Small',
+                BodyClass => 'Popup',
             );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketBounce',

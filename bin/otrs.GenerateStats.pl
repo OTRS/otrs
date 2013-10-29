@@ -212,7 +212,7 @@ my @StatArray = @{
         StatID   => $StatID,
         GetParam => \%GetParam,
         )
-};
+    };
 
 # generate output
 my $TitleArrayRef  = shift(@StatArray);

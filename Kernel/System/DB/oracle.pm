@@ -37,7 +37,8 @@ sub LoadPreferences {
     $Self->{'DB::LikeEscapeString'}     = q{ESCAPE '\\'};
 
     # how to determine server version
-    $Self->{'DB::Version'} = 'SELECT * FROM V$VERSION WHERE BANNER LIKE \'Oracle%\'';
+    $Self->{'DB::Version'}
+        = "SELECT CONCAT('Oracle ', version) FROM product_component_version WHERE product LIKE 'Oracle Database%'";
 
     # dbi attributes
     $Self->{'DB::Attribute'} = {

@@ -75,7 +75,7 @@ Please run it as the 'otrs' user or with the help of su:
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 12;
+    my $Steps = 13;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
@@ -121,6 +121,13 @@ Please run it as the 'otrs' user or with the help of su:
 
     print "Step $Step of $Steps: Checking Standard Template table columns... ";
     _AddTemplateTypeColumn($CommonObject) || die;
+    print "done.\n\n";
+    $Step++;
+
+    print "Step $Step of $Steps: Updating Queue Standard Template relations table... ";
+
+    # do not die if foreign keys already exists
+    _AddQueueStandardTemplateForeignKeys($CommonObject);
     print "done.\n\n";
     $Step++;
 
@@ -208,7 +215,7 @@ sub RebuildConfig {
 
     # Rebuild ZZZAAuto.pm with current values
     if ( !$SysConfigObject->WriteDefault() ) {
-        die "ERROR: Can't write default config files!";
+        die "Error: Can't write default config files!";
     }
 
     # Force a reload of ZZZAuto.pm and ZZZAAuto.pm to get the new values
@@ -239,9 +246,18 @@ sub _CheckFrameworkVersion {
 
     my $Home = $CommonObject->{ConfigObject}->Get('Home');
 
+  # Compare the configured HOME with the script location and abort if it points to another directory
+    $Home =~ s{/+$}{}xmsg;    # remove trailing slashes
+    my $HomeCheck = dirname($RealBin);
+    $HomeCheck =~ s{/+$}{}xmsg;    # remove trailing slashes
+    if ( $Home ne $HomeCheck ) {
+        die
+            "Error: \$HOME is set to $Home, but you use $HomeCheck. Please check your configuration!";
+    }
+
     # load RELEASE file
     if ( -e !"$Home/RELEASE" ) {
-        die "ERROR: $Home/RELEASE does not exist!";
+        die "Error: $Home/RELEASE does not exist!";
     }
     my $ProductName;
     my $Version;
@@ -261,15 +277,15 @@ sub _CheckFrameworkVersion {
         close($Product);
     }
     else {
-        die "ERROR: Can't read $CommonObject->{Home}/RELEASE: $!";
+        die "Error: Can't read $CommonObject->{Home}/RELEASE: $!";
     }
 
     if ( $ProductName ne 'OTRS' ) {
-        die "Not framework version required"
+        die "Error: No OTRS system found"
     }
     if ( $Version !~ /^3\.3(.*)$/ ) {
 
-        die "Not framework version required"
+        die "Error: You are trying to run this script on the wrong framework version $Version!"
     }
 
     return 1;
@@ -387,7 +403,7 @@ sub _AddACLTables {
     return 1;
 }
 
-=item _AddTemplateTypeColumn($CommonObject)
+=item _AddTemplateTypeColumn()
 
 This function checks if the template_type column from standard_template tables already exist
 and sets new default value, otherwise creates it.
@@ -400,7 +416,7 @@ sub _AddTemplateTypeColumn {
     my $CommonObject = shift;
 
     my $TemplateTypeColumnExists;
-    print "Check if 'template_type' columns exists.\n";
+    print "\nCheck if 'template_type' columns exists.\n";
     {
         my $STDERR;
 
@@ -477,6 +493,85 @@ sub _AddTemplateTypeColumn {
     return 1;
 }
 
+=item _AddQueueStandardTemplateForeignKeys()
+
+This function cleans queue_standard_template for inconsistent regusters that points to non existing
+templates before creating the foreign key to prevent errors
+
+    _AddQueueStandardTemplateForeignKeys($CommonObject);
+
+=cut
+
+sub _AddQueueStandardTemplateForeignKeys {
+    my $CommonObject = shift;
+
+    print "\nCleaning queue_standard_template table\n";
+    my $Success = $CommonObject->{DBObject}->Do(
+        SQL => '
+        DELETE FROM queue_standard_template
+        WHERE (
+            SELECT COUNT(*)
+            FROM standard_template
+            WHERE queue_standard_template.standard_template_id = standard_template.id
+        ) = 0',
+    );
+
+    print "Creating new Foreign Keys for queue_standard_template table\n";
+    print "\n--- Note: ---\n";
+    print "If you have already run this script before then the Foreign Keys are already set and"
+        . " you might see errors regarding 'duplicate key' or 'constrain already exists', that's"
+        . " fine, no need to worry!\n";
+    print "---\n\n";
+
+    my $XMLString = '<?xml version="1.0" encoding="utf-8" ?>
+    <database Name="otrs">
+        <TableAlter Name="queue_standard_template">
+
+            <!--  create foreign key (new name) -->
+            <ForeignKeyCreate ForeignTable="standard_template">
+                <Reference Local="standard_template_id" Foreign="id"/>
+            </ForeignKeyCreate>
+            <ForeignKeyCreate ForeignTable="queue">
+                <Reference Local="queue_id" Foreign="id"/>
+            </ForeignKeyCreate>
+            <ForeignKeyCreate ForeignTable="users">
+                <Reference Local="create_by" Foreign="id"/>
+                <Reference Local="change_by" Foreign="id"/>
+            </ForeignKeyCreate>
+        </TableAlter>
+    </database>';
+
+    my @SQL;
+    my @SQLPost;
+
+    my $XMLObject = Kernel::System::XML->new( %{$CommonObject} );
+
+    # create database specific SQL and PostSQL commands
+    my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
+
+    # create database specific SQL
+    push @SQL, $CommonObject->{DBObject}->SQLProcessor(
+        Database => \@XMLARRAY,
+    );
+
+    # create database specific PostSQL
+    push @SQLPost, $CommonObject->{DBObject}->SQLProcessorPost();
+
+    # execute SQL
+    for my $SQL ( @SQL, @SQLPost ) {
+        print $SQL . "\n";
+        my $Success = $CommonObject->{DBObject}->Do( SQL => $SQL );
+        if ( !$Success ) {
+            $CommonObject->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Error during execution of '$SQL'!",
+            );
+            return;
+        }
+    }
+    return 1;
+}
+
 =item _GenerateMessageIDMD5()
 
 Create md5sums of existing MessageIDs in Article table.
@@ -489,22 +584,43 @@ sub _GenerateMessageIDMD5 {
     # will work on all database backends; warning, we might want to add
     # UPDATE statements for databases that can natively create md5sums
 
-    $CommonObject->{DBObject}->Prepare(
-        SQL => 'SELECT id, a_message_id
-                    FROM article
-                    WHERE a_message_id IS NOT NULL',
-    );
-    MESSAGEID:
-    while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
-        next MESSAGEID if !$Row[1];
-        my $ArticleID = $Row[0];
-        my $MD5 = $CommonObject->{MainObject}->MD5sum( String => $Row[1] );
+    # conversion to MD5 - if possible using one UPDATE statement
+    if (
+        $CommonObject->{DBObject}->GetDatabaseFunction('Type') eq 'mysql'
+        || $CommonObject->{DBObject}->GetDatabaseFunction('Type') eq 'postgresql'
+        )
+    {
+
         $CommonObject->{DBObject}->Do(
-            SQL => "UPDATE article
-                     SET a_message_id_md5 = ?
-                     WHERE id = ?",
-            Bind => [ \$MD5, \$ArticleID ],
+            SQL => '
+                UPDATE article
+                SET a_message_id_md5 = MD5(a_message_id)
+                WHERE a_message_id IS NOT NULL
+                ',
         );
+
+    }
+
+    # otherwise convert every row using MainObject - much slower
+    else {
+
+        $CommonObject->{DBObject}->Prepare(
+            SQL => 'SELECT id, a_message_id
+                        FROM article
+                        WHERE a_message_id IS NOT NULL',
+        );
+        MESSAGEID:
+        while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
+            next MESSAGEID if !$Row[1];
+            my $ArticleID = $Row[0];
+            my $MD5 = $CommonObject->{MainObject}->MD5sum( String => $Row[1] );
+            $CommonObject->{DBObject}->Do(
+                SQL => "UPDATE article
+                         SET a_message_id_md5 = ?
+                         WHERE id = ?",
+                Bind => [ \$MD5, \$ArticleID ],
+            );
+        }
     }
 
     return 1;
@@ -551,6 +667,146 @@ sub _MigrateOldSettings {
         );
     }
 
+    # DashboardBackend should have default columns defined
+    my %DefaultColumns = (
+        Age                    => 2,
+        Changed                => 1,
+        CustomerID             => 1,
+        CustomerName           => 1,
+        CustomerUserID         => 1,
+        EscalationResponseTime => 1,
+        EscalationSolutionTime => 1,
+        EscalationTime         => 1,
+        EscalationUpdateTime   => 1,
+        Lock                   => 1,
+        Owner                  => 1,
+        PendingTime            => 1,
+        Priority               => 1,
+        Queue                  => 1,
+        Responsible            => 1,
+        SLA                    => 1,
+        Service                => 1,
+        State                  => 1,
+        TicketNumber           => 2,
+        Title                  => 2,
+        Type                   => 1
+    );
+
+    # dashboard backends
+    # get values from config
+    $Setting = $CommonObject->{ConfigObject}->Get('DashboardBackend');
+
+    # check config
+    DASHBOARDBACKEND:
+    for my $DashboardBackend ( sort keys %{$Setting} ) {
+        next DASHBOARDBACKEND if !IsHashRefWithData( $Setting->{$DashboardBackend} );
+
+        my $Module = $Setting->{$DashboardBackend}->{Module} || '';
+        next DASHBOARDBACKEND
+            if $Module ne 'Kernel::Output::HTML::DashboardTicketGeneric';
+
+        next DASHBOARDBACKEND
+            if IsHashRefWithData( $Setting->{$DashboardBackend}->{DefaultColumns} );
+
+        # set default column values
+        $Setting->{$DashboardBackend}->{DefaultColumns} = \%DefaultColumns;
+
+        # set new setting,
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'DashboardBackend###' . $DashboardBackend,
+            Value => $Setting->{$DashboardBackend},
+        );
+    }
+
+    # customer information center backends
+    # get values from config
+    $Setting = $CommonObject->{ConfigObject}->Get('AgentCustomerInformationCenter::Backend');
+
+    # remove CustomerID for CIC
+    delete $DefaultColumns{CustomerID};
+
+    # check config
+    CICBACKEND:
+    for my $DashboardBackend ( sort keys %{$Setting} ) {
+        next CICBACKEND if !IsHashRefWithData( $Setting->{$DashboardBackend} );
+
+        my $Module = $Setting->{$DashboardBackend}->{Module} || '';
+        next CICBACKEND
+            if $Module ne 'Kernel::Output::HTML::DashboardTicketGeneric';
+
+        next CICBACKEND
+            if IsHashRefWithData( $Setting->{$DashboardBackend}->{DefaultColumns} );
+
+        # set default column values
+        $Setting->{$DashboardBackend}->{DefaultColumns} = \%DefaultColumns;
+
+        # set new setting,
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'AgentCustomerInformationCenter::Backend###' . $DashboardBackend,
+            Value => $Setting->{$DashboardBackend},
+        );
+    }
+
+    # update toolbar items settings
+    # otherwise the new fontawesome icons won't be displayed
+
+    # collect icon data for toolbar items
+    my %ModuleAttributes = (
+        '1-Ticket::AgentTicketQueue' => {
+            'Icon' => 'icon-folder-close',
+        },
+        '2-Ticket::AgentTicketStatus' => {
+            'Icon' => 'icon-list-ol',
+        },
+        '3-Ticket::AgentTicketEscalation' => {
+            'Icon' => 'icon-exclamation',
+        },
+        '4-Ticket::AgentTicketPhone' => {
+            'Icon' => 'icon-phone',
+        },
+        '5-Ticket::AgentTicketEmail' => {
+            'Icon' => 'icon-envelope',
+        },
+        '6-Ticket::TicketResponsible' => {
+            'Icon'        => 'icon-user',
+            'IconNew'     => 'icon-user',
+            'IconReached' => 'icon-user',
+        },
+        '7-Ticket::TicketWatcher' => {
+            'Icon'        => 'icon-eye-open',
+            'IconNew'     => 'icon-eye-open',
+            'IconReached' => 'icon-eye-open',
+        },
+        '8-Ticket::TicketLocked' => {
+            'Icon'        => 'icon-lock',
+            'IconNew'     => 'icon-lock',
+            'IconReached' => 'icon-lock',
+        },
+    );
+
+    $Setting = $CommonObject->{ConfigObject}->Get('Frontend::ToolBarModule');
+
+    TOOLBARMODULE:
+    for my $ToolbarModule ( sort keys %ModuleAttributes ) {
+
+        next TOOLBARMODULE if !IsHashRefWithData( $Setting->{$ToolbarModule} );
+
+        # set icon and class infos
+        for my $Attribute ( sort keys %{ $ModuleAttributes{$ToolbarModule} } ) {
+            $Setting->{$ToolbarModule}->{$Attribute}
+                = $ModuleAttributes{$ToolbarModule}->{$Attribute};
+        }
+
+        # set new setting,
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Frontend::ToolBarModule###' . $ToolbarModule,
+            Value => $Setting->{$ToolbarModule},
+        );
+    }
+
     return 1;
 }
 
@@ -565,15 +821,6 @@ package from the database if installed.
 
 sub _MigrateOTRSExternalTicketNumberRecognition {
     my $CommonObject = shift;
-
-    # detect package
-    # check if install field exists
-    my $FieldName = $CommonObject->{ConfigObject}->Get(
-        'ExternalTicketNumberRecognition::InstallationDynamicField'
-    ) || '';
-
-    # if setting was not found return success (the package is not installed)
-    return 1 if !$FieldName;
 
     my $SysConfigObject = Kernel::System::SysConfig->new( %{$CommonObject} );
 
@@ -611,7 +858,7 @@ sub _MigrateOTRSGenericStandardTemplates {
     my $CommonObject = shift;
 
     # seach all templates with template type anwer or forward
-    for my $TemplateType qw(answer forward) {
+    for my $TemplateType (qw(answer forward)) {
 
         # set new template type to Answer or Forward (with capital leter)
         my $NewTemplateType = ucfirst $TemplateType;
@@ -661,6 +908,7 @@ sub _UninstallMergedFeatureAddOns {
         OTRSGenericStandardTemplates
         OTRSExtendedDynamicDateFieldSearch
         OTRSDashboardTicketOverviewFilters
+        OTRSKeepFAQAttachments
         )
         )
     {
@@ -701,6 +949,7 @@ sub _DeleteOldFiles {
         )
         )
     {
+
         # add home path
         my $Location = $Home . '/' . $File;
 

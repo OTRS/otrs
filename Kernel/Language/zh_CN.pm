@@ -21,8 +21,6 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-08-22 10:06:18
-
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
@@ -52,6 +50,7 @@ sub Data {
         'Cancel' => '取消',
         'Reset' => '重置',
         'more than ... ago' => '',
+        'in more than ...' => '',
         'within the last ...' => '',
         'within the next ...' => '',
         'Created within the last' => '',
@@ -191,6 +190,7 @@ sub Data {
         'Search' => '搜索',
         'and' => '到',
         'between' => '在',
+        'before/after' => '',
         'Fulltext Search' => '全文搜索',
         'Data' => '日期',
         'Options' => '选项',
@@ -215,6 +215,7 @@ sub Data {
         'Medium' => '基本',
         'Large' => '详细',
         'Date picker' => '日期选择器',
+        'Show Tree Selection' => '',
         'New message' => '新消息',
         'New message!' => '新消息!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -342,6 +343,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             '选中的软件仓库中没有需要安装的软件包。',
         'Edit the system configuration settings.' => '编辑系统配置',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '',
         'printed at' => '打印日期',
         'Loading...' => '加载中...',
         'Dear Mr. %s,' => '尊敬的 %s 先生:',
@@ -399,6 +402,11 @@ sub Data {
         'Redo' => '重做',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
+        'Can\'t contact registration server. Please try again later.' => '',
+        'No content received from registration server. Please try again later.' =>
+            '',
+        'Problems processing server result. Please try again later.' => '',
+        'Username and password do not match. Please try again.' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => '',
@@ -458,8 +466,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => '无法更改密码，密码不能包含非法字符！',
         'Can\'t update password, it must be at least %s characters long!' =>
             '无法更改密码，密码至少 %s 个字符长度！',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
-            '',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            '无法更改密码，密码必须包含至少2个小写和2个大写字符！',
         'Can\'t update password, it must contain at least 1 digit!' => '无法更改密码，密码必须包含至少1个数字！',
         'Can\'t update password, it must contain at least 2 characters!' =>
             '无法更改密码，密码必须包含至少2个字符！',
@@ -472,6 +480,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => '统计',
         'Sum' => '总和',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => '请填写必填字段',
         'Please select a file!' => '请选择一个文件！',
         'Please select an object!' => '请选择一个对象！',
@@ -693,7 +702,7 @@ sub Data {
         'Create new Email Ticket and send this out (Outbound)' => '创建邮件票单（出栈）',
         'Create new Phone Ticket (Inbound)' => '创建电话票单（入栈）',
         'Address %s replaced with registered customer address.' => '',
-        'Customer automatically added in Cc.' => '',
+        'Customer user automatically added in Cc.' => '',
         'Overview of all open Tickets' => '所有开放票单概况',
         'Locked Tickets' => '锁定的票单',
         'My Locked Tickets' => '我的锁定票单',
@@ -796,6 +805,7 @@ sub Data {
             '所有设置提醒日期已经到达的票单',
         'Archived tickets' => '归档的票单',
         'Unarchived tickets' => '未归档的票单',
+        'Ticket Information' => '',
         'History::Move' => '历史：移动。票单移到队列 "%s" (%s)， 从队列 "%s" (%s).',
         'History::TypeUpdate' => '历史：类型更新。更新类型为 %s (ID=%s).',
         'History::ServiceUpdate' => '历史：服务更新。服务更新为 %s (ID=%s).',
@@ -940,26 +950,26 @@ sub Data {
         'Example response' => '这里有一个范例',
 
         # Template: AdminCustomerCompany
-        'Customer Company Management' => '管理客户单位',
+        'Customer Management' => '客户管理',
         'Wildcards like \'*\' are allowed.' => '',
-        'Add customer company' => '新增客户单位',
+        'Add customer' => '新增客户',
         'Select' => '选择',
-        'Please enter a search term to look for customer companies.' => '请输入一个搜索条件以查找客户单位。',
-        'Add Customer Company' => '新增客户单位',
+        'Please enter a search term to look for customers.' => '请输入一个搜索条件以寻找客户的资料.',
+        'Add Customer' => '新增客户',
+        'Edit Customer' => '修改客户',
 
         # Template: AdminCustomerUser
-        'Customer Management' => '客户管理',
+        'Customer User Management' => '',
         'Back to search results' => '',
-        'Add customer' => '新增客户',
+        'Add customer user' => '',
         'Hint' => '提示',
-        'Customer will be needed to have a customer history and to login via customer panel.' =>
-            '需要建立客户档案以记录服务过程，并可让客户从自助服务界面登录。',
-        'Please enter a search term to look for customers.' => '请输入一个搜索条件以寻找客户的资料.',
+        'Customer user are needed to have a customer history and to login via customer panel.' =>
+            '',
         'Last Login' => '最后一次登录',
         'Login as' => '登录名',
         'Switch to customer' => '',
-        'Add Customer' => '新增客户',
-        'Edit Customer' => '修改客户',
+        'Add Customer User' => '',
+        'Edit Customer User' => '',
         'This field is required and needs to be a valid email address.' =>
             '该栏位必须输入有效的邮件地址。',
         'This email address is not allowed due to the system configuration.' =>
@@ -1666,6 +1676,8 @@ sub Data {
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
             '',
+        'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
+            '',
         'Activity Dialog' => '',
         'Activity dialog Name' => '',
         'Available in' => '',
@@ -1851,6 +1863,77 @@ sub Data {
         'Change Queue Relations for Template' => '',
         'Change Template Relations for Queue' => '',
 
+        # Template: AdminRegistration
+        'System Registration Management' => '',
+        'Edit details' => '',
+        'Overview of registered systems' => '',
+        'Deregister system' => '',
+        'System Registration' => '',
+        'This system is registered with OTRS Group.' => '',
+        'System type' => '',
+        'Unique ID' => '',
+        'Last communication with registration server' => '',
+        'OTRS-ID Login' => '',
+        'System registration is a service of OTRS group, which provides a lot of advantages!' =>
+            '',
+        'Read more' => '',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
+        'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
+            '',
+        'What are the advantages of system registration?' => '',
+        'You will receive updates about relevant security releases.' => '',
+        'With your system registration we can improve our services for you, because we have all relevant information available.' =>
+            '',
+        'This is only the beginning!' => '',
+        'We will inform you about our new services and offerings soon.' =>
+            '',
+        'Can I use OTRS without being registered?' => '',
+        'System registration is optional.' => '',
+        'You can download and use OTRS without being registered.' => '',
+        'Is it possible to deregister?' => '',
+        'You can deregister at any time.' => '',
+        'Which data is transfered when registering?' => '',
+        'A registered system sends the following data to OTRS Group:' => '',
+        'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
+            '',
+        'Why do I have to provide a description for my system?' => '',
+        'The description of the system is optional.' => '',
+        'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
+            '',
+        'How often does my OTRS system send updates?' => '',
+        'Your system will send updates to the registration server at regular intervals.' =>
+            '',
+        'Typically this would be around once every three days.' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            '',
+        'Please visit our' => '',
+        'portal' => '',
+        'and file a request.' => '',
+        'If you deregister your system, you will loose these benefits:' =>
+            '',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
+            '',
+        'OTRS-ID' => '',
+        'You don\'t have an OTRS-ID yet?' => '',
+        'Sign up now' => '现在注册',
+        'Forgot your password?' => '',
+        'Retrieve a new one' => '',
+        'This data will be frequently transferred to OTRS Group when you register this system.' =>
+            '',
+        'Attribute' => '',
+        'FQDN' => '',
+        'OTRS Version' => '',
+        'Operating System' => '',
+        'Perl Version' => '',
+        'Optional description of this system.' => '',
+        'Register' => '',
+        'Deregister System' => '',
+        'Continuing with this step will deregister the system from OTRS Group.' =>
+            '',
+        'Deregister' => '',
+        'You can modify the system type and description here.' => '',
+
         # Template: AdminRole
         'Role Management' => '角色管理',
         'Add role' => '新增角色',
@@ -2034,6 +2117,7 @@ sub Data {
         'Invalid year' => '非法的年份',
         'Invalid month' => '非法的月份',
         'Invalid day' => '非法的日期',
+        'Show more' => '',
 
         # Template: AdminSystemAddress
         'System Email Addresses Management' => '系统邮件地址管理',
@@ -2123,6 +2207,7 @@ sub Data {
         'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
+        'Note: Customer is invalid!' => '',
 
         # Template: AgentDashboard
         'Dashboard' => '仪表板',
@@ -2160,6 +2245,10 @@ sub Data {
 
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '发布于 %s 之前',
+
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
@@ -2249,6 +2338,15 @@ sub Data {
         'Use cache' => '使用缓存',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             '大多数的统计资料可以缓存，将加快统计计算。',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => '如果被设置为无效，用户将不能进行统计。',
 
         # Template: AgentStatsEditValueSeries
@@ -2291,10 +2389,13 @@ sub Data {
         'Graphsize' => '图形化',
         'Cache' => '缓存',
         'Exchange Axis' => '转换轴',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => '静态统计的配置参数',
         'No element selected.' => '没有被选参数',
         'maximal period from' => '最大周期表',
         'to' => '至',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => '修改票单自定义文本',
@@ -2304,6 +2405,7 @@ sub Data {
         'Set Pending' => '设置待处理状态',
         'Change Priority of Ticket' => '修改票单优先级',
         'Change Responsible of Ticket' => '修改票单负责人',
+        'All fields marked with an asterisk (*) are mandatory.' => '',
         'Service invalid.' => '服务无效。',
         'New Owner' => '新所有者',
         'Please set a new owner!' => '请指定新的所有者！',
@@ -2326,7 +2428,7 @@ sub Data {
             '需要有效的邮件地址/不可以使用本地邮件地址。',
         'Next ticket state' => '票单状态',
         'Inform sender' => '通知发送者',
-        'Send mail!' => '发送!',
+        'Send mail' => '发送!',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => '票单批量处理',
@@ -2360,9 +2462,10 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => '创建邮件票单',
         'From queue' => '来自队列',
-        'To customer' => '',
-        'Please include at least one customer for the ticket.' => '',
+        'To customer user' => '',
+        'Please include at least one customer user for the ticket.' => '',
         'Select this customer as the main customer.' => '',
+        'Remove Ticket Customer User' => '',
         'Get all' => '获取全部',
         'Text Template' => '',
 
@@ -2415,7 +2518,7 @@ sub Data {
 
         # Template: AgentTicketPhone
         'Create New Phone Ticket' => '新建电话票单',
-        'From customer' => '来自客户',
+        'Please include at least one customer for the ticket.' => '',
         'To queue' => '到',
 
         # Template: AgentTicketPhoneCommon
@@ -2548,7 +2651,6 @@ sub Data {
         'Forgot password?' => '密码遗忘?',
         'Log In' => '登录',
         'Not yet registered?' => '还未注册?',
-        'Sign up now' => '现在注册',
         'Request new password' => '请求新密码',
         'Your User Name' => '你的用户名',
         'A new password will be sent to your email address.' => '新密码将会发送到您的邮箱中',
@@ -2577,6 +2679,7 @@ sub Data {
 
         # Template: CustomerTicketPrint
         'Ticket Print' => '票单打印',
+        'Ticket Dynamic Fields' => '',
 
         # Template: CustomerTicketProcess
 
@@ -2659,6 +2762,7 @@ sub Data {
             '一个弹出窗口已经打开，是否继续关闭？',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please check the fields marked as red for valid inputs.' => '',
 
         # Template: FooterSmall
 
@@ -2667,9 +2771,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => '您已登录为',
 
         # Template: HeaderSmall
@@ -2678,7 +2779,6 @@ sub Data {
         'JavaScript not available' => 'JavaScript 没有启用',
         'Database Settings' => '数据库设置',
         'General Specifications and Mail Settings' => '一般设定和邮件配置',
-        'Registration' => '',
         'Welcome to %s' => '欢迎使用 %s',
         'Web site' => '网址',
         'Mail check successful.' => '邮件配置检查完成',
@@ -2710,15 +2810,13 @@ sub Data {
         'Result of mail configuration check' => '邮件服务器配置检查结果',
         'Check mail configuration' => '检查邮件配置',
         'Skip this step' => '跳过这一步',
-        'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
-            '',
 
         # Template: InstallerDBResult
         'Database setup successful!' => '',
 
         # Template: InstallerDBStart
         'Install Type' => '',
-        'Create a database for OTRS' => '',
+        'Create a new database for OTRS' => '',
         'Use an existing database for OTRS' => '',
 
         # Template: InstallerDBmssql
@@ -2757,12 +2855,6 @@ sub Data {
 
         # Template: InstallerLicenseText
 
-        # Template: InstallerRegistration
-        'Organization' => '组织',
-        'Position' => '',
-        'Complete registration and continue' => '',
-        'Please fill in all fields marked as mandatory.' => '',
-
         # Template: InstallerSystem
         'SystemID' => '系统ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -2771,6 +2863,7 @@ sub Data {
         'Fully qualified domain name of your system.' => '系统FQDN（全称域名）',
         'AdminEmail' => '管理员地址',
         'Email address of the system administrator.' => '系统管理员邮件地址。',
+        'Organization' => '组织',
         'Log' => '日志',
         'LogModule' => '日志模块',
         'Log backend to use.' => '日志后台使用。',
@@ -2814,7 +2907,6 @@ sub Data {
         'The file is not an image that can be shown inline!' => '此文件是不是一个可以显示的图像!',
 
         # Template: PrintFooter
-        'URL' => '网址',
 
         # Template: PrintHeader
         'printed by' => '打印',
@@ -2986,12 +3078,14 @@ sub Data {
             '',
         'Closed tickets of customer' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the status view of the agent interface. PPossible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => '',
         'Company Status' => '',
         'Company Tickets' => '',
-        'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
+        'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
         'Configure Processes.' => '',
         'Configure and manage ACLs.' => '',
@@ -3009,7 +3103,7 @@ sub Data {
         'Create and manage Service Level Agreements (SLAs).' => '创建和管理服务品质协议 (SLA)',
         'Create and manage agents.' => '创建和管理服务人员.',
         'Create and manage attachments.' => '创建和管理附件.',
-        'Create and manage companies.' => '创建和管理客户单位.',
+        'Create and manage customer users.' => '',
         'Create and manage customers.' => '创建和管理客户.',
         'Create and manage dynamic fields.' => '',
         'Create and manage event based notifications.' => '创建和管理基于事件的通知.',
@@ -3032,6 +3126,8 @@ sub Data {
             '',
         'Customer Company Administration' => '',
         'Customer Company Information' => '',
+        'Customer User <-> Groups' => '',
+        'Customer User <-> Services' => '',
         'Customer User Administration' => '',
         'Customer Users' => '客户用户',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -3040,7 +3136,6 @@ sub Data {
             '',
         'CustomerName' => '',
         'Customers <-> Groups' => '客户 <-> 群组',
-        'Customers <-> Services' => '客户 <-> 服务',
         'Data used to export the search result in CSV format.' => '',
         'Date / Time' => '',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
@@ -3064,7 +3159,7 @@ sub Data {
         'Default value for NameX' => '',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
-        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set manually. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values.' =>
+        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
             '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
@@ -3202,7 +3297,7 @@ sub Data {
             '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
             '',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
             '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             '',
@@ -3260,7 +3355,7 @@ sub Data {
             '',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             '',
-        'Defines the default shown ticket search attribute for ticket search screen. Example: Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_NameXTimeSlotStartYear=1974; Search_DynamicField_NameXTimeSlotStartMonth=01; Search_DynamicField_NameXTimeSlotStartDay=26; Search_DynamicField_NameXTimeSlotStartHour=00; Search_DynamicField_NameXTimeSlotStartMinute=00; Search_DynamicField_NameXTimeSlotStartSecond=00; Search_DynamicField_NameXTimeSlotStopYear=2013; Search_DynamicField_NameXTimeSlotStopMonth=01; Search_DynamicField_NameXTimeSlotStopDay=26; Search_DynamicField_NameXTimeSlotStopHour=23; Search_DynamicField_NameXTimeSlotStopMinute=59; Search_DynamicField_NameXTimeSlotStopSecond=59;\' and or \'Search_DynamicField_NameXTimePointFormat=week; Search_DynamicField_NameXTimePointStart=Before; Search_DynamicField_NameXTimePointValue=7\';.' =>
+        'Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case \'X\', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' and or \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.' =>
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
@@ -3445,6 +3540,8 @@ sub Data {
             '',
         'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' =>
             '',
+        'Defines the list of possible next actions on an error screen.' =>
+            '',
         'Defines the list of types for templates.' => '',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' =>
             '',
@@ -3589,7 +3686,7 @@ sub Data {
         'Defines the subject for rejected emails.' => '',
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
             '',
-        'Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
+        'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
             '',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             '',
@@ -3602,7 +3699,7 @@ sub Data {
             '',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             '',
-        'Defines the type of protocol, used by ther web server, to serve the application. If https protocol will be used instead of plain http, it must be specified it here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+        'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             '',
         'Defines the used character for email quotes in the ticket compose screen of the agent interface.' =>
             '',
@@ -3661,6 +3758,8 @@ sub Data {
         'Determines which options will be valid of the recepient (phone ticket) and the sender (email ticket) in the agent interface.' =>
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
+            '',
+        'Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
@@ -3746,7 +3845,7 @@ sub Data {
         'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
-        'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
+        'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
             '',
         'Enables S/MIME support.' => '',
         'Enables customers to create their own accounts.' => '',
@@ -3767,7 +3866,6 @@ sub Data {
             '',
         'Enables ticket watcher feature only for the listed groups.' => '',
         'Escalation view' => '',
-        'Event list to be displayed on GUI' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -3819,7 +3917,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '介面风格',
         'Fulltext index regex filters to remove parts of the text.' => '',
-        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => '计划任务',
         'GenericInterface Debugger GUI' => '',
@@ -3935,7 +4033,7 @@ sub Data {
             '',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             '',
-        'If enabled, the OTRS version tag will be removed from the HTTP headers.' =>
+        'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             '',
@@ -3944,6 +4042,8 @@ sub Data {
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
+            '',
+        'If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.' =>
             '',
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             '',
@@ -3975,8 +4075,8 @@ sub Data {
         'Link agents to groups.' => '链接服务人员到群组.',
         'Link agents to roles.' => '链接服务人员到角色.',
         'Link attachments to templates.' => '',
-        'Link customers to groups.' => '链接客户到群组.',
-        'Link customers to services.' => '链接客户到服务.',
+        'Link customer user to groups.' => '',
+        'Link customer user to services.' => '',
         'Link queues to auto responses.' => '',
         'Link roles to groups.' => '',
         'Link templates to queues.' => '',
@@ -3994,6 +4094,11 @@ sub Data {
             '',
         'List of JS files to always be loaded for the customer interface.' =>
             '',
+        'List of all CustomerCompany events to be displayed in the GUI.' =>
+            '',
+        'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all article events to be displayed in the GUI.' => '',
+        'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
         'Log file for the ticket counter.' => '',
@@ -4010,7 +4115,8 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => '管理邮件的 S/MIME 加密证书.',
         'Manage existing sessions.' => '管理当前登录会话.',
         'Manage notifications that are sent to agents.' => '',
-        'Manage periodic tasks.' => '管理周期性执行的任务.',
+        'Manage system registration.' => '',
+        'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4683,7 +4789,7 @@ sub Data {
             '',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             '',
-        'This event module stores attributes from CustomerUser as DynamicFields tickets.' =>
+        'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '',
@@ -4740,18 +4846,23 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        'Add Customer Company' => '新增客户单位',
         'Add Response' => '新增回复',
+        'Add customer company' => '新增客户单位',
         'Add response' => '新增回复',
         'Attachments <-> Responses' => '附件 <-> 回复',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '无法更改密码，密码必须包含至少2个小写和2个大写字符！',
         'Change Attachment Relations for Response' => '为回复修改附件',
         'Change Queue Relations for Response' => '为回复修改队列',
         'Change Response Relations for Attachment' => '为附件修改回复',
         'Change Response Relations for Queue' => '为队列修改回复',
+        'Create and manage companies.' => '创建和管理客户单位.',
         'Create and manage response templates.' => '创建和管理回复模板.',
         'Currently only MySQL is supported in the web installer.' => 'Web安装向导目前仅支持MySQL。',
+        'Customer Company Management' => '管理客户单位',
         'Customer Data' => '客户数据',
+        'Customer will be needed to have a customer history and to login via customer panel.' =>
+            '需要建立客户档案以记录服务过程，并可让客户从自助服务界面登录。',
+        'Customers <-> Services' => '客户 <-> 服务',
         'DB host' => '数据库服务器',
         'Database-User' => '数据库用户名',
         'Edit Response' => '修改回复',
@@ -4760,19 +4871,24 @@ sub Data {
         'Filter for Responses' => '快速定位',
         'Filter name' => '过滤器名称',
         'For more info see:' => '更多信息请看',
+        'From customer' => '来自客户',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             '如果您的数据库有设置 root 密码, 请在这里输入, 否则, 请保留空白. 出于安全考虑, 我们建议您为 root 设置一个密码, 更多信息请参考数据库帮助文档.',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>
             '如果使用其他数据库安装OTRS，请参考README文档。',
         'Link attachments to responses templates.' => '链接附件到回复模板.',
+        'Link customers to groups.' => '链接客户到群组.',
+        'Link customers to services.' => '链接客户到服务.',
         'Link responses to queues.' => '链接回复模板到队列',
         'Log file location is only needed for File-LogModule!' => '只需要为File-LogModule指定日志文件位置!',
         'Logout successful. Thank you for using OTRS!' => '成功注销，谢谢使用!',
         'Manage Response-Queue Relations' => '管理回复与队列的对应关系',
         'Manage Responses' => '管理回复',
         'Manage Responses <-> Attachments Relations' => '管理回复与附件的对应关系',
+        'Manage periodic tasks.' => '管理周期性执行的任务.',
         'Package verification failed!' => '软件包验证失败',
         'Password is required.' => '请输入密码。',
+        'Please enter a search term to look for customer companies.' => '请输入一个搜索条件以查找客户单位。',
         'Please supply a' => '请提供',
         'Please supply a first name' => '请提供您的名字',
         'Please supply a last name' => '请提供您的姓',
@@ -4780,6 +4896,7 @@ sub Data {
         'Responses <-> Queues' => '回复 <-> 队列',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '为了重新用Web 界面安装，安全模式必须禁用',
+        'URL' => '网址',
         'before' => '早于',
         'default \'hot\'' => '默认密码 \'hot\'',
         'settings' => '设置',

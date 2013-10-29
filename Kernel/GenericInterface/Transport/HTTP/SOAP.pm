@@ -18,8 +18,6 @@ use Kernel::System::VariableCheck qw(:all);
 use Encode;
 use PerlIO;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::GenericInterface::Transport::SOAP - GenericInterface network transport interface for HTTP::SOAP
@@ -782,7 +780,7 @@ sub _Output {
     $Param{HTTPCode} ||= 500;
     my $ContentType;
     if ( $Param{HTTPCode} eq 200 ) {
-        $ContentType = 'text/xml';
+        $ContentType = 'application/soap+xml';
     }
     else {
         $ContentType = 'text/plain';

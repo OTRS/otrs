@@ -12,8 +12,6 @@ package Kernel::GenericInterface::Transport;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::GenericInterface::Transport - GenericInterface network transport interface

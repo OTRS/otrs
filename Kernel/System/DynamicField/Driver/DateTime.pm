@@ -18,8 +18,6 @@ use Kernel::System::Time;
 
 use base qw(Kernel::System::DynamicField::Driver::BaseDateTime);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::DynamicField::Driver::DateTime
@@ -87,14 +85,10 @@ sub new {
         if ( $Extension->{Module} ) {
 
             # check if module can be loaded
-            if ( !$Self->{MainObject}->Require( $Extension->{Module} ) ) {
+            if ( !$Self->{MainObject}->RequireBaseClass( $Extension->{Module} ) ) {
                 die "Can't load dynamic fields backend module"
                     . " $Extension->{Module}! $@";
             }
-
-            # load the module
-            push @ISA, $Extension->{Module};
-
         }
 
         # check if extension contains more behabiors

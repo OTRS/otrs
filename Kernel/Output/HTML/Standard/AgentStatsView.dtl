@@ -116,6 +116,10 @@
                         <div class="Value">$Text{"$Data{"CacheValue"}"}</div>
                         <div class="Clear"></div>
 
+                        <label>$Text{"Show as dashboard widget"}:</label>
+                        <div class="Value">$Text{"$Data{"ShowAsDashboardWidgetValue"}"}</div>
+                        <div class="Clear"></div>
+
                         <label>$Text{"Validity"}:</label>
                         <div class="Value">$Text{"$Data{"ValidValue"}"}</div>
                         <div class="Clear"></div>
@@ -141,96 +145,7 @@
                         <div class="Clear"></div>
                     </fieldset>
 
-
-<!--dtl:block:Static -->
-                    <h2>
-                        $Text{"Configurable params of static stat"}
-                    </h2>
-                    <fieldset class="TableLike">
-<!--dtl:block:ItemParam -->
-                        <label>$Text{"$Data{"Param"}"}:</label>
-                        <div class="Value">$Data{"Field"}</div>
-                        <div class="Clear"></div>
-<!--dtl:block:ItemParam -->
-                    </fieldset>
-<!--dtl:block:Static -->
-
-
-<!--dtl:block:Dynamic -->
-                    <h2>$Text{"$Data{"Name"}"}</h2>
-                    <fieldset class="TableLike">
-<!--dtl:block:NoElement -->
-                        <p>$Text{"No element selected."}</p>
-<!--dtl:block:NoElement -->
-<!--dtl:block:Element -->
-                        <label>$Text{"$Data{"Name"}"}:</label>
-                        <div class="Value">
-                            <p>
-<!--dtl:block:TimePeriodFixed -->
-                                $Text{"Between"} $Data{"TimeStart"} $Text{"and"} $Data{"TimeStop"}<br/>
-<!--dtl:block:TimePeriodFixed -->
-<!--dtl:block:TimeRelativeFixed -->
-                                $Text{"The last"} $Data{"TimeRelativeCount"} $Text{"$Data{"TimeRelativeUnit"}"}<br/>
-<!--dtl:block:TimeRelativeFixed -->
-<!--dtl:block:TimeScaleFixed -->
-                                $Text{"Scale"}: $Data{"Count"} $Text{"$Data{"Scale"}"}
-<!--dtl:block:TimeScaleFixed -->
-<!--dtl:block:Fixed -->
-                                $Data{"Value"}<br/>
-<!--dtl:block:Fixed -->
-<!--dtl:block:MultiSelectField -->
-                                $Data{"SelectField"}
-<!--dtl:block:MultiSelectField -->
-<!--dtl:block:SelectField -->
-                                $Data{"SelectField"}
-<!--dtl:block:SelectField -->
-<!--dtl:block:InputField -->
-                                <input type="text" name="$QData{"Key"}" value="$QData{"Value"}" class="W25pc"/>
-<!--dtl:block:InputField -->
-                            </p>
-                        </div>
-                        <div class="Clear"></div>
-
-<!--dtl:block:TimeScale -->
-                        <label>$Text{"Scale"}:</label>
-                        <div class="Value">
-                            <p>
-                                $Data{"TimeScaleCount"}
-                                $Data{"TimeScaleUnit"}
-<!--dtl:block:TimeScaleInfo -->
-                                ($Text{"minimal scale"} $Data{"TimeScaleCountMax"} $Text{"$Data{"TimeScaleUnitMax"}"})
-<!--dtl:block:TimeScaleInfo -->
-                            </p>
-                        </div>
-                        <div class="Clear"></div>
-<!--dtl:block:TimeScale -->
-
-<!--dtl:block:TimePeriod -->
-                        <label>$Text{"Between"}</label>
-                        <div class="Value">
-                            <p>
-                                $Data{"TimeStart"} $Text{"and"} $Data{"TimeStop"}<br/>
-                                ($Text{"maximal period from"} $TimeLong{"$Data{"TimeStartMax"}"} $Text{"to"} $TimeLong{"$Data{"TimeStopMax"}"})
-                            </p>
-                        </div>
-                        <div class="Clear"></div>
-<!--dtl:block:TimePeriod -->
-
-<!--dtl:block:TimePeriodRelative -->
-                        <label>$Text{"The last"}</label>
-                        <div class="Value">
-                            <p>
-                                $Data{"TimeRelativeCount"}
-                                $Data{"TimeRelativeUnit"} ($Text{"maximal period"} $Data{"TimeRelativeCountMax"} $Text{"$Data{"TimeRelativeUnitMax"}"})
-                            </p>
-                        </div>
-                        <div class="Clear"></div>
-
-<!--dtl:block:TimePeriodRelative -->
-
-<!--dtl:block:Element -->
-                    </fieldset>
-<!--dtl:block:Dynamic -->
+$Include{"AgentStatsViewSettings"}
 
 <!--dtl:block:FormSubmit -->
                     <fieldset class="TableLike">

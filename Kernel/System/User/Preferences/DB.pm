@@ -12,8 +12,6 @@ package Kernel::System::User::Preferences::DB;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -61,16 +59,19 @@ sub SetPreferences {
 
     # delete old data
     return if !$Self->{DBObject}->Do(
-        SQL => "DELETE FROM $Self->{PreferencesTable} WHERE "
-            . " $Self->{PreferencesTableUserID} = ? AND $Self->{PreferencesTableKey} = ?",
+        SQL => "
+            DELETE FROM $Self->{PreferencesTable}
+            WHERE $Self->{PreferencesTableUserID} = ?
+                AND $Self->{PreferencesTableKey} = ?",
         Bind => [ \$Param{UserID}, \$Param{Key} ],
     );
 
     # insert new data
     return if !$Self->{DBObject}->Do(
-        SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableUserID}, "
-            . " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) "
-            . " VALUES (?, ?, ?)",
+        SQL => "
+            INSERT INTO $Self->{PreferencesTable}
+            ($Self->{PreferencesTableUserID}, $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue})
+            VALUES (?, ?, ?)",
         Bind => [ \$Param{UserID}, \$Param{Key}, \$Value ],
     );
 
@@ -101,8 +102,10 @@ sub GetPreferences {
 
     # get preferences
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} "
-            . " FROM $Self->{PreferencesTable} WHERE $Self->{PreferencesTableUserID} = ?",
+        SQL => "
+            SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}
+            FROM $Self->{PreferencesTable}
+            WHERE $Self->{PreferencesTableUserID} = ?",
         Bind => [ \$Param{UserID} ],
     );
 
@@ -132,15 +135,21 @@ sub SearchPreferences {
         $Lower = 'LOWER';
     }
 
+    my $SQL = "
+        SELECT $Self->{PreferencesTableUserID}, $Self->{PreferencesTableValue}
+        FROM $Self->{PreferencesTable}
+        WHERE $Self->{PreferencesTableKey} = ?";
+    my @Bind = ( \$Key );
+
+    if ($Value) {
+        $SQL .= " AND $Lower($Self->{PreferencesTableValue}) LIKE $Lower(?)";
+        push @Bind, \$Value;
+    }
+
     # get preferences
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT $Self->{PreferencesTableUserID}, $Self->{PreferencesTableValue} "
-            . " FROM "
-            . " $Self->{PreferencesTable} "
-            . " WHERE "
-            . " $Self->{PreferencesTableKey} = ? AND "
-            . " $Lower($Self->{PreferencesTableValue}) LIKE $Lower(?)",
-        Bind => [ \$Key, \$Value ],
+        SQL  => $SQL,
+        Bind => \@Bind,
     );
 
     # fetch the result

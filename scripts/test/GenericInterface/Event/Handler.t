@@ -492,7 +492,7 @@ $CurrentSchedulerStatus = `$Scheduler -a status`;
 
 # remove the process id
 $PreviousSchedulerStatus =~ s{\d}{}g;
-$CurrentSchedulerStatus =~ s{\d}{}g;
+$CurrentSchedulerStatus  =~ s{\d}{}g;
 
 $Self->Is(
     $CurrentSchedulerStatus,

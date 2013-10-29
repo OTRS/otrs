@@ -27,7 +27,7 @@ $Text{"The current password is not correct. Please try again!"}
 $Text{"Can't update password, your new passwords do not match. Please try again!"}
 $Text{"Can't update password, it contains invalid characters!"}
 $Text{"Can't update password, it must be at least %s characters long!"}
-$Text{"Can't update password, it must contain at least 2 lowercase  and 2 uppercase characters!"}
+$Text{"Can't update password, it must contain at least 2 lowercase and 2 uppercase characters!"}
 $Text{"Can't update password, it must contain at least 1 digit!"}
 $Text{"Can't update password, it must contain at least 2 characters!"}
 $Text{"Can't update password, this password has already been used. Please choose a new one!"}

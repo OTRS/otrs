@@ -15,8 +15,6 @@ use warnings;
 use Kernel::System::Cache;
 use Kernel::System::Valid;
 
-use vars qw(@ISA);
-
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -294,45 +292,30 @@ sub CustomerCompanyAdd {
         return;
     }
 
+    my @Fields;
+    my @Placeholders;
+    my @Values;
+
+    for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
+        push @Fields,       $Entry->[2];
+        push @Placeholders, '?';
+        push @Values,       \$Param{ $Entry->[0] };
+    }
+    if ( !$Self->{ForeignDB} ) {
+        push @Fields,       qw(create_time create_by change_time change_by);
+        push @Placeholders, qw(current_timestamp ? current_timestamp ?);
+        push @Values, ( \$Param{UserID}, \$Param{UserID} );
+    }
+
     # build insert
     my $SQL = "INSERT INTO $Self->{CustomerCompanyTable} (";
-
-    my $FieldInserted;
-    for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
-        $SQL .= ', ' if ($FieldInserted);
-        $SQL .= " $Entry->[2] ";
-        $FieldInserted = 1;
-    }
-
-    if ( !$Self->{ForeignDB} ) {
-        $SQL .= ', ' if ($FieldInserted);
-        $SQL .= 'create_time, create_by, change_time, change_by';
-    }
-    $SQL .= ") VALUES (";
-
-    my $ValueInserted;
-    for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
-
-        $SQL .= ', ' if ($ValueInserted);
-
-        if ( $Entry->[5] =~ /^int$/i ) {
-            $SQL .= " " . $Self->{DBObject}->Quote( $Param{ $Entry->[0] }, 'Integer' );
-        }
-        else {
-            $SQL .= " '" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
-        }
-
-        $ValueInserted = 1;
-    }
-
-    if ( !$Self->{ForeignDB} ) {
-        $SQL .= ', ' if ($ValueInserted);
-        $SQL .= "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID}";
-    }
-    $SQL .= ")";
+    $SQL .= join( ', ', @Fields ) . " ) VALUES ( " . join( ', ', @Placeholders ) . " )";
 
     $SQL = $Self->_ConvertTo($SQL);
-    return if !$Self->{DBObject}->Do( SQL => $SQL );
+    return if !$Self->{DBObject}->Do(
+        SQL  => $SQL,
+        Bind => \@Values,
+    );
 
     # log notice
     $Self->{LogObject}->Log(
@@ -363,36 +346,37 @@ sub CustomerCompanyUpdate {
         }
     }
 
-    # update db
-    my $SQL = "UPDATE $Self->{CustomerCompanyTable} SET ";
-    my $FieldInserted;
+    my @Fields;
+    my @Values;
 
+    FIELD:
     for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
-
-        $SQL .= ', ' if $FieldInserted;
-        if ( $Entry->[5] =~ /^int$/i ) {
-            $SQL .= " $Entry->[2] = " . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } );
-        }
-        elsif ( $Entry->[0] !~ /^UserPassword$/i ) {
-            $SQL .= " $Entry->[2] = '" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
-        }
-        $FieldInserted = 1;
+        next FIELD if $Entry->[0] =~ /^UserPassword$/i;
+        push @Fields, $Entry->[2] . ' = ?';
+        push @Values, \$Param{ $Entry->[0] };
     }
-
     if ( !$Self->{ForeignDB} ) {
-        $SQL .= ", change_time = current_timestamp, change_by = $Param{UserID} ";
+        push @Fields, ( 'change_time = current_timestamp', 'change_by = ?' );
+        push @Values, \$Param{UserID};
     }
 
-    my $CustomerCompanyIDQuoted = $Self->{DBObject}->Quote( $Param{CustomerCompanyID} );
+    # create SQL statement
+    my $SQL = "UPDATE $Self->{CustomerCompanyTable} SET ";
+    $SQL .= join( ', ', @Fields );
+
     if ( $Self->{CaseSensitive} ) {
-        $SQL .= " WHERE LOWER($Self->{CustomerCompanyKey}) = LOWER('$CustomerCompanyIDQuoted')";
+        $SQL .= " WHERE LOWER($Self->{CustomerCompanyKey}) = LOWER( ? )";
     }
     else {
-        $SQL .= " WHERE $Self->{CustomerCompanyKey} = '$CustomerCompanyIDQuoted'";
+        $SQL .= " WHERE $Self->{CustomerCompanyKey} = ?";
     }
+    push @Values, \$Param{CustomerCompanyID};
     $SQL = $Self->_ConvertTo($SQL);
 
-    return if !$Self->{DBObject}->Do( SQL => $SQL );
+    return if !$Self->{DBObject}->Do(
+        SQL  => $SQL,
+        Bind => \@Values,
+    );
 
     # log notice
     $Self->{LogObject}->Log(

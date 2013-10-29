@@ -25,7 +25,7 @@ installation.
 If you want to deploy on Windows we ship an installer that automatically
 installs OTRS, Apache (a webserver), Perl including all modules, MySQL, and
 sets up the cron jobs for you. Please refer to
-http://doc.otrs.org/3.1/en/html/installation.html#installation-on-windows
+http://doc.otrs.org/3.3/en/html/installation.html#installation-on-windows
 for detailed instructions.
 
 The OTRS system user in this example is "otrs" and the installation

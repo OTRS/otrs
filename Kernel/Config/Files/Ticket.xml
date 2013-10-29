@@ -346,7 +346,6 @@
     </ConfigItem>
     <ConfigItem Name="OTRSEscalationEvents::DecayTime" Required="0" Valid="1">
         <Description Translatable="1">The duration in minutes after emitting an event, in which the new escalation notify and start events are suppressed.</Description>
-Description>
         <Group>Ticket</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -354,7 +353,7 @@ Description>
         </Setting>
     </ConfigItem>
     <!-- 900-EscalationStopEvents must come after 900-EscalationIndex -->
-    <ConfigItem Name="Ticket::EventModulePost###900-EscalationStopEvents" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::EventModulePost###900-EscalationStopEvents" Required="0" Valid="1">
         <Description Translatable="1">Ticket event module that triggers the escalation stop events.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -412,17 +411,17 @@ Description>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DynamicFieldFromCustomerUser::Mapping" Required="0" Valid="0">
-        <Description Translatable="1">Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set manually. They mustn't be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values.</Description>
+        <Description Translatable="1">Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn't be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="CustomerUserFirstname">CustomerFirstname</Item>
+                <Item Key="UserFirstname">CustomerFirstname</Item>
             </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###930-DynamicFieldFromCustomerUser" Required="0" Valid="0">
-        <Description Translatable="1">This event module stores attributes from CustomerUser as DynamicFields tickets.</Description>
+        <Description Translatable="1">This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -4572,6 +4571,23 @@ $QData{"Body"}
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::ToolBarModule###6-Ticket::AgentTicketProcess" Required="0" Valid="0">
+        <Description Translatable="1">Toolbar Item for a shortcut.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ToolBarLink</Item>
+                <Item Key="Name">New process ticket</Item>
+                <Item Key="Link">Action=AgentTicketProcess</Item>
+                <Item Key="Action">AgentTicketProcess</Item>
+                <Item Key="AccessKey">p</Item>
+                <Item Key="CssClass">ProcessTicket</Item>
+                <Item Key="Icon">icon-th-large</Item>
+                <Item Key="Priority">1020030</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::ToolBarModule###6-Ticket::TicketResponsible" Required="0" Valid="1">
         <Description Translatable="1">Agent interface notification module to see the number of tickets an agent is responsible for.</Description>
         <Group>Ticket</Group>
@@ -4645,7 +4661,7 @@ $QData{"Body"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarGeneric</Item>
-                <Item Key="Description">Fulltext-Search</Item>
+                <Item Key="Description">Fulltext search</Item>
                 <Item Key="Name">Fulltext-Search</Item>
                 <Item Key="Block">ToolBarSearchFulltext</Item>
                 <Item Key="Size">10</Item>
@@ -4661,8 +4677,8 @@ $QData{"Body"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarGeneric</Item>
-                <Item Key="Description">CIC search for CustomerID</Item>
-                <Item Key="Name">CostomerID search</Item>
+                <Item Key="Description">CustomerID Search</Item>
+                <Item Key="Name">CustomerID search</Item>
                 <Item Key="Block">ToolBarCICSearchCustomerID</Item>
                 <Item Key="Size">10</Item>
                 <Item Key="CSS">Core.Agent.Toolbar.CICSearch.css</Item>
@@ -4677,8 +4693,8 @@ $QData{"Body"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBarGeneric</Item>
-                <Item Key="Description">CIC search for CustomerUser</Item>
-                <Item Key="Name">Costomer user search</Item>
+                <Item Key="Description">CustomerUser Search</Item>
+                <Item Key="Name">Customer user search</Item>
                 <Item Key="Block">ToolBarCICSearchCustomerUser</Item>
                 <Item Key="Size">10</Item>
                 <Item Key="CSS">Core.Agent.Toolbar.CICSearch.css</Item>
@@ -5442,7 +5458,7 @@ $QData{"Body"}
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
-            <String RegEx="">via</String>
+            <String>via</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DashboardBackend###0100-TicketPendingReminder" Required="0" Valid="1">
@@ -7028,6 +7044,10 @@ $QData{"Body"}
                     <AccessKey>s</AccessKey>
                     <Prio>300</Prio>
                 </NavBar>
+                <Loader>
+                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
+                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -7893,7 +7913,7 @@ $QData{"Body"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name Translatable="1">GenericAgent</Name>
-                    <Description Translatable="1">Manage periodic tasks.</Description>
+                    <Description Translatable="1">Manage tasks triggered by event or time based execution.</Description>
                     <Block>System</Block>
                     <Prio>300</Prio>
                 </NavBarModule>
@@ -7916,7 +7936,7 @@ $QData{"Body"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Events###Ticket" Required="1" Valid="1">
-        <Description Translatable="1">Event list to be displayed on GUI</Description>
+        <Description Translatable="1">List of all ticket events to be displayed in the GUI.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin</SubGroup>
         <Setting>
@@ -7961,7 +7981,7 @@ $QData{"Body"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Events###Article" Required="1" Valid="1">
-        <Description Translatable="1">Event list to be displayed on GUI</Description>
+        <Description Translatable="1">List of all article events to be displayed in the GUI.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin</SubGroup>
         <Setting>
@@ -9312,7 +9332,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Defaults###DynamicField" Required="0" Valid="1">
-        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen. Example: Text: 'a text', Dropdown: '1', Date/Time: 'Search_DynamicField_NameXTimeSlotStartYear=1974; Search_DynamicField_NameXTimeSlotStartMonth=01; Search_DynamicField_NameXTimeSlotStartDay=26; Search_DynamicField_NameXTimeSlotStartHour=00; Search_DynamicField_NameXTimeSlotStartMinute=00; Search_DynamicField_NameXTimeSlotStartSecond=00; Search_DynamicField_NameXTimeSlotStopYear=2013; Search_DynamicField_NameXTimeSlotStopMonth=01; Search_DynamicField_NameXTimeSlotStopDay=26; Search_DynamicField_NameXTimeSlotStopHour=23; Search_DynamicField_NameXTimeSlotStopMinute=59; Search_DynamicField_NameXTimeSlotStopSecond=59;' and or 'Search_DynamicField_NameXTimePointFormat=week; Search_DynamicField_NameXTimePointStart=Before; Search_DynamicField_NameXTimePointValue=7';.</Description>
+        <Description Translatable="1">Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case 'X', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: 'a text', Dropdown: '1', Date/Time: 'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;' and or 'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7';.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
@@ -9782,7 +9802,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultOverviewColumns" Required="1" Valid="1">
-        <Description Translatable="1">General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.</Description>
+        <Description Translatable="1">General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -9812,7 +9832,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketStatusView###DefaultColumns" Required="0" Valid="1">
-        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.</Description>
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewStatus</SubGroup>
         <Setting>
@@ -9842,7 +9862,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###DefaultColumns" Required="0" Valid="1">
-        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.</Description>
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. PPossible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
@@ -9872,7 +9892,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsibleView###DefaultColumns" Required="0" Valid="1">
-        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.</Description>
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
         <Setting>
@@ -9902,7 +9922,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketWatchView###DefaultColumns" Required="0" Valid="1">
-        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.</Description>
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewWatch</SubGroup>
         <Setting>
@@ -9932,7 +9952,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketLockedView###DefaultColumns" Required="0" Valid="1">
-        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.</Description>
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewLocked</SubGroup>
         <Setting>
@@ -9962,7 +9982,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEscalationView###DefaultColumns" Required="0" Valid="1">
-        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.</Description>
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEscalation</SubGroup>
         <Setting>

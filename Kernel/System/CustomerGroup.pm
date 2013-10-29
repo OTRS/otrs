@@ -16,8 +16,6 @@ use Kernel::System::CacheInternal;
 use Kernel::System::Group;
 use Kernel::System::Valid;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::CustomerGroup - customer group lib

@@ -13,18 +13,22 @@ The following persons contributed to OTRS:
 * Christopher T. Kuhn <christopher.kuhn@otrs.com>
 * Cyrille Bollu <info@belnet.be>
 * Daniel Zamorano <daniel.zamorano@otrs.com>
+* Denis Nelubin <dnelubin@gmail.com>
 * Dennis Schmelter <dennis.schmelter@otrs.com>
 * Diego Selzlein <diegoselzlein@gmail.com>
+* Dominik Klein <dominik.klein@otrs.com>
 * Elias Probst <elias.probst@otrs.com>
 * Elva Novoa <elva.novoa@otrs.com>
 * Enrique Matías Sánchez (Quique) <cronopios@gmail.com>
 * Felix Niklas <felix.niklas@otrs.com>
 * Gerald Young <gerald.young@noynim.com>
 * Henning Oschwald <henning.oschwald@otrs.com>
+* IB Development Team <dev@ib.pl>
 * Jens Bothe <jens.bothe@otrs.com>
 * Jens Pfeifer <jens.pfeifer@otrs.com>
 * Johannes Hörburger <johannes.hoerburger@otrs.com>
 * Johannes Nickel <hanne_hal@me.com>
+* Keith Moore <tenareth@gmail.com>
 * Manuel Hecht <manuel.hecht@otrs.com>
 * Marc Bonsels <marc.bonsels@otrs.com>
 * Marc Nilius <marc.nilius@otrs.com>
@@ -39,7 +43,9 @@ The following persons contributed to OTRS:
 * NeverMin <never.min@gmail.com>
 * Nils Leideck <nils.leideck@leidex.net>
 * Nils Leideck <nils.leideck@otrs.com>
+* Oberson Dylan <dylan.oberson@epfl.ch>
 * Oliver Tappe <oliver.tappe@otrs.com>
+* Patrick Rauscher <prauscher@ohai.su>
 * Ralf Hildebrandt <hildeb@charite.de>
 * Raphaël Doursenaud <rdoursenaud@gpcsolutions.fr>
 * Renée Bäcker <info@perl-services.de>
@@ -55,5 +61,6 @@ The following persons contributed to OTRS:
 * Torsten Thau <torsten.thau@cape-it.de>
 * Udo Bretz <udo.bretz@otrs.com>
 * Uwe Dieckmann <uwe.dieckmann@otrs.com>
+* Walter Souto <walter.souto@saude.go.gov.br>
 * juanmclavero <juanm.clavero@ibsalut.es>
 * otrsintern <otrsintern@gmail.com>

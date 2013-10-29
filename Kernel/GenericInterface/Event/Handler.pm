@@ -63,7 +63,7 @@ sub Run {
         $Self->{WebserviceObject}->WebserviceList(
             Valid => 1,
         ),
-    };
+        };
 
     # loop over webservices
     WEBSERVICE:

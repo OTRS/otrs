@@ -8,9 +8,10 @@
 # --
 
 $Include{"AgentCustomerSearch"}
-<div class="MainBox ARIARoleMain">
+<div class="MainBox ARIARoleMain FormScreen">
 
     <h1>$Text{"Create New Email Ticket"}</h1>
+    <p class="AsteriskExplanation">$Text{"All fields marked with an asterisk (*) are mandatory."}</p>
 
     <div class="LayoutFixedSidebar SidebarLast">
 
@@ -113,12 +114,12 @@ $('#Dest').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:FromExternalCustomer -->
 
-                    <label for="ToCustomer" class="Mandatory"><span class="Marker">*</span>$Text{"To customer"}:</label>
+                    <label for="ToCustomer" class="Mandatory"><span class="Marker">*</span>$Text{"To customer user"}:</label>
                     <div class="Field">
                         <input id="ToCustomer" type="text" name="ToCustomer" value="" class="CustomerAutoComplete W75pc $QData{"ToInvalid"}" autocomplete="off" />
                         <div id="ToCustomerServerError" class="TooltipErrorMessage">
 <!-- dtl:block:ToServerErrorMsg -->
-                            <p>$Text{"Please include at least one customer for the ticket."}</p>
+                            <p>$Text{"Please include at least one customer user for the ticket."}</p>
 <!-- dtl:block:ToServerErrorMsg -->
                         </div>
                     </div>
@@ -128,8 +129,8 @@ $('#Dest').bind('change', function (Event) {
                         <div class="CustomerTicketTemplateToCustomer Hidden">
                             <input name="CustomerSelected" title="$Text{"Select this customer as the main customer."}" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value=""/>
                             <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
-                            <input class="CustomerTicketText Radio" title="$Text{"To customer"}" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly="readonly" />
-                            <button type="button" id="RemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Ticket Customer"}">$Text{"Remove Ticket Customer"}</button>
+                            <input class="CustomerTicketText Radio" title="$Text{"To customer user"}" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly="readonly" />
+                            <button type="button" id="RemoveCustomerTicket" class="Remove CustomerTicketRemove" value="$Text{"Remove Ticket Customer User"}">$Text{"Remove Ticket Customer User"}</button>
                         </div>
 
                         <div id="TicketCustomerContentToCustomer" class="CustomerContainer">
@@ -139,7 +140,7 @@ $('#Dest').bind('change', function (Event) {
                                 <input name="CustomerSelected" title="$Text{"Select this customer as the main customer."}" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value="$QData{"Count"}" $QData{"CustomerSelected"}  $QData{"CustomerDisabled"} />
                                 <input name="CustomerKey_$QData{"Count"}" id="CustomerKey_$QData{"Count"}" class="CustomerKey" type="hidden" value="$QData{"CustomerKey"}"/>
                                 <input class="CustomerTicketText $QData{"CustomerError"}" name="CustomerTicketText_$Data{"Count"}" id="CustomerTicketText_$Data{"Count"}" type="text" value="$QData{"CustomerElement"}" readonly="readonly" />
-                                <button type="button" id="RemoveCustomerTicket_$Data{"Count"}" class="Remove CustomerTicketRemove" value="$Text{"Remove Ticket Customer"}">$Text{"Remove Ticket Customer"}</button>
+                                <button type="button" id="RemoveCustomerTicket_$Data{"Count"}" class="Remove CustomerTicketRemove" value="$Text{"Remove Ticket Customer User"}">$Text{"Remove Ticket Customer User"}</button>
 
 <!-- dtl:block:CustomerErrorExplantion -->
                                 <p class="Explanation Error">$Text{"Please remove this entry and enter a new one with the correct value."}</p>
@@ -281,6 +282,12 @@ $('#Dest').bind('change', function (Event) {
 <!-- dtl:block:BccMultipleCustomerCounter -->
                         <input name="CustomerTicketCounterBccCustomer" id="CustomerTicketCounterBccCustomer" type="hidden" value="$QData{"CustomerCounter"}"/>
 <!-- dtl:block:BccMultipleCustomerCounter -->
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="CustomerID">$Text{"CustomerID"}:</label>
+                    <div class="Field">
+                        <input type="text" name="CustomerID" id="CustomerID" value="$QData{"CustomerID"}" class="W75pc"/>
                     </div>
                     <div class="Clear"></div>
 
@@ -427,7 +434,7 @@ $('#NewResponsibleID').bind('change', function (Event) {
                         <a href="#" id="OptionAddressBook">[ $Text{"Address book"} ]</a>
 <!-- dtl:block:AddressBook -->
 <!-- dtl:block:OptionCustomer -->
-                        <a href="#" id="OptionCustomer">[ $Text{"Customer"} ]</a>
+                        <a href="#" id="OptionCustomer">[ $Text{"Customer user"} ]</a>
 <!-- dtl:block:OptionCustomer -->
 
 <!-- OutputFilterHook_TicketOptionsEnd -->
@@ -514,12 +521,6 @@ $('#FileUpload').bind('change', function () {
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="CustomerID">$Text{"CustomerID"}:</label>
-                    <div class="Field">
-                        <input type="text" name="CustomerID" id="CustomerID" value="$QData{"CustomerID"}" class="W50pc"/>
-                    </div>
-                    <div class="Clear"></div>
-
                     <label for="NextStateID">$Text{"Next ticket state"}:</label>
                     <div class="Field">
                         $Data{"NextStatesStrg"}
@@ -602,7 +603,7 @@ $('#FileUpload').bind('change', function () {
 <!-- dtl:block:TimeUnits -->
 
                     <div class="Field SpacingTop">
-                        <button class="Primary" id="submitRichText" accesskey="g" title="$Text{"Send mail!"} (g)" type="submit" value="$Text{"Send mail!"}" >$Text{"Send mail!"}</button>
+                        <button class="Primary CallForAction" id="submitRichText" accesskey="g" title="$Text{"Send mail"} (g)" type="submit" value="$Text{"Send mail"}" ><span><i class="icon-envelope-alt"></i> $Text{"Send mail"}</span></button>
                     </div>
                 </fieldset>
             </form>

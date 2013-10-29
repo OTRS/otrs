@@ -12,12 +12,11 @@ package Kernel::System::Cache::FileStorable;
 use strict;
 use warnings;
 
+use POSIX;
 use Storable qw();
 use Digest::MD5 qw();
 use File::Path qw();
 use File::Find qw();
-
-use vars qw(@ISA);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -49,7 +48,7 @@ sub new {
 
     # Specify how many levels of subdirectories to use, can be 0, 1 or more.
     $Self->{'Cache::SubdirLevels'} = $Self->{ConfigObject}->Get('Cache::SubdirLevels');
-    $Self->{'Cache::SubdirLevels'} = 2 if !defined $Self->{'Cache::SubdirLevels'};
+    $Self->{'Cache::SubdirLevels'} //= 2;
 
     return $Self;
 }
@@ -163,7 +162,7 @@ sub CleanUp {
         Filter => $Param{Type} || '*',
     );
 
-    return if !@TypeList;
+    return 1 if !@TypeList;
 
     my $FileCallback = sub {
 
@@ -189,8 +188,10 @@ sub CleanUp {
             }
         }
 
-        # delete all cache files
-        if ( !unlink $CacheFile ) {
+        # Delete all cache files; don't error out when the file doesn't
+        # exist anymore, it was probably just another process deleting it.
+        my $Success = unlink $CacheFile;
+        if ( !$Success && $! != POSIX::ENOENT ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Can't remove file $CacheFile: $!",

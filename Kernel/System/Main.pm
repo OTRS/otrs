@@ -8,6 +8,7 @@
 # --
 
 package Kernel::System::Main;
+## nofilter(TidyAll::Plugin::OTRS::Perl::Dumper)
 
 use strict;
 use warnings;
@@ -16,6 +17,7 @@ use Digest::MD5 qw(md5_hex);
 use Data::Dumper;
 use File::stat;
 use Unicode::Normalize;
+use List::Util qw();
 
 use Kernel::System::Encode;
 
@@ -162,6 +164,38 @@ sub Require {
             Message  => "Module: $Module loaded!",
         );
     }
+
+    return 1;
+}
+
+=item RequireBaseClass()
+
+require/load a module and add it as a base class to the
+calling package, if not already present (this check is needed
+for persistent environments).
+
+    my $Loaded = $MainObject->RequireBaseClass(
+        'Kernel::System::Example',
+    );
+
+=cut
+
+sub RequireBaseClass {
+    my ( $Self, $Module ) = @_;
+
+    # Load the module, if not already loaded.
+    return if !$Self->Require($Module);
+
+    no strict 'refs';    ## no critic
+    my $CallingClass = caller(0);
+
+    # Check if the base class was already loaded.
+    # This can happen in persistent environments as mod_perl (see bug#9686).
+    if ( List::Util::first { $_ eq $Module } @{"${CallingClass}::ISA"} ) {
+        return 1;        # nothing to do now
+    }
+
+    push @{"${CallingClass}::ISA"}, $Module;
 
     return 1;
 }
@@ -929,21 +963,64 @@ sub DirectoryRead {
 
 }
 
+=item GenerateRandomString()
+
+generate a random string of defined lenght, and of a defined alphabet.
+defaults to a length of 16 and alphanumerics ( 0..9, A-Z and a-z).
+
+    my $String = $MainObject->GenerateRandomString();
+
+    returns
+
+    $String = 'mHLOx7psWjMe5Pj7';
+
+    with specific length:
+
+    my $String = $MainObject->GenerateRandomString(
+        Length => 32,
+    );
+
+    returns
+
+    $String = 'azzHab72wIlAXDrxHexsI5aENsESxAO7';
+
+    with specific length and alphabet:
+
+    my $String = $MainObject->GenerateRandomString(
+        Length     => 32,
+        Dictionary => [ 0..9, 'a'..'f' ], # hexadecimal
+        );
+
+    returns
+
+    $String = '9fec63d37078fe72f5798d2084fea8ad';
+
+
+=cut
+
 sub GenerateRandomString {
     my ( $Self, %Param ) = @_;
 
     my $Length = $Param{Length} || 16;
 
-    my $String;
-
-    # The list of characters in the dictionary. Don't use special chars here.
+    # The standard list of characters in the dictionary. Don't use special chars here.
     my @DictionaryChars = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
 
-    my $DictionaryLen = scalar @DictionaryChars;
+    # override dictionary with custom list if given
+    if ( $Param{Dictionary} && ref $Param{Dictionary} eq 'ARRAY' ) {
+        @DictionaryChars = @{ $Param{Dictionary} };
+    }
 
-    # Generate the string
+    my $DictionaryLength = scalar @DictionaryChars;
+
+    # generate the string
+    my $String;
+
     for ( 1 .. $Length ) {
-        $String .= $DictionaryChars[ rand($DictionaryLen) ];
+
+        my $Key = int rand $DictionaryLength;
+
+        $String .= $DictionaryChars[$Key];
     }
 
     return $String;

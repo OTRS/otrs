@@ -72,7 +72,7 @@ $Text{"none"}
 <!-- dtl:block:TableComplexBlock -->
 <div class="WidgetBox SpacingTop Expanded">
     <div class="LightRow Header">
-        <div class="WidgetAction Toggle"><a href="#" title="$Text{"Show or hide the content"}"><span></span></a></div>
+        <div class="WidgetAction Toggle"><a href="#" title="$Text{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a></div>
         <h2>$Text{"$Data{"BlockDescription"}"}: $Text{"$Data{"Blockname"}"}</h2>
     </div>
 <!-- dtl:block:TableComplexBlockActionRow -->
@@ -141,8 +141,8 @@ $Text{"none"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('.SelectAll').bind('click', function () {
-        var Status = $(this).attr('checked');
-        $(this).closest('.WidgetBox').find('table input[type=checkbox]').attr('checked', Status);
+        var Status = $(this).prop('checked');
+        $(this).closest('.WidgetBox').find('table input[type=checkbox]').prop('checked', Status);
     });
 
 //]]></script>

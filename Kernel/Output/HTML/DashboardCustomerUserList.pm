@@ -165,6 +165,32 @@ sub Run {
         );
     }
 
+    # get the permission for the phone ticket creation
+    my $NewAgentTicketPhonePermission = $Self->{LayoutObject}->Permission(
+        Action => 'AgentTicketPhone',
+        Type   => 'rw',
+    );
+
+    # check the permission for the phone ticket creation
+    if ($NewAgentTicketPhonePermission) {
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewResultNewAgentTicketPhone',
+        );
+    }
+
+    # get the permission for the email ticket creation
+    my $NewAgentTicketEmailPermission = $Self->{LayoutObject}->Permission(
+        Action => 'AgentTicketEmail',
+        Type   => 'rw',
+    );
+
+    # check the permission for the email ticket creation
+    if ($NewAgentTicketEmailPermission) {
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewResultNewAgentTicketEmail',
+        );
+    }
+
     my @CustomerKeys
         = sort { lc( $CustomerIDs->{$a} ) cmp lc( $CustomerIDs->{$b} ) } keys %{$CustomerIDs};
     @CustomerKeys = splice @CustomerKeys, $Self->{StartHit} - 1, $Self->{PageShown};
@@ -240,6 +266,30 @@ sub Run {
                 CustomerKeySQL => $CustomerKeySQL,
             },
         );
+
+        # check the permission for the phone ticket creation
+        if ($NewAgentTicketPhonePermission) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ContentLargeCustomerUserListNewAgentTicketPhone',
+                Data => {
+                    %Param,
+                    CustomerKey       => $CustomerKey,
+                    CustomerListEntry => $CustomerIDs->{$CustomerKey},
+                },
+            );
+        }
+
+        # check the permission for the email ticket creation
+        if ($NewAgentTicketEmailPermission) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ContentLargeCustomerUserListNewAgentTicketEmail',
+                Data => {
+                    %Param,
+                    CustomerKey       => $CustomerKey,
+                    CustomerListEntry => $CustomerIDs->{$CustomerKey},
+                },
+            );
+        }
 
         if ( $Self->{ConfigObject}->Get('SwitchToCustomer') && $Self->{SwitchToCustomerPermission} )
         {

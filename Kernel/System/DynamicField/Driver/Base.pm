@@ -26,6 +26,17 @@ Kernel::System::DynamicField::Driver::Base - common fields backend functions
 
 =cut
 
+sub ValueIsDifferent {
+    my ( $Self, %Param ) = @_;
+
+    # special cases where the values are different but they should be reported as equals
+    return if !defined $Param{Value1} && $Param{Value2} eq '';
+    return if !defined $Param{Value2} && $Param{Value1} eq '';
+
+    # compare the results
+    return DataIsDifferent( Data1 => \$Param{Value1}, Data2 => \$Param{Value2} );
+}
+
 sub ValueDelete {
     my ( $Self, %Param ) = @_;
 
@@ -144,13 +155,13 @@ EOF
     # text
     if ( $Param{AdditionalText} ) {
         $HTMLString .= <<"EOF";
-        \$Text{"$LabelText"} (\$Text{"$Param{AdditionalText}"}):
+    \$Text{"$LabelText"} (\$Text{"$Param{AdditionalText}"}):
 EOF
 
     }
     else {
         $HTMLString .= <<"EOF";
-        \$Text{"$LabelText"}:
+    \$Text{"$LabelText"}:
 EOF
     }
 

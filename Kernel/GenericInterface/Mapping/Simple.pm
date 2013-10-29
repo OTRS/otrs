@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsString IsStringWithData);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::GenericInterface::Mapping::Simple - GenericInterface simple data mapping backend

@@ -180,9 +180,15 @@ ul.Tablelike li.Header + li {
     background: -ms-linear-gradient(top,  #eee 0%,#ddd 50%,#ccc 100%);
     background: linear-gradient(to bottom,  #eee 0%,#ddd 50%,#ccc 100%);
     border-top: 1px solid #ccc;
-    margin: 15px -8px -8px;
+    margin: 15px -8px -10px -8px;
     padding: 10px 10px 9px 10px;
     text-align: center;
+    font-size: 11px;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+.WidgetSimple .Buttons.NoMargin {
+    margin-top: 5px;
 }
 
 .WidgetSimple .Field.LayoutGrid .AllocationList {
@@ -206,6 +212,7 @@ ul.Tablelike li.Header + li {
     color: #442A0B;
     font-weight: bold;
     padding-bottom: 8px;
+    line-height: 140%;
 }
 
 /**
@@ -318,9 +325,10 @@ ul.Tablelike li.Header + li {
 
 .WidgetAction {
     height: 19px;
-    width: 22px;
+    width: 16px;
     padding-right: 1px;
     float: left;
+    text-align: center;
 }
 
 .RTL .WidgetAction {
@@ -337,9 +345,29 @@ ul.Tablelike li.Header + li {
 .Expanded.AnimationRunning > .Header > .WidgetAction.Toggle {
     height: 13px;
     width: 12px;
-    margin: 5px 6px 5px 2px;
-    background: url(../img/toggle_arrow.png) no-repeat 0 0;
+    margin: 5px 0px 5px 2px;
     float: left;
+}
+
+.WidgetAction.Toggle i {
+    font-size: 17px;
+    position: absolute;
+    left: 7px;
+    top: 2px;
+    color: #555 !important;
+}
+
+#ArticleItems .WidgetAction.Toggle i,
+#DynamicFieldsWidget .WidgetAction.Toggle i {
+    top: -1px;
+}
+
+.Expanded .WidgetAction.Toggle i.icon-caret-right {
+    display: none !important;
+}
+
+.Collapsed .WidgetAction.Toggle i.icon-caret-down {
+    display: none !important;
 }
 
 .Header:active > .WidgetAction.Toggle {
@@ -365,24 +393,15 @@ ul.Tablelike li.Header + li {
 }
 
 /* Settings */
-.WidgetAction.Settings a {
-    background: url(../img/widget_settings.png) no-repeat 2px 2px;
+.WidgetAction i {
+    color: #bbb;
+    display: block !important;
+    margin: 2px 0px 0px 2px;
+    vertical-align: middle;
 }
 
-/* Close */
-.WidgetAction.RemoveFilters a {
-    background: url(../img/widget_remove_filters.png) no-repeat 2px 2px;
-}
-
-/* Close */
-.WidgetAction.Close a {
-    background: url(../img/widget_close.png) no-repeat 2px 2px;
-}
-
-.WidgetAction.Settings a:hover,
-.WidgetAction.RemoveFilters a:hover,
-.WidgetAction.Close a:hover {
-    background-position: 2px -16px;
+.WidgetAction:hover i {
+    color: #000;
 }
 
 /**
@@ -489,6 +508,11 @@ ul.Tablelike li.Header + li {
     border-color: #DDD;
     border-bottom: none;
     text-shadow: 0 1px 0 #DDD;
+}
+
+.CallForAction.Disabled, .CallForAction.Disabled span {
+    color: #999;
+    cursor: default;
 }
 
 .CallForAction.Plus span {

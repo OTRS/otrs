@@ -8,6 +8,10 @@
 # --
 
 package Kernel::System::Log;
+## nofilter(TidyAll::Plugin::OTRS::Perl::PODSpelling)
+## nofilter(TidyAll::Plugin::OTRS::Perl::Time)
+## nofilter(TidyAll::Plugin::OTRS::Perl::Dumper)
+## nofilter(TidyAll::Plugin::OTRS::Perl::Require)
 
 use strict;
 use warnings;
@@ -105,7 +109,31 @@ sub new {
 
 =item Log()
 
-log something, log priorities are 'debug', 'info', 'notice' and 'error'.
+log something. log priorities are 'debug', 'info', 'notice' and 'error'.
+
+These are mapped to the SysLog priorities. Please use the appropriate priority level:
+
+=over
+
+=item debug
+
+Debug-level messages; info useful for debugging the application, not useful during operations.
+
+=item info
+
+Informational messages; normal operational messages - may be used for reporting etc, no action required.
+
+=item notice
+
+Normal but significant condition; events that are unusual but not error conditions, no immediate action required.
+
+=item error
+
+Error conditions. Non-urgent failures, should be relayed to developers or admins, each item must be resolved.
+
+=back
+
+See for more info L<http://en.wikipedia.org/wiki/Syslog#Severity_levels>
 
     $LogObject->Log(
         Priority => 'error',

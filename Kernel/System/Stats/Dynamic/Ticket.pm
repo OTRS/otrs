@@ -62,6 +62,16 @@ sub GetObjectName {
     return 'TicketAccumulation';
 }
 
+sub GetObjectBehaviours {
+    my ( $Self, %Param ) = @_;
+
+    my %Behaviours = (
+        ProvidesDashboardWidget => 1,
+    );
+
+    return %Behaviours;
+}
+
 sub GetObjectAttributes {
     my ( $Self, %Param ) = @_;
 
@@ -505,7 +515,7 @@ sub GetObjectAttributes {
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
 
-            # convert possible values key => value to key => key for ACLs usign a Hash slice
+            # convert possible values key => value to key => key for ACLs using a Hash slice
             my %AclData = %{ $PossibleValues || {} };
             @AclData{ keys %AclData } = keys %AclData;
 
@@ -684,7 +694,7 @@ sub ExportWrapper {
                 }
             }
             elsif (
-                $ElementName eq 'OwnerIDs'
+                $ElementName    eq 'OwnerIDs'
                 || $ElementName eq 'CreatedUserIDs'
                 || $ElementName eq 'ResponsibleIDs'
                 )
@@ -774,7 +784,7 @@ sub ImportWrapper {
                 }
             }
             elsif (
-                $ElementName eq 'OwnerIDs'
+                $ElementName    eq 'OwnerIDs'
                 || $ElementName eq 'CreatedUserIDs'
                 || $ElementName eq 'ResponsibleIDs'
                 )

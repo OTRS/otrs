@@ -470,6 +470,7 @@ sub Run {
                         $GetParam{ $TimeType . 'TimeOlderMinutes' } = -$Time;
                     }
                     else {
+
                         # within last ...
                         $GetParam{ $TimeType . 'TimeOlderMinutes' } = 0;
                         $GetParam{ $TimeType . 'TimeNewerMinutes' } = $Time;
@@ -1062,8 +1063,9 @@ sub Run {
                 Filter     => $Self->{Filter},
                 FilterLink => $FilterLink,
 
-                OrderBy => $Self->{OrderBy},
-                SortBy  => $Self->{SortBy},
+                OrderBy      => $Self->{OrderBy},
+                SortBy       => $Self->{SortBy},
+                RequestedURL => 'Action=' . $Self->{Action} . ';' . $LinkPage,
             );
 
             # build footer
@@ -1103,8 +1105,9 @@ sub Run {
         );
 
         # convert attributes
-        if ( defined $GetParam{ShownAttributes} && ref $GetParam{ShownAttributes} eq 'ARRAY' ) {
-            $GetParam{ShownAttributes} = join ';', @{ $GetParam{ShownAttributes} };
+        if ( IsArrayRefWithData( $GetParam{ShownAttributes} ) ) {
+            my @ShowAttributes = grep {defined} @{ $GetParam{ShownAttributes} };
+            $GetParam{ShownAttributes} = join ';', @ShowAttributes;
         }
 
         # if no profile is used, set default params of default attributes
@@ -1350,7 +1353,7 @@ sub Run {
                         }
                     }
 
-                    # convert possible values key => value to key => key for ACLs usign a Hash slice
+                    # convert possible values key => value to key => key for ACLs using a Hash slice
                     my %AclData = %{$Data};
                     @AclData{ keys %AclData } = keys %AclData;
 

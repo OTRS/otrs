@@ -68,24 +68,37 @@
     right: 33px;
 }
 
+.LoginScreen #Footer div.TopOfPage {
+    display: none;
+}
+
 .RTL #Footer div.TopOfPage {
     left: 33px;
     right: auto;
 }
 
 #Footer div.TopOfPage a {
-    background: transparent url(../img/arrow_top.png) no-repeat right;
     padding-left: 0;
     padding-right: 16px;
     font-weight: bold;
     color: #333;
+    position: relative;
+    display: block;
 }
 
 .RTL #Footer div.TopOfPage a {
-    background: transparent url(../img/arrow_top.png) no-repeat left;
     padding-left: 16px;
     padding-right: 0;
 }
 
+#Footer div.TopOfPage a i {
+    font-size: 17px;
+    position: absolute;
+    right: -3px;
+    top: -4px;
+}
 
+#Footer div.TopOfPage a:hover i {
+    text-decoration: none;
+}
 } /* end @media */

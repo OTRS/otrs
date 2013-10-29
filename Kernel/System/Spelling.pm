@@ -11,6 +11,7 @@ package Kernel::System::Spelling;
 
 use strict;
 use warnings;
+use utf8;
 
 use Kernel::System::FileTemp;
 

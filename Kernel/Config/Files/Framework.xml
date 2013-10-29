@@ -43,7 +43,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SystemID" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the system identifier. Every ticket number and http session string contain this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).</Description>
+        <Description Translatable="1">Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -59,7 +59,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="HttpType" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the type of protocol, used by ther web server, to serve the application. If https protocol will be used instead of plain http, it must be specified it here. Since this has no affect on the web server's settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.</Description>
+        <Description Translatable="1">Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server's settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -86,7 +86,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Organization" Required="1" Valid="1">
-        <Description Translatable="1">Company name for the customer web interface. Will also be included in emails as an X-Header.</Description>
+        <Description Translatable="1">Company name which will be included in outgoing emails as an X-Header.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -153,7 +153,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultTheme" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.</Description>
+        <Description Translatable="1">Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -295,6 +295,17 @@
     </ConfigItem>
     <ConfigItem Name="Frontend::RichText::EnhancedMode" Required="1" Valid="1">
         <Description Translatable="1">Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DisableMSIFrameSecurityRestricted" Required="0" Valid="1">
+        <Description Translatable="1">Disable restricted security for IFrames in IE. May be required for SSO to work in IE8.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -2832,7 +2843,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PGP" Required="1" Valid="1">
-        <Description Translatable="1">Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.</Description>
+        <Description Translatable="1">Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::PGP</SubGroup>
         <Setting>
@@ -2901,6 +2912,17 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="PGP::StoreDecryptedData" Required="1" Valid="1">
+        <Description Translatable="1">If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Crypt::PGP</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="SMIME" Required="1" Valid="1">
         <Description Translatable="1">Enables S/MIME support.</Description>
         <Group>Framework</Group>
@@ -2942,6 +2964,17 @@
         <SubGroup>Crypt::SMIME</SubGroup>
         <Setting>
             <String Regex="\d+">86400</String><!-- default 1 day -->
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="SMIME::StoreDecryptedData" Required="1" Valid="1">
+        <Description Translatable="1">If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Crypt::SMIME</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="NotificationSenderName" Required="1" Valid="1">
@@ -3970,13 +4003,17 @@ via the Preferences button after logging in.
                     <CSS>Core.Agent.Dashboard.css</CSS>
                     <CSS>Core.AllocationList.css</CSS>
                     <CSS>thirdparty/fullcalendar-1.6.1/fullcalendar.css</CSS>
+                    <CSS>thirdparty/d3js/nv.d3.css</CSS>
                     <JavaScript>thirdparty/flot-0.8.1/excanvas.js</JavaScript>
                     <JavaScript>thirdparty/flot-0.8.1/jquery.flot.js</JavaScript>
                     <JavaScript>Core.UI.Chart.js</JavaScript>
                     <JavaScript>Core.UI.DnD.js</JavaScript>
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
+                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
                     <JavaScript>Core.Agent.Dashboard.js</JavaScript>
                     <JavaScript>thirdparty/fullcalendar-1.6.1/fullcalendar.min.js</JavaScript>
+                    <JavaScript>thirdparty/d3js/d3.v3.min.js</JavaScript>
+                    <JavaScript>thirdparty/d3js/nv.d3.min.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -4020,6 +4057,7 @@ via the Preferences button after logging in.
                     <JavaScript>Core.UI.DnD.js</JavaScript>
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
                     <JavaScript>Core.Agent.Dashboard.js</JavaScript>
+                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -4297,8 +4335,8 @@ via the Preferences button after logging in.
                 <GroupRo></GroupRo>
                 <Group>admin</Group>
                 <Group>users</Group>
-                <Description>Edit Customers</Description>
-                <Title Translatable="1">Customers</Title>
+                <Description>Edit Customer Users</Description>
+                <Title Translatable="1">Customer Users</Title>
                 <NavBarName>Customers</NavBarName>
                 <NavBar>
                     <Name Translatable="1">Customer User Administration</Name>
@@ -4313,9 +4351,9 @@ via the Preferences button after logging in.
                 </NavBar>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name Translatable="1">Customers</Name>
+                    <Name Translatable="1">Customer User</Name>
                     <Block>Customer</Block>
-                    <Description Translatable="1">Create and manage customers.</Description>
+                    <Description Translatable="1">Create and manage customer users.</Description>
                     <Prio>300</Prio>
                 </NavBarModule>
                 <Loader>
@@ -4349,8 +4387,8 @@ via the Preferences button after logging in.
                 </NavBar>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name Translatable="1">Customer Companies</Name>
-                    <Description Translatable="1">Create and manage companies.</Description>
+                    <Name Translatable="1">Customers</Name>
+                    <Description Translatable="1">Create and manage customers.</Description>
                     <Block>Customer</Block>
                     <Prio>310</Prio>
                 </NavBarModule>
@@ -4379,8 +4417,8 @@ via the Preferences button after logging in.
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name Translatable="1">Customers &lt;-&gt; Groups</Name>
-                    <Description Translatable="1">Link customers to groups.</Description>
+                    <Name Translatable="1">Customer User &lt;-&gt; Groups</Name>
+                    <Description Translatable="1">Link customer user to groups.</Description>
                     <Block>Customer</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
@@ -4395,12 +4433,12 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title Translatable="1">Customers &lt;-&gt; Services</Title>
+                <Title Translatable="1">Customer User &lt;-&gt; Services</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name Translatable="1">Customers &lt;-&gt; Services</Name>
-                    <Description Translatable="1">Link customers to services.</Description>
+                    <Name Translatable="1">Customer User &lt;-&gt; Services</Name>
+                    <Description Translatable="1">Link customer user to services.</Description>
                     <Block>Customer</Block>
                     <Prio>500</Prio>
                 </NavBarModule>
@@ -4606,6 +4644,29 @@ via the Preferences button after logging in.
                 </NavBarModule>
                 <Loader>
                     <CSS>Core.Agent.Admin.PerformanceLog.css</CSS>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminRegistration" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">System Registration</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name Translatable="1">System Registration</Name>
+                    <Description Translatable="1">Manage system registration.</Description>
+                    <Block>System</Block>
+                    <Prio>350</Prio>
+                </NavBarModule>
+                <Loader>
+                    <CSS>Core.Agent.Admin.Registration.css</CSS>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -5345,7 +5406,7 @@ via the Preferences button after logging in.
                 <Item Key="Title">Out Of Office</Item>
                 <Item Key="Description"></Item>
                 <Item Key="IdleMinutes">60</Item>
-                <Item Key="SortBy">UserLastname</Item>
+                <Item Key="SortBy">UserFullname</Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Group"></Item>
@@ -5365,7 +5426,7 @@ via the Preferences button after logging in.
                 <Item Key="Description"></Item>
                 <Item Key="ShowEmail">0</Item>
                 <Item Key="IdleMinutes">60</Item>
-                <Item Key="SortBy">UserLastname</Item>
+                <Item Key="SortBy">UserFullname</Item>
                 <Item Key="Filter">Agent</Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Limit">10</Item>
@@ -5385,7 +5446,6 @@ via the Preferences button after logging in.
                 <Item Key="Title">OTRS News</Item>
                 <Item Key="Description"></Item>
                 <Item Key="URL">http://www.otrs.com/en/rss.xml</Item>
-M
                 <Item Key="URL_de">http://www.otrs.com/de/rss.xml</Item>
                 <Item Key="URL_es">http://www.otrs.com/es/rss.xml</Item>
                 <Item Key="URL_nl">http://www.otrs.com/nl/rss.xml</Item>
@@ -5687,7 +5747,7 @@ M
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Secure::DisableBanner" Required="0" Valid="0">
-        <Description Translatable="1">If enabled, the OTRS version tag will be removed from the HTTP headers.</Description>
+        <Description Translatable="1">If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -5836,6 +5896,7 @@ M
                 <Item>Core.Table.css</Item>
                 <Item>Core.TicketZoom.css</Item>
                 <Item>Core.Print.css</Item>
+                <Item>thirdparty/fontawesome/font-awesome.css</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -6049,7 +6110,7 @@ M
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Events###CustomerUser" Required="1" Valid="1">
-        <Description Translatable="1">Event list to be displayed on GUI</Description>
+        <Description Translatable="1">List of all CustomerUser events to be displayed in the GUI.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin</SubGroup>
         <Setting>
@@ -6060,7 +6121,7 @@ M
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Events###CustomerCompany" Required="1" Valid="1">
-        <Description Translatable="1">Event list to be displayed on GUI</Description>
+        <Description Translatable="1">List of all CustomerCompany events to be displayed in the GUI.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin</SubGroup>
         <Setting>
@@ -6169,6 +6230,16 @@ M
                 <Item Key="QueryDelay">100</Item>
                 <Item Key="MaxResultsDisplayed">20</Item>
                 <Item Key="ButtonText" Translatable="1">Search</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PossibleNextActions" Required="0" Valid="1">
+        <Description Translatable="1">Defines the list of possible next actions on an error screen.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Go to dashboard!">$Env{"CGIHandle"}?Action=AgentDashboard</Item>
             </Hash>
         </Setting>
     </ConfigItem>

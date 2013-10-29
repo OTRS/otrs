@@ -25,12 +25,11 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject MainObject)) {
+    for (qw(ConfigObject LogObject DBObject MainObject TimeObject EncodeObject TicketObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
-    $Self->{EmailObject}  = Kernel::System::Email->new( %{$Self} );
+    $Self->{EmailObject} = Kernel::System::Email->new( %{$Self} );
 
     return $Self;
 }

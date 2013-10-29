@@ -16,8 +16,6 @@ use Kernel::System::CacheInternal;
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::LinkObject - to link objects like tickets, faqs, ...
@@ -506,7 +504,7 @@ sub LinkAdd {
 
         return 1 if !$TypeData{Pointed};
         return 1 if $Existing{SourceObjectID} eq $Param{SourceObjectID}
-            && $Existing{SourceKey} eq $Param{SourceKey};
+                && $Existing{SourceKey} eq $Param{SourceKey};
 
         # log error
         $Self->{LogObject}->Log(

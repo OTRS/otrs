@@ -63,6 +63,16 @@ sub GetObjectName {
     return 'Ticketlist';
 }
 
+sub GetObjectBehaviours {
+    my ( $Self, %Param ) = @_;
+
+    my %Behaviours = (
+        ProvidesDashboardWidget => 0,
+    );
+
+    return %Behaviours;
+}
+
 sub GetObjectAttributes {
     my ( $Self, %Param ) = @_;
 
@@ -609,7 +619,7 @@ sub GetObjectAttributes {
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
 
-            # convert possible values key => value to key => key for ACLs usign a Hash slice
+            # convert possible values key => value to key => key for ACLs using a Hash slice
             my %AclData = %{ $PossibleValues || {} };
             @AclData{ keys %AclData } = keys %AclData;
 
@@ -1041,8 +1051,12 @@ sub GetStatTable {
 
     # find out if dynamic fields are required
     my $NeedDynamicFields = 0;
+    DYNAMICFIELDSNEEDED:
     for my $ParameterName ( sort keys %TicketAttributes ) {
-        $NeedDynamicFields = 1 if ( $ParameterName =~ m{\A DynamicField_ }xms );
+        if ( $ParameterName =~ m{\A DynamicField_ }xms ) {
+            $NeedDynamicFields = 1;
+            last DYNAMICFIELDSNEEDED;
+        }
     }
 
     # generate the ticket list
@@ -1196,7 +1210,7 @@ sub ExportWrapper {
                 }
             }
             elsif (
-                $ElementName eq 'OwnerIDs'
+                $ElementName    eq 'OwnerIDs'
                 || $ElementName eq 'CreatedUserIDs'
                 || $ElementName eq 'ResponsibleIDs'
                 )
@@ -1286,7 +1300,7 @@ sub ImportWrapper {
                 }
             }
             elsif (
-                $ElementName eq 'OwnerIDs'
+                $ElementName    eq 'OwnerIDs'
                 || $ElementName eq 'CreatedUserIDs'
                 || $ElementName eq 'ResponsibleIDs'
                 )

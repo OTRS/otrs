@@ -469,7 +469,7 @@ sub Run {
                 # check if field has PossibleValues property in its configuration
                 if ( IsHashRefWithData($PossibleValues) ) {
 
-                    # convert possible values key => value to key => key for ACLs usign a Hash slice
+                    # convert possible values key => value to key => key for ACLs using a Hash slice
                     my %AclData = %{$PossibleValues};
                     @AclData{ keys %AclData } = keys %AclData;
 
@@ -1127,7 +1127,7 @@ sub Run {
                 # check if field has PossibleValues property in its configuration
                 if ( IsHashRefWithData($PossibleValues) ) {
 
-                    # convert possible values key => value to key => key for ACLs usign a Hash slice
+                    # convert possible values key => value to key => key for ACLs using a Hash slice
                     my %AclData = %{$PossibleValues};
                     @AclData{ keys %AclData } = keys %AclData;
 
@@ -1674,10 +1674,14 @@ sub _Mask {
 
                 next USER if $SeenInvolvedAgents{ $User->{UserID} };
 
+                my $Value = "$Counter: $User->{UserFullname}";
+                if ( $User->{OutOfOfficeMessage} ) {
+                    $Value .= " $User->{OutOfOfficeMessage}";
+                }
+
                 push @InvolvedAgents, {
-                    Key => $User->{UserID},
-                    Value =>
-                        "$Counter: $User->{UserLastname} $User->{UserFirstname} ($User->{UserLogin})"
+                    Key   => $User->{UserID},
+                    Value => $Value,
                 };
                 $Counter++;
             }

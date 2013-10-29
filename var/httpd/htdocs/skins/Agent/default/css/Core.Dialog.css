@@ -56,18 +56,18 @@
     border-top-right-radius: 8px;
 }
 
-.Dialog > .Header .Close{
+.Dialog > .Header .Close {
     display: block;
     position: absolute;
     height: 12px;
     width: 12px;
-    background: url(../img/dialog_close.png) no-repeat;
     right: 8px;
     top: 7px;
+    color: #000;
 }
 
-.Dialog > .Header .Close:hover{
-    background-position: bottom;
+.Dialog > .Header .Close:hover i {
+    color: #E57633;
 }
 
 .Dialog > .Header h1 {
@@ -187,18 +187,30 @@
     max-height: 192px;
 }
 
+.Field.LayoutGrid .AllocationList.AvailableFields {
+    max-height: 155px;
+}
+
 .Dialog .Field.LayoutGrid .AllocationList.OrderNumbers {
     list-style: decimal inside;
-    padding-left: 5%;
-    width: 93%;
+}
+
+.FilterInputContainer {
+    width: 98%;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    background-color: #eee;
+}
+
+.FilterInputContainer input {
+    width: 95%;
+    display: block;
+    margin: 7px auto;
 }
 
 #ContextSettingsDialogOverviewSmall {
     width: 950px;
     max-height: 600px;
-}
-.Dialog .Field.LayoutGrid .AllocationList.SettingsOverview {
-    max-height: 500px;
 }
 
 

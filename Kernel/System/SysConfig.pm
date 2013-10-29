@@ -18,8 +18,6 @@ use Kernel::System::XML;
 use Kernel::Config;
 use Kernel::Language;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::SysConfig - to manage sys config settings
@@ -143,18 +141,12 @@ sub WriteDefault {
     my $File = '';
     my %UsedKeys;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
     # read all config files
     for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
         if ( $ConfigItem->{Name} && !$UsedKeys{ $ConfigItem->{Name} } ) {
+
             $UsedKeys{ $ConfigItem->{Name} } = 1;
+
             my %Config = $Self->ConfigItemGet(
                 Name    => $ConfigItem->{Name},
                 Default => 1,
@@ -168,8 +160,7 @@ sub WriteDefault {
             if ( $Config{Valid} ) {
                 $File .= "\$Self->{'$Name'} = " . $Self->_XML2Perl( Data => \%Config );
             }
-            elsif ( !$Config{Valid} && eval( '$Self->{ConfigDefaultObject}->{\'' . $Name . '\'}' ) )
-            {
+            elsif ( eval( '$Self->{ConfigDefaultObject}->{\'' . $Name . '\'}' ) ) {
                 $File .= "delete \$Self->{'$Name'};\n";
             }
         }
@@ -219,13 +210,6 @@ sub Download {
 
     my $Home = $Self->{Home};
 
-    # check needed stuff
-    for (qw()) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
     my $In;
     if ( !-e "$Home/Kernel/Config/Files/ZZZAuto.pm" ) {
         return '';
@@ -325,21 +309,17 @@ sub CreateConfig {
     # remember to update ZZZAAuto.pm and ZZZAuto.pm
     $Self->{Update} = 1;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
     # read all config files and only save the changed config options
     if ( !$Param{EmptyFile} ) {
+
         for my $ConfigItem ( @{ $Self->{XMLConfig} } ) {
+
             if ( $ConfigItem->{Name} && !$UsedKeys{ $ConfigItem->{Name} } ) {
+
                 my %Config = $Self->ConfigItemGet(
                     Name => $ConfigItem->{Name}
                 );
+
                 my %ConfigDefault = $Self->ConfigItemGet(
                     Name    => $ConfigItem->{Name},
                     Default => 1,
@@ -352,6 +332,7 @@ sub CreateConfig {
                 $Name =~ s/###/'}->{'/g;
 
                 if ( $Config{Valid} ) {
+
                     my $C = $Self->_XML2Perl( Data => \%Config );
                     my $D = $Self->_XML2Perl( Data => \%ConfigDefault );
                     my ( $A1, $A2 );
@@ -750,7 +731,7 @@ sub ConfigItemGet {
                     my %LoaderFiles;
                     for my $Key2 ( %{ $Hash{$Key} } ) {
                         if (
-                            $Key2 eq 'CSS'
+                            $Key2    eq 'CSS'
                             || $Key2 eq 'CSS_IE8'
                             || $Key2 eq 'JavaScript'
                             )
@@ -794,7 +775,7 @@ sub ConfigItemGet {
                             push(
                                 @{
                                     $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}
-                                },
+                                    },
                                 \%NavBar
                             );
                         }
@@ -894,7 +875,7 @@ sub ConfigItemGet {
                                 @{
                                     $ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]
                                         ->{Item}
-                                },
+                                    },
                                 {
                                     Year    => $Year,
                                     Month   => $Month,
@@ -1151,7 +1132,7 @@ sub ConfigSubGroupConfigItemList {
                                 push(
                                     @{
                                         $Data{ $Group->{Content} . '::' . $SubGroup->{Content} }
-                                    },
+                                        },
                                     $ConfigItem->{Name}
                                 );
                             }
@@ -1558,14 +1539,6 @@ sub _Init {
 
     my $Counter = 0;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
     # load xml config files
     if ( -e "$Self->{Home}/Kernel/Config/Files/" ) {
         my %Data;
@@ -1893,7 +1866,7 @@ sub _FileWriteAtomic {
 
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't open file $TempFilename!",
+            Message  => "Can't open file $TempFilename: $!",
         );
         return;
     }
@@ -1904,7 +1877,7 @@ sub _FileWriteAtomic {
     if ( !rename $TempFilename, $Param{Filename} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Could not rename $TempFilename to $Param{Filename}!"
+            Message  => "Could not rename $TempFilename to $Param{Filename}: $!"
         );
         return;
     }
@@ -2166,7 +2139,7 @@ sub _XML2Perl {
                 my %Loader;
                 for my $Key ( sort keys %{$Content} ) {
                     if (
-                        $Key eq 'CSS'
+                        $Key    eq 'CSS'
                         || $Key eq 'CSS_IE8'
                         || $Key eq 'JavaScript'
                         )
@@ -2183,7 +2156,9 @@ sub _XML2Perl {
                         }
                     }
                 }
-                $Hash{$Key} = \%Loader if (%Loader);
+                if (%Loader) {
+                    $Hash{$Key} = \%Loader;
+                }
             }
             else {
                 if ( $Key ne 'Content' ) {

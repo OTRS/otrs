@@ -107,7 +107,7 @@ else {
     die "User not added!\n";
 }
 
-for my $GroupID ( keys %Groups ) {
+for my $GroupID ( sort keys %Groups ) {
 
     my $Success = $CommonObject{GroupObject}->GroupMemberAdd(
         UID        => $Param{UID},

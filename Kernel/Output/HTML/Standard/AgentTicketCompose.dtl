@@ -21,6 +21,7 @@ $Include{"AgentCustomerSearch"}
     <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
             <h1>$Text{"Compose answer for ticket"}: $QData{"TicketNumber"} - $QData{"Title"}</h1>
+            <p class="AsteriskExplanation">$Text{"All fields marked with an asterisk (*) are mandatory."}</p>
 <!-- dtl:block:TicketBack -->
             <p>
                 <a class="CancelClosePopup" href="#">$Text{"Cancel & close window"}</a>
@@ -417,7 +418,7 @@ $Include{"RichTextEditor"}
             </div>
         </div>
         <div class="Footer">
-            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}"><span>$Text{"Submit"}</span></button>
+            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="$Text{"Send mail"} (g)" type="submit" value="$Text{"Send mail"}" ><span><i class="icon-envelope-alt"></i> $Text{"Send mail"}</span></button>
         </div>
     </div>
 </form>

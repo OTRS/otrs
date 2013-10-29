@@ -1,5 +1,5 @@
 // --
-// Core.Agent.Admin.GenericInterfaceMapping.js - provides the special module functions for the GenericInterface mapping.
+// Core.Agent.Admin.GenericInterfaceMappingSimple.js - provides the special module functions for the GenericInterface mapping.
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see

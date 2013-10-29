@@ -1633,7 +1633,7 @@ for my $DynamicFieldID (@AddedFieldIDs) {
 
     # create a get at the first and the last added fields
     next DYNAMICFIELD if $DynamicFieldID ne $AddedFieldIDs[0]
-        && $DynamicFieldID ne $AddedFieldIDs[-2];
+            && $DynamicFieldID ne $AddedFieldIDs[-2];
 
     my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
         ID     => $DynamicFieldID,

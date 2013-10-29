@@ -161,7 +161,7 @@ returns 1 if data matches criteria or undef otherwise
 sub IsArrayRefWithData {
     my $TestData = $_[0];
 
-    return if scalar @_ ne 1;
+    return if scalar @_     ne 1;
     return if ref $TestData ne 'ARRAY';
     return if !@{$TestData};
 
@@ -186,7 +186,7 @@ returns 1 if data matches criteria or undef otherwise
 sub IsHashRefWithData {
     my $TestData = $_[0];
 
-    return if scalar @_ ne 1;
+    return if scalar @_     ne 1;
     return if ref $TestData ne 'HASH';
     return if !%{$TestData};
 

@@ -24,8 +24,6 @@ use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::GenericInterface::Operation::Ticket::TicketCreate - GenericInterface Ticket TicketCreate Operation backend
@@ -1101,6 +1099,7 @@ creates a ticket with its article and sets dynamic fields and attachments if spe
         Success      => 0,                         # if unexpected error
         ErrorMessage => "$Param{ErrorCode}: $Param{ErrorMessage}",
     }
+
 =cut
 
 sub _TicketCreate {

@@ -36,7 +36,7 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # return do admin screen
+    # return to admin screen
     if ( $Self->{Subaction} eq 'Done' ) {
         return $Self->{LayoutObject}->Redirect( OP => 'Action=Admin' );
     }

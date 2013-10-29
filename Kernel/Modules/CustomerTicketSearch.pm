@@ -414,6 +414,7 @@ sub Run {
                         $GetParam{ $TimeType . 'TimeOlderMinutes' } = -$Time;
                     }
                     else {
+
                         # within last ...
                         $GetParam{ $TimeType . 'TimeOlderMinutes' } = 0;
                         $GetParam{ $TimeType . 'TimeNewerMinutes' } = $Time;

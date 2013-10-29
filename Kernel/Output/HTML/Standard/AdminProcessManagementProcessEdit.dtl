@@ -21,7 +21,7 @@
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction Center Fullsize Back"><span>$Text{"Go to overview"}</span></a>
                     </li>
                     <li>
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessPrint;ID=$QData{"ID"};$QEnv{"ChallengeTokenParam"}" class="CallForAction Fullsize Center AsPopup PopupType_ProcessOverview Print"><span>$Text{"Print process information"}</span></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessPrint;ID=$LQData{"ID"};$QEnv{"ChallengeTokenParam"}" class="CallForAction Fullsize Center AsPopup PopupType_ProcessOverview Print"><span>$Text{"Print process information"}</span></a>
                     </li>
 <!-- dtl:block:ProcessDeleteAction -->
                     <li>
@@ -164,7 +164,7 @@
             <div class="WidgetSimple Expanded">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Show or hide the content"}"></a>
+                        <a href="#" title="$Text{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Edit Process Information"}</h2>
                 </div>
@@ -218,7 +218,7 @@
             <div class="WidgetSimple">
                 <div class="Header Expanded">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Show or hide the content"}"></a>
+                        <a href="#" title="$Text{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Add and Edit Activities, Activity Dialogs and Transitions"}</h2>
                     <div class="CanvasActions">

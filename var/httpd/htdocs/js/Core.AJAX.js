@@ -199,7 +199,7 @@ Core.AJAX = (function (TargetNS) {
             else {
 
                 // Get previously saved cursor position of textarea
-                if (parent.$Element.data('Cursor')) {
+                if ($Element.parent().data('Cursor')) {
                     StartRange = parent.$Element.data('Cursor').StartRange;
                     EndRange = parent.$Element.data('Cursor').EndRange;
                 }

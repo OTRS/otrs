@@ -24,6 +24,7 @@ $Text{"Cancel"}
 $Text{"Reset"}
 
 $Text{"more than ... ago"}
+$Text{"in more than ..."}
 $Text{"within the last ..."}
 $Text{"within the next ..."}
 $Text{"Created within the last"}
@@ -168,6 +169,7 @@ $Text{"Changed by"}
 $Text{"Search"}
 $Text{"and"}
 $Text{"between"}
+$Text{"before/after"}
 $Text{"Fulltext Search"}
 $Text{"Data"}
 $Text{"Options"}
@@ -192,6 +194,7 @@ $Text{"Small"}
 $Text{"Medium"}
 $Text{"Large"}
 $Text{"Date picker"}
+$Text{"Show Tree Selection"}
 
 $Text{"New message"}
 $Text{"New message!"}
@@ -332,6 +335,8 @@ $Text{"No packages for your framework version found in this repository, it only 
 $Text{"No packages, or no new packages, found in selected repository."}
 $Text{"Edit the system configuration settings."}
 
+$Text{"ACL information from database is not in sync with the system configuration, please deploy all ACLs."}
+
 $Text{"printed at"}
 $Text{"Loading..."}
 
@@ -389,3 +394,12 @@ $Text{"Redo"}
 # scheduler
 $Text{"Scheduler process is registered but might not be running."}
 $Text{"Scheduler is not running."}
+
+# system registration
+$Text{"Can't contact registration server. Please try again later."}
+$Text{"No content received from registration server. Please try again later."}
+$Text{"Problems processing server result. Please try again later."}
+$Text{"Username and password do not match. Please try again."}
+
+# process management
+$Text{"The selected process is invalid!"}

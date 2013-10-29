@@ -1,5 +1,5 @@
 # --
-# Time.t - Time tests
+# TimeMachine.t - Time tests
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -12,7 +12,7 @@ use warnings;
 use vars (qw($Self));
 use utf8;
 
-## set time zone to get correct references
+# set time zone to get correct references
 #$ENV{TZ} = 'Europe/Berlin';
 
 use Kernel::System::Time;

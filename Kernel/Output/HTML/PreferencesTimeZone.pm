@@ -34,7 +34,7 @@ sub Param {
     return if $Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset');
     return
         if $Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset')
-        && !$Self->{LayoutObject}->{BrowserJavaScriptSupport};
+            && !$Self->{LayoutObject}->{BrowserJavaScriptSupport};
 
     my @Params = ();
     push(

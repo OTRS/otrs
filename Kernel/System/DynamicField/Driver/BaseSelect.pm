@@ -141,7 +141,7 @@ sub EditFieldRender {
     if ( $Param{UseDefaultValue} ) {
         $Value = ( defined $FieldConfig->{DefaultValue} ? $FieldConfig->{DefaultValue} : '' );
     }
-    $Value = $Param{Value} if defined $Param{Value};
+    $Value = $Param{Value} // $Value;
 
     # check if a value in a template (GenericAgent etc.)
     # is configured for this dynamic field
@@ -170,19 +170,22 @@ sub EditFieldRender {
     }
 
     # set field as mandatory
-    $FieldClass .= ' Validate_Required' if $Param{Mandatory};
+    if ( $Param{Mandatory} ) {
+        $FieldClass .= ' Validate_Required';
+    }
 
     # set error css class
-    $FieldClass .= ' ServerError' if $Param{ServerError};
+    if ( $Param{ServerError} ) {
+        $FieldClass .= ' ServerError';
+    }
 
     # set TreeView class
-    $FieldClass .= ' DynamicFieldWithTreeView' if $FieldConfig->{TreeView};
+    if ( $FieldConfig->{TreeView} ) {
+        $FieldClass .= ' DynamicFieldWithTreeView';
+    }
 
-    # set PossibleValues
-    my $PossibleValues = $Self->PossibleValuesGet(%Param);
-
-    # use PossibleValuesFilter if defined
-    $PossibleValues = $Param{PossibleValuesFilter} if defined $Param{PossibleValuesFilter};
+    # set PossibleValues, use PossibleValuesFilter if defined
+    my $PossibleValues = $Param{PossibleValuesFilter} // $Self->PossibleValuesGet(%Param);
 
     my $Size = 1;
 
@@ -222,11 +225,11 @@ sub EditFieldRender {
         # for client side validation
         $HTMLString .= <<"EOF";
 
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"This field is required."}
-        </p>
-    </div>
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"This field is required."}
+    </p>
+</div>
 EOF
     }
 
@@ -237,11 +240,12 @@ EOF
 
         # for server side validation
         $HTMLString .= <<"EOF";
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"$ErrorMessage"}
-        </p>
-    </div>
+
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"$ErrorMessage"}
+    </p>
+</div>
 EOF
     }
 
@@ -261,6 +265,7 @@ EOF
 
         # add js to call FormUpdate()
         $HTMLString .= <<"EOF";
+
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     \$('$FieldSelector').bind('change', function (Event) {
@@ -304,8 +309,12 @@ sub EditFieldValueGet {
         $Value = $Param{Template}->{$FieldName};
     }
 
-    # otherwise get dynamic field value from param
-    else {
+    # otherwise get dynamic field value from the web request
+    elsif (
+        defined $Param{ParamObject}
+        && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
+        )
+    {
         $Value = $Param{ParamObject}->GetParam( Param => $FieldName );
     }
 
@@ -440,7 +449,7 @@ sub SearchFieldRender {
     my @DefaultValue;
 
     if ( defined $Param{DefaultValue} ) {
-        my @DefaultValue = split /;/, $Param{DefaultValue};
+        @DefaultValue = split /;/, $Param{DefaultValue};
     }
 
     # set the field value
@@ -461,7 +470,9 @@ sub SearchFieldRender {
     my $FieldClass = 'DynamicFieldMultiSelect';
 
     # set TreeView class
-    $FieldClass .= ' DynamicFieldWithTreeView' if $FieldConfig->{TreeView};
+    if ( $FieldConfig->{TreeView} ) {
+        $FieldClass .= ' DynamicFieldWithTreeView';
+    }
 
     # set PossibleValues
     my $SelectionData = $FieldConfig->{PossibleValues};
@@ -479,8 +490,7 @@ sub SearchFieldRender {
     }
 
     # use PossibleValuesFilter if defined
-    $SelectionData = $Param{PossibleValuesFilter}
-        if defined $Param{PossibleValuesFilter};
+    $SelectionData = $Param{PossibleValuesFilter} // $SelectionData;
 
     # check if $SelectionData differs from configured PossibleValues
     # and show values which are not contained as disabled if TreeView => 1
@@ -489,7 +499,7 @@ sub SearchFieldRender {
         if ( keys %{ $FieldConfig->{PossibleValues} } != keys %{$SelectionData} ) {
 
             my @Values;
-            for my $Key ( keys %{ $FieldConfig->{PossibleValues} } ) {
+            for my $Key ( sort keys %{ $FieldConfig->{PossibleValues} } ) {
 
                 push @Values, {
                     Key      => $Key,
@@ -640,8 +650,7 @@ sub StatsFieldParameterBuild {
     }
 
     # use PossibleValuesFilter if defined
-    $Values = $Param{PossibleValuesFilter}
-        if defined $Param{PossibleValuesFilter};
+    $Values = $Param{PossibleValuesFilter} // $Values;
 
     return {
         Values             => $Values,

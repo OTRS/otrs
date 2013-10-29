@@ -17,8 +17,6 @@ use Kernel::System::DynamicFieldValue;
 
 use base qw(Kernel::System::DynamicField::Driver::BaseSelect);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::DynamicField::Driver::Multiselect
@@ -85,14 +83,10 @@ sub new {
         if ( $Extension->{Module} ) {
 
             # check if module can be loaded
-            if ( !$Self->{MainObject}->Require( $Extension->{Module} ) ) {
+            if ( !$Self->{MainObject}->RequireBaseClass( $Extension->{Module} ) ) {
                 die "Can't load dynamic fields backend module"
                     . " $Extension->{Module}! $@";
             }
-
-            # load the module
-            push @ISA, $Extension->{Module};
-
         }
 
         # check if extension contains more behabiors
@@ -150,24 +144,60 @@ sub ValueSet {
         @Values = ( $Param{Value} );
     }
 
-    my @ValueText;
+    my $Success;
     if ( IsArrayRefWithData( \@Values ) ) {
+
+        # if there is at least one value to set, this means one or more values are selected,
+        #    set those values!
+        my @ValueText;
         for my $Item (@Values) {
             push @ValueText, { ValueText => $Item };
         }
+
+        $Success = $Self->{DynamicFieldValueObject}->ValueSet(
+            FieldID  => $Param{DynamicFieldConfig}->{ID},
+            ObjectID => $Param{ObjectID},
+            Value    => \@ValueText,
+            UserID   => $Param{UserID},
+        );
     }
     else {
-        push @ValueText, { ValueText => '' };
+
+        # otherwise no value was selected, then in fact this means that any value there should be
+        # deleted
+        $Success = $Self->{DynamicFieldValueObject}->ValueDelete(
+            FieldID  => $Param{DynamicFieldConfig}->{ID},
+            ObjectID => $Param{ObjectID},
+            UserID   => $Param{UserID},
+        );
     }
 
-    my $Success = $Self->{DynamicFieldValueObject}->ValueSet(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
-        ObjectID => $Param{ObjectID},
-        Value    => \@ValueText,
-        UserID   => $Param{UserID},
-    );
-
     return $Success;
+}
+
+sub ValueIsDifferent {
+    my ( $Self, %Param ) = @_;
+
+    # special cases where the values are different but they should be reported as equals
+    if (
+        !defined $Param{Value1}
+        && ref $Param{Value2} eq 'ARRAY'
+        && !IsArrayRefWithData( $Param{Value2} )
+        )
+    {
+        return
+    }
+    if (
+        !defined $Param{Value2}
+        && ref $Param{Value1} eq 'ARRAY'
+        && !IsArrayRefWithData( $Param{Value1} )
+        )
+    {
+        return
+    }
+
+    # compare the results
+    return DataIsDifferent( Data1 => \$Param{Value1}, Data2 => \$Param{Value2} );
 }
 
 sub ValueValidate {
@@ -175,7 +205,7 @@ sub ValueValidate {
 
     # check value
     my @Values;
-    if ( IsArrayhRefWithData( $Param{Value} ) ) {
+    if ( IsArrayRefWithData( $Param{Value} ) ) {
         @Values = @{ $Param{Value} };
     }
     else {
@@ -210,7 +240,7 @@ sub EditFieldRender {
     if ( $Param{UseDefaultValue} ) {
         $Value = ( defined $FieldConfig->{DefaultValue} ? $FieldConfig->{DefaultValue} : '' );
     }
-    $Value = $Param{Value} if defined $Param{Value};
+    $Value = $Param{Value} // $Value;
 
     # check if a value in a template (GenericAgent etc.)
     # is configured for this dynamic field
@@ -239,19 +269,22 @@ sub EditFieldRender {
     }
 
     # set field as mandatory
-    $FieldClass .= ' Validate_Required' if $Param{Mandatory};
+    if ( $Param{Mandatory} ) {
+        $FieldClass .= ' Validate_Required';
+    }
 
     # set error css class
-    $FieldClass .= ' ServerError' if $Param{ServerError};
+    if ( $Param{ServerError} ) {
+        $FieldClass .= ' ServerError';
+    }
 
     # set TreeView class
-    $FieldClass .= ' DynamicFieldWithTreeView' if $FieldConfig->{TreeView};
+    if ( $FieldConfig->{TreeView} ) {
+        $FieldClass .= ' DynamicFieldWithTreeView';
+    }
 
-    # set PossibleValues
-    my $PossibleValues = $Self->PossibleValuesGet(%Param);
-
-    # use PossibleValuesFilter if defined
-    $PossibleValues = $Param{PossibleValuesFilter} if defined $Param{PossibleValuesFilter};
+    # set PossibleValues, use PossibleValuesFilter if defined
+    my $PossibleValues = $Param{PossibleValuesFilter} // $Self->PossibleValuesGet(%Param);
 
     # check value
     my $SelectedValuesArrayRef;
@@ -291,11 +324,11 @@ sub EditFieldRender {
         # for client side validation
         $HTMLString .= <<"EOF";
 
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"This field is required."}
-        </p>
-    </div>
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"This field is required."}
+    </p>
+</div>
 EOF
     }
 
@@ -306,11 +339,12 @@ EOF
 
         # for server side validation
         $HTMLString .= <<"EOF";
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"$ErrorMessage"}
-        </p>
-    </div>
+
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"$ErrorMessage"}
+    </p>
+</div>
 EOF
     }
 
@@ -330,6 +364,7 @@ EOF
 
         # add js to call FormUpdate()
         $HTMLString .= <<"EOF";
+
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     \$('$FieldSelector').bind('change', function (Event) {
@@ -373,8 +408,12 @@ sub EditFieldValueGet {
         $Value = $Param{Template}->{$FieldName};
     }
 
-    # otherwise get dynamic field value from param
-    else {
+    # otherwise get dynamic field value from the web request
+    elsif (
+        defined $Param{ParamObject}
+        && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
+        )
+    {
         my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
 
         $Value = \@Data;
@@ -493,23 +532,30 @@ sub DisplayValueRender {
         # cut strings if needed
         if ( $ValueMaxChars ne '' ) {
 
-            $ShowValueEllipsis = 1 if ( length $ReadableValue > $ValueMaxChars );
+            if ( length $ReadableValue > $ValueMaxChars ) {
+                $ShowValueEllipsis = 1;
+            }
             $ReadableValue = substr $ReadableValue, 0, $ValueMaxChars;
 
             # decrease the max parameter
             $ValueMaxChars = $ValueMaxChars - $ReadableLength;
-            $ValueMaxChars = 0 if $ValueMaxChars < 0;
-
+            if ( $ValueMaxChars < 0 ) {
+                $ValueMaxChars = 0;
+            }
         }
 
         if ( $TitleMaxChars ne '' ) {
 
-            $ShowTitleEllipsis = 1 if ( length $ReadableTitle > $ValueMaxChars );
+            if ( length $ReadableTitle > $ValueMaxChars ) {
+                $ShowTitleEllipsis = 1;
+            }
             $ReadableTitle = substr $ReadableTitle, 0, $TitleMaxChars;
 
             # decrease the max parameter
             $TitleMaxChars = $TitleMaxChars - $ReadableLength;
-            $TitleMaxChars = 0 if $TitleMaxChars < 0;
+            if ( $TitleMaxChars < 0 ) {
+                $TitleMaxChars = 0;
+            }
         }
 
         # HTMLOuput transformations
@@ -524,8 +570,12 @@ sub DisplayValueRender {
             );
         }
 
-        push @ReadableValues, $ReadableValue if length $ReadableValue;
-        push @ReadableTitles, $ReadableTitle if length $ReadableTitle;
+        if ( length $ReadableValue ) {
+            push @ReadableValues, $ReadableValue;
+        }
+        if ( length $ReadableTitle ) {
+            push @ReadableTitles, $ReadableTitle;
+        }
     }
 
     # get specific field settings
@@ -537,8 +587,12 @@ sub DisplayValueRender {
     $Value = join( $ItemSeparator, @ReadableValues );
     $Title = join( $ItemSeparator, @ReadableTitles );
 
-    $Value .= '...' if $ShowValueEllipsis;
-    $Title .= '...' if $ShowTitleEllipsis;
+    if ($ShowValueEllipsis) {
+        $Value .= '...';
+    }
+    if ($ShowTitleEllipsis) {
+        $Title .= '...';
+    }
 
     # this field type does not support the Link Feature
     my $Link;
@@ -630,8 +684,7 @@ sub StatsFieldParameterBuild {
     }
 
     # use PossibleValuesFilter if defined
-    $Values = $Param{PossibleValuesFilter}
-        if defined $Param{PossibleValuesFilter};
+    $Values = $Param{PossibleValuesFilter} // $Values;
 
     return {
         Values             => $Values,

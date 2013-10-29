@@ -12,8 +12,6 @@ package Kernel::System::TicketSearch;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 
@@ -1036,7 +1034,28 @@ sub TicketSearch {
                 # check search attribute, we do not need to search for *
                 next if $Text =~ /^\%{1,3}$/;
 
-                $SQLExtSub .= ' OR ' if ($Counter);
+                # validate data type
+                my $ValidateSuccess = $Self->{DynamicFieldBackendObject}->ValueValidate(
+                    DynamicFieldConfig => $DynamicField,
+                    Value              => $Text,
+                    UserID             => $Param{UserID},
+                );
+                if ( !$ValidateSuccess ) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message =>
+                            "Search not executed due to invalid value '"
+                            . $Text
+                            . "' on field '"
+                            . $DynamicField->{Name}
+                            . "'!",
+                    );
+                    return;
+                }
+
+                if ($Counter) {
+                    $SQLExtSub .= ' OR ';
+                }
                 $SQLExtSub .= $Self->{DynamicFieldBackendObject}->SearchSQLGet(
                     DynamicFieldConfig => $DynamicField,
                     TableAlias         => "dfv$DynamicFieldJoinCounter",

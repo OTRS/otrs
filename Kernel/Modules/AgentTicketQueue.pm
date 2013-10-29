@@ -54,7 +54,7 @@ sub new {
     $Self->{ViewAll} = $Self->{ParamObject}->GetParam( Param => 'ViewAll' )  || 0;
     $Self->{Start}   = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
     $Self->{Filter}  = $Self->{ParamObject}->GetParam( Param => 'Filter' )   || 'Unlocked';
-    $Self->{View}    = $Self->{ParamObject}->GetParam( Param => 'View' )     || 'Small';
+    $Self->{View}    = $Self->{ParamObject}->GetParam( Param => 'View' )     || '';
 
     return $Self;
 }
@@ -83,7 +83,16 @@ sub Run {
         Value     => $Self->{RequestedURL},
     );
 
-    # get the column filters from the web request
+    # get filters stored in the user preferences
+    my %Preferences = $Self->{UserObject}->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+    my $StoredFiltersKey = 'UserStoredFilterColumns-' . $Self->{Action};
+    my $StoredFilters    = $Self->{JSONObject}->Decode(
+        Data => $Preferences{$StoredFiltersKey},
+    );
+
+    # get the column filters from the web request or user preferences
     my %ColumnFilter;
     my %GetColumnFilter;
     COLUMNNAME:
@@ -91,22 +100,24 @@ sub Run {
         qw(Owner Responsible State Queue Priority Type Lock Service SLA CustomerID CustomerUserID)
         )
     {
+        # get column filter from web request
         my $FilterValue = $Self->{ParamObject}->GetParam( Param => 'ColumnFilter' . $ColumnName )
             || '';
-        next COLUMNNAME if $FilterValue eq '';
 
-        if (
-            $FilterValue eq 'DeleteFilter'
-            && (
-                $ColumnName eq 'CustomerID'
-                || $ColumnName eq 'CustomerUserID'
-                || $ColumnName eq 'Owner'
-                || $ColumnName eq 'Responsible'
-            )
-            )
-        {
-            next COLUMNNAME;
+        # if filter is not present in the web request, try with the user preferences
+        if ( $FilterValue eq '' ) {
+            if ( $ColumnName eq 'CustomerID' ) {
+                $FilterValue = $StoredFilters->{$ColumnName}->[0] || '';
+            }
+            elsif ( $ColumnName eq 'CustomerUserID' ) {
+                $FilterValue = $StoredFilters->{CustomerUserLogin}->[0] || '';
+            }
+            else {
+                $FilterValue = $StoredFilters->{ $ColumnName . 'IDs' }->[0] || '';
+            }
         }
+        next COLUMNNAME if $FilterValue eq '';
+        next COLUMNNAME if $FilterValue eq 'DeleteFilter';
 
         if ( $ColumnName eq 'CustomerID' ) {
             push @{ $ColumnFilter{$ColumnName} }, $FilterValue;
@@ -133,12 +144,20 @@ sub Run {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
         next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
 
+        # get filter from web request
         my $FilterValue = $Self->{ParamObject}->GetParam(
             Param => 'ColumnFilterDynamicField_' . $DynamicFieldConfig->{Name}
         );
 
+        # if no filter from web request, try from user preferences
+        if ( !defined $FilterValue || $FilterValue eq '' ) {
+            $FilterValue
+                = $StoredFilters->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }->{Equals};
+        }
+
         next DYNAMICFIELD if !defined $FilterValue;
         next DYNAMICFIELD if $FilterValue eq '';
+        next DYNAMICFIELD if $FilterValue eq 'DeleteFilter';
 
         $ColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = {
             Equals => $FilterValue,
@@ -251,6 +270,14 @@ sub Run {
         $Self->{LayoutObject}->FatalError( Message => "Invalid Filter: $Self->{Filter}!" );
     }
 
+    # lookup latest used view mode
+    if ( !$Self->{View} && $Self->{ 'UserTicketOverview' . $Self->{Action} } ) {
+        $Self->{View} = $Self->{ 'UserTicketOverview' . $Self->{Action} };
+    }
+
+    # otherwise use Preview as default as in LayoutTicket
+    $Self->{View} ||= 'Preview';
+
     # get personal page shown count
     my $PageShownPreferencesKey = 'UserTicketOverview' . $Self->{View} . 'PageShown';
     my $PageShown = $Self->{$PageShownPreferencesKey} || 10;
@@ -282,7 +309,6 @@ sub Run {
             )
             )
         {
-
             @OriginalViewableTickets = $Self->{TicketObject}->TicketSearch(
                 %{ $Filters{ $Self->{Filter} }->{Search} },
                 Limit  => $Limit,
@@ -292,7 +318,7 @@ sub Run {
             @ViewableTickets = $Self->{TicketObject}->TicketSearch(
                 %{ $Filters{ $Self->{Filter} }->{Search} },
                 %ColumnFilter,
-                Limit  => $Self->{Start} + 50,
+                Limit  => $Self->{Start} + $PageShown - 1,
                 Result => 'ARRAY',
             );
         }
@@ -302,13 +328,14 @@ sub Run {
     if ( $Self->{Subaction} eq 'AJAXFilterUpdate' ) {
 
         my $FilterContent = $Self->{LayoutObject}->TicketListShow(
-            FilterContentOnly => 1,
-            HeaderColumn      => $HeaderColumn,
-            ElementChanged    => $ElementChanged,
-            OriginalTicketIDs => \@OriginalViewableTickets,
-            Action            => 'AgentTicketStatusView',
-            Env               => $Self,
-            View              => $Self->{View},
+            FilterContentOnly   => 1,
+            HeaderColumn        => $HeaderColumn,
+            ElementChanged      => $ElementChanged,
+            OriginalTicketIDs   => \@OriginalViewableTickets,
+            Action              => 'AgentTicketStatusView',
+            Env                 => $Self,
+            View                => $Self->{View},
+            EnableColumnFilters => 1,
         );
 
         if ( !$FilterContent ) {
@@ -366,7 +393,7 @@ sub Run {
 
     my $ColumnFilterLink = '';
     COLUMNNAME:
-    for my $ColumnName ( keys %GetColumnFilter ) {
+    for my $ColumnName ( sort keys %GetColumnFilter ) {
         next COLUMNNAME if !$ColumnName;
         next COLUMNNAME if !defined $GetColumnFilter{$ColumnName};
         next COLUMNNAME if $GetColumnFilter{$ColumnName} eq '';
@@ -443,8 +470,9 @@ sub Run {
             LinkSort   => $LinkSort,
             LinkFilter => $LinkFilter,
 
-            OrderBy => $OrderBy,
-            SortBy  => $SortBy,
+            OrderBy             => $OrderBy,
+            SortBy              => $SortBy,
+            EnableColumnFilters => 1,
 
         ),
     );

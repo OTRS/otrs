@@ -9,7 +9,7 @@ use IO::Socket;
 use IO::Select;
 use Net::IMAP::Simple::PipeSocket;
 
-our $VERSION = "1.2200";
+our $VERSION = "1.2201";
 
 BEGIN {
     # I'd really rather the pause/cpan indexers miss this "package"
@@ -68,10 +68,12 @@ sub new {
 
                     if( -f $_ ) {
                         @{ $self->{ssl_options} } = (SSL_ca_file=>$_, SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_PEER());
+                        $nothing = 0;
                         last;
 
                     } elsif( -d $_ ) {
                         @{ $self->{ssl_options} } = (SSL_ca_path=>$_, SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_PEER());
+                        $nothing = 0;
                         last;
                     }
                 }

@@ -40,10 +40,6 @@ table.Overview {
     display: table-header-group;
 }
 
-.SearchResults thead {
-    background-position: 0 -54px;
-}
-
 .Overview thead th {
     padding: 0;
     vertical-align: bottom;

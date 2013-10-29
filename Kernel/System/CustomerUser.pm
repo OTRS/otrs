@@ -15,7 +15,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 use Kernel::System::EventHandler;
 
-use vars qw(@ISA);
+use base qw(Kernel::System::EventHandler);
 
 =head1 NAME
 
@@ -111,7 +111,6 @@ sub new {
     $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new( %{$Self} );
 
     # init of event handler
-    push @ISA, 'Kernel::System::EventHandler';
     $Self->EventHandlerInit(
         Config     => 'CustomerUser::EventModulePost',
         BaseObject => 'CustomerUserObject',
@@ -645,7 +644,7 @@ search in user preferences
 
     my %UserList = $CustomerUserObject->SearchPreferences(
         Key   => 'UserSomeKey',
-        Value => 'SomeValue',
+        Value => 'SomeValue',   # optional, limit to a certain value/pattern
     );
 
 =cut

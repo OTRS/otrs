@@ -9,43 +9,45 @@
 
 <table class="DataTable">
     <thead>
-<!-- dtl:block:ContentLargeTicketGenericHeaderStatus -->
-        <th>$Text{"$Data{"Text"}"}</th>
-<!-- dtl:block:ContentLargeTicketGenericHeaderStatus -->
-        <th class="QueueOverviewTotals">$Text{"Totals"}</th>
+        <tr>
+<!-- dtl:block:ContentLargeTicketQueueOverviewHeaderStatus -->
+            <th>$Text{"$Data{"Text"}"}</th>
+<!-- dtl:block:ContentLargeTicketQueueOverviewHeaderStatus -->
+            <th class="QueueOverviewTotals">$Text{"Totals"}</th>
+        </tr>
     </thead>
     <tbody>
-<!-- dtl:block:ContentLargeTicketGenericQueueName -->
+<!-- dtl:block:ContentLargeTicketQueueOverviewQueueName -->
         <tr class="Row">
             <td>$Text{"$Data{"QueueName"}"}</td>
-<!-- dtl:block:ContentLargeTicketGenericQueueResults -->
+<!-- dtl:block:ContentLargeTicketQueueOverviewQueueResults -->
             <td><a class="AsBlock" href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;$QEnv{"ChallengeTokenParam"};StateIDs=$LQData{"StateID"};QueueIDs=$LQData{"QueueID"};$QData{"Sort"}">$Text{"$Data{"Number"}"}</a></td>
-<!-- dtl:block:ContentLargeTicketGenericQueueResults -->
-<!-- dtl:block:ContentLargeTicketGenericQueueTotal -->
+<!-- dtl:block:ContentLargeTicketQueueOverviewQueueResults -->
+<!-- dtl:block:ContentLargeTicketQueueOverviewQueueTotal -->
             <td><a class="QueueOverviewTotals AsBlock" href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;$QEnv{"ChallengeTokenParam"};QueueIDs=$LQData{"QueueID"};$QData{"StateIDs"};$QData{"Sort"}">$Text{"$Data{"Number"}"}</a></td>
-<!-- dtl:block:ContentLargeTicketGenericQueueTotal -->
+<!-- dtl:block:ContentLargeTicketQueueOverviewQueueTotal -->
         </tr>
-<!-- dtl:block:ContentLargeTicketGenericQueueName -->
-<!-- dtl:block:ContentLargeTicketGenericStatusTotalRow -->
+<!-- dtl:block:ContentLargeTicketQueueOverviewQueueName -->
+<!-- dtl:block:ContentLargeTicketQueueOverviewStatusTotalRow -->
         <tr class="Row">
             <td class="QueueOverviewTotals">$Text{"Totals"}</td>
-<!-- dtl:block:ContentLargeTicketGenericStatusTotal -->
+<!-- dtl:block:ContentLargeTicketQueueOverviewStatusTotal -->
             <td class="QueueOverviewTotals"><a class="AsBlock" href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;$QEnv{"ChallengeTokenParam"};StateIDs=$LQData{"StateID"};$QData{"QueueIDs"};$QData{"Sort"}">$Text{"$Data{"Number"}"}</a></td>
-<!-- dtl:block:ContentLargeTicketGenericStatusTotal -->
+<!-- dtl:block:ContentLargeTicketQueueOverviewStatusTotal -->
             <td class="QueueOverviewTotals"></td>
         </tr>
-<!-- dtl:block:ContentLargeTicketGenericStatusTotalRow -->
-<!-- dtl:block:ContentLargeTicketGenericNone -->
+<!-- dtl:block:ContentLargeTicketQueueOverviewStatusTotalRow -->
+<!-- dtl:block:ContentLargeTicketQueueOverviewNone -->
         <tr>
-            <td>
-                $Text{"none"}
+            <td colspan="$QData{"ColumnCount"}">
+                $Text{"No data found."}
             </td>
         </tr>
-<!-- dtl:block:ContentLargeTicketGenericNone -->
+<!-- dtl:block:ContentLargeTicketQueueOverviewNone -->
     </tbody>
 </table>
 
-<!-- dtl:block:ContentLargeTicketGenericRefresh -->
+<!-- dtl:block:ContentLargeTicketQueueOverviewRefresh -->
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 Core.Config.Set('RefreshSeconds_$QData{"NameHTML"}', parseInt("$QData{"RefreshTime"}", 10) || 0);
@@ -64,4 +66,4 @@ if (Core.Config.Get('RefreshSeconds_$QData{"NameHTML"}')) {
 }
 //]]></script>
 <!-- dtl:js_on_document_complete -->
-<!-- dtl:block:ContentLargeTicketGenericRefresh -->
+<!-- dtl:block:ContentLargeTicketQueueOverviewRefresh -->

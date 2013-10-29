@@ -160,13 +160,12 @@ sub _Fetch {
             my $MessageSize = $IMAPObject->list($Messageno);
             if ( $MessageSize > ( $MaxEmailSize * 1024 ) ) {
 
-                # convert sizes to MB
-                my $MessageSizeMB  = int( $MessageSize /  ( 1024 * 1024 ) );
-                my $MaxEmailSizeMB = int( $MaxEmailSize / ( 1024 * 1024 ) );
+                # convert size to KB, log error
+                my $MessageSizeKB = int( $MessageSize / (1024) );
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message => "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. "
-                        . "Email too big ($MessageSizeMB MB - max $MaxEmailSizeMB MB)!",
+                        . "Email too big ($MessageSizeKB KB - max $MaxEmailSize KB)!",
                 );
             }
             else {

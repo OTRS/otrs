@@ -106,7 +106,7 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
             # log PID file cannot be deleted
             $CommonObject{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Scheduler could not delete PID file! $!",
+                Message  => "Scheduler could not delete PID file:'$PIDFILE'! $!",
             );
         }
     }
@@ -379,7 +379,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     # otherwise stop if we can't write the PID on the PID file
     else {
         my $ExitCode = _AutoStop(
-            Message   => "Can not write into the PIDFILE: $!",
+            Message   => "Can not write into the PID file:'$RunDir/scheduler.pid'! $!",
             DeletePID => 1,
         );
         exit $ExitCode;
@@ -633,7 +633,7 @@ sub _AutoStop {
                 # log PID file cannot be deleted
                 $CommonObject{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Scheduler could not delete PID file! $!",
+                    Message  => "Scheduler could not delete PID file:'$PIDFILE'! $!",
                 );
                 $ExitCode = 1;
                 return $ExitCode;

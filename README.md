@@ -6,7 +6,7 @@ AFFERO General Public License (AGPL) and tested on Linux, Solaris, AIX,
 Windows, FreeBSD, OpenBSD and Mac OS 10.x. Do you receive many e-mails and
 want to answer them with a team of agents? You're going to love OTRS!
 
-You can find a list of features in the [online documentation](http://doc.otrs.org/3.2/en/html/features-of-otrs.html).
+You can find a list of features in the [online documentation](http://doc.otrs.org/3.3/en/html/features-of-otrs.html).
 
 
 License
@@ -119,7 +119,7 @@ Directories & Files
     |           |--- /GenericInterface/*.pm (all DB related GenericInterface modules)
     |           |--- /Group.pm       (group module)
     |           |--- /Log.pm         (log module)
-    |           |--- /Queue.pm       (information about queues. e. g. response teplates, ...)
+    |           |--- /Queue.pm       (information about queues. e. g. response templates, ...)
     |           |--- /Scheduler      (Scheduler files)
     |                 |--- /TaskHandler/ (task handler backends for the Scheduler)
     |           |--- /Ticket.pm      (ticket and article functions)

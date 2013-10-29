@@ -371,6 +371,7 @@ sub Run {
                 Data => {
                     OrderBy   => $OrderBy,
                     QueueSort => $QueueSort,
+                    Filter    => $Self->{Filter},
                 },
             );
         }

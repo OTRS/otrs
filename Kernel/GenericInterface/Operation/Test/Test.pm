@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::GenericInterface::Operation::Test - GenericInterface Operation Test backend

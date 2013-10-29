@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::Output::HTML::LayoutTicket - all Ticket-related HTML functions
@@ -28,8 +26,8 @@ All Ticket-related HTML functions
 
 =over 4
 
-=item AgentCustomerViewTable
-   ...
+=item AgentCustomerViewTable()
+
 =cut
 
 sub AgentCustomerViewTable {
@@ -146,18 +144,20 @@ sub AgentCustomerViewTable {
             {
                 my $CompanyValidID = $Param{Data}->{CustomerCompanyValidID};
 
-                if ( !$Self->{MainObject}->Require('Kernel::System::Valid') ) {
-                    $Self->FatalDie();
-                }
+                if ($CompanyValidID) {
+                    if ( !$Self->{MainObject}->Require('Kernel::System::Valid') ) {
+                        $Self->FatalDie();
+                    }
 
-                my $ValidObject    = Kernel::System::Valid->new( %{$Self} );
-                my @ValidIDs       = $ValidObject->ValidIDsGet();
-                my $CompanyIsValid = grep { $CompanyValidID == $_ } @ValidIDs;
+                    my $ValidObject    = Kernel::System::Valid->new( %{$Self} );
+                    my @ValidIDs       = $ValidObject->ValidIDsGet();
+                    my $CompanyIsValid = grep { $CompanyValidID == $_ } @ValidIDs;
 
-                if ( !$CompanyIsValid ) {
-                    $Self->Block(
-                        Name => 'CustomerRowCustomerCompanyInvalid',
-                    );
+                    if ( !$CompanyIsValid ) {
+                        $Self->Block(
+                            Name => 'CustomerRowCustomerCompanyInvalid',
+                        );
+                    }
                 }
             }
         }
@@ -366,7 +366,7 @@ sub AgentQueueListOption {
                 $OptionTitleHTMLValue = ' title="' . $HTMLValue . '"';
             }
             if (
-                $SelectedID eq $_
+                $SelectedID  eq $_
                 || $Selected eq $Param{Data}->{$_}
                 || $Param{SelectedIDRefArrayOK}->{$_}
                 )

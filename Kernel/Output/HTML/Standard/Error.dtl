@@ -74,7 +74,7 @@ $('#GoBack').bind('click', function (Event) {
         <div class="WidgetSimple Collapsed SpacingTop">
             <div class="Header">
                 <div class="WidgetAction Toggle">
-                    <a href="#" title="$Text{"Expand"}"><span></span></a>
+                    <a href="#" title="$Text{"Expand"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                 </div>
                 <h2>$Text{"Error Details"}</h2>
             </div>

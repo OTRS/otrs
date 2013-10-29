@@ -443,7 +443,7 @@ DYNAMICFIELDLOOP:
 for my $Fieldname ( sort keys %NewDynamicFields ) {
     next DYNAMICFIELDLOOP
         if (
-        $NewDynamicFields{$Fieldname}{FieldType} ne 'Dropdown'
+        $NewDynamicFields{$Fieldname}{FieldType}    ne 'Dropdown'
         && $NewDynamicFields{$Fieldname}{FieldType} ne 'Multiselect'
         && $NewDynamicFields{$Fieldname}{FieldType} ne 'Checkbox'
         );
@@ -1030,7 +1030,7 @@ for my $Fieldname ( sort keys %NewDynamicFields ) {
     # skip the loop if we have no fields with defaultvalues
     next DYNAMICFIELDLOOP
         if (
-        $NewDynamicFields{$Fieldname}{FieldType} ne 'Dropdown'
+        $NewDynamicFields{$Fieldname}{FieldType}    ne 'Dropdown'
         && $NewDynamicFields{$Fieldname}{FieldType} ne 'Multiselect'
         && $NewDynamicFields{$Fieldname}{FieldType} ne 'Checkbox'
         );

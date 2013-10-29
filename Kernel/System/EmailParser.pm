@@ -745,7 +745,7 @@ sub PartsAttachments {
     elsif ( $PartData{ContentType} eq 'message/rfc822' ) {
         my ($SubjectString) = $Part->as_string() =~ m/^Subject: ([^\n]*(\n[ \t][^\n]*)*)/m;
         my $Subject;
-        foreach my $Decoded ( $Self->_DecodeMimewords( String => $SubjectString ) ) {
+        for my $Decoded ( $Self->_DecodeMimewords( String => $SubjectString ) ) {
             if ( $Decoded->[0] ) {
                 $Subject .= $Self->{EncodeObject}->Convert2CharsetInternal(
                     Text  => $Decoded->[0],
@@ -943,7 +943,7 @@ Wrapper for MIME::Words::decode_mimewords().
 This wrapper joins splitted quoted strings since the original split might not always split the lines
 in the corect byte (e.g. for utf-8 encoded strings), see bug$9418 for more details
 
-    my $Result = $Self->_DecodeMimewords(
+    my $Result = $ParserObject->_DecodeMimewords(
         String => 'some text',
     );
 

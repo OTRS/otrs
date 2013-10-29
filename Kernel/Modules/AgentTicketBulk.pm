@@ -106,10 +106,14 @@ sub Run {
             qw(OwnerID Owner ResponsibleID Responsible PriorityID Priority QueueID Queue Subject
             Body ArticleTypeID ArticleType TypeID StateID State MergeToSelection MergeTo LinkTogether
             EmailSubject EmailBody EmailTimeUnits
-            LinkTogetherParent Unlock MergeToChecked MergeToOldestChecked TimeUnits)
+            LinkTogetherParent Unlock MergeToChecked MergeToOldestChecked)
             )
         {
             $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key ) || '';
+        }
+
+        for my $Key (qw(TimeUnits)) {
+            $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
         }
 
         # get time stamp based on user time zone
@@ -397,13 +401,16 @@ sub Run {
                         DynamicFields => 0,
                     );
 
+                    # use ReplyTo if set, otherwise use From
+                    $Customer = $Data{ReplyTo} ? $Data{ReplyTo} : $Data{From};
+
                     # check article type and replace To with From (in case)
                     if ( $Data{SenderType} !~ /customer/ ) {
 
                         # replace From/To, To/From because sender is agent
-                        $Data{From} = $Data{To};
+                        $Customer = $Data{To};
                     }
-                    $Customer = $Data{From};
+
                 }
 
                 # generate sender name

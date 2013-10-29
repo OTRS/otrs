@@ -282,7 +282,7 @@
 </div>
 
 <div class="ContentFooter Center">
-    <button id="SearchFormSubmit" class="Primary" value="Run search">$Text{"Run search"}</button>
+    <button id="SearchFormSubmit" class="Primary CallForAction" value="Run search"><span><i class="icon-search"></i> $Text{"Run search"}</span></button>
 </div>
 
 <script type="text/javascript">//<![CDATA[

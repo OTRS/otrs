@@ -88,7 +88,11 @@
 <!-- dtl:block:Meta -->
 <!-- dtl:block:MetaIcon -->
             <div class="$QData{"Class"}" title="$Text{"$Data{"Title"}"}">
-                <span class="$QData{"ClassSpan"}">$Text{"$Data{"Title"}"}</span>
+                <span class="$QData{"ClassSpan"}">
+                    <i class="icon-star"></i>
+                    <i class="icon-star"></i>
+                    <em>$Text{"$Data{"Title"}"}</em>
+                </span>
             </div>
 <!-- dtl:block:MetaIcon -->
 <!-- dtl:block:Meta -->
@@ -188,7 +192,7 @@
                             <td>
                                 <label>$Text{"$Data{"Label"}"}</label>
 <!-- dtl:block:DynamicFieldTableRowRecordLink -->
-                                <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a></div>
+                                <div title="$Data{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></div>
 <!-- dtl:block:DynamicFieldTableRowRecordLink -->
 <!-- dtl:block:DynamicFieldTableRowRecordPlain -->
                                 <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
@@ -206,7 +210,7 @@
 #                        <td>
 #                            <label>$Text{"$Data{"Label"}"}</label>
 #<!-- dtl:block:DynamicField_Field1_TableRowRecordLink -->
-#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a></div>
+#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></div>
 #<!-- dtl:block:DynamicField_Field1_TableRowRecordLink -->
 #<!-- dtl:block:DynamicField_Field1_TableRowRecordPlain -->
 #                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
@@ -219,7 +223,7 @@
 #                        <td>
 #                            <label>$Text{"$Data{"Label"}"}</label>
 #<!-- dtl:block:DynamicField_Field2_TableRowRecordLink -->
-#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a></div>
+#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></div>
 #<!-- dtl:block:DynamicField_Field2_TableRowRecordLink -->
 #<!-- dtl:block:DynamicField_Field2_TableRowRecordPlain -->
 #                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
@@ -359,6 +363,11 @@ $Data{"Body"}
             return false;
         }
 
+        // prevent MasterAction on Dynamic Fields links
+        if ($(Event.target).hasClass('DynamicFieldLink')) {
+            return true;
+        }
+
         // only act if the link was not clicked directly
         if (Event.target !== $MasterActionLink.get(0)) {
             window.location = $MasterActionLink.attr('href');
@@ -382,10 +391,6 @@ $Data{"Body"}
         }
 
         Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
-        return false;
-    });
-    $('a.DynamicFieldLink').bind('click', function (Event) {
-        Core.UI.Popup.OpenPopup($(this).attr('href'), 'DynamicFieldLink');
         return false;
     });
 //]]></script>

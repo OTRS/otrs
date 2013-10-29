@@ -17,8 +17,6 @@ use Kernel::System::DynamicFieldValue;
 
 use base qw(Kernel::System::DynamicField::Driver::BaseText);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::DynamicField::Driver::TextArea
@@ -89,14 +87,10 @@ sub new {
         if ( $Extension->{Module} ) {
 
             # check if module can be loaded
-            if ( !$Self->{MainObject}->Require( $Extension->{Module} ) ) {
+            if ( !$Self->{MainObject}->RequireBaseClass( $Extension->{Module} ) ) {
                 die "Can't load dynamic fields backend module"
                     . " $Extension->{Module}! $@";
             }
-
-            # load the module
-            push @ISA, $Extension->{Module};
-
         }
 
         # check if extension contains more behabiors
@@ -126,7 +120,7 @@ sub EditFieldRender {
     if ( $Param{UseDefaultValue} ) {
         $Value = ( defined $FieldConfig->{DefaultValue} ? $FieldConfig->{DefaultValue} : '' );
     }
-    $Value = $Param{Value} if defined $Param{Value};
+    $Value = $Param{Value} // $Value;
 
     # extract the dynamic field value form the web request
     my $FieldValue = $Self->EditFieldValueGet(
@@ -153,10 +147,14 @@ sub EditFieldRender {
     }
 
     # set field as mandatory
-    $FieldClass .= ' Validate_Required' if $Param{Mandatory};
+    if ( $Param{Mandatory} ) {
+        $FieldClass .= ' Validate_Required';
+    }
 
     # set error css class
-    $FieldClass .= ' ServerError' if $Param{ServerError};
+    if ( $Param{ServerError} ) {
+        $FieldClass .= ' ServerError';
+    }
 
     # set validation class for maximum characters
     $FieldClass .= ' Validate_MaxLength';
@@ -181,20 +179,20 @@ EOF
 
     if ( $Param{Mandatory} ) {
         $HTMLString .= <<"EOF";
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"This field is required or The field content is too long! Maximum size is $Self->{MaxLength} characters."}
-        </p>
-    </div>
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"This field is required or The field content is too long! Maximum size is $Self->{MaxLength} characters."}
+    </p>
+</div>
 EOF
     }
     else {
         $HTMLString .= <<"EOF";
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"The field content is too long! Maximum size is $Self->{MaxLength} characters."}
-        </p>
-    </div>
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"The field content is too long! Maximum size is $Self->{MaxLength} characters."}
+    </p>
+</div>
 EOF
     }
 
@@ -205,11 +203,11 @@ EOF
 
         # for server side validation
         $HTMLString .= <<"EOF";
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"$ErrorMessage"}
-        </p>
-    </div>
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"$ErrorMessage"}
+    </p>
+</div>
 EOF
     }
 

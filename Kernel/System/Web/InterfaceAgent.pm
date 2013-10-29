@@ -12,8 +12,6 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 use warnings;
 
-use vars qw(@INC);
-
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::Main;

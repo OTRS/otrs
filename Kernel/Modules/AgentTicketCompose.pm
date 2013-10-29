@@ -616,7 +616,7 @@ sub Run {
                 # check if field has PossibleValues property in its configuration
                 if ( IsHashRefWithData($PossibleValues) ) {
 
-                    # convert possible values key => value to key => key for ACLs usign a Hash slice
+                    # convert possible values key => value to key => key for ACLs using a Hash slice
                     my %AclData = %{$PossibleValues};
                     @AclData{ keys %AclData } = keys %AclData;
 
@@ -699,7 +699,7 @@ sub Run {
                     %GetParam,
                 ),
                 ResponseFormat => $Self->{LayoutObject}->Ascii2Html( Text => $GetParam{Body} ),
-                Errors         => \%Error,
+                Errors => \%Error,
                 MultipleCustomer    => \@MultipleCustomer,
                 MultipleCustomerCc  => \@MultipleCustomerCc,
                 MultipleCustomerBcc => \@MultipleCustomerBcc,
@@ -961,7 +961,7 @@ sub Run {
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
 
-            # convert possible values key => value to key => key for ACLs usign a Hash slice
+            # convert possible values key => value to key => key for ACLs using a Hash slice
             my %AclData = %{$PossibleValues};
             @AclData{ keys %AclData } = keys %AclData;
 
@@ -1257,7 +1257,7 @@ sub Run {
                 # add customers database address to Cc
                 else {
                     $Output .= $Self->{LayoutObject}->Notify(
-                        Info => "Customer automatically added in Cc.",
+                        Info => "Customer user automatically added in Cc.",
                     );
                     if ( $Data{Cc} ) {
                         $Data{Cc} .= ', ' . $Customer{UserEmail};
@@ -1421,7 +1421,7 @@ $QData{"Signature"}
                 # check if field has PossibleValues property in its configuration
                 if ( IsHashRefWithData($PossibleValues) ) {
 
-                    # convert possible values key => value to key => key for ACLs usign a Hash slice
+                    # convert possible values key => value to key => key for ACLs using a Hash slice
                     my %AclData = %{$PossibleValues};
                     @AclData{ keys %AclData } = keys %AclData;
 

@@ -672,7 +672,7 @@ Your OTRS Team
 
     <Insert Table="ticket_type">
         <Data Key="id" Type="AutoIncrement">1</Data>
-        <Data Key="name" Type="Quote">default</Data>
+        <Data Key="name" Type="Quote">Unclassified</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>

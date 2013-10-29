@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2013-08-06 14:11:35
+--  driver: oracle, generated: 2013-08-23 08:59:10
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 SET SQLBLANKLINES ON;
@@ -393,7 +393,7 @@ Your OTRS Team
 -- ----------------------------------------------------------
 INSERT INTO ticket_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('default', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Unclassified', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table ticket_priority
 -- ----------------------------------------------------------

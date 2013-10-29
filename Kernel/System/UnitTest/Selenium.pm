@@ -8,6 +8,7 @@
 # --
 
 package Kernel::System::UnitTest::Selenium;
+## nofilter(TidyAll::Plugin::OTRS::Perl::Goto)
 
 use strict;
 use warnings;

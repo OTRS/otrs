@@ -700,7 +700,8 @@ sub _Overview {
                     Name => 'OverviewResultRow',
                     Data => {
                         Valid => $ValidList{ $UserData{ValidID} || '' } || '-',
-                        Search => $Param{Search},
+                        Search      => $Param{Search},
+                        CustomerKey => $ListKey,
                         %UserData,
                     },
                 );
@@ -708,7 +709,8 @@ sub _Overview {
                     $Self->{LayoutObject}->Block(
                         Name => 'OverviewResultRowLinkNone',
                         Data => {
-                            Search => $Param{Search},
+                            Search      => $Param{Search},
+                            CustomerKey => $ListKey,
                             %UserData,
                         },
                     );
@@ -717,8 +719,9 @@ sub _Overview {
                     $Self->{LayoutObject}->Block(
                         Name => 'OverviewResultRowLink',
                         Data => {
-                            Search => $Param{Search},
-                            Nav    => $Param{Nav},
+                            Search      => $Param{Search},
+                            Nav         => $Param{Nav},
+                            CustomerKey => $ListKey,
                             %UserData,
                         },
                     );
@@ -727,6 +730,7 @@ sub _Overview {
                 if (
                     $Self->{ConfigObject}->Get('SwitchToCustomer')
                     && $Self->{SwitchToCustomerPermission}
+                    && $Param{Nav} ne 'None'
                     )
                 {
                     $Self->{LayoutObject}->Block(
@@ -1045,7 +1049,7 @@ sub _Edit {
                                 Data => {%Param},
                             );
                             if (
-                                ref $ParamItem->{Data} eq 'HASH'
+                                ref $ParamItem->{Data}   eq 'HASH'
                                 || ref $Preference{Data} eq 'HASH'
                                 )
                             {

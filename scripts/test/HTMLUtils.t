@@ -334,7 +334,7 @@ bgColor=#ffffff>
 for my $Test (@Tests) {
 
     # these 2 lines are for Windows check-out
-    $Test->{Input} =~ s{\r\n}{\n}smxg;
+    $Test->{Input}  =~ s{\r\n}{\n}smxg;
     $Test->{Result} =~ s{\r\n}{\n}smxg;
     my $Ascii = $HTMLUtilsObject->DocumentStrip(
         String => $Test->{Input},

@@ -168,26 +168,17 @@
 }
 
 #UserInfo a.LogoutButton {
-    top: 4px;
-    right: 0;
+    top: 0px;
+    right: -4px;
     width: 20px;
-    height: 18px;
-    text-indent: -9999px;
-    background: url(../img/logout_sprite.png) no-repeat left top;
+    height: 20px;
+    font-size: 20px;
     position: absolute;
 }
 
 .RTL #UserInfo a.LogoutButton {
     right: auto;
     left: 0;
-}
-
-#UserInfo a:hover.LogoutButton {
-    background-position: left bottom;
-}
-
-.RTL #UserInfo a:hover.LogoutButton {
-    background-position: right bottom;
 }
 
 /**
@@ -227,16 +218,28 @@
 #Navigation > li > a {
     display: block;
     height: 24px;
-    padding: 3px 26px 5px 4px;
+    padding: 3px 15px 5px 4px;
     font-size: 13px;
     font-weight: 600;
     line-height: 12px;
     color: #DDD;
-    text-transform: uppercase;
+}
+
+#Navigation > li > a#GlobalSearchNav {
+    padding-right: 26px;
+}
+
+#Navigation > li > a#GlobalSearchNav i {
+    font-size: 15px;
 }
 
 .RTL #Navigation > li > a {
-    padding: 4px 4px 3px 26px;
+    padding: 4px 4px 3px 15px;
+}
+
+.RTL #Navigation > li > a#GlobalSearchNav {
+    padding-right: 4px;
+    padding-left: 26px;
 }
 
 #Navigation > li > span {
@@ -311,14 +314,10 @@
     width: 16px;
 }
 
-#Navigation a span.SearchIcon {
-    top: 7px;
+#Navigation a i {
+    top: 2px;
     left: 15px;
-    width: 17px;
-    height: 16px;
-    text-indent: -9999px;
-    background: url(../img/search_bg.png) no-repeat left top;
-    display: block;
+    font-size: 20px;
     position: absolute;
 }
 

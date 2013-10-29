@@ -759,7 +759,9 @@ sub CertificateRemove {
             $Success = 0;
     }
 
-    $Message .= ". Private certificate successfully deleted" if ($PrivateExists);
+    if ($PrivateExists) {
+        $Message .= ". Private certificate successfully deleted";
+    }
 
     if ($Success) {
 
@@ -1038,7 +1040,7 @@ sub PrivateAdd {
     }
     my %CertificateAttributes = $Self->CertificateAttributes(
         Certificate => $Self->CertificateGet( Filename => $Certificates[0]->{Filename} ),
-        Filename    => $Certificates[0]->{Filename},
+        Filename => $Certificates[0]->{Filename},
     );
     if ( $CertificateAttributes{Hash} ) {
         my $File = "$Self->{PrivatePath}/$Certificates[0]->{Filename}";
@@ -1840,9 +1842,13 @@ sub _FetchAttributesFromCert {
     }
 
     # prepare attributes data for use
-    $AttributesRef->{Issuer} =~ s{=}{= }xmsg  if $AttributesRef->{Issuer};
-    $AttributesRef->{Subject} =~ s{\/}{ }xmsg if $AttributesRef->{Subject};
-    $AttributesRef->{Subject} =~ s{=}{= }xmsg if $AttributesRef->{Subject};
+    if ( $AttributesRef->{Issuer} ) {
+        $AttributesRef->{Issuer} =~ s{=}{= }xmsg;
+    }
+    if ( $AttributesRef->{Subject} ) {
+        $AttributesRef->{Subject} =~ s{\/}{ }xmsg;
+        $AttributesRef->{Subject} =~ s{=}{= }xmsg;
+    }
 
     my %Month = (
         Jan => '01', Feb => '02', Mar => '03', Apr => '04', May => '05', Jun => '06',

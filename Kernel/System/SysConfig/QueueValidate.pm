@@ -15,8 +15,6 @@ use warnings;
 use Kernel::Config;
 use Kernel::System::Queue;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::SysConfig::QueueValidate - QueueValidate lib

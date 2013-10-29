@@ -16,8 +16,6 @@ use Kernel::System::User;
 use Kernel::System::Email;
 use Kernel::System::Queue;
 
-use vars qw(@ISA);
-
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -26,7 +24,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject TicketObject TimeObject EncodeObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject TicketObject TimeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -118,8 +116,8 @@ sub Run {
         my $Sent = 0;
         for my $Line (@Lines) {
             if (
-                $Line->{Name} =~ /\%\%$EscalationType\%\%/
-                && $Line->{Name} =~ /\Q%%$User{UserEmail}\E$/i
+                $Line->{Name}          =~ /\%\%$EscalationType\%\%/
+                && $Line->{Name}       =~ /\Q%%$User{UserEmail}\E$/i
                 && $Line->{CreateTime} =~ /$Year-$Month-$Day/
                 )
             {

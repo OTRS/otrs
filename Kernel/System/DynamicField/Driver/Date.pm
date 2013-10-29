@@ -18,8 +18,6 @@ use Kernel::System::Time;
 
 use base qw(Kernel::System::DynamicField::Driver::BaseDateTime);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::DynamicField::Driver::Date
@@ -87,14 +85,10 @@ sub new {
         if ( $Extension->{Module} ) {
 
             # check if module can be loaded
-            if ( !$Self->{MainObject}->Require( $Extension->{Module} ) ) {
+            if ( !$Self->{MainObject}->RequireBaseClass( $Extension->{Module} ) ) {
                 die "Can't load dynamic fields backend module"
                     . " $Extension->{Module}! $@";
             }
-
-            # load the module
-            push @ISA, $Extension->{Module};
-
         }
 
         # check if extension contains more behabiors
@@ -210,6 +204,8 @@ sub EditFieldRender {
     my %SplitedFieldValues;
     if ( defined $Param{Value} ) {
         $Value = $Param{Value};
+    }
+    if ($Value) {
         my ( $Year, $Month, $Day, $Hour, $Minute, $Second ) = $Value =~
             m{ \A ( \d{4} ) - ( \d{2} ) - ( \d{2} ) \s ( \d{2} ) : ( \d{2} ) : ( \d{2} ) \z }xms;
 
@@ -228,9 +224,7 @@ sub EditFieldRender {
     }
 
     # extract the dynamic field value form the web request
-    # TransformDates is always needed from EditFieldRender Bug#8452
     my $FieldValues = $Self->EditFieldValueGet(
-        TransformDates       => 1,
         ReturnValueStructure => 1,
         %Param,
     );
@@ -249,10 +243,14 @@ sub EditFieldRender {
     }
 
     # set field as mandatory
-    $FieldClass .= ' Validate_Required' if $Param{Mandatory};
+    if ( $Param{Mandatory} ) {
+        $FieldClass .= ' Validate_Required';
+    }
 
     # set error css class
-    $FieldClass .= ' ServerError' if $Param{ServerError};
+    if ( $Param{ServerError} ) {
+        $FieldClass .= ' ServerError';
+    }
 
     # to set the predefined based on a time difference
     my $DiffTime = $FieldConfig->{DefaultValue};
@@ -281,6 +279,7 @@ sub EditFieldRender {
         %{$FieldConfig},
         %SplitedFieldValues,
         %YearsPeriodRange,
+        OverrideTimeZone => 1,
     );
 
     if ( $Param{Mandatory} ) {
@@ -289,11 +288,11 @@ sub EditFieldRender {
         # for client side validation
         $HTMLString .= <<"EOF";
 
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"This field is required."}
-        </p>
-    </div>
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"This field is required."}
+    </p>
+</div>
 EOF
     }
 
@@ -304,11 +303,12 @@ EOF
 
         # for server side validation
         $HTMLString .= <<"EOF";
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"$ErrorMessage"}
-        </p>
-    </div>
+
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"$ErrorMessage"}
+    </p>
+</div>
 EOF
     }
 
@@ -338,40 +338,33 @@ sub EditFieldValueGet {
     # check if there is a Template and retrieve the dynamic field value from there
     if ( IsHashRefWithData( $Param{Template} ) ) {
         for my $Type (qw(Used Year Month Day)) {
-            $DynamicFieldValues{ $Prefix . $Type } = $Param{Template}->{ $Prefix . $Type };
+            $DynamicFieldValues{ $Prefix . $Type } = $Param{Template}->{ $Prefix . $Type } || 0;
         }
     }
 
-    # otherwise get dynamic field value from param
-    else {
+    # otherwise get dynamic field value from the web request
+    elsif (
+        defined $Param{ParamObject}
+        && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
+        )
+    {
         for my $Type (qw(Used Year Month Day)) {
             $DynamicFieldValues{ $Prefix . $Type } = $Param{ParamObject}->GetParam(
                 Param => $Prefix . $Type,
-            );
+            ) || 0;
         }
     }
 
     # complete the rest of the date with 0s to have a valid Date/Time value
-    for my $Type (qw(Hour Minute Second)) {
-        $DynamicFieldValues{ $Prefix . $Type } = '00';
+    for my $Type (qw(Hour Minute)) {
+        $DynamicFieldValues{ $Prefix . $Type } = 0;
     }
 
     # return if the field is empty (e.g. initial screen)
     return if !$DynamicFieldValues{ $Prefix . 'Used' }
-        && !$DynamicFieldValues{ $Prefix . 'Year' }
-        && !$DynamicFieldValues{ $Prefix . 'Month' }
-        && !$DynamicFieldValues{ $Prefix . 'Day' };
-
-    # check if need and can transform dates
-    # transform the dates early for ReturnValueStructure or ManualTimeStamp Bug#8452
-    if ( $Param{TransformDates} && $Param{LayoutObject} ) {
-
-        # transform time stamp based on user time zone
-        %DynamicFieldValues = $Param{LayoutObject}->TransformDateSelection(
-            %DynamicFieldValues,
-            Prefix => $Prefix,
-        );
-    }
+            && !$DynamicFieldValues{ $Prefix . 'Year' }
+            && !$DynamicFieldValues{ $Prefix . 'Month' }
+            && !$DynamicFieldValues{ $Prefix . 'Day' };
 
     # check if return value structure is nedded
     if ( defined $Param{ReturnValueStructure} && $Param{ReturnValueStructure} eq '1' ) {
@@ -382,6 +375,9 @@ sub EditFieldValueGet {
     if ( defined $Param{ReturnTemplateStructure} && $Param{ReturnTemplateStructure} eq '1' ) {
         return \%DynamicFieldValues;
     }
+
+    # add secnods, as 0 to the DynamicFieldValues hash
+    $DynamicFieldValues{ 'DynamicField_' . $Param{DynamicFieldConfig}->{Name} . 'Second' } = 0;
 
     my $ManualTimeStamp = '';
 
@@ -576,19 +572,19 @@ EOF
                 'Before' => 'more than ... ago',
                 'Last'   => 'within the last ...',
                 'Next'   => 'within the next ...',
-                'After'  => 'more than ...',
+                'After'  => 'in more than ...',
             },
             Sort           => 'IndividualKey',
             SortIndividual => [ 'Before', 'Last', 'Next', 'After' ],
             Name           => $FieldName . 'Start',
             SelectedID => $Value->{Start}->{ $FieldName . 'Start' } || 'Last',
         );
-        $HTMLString .= $Param{LayoutObject}->BuildSelection(
+        $HTMLString .= ' ' . $Param{LayoutObject}->BuildSelection(
             Data       => [ 1 .. 59 ],
             Name       => $FieldName . 'Value',
             SelectedID => $Value->{Value}->{ $FieldName . 'Value' } || 1,
         );
-        $HTMLString .= $Param{LayoutObject}->BuildSelection(
+        $HTMLString .= ' ' . $Param{LayoutObject}->BuildSelection(
             Data => {
                 minute => 'minute(s)',
                 hour   => 'hour(s)',
@@ -713,8 +709,8 @@ sub SearchFieldValueGet {
 
         # return if the field is empty (e.g. initial screen)
         return if !$DynamicFieldValues{ $Prefix . 'Start' }
-            && !$DynamicFieldValues{ $Prefix . 'Value' }
-            && !$DynamicFieldValues{ $Prefix . 'Format' };
+                && !$DynamicFieldValues{ $Prefix . 'Value' }
+                && !$DynamicFieldValues{ $Prefix . 'Format' };
 
         $DynamicFieldValues{$Prefix} = 1;
 
@@ -770,11 +766,11 @@ sub SearchFieldValueGet {
 
     # return if the field is empty (e.g. initial screen)
     return if !$DynamicFieldValues{ $Prefix . 'StartYear' }
-        && !$DynamicFieldValues{ $Prefix . 'StartMonth' }
-        && !$DynamicFieldValues{ $Prefix . 'StartDay' }
-        && !$DynamicFieldValues{ $Prefix . 'StopYear' }
-        && !$DynamicFieldValues{ $Prefix . 'StopMonth' }
-        && !$DynamicFieldValues{ $Prefix . 'StopDay' };
+            && !$DynamicFieldValues{ $Prefix . 'StartMonth' }
+            && !$DynamicFieldValues{ $Prefix . 'StartDay' }
+            && !$DynamicFieldValues{ $Prefix . 'StopYear' }
+            && !$DynamicFieldValues{ $Prefix . 'StopMonth' }
+            && !$DynamicFieldValues{ $Prefix . 'StopDay' };
 
     $DynamicFieldValues{ $Prefix . 'StartHour' }   = '00';
     $DynamicFieldValues{ $Prefix . 'StartMinute' } = '00';
@@ -854,6 +850,7 @@ sub SearchFieldParameterBuild {
             && $Value->{$Prefix}
             )
         {
+
             # to store the search parameters
             my %Parameter;
 

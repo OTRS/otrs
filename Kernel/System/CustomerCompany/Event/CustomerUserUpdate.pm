@@ -58,7 +58,7 @@ sub Run {
         Valid      => 0,
     );
 
-    for my $CustomerUserLogin ( keys %CustomerUsers ) {
+    for my $CustomerUserLogin ( sort keys %CustomerUsers ) {
         my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
             User => $CustomerUserLogin,
         );

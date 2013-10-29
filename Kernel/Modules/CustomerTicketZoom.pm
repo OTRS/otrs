@@ -121,7 +121,7 @@ sub Run {
     if ( !$Self->{TicketID} && $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ) ) {
         $Self->{TicketID} = $Self->{TicketObject}->TicketIDLookup(
             TicketNumber => $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ),
-            UserID       => $Self->{UserID},
+            UserID => $Self->{UserID},
         );
     }
 
@@ -249,7 +249,7 @@ sub Run {
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
 
-            # convert possible values key => value to key => key for ACLs usign a Hash slice
+            # convert possible values key => value to key => key for ACLs using a Hash slice
             my %AclData = %{$PossibleValues};
             @AclData{ keys %AclData } = keys %AclData;
 
@@ -429,7 +429,7 @@ sub Run {
                 # check if field has PossibleValues property in its configuration
                 if ( IsHashRefWithData($PossibleValues) ) {
 
-                    # convert possible values key => value to key => key for ACLs usign a Hash slice
+                    # convert possible values key => value to key => key for ACLs using a Hash slice
                     my %AclData = %{$PossibleValues};
                     @AclData{ keys %AclData } = keys %AclData;
 
@@ -639,8 +639,8 @@ sub Run {
 
             # skip deleted inline images
             next if $Attachment->{ContentID}
-                && $Attachment->{ContentID} =~ /^inline/
-                && $GetParam{Body} !~ /$Attachment->{ContentID}/;
+                    && $Attachment->{ContentID} =~ /^inline/
+                    && $GetParam{Body} !~ /$Attachment->{ContentID}/;
             $Self->{TicketObject}->ArticleWriteAttachment(
                 %{$Attachment},
                 ArticleID => $ArticleID,
@@ -722,7 +722,7 @@ sub Run {
             # check if field has PossibleValues property in its configuration
             if ( IsHashRefWithData($PossibleValues) ) {
 
-                # convert possible values key => value to key => key for ACLs usign a Hash slice
+                # convert possible values key => value to key => key for ACLs using a Hash slice
                 my %AclData = %{$PossibleValues};
                 @AclData{ keys %AclData } = keys %AclData;
 
@@ -1349,6 +1349,14 @@ sub _Mask {
             if ( my $CharsetText = $Self->{LayoutObject}->CheckCharset( %Param, %Article ) ) {
                 $Param{BodyNote} = $CharsetText;
             }
+        }
+
+        # security="restricted" may break SSO - disable this feature if requested
+        if ( $Self->{ConfigObject}->Get('DisableMSIFrameSecurityRestricted') ) {
+            $Param{MSSecurityRestricted} = '';
+        }
+        else {
+            $Param{MSSecurityRestricted} = 'security="restricted"';
         }
 
         # in case show plain article body (if no html body as attachment exists of if rich

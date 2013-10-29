@@ -71,7 +71,7 @@ my $CheckAction = sub {
     # special sleep for windows
     if ( $^O =~ /^mswin/i ) {
         if (
-            $Param{Action} eq 'start'
+            $Param{Action}    eq 'start'
             || $Param{Action} eq 'stop'
             || $Param{Action} eq 'reload'
             )

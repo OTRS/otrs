@@ -18,8 +18,6 @@ use Kernel::System::Ticket::ColumnFilter;
 
 use base qw(Kernel::System::DynamicField::Driver::Base);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::DynamicField::Driver::Checkbox
@@ -87,14 +85,10 @@ sub new {
         if ( $Extension->{Module} ) {
 
             # check if module can be loaded
-            if ( !$Self->{MainObject}->Require( $Extension->{Module} ) ) {
+            if ( !$Self->{MainObject}->RequireBaseClass( $Extension->{Module} ) ) {
                 die "Can't load dynamic fields backend module"
                     . " $Extension->{Module}! $@";
             }
-
-            # load the module
-            push @ISA, $Extension->{Module};
-
         }
 
         # check if extension contains more behabiors
@@ -182,6 +176,14 @@ sub ValueValidate {
 sub SearchSQLGet {
     my ( $Self, %Param ) = @_;
 
+    if ( !IsInteger( $Param{SearchTerm} ) ) {
+        $Self->{'LogObject'}->Log(
+            'Priority' => 'error',
+            'Message'  => "Unsupported Search Term $Param{SearchTerm}, should be an integer",
+        );
+        return;
+    }
+
     if ( $Param{Operator} eq 'Equals' ) {
         my $SQL = " $Param{TableAlias}.value_int = ";
         $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm}, 'Integer' ) . ' ';
@@ -216,7 +218,7 @@ sub EditFieldRender {
     if ( $Param{UseDefaultValue} ) {
         $Value = $FieldConfig->{DefaultValue} || '';
     }
-    $Value = $Param{Value} if defined $Param{Value};
+    $Value = $Param{Value} // $Value;
 
     # extract the dynamic field value form the web request
     my $FieldValue = $Self->EditFieldValueGet(
@@ -252,10 +254,14 @@ sub EditFieldRender {
     }
 
     # set field as mandatory
-    $FieldClass .= ' Validate_Required' if $Param{Mandatory};
+    if ( $Param{Mandatory} ) {
+        $FieldClass .= ' Validate_Required';
+    }
 
     # set error css class
-    $FieldClass .= ' ServerError' if $Param{ServerError};
+    if ( $Param{ServerError} ) {
+        $FieldClass .= ' ServerError';
+    }
 
     my $FieldNameUsed = $FieldName . "Used";
 
@@ -294,11 +300,11 @@ EOF
 
         # for client side validation
         $HTMLString .= <<"EOF";
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"This field is required."}
-        </p>
-    </div>
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"This field is required."}
+    </p>
+</div>
 EOF
     }
 
@@ -309,11 +315,11 @@ EOF
 
         # for server side validation
         $HTMLString .= <<"EOF";
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            \$Text{"$ErrorMessage"}
-        </p>
-    </div>
+<div id="$DivID" class="TooltipErrorMessage">
+    <p>
+        \$Text{"$ErrorMessage"}
+    </p>
+</div>
 EOF
     }
 
@@ -349,8 +355,12 @@ sub EditFieldValueGet {
         $Data{UsedValue} = $Param{Template}->{ $FieldName . 'Used' };
     }
 
-    # otherwise get dynamic field value from param
-    else {
+    # otherwise get dynamic field value from the web request
+    elsif (
+        defined $Param{ParamObject}
+        && ref $Param{ParamObject} eq 'Kernel::System::Web::Request'
+        )
+    {
 
         # get dynamic field value from param
         $Data{FieldValue} = $Param{ParamObject}->GetParam( Param => $FieldName );
@@ -470,7 +480,7 @@ sub SearchFieldRender {
     my @DefaultValue;
 
     if ( defined $Param{DefaultValue} ) {
-        my @DefaultValue = split /;/, $Param{DefaultValue};
+        @DefaultValue = split /;/, $Param{DefaultValue};
     }
 
     # set the field value

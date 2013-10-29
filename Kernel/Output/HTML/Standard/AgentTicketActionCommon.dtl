@@ -42,6 +42,7 @@ $Text{"Change Responsible of Ticket"}:
 <!-- dtl:block:HeaderAgentTicketResponsible -->
 $Data{"TicketNumber"} - $QData{"Title"}
             </h1>
+            <p class="AsteriskExplanation">$Text{"All fields marked with an asterisk (*) are mandatory."}</p>
 
 <!-- dtl:block:TicketBack -->
             <p>
@@ -427,7 +428,7 @@ $Include{"RichTextEditor"}
             </fieldset>
         </div>
         <div class="Footer">
-            <button class="CallForAction Save Primary" id="submitRichText" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}"><span>$Text{"Submit"}</span></button>
+            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}"><span><i class="icon-check"></i> $Text{"Submit"}</span></button>
         </div>
     </div>
 </form>

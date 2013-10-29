@@ -20,6 +20,13 @@ Core.Agent = Core.Agent || {};
  */
 Core.Agent.TableFilters = (function (TargetNS) {
 
+    /*
+     * check dependencies first
+     */
+    if (!Core.Debug.CheckDependency('Core.Agent.TableFilters', 'Core.UI.AllocationList', 'Core.UI.AllocationList')) {
+        return;
+    }
+
     /**
      * @function
      * @param {jQueryObject} $Input Input element to add auto complete to
@@ -211,8 +218,8 @@ Core.Agent.TableFilters = (function (TargetNS) {
             $ContainerObj = $(UI.item).closest('.AllocationListContainer');
         }
 
-        Data['Columns'] = {};
-        Data['Order']   = [];
+        Data.Columns = {};
+        Data.Order   = [];
 
         $ContainerObj.find('.AvailableFields').find('li').each(function() {
             FieldName = $(this).attr('data-fieldname');
@@ -222,7 +229,7 @@ Core.Agent.TableFilters = (function (TargetNS) {
         $ContainerObj.find('.AssignedFields').find('li').each(function() {
             FieldName = $(this).attr('data-fieldname');
             Data.Columns[FieldName] = 1;
-            Data['Order'].push(FieldName);
+            Data.Order.push(FieldName);
         });
         $ContainerObj.closest('form').find('.ColumnsJSON').val(Core.JSON.Stringify(Data));
     }
@@ -243,6 +250,7 @@ Core.Agent.TableFilters = (function (TargetNS) {
                 DataAvailableJSON = $ContainerObj.closest('form.WidgetSettingsForm').find('input.ColumnsAvailableJSON').val(),
                 DataEnabled,
                 DataAvailable,
+                Translation,
                 $FieldObj,
                 IDString = '#' + $ContainerObj.find('.AssignedFields').attr('id') + ', #' + $ContainerObj.find('.AvailableFields').attr('id');
 
@@ -254,15 +262,24 @@ Core.Agent.TableFilters = (function (TargetNS) {
             }
 
             $.each(DataEnabled, function(Index, Field) {
-                $FieldObj = $('<li />').attr('title', Field).attr('data-fieldname', Field).text(Field);
+
+                // get field translation
+                Translation = Core.Config.Get('Column' + Field) || Field;
+
+                $FieldObj = $('<li />').attr('title', Field).attr('data-fieldname', Field).text(Translation);
                 $ContainerObj.find('.AssignedFields').append($FieldObj);
             });
             $.each(DataAvailable, function(Index, Field) {
-                $FieldObj = $('<li />').attr('title', Field).attr('data-fieldname', Field).text(Field);
+
+                // get field translation
+                Translation = Core.Config.Get('Column' + Field) || Field;
+
+                $FieldObj = $('<li />').attr('title', Field).attr('data-fieldname', Field).text(Translation);
                 $ContainerObj.find('.AvailableFields').append($FieldObj);
             });
 
-            Core.UI.AllocationList.Init(IDString, $ContainerObj.find('.AllocationList'), 'UpdateAllocationList', '', 'UpdateAllocationList');
+            Core.UI.AllocationList.Init(IDString, $ContainerObj.find('.AllocationList'), 'UpdateAllocationList', '', UpdateAllocationList);
+            Core.UI.Table.InitTableFilter($ContainerObj.find('.FilterAvailableFields'), $ContainerObj.find('.AvailableFields'));
         });
     };
 

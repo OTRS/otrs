@@ -8,6 +8,7 @@
 # --
 
 package Kernel::Modules::AgentTicketAttachment;
+## nofilter(TidyAll::Plugin::OTRS::Perl::Print)
 
 use strict;
 use warnings;
@@ -107,7 +108,7 @@ sub Run {
         my $FileTempObject = Kernel::System::FileTemp->new( %{$Self} );
         my ( $FH, $Filename ) = $FileTempObject->TempFile();
         if ( open( my $ViewerDataFH, '>', $Filename ) ) {    ## no critic
-            print $ViewerDataFH $Data{Content};              ## no critic
+            print $ViewerDataFH $Data{Content};
             close $ViewerDataFH;
         }
         else {
@@ -180,6 +181,31 @@ sub Run {
             Attachments        => \%AtmBox,
             LoadExternalImages => $Self->{LoadExternalImages},
         );
+
+        # if there is unexpectedly pgp decrypted content in the html email (OE),
+        # we will use the article body (plain text) from the database as fall back
+        # see bug#9672
+        if (
+            $Data{Content} =~ m{
+            ^ .* -----BEGIN [ ] PGP [ ] MESSAGE-----  .* $      # grep PGP begin tag
+            .+                                                  # PGP parts may be nested in html
+            ^ .* -----END [ ] PGP [ ] MESSAGE-----  .* $        # grep PGP end tag
+        }xms
+            )
+        {
+
+            # html quoting
+            $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
+                NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
+                Text           => $Article{Body},
+                VMax           => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
+                HTMLResultMode => 1,
+                LinkFeature    => 1,
+            );
+
+            # use the article body as content, because pgp was definitly descrypted if possible
+            $Data{Content} = $Article{Body};
+        }
 
         # return html attachment
         return $Self->{LayoutObject}->Attachment(%Data);

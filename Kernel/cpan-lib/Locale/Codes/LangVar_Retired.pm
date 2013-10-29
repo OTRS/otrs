@@ -2,7 +2,7 @@ package Locale::Codes::LangVar_Retired;
 
 # This file was automatically generated.  Any changes to this file will
 # be lost the next time 'deprecate_codes' is run.
-#    Generated on: Tue Dec  4 14:05:24 EST 2012
+#    Generated on: Mon Jun  3 10:51:27 EDT 2013
 
 =pod
 
@@ -13,7 +13,7 @@ Locale::Codes::LangVar_Retired - retired langvar codes for the Locale::Codes::La
 =head1 SYNOPSIS
 
 This module contains data used by the Locale::Codes::LangVar module. It is
-not intended to be used directly, and contains no calleable routines.
+not intended to be used directly, and contains no callable routines.
 
 =head1 AUTHOR
 
@@ -25,7 +25,7 @@ Currently maintained by Sullivan Beck (sbeck@cpan.org).
 
    Copyright (c) 1997-2001 Canon Research Centre Europe (CRE).
    Copyright (c) 2001-2010 Neil Bowers
-   Copyright (c) 2010-2012 Sullivan Beck
+   Copyright (c) 2010-2013 Sullivan Beck
 
 This module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
@@ -38,7 +38,7 @@ use warnings;
 use utf8;
 
 our($VERSION);
-$VERSION='3.24';
+$VERSION='3.26';
 
 $Locale::Codes::Retired{'langvar'}{'alpha'}{'code'} = {
 };

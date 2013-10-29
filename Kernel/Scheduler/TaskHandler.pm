@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::Scheduler::TaskHandler - Scheduler Task Handler interface
