@@ -1,4 +1,5 @@
 #3.3.0 RC1 ????-??-??
+ - 2013-10-28 Fixed bug#[9850](http://bugs.otrs.org/show_bug.cgi?id=9850) - Dashboard Filter error in ticket and page count.
  - 2013-10-28 Fixed bug#[9888](http://bugs.otrs.org/show_bug.cgi?id=9888) - Warning when using standard template.
  - 2013-10-28 Fixed bug#[9749](http://bugs.otrs.org/show_bug.cgi?id=9749) - Using spell checker in rich text Editor strips HTML formatting.
  - 2013-10-28 Fixed bug#[4465](http://bugs.otrs.org/show_bug.cgi?id=4465) - Spell checker ispell ignores some characters such German umlauts.

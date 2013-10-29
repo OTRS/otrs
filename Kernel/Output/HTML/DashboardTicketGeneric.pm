@@ -495,7 +495,7 @@ sub Run {
             }
             sort keys %{ $Self->{GetColumnFilterSelect} }
     );
-    $CacheKey .= $CacheColumns;
+    $CacheKey .= '-' . $CacheColumns if $CacheColumns;
 
     $CacheKey .= '-' . $Self->{SortBy}  if defined $Self->{SortBy};
     $CacheKey .= '-' . $Self->{OrderBy} if defined $Self->{OrderBy};
@@ -574,6 +574,7 @@ sub Run {
                 Result => 'COUNT',
                 %TicketSearch,
                 %{ $TicketSearchSummary{$Type} },
+                %{ $Self->{ColumnFilter} },
                 %ColumnFilter,
             );
         }
