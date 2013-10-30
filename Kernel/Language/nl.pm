@@ -2763,7 +2763,7 @@ sub Data {
             'Er is al een popup open voor dit ticket. Wilt u deze sluiten en de nieuwe laden?',
         'Please enter at least one search value or * to find anything.' =>
             'Geef één of meerdere tekens of een wildcard als * op om een zoekopdracht uit te voeren.',
-        'Please check the fields marked as red for valid inputs.' => '',
+        'Please check the fields marked as red for valid inputs.' => 'Bekijk de waarden in de als rood gemarkeerde velden.',
 
         # Template: FooterSmall
 
