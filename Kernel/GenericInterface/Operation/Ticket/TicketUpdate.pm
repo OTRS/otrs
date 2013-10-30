@@ -1481,7 +1481,7 @@ sub _TicketUpdate {
         else {
 
             # data is the same as in ticket nothing to do
-            $Success = 0;
+            $Success = 1;
         }
 
         if ( !$Success ) {
