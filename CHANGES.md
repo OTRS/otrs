@@ -1,6 +1,6 @@
 #3.3.0 RC1 ????-??-??
  - 2013-10-29 Fixed bug#[9902](http://bugs.otrs.org/show_bug.cgi?id=9902) - Column Filters does not use NavBarFilters and other parameters.
- - 2013-10-29 Fixed bug#[9753](http://bugs.otrs.org/show_bug.cgi?id=9753) - META HTTP-EQUIV="Refresh" tag not stripped from HTML email.
+ - 2013-10-29 Fixed bug#[9753](http://bugs.otrs.org/show_bug.cgi?id=9753) - `META HTTP-EQUIV="Refresh"` tag not stripped from HTML email.
  - 2013-10-29 Improved creation of sequences on Oracle databases to better support Oracle RAC clusters.
  - 2013-10-28 Fixed bug#[9897](http://bugs.otrs.org/show_bug.cgi?id=9897) - process ticket 'fading away' -> Process is invalid.
  - 2013-10-28 Fixed bug#[9850](http://bugs.otrs.org/show_bug.cgi?id=9850) - Dashboard Filter error in ticket and page count.
@@ -10,7 +10,7 @@
  - 2013-10-28 Fixed bug#[9890](http://bugs.otrs.org/show_bug.cgi?id=9890) - Cannot use unicode content in DTL files.
  - 2013-10-28 Fixed bug#[9889](http://bugs.otrs.org/show_bug.cgi?id=9889) - Browser does not interpret CSS/JS files as UTF8.
  - 2013-10-25 Fixed bug#[9839](http://bugs.otrs.org/show_bug.cgi?id=9839) - Inline images not showing up when cookies are disabled.
- - 2013-10-25 Fixed bug#[9870](http://bugs.otrs.org/show_bug.cgi?id=9870) - <<OTRS_CUSTOMER_FROM> not replaced in notification emails.
+ - 2013-10-25 Fixed bug#[9870](http://bugs.otrs.org/show_bug.cgi?id=9870) - `<OTRS_CUSTOMER_FROM>` not replaced in notification emails.
  - 2013-10-25 Moved process import functionality in the backend module Kernel/System/ProcessManagement/DB/Process.pm.
  - 2013-10-25 Fixed bug#[9880](http://bugs.otrs.org/show_bug.cgi?id=9880) - Auto response editor looses HTML formatting.
  - 2013-10-24 Fixed bug#[9872](http://bugs.otrs.org/show_bug.cgi?id=9872) - Default service is not applied to new customerusers.
