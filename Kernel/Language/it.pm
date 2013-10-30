@@ -451,7 +451,7 @@ sub Data {
         'November' => 'Novembre',
         'December' => 'Dicembre',
 
-        # Template: AAAPreferences
+        # Template: AAAPreferences #OK Liuk
         'Preferences updated successfully!' => 'Preferenze modificate con successo!',
         'User Profile' => 'Profilo utente',
         'Email Settings' => 'Impostazioni email',
@@ -847,10 +847,10 @@ sub Data {
         'History::Unsubscribe' => 'Rimossa sottoscrizione per l\'utente "%s".',
         'History::SystemRequest' => 'Richiesta di sistema',
         'History::ResponsibleUpdate' => 'Aggiornamento responsabile',
-        'History::ArchiveFlagUpdate' => '',
-        'History::TicketTitleUpdate' => '',
+        'History::ArchiveFlagUpdate' => 'Aggiornamento Flag Archivio',
+        'History::TicketTitleUpdate' => 'Aggiornamento Titolo Ticket',
 
-        # Template: AAAWeekDay
+        # Template: AAAWeekDay --LiukOK
         'Sun' => 'Dom',
         'Mon' => 'Lun',
         'Tue' => 'Mar',
@@ -876,13 +876,14 @@ sub Data {
         'Upload ACL configuration' => 'Carica una configurazione di ACL',
         'Import ACL configuration(s)' => 'Importa una configurazione di ACL',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            '',
+            'Per creare una nuova ACL si può importarne una proveniente da un altro sistema o crearne una nuova del tutto.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             '',
         'ACLs' => '',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
-            '',
-        'ACL name' => '',
+            '
+Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necessario modificare l\'ordine in cui vengono eseguite le ACL, si prega di modificare i nomi delle ACL interessate.',
+        'ACL name' => 'Nome ACL',
         'Validity' => 'Validità',
         'Copy' => 'Copia',
         'No data found.' => 'Nessun dato trovato.',
@@ -890,12 +891,12 @@ sub Data {
         # Template: AdminACLEdit
         'Edit ACL %s' => '',
         'Go to overview' => 'Vai a Vista Globale',
-        'Delete ACL' => '',
-        'Delete Invalid ACL' => '',
-        'Match settings' => '',
+        'Delete ACL' => 'Elimina ACL',
+        'Delete Invalid ACL' => 'Elimina ACL non valida',
+        'Match settings' => 'Criteri di corrispondenza',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
-        'Change settings' => '',
+        'Change settings' => 'Cambia impostazioni',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
         'Check the official' => '',
