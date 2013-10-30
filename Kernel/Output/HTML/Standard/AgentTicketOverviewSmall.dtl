@@ -338,7 +338,7 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
                     }
                 }
                 else {
-                    Core.AJAX.FormUpdate($('#Nothing'), 'AJAXFilterUpdate', FilterName, [ FilterName ]);
+                    Core.AJAX.FormUpdate($('#ColumnFilterAttributes'), 'AJAXFilterUpdate', FilterName, [ FilterName ]);
                 }
         });
     }
@@ -539,6 +539,14 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
 <!-- dtl:js_on_document_complete -->
 </li>
 <!-- dtl:block:DocumentMenuItemMoveForm -->
+
+<!-- dtl:block:DocumentColumnFilterForm -->
+<form title="$Text{"Column Filters Form"}" action="$Env{"CGIHandle"}" method="post" name="ColumnFilterAttributes" id="ColumnFilterAttributes">
+<!-- dtl:block:DocumentColumnFilterFormElement -->
+    <input type="hidden" name="$QData{"ElementName"}" value="$QData{"ElementValue"}"/>
+<!-- dtl:block:DocumentColumnFilterFormElement -->
+</form>
+<!-- dtl:block:DocumentColumnFilterForm -->
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[

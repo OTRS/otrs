@@ -1421,7 +1421,7 @@ sub Run {
                     }
                 }
                 elsif (
-                    $TicketColumn    eq 'State'
+                    $TicketColumn eq 'State'
                     || $TicketColumn eq 'Lock'
                     || $TicketColumn eq 'Priority'
                     )
@@ -1570,6 +1570,27 @@ sub Run {
         Data => \%Param,
     );
 
+    # set column filter form, to correctly fill the column filters is necessary to pass each
+    #    overview some information in the AJAX call, for examle the fixed Filters or NavBarFilters
+    #    and also other values like the Queue in AgentTicketQueue, otherwise the filters will be
+    #    filled with default restrictions, resulting in more options than the ones that the
+    #    available tickets should provide, see Bug#9902
+    if ( IsHashRefWithData( $Param{ColumnFilterForm} ) ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'DocumentColumnFilterForm',
+            Data => {},
+        );
+        for my $Element ( sort keys %{ $Param{ColumnFilterForm} } ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'DocumentColumnFilterFormElement',
+                Data => {
+                    ElementName  => $Element,
+                    ElementValue => $Param{ColumnFilterForm}->{$Element},
+                },
+            );
+        }
+    }
+
     # use template
     my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketOverviewSmall',
@@ -1663,7 +1684,7 @@ sub _InitialColumnFilter {
     my $TranslationOption = 0;
 
     if (
-        $Param{ColumnName}    eq 'State'
+        $Param{ColumnName} eq 'State'
         || $Param{ColumnName} eq 'Lock'
         || $Param{ColumnName} eq 'Priority'
         )
@@ -1815,7 +1836,7 @@ sub _ColumnFilterJSON {
     my $TranslationOption = 0;
 
     if (
-        $Param{ColumnName}    eq 'State'
+        $Param{ColumnName} eq 'State'
         || $Param{ColumnName} eq 'Lock'
         || $Param{ColumnName} eq 'Priority'
         )

@@ -380,6 +380,9 @@ sub Run {
         OrderBy             => $Self->{OrderBy},
         SortBy              => $Self->{SortBy},
         EnableColumnFilters => 1,
+        ColumnFilterForm    => {
+            Filter => $Self->{Filter} || '',
+        },
 
         Escalation => 1,
     );

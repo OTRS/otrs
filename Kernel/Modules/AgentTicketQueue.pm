@@ -473,7 +473,10 @@ sub Run {
             OrderBy             => $OrderBy,
             SortBy              => $SortBy,
             EnableColumnFilters => 1,
-
+            ColumnFilterForm    => {
+                QueueID => $Self->{QueueID} || '',
+                Filter  => $Self->{Filter}  || '',
+            },
         ),
     );
 
