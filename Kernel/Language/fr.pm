@@ -6,7 +6,7 @@
 # Copyright (C) 2007 Remi Seguy <remi.seguy at laposte.net>
 # Copyright (C) 2007 Massimiliano Franco <max-lists at ycom.ch>
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
-# Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
+# Copyright (C) 2009-2010,2013 Olivier Sallou <olivier.sallou at irisa.fr>
 # Copyright (C) 2011-2013 Raphaël Doursenaud <rdoursenaud@gpcsolutions.fr>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -55,11 +55,11 @@ sub Data {
         'Reset' => 'Remise à zéro',
         'last' => 'dernier',
         'before' => 'avant',
-        'more than ... ago' => '',
-        'within the last ...' => '',
-        'within the next ...' => '',
-        'Created within the last' => '',
-        'Created more than ... ago' => '',
+        'more than ... ago' => 'il y a plus de ...',
+        'within the last ...' => 'dans les dernier(e)s',
+        'within the next ...' => 'dans les prochain(e)s',
+        'Created within the last' => 'Créé dans les dernier(e)s',
+        'Created more than ... ago' => 'Créé il y a plus de ...',
         'Today' => 'Aujourd\'hui',
         'Tomorrow' => 'Demain',
         'Next week' => 'Semaine prochaine',
@@ -89,7 +89,7 @@ sub Data {
         'seconds' => 'secondes',
         'second' => 'seconde',
         's' => 's',
-        'Time unit' => '',
+        'Time unit' => 'Unité de temps',
         'wrote' => 'a écrit',
         'Message' => 'Message',
         'Error' => 'Erreur',
@@ -246,13 +246,13 @@ sub Data {
         'Mail Configuration' => 'Configuration de la messagerie',
         'Finished' => 'Fini',
         'Install OTRS' => 'Installer OTRS',
-        'Intro' => '',
+        'Intro' => 'Introduction',
         'License' => 'Licence',
         'Database' => 'Base de donnée',
         'Configure Mail' => 'Configurer Mail',
         'Database deleted.' => 'Base de données effacée.',
         'Database setup successful!' => 'Mise en place Base de données réussie!',
-        'Generated password' => '',
+        'Generated password' => 'Mot de passe généré',
         'Login is needed!' => 'Authentification requise !',
         'Password is needed!' => 'Le mot de passe est requis !',
         'Take this Customer' => 'Choisir ce client',
@@ -264,7 +264,7 @@ sub Data {
         'Time Zone' => 'Fuseau horaire',
         'Pending till' => 'En attendant jusqu\'à',
         'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
-            '',
+            'N\'utilisez pas le compte Superuser pour travailler avec OTRS! Créez de nouveaux agents et travaillez plutôt avec ces agents.',
         'Dispatching by email To: field.' => 'Répartition par le champ \'À:\' de l\'e-mail',
         'Dispatching by selected Queue.' => 'Répartition selon la file sélectionnée',
         'No entry found!' => 'Aucun résultat n\'a été trouvé !',
@@ -275,12 +275,12 @@ sub Data {
         '(Click here to add)' => '(Cliquez ici pour ajouter)',
         'Preview' => 'Aperçu',
         'Package not correctly deployed! Please reinstall the package.' =>
-            '',
+            'Package incorrectement déployé! Merci de réinstaller le package.',
         '%s is not writable!' => '% n\'est pas accessible en écriture',
         'Cannot create %s!' => 'Impossible de créer %s',
-        'Check to activate this date' => '',
+        'Check to activate this date' => 'Cochez pour activer cette date',
         'You have Out of Office enabled, would you like to disable it?' =>
-            '',
+            'Vous avez l\'Heure de sortie du travail\' activée, voulez-vous la désactiver?',
         'Customer %s added' => 'Client %s ajouté',
         'Role added!' => 'Rôle ajouté!',
         'Role updated!' => 'Rôle mis à jour!',
@@ -298,7 +298,7 @@ sub Data {
         'Customer updated!' => 'Client mis à jour!',
         'Customer company added!' => 'Entreprise du client ajoutée !',
         'Customer company updated!' => 'Entreprise du client mise à jour !',
-        'Note: Company is invalid!' => '',
+        'Note: Company is invalid!' => 'Note: Entreprise non valide!',
         'Mail account added!' => 'Compte de messagerie ajouté !',
         'Mail account updated!' => 'Compte de messagerie mis à jour !',
         'System e-mail address added!' => 'Adresse e-mail système ajoutée !',
@@ -336,11 +336,11 @@ sub Data {
         'uninstalled' => 'désinstallé',
         'Security Note: You should activate %s because application is already running!' =>
             'Note de Sécurité: Vous devriez activer %s parce que l\'application est déjà lancée !',
-        'Unable to parse repository index document.' => '',
+        'Unable to parse repository index document.' => 'Impossible de lire le document d\'index du dépôt',
         'No packages for your framework version found in this repository, it only contains packages for other framework versions.' =>
-            '',
+            'Aucun paquet pour votre version de framework dans ce dépôt, il contient uniquement des paquets pour d\'autres versions du framework.',
         'No packages, or no new packages, found in selected repository.' =>
-            '',
+            'Aucun paquet, ou nouveau paquet, trouvé dans le dépôt sélectionné.',
         'Edit the system configuration settings.' => 'Modifier la configuration du système.',
         'printed at' => 'imprimé à',
         'Loading...' => 'Chargement...',
@@ -370,7 +370,7 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'Les informations de Gestion de Processus de la base de données ne sont pas synchrones avec la configurations système. Veuillez synchroniser tous les processus.',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
-            '',
+            'Paquets non vérifié pour le groupe OTRS! Il est recommendé de ne pas utiliser ce paquet.',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
         'Bold' => 'Gras',
@@ -399,18 +399,18 @@ sub Data {
         'Scheduler is not running.' => '',
 
         # Template: AAACalendar
-        'New Year\'s Day' => '',
+        'New Year\'s Day' => 'Jour du nouvel an',
         'International Workers\' Day' => '',
-        'Christmas Eve' => '',
-        'First Christmas Day' => '',
-        'Second Christmas Day' => '',
-        'New Year\'s Eve' => '',
+        'Christmas Eve' => 'veille de Noël',
+        'First Christmas Day' => 'Premier jour de Noël',
+        'Second Christmas Day' => 'Second jour de Nöel',
+        'New Year\'s Eve' => 'Veille du nouvel an',
 
         # Template: AAAGenericInterface
-        'OTRS as requester' => '',
-        'OTRS as provider' => '',
-        'Webservice "%s" created!' => '',
-        'Webservice "%s" updated!' => '',
+        'OTRS as requester' => 'OTRS comme demandeur',
+        'OTRS as provider' => 'OTRS comme fournisseur',
+        'Webservice "%s" created!' => 'Service web "%s" créé!',
+        'Webservice "%s" updated!' => 'Service web "%s" mis à jour!',
 
         # Template: AAAMonth
         'Jan' => 'Jan',
@@ -457,7 +457,7 @@ sub Data {
         'Can\'t update password, it must be at least %s characters long!' =>
             'Impossible de mettre à jour le mot de passe,, il doit contenir au moins %s caractères!',
         'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
-            '',
+            'Impossible de mettre à jour le mot de passe, il doit contenir au moins 2 lettres en minuscule et 2 lettres en majuscule!',
         'Can\'t update password, it must contain at least 1 digit!' => 'Impossible de mettre à jour le mot de passe, il doit contenir au moins 1 chiffre!',
         'Can\'t update password, it must contain at least 2 characters!' =>
             'Impossible de mettre à jour le mot de passe, il doit contenir au moins 2 caractères!',
@@ -606,8 +606,8 @@ sub Data {
         'Locked Tickets Total' => 'Total des tickets verrouillés',
         'Locked Tickets Reminder Reached' => 'Tickets verrouillés ayant atteint le rappel',
         'Locked Tickets New' => 'Nouveaux Tickets Verrouillés',
-        'Responsible Tickets Total' => '',
-        'Responsible Tickets New' => '',
+        'Responsible Tickets Total' => 'Total Tickets du Responsable',
+        'Responsible Tickets New' => 'Nouveaux Tickets du Responsable',
         'Responsible Tickets Reminder Reached' => '',
         'Watched Tickets Total' => 'Total Tickets vus',
         'Watched Tickets New' => 'Total Nouveaux Tickets',
@@ -663,10 +663,10 @@ sub Data {
         'Ticket Number' => 'Numéro de ticket',
         'Ticket Object' => 'Objet ticket',
         'No such Ticket Number "%s"! Can\'t link it!' => 'Pas de ticket numéro "%s" ! Impossible de le lier !',
-        'You don\'t have write access to this ticket.' => '',
+        'You don\'t have write access to this ticket.' => 'Vous n\'avez pas de droit d\'écriture sur ce ticket.',
         'Sorry, you need to be the ticket owner to perform this action.' =>
-            '',
-        'Please change the owner first.' => '',
+            'Désolé, vous devez être le propriétaire du ticket pour réaliser cette action.',
+        'Please change the owner first.' => 'Merci de d\'abord changer le propriétaire.',
         'Ticket selected.' => 'Ticket sélectionné.',
         'Ticket is locked by another agent.' => 'Ticket verrouillé par un autre opérateur.',
         'Ticket locked.' => 'Ticket verrouillé.',
@@ -703,7 +703,7 @@ sub Data {
         'Show the ticket history' => 'Afficher Historique du Ticket',
         'Print this ticket' => 'Imprimer ce ticket',
         'Print this article' => 'Imprimer cet article',
-        'Split' => '',
+        'Split' => 'Séparer',
         'Split this article' => 'Séparer cet article',
         'Forward article via mail' => 'Transférer Article par mail',
         'Change the ticket priority' => 'Modifier la priorité du ticket',
@@ -731,44 +731,44 @@ sub Data {
         'There are more escalated tickets!' => 'Il y a d\'autres tickets remontés !',
         'Plain Format' => 'Format texte',
         'Reply All' => 'Répondre à tous',
-        'Direction' => '',
+        'Direction' => 'Direction',
         'Agent (All with write permissions)' => 'Opérateur (Tous avec permission d\'écriture)',
         'Agent (Owner)' => 'Opérateur (Propriétaire)',
         'Agent (Responsible)' => 'Opérateur (Responsable)',
         'New ticket notification' => 'Notification de nouveau ticket',
         'Send me a notification if there is a new ticket in "My Queues".' =>
             'Me prévenir si il y a un nouveau ticket dans une de "Mes files".',
-        'Send new ticket notifications' => '',
-        'Ticket follow up notification' => '',
+        'Send new ticket notifications' => 'Envoyer les notifications pour un nouveau ticket',
+        'Ticket follow up notification' => 'Notification de suivi de ticket',
         'Ticket lock timeout notification' => 'Prévenir du dépassement du délai d\'un verrou',
         'Send me a notification if a ticket is unlocked by the system.' =>
             'Me prévenir si un ticket est déverrouillé par le système',
-        'Send ticket lock timeout notifications' => '',
+        'Send ticket lock timeout notifications' => 'Envoyer les notifications d\'échéance de verrou du ticket',
         'Ticket move notification' => 'Notification de déplacement de Ticket',
         'Send me a notification if a ticket is moved into one of "My Queues".' =>
             'Me prévenir si un ticket est déplacé dans une de "Mes files".',
-        'Send ticket move notifications' => '',
+        'Send ticket move notifications' => 'Envoyer le snotifications de déplacement de ticket',
         'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' =>
-            '',
+            'Votre sélection de queue favorites. Vous êtes également notifié au sujet de ces queues par email si l\'option est activée.',
         'Custom Queue' => 'File d\'attente personnalisée',
         'QueueView refresh time' => 'Temps de rafraîchissement de la vue des files',
         'If enabled, the QueueView will automatically refresh after the specified time.' =>
-            '',
+            'Si activée, la QueueView se rafraîchira automatiquement après le temps spécifié',
         'Refresh QueueView after' => 'Rafraichir la vue des files après',
         'Screen after new ticket' => 'Écran après un nouveau ticket',
-        'Show this screen after I created a new ticket' => '',
+        'Show this screen after I created a new ticket' => 'Montrer cet écran après la création d\'un nouveau ticket',
         'Closed Tickets' => 'Tickets fermés',
         'Show closed tickets.' => 'Voir les tickets fermés',
         'Max. shown Tickets a page in QueueView.' => 'Nombre maximum de tickets affichés sur la page de la vue d\'une file',
-        'Ticket Overview "Small" Limit' => '',
-        'Ticket limit per page for Ticket Overview "Small"' => '',
-        'Ticket Overview "Medium" Limit' => '',
-        'Ticket limit per page for Ticket Overview "Medium"' => '',
+        'Ticket Overview "Small" Limit' => '"Petite" limite de Vue Générale des Tickets',
+        'Ticket limit per page for Ticket Overview "Small"' => 'Limite de ticket par page pour la "Petite" limite de Vue Générale des Tickets',
+        'Ticket Overview "Medium" Limit' => 'Moyenne" limite de Vue Générale des Tickets',
+        'Ticket limit per page for Ticket Overview "Medium"' => 'Limite de ticket par page pour la "Moyenne" limite de Vue Générale des Tickets',
         'Ticket Overview "Preview" Limit' => '',
         'Ticket limit per page for Ticket Overview "Preview"' => '',
         'Ticket watch notification' => 'Notification de surveillance de Ticket',
         'Send me the same notifications for my watched tickets that the ticket owners will get.' =>
-            '',
+            'M\'envoyer les mêmes notifications pour les tickets que je surveille que celles que le propriétaire recevra.',
         'Send ticket watch notifications' => 'Envoi de notifications à la vue du ticket',
         'Out Of Office Time' => 'Heure de sortie du travail',
         'New Ticket' => 'Nouveau ticket',
@@ -785,11 +785,11 @@ sub Data {
         'All open tickets, these tickets have already been worked on, but need a response' =>
             '',
         'All new tickets, these tickets have not been worked on yet' => '',
-        'All escalated tickets' => '',
+        'All escalated tickets' => 'Tous les tickets escaladés',
         'All tickets with a reminder set where the reminder date has been reached' =>
             '',
-        'Archived tickets' => '',
-        'Unarchived tickets' => '',
+        'Archived tickets' => 'Tickets archivés',
+        'Unarchived tickets' => 'Tickets non archivés',
         'History::Move' => 'Le ticket a été déplacé dans la file "%s" (%s) - Ancienne file: "%s" (%s).',
         'History::TypeUpdate' => 'Type positionné à %s (ID=%s).',
         'History::ServiceUpdate' => 'Service positionné à %s (ID=%s).',
@@ -888,7 +888,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer Management' => 'Gestion des clients',
-        'Back to search results' => '',
+        'Back to search results' => 'Retour aux résultats de la recherche',
         'Add customer' => 'Ajouter client',
         'Select' => 'Sélectionner',
         'Hint' => 'Conseil',
@@ -916,11 +916,11 @@ sub Data {
         'Just use this feature if you want to define group permissions for customers.' =>
             'Utiliser cette fonction uniquement si vous shouhaitez définir des permissions de groupe pour les clients',
         'Enable it here!' => 'Activez la ici !',
-        'Search for customers.' => '',
+        'Search for customers.' => 'Rechercher des clients',
         'Edit Customer Default Groups' => 'Editer les groupes par défault client',
         'These groups are automatically assigned to all customers.' => 'Ces groupes sont automatiquement assignés à tous les clients',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
-            '',
+            'Vous pouvez gérer ces groupes via le paramètre de configuration "CustomerGroupAlwaysGroups".',
         'Filter for Groups' => 'Filtre pour les Groupes',
         'Select the customer:group permissions.' => 'Selectionner les permissions client::groupe',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
@@ -929,8 +929,8 @@ sub Data {
         'Customers' => 'Clients',
         'Groups' => 'Groupes',
         'No matches found.' => 'Aucun résultat.',
-        'Change Group Relations for Customer' => '',
-        'Change Customer Relations for Group' => '',
+        'Change Group Relations for Customer' => 'Modifier les Relations du Groupe pour le Client',
+        'Change Customer Relations for Group' => 'Modifier les Relations du Client pour le Groupe',
         'Toggle %s Permission for all' => 'Sélectionner la Permission %s pour tous',
         'Toggle %s permission for %s' => 'Sélectionner la permission %s pour %s',
         'Customer Default Groups:' => 'Groupes par défaut du client',
@@ -945,20 +945,20 @@ sub Data {
         'Manage Customer-Services Relations' => 'Gérer les Relations Client-Services',
         'Edit default services' => 'Editer les services par défaut',
         'Filter for Services' => 'Filtre pour les Services',
-        'Allocate Services to Customer' => '',
-        'Allocate Customers to Service' => '',
+        'Allocate Services to Customer' => 'Allouer des Services au Client',
+        'Allocate Customers to Service' => 'Allouer des Clients au Service',
         'Toggle active state for all' => 'Sélectionner l\'état actif pour tous',
         'Active' => 'Actif',
         'Toggle active state for %s' => 'Sélectionner l\'état actif pour %s',
 
         # Template: AdminDynamicField
-        'Dynamic Fields Management' => '',
-        'Add new field for object' => '',
+        'Dynamic Fields Management' => 'Gestion des champs dynamiques',
+        'Add new field for object' => 'Ajouter un nouveau champ à l\'object',
         'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
-            '',
-        'Dynamic Fields List' => '',
-        'Dynamic fields per page' => '',
-        'Label' => '',
+            'Pour ajouter un nouveau champ, sélectionner le type du champ à partir d\'un objet de la liste, l\'objet défini les limites du champ et ne peut être modifié après sa création.',
+        'Dynamic Fields List' => 'Liste des champs dynamiques',
+        'Dynamic fields per page' => 'Champs dynamiques par page',
+        'Label' => 'Label',
         'Order' => 'Ordre',
         'Object' => 'Objet',
         'Delete this field' => 'Effacer ce champs',
@@ -967,79 +967,79 @@ sub Data {
         'Delete field' => 'Effacer ce champ',
 
         # Template: AdminDynamicFieldCheckbox
-        'Dynamic Fields' => '',
-        'Field' => '',
-        'Go back to overview' => '',
-        'General' => '',
+        'Dynamic Fields' => 'Champs dynamiques',
+        'Field' => 'Champ',
+        'Go back to overview' => 'Revenir à la vue générale',
+        'General' => 'Général',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
-            '',
+            'Ce champ est requis, et ses caractères doivent être alphabétiques et numériques uniquement',
         'Must be unique and only accept alphabetic and numeric characters.' =>
-            '',
+            'Doit être unique et accepte uniquement des caractères alphabétiques et numériques.',
         'Changing this value will require manual changes in the system.' =>
-            '',
+            'Modifier cette value requerra des modifications manuelles du systèmes',
         'This is the name to be shown on the screens where the field is active.' =>
-            '',
-        'Field order' => '',
-        'This field is required and must be numeric.' => '',
+            'Il s\'agit du nom à afficher sur l\'écran où le champ est actif.',
+        'Field order' => 'Ordre du champ',
+        'This field is required and must be numeric.' => 'Ce champ est requis et doit être numérique.',
         'This is the order in which this field will be shown on the screens where is active.' =>
-            '',
-        'Field type' => '',
-        'Object type' => '',
-        'Internal field' => '',
-        'This field is protected and can\'t be deleted.' => '',
-        'Field Settings' => '',
+            'C\'est l\'ordre dans lequel ce champ sera afficher sur l\'écran où il est actif.',
+        'Field type' => 'Type de champ',
+        'Object type' => 'Type d\'objet',
+        'Internal field' => 'Champ interne',
+        'This field is protected and can\'t be deleted.' => 'Ce champ est protégé et ne peut être supprimé',
+        'Field Settings' => 'Paramètres du champ',
         'Default value' => 'Valeur par défaut',
-        'This is the default value for this field.' => '',
+        'This is the default value for this field.' => 'C\'est la valeur par défaut du champ',
         'Save' => 'Sauver',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => '',
-        'This field must be numeric.' => '',
+        'This field must be numeric.' => 'Ce champ doit être numérique',
         'The difference from NOW (in seconds) to calculate the field default value (e.g. 3600 or -60).' =>
             '',
         'Define years period' => '',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
             '',
-        'Years in the past' => '',
-        'Years in the past to display (default: 5 years).' => '',
-        'Years in the future' => '',
-        'Years in the future to display (default: 5 years).' => '',
-        'Show link' => '',
+        'Years in the past' => 'Années dans le passé',
+        'Years in the past to display (default: 5 years).' => 'Années dans le passé à afficher (défaut: 5 ans)',
+        'Years in the future' => 'Années dans le futur',
+        'Years in the future to display (default: 5 years).' => 'Années dans le futur à afficher (défaut: 5 ans)',
+        'Show link' => 'Afficher le lien',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
-            '',
+            'Ici, vous pouvez spécifier un lien HTTP optional pour la valeur du champ dans les écrans de Vue Générale et de Zoom',
 
         # Template: AdminDynamicFieldDropdown
-        'Possible values' => '',
+        'Possible values' => 'Valeur possibles',
         'Key' => 'Clé',
         'Value' => 'Valeur',
-        'Remove value' => '',
-        'Add value' => '',
-        'Add Value' => '',
-        'Add empty value' => '',
+        'Remove value' => 'Supprimer valeur',
+        'Add value' => 'Ajouter valeur',
+        'Add Value' => 'Ajouter valeur',
+        'Add empty value' => 'Ajouter valeur vide',
         'Activate this option to create an empty selectable value.' => '',
         'Translatable values' => '',
         'If you activate this option the values will be translated to the user defined language.' =>
             '',
         'Note' => 'Note',
         'You need to add the translations manually into the language translation files.' =>
-            '',
+            'Vous devez ajouter les traductions manuellement dans les fichiers de traduction de langue.',
 
         # Template: AdminDynamicFieldMultiselect
 
         # Template: AdminDynamicFieldText
-        'Number of rows' => '',
+        'Number of rows' => 'Nombre de lignes',
         'Specify the height (in lines) for this field in the edit mode.' =>
-            '',
-        'Number of cols' => '',
+            'Spécifier la hauteur (en lignes) pour ce champ dans le mode d\'édition',
+        'Number of cols' => 'Nombre de colonnes',
         'Specify the width (in characters) for this field in the edit mode.' =>
-            '',
+            'Spécifier la largeur (en caractères) pour ce champ dans le mode d\'édition',
 
         # Template: AdminEmail
         'Admin Notification' => 'Notification des administrateurs',
         'With this module, administrators can send messages to agents, group or role members.' =>
-            '',
-        'Create Administrative Message' => '',
-        'Your message was sent to' => 'Votre message a éét envoyé à',
+            'Avec ce module, les administrateurs peuvent envoyer des messages aux agents, groupes ou membres d\'un rôle.',
+        'Create Administrative Message' => 'Créer un message d\'administration',
+        'Your message was sent to' => 'Votre message a été envoyé à',
         'Send message to users' => 'Envoyer message aux utilisateurs',
         'Send message to group members' => 'Envoyer message aux membre du gorupe',
         'Group members need to have permission' => 'Les membres du groupe ont besoin de la permission',
@@ -1064,7 +1064,7 @@ sub Data {
         'Schedule minutes' => 'Planification Minutes',
         'Schedule hours' => 'Planification Heures',
         'Schedule days' => 'Planification Jours',
-        'Toggle this widget' => '',
+        'Toggle this widget' => 'Activer/Désactiver le widget',
         'Ticket Filter' => 'Filtre ticket',
         '(e. g. 10*5155 or 105658*)' => '(ex: 10*5155 or 105658*)',
         '(e. g. 234321)' => '(ex: 234321)',
@@ -1146,25 +1146,25 @@ sub Data {
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => '',
         'Web Services' => 'Services Web',
-        'Debugger' => '',
+        'Debugger' => 'Débuggeur',
         'Go back to web service' => 'Retourner au service web',
-        'Clear' => '',
+        'Clear' => 'Nettoyer',
         'Do you really want to clear the debug log of this web service?' =>
             '',
         'Request List' => '',
         'Time' => 'Date et heure',
-        'Remote IP' => '',
+        'Remote IP' => 'Adresse IP distante',
         'Loading' => 'En cours de chargement',
-        'Select a single request to see its details.' => '',
-        'Filter by type' => '',
-        'Filter from' => '',
-        'Filter to' => '',
-        'Filter by remote IP' => '',
+        'Select a single request to see its details.' => 'Sélection une seule requête pour afficher son détail',
+        'Filter by type' => 'Filtrer par type',
+        'Filter from' => 'Filtrer envoyeur',
+        'Filter to' => 'Filtrer destinataire',
+        'Filter by remote IP' => 'Filtrer par adresse IP distante',
         'Refresh' => 'Rafraîchir',
-        'Request Details' => '',
-        'An error occurred during communication.' => '',
+        'Request Details' => 'Demander des détails',
+        'An error occurred during communication.' => 'Une erreur est apparue lors de la communication',
         'Show or hide the content' => 'Montrer ou cacher le contenu',
-        'Clear debug log' => '',
+        'Clear debug log' => 'Nettoyer les logs de debug',
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add new Invoker to Web Service %s' => '',
@@ -1207,7 +1207,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => '',
-        'Go back to' => '',
+        'Go back to' => 'Revenir à',
         'Mapping Simple' => '',
         'Default rule for unmapped keys' => '',
         'This rule will apply for all keys with no mapping rule.' => '',
@@ -1231,15 +1231,15 @@ sub Data {
         'Delete this Key Mapping' => '',
 
         # Template: AdminGenericInterfaceOperationDefault
-        'Add new Operation to Web Service %s' => '',
-        'Change Operation %s of Web Service %s' => '',
-        'Add new operation' => '',
-        'Change operation %s' => '',
-        'Do you really want to delete this operation?' => '',
-        'Operation Details' => '',
+        'Add new Operation to Web Service %s' => 'Ajouter nouvelle Opération au Service Web %s',
+        'Change Operation %s of Web Service %s' => 'Modifier l\'Opération %s pour le Service Web %s',
+        'Add new operation' => 'Ajouter nouvelle opération',
+        'Change operation %s' => 'Modifier opération %s',
+        'Do you really want to delete this operation?' => 'Voulez-vous vraiment supprimer cette opération',
+        'Operation Details' => 'Détails de l\'opération',
         'The name is typically used to call up this web service operation from a remote system.' =>
             '',
-        'Please provide a unique name for this web service.' => '',
+        'Please provide a unique name for this web service.' => 'Merci de fournir un nom unique pour ce service web.',
         'Mapping for incoming request data' => '',
         'The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.' =>
             '',
@@ -1249,12 +1249,12 @@ sub Data {
         'Mapping for outgoing response data' => '',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             '',
-        'Delete this Operation' => '',
+        'Delete this Operation' => 'Supprimer cette Operation',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
         'GenericInterface Transport HTTP::SOAP for Web Service %s' => '',
         'Network transport' => '',
-        'Properties' => '',
+        'Properties' => 'Propriétés',
         'Endpoint' => '',
         'URI to indicate a specific location for accessing a service.' =>
             '',
@@ -1263,25 +1263,25 @@ sub Data {
         'URI to give SOAP methods a context, reducing ambiguities.' => '',
         'e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
             '',
-        'Maximum message length' => '',
-        'This field should be an integer number.' => '',
+        'Maximum message length' => 'Longueur maximale du message',
+        'This field should be an integer number.' => 'Ce champ doit être un entier.',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             '',
-        'Encoding' => '',
-        'The character encoding for the SOAP message contents.' => '',
+        'Encoding' => 'Encodage',
+        'The character encoding for the SOAP message contents.' => 'Encodage des caractères pour le contenu des messages SOAP',
         'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => '',
         'SOAPAction' => '',
         'Set to "Yes" to send a filled SOAPAction header.' => '',
         'Set to "No" to send an empty SOAPAction header.' => '',
-        'SOAPAction separator' => '',
+        'SOAPAction separator' => 'Séparateur SOAPAction',
         'Character to use as separator between name space and SOAP method.' =>
-            '',
-        'Usually .Net web services uses a "/" as separator.' => '',
-        'Authentication' => '',
-        'The authentication mechanism to access the remote system.' => '',
-        'A "-" value means no authentication.' => '',
-        'The user name to be used to access the remote system.' => '',
-        'The password for the privileged user.' => '',
+            'Caractère à utiliser comme séparateur entre le name space et la méthode SOAP.',
+        'Usually .Net web services uses a "/" as separator.' => 'Habituellement, les service web .Net utilisent un "/" comme séparateur.',
+        'Authentication' => 'Authentification',
+        'The authentication mechanism to access the remote system.' => 'Méchanisme d\'authentification pour accéder au système distant',
+        'A "-" value means no authentication.' => 'Un "-" veut dire pas d\'authentification.',
+        'The user name to be used to access the remote system.' => 'Le nom d\'utilisateur pour accéder au système distant',
+        'The password for the privileged user.' => 'Mot de passe pour l\'utilisateur privilégié',
         'Use SSL Options' => 'Utiliser les options SSL',
         'Show or hide SSL options to connect to the remote system.' => 'Afficher ou cacher les options SSL pour se connecter à distance au système',
         'Certificate File' => 'Fichier de Certificat',
@@ -1308,28 +1308,28 @@ sub Data {
 
         # Template: AdminGenericInterfaceWebservice
         'GenericInterface Web Service Management' => '',
-        'Add web service' => '',
-        'Clone web service' => '',
-        'The name must be unique.' => '',
-        'Clone' => '',
-        'Export web service' => '',
-        'Import web service' => '',
-        'Configuration File' => '',
+        'Add web service' => 'Ajouter un service web',
+        'Clone web service' => 'Cloner un service web',
+        'The name must be unique.' => 'Ce nom doit être unique',
+        'Clone' => 'Cloner',
+        'Export web service' => 'Exporter web service',
+        'Import web service' => 'Importer web service',
+        'Configuration File' => 'Fichier de configuration',
         'The file must be a valid web service configuration YAML file.' =>
-            '',
+            'Le fichier doit être un fichier valide de configuration de webservice au format YAML',
         'Import' => 'Importer',
-        'Configuration history' => '',
-        'Delete web service' => '',
-        'Do you really want to delete this web service?' => '',
+        'Configuration history' => 'Historique de configuration',
+        'Delete web service' => 'Supprimer web service',
+        'Do you really want to delete this web service?' => 'Voulez-vous vraiment supprimer ce web service?',
         'After you save the configuration you will be redirected again to the edit screen.' =>
-            '',
+            'Après avoir sauvé la configuration, vous serez redirigé à nouveau  vers l\'écran d\'édition.',
         'If you want to return to overview please click the "Go to overview" button.' =>
-            '',
-        'Web Service List' => '',
-        'Remote system' => '',
-        'Provider transport' => '',
-        'Requester transport' => '',
-        'Details' => '',
+            'Si vous souhaitez retourner à la vue générale, merci de cliquer sur le bouton "Retour à la vue générale".',
+        'Web Service List' => 'List des Services Web',
+        'Remote system' => 'Système Distant',
+        'Provider transport' => 'Transport Fournisseur',
+        'Requester transport' => 'Transport Demandeur',
+        'Details' => 'Détails',
         'Debug threshold' => '',
         'In provider mode, OTRS offers web services which are used by remote systems.' =>
             '',
@@ -1339,34 +1339,34 @@ sub Data {
             '',
         'Invokers prepare data for a request to a remote web service, and process its response data.' =>
             '',
-        'Controller' => '',
+        'Controller' => 'Controleur',
         'Inbound mapping' => '',
         'Outbound mapping' => '',
-        'Delete this action' => '',
+        'Delete this action' => 'Supprimer cette action',
         'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' =>
             '',
-        'Delete webservice' => '',
-        'Delete operation' => '',
-        'Delete invoker' => '',
-        'Clone webservice' => '',
-        'Import webservice' => '',
+        'Delete webservice' => 'Supprimer service web',
+        'Delete operation' => 'Supprimer opération',
+        'Delete invoker' => 'Supprimer invoker',
+        'Clone webservice' => 'Cloner web service',
+        'Import webservice' => 'Import webservice',
 
         # Template: AdminGenericInterfaceWebserviceHistory
         'GenericInterface Configuration History for Web Service %s' => '',
-        'Go back to Web Service' => '',
+        'Go back to Web Service' => 'Revenir au web service',
         'Here you can view older versions of the current web service\'s configuration, export or even restore them.' =>
-            '',
+            'Ici vous pouvez voir d\'anciennes versions de la configuration du web service actuel, les exporter ou les restaurer. ',
         'Configuration History List' => '',
         'Version' => 'Version',
-        'Create time' => '',
-        'Select a single configuration version to see its details.' => '',
-        'Export web service configuration' => '',
-        'Restore web service configuration' => '',
+        'Create time' => 'Heure de création',
+        'Select a single configuration version to see its details.' => 'Sélectionner une version de configuration pour en voir le détail.',
+        'Export web service configuration' => 'Exporter configuration de web service',
+        'Restore web service configuration' => 'Restaurer configuration de web service',
         'Do you really want to restore this version of the web service configuration?' =>
-            '',
-        'Your current web service configuration will be overwritten.' => '',
-        'Show or hide the content.' => '',
-        'Restore' => '',
+            'Voulez-vous vraiment restaurer cette version de configuration de web service?',
+        'Your current web service configuration will be overwritten.' => 'Votre configuration actuelle de web service sera écrasée.',
+        'Show or hide the content.' => 'Affichier ou cache le contenu',
+        'Restore' => 'restaurer',
 
         # Template: AdminGroup
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
@@ -1384,8 +1384,8 @@ sub Data {
         # Template: AdminLog
         'System Log' => 'Journaux du Système',
         'Here you will find log information about your system.' => 'Vous trouverez ici les informations de log sur votre système',
-        'Hide this message' => '',
-        'Recent Log Entries' => '',
+        'Hide this message' => 'Cacher ce message',
+        'Recent Log Entries' => 'Entrées de log récentes',
 
         # Template: AdminMailAccount
         'Mail Account Management' => 'Gestion du compte de messagerie',
@@ -1398,10 +1398,10 @@ sub Data {
         'Delete account' => 'Supprimer compte',
         'Fetch mail' => 'Parcourir mail',
         'Add Mail Account' => 'Aouter compte mail',
-        'Example: mail.example.com' => '',
-        'IMAP Folder' => '',
+        'Example: mail.example.com' => 'Exemple: mail.exemple.com',
+        'IMAP Folder' => 'Répertoire IMAP',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
-            '',
+            'Ne modifier ceci que si vous devez récupérer des messages à partir d\'un répertoire autre que INBOX',
         'Trusted' => 'Vérifié',
         'Dispatching' => 'Répartition',
         'Edit Mail Account' => 'Editer compte mail',
@@ -1415,7 +1415,7 @@ sub Data {
 
         # Template: AdminNotification
         'Notification Management' => 'Gestion des notifications',
-        'Select a different language' => '',
+        'Select a different language' => 'Sélectionner une autre langue',
         'Filter for Notification' => 'Filtre pour Notification',
         'Notifications are sent to an agent or a customer.' => 'Des notifications sont envoyées à un opérateur ou à un client.',
         'Notification' => 'Notification',
@@ -1450,11 +1450,11 @@ sub Data {
 
         # Template: AdminPGP
         'PGP Management' => 'Gestion de PGP',
-        'Use this feature if you want to work with PGP keys.' => '',
+        'Use this feature if you want to work with PGP keys.' => 'Utiliser cette fonction si vous souhaitez travailler avec des clés PGP.',
         'Add PGP key' => 'Ajouter clé PGP',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'Dans ce cas vous pouvez directement éditer le trousseau configuré dans SysConfig.',
-        'Introduction to PGP' => '',
+        'Introduction to PGP' => 'Introduction à PGP',
         'Result' => 'Résultat',
         'Identifier' => 'Identifiant',
         'Bit' => 'Bit',
@@ -1482,7 +1482,7 @@ sub Data {
         'Module documentation' => 'Documentation du module',
         'Upgrade' => 'Mise à jour',
         'Local Repository' => 'Dépôt local',
-        'This package is verified by OTRSverify (tm)' => '',
+        'This package is verified by OTRSverify (tm)' => 'Ce paquet est vérifié par OTRSverify (tm)',
         'Uninstall' => 'Désinstallation',
         'Reinstall' => 'Ré-installation',
         'Feature Add-Ons' => 'Fonctionnalité des Compléments',
@@ -1534,14 +1534,14 @@ sub Data {
         'Delete this filter' => 'Supprimer ce filtre',
         'Add PostMaster Filter' => 'Ajouter un filtre PostMaster',
         'Edit PostMaster Filter' => 'EditerFiltre PostMaster',
-        'Filter name' => '',
-        'The name is required.' => '',
+        'Filter name' => 'Nom du filtre',
+        'The name is required.' => 'Le nom est requis',
         'Stop after match' => 'Stopper après correspondance',
         'Filter Condition' => 'Condition de filtre',
         'The field needs to be a valid regular expression or a literal word.' =>
-            '',
+            'Le champ doit être une expression régulière valide ou un mot litéral.',
         'Set Email Headers' => 'Régler les entêtes e-mail',
-        'The field needs to be a literal word.' => '',
+        'The field needs to be a literal word.' => 'Le champ doit être unmpot litéral.',
 
         # Template: AdminPriority
         'Priority Management' => 'Gestion de la priorité',
@@ -2092,10 +2092,10 @@ sub Data {
         # Template: AgentDashboardTicketStats
 
         # Template: AgentDashboardUserOnline
-        'out of office' => '',
+        'out of office' => 'heure de sortie du travail',
 
         # Template: AgentDashboardUserOutOfOffice
-        'until' => '',
+        'until' => 'jusqu\'à',
 
         # Template: AgentHTMLReferenceForms
 
@@ -2655,9 +2655,9 @@ sub Data {
 
         # Template: InstallerRegistration
         'Organization' => 'Société',
-        'Position' => '',
-        'Complete registration and continue' => '',
-        'Please fill in all fields marked as mandatory.' => '',
+        'Position' => 'Position',
+        'Complete registration and continue' => 'Compléter l\'enregistrement et continuer',
+        'Please fill in all fields marked as mandatory.' => 'Merci de remplir tous les champs marqués comme étant obligatoire.',
 
         # Template: InstallerSystem
         'SystemID' => 'ID Système',
@@ -2674,7 +2674,7 @@ sub Data {
         'Log file location is only needed for File-LogModule!' => 'L\'emplacement du fichier journal n\'est nécessaire que pour le module de journalisation fichier !',
         'Webfrontend' => 'Frontal web',
         'Default language' => 'Langue par défaut',
-        'Default language.' => '',
+        'Default language.' => 'Langue par défaut.',
         'CheckMXRecord' => 'Vérifier les enregistrements MX',
         'Email addresses that are manually entered are checked against the MX records found in DNS. Don\'t use this option if your DNS is slow or does not resolve public addresses.' =>
             '',
@@ -2706,7 +2706,7 @@ sub Data {
         'Show last page' => 'Montrer la dernière page',
 
         # Template: PictureUpload
-        'Need FormID!' => '',
+        'Need FormID!' => 'Besoin de FormID',
         'No file found!' => 'Aucun fichier trouvé !',
         'The file is not an image that can be shown inline!' => 'Le fichier n\'est pas une image qui puisse être affichée directement !',
 
@@ -4525,7 +4525,7 @@ sub Data {
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket overview' => 'Vue d\'ensemble du Ticket',
-        'TicketNumber' => '',
+        'TicketNumber' => 'NuméroTicket',
         'Tickets' => 'Ticket',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             'Temps en secondes à ajouter à l\'heure actuelle dans le cas dans état en attente (défaut: 86400 = 1 jour)',
