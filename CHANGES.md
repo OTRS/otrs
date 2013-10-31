@@ -1,4 +1,5 @@
 #3.3.0 RC1 ????-??-??
+ - 2013-10-31 Updated French translation, thanks to Olivier Sallou.
  - 2013-10-31 Updated Italian translation, thanks to Luca Maranzano.
  - 2013-10-31 Added support for Apache 2.4 in the web server configuration file.
  - 2013-10-31 Fixed bug#[9910](http://bugs.otrs.org/show_bug.cgi?id=9910) - Startup warnings/errors with Perl 5.18.1.
