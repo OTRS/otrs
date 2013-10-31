@@ -807,6 +807,14 @@ select.ColumnFilter {
     box-shadow: 1px 1px 1px #a9a9a9 inset, -1px -1px 1px #a9a9a9 inset;
 }
 
+.DataTable thead th.DashboardHeader.FilterActive .ColumnSettingsTrigger i,
+.DataTable thead th.DashboardHeader .ColumnSettingsTrigger.Active i,
+.TableSmall thead th.OverviewHeader.FilterActive .ColumnSettingsTrigger i,
+.TableSmall thead th.OverviewHeader .ColumnSettingsTrigger.Active i {
+
+    color: #ff0000;
+}
+
 .DataTable thead th.DashboardHeader .ColumnSettingsTrigger:after,
 .TableSmall thead th.OverviewHeader .ColumnSettingsTrigger:after {
     content: "";
