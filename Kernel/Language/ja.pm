@@ -403,6 +403,7 @@ sub Data {
             '',
         'Problems processing server result. Please try again later.' => '',
         'Username and password do not match. Please try again.' => '',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => '',
@@ -2507,6 +2508,7 @@ sub Data {
 
         # Template: AgentTicketOverviewSmall
         'Reset overview' => '',
+        'Column Filters Form' => '',
 
         # Template: AgentTicketOwner
 
@@ -3074,8 +3076,6 @@ sub Data {
             'チケット番号ディテクションの中のシステムIDを、フォロー・アップのために確認します（もし、システムIDがシステム利用後に変更されていた場合は“No”を使用してください）。',
         'Closed tickets of customer' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the status view of the agent interface. PPossible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
-            '',
         'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => '顧客インタフェースの新規履歴エントリーのためのコメントです。',

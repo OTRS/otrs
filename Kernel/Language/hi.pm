@@ -404,6 +404,7 @@ sub Data {
             '',
         'Problems processing server result. Please try again later.' => '',
         'Username and password do not match. Please try again.' => '',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => '',
@@ -2508,6 +2509,7 @@ sub Data {
 
         # Template: AgentTicketOverviewSmall
         'Reset overview' => '',
+        'Column Filters Form' => '',
 
         # Template: AgentTicketOwner
 
@@ -3075,8 +3077,6 @@ sub Data {
             'टिकट की अनुवर्ती संख्या का पता लगाने के लिए यह प्रणाली ID की जाँच करता है(प्रयोग "नहीं" अगर प्रणाली ID प्रणाली का उपयोग करने के बाद बदल दिया गया है)।',
         'Closed tickets of customer' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the status view of the agent interface. PPossible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
-            '',
         'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => 'ग्राहक अंतरफलक में इतिहास नई प्रविष्टियों के लिए टिप्पणी।',

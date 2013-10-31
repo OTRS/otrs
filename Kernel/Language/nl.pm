@@ -408,6 +408,7 @@ sub Data {
             'Geen data ontvangen van registratieserver. Probeer het later nogmaals.',
         'Problems processing server result. Please try again later.' => 'Problemen met het verwerken van data van registratieserver. Probeer het later nogmaals.',
         'Username and password do not match. Please try again.' => 'Gebruikersnaam en wachtwoord komen niet overeen.',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Nieuwjaarsdag',
@@ -2512,6 +2513,7 @@ sub Data {
 
         # Template: AgentTicketOverviewSmall
         'Reset overview' => 'Herstel overzicht',
+        'Column Filters Form' => '',
 
         # Template: AgentTicketOwner
 
@@ -3079,8 +3081,6 @@ sub Data {
             '',
         'Closed tickets of customer' => 'Gesloten tickets van klant',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the status view of the agent interface. PPossible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
-            '',
         'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => '',

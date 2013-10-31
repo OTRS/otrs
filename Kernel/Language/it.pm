@@ -410,6 +410,7 @@ sub Data {
             'Nessun dato ricevuto dal server per la registrazione. Riprovare più tardi, grazie.',
         'Problems processing server result. Please try again later.' => 'Si sono verificati problemi elaborando la risposta del server. Riprovare più tardi, grazie.',
         'Username and password do not match. Please try again.' => 'Il nome utente e la password non combaciano. Prova ancora.',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Capodanno',
@@ -451,7 +452,7 @@ sub Data {
         'November' => 'Novembre',
         'December' => 'Dicembre',
 
-        # Template: AAAPreferences #OK Liuk
+        # Template: AAAPreferences
         'Preferences updated successfully!' => 'Preferenze modificate con successo!',
         'User Profile' => 'Profilo utente',
         'Email Settings' => 'Impostazioni email',
@@ -850,7 +851,7 @@ sub Data {
         'History::ArchiveFlagUpdate' => 'Aggiornamento Flag Archivio',
         'History::TicketTitleUpdate' => 'Aggiornamento Titolo Ticket',
 
-        # Template: AAAWeekDay --LiukOK
+        # Template: AAAWeekDay
         'Sun' => 'Dom',
         'Mon' => 'Lun',
         'Tue' => 'Mar',
@@ -2515,6 +2516,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
 
         # Template: AgentTicketOverviewSmall
         'Reset overview' => '',
+        'Column Filters Form' => '',
 
         # Template: AgentTicketOwner
 
@@ -3082,8 +3084,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             'Controlla il SystemID nel rilevamento del numero di ticket per i follow-up (usare "No" se il SystemID è stato cambiato dopo aver usato il sistema).',
         'Closed tickets of customer' => 'Richieste completate per il cliente',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the status view of the agent interface. PPossible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
-            '',
         'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => 'Commento per nuove entry nello storico dell\'interfaccia cliente.',

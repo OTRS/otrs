@@ -402,6 +402,7 @@ sub Data {
             'Registration-Server lieferte keinen Inhalt. Bitte versuchen Sie es später noch einmal.',
         'Problems processing server result. Please try again later.' => 'Beim Verarbeiten der Serverantwort ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.',
         'Username and password do not match. Please try again.' => 'Benutzername und Passwort stimmen nicht überein. Bitte versuchen Sie es noch einmal.',
+        'The selected process is invalid!' => 'Der ausgewählte Prozess ist ungültig.',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Neujahr',
@@ -2506,6 +2507,7 @@ sub Data {
 
         # Template: AgentTicketOverviewSmall
         'Reset overview' => 'Übersicht zurücksetzen',
+        'Column Filters Form' => 'Spalten-Filter-Formular',
 
         # Template: AgentTicketOwner
 
@@ -3073,8 +3075,6 @@ sub Data {
             '',
         'Closed tickets of customer' => 'Geschlossene Tickets des Kunden',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the status view of the agent interface. PPossible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
-            '',
         'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => '',
