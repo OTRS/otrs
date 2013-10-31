@@ -249,7 +249,7 @@ and do not use the configuration file directly from the OTRS installation direct
 (e. g. with a symlink from the Apache configuration directory).
 
 Please update the the Apache configuration file for OTRS as there have been several
-changes (see `scripts/apache2-httpd.include.conf`).
+changes (see [scripts/apache2-httpd.include.conf](scripts/apache2-httpd.include.conf)).
 
 
 16. Update and activate cronjobs
@@ -268,7 +268,7 @@ Please check the copied files and re-apply any customizations that you might hav
 To schedule these cronjobs on your system, you can use the script Cron.sh.
 Make sure to execute it as the OTRS system user!
 
-        shell> /opt/otrs/bin/Cron.sh start
+    shell> /opt/otrs/bin/Cron.sh start
 
 
 17. Well done!
