@@ -1,4 +1,4 @@
-#3.2.12 2013-??-??
+#3.2.12 2013-11-05
  - 2013-10-31 Updated French translation, thanks to Olivier Sallou!
  - 2013-10-31 Fixed bug#[9910](http://bugs.otrs.org/show_bug.cgi?id=9910) - Startup warnings/errors with Perl 5.18.1.
  - 2013-10-29 Fixed bug#[9753](http://bugs.otrs.org/show_bug.cgi?id=9753) - META HTTP-EQUIV="Refresh" tag not stripped from HTML email.
