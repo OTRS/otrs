@@ -1,4 +1,5 @@
 #3.2.12 2013-??-??
+
  - 2013-10-29 Fixed bug#[9753](http://bugs.otrs.org/show_bug.cgi?id=9753) - META HTTP-EQUIV="Refresh" tag not stripped from HTML email.
  - 2013-10-28 Fixed bug#[9897](http://bugs.otrs.org/show_bug.cgi?id=9897) - process ticket 'fading away' -> Process is invalid.
  - 2013-10-28 Fixed bug#[9749](http://bugs.otrs.org/show_bug.cgi?id=9749) - Using spell checker in rich text Editor strips HTML formatting.
