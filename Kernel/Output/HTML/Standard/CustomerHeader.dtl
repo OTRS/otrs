@@ -103,7 +103,7 @@ $Include{"Copyright"}
             }, 0);
         }());
     </script>
-<![endif]-->
+    <![endif]-->
 
     <title>$QData{"TitleArea"} $Config{"ProductName"}</title>
 </head>
