@@ -241,6 +241,10 @@ div.Clear {
     height: 180px;
 }
 
+.WidgetSimple .ErrorMessage .WidgetAction {
+    display: none;
+}
+
 /**
  * @subsection  Datepicker
  */

@@ -1,4 +1,5 @@
 #3.3.0 RC1 2013-11-05
+ - 2013-11-01 Fixed bug#[9901](http://bugs.otrs.org/show_bug.cgi?id=9901) - CustomerFatalError expand/collapse error details is broken.
  - 2013-11-01 Fixed bug#[9891](http://bugs.otrs.org/show_bug.cgi?id=9891) - Table header of dashboard widgets text misaligned.
  - 2013-11-01 Fixed bug#[9903](http://bugs.otrs.org/show_bug.cgi?id=9903) - CustomerTicketOverview: Column header may wrap into table content.
  - 2013-10-31 Updated French translation, thanks to Olivier Sallou.
