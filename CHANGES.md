@@ -1,4 +1,5 @@
 #3.3.0 RC1 2013-11-05
+ - 2013-11-01 Fixed bug#[9903](http://bugs.otrs.org/show_bug.cgi?id=9903) - CustomerTicketOverview: Column header may wrap into table content.
  - 2013-10-31 Updated French translation, thanks to Olivier Sallou.
  - 2013-10-31 Updated Italian translation, thanks to Luca Maranzano.
  - 2013-10-31 Added support for Apache 2.4 in the web server configuration file.
