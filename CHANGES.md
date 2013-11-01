@@ -1,4 +1,5 @@
 #3.3.1 ????-??-??
+ - 2013-11-01 Fixed bug#[9918](http://bugs.otrs.org/show_bug.cgi?id=9918) - Dropdown field in tree mode are not displayed in tree mode when opening CustomerTicketProcess.
  - 2013-11-01 Fixed bug#[9840](http://bugs.otrs.org/show_bug.cgi?id=9840) - Toolbar Icons not shown correctly in IE8.
  - 2013-11-01 Fixed bug#[9901](http://bugs.otrs.org/show_bug.cgi?id=9901) - CustomerFatalError expand/collapse error details is broken.
  - 2013-11-01 Fixed bug#[9891](http://bugs.otrs.org/show_bug.cgi?id=9891) - Table header of dashboard widgets text misaligned.
