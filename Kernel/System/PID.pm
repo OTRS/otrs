@@ -148,9 +148,10 @@ sub PIDCreate {
     # add new entry
     my $Time = time();
     return if !$Self->{DBObject}->Do(
-        SQL => 'INSERT INTO process_id'
-            . ' (process_name, process_id, process_host, process_create, process_change)'
-            . ' VALUES (?, ?, ?, ?, ?)',
+        SQL => '
+            INSERT INTO process_id
+            (process_name, process_id, process_host, process_create, process_change)
+            VALUES (?, ?, ?, ?, ?)',
         Bind => [ \$Param{Name}, \$PIDCurrent, \$Self->{Host}, \$Time, \$Time ],
     );
 
@@ -178,8 +179,10 @@ sub PIDGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT process_name, process_id, process_host, process_create, process_change'
-            . ' FROM process_id WHERE process_name = ?',
+        SQL => '
+            SELECT process_name, process_id, process_host, process_create, process_change
+            FROM process_id
+            WHERE process_name = ?',
         Bind  => [ \$Param{Name} ],
         Limit => 1,
     );
@@ -278,8 +281,10 @@ sub PIDUpdate {
     # sql
     my $Time = time();
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE process_id SET process_change = ? '
-            . 'WHERE process_name = ?',
+        SQL => '
+            UPDATE process_id
+            SET process_change = ?
+            WHERE process_name = ?',
         Bind => [ \$Time, \$Param{Name} ],
     );
 
