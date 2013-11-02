@@ -86,7 +86,10 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
     if ( exists $Opts{f} ) {
 
         # delete process ID lock
-        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
+            Name  => $PID{Name},
+            Force => 1,
+        );
 
         # log daemon stop
         if ( !$PIDDelSuccess ) {
@@ -343,8 +346,14 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     # create common objects
     my %CommonObject = _CommonObjects();
 
+    # if start is forced, be sure to remove any PID from any host
+    my $Force = $Opts{f} ? 1 : '';
+
     # create new PID on the Database
-    $CommonObject{PIDObject}->PIDCreate( Name => 'otrs.Scheduler' );
+    $CommonObject{PIDObject}->PIDCreate(
+        Name  => 'otrs.Scheduler',
+        Force => $Force,
+    );
 
     # get the process ID
     my %PID = $CommonObject{PIDObject}->PIDGet(

@@ -90,7 +90,8 @@ create a new process id lock
         Name => 'PostMasterPOP3',
     );
 
-    or to create a new PID forced, without check if already exists
+    or to create a new PID forced, without check if already exists (this will delete any process
+    with the same name from any other host)
 
     $PIDObject->PIDCreate(
         Name  => 'PostMasterPOP3',
@@ -202,8 +203,14 @@ sub PIDGet {
 
 delete the process id lock
 
-    $PIDObject->PIDDelete(
-        Name => 'PostMasterPOP3',
+    my $Success = $PIDObject->PIDDelete(
+        Name  => 'PostMasterPOP3',
+    );
+
+    or to force delete even if the PID is registered by another host
+    my $Success = $PIDObject->PIDDelete(
+        Name  => 'PostMasterPOP3',
+        Force => 1,
     );
 
 =cut
@@ -217,10 +224,25 @@ sub PIDDelete {
         return;
     }
 
+    # set basic SQL statement
+    my $SQL = '
+        DELETE FROM process_id
+        WHERE process_name = ?';
+
+    my @Bind = ( \$Param{Name} );
+
+    # delete only processes from this host if Force option was not set
+    if ( !$Param{Force} ) {
+        $SQL .= '
+        AND process_host = ?';
+
+        push @Bind, \$Self->{Host}
+    }
+
     # sql
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM process_id WHERE process_name = ? AND process_host = ?',
-        Bind => [ \$Param{Name}, \$Self->{Host} ],
+        SQL  => $SQL,
+        Bind => \@Bind,
     );
 
     return 1;
