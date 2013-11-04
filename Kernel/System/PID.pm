@@ -90,7 +90,8 @@ create a new process id lock
         Name => 'PostMasterPOP3',
     );
 
-    or to create a new PID forced, without check if already exists
+    or to create a new PID forced, without check if already exists (this will delete any process
+    with the same name from any other host)
 
     $PIDObject->PIDCreate(
         Name  => 'PostMasterPOP3',
@@ -147,9 +148,10 @@ sub PIDCreate {
     # add new entry
     my $Time = time();
     return if !$Self->{DBObject}->Do(
-        SQL => 'INSERT INTO process_id'
-            . ' (process_name, process_id, process_host, process_create, process_change)'
-            . ' VALUES (?, ?, ?, ?, ?)',
+        SQL => '
+            INSERT INTO process_id
+            (process_name, process_id, process_host, process_create, process_change)
+            VALUES (?, ?, ?, ?, ?)',
         Bind => [ \$Param{Name}, \$PIDCurrent, \$Self->{Host}, \$Time, \$Time ],
     );
 
@@ -177,8 +179,10 @@ sub PIDGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT process_name, process_id, process_host, process_create, process_change'
-            . ' FROM process_id WHERE process_name = ?',
+        SQL => '
+            SELECT process_name, process_id, process_host, process_create, process_change
+            FROM process_id
+            WHERE process_name = ?',
         Bind  => [ \$Param{Name} ],
         Limit => 1,
     );
@@ -202,8 +206,14 @@ sub PIDGet {
 
 delete the process id lock
 
-    $PIDObject->PIDDelete(
-        Name => 'PostMasterPOP3',
+    my $Success = $PIDObject->PIDDelete(
+        Name  => 'PostMasterPOP3',
+    );
+
+    or to force delete even if the PID is registered by another host
+    my $Success = $PIDObject->PIDDelete(
+        Name  => 'PostMasterPOP3',
+        Force => 1,
     );
 
 =cut
@@ -217,10 +227,25 @@ sub PIDDelete {
         return;
     }
 
+    # set basic SQL statement
+    my $SQL = '
+        DELETE FROM process_id
+        WHERE process_name = ?';
+
+    my @Bind = ( \$Param{Name} );
+
+    # delete only processes from this host if Force option was not set
+    if ( !$Param{Force} ) {
+        $SQL .= '
+        AND process_host = ?';
+
+        push @Bind, \$Self->{Host}
+    }
+
     # sql
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM process_id WHERE process_name = ? AND process_host = ?',
-        Bind => [ \$Param{Name}, \$Self->{Host} ],
+        SQL  => $SQL,
+        Bind => \@Bind,
     );
 
     return 1;
@@ -256,8 +281,10 @@ sub PIDUpdate {
     # sql
     my $Time = time();
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE process_id SET process_change = ? '
-            . 'WHERE process_name = ?',
+        SQL => '
+            UPDATE process_id
+            SET process_change = ?
+            WHERE process_name = ?',
         Bind => [ \$Time, \$Param{Name} ],
     );
 

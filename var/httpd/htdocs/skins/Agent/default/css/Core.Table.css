@@ -765,6 +765,7 @@ select.ColumnFilter {
 .DataTable thead th.DashboardHeader a,
 .TableSmall thead th.OverviewHeader a {
     height: 16px;
+    line-height: 16px;
     padding-left: 5px;
 }
 
