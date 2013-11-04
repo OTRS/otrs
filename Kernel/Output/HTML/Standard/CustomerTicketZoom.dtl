@@ -246,7 +246,7 @@
                             </label>
                             <div class="Clear"></div>
 <!-- dtl:block:RichText-->
-                    $Include{"CustomerRichTextEditor"}
+                            $Include{"CustomerRichTextEditor"}
 <!-- dtl:block:RichText-->
                             <textarea title="$Text{"Reply"}" id="RichText" class="RichText DontPrint Validate_RequiredRichText $QData{"RichTextInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                             <div id="RichTextError" class="TooltipErrorMessage">
