@@ -114,40 +114,7 @@
         Core.UI.Dialog.ShowDialog({
             Modal: true,
             Title: '$JSText{"System Registration"}',
-            HTML: '<div class="QA" style="padding: 15px; line-height: 150%; width: 550px;">' +
-            '<h1 class="Question">$JSText{"What are the advantages of system registration?"}</h1>' +
-            '<ol class="ordered">' +
-            '<li type="1">$JSText{"You will receive updates about relevant security releases."}</li>' +
-            '<li>$JSText{"With your system registration we can improve our services for you, because we have all relevant information available."}</li>' +
-            '</ol>' +
-            '<p>$JSText{"This is only the beginning!"} ' +
-            '$JSText{"We will inform you about our new services and offerings soon."}</p>' +
-
-            '<h1 class="Question">$JSText{"Can I use OTRS without being registered?"}</h1>' +
-            '<p>$JSText{"System registration is optional."} ' +
-            '$JSText{"You can download and use OTRS without being registered."}</p>' +
-
-            '<h1 class="Question">$JSText{"Is it possible to deregister?"}</h1>' +
-            '<p>$JSText{"You can deregister at any time."}</p>' +
-
-            '<h1 class="Question">$JSText{"Which data is transfered when registering?"}</h1>' +
-            '<p>$JSText{"A registered system sends the following data to OTRS Group:"} ' +
-            '$JSText{"Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version."}</p>' +
-
-            '<h1 class="Question">$JSText{"Why do I have to provide a description for my system?"}</h1>' +
-            '<p>$JSText{"The description of the system is optional."} ' +
-            '$JSText{"The description and system type you specify help you to identify and manage the details of your registered systems."}</p>' +
-
-            '<h1 class="Question">$JSText{"How often does my OTRS system send updates?"}</h1>' +
-            '<p>$JSText{"Your system will send updates to the registration server at regular intervals."} ' +
-            '$JSText{"Typically this would be around once every three days."}</p>' +
-
-            '<p>$JSText{"In case you would have further questions we would be glad to answer them."} ' +
-            '$JSText{"Please visit our"} ' +
-            '<a href="https://portal.otrs.com/" target="_blank">$JSText{"portal"}</a> ' +
-            '$JSText{"and file a request."}</p>' +
-
-            '</div>',
+            HTML: $('#QADialog').html(),
             PositionTop: '70px',
             PositionLeft: 'Center',
             CloseOnEscape: true,
@@ -157,18 +124,67 @@
     });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
+<div id="QADialog" class="Hidden">
+    <div class="QA">
+        <h1>$Text{"What are the advantages of system registration?"}</h1>
+        <ul>
+            <li>
+                $Text{"You will receive updates about relevant security releases."}
+            </li>
+            <li>
+                $Text{"With your system registration we can improve our services for you, because we have all relevant information available."}
+            </li>
+        </ul>
+        <p>
+            $Text{"This is only the beginning!"}
+            $Text{"We will inform you about our new services and offerings soon."}
+        </p>
+
+        <h1>$Text{"Can I use OTRS without being registered?"}</h1>
+        <p>
+            $Text{"System registration is optional."}
+            $Text{"You can download and use OTRS without being registered."}
+        </p>
+
+        <h1>$Text{"Is it possible to deregister?"}</h1>
+        <p>
+            $Text{"You can deregister at any time."}
+        </p>
+
+        <h1>$Text{"Which data is transfered when registering?"}</h1>
+        <p>
+            $Text{"A registered system sends the following data to OTRS Group:"}
+            $Text{"Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version."}
+        </p>
+        
+        <h1>$Text{"Why do I have to provide a description for my system?"}</h1>
+        <p>
+            $Text{"The description of the system is optional."} $Text{"The description and system type you specify help you to identify and manage the details of your registered systems."}
+        </p>
+        
+        <h1>$Text{"How often does my OTRS system send updates?"}</h1>
+        <p>
+            $Text{"Your system will send updates to the registration server at regular intervals."} $Text{"Typically this would be around once every three days."}
+        </p>
+        <p>
+            $Text{"In case you would have further questions we would be glad to answer them."} $Text{"Please visit our"} <a href="https://portal.otrs.com/" target="_blank">$Text{"portal"}</a> $Text{"and file a request."}
+        </p>
+    </div>
+</div>
 <!-- dtl:block:OTRSIDRegistration -->
 <!-- dtl:block:OTRSIDDeregistration -->
                     <div class="ServiceDescription">
                         <p>
                             $Text{"If you deregister your system, you will loose these benefits:"}
                         </p>
-                        <br />
-                        <ul class="ordered">
-                            <li>$Text{"You will receive updates about relevant security releases."}</li>
-                            <li>$Text{"With your system registration we can improve our services for you, because we have all relevant information available."}</li>
+                        <ul>
+                            <li>
+                                $Text{"You will receive updates about relevant security releases."}
+                            </li>
+                            <li>
+                                $Text{"With your system registration we can improve our services for you, because we have all relevant information available."}
+                            </li>
                         </ul>
-                        <br />
                         <p>$Text{"You need to log in with your OTRS-ID to deregister your system."}</p>
                         <p>$Text{"Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage."}</p>
                     </div>
@@ -275,7 +291,6 @@
 
                     <fieldset class="TableLike Registration">
 
-
                         <label class="Mandatory" for="Type"><span class="Marker">*</span> $Text{"System type"}:</label>
                         <div class="Field">
                             $Data{"SystemTypeOption"}
@@ -297,7 +312,10 @@
 
                         <div class="Field SpacingTop">
                             <button class="Primary CallForAction" type="submit" id="Submit" value="$Text{"Register"}">
-                                <span>$Text{"Register"}</span>
+                                <span>
+                                    <i class="icon-check"></i>
+                                    $Text{"Register"}
+                                </span>
                             </button>
                             $Text{"or"}
                             <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
