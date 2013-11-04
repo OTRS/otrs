@@ -24,7 +24,7 @@ take an extra step; please read http://bugs.otrs.org/show_bug.cgi?id=6798
 Within a single minor version you can skip patch level releases if you want to
 upgrade. For instance you can upgrade directly from OTRS 3.3.1 to version
 3.3.4. If you need to do such a "patch level upgrade", you should skip steps
-9 and 13-16.
+9 and 13-17.
 
 
 1. Stop all relevant services
@@ -271,5 +271,20 @@ Make sure to execute it as the OTRS system user!
     shell> /opt/otrs/bin/Cron.sh start
 
 
-17. Well done!
+17. Activate OTRS Scheduler Service
+-----------------------------------
+
+This only applies if you did not previously configure the OTRS scheduler service.
+
+OTRS comes with a scheduler service that is used to perform asynchronous tasks.
+
+The OTRS RPMs will set up the Scheduler Service automatically.
+If you install/update from source, you can install the service by copying the
+scripts/otrs-scheduler-linux file to /etc/init.d, give it appropriate permissions
+and register it in your system start sequence
+(on Debian/Ubuntu this could be done with `update-rc.d otrs-scheduler-linux defaults`).
+This will make sure the scheduler service starts when the system starts up.
+
+
+18. Well done!
 --------------
