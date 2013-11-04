@@ -70,6 +70,7 @@ sub Run {
     my %SpellCheck     = $SpellingObject->Check(
         Text          => $TextAll,
         SpellLanguage => $SpellLanguage,
+        RichText      => 1,
     );
 
     # check error
