@@ -422,7 +422,7 @@
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     position: relative;
-    width: 621px;
+    width: 645px;
     float: left;
 }
 
@@ -446,10 +446,8 @@
 
 #Messenger #Subject {
     width: 300px;
-    margin: 8px 8px 0;
     color: #444;
     background: transparent;
-    border: none;
     border-radius: 0;
 }
 
