@@ -18,7 +18,6 @@
 
 .TicketProcess .Content {
     margin: 0;
-    display: inline-block;
 }
 .TicketProcess fieldset{
     margin: 8px 0 13px;
