@@ -1,4 +1,5 @@
 #3.3.1 ????-??-??
+ - 2013-11-04 Fixed bug#[9926](http://bugs.otrs.org/show_bug.cgi?id=9926) - Cookies do not set HttpOnly attribute.
  - 2013-11-04 Fixed bug#[9914](http://bugs.otrs.org/show_bug.cgi?id=9914) - Spellchecker ignores double wrong words.
  - 2013-11-04 Fixed bug#[9832](http://bugs.otrs.org/show_bug.cgi?id=9832) - Perl 5.18.1 problems with MIME::Entity.
  - 2013-11-02 Fixed bug#[9924](http://bugs.otrs.org/show_bug.cgi?id=9924) - Scheduler can not stop or restart correctly if was started by another host.

@@ -340,11 +340,12 @@ sub Run {
         $LayoutObject = Kernel::Output::HTML::Layout->new(
             SetCookies => {
                 SessionIDCookie => $Self->{ParamObject}->SetCookie(
-                    Key     => $Param{SessionName},
-                    Value   => $NewSessionID,
-                    Expires => $Expires,
-                    Path    => $Self->{ConfigObject}->Get('ScriptAlias'),
-                    Secure  => scalar $SecureAttribute,
+                    Key      => $Param{SessionName},
+                    Value    => $NewSessionID,
+                    Expires  => $Expires,
+                    Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
+                    Secure   => scalar $SecureAttribute,
+                    HTTPOnly => 1,
                 ),
             },
             SessionID   => $NewSessionID,

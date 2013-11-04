@@ -302,6 +302,7 @@ set a cookie
         Expires => '+3660s',
         Path    => 'otrs/',     # optional, only allow cookie for given path
         Secure  => 1,           # optional, set secure attribute to disable cookie on HTTP (HTTPS only)
+        HTTPOnly => 1,          # optional, sets HttpOnly attribute of cookie to prevent access via JavaScript
     );
 
 =cut
@@ -312,11 +313,12 @@ sub SetCookie {
     $Param{Path} ||= '';
 
     return $Self->{Query}->cookie(
-        -name    => $Param{Key},
-        -value   => $Param{Value},
-        -expires => $Param{Expires},
-        -secure  => $Param{Secure},
-        -path    => '/' . $Param{Path},
+        -name     => $Param{Key},
+        -value    => $Param{Value},
+        -expires  => $Param{Expires},
+        -secure   => $Param{Secure} || '',
+        -httponly => $Param{HTTPOnly} || '',
+        -path     => '/' . $Param{Path},
     );
 }
 
