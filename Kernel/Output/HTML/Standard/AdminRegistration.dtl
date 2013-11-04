@@ -101,7 +101,7 @@
                     <div class="ServiceDescription">
                         <p>
                             $Text{"System registration is a service of OTRS group, which provides a lot of advantages!"}
-                            <a href="#" id="RegistrationMoreInfo">$Text{"Read more"}</a>
+                            <a href="#" id="RegistrationMoreInfo">$Text{"Read more"}</a>.
                         </p>
                         <p>
                             $Text{"You need to log in with your OTRS-ID to register your system."}
@@ -210,9 +210,8 @@
                         <div class="Clear"></div>
 
                         <div class="Field SpacingTop">
-                            <button class="Primary" type=submit id="Submit">
-                                $Text{"Next"}
-                                <i class="icon-caret-right"></i>
+                            <button class="Primary CallForAction" type="submit" id="Submit">
+                                <span>$Text{"Next"} <i class="icon-caret-right"></i></span>
                             </button>
                         </div>
                         <div class="Clear"></div>
@@ -297,7 +296,9 @@
                         <div class="Clear"></div>
 
                         <div class="Field SpacingTop">
-                            <button class="Primary" type="submit" id="Submit" value="$Text{"Register"}">$Text{"Register"}</button>
+                            <button class="Primary CallForAction" type="submit" id="Submit" value="$Text{"Register"}">
+                                <span>$Text{"Register"}</span>
+                            </button>
                             $Text{"or"}
                             <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                         </div>
@@ -324,7 +325,9 @@
                         </div>
 
                         <div class="Field SpacingTop">
-                            <button class="Primary" type="submit" id="Submit" value="$Text{"Deregister"}">$Text{"Deregister"}</button>
+                            <button class="Primary CallForAction" type="submit" id="Submit" value="$Text{"Deregister"}">
+                                <span>$Text{"Deregister"}</span>
+                            </button>
                             $Text{"or"}
                             <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                         </div>
@@ -368,7 +371,9 @@
                         <div class="Clear"></div>
 
                         <div class="Field SpacingTop">
-                            <button class="Primary" type="submit" id="Submit" value="$Text{"Update"}">$Text{"Update"}</button>
+                            <button class="Primary CallForAction" type="submit" id="Submit" value="$Text{"Update"}">
+                                <span>$Text{"Update"}</span>
+                            </button>
                             $Text{"or"}
                             <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                         </div>

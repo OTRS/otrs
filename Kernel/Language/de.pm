@@ -1871,16 +1871,16 @@ sub Data {
         'Last communication with registration server' => 'Letzte Kommunikation mit dem Registrierungsserver',
         'OTRS-ID Login' => 'OTRS-ID Login',
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
-            'Die Systemregistrierung ist ein Service der OTRS Gruppe, die Ihnen viele Vorteile sichert!',
+            'Die Systemregistrierung ist ein Service der OTRS Gruppe, der Ihnen viele Vorteile sichert!',
         'Read more' => 'Mehr erfahren',
         'You need to log in with your OTRS-ID to register your system.' =>
             'Um Ihr System zu registrieren, loggen Sie sich bitte mit Ihrer OTRS-ID ein.',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
-            'Verwenden Sie dazu die email Adresse, mit der Sie sich auf der OTRS Webseite angemeldet haben.',
+            'Verwenden Sie dazu die E-Mail-Adresse, mit der Sie sich auf der OTRS Webseite angemeldet haben.',
         'What are the advantages of system registration?' => 'Welche Vorteile bietet die Systemregistrierung?',
         'You will receive updates about relevant security releases.' => 'Bei sicherheitsrelevanten Releases werden Sie benachrichtigt.',
         'With your system registration we can improve our services for you, because we have all relevant information available.' =>
-            'Die Registrierung Ihres Systems ermöglicht es der OTRS Gruppe Sie schneller und effizienter zu betreuen, weil uns wichtige Informationen über Ihr System bereits vorliegen, die ein mehrmaliges Nachfragen unnötig machen.',
+            'Die Registrierung Ihres Systems ermöglicht es der OTRS Gruppe, Sie schneller und effizienter zu betreuen, weil uns wichtige Informationen über Ihr System bereits vorliegen, die ein mehrmaliges Nachfragen unnötig machen.',
         'This is only the beginning!' => 'Und das ist erst der Anfang!',
         'We will inform you about our new services and offerings soon.' =>
             'Seien Sie gespannt auf weitere Möglichkeiten, die wir Ihnen vorstellen werden.',
@@ -1892,20 +1892,20 @@ sub Data {
         'Which data is transfered when registering?' => 'Welche Daten werden bei der Registrierung übertragen?',
         'A registered system sends the following data to OTRS Group:' => 'Ein registriertes System überträgt folgende Daten an die OTRS Gruppe:',
         'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
-            'Fully Qualified Domain Name (FQDN), OTRS version, Datenbank, Betriebssystem und Perl version.',
+            'Fully Qualified Domain Name (FQDN), OTRS Version, Datenbank, Betriebssystem und Perl Version.',
         'Why do I have to provide a description for my system?' => 'Warum muss das System beschrieben werden?',
         'The description of the system is optional.' => 'Die Beschreibung des Systems ist optional.',
         'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
             'Der Systemtyp und die Beschreibung hilft Ihnen, Ihre Systeme zu identifizieren und die Systemregistrierung zu verwalten.',
         'How often does my OTRS system send updates?' => 'Wie oft sendet mein OTRS Updates?',
         'Your system will send updates to the registration server at regular intervals.' =>
-            'Ihr System sendet Updates in regelmäßigen Abständen an den Registrierungsserver.',
+            'Ihr System sendet in regelmäßigen Abständen Updates an den Registrierungsserver.',
         'Typically this would be around once every three days.' => 'In der Regel findet eine Übertragung an jedem dritten Tag statt.',
         'In case you would have further questions we would be glad to answer them.' =>
-            'Sollten Sie weitere Fragen haben, freuen wir uns diese zu beantworten.',
-        'Please visit our' => 'Bitte besuchen Sie unser',
-        'portal' => 'Portal',
-        'and file a request.' => 'und stellen eine Anfrage.',
+            'Sollten Sie weitere Fragen haben, freuen wir uns, diese zu beantworten.',
+        'Please visit our' => 'Besuchen Sie einfach unser',
+        'portal' => 'Portal,',
+        'and file a request.' => 'um eine Anfrage zu stellen.',
         'If you deregister your system, you will loose these benefits:' =>
             'Wenn Sie Ihr System deregistrieren verlieren Sie folgende Vorteile:',
         'You need to log in with your OTRS-ID to deregister your system.' =>
