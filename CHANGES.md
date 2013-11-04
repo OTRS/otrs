@@ -1,4 +1,5 @@
 #3.3.1 ????-??-??
+ - 2013-11-04 Fixed bug#[9832](http://bugs.otrs.org/show_bug.cgi?id=9832) - Perl 5.18.1 problems with MIME::Entity.
  - 2013-11-02 Fixed bug#[9924](http://bugs.otrs.org/show_bug.cgi?id=9924) - Scheduler can not stop or restart correctly if was started by another host.
  - 2013-11-01 Fixed bug#[9918](http://bugs.otrs.org/show_bug.cgi?id=9918) - Dropdown field in tree mode are not displayed in tree mode when opening CustomerTicketProcess.
  - 2013-11-01 Fixed bug#[9840](http://bugs.otrs.org/show_bug.cgi?id=9840) - Toolbar Icons not shown correctly in IE8.
