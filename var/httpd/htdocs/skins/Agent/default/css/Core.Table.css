@@ -800,7 +800,6 @@ select.ColumnFilter {
 .TableSmall thead th.OverviewHeader .ColumnSettingsTrigger:hover,
 .TableSmall thead th.OverviewHeader .ColumnSettingsTrigger.Active {
 
-    background-color: #ccc;
     border-radius: 2px;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
@@ -813,7 +812,7 @@ select.ColumnFilter {
 .TableSmall thead th.OverviewHeader.FilterActive .ColumnSettingsTrigger i,
 .TableSmall thead th.OverviewHeader .ColumnSettingsTrigger.Active i {
 
-    color: #ff0000;
+    color: #333333;
 }
 
 .DataTable thead th.DashboardHeader .ColumnSettingsTrigger:after,
