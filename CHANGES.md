@@ -1,4 +1,5 @@
 #3.3.1 ????-??-??
+ - 2013-11-05 Fixed bug#[9867](http://bugs.otrs.org/show_bug.cgi?id=9867) - Validation errors are not shown correctly when replying to a ticket in Customer Interface.
  - 2013-11-04 Fixed bug#[9923](http://bugs.otrs.org/show_bug.cgi?id=9923) - Application type XML config files does not overwrite framework ones.
  - 2013-11-04 Fixed bug#[9926](http://bugs.otrs.org/show_bug.cgi?id=9926) - Cookies do not set HttpOnly attribute.
  - 2013-11-04 Fixed bug#[9914](http://bugs.otrs.org/show_bug.cgi?id=9914) - Spellchecker ignores double wrong words.
