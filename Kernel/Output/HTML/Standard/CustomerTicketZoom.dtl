@@ -231,17 +231,32 @@
 <!-- dtl:block:FollowUp -->
             <div id="FollowUp" class="$QData{"FollowUpVisible"}">
                 <div id="Messenger">
-                    <input class="DontPrint" type="text" name="Subject" id="Subject" value="$QData{"Subject"}" />
+                    <fieldset class="DontPrint">
+                        <div>
+                            <label for="Subject">
+                                $Text{"Subject"}:
+                            </label>
+                            <input class="DontPrint" type="text" name="Subject" id="Subject" title="$Text{"Subject"}" value="$QData{"Subject"}" />
+                            <div class="Clear"></div>
+                        </div>
+                        <div>
+                            <label for="RichText" class="Mandatory">
+                                <span class="Marker">*</span>
+                                $Text{"Text"}:
+                            </label>
+                            <div class="Clear"></div>
 <!-- dtl:block:RichText-->
-                    $Include{"CustomerRichTextEditor"}
+                            $Include{"CustomerRichTextEditor"}
 <!-- dtl:block:RichText-->
-                    <textarea title="$Text{"Reply"}" id="RichText" class="RichText DontPrint Validate_RequiredRichText $QData{"RichTextInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-                    <div id="RichTextError" class="TooltipErrorMessage">
-                        <p>$Text{"This field is required."}</p>
-                    </div>
-                    <div id="RichTextServerError" class="TooltipErrorMessage NoJavaScriptMessage$QData{"RichTextInvalid"}">
-                        <p>$Text{"This field is required."}</p>
-                    </div>
+                            <textarea title="$Text{"Reply"}" id="RichText" class="RichText DontPrint Validate_RequiredRichText $QData{"RichTextInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                            <div id="RichTextError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="RichTextServerError" class="TooltipErrorMessage NoJavaScriptMessage$QData{"RichTextInvalid"}">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                        </div>
+                    </fieldset>
                     <fieldset class="DontPrint">
                         <div id="AttachmentHolder">
                             <label for="Attachment">$Text{"Attachment"}:</label>
