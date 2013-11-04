@@ -124,53 +124,53 @@
     });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
-<div id="QADialog" class="Hidden">
-    <div class="QA">
-        <h1>$Text{"What are the advantages of system registration?"}</h1>
-        <ul>
-            <li>
-                $Text{"You will receive updates about relevant security releases."}
-            </li>
-            <li>
-                $Text{"With your system registration we can improve our services for you, because we have all relevant information available."}
-            </li>
-        </ul>
-        <p>
-            $Text{"This is only the beginning!"}
-            $Text{"We will inform you about our new services and offerings soon."}
-        </p>
+                    <div id="QADialog" class="Hidden">
+                        <div class="QA">
+                            <h1>$Text{"What are the advantages of system registration?"}</h1>
+                            <ul>
+                                <li>
+                                    $Text{"You will receive updates about relevant security releases."}
+                                </li>
+                                <li>
+                                    $Text{"With your system registration we can improve our services for you, because we have all relevant information available."}
+                                </li>
+                            </ul>
+                            <p>
+                                $Text{"This is only the beginning!"}
+                                $Text{"We will inform you about our new services and offerings soon."}
+                            </p>
 
-        <h1>$Text{"Can I use OTRS without being registered?"}</h1>
-        <p>
-            $Text{"System registration is optional."}
-            $Text{"You can download and use OTRS without being registered."}
-        </p>
+                            <h1>$Text{"Can I use OTRS without being registered?"}</h1>
+                            <p>
+                                $Text{"System registration is optional."}
+                                $Text{"You can download and use OTRS without being registered."}
+                            </p>
 
-        <h1>$Text{"Is it possible to deregister?"}</h1>
-        <p>
-            $Text{"You can deregister at any time."}
-        </p>
+                            <h1>$Text{"Is it possible to deregister?"}</h1>
+                            <p>
+                                $Text{"You can deregister at any time."}
+                            </p>
 
-        <h1>$Text{"Which data is transfered when registering?"}</h1>
-        <p>
-            $Text{"A registered system sends the following data to OTRS Group:"}
-            $Text{"Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version."}
-        </p>
-        
-        <h1>$Text{"Why do I have to provide a description for my system?"}</h1>
-        <p>
-            $Text{"The description of the system is optional."} $Text{"The description and system type you specify help you to identify and manage the details of your registered systems."}
-        </p>
-        
-        <h1>$Text{"How often does my OTRS system send updates?"}</h1>
-        <p>
-            $Text{"Your system will send updates to the registration server at regular intervals."} $Text{"Typically this would be around once every three days."}
-        </p>
-        <p>
-            $Text{"In case you would have further questions we would be glad to answer them."} $Text{"Please visit our"} <a href="https://portal.otrs.com/" target="_blank">$Text{"portal"}</a> $Text{"and file a request."}
-        </p>
-    </div>
-</div>
+                            <h1>$Text{"Which data is transfered when registering?"}</h1>
+                            <p>
+                                $Text{"A registered system sends the following data to OTRS Group:"}
+                                $Text{"Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version."}
+                            </p>
+
+                            <h1>$Text{"Why do I have to provide a description for my system?"}</h1>
+                            <p>
+                                $Text{"The description of the system is optional."} $Text{"The description and system type you specify help you to identify and manage the details of your registered systems."}
+                            </p>
+
+                            <h1>$Text{"How often does my OTRS system send updates?"}</h1>
+                            <p>
+                                $Text{"Your system will send updates to the registration server at regular intervals."} $Text{"Typically this would be around once every three days."}
+                            </p>
+                            <p>
+                                $Text{"In case you would have further questions we would be glad to answer them."} $Text{"Please visit our"} <a href="https://portal.otrs.com/" target="_blank">$Text{"portal"}</a> $Text{"and file a request."}
+                            </p>
+                        </div>
+                    </div>
 <!-- dtl:block:OTRSIDRegistration -->
 <!-- dtl:block:OTRSIDDeregistration -->
                     <div class="ServiceDescription">
