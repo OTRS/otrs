@@ -215,16 +215,14 @@ Make sure to execute it as the OTRS system user!
 12. OTRS Scheduler Service
 ---------------------------
 
-This step is optional. OTRS comes with a scheduler service. You'll only need
-to set up the scheduler service if you're using the Generic Interface with
-web services that need polling (OTRS as a consumer) or with web services
-where requests are sent asynchronously.
+OTRS comes with a scheduler service that is used to perform asynchronous tasks.
 
 The OTRS RPMs will set up the Scheduler Service automatically.
 If you install from source, you can install the service by copying the
-scripts/otrs-scheduler-linux file to /etc/init.d and give it the appropriate
-permissions. This will make sure the scheduler service starts when the system
-starts up.
+scripts/otrs-scheduler-linux file to /etc/init.d, give it appropriate permissions
+and register it in your system start sequence
+(on Debian/Ubuntu this could be done with `update-rc.d otrs-scheduler-linux defaults`).
+This will make sure the scheduler service starts when the system starts up.
 
 Notes
 =====

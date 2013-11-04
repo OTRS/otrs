@@ -85,6 +85,7 @@ spelling check for some text
     my %Result = $SpellingObject->Check(
         Text          => 'Some Text to check.',
         SpellLanguage => 'en',
+        RichText      => 1, # default: 0
     );
 
     # a result could be
@@ -241,14 +242,17 @@ sub Check {
     }
 
     # drop double words and add line of double word
-    my %DoubleWords;
-    for ( sort { $a <=> $b } keys %Data ) {
-        if ( $DoubleWords{ $Data{$_}->{Word} } ) {
-            $DoubleWords{ $Data{$_}->{Word} }->{Line} .= "/" . $Data{$_}->{Line};
-            delete $Data{$_};
-        }
-        else {
-            $DoubleWords{ $Data{$_}->{Word} } = $Data{$_};
+    # bug#9914: only delete double words for non-wysiwyg spellchecker
+    if ( !$Param{RichText} ) {
+        my %DoubleWords;
+        for ( sort { $a <=> $b } keys %Data ) {
+            if ( $DoubleWords{ $Data{$_}->{Word} } ) {
+                $DoubleWords{ $Data{$_}->{Word} }->{Line} .= "/" . $Data{$_}->{Line};
+                delete $Data{$_};
+            }
+            else {
+                $DoubleWords{ $Data{$_}->{Word} } = $Data{$_};
+            }
         }
     }
 

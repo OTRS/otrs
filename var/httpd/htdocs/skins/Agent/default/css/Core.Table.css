@@ -800,12 +800,19 @@ select.ColumnFilter {
 .TableSmall thead th.OverviewHeader .ColumnSettingsTrigger:hover,
 .TableSmall thead th.OverviewHeader .ColumnSettingsTrigger.Active {
 
-    background-color: #ccc;
     border-radius: 2px;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     opacity: 1.0;
     box-shadow: 1px 1px 1px #a9a9a9 inset, -1px -1px 1px #a9a9a9 inset;
+}
+
+.DataTable thead th.DashboardHeader.FilterActive .ColumnSettingsTrigger i,
+.DataTable thead th.DashboardHeader .ColumnSettingsTrigger.Active i,
+.TableSmall thead th.OverviewHeader.FilterActive .ColumnSettingsTrigger i,
+.TableSmall thead th.OverviewHeader .ColumnSettingsTrigger.Active i {
+
+    color: #333333;
 }
 
 .DataTable thead th.DashboardHeader .ColumnSettingsTrigger:after,

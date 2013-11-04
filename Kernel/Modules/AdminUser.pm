@@ -101,11 +101,12 @@ sub Run {
             %{$Self},
             SetCookies => {
                 SessionIDCookie => $Self->{ParamObject}->SetCookie(
-                    Key     => $Self->{ConfigObject}->Get('SessionName'),
-                    Value   => $NewSessionID,
-                    Expires => $Expires,
-                    Path    => $Self->{ConfigObject}->Get('ScriptAlias'),
-                    Secure  => scalar $SecureAttribute,
+                    Key      => $Self->{ConfigObject}->Get('SessionName'),
+                    Value    => $NewSessionID,
+                    Expires  => $Expires,
+                    Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
+                    Secure   => scalar $SecureAttribute,
+                    HTTPOnly => 1,
                 ),
             },
             SessionID   => $NewSessionID,
@@ -554,7 +555,7 @@ sub _Edit {
                             Data => { %Param, },
                         );
                         if (
-                            ref( $ParamItem->{Data} )   eq 'HASH'
+                            ref( $ParamItem->{Data} ) eq 'HASH'
                             || ref( $Preference{Data} ) eq 'HASH'
                             )
                         {

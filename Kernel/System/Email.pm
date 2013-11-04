@@ -313,11 +313,6 @@ sub Send {
         $Header{Encoding} = $Self->{ConfigObject}->Get('SendmailEncodingForce');
     }
 
-    # body encode if utf8 and base64 is used
-    if ( $Header{Encoding} =~ /utf(8|-8)/i && $Header{Encoding} =~ /base64/i ) {
-        $Self->{EncodeObject}->EncodeOutput( \$Param{Body} );
-    }
-
     # check and create message id
     if ( $Param{'Message-ID'} ) {
         $Header{'Message-ID'} = $Param{'Message-ID'};
@@ -339,7 +334,9 @@ sub Send {
         );
     }
 
-    # build MIME::Entity
+    # build MIME::Entity, Data should be bytes, not utf-8
+    # see http://bugs.otrs.org/show_bug.cgi?id=9832
+    $Self->{EncodeObject}->EncodeOutput( \$Param{Body} );
     my $Entity = MIME::Entity->build( %Header, Data => $Param{Body} );
 
     # set In-Reply-To and References header
@@ -390,8 +387,8 @@ sub Send {
                     # don't attach duplicate html attachment (aka file-2)
                     next ATTACHMENT if
                         $Upload->{Filename} eq 'file-2'
-                            && $Upload->{ContentType} =~ /html/i
-                            && $Upload->{Content} eq $Param{HTMLBody};
+                        && $Upload->{ContentType} =~ /html/i
+                        && $Upload->{Content} eq $Param{HTMLBody};
 
                     # skip, but remember all attachments except inline images
                     if ( !defined $Upload->{ContentID} ) {
@@ -559,7 +556,7 @@ sub Send {
     if (
         $Param{Crypt}
         && $Param{Crypt}->{Type}
-        && $Param{Crypt}->{Type}    eq 'PGP'
+        && $Param{Crypt}->{Type} eq 'PGP'
         && $Param{Crypt}->{SubType} eq 'Detached'
         )
     {
