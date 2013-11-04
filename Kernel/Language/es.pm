@@ -50,7 +50,7 @@ sub Data {
         'Cancel' => 'Cancelar',
         'Reset' => 'Restablecer',
         'more than ... ago' => 'hace más de ...',
-        'in more than ...' => '',
+        'in more than ...' => 'en más de ...',
         'within the last ...' => 'en los últimos ...',
         'within the next ...' => 'en los próximos ...',
         'Created within the last' => 'Creado en los últimos',
@@ -190,7 +190,7 @@ sub Data {
         'Search' => 'Buscar',
         'and' => 'y',
         'between' => 'entre',
-        'before/after' => '',
+        'before/after' => 'antes/después',
         'Fulltext Search' => 'Búsqueda de texto completo',
         'Data' => 'Datos',
         'Options' => 'Opciones',
@@ -215,7 +215,7 @@ sub Data {
         'Medium' => 'Mediano',
         'Large' => 'Grande',
         'Date picker' => 'Selector de fecha',
-        'Show Tree Selection' => '',
+        'Show Tree Selection' => 'Mostrar selección en árbol',
         'New message' => 'Mensaje nuevo',
         'New message!' => '¡Mensaje nuevo!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -344,7 +344,7 @@ sub Data {
             'No se encontraron paquetes (o paquetes nuevos) en el repositorio seleccionado.',
         'Edit the system configuration settings.' => 'Editar los ajustes de configuración del sistema.',
         'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
-            '',
+            'La información sobre ACL de la base de datos no está sincronizada con la configuración del sistema. Por favor, despliegue todas las ACL.',
         'printed at' => 'impreso en',
         'Loading...' => 'Cargando...',
         'Dear Mr. %s,' => 'Estimado Sr. %s.',
@@ -402,12 +402,12 @@ sub Data {
         'Redo' => 'Rehacer',
         'Scheduler process is registered but might not be running.' => 'El proceso del planificador está registrado, pero podría no estar ejecutándose.',
         'Scheduler is not running.' => 'El planificador no está en ejecución.',
-        'Can\'t contact registration server. Please try again later.' => '',
+        'Can\'t contact registration server. Please try again later.' => 'No es posible contactar con el servidor de registro. Por favor, inténtelo de nuevo más tarde.',
         'No content received from registration server. Please try again later.' =>
-            '',
-        'Problems processing server result. Please try again later.' => '',
-        'Username and password do not match. Please try again.' => '',
-        'The selected process is invalid!' => '',
+            'No se ha recibido ningún contenido del servidor de registro. Por favor, inténtelo de nuevo más tarde.',
+        'Problems processing server result. Please try again later.' => 'Problemas al procesar el resultado del servidor. Por favor, inténtelo de nuevo más tarde.',
+        'Username and password do not match. Please try again.' => 'El usuario y la contraseña no coinciden. Por favor, inténtelo de nuevo.',
+        'The selected process is invalid!' => '¡El proceso seleccionado no es válido!',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Año nuevo',
@@ -481,7 +481,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Estadísticas',
         'Sum' => 'Suma',
-        'No (not supported)' => '',
+        'No (not supported)' => 'No (no soportado)',
         'Please fill out the required fields!' => '¡Por favor, proporcione los campos requeridos!',
         'Please select a file!' => '¡Por favor, seleccione un fichero!',
         'Please select an object!' => '¡Por favor, seleccione un objeto!',
@@ -703,7 +703,7 @@ sub Data {
         'Create new Email Ticket and send this out (Outbound)' => 'Crea nuevo ticket por correo y enviar éste (saliente)',
         'Create new Phone Ticket (Inbound)' => 'Crea nuevo ticket telefónico (entrante)',
         'Address %s replaced with registered customer address.' => 'Dirección %s reemplaza con la del cliente registrado.',
-        'Customer user automatically added in Cc.' => '',
+        'Customer user automatically added in Cc.' => 'Usuario cliente añadido automáticamente a Cc.',
         'Overview of all open Tickets' => 'Vista general de todos los tickets abiertos',
         'Locked Tickets' => 'Tickets bloqueados',
         'My Locked Tickets' => 'Mis tickets bloqueados',
@@ -735,7 +735,7 @@ sub Data {
         'Mark as Spam!' => '¡Marcar como spam!',
         'My Queues' => 'Mis colas',
         'Shown Tickets' => 'Tickets mostrados',
-        'Shown Columns' => '',
+        'Shown Columns' => 'Columnas mostradas',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
             'Su correo con el ticket número "<OTRS_TICKET>" se fusionó con "<OTRS_MERGE_TO_TICKET>".',
         'Ticket %s: first response time is over (%s)!' => 'Ticket %s: ¡Se ha excedido el tiempo para la primera respuesta (%s)!',
@@ -806,7 +806,7 @@ sub Data {
             'Todos los tickets para los que se ha alcanzado su fecha de recordatorio',
         'Archived tickets' => 'Tickets archivados',
         'Unarchived tickets' => 'Tickets no archivados',
-        'Ticket Information' => '',
+        'Ticket Information' => 'Información del ticket',
         'History::Move' => 'Ticket movido a la cola «%s» (%s) de la cola «%s» (%s).',
         'History::TypeUpdate' => 'Tipo actualizado a %s (ID=%s).',
         'History::ServiceUpdate' => 'Servicio actualizado a %s (ID=%s).',
@@ -846,7 +846,7 @@ sub Data {
         'History::SystemRequest' => 'Petición del sistema (%s).',
         'History::ResponsibleUpdate' => 'El nuevo responsable es «%s» (ID=%s).',
         'History::ArchiveFlagUpdate' => 'Cambiado el estado del archivo: «%s»',
-        'History::TicketTitleUpdate' => '',
+        'History::TicketTitleUpdate' => 'Título actualizado: Antiguo: «%s», Nuevo: «%s»',
 
         # Template: AAAWeekDay
         'Sun' => 'Dom',
@@ -890,31 +890,31 @@ sub Data {
         'Go to overview' => 'Ir a la vista general',
         'Delete ACL' => 'Borrar la ACL',
         'Delete Invalid ACL' => 'Borrar ACL no válida',
-        'Match settings' => '',
+        'Match settings' => 'Ajustes de la coincidencia',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
-            '',
-        'Change settings' => '',
+            'Establecer los criterios de coincidencia para esta ACL. Use «Propiedades» para coincidir con la pantalla actual o «BasededatosPropiedades» para coincidir con los atributos del ticket actual que están en la base de datos.',
+        'Change settings' => 'Cambiar los ajustes',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            '',
-        'Check the official' => '',
-        'documentation' => '',
+            'Establecer qué quiere cambiar si los criterios coinciden. Tenga en cuenta que «Posible» es una lista blanca, «PosibleNo» una lista negra.',
+        'Check the official' => 'Compruebe la oficial',
+        'documentation' => 'documentación',
         'Show or hide the content' => 'Mostrar u ocultar el contenido',
-        'Edit ACL information' => '',
+        'Edit ACL information' => 'Editar la información de la ACL',
         'Stop after match' => 'Parar al coincidir',
-        'Edit ACL structure' => '',
+        'Edit ACL structure' => 'Editar la estructura de la ACL',
         'Save' => 'Guardar',
         'or' => 'o',
-        'Save and finish' => '',
-        'Do you really want to delete this ACL?' => '',
+        'Save and finish' => 'Guardar y finalizar',
+        'Do you really want to delete this ACL?' => '¿Realmente desea borrar esta ACL?',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
-            '',
-        'An item with this name is already present.' => '',
-        'Add all' => '',
-        'There was an error reading the ACL data.' => '',
+            'Este elemento todavía contiene subelementos. ¿Seguro que desea eliminar este elemento y sus subelementos?',
+        'An item with this name is already present.' => 'Ya hay un elemento con este nombre.',
+        'Add all' => 'Añadir todos',
+        'There was an error reading the ACL data.' => 'Se produjo un error al leer los datos de la ACL.',
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
-            '',
+            'Crear una nueva ACL enviando los datos del formulario. Tras crear la ACL, podrá añadir elementos de configuración en el modo de edición.',
 
         # Template: AdminAttachment
         'Attachment Management' => 'Gestión de adjuntos',
@@ -960,17 +960,17 @@ sub Data {
         'Edit Customer' => 'Editar el cliente',
 
         # Template: AdminCustomerUser
-        'Customer User Management' => '',
+        'Customer User Management' => 'Gestión de usuarios cliente',
         'Back to search results' => 'Volver a los resultados de la búsqueda',
-        'Add customer user' => '',
+        'Add customer user' => 'Añadir un usuario cliente',
         'Hint' => 'Consejo',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
-            '',
+            'Los usuarios cliente necesitan tener un historial de cliente e iniciar sesión por medio del panel de cliente.',
         'Last Login' => 'Última sesión',
         'Login as' => 'Conectarse como',
         'Switch to customer' => 'Cambiar al cliente',
-        'Add Customer User' => '',
-        'Edit Customer User' => '',
+        'Add Customer User' => 'Añadir usuario cliente',
+        'Edit Customer User' => 'Editar usuario cliente',
         'This field is required and needs to be a valid email address.' =>
             'Este campo es necesario y tiene que ser una dirección de correo electrónico válida.',
         'This email address is not allowed due to the system configuration.' =>
@@ -1087,8 +1087,8 @@ sub Data {
         'Add Value' => 'Añadir un valor',
         'Add empty value' => 'Añadir un valor vacío',
         'Activate this option to create an empty selectable value.' => 'Active esta opción para crear un valor seleccionable vacío.',
-        'Tree View' => '',
-        'Activate this option to display values as a tree.' => '',
+        'Tree View' => 'Vista en árbol',
+        'Activate this option to display values as a tree.' => 'Active esta opción para mostrar los valores como un árbol.',
         'Translatable values' => 'Valores traducibles',
         'If you activate this option the values will be translated to the user defined language.' =>
             'Si activa esta opción los valores se traducirán al idioma definido por el usuario.',
@@ -1130,8 +1130,8 @@ sub Data {
         'Job Settings' => 'Ajustes del trabajo',
         'Job name' => 'Nombre del trabajo',
         'Toggle this widget' => 'Conmutar este widget',
-        'Automatic execution (multiple tickets)' => '',
-        'Execution Schedule' => '',
+        'Automatic execution (multiple tickets)' => 'Ejecución automática (múltiples tickets)',
+        'Execution Schedule' => 'Planificación de la ejecución',
         'Schedule minutes' => 'Minutos para la planificación',
         'Schedule hours' => 'Horas para planificación',
         'Schedule days' => 'Días para la planificación',
@@ -1139,22 +1139,22 @@ sub Data {
             'Actualmente este trabajo de agente genérico no se ejecutará automáticamente.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             '¡Para habilitar la ejecución automática, seleccione al menos un valor de minutos, horas y días!',
-        'Event based execution (single ticket)' => '',
-        'Event Triggers' => '',
-        'List of all configured events' => '',
-        'Delete this event' => '',
+        'Event based execution (single ticket)' => 'Ejecución basada en eventos (un único ticket)',
+        'Event Triggers' => 'Disparadores del evento',
+        'List of all configured events' => 'Lista de todos los eventos configurados',
+        'Delete this event' => 'Borrar este evento',
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
-            '',
+            'Además o en lugar de una ejecución periódica, puede definir eventos de ticket que disparen este trabajo.',
         'If a ticket event is fired, the ticket filter will be applied to check if the ticket matches. Only then the job is run on that ticket.' =>
-            '',
-        'Do you really want to delete this event trigger?' => '',
-        'Add Event Trigger' => '',
+            'Si se dispara un evento de ticket, se aplicará el filtro de tickets para combrobar si el ticket coincide. Sólo entonces se ejecuta el trabajo sobre ese ticket.',
+        'Do you really want to delete this event trigger?' => '¿Realmente desea borrar este disparador de eventos?',
+        'Add Event Trigger' => 'Añadir disparador de eventos',
         'To add a new event select the event object and event name and click on the "+" button' =>
-            '',
-        'Duplicate event.' => '',
+            'Para añadir un nuevo evento seleccione el objeto evento y el nombre del evento y pulse el botón «+»',
+        'Duplicate event.' => 'Duplicar el evento',
         'This event is already attached to the job, Please use a different one.' =>
-            '',
-        'Delete this Event Trigger' => '',
+            'Este evento ya está ligado al trabajo, seleccione uno diferente.',
+        'Delete this Event Trigger' => 'Borrar este disparador de eventos',
         'Ticket Filter' => 'Filtro de tickets',
         '(e. g. 10*5155 or 105658*)' => '(ej: 10*5155 o 105658*)',
         '(e. g. 234321)' => '(ej: 234321)',
@@ -1212,7 +1212,7 @@ sub Data {
         'Archive selected tickets' => 'Archivar los tickets seleccionados',
         'Add Note' => 'Añadir una nota',
         'Time units' => 'Unidades de tiempo',
-        '(work units)' => '',
+        '(work units)' => '(unidades de trabajo)',
         'Ticket Commands' => 'Órdenes de ticket',
         'Send agent/customer notifications on changes' => 'Enviar notificaciones al agente/cliente cuando haya cambios',
         'CMD' => 'CMD',
@@ -1256,35 +1256,35 @@ sub Data {
         'Clear debug log' => 'Limpiar el registro de depuración',
 
         # Template: AdminGenericInterfaceInvokerDefault
-        'Add new Invoker to Web Service %s' => '',
-        'Change Invoker %s of Web Service %s' => '',
-        'Add new invoker' => '',
-        'Change invoker %s' => '',
-        'Do you really want to delete this invoker?' => '',
-        'All configuration data will be lost.' => '',
-        'Invoker Details' => '',
+        'Add new Invoker to Web Service %s' => 'Añadir un nuevo invocador al servicio web %s',
+        'Change Invoker %s of Web Service %s' => 'Cambiar el invocador %s del servicio web %s',
+        'Add new invoker' => 'Añadir nuevo invocador',
+        'Change invoker %s' => 'Cambiar el invocador %s',
+        'Do you really want to delete this invoker?' => '¿Realmente desea borrar este invocador?',
+        'All configuration data will be lost.' => 'Se perderán todos los datos de configuración.',
+        'Invoker Details' => 'Detalles del invocador',
         'The name is typically used to call up an operation of a remote web service.' =>
-            '',
-        'Please provide a unique name for this web service invoker.' => '',
-        'The name you entered already exists.' => '',
-        'Invoker backend' => '',
+            'El nombre se usa normalmente para llamar una operación de un servicio web remoto.',
+        'Please provide a unique name for this web service invoker.' => 'Proporcione un nombre único para este invocador de servicio web.',
+        'The name you entered already exists.' => 'El nombre introducido ya existe.',
+        'Invoker backend' => 'Motor del invocador',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
-            '',
-        'Mapping for outgoing request data' => '',
-        'Configure' => '',
+            'Se llamará a este módulo de motor de invocador OTRS para preparar los datos a enviar al sistema remoto, y para procesar los datos de la respuesta.',
+        'Mapping for outgoing request data' => 'Mapeo para los datos de la solicitud saliente',
+        'Configure' => 'Configurar',
         'The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
-            '',
-        'Mapping for incoming response data' => '',
+            'Los datos del invocador de OTRS serán procesador por este mapeo, para transformarlos al tipo de datos que el sistema remoto espera.',
+        'Mapping for incoming response data' => 'Mapeo para los datos de la respuesta entrante',
         'The response data will be processed by this mapping, to transform it to the kind of data the invoker of OTRS expects.' =>
-            '',
-        'Asynchronous' => '',
-        'This invoker will be triggered by the configured events.' => '',
+            'Los datos de la respuesta serán procesados por este mapeo, para transformarlos al tipo de datos que el invocador de OTRS espera.',
+        'Asynchronous' => 'Asíncrono',
+        'This invoker will be triggered by the configured events.' => 'Este invocador será disparado por los eventos configurados.',
         'Asynchronous event triggers are handled by the OTRS Scheduler in background (recommended).' =>
-            '',
+            'Los disparadores de eventos asíncronos son gestionador por el planificador de OTRS en segundo plano (recomendado)',
         'Synchronous event triggers would be processed directly during the web request.' =>
-            '',
-        'Save and continue' => '',
-        'Delete this Invoker' => '',
+            'Los disparadores de eventos asíncronos serían procesados directamente durante la solicitud web.',
+        'Save and continue' => 'Guardar y continuar',
+        'Delete this Invoker' => 'Borrar este invocador',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => '',
@@ -2208,7 +2208,7 @@ sub Data {
         'It is going to be deleted from the field, please try again.' => 'Se va a borrar del campo, inténtelo de nuevo.',
 
         # Template: AgentCustomerTableView
-        'Note: Customer is invalid!' => '',
+        'Note: Customer is invalid!' => 'Nota: ¡el cliente no es válido!',
 
         # Template: AgentDashboard
         'Dashboard' => 'Panel principal',
@@ -2249,7 +2249,7 @@ sub Data {
 
         # Template: AgentDashboardStats
         'The content of this statistic is being prepared for you, please be patient.' =>
-            '',
+            'Se está preparado el contenido de esta estadística para usted, por favor sea paciente.',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Mis tickets bloqueados',
@@ -2339,15 +2339,15 @@ sub Data {
         'Use cache' => 'Usar la caché',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'La mayoría de las estadisticas se pueden conservar en la caché. Esto acelera la presentación de esta estadística.',
-        'Show as dashboard widget' => '',
+        'Show as dashboard widget' => 'Mostrar como un elemento gráfico en el panel principal',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
-            '',
-        'Please note' => '',
+            'Proporcionar la estadística como un elemento gráfico que los agentes pueden activar en su panel principal.',
+        'Please note' => 'Por favor, observe',
         'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
-            '',
+            'Habilitar el elemento gráfico en el panel principal activará el cacheo para esta estadística en el panel principal.',
         'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
-            '',
-        'IE8 doesn\'t support statistics dashboard widgets.' => '',
+            'Los agentes no podrán cambiar los ajustes de tiempo absoluto para los elementos de estadísticas del panel principal.',
+        'IE8 doesn\'t support statistics dashboard widgets.' => 'IE8 no admite elementos de estadísticas en el panel principal.',
         'If set to invalid end users can not generate the stat.' => 'Si se establece a un valor no válido los usuarios finales no pueden generar la estadística.',
 
         # Template: AgentStatsEditValueSeries
@@ -2356,7 +2356,7 @@ sub Data {
         'Then you can select the attributes of elements.' => 'Después puede seleccionar los atributos de los elementos.',
         'Each attribute will be shown as single value series.' => 'Cada elemento se mostrará como una única serie de valores.',
         'If you don\'t select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' =>
-            'Si no selección ningún atributó, se usarán todos los atriubtos del elemento al generar una estadística, así como los nuevos atributos que se hayan añadido desde la última configuración.',
+            'Si no selecciona ningún atributo, se usarán todos los atributos del elemento al generar una estadística, así como los nuevos atributos que se hayan añadido desde la última configuración.',
         'Scale' => 'Escala',
         'minimal' => 'mínimo',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
@@ -2396,7 +2396,7 @@ sub Data {
         'No element selected.' => 'No hay seleccionado ningún elemento',
         'maximal period from' => 'periodo máximo desde',
         'to' => 'hasta',
-        'not changable for dashboard statistics' => '',
+        'not changable for dashboard statistics' => 'no modificable para estadísticas del panel principal',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Cambiar el texto libre del ticket',
@@ -2406,7 +2406,7 @@ sub Data {
         'Set Pending' => 'Establecer como pendiente',
         'Change Priority of Ticket' => 'Cambiar la prioridad del ticket',
         'Change Responsible of Ticket' => 'Cambiar el responsable del ticket',
-        'All fields marked with an asterisk (*) are mandatory.' => '',
+        'All fields marked with an asterisk (*) are mandatory.' => 'Todos los campos marcados con un asterisco (*) son obligatorios.',
         'Service invalid.' => 'Servicio no válido',
         'New Owner' => 'Nuevo propietario',
         'Please set a new owner!' => 'Por favor, introduzca un nuevo propietario.',
@@ -2429,7 +2429,7 @@ sub Data {
             'Necesita una dirección de correo válida, o no use una dirección de correo local.',
         'Next ticket state' => 'Nuevo estado del ticket',
         'Inform sender' => 'Informar al remitente',
-        'Send mail' => '¡Enviar correo!',
+        'Send mail' => 'Enviar correo',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Acción múltiple con tickets',
@@ -2463,10 +2463,10 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Crear un nuevo ticket por correo electrónico',
         'From queue' => 'De la cola',
-        'To customer user' => '',
-        'Please include at least one customer user for the ticket.' => '',
+        'To customer user' => 'Al usuario cliente',
+        'Please include at least one customer user for the ticket.' => 'Por favor, incluya al menos un usuario cliente para el ticket.',
         'Select this customer as the main customer.' => 'Seleccionar a este cliente como el cliente principal.',
-        'Remove Ticket Customer User' => '',
+        'Remove Ticket Customer User' => 'Eliminar el usuario cliente del ticket',
         'Get all' => 'Obtener todo',
         'Text Template' => 'Plantilla de texto',
 
@@ -2512,7 +2512,7 @@ sub Data {
 
         # Template: AgentTicketOverviewSmall
         'Reset overview' => 'Restablecer la vista general',
-        'Column Filters Form' => '',
+        'Column Filters Form' => 'Formulario de filtros de columna',
 
         # Template: AgentTicketOwner
 
@@ -2764,7 +2764,7 @@ sub Data {
             'Ya está abierta una ventana emergente de esta pantalla. ¿Desea cerrarla y cargar ésta en su lugar?',
         'Please enter at least one search value or * to find anything.' =>
             'Introduzca al menos un valor de búsqueda, o * para buscar todo.',
-        'Please check the fields marked as red for valid inputs.' => '',
+        'Please check the fields marked as red for valid inputs.' => 'Compruebe que los campos marcados en rojo tienen datos válidos.',
 
         # Template: FooterSmall
 
@@ -2818,7 +2818,7 @@ sub Data {
 
         # Template: InstallerDBStart
         'Install Type' => 'Tipo de instalación',
-        'Create a new database for OTRS' => 'Crear una base de datos para OTRS',
+        'Create a new database for OTRS' => 'Crear una nueva base de datos para OTRS',
         'Use an existing database for OTRS' => 'Usar una base de datos existente para OTRS',
 
         # Template: InstallerDBmssql
