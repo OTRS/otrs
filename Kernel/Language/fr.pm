@@ -6,7 +6,7 @@
 # Copyright (C) 2007 Remi Seguy <remi.seguy at laposte.net>
 # Copyright (C) 2007 Massimiliano Franco <max-lists at ycom.ch>
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
-# Copyright (C) 2009-2010 Olivier Sallou <olivier.sallou at irisa.fr>
+# Copyright (C) 2009-2010,2013 Olivier Sallou <olivier.sallou at irisa.fr>
 # Copyright (C) 2011-2013 Raphaël Doursenaud <rdoursenaud@gpcsolutions.fr>
 # Copyright (C) 2013 Dylan Oberson <dylan.oberson@epfl.ch>
 # --
@@ -52,12 +52,12 @@ sub Data {
         'Done' => 'Fait',
         'Cancel' => 'Annuler',
         'Reset' => 'Remise à zéro',
-        'more than ... ago' => '',
-        'in more than ...' => '',
-        'within the last ...' => '',
-        'within the next ...' => '',
-        'Created within the last' => '',
-        'Created more than ... ago' => '',
+        'more than ... ago' => 'il y a plus de ...',
+        'in more than ...' => 'en plus de ...',
+        'within the last ...' => 'dans les dernier(e)s',
+        'within the next ...' => 'dans les prochain(e)s',
+        'Created within the last' => 'Créé dans les dernier(e)s',
+        'Created more than ... ago' => 'Créé il y a plus de ...',
         'Today' => 'Aujourd\'hui',
         'Tomorrow' => 'Demain',
         'Next week' => 'Semaine prochaine',
@@ -87,7 +87,7 @@ sub Data {
         'seconds' => 'secondes',
         'second' => 'seconde',
         's' => 's',
-        'Time unit' => '',
+        'Time unit' => 'Unité de temps',
         'wrote' => 'a écrit',
         'Message' => 'Message',
         'Error' => 'Erreur',
@@ -247,16 +247,16 @@ sub Data {
         'Mail Configuration' => 'Configuration de la messagerie',
         'Finished' => 'Fini',
         'Install OTRS' => 'Installer OTRS',
-        'Intro' => '',
+        'Intro' => 'Introduction',
         'License' => 'Licence',
         'Database' => 'Base de donnée',
         'Configure Mail' => 'Configurer Mail',
         'Database deleted.' => 'Base de données effacée.',
-        'Enter the password for the administrative database user.' => '',
-        'Enter the password for the database user.' => '',
+        'Enter the password for the administrative database user.' => 'Entrer le mot de passe de l\'administrateur de la base de données',
+        'Enter the password for the database user.' => 'Entrer le mot de passe pour l\'utilisateur base de données',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Database already contains data - it should be empty!' => '',
+            'Si vous avez défini un mot de passe root pour votre base de donnée, il doit être rempli ici. Sinon, laisser ce champ vide',
+        'Database already contains data - it should be empty!' => 'La base de données contient déjà des données - elle doit être vide',
         'Login is needed!' => 'Authentification requise !',
         'Password is needed!' => 'Le mot de passe est requis !',
         'Take this Customer' => 'Choisir ce client',
@@ -268,7 +268,7 @@ sub Data {
         'Time Zone' => 'Fuseau horaire',
         'Pending till' => 'En attendant jusqu\'à',
         'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
-            '',
+            'N\'utilisez pas le compte Superuser pour travailler avec OTRS! Créez de nouveaux agents et travaillez plutôt avec ces agents.',
         'Dispatching by email To: field.' => 'Répartition par le champ \'À:\' de l\'e-mail',
         'Dispatching by selected Queue.' => 'Répartition selon la file sélectionnée',
         'No entry found!' => 'Aucun résultat n\'a été trouvé !',
@@ -279,12 +279,12 @@ sub Data {
         '(Click here to add)' => '(Cliquez ici pour ajouter)',
         'Preview' => 'Aperçu',
         'Package not correctly deployed! Please reinstall the package.' =>
-            '',
+            'Package incorrectement déployé! Merci de réinstaller le package.',
         '%s is not writable!' => '% n\'est pas accessible en écriture',
         'Cannot create %s!' => 'Impossible de créer %s',
-        'Check to activate this date' => '',
+        'Check to activate this date' => 'Cochez pour activer cette date',
         'You have Out of Office enabled, would you like to disable it?' =>
-            '',
+            'Vous avez l\'Heure de sortie du travail\' activée, voulez-vous la désactiver?',
         'Customer %s added' => 'Client %s ajouté',
         'Role added!' => 'Rôle ajouté!',
         'Role updated!' => 'Rôle mis à jour!',
@@ -302,7 +302,7 @@ sub Data {
         'Customer updated!' => 'Client mis à jour!',
         'Customer company added!' => 'Entreprise du client ajoutée !',
         'Customer company updated!' => 'Entreprise du client mise à jour !',
-        'Note: Company is invalid!' => '',
+        'Note: Company is invalid!' => 'Note: Entreprise non valide!',
         'Mail account added!' => 'Compte de messagerie ajouté !',
         'Mail account updated!' => 'Compte de messagerie mis à jour !',
         'System e-mail address added!' => 'Adresse e-mail système ajoutée !',
@@ -340,11 +340,11 @@ sub Data {
         'uninstalled' => 'désinstallé',
         'Security Note: You should activate %s because application is already running!' =>
             'Note de Sécurité: Vous devriez activer %s parce que l\'application est déjà lancée !',
-        'Unable to parse repository index document.' => '',
+        'Unable to parse repository index document.' => 'Impossible de lire le document d\'index du dépôt',
         'No packages for your framework version found in this repository, it only contains packages for other framework versions.' =>
-            '',
+            'Aucun paquet pour votre version de framework dans ce dépôt, il contient uniquement des paquets pour d\'autres versions du framework.',
         'No packages, or no new packages, found in selected repository.' =>
-            '',
+            'Aucun paquet, ou nouveau paquet, trouvé dans le dépôt sélectionné.',
         'Edit the system configuration settings.' => 'Modifier la configuration du système.',
         'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
             '',
@@ -376,7 +376,7 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'Les informations de Gestion de Processus de la base de données ne sont pas synchrones avec la configurations système. Veuillez synchroniser tous les processus.',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
-            '',
+            'Paquets non vérifié pour le groupe OTRS! Il est recommendé de ne pas utiliser ce paquet.',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
         'Mark' => '',
@@ -410,6 +410,7 @@ sub Data {
             '',
         'Problems processing server result. Please try again later.' => '',
         'Username and password do not match. Please try again.' => '',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Jour de l\'An',
@@ -778,10 +779,10 @@ sub Data {
         'Closed Tickets' => 'Tickets fermés',
         'Show closed tickets.' => 'Voir les tickets fermés',
         'Max. shown Tickets a page in QueueView.' => 'Nombre maximum de tickets affichés sur la page de la vue d\'une file',
-        'Ticket Overview "Small" Limit' => '',
-        'Ticket limit per page for Ticket Overview "Small"' => '',
-        'Ticket Overview "Medium" Limit' => '',
-        'Ticket limit per page for Ticket Overview "Medium"' => '',
+        'Ticket Overview "Small" Limit' => 'limite "Petite" de Vue Générale des Tickets',
+        'Ticket limit per page for Ticket Overview "Small"' => 'Limite de ticket par page pour la "Petite" limite de Vue Générale des Tickets',
+        'Ticket Overview "Medium" Limit' => 'limite "Moyenne" de Vue Générale des Tickets',
+        'Ticket limit per page for Ticket Overview "Medium"' => 'Limite de ticket par page pour la "Moyenne" limite de Vue Générale des Tickets',
         'Ticket Overview "Preview" Limit' => '',
         'Ticket limit per page for Ticket Overview "Preview"' => '',
         'Ticket watch notification' => 'Notification de surveillance de Ticket',
@@ -962,17 +963,17 @@ sub Data {
         'Edit Customer' => 'Editer client',
 
         # Template: AdminCustomerUser
-        'Customer User Management' => '',
-        'Back to search results' => '',
-        'Add customer user' => '',
+        'Customer User Management' => 'Gestion du client',
+        'Back to search results' => 'Retour aux résultats de la recherche',
+        'Add customer user' => 'Ajouter un client',
         'Hint' => 'Conseil',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             '',
         'Last Login' => 'Dernière connexion',
         'Login as' => 'Connecté en tant que',
         'Switch to customer' => 'Basculer vers le client',
-        'Add Customer User' => '',
-        'Edit Customer User' => '',
+        'Add Customer User' => 'Ajouter Client',
+        'Edit Customer User' => 'Editer Client',
         'This field is required and needs to be a valid email address.' =>
             'Ce champ est obligatoire et doit être une adresse e-mail valide.',
         'This email address is not allowed due to the system configuration.' =>
@@ -993,7 +994,7 @@ sub Data {
         'Edit Customer Default Groups' => 'Editer les groupes par défault du client',
         'These groups are automatically assigned to all customers.' => 'Ces groupes sont automatiquement assignés à tous les clients',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
-            '',
+            'Vous pouvez gérer ces groupes via le paramètre de configuration "CustomerGroupAlwaysGroups".',
         'Filter for Groups' => 'Filtre pour les Groupes',
         'Select the customer:group permissions.' => 'Selectionner les permissions client::groupe',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
@@ -1002,8 +1003,8 @@ sub Data {
         'Customers' => 'Clients',
         'Groups' => 'Groupes',
         'No matches found.' => 'Aucun résultat.',
-        'Change Group Relations for Customer' => '',
-        'Change Customer Relations for Group' => '',
+        'Change Group Relations for Customer' => 'Modifier les Relations du Groupe pour le Client',
+        'Change Customer Relations for Group' => 'Modifier les Relations du Client pour le Groupe',
         'Toggle %s Permission for all' => 'Sélectionner la Permission %s pour tous',
         'Toggle %s permission for %s' => 'Sélectionner la permission %s pour %s',
         'Customer Default Groups:' => 'Groupes par défaut du client',
@@ -1018,8 +1019,8 @@ sub Data {
         'Manage Customer-Services Relations' => 'Gérer les Relations Client-Services',
         'Edit default services' => 'Editer les services par défaut',
         'Filter for Services' => 'Filtre pour les Services',
-        'Allocate Services to Customer' => '',
-        'Allocate Customers to Service' => '',
+        'Allocate Services to Customer' => 'Allouer des Services au Client',
+        'Allocate Customers to Service' => 'Allouer des Clients au Service',
         'Toggle active state for all' => 'Sélectionner l\'état actif pour tous',
         'Active' => 'Actif',
         'Toggle active state for %s' => 'Sélectionner l\'état actif pour %s',
@@ -1062,7 +1063,7 @@ sub Data {
         'This field is protected and can\'t be deleted.' => 'Ce champ est protégé et ne peut pas être supprimé',
         'Field Settings' => 'Réglage du champ',
         'Default value' => 'Valeur par défaut',
-        'This is the default value for this field.' => '',
+        'This is the default value for this field.' => 'Il s\'agit de la valeur par défaut du champ',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Différence entre la date actuelle et le date affichée',
@@ -1131,9 +1132,9 @@ sub Data {
         'Run this task' => 'Exécuter cette tâche',
         'Job Settings' => 'Configuration de la tâche',
         'Job name' => 'Nom de la tâche',
-        'Toggle this widget' => '',
-        'Automatic execution (multiple tickets)' => '',
-        'Execution Schedule' => '',
+        'Toggle this widget' => 'Activer/Désactiver le widget',
+        'Automatic execution (multiple tickets)' => 'Exécution automatique (tickets multiples)',
+        'Execution Schedule' => 'Planification d\'exécution',
         'Schedule minutes' => 'Planification Minutes',
         'Schedule hours' => 'Planification Heures',
         'Schedule days' => 'Planification Jours',
@@ -1144,7 +1145,7 @@ sub Data {
         'Event based execution (single ticket)' => '',
         'Event Triggers' => '',
         'List of all configured events' => '',
-        'Delete this event' => '',
+        'Delete this event' => 'Supprimer cet évenement',
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
             '',
         'If a ticket event is fired, the ticket filter will be applied to check if the ticket matches. Only then the job is run on that ticket.' =>
@@ -1153,9 +1154,9 @@ sub Data {
         'Add Event Trigger' => '',
         'To add a new event select the event object and event name and click on the "+" button' =>
             '',
-        'Duplicate event.' => '',
+        'Duplicate event.' => 'Evenement double',
         'This event is already attached to the job, Please use a different one.' =>
-            '',
+            'Cet évenement est déjà attaché à un job, merci d\'en utiliser un autre.',
         'Delete this Event Trigger' => '',
         'Ticket Filter' => 'Filtre ticket',
         '(e. g. 10*5155 or 105658*)' => '(ex: 10*5155 or 105658*)',
@@ -1245,15 +1246,15 @@ sub Data {
             'Voulez-vous vraiment supprimer l\'enregistrement de débogage de ce service Web?',
         'Request List' => 'Liste de demandes',
         'Time' => 'Date et heure',
-        'Remote IP' => '',
+        'Remote IP' => 'Adresse IP distante',
         'Loading' => 'En cours de chargement',
-        'Select a single request to see its details.' => '',
+        'Select a single request to see its details.' => 'Sélection une seule requête pour afficher son détail',
         'Filter by type' => 'Filtrer par type',
         'Filter from' => 'Filtrer à partir de',
         'Filter to' => 'Filtrer jusqu\'au',
-        'Filter by remote IP' => '',
+        'Filter by remote IP' => 'Filtrer par adresse IP distante',
         'Refresh' => 'Rafraîchir',
-        'Request Details' => '',
+        'Request Details' => 'Demander des détails',
         'An error occurred during communication.' => 'Une erreur est survenue durant la communication.',
         'Clear debug log' => 'Supprimer l\'enregistrement de débogage',
 
@@ -1468,7 +1469,7 @@ sub Data {
         'System Log' => 'Journaux du Système',
         'Here you will find log information about your system.' => 'Vous trouverez ici les informations de log sur votre système',
         'Hide this message' => 'Masquer ce message',
-        'Recent Log Entries' => '',
+        'Recent Log Entries' => 'Entrées de log récentes',
 
         # Template: AdminMailAccount
         'Mail Account Management' => 'Gestion du compte de messagerie',
@@ -1569,7 +1570,7 @@ sub Data {
         'Module documentation' => 'Documentation du module',
         'Upgrade' => 'Mise à jour',
         'Local Repository' => 'Dépôt local',
-        'This package is verified by OTRSverify (tm)' => '',
+        'This package is verified by OTRSverify (tm)' => 'Ce paquet est vérifié par OTRSverify (tm)',
         'Uninstall' => 'Désinstallation',
         'Reinstall' => 'Ré-installation',
         'Feature Add-Ons' => 'Fonctionnalité des Compléments',
@@ -1624,10 +1625,10 @@ sub Data {
         'Edit PostMaster Filter' => 'Editer ce filtre PostMaster',
         'The name is required.' => 'Le nom est requis',
         'Filter Condition' => 'Condition de filtre',
-        'AND Condition' => '',
-        'Negate' => '',
+        'AND Condition' => 'condition ET',
+        'Negate' => 'Negation',
         'The field needs to be a valid regular expression or a literal word.' =>
-            '',
+            'Le champ doit être une expression régulière valide ou un mot litéral',
         'Set Email Headers' => 'Régler les entêtes e-mail',
         'The field needs to be a literal word.' => 'Ce champ doit comporter un libellé.',
 
@@ -2267,10 +2268,10 @@ sub Data {
         # Template: AgentDashboardTicketStats
 
         # Template: AgentDashboardUserOnline
-        'out of office' => '',
+        'out of office' => 'heure de sortie du travail',
 
         # Template: AgentDashboardUserOutOfOffice
-        'until' => '',
+        'until' => 'jusqu\'à',
 
         # Template: AgentHTMLReferenceForms
 
@@ -2514,6 +2515,7 @@ sub Data {
 
         # Template: AgentTicketOverviewSmall
         'Reset overview' => '',
+        'Column Filters Form' => '',
 
         # Template: AgentTicketOwner
 
@@ -3081,8 +3083,6 @@ sub Data {
             '',
         'Closed tickets of customer' => 'Tickets clos',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the status view of the agent interface. PPossible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
-            '',
         'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => '',
@@ -4810,7 +4810,7 @@ sub Data {
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket overview' => 'Vue d\'ensemble du Ticket',
-        'TicketNumber' => '',
+        'TicketNumber' => 'NuméroTicket',
         'Tickets' => 'Ticket',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             'Temps en secondes à ajouter à l\'heure actuelle dans le cas dans état en attente (défaut: 86400 = 1 jour)',

@@ -292,6 +292,23 @@ sub Run {
     # prepare shown tickets for new article tickets
     if ( $Self->{Filter} eq 'New' ) {
 
+        my @OriginalViewableTicketsAll = $Self->{TicketObject}->TicketSearch(
+            %{ $Filters{All}->{Search} },
+            Result => 'ARRAY',
+        );
+
+        my %OriginalViewableTicketsNotNew;
+        for my $TicketID (@OriginalViewableTickets) {
+            $OriginalViewableTicketsNotNew{$TicketID} = 1;
+        }
+
+        my @OriginalViewableTicketsTmp;
+        for my $TicketIDAll (@OriginalViewableTicketsAll) {
+            next if $OriginalViewableTicketsNotNew{$TicketIDAll};
+            push @OriginalViewableTicketsTmp, $TicketIDAll;
+        }
+        @OriginalViewableTickets = @OriginalViewableTicketsTmp;
+
         my @ViewableTicketsAll = $Self->{TicketObject}->TicketSearch(
             %{ $Filters{All}->{Search} },
             %ColumnFilter,
@@ -443,6 +460,9 @@ sub Run {
         OrderBy             => $OrderBy,
         SortBy              => $SortBy,
         EnableColumnFilters => 1,
+        ColumnFilterForm    => {
+            Filter => $Self->{Filter} || '',
+        },
     );
 
     $Output .= $Self->{LayoutObject}->Footer();

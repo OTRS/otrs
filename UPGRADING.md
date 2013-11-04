@@ -248,42 +248,8 @@ Note: this applies only if you use the Apache web server,
 and do not use the configuration file directly from the OTRS installation directory
 (e. g. with a symlink from the Apache configuration directory).
 
-Please update the caching settings in the the Apache configuration file for OTRS:
-
-```
-<IfModule mod_headers.c>
-    # Cache css-cache for 30 days
-    <Directory "/opt/otrs/var/httpd/htdocs/skins/*/*/css-cache">
-        <FilesMatch "\.(css|CSS)$">
-            Header set Cache-Control "max-age=2592000 must-revalidate"
-        </FilesMatch>
-    </Directory>
-
-    # Cache css thirdparty for 4 hours, including icon fonts
-    <Directory "/opt/otrs/var/httpd/htdocs/skins/*/*/css/thirdparty">
-        <FilesMatch "\.(css|CSS|woff|svg)$">
-            Header set Cache-Control "max-age=14400 must-revalidate"
-        </FilesMatch>
-    </Directory>
-
-    # Cache js-cache for 30 days
-    <Directory "/opt/otrs/var/httpd/htdocs/js/js-cache">
-        <FilesMatch "\.(js|JS)$">
-            Header set Cache-Control "max-age=2592000 must-revalidate"
-        </FilesMatch>
-    </Directory>
-
-    # Cache js thirdparty for 4 hours
-    <Directory "/opt/otrs/var/httpd/htdocs/js/thirdparty/">
-        <FilesMatch "\.(js|JS)$">
-            Header set Cache-Control "max-age=14400 must-revalidate"
-        </FilesMatch>
-    </Directory>
-</IfModule>
-```
-
-Please activate this in your local installation too, and make sure that mod_headers
-is installed and active.
+Please update the the Apache configuration file for OTRS as there have been several
+changes (see [scripts/apache2-httpd.include.conf](scripts/apache2-httpd.include.conf)).
 
 
 16. Update and activate cronjobs
@@ -302,7 +268,7 @@ Please check the copied files and re-apply any customizations that you might hav
 To schedule these cronjobs on your system, you can use the script Cron.sh.
 Make sure to execute it as the OTRS system user!
 
-        shell> /opt/otrs/bin/Cron.sh start
+    shell> /opt/otrs/bin/Cron.sh start
 
 
 17. Well done!

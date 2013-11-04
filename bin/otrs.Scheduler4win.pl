@@ -91,7 +91,10 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
     if ( $Opts{f} ) {
 
         # delete process ID lock
-        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => 'otrs.Scheduler' );
+        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
+            Name  => 'otrs.Scheduler',
+            Force => 1,
+        );
     }
     else {
 
@@ -284,8 +287,14 @@ sub _Start {
 
     my %CommonObject = _CommonObjects();
 
+    # if start is forced, be sure to remove any PID from any host
+    my $Force = $Opts{f} ? 1 : '';
+
     # create new PID on the Database
-    $CommonObject{PIDObject}->PIDCreate( Name => 'otrs.Scheduler' );
+    $CommonObject{PIDObject}->PIDCreate(
+        Name  => 'otrs.Scheduler',
+        Force => $Force,
+    );
 
     # get the process ID
     my %PID = $CommonObject{PIDObject}->PIDGet(

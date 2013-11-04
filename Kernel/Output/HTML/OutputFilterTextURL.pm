@@ -68,7 +68,8 @@ sub Pre {
         my $End   = $3;
         if ($Seen{$Link}) {
             $Start . $Seen{$Link} . $End;
-        } else {
+        }
+        else {
             $Counter++;
             if ( $Link !~ m{^ ( http | https | ftp ) : \/ \/ }xi ) {
                 if ($Link =~ m{^ ftp }smx ) {

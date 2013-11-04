@@ -355,6 +355,9 @@ sub Run {
         OrderBy             => $OrderBy,
         SortBy              => $SortBy,
         EnableColumnFilters => 1,
+        ColumnFilterForm    => {
+            Filter => $Self->{Filter} || '',
+        },
     );
 
     # get page footer
