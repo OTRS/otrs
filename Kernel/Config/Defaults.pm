@@ -24,9 +24,6 @@ use utf8;
 # Perl 5.10.0 is the required minimum version to use OTRS.
 use 5.010_000;
 
-# make any created files readable by owner and group, not by others
-umask 0007;
-
 # prepend '../Custom', '../Kernel/cpan-lib' and '../' to the module search path @INC
 use File::Basename;
 use FindBin qw($Bin);
@@ -39,6 +36,11 @@ use Digest::MD5;
 
 sub LoadDefaults {
     my $Self = shift;
+
+    # Make any created files readable by owner and group, not by others.
+    # Do this on every instantiation to make sure it also works after fork()
+    #   and in long-running mod_perl or similar environments.
+    umask 0007;
 
     # --------------------------------------------------- #
     # system data                                         #
