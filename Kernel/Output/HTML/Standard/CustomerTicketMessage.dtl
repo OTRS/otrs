@@ -139,7 +139,7 @@
 <!-- dtl:block:RichText -->
 $Include{"CustomerRichTextEditor"}
 <!-- dtl:block:RichText -->
-                    <textarea id="RichText" style="float: right; width:350px !important;" class="RichText Validate_Required $QData{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <textarea id="RichText" class="RichText Validate_Required $QData{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                     <div id="RichTextError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
                     <div id="RichTextServerError" class="TooltipErrorMessage NoJavaScriptMessage$QData{"BodyInvalid"}" ><p>$Text{"This field is required."}</p></div>
                     <div class="Clear"></div>
