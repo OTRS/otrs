@@ -94,7 +94,7 @@ use MIME::QuotedPrint;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.503";
+$VERSION = "5.504";
 
 ### Nonprintables (controls + x7F + 8bit):
 my $NONPRINT = "\\x00-\\x1F\\x7F-\\xFF";
@@ -301,16 +301,7 @@ sub encode_mimewords {
     ###    worst-case encoding give us no more than 54 + ~10 < 75 characters
     my $word;
     local $1;
-# ---
-# OTRS
-# ---
-# 2008-08-02 added patch/workaround for bug in MIME::Words (v5.428, maybe
-# also higner)
-# see also: http://rt.cpan.org/Public/Bug/Display.html?id=5462
-#           http://bugs.otrs.org/show_bug.cgi?id=3121
-#    $rawstr =~ s{([ a-zA-Z0-9\x7F-\xFF]{1,18})}{     ### get next "word"
     $rawstr =~ s{([a-zA-Z0-9\x7F-\xFF]+\s*)}{     ### get next "word"
-# ---
 	$word = $1;
 	(($word !~ /(?:[$NONPRINT])|(?:^\s+$)/o)
 	 ? $word                                          ### no unsafe chars
