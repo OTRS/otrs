@@ -280,9 +280,8 @@ OTRS comes with a scheduler service that is used to perform asynchronous tasks.
 
 The OTRS RPMs will set up the Scheduler Service automatically.
 If you install/update from source, you can install the service by copying the
-scripts/otrs-scheduler-linux file to /etc/init.d, give it appropriate permissions
-and register it in your system start sequence
-(on Debian/Ubuntu this could be done with `update-rc.d otrs-scheduler-linux defaults`).
+scripts/otrs-scheduler-linux file to /etc/init.d and giving it the appropriate permissions.
+
 This will make sure the scheduler service starts when the system starts up.
 
 
