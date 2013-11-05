@@ -136,7 +136,6 @@
                         <span class="Marker">*</span>
                         $Text{"Text"}:
                     </label>
-                    <div class="Clear"></div>
 <!-- dtl:block:RichText -->
 $Include{"CustomerRichTextEditor"}
 <!-- dtl:block:RichText -->

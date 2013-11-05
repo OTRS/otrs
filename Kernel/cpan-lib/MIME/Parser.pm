@@ -153,7 +153,7 @@ use MIME::Parser::Results;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.503";
+$VERSION = "5.504";
 
 ### How to catenate:
 $CAT = '/bin/cat';
@@ -559,26 +559,7 @@ sub process_preamble {
     if( $data =~ m/^[\r\n]\z/ ) {
 	@saved = ('');
     } else {
-# ---
-# OTRS
-# ---
-# 2013-02-08 added patch/workaround for "bug" in MIME::Parser (v5.503, v5.504 maybe also higher)
-# deleting empty lines (\r\n) in the preamble lead into inconsistent signed content:
-# e.g. crypt object will sign:
-# =========================================
-# This is a multi-part message in MIME format...
-#
-# ------------=_1360258429-5733-0
-# =========================================
-#
-# while the mail will contain:
-# =========================================
-# This is a multi-part message in MIME format...
-# ------------=_1360258429-5733-0
-# =========================================
-#
-# by commenting the following line the intermediate empty line will be preserved
-#	$data =~ s/[\r\n]\z//;
+	$data =~ s/[\r\n]\z//;
         @saved = split(/^/, $data);
     }
     $ent->preamble(\@saved);

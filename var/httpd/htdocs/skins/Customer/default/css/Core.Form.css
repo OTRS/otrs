@@ -296,6 +296,7 @@ fieldset.Columns label,
 
 fieldset .RichTextHolder {
     padding: 0;
+    margin-top: 3px;
 }
 
 .Preferences .Content {
