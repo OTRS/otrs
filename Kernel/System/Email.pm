@@ -535,6 +535,12 @@ sub Send {
             # according to RFC3156 all line endings MUST be CR/LF
             $T =~ s/\x0A/\x0D\x0A/g;
             $T =~ s/\x0D+/\x0D/g;
+
+            # remove empty line after multi-part preable as it will be removed later by MIME::Parser
+            #    otherwise signed content will be different than the actual mail and verify will
+            #    fail
+            $T =~ s{(This is a multi-part message in MIME format...\r\n)\r\n}{$1};
+
             my $Sign = $CryptObject->Sign(
                 Message  => $T,
                 Filename => $Param{Sign}->{Key},
