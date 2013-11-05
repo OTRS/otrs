@@ -38,6 +38,15 @@
 <script type="text/javascript">//<![CDATA[
     $('#ProcessEntityID').bind('change', function() {
 
+        // remove/destroy CKEditor instances
+        // This is needed to initialize other instances (in other activity dialogs)
+        // without a page reload
+        if (CKEDITOR && CKEDITOR.instances) {
+            $.each(CKEDITOR.instances, function (Key, Value) {
+                CKEDITOR.instances[Key].destroy();
+            });
+        }
+
         if ($('#ProcessEntityID').val()) {
 
             // remove the content of the activity dialog
