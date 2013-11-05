@@ -850,9 +850,9 @@ sub CustomerUserUpdate {
     if ( $Param{UserLogin} ne $UserData{UserLogin} ) {
 
         # update the preferences
-        $Self->{PreferencesObject}->UpdatePreferences(
-            UserLogin => $Param{UserLogin},
-            UserID    => $Param{ID},          # customer userid
+        $Self->{PreferencesObject}->RenamePreferences(
+            NewUserID => $Param{UserLogin},
+            OldUserID => $UserData{UserLogin},
         );
     }
 

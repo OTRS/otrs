@@ -94,23 +94,37 @@ sub SetPreferences {
     return 1;
 }
 
-sub UpdatePreferences {
+=item RenamePreferences()
+
+rename the old userid with the new userid in the preferences
+
+returns 1 if success or undef otherwise
+
+    my $Success = $PreferencesObject->RenamePreferences(
+        NewUserID => 2,
+        OldUserID => 1,
+    );
+
+=cut
+
+sub RenamePreferences {
     my ( $Self, %Param ) = @_;
 
-    return if !$Param{UserLogin};
-    return if !$Param{UserID};
+    return if !$Param{NewUserID};
+    return if !$Param{OldUserID};
 
     # update the preferences
     return if !$Self->{DBObject}->Prepare(
-        SQL => "UPDATE $Self->{PreferencesTable} "
-            . "SET $Self->{PreferencesTableUserID} = ? "
-            . "WHERE $Self->{PreferencesTableUserID} = ?",
-        Bind => [ \$Param{UserLogin}, \$Param{UserID}, ],
+        SQL => "
+            UPDATE $Self->{PreferencesTable}
+            SET $Self->{PreferencesTableUserID} = ?
+            WHERE $Self->{PreferencesTableUserID} = ?",
+        Bind => [ \$Param{NewUserID}, \$Param{OldUserID}, ],
     );
 
     # delete cache
     $Self->{CacheInternalObject}->Delete(
-        Key => $Self->{CachePrefix} . $Param{UserID},
+        Key => $Self->{CachePrefix} . $Param{OldUserID},
     );
 
     return 1;
