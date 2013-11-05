@@ -192,7 +192,7 @@ sub RequireBaseClass {
     # Check if the base class was already loaded.
     # This can happen in persistent environments as mod_perl (see bug#9686).
     if ( List::Util::first { $_ eq $Module } @{"${CallingClass}::ISA"} ) {
-        return 1;        # nothing to do now
+        return 1;    # nothing to do now
     }
 
     push @{"${CallingClass}::ISA"}, $Module;
@@ -902,7 +902,8 @@ sub DirectoryRead {
     }
 
     # executes glob for every filter
-    my %Result;
+    my @GlobResults;
+    my %Seen;
 
     for my $Filter ( @{ $Param{Filter} } ) {
         my @Glob = glob "$Param{Directory}/$Filter";
@@ -911,7 +912,10 @@ sub DirectoryRead {
         for my $GlobName (@Glob) {
 
             next if !-e $GlobName;
-            $Result{$GlobName} = 1;
+            if ( !$Seen{$GlobName} ) {
+                push @GlobResults, $GlobName;
+                $Seen{$GlobName} = 1;
+            }
         }
     }
 
@@ -936,17 +940,20 @@ sub DirectoryRead {
 
             # add result to hash
             for my $Result (@SubResult) {
-                $Result{$Result} = 1;
+                if ( !$Seen{$Result} ) {
+                    push @GlobResults, $Result;
+                    $Seen{$Result} = 1;
+                }
             }
         }
     }
 
     # if no results
-    return if !keys %Result;
+    return if !@GlobResults;
 
     # compose normalize every name in the file list
     my @Results;
-    for my $Filename ( sort keys %Result ) {
+    for my $Filename (@GlobResults) {
 
         # first convert filename to utf-8 if utf-8 is used internally
         $Filename = $Self->{EncodeObject}->Convert2CharsetInternal(

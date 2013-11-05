@@ -1,4 +1,5 @@
 #3.3.1 ????-??-??
+ - 2013-11-04 Fixed bug#[9923](http://bugs.otrs.org/show_bug.cgi?id=9923) - Application type XML config files does not overwrite framework ones.
  - 2013-11-04 Fixed bug#[9926](http://bugs.otrs.org/show_bug.cgi?id=9926) - Cookies do not set HttpOnly attribute.
  - 2013-11-04 Fixed bug#[9914](http://bugs.otrs.org/show_bug.cgi?id=9914) - Spellchecker ignores double wrong words.
  - 2013-11-04 Fixed bug#[9832](http://bugs.otrs.org/show_bug.cgi?id=9832) - Perl 5.18.1 problems with MIME::Entity.
