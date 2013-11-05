@@ -849,20 +849,10 @@ sub CustomerUserUpdate {
     # check if we need to update Customer Preferences
     if ( $Param{UserLogin} ne $UserData{UserLogin} ) {
 
-        # preferences table data
-        $Self->{PreferencesTable}
-            = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{Table}
-            || 'customer_preferences';
-        $Self->{PreferencesTableUserID}
-            = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableUserID}
-            || 'user_id';
-
         # update the preferences
-        return if !$Self->{DBObject}->Prepare(
-            SQL => "UPDATE $Self->{PreferencesTable} "
-                . "SET $Self->{PreferencesTableUserID} = ? "
-                . "WHERE $Self->{PreferencesTableUserID} = ?",
-            Bind => [ \$Param{UserLogin}, \$Param{ID}, ],
+        $Self->{PreferencesObject}->UpdatePreferences(
+            UserLogin => $Param{UserLogin},
+            UserID    => $Param{ID},          # customer userid
         );
     }
 
