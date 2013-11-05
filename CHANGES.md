@@ -1,4 +1,5 @@
 #3.3.1 ????-??-??
+ - 2013-11-05 Fixed bug#[9931](http://bugs.otrs.org/show_bug.cgi?id=9931) - After upgrading to MIME::Tools 5.504 (without OTRS patches) SMIME signatures are broken.
  - 2013-11-05 Fixed bug#[9778](http://bugs.otrs.org/show_bug.cgi?id=9778) - Web Installer fails on SQL Server Named Instances.
  - 2013-11-05 Updated cpan module MIME::Tools to version 5.504.
  - 2013-11-05 Fixed bug#[9916](http://bugs.otrs.org/show_bug.cgi?id=9916) - Error when updating CustomerUser Login on ForeignDB.
