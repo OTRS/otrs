@@ -95,6 +95,28 @@ sub SetPreferences {
     return 1;
 }
 
+sub UpdatePreferences {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Param{UserLogin};
+    return if !$Param{UserID};
+
+    # update the preferences
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "UPDATE $Self->{PreferencesTable} "
+            . "SET $Self->{PreferencesTableUserID} = ? "
+            . "WHERE $Self->{PreferencesTableUserID} = ?",
+        Bind => [ \$Param{UserLogin}, \$Param{UserID}, ],
+    );
+
+    # delete cache
+    $Self->{CacheInternalObject}->Delete(
+        Key => $Self->{CachePrefix} . $Param{UserID},
+    );
+
+    return 1;
+}
+
 sub GetPreferences {
     my ( $Self, %Param ) = @_;
 
