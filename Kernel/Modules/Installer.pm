@@ -584,8 +584,8 @@ sub Run {
 
             # set DSN for Config.pm
             $DB{ConfigDSN}
-                = 'DBI:ODBC:driver={SQL Server};Database=$Self->{Database};Server=$Self->{DatabaseHost},1433';
-            $DB{DSN} = "DBI:ODBC:driver={SQL Server};Database=$DB{DBName};Server=$DB{DBHost},1433";
+                = 'DBI:ODBC:driver={SQL Server};Database=$Self->{Database};Server=$Self->{DatabaseHost}';
+            $DB{DSN} = "DBI:ODBC:driver={SQL Server};Database=$DB{DBName};Server=$DB{DBHost}";
         }
         elsif ( $DB{DBType} eq 'postgresql' ) {
 
