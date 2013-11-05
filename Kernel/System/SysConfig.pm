@@ -1628,52 +1628,60 @@ sub _Init {
                 }
             }
         }
+
+        # This is the sorted configuration XML entry list that we must
+        #   populate here.
         $Self->{XMLConfig} = [];
 
-        # load framework, application, config, changes
-        for my $Init (qw(Framework Application Config Changes)) {
-            for my $Set ( sort keys %Data ) {
-                if (
-                    defined $Data{$Set}->[1]->{otrs_config}->[1]->{init}
-                    && $Data{$Set}->[1]->{otrs_config}->[1]->{init} eq $Init
-                    )
-                {
+        # These are the valid "init" values that the config XML may use.
+        #   Settings must be processed in this order, and inside each group alphabetically.
+        my %ValidInit = (
+            Framework => 1,
+            Application  => 1,
+            Config  => 1,
+            Changes => 1,
+        );
 
-                    # just use valid entries
-                    if ( $Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem} ) {
-                        push(
-                            @{ $Self->{XMLConfig} },
-                            @{ $Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem} }
-                        );
-                    }
-                    delete $Data{$Set};
-                }
+        # Temp hash for sorting
+        my %XMLConfigTMP;
+
+        # Loop over the sorted files and assign all configs to the init section
+        for my $File ( sort keys %Data ) {
+
+            my $Init = $Data{$File}->[1]->{otrs_config}->[1]->{init} || '';
+            if ( !$ValidInit{$Init} ) {
+                $Init = 'Unknown'; # Fallback for unknown init values
+            }
+
+            # Just use valid entries.
+            if ( $Data{$File}->[1]->{otrs_config}->[1]->{ConfigItem} ) {
+                push(
+                    @{ $XMLConfigTMP{$Init} },
+                    @{ $Data{$File}->[1]->{otrs_config}->[1]->{ConfigItem} }
+                );
             }
         }
 
-        # load misc
-        for my $Set ( sort keys %Data ) {
-            push(
-                @{ $Self->{XMLConfig} },
-                @{ $Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem} }
-            );
-            delete $Data{$Set};
+        # Now process the entries in init order and assign them to the xml entry list.
+        for my $Init (qw(Framework Application Config Changes Unkown)) {
+            for my $ConfigItem ( @{ $XMLConfigTMP{$Init} } ) {
+                push(
+                    @{ $Self->{XMLConfig} },
+                    $ConfigItem
+                );
+            }
         }
     }
 
-    # remove duplicate entries
-    my %Used;
-    my @XMLConfig;
+    # Only the last config XML entry should be used, remove any previous ones.
+    my %Seen;
+    my @XMLConfigTmp;
     for my $ConfigItem ( reverse @{ $Self->{XMLConfig} } ) {
-        next if !$ConfigItem;
-        next if !$ConfigItem->{Name};
-        next if $Used{ $ConfigItem->{Name} };
-        $Used{ $ConfigItem->{Name} } = 1;
-        push @XMLConfig, $ConfigItem;
+        next if !$ConfigItem || !$ConfigItem->{Name} || $Seen{ $ConfigItem->{Name} }++;
+        push @XMLConfigTmp, $ConfigItem;
     }
-    $Self->{XMLConfig} = \@XMLConfig;
+    $Self->{XMLConfig} = \@XMLConfigTmp;
 
-    # read all config files
     for my $ConfigItem ( reverse @{ $Self->{XMLConfig} } ) {
         $Counter++;
         if ( $ConfigItem->{Name} && !$Self->{Config}->{ $ConfigItem->{Name} } ) {
