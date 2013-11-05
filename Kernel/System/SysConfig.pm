@@ -1528,15 +1528,11 @@ sub ConfigItemCheckAll {
 sub _Init {
     my ( $Self, %Param ) = @_;
 
-    my $Counter = 0;
+    my $Directory = "$Self->{Home}/Kernel/Config/Files/";
 
-    if ( !-e "$Self->{Home}/Kernel/Config/Files/" ) {
-        return;
-    }
+    return if !-e $Directory;
 
     # load xml config files
-    my %Data;
-    my $Directory = "$Self->{Home}/Kernel/Config/Files/";
     my @Files     = $Self->{MainObject}->DirectoryRead(
         Directory => $Directory,
         Filter    => "*.xml",
@@ -1545,8 +1541,10 @@ sub _Init {
     # get the md5 representing the current configuration state
     my $ConfigChecksum = $Self->{ConfigObject}->ConfigChecksum();
 
+    my %Data;
     FILE:
     for my $File (@Files) {
+
         my $CacheKey = "_Init::${File}::${ConfigChecksum}";
         my $CacheData = $Self->{CacheObject}->Get(
             Type => 'SysConfig',
@@ -1555,19 +1553,19 @@ sub _Init {
 
         if ( ref $CacheData eq 'SCALAR' ) {
             my $XMLHashRef;
-            if ( eval $$CacheData ) {
+            if ( eval ${$CacheData} ) {
                 $Data{$File} = $XMLHashRef;
                 next FILE;
             }
         }
 
         my $ConfigFile = $Self->{MainObject}->FileRead(
-            Location        => $File,
-            Mode            => 'binmode',
-            Result          => 'SCALAR',
+            Location => $File,
+            Mode     => 'binmode',
+            Result   => 'SCALAR',
         );
 
-        if ( !ref $ConfigFile || !$$ConfigFile ) {
+        if ( !ref $ConfigFile || !${$ConfigFile} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Can't open file $File: $!",
@@ -1577,11 +1575,13 @@ sub _Init {
 
         # Ok, cache was not used, parse the config files
         my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $ConfigFile );
+
         $Data{$File} = \@XMLHash;
+
         my $Dump = $Self->{MainObject}->Dump( \@XMLHash, 'ascii' );
         $Dump =~ s/\$VAR1/\$XMLHashRef/;
-        my $Out;
 
+        my $Out;
         if ( $Self->{utf8} ) {
             $Out .= "use utf8;\n";
         }
@@ -1603,10 +1603,10 @@ sub _Init {
     # These are the valid "init" values that the config XML may use.
     #   Settings must be processed in this order, and inside each group alphabetically.
     my %ValidInit = (
-        Framework => 1,
-        Application  => 1,
-        Config  => 1,
-        Changes => 1,
+        Framework   => 1,
+        Application => 1,
+        Config      => 1,
+        Changes     => 1,
     );
 
     # Temp hash for sorting
@@ -1648,12 +1648,16 @@ sub _Init {
     }
     $Self->{XMLConfig} = \@XMLConfigTmp;
 
+    my $Counter = 0;
     for my $ConfigItem ( reverse @{ $Self->{XMLConfig} } ) {
+
         $Counter++;
+
         if ( $ConfigItem->{Name} && !$Self->{Config}->{ $ConfigItem->{Name} } ) {
             $Self->{Config}->{ $ConfigItem->{Name} } = $ConfigItem;
         }
     }
+
     return $Counter;
 }
 
