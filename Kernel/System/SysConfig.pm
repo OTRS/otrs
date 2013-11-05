@@ -17,6 +17,7 @@ use Storable qw();
 use Kernel::System::XML;
 use Kernel::Config;
 use Kernel::Language;
+use Kernel::System::Cache;
 
 =head1 NAME
 
@@ -106,22 +107,12 @@ sub new {
     $Self->{utf8}     = 1;
     $Self->{FileMode} = ':utf8';
 
-    # create xml object
     $Self->{XMLObject} = Kernel::System::XML->new( %{$Self} );
-
-    # create config default object
+    $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
     $Self->{ConfigDefaultObject} = Kernel::Config->new( %{$Self}, Level => 'Default' );
-
-    # create config object
     $Self->{ConfigObject} = Kernel::Config->new( %{$Self}, Level => 'First' );
-
-    # create config clear object
     $Self->{ConfigClearObject} = Kernel::Config->new( %{$Self}, Level => 'Clear' );
-
-    # read all config files
     $Self->{ConfigCounter} = $Self->_Init();
-
-    # create language object if it was not provided
     $Self->{LanguageObject} = $Param{LanguageObject} || Kernel::Language->new( %{$Self} );
 
     return $Self;
@@ -1539,137 +1530,112 @@ sub _Init {
 
     my $Counter = 0;
 
+    if ( !-e "$Self->{Home}/Kernel/Config/Files/" ) {
+        return;
+    }
+
     # load xml config files
-    if ( -e "$Self->{Home}/Kernel/Config/Files/" ) {
-        my %Data;
-        my $Directory = "$Self->{Home}/Kernel/Config/Files/";
-        my @Files     = $Self->{MainObject}->DirectoryRead(
-            Directory => $Directory,
-            Filter    => "*.xml",
+    my %Data;
+    my $Directory = "$Self->{Home}/Kernel/Config/Files/";
+    my @Files     = $Self->{MainObject}->DirectoryRead(
+        Directory => $Directory,
+        Filter    => "*.xml",
+    );
+
+    # get the md5 representing the current configuration state
+    my $ConfigChecksum = $Self->{ConfigObject}->ConfigChecksum();
+
+    FILE:
+    for my $File (@Files) {
+        my $CacheKey = "_Init::${File}::${ConfigChecksum}";
+        my $CacheData = $Self->{CacheObject}->Get(
+            Type => 'SysConfig',
+            Key  => $CacheKey,
         );
 
-        # get the md5 representing the current configuration state
-        my $ConfigChecksum = $Self->{ConfigObject}->ConfigChecksum();
-
-        for my $File (@Files) {
-            my $ConfigFile = '';
-            my $In;
-            ## no critic
-            if ( open( $In, '<', $File ) ) {
-                ## use critic
-
-                $ConfigFile = do { local $/; <$In> };
-                close $In;
-            }
-            else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Can't open file $File: $!",
-                );
-            }
-            my $FileCachePart = $File;
-            $FileCachePart =~ s/\Q$Self->{Home}\E//;
-            $FileCachePart =~ s/\/\//\//g;
-            $FileCachePart =~ s/\//_/g;
-            if ($ConfigFile) {
-                my $CacheFileUsed = 0;
-                my $Digest        = $Self->{MainObject}->MD5sum(
-                    String => $ConfigFile . $ConfigChecksum,
-                );
-                my $FileCache = "$Self->{Home}/var/tmp/SysConfig-Cache$FileCachePart-$Digest.pm";
-                if ( -e $FileCache ) {
-                    my $ConfigFileCache = '';
-                    my $In;
-                    if ( open( $In, "<$Self->{FileMode}", $FileCache ) ) {
-                        $ConfigFileCache = do { local $/; <$In> };
-                        close $In;
-                        my $XMLHashRef;
-                        if ( eval $ConfigFileCache ) {
-                            $Data{$File} = $XMLHashRef;
-                            $CacheFileUsed = 1;
-                        }
-                    }
-                    else {
-                        $Self->{LogObject}->Log(
-                            Priority => 'error',
-                            Message  => "Can't open cache file $FileCache: $!",
-                        );
-                    }
-                }
-                else {
-
-                    # remove all cache files
-                    my @List = $Self->{MainObject}->DirectoryRead(
-                        Directory => "$Self->{Home}/var/tmp",
-                        Filter    => "SysConfig-Cache$FileCachePart-*.pm",
-                    );
-                    for my $File (@List) {
-                        unlink $File;
-                    }
-                }
-
-                # parse config files
-                if ( !$CacheFileUsed ) {
-                    my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $ConfigFile );
-                    $Data{$File} = \@XMLHash;
-                    my $Dump = $Self->{MainObject}->Dump( \@XMLHash, 'ascii' );
-                    $Dump =~ s/\$VAR1/\$XMLHashRef/;
-                    my $Out;
-
-                    if ( $Self->{utf8} ) {
-                        $Out .= "use utf8;\n";
-                    }
-                    $Out .= $Dump . "\n1;";
-
-                    $Self->_FileWriteAtomic(
-                        Filename => $FileCache,
-                        Content  => \$Out,
-                    );
-                }
+        if ( ref $CacheData eq 'SCALAR' ) {
+            my $XMLHashRef;
+            if ( eval $$CacheData ) {
+                $Data{$File} = $XMLHashRef;
+                next FILE;
             }
         }
 
-        # This is the sorted configuration XML entry list that we must
-        #   populate here.
-        $Self->{XMLConfig} = [];
-
-        # These are the valid "init" values that the config XML may use.
-        #   Settings must be processed in this order, and inside each group alphabetically.
-        my %ValidInit = (
-            Framework => 1,
-            Application  => 1,
-            Config  => 1,
-            Changes => 1,
+        my $ConfigFile = $Self->{MainObject}->FileRead(
+            Location        => $File,
+            Mode            => 'binmode',
+            Result          => 'SCALAR',
         );
 
-        # Temp hash for sorting
-        my %XMLConfigTMP;
-
-        # Loop over the sorted files and assign all configs to the init section
-        for my $File ( sort keys %Data ) {
-
-            my $Init = $Data{$File}->[1]->{otrs_config}->[1]->{init} || '';
-            if ( !$ValidInit{$Init} ) {
-                $Init = 'Unknown'; # Fallback for unknown init values
-            }
-
-            # Just use valid entries.
-            if ( $Data{$File}->[1]->{otrs_config}->[1]->{ConfigItem} ) {
-                push(
-                    @{ $XMLConfigTMP{$Init} },
-                    @{ $Data{$File}->[1]->{otrs_config}->[1]->{ConfigItem} }
-                );
-            }
+        if ( !ref $ConfigFile || !$$ConfigFile ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't open file $File: $!",
+            );
+            next FILE;
         }
 
-        # Now process the entries in init order and assign them to the xml entry list.
-        for my $Init (qw(Framework Application Config Changes Unkown)) {
-            for my $ConfigItem ( @{ $XMLConfigTMP{$Init} } ) {
-                push(
-                    @{ $Self->{XMLConfig} },
-                    $ConfigItem
-                );
-            }
+        # Ok, cache was not used, parse the config files
+        my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $ConfigFile );
+        $Data{$File} = \@XMLHash;
+        my $Dump = $Self->{MainObject}->Dump( \@XMLHash, 'ascii' );
+        $Dump =~ s/\$VAR1/\$XMLHashRef/;
+        my $Out;
+
+        if ( $Self->{utf8} ) {
+            $Out .= "use utf8;\n";
+        }
+        $Out .= "use warnings;\n";
+        $Out .= $Dump . "\n1;";
+
+        $Self->{CacheObject}->Set(
+            Type => 'SysConfig',
+            Key  => $CacheKey,
+            Value => \$Out,
+            TTL => 30 * 24 * 60 * 60,
+        );
+    }
+
+    # This is the sorted configuration XML entry list that we must
+    #   populate here.
+    $Self->{XMLConfig} = [];
+
+    # These are the valid "init" values that the config XML may use.
+    #   Settings must be processed in this order, and inside each group alphabetically.
+    my %ValidInit = (
+        Framework => 1,
+        Application  => 1,
+        Config  => 1,
+        Changes => 1,
+    );
+
+    # Temp hash for sorting
+    my %XMLConfigTMP;
+
+    # Loop over the sorted files and assign all configs to the init section
+    for my $File ( sort keys %Data ) {
+
+        my $Init = $Data{$File}->[1]->{otrs_config}->[1]->{init} || '';
+        if ( !$ValidInit{$Init} ) {
+            $Init = 'Unknown'; # Fallback for unknown init values
+        }
+
+        # Just use valid entries.
+        if ( $Data{$File}->[1]->{otrs_config}->[1]->{ConfigItem} ) {
+            push(
+                @{ $XMLConfigTMP{$Init} },
+                @{ $Data{$File}->[1]->{otrs_config}->[1]->{ConfigItem} }
+            );
+        }
+    }
+
+    # Now process the entries in init order and assign them to the xml entry list.
+    for my $Init (qw(Framework Application Config Changes Unkown)) {
+        for my $ConfigItem ( @{ $XMLConfigTMP{$Init} } ) {
+            push(
+                @{ $Self->{XMLConfig} },
+                $ConfigItem
+            );
         }
     }
 
