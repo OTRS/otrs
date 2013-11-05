@@ -155,8 +155,6 @@ $('#TypeID').bind('change', function (Event) {
 <script type="text/javascript">//<![CDATA[
     $('#NewOwnerID').bind('change', function (Event) {
         Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewOwnerID', [ 'TypeID', 'ServiceID', 'SLAID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
-    });
-    $('#NewOwnerID').bind('focus', function () {
         Core.Agent.TicketAction.SelectRadioButton('New','NewOwnerType');
     });
 //]]></script>
@@ -173,8 +171,6 @@ $('#TypeID').bind('change', function (Event) {
 <script type="text/javascript">//<![CDATA[
     $('#OldOwnerID').bind('change', function (Event) {
         Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'OldOwnerID', [ 'TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
-    });
-    $('#OldOwnerID').bind('focus', function () {
         Core.Agent.TicketAction.SelectRadioButton('Old','NewOwnerType');
     });
 //]]></script>
