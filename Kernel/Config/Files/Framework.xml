@@ -4080,7 +4080,7 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <!-- CIC will popup the search if called without a CustomerID -->
-                <Item Key="^AgentCustomerInformationCenter">Action=AgentCustomerInformationCenter</Item>
+                <Item Key="^AgentCustomerInformationCenter">Action=AgentCustomerInformationCenterSearch</Item>
             </Hash>
         </Setting>
     </ConfigItem>
