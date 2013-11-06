@@ -107,13 +107,13 @@ sub new {
     $Self->{utf8}     = 1;
     $Self->{FileMode} = ':utf8';
 
-    $Self->{XMLObject} = Kernel::System::XML->new( %{$Self} );
-    $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
+    $Self->{XMLObject}           = Kernel::System::XML->new( %{$Self} );
+    $Self->{CacheObject}         = Kernel::System::Cache->new( %{$Self} );
     $Self->{ConfigDefaultObject} = Kernel::Config->new( %{$Self}, Level => 'Default' );
-    $Self->{ConfigObject} = Kernel::Config->new( %{$Self}, Level => 'First' );
-    $Self->{ConfigClearObject} = Kernel::Config->new( %{$Self}, Level => 'Clear' );
-    $Self->{ConfigCounter} = $Self->_Init();
-    $Self->{LanguageObject} = $Param{LanguageObject} || Kernel::Language->new( %{$Self} );
+    $Self->{ConfigObject}        = Kernel::Config->new( %{$Self}, Level => 'First' );
+    $Self->{ConfigClearObject}   = Kernel::Config->new( %{$Self}, Level => 'Clear' );
+    $Self->{ConfigCounter}       = $Self->_Init();
+    $Self->{LanguageObject}      = $Param{LanguageObject} || Kernel::Language->new( %{$Self} );
 
     return $Self;
 }
@@ -722,7 +722,7 @@ sub ConfigItemGet {
                     my %LoaderFiles;
                     for my $Key2 ( %{ $Hash{$Key} } ) {
                         if (
-                            $Key2    eq 'CSS'
+                            $Key2 eq 'CSS'
                             || $Key2 eq 'CSS_IE8'
                             || $Key2 eq 'JavaScript'
                             )
@@ -766,7 +766,7 @@ sub ConfigItemGet {
                             push(
                                 @{
                                     $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}
-                                    },
+                                },
                                 \%NavBar
                             );
                         }
@@ -866,7 +866,7 @@ sub ConfigItemGet {
                                 @{
                                     $ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]
                                         ->{Item}
-                                    },
+                                },
                                 {
                                     Year    => $Year,
                                     Month   => $Month,
@@ -1123,7 +1123,7 @@ sub ConfigSubGroupConfigItemList {
                                 push(
                                     @{
                                         $Data{ $Group->{Content} . '::' . $SubGroup->{Content} }
-                                        },
+                                    },
                                     $ConfigItem->{Name}
                                 );
                             }
@@ -1533,7 +1533,7 @@ sub _Init {
     return if !-e $Directory;
 
     # load xml config files
-    my @Files     = $Self->{MainObject}->DirectoryRead(
+    my @Files = $Self->{MainObject}->DirectoryRead(
         Directory => $Directory,
         Filter    => "*.xml",
     );
@@ -1545,7 +1545,7 @@ sub _Init {
     FILE:
     for my $File (@Files) {
 
-        my $CacheKey = "_Init::${File}::${ConfigChecksum}";
+        my $CacheKey  = "_Init::${File}::${ConfigChecksum}";
         my $CacheData = $Self->{CacheObject}->Get(
             Type => 'SysConfig',
             Key  => $CacheKey,
@@ -1589,10 +1589,10 @@ sub _Init {
         $Out .= $Dump . "\n1;";
 
         $Self->{CacheObject}->Set(
-            Type => 'SysConfig',
-            Key  => $CacheKey,
+            Type  => 'SysConfig',
+            Key   => $CacheKey,
             Value => \$Out,
-            TTL => 30 * 24 * 60 * 60,
+            TTL   => 30 * 24 * 60 * 60,
         );
     }
 
@@ -1617,7 +1617,7 @@ sub _Init {
 
         my $Init = $Data{$File}->[1]->{otrs_config}->[1]->{init} || '';
         if ( !$ValidInit{$Init} ) {
-            $Init = 'Unknown'; # Fallback for unknown init values
+            $Init = 'Unknown';    # Fallback for unknown init values
         }
 
         # Just use valid entries.
@@ -2117,7 +2117,7 @@ sub _XML2Perl {
                 my %Loader;
                 for my $Key ( sort keys %{$Content} ) {
                     if (
-                        $Key    eq 'CSS'
+                        $Key eq 'CSS'
                         || $Key eq 'CSS_IE8'
                         || $Key eq 'JavaScript'
                         )
