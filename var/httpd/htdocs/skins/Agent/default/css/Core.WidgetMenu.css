@@ -595,6 +595,7 @@ ul.ContextFunctions li:last-child:hover > a {
     float: right;
     margin-right: 0;
     font-size: 11px;
+    padding: 3px 0px 5px 0px;
 }
 
 .RTL .Pagination {
