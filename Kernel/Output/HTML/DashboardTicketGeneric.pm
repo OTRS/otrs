@@ -76,7 +76,7 @@ sub new {
 
     # just in case new filter values arrive
     elsif (
-        IsHashRefWithData( $Self->{GetColumnFilter} ) &&
+        IsHashRefWithData( $Self->{GetColumnFilter} )       &&
         IsHashRefWithData( $Self->{GetColumnFilterSelect} ) &&
         IsHashRefWithData( $Self->{ColumnFilter} )
         )
@@ -766,7 +766,7 @@ sub Run {
         # skip CustomerID if Customer Information Center
         if (
             $Self->{Action} eq 'AgentCustomerInformationCenter' &&
-            $HeaderColumn   eq 'CustomerID'
+            $HeaderColumn eq 'CustomerID'
             )
         {
             next HEADERCOLUMN;
@@ -867,7 +867,7 @@ sub Run {
 
                 my $Css;
                 if (
-                    $HeaderColumn    eq 'CustomerID'
+                    $HeaderColumn eq 'CustomerID'
                     || $HeaderColumn eq 'Responsible'
                     || $HeaderColumn eq 'Owner'
                     )
@@ -1040,6 +1040,11 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'GeneralOverviewHeader',
             );
+            $Self->{LayoutObject}->Block(
+                Name => 'ContentLargeTicketGenericHeaderTicketHeader',
+                Data => {},
+            );
+
             if ($IsSortable) {
                 my $OrderBy;
                 if (
@@ -1376,7 +1381,7 @@ sub Run {
                         . $ResponsibleInfo{'UserLastname'};
                 }
                 elsif (
-                    $Column    eq 'State'
+                    $Column eq 'State'
                     || $Column eq 'Lock'
                     || $Column eq 'Priority'
                     )
@@ -1556,7 +1561,7 @@ sub _InitialColumnFilter {
     my $TranslationOption = 0;
 
     if (
-        $Param{ColumnName}    eq 'State'
+        $Param{ColumnName} eq 'State'
         || $Param{ColumnName} eq 'Lock'
         || $Param{ColumnName} eq 'Priority'
         )
@@ -1698,7 +1703,7 @@ sub _ColumnFilterJSON {
     my $TranslationOption = 0;
 
     if (
-        $Param{ColumnName}    eq 'State'
+        $Param{ColumnName} eq 'State'
         || $Param{ColumnName} eq 'Lock'
         || $Param{ColumnName} eq 'Priority'
         )

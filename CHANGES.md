@@ -1,4 +1,5 @@
 #3.3.1 ????-??-??
+ - 2013-11-06 Fixed bug#[9862](http://bugs.otrs.org/show_bug.cgi?id=9862) - Missing Dynamic Field column headers in dashboard widgets.
  - 2013-11-06 Fixed bug#[9940](http://bugs.otrs.org/show_bug.cgi?id=9940) - Fedora misses dependency on Sys::Syslog.
  - 2013-11-06 Fixed bug#[9930](http://bugs.otrs.org/show_bug.cgi?id=9930) - CustomerInformationCenter breaks navigation bar.
  - 2013-11-06 Fixed bug#[9934](http://bugs.otrs.org/show_bug.cgi?id=9934) - Customer RichText Editor is not aligned with other fields.
