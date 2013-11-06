@@ -1,4 +1,5 @@
 #3.3.1 ????-??-??
+ - 2013-11-06 Fixed bug#[9940](http://bugs.otrs.org/show_bug.cgi?id=9940) - Fedora misses dependency on Sys::Syslog.
  - 2013-11-06 Fixed bug#[9930](http://bugs.otrs.org/show_bug.cgi?id=9930) - CustomerInformationCenter breaks navigation bar.
  - 2013-11-06 Fixed bug#[9934](http://bugs.otrs.org/show_bug.cgi?id=9934) - Customer RichText Editor is not aligned with other fields.
  - 2013-11-05 Fixed bug#[9931](http://bugs.otrs.org/show_bug.cgi?id=9931) - After upgrading to MIME::Tools 5.504 (without OTRS patches) SMIME signatures are broken.
