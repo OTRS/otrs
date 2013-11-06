@@ -76,9 +76,9 @@ sub new {
 
     # just in case new filter values arrive
     elsif (
-        IsHashRefWithData( $Self->{GetColumnFilter} )       &&
-        IsHashRefWithData( $Self->{GetColumnFilterSelect} ) &&
-        IsHashRefWithData( $Self->{ColumnFilter} )
+        IsHashRefWithData( $Self->{GetColumnFilter} )
+        && IsHashRefWithData( $Self->{GetColumnFilterSelect} )
+        && IsHashRefWithData( $Self->{ColumnFilter} )
         )
     {
 
@@ -765,8 +765,8 @@ sub Run {
 
         # skip CustomerID if Customer Information Center
         if (
-            $Self->{Action} eq 'AgentCustomerInformationCenter' &&
-            $HeaderColumn eq 'CustomerID'
+            $Self->{Action} eq 'AgentCustomerInformationCenter'
+            && $HeaderColumn eq 'CustomerID'
             )
         {
             next HEADERCOLUMN;
@@ -1252,8 +1252,8 @@ sub Run {
 
             # skip CustomerID if Customer Information Center
             if (
-                $Self->{Action} eq 'AgentCustomerInformationCenter' &&
-                $Column eq 'CustomerID'
+                $Self->{Action} eq 'AgentCustomerInformationCenter'
+                && $Column eq 'CustomerID'
                 )
             {
                 next COLUMN;
