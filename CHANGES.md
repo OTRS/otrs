@@ -1,4 +1,5 @@
 #3.2.13 201?-??-??
+ - 2013-11-06 Fixed bug#[9940](http://bugs.otrs.org/show_bug.cgi?id=9940) - Fedora misses dependency on Sys::Syslog.
  - 2013-11-05 Removed Patch/Workaround for CPAN MIME::Parser v5.503 (introduced in OTRS 3.2.2) replaced with another solution, as it was causing problems with PGP.
  - 2013-11-05 Fixed bug#[9916](http://bugs.otrs.org/show_bug.cgi?id=9916) - Error when updating CustomerUser Login on ForeignDB.
  - 2013-11-05 Fixed bug#[9841](http://bugs.otrs.org/show_bug.cgi?id=9841) - Tabbing changes radio button of owner change selection.
