@@ -211,6 +211,9 @@ sub Data {
         'Large' => 'Gran',
         'Date picker' => 'Seleccionador de data',
         'Show Tree Selection' => '',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Nou missatge',
         'New message!' => 'Nou missatge!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>

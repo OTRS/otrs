@@ -217,6 +217,9 @@ sub Data {
         'Large' => 'Groot',
         'Date picker' => 'Datumkiezer',
         'Show Tree Selection' => 'Toon boomweergave',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Nieuw bericht',
         'New message!' => 'Nieuw bericht.',
         'Please answer this ticket(s) to get back to the normal queue view!' =>

@@ -215,6 +215,9 @@ sub Data {
         'Large' => 'Krupno',
         'Date picker' => 'Izbor datuma',
         'Show Tree Selection' => '',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Nova poruka',
         'New message!' => 'Nova poruka!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>

@@ -22,8 +22,6 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-03 10:24:26
-
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
@@ -218,6 +216,10 @@ sub Data {
         'Medium' => '基本',
         'Large' => '详细',
         'Date picker' => '日期选择器',
+        'Show Tree Selection' => '',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => '新消息',
         'New message!' => '新消息!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -345,6 +347,8 @@ sub Data {
         'No packages, or no new packages, found in selected repository.' =>
             '选中的软件仓库中没有需要安装的软件包。',
         'Edit the system configuration settings.' => '编辑系统配置。',
+        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
+            '数据库中的ACL信息与系统配置不一致，请部署所有ACL。',
         'printed at' => '打印日期',
         'Loading...' => '加载中...',
         'Dear Mr. %s,' => '尊敬的%s先生:',
@@ -402,6 +406,12 @@ sub Data {
         'Redo' => '重做',
         'Scheduler process is registered but might not be running.' => '调度程序已注册，但可能没有运行。',
         'Scheduler is not running.' => '调度程序没有运行。',
+        'Can\'t contact registration server. Please try again later.' => '',
+        'No content received from registration server. Please try again later.' =>
+            '',
+        'Problems processing server result. Please try again later.' => '',
+        'Username and password do not match. Please try again.' => '',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => '',
@@ -461,8 +471,8 @@ sub Data {
         'Can\'t update password, it contains invalid characters!' => '无法更改密码，密码不能包含非法字符！',
         'Can\'t update password, it must be at least %s characters long!' =>
             '无法更改密码，密码至少需要%s个字符！',
-        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
-            '无法更改密码，密码至少需要2个小写和2个大写字符！',
+        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
+            '无法更改密码，密码必须包含至少2个小写和2个大写字符！',
         'Can\'t update password, it must contain at least 1 digit!' => '无法更改密码，密码至少需要1个数字字符！',
         'Can\'t update password, it must contain at least 2 characters!' =>
             '无法更改密码，密码至少需要2个字符！',
@@ -475,6 +485,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => '统计',
         'Sum' => '总和',
+        'No (not supported)' => '',
         'Please fill out the required fields!' => '请填写必填字段',
         'Please select a file!' => '请选择一个文件！',
         'Please select an object!' => '请选择一个对象！',
@@ -799,6 +810,7 @@ sub Data {
             '所有提醒时间已过的工单',
         'Archived tickets' => '归档的工单',
         'Unarchived tickets' => '未归档的工单',
+        'Ticket Information' => '工单信息',
         'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
         'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
@@ -825,7 +837,6 @@ sub Data {
         'History::CustomerUpdate' => 'Updated: %s',
         'History::PriorityUpdate' => 'Changed priority from "%s" (%s) to "%s" (%s).',
         'History::OwnerUpdate' => 'New owner is "%s" (ID=%s).',
-        'History::ResponsibleUpdate' => 'New responsible is "%s" (ID=%s).',
         'History::LoopProtection' => 'Loop-Protection! No auto-response sent to "%s".',
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Updated: %s',
@@ -885,10 +896,10 @@ sub Data {
         'Delete Invalid ACL' => '删除无效的ACL',
         'Match settings' => '匹配条件',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
-            "为ACL设置匹配条件。\'Properties\'用于匹配工单在内存中的属性'，而\'PropertiesDatabase\'用于匹配工单在数据库中的属性。",
+            '为ACL设置匹配条件。\'Properties\'用于匹配工单在内存中的属性\'，而\'PropertiesDatabase\'用于匹配工单在数据库中的属性。',
         'Change settings' => '操作动作',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            "当匹配条件满足时执行规定的操作动作。记住：\'Possible\'表示允许(白名单)，\'PossibleNot\'表示禁止(黑名单)。",
+            '当匹配条件满足时执行规定的操作动作。记住：\'Possible\'表示允许(白名单)，\'PossibleNot\'表示禁止(黑名单)。',
         'Check the official' => '查看官方',
         'documentation' => '手册',
         'Show or hide the content' => '显示或隐藏内容',
@@ -1205,7 +1216,7 @@ sub Data {
         'Archive selected tickets' => '归档选中的工单',
         'Add Note' => '添加备注',
         'Time units' => '时间单元',
-        ' (work units)' => '(分钟)',
+        '(work units)' => '',
         'Ticket Commands' => '工单命令',
         'Send agent/customer notifications on changes' => '给服务人员/用户发送通知',
         'CMD' => '命令',
@@ -1289,7 +1300,7 @@ sub Data {
         'This rule will apply for all values with no mapping rule.' => '这个规则将应用于所有没有映射规则的值。',
         'New key map' => '新的键映射',
         'Add key mapping' => '添加键映射',
-        'Mapping for Key' => '为键建立映射',
+        'Mapping for Key ' => '',
         'Remove key mapping' => '删除键映射',
         'Key mapping' => '键映射',
         'Map key' => '映射键',
@@ -1859,18 +1870,20 @@ sub Data {
 
         # Template: AdminRegistration
         'System Registration Management' => '系统注册管理',
-        'Send update now' => '现在发送更新',
+        'Edit details' => '',
         'Overview of registered systems' => '注册系统概述',
         'Deregister system' => '取消系统注册',
         'System Registration' => '系统注册',
         'This system is registered with OTRS Group.' => '本系统由OTRS集团注册。',
+        'System type' => '系统类型',
         'Unique ID' => '唯一ID',
         'Last communication with registration server' => '与注册服务器上一次的通讯',
         'OTRS-ID Login' => 'OTRS-ID登陆',
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
             '系统注册是OTRS集团的一项服务，它为您提供了很多好处!',
         'Read more' => '阅读全部',
-        'First you need to log in with your OTRS-ID.' => '首先需要你使用OTRS-ID进行登陆。',
+        'You need to log in with your OTRS-ID to register your system.' =>
+            '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             'OTRS-ID是你的一个邮件地址，用于在OTRS.com网页进行注册和登陆。',
         'What are the advantages of system registration?' => '系统注册有什么好处?',
@@ -1904,6 +1917,8 @@ sub Data {
         'and file a request.' => '并提出请求。',
         'If you deregister your system, you will loose these benefits:' =>
             '如果你取消系统注册，您将放弃这些好处:',
+        'You need to log in with your OTRS-ID to deregister your system.' =>
+            '',
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '还没有OTRS-ID吗？',
         'Sign up now' => '现在注册',
@@ -1916,13 +1931,13 @@ sub Data {
         'OTRS Version' => 'OTRS版本',
         'Operating System' => '操作系统',
         'Perl Version' => 'Perl版本',
-        'System type' => '系统类型',
         'Optional description of this system.' => '这个系统可选的描述。',
         'Register' => '注册',
         'Deregister System' => '取消系统注册',
         'Continuing with this step will deregister the system from OTRS Group.' =>
             '',
         'Deregister' => '取消注册',
+        'You can modify the system type and description here.' => '',
 
         # Template: AdminRole
         'Role Management' => '角色管理',
@@ -2236,6 +2251,10 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '发布于%s之前',
 
+        # Template: AgentDashboardStats
+        'The content of this statistic is being prepared for you, please be patient.' =>
+            '',
+
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '我锁定的工单',
         'My watched tickets' => '我订阅的工单',
@@ -2316,7 +2335,6 @@ sub Data {
         'Some result formats are disabled because at least one needed package is not installed.' =>
             '部分结果格式被禁止使用。原因是至少有一个软件包没有安装。',
         'Please contact your administrator.' => '请联系系统管理员。',
-        'Please contact your administrator!' => '请联系系统管理员！',
         'Graph size' => '图形尺寸',
         'If you use a graph as output format you have to select at least one graph size.' =>
             '如果您使用的是图形的输出格式你必须至少选择一个图形的大小',
@@ -2325,6 +2343,15 @@ sub Data {
         'Use cache' => '使用缓存',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             '大多数的统计资料可以缓存，这将提高统计报表的计算速度。',
+        'Show as dashboard widget' => '',
+        'Provide the statistic as a widget that agents can activate in their dashboard.' =>
+            '',
+        'Please note' => '',
+        'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
+            '',
+        'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
+            '',
+        'IE8 doesn\'t support statistics dashboard widgets.' => '',
         'If set to invalid end users can not generate the stat.' => '如果设置为无效，将无法生成统计。',
 
         # Template: AgentStatsEditValueSeries
@@ -2367,10 +2394,13 @@ sub Data {
         'Graphsize' => '图形化',
         'Cache' => '缓存',
         'Exchange Axis' => '转换轴',
+
+        # Template: AgentStatsViewSettings
         'Configurable params of static stat' => '静态统计的配置参数',
         'No element selected.' => '没有被选参数',
         'maximal period from' => '最大时间范围从',
         'to' => '至',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => '修改工单自定义字段',
@@ -2486,6 +2516,7 @@ sub Data {
 
         # Template: AgentTicketOverviewSmall
         'Reset overview' => '',
+        'Column Filters Form' => '',
 
         # Template: AgentTicketOwner
 
@@ -2737,6 +2768,7 @@ sub Data {
             '一个弹出窗口已经打开，是否继续关闭？',
         'Please enter at least one search value or * to find anything.' =>
             '请至少输入一个搜索条件或 *。',
+        'Please check the fields marked as red for valid inputs.' => '',
 
         # Template: FooterSmall
 
@@ -2745,9 +2777,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '全文搜索',
-        'CustomerID Search' => '单位编号搜索',
-        'CustomerUser Search' => '用户搜索',
         'You are logged in as' => '您已登录为',
 
         # Template: HeaderSmall
@@ -3055,7 +3084,7 @@ sub Data {
             '',
         'Closed tickets of customer' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => '',
         'Company Status' => '',
@@ -3892,7 +3921,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '介面风格',
         'Fulltext index regex filters to remove parts of the text.' => '',
-        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Enabled. Note that TicketNumber can not be disabled, because it is necessary.' =>
+        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => '计划任务',
         'GenericInterface Debugger GUI' => '',
@@ -4090,6 +4119,7 @@ sub Data {
         'Manage S/MIME certificates for email encryption.' => '管理邮件的S/MIME加密证书.',
         'Manage existing sessions.' => '管理当前登录会话.',
         'Manage notifications that are sent to agents.' => '管理发送给服务人员的通知',
+        'Manage system registration.' => '管理系统注册',
         'Manage tasks triggered by event or time based execution.' => '管理基于事件或时间触发的任务',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -4243,13 +4273,12 @@ sub Data {
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Provides a matrix overview of the tickets per state per queue.' =>
-            '',
+            '以矩阵的形势概述不同状态和不同队列的工单',
         'Queue view' => '队列视图',
         'Recognize if a ticket is a follow up to an existing ticket using an external ticket number.' =>
             '',
         'Refresh Overviews after' => '刷新间隔',
         'Refresh interval' => '刷新间隔',
-        'Manage system registration.' => '管理系统注册',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4821,13 +4850,21 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
+        ' (work units)' => '(分钟)',
+        '(before/after)' => '之前/之后',
+        '(between)' => '(之间)',
         'Add Customer Company' => '添加用户单位',
         'Add Response' => '添加回复',
         'Add customer company' => '添加用户单位',
         'Add response' => '添加回复',
+        'All master tickets' => '所有主工单',
+        'All slave tickets' => '所有从工单',
+        'All solved tickets' => '所有已解决的工单',
         'Attachments <-> Responses' => '附件 <-> 回复',
-        'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '无法更改密码，密码必须包含至少2个小写和2个大写字符！',
+        'BuildDate' => '创建日期',
+        'BuildHost' => '创建主机',
+        'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
+            '无法更改密码，密码至少需要2个小写和2个大写字符！',
         'Change Attachment Relations for Response' => '为回复指定附件',
         'Change Queue Relations for Response' => '为回复指定队列',
         'Change Response Relations for Attachment' => '为附件指定回复',
@@ -4839,20 +4876,40 @@ sub Data {
         'Customer Data' => '用户数据',
         'Customer will be needed to have a customer history and to login via customer panel.' =>
             '需要建立用户档案以记录服务过程，并可让用户从自助服务界面登录。',
+        'CustomerID Search' => '单位编号搜索',
+        'CustomerUser Search' => '用户搜索',
+        'CustomerUserID' => '用户单位编号',
         'Customers <-> Services' => '用户 <-> 服务',
         'DB host' => '数据库服务器',
+        'Database Backend' => '数据库后台',
         'Database-User' => '数据库用户名',
+        'Debug' => '调试',
+        'Dynamic-Object' => '动态-对象',
         'Edit Response' => '编辑回复',
+        'Escalation - First Response Time' => '升级 - 第一响应时间',
+        'Escalation - Solution Time' => '升级 - 解决时间',
+        'Escalation - Update Time' => '升级 - 更新时间',
         'Escalation in' => '升级',
+        'EscalationResponseTime' => '升级响应时间',
+        'EscalationSolutionTime' => '升级解决时间',
+        'EscalationTime' => '升级时间',
+        'EscalationUpdateTime' => '升级更新时间',
+        'Events Ticket Calendar' => '工单事件日历',
         'False' => '出错',
         'Filter for Responses' => '过滤回复',
         'Filter name' => '过滤器名称',
+        'First you need to log in with your OTRS-ID.' => '首先需要你使用OTRS-ID进行登陆。',
         'For more info see:' => '更多信息请看',
+        'Force Start' => '强制运行',
+        'Framework' => '架构',
         'From customer' => '来自用户',
+        'Fulltext search' => '全文搜索',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             '如果您的数据库有设置 root 密码, 请在这里输入, 否则, 请保留空白. 出于安全考虑, 我们建议您为 root 设置一个密码, 更多信息请参考数据库帮助文档.',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>
             '如果使用其他数据库安装OTRS，请参考README文档。',
+        'Invokers' => '调用程序',
+        'LINKED AS' => '链接为',
         'Link attachments to responses templates.' => '链接附件到回复模板.',
         'Link customers to groups.' => '链接用户到组.',
         'Link customers to services.' => '链接用户到服务.',
@@ -4863,78 +4920,49 @@ sub Data {
         'Manage Responses' => '管理回复',
         'Manage Responses <-> Attachments Relations' => '管理回复与附件的对应关系',
         'Manage periodic tasks.' => '管理周期性执行的任务.',
+        'Mapping for Key' => '为键建立映射',
+        'Master Ticket' => '主工单',
+        'Master Tickets' => '主工单',
+        'MasterSlave' => '主从',
+        'New Master Ticket' => '新的主工单',
+        'Online' => '在线',
+        'Operations' => '操作',
+        'Out Of Office' => '不在办公室',
         'Package verification failed!' => '软件包验证失败',
         'Password is required.' => '请输入密码。',
+        'PendingTime' => '挂起时间',
+        'Please contact your administrator!' => '请联系系统管理员！',
         'Please enter a search term to look for customer companies.' => '请输入一个搜索条件以查找用户单位。',
         'Please supply a' => '请提供',
         'Please supply a first name' => '请提供您的名字',
         'Please supply a last name' => '请提供您的姓',
-        'Responses' => '回复',
-        'Responses <-> Queues' => '回复 <-> 队列',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
-            '为了重新用Web 界面安装，安全模式必须禁用',
-        'URL' => '网址',
-        'before' => '早于',
-        'default \'hot\'' => '默认密码 \'hot\'',
-        'settings' => '设置',
-
-# Missed Translation Items
-        'Solved Tickets' => '已解决的工单',
-        'Events Ticket Calendar' => '工单事件日历',
-        'Out Of Office' => '不在办公室',
-        'Online' => '在线',
-        'New Master Ticket' => '新的主工单',
-        'Master Tickets' => '主工单',
-        'Master Ticket' => '主工单',
-        'Slave Tickets' => '从工单',
-        'MasterSlave' => '主从',
-        'CustomerUserID' => '用户单位编号',
-        'PendingTime' => '挂起时间',
-        'EscalationTime' => '升级时间',
-        'EscalationUpdateTime' => '升级更新时间',
-        'EscalationResponseTime' => '升级响应时间',
-        'EscalationSolutionTime' => '升级解决时间',
-        'Database Backend' => '数据库后台',
-        '(before/after)' => '之前/之后',
-        '(between)' => '(之间)',
-        'Spam' => '垃圾',
-        'Totals' => '合计',
-
         'ProcessManagementActivityID' => '流程管理活动编号',
         'ProcessManagementProcessID' => '流程管理流程编号',
-        'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' => '数据库中的ACL信息与系统配置不一致，请部署所有ACL。',
-        #'all-day' => '全天',
-        'Properties' => '属性',
         'PropertiesDatabase' => '数据库属性',
-        'There where errors adding/updating the following ACLs:' => '添加/更新以下ACLs时出现错误：',
-        'The following ACLs have been updated successfully:' => '以下ACLs配置已成功更新。',
-        'Dynamic Fields' => '动态字段',
-        'archive tickets' => '工单归档',
-        'restore tickets from archive' => '恢复已归档的工单',
-        'Ticket Information' => '工单信息',
-        'Debug' => '调试',
-        'Operations' => '操作',
-        'Invokers' => '调用程序',
-        'BuildDate' => '创建日期',
-        'BuildHost' => '创建主机',
-        'Framework' => '架构',
-        'Search Result' => '搜索结果',
-        'All solved tickets' => '所有已解决的工单',
-        'All master tickets' => '所有主工单',
-        'All slave tickets' => '所有从工单',
-        'Provides a matrix overview of the tickets per state per queue.' => '以矩阵的形势概述不同状态和不同队列的工单',
         'Queue, filter active' => '队列，过滤器已激活',
         'Queue, filter not active' => '队列，过滤器未激活',
+        'Responses' => '回复',
+        'Responses <-> Queues' => '回复 <-> 队列',
+        'Search Result' => '搜索结果',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
+            '为了重新用Web 界面安装，安全模式必须禁用',
+        'Send update now' => '现在发送更新',
+        'Slave Tickets' => '从工单',
+        'Solved Tickets' => '已解决的工单',
+        'Spam' => '垃圾',
+        'Start Scheduler' => '运行调度程序',
+        'State Type' => '状态类型',
+        'The following ACLs have been updated successfully:' => '以下ACLs配置已成功更新。',
+        'There where errors adding/updating the following ACLs:' => '添加/更新以下ACLs时出现错误：',
+        'URL' => '网址',
+        'archive tickets' => '工单归档',
+        'before' => '早于',
+        'default \'hot\'' => '默认密码 \'hot\'',
         'filter active' => '过滤器已激活',
         'filter not active' => '过滤器未激活',
-        'State Type' => '状态类型',
-        'Escalation - First Response Time' => '升级 - 第一响应时间',
-        'Escalation - Update Time' => '升级 - 更新时间',
-        'Escalation - Solution Time' => '升级 - 解决时间',
-        'Dynamic-Object' => '动态-对象',
-        'LINKED AS' => '链接为',
-        'Start Scheduler' => '运行调度程序',
-        'Force Start' => '强制运行',
+        'restore tickets from archive' => '恢复已归档的工单',
+        'settings' => '设置',
+
     };
     # $$STOP$$
     return;

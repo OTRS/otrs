@@ -220,6 +220,9 @@ sub Data {
         'Large' => 'Большой',
         'Date picker' => 'Выбор даты',
         'Show Tree Selection' => '',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Новое сообщение',
         'New message!' => 'Новое сообщение!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>

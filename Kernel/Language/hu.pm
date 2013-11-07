@@ -216,6 +216,9 @@ sub Data {
         'Large' => 'Nagy',
         'Date picker' => '',
         'Show Tree Selection' => '',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Új üzenet',
         'New message!' => 'Új üzenet!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>

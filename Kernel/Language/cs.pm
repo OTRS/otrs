@@ -217,6 +217,9 @@ sub Data {
         'Large' => 'Velký',
         'Date picker' => '',
         'Show Tree Selection' => '',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Nová zpráva',
         'New message!' => 'Nová zpráva!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>

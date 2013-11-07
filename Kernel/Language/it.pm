@@ -219,6 +219,9 @@ sub Data {
         'Large' => 'Grande',
         'Date picker' => 'Selettore data',
         'Show Tree Selection' => 'Mostra la Selezione ad Albero',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Nuovo messaggio',
         'New message!' => 'Nuovo messaggio!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>

@@ -210,6 +210,9 @@ sub Data {
         'Large' => 'Besar',
         'Date picker' => 'Pemilih tarikh',
         'Show Tree Selection' => '',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Mesej baru',
         'New message!' => 'Mesej baru!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>

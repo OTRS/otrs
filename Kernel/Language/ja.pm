@@ -212,6 +212,9 @@ sub Data {
         'Large' => '大',
         'Date picker' => '日付抽出',
         'Show Tree Selection' => '',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => '新規メッセージ',
         'New message!' => '新規メッセージ！',
         'Please answer this ticket(s) to get back to the normal queue view!' =>

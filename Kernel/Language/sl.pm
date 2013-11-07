@@ -215,6 +215,9 @@ sub Data {
         'Large' => 'Veliko',
         'Date picker' => 'Izbira datuma',
         'Show Tree Selection' => '',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Novo sporočilo',
         'New message!' => 'Novo sporočilo!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>

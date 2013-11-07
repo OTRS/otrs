@@ -211,6 +211,9 @@ sub Data {
         'Large' => 'Didelis',
         'Date picker' => 'Datos parinkiklis',
         'Show Tree Selection' => '',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Nauja žinutė',
         'New message!' => 'Nauja žinutė!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>

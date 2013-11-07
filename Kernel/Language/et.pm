@@ -211,6 +211,9 @@ sub Data {
         'Large' => 'Suur',
         'Date picker' => 'Kuupäeva valija',
         'Show Tree Selection' => '',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Uus teade',
         'New message!' => 'Uus kiri!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>

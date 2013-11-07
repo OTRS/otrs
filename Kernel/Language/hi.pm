@@ -213,6 +213,9 @@ sub Data {
         'Large' => 'बड़ा',
         'Date picker' => 'दिनांक चयनकर्ता',
         'Show Tree Selection' => '',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'नया संदेश',
         'New message!' => 'नया संदेश',
         'Please answer this ticket(s) to get back to the normal queue view!' =>

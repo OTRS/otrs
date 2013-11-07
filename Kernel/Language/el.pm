@@ -212,6 +212,9 @@ sub Data {
         'Large' => 'Μεγαλο',
         'Date picker' => '',
         'Show Tree Selection' => '',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Νέο Μήνυμα',
         'New message!' => 'Νέο Μήνυμα!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
