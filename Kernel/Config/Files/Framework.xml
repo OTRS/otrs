@@ -4079,7 +4079,6 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::SearchRouter</SubGroup>
         <Setting>
             <Hash>
-                <!-- CIC will popup the search if called without a CustomerID -->
                 <Item Key="^AgentCustomerInformationCenter">Action=AgentCustomerInformationCenterSearch</Item>
             </Hash>
         </Setting>
