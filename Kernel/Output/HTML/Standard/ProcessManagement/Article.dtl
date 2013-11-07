@@ -37,9 +37,6 @@
 <!-- dtl:block:LabelSpanBody -->
     $QData{"LabelBody"}:
 </label>
-<!-- dtl:block:BodySeparator -->
-<div class="Clear" ></div>
-<!-- dtl:block:BodySeparator -->
 <div class="RichTextField">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}

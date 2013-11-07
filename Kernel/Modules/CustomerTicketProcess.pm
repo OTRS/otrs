@@ -1955,12 +1955,6 @@ sub _RenderArticle {
         );
     }
 
-    # add fix for customer interface
-    $Self->{LayoutObject}->Block(
-        Name => 'BodySeparator',
-        Data => \%Param,
-    );
-
     # add rich text editor
     if ( $Self->{LayoutObject}->{BrowserRichText} ) {
 
