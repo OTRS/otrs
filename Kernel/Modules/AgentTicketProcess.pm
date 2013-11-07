@@ -5079,6 +5079,14 @@ sub _GetPriorities {
 sub _GetQueues {
     my ( $Self, %Param ) = @_;
 
+    # check which type of permission is needed: if the process ticket
+    # already exists (= TicketID is present), we need the 'move_into' 
+    # permission otherwise the 'create' permission
+    my $PermissionType = 'create';
+    if ($Param{TicketID}) {
+        $PermissionType = 'move_into';
+    }
+
     # check own selection
     my %NewQueues;
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueOwnSelection') ) {
@@ -5091,7 +5099,7 @@ sub _GetQueues {
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
             %Queues = $Self->{TicketObject}->MoveList(
                 %Param,
-                Type    => 'create',
+                Type    => $PermissionType,
                 Action  => $Self->{Action},
                 QueueID => $Self->{QueueID},
                 UserID  => $Self->{UserID},
@@ -5106,10 +5114,10 @@ sub _GetQueues {
             );
         }
 
-        # get create permission queues
+        # get permission queues
         my %UserGroups = $Self->{GroupObject}->GroupMemberList(
             UserID => $Self->{UserID},
-            Type   => 'create',
+            Type   => $PermissionType,
             Result => 'HASH',
         );
 
