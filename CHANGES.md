@@ -1,3 +1,6 @@
+#3.3.2 2013-??-??
+ - 2013-11-07 Follow-up fix for bug#[9931](http://bugs.otrs.org/show_bug.cgi?id=9931) - After upgrading to MIME::Tools 5.504 (without OTRS patches) SMIME signatures are broken.
+
 #3.3.1 2013-11-12
  - 2013-11-07 Updated Chinese simplified translation, thanks to Michael Shi.
  - 2013-11-07 Fixed bug#[9639](http://bugs.otrs.org/show_bug.cgi?id=9639) - TextArea validation message not translated.
