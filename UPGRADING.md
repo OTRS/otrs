@@ -46,8 +46,10 @@ e. g. (depends on used services):
 - var/*
 - as well as the database
 
+
 3. Make sure that you have backed up everything ;-)
 ---------------------------------------------------
+
 
 4. Setup new system (optional)
 ------------------------------
@@ -87,12 +89,15 @@ With the RPM:
 
 In this case the RPM update automatically restores the old configuration files.
 
+
 6. Own themes
 -------------
 
 Note: The OTRS themes between 3.2 and 3.3 are NOT compatible, so don't use your old themes!
 
 Themes are located under `$OTRS_HOME/Kernel/Output/HTML/*/*.dtl` (default: `OTRS_HOME=/opt/otrs`)
+
+Please also note that dtl-Files must be in utf-8 from OTRS 3.3 on.
 
 
 7. Set file permissions
