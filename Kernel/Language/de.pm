@@ -213,6 +213,10 @@ sub Data {
         'Show Tree Selection' => 'Baumauswahl anzeigen',
         'New message' => 'Neue Nachricht',
         'New message!' => 'Neue Nachricht!',
+        'The field content is too long!' => 'Der Feldinhalt ist zu lang!',
+        'Maximum size is %s characters.' => 'Die Maximallänge beträgt %s Zeichen.',
+        'This field is required or' => 'Dieses Feld ist ein Pflichtfeld oder',
+
         'Please answer this ticket(s) to get back to the normal queue view!' =>
             'Bitte beantworten Sie dieses Ticket, um in die normale Queue-Ansicht zurück zu kommen!',
         'You have %s new message(s)!' => 'Sie haben %s neue Nachricht(en) bekommen!',

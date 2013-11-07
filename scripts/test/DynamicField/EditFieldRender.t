@@ -405,7 +405,7 @@ EOF
 <!--dtl:js_on_document_complete-->
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"The field content is too long! Maximum size is 3800 characters."}
+        \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
     </p>
 </div>
 EOF
@@ -436,7 +436,7 @@ Line</textarea>
 <!--dtl:js_on_document_complete-->
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"The field content is too long! Maximum size is 3800 characters."}
+        \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
     </p>
 </div>
 EOF
@@ -468,7 +468,7 @@ EOF
 <!--dtl:js_on_document_complete-->
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"The field content is too long! Maximum size is 3800 characters."}
+        \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
     </p>
 </div>
 EOF
@@ -503,7 +503,7 @@ EOF
 <!--dtl:js_on_document_complete-->
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"The field content is too long! Maximum size is 3800 characters."}
+        \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
     </p>
 </div>
 EOF
@@ -538,7 +538,7 @@ EOF
 <!--dtl:js_on_document_complete-->
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"The field content is too long! Maximum size is 3800 characters."}
+        \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
     </p>
 </div>
 EOF
@@ -571,7 +571,7 @@ EOF
 <!--dtl:js_on_document_complete-->
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"This field is required or The field content is too long! Maximum size is 3800 characters."}
+        \$Text{"This field is required or"} \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
     </p>
 </div>
 EOF
@@ -606,7 +606,7 @@ EOF
 <!--dtl:js_on_document_complete-->
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"The field content is too long! Maximum size is 3800 characters."}
+        \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
     </p>
 </div>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}ServerError" class="TooltipErrorMessage">

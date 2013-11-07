@@ -195,6 +195,9 @@ $Text{"Medium"}
 $Text{"Large"}
 $Text{"Date picker"}
 $Text{"Show Tree Selection"}
+$Text{"The field content is too long!"}
+$Text{"Maximum size is %s characters."}
+$Text{"This field is required or"}
 
 $Text{"New message"}
 $Text{"New message!"}

@@ -181,7 +181,7 @@ EOF
         $HTMLString .= <<"EOF";
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"This field is required or The field content is too long! Maximum size is $Self->{MaxLength} characters."}
+        \$Text{"This field is required or"} \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "$Self->{MaxLength}"}
     </p>
 </div>
 EOF
@@ -190,7 +190,7 @@ EOF
         $HTMLString .= <<"EOF";
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"The field content is too long! Maximum size is $Self->{MaxLength} characters."}
+        \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "$Self->{MaxLength}"}
     </p>
 </div>
 EOF
