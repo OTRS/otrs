@@ -1,4 +1,5 @@
 #3.2.13 201?-??-??
+ - 2013-11-07 Fixed bug#[9639](http://bugs.otrs.org/show_bug.cgi?id=9639) - TextArea validation message not translated.
  - 2013-11-07 Fixed bug#[9944](http://bugs.otrs.org/show_bug.cgi?id=9944) - Search Template issue.
  - 2013-11-07 Fixed bug#[9938](http://bugs.otrs.org/show_bug.cgi?id=9938) - ActivityDialog doesn't show queues with move_into permissions.
  - 2013-11-06 Fixed bug#[9940](http://bugs.otrs.org/show_bug.cgi?id=9940) - Fedora misses dependency on Sys::Syslog.
