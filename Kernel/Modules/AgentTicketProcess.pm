@@ -5027,10 +5027,10 @@ sub _GetQueues {
     my ( $Self, %Param ) = @_;
 
     # check which type of permission is needed: if the process ticket
-    # already exists (= TicketID is present), we need the 'move_into' 
+    # already exists (= TicketID is present), we need the 'move_into'
     # permission otherwise the 'create' permission
     my $PermissionType = 'create';
-    if ($Param{TicketID}) {
+    if ( $Param{TicketID} ) {
         $PermissionType = 'move_into';
     }
 
