@@ -1,4 +1,5 @@
 #3.2.13 201?-??-??
+ - 2013-11-07 Fixed bug#[9944](http://bugs.otrs.org/show_bug.cgi?id=9944) - Search Template issue.
  - 2013-11-07 Fixed bug#[9938](http://bugs.otrs.org/show_bug.cgi?id=9938) - ActivityDialog doesn't show queues with move_into permissions.
  - 2013-11-06 Fixed bug#[9940](http://bugs.otrs.org/show_bug.cgi?id=9940) - Fedora misses dependency on Sys::Syslog.
  - 2013-11-05 Removed Patch/Workaround for CPAN MIME::Parser v5.503 (introduced in OTRS 3.2.2) replaced with another solution, as it was causing problems with PGP.

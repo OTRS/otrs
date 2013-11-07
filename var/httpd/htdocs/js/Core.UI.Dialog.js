@@ -68,8 +68,8 @@ Core.UI.Dialog = (function (TargetNS) {
     function FocusFirstElement() {
         $('div.Dialog:visible .Content')
             .find('a:visible, input:visible, textarea:visible, select:visible, button:visible')
-            .filter(':first')
-            .focus(1);
+            .first()
+            .focus();
     }
 
     /**
