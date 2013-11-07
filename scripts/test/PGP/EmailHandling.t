@@ -21,6 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::PostMaster;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Web::Request;
+use Kernel::System::HTMLUtils;
 
 # create local config object
 my $ConfigObject = Kernel::Config->new();
@@ -34,6 +35,7 @@ $ConfigObject->Set(
     Key   => 'PGP::Options',
     Value => '--batch --no-tty --yes',
 );
+
 $ConfigObject->Set(
     Key => 'PGP::Key::Password',
     Value => { '04A17B7A' => 'somepass' },
@@ -42,8 +44,12 @@ $ConfigObject->Set(
 # check if gpg is located there
 if ( !-e $ConfigObject->Get('PGP::Bin') ) {
 
+    if ( -e '/usr/bin/gpg' ) {
+        $ConfigObject->Set( Key => 'PGP::Bin', Value => '/usr/bin/gpg' );
+    }
+
     # maybe it's a mac with macport
-    if ( -e '/opt/local/bin/gpg' ) {
+    elsif ( -e '/opt/local/bin/gpg' ) {
         $ConfigObject->Set( Key => 'PGP::Bin', Value => '/opt/local/bin/gpg' );
     }
 }
@@ -81,6 +87,10 @@ my $LayoutObject = Kernel::Output::HTML::Layout->new(
     ParamObject  => $ParamObject,
     ConfigObject => $ConfigObject,
 );
+my $HTMLUtilsObject = Kernel::System::HTMLUtils->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 # make some preparations
 my %Search = (
@@ -113,9 +123,11 @@ my %Check = (
     },
 );
 
+my @Keys;
+
 # add PGP keys and perform sanity check
 for my $Count ( 1 .. 2 ) {
-    my @Keys = $CryptObject->KeySearch(
+    @Keys = $CryptObject->KeySearch(
         Search => $Search{$Count},
     );
     $Self->False(
@@ -324,6 +336,236 @@ for my $Test (@Tests) {
             );
         }
     }
+}
+
+# different mails to test
+@Tests = (
+    {
+        Name        => 'simple string',
+        ArticleData => {
+            Body     => 'Simple string',
+            MimeType => 'text/plain',
+        },
+    },
+    {
+        Name        => 'simple string with unix newline',
+        ArticleData => {
+            Body     => 'Simple string \n with unix newline',
+            MimeType => 'text/plain',
+        },
+    },
+    {
+        Name        => 'simple string with windows newline',
+        ArticleData => {
+            Body     => 'Simple string \r\n with windows newline',
+            MimeType => 'text/plain',
+        },
+    },
+    {
+        Name        => 'simple string with long word',
+        ArticleData => {
+            Body =>
+                'SimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleStringSimpleString',
+            MimeType => 'text/plain',
+        },
+    },
+    {
+        Name        => 'simple string with long lines',
+        ArticleData => {
+            Body =>
+                'Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string Simple string',
+            MimeType => 'text/plain',
+        },
+    },
+    {
+        Name        => 'simple string with unicode data',
+        ArticleData => {
+            Body     => 'äöüßø@«∑€©ƒ',
+            MimeType => 'text/plain',
+        },
+    },
+    {
+        Name        => 'Multiline HTML',
+        ArticleData => {
+            Body =>
+                '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body style="font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;">Simple Line<br/><br/><br/>Your Ticket-Team<br/><br/>Your Agent<br/><br/>--<br/> Super Support - Waterford Business Park<br/> 5201 Blue Lagoon Drive - 8th Floor &amp; 9th Floor - Miami, 33126 USA<br/> Email: hot@example.com - Web: <a href="http://www.example.com/" title="http://www.example.com/" target="_blank">http://www.example.com/</a><br/>--</body></html>',
+            MimeType => 'text/html',
+        },
+    },
+);
+
+# test each mail with sign/crypt/sign+crypt
+my @TestVariations;
+
+for my $Test (@Tests) {
+    push @TestVariations, {
+        %{$Test},
+        Name        => $Test->{Name} . " sign only (Detached)",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From => 'unittest2@example.org',
+            To   => 'unittest2@example.org',
+            Sign => {
+                Type    => 'PGP',
+                SubType => 'Detached',
+                Key     => $Keys[0]->{KeyPrivate},
+            },
+        },
+        VerifySignature  => 1,
+        VerifyDecryption => 0,
+    };
+
+    push @TestVariations, {
+        %{$Test},
+        Name        => $Test->{Name} . " crypt only (Detached)",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From  => 'unittest2@example.org',
+            To    => 'unittest2@example.org',
+            Crypt => {
+                Type    => 'PGP',
+                SubType => 'Detached',
+                Key     => $Keys[0]->{KeyPrivate},
+            },
+        },
+        VerifySignature  => 0,
+        VerifyDecryption => 1,
+    };
+
+    push @TestVariations, {
+        %{$Test},
+        Name        => $Test->{Name} . " sign and crypt (Detached)",
+        ArticleData => {
+            %{ $Test->{ArticleData} },
+            From => 'unittest2@example.org',
+            To   => 'unittest2@example.org',
+            Sign => {
+                Type    => 'PGP',
+                SubType => 'Detached',
+                Key     => $Keys[0]->{Key},
+            },
+            Crypt => {
+                Type    => 'PGP',
+                SubType => 'Detached',
+                Key     => $Keys[0]->{KeyPrivate},
+            },
+        },
+        VerifySignature  => 1,
+        VerifyDecryption => 1,
+    };
+
+    # TODO: currently inline signatures tests does not work as OTRS does not save the signature
+    #    in the Article{Body}, the body remains intact after sending the email, only the email has
+    #    the signature
+}
+
+my $TicketID = $TicketObject->TicketCreate(
+    Title        => 'Some Ticket_Title',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'closed successful',
+    CustomerNo   => '123465',
+    CustomerUser => 'customer@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+
+$Self->True(
+    $TicketID,
+    'TicketCreate()',
+);
+
+push @AddedTickets, $TicketID;
+
+for my $Test (@TestVariations) {
+
+    my $ArticleID = $TicketObject->ArticleSend(
+        TicketID       => $TicketID,
+        From           => $Test->{ArticleData}->{From},
+        To             => $Test->{ArticleData}->{To},
+        ArticleType    => 'email-external',
+        SenderType     => 'customer',
+        HistoryType    => 'AddNote',
+        HistoryComment => 'note',
+        Subject        => 'Unittest data',
+        Charset        => 'utf-8',
+        MimeType       => $Test->{ArticleData}->{MimeType},    # "text/plain" or "text/html"
+        Body           => 'Some nice text\n.',
+        Sign           => {
+            Type    => 'PGP',
+            SubType => $Test->{ArticleData}->{Sign}->{SubType},
+            Key     => $Test->{ArticleData}->{Sign}->{Key},
+        },
+        UserID => 1,
+        %{ $Test->{ArticleData} },
+    );
+
+    $Self->True(
+        $ArticleID,
+        "$Test->{Name} - ArticleSend()",
+    );
+
+    my %Article = $TicketObject->ArticleGet(
+        TicketID  => $TicketID,
+        ArticleID => $ArticleID,
+    );
+
+    my $CheckObject = Kernel::Output::HTML::ArticleCheckPGP->new(
+        %{$Self},
+        ConfigObject => $ConfigObject,
+        TicketObject => $TicketObject,
+        LayoutObject => $LayoutObject,
+        ArticleID    => $ArticleID,
+        UserID       => 1,
+    );
+
+    my @CheckResult = $CheckObject->Check( Article => \%Article );
+
+    #use Data::Dumper;
+    #print STDERR "Dump: " . Dumper(\@CheckResult) . "\n";
+
+    if ( $Test->{VerifySignature} ) {
+        my $SignatureVerified =
+            grep {
+            $_->{Successful} && $_->{Key} eq 'Signed' && $_->{SignatureFound} && $_->{Message}
+            } @CheckResult;
+
+        $Self->True(
+            $SignatureVerified,
+            "$Test->{Name} - signature verified",
+        );
+    }
+
+    if ( $Test->{VerifyDecryption} ) {
+        my $DecryptionVerified =
+            grep { $_->{Successful} && $_->{Key} eq 'Crypted' && $_->{Message} } @CheckResult;
+
+        $Self->True(
+            $DecryptionVerified,
+            "$Test->{Name} - decryption verified",
+        );
+    }
+
+    my %FinalArticleData = $TicketObject->ArticleGet(
+        TicketID  => $TicketID,
+        ArticleID => $ArticleID,
+    );
+
+    my $TestBody = $Test->{ArticleData}->{Body};
+
+    # convert test body to ASCII if it was HTML
+    if ( $Test->{ArticleData}->{MimeType} eq 'text/html' ) {
+        $TestBody = $HTMLUtilsObject->ToAscii(
+            String => $TestBody,
+        );
+    }
+
+    $Self->Is(
+        $FinalArticleData{Body},
+        $TestBody,
+        "$Test->{Name} - verified body content",
+    );
 }
 
 # delete the tickets
