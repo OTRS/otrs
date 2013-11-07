@@ -125,6 +125,7 @@ InstallerDBStart
         if (parseInt(json['Successful']) == 1) {
             alert(Core.Config.Get('Installer.CheckMailLabelOne'));
             $('fieldset.errormsg').hide();
+            $('input[name=Subaction]').val('Finish');
             $('form').submit();
         }
         else {
@@ -132,16 +133,6 @@ InstallerDBStart
             $('fieldset.ErrorMsg').show();
             alert(Core.Config.Get('Installer.CheckMailLabelTwo'));
         }
-    };
-
-    /**
-     * @function
-     * @return nothing
-     *      This function skips the registration
-     */
-    TargetNS.SkipRegistration = function () {
-        $('input[name=Skip]').val('1');
-        $('form').submit();
     };
 
     return TargetNS;
