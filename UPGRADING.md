@@ -1,20 +1,11 @@
-Upgrading OTRS from 3.2 to 3.3
+Upgrading OTRS from 3.3 to 3.4
 ==============================
 
-These instructions are for people upgrading OTRS from *3.2* to *3.3*,
+These instructions are for people upgrading OTRS from *3.3* to *3.4*,
 and applies both for RPM and source code (tarball) upgrades.
 
-Please note that OTRS 3.3 requires at least perl version *5.10.0*. Make sure
-before you plan your upgrade that your server runs this version. You can check
-the version with the command `perl -v` on the command line. The only known
-Linux distribution that uses perl 5.8 and is still supported by its vendor is
-Red Hat Enterprise Linux (RHEL) 5 and its community supported derivative
-CentOS 5.
-If you're on any of these platforms and you plan to upgrade to OTRS 3.3 you
-should also plan migrating your operating system to a version with a supported perl, such as RHEL 6 or CentOS 6.
-
 If you are running a lower version of OTRS you have to follow the upgrade path
-to 3.2 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0->3.1->3.2->3.3 ...)!
+to 3.3 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4->3.0->3.1->3.2->3.3->3.4 ...)!
 You need to perform a full upgrade to every version in between, including
 database changes and the upgrading perl script.
 
@@ -22,9 +13,9 @@ Please note that if you upgrade from OTRS 2.2 or earlier, you have to
 take an extra step; please read http://bugs.otrs.org/show_bug.cgi?id=6798
 
 Within a single minor version you can skip patch level releases if you want to
-upgrade. For instance you can upgrade directly from OTRS 3.3.1 to version
-3.3.4. If you need to do such a "patch level upgrade", you should skip steps
-9 and 13-17.
+upgrade. For instance you can upgrade directly from OTRS 3.4.1 to version
+3.4.4. If you need to do such a "patch level upgrade", you should skip steps
+xxxxx.
 
 
 1. Stop all relevant services
@@ -93,11 +84,9 @@ In this case the RPM update automatically restores the old configuration files.
 6. Own themes
 -------------
 
-Note: The OTRS themes between 3.2 and 3.3 are NOT compatible, so don't use your old themes!
+Note: The OTRS themes of 3.3 are NOT compatible with 3.4, so don't use your old themes!
 
 Themes are located under `$OTRS_HOME/Kernel/Output/HTML/*/*.dtl` (default: `OTRS_HOME=/opt/otrs`)
-
-Please also note that dtl-Files must be in utf-8 from OTRS 3.3 on.
 
 
 7. Set file permissions
@@ -145,15 +134,15 @@ MySQL:
 
     shell> bin/otrs.CheckDB.pl
 
-    shell> cat scripts/DBUpdate-to-3.3.mysql.sql | mysql -p -f -u root otrs
+    shell> cat scripts/DBUpdate-to-3.4.mysql.sql | mysql -p -f -u root otrs
 
 PostgreSQL 8.2+:
 
-    shell> cat scripts/DBUpdate-to-3.3.postgresql.sql | psql otrs otrs
+    shell> cat scripts/DBUpdate-to-3.4.postgresql.sql | psql otrs otrs
 
 PostgreSQL, older versions:
 
-    shell> cat scripts/DBUpdate-to-3.3.postgresql_before_8_2.sql | psql otrs otrs
+    shell> cat scripts/DBUpdate-to-3.4.postgresql_before_8_2.sql | psql otrs otrs
 
 
  NOTE: If you use PostgreSQL 8.1 or earlier, you need to activate the new legacy driver
@@ -166,7 +155,7 @@ PostgreSQL, older versions:
 
  Run the migration script (as user `otrs`, NOT as `root`):
 
-    shell> scripts/DBUpdate-to-3.3.pl
+    shell> scripts/DBUpdate-to-3.4.pl
 
  Do not continue the upgrading process if this script did not work properly for you.
  Otherwise data loss may occur.
@@ -202,93 +191,8 @@ correctly installed or if any require reinstallation or even a package upgrade.
 The following packages are automatically uninstalled after the upgrade process (if they where
 installed before):
 
-- OTRSPostMasterFilterExtensions
-- OTRSFreeTextFromCustomerUser
-- OTRSExternalTicketNumberRecognition
-- OTRSDashboardQueueOverview
-- OTRSImportantArticles
-- OTRSImportantArticlesITSM
-- OTRSDashboardTicketCalendar
-- OTRSMultiServiceSelect
-- OTRSMultiQueueSelect
-- OTRSDynamicFieldMultiLevelSelection
-- OTRSEventBasedTicketActions
-- OTRSTicketAclEditor
-- OTRSCustomerProcessSelection
-- OTRSACLExtensions
-- OTRSGenericStandardTemplates
-- OTRSExtendedDynamicDateFieldSearch
-- OTRSDashboardTicketOverviewFilters
-
-13. Check config settings of OTRSFreeTextFromCustomerUser
--------------------------------------------------------
-
-Note: This only applies if you used the package OTRSFreeTextFromCustomerUser previously.
-
-If you used this module previously, you need to reconfigure it.
-The module is automatically uninstalled by the upgrading script as it is
-now a part of the OTRS framework.
-
-If you want to keep using it, please enable the setting
-"Ticket::EventModulePost###930-DynamicFieldFromCustomerUser" to
-activate this feature and configure the mapping in the setting
-"DynamicFieldFromCustomerUser::Mapping".
+- XXX
 
 
-14. Import your ACLs to the new ACL editor (optional)
--------------------------------------------------------
-
-In OTRS 3.3, there is a graphical editor for ACLs in the administration interface. You will need to
-import your existing ACLs (e.g. in Config.pm or additional files) to the editor by using
-bin/otrs.ImportACLsFromConfig.pl in order to make them available in the editor. Please make sure to
-delete any ACLs from Config.pm (or other files) after successfully finishing the import procedure. Also
-you will need to use the deploy button in the ACL administration frontend in order to re-deploy the imported
-ACLs to your system.
-
-
-15. Update your web server configuration
-----------------------------------------
-
-Note: this applies only if you use the Apache web server,
-and do not use the configuration file directly from the OTRS installation directory
-(e. g. with a symlink from the Apache configuration directory).
-
-Please update the the Apache configuration file for OTRS as there have been several
-changes (see [scripts/apache2-httpd.include.conf](scripts/apache2-httpd.include.conf)).
-
-
-16. Update and activate cronjobs
---------------------------------
-
-There are several OTRS default cronjobs in $OTRS_HOME/var/cron/*.dist.
-They can be activated by copying them without the ".dist" filename extension.
-Do this to make sure you get the latest versions of the cronjobs and new cronjobs
-as well.
-
-    shell> cd var/cron
-    shell> for foo in *.dist; do cp $foo `basename $foo .dist`; done
-
-Please check the copied files and re-apply any customizations that you might have made.
-
-To schedule these cronjobs on your system, you can use the script Cron.sh.
-Make sure to execute it as the OTRS system user!
-
-    shell> /opt/otrs/bin/Cron.sh start
-
-
-17. Activate OTRS Scheduler Service
------------------------------------
-
-This only applies if you did not previously configure the OTRS scheduler service.
-
-OTRS comes with a scheduler service that is used to perform asynchronous tasks.
-
-The OTRS RPMs will set up the Scheduler Service automatically.
-If you install/update from source, you can install the service by copying the
-scripts/otrs-scheduler-linux file to /etc/init.d and giving it the appropriate permissions.
-
-This will make sure the scheduler service starts when the system starts up.
-
-
-18. Well done!
+13. Well done!
 --------------
