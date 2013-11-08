@@ -1830,15 +1830,16 @@ sub new {
 
                 # only try to find # VERSION:1.1 in the first 8 lines
                 my $TryCount = 0;
+                LINE:
                 while ( my $Line = <$In> ) {
                     if ($Line =~ /^\Q# VERSION:1.1\E/) {
                         $FileFormat = 1.1;
-                        last FILE;
+                        last LINE;
                     }
 
                     $TryCount++;
                     if ( $TryCount >= 8 ) {
-                        last FILE;
+                        last LINE;
                     }
                 }
                 close($In);
