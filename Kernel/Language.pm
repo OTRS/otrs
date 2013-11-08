@@ -275,10 +275,11 @@ sub Get {
         }
         my $Text = $Self->{Translation}->{$What};
         if (@Dyn) {
+            COUNT:
             for ( 0 .. $#Dyn ) {
 
                 # be careful $Dyn[$_] can be 0! bug#3826
-                last if !defined $Dyn[$_];
+                last COUNT if !defined $Dyn[$_];
 
                 if ( $Dyn[$_] =~ /Time\((.*)\)/ ) {
                     $Dyn[$_] = $Self->Time(
@@ -308,10 +309,11 @@ sub Get {
     }
 
     if (@Dyn) {
+        COUNT:
         for ( 0 .. $#Dyn ) {
 
             # be careful $Dyn[$_] can be 0! bug#3826
-            last if !defined $Dyn[$_];
+            last COUNT if !defined $Dyn[$_];
 
             if ( $Dyn[$_] =~ /Time\((.*)\)/ ) {
                 $Dyn[$_] = $Self->Time(

@@ -241,7 +241,7 @@ sub _ArticleIndexString {
         $Count++;
 
         # only index the first 1000 words
-        last if $Count > $WordCountMax;
+        last WORD if $Count > $WordCountMax;
         if ( $List{$Word} ) {
             $List{$Word}++;
             next WORD;

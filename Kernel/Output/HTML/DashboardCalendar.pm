@@ -128,7 +128,7 @@ sub Run {
                 # only show own pending tickets
                 next
                     if $Ticket{OwnerID} ne $Self->{UserID}
-                        && $Ticket{ResponsibleID} ne $Self->{UserID};
+                    && $Ticket{ResponsibleID} ne $Self->{UserID};
                 my $DestDate = $Self->{TimeObject}->SystemTime() + $Ticket{UntilTime};
                 $TimeTill  = $Ticket{UntilTime};
                 $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
@@ -157,9 +157,10 @@ sub Run {
 
     # show content rows
     my $Count = 0;
+    DATE:
     for my $Data ( sort keys %Date ) {
         $Count++;
-        last if $Count > $Self->{Config}->{Limit};
+        last DATE if $Count > $Self->{Config}->{Limit};
         $Self->{LayoutObject}->Block(
             Name => 'ContentSmallCalendarOverviewRow',
             Data => $Date{$Data},

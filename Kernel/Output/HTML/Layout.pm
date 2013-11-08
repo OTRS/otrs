@@ -2877,8 +2877,9 @@ sub NavigationBar {
 
             # set prio of item
             my $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
+            COUNT:
             for ( 1 .. 51 ) {
-                last if !$NavBar{$Key};
+                last COUNT if !$NavBar{$Key};
 
                 $Item->{Prio}++;
                 $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
@@ -3680,8 +3681,9 @@ sub CustomerNavigationBar {
 
             # set prio of item
             my $Key = sprintf( "%07d", $Item->{Prio} );
+            COUNT:
             for ( 1 .. 51 ) {
-                last if !$NavBarModule{$Key};
+                last COUNT if !$NavBarModule{$Key};
 
                 $Item->{Prio}++;
             }

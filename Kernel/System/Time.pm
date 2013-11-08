@@ -635,9 +635,10 @@ sub DestinationTime {
 
     my $LoopCounter;
 
+    LOOP:
     while ( $Param{Time} > 1 ) {
         $LoopCounter++;
-        last if $LoopCounter > 100;
+        last LOOP if $LoopCounter > 100;
 
         my ( $Second, $Minute, $Hour, $Day, $Month, $Year, $WDay ) = localtime $CTime;  ## no critic
         $Year  = $Year + 1900;

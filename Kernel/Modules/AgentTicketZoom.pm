@@ -77,7 +77,7 @@ sub new {
     if ( !$Self->{TicketID} && $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ) ) {
         $Self->{TicketID} = $Self->{TicketObject}->TicketIDLookup(
             TicketNumber => $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ),
-            UserID => $Self->{UserID},
+            UserID       => $Self->{UserID},
         );
     }
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
@@ -93,7 +93,7 @@ sub new {
             $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketZoom")
                 ->{ProcessWidgetDynamicField}
                 || {}
-            },
+        },
     };
 
     # create additional objects for process management
@@ -517,7 +517,7 @@ sub MaskAgentZoom {
             # ignore system sender type
             next ARTICLE
                 if $Self->{ConfigObject}->Get('Ticket::NewArticleIgnoreSystemSender')
-                    && $Article->{SenderType} eq 'system';
+                && $Article->{SenderType} eq 'system';
 
             next ARTICLE if $ArticleFlags{ $Article->{ArticleID} }->{Seen};
             $ArticleID = $Article->{ArticleID};
@@ -1484,9 +1484,9 @@ sub MaskAgentZoom {
         # ignore system sender type
         next ARTICLE
             if $Self->{ConfigObject}->Get('Ticket::NewArticleIgnoreSystemSender')
-                && $Article->{SenderType} eq 'system';
+            && $Article->{SenderType} eq 'system';
 
-        # last if article was not shown
+        # last ARTICLE if article was not shown
         if ( !$ArticleFlags{ $Article->{ArticleID} }->{Seen} ) {
             $ArticleAllSeen = 0;
             last ARTICLE;

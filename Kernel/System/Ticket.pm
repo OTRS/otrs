@@ -2639,7 +2639,7 @@ sub TicketEscalationIndexBuild {
             }
 
             # do not use locked tickets for calculation
-            #last if $Ticket{Lock} eq 'lock';
+            #last ROW if $Ticket{Lock} eq 'lock';
 
             # do not use /int/ article types for calculation
             next ROW if $Row->{ArticleType} =~ /int/i;
@@ -2647,7 +2647,7 @@ sub TicketEscalationIndexBuild {
             # only use 'agent' and 'customer' sender types for calculation
             next ROW if $Row->{SenderType} !~ /^(agent|customer)$/;
 
-            # last if latest was customer and the next was not customer
+            # last ROW if latest was customer and the next was not customer
             # otherwise use also next, older customer article as latest
             # customer followup for starting escalation
             if ( $Row->{SenderType} eq 'agent' && $LastSenderType eq 'customer' ) {

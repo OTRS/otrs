@@ -923,7 +923,7 @@ sub DirectoryRead {
 
         # loop protection to prevent symlinks causing lockups
         $Param{LoopProtection}++;
-        last if $Param{LoopProtection} > 100;
+        return if $Param{LoopProtection} > 100;
 
         # check all files in current directory
         my @Directories = glob "$Param{Directory}/*";

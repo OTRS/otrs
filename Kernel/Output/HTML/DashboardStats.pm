@@ -134,7 +134,7 @@ sub Preferences {
             );
             OBJECTATTRIBUTE:
             for my $ObjectAttribute ( @{ $Stat->{$Use} } ) {
-                next if !$ObjectAttribute->{Selected};
+                next OBJECTATTRIBUTE if !$ObjectAttribute->{Selected};
 
                 my %ValueHash;
                 $Flag = 1;
@@ -395,6 +395,7 @@ sub Preferences {
                                 }
 
                                 my %TimeScaleOption;
+                                ITEM:
                                 for (
                                     sort {
                                         $TimeScale->{$a}->{Position}
@@ -403,7 +404,7 @@ sub Preferences {
                                     )
                                 {
                                     $TimeScaleOption{$_} = $TimeScale->{$_}{Value};
-                                    last if $SelectedID eq $_;
+                                    last ITEM if $SelectedID eq $_;
                                 }
 
                                 $BlockData{TimeRelativeUnit}
@@ -415,7 +416,7 @@ sub Preferences {
                                     SelectedID => $SelectedID || '',
                                     SortIndividual => [
                                         'Second', 'Minute', 'Hour', 'Day',
-                                        'Week',   'Month',  'Year'
+                                        'Week', 'Month', 'Year'
                                     ],
                                     );
                             }
@@ -426,7 +427,8 @@ sub Preferences {
                             $BlockData{TimeRelativeMaxSeconds}
                                 = $ObjectAttribute->{TimeRelativeCount}
                                 * $Self->_TimeInSeconds(
-                                TimeUnit => $ObjectAttribute->{TimeRelativeUnit} );
+                                TimeUnit => $ObjectAttribute->{TimeRelativeUnit}
+                                );
 
                             $Self->{LayoutObject}->Block(
                                 Name => 'TimePeriodRelative',
@@ -443,6 +445,7 @@ sub Preferences {
                             elsif ( $TimeType eq 'Extended' ) {
                                 my $TimeScale = _TimeScale();
                                 my %TimeScaleOption;
+                                ITEM:
                                 for (
                                     sort {
                                         $TimeScale->{$b}->{Position}
@@ -451,7 +454,7 @@ sub Preferences {
                                     )
                                 {
                                     $TimeScaleOption{$_} = $TimeScale->{$_}->{Value};
-                                    last if $ObjectAttribute->{SelectedValues}[0] eq $_;
+                                    last ITEM if $ObjectAttribute->{SelectedValues}[0] eq $_;
                                 }
 
                                 $BlockData{TimeScaleUnitMax}
@@ -466,13 +469,14 @@ sub Preferences {
                                     Sort           => 'IndividualKey',
                                     SortIndividual => [
                                         'Second', 'Minute', 'Hour', 'Day',
-                                        'Week',   'Month',  'Year'
+                                        'Week', 'Month', 'Year'
                                     ],
                                 );
 
                                 $BlockData{TimeScaleMinSeconds} = $ObjectAttribute->{TimeScaleCount}
                                     * $Self->_TimeInSeconds(
-                                    TimeUnit => $ObjectAttribute->{SelectedValues}[0] );
+                                    TimeUnit => $ObjectAttribute->{SelectedValues}[0]
+                                    );
 
                                 $Self->{LayoutObject}->Block(
                                     Name => 'TimeScaleInfo',
@@ -523,7 +527,7 @@ sub Preferences {
     $Self->{LayoutObject}->Block(
         Name => 'WidgetSettingsEnd',
         Data => {
-            NamePref      => $Self->{Name},
+            NamePref => $Self->{Name},
         },
     );
 
