@@ -1496,6 +1496,7 @@ sub _Mask {
     }
 
     # show attachments
+    ATTACHMENT:
     for my $Attachment ( @{ $Param{Attachments} } ) {
         if (
             $Attachment->{ContentID}
@@ -1503,7 +1504,7 @@ sub _Mask {
             && ( $Attachment->{ContentType} =~ /image/i )
             )
         {
-            next;
+            next ATTACHMENT;
         }
 
         $Self->{LayoutObject}->Block(

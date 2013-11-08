@@ -1099,6 +1099,7 @@ sub AgentMove {
         );
     }
 
+    STATE_ID:
     for my $StateID ( sort keys %{ $Param{NextStates} } ) {
         next if !$StateID;
         my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $StateID );
@@ -1118,7 +1119,7 @@ sub AgentMove {
                 Name => 'StatePending',
                 Data => \%Param,
             );
-            last;
+            last STATE_ID;
         }
     }
 

@@ -175,13 +175,14 @@ sub CustomerPreferencesForm {
 
             if ( $Data{ $PreferencesGroup->{Prio} } ) {
 
+                COUNT:
                 for ( 1 .. 151 ) {
 
                     $PreferencesGroup->{Prio}++;
 
                     if ( !$Data{ $PreferencesGroup->{Prio} } ) {
                         $Data{ $PreferencesGroup->{Prio} } = $Group;
-                        last;
+                        last COUNT;
                     }
                 }
             }

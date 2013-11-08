@@ -140,7 +140,7 @@ sub Run {
         my @ModuleJS = @{
             $Self->{ConfigObject}->Get('Frontend::Module')->{AgentDashboard}->{Loader}
                 ->{JavaScript} || []
-            };
+        };
         @ModuleJS = grep { $_ !~ m/d3js/ } @ModuleJS;
         $Self->{ConfigObject}->Get('Frontend::Module')->{AgentDashboard}->{Loader}->{JavaScript}
             = \@ModuleJS;
@@ -270,10 +270,11 @@ sub Run {
         my @Backends = $Self->{ParamObject}->GetArray( Param => 'Backend' );
         for my $Name ( sort keys %{$Config} ) {
             my $Active = 0;
+            BACKEND:
             for my $Backend (@Backends) {
-                next if $Backend ne $Name;
+                next BACKEND if $Backend ne $Name;
                 $Active = 1;
-                last;
+                last BACKEND;
             }
             my $Key = $UserSettingsKey . $Name;
 
@@ -438,8 +439,8 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AJAXFilterUpdate' ) {
 
         my $ElementChanged = $Self->{ParamObject}->GetParam( Param => 'ElementChanged' );
-        my ($Name) = $ElementChanged =~ m{ ( \d{4} - .*? ) \z }gxms;
-        my $Column = $ElementChanged;
+        my ($Name)         = $ElementChanged =~ m{ ( \d{4} - .*? ) \z }gxms;
+        my $Column         = $ElementChanged;
         $Column =~ s{ \A ColumnFilter }{}gxms;
         $Column =~ s{ $Name }{}gxms;
 

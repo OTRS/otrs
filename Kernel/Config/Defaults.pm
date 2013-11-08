@@ -1813,11 +1813,12 @@ sub new {
             }
         }
         @Files = ( @NewFileOrderPre, @NewFileOrderPost );
+        FILE:
         for my $File (@Files) {
 
             # do not use ZZZ files
             if ( $Param{Level} && $Param{Level} eq 'Default' && $File =~ /ZZZ/ ) {
-                next;
+                next FILE;
             }
 
             # check config file format - use 1.0 as eval string, 1.1 as require or do
@@ -1832,12 +1833,12 @@ sub new {
                 while ( my $Line = <$In> ) {
                     if ($Line =~ /^\Q# VERSION:1.1\E/) {
                         $FileFormat = 1.1;
-                        last;
+                        last FILE;
                     }
 
                     $TryCount++;
                     if ( $TryCount >= 8 ) {
-                        last;
+                        last FILE;
                     }
                 }
                 close($In);
@@ -1867,12 +1868,13 @@ sub new {
                     if ( $mod_perl::VERSION >= 1.99 && $OS ne 'MSWin32') {
                     ## use critic
                         my $ApacheReload = 0;
+                        MODULE:
                         for my $Module ( sort keys %INC ) {
                             $Module =~ s/\//::/g;
                             $Module =~ s/\.pm$//g;
                             if ( $Module eq 'Apache::Reload' || $Module eq 'Apache2::Reload' ) {
                                 $ApacheReload = 1;
-                                last;
+                                last MODULE;
                             }
                         }
                         if ( !$ApacheReload ) {

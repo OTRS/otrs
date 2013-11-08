@@ -138,10 +138,11 @@ sub Auth {
 
     # use all 11 backends and return on first auth
     my $User;
+    COUNT:
     for ( '', 1 .. 10 ) {
 
         # next on no config setting
-        next if !$Self->{"Backend$_"};
+        next COUNT if !$Self->{"Backend$_"};
 
         # check auth backend
         $User = $Self->{"Backend$_"}->Auth(%Param);
@@ -153,7 +154,7 @@ sub Auth {
                 Value  => $_,
                 UserID => $User,
             );
-            last;
+            last COUNT;
         }
     }
 

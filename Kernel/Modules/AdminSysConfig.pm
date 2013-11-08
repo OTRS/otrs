@@ -137,7 +137,7 @@ sub Run {
             if ( defined $Self->{ParamObject}->GetParam( Param => "Reset$_" ) ) {
                 $Self->{SysConfigObject}->ConfigItemReset( Name => $_ );
                 $Anker = $ItemHash{Name};
-                next;
+                next ITEM;
             }
 
             # Get ElementActive (checkbox)

@@ -108,6 +108,7 @@ sub Run {
         my $Minute = 0;
         my $Count  = 1;
         while ( $Count <= $MinuteSlot ) {
+            ROW:
             for my $Row ( reverse @{$Data} ) {
                 if (
                     $Row->[0] < ( time() - ( 60 * $Minute ) )
@@ -124,10 +125,10 @@ sub Run {
                         }
                         if ($Interface) {
                             if ( !$Module && $Row->[1] ne $Interface ) {
-                                next;
+                                next ROW;
                             }
                             if ( $Module && $Module ne $ModuleCurrent ) {
-                                next;
+                                next ROW;
                             }
                         }
 
@@ -156,7 +157,7 @@ sub Run {
                     }
                 }
                 elsif ( $Row->[0] < ( time() - ( 60 * $Minute ) ) ) {
-                    last;
+                    last ROW;
                 }
             }
             $Minute = $Minute + $Slot;
@@ -255,6 +256,7 @@ sub Run {
             my %Sum    = ();
             my %Max    = ();
             my %Min    = ();
+            ROW:
             for my $Row ( reverse @{$Data} ) {
                 if ( $Row->[0] > time() - ( 60 * $Minute ) ) {
 
@@ -308,7 +310,7 @@ sub Run {
                     }
                 }
                 else {
-                    last;
+                    last ROW;
                 }
             }
             if (%Sum) {

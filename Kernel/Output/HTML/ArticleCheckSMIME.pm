@@ -256,10 +256,11 @@ sub Check {
 
                 # compare sender email to signer email
                 my $SignerSenderMatch = 0;
+                SIGNER:
                 for my $Signer ( @{ $SignCheck{Signers} } ) {
                     if ( $OrigSender =~ m{\A \Q$Signer\E \z}xmsi ) {
                         $SignerSenderMatch = 1;
-                        last;
+                        last SIGNER;
                     }
                 }
 
@@ -382,10 +383,11 @@ sub Check {
 
                 # compare sender email to signer email
                 my $SignerSenderMatch = 0;
+                SIGNER:
                 for my $Signer ( @{ $SignCheck{Signers} } ) {
                     if ( $OrigSender =~ m{\A \Q$Signer\E \z}xmsi ) {
                         $SignerSenderMatch = 1;
-                        last;
+                        last SIGNER;
                     }
                 }
 

@@ -1837,10 +1837,11 @@ sub PackageBuild {
     # don't use Database* in index mode
     return $XML if $Param{Type};
 
+    TAG:
     for (qw(DatabaseInstall DatabaseUpgrade DatabaseReinstall DatabaseUninstall)) {
 
         if ( ref $Param{$_} ne 'HASH' ) {
-            next;
+            next TAG;
         }
 
         for my $Type ( sort %{ $Param{$_} } ) {
@@ -1867,7 +1868,7 @@ sub PackageBuild {
                         for ( sort keys %{$Tag} ) {
 
                             if (
-                                $_    ne 'Tag'
+                                $_ ne 'Tag'
                                 && $_ ne 'Content'
                                 && $_ ne 'TagType'
                                 && $_ ne 'TagLevel'

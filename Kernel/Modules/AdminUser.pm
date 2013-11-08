@@ -511,11 +511,12 @@ sub _Edit {
             next GROUP if $Preferences{$Group}->{Column} ne $Column;
 
             if ( $Data{ $Preferences{$Group}->{Prio} } ) {
+                COUNT:
                 for ( 1 .. 151 ) {
                     $Preferences{$Group}->{Prio}++;
                     if ( !$Data{ $Preferences{$Group}->{Prio} } ) {
                         $Data{ $Preferences{$Group}->{Prio} } = $Group;
-                        last;
+                        last COUNT;
                     }
                 }
             }
@@ -529,14 +530,15 @@ sub _Edit {
         }
 
         # show each preferences setting
+        PRIO:
         for my $Prio ( sort keys %Data ) {
             my $Group = $Data{$Prio};
             if ( !$Self->{ConfigObject}->{PreferencesGroups}->{$Group} ) {
-                next;
+                next PRIO;
             }
             my %Preference = %{ $Self->{ConfigObject}->{PreferencesGroups}->{$Group} };
             if ( $Group eq 'Password' ) {
-                next;
+                next PRIO;
             }
             my $Module = $Preference{Module} || 'Kernel::Output::HTML::PreferencesGeneric';
 

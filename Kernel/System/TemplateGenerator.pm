@@ -1321,6 +1321,7 @@ sub _Replace {
                 my $Line       = 2500;
                 my @Body       = split( /\n/, $Data{Body} );
                 my $NewOldBody = '';
+                COUNTER:
                 for ( my $i = 0; $i < $Line; $i++ ) {
                     if ( $#Body >= $i ) {
 
@@ -1340,7 +1341,7 @@ sub _Replace {
                         }
                     }
                     else {
-                        last;
+                        last COUNTER;
                     }
                 }
                 chomp $NewOldBody;

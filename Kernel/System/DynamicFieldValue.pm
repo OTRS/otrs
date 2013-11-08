@@ -142,9 +142,10 @@ sub ValueSet {
     my @Values;
 
     my $Counter = 0;
+    VALUE:
     while (1) {
         if ( ref $Param{Value}->[$Counter] ne 'HASH' ) {
-            last;
+            last VALUE;
         }
 
         if (
@@ -153,7 +154,7 @@ sub ValueSet {
             && !defined $Param{Value}->[$Counter]->{ValueDateTime}
             )
         {
-            last;
+            last VALUE;
         }
 
         my %Value = (

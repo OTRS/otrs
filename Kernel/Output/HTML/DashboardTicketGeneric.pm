@@ -1638,7 +1638,7 @@ sub _GetColumnValues {
                     DynamicFieldConfig => $DynamicFieldConfig,
                 );
             }
-            last;
+            last DYNAMICFIELD;
         }
     }
 

@@ -88,10 +88,11 @@ sub Run {
             );
             next if !@Groups;
 
+            GROUP:
             for my $Group (@Groups) {
                 if ( $Group eq $Name ) {
                     $AccessOk = 1;
-                    last;
+                    last GROUP;
                 }
             }
         }
@@ -101,7 +102,7 @@ sub Run {
     # check acl
     return
         if defined $Param{ACL}->{ $Param{Config}->{Action} }
-            && !$Param{ACL}->{ $Param{Config}->{Action} };
+        && !$Param{ACL}->{ $Param{Config}->{Action} };
 
     # return item
     return { %{ $Param{Config} }, %{ $Param{Ticket} }, %Param };

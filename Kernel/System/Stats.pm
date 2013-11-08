@@ -1091,10 +1091,11 @@ sub CompletenessCheck {
 
     my %StatData = %{ $Param{StatData} };
     if ( $Param{Section} eq 'Specification' || $Param{Section} eq 'All' ) {
+        KEY:
         for (qw(Title Description StatType Permission Format ObjectModule)) {
             if ( !$StatData{$_} ) {
                 push @IndexArray, 0;
-                last;
+                last KEY;
             }
         }
         if ( $StatData{StatType} && $StatData{StatType} eq 'static' && !$StatData{File} ) {
@@ -1104,10 +1105,11 @@ sub CompletenessCheck {
             push @IndexArray, 2;
         }
         if ( !$Param{StatData}{GraphSize} && $Param{StatData}{Format} ) {
+            FORMAT:
             for ( @{ $StatData{Format} } ) {
                 if ( $_ =~ m{^GD::Graph\.*}x ) {
                     push @IndexArray, 3;
-                    last;
+                    last FORMAT;
                 }
             }
         }
@@ -2591,9 +2593,9 @@ sub StatsCleanUp {
         );
 
         next STATSID if $HashRef
-                && ref $HashRef eq 'HASH'
-                && $HashRef->{ObjectModule}
-                && $Self->{MainObject}->Require( $HashRef->{ObjectModule} );
+            && ref $HashRef eq 'HASH'
+            && $HashRef->{ObjectModule}
+            && $Self->{MainObject}->Require( $HashRef->{ObjectModule} );
 
         # delete stats
         $Self->StatsDelete( StatID => $StatsID );
@@ -3509,6 +3511,7 @@ sub _GenerateDynamicStats {
     my %TableStructure;
     for my $Row ( sort keys %ValueSeries ) {
         my @Cells;
+        CELL:
         for my $Cell ( @{ $Xvalue->{SelectedValues} } ) {    # get each cell
             $ValueSeries{$Row} ||= {};
             my %Attributes = ( %{ $ValueSeries{$Row} }, %RestrictionAttribute );
@@ -3529,7 +3532,7 @@ sub _GenerateDynamicStats {
                         )
                         )
                     {
-                        next;
+                        next CELL;
                     }
                 }
                 $Attributes{$TimeStop}  = $Cell->{TimeStop};
@@ -3642,9 +3645,9 @@ sub _WriteResultCache {
         return if $GetParam{Year} == $Y && $GetParam{Month} > $M;
         return
             if $GetParam{Year} == $Y
-                && $GetParam{Month} == $M
-                && $GetParam{Day}
-                && $GetParam{Day} >= $D;
+            && $GetParam{Month} == $M
+            && $GetParam{Day}
+            && $GetParam{Day} >= $D;
     }
 
     # write cache file

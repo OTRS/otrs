@@ -121,10 +121,11 @@ sub Run {
         # add or remove user from roles
         for my $UserID ( sort keys %UserData ) {
             my $Active = 0;
+            MEMBER_OF_ROLE:
             for my $MemberOfRole (@IDs) {
                 next if $MemberOfRole ne $UserID;
                 $Active = 1;
-                last;
+                last MEMBER_OF_ROLE;
             }
             $Self->{GroupObject}->GroupUserRoleMemberAdd(
                 UID    => $UserID,
@@ -157,10 +158,11 @@ sub Run {
         # add or remove user from roles
         for my $RoleID ( sort keys %RoleData ) {
             my $Active = 0;
+            ROLE_OF_MEMBER:
             for my $RoleOfMember (@IDs) {
-                next if $RoleOfMember ne $RoleID;
+                next ROLE_OF_MEMBER if $RoleOfMember ne $RoleID;
                 $Active = 1;
-                last;
+                last ROLE_OF_MEMBER;
             }
             $Self->{GroupObject}->GroupUserRoleMemberAdd(
                 UID    => $ID,

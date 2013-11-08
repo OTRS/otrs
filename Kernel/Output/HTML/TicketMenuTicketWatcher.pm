@@ -48,7 +48,7 @@ sub Run {
     # check acl
     return
         if defined $Param{ACL}->{ $Param{Config}->{Action} }
-            && !$Param{ACL}->{ $Param{Config}->{Action} };
+        && !$Param{ACL}->{ $Param{Config}->{Action} };
 
     # check access
     my @Groups;
@@ -59,11 +59,12 @@ sub Run {
     my $Access = 1;
     if (@Groups) {
         $Access = 0;
+        GROUP:
         for my $Group (@Groups) {
-            next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+            next GROUP if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
             if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
                 $Access = 1;
-                last;
+                last GROUP;
             }
         }
     }

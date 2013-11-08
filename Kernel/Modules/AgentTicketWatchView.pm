@@ -179,11 +179,12 @@ sub Run {
             $Access = 1;
         }
         else {
+            GROUP:
             for my $Group (@Groups) {
                 next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
                 if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
                     $Access = 1;
-                    last;
+                    last GROUP;
                 }
             }
         }

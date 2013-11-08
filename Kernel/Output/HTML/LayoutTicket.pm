@@ -366,7 +366,7 @@ sub AgentQueueListOption {
                 $OptionTitleHTMLValue = ' title="' . $HTMLValue . '"';
             }
             if (
-                $SelectedID  eq $_
+                $SelectedID eq $_
                 || $Selected eq $Param{Data}->{$_}
                 || $Param{SelectedIDRefArrayOK}->{$_}
                 )
@@ -757,13 +757,14 @@ sub TicketListShow {
     if ( !$Backends->{$View} ) {
 
         # try to find fallback, take first configured view mode
+        KEY:
         for my $Key ( sort keys %{$Backends} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "No Config option found for view mode $View, took $Key instead!",
             );
             $View = $Key;
-            last;
+            last KEY;
         }
     }
 

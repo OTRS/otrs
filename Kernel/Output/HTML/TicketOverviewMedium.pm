@@ -64,11 +64,12 @@ sub ActionRow {
             $BulkFeature = 1;
         }
         else {
+            GROUP:
             for my $Group (@Groups) {
-                next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+                next GROUP if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
                 if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
                     $BulkFeature = 1;
-                    last;
+                    last GROUP;
                 }
             }
         }
@@ -206,11 +207,12 @@ sub Run {
             $BulkFeature = 1;
         }
         else {
+            GROUP:
             for my $Group (@Groups) {
-                next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+                next GROUP if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
                 if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
                     $BulkFeature = 1;
-                    last;
+                    last GROUP;
                 }
             }
         }

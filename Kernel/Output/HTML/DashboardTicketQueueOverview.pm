@@ -173,11 +173,12 @@ sub Run {
 
     # iterate over all queues, print results;
     my @StatusTotal;
+    QUEUE:
     for my $Queue ( sort values %Queues ) {
 
         # Hide empty queues
         if ( !grep { $_ > 0 } @{ $Results{$Queue} } ) {
-            next;
+            next QUEUE;
         }
 
         $HasContent++;

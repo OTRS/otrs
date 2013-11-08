@@ -76,6 +76,7 @@ sub Run {
                     Line => $Param{GetParam}->{$_},
                 );
                 my $LocalMatched;
+                RECIPIENTS:
                 for my $Recipients (@EmailAddresses) {
                     my $Email = $Self->{ParserObject}->GetEmailAddress( Email => $Recipients );
                     next if !$Email;
@@ -88,7 +89,7 @@ sub Run {
                                     "$Prefix'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched!",
                             );
                         }
-                        last;
+                        last RECIPIENTS;
                     }
                 }
                 if ( !$LocalMatched ) {

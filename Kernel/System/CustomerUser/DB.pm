@@ -76,10 +76,11 @@ sub new {
     }
 
     # check if CustomerKey is var or int
+    ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         if ( $Entry->[0] eq 'UserLogin' && $Entry->[5] =~ /^int$/i ) {
             $Self->{CustomerKeyInteger} = 1;
-            last;
+            last ENTRY;
         }
     }
 
@@ -468,10 +469,11 @@ sub CustomerIDs {
     if ( $Data{UserCustomerIDs} ) {
 
         # used separators
+        SPLIT:
         for my $Split ( ';', ',', '|' ) {
 
             # next if separator is not there
-            next if $Data{UserCustomerIDs} !~ /\Q$Split\E/;
+            next SPLIT if $Data{UserCustomerIDs} !~ /\Q$Split\E/;
 
             # split it
             my @IDs = split /\Q$Split\E/, $Data{UserCustomerIDs};
@@ -480,7 +482,7 @@ sub CustomerIDs {
                 $ID =~ s/\s+$//g;
                 push @CustomerIDs, $ID;
             }
-            last;
+            last SPLIT;
         }
 
         # fallback if no separator got found

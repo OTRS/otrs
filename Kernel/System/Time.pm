@@ -667,6 +667,7 @@ sub DestinationTime {
 
         # Regular day with working hours
         else {
+            HOUR:
             for my $H ( $Hour .. 23 ) {
 
                 # Check if we have a working hour
@@ -694,7 +695,7 @@ sub DestinationTime {
                         }
                     }
                     else {
-                        last;
+                        last HOUR;
                     }
                 }
 

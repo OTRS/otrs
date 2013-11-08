@@ -1925,10 +1925,11 @@ sub Run {
             # check if shown
             if (@ShownAttributes) {
                 my $Show = 0;
+                SHOWN_ATTRIBUTE:
                 for my $ShownAttribute (@ShownAttributes) {
                     if ( 'Label' . $Key eq $ShownAttribute ) {
                         $Show = 1;
-                        last;
+                        last SHOWN_ATTRIBUTE;
                     }
                 }
                 next if !$Show;

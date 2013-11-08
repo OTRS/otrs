@@ -68,6 +68,7 @@ sub Run {
     # check if it's a escalation or escalation notification
     # check escalation times
     my $EscalationType = '';
+    TYPE:
     for my $Type (
         qw(FirstResponseTimeEscalation UpdateTimeEscalation SolutionTimeEscalation
         FirstResponseTimeNotification UpdateTimeNotification SolutionTimeNotification)
@@ -76,11 +77,11 @@ sub Run {
         if ( defined $Ticket{$Type} ) {
             if ( $Type =~ /TimeEscalation$/ ) {
                 $EscalationType = 'Escalation';
-                last;
+                last TYPE;
             }
             elsif ( $Type =~ /TimeNotification$/ ) {
                 $EscalationType = 'EscalationNotifyBefore';
-                last;
+                last TYPE;
             }
         }
     }
@@ -124,8 +125,8 @@ sub Run {
         my $Sent = 0;
         for my $Line (@Lines) {
             if (
-                $Line->{Name}          =~ /\%\%$EscalationType\%\%/
-                && $Line->{Name}       =~ /\Q%%$User{UserEmail}\E$/i
+                $Line->{Name} =~ /\%\%$EscalationType\%\%/
+                && $Line->{Name} =~ /\Q%%$User{UserEmail}\E$/i
                 && $Line->{CreateTime} =~ /$Year-$Month-$Day/
                 )
             {

@@ -153,10 +153,11 @@ sub Run {
     @AttachmentMeta = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
         FormID => $FormID
     );
+    ATTACHMENT:
     for my $Attachment (@AttachmentMeta) {
-        next if $FilenameTmp ne $Attachment->{Filename};
+        next ATTACHMENT if $FilenameTmp ne $Attachment->{Filename};
         $ContentIDNew = $Attachment->{ContentID};
-        last;
+        last ATTACHMENT;
     }
 
     # serve new content id and url to rte

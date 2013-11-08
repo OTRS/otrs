@@ -140,27 +140,27 @@ sub Run {
                     # get the dynamic field config for this field
                     my $DynamicFieldConfig = $Self->{DynamicFieldConfigLookup}->{$DynamicFieldName};
 
-                    next if !$DynamicFieldConfig;
+                    next VALUE if !$DynamicFieldConfig;
 
                     my $IsNotificationEventCondition = $Self->{BackendObject}->HasBehavior(
                         DynamicFieldConfig => $DynamicFieldConfig,
                         Behavior           => 'IsNotificationEventCondition',
                     );
 
-                    next if !$IsNotificationEventCondition;
+                    next VALUE if !$IsNotificationEventCondition;
 
                     $Match = $Self->{BackendObject}->ObjectMatch(
                         DynamicFieldConfig => $DynamicFieldConfig,
                         Value              => $Value,
                         ObjectAttributes   => \%Ticket,
                     );
-                    last if $Match;
+                    last VALUE if $Match;
                 }
                 else {
 
                     if ( $Value eq $Ticket{$Key} ) {
                         $Match = 1;
-                        last;
+                        last VALUE;
                     }
                 }
             }
@@ -184,7 +184,7 @@ sub Run {
                     next VALUE if !$Value;
                     if ( $Value == $Article{ArticleTypeID} ) {
                         $Match = 1;
-                        last;
+                        last VALUE;
                     }
                 }
                 next NOTIFICATION if !$Match;
@@ -198,7 +198,7 @@ sub Run {
                     next VALUE if !$Value;
                     if ( $Value == $Article{SenderTypeID} ) {
                         $Match = 1;
-                        last;
+                        last VALUE;
                     }
                 }
                 next NOTIFICATION if !$Match;
@@ -213,7 +213,7 @@ sub Run {
                     next VALUE if !$Value;
                     if ( $Article{$Key} =~ /\Q$Value\E/i ) {
                         $Match = 1;
-                        last;
+                        last VALUE;
                     }
                 }
                 next NOTIFICATION if !$Match;
@@ -227,13 +227,14 @@ sub Run {
                     StripPlainBodyAsAttachment => 3,
                 );
                 if (%Index) {
+                    FILE_ID:
                     for my $FileID ( sort keys %Index ) {
                         my %Attachment = $Self->{TicketObject}->ArticleAttachment(
                             ArticleID => $Param{Data}->{ArticleID},
                             FileID    => $FileID,
                             UserID    => $Param{UserID},
                         );
-                        next if !%Attachment;
+                        next FILE_ID if !%Attachment;
                         push @Attachments, \%Attachment;
                     }
                 }
@@ -554,12 +555,12 @@ sub _SendNotification {
     }
 
     # replace config options
-    $Notification{Body}    =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    $Notification{Body} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
     $Notification{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_CONFIG_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_CONFIG_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_CONFIG_.+?>/-/gi;
 
     # ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(
@@ -619,17 +620,17 @@ sub _SendNotification {
             $DisplayKeyValue = $KeyValueStrg->{Value};
         }
 
-        $Notification{Body}    =~ s/<OTRS_TICKET_$Key>/$DisplayKeyValue/gi;
+        $Notification{Body} =~ s/<OTRS_TICKET_$Key>/$DisplayKeyValue/gi;
         $Notification{Subject} =~ s/<OTRS_TICKET_$Key>/$DisplayKeyValue/gi;
 
         my $Tag = '<OTRS_TICKET_' . $Key . '_Value>';
-        $Notification{Body}    =~ s/$Tag/$DisplayValue/gi;
+        $Notification{Body} =~ s/$Tag/$DisplayValue/gi;
         $Notification{Subject} =~ s/$Tag/$DisplayValue/gi;
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_TICKET_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_TICKET_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_TICKET_.+?>/-/gi;
 
     # get current user data
     my %CurrentPreferences = $Self->{UserObject}->GetUserData(
@@ -638,13 +639,13 @@ sub _SendNotification {
     );
     for ( sort keys %CurrentPreferences ) {
         next if !defined $CurrentPreferences{$_};
-        $Notification{Body}    =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
+        $Notification{Body} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_CURRENT_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_CURRENT_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_CURRENT_.+?>/-/gi;
 
     # get owner data
     my $OwnerID = $Article{OwnerID};
@@ -659,13 +660,13 @@ sub _SendNotification {
     );
     for ( sort keys %OwnerPreferences ) {
         next if !$OwnerPreferences{$_};
-        $Notification{Body}    =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
+        $Notification{Body} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_OWNER_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_OWNER_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_OWNER_.+?>/-/gi;
 
     # get responsible data
     my $ResponsibleID = $Article{ResponsibleID};
@@ -681,19 +682,19 @@ sub _SendNotification {
     );
     for ( sort keys %ResponsiblePreferences ) {
         next if !$ResponsiblePreferences{$_};
-        $Notification{Body}    =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
+        $Notification{Body} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
 
     # get ref of email params
     my %GetParam = %{ $Param{CustomerMessageParams} };
     for ( sort keys %GetParam ) {
         next if !$GetParam{$_};
-        $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
+        $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
     }
 
@@ -706,13 +707,13 @@ sub _SendNotification {
         # replace customer stuff with tags
         for ( sort keys %CustomerUser ) {
             next if !$CustomerUser{$_};
-            $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
+            $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
         }
     }
 
     # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
-    $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
     $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
 
     # latest customer and agent article
@@ -722,10 +723,11 @@ sub _SendNotification {
         DynamicFields => 0,
     );
     my %ArticleAgent;
+    ARTICLE:
     for my $Article ( reverse @ArticleBoxAgent ) {
-        next if $Article->{SenderType} ne 'agent';
+        next ARTICLE if $Article->{SenderType} ne 'agent';
         %ArticleAgent = %{$Article};
-        last;
+        last ARTICLE;
     }
 
     my %ArticleContent = (
@@ -749,7 +751,7 @@ sub _SendNotification {
 
                 next if !$Article{$_};
 
-                $Notification{Body}    =~ s/<$ArticleItem$_>/$Article{$_}/gi;
+                $Notification{Body} =~ s/<$ArticleItem$_>/$Article{$_}/gi;
                 $Notification{Subject} =~ s/<$ArticleItem$_>/$Article{$_}/gi;
             }
 
@@ -759,7 +761,7 @@ sub _SendNotification {
             );
 
             my $MatchString = $ArticleItem . 'TimeUnit';
-            $Notification{Body}    =~ s/<$MatchString>/$AccountedTime/gi;
+            $Notification{Body} =~ s/<$MatchString>/$AccountedTime/gi;
             $Notification{Subject} =~ s/<$MatchString>/$AccountedTime/gi;
 
             # prepare subject (insert old subject)
@@ -802,7 +804,7 @@ sub _SendNotification {
         }
 
         # cleanup all not needed <OTRS_CUSTOMER_ and <OTRS_AGENT_ tags
-        $Notification{Body}    =~ s/<$ArticleItem.+?>/-/gi;
+        $Notification{Body} =~ s/<$ArticleItem.+?>/-/gi;
         $Notification{Subject} =~ s/<$ArticleItem.+?>/-/gi;
     }
 

@@ -88,10 +88,11 @@ sub Run {
             Data => {%Data},
         );
 
+        KEY:
         for my $Key ( sort keys %Data ) {
             if ( ($Key) && ( defined( $Data{$Key} ) ) && $Key ne 'SessionID' ) {
                 if ( $Key =~ /^_/ ) {
-                    next;
+                    next KEY;
                 }
                 if ( $Key =~ /Password|Pw/ ) {
                     $Data{$Key} = 'xxxxxxxx';

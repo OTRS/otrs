@@ -48,11 +48,12 @@ sub Run {
     }
     if (@Groups) {
         my $Access = 0;
+        GROUP:
         for my $Group (@Groups) {
-            next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+            next GROUP if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
             if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
                 $Access = 1;
-                last;
+                last GROUP;
             }
         }
 

@@ -142,6 +142,7 @@ sub _Fetch {
         }
     }
     else {
+        MESSAGE_NO:
         for ( my $Messageno = 1; $Messageno <= $NOM; $Messageno++ ) {
 
             # check if reconnect is needed
@@ -150,7 +151,7 @@ sub _Fetch {
                 if ($CMD) {
                     print "$AuthType: Reconnect Session after $MaxPopEmailSession messages...\n";
                 }
-                last;
+                last MESSAGE_NO;
             }
             if ($CMD) {
                 print "$AuthType: Message $Messageno/$NOM ($Param{Login}/$Param{Host})\n";
@@ -220,7 +221,7 @@ sub _Fetch {
                 $Self->{Limit}++;
                 if ( $Self->{Limit} >= $Limit ) {
                     $Self->{Reconnect} = 0;
-                    last;
+                    last MESSAGE_NO;
                 }
             }
             if ($CMD) {

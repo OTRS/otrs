@@ -138,6 +138,7 @@ sub Fetch {
     }
     else {
         my $MessageList = $PopObject->list();
+        MESSAGE_NO:
         for my $Messageno ( sort keys %{$MessageList} ) {
 
             # check if reconnect is needed
@@ -146,7 +147,7 @@ sub Fetch {
                 if ($CMD) {
                     print "$AuthType: Reconnect Session after $MaxPopEmailSession messages...\n";
                 }
-                last;
+                last MESSAGE_NO;
             }
             if ($CMD) {
                 print "$AuthType: Message $Messageno/$NOM ($Param{Login}/$Param{Host})\n";
@@ -209,7 +210,7 @@ sub Fetch {
                 $Self->{Limit}++;
                 if ( $Self->{Limit} >= $Limit ) {
                     $Self->{Reconnect} = 0;
-                    last;
+                    last MESSAGE_NO;
                 }
 
             }

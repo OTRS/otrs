@@ -301,10 +301,11 @@ sub _Overview {
 
             my @List = $Self->{ValidObject}->ValidIDsGet();
 
+            LIST_ELEMENT:
             for my $ListElement (@List) {
                 if ( $Data{ValidID} eq $ListElement ) {
                     $Data{Invalid} = '';
-                    last;
+                    last LIST_ELEMENT;
                 }
                 else {
                     $Data{Invalid} = 'Invalid';

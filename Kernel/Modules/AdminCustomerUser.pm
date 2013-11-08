@@ -1019,16 +1019,17 @@ sub _Edit {
             }
 
             # show each preferences setting
+            PRIO:
             for my $Prio ( sort keys %Data ) {
 
                 my $Group = $Data{$Prio};
                 if ( !$Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group} ) {
-                    next;
+                    next PRIO;
                 }
 
                 my %Preference = %{ $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group} };
                 if ( $Group eq 'Password' ) {
-                    next;
+                    next PRIO;
                 }
 
                 my $Module = $Preference{Module}

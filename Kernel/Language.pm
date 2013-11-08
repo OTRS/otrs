@@ -144,6 +144,7 @@ sub new {
             Directory => $Home . "Kernel/Language/",
             Filter    => "$Self->{UserLanguage}_*.pm",
         );
+        FILE:
         for my $File (@Files) {
 
             # get module name based on file name
@@ -152,12 +153,12 @@ sub new {
             $File =~ s/\//::/g;
 
             # ignore language translation files like (en_GB, en_CA, ...)
-            next if $File =~ /.._..$/;
+            next FILE if $File =~ /.._..$/;
 
             # remember custom files to load at least
             if ( $File =~ /_Custom$/ ) {
                 $CustomTranslationModule = $File;
-                next;
+                next FILE;
             }
 
             # load translation module
@@ -166,7 +167,7 @@ sub new {
                     Priority => 'Error',
                     Message  => "Sorry, can't load $File! " . "Check the $File (perl -cw)!",
                 );
-                next;
+                next FILE;
             }
 
             # add module to ISA

@@ -66,11 +66,12 @@ sub ActionRow {
             $BulkFeature = 1;
         }
         else {
+            GROUP:
             for my $Group (@Groups) {
-                next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+                next GROUP if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
                 if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
                     $BulkFeature = 1;
-                    last;
+                    last GROUP;
                 }
             }
         }
@@ -207,11 +208,12 @@ sub Run {
             $BulkFeature = 1;
         }
         else {
+            GROUP:
             for my $Group (@Groups) {
-                next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+                next GROUP if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
                 if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
                     $BulkFeature = 1;
-                    last;
+                    last GROUP;
                 }
             }
         }
@@ -925,13 +927,14 @@ sub _Show {
         if ($PreviewArticleTypeExpanded) {
 
             my $ClassCount = 0;
+            ARTICLE_ITEM:
             for my $ArticleItem (@ArticleBody) {
-                next if !$ArticleItem;
+                next ARTICLE_ITEM if !$ArticleItem;
 
                 # check if current article type should be shown as expanded
                 if ( $ArticleItem->{ArticleType} eq $PreviewArticleTypeExpanded ) {
                     $ArticleItem->{Class} = 'Active';
-                    last;
+                    last ARTICLE_ITEM;
                 }
 
                 # otherwise display the last article in the list as expanded (default)

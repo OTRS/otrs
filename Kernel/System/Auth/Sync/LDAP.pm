@@ -231,14 +231,15 @@ sub Sync {
                 if ( ref $AttributeNames ne 'ARRAY' ) {
                     $AttributeNames = [$AttributeNames];
                 }
+                ATTRIBUTE_NAME:
                 for my $AttributeName ( @{$AttributeNames} ) {
                     if ( $AttributeName =~ /^_/ ) {
                         $SyncUser{$Key} = substr( $AttributeName, 1 );
-                        last;
+                        last ATTRIBUTE_NAME;
                     }
                     elsif ( $Entry->get_value($AttributeName) ) {
                         $SyncUser{$Key} = $Entry->get_value($AttributeName);
-                        last;
+                        last ATTRIBUTE_NAME;
                     }
                 }
 

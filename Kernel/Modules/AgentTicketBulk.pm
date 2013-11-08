@@ -778,7 +778,7 @@ sub _Mask {
                 Name => 'StatePending',
                 Data => \%Param,
             );
-            last;
+            last STATE_ID;
         }
     }
 

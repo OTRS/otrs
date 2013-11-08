@@ -236,6 +236,7 @@ sub _ArticleIndexString {
     my %List;
     my $IndexString = '';
     my $Count       = 0;
+    WORD:
     for my $Word ( @{$ListOfWords} ) {
         $Count++;
 
@@ -243,7 +244,7 @@ sub _ArticleIndexString {
         last if $Count > $WordCountMax;
         if ( $List{$Word} ) {
             $List{$Word}++;
-            next;
+            next WORD;
         }
         else {
             $List{$Word} = 1;

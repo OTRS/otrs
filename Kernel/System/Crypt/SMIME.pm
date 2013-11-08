@@ -1040,7 +1040,7 @@ sub PrivateAdd {
     }
     my %CertificateAttributes = $Self->CertificateAttributes(
         Certificate => $Self->CertificateGet( Filename => $Certificates[0]->{Filename} ),
-        Filename => $Certificates[0]->{Filename},
+        Filename    => $Certificates[0]->{Filename},
     );
     if ( $CertificateAttributes{Hash} ) {
         my $File = "$Self->{PrivatePath}/$Certificates[0]->{Filename}";
@@ -1830,13 +1830,14 @@ sub _FetchAttributesFromCert {
         $Line =~ tr{\r\n}{}d;
 
         # look for every attribute by filter
+        FILTER:
         for my $Filter ( sort keys %Filters ) {
             if ( $Line =~ m{\A $Filters{$Filter} \z}xms ) {
                 $AttributesRef->{$Filter} = $1 || '';
 
           # delete the match key from filter  to don't search again this value and improve the speed
                 delete $Filters{$Filter};
-                last;
+                last FILTER;
             }
         }
     }
@@ -1870,10 +1871,11 @@ sub _FetchAttributesFromCert {
                 $Day = "0" . int($Day);
             }
 
+            MONTH_KEY:
             for my $MonthKey ( sort keys %Month ) {
                 if ( $AttributesRef->{$DateType} =~ /$MonthKey/i ) {
                     $Month = $Month{$MonthKey};
-                    last;
+                    last MONTH_KEY;
                 }
             }
             $AttributesRef->{"Short$DateType"} = "$Year-$Month-$Day";

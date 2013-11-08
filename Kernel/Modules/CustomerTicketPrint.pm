@@ -391,6 +391,7 @@ sub _PDFOutputTicketInfos {
     $TableParam{PaddingBottom}       = 3;
 
     # output table
+    PAGE:
     for ( $Page{PageCount} .. $Page{MaxPages} ) {
 
         # output table (or a fragment of it)
@@ -398,7 +399,7 @@ sub _PDFOutputTicketInfos {
 
         # stop output or output next page
         if ( $TableParam{State} ) {
-            last;
+            last PAGE;
         }
         else {
             $Self->{PDFObject}->PageNew(
@@ -509,6 +510,7 @@ sub _PDFOutputTicketDynamicFields {
         $TableParam{PaddingBottom}   = 3;
 
         # output table
+        PAGE:
         for ( $Page{PageCount} .. $Page{MaxPages} ) {
 
             # output table (or a fragment of it)
@@ -516,7 +518,7 @@ sub _PDFOutputTicketDynamicFields {
 
             # stop output or output next page
             if ( $TableParam{State} ) {
-                last;
+                last PAGE;
             }
             else {
                 $Self->{PDFObject}->PageNew(
@@ -601,6 +603,7 @@ sub _PDFOutputCustomerInfos {
         $TableParam{PaddingBottom}   = 3;
 
         # output table
+        PAGE:
         for ( $Page{PageCount} .. $Page{MaxPages} ) {
 
             # output table (or a fragment of it)
@@ -608,7 +611,7 @@ sub _PDFOutputCustomerInfos {
 
             # stop output or output next page
             if ( $TableParam{State} ) {
-                last;
+                last PAGE;
             }
             else {
                 $Self->{PDFObject}->PageNew(
@@ -790,6 +793,7 @@ sub _PDFOutputArticles {
         $TableParam1{PaddingBottom}   = 3;
 
         # output table (article infos)
+        PAGE:
         for ( $Page{PageCount} .. $Page{MaxPages} ) {
 
             # output table (or a fragment of it)
@@ -797,7 +801,7 @@ sub _PDFOutputArticles {
 
             # stop output or output next page
             if ( $TableParam1{State} ) {
-                last;
+                last PAGE;
             }
             else {
                 $Self->{PDFObject}->PageNew(
@@ -820,6 +824,7 @@ sub _PDFOutputArticles {
         $TableParam2{PaddingBottom}           = 8;
 
         # output table (article body)
+        PAGE:
         for ( $Page{PageCount} .. $Page{MaxPages} ) {
 
             # output table (or a fragment of it)
@@ -827,7 +832,7 @@ sub _PDFOutputArticles {
 
             # stop output or output next page
             if ( $TableParam2{State} ) {
-                last;
+                last PAGE;
             }
             else {
                 $Self->{PDFObject}->PageNew(

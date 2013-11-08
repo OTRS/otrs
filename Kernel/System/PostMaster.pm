@@ -205,6 +205,7 @@ sub Run {
     # run all PreFilterModules (modify email params)
     if ( ref $Self->{ConfigObject}->Get('PostMaster::PreFilterModule') eq 'HASH' ) {
         my %Jobs = %{ $Self->{ConfigObject}->Get('PostMaster::PreFilterModule') };
+        JOB:
         for my $Job ( sort keys %Jobs ) {
             return if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
 
@@ -224,7 +225,7 @@ sub Run {
                     Priority => 'error',
                     Message  => "new() of PreFilterModule $Jobs{$Job}->{Module} not successfully!",
                 );
-                next;
+                next JOB;
             }
 
             # modify params
@@ -398,6 +399,7 @@ sub Run {
     # run all PostFilterModules (modify email params)
     if ( ref $Self->{ConfigObject}->Get('PostMaster::PostFilterModule') eq 'HASH' ) {
         my %Jobs = %{ $Self->{ConfigObject}->Get('PostMaster::PostFilterModule') };
+        JOB:
         for my $Job ( sort keys %Jobs ) {
             return if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
 
@@ -417,7 +419,7 @@ sub Run {
                     Priority => 'error',
                     Message  => "new() of PostFilterModule $Jobs{$Job}->{Module} not successfully!",
                 );
-                next;
+                next JOB;
             }
 
             # modify params

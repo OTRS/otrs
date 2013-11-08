@@ -2378,10 +2378,11 @@ sub TicketEscalationDateCalculation {
         EscalationSolutionTime => 'Solution',
     );
     my $EscalationAttribute;
+    KEY:
     for my $Key ( sort keys %Map ) {
         if ( $Escalation{ $Map{$Key} . 'Time' } ) {
             $EscalationAttribute = 1;
-            last;
+            last KEY;
         }
     }
     return if !$EscalationAttribute;
@@ -2629,6 +2630,7 @@ sub TicketEscalationIndexBuild {
         # get latest customer contact time
         my $LastSenderTime;
         my $LastSenderType = '';
+        ROW:
         for my $Row ( reverse @SenderHistory ) {
 
             # fill up latest sender time (as initial value)
@@ -2640,16 +2642,16 @@ sub TicketEscalationIndexBuild {
             #last if $Ticket{Lock} eq 'lock';
 
             # do not use /int/ article types for calculation
-            next if $Row->{ArticleType} =~ /int/i;
+            next ROW if $Row->{ArticleType} =~ /int/i;
 
             # only use 'agent' and 'customer' sender types for calculation
-            next if $Row->{SenderType} !~ /^(agent|customer)$/;
+            next ROW if $Row->{SenderType} !~ /^(agent|customer)$/;
 
             # last if latest was customer and the next was not customer
             # otherwise use also next, older customer article as latest
             # customer followup for starting escalation
             if ( $Row->{SenderType} eq 'agent' && $LastSenderType eq 'customer' ) {
-                last;
+                last ROW;
             }
 
             # start escalation on latest customer article
@@ -2661,7 +2663,7 @@ sub TicketEscalationIndexBuild {
             # start escalation on latest agent article
             if ( $Row->{SenderType} eq 'agent' ) {
                 $LastSenderTime = $Row->{Created};
-                last;
+                last ROW;
             }
         }
         if ($LastSenderTime) {

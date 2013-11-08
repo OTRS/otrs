@@ -46,10 +46,11 @@ sub Run {
     my $Redirect = $DefaultBackend;
     if ( $Config && $Referrer ) {
         for my $Group ( sort keys %{$Config} ) {
+            REGEXP:
             for my $RegExp ( sort keys %{ $Config->{$Group} } ) {
                 if ( $Referrer =~ /$RegExp/ ) {
                     $Redirect = $Config->{$Group}->{$RegExp};
-                    last;
+                    last REGEXP;
                 }
             }
         }

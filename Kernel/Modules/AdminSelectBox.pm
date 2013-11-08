@@ -91,6 +91,7 @@ sub Run {
                 }
 
                 # if there are any matching rows, they are shown
+                ROW:
                 while ( my @Row = $Self->{DBObject}->FetchrowArray( RowNames => 1 ) ) {
 
                     $MatchesFound = 1;
@@ -98,7 +99,7 @@ sub Run {
                     # get csv data
                     if ( $Param{ResultFormat} eq 'CSV' ) {
                         push @Data, \@Row;
-                        next;
+                        next ROW;
                     }
 
                     $Self->{LayoutObject}->Block(

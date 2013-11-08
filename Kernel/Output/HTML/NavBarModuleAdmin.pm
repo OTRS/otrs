@@ -84,13 +84,14 @@ sub Run {
             next if !$Shown;
 
             my $Key = sprintf( "%07d", $Hash{NavBarModule}->{Prio} || 0 );
+            COUNT:
             for ( 1 .. 51 ) {
                 if ( $NavBarModule{$Key} ) {
                     $Hash{NavBarModule}->{Prio}++;
                     $Key = sprintf( "%07d", $Hash{NavBarModule}->{Prio} );
                 }
                 if ( !$NavBarModule{$Key} ) {
-                    last;
+                    last COUNT;
                 }
             }
             $NavBarModule{$Key} = {

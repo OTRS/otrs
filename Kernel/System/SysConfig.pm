@@ -1728,6 +1728,7 @@ sub _DataDiff {
         return 1 if $#A ne $#B;
 
         # compare array
+        COUNT:
         for my $Count ( 0 .. $#A ) {
 
             # do nothing, it's ok
@@ -1739,7 +1740,7 @@ sub _DataDiff {
             if ( $A[$Count] ne $B[$Count] ) {
                 if ( ref $A[$Count] eq 'ARRAY' || ref $A[$Count] eq 'HASH' ) {
                     return 1 if $Self->_DataDiff( Data1 => $A[$Count], Data2 => $B[$Count] );
-                    next;
+                    next COUNT;
                 }
                 return 1;
             }
@@ -1753,13 +1754,14 @@ sub _DataDiff {
         my %B = %{ $Param{Data2} };
 
         # compare %A with %B and remove it if checked
+        KEY:
         for my $Key ( sort keys %A ) {
 
             # Check if both are undefined
             if ( !defined $A{$Key} && !defined $B{$Key} ) {
                 delete $A{$Key};
                 delete $B{$Key};
-                next;
+                next KEY;
             }
 
             # return diff, because its different
@@ -1768,7 +1770,7 @@ sub _DataDiff {
             if ( $A{$Key} eq $B{$Key} ) {
                 delete $A{$Key};
                 delete $B{$Key};
-                next;
+                next KEY;
             }
 
             # return if values are different
@@ -1776,7 +1778,7 @@ sub _DataDiff {
                 return 1 if $Self->_DataDiff( Data1 => $A{$Key}, Data2 => $B{$Key} );
                 delete $A{$Key};
                 delete $B{$Key};
-                next;
+                next KEY;
             }
             return 1;
         }

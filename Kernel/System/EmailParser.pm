@@ -733,10 +733,11 @@ sub PartsAttachments {
         }
 
         # check if reserved filename file-1 or file-2 is already used
+        COUNT:
         for my $Count ( 1 .. 2 ) {
             if ( $PartData{Filename} eq "file-$Count" ) {
                 $PartData{Filename} = "File-$Count";
-                last;
+                last COUNT;
             }
         }
     }
