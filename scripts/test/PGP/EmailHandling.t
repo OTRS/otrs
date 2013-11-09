@@ -41,6 +41,11 @@ $ConfigObject->Set(
     Value => { '04A17B7A' => 'somepass' },
 );
 
+$ConfigObject->Set(
+    Key   => 'SendmailModule',
+    Value => 'Kernel::System::Email::DoNotSendEmail',
+);
+
 # check if gpg is located there
 if ( !-e $ConfigObject->Get('PGP::Bin') ) {
 
@@ -442,7 +447,7 @@ for my $Test (@Tests) {
             Sign => {
                 Type    => 'PGP',
                 SubType => 'Detached',
-                Key     => $Keys[0]->{Key},
+                Key     => $Keys[0]->{KeyPrivate},
             },
             Crypt => {
                 Type    => 'PGP',
