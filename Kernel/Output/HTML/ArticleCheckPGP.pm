@@ -263,9 +263,16 @@ sub Check {
                 $Head->combine('Content-Type');
                 $ContentType = $Head->get('Content-Type');
 
+                # use a copy of the Entity to get the body, otherwise the original mail content
+                # could be altered and a signature verify could fail. See Bug#9954
+                my $EntityCopy = $Entity->dup();
+
                 use Kernel::System::EmailParser;
 
-                my $ParserObject = Kernel::System::EmailParser->new( %{$Self}, Entity => $Entity, );
+                my $ParserObject = Kernel::System::EmailParser->new(
+                    %{$Self},
+                    Entity => $EntityCopy,
+                );
 
                 my $Body = $ParserObject->GetMessageBody();
 
