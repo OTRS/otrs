@@ -98,6 +98,7 @@ InstallerDBStart
      */
     TargetNS.SkipMailConfig = function () {
         $('input[name=Skip]').val('1');
+        $('input[name=Subaction]').val('Finish');
         $('form').submit();
     };
 
