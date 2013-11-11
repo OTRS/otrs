@@ -49,7 +49,7 @@ if ( $Opts{h} ) {
 $0 - generate caches for dashboard stats widgets
 Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 
-Usage: $0 [-f force]
+Usage: $0 [-f force] [-d debug]
 EOF
     exit 1;
 }
@@ -107,7 +107,7 @@ sub Run {
             );
             next if ( !%UserData );
 
-            print "    User: $UsersWithActivatedWidget{$UserID}\n";
+            print "    User: $UserData{UserLogin} ($UserID)\n";
 
             my $UserGetParam = {};
             if ( $UserData{$UserWidgetConfigSetting} ) {
@@ -122,6 +122,11 @@ sub Run {
                 UserID => $UserID,
             );
 
+            if ( $Opts{d} ) {
+                print STDERR "DEBUG: user statistic configuration data:\n";
+                print STDERR $CommonObject{MainObject}->Dump($UserGetParam);
+            }
+
             # Now run the stat to fill the cache with the current parameters
             my $Result = $UserStatsObject->StatsResultCacheCompute(
                 StatID       => $StatID,
@@ -131,15 +136,6 @@ sub Run {
             if ( !$Result ) {
                 print "        Stat calculation was not successful.\n";
             }
-
-            # # verify
-            # my $StatsResult = $UserStatsObject->StatsResultCacheGet(
-            #     StatID   => $StatID,
-            #     UserGetParam => $UserGetParam,
-            # );
-
-            # use Data::Dumper;
-            # print STDERR Dumper(\$StatsResult);
         }
     }
 
