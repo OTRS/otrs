@@ -135,11 +135,17 @@ sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
     # check for no time in date fields
-    if ( $Param{Value} && $Param{Value} !~ m{\A \d{4}-\d{2}-\d{2}\s00:00:00 \z}xms ) {
+    if (
+        $Param{Value}
+        && $Param{Value} !~ m{\A \d{4}-\d{2}-\d{2}\s00:00:00 \z}xms
+        && $Param{Value} !~ m{\A \d{4}-\d{2}-\d{2}\s23:59:59 \z}xms
+        )
+    {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "The value for the field Date is invalid!\n"
-                . "The date must be valid and the time must be 00:00:00",
+                . "The date must be valid and the time must be 00:00:00"
+                . " (or 23:59:59 for search parameters)",
         );
         return;
     }
@@ -362,9 +368,9 @@ sub EditFieldValueGet {
 
     # return if the field is empty (e.g. initial screen)
     return if !$DynamicFieldValues{ $Prefix . 'Used' }
-            && !$DynamicFieldValues{ $Prefix . 'Year' }
-            && !$DynamicFieldValues{ $Prefix . 'Month' }
-            && !$DynamicFieldValues{ $Prefix . 'Day' };
+        && !$DynamicFieldValues{ $Prefix . 'Year' }
+        && !$DynamicFieldValues{ $Prefix . 'Month' }
+        && !$DynamicFieldValues{ $Prefix . 'Day' };
 
     # check if return value structure is nedded
     if ( defined $Param{ReturnValueStructure} && $Param{ReturnValueStructure} eq '1' ) {
@@ -709,8 +715,8 @@ sub SearchFieldValueGet {
 
         # return if the field is empty (e.g. initial screen)
         return if !$DynamicFieldValues{ $Prefix . 'Start' }
-                && !$DynamicFieldValues{ $Prefix . 'Value' }
-                && !$DynamicFieldValues{ $Prefix . 'Format' };
+            && !$DynamicFieldValues{ $Prefix . 'Value' }
+            && !$DynamicFieldValues{ $Prefix . 'Format' };
 
         $DynamicFieldValues{$Prefix} = 1;
 
@@ -766,11 +772,11 @@ sub SearchFieldValueGet {
 
     # return if the field is empty (e.g. initial screen)
     return if !$DynamicFieldValues{ $Prefix . 'StartYear' }
-            && !$DynamicFieldValues{ $Prefix . 'StartMonth' }
-            && !$DynamicFieldValues{ $Prefix . 'StartDay' }
-            && !$DynamicFieldValues{ $Prefix . 'StopYear' }
-            && !$DynamicFieldValues{ $Prefix . 'StopMonth' }
-            && !$DynamicFieldValues{ $Prefix . 'StopDay' };
+        && !$DynamicFieldValues{ $Prefix . 'StartMonth' }
+        && !$DynamicFieldValues{ $Prefix . 'StartDay' }
+        && !$DynamicFieldValues{ $Prefix . 'StopYear' }
+        && !$DynamicFieldValues{ $Prefix . 'StopMonth' }
+        && !$DynamicFieldValues{ $Prefix . 'StopDay' };
 
     $DynamicFieldValues{ $Prefix . 'StartHour' }   = '00';
     $DynamicFieldValues{ $Prefix . 'StartMinute' } = '00';
