@@ -103,14 +103,15 @@ sub _ArticleIndexQuerySQLExt {
     );
     my $SQLExt      = '';
     my $FullTextSQL = '';
+    KEY:
     for my $Key ( sort keys %FieldSQLMapFullText ) {
-        next if !$Param{Data}->{$Key};
+        next KEY if !$Param{Data}->{$Key};
 
         # replace * by % for SQL like
         $Param{Data}->{$Key} =~ s/\*/%/gi;
 
         # check search attribute, we do not need to search for *
-        next if $Param{Data}->{$Key} =~ /^\%{1,3}$/;
+        next KEY if $Param{Data}->{$Key} =~ /^\%{1,3}$/;
 
         if ($FullTextSQL) {
             $FullTextSQL .= ' ' . $Param{Data}->{ContentSearch} . ' ';

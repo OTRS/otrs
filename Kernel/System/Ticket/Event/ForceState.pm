@@ -57,9 +57,10 @@ sub Run {
     return 1 if lc $Ticket{Lock} ne 'lock';
 
     # set now state
+    OLDSTATE:
     for my $OldState ( sort keys %{ $Param{Config} } ) {
-        next if !$OldState;
-        next if $OldState ne $Ticket{State};
+        next OLDSTATE if !$OldState;
+        next OLDSTATE if $OldState ne $Ticket{State};
 
         $Self->{TicketObject}->TicketStateSet(
             TicketID           => $Param{Data}->{TicketID},
