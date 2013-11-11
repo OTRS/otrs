@@ -393,8 +393,9 @@ sub _Change {
         Name => "ChangeHeading$VisibleType{$NeType}",
     );
 
+    TYPE:
     for my $Type ( @{ $Self->{ConfigObject}->Get('System::Customer::Permission') } ) {
-        next if !$Type;
+        next TYPE if !$Type;
         my $Mark = $Type eq 'rw' ? "Highlight" : '';
         $Self->{LayoutObject}->Block(
             Name => 'ChangeHeader',
@@ -459,7 +460,7 @@ sub _Change {
 
         for my $Type ( @{ $Self->{ConfigObject}->Get('System::Customer::Permission') } ) {
             next if !$Type;
-            my $Mark = $Type eq 'rw' ? "Highlight" : '';
+            my $Mark     = $Type eq 'rw'        ? "Highlight"          : '';
             my $Selected = $Param{$Type}->{$ID} ? ' checked="checked"' : '';
             $Self->{LayoutObject}->Block(
                 Name => 'ChangeRowItem',

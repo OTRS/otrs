@@ -546,17 +546,20 @@ sub Run {
     }
 
     # add not ordered plugins (e. g. new active)
+    NAME:
     for my $Name ( sort keys %Backends ) {
         my $Included = 0;
+        ITEM:
         for my $Item (@Order) {
-            next if $Item ne $Name;
+            next ITEM if $Item ne $Name;
             $Included = 1;
         }
-        next if $Included;
+        next NAME if $Included;
         push @Order, $Name;
     }
 
     # try every backend to load and execute it
+    NAME:
     for my $Name (@Order) {
 
         # get element data
@@ -565,7 +568,7 @@ sub Run {
             Configs  => $Config,
             Backends => \%Backends,
         );
-        next if !%Element;
+        next NAME if !%Element;
 
         # NameForm (to support IE, is not working with "-" in form names)
         my $NameForm = $Name;
@@ -593,12 +596,13 @@ sub Run {
                     NameForm => $NameForm,
                 },
             );
+            PARAM:
             for my $Param ( @{ $Element{Preferences} } ) {
 
                 # special parameters are added, which do not have a dtl block,
                 # because the displayed fields are added with the output filter,
                 # so there is no need to call any block here
-                next if !$Param->{Block};
+                next PARAM if !$Param->{Block};
 
                 $Self->{LayoutObject}->Block(
                     Name => $Element{Config}->{Block} . 'PreferencesItem',

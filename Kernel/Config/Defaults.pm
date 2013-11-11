@@ -1958,8 +1958,9 @@ sub new {
     if ( !$Param{Level} ) {
 
         # replace config variables in config variables
+        KEY:
         for my $Key ( sort keys %{$Self} ) {
-            next if !defined $Key;
+            next KEY if !defined $Key;
             if ( defined $Self->{$Key} ) {
                 $Self->{$Key} =~ s/\<OTRS_CONFIG_(.+?)\>/$Self->{$1}/g;
             }

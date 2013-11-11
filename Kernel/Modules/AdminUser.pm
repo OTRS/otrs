@@ -196,8 +196,9 @@ sub Run {
 
             if ($Update) {
                 my %Preferences = %{ $Self->{ConfigObject}->Get('PreferencesGroups') };
+                GROUP:
                 for my $Group ( sort keys %Preferences ) {
-                    next if $Group eq 'Password';
+                    next GROUP if $Group eq 'Password';
 
                     # get user data
                     my %UserData = $Self->{UserObject}->GetUserData(
@@ -346,8 +347,9 @@ sub Run {
 
                 # update preferences
                 my %Preferences = %{ $Self->{ConfigObject}->Get('PreferencesGroups') };
+                GROUP:
                 for my $Group ( sort keys %Preferences ) {
-                    next if $Group eq 'Password';
+                    next GROUP if $Group eq 'Password';
 
                     # get user data
                     my %UserData = $Self->{UserObject}->GetUserData(

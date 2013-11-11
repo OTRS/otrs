@@ -184,11 +184,12 @@ sub _MaskNotificationForm {
         # get Notifications
         my %NotificationList = $Self->{NotificationObject}->NotificationList();
 
+        NOTIFICATION:
         for my $Notification ( sort { lc($a) cmp lc($b) } keys %NotificationList ) {
             $Notification =~ /^(\w+)::(.*)$/;
             my $LanguageKey      = $1;
             my $NotificationType = $2;
-            next if $LanguageKey ne $SelectedLanguage;
+            next NOTIFICATION if $LanguageKey ne $SelectedLanguage;
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewResultRow',
                 Data => {

@@ -306,8 +306,9 @@ sub Run {
 
                 # update preferences
                 my %Preferences = %{ $Self->{ConfigObject}->Get('CustomerPreferencesGroups') };
+                GROUP:
                 for my $Group ( sort keys %Preferences ) {
-                    next if $Group eq 'Password';
+                    next GROUP if $Group eq 'Password';
 
                     # get user data
                     my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
@@ -462,8 +463,9 @@ sub Run {
 
                 # update preferences
                 my %Preferences = %{ $Self->{ConfigObject}->Get('CustomerPreferencesGroups') };
+                GROUP:
                 for my $Group ( sort keys %Preferences ) {
-                    next if $Group eq 'Password';
+                    next GROUP if $Group eq 'Password';
 
                     # get user data
                     my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
@@ -799,8 +801,9 @@ sub _Edit {
         $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
     }
 
+    ENTRY:
     for my $Entry ( @{ $Self->{ConfigObject}->Get( $Param{Source} )->{Map} } ) {
-        next if !$Entry->[0];
+        next ENTRY if !$Entry->[0];
 
         my $Block = 'Input';
 

@@ -102,6 +102,7 @@ sub Run {
         for my $Parameter (qw(ID Name Subject Body Type Charset Comment ValidID Events)) {
             $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
+        PARAMETER:
         for my $Parameter (
             qw(Recipients RecipientAgents RecipientGroups RecipientRoles RecipientEmail
             Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID
@@ -111,7 +112,7 @@ sub Run {
             )
         {
             my @Data = $Self->{ParamObject}->GetArray( Param => $Parameter );
-            next if !@Data;
+            next PARAMETER if !@Data;
             $GetParam{Data}->{$Parameter} = \@Data;
         }
 
@@ -226,6 +227,7 @@ sub Run {
         for my $Parameter (qw(Name Subject Body Comment ValidID Events)) {
             $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
+        PARAMETER:
         for my $Parameter (
             qw(Recipients RecipientAgents RecipientRoles RecipientGroups RecipientEmail Events StateID QueueID
             PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID
@@ -234,7 +236,7 @@ sub Run {
             )
         {
             my @Data = $Self->{ParamObject}->GetArray( Param => $Parameter );
-            next if !@Data;
+            next PARAMETER if !@Data;
             $GetParam{Data}->{$Parameter} = \@Data;
         }
 
@@ -656,10 +658,11 @@ sub _Edit {
     );
 
     # take over data fields
+    KEY:
     for my $Key (qw(RecipientEmail CustomerID CustomerUserID ArticleSubjectMatch ArticleBodyMatch))
     {
-        next if !$Param{Data}->{$Key};
-        next if !defined $Param{Data}->{$Key}->[0];
+        next KEY if !$Param{Data}->{$Key};
+        next KEY if !defined $Param{Data}->{$Key}->[0];
         $Param{$Key} = $Param{Data}->{$Key}->[0];
     }
 

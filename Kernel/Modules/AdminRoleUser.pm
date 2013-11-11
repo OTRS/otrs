@@ -75,9 +75,10 @@ sub Run {
 
         # get user list, with the full name in the value
         my %UserData = $Self->{UserObject}->UserList( Valid => 1 );
+        USERID:
         for my $UserID ( sort keys %UserData ) {
             my $Name = $Self->{UserObject}->UserName( UserID => $UserID );
-            next if !$Name;
+            next USERID if !$Name;
             $UserData{$UserID} .= " ($Name)";
         }
 
@@ -123,7 +124,7 @@ sub Run {
             my $Active = 0;
             MEMBER_OF_ROLE:
             for my $MemberOfRole (@IDs) {
-                next if $MemberOfRole ne $UserID;
+                next MEMBER_OF_ROLE if $MemberOfRole ne $UserID;
                 $Active = 1;
                 last MEMBER_OF_ROLE;
             }
@@ -253,9 +254,10 @@ sub _Overview {
     my %UserData = $Self->{UserObject}->UserList( Valid => 1 );
 
     # get user name
+    USERID:
     for my $UserID ( sort keys %UserData ) {
         my $Name = $Self->{UserObject}->UserName( UserID => $UserID );
-        next if !$Name;
+        next USERID if !$Name;
         $UserData{$UserID} .= " ($Name)";
     }
     for my $UserID ( sort { uc( $UserData{$a} ) cmp uc( $UserData{$b} ) } keys %UserData ) {

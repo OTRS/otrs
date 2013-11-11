@@ -1403,9 +1403,10 @@ sub _MessageGet {
         || $Self->{ConfigObject}->Get('DefaultLanguage');
 
     if ( $Param{Info} ) {
+        TAG:
         for my $Tag ( @{ $Param{Info} } ) {
             if ( $Param{Type} ) {
-                next if $Tag->{Type} !~ /^$Param{Type}/i;
+                next TAG if $Tag->{Type} !~ /^$Param{Type}/i;
             }
             $Use = 1;
             if ( $Tag->{Format} && $Tag->{Format} =~ /plain/i ) {

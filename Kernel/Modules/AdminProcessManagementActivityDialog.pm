@@ -85,14 +85,15 @@ sub new {
         ResultType => 'HASH',
     );
 
+    DYNAMICFIELD_NAME:
     for my $DynamicFieldName ( values %{$DynamicFieldList} ) {
-        next if !$DynamicFieldName;
+        next DYNAMICFIELD_NAME if !$DynamicFieldName;
 
         # skip internal fields
         my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldGet(
             Name => $DynamicFieldName,
         );
-        next if $DynamicField->{InternalField};
+        next DYNAMICFIELD_NAME if $DynamicField->{InternalField};
 
         $Self->{AvailableFields}->{"DynamicField_$DynamicFieldName"} = $DynamicFieldName;
     }

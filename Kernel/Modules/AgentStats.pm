@@ -296,8 +296,9 @@ sub Run {
             # load static module
             my $Params = $Self->{StatsObject}->GetParams( StatID => $StatID );
             $Self->{LayoutObject}->Block( Name => 'Static', );
+            PARAMITEM:
             for my $ParamItem ( @{$Params} ) {
-                next if $ParamItem->{Name} eq 'GraphSize';
+                next PARAMITEM if $ParamItem->{Name} eq 'GraphSize';
                 $Self->{LayoutObject}->Block(
                     Name => 'ItemParam',
                     Data => {
@@ -331,7 +332,7 @@ sub Run {
                 );
                 OBJECTATTRIBUTE:
                 for my $ObjectAttribute ( @{ $Stat->{$Use} } ) {
-                    next if !$ObjectAttribute->{Selected};
+                    next OBJECTATTRIBUTE if !$ObjectAttribute->{Selected};
 
                     my %ValueHash;
                     $Flag = 1;
@@ -525,7 +526,7 @@ sub Run {
                                         SelectedID     => $ObjectAttribute->{TimeRelativeUnit},
                                         SortIndividual => [
                                             'Second', 'Minute', 'Hour', 'Day',
-                                            'Week',   'Month',  'Year'
+                                            'Week', 'Month', 'Year'
                                         ],
                                         );
                                 }
@@ -574,7 +575,7 @@ sub Run {
                                         Sort           => 'IndividualKey',
                                         SortIndividual => [
                                             'Second', 'Minute', 'Hour', 'Day',
-                                            'Week',   'Month',  'Year'
+                                            'Week', 'Month', 'Year'
                                         ],
                                         );
                                     $Self->{LayoutObject}->Block(
@@ -918,9 +919,10 @@ sub Run {
             $Param{Select} = $Self->{ParamObject}->GetParam( Param => 'Select' );
             $Data{StatType} = $Stat->{StatType};
 
+            OBJECTATTRIBUTE:
             for my $ObjectAttribute ( @{ $Stat->{UseAsXvalue} } ) {
-                next if !defined $Param{Select};
-                next if $Param{Select} ne $ObjectAttribute->{Element};
+                next OBJECTATTRIBUTE if !defined $Param{Select};
+                next OBJECTATTRIBUTE if $Param{Select} ne $ObjectAttribute->{Element};
 
                 my @Array = $Self->{ParamObject}->GetArray( Param => $Param{Select} );
                 $Data{UseAsXvalue}[0]{SelectedValues} = \@Array;
@@ -932,7 +934,7 @@ sub Run {
                 $Data{UseAsXvalue}[0]{Fixed} = $Fixed ? 1 : 0;
 
                 # Check if Time was selected
-                next if $ObjectAttribute->{Block} ne 'Time';
+                next OBJECTATTRIBUTE if $ObjectAttribute->{Block} ne 'Time';
 
                 # This part is only needed if the block time is selected
                 # perhaps a separate function is better
@@ -1086,9 +1088,12 @@ sub Run {
             my $Index            = 0;
             my $SelectFieldError = 0;
             $Data{StatType} = $Stat->{StatType};
+
+            OBJECTATTRIBUTE:
             for my $ObjectAttribute ( @{ $Stat->{UseAsRestriction} } ) {
                 my $Element = $ObjectAttribute->{Element};
-                next if !$Self->{ParamObject}->GetParam( Param => "Select$Element" );
+                next OBJECTATTRIBUTE
+                    if !$Self->{ParamObject}->GetParam( Param => "Select$Element" );
 
                 my @Array = $Self->{ParamObject}->GetArray( Param => $Element );
                 $Data{UseAsRestriction}[$Index]{SelectedValues} = \@Array;

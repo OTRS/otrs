@@ -1415,10 +1415,11 @@ sub _Mask {
         my %SeenOldOwner;
         if (@OldUserInfo) {
             my $Counter = 1;
+            USER:
             for my $User ( reverse @OldUserInfo ) {
 
                 # skip if old owner is already in the list
-                next if $SeenOldOwner{ $User->{UserID} };
+                next USER if $SeenOldOwner{ $User->{UserID} };
                 $SeenOldOwner{ $User->{UserID} } = 1;
                 push @OldOwners, {
                     Key   => $User->{UserID},

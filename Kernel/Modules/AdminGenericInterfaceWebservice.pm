@@ -874,22 +874,25 @@ sub _ShowEdit {
 
     # set transports data
     my %GITransports;
+    TRANSPORT:
     for my $Transport ( sort keys %{ $Self->{GITransportConfig} } ) {
-        next if !$Transport;
+        next TRANSPORT if !$Transport;
         $GITransports{$Transport} = $Self->{GITransportConfig}->{$Transport}->{ConfigDialog};
     }
 
     # get operations data
     my %GIOperations;
+    OPERATION:
     for my $Operation ( sort keys %{ $Self->{GIOperationConfig} } ) {
-        next if !$Operation;
+        next OPERATION if !$Operation;
         $GIOperations{$Operation} = $Self->{GIOperationConfig}->{$Operation}->{ConfigDialog};
     }
 
     # get operations data
     my %GIInvokers;
+    INVOKER:
     for my $Invoker ( sort keys %{ $Self->{GIInvokerConfig} } ) {
-        next if !$Invoker;
+        next INVOKER if !$Invoker;
         $GIInvokers{$Invoker} = $Self->{GIInvokerConfig}->{$Invoker}->{ConfigDialog};
     }
 
