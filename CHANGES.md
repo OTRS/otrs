@@ -1,4 +1,5 @@
 #3.3.2 2013-??-??
+ - 2013-11-11 Fixed bug#[9954](http://bugs.otrs.org/show_bug.cgi?id=9954) - PGP Crypted and Signed emails could be wrongly parsed.
  - 2013-11-07 Follow-up fix for bug#[9931](http://bugs.otrs.org/show_bug.cgi?id=9931) - After upgrading to MIME::Tools 5.504 (without OTRS patches) SMIME signatures are broken.
 
 #3.3.1 2013-11-12
