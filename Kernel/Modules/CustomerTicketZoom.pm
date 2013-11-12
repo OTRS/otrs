@@ -1005,7 +1005,8 @@ sub _Mask {
             # ('AD1', 'AD3', 'AD2')
 
             my @TmpActivityDialogList
-                = map { $NextActivityDialogs->{$_} } sort keys %{$NextActivityDialogs};
+                = map { $NextActivityDialogs->{$_} }
+                sort  { $a <=> $b } keys %{$NextActivityDialogs};
 
             # we have to check if the current user has the needed permissions to view the
             # different activity dialogs, so we loop over every activity dialog and check if there
@@ -1067,7 +1068,7 @@ sub _Mask {
                 Name => 'NextActivities',
             );
 
-            for my $NextActivityDialogKey ( sort keys %{$NextActivityDialogs} ) {
+            for my $NextActivityDialogKey ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
                 my $ActivityDialogData = $Self->{ActivityDialogObject}->ActivityDialogGet(
                     ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
                     Interface              => 'CustomerInterface',

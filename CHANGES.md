@@ -1,4 +1,5 @@
 #3.2.13 201?-??-??
+ - 2013-11-12 Fixed bug#[9937](http://bugs.otrs.org/show_bug.cgi?id=9937) - Activity-Dialogs in wrong order.
  - 2013-11-11 Fixed bug#[9954](http://bugs.otrs.org/show_bug.cgi?id=9954) - PGP Crypted and Signed emails could be wrongly parsed.
  - 2013-11-07 Fixed bug#[9639](http://bugs.otrs.org/show_bug.cgi?id=9639) - TextArea validation message not translated.
  - 2013-11-07 Fixed bug#[9944](http://bugs.otrs.org/show_bug.cgi?id=9944) - Search Template issue.
