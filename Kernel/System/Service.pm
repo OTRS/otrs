@@ -774,12 +774,14 @@ sub ServiceUpdate {
         ],
     );
 
+    my $LikeService = $OldServiceName . '::%';
+
     # find all childs
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT id, name FROM service WHERE name LIKE '"
-            . $Self->{DBObject}->Quote( $OldServiceName, 'Like' )
-            . "::%'",
+        SQL  => "SELECT id, name FROM service WHERE name LIKE ?",
+        Bind => [ \$LikeService ],
     );
+
     my @Childs;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Child;
@@ -834,6 +836,8 @@ sub ServiceSearch {
     my $SQL
         = "SELECT id FROM service WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
 
+    my @Bind;
+
     if ( $Param{Name} ) {
 
         # quote
@@ -842,14 +846,19 @@ sub ServiceSearch {
         # replace * with % and clean the string
         $Param{Name} =~ s{ \*+ }{%}xmsg;
         $Param{Name} =~ s{ %+ }{%}xmsg;
+        my $LikeString = '%' . $Param{Name} . '%';
+        push @Bind, \$LikeString;
 
-        $SQL .= " AND name LIKE '$Param{Name}' ";
+        $SQL .= " AND name LIKE ?";
     }
 
     $SQL .= ' ORDER BY name';
 
     # search service in db
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL => $SQL,
+        Bind => \@Bind,
+    );
 
     my @ServiceList;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {

@@ -1,4 +1,5 @@
 #3.3.2 2013-??-??
+ - 2013-11-12 Fixed bug#[7008](http://bugs.otrs.org/show_bug.cgi?id=7008) - Can not find customers in SQL Server database containing non-ascii characters.
  - 2013-11-11 Fixed bug#[9921](http://bugs.otrs.org/show_bug.cgi?id=9921) - Reply to previously signed email breaks PGP verification.
  - 2013-11-11 Fixed bug#[9945](http://bugs.otrs.org/show_bug.cgi?id=9945) - Cannot search for "Date" dynamic fields.
  - 2013-11-11 Fixed bug#[9954](http://bugs.otrs.org/show_bug.cgi?id=9954) - PGP Crypted and Signed emails could be wrongly parsed.

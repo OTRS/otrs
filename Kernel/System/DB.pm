@@ -1083,6 +1083,19 @@ generate SQL condition query based on a search expression
 
     Returns the SQL string or "1=0" if the query could not be parsed correctly.
 
+    my $SQL = $DBObject->QueryCondition(
+        Key      => [ 'some_col_a', 'some_col_b' ],
+        Value    => '((ABC&&DEF)&&!GHI)',
+        BindMode => 1,
+    );
+
+    return the SQL String with ?-values and a value array:
+
+    $BindModeResult = (
+        'SQL'    => '...LIKE...NOT...'
+        'Values' => ['a', 'b', 'c'],
+    )
+
 Note that the comparisons are usually performed case insensitively.
 Only VARCHAR colums with a size less or equal 3998 are supported,
 as for locator objects the functioning of SQL function LOWER() can't
@@ -1108,6 +1121,8 @@ sub QueryCondition {
     my $SearchPrefix  = $Param{SearchPrefix}  || '';
     my $SearchSuffix  = $Param{SearchSuffix}  || '';
     my $CaseSensitive = $Param{CaseSensitive} || 0;
+    my $BindMode      = $Param{BindMode}      || 0;
+    my @BindValues;
 
     # remove leading/trailing spaces
     $Param{Value} =~ s/^\s+//g;
@@ -1288,6 +1303,14 @@ sub QueryCondition {
                         $Type = '!=';
                     }
 
+                    my $WordSQL = $Word;
+                    if ($BindMode) {
+                        $WordSQL = "?";
+                    }
+                    else {
+                        $WordSQL = "'" . $WordSQL . "'";
+                    }
+
 # check if database supports LIKE in large text types
 # the first condition is a little bit opaque
 # CaseSensitive of the database defines, if the database handles case sensitivity or not
@@ -1295,18 +1318,20 @@ sub QueryCondition {
 # so if the database dont support case sensitivity or the configuration of the customer database want to do this
 # then we prevent the LOWER() statements.
                     if ( !$Self->GetDatabaseFunction('CaseSensitive') || $CaseSensitive ) {
-                        $SQLA .= "$Key $Type '$Word'";
+                        $SQLA .= "$Key $Type $WordSQL";
                     }
                     elsif ( $Self->GetDatabaseFunction('LcaseLikeInLargeText') ) {
-                        $SQLA .= "LCASE($Key) $Type LCASE('$Word')";
+                        $SQLA .= "LCASE($Key) $Type LCASE($WordSQL)";
                     }
                     else {
-                        $SQLA .= "LOWER($Key) $Type LOWER('$Word')";
+                        $SQLA .= "LOWER($Key) $Type LOWER($WordSQL)";
                     }
 
-                    if ( $Type eq 'NOT LIKE' ) {
+                    if ( $Type eq 'NOT LIKE' && !$BindMode ) {
                         $SQLA .= " $LikeEscapeString";
                     }
+
+                    push @BindValues, $Word;
                 }
                 $SQL .= '(' . $SQLA . ') ';
             }
@@ -1325,6 +1350,14 @@ sub QueryCondition {
                         $Type = '=';
                     }
 
+                    my $WordSQL = $Word;
+                    if ($BindMode) {
+                        $WordSQL = "?";
+                    }
+                    else {
+                        $WordSQL = "'" . $WordSQL . "'";
+                    }
+
 # check if database supports LIKE in large text types
 # the first condition is a little bit opaque
 # CaseSensitive of the database defines, if the database handles case sensitivity or not
@@ -1332,18 +1365,20 @@ sub QueryCondition {
 # so if the database dont support case sensitivity or the configuration of the customer database want to do this
 # then we prevent the LOWER() statements.
                     if ( !$Self->GetDatabaseFunction('CaseSensitive') || $CaseSensitive ) {
-                        $SQLA .= "$Key $Type '$Word'";
+                        $SQLA .= "$Key $Type $WordSQL";
                     }
                     elsif ( $Self->GetDatabaseFunction('LcaseLikeInLargeText') ) {
-                        $SQLA .= "LCASE($Key) $Type LCASE('$Word')";
+                        $SQLA .= "LCASE($Key) $Type LCASE($WordSQL)";
                     }
                     else {
-                        $SQLA .= "LOWER($Key) $Type LOWER('$Word')";
+                        $SQLA .= "LOWER($Key) $Type LOWER($WordSQL)";
                     }
 
-                    if ( $Type eq 'LIKE' ) {
+                    if ( $Type eq 'LIKE' && !$BindMode ) {
                         $SQLA .= " $LikeEscapeString";
                     }
+
+                    push @BindValues, $Word;
                 }
                 $SQL .= '(' . $SQLA . ') ';
             }
@@ -1428,6 +1463,13 @@ sub QueryCondition {
             Message  => "Invalid condition '$Param{Value}', $Open open and $Close close!",
         );
         return "1=0";
+    }
+
+    if ($BindMode) {
+        return (
+            'SQL'    => $SQL,
+            'Values' => \@BindValues,
+        );
     }
 
     return $SQL;

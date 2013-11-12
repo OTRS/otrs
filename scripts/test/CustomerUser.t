@@ -8,6 +8,8 @@
 # --
 use strict;
 use warnings;
+
+use utf8;
 use vars (qw($Self));
 
 use Kernel::Config;
@@ -39,7 +41,6 @@ my $CacheObject = Kernel::System::Cache->new(
 my $UserID = '';
 for my $Key ( 1 .. 3, 'ä', 'カス' ) {
     my $UserRand = 'Example-Customer-User' . $Key . int( rand(1000000) );
-    $Self->{EncodeObject}->EncodeInput( \$UserRand );
 
     $UserID = $UserRand;
     my $UserID = $CustomerUserObject->CustomerUserAdd(
@@ -503,7 +504,6 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         );
 
         for my $Password (qw(some_pass someカス someäöü)) {
-            $Self->{EncodeObject}->EncodeInput( \$Password );
             my $Set = $CustomerUserObject->SetPassword(
                 UserLogin => $UserID,
                 PW        => $Password,

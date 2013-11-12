@@ -101,9 +101,14 @@ sub Auth {
     my $GetPw      = '';
 
     # sql query
-    my $SQL = "SELECT $Self->{Pw}, $Self->{Key} FROM $Self->{Table} WHERE "
-        . " $Self->{Key} = '" . $Self->{DBObject}->Quote($User) . "'";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL => "
+            SELECT $Self->{Pw}, $Self->{Key} FROM $Self->{Table} WHERE
+            $Self->{Key} = ?
+            ",
+        Bind => [ \$Param{User} ],
+    );
+
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $GetPw  = $Row[0];
         $UserID = $Row[1];
