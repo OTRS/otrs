@@ -9802,7 +9802,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultOverviewColumns" Required="1" Valid="1">
-        <Description Translatable="1">General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.</Description>
+        <Description Translatable="1">General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
