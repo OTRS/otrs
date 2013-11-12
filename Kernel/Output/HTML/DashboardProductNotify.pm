@@ -78,10 +78,11 @@ sub Run {
 
         # generate content based on xml file
         my $XMLObject = Kernel::System::XML->new( %{$Self} );
-        my @Data = $XMLObject->XMLParse2XMLHash( String => ${ $Response{Content} } );
+        my @Data;
 
         # set error message if unable to parse xml file
-        if ( !@Data ) {
+        if ( !eval { @Data = $XMLObject->( String => ${ $Response{Content} } ) } ) {
+
             $Content = "Can't parse xml of: " . $Self->{Config}->{URL};
         }
         else {
@@ -90,8 +91,9 @@ sub Run {
             my $ContentFound = 0;
 
             # show messages
+            MESSAGE:
             for my $Item ( sort keys %{ $Data[1]->{otrs_product}->[1] } ) {
-                next if $Item ne 'Message';
+                next MESSAGE if $Item ne 'Message';
 
                 # remember if content got shown
                 $ContentFound = 1;
@@ -104,13 +106,15 @@ sub Run {
             }
 
             # show release updates
+            RELEASE:
             for my $Item ( sort keys %{ $Data[1]->{otrs_product}->[1] } ) {
-                next if $Item ne 'Release';
+                next RELEASE if $Item ne 'Release';
+                RECORD:
                 for my $Record ( @{ $Data[1]->{otrs_product}->[1]->{$Item} } ) {
-                    next if !$Record;
+                    next RECORD if !$Record;
 
                     # check if release is newer then the installed one
-                    next if !$Self->_CheckVersion(
+                    next RECORD if !$Self->_CheckVersion(
                         Version1 => $Version,
                         Version2 => $Record->{Version}->[1]->{Content},
                     );
