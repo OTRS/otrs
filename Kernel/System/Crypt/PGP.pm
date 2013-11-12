@@ -519,11 +519,16 @@ sub Verify {
         }
     }
 
-    # looks for text before and after the signature
+    # looks for text before and after the signature (but ignote quoted text)
     if (
-        $Param{Message} =~ m{ \s* \S+ \s* \Q-----BEGIN PGP SIGNED MESSAGE-----\E }xmsg
-        ||
-        $Param{Message} =~ m{ \Q-----END PGP SIGNATURE-----\E \s* \S+ \s* }xmsg
+        (
+            $Param{Message} =~ m{ \s* \S+ \s* \Q-----BEGIN PGP SIGNED MESSAGE-----\E }xmsg
+            || $Param{Message} =~ m{ \Q-----END PGP SIGNATURE-----\E \s* \S+ \s* }xmsg
+        )
+        && (
+            $Param{Message} !~ m{ (> \s)+ \Q-----BEGIN PGP SIGNED MESSAGE-----\E }xmsg
+            && $Param{Message} !~ m{ (> \s)+ \Q-----END PGP SIGNATURE-----\E }xmsg
+        )
         )
     {
         push @Warnings, {
