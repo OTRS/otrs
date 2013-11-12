@@ -299,7 +299,7 @@ sub CustomerSearch {
     }
     elsif ( $Param{CustomerID} ) {
 
-        my $CustomerID = '%' . $Param{CustomerID} . '%';
+        my $CustomerID = $Param{CustomerID};
         $CustomerID =~ s/\*/%/g;
         push @Bind, \$CustomerID;
 
