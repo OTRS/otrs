@@ -77,7 +77,7 @@ sub new {
     if ( !$Self->{TicketID} && $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ) ) {
         $Self->{TicketID} = $Self->{TicketObject}->TicketIDLookup(
             TicketNumber => $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ),
-            UserID => $Self->{UserID},
+            UserID       => $Self->{UserID},
         );
     }
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
@@ -93,7 +93,7 @@ sub new {
             $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketZoom")
                 ->{ProcessWidgetDynamicField}
                 || {}
-            },
+        },
     };
 
     # create additional objects for process management
@@ -517,7 +517,7 @@ sub MaskAgentZoom {
             # ignore system sender type
             next ARTICLE
                 if $Self->{ConfigObject}->Get('Ticket::NewArticleIgnoreSystemSender')
-                    && $Article->{SenderType} eq 'system';
+                && $Article->{SenderType} eq 'system';
 
             next ARTICLE if $ArticleFlags{ $Article->{ArticleID} }->{Seen};
             $ArticleID = $Article->{ArticleID};
@@ -1025,7 +1025,8 @@ sub MaskAgentZoom {
             # ('AD1', 'AD3', 'AD2')
 
             my @TmpActivityDialogList
-                = map { $NextActivityDialogs->{$_} } sort keys %{$NextActivityDialogs};
+                = map { $NextActivityDialogs->{$_} }
+                sort  { $a <=> $b } keys %{$NextActivityDialogs};
 
             # we have to check if the current user has the needed permissions to view the
             # different activity dialogs, so we loop over every activity dialog and check if there
@@ -1088,7 +1089,7 @@ sub MaskAgentZoom {
             );
 
             if ( IsHashRefWithData($NextActivityDialogs) ) {
-                for my $NextActivityDialogKey ( sort keys %{$NextActivityDialogs} ) {
+                for my $NextActivityDialogKey ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
                     my $ActivityDialogData = $Self->{ActivityDialogObject}->ActivityDialogGet(
                         Interface              => 'AgentInterface',
                         ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
@@ -1484,9 +1485,9 @@ sub MaskAgentZoom {
         # ignore system sender type
         next ARTICLE
             if $Self->{ConfigObject}->Get('Ticket::NewArticleIgnoreSystemSender')
-                && $Article->{SenderType} eq 'system';
+            && $Article->{SenderType} eq 'system';
 
-        # last if article was not shown
+        # last ARTICLE if article was not shown
         if ( !$ArticleFlags{ $Article->{ArticleID} }->{Seen} ) {
             $ArticleAllSeen = 0;
             last ARTICLE;
@@ -1987,7 +1988,7 @@ sub _ArticleItem {
                     ADDRESS:
                     for my $Address (@Addresses) {
                         my $Email = $EmailParser->GetEmailAddress( Email => $Address );
-                        next if !$Email;
+                        next ADDRESS if !$Email;
                         my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
                             Address => $Email,
                         );
@@ -2327,8 +2328,8 @@ sub _ArticleItem {
             ObjectID           => $Article{ArticleID},
         );
 
-        next if !$Value;
-        next if $Value eq '';
+        next DYNAMICFIELD if !$Value;
+        next DYNAMICFIELD if $Value eq '';
 
         # get print string for this dynamic field
         my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
