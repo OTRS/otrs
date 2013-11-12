@@ -111,9 +111,9 @@ $Self->Is(
 
 my $Update = $UserObject->UserUpdate(
     UserID        => $UserID,
-    UserFirstname => 'Firstname Test2',
-    UserLastname  => 'Lastname Test2',
-    UserLogin     => $UserRand1 . "2",
+    UserFirstname => 'Михаил',
+    UserLastname  => 'Lastname Tëst2',
+    UserLogin     => $UserRand1 . '房治郎',
     UserEmail     => $UserRand1 . '@example2.com',
     ValidID       => 2,
     ChangeUserID  => 1,
@@ -128,17 +128,17 @@ $Self->True(
 
 $Self->Is(
     $UserData{UserFirstname} || '',
-    'Firstname Test2',
+    'Михаил',
     'GetUserData() - UserFirstname',
 );
 $Self->Is(
     $UserData{UserLastname} || '',
-    'Lastname Test2',
+    'Lastname Tëst2',
     'GetUserData() - UserLastname',
 );
 $Self->Is(
     $UserData{UserLogin} || '',
-    $UserRand1 . "2",
+    $UserRand1 . '房治郎',
     'GetUserData() - UserLogin',
 );
 $Self->Is(
@@ -154,7 +154,7 @@ $Self->Is(
 
 $Self->Is(
     $UserList{$UserID},
-    $UserRand1 . "2",
+    $UserRand1 . '房治郎',
     "UserList valid 0",
 );
 
@@ -176,7 +176,7 @@ $Self->Is(
 
 $Self->Is(
     $UserList{$UserID},
-    $UserRand1 . "2",
+    $UserRand1 . '房治郎',
     "UserList valid 0 cached",
 );
 
@@ -189,6 +189,26 @@ $Self->Is(
     $UserList{$UserID},
     undef,
     "UserList valid 1 cached",
+);
+
+my %UserSearch = $UserObject->UserSearch(
+    Search => '*Михаил*',
+    Valid  => 0,
+);
+
+$Self->True(
+    $UserSearch{$UserID},
+    "UserSearch after update",
+);
+
+%UserSearch = $UserObject->UserSearch(
+    UserLogin => '*房治郎*',
+    Valid     => 0,
+);
+
+$Self->True(
+    $UserSearch{$UserID},
+    "UserSearch for login after update",
 );
 
 # check token support
@@ -229,7 +249,6 @@ $Self->True(
 );
 
 # testing preferences
-
 my $SetPreferences = $UserObject->SetPreferences(
     Key    => 'UserLanguage',
     Value  => 'fr',

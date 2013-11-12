@@ -343,13 +343,14 @@ sub GetUserData {
     my $Config = $Self->{ConfigObject}->Get('PreferencesGroups');
     if ( $Config && ref $Config eq 'HASH' ) {
 
+        KEY:
         for my $Key ( sort keys %{$Config} ) {
 
             # next if no default data exists
-            next if !defined $Config->{$Key}->{DataSelected};
+            next KEY if !defined $Config->{$Key}->{DataSelected};
 
             # check if data is defined
-            next if defined $Data{ $Config->{$Key}->{PrefKey} };
+            next KEY if defined $Data{ $Config->{$Key}->{PrefKey} };
 
             # set default data
             $Data{ $Config->{$Key}->{PrefKey} } = $Config->{$Key}->{DataSelected};
@@ -587,7 +588,8 @@ sub UserSearch {
     my $LikeEscapeString = $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
 
     # build SQL string 1/2
-    my $SQL    = "SELECT $Self->{UserTableUserID} ";
+    my $SQL = "SELECT $Self->{UserTableUserID} ";
+    my @Bind;
     my @Fields = qw(login first_name last_name);
     if (@Fields) {
         for my $Entry (@Fields) {
@@ -598,10 +600,16 @@ sub UserSearch {
     # build SQL string 2/2
     $SQL .= " FROM $Self->{UserTable} WHERE ";
     if ( $Param{Search} ) {
-        $SQL .= $Self->{DBObject}->QueryCondition(
-            Key   => \@Fields,
-            Value => $Param{Search},
-        ) . ' ';
+
+        my %QueryCondition = $Self->{DBObject}->QueryCondition(
+            Key      => \@Fields,
+            Value    => $Param{Search},
+            BindMode => 1,
+        );
+        $SQL .= $QueryCondition{SQL} . ' ';
+        for my $Value ( @{ $QueryCondition{Values} } ) {
+            push @Bind, \$Value;
+        }
     }
     elsif ( $Param{PostMasterSearch} ) {
 
@@ -624,8 +632,8 @@ sub UserSearch {
     }
     elsif ( $Param{UserLogin} ) {
         $Param{UserLogin} =~ s/\*/%/g;
-        $SQL .= " $Self->{Lower}($Self->{UserTableUser}) LIKE $Self->{Lower}('"
-            . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Like' ) . "') $LikeEscapeString";
+        push @Bind, \$Param{UserLogin};
+        $SQL .= " $Self->{Lower}($Self->{UserTableUser}) LIKE ?";
     }
 
     # add valid option
@@ -635,7 +643,8 @@ sub UserSearch {
 
     # get data
     return if !$Self->{DBObject}->Prepare(
-        SQL => $SQL,
+        SQL   => $SQL,
+        Bind  => \@Bind,
         Limit => $Self->{UserSearchListLimit} || $Param{Limit},
     );
 
@@ -984,8 +993,9 @@ sub UserList {
     }
 
     # check vacation option
+    USERID:
     for my $UserID ( sort keys %Users ) {
-        next if !$UserID;
+        next USERID if !$UserID;
 
         my %User = $Self->GetUserData(
             UserID => $UserID,
