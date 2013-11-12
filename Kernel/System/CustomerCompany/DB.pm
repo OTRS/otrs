@@ -129,6 +129,8 @@ sub CustomerCompanyList {
 
     # add valid option if required
     my $SQL;
+    my @Bind;
+
     if ($Valid) {
         $SQL
             .= "$Self->{CustomerCompanyValid} IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
@@ -153,13 +155,14 @@ sub CustomerCompanyList {
             if ( $CustomerCompanySearchFields && ref $CustomerCompanySearchFields eq 'ARRAY' ) {
 
                 my @SQLParts;
-                my $QuotedPart = $Self->{DBObject}->Quote($Part);
                 for my $Field ( @{$CustomerCompanySearchFields} ) {
                     if ( $Self->{CaseSensitive} ) {
-                        push @SQLParts, "LOWER($Field) LIKE LOWER('$QuotedPart')";
+                        push @SQLParts, "LOWER($Field) LIKE LOWER(?)";
+                        push @Bind, \$Part;
                     }
                     else {
-                        push @SQLParts, "$Field LIKE '$QuotedPart'";
+                        push @SQLParts, "$Field LIKE ?";
+                        push @Bind, \$Part;
                     }
                 }
                 if (@SQLParts) {
@@ -178,6 +181,7 @@ sub CustomerCompanyList {
     # ask database
     $Self->{DBObject}->Prepare(
         SQL   => $CompleteSQL,
+        Bind  => \@Bind,
         Limit => 50000,
     );
 
@@ -237,7 +241,7 @@ sub CustomerCompanyGet {
     my $CustomerID = $Param{Name} || $Param{CustomerID};
 
     $SQL .= " FROM $Self->{CustomerCompanyTable} WHERE ";
-    my $CustomerIDQuoted = $Self->{DBObject}->Quote($CustomerID);
+
     if ( $Self->{CaseSensitive} ) {
         $SQL .= "LOWER($Self->{CustomerCompanyKey}) = LOWER( ? )";
     }
