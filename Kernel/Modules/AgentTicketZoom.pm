@@ -1025,7 +1025,8 @@ sub MaskAgentZoom {
             # ('AD1', 'AD3', 'AD2')
 
             my @TmpActivityDialogList
-                = map { $NextActivityDialogs->{$_} } sort keys %{$NextActivityDialogs};
+                = map { $NextActivityDialogs->{$_} }
+                sort  { $a <=> $b } keys %{$NextActivityDialogs};
 
             # we have to check if the current user has the needed permissions to view the
             # different activity dialogs, so we loop over every activity dialog and check if there
@@ -1088,7 +1089,7 @@ sub MaskAgentZoom {
             );
 
             if ( IsHashRefWithData($NextActivityDialogs) ) {
-                for my $NextActivityDialogKey ( sort keys %{$NextActivityDialogs} ) {
+                for my $NextActivityDialogKey ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
                     my $ActivityDialogData = $Self->{ActivityDialogObject}->ActivityDialogGet(
                         Interface              => 'AgentInterface',
                         ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
@@ -1987,7 +1988,7 @@ sub _ArticleItem {
                     ADDRESS:
                     for my $Address (@Addresses) {
                         my $Email = $EmailParser->GetEmailAddress( Email => $Address );
-                        next if !$Email;
+                        next ADDRESS if !$Email;
                         my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
                             Address => $Email,
                         );
@@ -2327,8 +2328,8 @@ sub _ArticleItem {
             ObjectID           => $Article{ArticleID},
         );
 
-        next if !$Value;
-        next if $Value eq '';
+        next DYNAMICFIELD if !$Value;
+        next DYNAMICFIELD if $Value eq '';
 
         # get print string for this dynamic field
         my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(

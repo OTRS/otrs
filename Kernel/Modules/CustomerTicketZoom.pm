@@ -121,7 +121,7 @@ sub Run {
     if ( !$Self->{TicketID} && $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ) ) {
         $Self->{TicketID} = $Self->{TicketObject}->TicketIDLookup(
             TicketNumber => $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ),
-            UserID => $Self->{UserID},
+            UserID       => $Self->{UserID},
         );
     }
 
@@ -635,12 +635,13 @@ sub Run {
         }
 
         # write attachments
+        ATTACHMENT:
         for my $Attachment (@AttachmentData) {
 
             # skip deleted inline images
-            next if $Attachment->{ContentID}
-                    && $Attachment->{ContentID} =~ /^inline/
-                    && $GetParam{Body} !~ /$Attachment->{ContentID}/;
+            next ATTACHMENT if $Attachment->{ContentID}
+                && $Attachment->{ContentID} =~ /^inline/
+                && $GetParam{Body} !~ /$Attachment->{ContentID}/;
             $Self->{TicketObject}->ArticleWriteAttachment(
                 %{$Attachment},
                 ArticleID => $ArticleID,
@@ -1050,7 +1051,8 @@ sub _Mask {
             # ('AD1', 'AD3', 'AD2')
 
             my @TmpActivityDialogList
-                = map { $NextActivityDialogs->{$_} } sort keys %{$NextActivityDialogs};
+                = map { $NextActivityDialogs->{$_} }
+                sort  { $a <=> $b } keys %{$NextActivityDialogs};
 
             # we have to check if the current user has the needed permissions to view the
             # different activity dialogs, so we loop over every activity dialog and check if there
@@ -1112,7 +1114,7 @@ sub _Mask {
                 Name => 'NextActivities',
             );
 
-            for my $NextActivityDialogKey ( sort keys %{$NextActivityDialogs} ) {
+            for my $NextActivityDialogKey ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
                 my $ActivityDialogData = $Self->{ActivityDialogObject}->ActivityDialogGet(
                     ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
                     Interface              => 'CustomerInterface',
@@ -1260,8 +1262,9 @@ sub _Mask {
         }
 
         # do some strips && quoting
+        RECIPIENT:
         for my $Key (qw(From To Cc)) {
-            next if !$Article{$Key};
+            next RECIPIENT if !$Article{$Key};
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleRow',
                 Data => {
@@ -1635,8 +1638,10 @@ sub _Mask {
         my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
             FormID => $Self->{FormID},
         );
+
+        ATTACHMENT:
         for my $Attachment (@Attachments) {
-            next if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
+            next ATTACHMENT if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
             $Self->{LayoutObject}->Block(
                 Name => 'FollowUpAttachment',
                 Data => $Attachment,
