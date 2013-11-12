@@ -382,6 +382,33 @@ my @Tests = (
         },
         Success => 0,
     },
+    {
+        Name   => 'Correct Value Date (input value)',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{Date},
+            Value              => '2013-01-01 00:00:00',
+            UserID             => $UserID,
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct Value Date (search value)',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{Date},
+            Value              => '2013-01-01 23:59:59',
+            UserID             => $UserID,
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Incorrect Value Date (search value)',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{Date},
+            Value              => '2013-01-01 12:00:00',
+            UserID             => $UserID,
+        },
+        Success => 0,
+    },
 );
 
 # execute tests
