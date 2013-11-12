@@ -165,8 +165,12 @@ sub Check {
         }
     }
 
-    # check inline pgp signature
-    if ( $Param{Article}->{Body} =~ m{ \Q-----BEGIN PGP SIGNED MESSAGE-----\E }xms ) {
+    # check inline pgp signature (but ignore if is in quoted text)
+    if (
+        $Param{Article}->{Body} =~ m{ \Q-----BEGIN PGP SIGNED MESSAGE-----\E }xms
+        && $Param{Article}->{Body} !~ m{ (> \s)+ \Q-----BEGIN PGP SIGNED MESSAGE-----\E }xms
+        )
+    {
 
         # get original message
         my $Message = $Self->{TicketObject}->ArticlePlain(

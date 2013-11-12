@@ -395,6 +395,29 @@ for my $Test (@Tests) {
             MimeType => 'text/html',
         },
     },
+    {
+        Name        => 'Repy to a previously signed message',
+        ArticleData => {
+            Body => '
+Reply text
+> -----BEGIN PGP SIGNED MESSAGE-----
+> Hash: SHA1
+>
+> Original signed text
+>
+> -----BEGIN PGP SIGNATURE-----
+> Version: GnuPG/MacGPG2 v2.0.22 (Darwin)
+> Comment: GPGTools - http://gpgtools.org
+>
+> iEYEARECAAYFAlJzpy4ACgkQjDflB7tFqcf4pgCbBf/f5dTEVDagR7Sq2mJq+lL+
+> rpAAn3qKwT7j8PMYfSnBwGs0tM1ekbpd
+> =eLoO
+> -----END PGP SIGNATURE-----
+>
+>',
+            MimeType => 'text/plain',
+        },
+    },
 );
 
 # test each mail with sign/crypt/sign+crypt
