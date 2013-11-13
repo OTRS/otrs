@@ -111,6 +111,25 @@ If the tarball is used, execute:
 with the permissions needed for your system setup.
 
 
+For example:
+
+- Web server which runs as the OTRS user:
+
+        shell> bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=otrs /opt/otrs
+
+- Webserver with wwwrun user (e. g. SUSE):
+
+        shell> bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=wwwrun /opt/otrs
+
+- Webserver with apache user (e. g. Red Hat, CentOS):
+
+        shell> bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=apache --otrs-group=apache --web-group=apache /opt/otrs
+
+- Webserver with www-data user (e. g. Debian, Ubuntu):
+
+        shell> bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=www-data --otrs-group=www-data --web-group=www-data /opt/otrs
+
+
 8. Check needed Perl modules
 ----------------------------
 
