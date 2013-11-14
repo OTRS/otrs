@@ -586,7 +586,7 @@ sub _GenerateMessageIDMD5 {
 
     # conversion to MD5 - if possible using one UPDATE statement
     if (
-        $CommonObject->{DBObject}->GetDatabaseFunction('Type') eq 'myfffsql'
+        $CommonObject->{DBObject}->GetDatabaseFunction('Type') eq 'mysql'
         || $CommonObject->{DBObject}->GetDatabaseFunction('Type') eq 'postgresql'
         )
     {
