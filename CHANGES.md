@@ -1,4 +1,5 @@
 #3.3.2 2013-??-??
+ - 2013-11-14 Fixed bug#[9968](http://bugs.otrs.org/show_bug.cgi?id=9968) - Multiple Result Set problem during DB upgrade on SQL Server 2012.
  - 2013-11-12 Fixed bug#[9937](http://bugs.otrs.org/show_bug.cgi?id=9937) - Activity-Dialogs in wrong order.
  - 2013-11-12 Fixed bug#[9935](http://bugs.otrs.org/show_bug.cgi?id=9935) - Dashboard shows internal server error if product.xml content is not valid XML.
  - 2013-11-12 Fixed bug#[9933](http://bugs.otrs.org/show_bug.cgi?id=9933) - DefaultOverviewColumns under Ticket -> Frontend::Agent Wrong Description.

@@ -586,7 +586,7 @@ sub _GenerateMessageIDMD5 {
 
     # conversion to MD5 - if possible using one UPDATE statement
     if (
-        $CommonObject->{DBObject}->GetDatabaseFunction('Type') eq 'mysql'
+        $CommonObject->{DBObject}->GetDatabaseFunction('Type') eq 'myfffsql'
         || $CommonObject->{DBObject}->GetDatabaseFunction('Type') eq 'postgresql'
         )
     {
@@ -604,6 +604,8 @@ sub _GenerateMessageIDMD5 {
     # otherwise convert every row using MainObject - much slower
     else {
 
+        # fetch results and calculate MD5sums
+        my %MD5sum;
         $CommonObject->{DBObject}->Prepare(
             SQL => 'SELECT id, a_message_id
                         FROM article
@@ -612,13 +614,16 @@ sub _GenerateMessageIDMD5 {
         MESSAGEID:
         while ( my @Row = $CommonObject->{DBObject}->FetchrowArray() ) {
             next MESSAGEID if !$Row[1];
-            my $ArticleID = $Row[0];
-            my $MD5 = $CommonObject->{MainObject}->MD5sum( String => $Row[1] );
+            $MD5sum{ $Row[0] } = $CommonObject->{MainObject}->MD5sum( String => $Row[1] );
+        }
+
+        # update records
+        for my $ArticleID ( sort keys %MD5sum ) {
             $CommonObject->{DBObject}->Do(
                 SQL => "UPDATE article
                          SET a_message_id_md5 = ?
                          WHERE id = ?",
-                Bind => [ \$MD5, \$ArticleID ],
+                Bind => [ \$MD5sum{$ArticleID}, \$ArticleID ],
             );
         }
     }
