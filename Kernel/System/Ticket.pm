@@ -4740,11 +4740,14 @@ returns a hash of some of the ticket data
 calculated based on ticket history info at the given date.
 
     my %HistoryData = $TicketObject->HistoryTicketGet(
-        StopYear  => 2003,
-        StopMonth => 12,
-        StopDay   => 24,
-        TicketID  => 123,
-        Force     => 0,     # 1: don't use cache
+        StopYear   => 2003,
+        StopMonth  => 12,
+        StopDay    => 24,
+        StopHour   => 10, (optional, default 23)
+        StopMinute => 0,  (optional, default 59)
+        StopSecond => 0,  (optional, default 59)
+        TicketID   => 123,
+        Force      => 0,     # 1: don't use cache
     );
 
 returns
@@ -4787,21 +4790,25 @@ sub HistoryTicketGet {
             return;
         }
     }
+    $Param{StopHour}   = defined $Param{StopHour}   ? $Param{StopHour}   : '23';
+    $Param{StopMinute} = defined $Param{StopMinute} ? $Param{StopMinute} : '59';
+    $Param{StopSecond} = defined $Param{StopSecond} ? $Param{StopSecond} : '59';
 
     # format month and day params
     for my $DateParameter (qw(StopMonth StopDay)) {
         $Param{$DateParameter} = sprintf( "%02d", $Param{$DateParameter} );
     }
 
-    my $CacheKey = 'HistoryTicketGet::'
-        . join( '::', map { ( $_ || 0 ) . "::$Param{$_}" } sort keys %Param );
+    my $CacheKey
+        = 'HistoryTicketGet::' . join( '::', map { ( $_ || 0 ) . "::$Param{$_}" } keys %Param );
 
     my $Cached = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     if ( ref $Cached eq 'HASH' && !$Param{Force} ) {
         return %{$Cached};
     }
 
-    my $Time = "$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59";
+    my $Time
+        = "$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} $Param{StopHour}:$Param{StopMinute}:$Param{StopSecond}";
     return if !$Self->{DBObject}->Prepare(
         SQL => '
             SELECT th.name, tht.name, th.create_time, th.create_by, th.ticket_id,
@@ -4944,7 +4951,7 @@ sub HistoryTicketGet {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "No such TicketID in ticket history till "
-                . "'$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ($Param{TicketID})!",
+                . "'$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} $Param{StopHour}:$Param{StopMinute}:$Param{StopSecond}' ($Param{TicketID})!",
         );
         return;
     }
