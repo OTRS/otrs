@@ -224,7 +224,7 @@ sub new {
 
             # For IE 5.5 - 8.0, we break the header in a special way that makes
             # things work. I don't really want to know.
-            if ( $1 =~ /(\d)\.(\d)/ ) {
+            if ( $1 =~ /(\d+)\.(\d+)/ ) {
                 $Self->{BrowserMajorVersion} = $1;
                 $Self->{BrowserMinorVersion} = $2;
                 if (
