@@ -1,4 +1,5 @@
 #3.3.2 2013-??-??
+ - 2013-11-14 Fixed bug#[9946](http://bugs.otrs.org/show_bug.cgi?id=9962) - Misplaced pagination in ticket overviews.
  - 2013-11-14 Fixed bug#[9962](http://bugs.otrs.org/show_bug.cgi?id=9962) - Datepicker localization data could not be found! when choosing French canadian language.
  - 2013-11-14 Fixed bug#[9968](http://bugs.otrs.org/show_bug.cgi?id=9968) - Multiple Result Set problem during DB upgrade on SQL Server 2012.
  - 2013-11-12 Fixed bug#[9937](http://bugs.otrs.org/show_bug.cgi?id=9937) - Activity-Dialogs in wrong order.
