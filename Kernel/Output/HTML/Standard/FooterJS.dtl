@@ -36,7 +36,7 @@ Core.App.Ready(function () {
         AnimationEnabled: parseInt('$Config{"Frontend::AnimationEnabled"}', 10),
         OpenMainMenuOnHover: parseInt('$Config{"OpenMainMenuOnHover"}', 10),
 <!-- dtl:block:AutoCompleteConfig -->
-        Autocomplete: Core.JSON.Parse('$Data{"AutocompleteConfig"}'),
+        Autocomplete: $Data{"AutocompleteConfig"},
 <!-- dtl:block:AutoCompleteConfig -->
         // translations
         ValidateServerErrorTitle: '$JSText{"Error"}',
