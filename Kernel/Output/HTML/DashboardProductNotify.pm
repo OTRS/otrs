@@ -81,7 +81,7 @@ sub Run {
         my @Data;
 
         # set error message if unable to parse xml file
-        if ( !eval { @Data = $XMLObject->( String => ${ $Response{Content} } ) } ) {
+        if ( !eval { @Data = $XMLObject->XMLParse2XMLHash( String => ${ $Response{Content} } ) } ) {
 
             $Content = "Can't parse xml of: " . $Self->{Config}->{URL};
         }
