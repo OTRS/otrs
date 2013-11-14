@@ -1636,6 +1636,7 @@ sub Footer {
     my $AutocompleteConfigJSON = $Self->JSONEncode(
         Data => $AutocompleteConfig,
     );
+    $AutocompleteConfigJSON =~ s{'}{\\'}g; # escape ' characters
 
     $Self->Block(
         Name => 'AutoCompleteConfig',
