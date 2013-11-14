@@ -71,6 +71,8 @@ if (
     );
 }
 else {
+
+    my %MD5sum;
     $Self->{DBObject}->Prepare(
         SQL => 'SELECT message_id, message_id_md5
                     FROM test_md5_conversion
@@ -79,15 +81,18 @@ else {
     MESSAGEID:
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         next MESSAGEID if !$Row[0];
-        my $MessageID = $Row[0];
-        my $MD5 = $Self->{MainObject}->MD5sum( String => $Row[0] );
+        $MD5sum{ $Row[0] } = $Self->{MainObject}->MD5sum( String => $Row[0] );
+    }
+
+    for my $MessageID ( sort keys %MD5sum ) {
         $Self->{DBObject}->Do(
             SQL => "UPDATE test_md5_conversion
                      SET message_id_md5 = ?
                      WHERE message_id = ?",
-            Bind => [ \$MD5, \$MessageID ],
+            Bind => [ \$MD5sum{$MessageID}, \$MessageID ],
         );
     }
+
 }
 
 # test conversion
