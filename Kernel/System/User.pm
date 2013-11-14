@@ -567,6 +567,21 @@ to search users
         Valid            => 1, # not required
     );
 
+Returns hash of UserID, Login pairs:
+
+    my %List = (
+        1 => 'root@locahost',
+        4 => 'admin',
+        9 => 'joe',
+    );
+
+For PostMasterSearch, it returns hash of UserID, Email pairs:
+
+    my %List = (
+        4 => 'john@example.com',
+        9 => 'joe@example.com',
+    );
+
 =cut
 
 sub UserSearch {
@@ -584,25 +599,15 @@ sub UserSearch {
         return;
     }
 
-    # get like escape string needed for some databases (e.g. oracle)
-    my $LikeEscapeString = $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
-
-    # build SQL string 1/2
-    my $SQL = "SELECT $Self->{UserTableUserID} ";
+    # build SQL string
+    my $SQL = "SELECT $Self->{UserTableUserID}, login
+                   FROM $Self->{UserTable} WHERE ";
     my @Bind;
-    my @Fields = qw(login first_name last_name);
-    if (@Fields) {
-        for my $Entry (@Fields) {
-            $SQL .= ", $Entry";
-        }
-    }
 
-    # build SQL string 2/2
-    $SQL .= " FROM $Self->{UserTable} WHERE ";
     if ( $Param{Search} ) {
 
         my %QueryCondition = $Self->{DBObject}->QueryCondition(
-            Key      => \@Fields,
+            Key      => [qw(login first_name last_name)],
             Value    => $Param{Search},
             BindMode => 1,
         );
@@ -631,9 +636,10 @@ sub UserSearch {
         return;
     }
     elsif ( $Param{UserLogin} ) {
+
+        $SQL .= " $Self->{Lower}($Self->{UserTableUser}) LIKE ?";
         $Param{UserLogin} =~ s/\*/%/g;
         push @Bind, \$Param{UserLogin};
-        $SQL .= " $Self->{Lower}($Self->{UserTableUser}) LIKE ?";
     }
 
     # add valid option
@@ -650,12 +656,7 @@ sub UserSearch {
 
     # fetch the result
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        for ( 1 .. 8 ) {
-            if ( $Row[$_] ) {
-                $Users{ $Row[0] } .= $Row[$_] . ' ';
-            }
-        }
-        $Users{ $Row[0] } =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+        $Users{ $Row[0] } = $Row[1];
     }
 
     return %Users;
