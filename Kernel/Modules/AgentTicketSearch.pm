@@ -1235,7 +1235,7 @@ sub Run {
         else {
 
             # redirect to the ticketzoom if result of the search is only one
-            if ( scalar @ViewableTicketIDs eq 1 ) {
+            if ( scalar @ViewableTicketIDs eq 1 && !$Self->{TakeLastSearch} ) {
                 return $Self->{LayoutObject}->Redirect(
                     OP => "Action=AgentTicketZoom;TicketID=$ViewableTicketIDs[0]",
                 );
