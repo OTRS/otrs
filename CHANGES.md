@@ -1,4 +1,5 @@
 #3.3.2 2013-??-??
+ - 2013-11-18 Updated CKEditor to version 4.2.3.
  - 2013-11-14 Fixed bug#[9976](http://bugs.otrs.org/show_bug.cgi?id=9976) - Statistic Graphs not showing in IE 10.
  - 2013-11-14 Fixed bug#[9973](http://bugs.otrs.org/show_bug.cgi?id=9973) - DashboardUserOnline wiget display problems
  - 2013-11-14 Fixed bug#[9946](http://bugs.otrs.org/show_bug.cgi?id=9946) - Misplaced pagination in ticket overviews.
