@@ -196,8 +196,9 @@ my %UserSearch = $UserObject->UserSearch(
     Valid  => 0,
 );
 
-$Self->True(
+$Self->Is(
     $UserSearch{$UserID},
+    $UserRand1 . '房治郎',
     "UserSearch after update",
 );
 
@@ -206,8 +207,20 @@ $Self->True(
     Valid     => 0,
 );
 
-$Self->True(
+$Self->Is(
     $UserSearch{$UserID},
+    $UserRand1 . '房治郎',
+    "UserSearch for login after update",
+);
+
+%UserSearch = $UserObject->UserSearch(
+    PostMasterSearch => $UserRand1 . '@example2.com',
+    Valid            => 0,
+);
+
+$Self->Is(
+    $UserSearch{$UserID},
+    $UserRand1 . '@example2.com',
     "UserSearch for login after update",
 );
 
