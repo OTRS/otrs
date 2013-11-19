@@ -4756,7 +4756,8 @@ sub HistoryTicketGet {
     }
 
     my $CacheKey
-        = 'HistoryTicketGet::' . join( '::', map { ( $_ || 0 ) . "::$Param{$_}" } sort keys %Param );
+        = 'HistoryTicketGet::'
+        . join( '::', map { ( $_ || 0 ) . "::$Param{$_}" } sort keys %Param );
 
     my $Cached = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     if ( ref $Cached eq 'HASH' && !$Param{Force} ) {

@@ -1338,7 +1338,7 @@ sub Run {
 
         # convert attributes
         if ( IsArrayRefWithData( $GetParam{ShownAttributes} ) ) {
-            my @ShowAttributes = grep { defined } @{ $GetParam{ShownAttributes} };
+            my @ShowAttributes = grep {defined} @{ $GetParam{ShownAttributes} };
             $GetParam{ShownAttributes} = join ';', @ShowAttributes;
         }
 

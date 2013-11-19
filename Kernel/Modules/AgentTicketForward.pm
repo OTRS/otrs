@@ -464,7 +464,7 @@ sub Form {
 
     # build references string
     my $References = defined $Data{References} ? $Data{References} . ' ' : '';
-    $References .= defined $Data{MessageID} ? $Data{MessageID}: '';
+    $References .= defined $Data{MessageID} ? $Data{MessageID} : '';
 
     $Output .= $Self->_Mask(
         TicketNumber => $Ticket{TicketNumber},
