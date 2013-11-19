@@ -50,9 +50,9 @@ sub Data {
         'Done' => '确认',
         'Cancel' => '取消',
         'Reset' => '重置',
-        'more than ... ago' => '',
+        'more than ... ago' => '超过 ... 之前',
         'in more than ...' => '',
-        'within the last ...' => '',
+        'within the last ...' => '过去的 ... ',
         'within the next ...' => '',
         'Created within the last' => '',
         'Created more than ... ago' => '',
@@ -113,10 +113,10 @@ sub Data {
         '15 minutes' => '15 分钟',
         'Mr.' => '先生',
         'Mrs.' => '女士',
-        'Next' => '往前',
+        'Next' => '下一步',
         'Back' => '往后',
-        'Next...' => '往前...',
-        '...Back' => '...往后',
+        'Next...' => '下一步...',
+        '...Back' => '...返回',
         '-none-' => '-无-',
         'none' => '无',
         'none!' => '无!',
@@ -192,7 +192,7 @@ sub Data {
         'and' => '',
         'between' => '之间',
         'before/after' => '之前/之后',
-        'Fulltext Search' => '全文搜索',
+        'Fulltext Search' => '',
         'Data' => '日期',
         'Options' => '选项',
         'Title' => '标题',
@@ -238,8 +238,8 @@ sub Data {
             '登录失败！用户名或密码错误。',
         'There is no acount with that user name.' => '没有此用户。',
         'Please contact your administrator' => '请联系管理员',
-        'Logout' => '注销',
-        'Logout successful. Thank you for using %s!' => '成功注销，谢谢使用!',
+        'Logout' => '退出',
+        'Logout successful. Thank you for using %s!' => '成功退出，谢谢使用!',
         'Feature not active!' => '该特性尚未激活!',
         'Agent updated!' => '服务人员已更新！',
         'Database Selection' => '数据库选择',
@@ -2253,7 +2253,7 @@ sub Data {
 
         # Template: AgentDashboardStats
         'The content of this statistic is being prepared for you, please be patient.' =>
-            '',
+            '正在为你处理统计数据，请耐心等待。',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '我锁定的工单',
@@ -2343,7 +2343,7 @@ sub Data {
         'Use cache' => '使用缓存',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             '大多数的统计资料可以缓存，这将提高统计报表的计算速度。',
-        'Show as dashboard widget' => '',
+        'Show as dashboard widget' => '作为仪表板显示部件',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             '',
         'Please note' => '',
@@ -2669,7 +2669,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => '编辑个人设置',
-        'Logout %s' => '',
+        'Logout %s' => '退出 %s',
 
         # Template: CustomerPreferences
 
@@ -2702,9 +2702,9 @@ sub Data {
         'Only tickets created' => '工单创建于',
         'Only tickets created between' => '工单创建自',
         'Ticket archive system' => '',
-        'Save search as template?' => '',
+        'Save search as template?' => '将搜索保存为模板？',
         'Save as Template?' => '保存为模板',
-        'Save as Template' => '',
+        'Save as Template' => '保存为模板',
         'Template Name' => '模板名称',
         'Pick a profile name' => '',
         'Output to' => '输出为',
@@ -2747,7 +2747,7 @@ sub Data {
 
         # Template: Datepicker
         'Invalid date (need a future date)!' => '无效的日期（需使用未来的日期）！',
-        'Previous' => '往前',
+        'Previous' => '上一步',
         'Open date selection' => '打开日历',
 
         # Template: Error
@@ -3921,7 +3921,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '介面风格',
         'Fulltext index regex filters to remove parts of the text.' => '',
-        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
+        'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => '计划任务',
         'GenericInterface Debugger GUI' => '',
@@ -4863,6 +4863,8 @@ sub Data {
         'Attachments <-> Responses' => '附件 <-> 回复',
         'BuildDate' => '创建日期',
         'BuildHost' => '创建主机',
+        'CIC search for CustomerID' => '用户ID搜索',
+        'CIC search for CustomerUser' => '用户搜索',
         'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
             '无法更改密码，密码至少需要2个小写和2个大写字符！',
         'Change Attachment Relations for Response' => '为回复指定附件',
@@ -4904,6 +4906,7 @@ sub Data {
         'Framework' => '架构',
         'From customer' => '来自用户',
         'Fulltext search' => '全文搜索',
+        'Fulltext-Search' => '全文搜索',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             '如果您的数据库有设置 root 密码, 请在这里输入, 否则, 请保留空白. 出于安全考虑, 我们建议您为 root 设置一个密码, 更多信息请参考数据库帮助文档.',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>
@@ -4915,7 +4918,7 @@ sub Data {
         'Link customers to services.' => '链接用户到服务.',
         'Link responses to queues.' => '链接回复模板到队列',
         'Log file location is only needed for File-LogModule!' => '只需要为File-LogModule指定日志文件位置!',
-        'Logout successful. Thank you for using OTRS!' => '成功注销，谢谢使用!',
+        'Logout successful. Thank you for using OTRS!' => '成功退出，谢谢使用!',
         'Manage Response-Queue Relations' => '管理回复与队列的对应关系',
         'Manage Responses' => '管理回复',
         'Manage Responses <-> Attachments Relations' => '管理回复与附件的对应关系',
@@ -4952,6 +4955,7 @@ sub Data {
         'Spam' => '垃圾',
         'Start Scheduler' => '运行调度程序',
         'State Type' => '状态类型',
+        'Statistic: widget' => '统计：仪表板显示部件',
         'The following ACLs have been updated successfully:' => '以下ACLs配置已成功更新。',
         'There where errors adding/updating the following ACLs:' => '添加/更新以下ACLs时出现错误：',
         'URL' => '网址',
