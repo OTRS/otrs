@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminResponseAttachment.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminResponseAttachment.pm,v 1.39 2010-11-10 11:04:28 mg Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/SpellingInline.pm - spelling module
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: SpellingInline.pm,v 1.2.4.1 2012-07-16 09:16:50 mn Exp $
 # --

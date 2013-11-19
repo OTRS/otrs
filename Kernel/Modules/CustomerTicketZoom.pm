@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerTicketZoom.pm,v 1.75.2.5 2011-11-02 09:19:39 mb Exp $
 # --
@@ -322,8 +322,8 @@ sub Run {
 
             # skip deleted inline images
             next if $Attachment->{ContentID}
-                    && $Attachment->{ContentID} =~ /^inline/
-                    && $GetParam{Body} !~ /$Attachment->{ContentID}/;
+                && $Attachment->{ContentID} =~ /^inline/
+                && $GetParam{Body} !~ /$Attachment->{ContentID}/;
             $Self->{TicketObject}->ArticleWriteAttachment(
                 %{$Attachment},
                 ArticleID => $ArticleID,

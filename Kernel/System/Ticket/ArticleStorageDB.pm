@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: ArticleStorageDB.pm,v 1.78.2.2 2012-03-20 20:49:11 mb Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketPlain.pm - to get a plain view
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketPlain.pm,v 1.17 2010-09-03 13:41:20 mb Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardRSS.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: DashboardRSS.pm,v 1.14 2010-04-02 20:13:18 martin Exp $
 # --

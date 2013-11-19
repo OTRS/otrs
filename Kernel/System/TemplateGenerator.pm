@@ -1,6 +1,6 @@
 # --
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: TemplateGenerator.pm,v 1.53.2.1 2012-06-04 10:20:43 mg Exp $
 # --

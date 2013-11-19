@@ -1,6 +1,6 @@
 # --
 # Kernel/System/EventHandler.pm - global object events
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: EventHandler.pm,v 1.7 2010-11-25 13:52:47 bes Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerZoom.pm,v 1.39 2009-02-16 11:20:53 tr Exp $
 # --

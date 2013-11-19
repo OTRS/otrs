@@ -1,6 +1,6 @@
 # --
 # Kernel/System/AutoResponse.pm - lib for auto responses
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AutoResponse.pm,v 1.45 2010-09-22 08:29:05 mb Exp $
 # --

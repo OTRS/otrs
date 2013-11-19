@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SystemAddress.pm - lib for system addresses
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: SystemAddress.pm,v 1.34 2011-01-31 07:49:47 mb Exp $
 # --

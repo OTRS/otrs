@@ -1,7 +1,7 @@
 # --
 # Kernel/System/Ticket/CustomerPermission/GroupCheck.pm -
 # the sub module of the global ticket handle
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: GroupCheck.pm,v 1.15 2010-01-19 21:10:34 martin Exp $
 # --

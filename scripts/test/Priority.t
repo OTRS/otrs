@@ -1,6 +1,6 @@
 # --
 # scripts/test/Priority.t - Priority module testscript
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Priority.t,v 1.2 2010-10-29 22:16:59 en Exp $
 # --

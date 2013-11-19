@@ -1,6 +1,6 @@
 # --
 # Kernel/System/WebUserAgent.pm - a web user agent
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: WebUserAgent.pm,v 1.5 2010-10-18 19:27:13 mb Exp $
 # --
@@ -136,7 +136,6 @@ sub Request {
             $ENV{PERL_NET_HTTPS_SSL_SOCKET_CLASS} = "Net::SSL";
             $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME}    = 0;
         }
-
 
         # init agent
         my $UserAgent = LWP::UserAgent->new();

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/MailAccount/IMAPS.pm - lib for imap accounts
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: IMAPS.pm,v 1.10 2010-01-13 17:06:03 martin Exp $
 # --

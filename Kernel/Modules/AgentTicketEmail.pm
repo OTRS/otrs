@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketEmail.pm,v 1.165.2.5 2011-07-22 12:49:48 en Exp $
 # --
@@ -324,12 +324,12 @@ sub Run {
                 Types      => $Self->_GetTypes( QueueID => $Self->{QueueID} || 1 ),
                 Services   => $Services,
                 SLAs       => $SLAs,
-                Users            => $Self->_GetUsers( QueueID => $Self->{QueueID} ),
-                ResponsibleUsers => $Self->_GetUsers( QueueID => $Self->{QueueID} ),
-                FromList => $Self->_GetTos( QueueID => $Self->{QueueID} ),
-                To       => '',
-                Subject  => $Subject,
-                Body     => $Body,
+                Users             => $Self->_GetUsers( QueueID => $Self->{QueueID} ),
+                ResponsibleUsers  => $Self->_GetUsers( QueueID => $Self->{QueueID} ),
+                FromList          => $Self->_GetTos( QueueID   => $Self->{QueueID} ),
+                To                => '',
+                Subject           => $Subject,
+                Body              => $Body,
                 CustomerID        => '',
                 CustomerUser      => '',
                 CustomerData      => {},

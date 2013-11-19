@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/es_MX.pm - provides Spanish language translation for Mexico
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: es_MX.pm,v 1.40.2.4 2012-03-09 07:37:03 mg Exp $
 # --

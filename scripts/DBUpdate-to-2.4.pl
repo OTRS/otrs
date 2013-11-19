@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # DBUpdate-to-2.4.pl - update script to migrate OTRS 2.3.x to 2.4.x
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: DBUpdate-to-2.4.pl,v 1.13 2010-06-17 21:15:48 dz Exp $
 # --
@@ -17,7 +17,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -51,7 +51,7 @@ my %Opts;
 getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
     print STDOUT "DBUpdate-to-2.4.pl <Revision $VERSION> - Database migration script\n";
-    print STDOUT "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+    print STDOUT "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     exit 1;
 }
 

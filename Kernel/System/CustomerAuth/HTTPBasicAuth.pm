@@ -1,7 +1,7 @@
 # --
 # Kernel/System/CustomerAuth/HTTPBasicAuth.pm - provides the $ENV authentication
 # Authentication
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: HTTPBasicAuth.pm,v 1.15 2009-09-22 15:16:05 mb Exp $
 # --

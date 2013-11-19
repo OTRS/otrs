@@ -1,6 +1,6 @@
 # --
 # Kernel/System/LinkObject.pm - to link objects
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: LinkObject.pm,v 1.58 2010-08-27 19:07:11 mb Exp $
 # --
@@ -504,7 +504,7 @@ sub LinkAdd {
 
         return 1 if !$TypeData{Pointed};
         return 1 if $Existing{SourceObjectID} eq $Param{SourceObjectID}
-                && $Existing{SourceKey} eq $Param{SourceKey};
+            && $Existing{SourceKey} eq $Param{SourceKey};
 
         # log error
         $Self->{LogObject}->Log(
@@ -2249,7 +2249,7 @@ sub ObjectPermission {
         UserID => $Param{UserID},
     );
 
-    return if !$BackendObject;
+    return   if !$BackendObject;
     return 1 if !$BackendObject->can('ObjectPermission');
 
     return $BackendObject->ObjectPermission(

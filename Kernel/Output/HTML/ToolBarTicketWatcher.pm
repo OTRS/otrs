@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/ToolBarTicketWatcher.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: ToolBarTicketWatcher.pm,v 1.9 2010-10-15 13:20:54 mb Exp $
 # --

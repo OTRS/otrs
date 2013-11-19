@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: StaticDB.pm,v 1.76.2.2 2012-08-24 12:24:38 mg Exp $
 # --
@@ -486,8 +486,8 @@ sub _GetIndexTicketLock {
 sub GetOverTimeTickets {
     my ( $Self, %Param ) = @_;
 
-	# Find all tickets which will escalate within the next five days.
-	# The notification module will determine if a notification must be sent out or not.
+    # Find all tickets which will escalate within the next five days.
+    # The notification module will determine if a notification must be sent out or not.
     my @TicketIDs = $Self->TicketSearch(
         Result                           => 'ARRAY',
         Limit                            => 100,

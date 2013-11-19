@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/LayoutAJAX.pm - provides generic HTML output
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: LayoutAJAX.pm,v 1.28 2010-08-31 09:26:00 mg Exp $
 # --

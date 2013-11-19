@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardUserOnline.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: DashboardUserOnline.pm,v 1.19 2010-11-04 14:48:31 martin Exp $
 # --
@@ -162,7 +162,7 @@ sub Run {
             next if !$Data{UserLastRequest};
             next
                 if $Data{UserLastRequest} + ( $IdleMinutes * 60 )
-                    < $Self->{TimeObject}->SystemTime();
+                < $Self->{TimeObject}->SystemTime();
 
             # remember user and data
             $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} } = $Data{$SortBy};

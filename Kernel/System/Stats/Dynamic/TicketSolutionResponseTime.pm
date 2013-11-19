@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm - stats about ticket solution and response time
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketSolutionResponseTime.pm,v 1.5.4.2 2012-02-28 09:55:07 jp Exp $
 # --
@@ -644,7 +644,7 @@ sub ExportWrapper {
                 }
             }
             elsif (
-                $ElementName    eq 'OwnerIDs'
+                $ElementName eq 'OwnerIDs'
                 || $ElementName eq 'CreatedUserIDs'
                 || $ElementName eq 'ResponsibleIDs'
                 )
@@ -734,7 +734,7 @@ sub ImportWrapper {
                 }
             }
             elsif (
-                $ElementName    eq 'OwnerIDs'
+                $ElementName eq 'OwnerIDs'
                 || $ElementName eq 'CreatedUserIDs'
                 || $ElementName eq 'ResponsibleIDs'
                 )

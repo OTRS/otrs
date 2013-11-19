@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/ja.pm - provides Japanese language translation
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # --
 # $Id: ja.pm,v 1.9.2.5 2012-03-09 07:37:03 mg Exp $

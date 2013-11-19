@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketMenuLock.pm
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketMenuLock.pm,v 1.18.2.1 2012-04-17 15:45:50 des Exp $
 # --
@@ -68,7 +68,7 @@ sub Run {
     # check acl
     return
         if defined $Param{ACL}->{ $Param{Config}->{Action} }
-            && !$Param{ACL}->{ $Param{Config}->{Action} };
+        && !$Param{ACL}->{ $Param{Config}->{Action} };
 
     # if ticket is locked
     if ( $Param{Ticket}->{Lock} eq 'lock' ) {

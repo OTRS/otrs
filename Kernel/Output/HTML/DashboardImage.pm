@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardImage.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: DashboardImage.pm,v 1.7 2009-07-13 23:23:53 martin Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/XML.pm - lib xml
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: XML.pm,v 1.105.2.2 2011-06-07 07:22:35 mg Exp $
 # --

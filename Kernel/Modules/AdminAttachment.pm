@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminAttachment.pm,v 1.38 2010-11-20 00:03:07 en Exp $
 # --

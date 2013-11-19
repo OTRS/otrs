@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DB/db2.pm - db2 database backend
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: db2.pm,v 1.57.2.3 2011-03-01 19:17:30 en Exp $
 # --

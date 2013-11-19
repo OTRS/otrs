@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddUser2Role.pl - Assign users to Roles from CLI
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.AddUser2Role.pl,v 1.4 2011-01-30 14:16:48 mb Exp $
 # --
@@ -17,7 +17,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -48,7 +48,7 @@ my %Opts;
 getopt( 'ur', \%Opts );
 if ( !$Opts{r} || !$Opts{u} ) {
     print "otrs.AddUser2Role <Revision $VERSION> - assign Users to Roles\n";
-    print "Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print "usage: $FindBin::Script -u <USER> -r <ROLE> \n";
     exit 1;
 }

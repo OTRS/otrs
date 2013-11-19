@@ -1,6 +1,6 @@
 # --
 # scripts/test/Performance.t - a performance testscript
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Performance.t,v 1.16 2010-11-01 19:05:34 en Exp $
 # --

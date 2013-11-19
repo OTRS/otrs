@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Main.pm - main core components
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Main.pm,v 1.58 2011-01-04 17:40:12 en Exp $
 # --

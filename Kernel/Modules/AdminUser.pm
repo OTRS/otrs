@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminUser.pm,v 1.80.2.1 2011-09-12 08:36:29 mg Exp $
 # --
@@ -539,7 +539,7 @@ sub _Edit {
                             Data => { %Param, },
                         );
                         if (
-                            ref( $ParamItem->{Data} )   eq 'HASH'
+                            ref( $ParamItem->{Data} ) eq 'HASH'
                             || ref( $Preference{Data} ) eq 'HASH'
                             )
                         {

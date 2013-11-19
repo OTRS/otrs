@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket.pm - all ticket functions
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Ticket.pm,v 1.488.2.24 2012-10-16 12:35:49 mg Exp $
 # --
@@ -3048,7 +3048,7 @@ sub TicketFreeTextSet {
     }
 
     if (
-        $Value  eq $Ticket{"TicketFreeText$Param{Counter}"}
+        $Value eq $Ticket{"TicketFreeText$Param{Counter}"}
         && $Key eq $Ticket{"TicketFreeKey$Param{Counter}"}
         )
     {
@@ -4494,7 +4494,8 @@ sub TicketSearch {
 
             $SQLExt .= " AND tf$Index.ticket_key = '" . $Self->{DBObject}->Quote($Key) . "'";
             $SQLExt .= " AND tf$Index.ticket_value = '" . $Self->{DBObject}->Quote($Value) . "'";
-            $SQLExt .= " AND tf$Index.create_by = " . $Self->{DBObject}->Quote($TicketFlagUserID, 'Integer');
+            $SQLExt .= " AND tf$Index.create_by = "
+                . $Self->{DBObject}->Quote( $TicketFlagUserID, 'Integer' );
 
             $Index++;
         }
@@ -6620,7 +6621,7 @@ sub HistoryTicketGet {
             }
         }
         elsif (
-            $Row[1]    eq 'StateUpdate'
+            $Row[1] eq 'StateUpdate'
             || $Row[1] eq 'Close successful'
             || $Row[1] eq 'Close unsuccessful'
             || $Row[1] eq 'Open'
@@ -6628,7 +6629,7 @@ sub HistoryTicketGet {
             )
         {
             if (
-                $Row[0]    =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
+                $Row[0] =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/
                 || $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/
                 || $Row[0] =~ /^Changed Ticket State from '(.+?)' to '(.+?)'/
                 )
@@ -7696,8 +7697,8 @@ sub TicketAcl {
 
     # only execute acls if ACL or ACL module is configured or event module is used
     return if !$Self->{ConfigObject}->Get('TicketAcl')
-            && !$Self->{ConfigObject}->Get('Ticket::Acl::Module')
-            && !$Self->{ConfigObject}->Get('Ticket::EventModulePost');
+        && !$Self->{ConfigObject}->Get('Ticket::Acl::Module')
+        && !$Self->{ConfigObject}->Get('Ticket::EventModulePost');
 
     # match also frontend options
     my %Checks;

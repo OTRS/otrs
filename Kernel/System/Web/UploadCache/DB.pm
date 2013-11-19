@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Web/UploadCache/DB.pm - a db upload cache
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: DB.pm,v 1.24 2010-02-03 14:51:03 bes Exp $
 # --

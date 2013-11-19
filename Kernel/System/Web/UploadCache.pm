@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Web/UploadCache.pm - a fs upload cache
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: UploadCache.pm,v 1.22 2010-11-17 16:42:09 ub Exp $
 # --

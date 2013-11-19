@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/OutputFilterTextURL.pm - auto URL detection filter
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: OutputFilterTextURL.pm,v 1.4.2.1 2011-05-18 18:20:50 en Exp $
 # --

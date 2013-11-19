@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentLinkObject.pm - to link objects
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentLinkObject.pm,v 1.58.2.1 2011-02-14 11:10:06 ub Exp $
 # --
@@ -65,11 +65,14 @@ sub Run {
 
     # check if this is a temporary ticket link used while creating a new ticket
     my $TemporarySourceTicketLink;
-    if ( $Form{Mode} eq 'Temporary' && $Form{SourceObject} eq 'Ticket' && $Form{SourceKey} =~ m{ \A \d+ \. \d+ }xms ) {
+    if (   $Form{Mode} eq 'Temporary'
+        && $Form{SourceObject} eq 'Ticket'
+        && $Form{SourceKey} =~ m{ \A \d+ \. \d+ }xms )
+    {
         $TemporarySourceTicketLink = 1;
     }
 
-    # do the permission check only if it is no temporary ticket link used while creating a new ticket
+   # do the permission check only if it is no temporary ticket link used while creating a new ticket
     if ( !$TemporarySourceTicketLink ) {
 
         # permission check
@@ -364,7 +367,10 @@ sub Run {
 
                     # check if this is a temporary ticket link used while creating a new ticket
                     my $TemporaryTargetTicketLink;
-                    if ( $Form{Mode} eq 'Temporary' && $TargetObject eq 'Ticket' && $TargetKey =~ m{ \A \d+ \. \d+ }xms ) {
+                    if (   $Form{Mode} eq 'Temporary'
+                        && $TargetObject eq 'Ticket'
+                        && $TargetKey =~ m{ \A \d+ \. \d+ }xms )
+                    {
                         $TemporaryTargetTicketLink = 1;
                     }
 
@@ -470,7 +476,7 @@ sub Run {
 
             next OPTION if !$Option->{FormData};
             next OPTION if $Option->{FormData}
-                    && ref $Option->{FormData} eq 'ARRAY' && !@{ $Option->{FormData} };
+                && ref $Option->{FormData} eq 'ARRAY' && !@{ $Option->{FormData} };
 
             $SearchParam{ $Option->{Key} } = $Option->{FormData};
         }

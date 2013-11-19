@@ -1,6 +1,6 @@
 # --
 # Kernel/System/GenericAgent/NotifyAgentGroupOfCustomQueue.pm - generic agent notifications
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.23.4.1 2012-09-27 16:21:30 jp Exp $
 # --
@@ -118,8 +118,8 @@ sub Run {
         my $Sent = 0;
         for my $Line (@Lines) {
             if (
-                $Line->{Name}          =~ /\%\%$EscalationType\%\%/
-                && $Line->{Name}       =~ /\Q%%$User{UserEmail}\E$/i
+                $Line->{Name} =~ /\%\%$EscalationType\%\%/
+                && $Line->{Name} =~ /\Q%%$User{UserEmail}\E$/i
                 && $Line->{CreateTime} =~ /$Year-$Month-$Day/
                 )
             {

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/TicketEscalationIndex.pm - update escalation index
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketEscalationIndex.pm,v 1.5 2010-11-25 08:57:22 bes Exp $
 # --

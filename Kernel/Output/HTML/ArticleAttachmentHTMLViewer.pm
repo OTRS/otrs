@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/ArticleAttachmentHTMLViewer.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: ArticleAttachmentHTMLViewer.pm,v 1.9.4.3 2011-03-10 00:10:13 mp Exp $
 # --

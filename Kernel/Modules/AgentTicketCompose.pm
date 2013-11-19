@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketCompose.pm,v 1.124.2.10 2012-05-24 23:18:03 cr Exp $
 # --

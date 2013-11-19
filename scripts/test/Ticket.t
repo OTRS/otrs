@@ -1,6 +1,6 @@
 # --
 # Ticket.t - ticket module testscript
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Ticket.t,v 1.68.2.6 2011-09-06 22:42:31 en Exp $
 # --
@@ -5533,7 +5533,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
                 for my $ID ( sort keys %Index ) {
                     next
                         if $ArticleIDs{$ArticleID}->{$AttachmentID}->{Filename} ne
-                            $Index{$ID}->{Filename};
+                        $Index{$ID}->{Filename};
                     for my $Attribute ( sort keys %{ $ArticleIDs{$ArticleID}->{$AttachmentID} } ) {
                         $Self->Is(
                             $Index{$ID}->{$Attribute},
@@ -5571,7 +5571,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
                 for my $ID ( sort keys %Index ) {
                     next
                         if $ArticleIDs{$ArticleID}->{$AttachmentID}->{Filename} ne
-                            $Index{$ID}->{Filename};
+                        $Index{$ID}->{Filename};
                     for my $Attribute ( sort keys %{ $ArticleIDs{$ArticleID}->{$AttachmentID} } ) {
                         $Self->Is(
                             $Index{$ID}->{$Attribute},

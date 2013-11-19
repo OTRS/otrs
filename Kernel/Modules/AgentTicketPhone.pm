@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketPhone.pm,v 1.178.2.7 2012-03-05 09:48:08 mg Exp $
 # --
@@ -190,7 +190,7 @@ sub Run {
             }
 
             %Article = $Self->{TicketObject}->ArticleGet(
-                ArticleID     => $GetParam{ArticleID},
+                ArticleID => $GetParam{ArticleID},
             );
 
             # Check if article is from the same TicketID as we checked permissions for.

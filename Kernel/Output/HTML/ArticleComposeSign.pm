@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/ArticleComposeSign.pm
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: ArticleComposeSign.pm,v 1.21.2.1 2012-05-24 23:20:05 cr Exp $
 # --

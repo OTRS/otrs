@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/PreferencesTicketWatcher.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: PreferencesTicketWatcher.pm,v 1.3 2009-12-09 09:37:42 mg Exp $
 # --

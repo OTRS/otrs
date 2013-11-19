@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Log.pm - log wapper
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Log.pm,v 1.64.2.1 2011-08-15 13:42:19 mb Exp $
 # --

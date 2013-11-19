@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketMenuResponsible.pm
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketMenuResponsible.pm,v 1.15 2010-09-07 10:18:12 mb Exp $
 # --
@@ -79,7 +79,7 @@ sub Run {
     # check acl
     return
         if defined $Param{ACL}->{ $Param{Config}->{Action} }
-            && !$Param{ACL}->{ $Param{Config}->{Action} };
+        && !$Param{ACL}->{ $Param{Config}->{Action} };
 
     # return item
     return { %{ $Param{Config} }, %{ $Param{Ticket} }, %Param };

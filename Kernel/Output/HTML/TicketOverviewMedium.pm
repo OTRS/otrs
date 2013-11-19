@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketOverviewMedium.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketOverviewMedium.pm,v 1.40.2.1 2011-03-01 18:17:20 cg Exp $
 # --

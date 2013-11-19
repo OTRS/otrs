@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminPackageManager.pm,v 1.98.2.2 2011-07-29 11:36:03 martin Exp $
 # --

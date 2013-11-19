@@ -1,6 +1,6 @@
 # --
 # Kernel/System/AuthSession/DB.pm - provides session db backend
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: DB.pm,v 1.49 2011-01-13 14:25:54 martin Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentBook.pm - addressbook module
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentBook.pm,v 1.18 2010-06-30 08:56:38 mn Exp $
 # --

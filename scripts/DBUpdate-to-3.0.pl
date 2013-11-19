@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # DBUpdate-to-3.0.pl - update script to migrate OTRS 2.4.x to 3.0.x
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: DBUpdate-to-3.0.pl,v 1.5.2.1 2011-12-05 11:09:17 ub Exp $
 # --
@@ -17,7 +17,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 

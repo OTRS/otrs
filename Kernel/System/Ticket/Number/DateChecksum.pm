@@ -1,6 +1,6 @@
 # --
 # Ticket/Number/DateChecksum.pm - a date ticket number generator
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: DateChecksum.pm,v 1.35 2009-05-15 10:12:02 martin Exp $
 # --

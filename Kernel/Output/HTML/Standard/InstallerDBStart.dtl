@@ -1,6 +1,6 @@
 # --
 # InstallerDBStart.dtl - provides the Installer's form to configure the DB
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: InstallerDBStart.dtl,v 1.15 2010-11-10 12:35:58 mg Exp $
 # --

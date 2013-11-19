@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketActionCommon.pm,v 1.33.2.6 2012-06-29 21:06:51 cr Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/PublicRepository.pm - provides a local repository
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: PublicRepository.pm,v 1.12 2009-02-16 11:20:53 tr Exp $
 # --

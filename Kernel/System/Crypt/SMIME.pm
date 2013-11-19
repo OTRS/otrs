@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: SMIME.pm,v 1.43.2.5 2012-05-03 12:34:00 mg Exp $
 # --
@@ -928,7 +928,7 @@ sub _FetchAttributesFromCert {
     }
 
     # prepare attributes data for use
-    $AttributesRef->{Issuer}  =~ s{=}{= }xmsg;
+    $AttributesRef->{Issuer} =~ s{=}{= }xmsg;
     $AttributesRef->{Subject} =~ s{\/}{ }xmsg;
     $AttributesRef->{Subject} =~ s{=}{= }xmsg;
 

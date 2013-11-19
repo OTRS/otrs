@@ -1,6 +1,6 @@
 # --
 # CustomerCompany.t - CustomerCompany tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerCompany.t,v 1.4.4.4 2012-06-01 16:40:55 cg Exp $
 # --

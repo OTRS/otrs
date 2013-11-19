@@ -1,6 +1,6 @@
 # --
 # scripts/test/Layout.t - layout module testscript
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Layout.t,v 1.48.2.1 2011-08-09 16:15:35 te Exp $
 # --

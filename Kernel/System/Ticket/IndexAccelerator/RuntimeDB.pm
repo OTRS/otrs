@@ -1,7 +1,7 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/RuntimeDB.pm - realtime database
 # queue ticket index module
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: RuntimeDB.pm,v 1.74.4.2 2012-08-24 09:46:01 mg Exp $
 # --
@@ -193,8 +193,8 @@ sub TicketAcceleratorRebuild {
 sub GetOverTimeTickets {
     my ( $Self, %Param ) = @_;
 
-	# Find all tickets which will escalate within the next five days.
-	# The notification module will determine if a notification must be sent out or not.
+    # Find all tickets which will escalate within the next five days.
+    # The notification module will determine if a notification must be sent out or not.
     my @TicketIDs = $Self->TicketSearch(
         Result                           => 'ARRAY',
         Limit                            => 100,

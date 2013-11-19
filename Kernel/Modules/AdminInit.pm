@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminInit.pm - init a new setup
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminInit.pm,v 1.17 2010-09-02 12:20:47 martin Exp $
 # --

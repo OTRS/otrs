@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/ForceState.pm - set state
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: ForceState.pm,v 1.11 2010-05-19 07:08:18 mb Exp $
 # --

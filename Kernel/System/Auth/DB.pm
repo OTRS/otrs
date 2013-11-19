@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Auth/DB.pm - provides the db authentication
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: DB.pm,v 1.30 2010-08-02 16:53:02 cr Exp $
 # --

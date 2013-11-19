@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Service.pm - all service function
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Service.pm,v 1.46 2010-10-26 03:58:49 dz Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: FollowUp.pm,v 1.67.2.1 2011-05-24 09:12:07 mb Exp $
 # --

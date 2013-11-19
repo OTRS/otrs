@@ -1,7 +1,7 @@
 # --
 # Kernel/System/Ticket/Permission/WatcherCheck.pm - the sub module of
 # the global ticket handle
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: WatcherCheck.pm,v 1.3 2009-02-26 10:27:58 tr Exp $
 # --

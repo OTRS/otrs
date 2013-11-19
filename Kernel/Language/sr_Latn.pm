@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/sr_Latn.pm - provides Serbian language Latin translation
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # Copyright (C) 2010 Milorad Jovanoviæ <j.milorad at gmail.com>
 # --
 # $Id: sr_Latn.pm,v 1.10.2.4 2012-03-09 07:37:05 mg Exp $

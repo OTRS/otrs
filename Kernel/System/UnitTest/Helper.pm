@@ -1,6 +1,6 @@
 # --
 # Helper.pm - unit test helper functions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Helper.pm,v 1.7.2.4 2011-04-01 10:41:48 mg Exp $
 # --
@@ -12,6 +12,7 @@
 package Kernel::System::UnitTest::Helper;
 
 use strict;
+use warnings;
 
 use Kernel::Config;
 use Kernel::System::User;

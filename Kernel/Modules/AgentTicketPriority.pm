@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketPriority.pm - set ticket priority
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketPriority.pm,v 1.77 2010-06-18 18:15:49 en Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/State.pm - All state related function should be here eventually
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: State.pm,v 1.48.2.1 2011-06-17 10:10:08 mb Exp $
 # --

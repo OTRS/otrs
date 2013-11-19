@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/CustomerHeaderMetaTicketSearch.pm
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerHeaderMetaTicketSearch.pm,v 1.1.2.3 2012-02-14 16:46:12 mg Exp $
 # --

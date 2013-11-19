@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Article.pm,v 1.274.2.3 2011-09-07 22:42:19 en Exp $
 # --
@@ -2429,12 +2429,12 @@ sub SendCustomerNotification {
     }
 
     # replace config options
-    $Notification{Body}    =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    $Notification{Body} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
     $Notification{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_CONFIG_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_CONFIG_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_CONFIG_.+?>/-/gi;
 
     # COMPAT
     $Notification{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/gi;
@@ -2445,40 +2445,40 @@ sub SendCustomerNotification {
     my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
     for ( keys %Ticket ) {
         if ( defined $Ticket{$_} ) {
-            $Notification{Body}    =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
+            $Notification{Body} =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
         }
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_TICKET_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_TICKET_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_TICKET_.+?>/-/gi;
 
     # get current user data
     my %CurrentPreferences = $Self->{UserObject}->GetUserData( UserID => $Param{UserID} );
     for ( keys %CurrentPreferences ) {
         if ( $CurrentPreferences{$_} ) {
-            $Notification{Body}    =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
+            $Notification{Body} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
         }
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_CURRENT_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_CURRENT_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_CURRENT_.+?>/-/gi;
 
     # get owner data
     my %OwnerPreferences = $Self->{UserObject}->GetUserData( UserID => $Article{OwnerID}, );
     for ( keys %OwnerPreferences ) {
         if ( $OwnerPreferences{$_} ) {
-            $Notification{Body}    =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
+            $Notification{Body} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
         }
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_OWNER_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_OWNER_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_OWNER_.+?>/-/gi;
 
     # get responsible data
     my %ResponsiblePreferences = $Self->{UserObject}->GetUserData(
@@ -2486,20 +2486,20 @@ sub SendCustomerNotification {
     );
     for ( keys %ResponsiblePreferences ) {
         if ( $ResponsiblePreferences{$_} ) {
-            $Notification{Body}    =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
+            $Notification{Body} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
         }
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
 
     # get ref of email params
     my %GetParam = %{ $Param{CustomerMessageParams} };
     for ( keys %GetParam ) {
         if ( $GetParam{$_} ) {
-            $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
+            $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
         }
     }
@@ -2513,21 +2513,21 @@ sub SendCustomerNotification {
         # replace customer stuff with tags
         for ( keys %CustomerUser ) {
             if ( $CustomerUser{$_} ) {
-                $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
+                $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
                 $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
             }
         }
     }
 
     # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
-    $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
     $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
 
     # format body
     $Article{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm if ( $Article{Body} );
     for ( keys %Article ) {
         if ( $Article{$_} ) {
-            $Notification{Body}    =~ s/<OTRS_CUSTOMER_$_>/$Article{$_}/gi;
+            $Notification{Body} =~ s/<OTRS_CUSTOMER_$_>/$Article{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_CUSTOMER_$_>/$Article{$_}/gi;
         }
     }
@@ -2539,7 +2539,7 @@ sub SendCustomerNotification {
     );
     if ( $Notification{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/ ) {
         my $SubjectChar = $1;
-        $Article{Subject}      =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+        $Article{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
         $Notification{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$Article{Subject}/g;
     }
     $Notification{Subject} = $Self->TicketSubjectBuild(
@@ -2565,7 +2565,7 @@ sub SendCustomerNotification {
     }
 
     # cleanup all not needed <OTRS_CUSTOMER_ tags
-    $Notification{Body}    =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
     $Notification{Subject} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
 
     # send notify

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: ArticleStorageFS.pm,v 1.77.2.4 2012-12-03 18:24:51 mg Exp $
 # --

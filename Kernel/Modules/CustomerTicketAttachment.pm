@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketAttachment.pm - to get the attachments
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerTicketAttachment.pm,v 1.29 2010-09-03 13:41:20 mb Exp $
 # --

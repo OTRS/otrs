@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/lt.pm - provides Lithuanian language translation
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # Copyright (C) 2011 Edgaras Lukoðevièius <edgaras[eta]kauko.lt or admin[eta]sysadmin.lt>
 # --
 # $Id: lt.pm,v 1.1.2.5 2012-03-09 07:37:05 mg Exp $

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Email/DoNotSendEmail.pm - modul dummy to send no emails
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: DoNotSendEmail.pm,v 1.3 2009-02-16 11:48:19 tr Exp $
 # --

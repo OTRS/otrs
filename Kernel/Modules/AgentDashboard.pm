@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentDashboard.pm,v 1.24.2.1 2011-12-02 15:26:55 mb Exp $
 # --

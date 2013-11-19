@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/LayoutPopup.pm - provides generic HTML output
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: LayoutPopup.pm,v 1.4 2010-11-18 13:47:39 martin Exp $
 # --

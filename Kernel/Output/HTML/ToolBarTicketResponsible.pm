@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/ToolBarTicketResponsible.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: ToolBarTicketResponsible.pm,v 1.8 2011-01-21 18:01:40 dz Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/TicketFreeFieldDefault.pm - a event module for default ticket free text settings
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketFreeFieldDefault.pm,v 1.11 2010-11-04 10:03:40 martin Exp $
 # --

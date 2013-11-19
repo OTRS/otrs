@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminType.pm - to add/update/delete ticket types
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminType.pm,v 1.20 2010-11-19 22:28:58 en Exp $
 # --

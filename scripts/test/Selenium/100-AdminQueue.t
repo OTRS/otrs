@@ -1,6 +1,6 @@
 # --
 # 100-AdminQueue.t - frontend tests for AdminState
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: 100-AdminQueue.t,v 1.2.2.2 2011-02-09 15:45:46 mg Exp $
 # --

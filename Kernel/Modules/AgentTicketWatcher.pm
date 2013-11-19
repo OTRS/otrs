@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketWatcher.pm - a ticketwatcher module
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketWatcher.pm,v 1.15.2.1 2012-01-20 10:26:39 jh Exp $
 # --
@@ -76,7 +76,7 @@ sub Run {
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID},
         );
-        if (!$Access) {
+        if ( !$Access ) {
             return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
         }
 

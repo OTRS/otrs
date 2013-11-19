@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardCalendar.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: DashboardCalendar.pm,v 1.18.2.1 2011-08-11 05:40:23 cg Exp $
 # --
@@ -132,7 +132,7 @@ sub Run {
                 # only show own pending tickets
                 next
                     if $Ticket{OwnerID} ne $Self->{UserID}
-                        && $Ticket{ResponsibleID} ne $Self->{UserID};
+                    && $Ticket{ResponsibleID} ne $Self->{UserID};
                 my $DestDate = $Self->{TimeObject}->SystemTime() + $Ticket{UntilTime};
                 $TimeTill  = $Ticket{UntilTime};
                 $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(

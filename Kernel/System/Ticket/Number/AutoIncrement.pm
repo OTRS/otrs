@@ -1,6 +1,6 @@
 # --
 # Ticket/Number/AutoIncrement.pm - a ticket number auto increment generator
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AutoIncrement.pm,v 1.29 2009-05-15 10:12:02 martin Exp $
 # --

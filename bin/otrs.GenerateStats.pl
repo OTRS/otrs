@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.GenerateStats.pl - send stats output via email
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.GenerateStats.pl,v 1.3 2010-08-06 17:49:20 cr Exp $
 # --
@@ -17,7 +17,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -73,7 +73,7 @@ my %Opts = ();
 getopt( 'nrsmoplfS', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.GenerateStats.pl <Revision $VERSION> - OTRS cmd stats\n";
-    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.GenerateStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print] [-S <SEPARATOR>]\n";
     print
@@ -216,7 +216,7 @@ my @StatArray = @{
         StatID   => $StatID,
         GetParam => \%GetParam,
         )
-    };
+};
 
 # generate output
 my $TitleArrayRef  = shift(@StatArray);

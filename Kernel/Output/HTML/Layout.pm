@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Layout.pm,v 1.351.2.16 2012-06-14 17:38:09 cr Exp $
 # --
@@ -3444,7 +3444,7 @@ sub CustomerNavigationBar {
             if (
                 !$SelectedFlag
                 && $NavBarModule{$Item}->{Link} =~ /Action=$Self->{Action}/
-                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/     # Subaction can be empty
+                && $NavBarModule{$Item}->{Link} =~ /$Self->{Subaction}/    # Subaction can be empty
                 )
             {
                 $NavBarModule{$Item}->{Class} .= ' Selected';
@@ -3822,7 +3822,7 @@ sub RichTextDocumentServe {
             );
 
             # replace charset in content
-            $Param{Data}->{Content}     =~ s/$Charset/utf-8/gi;
+            $Param{Data}->{Content} =~ s/$Charset/utf-8/gi;
             $Param{Data}->{ContentType} =~ s/$Charset/utf-8/gi;
         }
     }

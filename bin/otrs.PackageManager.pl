@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.PackageManager.pl - otrs package manager cmd version
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.PackageManager.pl,v 1.10 2010-10-14 08:54:15 bes Exp $
 # --
@@ -17,7 +17,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -84,7 +84,7 @@ if ( $Opts{a} && $Opts{a} eq 'index' ) {
 # check needed params
 if ( $Opts{h} ) {
     print "otrs.PackageManager.pl <Revision $VERSION> - OTRS Package Manager\n";
-    print "Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.PackageManager.pl -a list|install|upgrade|uninstall|reinstall|list-repository|file|build|index \n";
     print
@@ -633,7 +633,7 @@ sub _MessageGet {
         }
     }
     if ( !$Param{Reformat} || $Param{Reformat} ne 'No' ) {
-        $Title       =~ s/(.{4,78})(?:\s|\z)/| $1\n/gm;
+        $Title =~ s/(.{4,78})(?:\s|\z)/| $1\n/gm;
         $Description =~ s/^\s*//mg;
         $Description =~ s/\n/ /gs;
         $Description =~ s/\r/ /gs;

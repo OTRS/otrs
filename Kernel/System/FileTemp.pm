@@ -1,6 +1,6 @@
 # --
 # Kernel/System/FileTemp.pm - tmp files
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: FileTemp.pm,v 1.16 2010-06-17 21:39:40 cr Exp $
 # --

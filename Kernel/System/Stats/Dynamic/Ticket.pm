@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: Ticket.pm,v 1.32.4.1 2012-02-28 09:55:07 jp Exp $
 # --
@@ -611,7 +611,7 @@ sub ExportWrapper {
                 }
             }
             elsif (
-                $ElementName    eq 'OwnerIDs'
+                $ElementName eq 'OwnerIDs'
                 || $ElementName eq 'CreatedUserIDs'
                 || $ElementName eq 'ResponsibleIDs'
                 )
@@ -701,7 +701,7 @@ sub ImportWrapper {
                 }
             }
             elsif (
-                $ElementName    eq 'OwnerIDs'
+                $ElementName eq 'OwnerIDs'
                 || $ElementName eq 'CreatedUserIDs'
                 || $ElementName eq 'ResponsibleIDs'
                 )

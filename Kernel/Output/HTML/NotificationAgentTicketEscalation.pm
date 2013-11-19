@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: NotificationAgentTicketEscalation.pm,v 1.32 2009-02-16 11:16:22 tr Exp $
 # --
@@ -46,7 +46,7 @@ sub Run {
     # only show the escalations on ticket overviews
     return ''
         if $Self->{LayoutObject}->{Action}
-            !~ /^AgentTicket(Queue|(Status|Locked|Watch|Responsible)View)/;
+        !~ /^AgentTicket(Queue|(Status|Locked|Watch|Responsible)View)/;
 
     # check result cache
     my $CacheTime = $Param{Config}->{CacheTime} || 40;

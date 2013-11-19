@@ -1,6 +1,6 @@
 # --
 # Kernel/System/StandardResponse.pm - lib for std responses
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: StandardResponse.pm,v 1.1.2.1 2011-03-15 23:11:21 ep Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminLog.pm - provides a log view for admins
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminLog.pm,v 1.23 2010-04-12 21:33:24 mg Exp $
 # --

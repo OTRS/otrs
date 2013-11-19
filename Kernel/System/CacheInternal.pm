@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CacheInternal.pm - all cache functions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: CacheInternal.pm,v 1.9 2010-11-30 13:11:11 mg Exp $
 # --

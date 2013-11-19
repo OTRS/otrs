@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentication
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # $Id: LDAP.pm,v 1.37 2011-01-27 21:52:28 cg Exp $
 # --
