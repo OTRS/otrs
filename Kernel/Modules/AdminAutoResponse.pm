@@ -291,6 +291,7 @@ sub _Edit {
 
     # add rich text editor
     if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+
         # reformat from plain to html
         if ( $Param{ContentType} && $Param{ContentType} =~ /text\/plain/i ) {
             $Param{Response} = $Self->{HTMLUtilsObject}->ToHTML(

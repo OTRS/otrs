@@ -2591,9 +2591,9 @@ sub StatsCleanUp {
         );
 
         next STATSID if $HashRef
-                && ref $HashRef eq 'HASH'
-                && $HashRef->{ObjectModule}
-                && $Self->{MainObject}->Require( $HashRef->{ObjectModule} );
+            && ref $HashRef eq 'HASH'
+            && $HashRef->{ObjectModule}
+            && $Self->{MainObject}->Require( $HashRef->{ObjectModule} );
 
         # delete stats
         $Self->StatsDelete( StatID => $StatsID );
@@ -3642,9 +3642,9 @@ sub _WriteResultCache {
         return if $GetParam{Year} == $Y && $GetParam{Month} > $M;
         return
             if $GetParam{Year} == $Y
-                && $GetParam{Month} == $M
-                && $GetParam{Day}
-                && $GetParam{Day} >= $D;
+            && $GetParam{Month} == $M
+            && $GetParam{Day}
+            && $GetParam{Day} >= $D;
     }
 
     # write cache file

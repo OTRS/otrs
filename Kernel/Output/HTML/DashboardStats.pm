@@ -415,7 +415,7 @@ sub Preferences {
                                     SelectedID => $SelectedID || '',
                                     SortIndividual => [
                                         'Second', 'Minute', 'Hour', 'Day',
-                                        'Week',   'Month',  'Year'
+                                        'Week', 'Month', 'Year'
                                     ],
                                     );
                             }
@@ -426,7 +426,8 @@ sub Preferences {
                             $BlockData{TimeRelativeMaxSeconds}
                                 = $ObjectAttribute->{TimeRelativeCount}
                                 * $Self->_TimeInSeconds(
-                                TimeUnit => $ObjectAttribute->{TimeRelativeUnit} );
+                                TimeUnit => $ObjectAttribute->{TimeRelativeUnit}
+                                );
 
                             $Self->{LayoutObject}->Block(
                                 Name => 'TimePeriodRelative',
@@ -466,13 +467,14 @@ sub Preferences {
                                     Sort           => 'IndividualKey',
                                     SortIndividual => [
                                         'Second', 'Minute', 'Hour', 'Day',
-                                        'Week',   'Month',  'Year'
+                                        'Week', 'Month', 'Year'
                                     ],
                                 );
 
                                 $BlockData{TimeScaleMinSeconds} = $ObjectAttribute->{TimeScaleCount}
                                     * $Self->_TimeInSeconds(
-                                    TimeUnit => $ObjectAttribute->{SelectedValues}[0] );
+                                    TimeUnit => $ObjectAttribute->{SelectedValues}[0]
+                                    );
 
                                 $Self->{LayoutObject}->Block(
                                     Name => 'TimeScaleInfo',
@@ -523,7 +525,7 @@ sub Preferences {
     $Self->{LayoutObject}->Block(
         Name => 'WidgetSettingsEnd',
         Data => {
-            NamePref      => $Self->{Name},
+            NamePref => $Self->{Name},
         },
     );
 

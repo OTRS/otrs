@@ -309,6 +309,7 @@ sub GetMinifiedFile {
     # no cache available, read and minify file
     my $FileContents = $Self->{MainObject}->FileRead(
         Location => $Location,
+
         # It would be more correct to use UTF8 mode, but then the JavaScript::Minifier
         #   will cause timeouts due to extreme slowness on some UT servers. Disable for now.
         #   Unicode in the files still works correctly.

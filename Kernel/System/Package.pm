@@ -1867,7 +1867,7 @@ sub PackageBuild {
                         for ( sort keys %{$Tag} ) {
 
                             if (
-                                $_    ne 'Tag'
+                                $_ ne 'Tag'
                                 && $_ ne 'Content'
                                 && $_ ne 'TagType'
                                 && $_ ne 'TagLevel'

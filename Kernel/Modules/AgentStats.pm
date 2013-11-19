@@ -506,17 +506,27 @@ sub Run {
                                 my $TimeScale = _TimeScale();
                                 if ( $TimeType eq 'Extended' ) {
                                     my %TimeScaleOption;
-                                    for (sort { $TimeScale->{$a}->{Position} <=> $TimeScale->{$b}->{Position} } keys %{$TimeScale} ) {
+                                    for (
+                                        sort {
+                                            $TimeScale->{$a}->{Position}
+                                                <=> $TimeScale->{$b}->{Position}
+                                        } keys %{$TimeScale}
+                                        )
+                                    {
                                         $TimeScaleOption{$_} = $TimeScale->{$_}{Value};
                                         last if $ObjectAttribute->{TimeRelativeUnit} eq $_;
                                     }
-                                    $BlockData{TimeRelativeUnit} = $Self->{LayoutObject}->BuildSelection(
+                                    $BlockData{TimeRelativeUnit}
+                                        = $Self->{LayoutObject}->BuildSelection(
                                         Name => $ObjectAttribute->{Element} . 'TimeRelativeUnit',
                                         Data => \%TimeScaleOption,
                                         Sort => 'IndividualKey',
-                                        SelectedID => $ObjectAttribute->{TimeRelativeUnit},
-                                        SortIndividual => [ 'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year' ],
-                                    );
+                                        SelectedID     => $ObjectAttribute->{TimeRelativeUnit},
+                                        SortIndividual => [
+                                            'Second', 'Minute', 'Hour', 'Day',
+                                            'Week',   'Month',  'Year'
+                                        ],
+                                        );
                                 }
                                 $BlockData{TimeRelativeCountMax}
                                     = $ObjectAttribute->{TimeRelativeCount};
@@ -538,20 +548,33 @@ sub Run {
                                 elsif ( $TimeType eq 'Extended' ) {
                                     my $TimeScale = _TimeScale();
                                     my %TimeScaleOption;
-                                    for ( sort { $TimeScale->{$b}->{Position} <=> $TimeScale->{$a}->{Position} } keys %{$TimeScale} ) {
+                                    for (
+                                        sort {
+                                            $TimeScale->{$b}->{Position}
+                                                <=> $TimeScale->{$a}->{Position}
+                                        } keys %{$TimeScale}
+                                        )
+                                    {
                                         $TimeScaleOption{$_} = $TimeScale->{$_}->{Value};
                                         last if $ObjectAttribute->{SelectedValues}[0] eq $_;
                                     }
-                                    $BlockData{TimeScaleUnitMax} = $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }{Value};
-                                    $BlockData{TimeScaleCountMax} = $ObjectAttribute->{TimeScaleCount};
+                                    $BlockData{TimeScaleUnitMax}
+                                        = $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }
+                                        {Value};
+                                    $BlockData{TimeScaleCountMax}
+                                        = $ObjectAttribute->{TimeScaleCount};
 
-                                    $BlockData{TimeScaleUnit} = $Self->{LayoutObject}->BuildSelection(
-                                        Name => $ObjectAttribute->{Element},
-                                        Data => \%TimeScaleOption,
-                                        SelectedID => $ObjectAttribute->{SelectedValues}[0],
-                                        Sort => 'IndividualKey',
-                                        SortIndividual => [ 'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year' ],
-                                    );
+                                    $BlockData{TimeScaleUnit}
+                                        = $Self->{LayoutObject}->BuildSelection(
+                                        Name           => $ObjectAttribute->{Element},
+                                        Data           => \%TimeScaleOption,
+                                        SelectedID     => $ObjectAttribute->{SelectedValues}[0],
+                                        Sort           => 'IndividualKey',
+                                        SortIndividual => [
+                                            'Second', 'Minute', 'Hour', 'Day',
+                                            'Week',   'Month',  'Year'
+                                        ],
+                                        );
                                     $Self->{LayoutObject}->Block(
                                         Name => 'TimeScaleInfo',
                                         Data => \%BlockData,
@@ -2117,7 +2140,7 @@ sub Run {
                 StatID   => $Param{StatID},
                 GetParam => \%GetParam,
                 )
-            };
+        };
 
         # exchange axis if selected
         if ( $Param{ExchangeAxis} ) {

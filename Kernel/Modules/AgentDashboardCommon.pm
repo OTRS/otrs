@@ -140,7 +140,7 @@ sub Run {
         my @ModuleJS = @{
             $Self->{ConfigObject}->Get('Frontend::Module')->{AgentDashboard}->{Loader}
                 ->{JavaScript} || []
-            };
+        };
         @ModuleJS = grep { $_ !~ m/d3js/ } @ModuleJS;
         $Self->{ConfigObject}->Get('Frontend::Module')->{AgentDashboard}->{Loader}->{JavaScript}
             = \@ModuleJS;
@@ -438,8 +438,8 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AJAXFilterUpdate' ) {
 
         my $ElementChanged = $Self->{ParamObject}->GetParam( Param => 'ElementChanged' );
-        my ($Name) = $ElementChanged =~ m{ ( \d{4} - .*? ) \z }gxms;
-        my $Column = $ElementChanged;
+        my ($Name)         = $ElementChanged =~ m{ ( \d{4} - .*? ) \z }gxms;
+        my $Column         = $ElementChanged;
         $Column =~ s{ \A ColumnFilter }{}gxms;
         $Column =~ s{ $Name }{}gxms;
 

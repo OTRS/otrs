@@ -232,7 +232,7 @@ my @StatArray = @{
         SumRow => 1,
         SumCol => 1,
     ),
-    };
+};
 
 my @SubStatArray = @{ $StatArray[-1] };
 $Counter = $SubStatArray[-1];
