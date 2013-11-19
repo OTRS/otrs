@@ -22,7 +22,7 @@ use Kernel::System::Cache;
 my $ConfigObject = Kernel::Config->new();
 
 MODULE:
-for my $Module ( qw(FileStorable FileRaw) ) {
+for my $Module (qw(FileStorable FileRaw)) {
 
     $ConfigObject->Set(
         Key   => 'Cache::Module',

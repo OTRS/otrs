@@ -355,7 +355,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
     );
 
     # check password support
-    for my $Config ( qw( md5 crypt plain sha1 sha2 ) ) {
+    for my $Config (qw( md5 crypt plain sha1 sha2 )) {
         $ConfigObject->Set(
             Key   => 'Customer::AuthModule::DB::CryptType',
             Value => $Config,
@@ -365,7 +365,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
             ConfigObject => $ConfigObject,
         );
 
-        for my $Password ( qw(some_pass someカス someäöü) ) {
+        for my $Password (qw(some_pass someカス someäöü)) {
             $Self->{EncodeObject}->EncodeInput( \$Password );
             my $Set = $CustomerUserObject->SetPassword(
                 UserLogin => $UserID,
