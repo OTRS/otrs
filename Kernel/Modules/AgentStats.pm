@@ -524,7 +524,7 @@ sub Run {
                                         SelectedID     => $ObjectAttribute->{TimeRelativeUnit},
                                         SortIndividual => [
                                             'Second', 'Minute', 'Hour', 'Day',
-                                            'Week',   'Month',  'Year'
+                                            'Week', 'Month', 'Year'
                                         ],
                                         );
                                 }
@@ -572,7 +572,7 @@ sub Run {
                                         Sort           => 'IndividualKey',
                                         SortIndividual => [
                                             'Second', 'Minute', 'Hour', 'Day',
-                                            'Week',   'Month',  'Year'
+                                            'Week', 'Month', 'Year'
                                         ],
                                         );
                                     $Self->{LayoutObject}->Block(
