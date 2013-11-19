@@ -394,7 +394,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         my %RealSessionData = $SessionObject->GetSessionIDData( SessionID => $RealSessionID );
 
-        for my $Key ( qw(UserChallengeToken UserRemoteAddr UserRemoteUserAgent UserSessionStart) ) {
+        for my $Key (qw(UserChallengeToken UserRemoteAddr UserRemoteUserAgent UserSessionStart)) {
             delete $RealSessionData{$Key};
             delete $Session->{$Key};
         }

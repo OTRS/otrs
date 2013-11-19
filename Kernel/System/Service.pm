@@ -856,7 +856,7 @@ sub ServiceSearch {
 
     # search service in db
     $Self->{DBObject}->Prepare(
-        SQL => $SQL,
+        SQL  => $SQL,
         Bind => \@Bind,
     );
 

@@ -417,7 +417,7 @@ sub HandleLanguage {
 
             my $Translation = $LanguageObject->{Translation}->{$Key};
             $Translation =~ s/'/\\'/g;
-            $Key         =~ s/'/\\'/g;
+            $Key =~ s/'/\\'/g;
 
             # if a string was previously in a DTL, but has not yet been translated,
             # there's no need to preserve it in the translation file.

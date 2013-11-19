@@ -158,11 +158,11 @@ sub CustomerCompanyList {
                 for my $Field ( @{$CustomerCompanySearchFields} ) {
                     if ( $Self->{CaseSensitive} ) {
                         push @SQLParts, "LOWER($Field) LIKE LOWER(?)";
-                        push @Bind, \$Part;
+                        push @Bind,     \$Part;
                     }
                     else {
                         push @SQLParts, "$Field LIKE ?";
-                        push @Bind, \$Part;
+                        push @Bind,     \$Part;
                     }
                 }
                 if (@SQLParts) {
