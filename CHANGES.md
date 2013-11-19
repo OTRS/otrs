@@ -1,4 +1,5 @@
 #3.3.2 2013-??-??
+ - 2013-11-19 Fixed bug#[7337](http://bugs.otrs.org/show_bug.cgi?id=7337) - AJAX Error on new Phone Ticket on IIS when using JSON::XS.
  - 2013-11-07 Updated Chinese simplified translation, thanks to Michael Shi.
  - 2013-11-18 Fixed bug#[8991](http://bugs.otrs.org/show_bug.cgi?id=8991) - Back-action does not work when search result returned just  1 ticket.
  - 2013-11-18 Updated CKEditor to version 4.3.
