@@ -612,9 +612,7 @@ sub UserSearch {
             BindMode => 1,
         );
         $SQL .= $QueryCondition{SQL} . ' ';
-        for my $Value ( @{ $QueryCondition{Values} } ) {
-            push @Bind, \$Value;
-        }
+        push @Bind, @{ $QueryCondition{Values} };
     }
     elsif ( $Param{PostMasterSearch} ) {
 
@@ -639,6 +637,7 @@ sub UserSearch {
 
         $SQL .= " $Self->{Lower}($Self->{UserTableUser}) LIKE ?";
         $Param{UserLogin} =~ s/\*/%/g;
+        $Param{UserLogin} = $Self->{DBObject}->Quote( $Param{UserLogin}, 'Like' );
         push @Bind, \$Param{UserLogin};
     }
 
