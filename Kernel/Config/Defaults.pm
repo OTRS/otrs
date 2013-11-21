@@ -1411,13 +1411,8 @@ via the Preferences button after logging in.
 #            # in case you want to add always one filter to each ldap query, use
 #            # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
 #            AlwaysFilter => '',
-#            # if both your frontend and your LDAP are unicode, use this:
-#            SourceCharset => 'utf-8',
-#            DestCharset   => 'utf-8',
-#            # if your frontend is unicode and the charset of your
-#            # ldap server is iso-8859-1, use these options.
+#            # if the charset of your ldap server is iso-8859-1, use this:
 #            # SourceCharset => 'iso-8859-1',
-#            # DestCharset => 'utf-8',
 #            # die if backend can't work, e. g. can't connect to server
 #            Die => 0,
 #            # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
