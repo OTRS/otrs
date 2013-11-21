@@ -9,6 +9,7 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
 
 use Kernel::System::CustomerCompany;
 use Kernel::System::XML;
@@ -81,10 +82,9 @@ my $CustomerCompanyObject = Kernel::System::CustomerCompany->new(
     ConfigObject => $ConfigObject,
 );
 
-for my $Key ( 1 .. 3 ) {
+for my $Key ( 1 .. 3, 'ä', 'カス' ) {
 
     my $CompanyRand = 'Example-Customer-Company' . $Key . int( rand(1000000) );
-    $Self->{EncodeObject}->EncodeInput( \$CompanyRand );
 
     my $CustomerID = $CustomerCompanyObject->CustomerCompanyAdd(
         CustomerID             => $CompanyRand,
@@ -279,10 +279,9 @@ $CustomerCompanyObject = Kernel::System::CustomerCompany->new(
     ConfigObject => $ConfigObject,
 );
 
-for my $Key ( 1 .. 3 ) {
+for my $Key ( 1 .. 3, 'ä', 'カス' ) {
 
     my $CompanyRand = 'Example-Customer-Company' . $Key . int( rand(1000000) );
-    $Self->{EncodeObject}->EncodeInput( \$CompanyRand );
 
     my $CustomerID = $CustomerCompanyObject->CustomerCompanyAdd(
         CustomerID             => $CompanyRand,

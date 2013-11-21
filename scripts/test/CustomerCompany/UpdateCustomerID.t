@@ -9,6 +9,7 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
 
 use Kernel::Config;
 use Kernel::System::CustomerUser;
@@ -33,8 +34,7 @@ my $CustomerCompanyObject = Kernel::System::CustomerCompany->new(
 
 my @CustomerIDs;
 
-for my $Key ( 1 .. 1 ) {
-
+for my $Key ( 1 .. 1, 'ä', 'カス' ) {
     my $CompanyRand = 'Example-Customer-Company' . $Key . int( rand(1000000) );
 
     push @CustomerIDs, $CompanyRand;
@@ -73,7 +73,7 @@ for my $Key ( 1 .. 1 ) {
     );
 
     my @CustomerLogins;
-    for my $CustomerUserKey ( 1 .. 9 ) {
+    for my $CustomerUserKey ( 1 .. 3, 'ä', 'カス' ) {
         my $UserRand = 'Example-Customer-User' . $CustomerUserKey . int( rand(1000000) );
         push @CustomerLogins, $UserRand;
 
