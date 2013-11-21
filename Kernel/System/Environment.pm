@@ -198,7 +198,7 @@ sub OSInfoGet {
         Hostname     => hostname_long(),
         OSName       => $OSName,
         Distribution => $Distribution,
-        User         => $ENV{USER},
+        User         => $ENV{USER} || $ENV{USERNAME},
         Path         => $ENV{PATH},
         HostType     => $ENV{HOSTTYPE},
         LcCtype      => $ENV{LC_CTYPE},
