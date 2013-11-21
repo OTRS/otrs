@@ -16,7 +16,7 @@ use warnings;
 # see http://bugs.otrs.org/show_bug.cgi?id=7337
 BEGIN {
     if ( $ENV{GATEWAY_INTERFACE} && $ENV{GATEWAY_INTERFACE} =~ m{\A CGI-PerlEx} ) {
-        $ENV{PERL_JSON_BACKEND} = 'JSON::PP'
+        $ENV{PERL_JSON_BACKEND} = 'JSON::PP';
     }
 }
 
