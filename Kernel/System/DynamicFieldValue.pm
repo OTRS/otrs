@@ -509,7 +509,7 @@ sub HistoricalValueGet {
         # check if the value is already stored
         if ( $Row[0] && !$Data{ $Row[0] } ) {
 
-            if ( $ValueType eq 'Date' ) {
+            if ( $ValueType eq 'value_date' ) {
 
                 # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
                 # and 0000-00-00 00:00:00 time stamps)
