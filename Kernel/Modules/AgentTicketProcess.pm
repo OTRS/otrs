@@ -24,8 +24,6 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::Service;
 use Kernel::System::SLA;
-use Kernel::System::User;
-use Kernel::System::Group;
 use Kernel::System::Lock;
 use Kernel::System::Priority;
 use Kernel::System::CustomerUser;
@@ -43,7 +41,7 @@ sub new {
     for my $Needed (
         qw(
         ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject TimeObject MainObject
-        EncodeObject QueueObject
+        EncodeObject QueueObject UserObject GroupObject
         )
         )
     {
@@ -58,8 +56,6 @@ sub new {
     $Self->{PriorityObject}       = Kernel::System::Priority->new(%Param);
     $Self->{ServiceObject}        = Kernel::System::Service->new(%Param);
     $Self->{SLAObject}            = Kernel::System::SLA->new(%Param);
-    $Self->{UserObject}           = Kernel::System::User->new(%Param);
-    $Self->{GroupObject}          = Kernel::System::Group->new(%Param);
     $Self->{ActivityObject}       = Kernel::System::ProcessManagement::Activity->new(%Param);
     $Self->{ActivityDialogObject} = Kernel::System::ProcessManagement::ActivityDialog->new(%Param);
     $Self->{TransitionActionObject}
