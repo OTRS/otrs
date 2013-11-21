@@ -1089,10 +1089,10 @@ generate SQL condition query based on a search expression
         BindMode => 1,
     );
 
-    return the SQL String with ?-values and a value array:
+    return the SQL String with ?-values and a array with values references:
 
     $BindModeResult = (
-        'SQL'    => '...LIKE...NOT...'
+        'SQL'    => 'WHERE testa LIKE ? AND testb NOT LIKE ? AND testc = ?'
         'Values' => ['a', 'b', 'c'],
     )
 
@@ -1331,7 +1331,9 @@ sub QueryCondition {
                         $SQLA .= " $LikeEscapeString";
                     }
 
-                    push @BindValues, $Word;
+                    if ($BindMode) {
+                        push @BindValues, $Word;
+                    }
                 }
                 $SQL .= '(' . $SQLA . ') ';
             }
@@ -1378,7 +1380,9 @@ sub QueryCondition {
                         $SQLA .= " $LikeEscapeString";
                     }
 
-                    push @BindValues, $Word;
+                    if ($BindMode) {
+                        push @BindValues, $Word;
+                    }
                 }
                 $SQL .= '(' . $SQLA . ') ';
             }
@@ -1466,9 +1470,10 @@ sub QueryCondition {
     }
 
     if ($BindMode) {
+        my $BindRefList = [ map { \$_ } @BindValues ];
         return (
             'SQL'    => $SQL,
-            'Values' => \@BindValues,
+            'Values' => $BindRefList,
         );
     }
 
