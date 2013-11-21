@@ -219,9 +219,6 @@ sub CustomerSearch {
         $SQL .= " , first_name, last_name, email ";
     }
 
-    # get like escape string needed for some databases (e.g. oracle)
-    my $LikeEscapeString = $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
-
     # build SQL string 2/2
     $SQL .= " FROM $Self->{CustomerTable} WHERE ";
     if ( $Param{Search} ) {
@@ -246,9 +243,7 @@ sub CustomerSearch {
         );
 
         $SQL .= $QueryCondition{SQL};
-        for my $Value ( @{ $QueryCondition{Values} } ) {
-            push @Bind, \$Value;
-        }
+        push @Bind, @{ $QueryCondition{Values} };
 
         $SQL .= ' ';
     }
@@ -259,7 +254,8 @@ sub CustomerSearch {
                 if ($SQLExt) {
                     $SQLExt .= ' OR ';
                 }
-                my $PostMasterSearch = '%' . $Param{PostMasterSearch} . '%';
+                my $PostMasterSearch
+                    = '%' . $Self->{DBObject}->Quote( $Param{PostMasterSearch}, 'Like' ) . '%';
                 push @Bind, \$PostMasterSearch;
 
                 if ( $Self->{CaseSensitive} ) {
@@ -286,7 +282,7 @@ sub CustomerSearch {
             push @Bind, \$UserLogin;
         }
         else {
-            $UserLogin = '%' . $UserLogin . '%';
+            $UserLogin = '%' . $Self->{DBObject}->Quote( $UserLogin, 'Like' ) . '%';
             $UserLogin =~ s/\*/%/g;
             push @Bind, \$UserLogin;
             if ( $Self->{CaseSensitive} ) {
@@ -299,7 +295,7 @@ sub CustomerSearch {
     }
     elsif ( $Param{CustomerID} ) {
 
-        my $CustomerID = $Param{CustomerID};
+        my $CustomerID = $Self->{DBObject}->Quote( $Param{CustomerID}, 'Like' );
         $CustomerID =~ s/\*/%/g;
         push @Bind, \$CustomerID;
 
@@ -431,9 +427,7 @@ sub CustomerIDList {
             BindMode      => 1,
         );
         $SQL .= $QueryCondition{SQL};
-        for my $Value ( @{ $QueryCondition{Values} } ) {
-            push @Bind, \$Value;
-        }
+        push @Bind, @{ $QueryCondition{Values} };
 
         $SQL .= ' ';
     }
