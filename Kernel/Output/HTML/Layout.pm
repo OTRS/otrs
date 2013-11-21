@@ -222,31 +222,25 @@ sub new {
         {
             $Self->{Browser} = 'MSIE';
 
-            # For IE 5.5 - 8.0, we break the header in a special way that makes
+            # For IE 7 & 8, we break the header in a special way that makes
             # things work. I don't really want to know.
             if ( $1 =~ /(\d+)\.(\d+)/ ) {
                 $Self->{BrowserMajorVersion} = $1;
                 $Self->{BrowserMinorVersion} = $2;
-                if (
-                    $1 == 5
-                    && $2 == 5
-                    || $1 == 6 && $2 == 0
-                    || $1 == 7 && $2 == 0
-                    || $1 == 8 && $2 == 0
-                    )
-                {
+                if ( $1 == 7 && $2 == 0 || $1 == 8 && $2 == 0 ) {
                     $Self->{BrowserBreakDispositionHeader} = 1;
                 }
 
 #
-# In IE up to version 8, there is a technical limitation for < 32
+# In IE up to version 9, there is a technical limitation for < 32
 #   CSS file links. Subsequent links will be ignored. Therefore
 #   the loader must be activated for delivering CSS to this browser.
 #   The loader will concatenate and minify the files, resulting in
 #   very few CSS file links.
 #   See also http://social.msdn.microsoft.com/Forums/en-US/iewebdevelopment/thread/ad1b6e88-bbfa-4cc4-9e95-3889b82a7c1d.
+#   See also http://blogs.msdn.com/b/ieinternals/archive/2011/05/14/internet-explorer-stylesheet-rule-selector-import-sheet-limit-maximum.aspx
 #
-                if ( $1 <= 8 ) {
+                if ( $Self->{BrowserMajorVersion} <= 9 ) {
                     $Self->{ConfigObject}->Set(
                         Key   => 'Loader::Enabled::CSS',
                         Value => 1,
