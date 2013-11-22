@@ -1313,10 +1313,6 @@ via the Preferences button after logging in.
 #            User => '',
 #            Password => '',
             Table => 'customer_user',
-            # if your frontend is unicode and the charset of your
-            # customer database server is iso-8859-1, use these options.
-#           SourceCharset => 'iso-8859-1',
-#           DestCharset => 'utf-8',
 
             # CaseSensitive will control if the SQL statements need LOWER()
             #   function calls to work case insensitively. Setting this to

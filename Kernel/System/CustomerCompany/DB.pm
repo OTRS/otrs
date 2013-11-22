@@ -49,18 +49,6 @@ sub new {
         $Self->{SearchSuffix} = '*';
     }
 
-    # charset settings
-    $Self->{SourceCharset} = $Self->{CustomerCompanyMap}->{Params}->{SourceCharset} || '';
-    $Self->{DestCharset}   = $Self->{CustomerCompanyMap}->{Params}->{DestCharset}   || '';
-    $Self->{CharsetConvertForce}
-        = $Self->{CustomerCompanyMap}->{Params}->{CharsetConvertForce} || '';
-
-    # db connection settings, disable Encode utf8 if source db is no utf8
-    my %DatabasePreferences;
-    if ( $Self->{SourceCharset} !~ /utf(-8|8)/i ) {
-        $DatabasePreferences{Encode} = 0;
-    }
-
     # create cache object, but only if CacheTTL is set in customer config
     if ( $Self->{CustomerCompanyMap}->{CacheTTL} ) {
         $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
@@ -79,7 +67,6 @@ sub new {
             DatabaseUser => $Self->{CustomerCompanyMap}->{Params}->{User},
             DatabasePw   => $Self->{CustomerCompanyMap}->{Params}->{Password},
             Type         => $Self->{CustomerCompanyMap}->{Params}->{Type} || '',
-            %DatabasePreferences,
         ) || die('Can\'t connect to database!');
 
         # remember that we have the DBObject not from parent call
@@ -171,7 +158,6 @@ sub CustomerCompanyList {
             }
         }
     }
-    $SQL = $Self->_ConvertTo($SQL);
 
     # sql
     my $CompleteSQL
@@ -190,7 +176,7 @@ sub CustomerCompanyList {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         my $CustomerCompanyID = shift @Row;
-        $List{$CustomerCompanyID} = join( ' ', map { $Self->_ConvertFrom($_) } @Row );
+        $List{$CustomerCompanyID} = join( ' ', @Row );
     }
 
     # cache request
@@ -248,7 +234,6 @@ sub CustomerCompanyGet {
     else {
         $SQL .= "$Self->{CustomerCompanyKey} = ?";
     }
-    $SQL = $Self->_ConvertTo($SQL);
 
     # get initial data
     return if !$Self->{DBObject}->Prepare(
@@ -263,7 +248,7 @@ sub CustomerCompanyGet {
         my $MapCounter = 0;
 
         for my $Field (@Fields) {
-            $Data{ $FieldsMap{$Field} } = $Self->_ConvertFrom( $Row[$MapCounter] );
+            $Data{ $FieldsMap{$Field} } = $Row[$MapCounter];
             $MapCounter++;
         }
 
@@ -315,7 +300,6 @@ sub CustomerCompanyAdd {
     my $SQL = "INSERT INTO $Self->{CustomerCompanyTable} (";
     $SQL .= join( ', ', @Fields ) . " ) VALUES ( " . join( ', ', @Placeholders ) . " )";
 
-    $SQL = $Self->_ConvertTo($SQL);
     return if !$Self->{DBObject}->Do(
         SQL  => $SQL,
         Bind => \@Values,
@@ -375,7 +359,6 @@ sub CustomerCompanyUpdate {
         $SQL .= " WHERE $Self->{CustomerCompanyKey} = ?";
     }
     push @Values, \$Param{CustomerCompanyID};
-    $SQL = $Self->_ConvertTo($SQL);
 
     return if !$Self->{DBObject}->Do(
         SQL  => $SQL,
@@ -395,41 +378,6 @@ sub CustomerCompanyUpdate {
     }
 
     return 1;
-}
-
-sub _ConvertFrom {
-    my ( $Self, $Text ) = @_;
-
-    return if !defined $Text;
-
-    if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
-        return $Text;
-    }
-
-    return $Self->{EncodeObject}->Convert(
-        Text  => $Text,
-        From  => $Self->{SourceCharset},
-        To    => $Self->{DestCharset},
-        Force => $Self->{CharsetConvertForce},
-    );
-}
-
-sub _ConvertTo {
-    my ( $Self, $Text ) = @_;
-
-    return if !defined $Text;
-
-    if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
-        $Self->{EncodeObject}->EncodeInput( \$Text );
-        return $Text;
-    }
-
-    return $Self->{EncodeObject}->Convert(
-        Text  => $Text,
-        To    => $Self->{SourceCharset},
-        From  => $Self->{DestCharset},
-        Force => $Self->{CharsetConvertForce},
-    );
 }
 
 sub _CustomerCompanyCacheClear {
