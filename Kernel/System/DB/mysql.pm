@@ -48,13 +48,14 @@ sub LoadPreferences {
     # cause charset problems
     $Self->{'DB::Attribute'} = {
         mysql_auto_reconnect => 0,
+        mysql_enable_utf8    => 1,
     };
 
     # set current time stamp if different to "current_timestamp"
     $Self->{'DB::CurrentTimestamp'} = '';
 
     # set encoding of selected data to utf8
-    $Self->{'DB::Encode'} = 1;
+    $Self->{'DB::Encode'} = 0;
 
     # shell setting
     $Self->{'DB::Comment'}     = '# ';
