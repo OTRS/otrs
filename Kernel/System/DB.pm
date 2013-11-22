@@ -269,6 +269,11 @@ sub Connect {
         $Self->Do( SQL => $Self->{Backend}->{'DB::Connect'} );
     }
 
+    # set utf-8 on for PostgreSQL
+    if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
+        $Self->{dbh}->{pg_enable_utf8} = 1;
+    }
+
     return $Self->{dbh};
 }
 
@@ -713,13 +718,12 @@ sub FetchrowArray {
     my $Counter = 0;
     ELEMENT:
     for my $Element (@Row) {
-        if ( !$Element ) {
-            next ELEMENT;
-        }
+
+        next ELEMENT if !defined $Element;
 
         if ( !defined $Self->{Encode} || ( $Self->{Encode} && $Self->{Encode}->[$Counter] ) ) {
             $Self->{EncodeObject}->EncodeInput( \$Element );
-        }
+       }
     }
     continue {
         $Counter++;
