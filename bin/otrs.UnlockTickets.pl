@@ -141,6 +141,29 @@ elsif ( $Command eq '--timeout' ) {
     exit 0;
 }
 
+
+# unlock ticket by ID
+elsif ( $Command eq '--ticket' ) {
+    my $ticketId = shift || '';
+    if ($ticketId eq '') {
+        print " No Ticket-ID given!\n";
+        exit 0;
+    }
+    print " Unlocking ticket: $ticketId\n";
+    my $Unlock = $CommonObject{TicketObject}->LockSet(
+        TicketID => $ticketId,
+        Lock     => 'unlock',
+        UserID   => 1,
+    );
+    if ($Unlock) {
+        print " done.\n";
+    }
+    else {
+        print " failed.\n";
+    }
+    exit 0;
+}
+
 # show usage
 else {
     print "usage: $0 [options] \n";
@@ -148,5 +171,6 @@ else {
     print "  --help        display this option help\n";
     print "  --timeout     unlock old tickets\n";
     print "  --all         unlock all tickets (force)\n";
+    print "  --ticket id   unlock ticket with specified id (force)\n";
     exit 1;
 }
