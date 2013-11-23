@@ -423,7 +423,13 @@ sub StandardTemplateList {
 
     my @Bind;
     if ( defined $Param{Type} && $Param{Type} ne '' ) {
-        $SQL .= ' AND template_type = ?';
+        if ($Valid) {
+            $SQL .= ' AND';
+        }
+        else {
+            $SQL .= ' WHERE';
+        }
+        $SQL .= ' template_type = ?';
         push @Bind, \$Param{Type};
     }
 

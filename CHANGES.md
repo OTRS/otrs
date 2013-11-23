@@ -1,3 +1,6 @@
+#3.3.3 2013-??-??
+ - 2013-11-22 Fixed bug#[10007](http://bugs.otrs.org/show_bug.cgi?id=10007) - StandardTemplateList() generates invalid SQL.
+
 #3.3.2 2013-11-26
  - 2013-11-21 Fixed bug#[9994](http://bugs.otrs.org/show_bug.cgi?id=9994) - Symbolic link used for otrs folder is causing update problems.
  - 2013-11-21 Fixed bug#[9998](http://bugs.otrs.org/show_bug.cgi?id=9998) - Password fields on OTRS 3.3 do not allow typing in blanks.
