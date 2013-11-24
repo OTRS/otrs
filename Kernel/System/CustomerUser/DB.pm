@@ -207,6 +207,9 @@ sub CustomerSearch {
         $SQL .= " , first_name, last_name, email ";
     }
 
+    # get like escape string needed for some databases (e.g. oracle)
+    my $LikeEscapeString = $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
+
     # build SQL string 2/2
     $SQL .= " FROM $Self->{CustomerTable} WHERE ";
     if ( $Param{Search} ) {
