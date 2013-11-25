@@ -1,4 +1,5 @@
 #3.3.3 2013-??-??
+ - 2013-11-25 Updated jsPlumb to version 1.5.4.
  - 2013-11-22 Fixed bug#[10007](http://bugs.otrs.org/show_bug.cgi?id=10007) - StandardTemplateList() generates invalid SQL.
 
 #3.3.2 2013-11-26
