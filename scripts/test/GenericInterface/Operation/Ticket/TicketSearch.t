@@ -1240,7 +1240,30 @@ my @Tests = (
         },
         Operation => 'TicketSearch',
     },
-
+    {
+        Name           => "Test Limit " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            TicketCreateTimeNewerDate =>
+                $TimeObject->SystemTime2TimeStamp( SystemTime => $StartTime ),
+            SortBy  => 'Ticket',    # force order, because the Age (default) can be the same
+            OrderBy => 'Down',
+            Limit   => 1,
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [$TicketID4],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => $TicketID4,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
 );
 
 # Add a wrong value test for each posible parameter on direct search
