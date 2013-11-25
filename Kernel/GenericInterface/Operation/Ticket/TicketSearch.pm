@@ -66,7 +66,7 @@ sub new {
     $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
 
     # get config for this screen
-    $Self->{Config} = $Self->{ConfigObject}->Get('GenericInterface::Operation::TicketCreate');
+    $Self->{Config} = $Self->{ConfigObject}->Get('GenericInterface::Operation::TicketSearch');
 
     return $Self;
 }
@@ -279,7 +279,9 @@ sub Run {
     ) if !$UserID;
 
     # all needed variables
-    $Self->{SearchLimit} = $Self->{Config}->{SearchLimit} || 500;
+    $Self->{SearchLimit} = $Param{Data}->{Limit}
+        || $Self->{Config}->{SearchLimit}
+        || 500;
     $Self->{SortBy} = $Param{Data}->{SortBy}
         || $Self->{Config}->{'SortBy::Default'}
         || 'Age';
