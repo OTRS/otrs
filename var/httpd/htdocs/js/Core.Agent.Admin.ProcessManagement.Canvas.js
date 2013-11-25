@@ -9,9 +9,6 @@
 
 /*global jsPlumb */
 
-// Don't check this file for "dangling _", because of some needed JointJS functionality uses this
-/*jslint nomen: false*/
-
 "use strict";
 
 var Core = Core || {};
@@ -29,8 +26,6 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
     var Elements = {},
         ActivityBoxHeight = 80;
-
-
 
     function EscapeHTML(Content) {
         return Content
@@ -872,7 +867,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         TargetNS.LatestConnectionTransitionID = undefined;
 
         // init binding to connection changes
-        jsPlumb.bind('jsPlumbConnection', function(Data) {
+        jsPlumb.bind('connection', function(Data, OriginalEvent) {
             var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
                 ProcessEntityID = $('#ProcessEntityID').val(),
                 Path = Config.Process[ProcessEntityID].Path,
