@@ -1,4 +1,10 @@
-#3.3.2 2013-??-??
+#3.3.3 2013-??-??
+ - 2013-11-22 Fixed bug#[10007](http://bugs.otrs.org/show_bug.cgi?id=10007) - StandardTemplateList() generates invalid SQL.
+
+#3.3.2 2013-11-26
+ - 2013-11-21 Fixed bug#[9998](http://bugs.otrs.org/show_bug.cgi?id=9998) - Password fields on OTRS 3.3 do not allow typing in blanks.
+ - 2013-11-19 Fixed bug#[7337](http://bugs.otrs.org/show_bug.cgi?id=7337) - AJAX Error on new Phone Ticket on IIS when using JSON::XS.
+ - 2013-11-18 Fixed bug#[8991](http://bugs.otrs.org/show_bug.cgi?id=8991) - Back-action does not work when search result returned just  1 ticket.
  - 2013-11-18 Updated CKEditor to version 4.3.
  - 2013-11-14 Fixed bug#[9976](http://bugs.otrs.org/show_bug.cgi?id=9976) - Statistic Graphs not showing in IE 10.
  - 2013-11-14 Fixed bug#[9973](http://bugs.otrs.org/show_bug.cgi?id=9973) - DashboardUserOnline wiget display problems

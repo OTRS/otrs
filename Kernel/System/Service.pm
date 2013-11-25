@@ -774,7 +774,7 @@ sub ServiceUpdate {
         ],
     );
 
-    my $LikeService = $OldServiceName . '::%';
+    my $LikeService = $Self->{DBObject}->Quote( $OldServiceName, 'Like' ) . '::%';
 
     # find all childs
     $Self->{DBObject}->Prepare(
@@ -856,7 +856,7 @@ sub ServiceSearch {
 
     # search service in db
     $Self->{DBObject}->Prepare(
-        SQL => $SQL,
+        SQL  => $SQL,
         Bind => \@Bind,
     );
 

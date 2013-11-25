@@ -169,15 +169,6 @@ sub _CheckFrameworkVersion {
 
     my $Home = $CommonObject->{ConfigObject}->Get('Home');
 
-  # Compare the configured HOME with the script location and abort if it points to another directory
-    $Home =~ s{/+$}{}xmsg;    # remove trailing slashes
-    my $HomeCheck = dirname($RealBin);
-    $HomeCheck =~ s{/+$}{}xmsg;    # remove trailing slashes
-    if ( $Home ne $HomeCheck ) {
-        die
-            "Error: \$HOME is set to $Home, but you use $HomeCheck. Please check your configuration!";
-    }
-
     # load RELEASE file
     if ( -e !"$Home/RELEASE" ) {
         die "Error: $Home/RELEASE does not exist!";

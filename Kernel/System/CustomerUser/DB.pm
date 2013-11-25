@@ -56,17 +56,6 @@ sub new {
         = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
     $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{CustomerUserSearchPrefix};
 
-    # charset settings
-    $Self->{SourceCharset}       = $Self->{CustomerUserMap}->{Params}->{SourceCharset}       || '';
-    $Self->{DestCharset}         = $Self->{CustomerUserMap}->{Params}->{DestCharset}         || '';
-    $Self->{CharsetConvertForce} = $Self->{CustomerUserMap}->{Params}->{CharsetConvertForce} || '';
-
-    # db connection settings, disable Encode utf8 if source db is not utf8
-    my %DatabasePreferences;
-    if ( $Self->{SourceCharset} !~ /utf(-8|8)/i ) {
-        $DatabasePreferences{Encode} = 0;
-    }
-
     if ( !defined $Self->{SearchPrefix} ) {
         $Self->{SearchPrefix} = '';
     }
@@ -102,7 +91,6 @@ sub new {
             DatabaseDSN  => $Self->{CustomerUserMap}->{Params}->{DSN},
             DatabaseUser => $Self->{CustomerUserMap}->{Params}->{User},
             DatabasePw   => $Self->{CustomerUserMap}->{Params}->{Password},
-            %DatabasePreferences,
             %{ $Self->{CustomerUserMap}->{Params} },
         ) || die('Can\'t connect to database!');
 
@@ -246,9 +234,7 @@ sub CustomerSearch {
         );
 
         $SQL .= $QueryCondition{SQL};
-        for my $Value ( @{ $QueryCondition{Values} } ) {
-            push @Bind, \$Value;
-        }
+        push @Bind, @{ $QueryCondition{Values} };
 
         $SQL .= ' ';
     }
@@ -259,14 +245,15 @@ sub CustomerSearch {
                 if ($SQLExt) {
                     $SQLExt .= ' OR ';
                 }
-                my $PostMasterSearch = '%' . $Param{PostMasterSearch} . '%';
+                my $PostMasterSearch
+                    = '%' . $Self->{DBObject}->Quote( $Param{PostMasterSearch}, 'Like' ) . '%';
                 push @Bind, \$PostMasterSearch;
 
                 if ( $Self->{CaseSensitive} ) {
-                    $SQLExt .= " $Field LIKE ? ";
+                    $SQLExt .= " $Field LIKE ? $LikeEscapeString ";
                 }
                 else {
-                    $SQLExt .= " LOWER($Field) LIKE LOWER(?) ";
+                    $SQLExt .= " LOWER($Field) LIKE LOWER(?) $LikeEscapeString ";
                 }
             }
             $SQL .= $SQLExt;
@@ -286,28 +273,28 @@ sub CustomerSearch {
             push @Bind, \$UserLogin;
         }
         else {
-            $UserLogin = '%' . $UserLogin . '%';
+            $UserLogin = '%' . $Self->{DBObject}->Quote( $UserLogin, 'Like' ) . '%';
             $UserLogin =~ s/\*/%/g;
             push @Bind, \$UserLogin;
             if ( $Self->{CaseSensitive} ) {
-                $SQL .= "$Self->{CustomerKey} LIKE ?";
+                $SQL .= "$Self->{CustomerKey} LIKE ? $LikeEscapeString";
             }
             else {
-                $SQL .= "LOWER($Self->{CustomerKey}) LIKE LOWER(?)";
+                $SQL .= "LOWER($Self->{CustomerKey}) LIKE LOWER(?) $LikeEscapeString";
             }
         }
     }
     elsif ( $Param{CustomerID} ) {
 
-        my $CustomerID = $Param{CustomerID};
+        my $CustomerID = $Self->{DBObject}->Quote( $Param{CustomerID}, 'Like' );
         $CustomerID =~ s/\*/%/g;
         push @Bind, \$CustomerID;
 
         if ( $Self->{CaseSensitive} ) {
-            $SQL .= "$Self->{CustomerID} LIKE ?";
+            $SQL .= "$Self->{CustomerID} LIKE ? $LikeEscapeString";
         }
         else {
-            $SQL .= "LOWER($Self->{CustomerID}) LIKE LOWER(?)";
+            $SQL .= "LOWER($Self->{CustomerID}) LIKE LOWER(?) $LikeEscapeString";
         }
     }
 
@@ -431,9 +418,7 @@ sub CustomerIDList {
             BindMode      => 1,
         );
         $SQL .= $QueryCondition{SQL};
-        for my $Value ( @{ $QueryCondition{Values} } ) {
-            push @Bind, \$Value;
-        }
+        push @Bind, @{ $QueryCondition{Values} };
 
         $SQL .= ' ';
     }

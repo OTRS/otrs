@@ -139,7 +139,6 @@ sub new {
 
     # charset settings
     $Self->{SourceCharset} = $Self->{CustomerUserMap}->{Params}->{SourceCharset} || '';
-    $Self->{DestCharset}   = $Self->{CustomerUserMap}->{Params}->{DestCharset}   || '';
 
     # set cache type
     $Self->{CacheType} = 'CustomerUser' . $Param{Count};
@@ -918,14 +917,14 @@ sub _ConvertFrom {
 
     return if !defined $Text;
 
-    if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
+    if ( !$Self->{SourceCharset} ) {
         return $Text;
     }
 
     return $Self->{EncodeObject}->Convert(
         Text => $Text,
         From => $Self->{SourceCharset},
-        To   => $Self->{DestCharset},
+        To   => 'utf-8',
     );
 }
 
@@ -934,7 +933,7 @@ sub _ConvertTo {
 
     return if !defined $Text;
 
-    if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
+    if ( !$Self->{SourceCharset} ) {
         $Self->{EncodeObject}->EncodeInput( \$Text );
         return $Text;
     }
@@ -942,7 +941,7 @@ sub _ConvertTo {
     return $Self->{EncodeObject}->Convert(
         Text => $Text,
         To   => $Self->{SourceCharset},
-        From => $Self->{DestCharset},
+        From => 'utf-8',
     );
 }
 

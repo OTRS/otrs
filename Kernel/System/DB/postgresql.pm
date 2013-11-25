@@ -56,7 +56,7 @@ sub LoadPreferences {
     $Self->{'DB::CurrentTimestamp'} = '';
 
     # set encoding of selected data to utf8
-    $Self->{'DB::Encode'} = 1;
+    $Self->{'DB::Encode'} = 0;
 
     # shell setting
     $Self->{'DB::Comment'}      = '-- ';
@@ -64,8 +64,7 @@ sub LoadPreferences {
     $Self->{'DB::ShellConnect'} = 'SET standard_conforming_strings TO ON';
 
     # init sql setting on db connect
-    $Self->{'DB::Connect'} = 'SET standard_conforming_strings TO ON';
-
+    $Self->{'DB::Connect'} = "SET standard_conforming_strings TO ON;\n SET NAMES 'utf8';";
     return 1;
 }
 

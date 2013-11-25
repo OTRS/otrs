@@ -374,6 +374,10 @@ for my $Test (@Tests) {
         },
     );
 
+    # sleep between requests to have different timestamps
+    # because of failing tests on windows
+    sleep(1);
+
     # check result
     $Self->Is(
         'HASH',

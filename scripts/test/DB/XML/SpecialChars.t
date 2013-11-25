@@ -46,11 +46,11 @@ my $Counter = 0;
 
 for my $Character (@SpecialCharacters) {
     $Self->{EncodeObject}->EncodeInput( \$Character );
-    my $NameB = $DBObject->Quote($Character);
 
     # insert
     my $Result = $DBObject->Do(
-        SQL => "INSERT INTO test_d (name_a, name_b) VALUES ( '$Counter', '$NameB' )",
+        SQL  => "INSERT INTO test_d (name_a, name_b) VALUES ( ?, ? )",
+        Bind => [ \$Counter, \$Character ],
     );
     $Self->True(
         $Result,
@@ -59,7 +59,8 @@ for my $Character (@SpecialCharacters) {
 
     # select = $Counter
     $Result = $DBObject->Prepare(
-        SQL   => "SELECT name_b FROM test_d WHERE name_a = '$Counter'",
+        SQL   => "SELECT name_b FROM test_d WHERE name_a = ?",
+        Bind => [ \$Counter ],
         Limit => 1,
     );
     $Self->True(
@@ -83,7 +84,8 @@ for my $Character (@SpecialCharacters) {
 
     # select = value
     $Result = $DBObject->Prepare(
-        SQL   => "SELECT name_b FROM test_d WHERE name_b = '$NameB'",
+        SQL   => "SELECT name_b FROM test_d WHERE name_b = ?",
+        Bind  => [ \$Character ],
         Limit => 1,
     );
     $Self->True(
@@ -106,9 +108,10 @@ for my $Character (@SpecialCharacters) {
     }
 
     # select like value
-    $NameB = $DBObject->Quote( $Character, 'Like' );
+    my $CharacterLike = $DBObject->Quote($Character, 'Like');
     $Result = $DBObject->Prepare(
-        SQL   => "SELECT name_b FROM test_d WHERE name_b LIKE '$NameB'",
+        SQL   => "SELECT name_b FROM test_d WHERE name_b LIKE ?",
+        Bind  => [ \$CharacterLike ],
         Limit => 1,
     );
     $Self->True(
@@ -117,6 +120,7 @@ for my $Character (@SpecialCharacters) {
     );
     while ( my @Row = $DBObject->FetchrowArray() ) {
         next if $Character eq '%';    # do not test %, because it's wanted as % for like
+
         $Self->True(
             $Row[0] eq $Character,
             "#5.$Counter Check special character $Character by 'eq' (db returned $Row[0])",
@@ -138,16 +142,18 @@ for my $Character (@SpecialCharacters) {
 {
 
     # select like value (with space)
-    my $NameB = $DBObject->Quote( 'otrs test', 'Like' );
-    my $SQL = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$NameB'";
+    my $Character = 'otrs test';
+    my $CharacterLike = $DBObject->Quote($Character, 'Like');
+    my $SQL = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE ?";
 
     my $Result = $DBObject->Prepare(
         SQL   => $SQL,
+        Bind  => [ \$CharacterLike ],
         Limit => 1,
     );
     $Self->True(
         $Result,
-        "#5.$Counter Prepare() SELECT COUNT LIKE $NameB (space)",
+        "#5.$Counter Prepare() SELECT COUNT LIKE $Character (space)",
     );
     my $Count;
     while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -160,8 +166,9 @@ for my $Character (@SpecialCharacters) {
     );
 
     # select like value (with underscore)
-    $NameB = $DBObject->Quote( 'otrs_test', 'Like' );
-    $SQL = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$NameB'";
+    $Character = 'otrs_test';
+    $CharacterLike = $DBObject->Quote($Character, 'Like');
+    $SQL = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE ?";
 
     # proof of concept that oracle needs special treatment
     # with underscores in LIKE argument, it always needs the ESCAPE parameter
@@ -174,11 +181,12 @@ for my $Character (@SpecialCharacters) {
 
     $Result = $DBObject->Prepare(
         SQL   => $SQL,
+        Bind  => [ \$CharacterLike ],
         Limit => 1,
     );
     $Self->True(
         $Result,
-        "#5.$Counter Prepare() SELECT COUNT LIKE $NameB (underscore)",
+        "#5.$Counter Prepare() SELECT COUNT LIKE $Character (underscore)",
     );
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $Count = $Row[0];
@@ -191,14 +199,16 @@ for my $Character (@SpecialCharacters) {
 
     # do the same again for oracle but without the ESCAPE and expect this to fail
     if ( $DBObject->GetDatabaseFunction('Type') eq 'oracle' ) {
-        $SQL    = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$NameB'";
+        $CharacterLike = $DBObject->Quote($Character, 'Like');
+        $SQL    = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE ?";
         $Result = $DBObject->Prepare(
             SQL   => $SQL,
+            Bind  => [ \$CharacterLike ],
             Limit => 1,
         );
         $Self->True(
             $Result,
-            "#5.$Counter Prepare() SELECT COUNT LIKE $NameB (underscore)",
+            "#5.$Counter Prepare() SELECT COUNT LIKE $Character (underscore)",
         );
         while ( my @Row = $DBObject->FetchrowArray() ) {
             $Count = $Row[0];

@@ -31,6 +31,7 @@ if ( !$ARGV[0] ) {
 my $Filename = $ARGV[0];
 
 if ( open my $FH, '<', $Filename ) {    ## no critic
+    binmode $FH;
     my $MD5 = Digest::MD5->new();
     $MD5->addfile($FH);
     printf "%-32s %s\n", $MD5->hexdigest(), $Filename;

@@ -269,6 +269,11 @@ sub Connect {
         $Self->Do( SQL => $Self->{Backend}->{'DB::Connect'} );
     }
 
+    # set utf-8 on for PostgreSQL
+    if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
+        $Self->{dbh}->{pg_enable_utf8} = 1;
+    }
+
     return $Self->{dbh};
 }
 
@@ -713,13 +718,12 @@ sub FetchrowArray {
     my $Counter = 0;
     ELEMENT:
     for my $Element (@Row) {
-        if ( !$Element ) {
-            next ELEMENT;
-        }
+
+        next ELEMENT if !defined $Element;
 
         if ( !defined $Self->{Encode} || ( $Self->{Encode} && $Self->{Encode}->[$Counter] ) ) {
             $Self->{EncodeObject}->EncodeInput( \$Element );
-        }
+       }
     }
     continue {
         $Counter++;
@@ -867,7 +871,7 @@ sub SQLProcessor {
 
             # unique
             elsif (
-                $Tag->{Tag}    eq 'Unique'
+                $Tag->{Tag} eq 'Unique'
                 || $Tag->{Tag} eq 'UniqueCreate'
                 || $Tag->{Tag} eq 'UniqueDrop'
                 )
@@ -881,7 +885,7 @@ sub SQLProcessor {
 
             # index
             elsif (
-                $Tag->{Tag}    eq 'Index'
+                $Tag->{Tag} eq 'Index'
                 || $Tag->{Tag} eq 'IndexCreate'
                 || $Tag->{Tag} eq 'IndexDrop'
                 )
@@ -895,7 +899,7 @@ sub SQLProcessor {
 
             # foreign keys
             elsif (
-                $Tag->{Tag}    eq 'ForeignKey'
+                $Tag->{Tag} eq 'ForeignKey'
                 || $Tag->{Tag} eq 'ForeignKeyCreate'
                 || $Tag->{Tag} eq 'ForeignKeyDrop'
                 )
@@ -1089,10 +1093,10 @@ generate SQL condition query based on a search expression
         BindMode => 1,
     );
 
-    return the SQL String with ?-values and a value array:
+    return the SQL String with ?-values and a array with values references:
 
     $BindModeResult = (
-        'SQL'    => '...LIKE...NOT...'
+        'SQL'    => 'WHERE testa LIKE ? AND testb NOT LIKE ? AND testc = ?'
         'Values' => ['a', 'b', 'c'],
     )
 
@@ -1331,7 +1335,9 @@ sub QueryCondition {
                         $SQLA .= " $LikeEscapeString";
                     }
 
-                    push @BindValues, $Word;
+                    if ($BindMode) {
+                        push @BindValues, $Word;
+                    }
                 }
                 $SQL .= '(' . $SQLA . ') ';
             }
@@ -1378,7 +1384,9 @@ sub QueryCondition {
                         $SQLA .= " $LikeEscapeString";
                     }
 
-                    push @BindValues, $Word;
+                    if ($BindMode) {
+                        push @BindValues, $Word;
+                    }
                 }
                 $SQL .= '(' . $SQLA . ') ';
             }
@@ -1466,9 +1474,10 @@ sub QueryCondition {
     }
 
     if ($BindMode) {
+        my $BindRefList = [ map { \$_ } @BindValues ];
         return (
             'SQL'    => $SQL,
-            'Values' => \@BindValues,
+            'Values' => $BindRefList,
         );
     }
 

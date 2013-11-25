@@ -53,7 +53,7 @@ sub Run {
         );
         $JSData .= "textinputs[$i] = decodeURIComponent('$Line')\n";
 
-        $Text[$i] = Encode::decode('utf8', URI::Escape::uri_unescape($Text[$i]));
+        $Text[$i] = Encode::decode( 'utf8', URI::Escape::uri_unescape( $Text[$i] ) );
 
         my @Lines = split( /\n/, $Text[$i] );
         for my $Line (@Lines) {
@@ -67,7 +67,7 @@ sub Run {
         String => $TextAll,
     );
 
-    my %SpellCheck     = $SpellingObject->Check(
+    my %SpellCheck = $SpellingObject->Check(
         Text          => $TextAll,
         SpellLanguage => $SpellLanguage,
         RichText      => 1,

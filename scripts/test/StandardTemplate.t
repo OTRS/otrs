@@ -149,6 +149,23 @@ for my $Test (@Tests) {
         'StandardTemplateList() - Answer vs Forward type should be different',
     );
 
+    # test with not only valid templates
+    my %AllStandardTemplates = $StandardTemplateObject->StandardTemplateList( Valid => 0 );
+    $Self->IsNotDeeply(
+        \%AllStandardTemplates,
+        {},
+        'StandardTemplateList() - All templates is not an empty hash',
+    );
+    my %AllAnswerStandardTemplatess = $StandardTemplateObject->StandardTemplateList(
+        Valid => 0,
+        Type  => 'Answer',
+    );
+    $Self->IsNotDeeply(
+        \%AllAnswerStandardTemplatess,
+        {},
+        'StandardTemplateList() - All Answer is not an empty hash',
+    );
+
     # delete
     my $Delete = $StandardTemplateObject->StandardTemplateDelete(
         ID => $ID,

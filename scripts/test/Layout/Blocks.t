@@ -84,9 +84,10 @@ my @Tests = (
         ],
         Name => 'Output() - test 2',
     },
-   # test 3
-   {
-       Input => '
+
+    # test 3
+    {
+        Input => '
 <!-- dtl:block:Block1 -->
 <b>$QData{"Name"}</b>
 <!-- dtl:block:Block11 -->
@@ -97,7 +98,7 @@ my @Tests = (
 <b>$QData{"Name"}</b>
 <!-- dtl:block:Block2 -->
 ',
-       Result => '
+        Result => '
 
 <b>Block1_1</b>
 
@@ -107,29 +108,29 @@ my @Tests = (
 
 
 <b>Block2_1</b>',
-       Block => [
-           {
-               Name => 'Block1',
-               Data => { Name => 'Block1_1' },
-           },
-           {
-               Name => 'Block11',
-               Data => { Name => 'Block11_1' },
-           },
-           {
-               Name => 'Block11',
-               Data => { Name => 'Block11_2' },
-           },
-           {
-               Name => 'Block1',
-               Data => { Name => 'Block1_2' },
-           },
-           {
-               Name => 'Block2',
-               Data => { Name => 'Block2_1' },
-           },
-       ],
-       Name => 'Output() - test 3',
+        Block => [
+            {
+                Name => 'Block1',
+                Data => { Name => 'Block1_1' },
+            },
+            {
+                Name => 'Block11',
+                Data => { Name => 'Block11_1' },
+            },
+            {
+                Name => 'Block11',
+                Data => { Name => 'Block11_2' },
+            },
+            {
+                Name => 'Block1',
+                Data => { Name => 'Block1_2' },
+            },
+            {
+                Name => 'Block2',
+                Data => { Name => 'Block2_1' },
+            },
+        ],
+        Name => 'Output() - test 3',
     },
 
     # test 4

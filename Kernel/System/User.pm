@@ -599,6 +599,9 @@ sub UserSearch {
         return;
     }
 
+    # get like escape string needed for some databases (e.g. oracle)
+    my $LikeEscapeString = $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
+
     # build SQL string
     my $SQL = "SELECT $Self->{UserTableUserID}, login
                    FROM $Self->{UserTable} WHERE ";
@@ -612,9 +615,7 @@ sub UserSearch {
             BindMode => 1,
         );
         $SQL .= $QueryCondition{SQL} . ' ';
-        for my $Value ( @{ $QueryCondition{Values} } ) {
-            push @Bind, \$Value;
-        }
+        push @Bind, @{ $QueryCondition{Values} };
     }
     elsif ( $Param{PostMasterSearch} ) {
 
@@ -637,8 +638,9 @@ sub UserSearch {
     }
     elsif ( $Param{UserLogin} ) {
 
-        $SQL .= " $Self->{Lower}($Self->{UserTableUser}) LIKE ?";
+        $SQL .= " $Self->{Lower}($Self->{UserTableUser}) LIKE ? $LikeEscapeString";
         $Param{UserLogin} =~ s/\*/%/g;
+        $Param{UserLogin} = $Self->{DBObject}->Quote( $Param{UserLogin}, 'Like' );
         push @Bind, \$Param{UserLogin};
     }
 

@@ -46,8 +46,8 @@ sub Connect {
     # connect to host
     my $PopObject = Net::POP3->new(
         $Param{Host},
-        Timeout         => $Param{Timeout},
-        Debug           => $Param{Debug},
+        Timeout => $Param{Timeout},
+        Debug   => $Param{Debug},
     );
 
     if ( !$PopObject ) {

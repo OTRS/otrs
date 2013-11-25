@@ -271,6 +271,12 @@ exit;
 sub _Check {
     my ( $Module, $Depends, $NoColors ) = @_;
 
+    # if we're on Windows we don't need to see Apache + mod_perl modules
+    if ( $^O eq "MSWin32" ) {
+        return if $Module->{Module} =~ m{\A Apache }xms;
+        return if $Module->{Module} =~ m{\A ModPerl }xms;
+    }
+
     print "  " x ( $Depends + 1 );
     print "o $Module->{Module}";
     my $Length = 33 - ( length( $Module->{Module} ) + ( $Depends * 2 ) );
@@ -350,7 +356,7 @@ sub _Check {
         my $Required = $Module->{Required};
         my $Color    = 'yellow';
         if ($Required) {
-            $Required = 'required - use "perl -MCPAN -e shell;"';
+            $Required = 'required - Please install this module';
             $Color    = 'red';
         }
         else {
