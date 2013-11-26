@@ -168,7 +168,6 @@ for my $Character (@SpecialCharacters) {
     # select like value (with underscore)
     $Character = 'otrs_test';
     $CharacterLike = $DBObject->Quote($Character, 'Like');
-    $SQL = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE ?";
 
     # proof of concept that oracle needs special treatment
     # with underscores in LIKE argument, it always needs the ESCAPE parameter
@@ -177,7 +176,7 @@ for my $Character (@SpecialCharacters) {
     # this does no harm for other databases, so it should always be used where
     # a LIKE search is used
     my $LikeEscapeString = $DBObject->GetDatabaseFunction('LikeEscapeString');
-    $SQL .= $LikeEscapeString;
+    $SQL = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE ? $LikeEscapeString";
 
     $Result = $DBObject->Prepare(
         SQL   => $SQL,
