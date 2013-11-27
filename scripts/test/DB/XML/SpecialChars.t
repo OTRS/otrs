@@ -49,7 +49,7 @@ for my $Character (@SpecialCharacters) {
 
     # insert
     my $Result = $DBObject->Do(
-        SQL  => "INSERT INTO test_d (name_a, name_b) VALUES ( ?, ? )",
+        SQL => "INSERT INTO test_d (name_a, name_b) VALUES ( ?, ? )",
         Bind => [ \$Counter, \$Character ],
     );
     $Self->True(
@@ -60,7 +60,7 @@ for my $Character (@SpecialCharacters) {
     # select = $Counter
     $Result = $DBObject->Prepare(
         SQL   => "SELECT name_b FROM test_d WHERE name_a = ?",
-        Bind => [ \$Counter ],
+        Bind  => [ \$Counter ],
         Limit => 1,
     );
     $Self->True(
@@ -108,7 +108,7 @@ for my $Character (@SpecialCharacters) {
     }
 
     # select like value
-    my $CharacterLike = $DBObject->Quote($Character, 'Like');
+    my $CharacterLike = $DBObject->Quote( $Character, 'Like' );
     $Result = $DBObject->Prepare(
         SQL   => "SELECT name_b FROM test_d WHERE name_b LIKE ?",
         Bind  => [ \$CharacterLike ],
@@ -142,9 +142,9 @@ for my $Character (@SpecialCharacters) {
 {
 
     # select like value (with space)
-    my $Character = 'otrs test';
-    my $CharacterLike = $DBObject->Quote($Character, 'Like');
-    my $SQL = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE ?";
+    my $Character     = 'otrs test';
+    my $CharacterLike = $DBObject->Quote( $Character, 'Like' );
+    my $SQL           = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE ?";
 
     my $Result = $DBObject->Prepare(
         SQL   => $SQL,
@@ -167,7 +167,7 @@ for my $Character (@SpecialCharacters) {
 
     # select like value (with underscore)
     $Character = 'otrs_test';
-    $CharacterLike = $DBObject->Quote($Character, 'Like');
+    $CharacterLike = $DBObject->Quote( $Character, 'Like' );
 
     # proof of concept that oracle needs special treatment
     # with underscores in LIKE argument, it always needs the ESCAPE parameter
@@ -198,9 +198,9 @@ for my $Character (@SpecialCharacters) {
 
     # do the same again for oracle but without the ESCAPE and expect this to fail
     if ( $DBObject->GetDatabaseFunction('Type') eq 'oracle' ) {
-        $CharacterLike = $DBObject->Quote($Character, 'Like');
-        $SQL    = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE ?";
-        $Result = $DBObject->Prepare(
+        $CharacterLike = $DBObject->Quote( $Character, 'Like' );
+        $SQL           = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE ?";
+        $Result        = $DBObject->Prepare(
             SQL   => $SQL,
             Bind  => [ \$CharacterLike ],
             Limit => 1,

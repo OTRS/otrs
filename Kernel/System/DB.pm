@@ -723,7 +723,7 @@ sub FetchrowArray {
 
         if ( !defined $Self->{Encode} || ( $Self->{Encode} && $Self->{Encode}->[$Counter] ) ) {
             $Self->{EncodeObject}->EncodeInput( \$Element );
-       }
+        }
     }
     continue {
         $Counter++;
