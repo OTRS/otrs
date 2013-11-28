@@ -1455,7 +1455,8 @@ sub ArticleGet {
             st.ticket_lock_id, st.title, st.escalation_update_time,
             st.type_id, st.service_id, st.sla_id, st.escalation_response_time,
             st.escalation_solution_time, st.escalation_time, st.change_time
-        FROM article sa, ticket st
+        FROM article sa
+        JOIN ticket st ON sa.ticket_id = st.id
         WHERE ';
 
     if ( $Param{ArticleID} ) {
@@ -1466,7 +1467,6 @@ sub ArticleGet {
         $SQL .= 'sa.ticket_id = ?';
         push @Bind, \$Param{TicketID};
     }
-    $SQL .= ' AND sa.ticket_id = st.id ';
 
     # add article types
     if ($ArticleTypeSQL) {
