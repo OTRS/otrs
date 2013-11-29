@@ -2213,6 +2213,7 @@ sub Data {
 
         # Template: AgentDashboardCalendarOverview
         'in' => 'in',
+        'All-day' => 'Ganztägig',
 
         # Template: AgentDashboardCommon
         'Available Columns' => 'Verfügbare Spalten',
