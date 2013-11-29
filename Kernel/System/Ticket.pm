@@ -1539,6 +1539,9 @@ sub TicketTitleUpdate {
         Bind => [ \$Param{Title}, \$Param{UserID}, \$Param{TicketID} ],
     );
 
+    # clear ticket cache
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
+
     # history insert
     $Self->HistoryAdd(
         TicketID     => $Param{TicketID},
@@ -1546,9 +1549,6 @@ sub TicketTitleUpdate {
         Name         => "\%\%$Ticket{Title}\%\%$Param{Title}",
         CreateUserID => $Param{UserID},
     );
-
-    # clear ticket cache
-    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # trigger event
     $Self->EventHandler(
@@ -2999,6 +2999,9 @@ sub TicketCustomerSet {
         return;
     }
 
+    # clear ticket cache
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
+
     # history insert
     $Self->HistoryAdd(
         TicketID     => $Param{TicketID},
@@ -3006,9 +3009,6 @@ sub TicketCustomerSet {
         Name         => "\%\%" . $Param{History},
         CreateUserID => $Param{UserID},
     );
-
-    # clear ticket cache
-    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # trigger event
     $Self->EventHandler(
@@ -3436,6 +3436,9 @@ sub TicketPendingTimeSet {
         Bind => [ \$Time, \$Param{UserID}, \$Param{TicketID} ],
     );
 
+    # clear ticket cache
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
+
     # history insert
     $Self->HistoryAdd(
         TicketID    => $Param{TicketID},
@@ -3448,9 +3451,6 @@ sub TicketPendingTimeSet {
             . sprintf( "%02d", $Param{Minute} ) . '',
         CreateUserID => $Param{UserID},
     );
-
-    # clear ticket cache
-    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # trigger event
     $Self->EventHandler(
@@ -4120,6 +4120,9 @@ sub TicketOwnerSet {
         Bind => [ \$Param{NewUserID}, \$Param{UserID}, \$Param{TicketID} ],
     );
 
+    # clear ticket cache
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
+
     # add history
     $Self->HistoryAdd(
         TicketID     => $Param{TicketID},
@@ -4127,9 +4130,6 @@ sub TicketOwnerSet {
         HistoryType  => 'OwnerUpdate',
         Name         => "\%\%$Param{NewUser}\%\%$Param{NewUserID}",
     );
-
-    # clear ticket cache
-    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # send agent notify
     if ( !$Param{SendNoNotification} ) {
@@ -4306,6 +4306,9 @@ sub TicketResponsibleSet {
         Bind => [ \$Param{NewUserID}, \$Param{UserID}, \$Param{TicketID} ],
     );
 
+    # clear ticket cache
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
+
     # add history
     $Self->HistoryAdd(
         TicketID     => $Param{TicketID},
@@ -4313,9 +4316,6 @@ sub TicketResponsibleSet {
         HistoryType  => 'ResponsibleUpdate',
         Name         => "\%\%$Param{NewUser}\%\%$Param{NewUserID}",
     );
-
-    # clear ticket cache
-    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # send agent notify
     if ( !$Param{SendNoNotification} ) {
@@ -4574,6 +4574,9 @@ sub TicketPrioritySet {
         Bind => [ \$Param{PriorityID}, \$Param{UserID}, \$Param{TicketID} ],
     );
 
+    # clear ticket cache
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
+
     # add history
     $Self->HistoryAdd(
         TicketID     => $Param{TicketID},
@@ -4583,9 +4586,6 @@ sub TicketPrioritySet {
         Name         => "\%\%$Ticket{Priority}\%\%$Ticket{PriorityID}"
             . "\%\%$Param{Priority}\%\%$Param{PriorityID}",
     );
-
-    # clear ticket cache
-    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # trigger event
     $Self->EventHandler(
@@ -5334,6 +5334,9 @@ sub TicketAccountTime {
         ],
     );
 
+    # clear ticket cache
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
+
     # add history
     my $AccountedTime = $Self->TicketAccountedTimeGet( TicketID => $Param{TicketID} );
     $Self->HistoryAdd(
@@ -5343,9 +5346,6 @@ sub TicketAccountTime {
         HistoryType  => 'TimeAccounting',
         Name         => "\%\%$Param{TimeUnit}\%\%$AccountedTime",
     );
-
-    # clear ticket cache
-    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # trigger event
     $Self->EventHandler(
