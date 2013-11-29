@@ -925,10 +925,10 @@ sub TicketSubjectClean {
     }
 
     # remove leading number with configured "RE:\s" or "RE[\d+]:\s" e. g. "RE: " or "RE[4]: "
-    $Subject =~ s/^($TicketSubjectRe(\[\d+\])?:\s)+//;
+    $Subject =~ s/^($TicketSubjectRe(\[\d+\])?:\s)+//i;
 
     # remove leading number with configured "Fwd:\s" or "Fwd[\d+]:\s" e. g. "Fwd: " or "Fwd[4]: "
-    $Subject =~ s/^($TicketSubjectFwd(\[\d+\])?:\s)+//;
+    $Subject =~ s/^($TicketSubjectFwd(\[\d+\])?:\s)+//i;
 
     # trim white space at the beginning or end
     $Subject =~ s/(^\s+|\s+$)//;
