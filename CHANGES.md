@@ -1,4 +1,5 @@
 #3.2.13 201?-??-??
+ - 2013-11-29 Fixed bug#[10027](http://bugs.otrs.org/show_bug.cgi?id=10027) - Added old ticket information to ticket_history.
  - 2013-11-19 Fixed bug#[7337](http://bugs.otrs.org/show_bug.cgi?id=7337) - AJAX Error on new Phone Ticket on IIS when using JSON::XS.
  - 2013-11-18 Fixed bug#[8991](http://bugs.otrs.org/show_bug.cgi?id=8991) - Back-action does not work when search result returned just  1 ticket.
  - 2013-11-12 Fixed bug#[9937](http://bugs.otrs.org/show_bug.cgi?id=9937) - Activity-Dialogs in wrong order.
