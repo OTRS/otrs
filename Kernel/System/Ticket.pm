@@ -6205,7 +6205,7 @@ sub TicketAcl {
         # take over the ChecksDatabase to the Checks hash as basis
         if ( $ChecksDatabase{Process} && %{ $ChecksDatabase{Process} } ) {
             my %ProcessDatabase = %{ $ChecksDatabase{Process} };
-            %{ $Checks{Process} } = %ProcessDatabase;
+            $Checks{Process} = \%ProcessDatabase;
         }
     }
 
@@ -6234,8 +6234,8 @@ sub TicketAcl {
         if ( IsHashRefWithData( $Activity->{ActivityDialog} ) ) {
 
             # store all ActivityDialogs from activity
-            %AllActivityDialogs = map { $Activity->{ActivityDialog}{$_} => 1 }
-                keys %{ $Activity->{ActivityDialog} };
+            %AllActivityDialogs = map { $_ => 1 }
+                values %{ $Activity->{ActivityDialog} };
         }
     }
 
@@ -7583,12 +7583,7 @@ sub TicketAcl {
         %AllActivityDialogs
             = map { $_ => 1 } grep { !$PossibleNotActivityDialogs{$_} } keys %AllActivityDialogs;
     }
-    if (%AllActivityDialogs) {
-        %{ $Self->{TicketAclActivityDialogData} } = %AllActivityDialogs;
-    }
-    else {
-        %{ $Self->{TicketAclActivityDialogData} } = ();
-    }
+    $Self->{TicketAclActivityDialogData} = \%AllActivityDialogs;
 
     # after all ACL checks, sum up the PossibleProcesses
     # as well as the PossibleNotProcesses
