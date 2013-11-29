@@ -277,6 +277,16 @@ sub Run {
             # save article from for addresses list
             $ArticleFrom = $Article{From};
 
+            # if To is present and is no a queue
+            # set To as article from
+            my $FromQueueID;
+            if ( IsStringWithData($Article{To}) ) {
+                $FromQueueID = $Self->{QueueObject}->QueueLookup( Queue => $Article{To} );
+                if ( !defined $FromQueueID ) {
+                    $ArticleFrom = $Article{To};
+                }
+            }
+
             # body preparation for plain text processing
             $Article{Body} = $Self->{LayoutObject}->ArticleQuote(
                 TicketID           => $Article{TicketID},
