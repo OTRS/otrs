@@ -4547,7 +4547,7 @@ $QData{"Body"}
                 <Item Key="Name">New phone ticket</Item>
                 <Item Key="Link">Action=AgentTicketPhone</Item>
                 <Item Key="Action">AgentTicketPhone</Item>
-                <Item Key="AccessKey">l</Item>
+                <Item Key="AccessKey"></Item>
                 <Item Key="CssClass">PhoneTicket</Item>
                 <Item Key="Icon">icon-phone</Item>
                 <Item Key="Priority">1020010</Item>
@@ -4564,7 +4564,7 @@ $QData{"Body"}
                 <Item Key="Name">New email ticket</Item>
                 <Item Key="Link">Action=AgentTicketEmail</Item>
                 <Item Key="Action">AgentTicketEmail</Item>
-                <Item Key="AccessKey">l</Item>
+                <Item Key="AccessKey"></Item>
                 <Item Key="CssClass">EmailTicket</Item>
                 <Item Key="Icon">icon-envelope</Item>
                 <Item Key="Priority">1020020</Item>
@@ -4601,6 +4601,9 @@ $QData{"Body"}
                 <Item Key="Icon">icon-user</Item>
                 <Item Key="IconNew">icon-user</Item>
                 <Item Key="IconReached">icon-user</Item>
+                <Item Key="AccessKey">r</Item>
+                <Item Key="AccessKeyNew"></Item>
+                <Item Key="AccessKeyReached"></Item>
                 <Item Key="Priority">1030010</Item>
             </Hash>
         </Setting>
@@ -4618,6 +4621,9 @@ $QData{"Body"}
                 <Item Key="Icon">icon-eye-open</Item>
                 <Item Key="IconNew">icon-eye-open</Item>
                 <Item Key="IconReached">icon-eye-open</Item>
+                <Item Key="AccessKey"></Item>
+                <Item Key="AccessKeyNew"></Item>
+                <Item Key="AccessKeyReached"></Item>
                 <Item Key="Priority">1030020</Item>
             </Hash>
         </Setting>
@@ -4635,6 +4641,9 @@ $QData{"Body"}
                 <Item Key="Icon">icon-lock</Item>
                 <Item Key="IconNew">icon-lock</Item>
                 <Item Key="IconReached">icon-lock</Item>
+                <Item Key="AccessKey">k</Item>
+                <Item Key="AccessKeyNew"></Item>
+                <Item Key="AccessKeyReached"></Item>
                 <Item Key="Priority">1030030</Item>
             </Hash>
         </Setting>
@@ -8028,7 +8037,7 @@ $QData{"Body"}
                     <NavBar>Ticket</NavBar>
                     <Link>Action=CustomerTicketOverview;Subaction=MyTickets</Link>
                     <LinkOption></LinkOption>
-                    <AccessKey>m</AccessKey>
+                    <AccessKey></AccessKey>
                     <Prio>110</Prio>
                 </NavBar>
                 <NavBar>

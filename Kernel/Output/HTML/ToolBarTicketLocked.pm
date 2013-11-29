@@ -86,7 +86,7 @@ sub Run {
             Class       => $ClassNew,
             Icon        => $IconNew,
             Link        => $URL . 'Action=AgentTicketLockedView;Filter=New',
-            AccessKey   => 'k',
+            AccessKey   => $Param{Config}->{AccessKeyNew} || '',
         };
     }
     if ($CountReached) {
@@ -97,7 +97,7 @@ sub Run {
             Class       => $ClassReached,
             Icon        => $IconReached,
             Link        => $URL . 'Action=AgentTicketLockedView;Filter=ReminderReached',
-            AccessKey   => 'k',
+            AccessKey   => $Param{Config}->{AccessKeyReached} || '',
         };
     }
     if ($Count) {
@@ -108,7 +108,7 @@ sub Run {
             Class       => $Class,
             Icon        => $Icon,
             Link        => $URL . 'Action=AgentTicketLockedView',
-            AccessKey   => 'k',
+            AccessKey   => $Param{Config}->{AccessKey} || '',
         };
     }
     return %Return;
