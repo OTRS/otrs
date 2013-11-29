@@ -88,7 +88,7 @@ sub Run {
             Class       => $ClassNew,
             Icon        => $IconNew,
             Link        => $URL . 'Action=AgentTicketResponsibleView;Filter=New',
-            AccessKey   => 'r',
+            AccessKey   => '',
         };
     }
     if ($CountReached) {
@@ -99,7 +99,7 @@ sub Run {
             Class       => $ClassReached,
             Icon        => $IconReached,
             Link        => $URL . 'Action=AgentTicketResponsibleView;Filter=ReminderReached',
-            AccessKey   => 'r',
+            AccessKey   => '',
         };
     }
     if ($Count) {

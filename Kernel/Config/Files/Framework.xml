@@ -4035,7 +4035,7 @@ via the Preferences button after logging in.
                     <NavBar>Customers</NavBar>
                     <Type></Type>
                     <Block>ItemArea</Block>
-                    <AccessKey>c</AccessKey>
+                    <AccessKey></AccessKey>
                     <Prio>50</Prio>
                 </NavBar>
                 <NavBar>
@@ -4345,7 +4345,7 @@ via the Preferences button after logging in.
                     <Description Translatable="1"></Description>
                     <Type></Type>
                     <Block>ItemArea</Block>
-                    <AccessKey>c</AccessKey>
+                    <AccessKey></AccessKey>
                     <Prio>9000</Prio>
                 </NavBar>
                 <NavBarModule>
@@ -4381,7 +4381,7 @@ via the Preferences button after logging in.
                     <Description Translatable="1"></Description>
                     <Type></Type>
                     <Block>ItemArea</Block>
-                    <AccessKey>c</AccessKey>
+                    <AccessKey></AccessKey>
                     <Prio>9100</Prio>
                 </NavBar>
                 <NavBarModule>

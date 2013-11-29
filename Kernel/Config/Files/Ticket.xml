@@ -4564,7 +4564,7 @@ $QData{"Body"}
                 <Item Key="Name">New email ticket</Item>
                 <Item Key="Link">Action=AgentTicketEmail</Item>
                 <Item Key="Action">AgentTicketEmail</Item>
-                <Item Key="AccessKey">l</Item>
+                <Item Key="AccessKey">e</Item>
                 <Item Key="CssClass">EmailTicket</Item>
                 <Item Key="Icon">icon-envelope</Item>
                 <Item Key="Priority">1020020</Item>
@@ -8017,7 +8017,7 @@ $QData{"Body"}
                     <NavBar>Ticket</NavBar>
                     <Link>Action=CustomerTicketOverview;Subaction=MyTickets</Link>
                     <LinkOption></LinkOption>
-                    <AccessKey>m</AccessKey>
+                    <AccessKey>t</AccessKey>
                     <Prio>100</Prio>
                 </NavBar>
                 <NavBar>
