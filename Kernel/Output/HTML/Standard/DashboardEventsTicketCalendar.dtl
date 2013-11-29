@@ -12,6 +12,7 @@
 
     $(document).ready(function() {
         Core.Agent.Dashboard.EventsTicketCalendarInit({
+            AllDayText: "$JSText{"All-day"}",
             MonthNames: [
                 "$JSText{"January"}",
                 "$JSText{"February"}",
