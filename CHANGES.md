@@ -1,5 +1,6 @@
 #3.3.3 2013-??-??
  - 2013-11-28 Fixed bug#[10019](http://bugs.otrs.org/show_bug.cgi?id=10019) - Tickets via "In line action bar" cannot be moved.
+ - 2013-11-29 Fixed bug#[10027](http://bugs.otrs.org/show_bug.cgi?id=10027) - Added old ticket information to ticket_history.
  - 2013-11-28 Fixed bug#[9911](http://bugs.otrs.org/show_bug.cgi?id=9911) - Column filter by 'Queue' shouldn't be available on 'Queue view'.
  - 2013-11-28 Fixed bug#[9950](http://bugs.otrs.org/show_bug.cgi?id=9950) - Ticket Split takes uses system address as the customer.
  - 2013-11-25 Fixed bug#[9975](http://bugs.otrs.org/show_bug.cgi?id=9975) - Generic Interface (TicketSearch Operation) Limit param is ignored.
