@@ -924,9 +924,6 @@ sub TicketSubjectClean {
         $Subject =~ s/\Q$TicketHook$TicketHookDivider\E\d+?\s*//g;
     }
 
-    # remove leading "..:\s" and "..[\d+]:\s" e. g. "Re: " or "Re[5]: "
-    $Subject =~ s/^(..(\[\d+\])?:\s)+//;
-
     # remove leading number with configured "RE:\s" or "RE[\d+]:\s" e. g. "RE: " or "RE[4]: "
     $Subject =~ s/^($TicketSubjectRe(\[\d+\])?:\s)+//;
 
