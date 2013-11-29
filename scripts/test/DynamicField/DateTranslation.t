@@ -44,6 +44,8 @@ $ConfigObject->Set(
     Key   => 'TimeZoneUserBrowserAutoOffset',
     Value => 0,
 );
+
+# Ensure that default config values are used
 $ConfigObject->Set(
     Key   => 'TimeInputFormat',
     Value => 'Option',
