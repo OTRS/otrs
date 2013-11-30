@@ -92,6 +92,11 @@ sub Run {
         Data => $Preferences{$StoredFiltersKey},
     );
 
+    # delete stored filters if needed
+    if ( $Self->{ParamObject}->GetParam( Param => 'DeleteFilters' ) ) {
+        $StoredFilters = {};
+    }
+
     # get the column filters from the web request or user preferences
     my %ColumnFilter;
     my %GetColumnFilter;
@@ -353,13 +358,9 @@ sub Run {
     }
     else {
 
-        my $DeleteFilters = $Self->{ParamObject}->GetParam( Param => 'DeleteFilters' ) || '';
-
         # store column filters
         my $StoredFilters = \%ColumnFilter;
-        if ($DeleteFilters) {
-            $StoredFilters = {};
-        }
+
         my $StoredFiltersKey = 'UserStoredFilterColumns-' . $Self->{Action};
         $Self->{UserObject}->SetPreferences(
             UserID => $Self->{UserID},
