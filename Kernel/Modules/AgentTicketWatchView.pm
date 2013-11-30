@@ -181,7 +181,7 @@ sub Run {
         else {
             GROUP:
             for my $Group (@Groups) {
-                next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+                next GROUP if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
                 if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
                     $Access = 1;
                     last GROUP;
@@ -264,10 +264,10 @@ sub Run {
 
     # get ticket values
     if (
-        !IsStringWithData($HeaderColumn) ||
-        (
-            IsStringWithData($HeaderColumn) &&
-            (
+        !IsStringWithData($HeaderColumn)
+        || (
+            IsStringWithData($HeaderColumn)
+            && (
                 $Self->{ConfigObject}->Get('OnlyValuesOnTicket') ||
                 $HeaderColumn eq 'CustomerID' ||
                 $HeaderColumn eq 'CustomerUserID'
@@ -304,8 +304,9 @@ sub Run {
         }
 
         my @OriginalViewableTicketsTmp;
+        TICKETID:
         for my $TicketIDAll (@OriginalViewableTicketsAll) {
-            next if $OriginalViewableTicketsNotNew{$TicketIDAll};
+            next TICKETID if $OriginalViewableTicketsNotNew{$TicketIDAll};
             push @OriginalViewableTicketsTmp, $TicketIDAll;
         }
         @OriginalViewableTickets = @OriginalViewableTicketsTmp;
@@ -323,8 +324,9 @@ sub Run {
         }
 
         my @ViewableTicketsTmp;
+        TICKETID:
         for my $TicketIDAll (@ViewableTicketsAll) {
-            next if $ViewableTicketsNotNew{$TicketIDAll};
+            next TICKETID if $ViewableTicketsNotNew{$TicketIDAll};
             push @ViewableTicketsTmp, $TicketIDAll;
         }
         @ViewableTickets = @ViewableTicketsTmp;
@@ -362,7 +364,7 @@ sub Run {
 
         # store column filters
         my $StoredFilters = \%ColumnFilter;
-        if ( !IsArrayRefWithData( \@ViewableTickets ) || $DeleteFilters ) {
+        if ($DeleteFilters) {
             $StoredFilters = {};
         }
         my $StoredFiltersKey = 'UserStoredFilterColumns-' . $Self->{Action};

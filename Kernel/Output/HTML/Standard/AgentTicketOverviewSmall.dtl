@@ -16,7 +16,7 @@
 
 <!-- dtl:block:DocumentActionRowLastColumnFilter -->
     <li class="">
-        <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Reset overview"}</a>
+        <a href="$Env{"Baselink"}Action=$Env{"Action"};DeleteFilters=DeleteFilters">$Text{"Reset overview"}</a>
     </li>
 <!-- dtl:block:DocumentActionRowLastColumnFilter -->
 
