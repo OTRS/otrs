@@ -241,10 +241,10 @@ sub Run {
 
     # get ticket values
     if (
-        !IsStringWithData($HeaderColumn) ||
-        (
-            IsStringWithData($HeaderColumn) &&
-            (
+        !IsStringWithData($HeaderColumn)
+        || (
+            IsStringWithData($HeaderColumn)
+            && (
                 $Self->{ConfigObject}->Get('OnlyValuesOnTicket') ||
                 $HeaderColumn eq 'CustomerID' ||
                 $HeaderColumn eq 'CustomerUserID'
@@ -338,7 +338,7 @@ sub Run {
 
         # store column filters
         my $StoredFilters = \%ColumnFilter;
-        if ( !IsArrayRefWithData( \@ViewableTickets ) || $DeleteFilters ) {
+        if ($DeleteFilters) {
             $StoredFilters = {};
         }
         my $StoredFiltersKey = 'UserStoredFilterColumns-' . $Self->{Action};

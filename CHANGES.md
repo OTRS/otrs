@@ -1,4 +1,5 @@
 #3.3.3 2013-??-??
+ - 2013-11-29 Fixed bug#[9997](http://bugs.otrs.org/show_bug.cgi?id=9997) - After empty ticket list, Column Filters are reset in Overview Small screens.
  - 2013-11-29 Fixed bug#[10028](http://bugs.otrs.org/show_bug.cgi?id=10028) - Duplicate Access Keys/hardcoded assignments.
  - 2013-11-29 Fixed bug#[9999](http://bugs.otrs.org/show_bug.cgi?id=9999) - Timestamps in HistoricalValueGet return milliseconds on SQL Server.
  - 2013-11-29 Fixed bug#[10023](http://bugs.otrs.org/show_bug.cgi?id=10023) - Subject always cleaned from prefixes, irrespective of configuration.
