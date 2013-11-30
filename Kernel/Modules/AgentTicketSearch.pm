@@ -213,6 +213,7 @@ sub Run {
             TicketEscalationTimeStartYear
             TicketEscalationTimeStop TicketEscalationTimeStopDay TicketEscalationTimeStopMonth
             TicketEscalationTimeStopYear
+            TicketCloseTimeNewerDate TicketCloseTimeOlderDate
             )
             )
         {
