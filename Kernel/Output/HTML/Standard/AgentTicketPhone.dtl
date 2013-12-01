@@ -149,7 +149,7 @@ $Include{"AgentCustomerSearch"}
 <!-- dtl:block:FromExternalCustomer -->
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    Core.Agent.CustomerSearch.AddTicketCustomer( 'FromCustomer', "$QData{"Email"}", "$QData{"Customer"}", true );
+    Core.Agent.CustomerSearch.AddTicketCustomer( 'FromCustomer', "$QData{"Email"}", "$Data{"Customer"}", true );
 //]]></script>
 <!--dtl:js_on_document_complete-->
 <!-- dtl:block:FromExternalCustomer -->
