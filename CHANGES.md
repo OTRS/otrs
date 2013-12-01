@@ -1,4 +1,5 @@
 #3.3.3 2013-??-??
+ - 2013-11-29 Fixed bug#[9959](http://bugs.otrs.org/show_bug.cgi?id=9959) - & breaks ExpandCustomerName.
  - 2013-11-29 Fixed bug#[10036](http://bugs.otrs.org/show_bug.cgi?id=10036) - Reset filters in small overviews does not reset the ticket list.
  - 2013-11-29 Fixed bug#[9997](http://bugs.otrs.org/show_bug.cgi?id=9997) - After empty ticket list, Column Filters are reset in Overview Small screens.
  - 2013-11-29 Fixed bug#[10028](http://bugs.otrs.org/show_bug.cgi?id=10028) - Duplicate Access Keys/hardcoded assignments.
