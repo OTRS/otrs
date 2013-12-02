@@ -105,9 +105,12 @@
                             <div id="ProfileError" class="TooltipErrorMessage">
                                 <p>$Text{"This field is required."}</p>
                             </div>
-                            <div id="ProfileServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
+<!-- dtl:block:ProfileInvalidMsg -->
+                            <div id="ProfileServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+<!-- dtl:block:ProfileInvalidMsg -->
+<!-- dtl:block:ProfileInvalidMsgAddError -->
+                            <div id="ProfileServerError" class="TooltipErrorMessage"><p>$Text{"The name you entered already exists."}</p></div>
+<!-- dtl:block:ProfileInvalidMsgAddError -->
                         </div>
                         <div class="Clear"></div>
 
