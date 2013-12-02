@@ -1719,6 +1719,7 @@ sub _ColumnFilterJSON {
                 Data         => $Data,
                 Class        => 'ColumnFilter',
                 Sort         => 'AlphanumericKey',
+                TreeView     => 1,
                 SelectedID   => $Param{SelectedValue},
                 Translation  => $TranslationOption,
                 AutoComplete => 'off',
