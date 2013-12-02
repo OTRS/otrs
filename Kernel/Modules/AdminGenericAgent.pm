@@ -272,7 +272,7 @@ sub Run {
             }
 
             # insert new profile params
-            $Self->{GenericAgentObject}->JobAdd(
+            my $JobAddResult = $Self->{GenericAgentObject}->JobAdd(
                 Name => $Self->{Profile},
                 Data => {
                     %GetParam,
@@ -281,9 +281,15 @@ sub Run {
                 UserID => $Self->{UserID},
             );
 
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=$Self->{Action}",
-            );
+            if ($JobAddResult) {
+                return $Self->{LayoutObject}->Redirect(
+                    OP => "Action=$Self->{Action}",
+                );
+            }
+            else {
+                $Errors{ProfileInvalid}    = 'ServerError';
+                $Errors{ProfileInvalidMsg} = 'AddError';
+            }
         }
 
         # something went wrong
@@ -704,6 +710,14 @@ sub _MaskUpdate {
             %JobData,
         },
     );
+
+    # check for profile errors
+    if ( defined $Param{ProfileInvalid} ) {
+        $Param{ProfileInvalidMsg} = '' if !defined $Param{ProfileInvalidMsg};
+        $Self->{LayoutObject}->Block(
+            Name => 'ProfileInvalidMsg' . $Param{ProfileInvalidMsg},
+        );
+    }
 
     # check if the schedule options are selected
     if (
