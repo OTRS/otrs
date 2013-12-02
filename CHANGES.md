@@ -1,4 +1,5 @@
 #3.3.3 2013-??-??
+ - 2013-12-02 Fixed bug#[9327](http://bugs.otrs.org/show_bug.cgi?id=9327) - Filter breaks "Select all" functionality.
  - 2013-11-29 Fixed bug#[10035](http://bugs.otrs.org/show_bug.cgi?id=10035) - Adding a GenericAgent Job with an already existing name, will not be added, no error displayed.
  - 2013-11-29 Fixed bug#[9959](http://bugs.otrs.org/show_bug.cgi?id=9959) - & breaks ExpandCustomerName.
  - 2013-11-29 Fixed bug#[10036](http://bugs.otrs.org/show_bug.cgi?id=10036) - Reset filters in small overviews does not reset the ticket list.
