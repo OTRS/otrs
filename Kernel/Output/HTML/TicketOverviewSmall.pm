@@ -177,7 +177,7 @@ sub new {
     };
 
     # remove queue from filters on AgentTicketQueue
-    if ( $Self->{Action} eq 'AgentTicketQueue') {
+    if ( $Self->{Action} eq 'AgentTicketQueue' ) {
         delete $Self->{AvailableFilterableColumns}->{Queue};
     }
 
@@ -1857,6 +1857,7 @@ sub _ColumnFilterJSON {
                 Data         => $Data,
                 Class        => 'ColumnFilter',
                 Sort         => 'AlphanumericKey',
+                TreeView     => 1,
                 SelectedID   => $Param{SelectedValue},
                 Translation  => $TranslationOption,
                 AutoComplete => 'off',
