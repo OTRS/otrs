@@ -163,6 +163,17 @@ $('input:checkbox[name=ItemsSelected]').bind('click', function () {
     Core.Form.SelectAllCheckboxes($(this), $('#SelectAllItemsSelected'));
 });
 Core.UI.Table.InitTableFilter($('#Filter'), $('#ItemsTable'));
+
+Core.App.Subscribe('Event.UI.Table.InitTableFilter.Change', function ($FilterInput, $Container, ColumnNumber) {
+    // Only one filter present on page, no check needed
+    // Filter is set, remove checkbox to select all entries
+    if ($FilterInput.val().length) {
+        $('#SelectAllItemsSelected').addClass('Invisible');
+    }
+    else {
+        $('#SelectAllItemsSelected').removeClass('Invisible');
+    }
+});
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:Change -->

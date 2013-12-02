@@ -139,6 +139,8 @@ Core.UI.Table = (function (TargetNS) {
                     $Container.find('.FilterMessage').show();
                 }
 
+                Core.App.Publish('Event.UI.Table.InitTableFilter.Change', [$FilterInput, $Container, ColumnNumber]);
+
             }, 100);
         });
 

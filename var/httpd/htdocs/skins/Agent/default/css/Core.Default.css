@@ -41,6 +41,10 @@ body {
     display: none;
 }
 
+.Invisible {
+    visibility: hidden;
+}
+
 /**
  * @subsection      ARIA (Accessibility)
  * @subsubsection   AlertMessage
