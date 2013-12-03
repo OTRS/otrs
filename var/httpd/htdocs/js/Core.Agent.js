@@ -162,11 +162,10 @@ Core.Agent = (function (TargetNS) {
 
     function NavigationBarShowSlideButton(Direction, Difference) {
 
-        var OppositeDirection = (Direction === 'Right') ? 'Left' : 'Right',
-            Character         = (Direction === 'Right') ? '&#x25BA;' : '&#x25C0;';
+        var Opposites = (Direction === 'Right') ? 'Left' : 'Right';
 
         $('#NavigationContainer')
-            .append('<a href="#" class="Hidden NavigationBarNavigate' + Direction + '">' + Character + '</a>')
+            .append('<a href="#" class="Hidden NavigationBarNavigate' + Direction + '"><i class="icon-chevron-' + Direction.toLowerCase() + '"></i></a>')
             .find('.NavigationBarNavigate' + Direction)
             .delay(500)
             .fadeIn()
@@ -182,7 +181,7 @@ Core.Agent = (function (TargetNS) {
                                 .fadeOut('300', function() {
                                     $(this).remove();
                                 });
-                            NavigationBarShowSlideButton(OppositeDirection, Difference);
+                            NavigationBarShowSlideButton(Opposites, Difference);
                         });
                 }
                 else {
@@ -195,7 +194,7 @@ Core.Agent = (function (TargetNS) {
                                 .fadeOut('300', function() {
                                     $(this).remove();
                                 });
-                            NavigationBarShowSlideButton(OppositeDirection, Difference);
+                            NavigationBarShowSlideButton(Opposites, Difference);
                         });
                 }
 

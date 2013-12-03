@@ -240,6 +240,11 @@
     height: 33px;
 }
 
+#NavigationContainer > a i {
+    margin-top: 10px;
+    display: block;
+}
+
 /**
  * @subsection      Main hover effect
  */
