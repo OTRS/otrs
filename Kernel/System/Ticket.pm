@@ -2993,13 +2993,13 @@ sub TicketCustomerSet {
         }
     }
 
+    # clear ticket cache
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
+
     # if no change
     if ( !$Param{History} ) {
         return;
     }
-
-    # clear ticket cache
-    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # history insert
     $Self->HistoryAdd(
