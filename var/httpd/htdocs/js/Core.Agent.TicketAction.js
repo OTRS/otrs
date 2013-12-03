@@ -150,6 +150,25 @@ Core.Agent.TicketAction = (function (TargetNS) {
         Core.App.Subscribe('Event.Agent.CustomerSearch.GetCustomerInfo.Callback', function() {
             MarkPrimaryCustomer();
         });
+
+        // Prevent form submit, if To, CC or Bcc are not correctly saved yet
+        // see http://bugs.otrs.org/show_bug.cgi?id=10022 for details
+        $('#submitRichText').on('click', function (Event) {
+            var ToCustomer = $('#ToCustomer').val() || '',
+                CcCustomer = $('#CcCustomer').val() || '',
+                BccCustomer = $('#BccCustomer').val() || '',
+                // only for AgentTicketPhone
+                FromCustomer = $('#FromCustomer').val() || '';
+
+            if (ToCustomer.length || CcCustomer.length || BccCustomer.length || FromCustomer.length) {
+                window.setTimeout(function () {
+                    $('#submitRichText').trigger('click');
+                }, 100);
+                Event.preventDefault();
+                Event.stopPropagation();
+                return false;
+            }
+        });
     };
 
     /**
