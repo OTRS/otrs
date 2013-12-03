@@ -1,5 +1,6 @@
 #3.3.3 2013-??-??
- - 2013-12-03 Fixed bug#[10022](http://bugs.otrs.org/show_bug.cgi?id=10022) -  Ticket form looses To, Cc and Bcc when submitting form.
+ - 2013-12-03 Fixed bug#[10044](http://bugs.otrs.org/show_bug.cgi?id=10044) - PendingDiffTime removes 2013 (current year) when reaching end of the year.
+ - 2013-12-03 Fixed bug#[10022](http://bugs.otrs.org/show_bug.cgi?id=10022) - Ticket form looses To, Cc and Bcc when submitting form.
  - 2013-12-02 Fixed bug#[9928](http://bugs.otrs.org/show_bug.cgi?id=9928) - Dropdown field in tree mode are not displayed in tree mode in column filters.
  - 2013-12-02 Fixed bug#[9327](http://bugs.otrs.org/show_bug.cgi?id=9327) - Filter breaks "Select all" functionality.
  - 2013-11-29 Fixed bug#[10035](http://bugs.otrs.org/show_bug.cgi?id=10035) - Adding a GenericAgent Job with an already existing name, will not be added, no error displayed.
