@@ -160,5 +160,22 @@ Core.Form = (function (TargetNS) {
         }
     };
 
+    TargetNS.HideSelectAllCheckboxes = function($ContainerElement, SelectAllSelector) {
+        Core.App.Subscribe('Event.UI.Table.InitTableFilter.Change', function ($FilterInput, $Container, ColumnNumber) {
+            // Only execute code, if the fired filter event is associated with the container we want to handle
+            if ($ContainerElement.selector !== $Container.selector) {
+                return false;
+            }
+
+            // Filter is set, remove checkbox to select all entries
+            if ($FilterInput.val().length) {
+                $(SelectAllSelector).addClass('Invisible');
+            }
+            else {
+                $(SelectAllSelector).removeClass('Invisible');
+            }
+        });
+    };
+
     return TargetNS;
 }(Core.Form || {}));
