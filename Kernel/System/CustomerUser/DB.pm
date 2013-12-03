@@ -20,8 +20,6 @@ use Kernel::System::CheckItem;
 use Kernel::System::Time;
 use Kernel::System::Valid;
 
-use vars qw(@ISA);
-
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -58,17 +56,6 @@ sub new {
         = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
     $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{CustomerUserSearchPrefix};
 
-    # charset settings
-    $Self->{SourceCharset}       = $Self->{CustomerUserMap}->{Params}->{SourceCharset}       || '';
-    $Self->{DestCharset}         = $Self->{CustomerUserMap}->{Params}->{DestCharset}         || '';
-    $Self->{CharsetConvertForce} = $Self->{CustomerUserMap}->{Params}->{CharsetConvertForce} || '';
-
-    # db connection settings, disable Encode utf8 if source db is not utf8
-    my %DatabasePreferences;
-    if ( $Self->{SourceCharset} !~ /utf(-8|8)/i ) {
-        $DatabasePreferences{Encode} = 0;
-    }
-
     if ( !defined $Self->{SearchPrefix} ) {
         $Self->{SearchPrefix} = '';
     }
@@ -78,10 +65,11 @@ sub new {
     }
 
     # check if CustomerKey is var or int
+    ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         if ( $Entry->[0] eq 'UserLogin' && $Entry->[5] =~ /^int$/i ) {
             $Self->{CustomerKeyInteger} = 1;
-            last;
+            last ENTRY;
         }
     }
 
@@ -103,7 +91,6 @@ sub new {
             DatabaseDSN  => $Self->{CustomerUserMap}->{Params}->{DSN},
             DatabaseUser => $Self->{CustomerUserMap}->{Params}->{User},
             DatabasePw   => $Self->{CustomerUserMap}->{Params}->{Password},
-            %DatabasePreferences,
             %{ $Self->{CustomerUserMap}->{Params} },
         ) || die('Can\'t connect to database!');
 
@@ -146,38 +133,28 @@ sub CustomerName {
 
     # check CustomerKey type
     my $UserLogin = $Param{UserLogin};
-    if ( $Self->{CustomerKeyInteger} ) {
-
-        # return if login is no integer
-        return if $Param{UserLogin} !~ /^(\+|\-|)\d{1,16}$/;
-
-        $UserLogin = $Self->{DBObject}->Quote( $UserLogin, 'Integer' );
-
-        $SQL .= "$Self->{CustomerKey} = $UserLogin";
+    if ( $Self->{CaseSensitive} ) {
+        $SQL .= "$Self->{CustomerKey} = ?";
     }
     else {
-
-        $UserLogin = $Self->{DBObject}->Quote($UserLogin);
-        if ( $Self->{CaseSensitive} ) {
-            $SQL .= "$Self->{CustomerKey} = '$UserLogin'";
-        }
-        else {
-            $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('$UserLogin')";
-        }
+        $SQL .= "LOWER($Self->{CustomerKey}) = LOWER(?)";
     }
 
     # get data
-    my $SQLConvert = $Self->_ConvertTo($SQL);
-    return if !$Self->{DBObject}->Prepare( SQL => $SQLConvert, Limit => 1 );
+    return if !$Self->{DBObject}->Prepare(
+        SQL   => $SQL,
+        Bind  => [ \$Param{UserLogin} ],
+        Limit => 1,
+    );
     my @NameParts;
+    NAMEPART:
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         for my $Field (@Row) {
-            next if !$Field;
+            next NAMEPART if !$Field;
             push @NameParts, $Field;
         }
     }
     my $Name = join( ' ', @NameParts );
-    $Name = $Self->_ConvertFrom($Name);
 
     # cache request
     if ( $Self->{CacheObject} ) {
@@ -207,8 +184,20 @@ sub CustomerSearch {
         return;
     }
 
+    # check cache
+    my $CacheKey = join '::', map { $_ . '=' . $Param{$_} } sort keys %Param;
+
+    if ( $Self->{CacheObject} ) {
+        my $Users = $Self->{CacheObject}->Get(
+            Type => $Self->{CacheType} . '_CustomerSearch',
+            Key  => $CacheKey,
+        );
+        return %{$Users} if ref $Users eq 'HASH';
+    }
+
     # build SQL string 1/2
     my $SQL = "SELECT $Self->{CustomerKey} ";
+    my @Bind;
     if ( $Self->{CustomerUserMap}->{CustomerUserListFields} ) {
         for my $Entry ( @{ $Self->{CustomerUserMap}->{CustomerUserListFields} } ) {
             $SQL .= ", $Entry";
@@ -235,13 +224,19 @@ sub CustomerSearch {
 
         my $Search = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{Search} );
 
-        $SQL .= $Self->{DBObject}->QueryCondition(
+        my %QueryCondition = $Self->{DBObject}->QueryCondition(
             Key           => $Self->{CustomerUserMap}->{CustomerUserSearchFields},
             Value         => $Search,
             SearchPrefix  => $Self->{SearchPrefix},
             SearchSuffix  => $Self->{SearchSuffix},
             CaseSensitive => $Self->{CaseSensitive},
-        ) . ' ';
+            BindMode      => 1,
+        );
+
+        $SQL .= $QueryCondition{SQL};
+        push @Bind, @{ $QueryCondition{Values} };
+
+        $SQL .= ' ';
     }
     elsif ( $Param{PostMasterSearch} ) {
         if ( $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} ) {
@@ -250,12 +245,15 @@ sub CustomerSearch {
                 if ($SQLExt) {
                     $SQLExt .= ' OR ';
                 }
-                my $PostMasterSearch = $Self->{DBObject}->Quote( $Param{PostMasterSearch}, 'Like' );
+                my $PostMasterSearch
+                    = '%' . $Self->{DBObject}->Quote( $Param{PostMasterSearch}, 'Like' ) . '%';
+                push @Bind, \$PostMasterSearch;
+
                 if ( $Self->{CaseSensitive} ) {
-                    $SQLExt .= " $Field LIKE '$PostMasterSearch' $LikeEscapeString ";
+                    $SQLExt .= " $Field LIKE ? $LikeEscapeString ";
                 }
                 else {
-                    $SQLExt .= " LOWER($Field) LIKE LOWER('$PostMasterSearch') $LikeEscapeString ";
+                    $SQLExt .= " LOWER($Field) LIKE LOWER(?) $LikeEscapeString ";
                 }
             }
             $SQL .= $SQLExt;
@@ -271,16 +269,18 @@ sub CustomerSearch {
             # return if login is no integer
             return if $Param{UserLogin} !~ /^(\+|\-|)\d{1,16}$/;
 
-            $SQL .= "$Self->{CustomerKey} = $UserLogin";
+            $SQL .= "$Self->{CustomerKey} = ?";
+            push @Bind, \$UserLogin;
         }
         else {
-            $UserLogin = $Self->{DBObject}->Quote( $UserLogin, 'Like' );
+            $UserLogin = '%' . $Self->{DBObject}->Quote( $UserLogin, 'Like' ) . '%';
             $UserLogin =~ s/\*/%/g;
+            push @Bind, \$UserLogin;
             if ( $Self->{CaseSensitive} ) {
-                $SQL .= "$Self->{CustomerKey} LIKE '$UserLogin' $LikeEscapeString";
+                $SQL .= "$Self->{CustomerKey} LIKE ? $LikeEscapeString";
             }
             else {
-                $SQL .= "LOWER($Self->{CustomerKey}) LIKE LOWER('$UserLogin') $LikeEscapeString";
+                $SQL .= "LOWER($Self->{CustomerKey}) LIKE LOWER(?) $LikeEscapeString";
             }
         }
     }
@@ -288,11 +288,13 @@ sub CustomerSearch {
 
         my $CustomerID = $Self->{DBObject}->Quote( $Param{CustomerID}, 'Like' );
         $CustomerID =~ s/\*/%/g;
+        push @Bind, \$CustomerID;
+
         if ( $Self->{CaseSensitive} ) {
-            $SQL .= "$Self->{CustomerID} LIKE '$CustomerID' $LikeEscapeString";
+            $SQL .= "$Self->{CustomerID} LIKE ? $LikeEscapeString";
         }
         else {
-            $SQL .= "LOWER($Self->{CustomerID}) LIKE LOWER('$CustomerID') $LikeEscapeString";
+            $SQL .= "LOWER($Self->{CustomerID}) LIKE LOWER(?) $LikeEscapeString";
         }
     }
 
@@ -303,26 +305,18 @@ sub CustomerSearch {
             . ' IN (' . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ') ';
     }
 
-    # check cache
-    if ( $Self->{CacheObject} ) {
-        my $Users = $Self->{CacheObject}->Get(
-            Type => $Self->{CacheType} . '_CustomerSearch',
-            Key  => "CustomerSearch::$SQL",
-        );
-        return %{$Users} if ref $Users eq 'HASH';
-    }
-
     # get data
-    my $SQLConvert = $Self->_ConvertTo($SQL);
     return if !$Self->{DBObject}->Prepare(
-        SQL   => $SQLConvert,
+        SQL   => $SQL,
+        Bind  => \@Bind,
         Limit => $Self->{UserSearchListLimit},
     );
+    ROW:
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        next if $Users{ $Row[0] };
+        next ROW if $Users{ $Row[0] };
+        POSITION:
         for my $Position ( 1 .. 8 ) {
-            next if !$Row[$Position];
-            $Row[$Position] = $Self->_ConvertFrom( $Row[$Position] );
+            next POSITION if !$Row[$Position];
             $Users{ $Row[0] } .= $Row[$Position] . ' ';
         }
         $Users{ $Row[0] } =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
@@ -332,7 +326,7 @@ sub CustomerSearch {
     if ( $Self->{CacheObject} ) {
         $Self->{CacheObject}->Set(
             Type  => $Self->{CacheType} . '_CustomerSearch',
-            Key   => "CustomerSearch::$SQL",
+            Key   => $CacheKey,
             Value => \%Users,
             TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
@@ -401,6 +395,7 @@ sub CustomerIDList {
         SELECT DISTINCT($Self->{CustomerID})
         FROM $Self->{CustomerTable}
         WHERE 1 = 1 ";
+    my @Bind;
 
     # add valid option
     if ( $Self->{CustomerUserMap}->{CustomerValid} && $Valid ) {
@@ -414,22 +409,29 @@ sub CustomerIDList {
         my $SearchTermEscaped = $Self->{DBObject}->QueryStringEscape( QueryString => $SearchTerm );
 
         $SQL .= ' AND ';
-        $SQL .= $Self->{DBObject}->QueryCondition(
+        my %QueryCondition = $Self->{DBObject}->QueryCondition(
             Key           => $Self->{CustomerID},
             Value         => $SearchTermEscaped,
             SearchPrefix  => $Self->{SearchPrefix},
             SearchSuffix  => $Self->{SearchSuffix},
             CaseSensitive => $Self->{CaseSensitive},
+            BindMode      => 1,
         );
+        $SQL .= $QueryCondition{SQL};
+        push @Bind, @{ $QueryCondition{Values} };
+
         $SQL .= ' ';
     }
 
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind,
+    );
 
     my @Result;
 
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push @Result, $Self->_ConvertFrom( $Row[0] );
+        push @Result, $Row[0];
     }
 
     # cache request
@@ -470,10 +472,11 @@ sub CustomerIDs {
     if ( $Data{UserCustomerIDs} ) {
 
         # used separators
+        SPLIT:
         for my $Split ( ';', ',', '|' ) {
 
             # next if separator is not there
-            next if $Data{UserCustomerIDs} !~ /\Q$Split\E/;
+            next SPLIT if $Data{UserCustomerIDs} !~ /\Q$Split\E/;
 
             # split it
             my @IDs = split /\Q$Split\E/, $Data{UserCustomerIDs};
@@ -482,7 +485,7 @@ sub CustomerIDs {
                 $ID =~ s/\s+$//g;
                 push @CustomerIDs, $ID;
             }
-            last;
+            last SPLIT;
         }
 
         # fallback if no separator got found
@@ -523,6 +526,7 @@ sub CustomerUserDataGet {
 
     # build select
     my $SQL = 'SELECT ';
+
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         $SQL .= " $Entry->[2], ";
     }
@@ -539,30 +543,23 @@ sub CustomerUserDataGet {
 
     # check CustomerKey type
     my $User = $Param{User};
-    if ( $Self->{CustomerKeyInteger} ) {
 
-        # return if login is no integer
-        return if $Param{User} !~ /^(\+|\-|)\d{1,16}$/;
-
-        $SQL .= "$Self->{CustomerKey} = " . $Self->{DBObject}->Quote( $User, 'Integer' );
+    if ( $Self->{CaseSensitive} ) {
+        $SQL .= "$Self->{CustomerKey} = ?";
     }
     else {
-        if ( $Self->{CaseSensitive} ) {
-            $SQL .= "$Self->{CustomerKey} = '" . $Self->{DBObject}->Quote($User) . "'";
-        }
-        else {
-            $SQL
-                .= "LOWER($Self->{CustomerKey}) = LOWER('" . $Self->{DBObject}->Quote($User) . "')";
-        }
+        $SQL .= "LOWER($Self->{CustomerKey}) = LOWER(?)";
     }
 
     # get initial data
-    my $SQLConvert = $Self->_ConvertTo($SQL);
-    return if !$Self->{DBObject}->Prepare( SQL => $SQLConvert );
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => [ \$User ],
+    );
+
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my $MapCounter = 0;
         for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
-            $Row[$MapCounter] = $Self->_ConvertFrom( $Row[$MapCounter] );
             $Data{ $Entry->[0] } = $Row[$MapCounter];
             $MapCounter++;
         }
@@ -686,7 +683,7 @@ sub CustomerUserAdd {
         if ( $Entry->[5] =~ /^int$/i ) {
             if ( $Param{ $Entry->[0] } ) {
                 $Value{ $Entry->[0] }
-                    = $Self->{DBObject}->Quote( $Param{ $Entry->[0] }, 'Integer' );
+                    = $Param{ $Entry->[0] };
             }
             else {
                 $Value{ $Entry->[0] } = 0;
@@ -694,17 +691,17 @@ sub CustomerUserAdd {
         }
         else {
             if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] }
-                    = "'" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
+                $Value{ $Entry->[0] } = $Param{ $Entry->[0] };
             }
             else {
-                $Value{ $Entry->[0] } = "''";
+                $Value{ $Entry->[0] } = '';
             }
         }
     }
 
     # build insert
     my $SQL = "INSERT INTO $Self->{CustomerTable} (";
+    my @Bind;
     my %SeenKey;    # If the map contains duplicated field names, insert only once.
     MAPENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
@@ -715,14 +712,18 @@ sub CustomerUserAdd {
     $SQL .= 'create_time, create_by, change_time, change_by)';
     $SQL .= ' VALUES (';
     my %SeenValue;
+    ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
-        next if ( lc( $Entry->[0] ) eq "userpassword" );
-        next if $SeenValue{ $Entry->[2] }++;
-        $SQL .= " $Value{ $Entry->[0] }, ";
+        next ENTRY if ( lc( $Entry->[0] ) eq "userpassword" );
+        next ENTRY if $SeenValue{ $Entry->[2] }++;
+        $SQL .= " ?, ";
+        push @Bind, \$Value{ $Entry->[0] };
     }
-    $SQL .= "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-    $SQL = $Self->_ConvertTo($SQL);
-    return if !$Self->{DBObject}->Do( SQL => $SQL );
+    $SQL .= "current_timestamp, ?, current_timestamp, ?)";
+    push @Bind, \$Param{UserID};
+    push @Bind, \$Param{UserID};
+
+    return if !$Self->{DBObject}->Do( SQL => $SQL, Bind => \@Bind );
 
     # log notice
     $Self->{LogObject}->Log(
@@ -799,8 +800,7 @@ sub CustomerUserUpdate {
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         if ( $Entry->[5] =~ /^int$/i ) {
             if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] }
-                    = $Self->{DBObject}->Quote( $Param{ $Entry->[0] }, 'Integer' );
+                $Value{ $Entry->[0] } = $Param{ $Entry->[0] };
             }
             else {
                 $Value{ $Entry->[0] } = 0;
@@ -808,62 +808,49 @@ sub CustomerUserUpdate {
         }
         else {
             if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] }
-                    = "'" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
+                $Value{ $Entry->[0] } = $Param{ $Entry->[0] };
             }
             else {
-                $Value{ $Entry->[0] } = "''";
+                $Value{ $Entry->[0] } = "";
             }
         }
     }
 
     # update db
     my $SQL = "UPDATE $Self->{CustomerTable} SET ";
+    my @Bind;
+
     my %SeenKey;    # If the map contains duplicated field names, insert only once.
     ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         next ENTRY if $Entry->[7];                               # skip readonly fields
         next ENTRY if ( lc( $Entry->[0] ) eq "userpassword" );
         next ENTRY if $SeenKey{ $Entry->[2] }++;
-        $SQL .= " $Entry->[2] = $Value{ $Entry->[0] }, ";
+        $SQL .= " $Entry->[2] = ?, ";
+        push @Bind, \$Value{ $Entry->[0] };
     }
     $SQL .= " change_time = current_timestamp, ";
-    $SQL .= " change_by = $Param{UserID} ";
+    $SQL .= " change_by = ? ";
+    push @Bind, \$Param{UserID};
     $SQL .= " WHERE ";
 
-    # check CustomerKey type
-    if ( $Self->{CustomerKeyInteger} ) {
-
-        # return if login is no integer
-        return if $Param{ID} !~ /^(\+|\-|)\d{1,16}$/;
-
-        $SQL .= "$Self->{CustomerKey} = " . $Self->{DBObject}->Quote( $Param{ID}, 'Integer' );
+    if ( $Self->{CaseSensitive} ) {
+        $SQL .= "$Self->{CustomerKey} = ?";
     }
     else {
-        $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('"
-            . $Self->{DBObject}->Quote( $Param{ID} ) . "')";
+        $SQL .= "LOWER($Self->{CustomerKey}) = LOWER(?)";
     }
+    push @Bind, \$Param{ID};
 
-    $SQL = $Self->_ConvertTo($SQL);
-    return if !$Self->{DBObject}->Do( SQL => $SQL );
+    return if !$Self->{DBObject}->Do( SQL => $SQL, Bind => \@Bind );
 
     # check if we need to update Customer Preferences
     if ( $Param{UserLogin} ne $UserData{UserLogin} ) {
 
-        # preferences table data
-        $Self->{PreferencesTable}
-            = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{Table}
-            || 'customer_preferences';
-        $Self->{PreferencesTableUserID}
-            = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableUserID}
-            || 'user_id';
-
         # update the preferences
-        return if !$Self->{DBObject}->Prepare(
-            SQL => "UPDATE $Self->{PreferencesTable} "
-                . "SET $Self->{PreferencesTableUserID} = ? "
-                . "WHERE $Self->{PreferencesTableUserID} = ?",
-            Bind => [ \$Param{UserLogin}, \$Param{ID}, ],
+        $Self->{PreferencesObject}->RenamePreferences(
+            NewUserID => $Param{UserLogin},
+            OldUserID => $UserData{UserLogin},
         );
     }
 
@@ -948,12 +935,13 @@ sub SetPassword {
     }
 
     # bcrypt
-    elsif ( $CryptType eq 'bcrypt'  ) {
+    elsif ( $CryptType eq 'bcrypt' ) {
 
         if ( !$Self->{MainObject}->Require('Crypt::Eksblowfish::Bcrypt') ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "CustomerUser: '$Login' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
+                Message =>
+                    "CustomerUser: '$Login' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
             );
             return;
         }
@@ -1004,30 +992,20 @@ sub SetPassword {
     # check if needed pw col. exists (else there is no pw col.)
     if ( $Param{PasswordCol} && $Param{LoginCol} ) {
         my $SQL = "UPDATE $Self->{CustomerTable} SET "
-            . " $Param{PasswordCol} = '" . $Self->{DBObject}->Quote($CryptedPw) . "' "
+            . " $Param{PasswordCol} = ? "
             . " WHERE ";
 
-        # check CustomerKey type
-        if ( $Self->{CustomerKeyInteger} ) {
-
-            # return if login is no integer
-            return if $Param{UserLogin} !~ /^(\+|\-|)\d{1,16}$/;
-
-            $SQL
-                .= "$Param{LoginCol} = " . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Integer' );
+        if ( $Self->{CaseSensitive} ) {
+            $SQL .= "$Param{LoginCol} = ?";
         }
         else {
-            if ( $Self->{CaseSensitive} ) {
-                $SQL .= "$Param{LoginCol} = '"
-                    . $Self->{DBObject}->Quote( $Param{UserLogin} ) . "'";
-            }
-            else {
-                $SQL .= "LOWER($Param{LoginCol}) = LOWER('"
-                    . $Self->{DBObject}->Quote( $Param{UserLogin} ) . "')";
-            }
+            $SQL .= "LOWER($Param{LoginCol}) = LOWER(?)";
         }
 
-        return if !$Self->{DBObject}->Do( SQL => $SQL );
+        return if !$Self->{DBObject}->Do(
+            SQL => $SQL,
+            Bind => [ \$CryptedPw, \$Param{UserLogin} ],
+        );
 
         # log notice
         $Self->{LogObject}->Log(
@@ -1088,41 +1066,6 @@ sub SearchPreferences {
     my ( $Self, %Param ) = @_;
 
     return $Self->{PreferencesObject}->SearchPreferences(%Param);
-}
-
-sub _ConvertFrom {
-    my ( $Self, $Text ) = @_;
-
-    return if !defined $Text;
-
-    if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
-        return $Text;
-    }
-
-    return $Self->{EncodeObject}->Convert(
-        Text  => $Text,
-        From  => $Self->{SourceCharset},
-        To    => $Self->{DestCharset},
-        Force => $Self->{CharsetConvertForce},
-    );
-}
-
-sub _ConvertTo {
-    my ( $Self, $Text ) = @_;
-
-    return if !defined $Text;
-
-    if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
-        $Self->{EncodeObject}->EncodeInput( \$Text );
-        return $Text;
-    }
-
-    return $Self->{EncodeObject}->Convert(
-        Text  => $Text,
-        To    => $Self->{SourceCharset},
-        From  => $Self->{DestCharset},
-        Force => $Self->{CharsetConvertForce},
-    );
 }
 
 sub _CustomerUserCacheClear {

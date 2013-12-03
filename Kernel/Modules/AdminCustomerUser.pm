@@ -140,13 +140,24 @@ sub Run {
         if ( !$Self->{ConfigObject}->Get('SessionUseCookieAfterBrowserClose') ) {
             $Expires = '';
         }
+
+        my $SecureAttribute;
+        if ( $Self->{ConfigObject}->Get('HttpType') eq 'https' ) {
+
+            # Restrict Cookie to HTTPS if it is used.
+            $SecureAttribute = 1;
+        }
+
         my $LayoutObject = Kernel::Output::HTML::Layout->new(
             %{$Self},
             SetCookies => {
                 SessionIDCookie => $Self->{ParamObject}->SetCookie(
-                    Key     => $SessionName,
-                    Value   => $NewSessionID,
-                    Expires => $Expires,
+                    Key      => $SessionName,
+                    Value    => $NewSessionID,
+                    Expires  => $Expires,
+                    Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
+                    Secure   => scalar $SecureAttribute,
+                    HTTPOnly => 1,
                 ),
             },
             SessionID   => $NewSessionID,
@@ -295,8 +306,9 @@ sub Run {
 
                 # update preferences
                 my %Preferences = %{ $Self->{ConfigObject}->Get('CustomerPreferencesGroups') };
+                GROUP:
                 for my $Group ( sort keys %Preferences ) {
-                    next if $Group eq 'Password';
+                    next GROUP if $Group eq 'Password';
 
                     # get user data
                     my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
@@ -451,8 +463,9 @@ sub Run {
 
                 # update preferences
                 my %Preferences = %{ $Self->{ConfigObject}->Get('CustomerPreferencesGroups') };
+                GROUP:
                 for my $Group ( sort keys %Preferences ) {
-                    next if $Group eq 'Password';
+                    next GROUP if $Group eq 'Password';
 
                     # get user data
                     my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
@@ -682,11 +695,16 @@ sub _Overview {
             for my $ListKey ( sort { lc($a) cmp lc($b) } keys %List ) {
 
                 my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $ListKey );
+                $UserData{UserFullname} = $Self->{CustomerUserObject}->CustomerName(
+                    UserLogin => $UserData{UserLogin},
+                );
+
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewResultRow',
                     Data => {
                         Valid => $ValidList{ $UserData{ValidID} || '' } || '-',
-                        Search => $Param{Search},
+                        Search      => $Param{Search},
+                        CustomerKey => $ListKey,
                         %UserData,
                     },
                 );
@@ -694,7 +712,8 @@ sub _Overview {
                     $Self->{LayoutObject}->Block(
                         Name => 'OverviewResultRowLinkNone',
                         Data => {
-                            Search => $Param{Search},
+                            Search      => $Param{Search},
+                            CustomerKey => $ListKey,
                             %UserData,
                         },
                     );
@@ -703,8 +722,9 @@ sub _Overview {
                     $Self->{LayoutObject}->Block(
                         Name => 'OverviewResultRowLink',
                         Data => {
-                            Search => $Param{Search},
-                            Nav    => $Param{Nav},
+                            Search      => $Param{Search},
+                            Nav         => $Param{Nav},
+                            CustomerKey => $ListKey,
                             %UserData,
                         },
                     );
@@ -713,6 +733,7 @@ sub _Overview {
                 if (
                     $Self->{ConfigObject}->Get('SwitchToCustomer')
                     && $Self->{SwitchToCustomerPermission}
+                    && $Param{Nav} ne 'None'
                     )
                 {
                     $Self->{LayoutObject}->Block(
@@ -780,8 +801,9 @@ sub _Edit {
         $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
     }
 
+    ENTRY:
     for my $Entry ( @{ $Self->{ConfigObject}->Get( $Param{Source} )->{Map} } ) {
-        next if !$Entry->[0];
+        next ENTRY if !$Entry->[0];
 
         my $Block = 'Input';
 
@@ -1000,16 +1022,17 @@ sub _Edit {
             }
 
             # show each preferences setting
+            PRIO:
             for my $Prio ( sort keys %Data ) {
 
                 my $Group = $Data{$Prio};
                 if ( !$Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group} ) {
-                    next;
+                    next PRIO;
                 }
 
                 my %Preference = %{ $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group} };
                 if ( $Group eq 'Password' ) {
-                    next;
+                    next PRIO;
                 }
 
                 my $Module = $Preference{Module}

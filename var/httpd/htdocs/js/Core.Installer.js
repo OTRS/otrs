@@ -45,12 +45,13 @@ InstallerDBStart
             $('#FormDBResultMessage').html(json['Message']);
             $('#FormDBResultComment').html(json['Comment']);
             $('fieldset.ErrorMsg').show();
+            $('fieldset.Success').hide();
         }
         else {
             $('#ButtonCheckDB').hide();
             $('#FormDBSubmit').removeAttr('disabled');
             $('fieldset.ErrorMsg, fieldset.CheckDB').hide();
-            $('fieldset.HideMe, div.HideMe').show();
+            $('fieldset.HideMe, div.HideMe, fieldset.Success').show();
         }
     };
 
@@ -97,6 +98,7 @@ InstallerDBStart
      */
     TargetNS.SkipMailConfig = function () {
         $('input[name=Skip]').val('1');
+        $('input[name=Subaction]').val('Finish');
         $('form').submit();
     };
 
@@ -112,7 +114,6 @@ InstallerDBStart
         var Data = Core.AJAX.SerializeForm( $('#FormMail') );
         Data += 'CheckMode=Mail;';
         Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, CheckMailConfigCallback );
-        $('input[name=Subaction]').val('Registration');
     };
 
     /**
@@ -125,6 +126,7 @@ InstallerDBStart
         if (parseInt(json['Successful']) == 1) {
             alert(Core.Config.Get('Installer.CheckMailLabelOne'));
             $('fieldset.errormsg').hide();
+            $('input[name=Subaction]').val('Finish');
             $('form').submit();
         }
         else {
@@ -132,16 +134,6 @@ InstallerDBStart
             $('fieldset.ErrorMsg').show();
             alert(Core.Config.Get('Installer.CheckMailLabelTwo'));
         }
-    };
-
-    /**
-     * @function
-     * @return nothing
-     *      This function skips the registration
-     */
-    TargetNS.SkipRegistration = function () {
-        $('input[name=Skip]').val('1');
-        $('form').submit();
     };
 
     return TargetNS;

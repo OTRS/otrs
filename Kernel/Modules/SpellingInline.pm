@@ -12,6 +12,8 @@ package Kernel::Modules::SpellingInline;
 use strict;
 use warnings;
 
+use URI::Escape qw();
+
 use Kernel::System::Spelling;
 
 sub new {
@@ -40,7 +42,6 @@ sub Run {
         || $Self->{ConfigObject}->Get('SpellCheckerDictDefault');
 
     # inline spell checker of rich text
-
     my $JSData = '';
     my @Text = $Self->{ParamObject}->GetArray( Param => 'textinputs[]' );
 
@@ -52,8 +53,7 @@ sub Run {
         );
         $JSData .= "textinputs[$i] = decodeURIComponent('$Line')\n";
 
-        # change hex escapes to the proper characters
-        $Text[$i] =~ s/%([a-fA-F0-9]{2})/pack "H2", $1/eg;
+        $Text[$i] = Encode::decode( 'utf8', URI::Escape::uri_unescape( $Text[$i] ) );
 
         my @Lines = split( /\n/, $Text[$i] );
         for my $Line (@Lines) {
@@ -70,6 +70,7 @@ sub Run {
     my %SpellCheck = $SpellingObject->Check(
         Text          => $TextAll,
         SpellLanguage => $SpellLanguage,
+        RichText      => 1,
     );
 
     # check error

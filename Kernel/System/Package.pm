@@ -21,8 +21,7 @@ use Kernel::System::Loader;
 use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 use Kernel::System::XML;
-
-use Kernel::System::VariableCheck qw(IsArrayRefWithData);
+use Kernel::System::VariableCheck qw(:all);
 
 =head1 NAME
 
@@ -139,7 +138,7 @@ sub new {
     $Self->{PackageMapFileList} = { File => 'ARRAY', };
 
     $Self->{PackageVerifyURL}
-        = 'https://pav.otrs.com/otrs/public.pl?Action=PublicPackageVerification;';
+        = 'https://pav.otrs.com/otrs/public.pl';
 
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
 
@@ -196,14 +195,21 @@ sub RepositoryList {
             Status  => $Row[2],
         );
 
+        # correct any 'dos-style' line endings - http://bugs.otrs.org/show_bug.cgi?id=9838
+        $Row[3] =~ s{\r\n}{\n}xmsg;
+        $Package{MD5sum} = $Self->{MainObject}->MD5sum( String => \$Row[3] );
+
         # get package attributes
         if ( $Row[3] && $Result eq 'Short' ) {
-            $Package{MD5sum} = $Self->{MainObject}->MD5sum( String => \$Row[3] );
+
             push @Data, {%Package};
+
         }
         elsif ( $Row[3] ) {
+
             my %Structure = $Self->PackageParse( String => \$Row[3] );
             push @Data, { %Package, %Structure };
+
         }
     }
 
@@ -307,6 +313,11 @@ sub RepositoryAdd {
 
     # get package attributes
     my %Structure = $Self->PackageParse(%Param);
+
+    if ( !IsHashRefWithData( \%Structure ) ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Invalid Package!' );
+        return;
+    }
     if ( !$Structure{Name} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
         return;
@@ -1402,12 +1413,17 @@ sub PackageVerify {
 
     # define package verification info
     my $PackageVerifyInfo = {
-        Description => "<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>",
-        Title       => 'Package not verified by the OTRS Group! It is recommended not to use this package.',
+        Description =>
+            "<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>",
+        Title =>
+            'Package not verified by the OTRS Group! It is recommended not to use this package.',
     };
 
     # investigate name
     my $Name = $Param{Structure}->{Name}->{Content} || $Param{Name};
+
+    # correct any 'dos-style' line endings - http://bugs.otrs.org/show_bug.cgi?id=9838
+    $Param{Package} =~ s{\r\n}{\n}xmsg;
 
     # create MD5 sum
     my $Sum = $Self->{MainObject}->MD5sum( String => $Param{Package} );
@@ -1435,9 +1451,13 @@ sub PackageVerify {
 
     # verify package at web server
     my %Response = $WebUserAgentObject->Request(
-        URL => $Self->{PackageVerifyURL} . 'Package=' . $Name . '::' . $Sum,
+        URL  => $Self->{PackageVerifyURL},
+        Type => 'POST',
+        Data => {
+            Action  => 'PublicPackageVerification',
+            Package => $Name . '::' . $Sum,
+            }
     );
-
     return 'verified' if !$Response{Status};
     return 'verified' if $Response{Status} ne '200 OK';
     return 'verified' if !$Response{Content};
@@ -1467,7 +1487,7 @@ sub PackageVerify {
         Type  => 'PackageVerification',
         Key   => $Sum,
         Value => $PackageVerify,
-        TTL   => 30 * 24 * 60 * 60,  # 30 days
+        TTL   => 30 * 24 * 60 * 60,       # 30 days
     );
 
     return $PackageVerify;
@@ -1538,13 +1558,12 @@ sub PackageVerifyAll {
         }
         else {
             $Result{ $Package->{Name} } = 'verified';
-            push @PackagesToVerify, 'Package=' . $Package->{Name} . '::' . $Package->{MD5sum};
+            push @PackagesToVerify, 'Package';
+            push @PackagesToVerify, $Package->{Name} . '::' . $Package->{MD5sum};
         }
     }
 
     return %Result if !@PackagesToVerify;
-
-    my $PackagesString = join ';', @PackagesToVerify;
 
     # create new web user agent object -> note proxy is different from Package::Proxy
     my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
@@ -1559,7 +1578,12 @@ sub PackageVerifyAll {
 
     # verify package at web server
     my %Response = $WebUserAgentObject->Request(
-        URL => $Self->{PackageVerifyURL} . $PackagesString,
+        URL  => $Self->{PackageVerifyURL},
+        Type => 'POST',
+        Data => [
+            Action => 'PublicPackageVerification',
+            @PackagesToVerify
+            ]
     );
 
     return %Result if !$Response{Status};
@@ -1595,7 +1619,7 @@ sub PackageVerifyAll {
             Type  => 'PackageVerification',
             Key   => $PackageList{$Package},
             Value => $PackageVerify,
-            TTL   => 30 * 24 * 60 * 60,  # 30 days
+            TTL   => 30 * 24 * 60 * 60,        # 30 days
         );
     }
 
@@ -1813,10 +1837,11 @@ sub PackageBuild {
     # don't use Database* in index mode
     return $XML if $Param{Type};
 
+    TAG:
     for (qw(DatabaseInstall DatabaseUpgrade DatabaseReinstall DatabaseUninstall)) {
 
         if ( ref $Param{$_} ne 'HASH' ) {
-            next;
+            next TAG;
         }
 
         for my $Type ( sort %{ $Param{$_} } ) {
@@ -1937,7 +1962,17 @@ sub PackageParse {
         return %{$Cache} if $Cache;
     }
 
-    my @XMLARRAY = $Self->{XMLObject}->XMLParse(%Param);
+    my @XMLARRAY = eval {
+        $Self->{XMLObject}->XMLParse(%Param);
+    };
+
+    if ( !IsArrayRefWithData( \@XMLARRAY ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Invalid XMLParse in PackageParse()!",
+        );
+        return;
+    }
 
     # cleanup global vars
     undef $Self->{Package};
@@ -2054,6 +2089,15 @@ sub PackageParse {
 
             push @{ $Self->{Package}->{$Key}->{$Type} }, $Tag;
         }
+    }
+
+    # check if a structure is present
+    if ( !IsHashRefWithData( $Self->{Package} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Invalid package structure in PackageParse()!",
+        );
+        return;
     }
 
     # return package structure
@@ -2199,7 +2243,6 @@ sub PackageInstallDefaultFiles {
 
     return 1;
 }
-
 
 =begin Internal:
 
@@ -2997,13 +3040,14 @@ sub _Encode {
 =item _PackageUninstallMerged()
 
 ONLY CALL THIS METHOD FROM A DATABASE UPGRADING SCRIPT DURING FRAMEWORK UPDATES
+OR FROM A CODEUPGRADE SECTION IN AN SOPM FILE OF A PACKAGE THAT INCLUDES A MERGED FEATURE ADDON.
 
-Uninstall an already framework merged package.
+Uninstall an already framework (or module) merged package.
 
-Package files that a not in the framework ARCHIVE file will be deleted, DatabaseUninstall() and
+Package files that are not in the framework ARCHIVE file will be deleted, DatabaseUninstall() and
 CodeUninstall are not called.
 
-    $Success = PackageObject->_PackageUninstallMerged(
+    $Success = $PackageObject->_PackageUninstallMerged(
         Name        => 'some package name',
         Home        => 'OTRS Home path',      # Optional
         DeleteSaved => 1,                     # or 0, 1 Default, Optional: if set to 1 it also
@@ -3040,15 +3084,15 @@ sub _PackageUninstallMerged {
     }
 
     # check if the package is installed, otherwise return success (nothing to do)
-    my $PackageInstalled  = $Self->PackageIsInstalled(
-        Name   => $Param{Name},
+    my $PackageInstalled = $Self->PackageIsInstalled(
+        Name => $Param{Name},
     );
     return 1 if !$PackageInstalled;
 
     # get the package details
-    my @PackageList = $Self->RepositoryList();
+    my @PackageList       = $Self->RepositoryList();
     my %PackageListLookup = map { $_->{Name}->{Content} => $_ } @PackageList;
-    my %PackageDetails = %{ $PackageListLookup{ $Param{Name} } };
+    my %PackageDetails    = %{ $PackageListLookup{ $Param{Name} } };
 
     # get the list of framework files
     my %FrameworkFiles = $Self->_ReadDistArchive( Home => $Home );
@@ -3060,7 +3104,7 @@ sub _PackageUninstallMerged {
     if ( IsArrayRefWithData( $PackageDetails{Filelist} ) ) {
 
         FILE:
-        for my $FileHash ( @{ $PackageDetails{Filelist} } ){
+        for my $FileHash ( @{ $PackageDetails{Filelist} } ) {
 
             my $File = $FileHash->{Location};
 
@@ -3078,7 +3122,7 @@ sub _PackageUninstallMerged {
 
                         # check if file was overridden by the package
                         my $SavedFile = $RealFile . '.save';
-                        if (-e  $SavedFile) {
+                        if ( -e $SavedFile ) {
 
                             # remove old file
                             if ( !$Self->{MainObject}->FileDelete( Location => $SavedFile ) ) {

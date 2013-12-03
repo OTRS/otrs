@@ -51,11 +51,11 @@ my $XMLObject = XML::TreePP->new();
 
 my $SOAPHeader = '<?xml version="1.0" encoding="UTF-8"?>'
     . '<soap:Envelope '
-    . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+    . 'soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" '
+    . 'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" '
     . 'xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" '
     . 'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
-    . 'soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" '
-    . 'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'
+    . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
     . '<soap:Body>';
 
 my $SOAPFooter = '</soap:Body>'

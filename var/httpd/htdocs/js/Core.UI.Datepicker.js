@@ -169,7 +169,7 @@ Core.UI.Datepicker = (function (TargetNS) {
 
         // Add some DOM notes to the datepicker, but only if it was not initialized previously.
         //      Check if one additional DOM node is already present.
-        if (!$('#' + Element.Day.attr('id') + 'DatepickerIcon').length) {
+        if (!$('#' + Core.App.EscapeSelector(Element.Day.attr('id')) + 'DatepickerIcon').length) {
 
             // add datepicker icon and click event
             $DatepickerElement.after('<a href="#" class="DatepickerIcon" id="' + Element.Day.attr('id') + 'DatepickerIcon" title="' + LocalizationData.IconText + '"></a>');
@@ -195,7 +195,7 @@ Core.UI.Datepicker = (function (TargetNS) {
             }
         }
 
-        $('#' + Element.Day.attr('id') + 'DatepickerIcon').unbind('click.Datepicker').bind('click.Datepicker', function () {
+        $('#' + Core.App.EscapeSelector(Element.Day.attr('id')) + 'DatepickerIcon').unbind('click.Datepicker').bind('click.Datepicker', function () {
             $DatepickerElement.datepicker('show');
             return false;
         });

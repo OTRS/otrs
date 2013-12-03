@@ -11,9 +11,10 @@ use strict;
 use warnings;
 use vars (qw($Self));
 
-use Kernel::System::Package;
 use File::Copy;
+use Kernel::System::Package;
 use Kernel::System::Cache;
+use Kernel::System::VariableCheck qw(:all);
 
 # create local objects
 my $PackageObject = Kernel::System::Package->new( %{$Self} );
@@ -66,6 +67,7 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
   <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
   <ModuleRequired Version="1.112">Encode</ModuleRequired>
+  <Framework>3.4.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -109,6 +111,37 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
 </otrs_package>
 ';
 
+my $StringSecond = '<?xml version="1.0" encoding="utf-8" ?>
+<otrs_package version="1.0">
+  <Name>TestSecond</Name>
+  <Version>0.0.1</Version>
+  <Vendor>OTRS AG</Vendor>
+  <URL>http://otrs.org/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
+  <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
+  <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
+  <ModuleRequired Version="1.112">Encode</ModuleRequired>
+  <Framework>3.4.x</Framework>
+  <Framework>3.3.x</Framework>
+  <Framework>3.2.x</Framework>
+  <Framework>3.1.x</Framework>
+  <Framework>3.0.x</Framework>
+  <Framework>2.5.x</Framework>
+  <Framework>2.4.x</Framework>
+  <Framework>2.3.x</Framework>
+  <Framework>2.2.x</Framework>
+  <Framework>2.1.x</Framework>
+  <Framework>2.0.x</Framework>
+  <BuildDate>2005-11-10 21:17:16</BuildDate>
+  <BuildHost>yourhost.example.com</BuildHost>
+  <Filelist>
+    <File Location="TestSecond" Permission="644" Encode="Base64">aGVsbG8K</File>
+    <File Location="var/TestSecond" Permission="644" Encode="Base64">aGVsbG8K</File>
+  </Filelist>
+</otrs_package>
+';
+
 my $Verification = $PackageObject->PackageVerify(
     Package => $String,
     Name    => 'Test',
@@ -139,6 +172,20 @@ $Self->Is(
     $Verification,
     'verified',
     "PackageVerify() - package 'Support' is verified",
+);
+
+# test again with changed line endings, see http://bugs.otrs.org/show_bug.cgi?id=9838
+$Download =~ s{\n}{\r\n}xmsg;
+
+$Verification = $PackageObject->PackageVerify(
+    Package => $Download,
+    Name    => 'Support',
+);
+
+$Self->Is(
+    $Verification,
+    'verified',
+    "PackageVerify() - package 'Support' with changed line endings is verified",
 );
 
 # check if the package is already installed - check by name
@@ -190,6 +237,23 @@ $Self->True(
     $PackageInstall,
     '#1 PackageInstall()',
 );
+
+$PackageInstall = $PackageObject->PackageInstall( String => $StringSecond );
+
+$Self->True(
+    $PackageInstall,
+    '#1 PackageInstall() 2',
+);
+
+my %VerifyAll = $PackageObject->PackageVerifyAll();
+
+for my $PackageName (qw( Test TestSecond )) {
+    $Self->Is(
+        $VerifyAll{$PackageName},
+        'not_verified',
+        "VerifyAll - result for $PackageName",
+    );
+}
 
 $CacheClearedCheck->();
 
@@ -269,6 +333,13 @@ my $PackageUninstall = $PackageObject->PackageUninstall( String => $String );
 $Self->True(
     $PackageUninstall,
     '#1 PackageUninstall()',
+);
+
+$PackageUninstall = $PackageObject->PackageUninstall( String => $StringSecond );
+
+$Self->True(
+    $PackageUninstall,
+    '#1 PackageUninstall() Second',
 );
 
 $CachePopulate->();
@@ -366,6 +437,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <PackageRequired Version="0.1">SomeNotExistingModule</PackageRequired>
+  <Framework>3.4.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -400,6 +472,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <OS>NonExistingOS</OS>
+  <Framework>3.4.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -437,6 +510,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <OS>linux</OS>
   <OS>freebsd</OS>
   <OS>MSWin32</OS>
+  <Framework>3.4.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -478,6 +552,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <ModuleRequired Version="0.1">SomeNotExistingModule</ModuleRequired>
+  <Framework>3.4.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -511,6 +586,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <ModuleRequired Version="12.999">Encode</ModuleRequired>
+  <Framework>3.4.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -545,6 +621,7 @@ my $String1 = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
+  <Framework>3.4.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -576,6 +653,7 @@ my $String2 = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
+  <Framework>3.4.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -608,6 +686,7 @@ my $String3 = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
+  <Framework>3.4.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -635,6 +714,7 @@ my $String3a = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
+  <Framework>3.4.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -670,6 +750,7 @@ my $String3b = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
+  <Framework>3.4.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -1110,6 +1191,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
+  <Framework>3.4.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -1183,6 +1265,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 110101</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
+  <Framework>3.4.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -1266,6 +1349,7 @@ my $FileNotAllowedString = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
   <Description Lang=\"en\">A test package.</Description>
   <Description Lang=\"de\">Ein Test Paket.</Description>
+  <Framework>3.4.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -1343,6 +1427,7 @@ if ( !$DeveloperSystem ) {
       <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
       <Description Lang="en">A test package.</Description>
       <Description Lang="de">Ein Test Paket.</Description>
+      <Framework>3.4.x</Framework>
       <Framework>3.3.x</Framework>
       <Framework>3.2.x</Framework>
       <Framework>3.1.x</Framework>
@@ -1426,6 +1511,7 @@ if ( !$DeveloperSystem ) {
       <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
       <Description Lang="en">A test package.</Description>
       <Description Lang="de">Ein Test Paket.</Description>
+      <Framework>3.4.x</Framework>
       <Framework>3.3.x</Framework>
       <Framework>3.2.x</Framework>
       <Framework>3.1.x</Framework>
@@ -1542,6 +1628,7 @@ if ( !$DeveloperSystem ) {
       <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
       <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
       <ModuleRequired Version="1.112">Encode</ModuleRequired>
+      <Framework>3.4.x</Framework>
       <Framework>3.3.x</Framework>
       <Framework>3.2.x</Framework>
       <Framework>3.1.x</Framework>
@@ -1591,6 +1678,7 @@ if ( !$DeveloperSystem ) {
       <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
       <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
       <ModuleRequired Version="1.112">Encode</ModuleRequired>
+      <Framework>3.4.x</Framework>
       <Framework>3.3.x</Framework>
       <Framework>3.2.x</Framework>
       <Framework>3.1.x</Framework>
@@ -1667,8 +1755,107 @@ if ( !$DeveloperSystem ) {
     );
     $Self->False(
         $PackageInstalled,
-        '#14 TestPackageUninstallMerged PackageIsInstalled() - with flase',
+        '#14 TestPackageUninstallMerged PackageIsInstalled() - with false',
     );
 }
+
+# PackageParse method basic test
+
+my $StringNoXML = 'Not a valid structure
+for a package file.';
+
+my $ResultStructure = 1;
+my %StructureFail = $PackageObject->PackageParse( String => $StringNoXML );
+$ResultStructure = 0 if !IsHashRefWithData( \%StructureFail );
+$Self->Is(
+    $ResultStructure,
+    0,
+    "#15 PackageParse() - Wrong package content",
+);
+
+my $StringInvalid = '
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title>Page title</title>
+  </head>
+  <body>
+    <div class="Main">
+        <p>This is a invalid content.</p>
+        <p>It can pass the XML parse.</p>
+        <p>But is not possible to retrieve an structure from it.</p>
+    </div>
+  </body>
+</html>
+';
+
+$ResultStructure = 1;
+%StructureFail   = $PackageObject->PackageParse( String => $StringInvalid );
+$ResultStructure = 0 if !IsHashRefWithData( \%StructureFail );
+$Self->Is(
+    $ResultStructure,
+    0,
+    "15 PackageParse() - Invalid package content.",
+);
+
+my $StringNormal = '<?xml version="1.0" encoding="utf-8" ?>
+    <otrs_package version="1.0">
+      <Name>TestPackage</Name>
+      <Version>1.0.1</Version>
+      <Vendor>OTRS AG</Vendor>
+      <URL>http://otrs.org/</URL>
+      <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+      <ChangeLog>2013-08-14 New package (some test &lt; &gt; &amp;).</ChangeLog>
+      <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
+      <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
+      <ModuleRequired Version="1.112">Encode</ModuleRequired>
+      <Framework>3.4.x</Framework>
+      <Framework>3.3.x</Framework>
+      <Framework>3.2.x</Framework>
+      <Framework>3.1.x</Framework>
+      <Framework>3.0.x</Framework>
+      <Framework>2.5.x</Framework>
+      <Framework>2.4.x</Framework>
+      <Framework>2.3.x</Framework>
+      <Framework>2.2.x</Framework>
+      <Framework>2.1.x</Framework>
+      <Framework>2.0.x</Framework>
+      <BuildDate>2005-11-10 21:17:16</BuildDate>
+      <BuildHost>yourhost.example.com</BuildHost>
+      <Filelist>
+        <File Location="Test" Permission="644" Encode="Base64">aGVsbG8K</File>
+        <File Location="var/Test" Permission="644" Encode="Base64">aGVsbG8K</File>
+        <File Location="bin/otrs.CheckDB.pl" Permission="755" Encode="Base64">aGVsbG8K</File>
+      </Filelist>
+    </otrs_package>
+';
+
+$ResultStructure = 0;
+my %StructureNormal = $PackageObject->PackageParse( String => $StringNormal );
+$ResultStructure = 1 if IsHashRefWithData( \%StructureNormal );
+$Self->Is(
+    $ResultStructure,
+    1,
+    "15 PackageParse() - Normal package content",
+);
+
+$Self->Is(
+    $StructureNormal{Name}->{Content},
+    'TestPackage',
+    "15 PackageParse() - Normal package content | Name ",
+);
+
+$Self->Is(
+    $StructureNormal{Version}->{Content},
+    '1.0.1',
+    "15 PackageParse() - Normal package content | Version ",
+);
+
+$Self->Is(
+    $StructureNormal{Vendor}->{Content},
+    'OTRS AG',
+    "15 PackageParse() - Normal package content | Vendor ",
+);
 
 1;

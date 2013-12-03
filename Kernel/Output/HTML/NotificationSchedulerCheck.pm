@@ -11,9 +11,9 @@ package Kernel::Output::HTML::NotificationSchedulerCheck;
 
 use strict;
 use warnings;
+
 use Kernel::System::Group;
 use Kernel::System::PID;
-use Kernel::System::GenericInterface::Webservice;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -31,27 +31,14 @@ sub new {
     }
 
     # create additional objects
-    $Self->{GroupObject}      = Kernel::System::Group->new( %{$Self} );
-    $Self->{PIDObject}        = Kernel::System::PID->new( %{$Self} );
-    $Self->{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+    $Self->{GroupObject} = Kernel::System::Group->new( %{$Self} );
+    $Self->{PIDObject}   = Kernel::System::PID->new( %{$Self} );
 
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
-
-    # TODO OTRS v3.1 will only use scheduler to handle GI Tasks, then it only make sense to
-    # provide this alert is  if at least one valid web service is registered in the configuration
-    # for further versions of OTRS this check can be removed if scheduler is used for other tasks
-
-    # get valid web services list
-    my $WebserviceList = $Self->{WebserviceObject}->WebserviceList( Valid => 1 );
-
-    # return if the list is empty
-    if ( !IsHashRefWithData($WebserviceList) ) {
-        return '';
-    }
 
     # try to get scheduler PID
     my %PID = $Self->{PIDObject}->PIDGet(
@@ -116,26 +103,22 @@ sub Run {
     # reverse groups hash for easy look up
     %Groups = reverse %Groups;
 
-    # cycle trough all registered groups
-    GROUP:
-    for my $Group ( sort keys %{ $Param{Config}->{NotifyGroups} } ) {
-        next GROUP if !$Param{Config}->{NotifyGroups}->{$Group};
-
-        # check if registered groups match one of the user groups
-        if ( $Groups{$Group} ) {
-
-            # show error notification, if scheduler is not running
-            return $Self->{LayoutObject}->Notify(
-                %NotificationDetails,
-                Link      => '$Env{"Baselink"}Action=AdminScheduler',
-                LinkClass => 'StartScheduler',
-            );
-            last GROUP;
-        }
+    # check if the user is in the Admin group
+    # if that is the case, extend the error with a link
+    if ( $Groups{admin} ) {
+        $NotificationDetails{Link}      = '$Env{"Baselink"}Action=AdminScheduler';
+        $NotificationDetails{LinkClass} = 'StartScheduler';
     }
 
-    # return if no group matches
-    return '';
+    # if user is not admin, add 'Please contact your administrator' to error message
+    else {
+        $NotificationDetails{Data} .= " Please contact your administrator!";
+    }
+
+    # show error notification
+    return $Self->{LayoutObject}->Notify(
+        %NotificationDetails,
+    );
 
 }
 

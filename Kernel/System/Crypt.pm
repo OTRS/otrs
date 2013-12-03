@@ -94,15 +94,15 @@ sub new {
     # create file template object
     $Self->{FileTempObject} = Kernel::System::FileTemp->new( %{$Self} );
 
+    # reset ISA for testability and peristent environments
+    @ISA = ();
+
     # load generator crypt module
     $Self->{GenericModule} = "Kernel::System::Crypt::$Param{CryptType}";
-    return if !$Self->{MainObject}->Require( $Self->{GenericModule} );
+    return if !$Self->{MainObject}->RequireBaseClass( $Self->{GenericModule} );
 
     # time object
     $Self->{TimeObject} = Kernel::System::Time->new( %{$Self} );
-
-    # add generator crypt functions
-    @ISA = ("$Self->{GenericModule}");
 
     # call init()
     $Self->_Init();

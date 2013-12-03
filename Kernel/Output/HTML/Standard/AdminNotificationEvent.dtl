@@ -69,7 +69,7 @@
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
                             <td class="Center">
-                                <a class="TrashCan"href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$LQData{"ID"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Delete this notification"}">$Text{"Delete this notification"}</a>
+                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$LQData{"ID"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Delete this notification"}">$Text{"Delete this notification"}</a>
                             </td>
                         </tr>
 <!-- dtl:block:OverviewResultRow -->
@@ -131,7 +131,7 @@
             <div class="WidgetSimple SpacingTop">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Events"}</h2>
                 </div>
@@ -161,7 +161,7 @@
             <div class="WidgetSimple SpacingTop Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Ticket Filter"}</h2>
                 </div>
@@ -249,7 +249,7 @@
             <div class="WidgetSimple SpacingTop Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Article Filter"} <span class="FieldExplanation">($Text{"Only for ArticleCreate event"})</span></h2>
                 </div>
@@ -301,7 +301,7 @@
             <div class="WidgetSimple SpacingTop">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Recipient"}</h2>
                 </div>
@@ -346,7 +346,7 @@
             <div class="WidgetSimple SpacingTop">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Toggle this widget"}"></a>
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Notification"}</h2>
                 </div>

@@ -67,7 +67,7 @@ $Self->True(
 );
 
 # get the Dynamic Fields configuration
-my $DynamicFieldsConfig = $Self->{ConfigObject}->Get('DynamicFields::Backend');
+my $DynamicFieldsConfig = $Self->{ConfigObject}->Get('DynamicFields::Driver');
 
 # sanity check
 $Self->Is(

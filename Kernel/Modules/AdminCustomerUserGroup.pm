@@ -393,8 +393,9 @@ sub _Change {
         Name => "ChangeHeading$VisibleType{$NeType}",
     );
 
+    TYPE:
     for my $Type ( @{ $Self->{ConfigObject}->Get('System::Customer::Permission') } ) {
-        next if !$Type;
+        next TYPE if !$Type;
         my $Mark = $Type eq 'rw' ? "Highlight" : '';
         $Self->{LayoutObject}->Block(
             Name => 'ChangeHeader',

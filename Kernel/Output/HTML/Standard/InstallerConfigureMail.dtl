@@ -11,7 +11,7 @@
 <div class="W950px SpacingTop SpacingBottom CenterBox">
     <form action="$Env{"CGIHandle"}" method="post" id="FormMail" class="PreventMultipleSubmits">
         <input type="hidden" name="Action" value="Installer">
-        <input type="hidden" name="Subaction" value="Registration">
+        <input type="hidden" name="Subaction" value="Finish">
         <input type="hidden" name="Skip" value="0">
 
         <div class="WidgetSimple">
@@ -154,9 +154,7 @@
 <script type="text/javascript">//<![CDATA[
     $('#ButtonCheckMail').bind('click', Core.Installer.CheckMailConfig);
     $('#ButtonSkipMail').bind('click', function() {
-        if (confirm("$JSText{"Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?"}")) {
-            Core.Installer.SkipMailConfig();
-        }
+        Core.Installer.SkipMailConfig();
         return false;
     });
     $('#SMTPAuth').bind('change', function () {

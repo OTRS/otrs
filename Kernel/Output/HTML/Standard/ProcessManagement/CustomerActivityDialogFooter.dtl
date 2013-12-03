@@ -1,14 +1,15 @@
 # --
-# CustomerDialogFooter.dtl - provides CustomerDialogFooter HTML for the CustomerTicketProcess.pm
+# CustomerActivityDialogFooter.dtl - provides CustomerDialogFooter HTML for the CustomerTicketProcess.pm
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+# nofilter(TidyAll::Plugin::OTRS::DTL::Format)
                     </fieldset>
                 </div>
-<!-- dtl:block:Footer -->        
+<!-- dtl:block:Footer -->
                 <div class="PopupFooter">
                     <button class="Primary" id="$QData{"ButtonID"}" accesskey="g" title="$Text{"$Data{"ButtonTitle"}"} (g)" type="submit" value="$Text{"$Data{"ButtonText"}"}">$Text{"$Data{"ButtonText"}"}</button>
 <!-- dtl:block:SubmitAdviceText -->
@@ -37,6 +38,10 @@ $('select').each(function() {
     }
 });
 Core.Form.Validate.Init();
+
+// Register event for tree selection dialog
+Core.UI.TreeSelection.InitTreeSelection();
+
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 

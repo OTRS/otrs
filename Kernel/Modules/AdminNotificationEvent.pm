@@ -57,9 +57,9 @@ sub new {
         ObjectType => ['Ticket'],
     );
 
-    $Self->{EventObject}        = Kernel::System::Event->new(
+    $Self->{EventObject} = Kernel::System::Event->new(
         %Param,
-        DynamicFieldObject =>  $Self->{DynamicFieldObject},
+        DynamicFieldObject => $Self->{DynamicFieldObject},
     );
 
     return $Self;
@@ -102,6 +102,7 @@ sub Run {
         for my $Parameter (qw(ID Name Subject Body Type Charset Comment ValidID Events)) {
             $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
+        PARAMETER:
         for my $Parameter (
             qw(Recipients RecipientAgents RecipientGroups RecipientRoles RecipientEmail
             Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID
@@ -111,7 +112,7 @@ sub Run {
             )
         {
             my @Data = $Self->{ParamObject}->GetArray( Param => $Parameter );
-            next if !@Data;
+            next PARAMETER if !@Data;
             $GetParam{Data}->{$Parameter} = \@Data;
         }
 
@@ -226,6 +227,7 @@ sub Run {
         for my $Parameter (qw(Name Subject Body Comment ValidID Events)) {
             $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
+        PARAMETER:
         for my $Parameter (
             qw(Recipients RecipientAgents RecipientRoles RecipientGroups RecipientEmail Events StateID QueueID
             PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID
@@ -234,7 +236,7 @@ sub Run {
             )
         {
             my @Data = $Self->{ParamObject}->GetArray( Param => $Parameter );
-            next if !@Data;
+            next PARAMETER if !@Data;
             $GetParam{Data}->{$Parameter} = \@Data;
         }
 
@@ -372,6 +374,12 @@ sub _Edit {
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
 
+    # get list type
+    my $TreeView = 0;
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+        $TreeView = 1;
+    }
+
     $Param{RecipientsStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => {
             AgentOwner            => 'Agent (Owner)',
@@ -418,12 +426,12 @@ sub _Edit {
     }
 
     my %RegisteredEvents = $Self->{EventObject}->EventList(
-        ObjectTypes => ['Ticket', 'Article',],
+        ObjectTypes => [ 'Ticket', 'Article', ],
     );
 
     my @Events;
-    for my $ObjectType (sort keys %RegisteredEvents) {
-        push @Events, @{ $RegisteredEvents{$ObjectType} ||  [] };
+    for my $ObjectType ( sort keys %RegisteredEvents ) {
+        push @Events, @{ $RegisteredEvents{$ObjectType} || [] };
     }
 
     # Build the list...
@@ -454,6 +462,7 @@ sub _Edit {
         Size               => 5,
         Multiple           => 1,
         Name               => 'QueueID',
+        TreeView           => $TreeView,
         SelectedIDRefArray => $Param{Data}->{QueueID},
         OnChangeSubmit     => 0,
     );
@@ -528,7 +537,11 @@ sub _Edit {
     if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
 
         # get list type
-        my %Service = $Self->{ServiceObject}->ServiceList( UserID => $Self->{UserID}, );
+        my %Service = $Self->{ServiceObject}->ServiceList(
+            Valid        => 1,
+            KeepChildren => 1,
+            UserID       => $Self->{UserID},
+        );
         $Param{ServicesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%Service,
             Name        => 'ServiceID',
@@ -537,6 +550,7 @@ sub _Edit {
             Multiple    => 1,
             Translation => 0,
             Max         => 200,
+            TreeView    => $TreeView,
         );
         my %SLA = $Self->{SLAObject}->SLAList( UserID => $Self->{UserID}, );
         $Param{SLAsStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -563,10 +577,13 @@ sub _Edit {
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        # skip all dynamic fields where ObjectMatch is not yet implemented
-        next DYNAMICFIELD if !$Self->{BackendObject}->IsMatchable(
+        # skip all dynamic fields that are not designed to be notification triggers
+        my $IsNotificationEventCondition = $Self->{BackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsNotificationEventCondition',
         );
+
+        next DYNAMICFIELD if !$IsNotificationEventCondition;
 
         # get field html
         my $DynamicFieldHTML = $Self->{BackendObject}->SearchFieldRender(
@@ -641,10 +658,11 @@ sub _Edit {
     );
 
     # take over data fields
+    KEY:
     for my $Key (qw(RecipientEmail CustomerID CustomerUserID ArticleSubjectMatch ArticleBodyMatch))
     {
-        next if !$Param{Data}->{$Key};
-        next if !defined $Param{Data}->{$Key}->[0];
+        next KEY if !$Param{Data}->{$Key};
+        next KEY if !defined $Param{Data}->{$Key}->[0];
         $Param{$Key} = $Param{Data}->{$Key}->[0];
     }
 

@@ -11,6 +11,7 @@
 <ul class="UserFilter Tab Actions">
     <li class="$QData{"Agent::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Agent" class="$QData{"Agent::Selected"}">$Text{"Agents"} ($QData{"Agent"})</a></li>
     <li class="$QData{"Customer::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Customer" class="$QData{"Customer::Selected"}">$Text{"Customers"} ($QData{"Customer"})</a></li>
+</ul>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#Dashboard$QData{"Name"}Agent').unbind('click').bind('click', function(){
@@ -27,7 +28,6 @@
     });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
-</ul>
 <!-- dtl:block:ContentSmallTicketGenericFilterNavBar -->
 <span class="Pagination">
     $Data{"SiteNavBar"}
@@ -41,7 +41,7 @@
         <tr>
             <td>
                 <p title="$QData{"UserEmail"}">
-                    $QData{"UserLastname"} $QData{"UserFirstname"}
+                    $QData{"UserFullname"}
 <!-- dtl:block:ContentSmallUserOnlineRowEmail -->
                     ($QData{"UserEmail","50"})
 <!-- dtl:block:ContentSmallUserOnlineRowEmail -->

@@ -29,10 +29,6 @@ my $GroupObject = Kernel::System::Group->new(
 );
 
 # add three users
-my $UserRand1 = 'example-user' . int( rand(1000000) );
-my $UserRand2 = 'example-user' . int( rand(1000000) );
-my $UserRand3 = 'example-user' . int( rand(1000000) );
-
 my $UserLogin1 = $HelperObject->TestUserCreate();
 my $UserLogin2 = $HelperObject->TestUserCreate();
 my $UserLogin3 = $HelperObject->TestUserCreate();
@@ -551,6 +547,38 @@ if ( !$MemberList3{$GroupID2} || !$MemberList3{$GroupID3} ) {
 $Self->True(
     $GroupMemberList3,
     'GroupMemberList3()',
+);
+
+my %GroupUserRoleMemberlist1 = $GroupObject->GroupUserRoleMemberList(
+    UserID => $UserID1,
+    Result => 'HASH',
+);
+
+$Self->True(
+    $GroupUserRoleMemberlist1{$RoleID1},
+    "GroupUserRoleMemberList - UserID - HASH - key",
+);
+
+$Self->Is(
+    $GroupUserRoleMemberlist1{$RoleID1},
+    $RoleRand1 . '1',
+    "GroupUserRoleMemberList - UserID - HASH - value",
+);
+
+my %GroupUserRoleMemberRolelist1 = $GroupObject->GroupUserRoleMemberList(
+    RoleID => $RoleID1,
+    Result => 'HASH',
+);
+
+$Self->True(
+    $GroupUserRoleMemberRolelist1{$UserID1},
+    "GroupUserRoleMemberList - RoleID - HASH - key",
+);
+
+$Self->Is(
+    $GroupUserRoleMemberRolelist1{$UserID1},
+    $UserLogin1,
+    "GroupUserRoleMemberList - RoleID - HASH - value",
 );
 
 # check groupmembers of Group1

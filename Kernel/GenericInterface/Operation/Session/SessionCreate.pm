@@ -16,8 +16,6 @@ use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Session::Common;
 use Kernel::System::VariableCheck qw(IsStringWithData IsHashRefWithData);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::GenericInterface::Operation::Ticket::SessionCreate - GenericInterface Session Create Operation backend

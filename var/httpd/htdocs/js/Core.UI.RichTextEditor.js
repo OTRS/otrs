@@ -85,13 +85,15 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             forcePasteAsPlainText: false,
             format_tags: 'p;h1;h2;h3;h4;h5;h6;pre',
             fontSize_sizes: '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;',
+            extraAllowedContent: 'div table tr td th colgroup col style[*]{*}',
             enterMode: CKEDITOR.ENTER_BR,
             shiftEnterMode: CKEDITOR.ENTER_BR,
             contentsLangDirection: Core.Config.Get('RichText.TextDir', 'ltr'),
             disableNativeSpellChecker: false,
             toolbar: CheckFormID().length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage'),
             filebrowserUploadUrl: Core.Config.Get('Baselink'),
-            extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell,onchange' : 'onchange'
+            extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell,onchange' : 'onchange',
+            entities: false
         });
         if (CheckFormID().length) {
             CKEDITOR.config.action = Core.Config.Get('RichText.PictureUploadAction', 'PictureUpload');
@@ -214,7 +216,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
         if (isJQueryObject($EditorArea) && $EditorArea.length === 1) {
             EditorID = $EditorArea.attr('id');
-            if ($('#cke_' + EditorID).length) {
+            if ($('#cke_' + Core.App.EscapeSelector(EditorID)).length) {
                 return true;
             }
         }

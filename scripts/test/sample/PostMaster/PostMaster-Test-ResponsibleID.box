@@ -1,0 +1,30 @@
+From skywalker@otrs.org  Fri Dec 21 23:59:24 2001
+Return-Path: <skywalker@otrs.org>
+Received: (from skywalker@localhost)
+	by avro.de (8.11.3/8.11.3/SuSE Linux 8.11.1-0.5) id f3MMSE303694
+	for martin@localhost; Fri, 21 Dec 2001 23:59:24 +0200
+Date: Fri, 21 Dec 2001 23:59:24 +0200
+From: Skywalker Attachment <skywalker@otrs.org>
+To: darthvader@otrs.org
+Subject: ResponsibleIDTest
+Message-ID: <20011221002814.A3599@avro>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-OTRS-ResponsibleID: 1 
+X-Operating-System: Linux 2.4.10-4GB i686
+X-Uptime: 12:23am  up  5:19,  6 users,  load average: 0.11, 0.13, 0.18
+Content-Length: 139
+Lines: 11
+
+This is the first test.
+
+Adios ... 
+
+  Little "Skywalker"
+
+--
+System Tester I - <skywalker@otrs.org>
+--
+Old programmers never die. They just branch to a new address.
+

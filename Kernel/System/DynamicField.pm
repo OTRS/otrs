@@ -191,7 +191,8 @@ sub DynamicFieldAdd {
     # sql
     return if !$Self->{DBObject}->Do(
         SQL =>
-            'INSERT INTO dynamic_field (internal_field, name, label, field_Order, field_type, object_type,' .
+            'INSERT INTO dynamic_field (internal_field, name, label, field_Order, field_type, object_type,'
+            .
             ' config, valid_id, create_time, create_by, change_time, change_by)' .
             ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
@@ -1297,7 +1298,7 @@ sub _DynamicFieldReorder {
     return 1;
 }
 
-1;
+=end Internal:
 
 =back
 
@@ -1310,3 +1311,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
+
+1;

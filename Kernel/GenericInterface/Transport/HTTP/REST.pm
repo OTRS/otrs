@@ -12,8 +12,6 @@ package Kernel::GenericInterface::Transport::HTTP::REST;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::GenericInterface::Transport::REST - GenericInterface network transport interface for HTTP::REST

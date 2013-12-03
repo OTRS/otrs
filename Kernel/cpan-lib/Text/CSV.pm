@@ -6,14 +6,14 @@ use Carp ();
 use vars qw( $VERSION $DEBUG );
 
 BEGIN {
-    $VERSION = '1.21';
+    $VERSION = '1.32';
     $DEBUG   = 0;
 }
 
 # if use CSV_XS, requires version
 my $Module_XS  = 'Text::CSV_XS';
 my $Module_PP  = 'Text::CSV_PP';
-my $XS_Version = '0.80';
+my $XS_Version = '0.99';
 
 my $Is_Dynamic = 0;
 
@@ -27,6 +27,7 @@ my @PublicMethods = qw/
     keep_meta_info allow_loose_quotes allow_loose_escapes verbatim meta_info is_quoted is_binary eof
     getline print parse combine fields string error_diag error_input status blank_is_undef empty_is_undef
     getline_hr column_names bind_columns auto_diag quote_space quote_null getline_all getline_hr_all
+    is_missing quote_binary record_number print_hr
     PV IV NV
 /;
 #
@@ -287,9 +288,10 @@ perhaps better called ASV (anything separated values) rather than just CSV.
 
 =head1 VERSION
 
-    1.21
+    1.32
 
-This module is compatible with Text::CSV_XS B<0.80> and later.
+This module is compatible with Text::CSV_XS B<0.99> and later.
+(except for diag_verbose and allow_unquoted_escape)
 
 =head2 Embedded newlines
 
@@ -568,6 +570,12 @@ By default, a NULL byte in a field would be escaped. This attribute
 enables you to treat the NULL byte as a simple binary character in
 binary mode (the C<{ binary =E<gt> 1 }> is set). The default is true.
 You can prevent NULL escapes by setting this attribute to 0.
+
+=item quote_binary
+
+By default,  all "unsafe" bytes inside a string cause the combined field to
+be quoted. By setting this attribute to 0, you can disable that trigger for
+bytes >= 0x7f.
 
 =item keep_meta_info
 
@@ -928,6 +936,24 @@ last result of C<parse ()>.
 This returns a true value if the data in the indicated column
 contained any byte in the range [\x00-\x08,\x10-\x1F,\x7F-\xFF]
 
+=head2 is_missing
+
+  my $missing = $csv->is_missing ($column_idx);
+
+Where C<$column_idx> is the (zero-based) index of the column in the last
+result of L</getline_hr>.
+
+ while (my $hr = $csv->getline_hr ($fh)) {
+     $csv->is_missing (0) and next; # This was an empty line
+ }
+
+When using L</getline_hr> for parsing, it is impossible to tell if the
+fields are C<undef> because they where not filled in the CSV stream or
+because they were not read at all, as B<all> the fields defined by
+L</column_names> are set in the hash-ref. If you still need to know if all
+fields in each row are provided, you should enable C<keep_meta_info> so you
+can check the flags.
+
 =head2 status
 
  $status = $csv->status ();
@@ -977,6 +1003,14 @@ of the failure.
 
 When called as a class method or a direct function call, the error diag
 is that of the last C<new ()> call.
+
+=head2 record_number
+
+  $recno = $csv->record_number ();
+
+Returns the records parsed by this csv instance. This value should be more
+accurate than C<$.> when embedded newlines come in play. Records written by
+this instance are not counted.
 
 =head2 SetDiag
 
@@ -1133,12 +1167,12 @@ Copyright (C) 2007-2009 Makamaka Hannyaharamitu.
 
 Text::CSV_PP:
 
-Copyright (C) 2005-2010 Makamaka Hannyaharamitu.
+Copyright (C) 2005-2013 Makamaka Hannyaharamitu.
 
 
 Text:CSV_XS:
 
-Copyright (C) 2007-2010 H.Merijn Brand for PROCURA B.V.
+Copyright (C) 2007-2013 H.Merijn Brand for PROCURA B.V.
 Copyright (C) 1998-2001 Jochen Wiedmann. All rights reserved.
 Portions Copyright (C) 1997 Alan Citterman. All rights reserved.
 

@@ -84,7 +84,8 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 CurrentElement;
 
             // skip entry if no ID (should only occur for the leading empty element, '-')
-            if (!ElementID || ElementID === "||-") {
+            // also skip entries which only contain '------------' as visible text (e.g. in AgentLinkObject)
+            if ( !ElementID || ElementID === "||-" || ( ElementDisabled && ElementName.match(/^-+$/) ) ) {
                 return true;
             }
 
@@ -167,6 +168,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             DialogTitle    = $SelectObj.parent().prev('label').text(),
             Elements       = {},
             InDialog       = false,
+            StyleSheetURL,
             $SelectedNodesObj,
             SelectedNodes = [],
             $CurrentTreeObj;
@@ -178,6 +180,16 @@ Core.UI.TreeSelection = (function (TargetNS) {
         // determine if we are in a dialog
         if ($SelectObj.closest('.Dialog').length) {
             InDialog = true;
+        }
+
+        if (InDialog && $TriggerObj.hasClass('TreeSelectionVisible')) {
+            $TriggerObj
+                .removeClass('TreeSelectionVisible')
+                .prev('.jstree')
+                .jstree('destroy')
+                .remove();
+            $SelectObj.show();
+            return false;
         }
 
         if (!DialogTitle) {
@@ -196,6 +208,9 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
         Elements = BuildElementsArray($SelectObj);
 
+        // set StyleSheetURL in order to correctly load the CSS for treeview
+        StyleSheetURL = Core.Config.Get('WebPath') + 'skins/Agent/default/css/thirdparty/jstree-theme/default/style.css';
+
         $TreeObj.jstree({
             "core": {
                 "animation" : 70
@@ -212,7 +227,8 @@ Core.UI.TreeSelection = (function (TargetNS) {
             },
             "themes" : {
                 "theme" : "default",
-                "icons" : false
+                "icons" : false,
+                "url": StyleSheetURL
             },
             "plugins" : [ "themes", "json_data", "ui", "hotkeys", "search" ]
         })
@@ -282,8 +298,8 @@ Core.UI.TreeSelection = (function (TargetNS) {
             Core.UI.Dialog.ShowContentDialog('<div class="OverlayTreeSelector" id="TreeContainer"></div>', DialogTitle, '20%', 'Center', true);
             $('#TreeContainer')
                 .prepend($TreeObj)
-                .prepend('<div id="TreeSearch"><input type="text" id="TreeSearch" placeholder="' + Core.Config.Get('SearchMsg') + '..." /><span>x</span></div>')
-                .append('<input type="button" id="SubmitTree" value="' + Core.Config.Get('ApplyButtonText') + '" />');
+                .prepend('<div id="TreeSearch"><input type="text" id="TreeSearch" placeholder="' + Core.Config.Get('SearchMsg') + '..." /><span title="' + Core.Config.Get('DeleteMsg') + '">x</span></div>')
+                .append('<input type="button" id="SubmitTree" class="Primary" title="' + Core.Config.Get('ApplyButtonText') + '" value="' + Core.Config.Get('ApplyButtonText') + '" />');
         }
         else {
             $TreeObj
@@ -291,7 +307,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 .insertAfter($SelectObj)
                 .show();
             $SelectObj.hide();
-            $TriggerObj.hide();
+            $TriggerObj.addClass('TreeSelectionVisible');
         }
 
         $('#TreeSearch').find('input').bind('keyup', function() {

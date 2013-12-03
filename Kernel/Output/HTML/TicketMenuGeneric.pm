@@ -88,10 +88,11 @@ sub Run {
             );
             next if !@Groups;
 
+            GROUP:
             for my $Group (@Groups) {
                 if ( $Group eq $Name ) {
                     $AccessOk = 1;
-                    last;
+                    last GROUP;
                 }
             }
         }

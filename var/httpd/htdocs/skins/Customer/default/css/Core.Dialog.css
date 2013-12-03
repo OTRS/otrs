@@ -63,13 +63,9 @@
     position: absolute;
     height: 12px;
     width: 12px;
-    background: url(../img/dialog_close.png) no-repeat;
     right: 8px;
     top: 7px;
-}
-
-.Dialog > .Header .Close:hover{
-    background-position: bottom;
+    color: #000;
 }
 
 .Dialog > .Header h1 {

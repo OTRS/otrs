@@ -245,14 +245,14 @@ sub CreateSessionID {
     my $RemoteUserAgent = $ENV{HTTP_USER_AGENT} || 'none';
 
     # create session id
-    my $SessionID = $Self->{MainObject}->GenerateRandomString(
+    my $SessionID = $Self->{SystemID} . $Self->{MainObject}->GenerateRandomString(
         Length => 32,
     );
 
     # create challenge token
     my $ChallengeToken = $Self->{MainObject}->GenerateRandomString(
-         Length => 32,
-    ); 
+        Length => 32,
+    );
 
     my %Data;
     KEY:

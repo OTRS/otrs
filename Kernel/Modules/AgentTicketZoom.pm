@@ -139,7 +139,15 @@ sub Run {
 
     # error screen, don't show ticket
     if ( !$Access ) {
-        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        my $TranslatableMessage = $Self->{LayoutObject}->{LanguageObject}->Get(
+            "We are sorry, you do not have permissions anymore to access this ticket in its"
+                . " current state. "
+        );
+
+        return $Self->{LayoutObject}->NoPermission(
+            Message    => $TranslatableMessage,
+            WithHeader => 'yes',
+        );
     }
 
     # get ticket attributes
@@ -196,6 +204,7 @@ sub Run {
             )
             )
         {
+
             # Always use user id 1 because other users also have to see the important flag
             my %ArticleFlag = $Self->{TicketObject}->ArticleFlagGet(
                 ArticleID => $Self->{ArticleID},
@@ -264,16 +273,19 @@ sub Run {
         );
         $Article{Atms} = \%AtmIndex;
 
-        # fetch all std. responses
-        my %StandardResponses = $Self->{QueueObject}->GetStandardResponses(
-            QueueID => $Ticket{QueueID},
+        # fetch all std. templates
+        my %StandardTemplates = $Self->{QueueObject}->QueueStandardTemplateMemberList(
+            QueueID       => $Ticket{QueueID},
+            TemplateTypes => 1,
+            Valid         => 1,
         );
 
         $Self->_ArticleItem(
             Ticket            => \%Ticket,
             Article           => \%Article,
             AclAction         => \%AclAction,
-            StandardResponses => \%StandardResponses,
+            StandardResponses => $StandardTemplates{Answer},
+            StandardForwards  => $StandardTemplates{Forward},
             Type              => 'OnLoad',
         );
         my $Content = $Self->{LayoutObject}->Output(
@@ -453,9 +465,11 @@ sub MaskAgentZoom {
         Type     => 'move_into',
     );
 
-    # fetch all std. responses
-    my %StandardResponses
-        = $Self->{QueueObject}->GetStandardResponses( QueueID => $Ticket{QueueID} );
+    # fetch all std. templates
+    my %StandardTemplates = $Self->{QueueObject}->QueueStandardTemplateMemberList(
+        QueueID       => $Ticket{QueueID},
+        TemplateTypes => 1,
+    );
 
     # owner info
     my %OwnerInfo = $Self->{UserObject}->GetUserData(
@@ -662,7 +676,8 @@ sub MaskAgentZoom {
             Ticket            => \%Ticket,
             Article           => \%Article,
             AclAction         => \%AclAction,
-            StandardResponses => \%StandardResponses,
+            StandardResponses => $StandardTemplates{Answer},
+            StandardForwards  => $StandardTemplates{Forward},
             ActualArticleID   => $ArticleID,
             Type              => 'Static',
         );
@@ -1010,7 +1025,8 @@ sub MaskAgentZoom {
             # ('AD1', 'AD3', 'AD2')
 
             my @TmpActivityDialogList
-                = map { $NextActivityDialogs->{$_} } sort keys %{$NextActivityDialogs};
+                = map { $NextActivityDialogs->{$_} }
+                sort  { $a <=> $b } keys %{$NextActivityDialogs};
 
             # we have to check if the current user has the needed permissions to view the
             # different activity dialogs, so we loop over every activity dialog and check if there
@@ -1073,7 +1089,7 @@ sub MaskAgentZoom {
             );
 
             if ( IsHashRefWithData($NextActivityDialogs) ) {
-                for my $NextActivityDialogKey ( sort keys %{$NextActivityDialogs} ) {
+                for my $NextActivityDialogKey ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
                     my $ActivityDialogData = $Self->{ActivityDialogObject}->ActivityDialogGet(
                         Interface              => 'AgentInterface',
                         ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
@@ -1148,7 +1164,9 @@ sub MaskAgentZoom {
             DynamicFieldConfig => $DynamicFieldConfig,
             Value              => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
             LayoutObject       => $Self->{LayoutObject},
-            ValueMaxChars => 18,    # limit for sidebar display
+            ValueMaxChars      => $Self->{ConfigObject}->
+                Get('Ticket::Frontend::DynamicFieldsZoomMaxSizeSidebar')
+                || 18,    # limit for sidebar display
         );
 
         if (
@@ -1469,7 +1487,7 @@ sub MaskAgentZoom {
             if $Self->{ConfigObject}->Get('Ticket::NewArticleIgnoreSystemSender')
             && $Article->{SenderType} eq 'system';
 
-        # last if article was not shown
+        # last ARTICLE if article was not shown
         if ( !$ArticleFlags{ $Article->{ArticleID} }->{Seen} ) {
             $ArticleAllSeen = 0;
             last ARTICLE;
@@ -1835,7 +1853,8 @@ sub _ArticleItem {
     # cleanup subject
     $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
         TicketNumber => $Article{TicketNumber},
-        Subject => $Article{Subject} || '',
+        Subject      => $Article{Subject} || '',
+        Size         => 0,
     );
 
     $Self->{LayoutObject}->Block(
@@ -1915,6 +1934,7 @@ sub _ArticleItem {
                     }
                 }
             }
+
             if ($Access) {
 
                 # get StandardResponsesStrg
@@ -1968,7 +1988,7 @@ sub _ArticleItem {
                     ADDRESS:
                     for my $Address (@Addresses) {
                         my $Email = $EmailParser->GetEmailAddress( Email => $Address );
-                        next if !$Email;
+                        next ADDRESS if !$Email;
                         my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
                             Address => $Email,
                         );
@@ -2044,17 +2064,53 @@ sub _ArticleItem {
                 }
             }
             if ($Access) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'ArticleMenu',
-                    Data => {
-                        %Ticket, %Article, %AclAction,
-                        Description => 'Forward article via mail',
-                        Name        => 'Forward',
-                        Class       => 'AsPopup PopupType_TicketAction',
-                        Link =>
-                            'Action=AgentTicketForward;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
-                    },
-                );
+                if ( IsHashRefWithData( $Param{StandardForwards} ) ) {
+
+                    # get StandarForwardsStrg
+                    $Param{StandardForwards}->{0}
+                        = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Forward') . ' -';
+
+                    # build html string
+                    my $StandarForwardsStrg = $Self->{LayoutObject}->BuildSelection(
+                        Name => 'ForwardTemplateID',
+                        ID   => 'ForwardTemplateID',
+                        Data => $Param{StandardForwards},
+                    );
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ArticleForwardAsDropdown',
+                        Data => {
+                            %Ticket, %Article, %AclAction,
+                            StandarForwardsStrg => $StandarForwardsStrg,
+                            Name                => 'Forward',
+                            Class               => 'AsPopup PopupType_TicketAction',
+                            Action              => 'AgentTicketForward',
+                            FormID              => 'Forward' . $Article{ArticleID},
+                            ForwardElementID    => 'ForwardTemplateID',
+                        },
+                    );
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ArticleForwardAsDropdownJS' . $Param{Type},
+                        Data => {
+                            %Ticket, %Article, %AclAction,
+                            FormID => 'Forward' . $Article{ArticleID},
+                        },
+                    );
+                }
+                else {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ArticleMenu',
+                        Data => {
+                            %Ticket, %Article, %AclAction,
+                            Description => 'Forward article via mail',
+                            Name        => 'Forward',
+                            Class       => 'AsPopup PopupType_TicketAction',
+                            Link =>
+                                'Action=AgentTicketForward;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
+                        },
+                    );
+                }
             }
         }
 
@@ -2206,9 +2262,9 @@ sub _ArticleItem {
 
         my $Link
             = 'Action=AgentTicketZoom;Subaction=MarkAsImportant;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}';
-        my $Description = 'Mark article as important';
+        my $Description = 'Mark';
         if ($ArticleIsImportant) {
-            $Description = 'Remove important mark';
+            $Description = 'Unmark';
         }
 
         # set important menu item
@@ -2272,15 +2328,17 @@ sub _ArticleItem {
             ObjectID           => $Article{ArticleID},
         );
 
-        next if !$Value;
-        next if $Value eq '';
+        next DYNAMICFIELD if !$Value;
+        next DYNAMICFIELD if $Value eq '';
 
         # get print string for this dynamic field
         my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
             DynamicFieldConfig => $DynamicFieldConfig,
             Value              => $Value,
-            ValueMaxChars      => 160,
-            LayoutObject       => $Self->{LayoutObject},
+            ValueMaxChars      => $Self->{ConfigObject}->
+                Get('Ticket::Frontend::DynamicFieldsZoomMaxSizeArticle')
+                || 160,    # limit for article display
+            LayoutObject => $Self->{LayoutObject},
         );
 
         my $Label = $DynamicFieldConfig->{Label};
@@ -2499,6 +2557,14 @@ sub _ArticleItem {
         if ( my $CharsetText = $Self->{LayoutObject}->CheckCharset( %Ticket, %Article ) ) {
             $Article{BodyNote} = $CharsetText;
         }
+    }
+
+    # security="restricted" may break SSO - disable this feature if requested
+    if ( $Self->{ConfigObject}->Get('DisableMSIFrameSecurityRestricted') ) {
+        $Article{MSSecurityRestricted} = '';
+    }
+    else {
+        $Article{MSSecurityRestricted} = 'security="restricted"';
     }
 
     # show body

@@ -446,43 +446,6 @@ sub request
 #-----------------------------------------------------------
 package LWP::Protocol::http::SocketMethods;
 
-sub sysread {
-    my $self = shift;
-    if (my $timeout = ${*$self}{io_socket_timeout}) {
-	die "read timeout" unless $self->can_read($timeout);
-    }
-    else {
-	# since we have made the socket non-blocking we
-	# use select to wait for some data to arrive
-	$self->can_read(undef) || die "Assert";
-    }
-    sysread($self, $_[0], $_[1], $_[2] || 0);
-}
-
-sub can_read {
-    my($self, $timeout) = @_;
-    my $fbits = '';
-    vec($fbits, fileno($self), 1) = 1;
-  SELECT:
-    {
-        my $before;
-        $before = time if $timeout;
-        my $nfound = select($fbits, undef, undef, $timeout);
-        if ($nfound < 0) {
-            if ($!{EINTR} || $!{EAGAIN}) {
-                # don't really think EAGAIN can happen here
-                if ($timeout) {
-                    $timeout -= time - $before;
-                    $timeout = 0 if $timeout < 0;
-                }
-                redo SELECT;
-            }
-            die "select failed: $!";
-        }
-        return $nfound > 0;
-    }
-}
-
 sub ping {
     my $self = shift;
     !$self->can_read(0);

@@ -12,8 +12,6 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 use warnings;
 
-use vars qw(@INC);
-
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::Main;
@@ -342,10 +340,12 @@ sub Run {
         $LayoutObject = Kernel::Output::HTML::Layout->new(
             SetCookies => {
                 SessionIDCookie => $Self->{ParamObject}->SetCookie(
-                    Key     => $Param{SessionName},
-                    Value   => $NewSessionID,
-                    Expires => $Expires,
-                    Secure  => scalar $SecureAttribute,
+                    Key      => $Param{SessionName},
+                    Value    => $NewSessionID,
+                    Expires  => $Expires,
+                    Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
+                    Secure   => scalar $SecureAttribute,
+                    HTTPOnly => 1,
                 ),
             },
             SessionID   => $NewSessionID,
@@ -461,6 +461,7 @@ sub Run {
                 Key   => 'UserToken',
                 Value => $Token,
             );
+            USER_ID:
             for my $UserID ( sort keys %UserList ) {
                 my %UserData = $Self->{UserObject}->CustomerUserDataGet(
                     User  => $UserID,
@@ -468,7 +469,7 @@ sub Run {
                 );
                 if (%UserData) {
                     $User = $UserData{UserLogin};
-                    last;
+                    last USER_ID;
                 }
             }
         }
@@ -871,12 +872,13 @@ sub Run {
                 my $Key      = "UserIs$Permission";
                 next if !$Group;
                 if ( ref $Group eq 'ARRAY' ) {
+                    GROUP:
                     for ( @{$Group} ) {
-                        next if !$_;
-                        next if !$UserData{ $Key . "[$_]" };
-                        next if $UserData{ $Key . "[$_]" } ne 'Yes';
+                        next GROUP if !$_;
+                        next GROUP if !$UserData{ $Key . "[$_]" };
+                        next GROUP if $UserData{ $Key . "[$_]" } ne 'Yes';
                         $AccessOk = 1;
-                        last;
+                        last GROUP;
                     }
                 }
                 else {

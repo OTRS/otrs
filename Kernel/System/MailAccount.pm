@@ -12,6 +12,9 @@ package Kernel::System::MailAccount;
 use strict;
 use warnings;
 
+use Kernel::System::Time;
+use Kernel::System::Valid;
+
 =head1 NAME
 
 Kernel::System::MailAccount - to manage mail accounts
@@ -68,13 +71,17 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
+    my $Self = {};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
-        die "Got no $_" if !$Self->{$_};
+    # check needed objects
+    for (qw(ConfigObject LogObject DBObject MainObject EncodeObject)) {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
+    # create additional objects
+    $Self->{TimeObject}  = Kernel::System::Time->new( %{$Self} );
+    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     return $Self;
 }
@@ -178,11 +185,6 @@ sub MailAccountGet {
     if ( !$Param{ID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID!" );
         return;
-    }
-
-    # db quote
-    for (qw(ID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
 
     # sql
@@ -335,13 +337,19 @@ returns a list (Key, Name) of all mail accounts
 sub MailAccountList {
     my ( $Self, %Param ) = @_;
 
-    my $Valid = $Param{Valid} || 0;
-    return $Self->{DBObject}->GetTableData(
-        What  => 'id, host, login',
-        Valid => $Valid,
-        Clamp => 1,
-        Table => 'mail_account',
+    my $Where = $Param{Valid}
+        ? 'WHERE valid_id IN ( ' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ' )'
+        : '';
+
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "SELECT id, host, login FROM mail_account $Where",
     );
+    my %Data;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Data{ $Row[0] } = "$Row[1] ($Row[2])";
+    }
+
+    return %Data;
 }
 
 =item MailAccountBackendList()

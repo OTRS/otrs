@@ -41,6 +41,10 @@ body {
     display: none;
 }
 
+.Invisible {
+    visibility: hidden;
+}
+
 /**
  * @subsection      ARIA (Accessibility)
  * @subsubsection   AlertMessage
@@ -311,8 +315,42 @@ dd {
 
 .MainBox > h1 {
     margin: 0;
-    padding: 5px 8px 8px;
+    padding: 10px 8px 8px;
     position: relative;
+}
+
+.MainBox > .AsteriskExplanation {
+    padding-left: 8px;
+    margin-bottom: 10px;
+}
+
+.RTL .MainBox > .AsteriskExplanation {
+    padding-left: 0px;
+    padding-right: 8px;
+}
+
+.AsteriskExplanation {
+    color: #999;
+}
+
+.MainBox.FormScreen > h1,
+.MainBox.FormScreen > .AsteriskExplanation {
+    margin-left: 24%;
+}
+
+.MainBox.FormScreen.NoSidebar > h1,
+.MainBox.FormScreen.NoSidebar > .AsteriskExplanation {
+    margin-left: 30%;
+}
+
+.RTL .MainBox.FormScreen > h1,
+.RTL .MainBox.FormScreen > .AsteriskExplanation {
+    margin-right: 24%;
+}
+
+.RTL .MainBox.FormScreen.NoSidebar > h1,
+.RTL .MainBox.FormScreen.NoSidebar > .AsteriskExplanation {
+    margin-right: 30%;
 }
 
 .OverviewBox > h1 {
@@ -344,12 +382,20 @@ dd {
     width: 50%;
 }
 
+.W60pc {
+    width: 60%;
+}
+
 .W70pc {
     width: 70%;
 }
 
 .W75pc {
     width: 75%;
+}
+
+.W80pc {
+    width: 80%;
 }
 
 .W90pc {
@@ -517,33 +563,60 @@ dd {
  */
 span.UnreadArticles {
     display: block;
-    text-indent: -9999px;
-    background: transparent url(../img/stars.png) no-repeat;
     width: 16px;
-    height: 20px;
+    height: 15px;
+    margin-left: 6px;
+    font-weight: normal;
+    position: relative;
+    padding: 0px 3px !important;
 }
 
-span.UnreadArticles.Remarkable {
-    background-position: top;
+span.UnreadArticles i {
+    display: block;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 2;
+    font-size: 14px;
+    color: #ddd;
+}
+
+span.UnreadArticles em {
+    display: none;
+}
+
+span.UnreadArticles i:first-child {
+    color: #777 !important;
+    font-size: 16px;
+    z-index: 1;
+    left: -1px;
+    top: -1px;
+}
+
+span.UnreadArticles.Remarkable i {
+    color: #F7DE7B;
 }
 
 span.UnreadArticles.Ordinary {
-    background-position: 0 -20px;
+    color: #ddd;
 }
 
-tbody tr:hover span.UnreadArticles {
-    background-position: 0 -40px;
+tbody tr:hover span.UnreadArticles i {
+    color: #fff;
 }
 
 span.ImportantArticles {
     display: block;
-    text-indent: -9999px;
-    background: transparent url(../img/important_articles.png) no-repeat;
-    background-size: 80% auto;
     width: 16px;
     height: 16px;
     float: right;
-    margin-top: 4px;
+    margin: -2px 0px 0px 23px;
+    color: #C10505;
+    font-size: 13px;
+}
+
+span.ImportantArticles em {
+    display: none;
 }
 
 /**
@@ -675,8 +748,8 @@ iframe.TextOption.Customer {
 }
 
 #ArticleFilterDialogForm {
-    width: 450px;
-    height: 300px;
+    width: 480px;
+    max-height: 300px;
 }
 
 #ContextSettingsDialog {
@@ -699,6 +772,10 @@ iframe.TextOption.Customer {
 */
 .ui-menu-item {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.ui-menu .ui-menu-item a {
+    border: 1px solid #fff;
 }
 
 } /* end @media */

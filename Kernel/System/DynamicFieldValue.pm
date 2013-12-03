@@ -142,9 +142,10 @@ sub ValueSet {
     my @Values;
 
     my $Counter = 0;
+    VALUE:
     while (1) {
         if ( ref $Param{Value}->[$Counter] ne 'HASH' ) {
-            last;
+            last VALUE;
         }
 
         if (
@@ -153,7 +154,7 @@ sub ValueSet {
             && !defined $Param{Value}->[$Counter]->{ValueDateTime}
             )
         {
-            last;
+            last VALUE;
         }
 
         my %Value = (
@@ -305,7 +306,7 @@ sub ValueGet {
         TTL   => $Self->{CacheTTL},
     );
 
-    if (exists $CacheData{ $Param{FieldID} }) {
+    if ( exists $CacheData{ $Param{FieldID} } ) {
         return $CacheData{ $Param{FieldID} }
     }
 
@@ -462,6 +463,7 @@ get all distinct values from a field stored on the database
         ValueB => 'ValueB',
         ValueC => 'ValueC'
     };
+
 =cut
 
 sub HistoricalValueGet {
@@ -506,7 +508,7 @@ sub HistoricalValueGet {
         # check if the value is already stored
         if ( $Row[0] && !$Data{ $Row[0] } ) {
 
-            if ( $ValueType eq 'Date' ) {
+            if ( $ValueType eq 'value_date' ) {
 
                 # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
                 # and 0000-00-00 00:00:00 time stamps)

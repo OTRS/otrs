@@ -98,4 +98,61 @@ $Self->True(
     'PIDDelete()',
 );
 
+# test Force delete
+# 1 create a new PID
+my $PIDCreate3 = $PIDObject->PIDCreate( Name => 'Test' );
+$Self->True(
+    $PIDCreate3,
+    'PIDCreate3() for Force delete',
+);
+
+# 2 manually modify the PID host
+my $RandomID = $HelperObject->GetRandomID();
+$UpdateSuccess = $Self->{DBObject}->Do(
+    SQL => '
+        UPDATE process_id
+        SET process_host = ?
+        WHERE process_name = ?',
+    Bind => [ \$RandomID, \'Test' ],
+);
+$Self->True(
+    $UpdateSuccess,
+    'Updated Host for Force delete',
+);
+%UpdatedPIDGet = $PIDObject->PIDGet( Name => 'Test' );
+$Self->Is(
+    $UpdatedPIDGet{Host},
+    $RandomID,
+    'PIDGet() for Force delete (Host)',
+);
+
+# 3 delete wihout force should keep the process
+my $CurrentPID = $UpdatedPIDGet{PID};
+$PIDDelete = $PIDObject->PIDDelete( Name => 'Test' );
+$Self->True(
+    $PIDDelete,
+    'PIDDelete() Force delete (without Force)',
+);
+%UpdatedPIDGet = $PIDObject->PIDGet( Name => 'Test' );
+$Self->Is(
+    $UpdatedPIDGet{PID},
+    $CurrentPID,
+    'PIDGet() for Force delete (PID should still alive)',
+);
+
+# 4 force delete should delete the process even from a different host
+$PIDDelete = $PIDObject->PIDDelete(
+    Name  => 'Test',
+    Force => 1,
+);
+$Self->True(
+    $PIDDelete,
+    'PIDDelete() Force delete (with Force)',
+);
+%UpdatedPIDGet = $PIDObject->PIDGet( Name => 'Test' );
+$Self->False(
+    $UpdatedPIDGet{PID},
+    'PIDGet() for forced delete (PID should be deleted now)',
+);
+
 1;

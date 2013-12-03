@@ -55,7 +55,9 @@
     right: 1px;
 }
 
-#Navigation > ul > li:hover ul {
+#Navigation > ul > li:hover ul, 
+#Navigation > ul > li a:focus + ul,
+#Navigation > ul > li ul.Expanded {
     display: block;
     z-index: 1000;
 }
@@ -107,7 +109,9 @@
     background-color: #aaa;
 }
 
-#Navigation > ul > li > ul a:hover, #Navigation > ul > li > ul a.SubSelected {
+#Navigation > ul > li > ul a:hover, 
+#Navigation > ul > li > ul a:focus, 
+#Navigation > ul > li > ul a.SubSelected {
     background-color: #ddd;
 }
 

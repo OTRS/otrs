@@ -15,8 +15,6 @@ use warnings;
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::SLA - sla lib
@@ -89,7 +87,7 @@ sub new {
     my $GeneratorModule = $Self->{ConfigObject}->Get('SLA::PreferencesModule')
         || 'Kernel::System::SLA::PreferencesDB';
     if ( $Self->{MainObject}->Require($GeneratorModule) ) {
-        $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
+        $Self->{PreferencesObject} = $GeneratorModule->new( %{$Self} );
     }
 
     return $Self;

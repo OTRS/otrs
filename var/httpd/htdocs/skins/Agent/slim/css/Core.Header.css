@@ -38,22 +38,18 @@
  * @subsection  Toolbar
  */
 #ToolBar {
-    top: 24px;
+    top: 30px;
     left: auto;
     right: 45px;
+}
+
+#ToolBar a {
+    margin-top: -7px;
 }
 
 .RTL #ToolBar {
     right: auto;
     left: 45px;
-}
-
-/**
- * @note    use own toolbar icons because of different background
- */
-#ToolBar a .Gloss,
-#ToolBar a {
-    background: url(../img/toolbar_sprite.png) no-repeat;
 }
 
 /**

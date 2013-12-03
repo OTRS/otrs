@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 use Kernel::System::AuthSession;
+use Kernel::System::CustomerUser;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,7 +30,8 @@ sub new {
         die "Got no $_!" if ( !$Self->{$_} );
     }
 
-    $Self->{SessionObject} = Kernel::System::AuthSession->new(%Param);
+    $Self->{SessionObject}      = Kernel::System::AuthSession->new(%Param);
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     # get current filter
     my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
@@ -68,7 +70,13 @@ sub new {
 
     $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
 
-    $Self->{CacheKey} = $Self->{Name};
+    $Self->{CacheKey} = $Self->{Name} . '::' . $Self->{Filter};
+
+    # get configuration for the full name order for usernames
+    # and append it to the cache key to make sure, that the
+    # correct data will be displayed everytime
+    my $FirstnameLastNameOrder = $Self->{ConfigObject}->Get('FirstnameLastnameOrder') || 0;
+    $Self->{CacheKey} .= '::' . $FirstnameLastNameOrder;
 
     return $Self;
 }
@@ -114,7 +122,7 @@ sub Run {
 
     # get config settings
     my $IdleMinutes = $Self->{Config}->{IdleMinutes} || 60;
-    my $SortBy      = $Self->{Config}->{SortBy}      || 'UserLastname';
+    my $SortBy      = $Self->{Config}->{SortBy}      || 'UserFullname';
 
     # get current timestamp
     my $Time = $Self->{TimeObject}->SystemTime();
@@ -168,6 +176,11 @@ sub Run {
                 %AgentData = $Self->{UserObject}->GetUserData(
                     UserID        => $Data{UserID},
                     NoOutOfOffice => 1,
+                );
+            }
+            else {
+                $Data{UserFullname} ||= $Self->{CustomerUserObject}->CustomerName(
+                    UserLogin => $Data{UserLogin},
                 );
             }
 

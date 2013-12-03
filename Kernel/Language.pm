@@ -144,6 +144,7 @@ sub new {
             Directory => $Home . "Kernel/Language/",
             Filter    => "$Self->{UserLanguage}_*.pm",
         );
+        FILE:
         for my $File (@Files) {
 
             # get module name based on file name
@@ -152,12 +153,12 @@ sub new {
             $File =~ s/\//::/g;
 
             # ignore language translation files like (en_GB, en_CA, ...)
-            next if $File =~ /.._..$/;
+            next FILE if $File =~ /.._..$/;
 
             # remember custom files to load at least
             if ( $File =~ /_Custom$/ ) {
                 $CustomTranslationModule = $File;
-                next;
+                next FILE;
             }
 
             # load translation module
@@ -166,7 +167,7 @@ sub new {
                     Priority => 'Error',
                     Message  => "Sorry, can't load $File! " . "Check the $File (perl -cw)!",
                 );
-                next;
+                next FILE;
             }
 
             # add module to ISA
@@ -274,10 +275,11 @@ sub Get {
         }
         my $Text = $Self->{Translation}->{$What};
         if (@Dyn) {
+            COUNT:
             for ( 0 .. $#Dyn ) {
 
                 # be careful $Dyn[$_] can be 0! bug#3826
-                last if !defined $Dyn[$_];
+                last COUNT if !defined $Dyn[$_];
 
                 if ( $Dyn[$_] =~ /Time\((.*)\)/ ) {
                     $Dyn[$_] = $Self->Time(
@@ -307,10 +309,11 @@ sub Get {
     }
 
     if (@Dyn) {
+        COUNT:
         for ( 0 .. $#Dyn ) {
 
             # be careful $Dyn[$_] can be 0! bug#3826
-            last if !defined $Dyn[$_];
+            last COUNT if !defined $Dyn[$_];
 
             if ( $Dyn[$_] =~ /Time\((.*)\)/ ) {
                 $Dyn[$_] = $Self->Time(

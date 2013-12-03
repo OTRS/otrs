@@ -13,14 +13,15 @@ use strict;
 use warnings;
 
 use Kernel::System::CheckItem;
-use Kernel::System::State;
-use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
-use Kernel::System::Web::UploadCache;
-use Kernel::System::TemplateGenerator;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
+use Kernel::System::State;
+use Kernel::System::StdAttachment;
+use Kernel::System::SystemAddress;
+use Kernel::System::TemplateGenerator;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 sub new {
@@ -40,13 +41,14 @@ sub new {
     }
 
     # some new objects
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-    $Self->{CheckItemObject}    = Kernel::System::CheckItem->new(%Param);
-    $Self->{StateObject}        = Kernel::System::State->new(%Param);
-    $Self->{SystemAddress}      = Kernel::System::SystemAddress->new(%Param);
-    $Self->{UploadCacheObject}  = Kernel::System::Web::UploadCache->new(%Param);
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{BackendObject}       = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{CustomerUserObject}  = Kernel::System::CustomerUser->new(%Param);
+    $Self->{CheckItemObject}     = Kernel::System::CheckItem->new(%Param);
+    $Self->{DynamicFieldObject}  = Kernel::System::DynamicField->new(%Param);
+    $Self->{StateObject}         = Kernel::System::State->new(%Param);
+    $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
+    $Self->{SystemAddress}       = Kernel::System::SystemAddress->new(%Param);
+    $Self->{UploadCacheObject}   = Kernel::System::Web::UploadCache->new(%Param);
 
     # get params
     for (
@@ -59,6 +61,9 @@ sub new {
             $Self->{GetParam}->{$_} = $Value;
         }
     }
+
+    $Self->{GetParam}->{ForwardTemplateID}
+        = $Self->{ParamObject}->GetParam( Param => 'ForwardTemplateID' ) || '';
 
     # ACL compatibility translation
     $Self->{ACLCompatGetParam}->{NextStateID} = $Self->{GetParam}->{ComposeStateID};
@@ -194,7 +199,8 @@ sub Form {
             );
             if ( !$AccessOk ) {
                 my $Output = $Self->{LayoutObject}->Header(
-                    Type => 'Small',
+                    Type      => 'Small',
+                    BodyClass => 'Popup',
                 );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => $Self->{LayoutObject}->{LanguageObject}
@@ -253,6 +259,25 @@ sub Form {
         UserID    => $Self->{UserID},
     );
 
+    if ( $GetParam{ForwardTemplateID} ) {
+
+        # get template
+        $Data{StdTemplate} = $TemplateGenerator->Template(
+            TicketID   => $Self->{TicketID},
+            ArticleID  => $Data{ArticleID},
+            TemplateID => $GetParam{ForwardTemplateID},
+            Data       => \%Data,
+            UserID     => $Self->{UserID},
+        );
+
+        # get signature
+        $Data{Signature} = $TemplateGenerator->Signature(
+            TicketID => $Self->{TicketID},
+            Data     => \%Data,
+            UserID   => $Self->{UserID},
+        );
+    }
+
     # body preparation for plain text processing
     $Data{Body} = $Self->{LayoutObject}->ArticleQuote(
         TicketID           => $Data{TicketID},
@@ -310,6 +335,10 @@ sub Form {
         $Data{Body} .= "<br/>---- $EndForwardedMessage ---<br/>";
         $Data{Body} = $Data{Signature} . $Data{Body};
 
+        if ( $GetParam{ForwardTemplateID} ) {
+            $Data{Body} = $Data{StdTemplate} . '<br/>' . $Data{Body};
+        }
+
         $Data{ContentType} = 'text/html';
     }
     else {
@@ -345,6 +374,21 @@ sub Form {
         $Data{Body} = $Data{Signature} . $Data{Body};
     }
 
+    # add std. attachments to email
+    if ( $GetParam{ForwardTemplateID} ) {
+        my %AllStdAttachments
+            = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
+            StandardTemplateID => $GetParam{ForwardTemplateID},
+            );
+        for ( sort keys %AllStdAttachments ) {
+            my %AttachmentsData = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $_ );
+            $Self->{UploadCacheObject}->FormIDAddFile(
+                FormID => $GetParam{FormID},
+                %AttachmentsData,
+            );
+        }
+    }
+
     # get all attachments meta data
     my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
         FormID => $GetParam{FormID},
@@ -359,12 +403,11 @@ sub Form {
 
     # put & get attributes like sender address
     %Data = $TemplateGenerator->Attributes(
-        TicketID   => $Self->{TicketID},
-        ArticleID  => $GetParam{ArticleID},
-        ResponseID => $GetParam{ResponseID},
-        Data       => \%Data,
-        UserID     => $Self->{UserID},
-        Action     => 'Forward',
+        TicketID  => $Self->{TicketID},
+        ArticleID => $GetParam{ArticleID},
+        Data      => \%Data,
+        UserID    => $Self->{UserID},
+        Action    => 'Forward',
     );
 
     # run compose modules
@@ -401,36 +444,44 @@ sub Form {
 
         my $PossibleValuesFilter;
 
-        # get PossibleValues
-        my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+        my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsACLReducible',
         );
 
-        # check if field has PossibleValues property in its configuration
-        if ( IsHashRefWithData( $PossibleValues ) ) {
+        if ($IsACLReducible) {
 
-            # convert possible values key => value to key => key for ACLs using a Hash slice
-            my %AclData = %{ $PossibleValues };
-            @AclData{ keys %AclData } = keys %AclData;
-
-            # set possible values filter from ACLs
-            my $ACL = $Self->{TicketObject}->TicketAcl(
-                %GetParam,
-                %ACLCompatGetParam,
-                Action        => $Self->{Action},
-                TicketID      => $Self->{TicketID},
-                ReturnType    => 'Ticket',
-                ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                Data          => \%AclData,
-                UserID        => $Self->{UserID},
+            # get PossibleValues
+            my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
             );
-            if ($ACL) {
-                my %Filter = $Self->{TicketObject}->TicketAclData();
 
-                # convert Filer key => key back to key => value using map
-                %{$PossibleValuesFilter}
-                    = map { $_ => $PossibleValues->{$_} }
-                    keys %Filter;
+            # check if field has PossibleValues property in its configuration
+            if ( IsHashRefWithData($PossibleValues) ) {
+
+                # convert possible values key => value to key => key for ACLs using a Hash slice
+                my %AclData = %{$PossibleValues};
+                @AclData{ keys %AclData } = keys %AclData;
+
+                # set possible values filter from ACLs
+                my $ACL = $Self->{TicketObject}->TicketAcl(
+                    %GetParam,
+                    %ACLCompatGetParam,
+                    Action        => $Self->{Action},
+                    TicketID      => $Self->{TicketID},
+                    ReturnType    => 'Ticket',
+                    ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                    Data          => \%AclData,
+                    UserID        => $Self->{UserID},
+                );
+                if ($ACL) {
+                    my %Filter = $Self->{TicketObject}->TicketAclData();
+
+                    # convert Filer key => key back to key => value using map
+                    %{$PossibleValuesFilter}
+                        = map { $_ => $PossibleValues->{$_} }
+                        keys %Filter;
+                }
             }
         }
 
@@ -463,9 +514,15 @@ sub Form {
     # build view ...
     # start with page ...
     $Output .= $Self->{LayoutObject}->Header(
-        Value => $Ticket{TicketNumber},
-        Type  => 'Small',
+        Value     => $Ticket{TicketNumber},
+        Type      => 'Small',
+        BodyClass => 'Popup',
     );
+
+    # build references string
+    my $References = defined $Data{References} ? $Data{References} . ' ' : '';
+    $References .= defined $Data{MessageID} ? $Data{MessageID} : '';
+
     $Output .= $Self->_Mask(
         TicketNumber => $Ticket{TicketNumber},
         TicketID     => $Self->{TicketID},
@@ -487,7 +544,7 @@ sub Form {
         %Data,
         %GetParam,
         InReplyTo        => $Data{MessageID},
-        References       => "$Data{References} $Data{MessageID}",
+        References       => $References,
         DynamicFieldHTML => \%DynamicFieldHTML,
     );
     $Output .= $Self->{LayoutObject}->Footer(
@@ -605,36 +662,44 @@ sub SendEmail {
 
         my $PossibleValuesFilter;
 
-        # get PossibleValues
-        my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+        my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsACLReducible',
         );
 
-        # check if field has PossibleValues property in its configuration
-        if ( IsHashRefWithData( $PossibleValues ) ) {
+        if ($IsACLReducible) {
 
-            # convert possible values key => value to key => key for ACLs using a Hash slice
-            my %AclData = %{ $PossibleValues };
-            @AclData{ keys %AclData } = keys %AclData;
-
-            # set possible values filter from ACLs
-            my $ACL = $Self->{TicketObject}->TicketAcl(
-                %GetParam,
-                %ACLCompatGetParam,
-                Action        => $Self->{Action},
-                TicketID      => $Self->{TicketID},
-                ReturnType    => 'Ticket',
-                ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                Data          => \%AclData,
-                UserID        => $Self->{UserID},
+            # get PossibleValues
+            my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
             );
-            if ($ACL) {
-                my %Filter = $Self->{TicketObject}->TicketAclData();
 
-                # convert Filer key => key back to key => value using map
-                %{$PossibleValuesFilter}
-                    = map { $_ => $PossibleValues->{$_} }
-                    keys %Filter;
+            # check if field has PossibleValues property in its configuration
+            if ( IsHashRefWithData($PossibleValues) ) {
+
+                # convert possible values key => value to key => key for ACLs using a Hash slice
+                my %AclData = %{$PossibleValues};
+                @AclData{ keys %AclData } = keys %AclData;
+
+                # set possible values filter from ACLs
+                my $ACL = $Self->{TicketObject}->TicketAcl(
+                    %GetParam,
+                    %ACLCompatGetParam,
+                    Action        => $Self->{Action},
+                    TicketID      => $Self->{TicketID},
+                    ReturnType    => 'Ticket',
+                    ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                    Data          => \%AclData,
+                    UserID        => $Self->{UserID},
+                );
+                if ($ACL) {
+                    my %Filter = $Self->{TicketObject}->TicketAclData();
+
+                    # convert Filer key => key back to key => value using map
+                    %{$PossibleValuesFilter}
+                        = map { $_ => $PossibleValues->{$_} }
+                        keys %Filter;
+                }
             }
         }
 
@@ -742,9 +807,15 @@ sub SendEmail {
     }
 
     # attachment delete
-    for my $Count ( 1 .. 32 ) {
+    my @AttachmentIDs = map {
+        my ($ID) = $_ =~ m{ \A AttachmentDelete (\d+) \z }xms;
+        $ID ? $ID : ();
+    } $Self->{ParamObject}->GetParamNames();
+
+    COUNT:
+    for my $Count ( reverse sort @AttachmentIDs ) {
         my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
-        next if !$Delete;
+        next COUNT if !$Delete;
         %Error = ();
         $Error{AttachmentDelete} = 1;
         $Self->{UploadCacheObject}->FormIDRemoveFile(
@@ -776,8 +847,9 @@ sub SendEmail {
 
         my $QueueID = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
         my $Output = $Self->{LayoutObject}->Header(
-            Value => $TicketNumber,
-            Type  => 'Small',
+            Value     => $TicketNumber,
+            Type      => 'Small',
+            BodyClass => 'Popup',
         );
         $Output .= $Self->_Mask(
             TicketNumber => $TicketNumber,
@@ -1047,11 +1119,13 @@ sub AjaxUpdate {
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-        next DYNAMICFIELD
-            if !$Self->{BackendObject}->IsAJAXUpdateable(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            );
         next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
+
+        my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsACLReducible',
+        );
+        next DYNAMICFIELD if !$IsACLReducible;
 
         my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
             DynamicFieldConfig => $DynamicFieldConfig,
@@ -1141,18 +1215,10 @@ sub _Mask {
         OnlyDynamicFields => 1
     );
 
-    # create a string with the quoted dynamic field names separated by a commas
+    # create a string with the quoted dynamic field names separated by commas
     if ( IsArrayRefWithData($DynamicFieldNames) ) {
-        my $FirstItem = 1;
-        FIELD:
         for my $Field ( @{$DynamicFieldNames} ) {
-            if ($FirstItem) {
-                $FirstItem = 0;
-            }
-            else {
-                $Param{DynamicFieldNamesStrg} .= ', ';
-            }
-            $Param{DynamicFieldNamesStrg} .= "'" . $Field . "'";
+            $Param{DynamicFieldNamesStrg} .= ", '" . $Field . "'";
         }
     }
 
@@ -1192,16 +1258,8 @@ sub _Mask {
     }
 
     # build customer search autocomplete field
-    my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
     $Self->{LayoutObject}->Block(
         Name => 'CustomerSearchAutoComplete',
-        Data => {
-            ActiveAutoComplete  => $AutoCompleteConfig->{Active},
-            minQueryLength      => $AutoCompleteConfig->{MinQueryLength} || 2,
-            queryDelay          => $AutoCompleteConfig->{QueryDelay} || 100,
-            maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
-        },
     );
 
     # prepare errors!
@@ -1438,6 +1496,7 @@ sub _Mask {
     }
 
     # show attachments
+    ATTACHMENT:
     for my $Attachment ( @{ $Param{Attachments} } ) {
         if (
             $Attachment->{ContentID}
@@ -1445,7 +1504,7 @@ sub _Mask {
             && ( $Attachment->{ContentType} =~ /image/i )
             )
         {
-            next;
+            next ATTACHMENT;
         }
 
         $Self->{LayoutObject}->Block(
@@ -1486,11 +1545,11 @@ sub _GetFieldsToUpdate {
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        my $Updateable = $Self->{BackendObject}->IsAJAXUpdateable(
+        my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsACLReducible',
         );
-
-        next DYNAMICFIELD if !$Updateable;
+        next DYNAMICFIELD if !$IsACLReducible;
 
         push @UpdatableFields, 'DynamicField_' . $DynamicFieldConfig->{Name};
     }

@@ -45,11 +45,11 @@ my $SOAPObject = Kernel::GenericInterface::Transport::HTTP::SOAP->new(
 );
 
 my $SOAPTagIni = '<soap:Envelope '
-    . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+    . 'soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" '
+    . 'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" '
     . 'xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" '
     . 'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
-    . 'soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" '
-    . 'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'
+    . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
     . '<soap:Body>';
 my $SOAPTagEnd = '</soap:Body></soap:Envelope>';
 

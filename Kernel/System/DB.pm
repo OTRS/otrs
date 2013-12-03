@@ -8,6 +8,7 @@
 # --
 
 package Kernel::System::DB;
+## nofilter(TidyAll::Plugin::OTRS::Perl::PODSpelling)
 
 use strict;
 use warnings;
@@ -16,8 +17,6 @@ use DBI;
 
 use Kernel::System::Time;
 use Kernel::System::VariableCheck qw(:all);
-
-use vars qw(@ISA);
 
 =head1 NAME
 
@@ -205,7 +204,7 @@ sub new {
 
                     next KEY;
                 }
-                my $Instance = $Object->new(%Param);
+                my $Instance = $Object->new( %{$Self} );
                 if ( ref $Instance ne $Object ) {
                     $Self->{'LogObject'}->Log(
                         'Priority' => 'error',
@@ -270,6 +269,11 @@ sub Connect {
         $Self->Do( SQL => $Self->{Backend}->{'DB::Connect'} );
     }
 
+    # set utf-8 on for PostgreSQL
+    if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
+        $Self->{dbh}->{pg_enable_utf8} = 1;
+    }
+
     return $Self->{dbh};
 }
 
@@ -299,6 +303,31 @@ sub Disconnect {
     }
 
     return 1;
+}
+
+=item Version()
+
+to get the database version
+
+    my $DBVersion = $DBObject->Version();
+
+    returns: "MySQL 5.1.1";
+
+=cut
+
+sub Version {
+    my ( $Self, %Param ) = @_;
+
+    my $Version = 'unknown';
+
+    if ( $Self->{Backend}->{'DB::Version'} ) {
+        $Self->Prepare( SQL => $Self->{Backend}->{'DB::Version'} );
+        while ( my @Row = $Self->FetchrowArray() ) {
+            $Version = $Row[0];
+        }
+    }
+
+    return $Version;
 }
 
 =item Quote()
@@ -689,9 +718,8 @@ sub FetchrowArray {
     my $Counter = 0;
     ELEMENT:
     for my $Element (@Row) {
-        if ( !$Element ) {
-            next ELEMENT;
-        }
+
+        next ELEMENT if !defined $Element;
 
         if ( !defined $Self->{Encode} || ( $Self->{Encode} && $Self->{Encode}->[$Counter] ) ) {
             $Self->{EncodeObject}->EncodeInput( \$Element );
@@ -702,6 +730,32 @@ sub FetchrowArray {
     }
 
     return @Row;
+}
+
+=item GetColumnNames()
+
+to retrieve the column names of a database statement
+
+    $DBObject->Prepare(
+        SQL   => "SELECT * FROM table",
+        Limit => 10
+    );
+
+    my @Names = $DBObject->GetColumnNames();
+
+=cut
+
+sub GetColumnNames {
+    my $Self = shift;
+
+    my $ColumnNames = $Self->{Cursor}->{NAME};
+
+    my @Result;
+    if ( ref $ColumnNames eq 'ARRAY' ) {
+        @Result = @{$ColumnNames};
+    }
+
+    return @Result;
 }
 
 =item SelectAll()
@@ -955,7 +1009,9 @@ sub GetTableData {
     my %Data;
 
     my $SQL = "SELECT $What FROM $Table ";
-    $SQL .= ' WHERE ' . $Where if ($Where);
+    if ($Where) {
+        $SQL .= ' WHERE ' . $Where;
+    }
 
     if ( !$Where && $Valid ) {
         my @ValidIDs;
@@ -1031,6 +1087,19 @@ generate SQL condition query based on a search expression
 
     Returns the SQL string or "1=0" if the query could not be parsed correctly.
 
+    my $SQL = $DBObject->QueryCondition(
+        Key      => [ 'some_col_a', 'some_col_b' ],
+        Value    => '((ABC&&DEF)&&!GHI)',
+        BindMode => 1,
+    );
+
+    return the SQL String with ?-values and a array with values references:
+
+    $BindModeResult = (
+        'SQL'    => 'WHERE testa LIKE ? AND testb NOT LIKE ? AND testc = ?'
+        'Values' => ['a', 'b', 'c'],
+    )
+
 Note that the comparisons are usually performed case insensitively.
 Only VARCHAR colums with a size less or equal 3998 are supported,
 as for locator objects the functioning of SQL function LOWER() can't
@@ -1056,6 +1125,8 @@ sub QueryCondition {
     my $SearchPrefix  = $Param{SearchPrefix}  || '';
     my $SearchSuffix  = $Param{SearchSuffix}  || '';
     my $CaseSensitive = $Param{CaseSensitive} || 0;
+    my $BindMode      = $Param{BindMode}      || 0;
+    my @BindValues;
 
     # remove leading/trailing spaces
     $Param{Value} =~ s/^\s+//g;
@@ -1079,6 +1150,9 @@ sub QueryCondition {
         $Expression{"###$Count###"} = $Item;
         "###$Count###";
     }egx;
+
+    # remove empty parentheses
+    $Param{Value} =~ s/(?<!\\)\(\s*(?<!\\)\)//g;
 
     # remove double spaces
     $Param{Value} =~ s/\s+/ /g;
@@ -1132,10 +1206,10 @@ sub QueryCondition {
     my $Close = 0;
 
     # for processing
-    my @Array = split( //, $Param{Value} );
-    my $SQL   = '';
-    my $Word  = '';
-    my $Not   = 0;
+    my @Array     = split( //, $Param{Value} );
+    my $SQL       = '';
+    my $Word      = '';
+    my $Not       = 0;
     my $Backslash = 0;
 
     my $SpecialCharacters = $Self->_SpecialCharactersGet();
@@ -1144,7 +1218,7 @@ sub QueryCondition {
     for my $Position ( 0 .. $#Array ) {
 
         # find word
-        if ( $Backslash ) {
+        if ($Backslash) {
             $Word .= $Array[$Position];
             $Backslash = 0;
             next POSITION;
@@ -1152,9 +1226,12 @@ sub QueryCondition {
 
         # remember if next token is a part of word
         elsif (
-            $Array[ $Position ] eq '\\'
+            $Array[$Position] eq '\\'
             && $Position < $#Array
-            && ( $SpecialCharacters->{ $Array[ $Position + 1 ] } || $Array[ $Position + 1 ] eq '\\' )
+            && (
+                $SpecialCharacters->{ $Array[ $Position + 1 ] }
+                || $Array[ $Position + 1 ] eq '\\'
+            )
             )
         {
             $Backslash = 1;
@@ -1215,7 +1292,7 @@ sub QueryCondition {
             }
 
             # if it's a NOT LIKE condition
-            if ( $Not ) {
+            if ($Not) {
                 $Not = 0;
 
                 my $SQLA;
@@ -1230,6 +1307,14 @@ sub QueryCondition {
                         $Type = '!=';
                     }
 
+                    my $WordSQL = $Word;
+                    if ($BindMode) {
+                        $WordSQL = "?";
+                    }
+                    else {
+                        $WordSQL = "'" . $WordSQL . "'";
+                    }
+
 # check if database supports LIKE in large text types
 # the first condition is a little bit opaque
 # CaseSensitive of the database defines, if the database handles case sensitivity or not
@@ -1237,17 +1322,21 @@ sub QueryCondition {
 # so if the database dont support case sensitivity or the configuration of the customer database want to do this
 # then we prevent the LOWER() statements.
                     if ( !$Self->GetDatabaseFunction('CaseSensitive') || $CaseSensitive ) {
-                        $SQLA .= "$Key $Type '$Word'";
+                        $SQLA .= "$Key $Type $WordSQL";
                     }
                     elsif ( $Self->GetDatabaseFunction('LcaseLikeInLargeText') ) {
-                        $SQLA .= "LCASE($Key) $Type LCASE('$Word')";
+                        $SQLA .= "LCASE($Key) $Type LCASE($WordSQL)";
                     }
                     else {
-                        $SQLA .= "LOWER($Key) $Type LOWER('$Word')";
+                        $SQLA .= "LOWER($Key) $Type LOWER($WordSQL)";
                     }
 
-                    if ( $Type eq 'NOT LIKE' ) {
+                    if ( $Type eq 'NOT LIKE' && !$BindMode ) {
                         $SQLA .= " $LikeEscapeString";
+                    }
+
+                    if ($BindMode) {
+                        push @BindValues, $Word;
                     }
                 }
                 $SQL .= '(' . $SQLA . ') ';
@@ -1267,6 +1356,14 @@ sub QueryCondition {
                         $Type = '=';
                     }
 
+                    my $WordSQL = $Word;
+                    if ($BindMode) {
+                        $WordSQL = "?";
+                    }
+                    else {
+                        $WordSQL = "'" . $WordSQL . "'";
+                    }
+
 # check if database supports LIKE in large text types
 # the first condition is a little bit opaque
 # CaseSensitive of the database defines, if the database handles case sensitivity or not
@@ -1274,17 +1371,21 @@ sub QueryCondition {
 # so if the database dont support case sensitivity or the configuration of the customer database want to do this
 # then we prevent the LOWER() statements.
                     if ( !$Self->GetDatabaseFunction('CaseSensitive') || $CaseSensitive ) {
-                        $SQLA .= "$Key $Type '$Word'";
+                        $SQLA .= "$Key $Type $WordSQL";
                     }
                     elsif ( $Self->GetDatabaseFunction('LcaseLikeInLargeText') ) {
-                        $SQLA .= "LCASE($Key) $Type LCASE('$Word')";
+                        $SQLA .= "LCASE($Key) $Type LCASE($WordSQL)";
                     }
                     else {
-                        $SQLA .= "LOWER($Key) $Type LOWER('$Word')";
+                        $SQLA .= "LOWER($Key) $Type LOWER($WordSQL)";
                     }
 
-                    if ( $Type eq 'LIKE' ) {
+                    if ( $Type eq 'LIKE' && !$BindMode ) {
                         $SQLA .= " $LikeEscapeString";
+                    }
+
+                    if ($BindMode) {
+                        push @BindValues, $Word;
                     }
                 }
                 $SQL .= '(' . $SQLA . ') ';
@@ -1299,28 +1400,30 @@ sub QueryCondition {
 
             # if it's an AND condition
             if ( $Array[$Position] eq '&' && $Array[ $Position + 1 ] eq '&' ) {
-                if ( $SQL =~ / OR $/ ) {
+                if ( $SQL =~ m/ OR $/ ) {
                     $Self->{LogObject}->Log(
                         Priority => 'notice',
-                        Message  => "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
+                        Message =>
+                            "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
                     );
                     return "1=0";
                 }
-                elsif ( $SQL !~ / AND $/ ) {
+                elsif ( $SQL !~ m/ AND $/ ) {
                     $SQL .= ' AND ';
                 }
             }
 
             # if it's an OR condition
             elsif ( $Array[$Position] eq '|' && $Array[ $Position + 1 ] eq '|' ) {
-                if ( $SQL =~ / AND $/ ) {
+                if ( $SQL =~ m/ AND $/ ) {
                     $Self->{LogObject}->Log(
                         Priority => 'notice',
-                        Message  => "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
+                        Message =>
+                            "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
                     );
                     return "1=0";
                 }
-                elsif ( $SQL !~ / OR $/ ) {
+                elsif ( $SQL !~ m/ OR $/ ) {
                     $SQL .= ' OR ';
                 }
             }
@@ -1341,8 +1444,16 @@ sub QueryCondition {
             if (
                 $Position < $#Array
                 && ( $Position > $#Array - 1 || $Array[ $Position + 1 ] ne ')' )
-                && ( $Position > $#Array - 2 || $Array[ $Position + 1 ] ne '&' || $Array[ $Position + 2 ] ne '&' )
-                && ( $Position > $#Array - 2 || $Array[ $Position + 1 ] ne '|' || $Array[ $Position + 2 ] ne '|' )
+                && (
+                    $Position > $#Array - 2
+                    || $Array[ $Position + 1 ] ne '&'
+                    || $Array[ $Position + 2 ] ne '&'
+                )
+                && (
+                    $Position > $#Array - 2
+                    || $Array[ $Position + 1 ] ne '|'
+                    || $Array[ $Position + 2 ] ne '|'
+                )
                 )
             {
                 $SQL .= ' AND ';
@@ -1360,6 +1471,14 @@ sub QueryCondition {
             Message  => "Invalid condition '$Param{Value}', $Open open and $Close close!",
         );
         return "1=0";
+    }
+
+    if ($BindMode) {
+        my $BindRefList = [ map { \$_ } @BindValues ];
+        return (
+            'SQL'    => $SQL,
+            'Values' => $BindRefList,
+        );
     }
 
     return $SQL;

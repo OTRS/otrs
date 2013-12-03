@@ -41,7 +41,7 @@
                 <div class="WidgetSimple Expanded">
                     <div class="Header">
                         <div class="WidgetAction Toggle">
-                            <a href="#" title="$Text{"Show or hide the content"}"></a>
+                            <a href="#" title="$Text{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                         </div>
                         <h2>$Text{"Transition Action"}</h2>
                     </div>
@@ -58,11 +58,9 @@
                                 </div>
                             </div>
                             <div class="Clear"></div>
-                        </fieldset>
-                        <fieldset class="TableLike">
                             <label class="Mandatory" for="Module"><span class="Marker">*</span> $Text{"Transition Action Module"}:</label>
                             <div class="Field">
-                                <input type="text" name="Module" id="Module" value="$QData{"Module"}" class="W90pc Validate_Required $QData{"ModuleServerError"}" maxlength="120"/>
+                                $Data{"ModuleStrg"}
                                 <div id="ModuleError" class="TooltipErrorMessage">
                                     <p>$Text{"This field is required."}</p>
                                 </div>
@@ -102,7 +100,7 @@
                     </div>
                 </div>
 <!-- Invisible submit button to allow form submit on pressing enter/return without javascript -->
-                <input type="image" width="0" height="0" />
+                <input type="image" width="0" height="0" style="display: none;" />
             </form>
             <div id="ConfigParamContainer" style="display:none;">
                 <fieldset class="Fields">

@@ -88,13 +88,17 @@
 <!-- dtl:block:Meta -->
 <!-- dtl:block:MetaIcon -->
             <div class="$QData{"Class"}" title="$Text{"$Data{"Title"}"}">
-                <span class="$QData{"ClassSpan"}">$Text{"$Data{"Title"}"}</span>
+                <span class="$QData{"ClassSpan"}">
+                    <i class="icon-star"></i>
+                    <i class="icon-star"></i>
+                    <em>$Text{"$Data{"Title"}"}</em>
+                </span>
             </div>
 <!-- dtl:block:MetaIcon -->
 <!-- dtl:block:Meta -->
             <div class="Infos">
                 <h2>
-                    <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$QData{"Title","60"}" class="MasterActionLink">$Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title","60"}</a>
+                    <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"}" title="$QData{"Title"}" class="MasterActionLink">$Config{"Ticket::Hook"}: $Data{"TicketNumber"} &ndash; $QData{"Title"}</a>
                 </h2>
 <!-- dtl:block:MenuItem -->
                 <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} class="menuitem" title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
@@ -142,13 +146,13 @@
 <!-- dtl:block:CustomerID -->
                                 <label>$Text{"CustomerID"}</label>
 <!-- dtl:block:CustomerIDRW -->
-                                <div title="$QData{"CustomerID"}"><a href="$Config{"CustomerDBLink"}" class="AsPopup PopupType_TicketAction" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "26"}</a></div>
+                                <div title="$QData{"CustomerID"}"><a href="$Config{"CustomerDBLink"}" class="AsPopup PopupType_TicketAction" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID"}</a></div>
 <!-- dtl:block:CustomerIDRW -->
 <!-- dtl:block:CustomerIDRO -->
-                                <div title="$QData{"CustomerID"}">$QData{"CustomerID", "26"}</div>
+                                <div title="$QData{"CustomerID"}">$QData{"CustomerID"}</div>
 <!-- dtl:block:CustomerIDRO -->
 <!-- dtl:block:CustomerName -->
-                                <div title="$QData{"CustomerName"}">$QData{"CustomerName","26"}</div>
+                                <div title="$QData{"CustomerName"}">$QData{"CustomerName"}</div>
 <!-- dtl:block:CustomerName -->
 <!-- dtl:block:CustomerID -->
                             </td>
@@ -162,7 +166,7 @@
                         <tr>
                             <td>
 <!-- dtl:block:Type -->
-                                <label>$Text{"Type"}</label><div title="$QData{"Type"}">$QData{"Type","18"}</div>
+                                <label>$Text{"Type"}</label><div title="$QData{"Type"}">$QData{"Type"}</div>
 <!-- dtl:block:Type -->
                             </td>
                             <td>
@@ -188,7 +192,7 @@
                             <td>
                                 <label>$Text{"$Data{"Label"}"}</label>
 <!-- dtl:block:DynamicFieldTableRowRecordLink -->
-                                <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a></div>
+                                <div title="$Data{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></div>
 <!-- dtl:block:DynamicFieldTableRowRecordLink -->
 <!-- dtl:block:DynamicFieldTableRowRecordPlain -->
                                 <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
@@ -206,7 +210,7 @@
 #                        <td>
 #                            <label>$Text{"$Data{"Label"}"}</label>
 #<!-- dtl:block:DynamicField_Field1_TableRowRecordLink -->
-#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a></div>
+#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></div>
 #<!-- dtl:block:DynamicField_Field1_TableRowRecordLink -->
 #<!-- dtl:block:DynamicField_Field1_TableRowRecordPlain -->
 #                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
@@ -219,7 +223,7 @@
 #                        <td>
 #                            <label>$Text{"$Data{"Label"}"}</label>
 #<!-- dtl:block:DynamicField_Field2_TableRowRecordLink -->
-#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" class="DynamicFieldLink">$Data{"Value"}</a></div>
+#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></div>
 #<!-- dtl:block:DynamicField_Field2_TableRowRecordLink -->
 #<!-- dtl:block:DynamicField_Field2_TableRowRecordPlain -->
 #                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
@@ -334,7 +338,7 @@ $Data{"Body"}
     </form>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $('.OverviewActions').on('change', 'select[name=DestQueueID]', function (Event) {
+    $('.InlineActions').on('change', 'select[name=DestQueueID]', function (Event) {
         $(this).closest('form').submit();
     });
 //]]></script>
@@ -355,8 +359,13 @@ $Data{"Body"}
         var $MasterActionLink = $(this).find('.MasterActionLink');
 
         // if the user is trying to select text from an article, MasterAction should not be executed
-        if (typeof Event.target === 'object' && $(Event.target).hasClass('ArticleBody')) {
+        if (typeof Event.target === 'object' && ($(Event.target).hasClass('ArticleBody') || $(Event.target).hasClass('ActionRow'))) {
             return false;
+        }
+
+        // prevent MasterAction on Dynamic Fields links
+        if ($(Event.target).hasClass('DynamicFieldLink')) {
+            return true;
         }
 
         // only act if the link was not clicked directly
@@ -382,10 +391,6 @@ $Data{"Body"}
         }
 
         Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
-        return false;
-    });
-    $('a.DynamicFieldLink').bind('click', function (Event) {
-        Core.UI.Popup.OpenPopup($(this).attr('href'), 'DynamicFieldLink');
         return false;
     });
 //]]></script>

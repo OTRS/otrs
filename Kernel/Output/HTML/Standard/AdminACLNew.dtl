@@ -1,6 +1,6 @@
 # --
 # AdminACLNew.dtl - provides HTML for AdminACL
-# Copyright (C) 2003-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,15 +58,9 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label class="Mandatory" for="Comment"><span class="Marker">*</span> $Text{"Comment"}:</label>
+                        <label for="Comment">$Text{"Comment"}:</label>
                         <div class="Field">
-                            <input type="text" name="Comment" id="Comment" value="$QData{"Comment"}" class="W50pc Validate_Required $QData{"CommentServerError"}" maxlength="70"/>
-                            <div id="CommentError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
-                            <div id="CommentServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
+                            <input type="text" name="Comment" id="Comment" value="$QData{"Comment"}" class="W50pc $QData{"CommentServerError"}" maxlength="70"/>
                         </div>
                         <div class="Clear"></div>
 

@@ -15,6 +15,8 @@ use warnings;
 use Kernel::System::Crypt;
 use Kernel::System::EmailParser;
 
+use Kernel::System::VariableCheck qw(:all);
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -50,6 +52,7 @@ sub Check {
     # check if article is an email
     return if $Param{Article}->{ArticleType} !~ /email/i;
 
+    my $StoreDecryptedData = $Self->{ConfigObject}->Get('PGP::StoreDecryptedData');
     $Self->{CryptObject} = Kernel::System::Crypt->new( %{$Self}, CryptType => 'PGP' );
 
     # check inline pgp crypt
@@ -73,14 +76,73 @@ sub Check {
             $Self->{Result} = \%Decrypt;
             $Param{Article}->{Body} = $Decrypt{Data};
 
-            # updated article body
-            $Self->{TicketObject}->ArticleUpdate(
-                TicketID  => $Param{Article}->{TicketID},
-                ArticleID => $Self->{ArticleID},
-                Key       => 'Body',
-                Value     => $Decrypt{Data},
-                UserID    => $Self->{UserID},
-            );
+            if ($StoreDecryptedData) {
+
+                # updated article body
+                $Self->{TicketObject}->ArticleUpdate(
+                    TicketID  => $Param{Article}->{TicketID},
+                    ArticleID => $Self->{ArticleID},
+                    Key       => 'Body',
+                    Value     => $Decrypt{Data},
+                    UserID    => $Self->{UserID},
+                );
+
+                # get a list of all article attachments
+                my %Index = $Self->{TicketObject}->ArticleAttachmentIndex(
+                    ArticleID => $Self->{ArticleID},
+                    UserID    => $Self->{UserID},
+                );
+
+                my @Attachments;
+                if ( IsHashRefWithData( \%Index ) ) {
+                    for my $FileID ( sort keys %Index ) {
+
+                        # get attachment details
+                        my %Attachment = $Self->{TicketObject}->ArticleAttachment(
+                            ArticleID => $Self->{ArticleID},
+                            FileID    => $FileID,
+                            UserID    => $Self->{UserID},
+                        );
+
+                        # store attachemnts attributes that might change after decryption
+                        my $AttachmentContent  = $Attachment{Content};
+                        my $AttachmentFilename = $Attachment{Filename};
+
+                        # try to decrypt the attachment, non ecrypted attachments will succeed too.
+                        %Decrypt = $Self->{CryptObject}->Decrypt( Message => $Attachment{Content} );
+
+                        if ( $Decrypt{Successful} ) {
+
+                            # set decrypted content
+                            $AttachmentContent = $Decrypt{Data};
+
+                            # remove .pgp .gpg or asc extensions (if any)
+                            $AttachmentFilename =~ s{ (\. [^\.]+) \. (?: pgp|gpg|asc) \z}{$1}msx;
+                        }
+
+                        # remember decrypted attachement, to add it later
+                        push @Attachments, {
+                            Content     => $AttachmentContent,
+                            ContentType => $Attachment{ContentType},
+                            Filename    => $AttachmentFilename,
+                            ArticleID   => $Self->{ArticleID},
+                            UserID      => $Self->{UserID},
+                        };
+                    }
+
+                    # delete crypted attachments
+                    $Self->{TicketObject}->ArticleDeleteAttachment(
+                        ArticleID => $Self->{ArticleID},
+                        UserID    => $Self->{UserID},
+                    );
+
+                    # write decrypted attachments to the storage
+                    for my $Attachment (@Attachments) {
+                        $Self->{TicketObject}->ArticleWriteAttachment( %{$Attachment} );
+                    }
+                }
+            }
+
             push(
                 @Return,
                 {
@@ -103,8 +165,8 @@ sub Check {
         }
     }
 
-    # check inline pgp signature
-    if ( $Param{Article}->{Body} =~ m{ \Q-----BEGIN PGP SIGNED MESSAGE-----\E }xms ) {
+    # check inline pgp signature (but ignore if is in quoted text)
+    if ( $Param{Article}->{Body} =~ m{ ^\s* -----BEGIN [ ] PGP [ ] SIGNED [ ] MESSAGE----- }xms ) {
 
         # get original message
         my $Message = $Self->{TicketObject}->ArticlePlain(
@@ -201,36 +263,46 @@ sub Check {
                 $Head->combine('Content-Type');
                 $ContentType = $Head->get('Content-Type');
 
+                # use a copy of the Entity to get the body, otherwise the original mail content
+                # could be altered and a signature verify could fail. See Bug#9954
+                my $EntityCopy = $Entity->dup();
+
                 use Kernel::System::EmailParser;
 
-                my $ParserObject = Kernel::System::EmailParser->new( %{$Self}, Entity => $Entity, );
+                my $ParserObject = Kernel::System::EmailParser->new(
+                    %{$Self},
+                    Entity => $EntityCopy,
+                );
 
                 my $Body = $ParserObject->GetMessageBody();
 
-                # updated article body
-                $Self->{TicketObject}->ArticleUpdate(
-                    TicketID  => $Param{Article}->{TicketID},
-                    ArticleID => $Self->{ArticleID},
-                    Key       => 'Body',
-                    Value     => $Body,
-                    UserID    => $Self->{UserID},
-                );
+                if ($StoreDecryptedData) {
 
-                # delete crypted attachments
-                $Self->{TicketObject}->ArticleDeleteAttachment(
-                    ArticleID => $Self->{ArticleID},
-                    UserID    => $Self->{UserID},
-                );
-
-                # write attachments to the storage
-                for my $Attachment ( $ParserObject->GetAttachments() ) {
-                    $Self->{TicketObject}->ArticleWriteAttachment(
-                        Content     => $Attachment->{Content},
-                        Filename    => $Attachment->{Filename},
-                        ContentType => $Attachment->{ContentType},
-                        ArticleID   => $Self->{ArticleID},
-                        UserID      => $Self->{UserID},
+                    # updated article body
+                    $Self->{TicketObject}->ArticleUpdate(
+                        TicketID  => $Param{Article}->{TicketID},
+                        ArticleID => $Self->{ArticleID},
+                        Key       => 'Body',
+                        Value     => $Body,
+                        UserID    => $Self->{UserID},
                     );
+
+                    # delete crypted attachments
+                    $Self->{TicketObject}->ArticleDeleteAttachment(
+                        ArticleID => $Self->{ArticleID},
+                        UserID    => $Self->{UserID},
+                    );
+
+                    # write attachments to the storage
+                    for my $Attachment ( $ParserObject->GetAttachments() ) {
+                        $Self->{TicketObject}->ArticleWriteAttachment(
+                            Content     => $Attachment->{Content},
+                            Filename    => $Attachment->{Filename},
+                            ContentType => $Attachment->{ContentType},
+                            ArticleID   => $Self->{ArticleID},
+                            UserID      => $Self->{UserID},
+                        );
+                    }
                 }
 
                 push(

@@ -72,7 +72,9 @@ for my $Backend (qw(AutoIncrement Date DateChecksum Random)) {
                     "$Backend - $TicketSubjectFormat - $Count - TicketCreateNumber() - result $TicketNumber",
                 );
 
+                #
                 # Simple test: find ticket number in subject
+                #
                 my $Subject = $TicketObject->TicketSubjectBuild(
                     TicketNumber => $TicketNumber,
                     Subject      => 'Test',
@@ -94,6 +96,23 @@ for my $Backend (qw(AutoIncrement Date DateChecksum Random)) {
                     "$Backend - $TicketSubjectFormat - $Count - TicketSubjectClean() - result $CleanSubject",
                 );
 
+                #
+                # Subject with spaces around ticket number
+                #
+                my $SubjectWithSpaces = $Subject;
+                $SubjectWithSpaces =~ s{\[(.*)\]}{[ $1 ]};
+
+                my $CleanSubjectFromSpaces = $TicketObject->TicketSubjectClean(
+                    TicketNumber => $TicketNumber,
+                    Subject      => $SubjectWithSpaces,
+                );
+
+                $Self->Is(
+                    $CleanSubjectFromSpaces,
+                    'Test',
+                    "$Backend - $TicketSubjectFormat - $Count - TicketSubjectClean() - result $CleanSubject",
+                );
+
                 my $TicketNumberFound = $TicketObject->GetTNByString($Subject);
 
                 $Self->Is(
@@ -102,7 +121,33 @@ for my $Backend (qw(AutoIncrement Date DateChecksum Random)) {
                     "$Backend - $TicketSubjectFormat - $Count - GetTNByString",
                 );
 
+                #
+                # Subject with spaces around ticket number
+                #
+                my $SubjectWithPrefix = $TicketObject->TicketSubjectBuild(
+                    TicketNumber => $TicketNumber,
+                    Subject      => 'GF: Test',
+                );
+
+                $Self->True(
+                    scalar $SubjectWithPrefix,
+                    "$Backend - $TicketSubjectFormat - $Count - TicketSubjectBuild() - result $Subject",
+                );
+
+                my $CleanSubjectWithPrefix = $TicketObject->TicketSubjectClean(
+                    TicketNumber => $TicketNumber,
+                    Subject      => $SubjectWithPrefix,
+                );
+
+                $Self->Is(
+                    $CleanSubjectWithPrefix,
+                    'GF: Test',
+                    "$Backend - $TicketSubjectFormat - $Count - TicketSubjectClean() - result $CleanSubject",
+                );
+
+                #
                 # More complex test: find ticket number in string with both ticket numbers
+                #
                 my $CombinedSubject = $TicketObject->TicketSubjectBuild(
                     TicketNumber => $ForeignTicketNumber,
                     Subject      => 'Test',

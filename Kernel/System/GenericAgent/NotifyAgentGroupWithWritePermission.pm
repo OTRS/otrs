@@ -17,8 +17,6 @@ use Kernel::System::Group;
 use Kernel::System::Email;
 use Kernel::System::Queue;
 
-use vars qw(@ISA);
-
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -27,17 +25,17 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject TicketObject TimeObject EncodeObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject TicketObject TimeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     # 0=off; 1=on;
     $Self->{Debug} = $Param{Debug} || 0;
 
-    $Self->{UserObject}  = Kernel::System::User->new(%Param);
-    $Self->{GroupObject} = Kernel::System::Group->new(%Param);
-    $Self->{EmailObject} = Kernel::System::Email->new(%Param);
-    $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
+    $Self->{UserObject}  = Kernel::System::User->new( %{$Self} );
+    $Self->{GroupObject} = Kernel::System::Group->new( %{$Self} );
+    $Self->{EmailObject} = Kernel::System::Email->new( %{$Self} );
+    $Self->{QueueObject} = Kernel::System::Queue->new( %{$Self} );
 
     return $Self;
 }
@@ -70,6 +68,7 @@ sub Run {
     # check if it's a escalation or escalation notification
     # check escalation times
     my $EscalationType = '';
+    TYPE:
     for my $Type (
         qw(FirstResponseTimeEscalation UpdateTimeEscalation SolutionTimeEscalation
         FirstResponseTimeNotification UpdateTimeNotification SolutionTimeNotification)
@@ -78,11 +77,11 @@ sub Run {
         if ( defined $Ticket{$Type} ) {
             if ( $Type =~ /TimeEscalation$/ ) {
                 $EscalationType = 'Escalation';
-                last;
+                last TYPE;
             }
             elsif ( $Type =~ /TimeNotification$/ ) {
                 $EscalationType = 'EscalationNotifyBefore';
-                last;
+                last TYPE;
             }
         }
     }

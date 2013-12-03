@@ -7,9 +7,6 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<font size="-2" title="$Config{"HttpType"}://$QData{"Host"}">
-<b>$Text{"URL"}:</b> $Config{"HttpType"}://$QData{"Host","100"}
-</font>
 </td>
 </tr>
 </table>

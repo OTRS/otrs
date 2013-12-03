@@ -75,7 +75,7 @@
     <div class="Headline">
         <div class="Flag" title="$Text{"$Data{"Priority"}"}"><span class="PriorityID-$QData{"PriorityID"}">$Text{"$Data{"Priority"}"}</span></div>
         <h1 title="$Text{"Zoom"} $Data{"Hook"}$Data{"TicketNumber"} &ndash; $QData{"Title"}">
-            $Data{"Hook"}$Data{"TicketNumber"} <span>&mdash;</span> $QData{"Title", "60"}
+            $Data{"Hook"}$Data{"TicketNumber"} <span>&mdash;</span> $QData{"Title"}
         </h1>
     </div>
 
@@ -101,7 +101,7 @@
 <!-- dtl:block:ArchiveFlag -->
 <!-- dtl:block:Type -->
                         <label>$Text{"Type"}:</label>
-                        <p class="Value" title="$QData{"Type"}">$QData{"Type","18"}</p>
+                        <p class="Value" title="$QData{"Type"}">$QData{"Type"}</p>
                         <div class="Clear"></div>
 <!-- dtl:block:Type -->
                         <label>$Text{"State"}:</label>
@@ -117,17 +117,17 @@
                         <div class="Clear"></div>
 
                         <label>$Text{"Queue"}:</label>
-                        <p class="Value" title="$QData{"Queue"}">$QData{"Queue","18"}</p>
+                        <p class="Value" title="$QData{"Queue"}">$QData{"Queue"}</p>
                         <div class="Clear"></div>
 
 <!-- dtl:block:Service -->
                         <label>$Text{"Service"}:</label>
-                        <p class="Value" title="$QData{"Service"}">$QData{"Service","18"}</p>
+                        <p class="Value" title="$QData{"Service"}">$QData{"Service"}</p>
                         <div class="Clear"></div>
 <!-- dtl:block:Service -->
 <!-- dtl:block:SLA -->
                         <label>$Text{"Service Level Agreement"}:</label>
-                        <p class="Value" title="$QData{"SLA"}">$QData{"SLA","18"}</p>
+                        <p class="Value" title="$QData{"SLA"}">$QData{"SLA"}</p>
                         <div class="Clear"></div>
 <!-- dtl:block:SLA -->
                     </fieldset>
@@ -172,10 +172,10 @@
                         <label>$Text{"CustomerID"}:</label>
                         <p class="Value">
 <!-- dtl:block:CustomerIDRW -->
-                            <a href="$Config{"CustomerDBLink"}" class="$Config{"CustomerDBLinkClass"}" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID", "18"}</a>
+                            <a href="$Config{"CustomerDBLink"}" class="$Config{"CustomerDBLinkClass"}" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID"}</a>
 <!-- dtl:block:CustomerIDRW -->
 <!-- dtl:block:CustomerIDRO -->
-                            $QData{"CustomerID", "18"}
+                            $QData{"CustomerID"}
 <!-- dtl:block:CustomerIDRO -->
                         </p>
                         <div class="Clear"></div>
@@ -196,13 +196,13 @@
 <!-- dtl:block:PendingUntil -->
 <!-- dtl:block:Owner -->
                         <label>$Text{"Owner"}:</label>
-                        <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"}</p>
+                        <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFullname"}"}</p>
                         <div class="Clear"></div>
 
 <!-- dtl:block:Owner -->
 <!-- dtl:block:Responsible -->
                         <label>$Text{"Responsible"}:</label>
-                        <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"}</p>
+                        <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFullname"}"}</p>
                         <div class="Clear"></div>
 
 <!-- dtl:block:Responsible -->
@@ -212,7 +212,7 @@
                     <fieldset class="TableLike FixedLabelSmall Narrow">
 
                         <label>$Text{"Process"}:</label>
-                        <p class="Value" title="$QData{"Process"}">$QData{"Process","18"}</p>
+                        <p class="Value" title="$QData{"Process"}">$QData{"Process"}</p>
                         <div class="Clear"></div>
 
                         <label>$Text{"Activity"}:</label>
@@ -307,6 +307,30 @@
                         <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
                     </li>
 <!-- dtl:block:TicketMenu -->
+<!-- dtl:block:TicketMenuPhoneAsDropdown -->
+                    <li>
+                        <form title="$Text{"$Data{"Name"}"}" action="$Env{"CGIHandle"}" method="get" id="$QData{"FormID"}">
+                            <input type="hidden" name="Action" value="$QData{"Action"}"/>
+                            <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+                            <label for="$QData{"PhoneElementID"}" class="InvisibleText">$Text{"$Data{"Name"}"}:</label>
+                            $Data{"StandardReplyStrg"}
+                        </form>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+$('#$QData{"FormID"} select[name=$QData{"PhoneElementID"}]').bind('change', function (Event) {
+    var URL;
+
+    if ($(this).val() > 0) {
+        URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
+        Core.UI.Popup.OpenPopup(URL, 'TicketAction');
+        // reset the select box so that it can be used again from the same window
+        $(this).val('0');
+    }
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+                    </li>
+<!-- dtl:block:TicketMenuPhoneAsDropdown -->
 <!-- dtl:block:MoveLink -->
                     <li class="$QData{"Class"}">
                         <form title="$Text{"Move ticket to a different queue"}" action="$Env{"CGIHandle"}" method="post">
@@ -388,7 +412,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
 <!-- dtl:js_on_document_complete -->
             <div class="WidgetBox SpacingTop Expanded" id="DynamicFieldsWidget">
                 <div class="LightRow Header">
-                    <div class="WidgetAction Toggle"><a href="#" title="$Text{"Show or hide the content"}"><span></span></a></div>
+                    <div class="WidgetAction Toggle"><a href="#" title="$Text{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a></div>
                     <h2>$Text{"$Data{"WidgetTitle"}"}</h2>
                 </div>
 <!-- dtl:block:NextActivityDialogs -->
@@ -396,7 +420,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
                     <ul class="Actions">
 <!-- dtl:block:ActivityDialog -->
                         <li>
-                            <a title="$QData{"Name"}" class="AsPopup PopupType_TicketAction" href="$Env{"Baselink"}Action=AgentTicketProcess;Subaction=DisplayActivityDialog;TicketID=$QData{"TicketID"};ProcessEntityID=$QData{"ProcessEntityID"};ActivityDialogEntityID=$QData{"ActivityDialogEntityID"}">$QData{"Name"}</a>
+                            <a title="$QData{"Name"}" class="AsPopup PopupType_TicketAction" href="$Env{"Baselink"}Action=AgentTicketProcess;Subaction=DisplayActivityDialog;TicketID=$LQData{"TicketID"};ProcessEntityID=$LQData{"ProcessEntityID"};ActivityDialogEntityID=$LQData{"ActivityDialogEntityID"}">$QData{"Name"}</a>
                         </li>
 <!-- dtl:block:ActivityDialog -->
                     </ul>
@@ -415,7 +439,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
 <!-- dtl:block:ProcessWidgetDynamicField -->
                         <div class="FieldContainer DynamicFieldAutoResize">
                             <label title="$QData{"Label"}">
-                                $QData{"Label", "30"}
+                                $QData{"Label"}
 <!-- dtl:block:ProcessWidgetDynamicFieldValueOverlayTrigger -->
                                 <a href="#" class="ShowFieldInfoOverlay">+</a>
 <!-- dtl:block:ProcessWidgetDynamicFieldValueOverlayTrigger -->
@@ -485,22 +509,22 @@ $Data{"ArticleItems"}
             <span class="InvisibleText">$Text{"Article Filter"}:</span>
 # Only show one: Set or Reset.
 #<!-- dtl:block:ArticleFilterSetLink -->
-            <a href="#" id="SetArticleFilter" title="$Text{"Add Filter"}"><span>$Text{"Set"}</span></a>
+            <a href="#" id="SetArticleFilter" title="$Text{"Add Filter"}"><i class="icon-filter"></i><span>$Text{"Set"}</span></a>
 #<!-- dtl:block:ArticleFilterSetLink -->
 <!-- dtl:block:ArticleFilterResetLink -->
-            <a href="#" id="ResetArticleFilter" title="$Text{"Reset Filter"}"><span>$Text{"Reset"}</span></a>
+            <a href="#" id="ResetArticleFilter" title="$Text{"Reset Filter"}"><i class="icon-trash"></i><span>$Text{"Reset"}</span></a>
 <!-- dtl:block:ArticleFilterResetLink -->
         </div>
 <!-- dtl:block:ArticleFilterDialogLink -->
         <div class="ArticleView Icons">
             <span class="InvisibleText">$Text{"Article"} $Text{"View"}:</span>
 <!-- dtl:block:Expand -->
-            <a class="OneArticle Active" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><span>$Text{"Show one article"}</span></a>
-            <a class="AllArticles" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><span>$Text{"Show all articles"}</span></a>
+            <a class="OneArticle Active" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><i class="icon-minus"></i><span>$Text{"Show one article"}</span></a>
+            <a class="AllArticles" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><i class="icon-reorder"></i><span>$Text{"Show all articles"}</span></a>
 <!-- dtl:block:Expand -->
 <!-- dtl:block:Collapse -->
-            <a class="OneArticle" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><span>$Text{"Show one article"}</span></a>
-            <a class="AllArticles Active" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><span>$Text{"Show all articles"}</span></a>
+            <a class="OneArticle" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=0" title="$Text{"Show one article"}"><i class="icon-minus"></i><span>$Text{"Show one article"}</span></a>
+            <a class="AllArticles Active" href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"};ZoomExpand=1" title="$Text{"Show all articles"}"><i class="icon-reorder"></i><span>$Text{"Show all articles"}</span></a>
 <!-- dtl:block:Collapse -->
         </div>
         <div class="Clear"></div>
@@ -510,14 +534,25 @@ $Data{"ArticleItems"}
             <table id="ArticleTable" class="TableSmall NoCellspacing $QData{"TableClasses"}">
                 <thead>
                     <tr>
-                        <th class="UnreadArticles"><a class="UnreadArticles" href="#" title="$Text{"Unread articles"}"><span class="UnreadArticles"></span></a></th>
+                        <th class="UnreadArticles">
+                            <a class="UnreadArticles" href="#" title="$Text{"Unread articles"}">
+                                <span class="UnreadArticles">
+                                    <i class="icon-star"></i>
+                                    <i class="icon-star"></i>
+                                </span>
+                            </a>
+                        </th>
                         <th class="No Sortable"><a href="#">$Text{"No."}</a></th>
                         <th class="Type Sortable"><a href="#">$Text{"Type"}</a></th>
                         <th class="Direction Sortable"><a href="#" title="$Text{"Direction"}"><span class="Direction"><!--Direction--></span></a></th>
                         <th class="From Sortable"><a href="#">$Text{"From"}</a></th>
                         <th class="Subject Sortable"><a href="#">$Text{"Subject"}</a></th>
                         <th class="Created Sortable"><a href="#">$Text{"Created"}</a></th>
-                        <th class="Attachments Last"><a href="#" title="$Text{"Attachments"}"><span><!--Attachments--></span></a></th>
+                        <th class="Attachments Last">
+                            <a href="#" title="$Text{"Attachments"}">
+                                <i class="icon-paper-clip"></i>
+                            </a>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -525,10 +560,16 @@ $Data{"ArticleItems"}
                     <tr class="$QData{"SenderType"}-$QData{"ArticleType"} $QData{"ClassRow"}" id="Row$LQData{"Count"}">
                         <td class="$QData{"Class"} UnreadArticles Fixed NonTextContent">
 <!-- dtl:block:TreeItemImportantArticle -->
-                            <span class="ImportantArticles" title="$Text{"Important"}">$Text{"Important"}</span>
+                            <span class="ImportantArticles" title="$Text{"Important"}">
+                                <i class="icon-info-sign"></i>
+                                <em>$Text{"Important"}</em>
+                            </span>
 <!-- dtl:block:TreeItemImportantArticle -->
 <!-- dtl:block:TreeItemNewArticle -->
-                            <span class="$QData{"Class"}" title="$Text{"Unread Article!"}">$Text{"Unread Article!"}</span>
+                            <span class="$QData{"Class"}" title="$Text{"Unread Article!"}">
+                                <i class="icon-star"></i>
+                                <i class="icon-star"></i>
+                            </span>
 <!-- dtl:block:TreeItemNewArticle -->
 <!-- dtl:block:TreeItemNoNewArticle -->
                             <span class="NoContent"></span>
@@ -576,11 +617,15 @@ $Data{"ArticleItems"}
 <!-- dtl:block:TreeItemAttachment -->
 <!-- dtl:block:TreeItemAttachmentIconSingle -->
 # show attachment preview data in tooltip
-                            <a class="Attachment" title="$Text{"Attachment"} $QData{"Filename"} ($QData{"Filesize"})" rel="TicketAttachment$QData{"Count"}"></a>
+                            <a class="Attachment" title="$Text{"Attachment"} $QData{"Filename"} ($QData{"Filesize"})" rel="TicketAttachment$QData{"Count"}">
+                                <i class="icon-file-alt"></i>
+                            </a>
 <!-- dtl:block:TreeItemAttachmentIconSingle -->
 <!-- dtl:block:TreeItemAttachmentIconMultiple -->
 # no preview data in tooltip
-                            <a class="Attachment" title="$Text{"Attachments"}" rel="TicketAttachment$QData{"Count"}"></a>
+                            <a class="Attachment" title="$Text{"Attachments"}" rel="TicketAttachment$QData{"Count"}">
+                                <i class="icon-file-alt"></i>
+                            </a>
 <!-- dtl:block:TreeItemAttachmentIconMultiple -->
                             <div id="TicketAttachment$QData{"Count"}" class="AttachmentData Hidden">
                                 <div class="Attachment InnerContent">
@@ -619,9 +664,9 @@ $Data{"ArticleItems"}
     <div class="WidgetBox SpacingTop Expanded">
         <div class="LightRow Header">
             <div class="WidgetAction Toggle">
-                <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$QData{"TicketID"};ArticleID=$QData{"ArticleID"}" title="$Text{"Show or hide the content"}"><span></span></a>
+                <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$LQData{"TicketID"};ArticleID=$LQData{"ArticleID"}" title="$Text{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
             </div>
-            <h2>#$QData{"Count"} &ndash; $QData{"Subject","60"}</h2>
+            <h2>#$QData{"Count"} &ndash; $QData{"Subject"}</h2>
             <div class="AdditionalInformation SpacingLoader">
                 $Text{"Created"}: $TimeShort{"$Data{"Created"}"}
 <!-- dtl:block:ArticleCreatedBy -->
@@ -631,6 +676,50 @@ $Data{"ArticleItems"}
         </div>
         <div class="LightRow Bottom">
             <ul class="Actions">
+
+<!-- dtl:block:ArticleForwardAsDropdown -->
+                <li>
+                    <form title="$Text{"$Data{"Name"}"}" action="$Env{"CGIHandle"}" method="get" id="$QData{"FormID"}">
+                        <input type="hidden" name="Action" value="$QData{"Action"}"/>
+                        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+                        <input type="hidden" name="ArticleID" value="$QData{"ArticleID"}"/>
+                        <input type="hidden" name="ForwardAll" value="$QData{"ForwardAll"}"/>
+                        <label for="$QData{"ForwardElementID"}" class="InvisibleText">$Text{"$Data{"Name"}"}:</label>
+                        $Data{"StandarForwardsStrg"}
+                    </form>
+<!-- dtl:block:ArticleForwardAsDropdownJSOnLoad -->
+<script type="text/javascript">//<![CDATA[
+$('#$QData{"FormID"} select[name=ForwardTemplateID]').bind('change', function (Event) {
+    var URL;
+
+    if ($(this).val() > 0) {
+        URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
+        Core.UI.Popup.OpenPopup(URL, 'TicketAction');
+        // reset the select box so that it can be used again from the same window
+        $(this).val('0');
+    }
+});
+//]]></script>
+<!-- dtl:block:ArticleForwardAsDropdownJSOnLoad -->
+<!-- dtl:block:ArticleForwardAsDropdownJSStatic -->
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+$('#$QData{"FormID"} select[name=ForwardTemplateID]').bind('change', function (Event) {
+    var URL;
+
+    if ($(this).val() > 0) {
+        URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
+        Core.UI.Popup.OpenPopup(URL, 'TicketAction');
+        // reset the select box so that it can be used again from the same window
+        $(this).val('0');
+    }
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ArticleForwardAsDropdownJSStatic -->
+                </li>
+<!-- dtl:block:ArticleForwardAsDropdown -->
+
 <!-- dtl:block:ArticleMenu-->
                 <li>
                     <a href="$Env{"Baselink"}$Data{"Link"}" class="$QData{"Class"}" $Data{"LinkParam"} title="$Text{"$Data{"Description"}"}">$Text{"$Data{"Name"}"}</a>
@@ -692,12 +781,12 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
                 <fieldset class="TableLike FixedLabelSmall">
 <!-- dtl:block:RowRecipient -->
                     <label>$Text{"$Data{"Key"}"}:</label>
-                    <p class="Value" title="$QData{"Value"}">$QData{"Realname","200"}</p>
+                    <p class="Value" title="$QData{"Value"}">$QData{"Realname"}</p>
                     <div class="Clear"></div>
 <!-- dtl:block:RowRecipient -->
 <!-- dtl:block:RowData -->
                     <label>$Text{"$Data{"Key"}"}:</label>
-                    <p class="Value" title="$QData{"Value"}">$QData{"Value","200"}</p>
+                    <p class="Value" title="$QData{"Value"}">$QData{"Value"}</p>
                     <div class="Clear"></div>
 <!-- dtl:block:RowData -->
 
@@ -740,7 +829,7 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
 # show article options like signed, crypted, ...
 <!-- dtl:block:ArticleOption -->
                     <label>$Text{"$Data{"Key"}"}:</label>
-                    <div title="$QData{"Value"}" class="$QData{"Result"} Value">$QData{"Value","160"}</div>
+                    <div title="$QData{"Value"}" class="$QData{"Result"} Value">$QData{"Value"}</div>
                     <div class="Clear"></div>
 <!-- dtl:block:ArticleOption -->
 
@@ -787,7 +876,7 @@ $Data{"Body"}
 # Use the HTML5 sandbox attribute to prevent plugins and scripts from being executed in the browser.
 # Use IE's (non-standard) security attribute to achieve something similar in older IE browsers. Append session info to URL because IE will not send cookies.
 # Set 'allow-popups' to allow IE10+ to open links. ref: http://www.w3.org/html/wg/wiki/ChangeProposals/sandbox_allow_popups
-                    <iframe sandbox="allow-same-origin allow-popups" security="restricted" width="100%" frameborder="0" id="Iframe$QData{"ArticleID"}" onload="window.setTimeout( function (){ if (typeof Core === 'object' && typeof Core.Agent === 'object' && typeof Core.Agent.TicketZoom === 'object') { Core.Agent.TicketZoom.IframeAutoHeight($('#Iframe$QData{"ArticleID"}')); } }, 500);" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"};$QEnv{"SessionName"}=$QEnv{"SessionID"}"></iframe>
+                    <iframe sandbox="allow-same-origin allow-popups" $Data{"MSSecurityRestricted"} width="100%" frameborder="0" id="Iframe$QData{"ArticleID"}" onload="window.setTimeout( function (){ if (typeof Core === 'object' && typeof Core.Agent === 'object' && typeof Core.Agent.TicketZoom === 'object') { Core.Agent.TicketZoom.IframeAutoHeight($('#Iframe$QData{"ArticleID"}')); } }, 500);" src="$Env{"Baselink"}Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"};$QEnv{"SessionName"}=$QEnv{"SessionID"}"></iframe>
                 </div>
 <!-- dtl:block:BodyHTML -->
             </div>

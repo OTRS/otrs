@@ -156,11 +156,13 @@
                     <h2>$Text{"$Data{"Title"}"}</h2>
                 </div>
                 <div class="Content">
-
+<!-- dtl:block:OTRSVerifyLogo -->
+                    <img src="$Config{"Frontend::ImagePath"}/otrs-verify.png" class="OTRSVerifyLogoBig" />
+<!-- dtl:block:OTRSVerifyLogo -->
                     <h3>$QData{"Name"} $QData{"Version"}</h3>
-                    <div>
+                    <p class="IntroInstall">
                         $Data{"Description"}
-                    </div>
+                    </p>
                     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="Action" value="$Env{"Action"}"/>
                         <input type="hidden" name="Subaction" value="$QData{"Subaction"}"/>
@@ -196,7 +198,7 @@
                 <div class="Content">
                     <ul class="ActionList">
 <!-- dtl:block:OverviewFileUpload -->
-                        <li>
+                        <li class="Separated">
                             <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
                                 <input type="hidden" name="Action" value="$Env{"Action"}"/>
                                 <input type="hidden" name="Subaction" value="InstallUpload"/>
@@ -204,7 +206,12 @@
                                 <input name="FileUpload" id="FileUpload" type="file" size="18" class="Fixed W100pc Validate_Required $QData{"FileUploadInvalid"}"/>
                                 <div id="FileUploadError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                                 <div id="FileUploadServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                                <button class="CallForAction" type="submit" value="$Text{"Install"}">
+<!-- dtl:block:DatabasePackageSizeWarning -->
+                                <p class="FieldExplanation Error">
+                                    $Text{"Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.", "$QData{"MaxAllowedPacketRecommended"}", "$QData{"MaxAllowedPacket"}"}
+                                </p>
+<!-- dtl:block:DatabasePackageSizeWarning -->
+                                <button class="Fullsize CallForAction LittleSpacingTop Upload" type="submit" value="$Text{"Install"}">
                                     <span>$Text{"Install Package"}</span>
                                 </button>
                             </form>
@@ -215,7 +222,7 @@
                                 <input type="hidden" name="Action" value="$Env{"Action"}"/>
                                 <input type="hidden" name="Subaction" value="ChangeRepository"/>
                                 $Data{"SourceList"}
-                                <button class="CallForAction" type="submit" name="GetRepositoryList" value="$Text{"Update"}">
+                                <button class="Fullsize CallForAction LittleSpacingTop Refresh" type="submit" name="GetRepositoryList" value="$Text{"Update"}">
                                     <span>$Text{"Update repository information"}</span>
                                 </button>
                             </form>
@@ -326,6 +333,9 @@
 <!-- dtl:block:ShowLocalPackage -->
                             <tr>
                                 <td>
+<!-- dtl:block:ShowLocalPackageVerifyLogo -->
+                                    <img src="$Config{"Frontend::ImagePath"}/otrs-verify-small.png" class="OTRSVerifyLogo" alt="$Text{"This package is verified by OTRSverify (tm)"}" />
+<!-- dtl:block:ShowLocalPackageVerifyLogo -->
                                     <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name=$LQData{"Name"};Version=$LQData{"Version"}">$QData{"Name"}</a>
                                 </td>
                                 <td>

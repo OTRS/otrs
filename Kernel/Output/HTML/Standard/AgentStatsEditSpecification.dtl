@@ -65,7 +65,7 @@
             </div>
             <div class="Content">
 
-                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" class="Validate">
+                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose" id="Compose" class="Validate">
                     <input type="hidden" name="Action"    value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="Action"/>
                     <input type="hidden" name="Home"      value="EditSpecification"/>
@@ -120,6 +120,20 @@
                         </div>
 <!-- dtl:block:Selection -->
                         <div class="Clear"></div>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">
+// If the user makes changes to the StatType or the Object/File selects, update the form
+$('select#Object, select#File, [name=StatType]').bind('change', function (Event) {
+    Core.AJAX.FormUpdate($('#Compose'), 'EditSpecificationAJAXUpdate', 'Object', [ 'ShowAsDashboardWidget' ]);
+});
+
+// For new stats we need to update the selection as the information might not be correct.
+if ($('[name=StatID]').val() === 'new') {
+    Core.AJAX.FormUpdate($('#Compose'), 'EditSpecificationAJAXUpdate', 'Object', [ 'ShowAsDashboardWidget' ]);
+}
+</script>
+<!-- dtl:js_on_document_complete -->
 
                         <label class="Mandatory" for="Permission">
                             <span class="Marker">*</span>
@@ -195,6 +209,22 @@
                             $Data{"SelectCache"}
                             <p class="FieldExplanation">
                                 $Text{"Most of the stats can be cached. This will speed up the presentation of this stat."}
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ShowAsDashboardWidget">
+                            $Text{"Show as dashboard widget"}:
+                        </label>
+                        <div class="Value">
+                            $Data{"SelectShowAsDashboardWidget"}
+                            <p class="FieldExplanation">
+                                $Text{"Provide the statistic as a widget that agents can activate in their dashboard."}
+                                <br/>
+                                $Text{"Please note"}:<br />
+                                - $Text{"Enabling the dashboard widget will activate caching for this statistic in the dashboard."}<br />
+                                - $Text{"Agents will not be able to change absolute time settings for statistics dashboard widgets."}<br />
+                                - $Text{"IE8 doesn't support statistics dashboard widgets."}
                             </p>
                         </div>
                         <div class="Clear"></div>

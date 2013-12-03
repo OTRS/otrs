@@ -90,22 +90,22 @@
 <!-- dtl:block:OverviewResult -->
 
 <!-- dtl:block:OverviewUpdate -->
-        <div class="WidgetSimple">
-            <div class="Header">
+        <form action="$Env{"CGIHandle"}" method="post" class="Validate">
+            <div class="WidgetSimple">
+                <div class="Header">
 <!-- dtl:block:HeaderAdd -->
-                <h2>$Text{"Add PostMaster Filter"}</h2>
+                    <h2>$Text{"Add PostMaster Filter"}</h2>
 <!-- dtl:block:HeaderAdd -->
 <!-- dtl:block:HeaderEdit -->
-                <h2>$Text{"Edit PostMaster Filter"}</h2>
+                    <h2>$Text{"Edit PostMaster Filter"}</h2>
 <!-- dtl:block:HeaderEdit -->
-            </div>
-            <div class="Content">
-                <form action="$Env{"CGIHandle"}" method="post" class="Validate">
+                </div>
+                <div class="Content">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
                     <input type="hidden" name="Subaction" value="UpdateAction"/>
                     <input type="hidden" name="OldName" value="$QData{"Name"}"/>
                     <fieldset class="TableLike">
-                        <label class="Mandatory" for="EditName"><span class="Marker">*</span> $Text{"Filter name"}:</label>
+                        <label class="Mandatory" for="EditName"><span class="Marker">*</span> $Text{"Name"}:</label>
                         <div class="Field">
                             <input type="text" class="W50pc Validate_Required $QData{"NameInvalid"}" name="Name" id="EditName" value="$QData{"Name"}"/>
                             <div id="EditNameError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
@@ -120,133 +120,176 @@
                             <div id="StopAfterMatchServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                         </div>
                         <div class="Clear"></div>
+                    </fieldset>
+                </div>
+            </div>
 
-                        <h4>$Text{"Filter Condition"}</h4>
-
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                    </div>
+                    <h2>$Text{"Filter Condition"} <span class="FieldExplanation">($Text{"AND Condition"})</span></h2>
+                </div>
+                <div class="Content">
+                    <div class="Field">
                         <label for="MatchHeader1">$Text{"Header"} 1:</label>
-                        <div class="Field">
-                            $Data{"MatchHeader1"}
-                            <div id="MatchHeader1ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
-                            <label for="MatchValue1">$Text{"Value"} 1:</label>
-                            <input type="text" name="MatchValue1" id="MatchValue1" value="$QData{"MatchValue1"}" class="W33pc $QData{"MatchValue1Invalid"}" maxlength="100"/>
-                            <div id="MatchValue1ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
-                            </div>
+                        $Data{"MatchHeader1"}
+                        <div id="MatchHeader1ServerError" class="TooltipErrorMessage">
+                            <p>$Text{"This field is required."}</p>
                         </div>
-                        <div class="Clear"></div>
 
+                        <label for="MatchNot1">$Text{"Negate"} 1:</label>
+                        <input type="checkbox" name="MatchNot1" id="MatchNot1" value="1" $QData{"MatchNot1"} />
+
+                        <label for="MatchValue1">$Text{"Value"} 1:</label>
+                        <input type="text" name="MatchValue1" id="MatchValue1" value="$QData{"MatchValue1"}" class="W33pc $QData{"MatchValue1Invalid"}" maxlength="100"/>
+                        <div id="MatchValue1ServerError" class="TooltipErrorMessage">
+                            <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div class="Field">
                         <label for="MatchHeader2">$Text{"Header"} 2:</label>
-                        <div class="Field">
-                            $Data{"MatchHeader2"}
-                            <div id="MatchHeader2ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
-                            <label for="MatchValue2">$Text{"Value"} 2:</label>
-                            <input type="text" name="MatchValue2" id="MatchValue2" value="$QData{"MatchValue2"}" class="W33pc $QData{"MatchValue2Invalid"}" maxlength="100"/>
-                            <div id="MatchValue2ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
-                            </div>
+                        $Data{"MatchHeader2"}
+                        <div id="MatchHeader2ServerError" class="TooltipErrorMessage">
+                            <p>$Text{"This field is required."}</p>
                         </div>
-                        <div class="Clear"></div>
 
+                        <label for="MatchNot2">$Text{"Negate"} 2:</label>
+                        <input type="checkbox" name="MatchNot2" id="MatchNot2" value="1" $QData{"MatchNot2"} />
+
+                        <label for="MatchValue2">$Text{"Value"} 2:</label>
+                        <input type="text" name="MatchValue2" id="MatchValue2" value="$QData{"MatchValue2"}" class="W33pc $QData{"MatchValue2Invalid"}" maxlength="100"/>
+                        <div id="MatchValue2ServerError" class="TooltipErrorMessage">
+                            <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div class="Field">
                         <label for="MatchHeader3">$Text{"Header"} 3:</label>
-                        <div class="Field">
-                            $Data{"MatchHeader3"}
-                            <div id="MatchHeader3ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
-                            <label for="MatchValue3">$Text{"Value"} 3:</label>
-                            <input type="text" name="MatchValue3" id="MatchValue3" value="$QData{"MatchValue3"}" class="W33pc $QData{"MatchValue3Invalid"}" maxlength="100"/>
-                            <div id="MatchValue3ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
-                            </div>
+                        $Data{"MatchHeader3"}
+                        <div id="MatchHeader3ServerError" class="TooltipErrorMessage">
+                            <p>$Text{"This field is required."}</p>
                         </div>
-                        <div class="Clear"></div>
 
+                        <label for="MatchNot3">$Text{"Negate"} 3:</label>
+                        <input type="checkbox" name="MatchNot3" id="MatchNot3" value="1" $QData{"MatchNot3"} />
+
+                        <label for="MatchValue3">$Text{"Value"} 3:</label>
+                        <input type="text" name="MatchValue3" id="MatchValue3" value="$QData{"MatchValue3"}" class="W33pc $QData{"MatchValue3Invalid"}" maxlength="100"/>
+                        <div id="MatchValue3ServerError" class="TooltipErrorMessage">
+                            <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div class="Field">
                         <label for="MatchHeader4">$Text{"Header"} 4:</label>
-                        <div class="Field">
-                            $Data{"MatchHeader4"}
-                            <div id="MatchHeader4ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
-                            <label for="MatchValue4">$Text{"Value"} 4:</label>
-                            <input type="text" name="MatchValue4" id="MatchValue4" value="$QData{"MatchValue4"}" class="W33pc $QData{"MatchValue4Invalid"}" maxlength="100"/>
-                            <div id="MatchValue1ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
-                            </div>
+                        $Data{"MatchHeader4"}
+                        <div id="MatchHeader4ServerError" class="TooltipErrorMessage">
+                            <p>$Text{"This field is required."}</p>
                         </div>
-                        <div class="Clear"></div>
 
-                        <h4>$Text{"Set Email Headers"}</h4>
+                        <label for="MatchNot4">$Text{"Negate"} 4:</label>
+                        <input type="checkbox" name="MatchNot4" id="MatchNot4" value="1" $QData{"MatchNot4"} />
 
+                        <label for="MatchValue4">$Text{"Value"} 4:</label>
+                        <input type="text" name="MatchValue4" id="MatchValue4" value="$QData{"MatchValue4"}" class="W33pc $QData{"MatchValue4Invalid"}" maxlength="100"/>
+                        <div id="MatchValue4ServerError" class="TooltipErrorMessage">
+                            <p>$Text{"The field needs to be a valid regular expression or a literal word."}</p>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+                </div>
+            </div>
+
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                    </div>
+                    <h2>$Text{"Set Email Headers"}</h2>
+                </div>
+                <div class="Content">
+                    <div class="Field">
                         <label for="SetHeader1">$Text{"Header"} 1:</label>
-                        <div class="Field">
-                            $Data{"SetHeader1"}
-                            <div id="SetHeader1ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
-                            <label for="SetValue1">$Text{"Value"} 1:</label>
-                            <input type="text" name="SetValue1" id="SetValue1" value="$QData{"SetValue1"}" class="W33pc $QData{"SetValue1Invalid"}" maxlength="100"/>
-                            <div id="SetValue1ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"The field needs to be a literal word."}</p>
-                            </div>
+                        $Data{"SetHeader1"}
+                        <div id="SetHeader1ServerError" class="TooltipErrorMessage">
+                            <p>$Text{"This field is required."}</p>
                         </div>
-                        <div class="Clear"></div>
+                        <label for="SetValue1">$Text{"Value"} 1:</label>
+                        <input type="text" name="SetValue1" id="SetValue1" value="$QData{"SetValue1"}" class="W33pc $QData{"SetValue1Invalid"}" maxlength="100"/>
+                        <div id="SetValue1ServerError" class="TooltipErrorMessage">
+                            <p>$Text{"The field needs to be a literal word."}</p>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
 
+                    <div class="Field">
                         <label for="SetHeader2">$Text{"Header"} 2:</label>
-                        <div class="Field">
-                            $Data{"SetHeader2"}
-                            <div id="SetHeader2ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
-                            <label for="SetValue2">$Text{"Value"} 2:</label>
-                            <input type="text" name="SetValue2" id="SetValue2" value="$QData{"SetValue2"}" class="W33pc $QData{"SetValue2Invalid"}" maxlength="100"/>
-                            <div id="SetValue2ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"The field needs to be a literal word."}</p>
-                            </div>
+                        $Data{"SetHeader2"}
+                        <div id="SetHeader2ServerError" class="TooltipErrorMessage">
+                            <p>$Text{"This field is required."}</p>
                         </div>
-                        <div class="Clear"></div>
+                        <label for="SetValue2">$Text{"Value"} 2:</label>
+                        <input type="text" name="SetValue2" id="SetValue2" value="$QData{"SetValue2"}" class="W33pc $QData{"SetValue2Invalid"}" maxlength="100"/>
+                        <div id="SetValue2ServerError" class="TooltipErrorMessage">
+                            <p>$Text{"The field needs to be a literal word."}</p>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
 
+                    <div class="Field">
                         <label for="SetHeader3">$Text{"Header"} 3:</label>
-                        <div class="Field">
-                            $Data{"SetHeader3"}
-                            <div id="SetHeader3ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
-                            <label for="SetValue3">$Text{"Value"} 3:</label>
-                            <input type="text" name="SetValue3" id="SetValue3" value="$QData{"SetValue3"}" class="W33pc $QData{"SetValue3Invalid"}" maxlength="100"/>
-                            <div id="SetValue3ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"The field needs to be a literal word."}</p>
-                            </div>
+                        $Data{"SetHeader3"}
+                        <div id="SetHeader3ServerError" class="TooltipErrorMessage">
+                            <p>$Text{"This field is required."}</p>
                         </div>
-                        <div class="Clear"></div>
+                        <label for="SetValue3">$Text{"Value"} 3:</label>
+                        <input type="text" name="SetValue3" id="SetValue3" value="$QData{"SetValue3"}" class="W33pc $QData{"SetValue3Invalid"}" maxlength="100"/>
+                        <div id="SetValue3ServerError" class="TooltipErrorMessage">
+                            <p>$Text{"The field needs to be a literal word."}</p>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
 
+                    <div class="Field">
                         <label for="SetHeader4">$Text{"Header"} 4:</label>
-                        <div class="Field">
-                            $Data{"SetHeader4"}
-                            <div id="SetHeader4ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
-                            <label for="SetValue4">$Text{"Value"} 4:</label>
-                            <input type="text" name="SetValue4" id="SetValue4" value="$QData{"SetValue4"}" class="W33pc $QData{"SetValue4Invalid"}" maxlength="100"/>
-                            <div id="SetValue4ServerError" class="TooltipErrorMessage">
-                                <p>$Text{"The field needs to be a literal word."}</p>
-                            </div>
+                        $Data{"SetHeader4"}
+                        <div id="SetHeader4ServerError" class="TooltipErrorMessage">
+                            <p>$Text{"This field is required."}</p>
                         </div>
-                        <div class="Clear"></div>
+                        <label for="SetValue4">$Text{"Value"} 4:</label>
+                        <input type="text" name="SetValue4" id="SetValue4" value="$QData{"SetValue4"}" class="W33pc $QData{"SetValue4Invalid"}" maxlength="100"/>
+                        <div id="SetValue4ServerError" class="TooltipErrorMessage">
+                            <p>$Text{"The field needs to be a literal word."}</p>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+                </div>
+            </div>
 
+            <div class="WidgetSimple SpacingTop">
+                <div class="Header">
+                    <h2>$Text{"Save Changes"}</h2>
+                </div>
+                <div class="Content">
+                    <fieldset class="TableLike">
                         <div class="Field SpacingTop">
-                            <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                            <button class="CallForAction Primary" type="submit" value="$Text{"Save"}"><span>$Text{"Save"}</span></button>
                             $Text{"or"}
                             <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>
-                </form>
+                </div>
             </div>
-        </div>
+
+        </form>
+
         <div class="WidgetSimple SpacingTop">
             <div class="Header">
                 <h2>$Text{"Example"}</h2>
@@ -257,9 +300,7 @@
 
                     <label for="MatchHeaderExample">$Text{"Header"} 1:</label>
                     <div class="Field">
-                        <select name="MatchHeaderExample" id="MatchHeaderExample" class="W33pc">
-                            <option selected="selected" value="To">To</option>
-                        </select>
+                        <select name="MatchHeaderExample" id="MatchHeaderExample" class="W33pc"><option selected="selected" value="To">To</option></select>
                         <label for="MatchValueExample">$Text{"Value"} 1:</label>
                         <input type="text" name="MatchValueExample" id="MatchValueExample" value="(me|test)@example.com" class="W33pc" maxlength="50"/>
                     </div>
@@ -269,9 +310,7 @@
 
                     <label for="SetHeaderExample">$Text{"Header"} 1:</label>
                     <div class="Field">
-                        <select name="SetHeaderExample" id="SetHeaderExample" class="W33pc">
-                            <option selected="selected" value="X-OTRS-Queue">X-OTRS-Queue</option>
-                        </select>
+                        <select name="SetHeaderExample" id="SetHeaderExample" class="W33pc"><option selected="selected" value="X-OTRS-Queue">X-OTRS-Queue</option></select>
                         <label for="SetValueExample">$Text{"Value"} 1:</label>
                         <input type="text" name="SetValueExample" id="SetValueExample" value="SomeQueue" class="W33pc" maxlength="50"/>
                     </div>

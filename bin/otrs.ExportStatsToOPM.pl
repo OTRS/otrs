@@ -22,6 +22,8 @@
 use strict;
 use warnings;
 
+## nofilter(TidyAll::Plugin::OTRS::Perl::Require)
+
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);

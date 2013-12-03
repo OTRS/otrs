@@ -262,7 +262,7 @@
 <!-- dtl:block:RelatedCertsRow -->
                     <tr>
                         <td class="Center">
-                            <a class="Remove" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SignerRelationDelete;CertFingerprint=$QData{"CertFingerprint"};CAFingerprint=$QData{"Fingerprint"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Delete this relation"}">
+                            <a class="Remove" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SignerRelationDelete;CertFingerprint=$LQData{"CertFingerprint"};CAFingerprint=$LQData{"Fingerprint"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Delete this relation"}">
                                 $Text{"Delete this relation"}
                             </a>
                         </td>
@@ -316,7 +316,7 @@
 <!-- dtl:block:AvailableCertsRow -->
                     <tr>
                         <td>
-                            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SignerRelationAdd;CertFingerprint=$QData{"CertFingerprint"};CAFingerprint=$QData{"Fingerprint"};$QEnv{"ChallengeTokenParam"}" class="Add" title="$Text{"Relate this certificate"}">
+                            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=SignerRelationAdd;CertFingerprint=$LQData{"CertFingerprint"};CAFingerprint=$LQData{"Fingerprint"};$QEnv{"ChallengeTokenParam"}" class="Add" title="$Text{"Relate this certificate"}">
                                 $Text{"Relate this certificate"}
                             </a>
                         </td>

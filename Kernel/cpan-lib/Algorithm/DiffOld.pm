@@ -1,6 +1,6 @@
 # This is a version of Algorithm::Diff that uses only a comparison function,
 # like versions <= 0.59 used to.
-# $Revision: 1.2 $
+# $Revision: 1.3 $
 
 package Algorithm::DiffOld;
 use strict;

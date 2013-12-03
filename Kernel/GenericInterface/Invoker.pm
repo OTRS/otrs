@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsStringWithData);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::GenericInterface::Invoker - GenericInterface Invoker interface
@@ -162,6 +160,7 @@ prepare the invocation of the configured remote webservice.
         StopCommunication => 1,                 # in case of is not needed to continue with the
                                                 # request (do nothing just exist gracefully)
     };
+
 =cut
 
 sub PrepareRequest {

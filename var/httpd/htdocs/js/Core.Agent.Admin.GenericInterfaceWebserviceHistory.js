@@ -58,7 +58,7 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
                 $.each(Response.LogData, function(){
                     HTML += '<tr>';
 
-                    HTML += '<td><a href="#" class="AsBlock">' + Counter + 
+                    HTML += '<td><a href="#" class="AsBlock">' + Counter +
                         '<input type="hidden" class="WebserviceHistoryID" value="' + this.ID + '" />' +
                         '<input type="hidden" class="WebserviceHistoryVersion" value="' + Counter + '" />' +
                     '</a></td>';

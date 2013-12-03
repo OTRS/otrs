@@ -40,7 +40,6 @@ my $JSONObject = Kernel::System::JSON->new( %{$Self} );
 
 my $BaseURL = $ConfigObject->Get('HttpType') . '://';
 
-#$BaseURL .= $ConfigObject->Get('FQDN') . '/';
 $BaseURL .= 'localhost/';
 $BaseURL .= $ConfigObject->Get('ScriptAlias');
 
@@ -55,15 +54,26 @@ my $Response = $UserAgent->get(
     $AgentBaseURL . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;"
 );
 if ( !$Response->is_success() ) {
-    $Self->True( 0, "Could not login to agent interface, aborting" );
+    $Self->True(
+        0,
+        "Could not login to agent interface, aborting! URL: "
+            . $AgentBaseURL
+            . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;"
+    );
     return 1;
 }
 
 $Response = $UserAgent->get(
     $CustomerBaseURL . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;"
 );
+
 if ( !$Response->is_success() ) {
-    $Self->True( 0, "Could not login to customer interface, aborting" );
+    $Self->True(
+        0,
+        "Could not login to customer interface, aborting! URL: "
+            . $CustomerBaseURL
+            . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;"
+    );
     return 1;
 }
 
@@ -96,33 +106,55 @@ my %Frontends = (
     $PublicBaseURL   => $ConfigObject->Get('PublicFrontend::Module'),
 );
 
+# test plack server if present
+if ( $ConfigObject->Get('UnitTestPlackServerPort') ) {
+    my $PlackBaseURL = 'http://localhost:' . $ConfigObject->Get('UnitTestPlackServerPort') . '/';
+    %Frontends = (
+        %Frontends,
+        $PlackBaseURL . 'index.pl?'    => $ConfigObject->Get('Frontend::Module'),
+        $PlackBaseURL . 'customer.pl?' => $ConfigObject->Get('CustomerFrontend::Module'),
+        $PlackBaseURL . 'public.pl?'   => $ConfigObject->Get('PublicFrontend::Module'),
+    );
+}
+
 for my $BaseURL ( sort keys %Frontends ) {
     FRONTEND:
     for my $Frontend ( sort keys %{ $Frontends{$BaseURL} } ) {
         next FRONTEND if $Frontend =~ m/Login|Logout/;
 
-        $Response = $UserAgent->get(
-            $BaseURL . "Action=$Frontend"
-        );
+        my $URL = $BaseURL . "Action=$Frontend";
+
+        $Response = $UserAgent->get($URL);
 
         $Self->Is(
             scalar $Response->code(),
             200,
-            "Module $Frontend status code",
+            "Module $Frontend status code ($URL)",
+        );
+
+        $Self->True(
+            scalar $Response->header('Content-type'),
+            "Module $Frontend content type ($URL)",
         );
 
         $Self->False(
             scalar $Response->header('X-OTRS-Login'),
-            "Module $Frontend is no OTRS login screen",
+            "Module $Frontend is no OTRS login screen ($URL)",
         );
 
-        # Check JSON response
-        if ( $Response->header('Content-type') =~ 'json' ) {
+        # Check response contents
+        if ( $Response->header('Content-type') =~ 'html' ) {
+            $Self->True(
+                scalar $Response->content() =~ m{<body|<div|<script}xms,
+                "Module $Frontend returned HTML ($URL)",
+            );
+        }
+        elsif ( $Response->header('Content-type') =~ 'json' ) {
             my $Data = $JSONObject->Decode( Data => $Response->content() );
 
             $Self->True(
                 scalar $Data,
-                "Module $Frontend returned valid JSON data",
+                "Module $Frontend returned valid JSON data ($URL)",
             );
         }
     }

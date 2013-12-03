@@ -8,25 +8,36 @@
 # --
 
 package Kernel::System::Stats::Static::StateAction;
+## nofilter(TidyAll::Plugin::OTRS::Perl::Time)
 
 use strict;
 use warnings;
 
-use Date::Pcalc qw(Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
+use Time::Piece;
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
+    my $Self = {};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
-        die "Got no $_" if !$Self->{$_};
+    # check needed objects
+    for (qw(ConfigObject LogObject DBObject MainObject TimeObject EncodeObject)) {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     return $Self;
+}
+
+sub GetObjectBehaviours {
+    my ( $Self, %Param ) = @_;
+
+    my %Behaviours = (
+        ProvidesDashboardWidget => 1,
+    );
+
+    return %Behaviours;
 }
 
 sub Param {
@@ -71,7 +82,6 @@ sub Run {
 
     my $Year  = $Param{Year};
     my $Month = $Param{Month};
-    my $Day   = Days_in_Month( $Year, $Month );
 
     my %States = $Self->_GetHistoryTypes();
     my @PossibleStates;
@@ -80,30 +90,46 @@ sub Run {
         push @PossibleStates, $States{$StateID};
     }
 
-    # build x_lable
-    my $DayCounter = 0;
+    # build x axis
+
+    # first take epoch for 12:00 on the 1st of given month
+    # create Time::Piece object for this time
+    my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
+        Year   => $Param{Year},
+        Month  => $Param{Month},
+        Day    => 1,
+        Hour   => 12,
+        Minute => 0,
+        Second => 0,
+    );
+    my $TimePiece = localtime($SystemTime);    ## no critic
+
     my @Data;
     my @Days      = ();
     my %StateDate = ();
-    while ( $Day >= $DayCounter + 1 ) {
 
-        $DayCounter++;
-        my $Dow = Day_of_Week( $Year, $Month, $DayCounter );
-        $Dow = Day_of_Week_Abbreviation($Dow);
-        my $Text = "$Dow $DayCounter";
+    # execute for all days of this month
+    while ( $TimePiece->mon() == $Param{Month} ) {
+
+        # x-label is of format 'Mon 1, Tue 2,' etc
+        my $Text = $TimePiece->wdayname() . ' ' . $TimePiece->mday();
+
         push @Days, $Text;
         my @Row = ();
         for my $StateID ( sort { $States{$a} cmp $States{$b} } keys %States ) {
             my $Count = $Self->_GetDBDataPerDay(
                 Year    => $Year,
                 Month   => $Month,
-                Day     => $DayCounter,
+                Day     => $TimePiece->mday(),
                 StateID => $StateID,
             );
             push @Row, $Count;
 
             $StateDate{$Text}->{$StateID} = ( $StateDate{$Text}->{$StateID} || 0 ) + $Count;
         }
+
+        # move to next day
+        $TimePiece += ( 3600 * 24 );
     }
     for my $StateID ( sort { $States{$a} cmp $States{$b} } keys %States ) {
         my @Row = ( $States{$StateID} );

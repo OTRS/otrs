@@ -12,8 +12,6 @@ package Kernel::System::Cache;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::Cache - cache lib
@@ -83,7 +81,7 @@ sub new {
         die "Can't load backend module $CacheModule! $@";
     }
 
-    $Self->{CacheObject} = $CacheModule->new(%Param);
+    $Self->{CacheObject} = $CacheModule->new( %{$Self} );
 
     return $Self;
 }

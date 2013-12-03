@@ -19,13 +19,9 @@ use Kernel::System::VariableCheck qw( :all );
 use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::GenericInterface::Operation::Ticket::TicketSearch - GenericInterface Ticket Search Operation backend
-
-=head1 SYNOPSIS
 
 =head1 PUBLIC INTERFACE
 
@@ -70,7 +66,7 @@ sub new {
     $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
 
     # get config for this screen
-    $Self->{Config} = $Self->{ConfigObject}->Get('GenericInterface::Operation::TicketCreate');
+    $Self->{Config} = $Self->{ConfigObject}->Get('GenericInterface::Operation::TicketSearch');
 
     return $Self;
 }
@@ -283,7 +279,9 @@ sub Run {
     ) if !$UserID;
 
     # all needed variables
-    $Self->{SearchLimit} = $Self->{Config}->{SearchLimit} || 500;
+    $Self->{SearchLimit} = $Param{Data}->{Limit}
+        || $Self->{Config}->{SearchLimit}
+        || 500;
     $Self->{SortBy} = $Param{Data}->{SortBy}
         || $Self->{Config}->{'SortBy::Default'}
         || 'Age';
@@ -302,6 +300,7 @@ sub Run {
     my %DynamicFieldSearchParameters = $Self->_GetDynamicFields( %{ $Param{Data} } );
 
     # perform ticket search
+    $UserType = ( $UserType eq 'Customer' ) ? 'CustomerUserID' : 'UserID';
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
         %GetParam,
         %DynamicFieldSearchParameters,
@@ -309,7 +308,7 @@ sub Run {
         SortBy              => $Self->{SortBy},
         OrderBy             => $Self->{OrderBy},
         Limit               => $Self->{SearchLimit},
-        UserID              => $UserID,
+        $UserType           => $UserID,
         ConditionInline     => $Self->{Config}->{ExtendedSearchCondition},
         ContentSearchPrefix => '*',
         ContentSearchSuffix => '*',
@@ -523,19 +522,11 @@ sub _GetDynamicFields {
                 # without the 'DynamicField_' prefix
                 next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
 
-                # get new search parameter
-                my $SearchParameter
-                    = $Self->{DFBackendObject}->CommonSearchFieldParameterBuild(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    Value              => $Param{$ParameterName},
-                    );
-
-                # add new search parameter
                 # set search parameter
-                if ( defined $SearchParameter ) {
-                    $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                        = $Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
-                }
+                $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                    = $Param{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+
+                last DYNAMICFIELD;
             }
         }
     }
@@ -742,7 +733,7 @@ sub _CreateTimeSettings {
     return %GetParam;
 }
 
-1;
+=end Internal:
 
 =back
 
@@ -755,3 +746,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
+
+1;

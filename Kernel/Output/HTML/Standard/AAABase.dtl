@@ -24,8 +24,11 @@ $Text{"Cancel"}
 $Text{"Reset"}
 
 $Text{"more than ... ago"}
+$Text{"in more than ..."}
 $Text{"within the last ..."}
 $Text{"within the next ..."}
+$Text{"Created within the last"}
+$Text{"Created more than ... ago"}
 $Text{"Today"}
 $Text{"Tomorrow"}
 $Text{"Next week"}
@@ -55,6 +58,7 @@ $Text{"second(s)"}
 $Text{"seconds"}
 $Text{"second"}
 $Text{"s"}
+$Text{"Time unit"}
 
 $Text{"wrote"}
 $Text{"Message"}
@@ -165,6 +169,7 @@ $Text{"Changed by"}
 $Text{"Search"}
 $Text{"and"}
 $Text{"between"}
+$Text{"before/after"}
 $Text{"Fulltext Search"}
 $Text{"Data"}
 $Text{"Options"}
@@ -189,6 +194,10 @@ $Text{"Small"}
 $Text{"Medium"}
 $Text{"Large"}
 $Text{"Date picker"}
+$Text{"Show Tree Selection"}
+$Text{"The field content is too long!"}
+$Text{"Maximum size is %s characters."}
+$Text{"This field is required or"}
 
 $Text{"New message"}
 $Text{"New message!"}
@@ -228,6 +237,10 @@ $Text{"Database"}
 $Text{"Configure Mail"}
 $Text{"Finished"}
 $Text{"Database deleted."}
+$Text{"Enter the password for the administrative database user."}
+$Text{"Enter the password for the database user."}
+$Text{"If you have set a root password for your database, it must be entered here. If not, leave this field empty."}
+$Text{"Database already contains data - it should be empty!"}
 
 # misc
 $Text{"Login is needed!"}
@@ -275,6 +288,7 @@ $Text{"Type updated!"}
 $Text{"Customer updated!"}
 $Text{"Customer company added!"}
 $Text{"Customer company updated!"}
+$Text{"Note: Company is invalid!"}
 $Text{"Mail account added!"}
 $Text{"Mail account updated!"}
 $Text{"System e-mail address added!"}
@@ -324,6 +338,8 @@ $Text{"No packages for your framework version found in this repository, it only 
 $Text{"No packages, or no new packages, found in selected repository."}
 $Text{"Edit the system configuration settings."}
 
+$Text{"ACL information from database is not in sync with the system configuration, please deploy all ACLs."}
+
 $Text{"printed at"}
 $Text{"Loading..."}
 
@@ -351,8 +367,8 @@ $Text{"7 Day Stats"}
 $Text{"Process Management information from database is not in sync with the system configuration, please synchronize all processes."}
 $Text{"Package not verified by the OTRS Group! It is recommended not to use this package."}
 $Text{"<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>"}
-$Text{"Mark article as important"}
-$Text{"Remove important mark"}
+$Text{"Mark"}
+$Text{"Unmark"}
 
 # richtext editor
 $Text{"Bold"}
@@ -381,3 +397,12 @@ $Text{"Redo"}
 # scheduler
 $Text{"Scheduler process is registered but might not be running."}
 $Text{"Scheduler is not running."}
+
+# system registration
+$Text{"Can't contact registration server. Please try again later."}
+$Text{"No content received from registration server. Please try again later."}
+$Text{"Problems processing server result. Please try again later."}
+$Text{"Username and password do not match. Please try again."}
+
+# process management
+$Text{"The selected process is invalid!"}

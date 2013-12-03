@@ -8,6 +8,7 @@
 # --
 
 package Kernel::System::PostMaster::LoopProtection::FS;
+## nofilter(TidyAll::Plugin::OTRS::Perl::Time)
 
 use strict;
 use warnings;

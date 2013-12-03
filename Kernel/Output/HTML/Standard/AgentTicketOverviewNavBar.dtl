@@ -52,24 +52,62 @@
 <!-- dtl:block:OverviewNavBarPageBack -->
 
 <!-- dtl:block:ContextSettings -->
+
                 <ul class="ContextFunctions">
+
+<!-- dtl:block:DocumentActionRowRemoveColumnFilters -->
+                    <li class="$QData{"CSS"}">
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};DeleteFilters=DeleteFilters" title="$Text{"Remove active filters for this screen."}">
+                            <i class="icon-trash"></i>
+                        </a>
+                    </li>
+<!-- dtl:block:DocumentActionRowRemoveColumnFilters -->
+
                     <li class="ContextSettings">
                         <a href="#" id="ShowContextSettingsDialog" title="$Text{"Settings"}"><span>$Text{"Settings"}</span></a>
                     </li>
                 </ul>
 
                 <div id="ContextSettingsDialogContainer" class="Hidden">
-                    <form action="$Env{"CGIHandle"}" method="post" id="ContextSettingsDialog">
+                    <form action="$Env{"CGIHandle"}" method="post" id="ContextSettingsDialogOverview$QData{"View"}" class="WidgetSettingsForm">
                         <input type="hidden" name="Action" value="AgentPreferences"/>
                         <input type="hidden" name="Subaction" value="Update"/>
                         <input type="hidden" name="Group" value="$QData{"Group"}"/>
                         <input type="hidden" name="RedirectURL" value="$QData{"RequestedURL"}"/>
-                        <fieldset class="TableLike">
+                        <fieldset class="TableLike FixedLabelSmall">
                             <label for="$QData{"PreferencesKey"}">$Text{"Tickets per page"}:</label>
                             <div class="Field">
                                 $Data{"PageShownString"}
                             </div>
                             <div class="Clear"></div>
+
+<!-- dtl:block:FilterColumnSettings -->
+                            <input type="hidden" class="ColumnsEnabledJSON" value="$QData{"ColumnsEnabled"}" />
+                            <input type="hidden" class="ColumnsAvailableJSON" value="$QData{"ColumnsAvailable"}" />
+                            <input type="hidden" name="Group" value="$QData{"GroupName"}"/>
+                            <input type="hidden" name="FilterAction" value="$QData{"Name"}"/>
+                            <label class="DontPrint" for="$QData{"NamePref"}">$Text{"$Data{"Desc"}"}:</label>
+                            <div class="Field DontPrint LayoutGrid AllocationListContainer">
+                                <div class="Size1of2">
+                                    <ul class="Tablelike">
+                                        <li class="Header">$Text{"Available Columns"}</li>
+                                    </ul>
+                                    <div class="FilterInputContainer">
+                                        <input type="text" class="FilterAvailableFields" name="FilterAvailableFields" value="" title="$Text{"Filter available fields"}" placeholder="$Text{"Filter available fields"}..." />
+                                    </div>
+                                    <ul class="AllocationList Tablelike AvailableFields SettingsOverview" id="AvailableField-Dashboard$QData{"Name"}"></ul>
+                                </div>
+                                <div class="Size1of2">
+                                    <ul class="Tablelike">
+                                        <li class="Header">$Text{"Visible Columns (order by drag & drop)"}</li>
+                                    </ul>
+                                    <ul class="AllocationList Tablelike AssignedFields OrderNumbers SettingsOverview" id="AssignedFields-Dashboard$QData{"Name"}"></ul>
+                                </div>
+                            </div>
+                            <div class="Clear"></div>
+
+<!-- dtl:block:FilterColumnSettings -->
+
                         </fieldset>
                     </form>
                 </div>
@@ -77,17 +115,31 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
 $('#ShowContextSettingsDialog').bind('click', function (Event) {
-    Core.UI.Dialog.ShowContentDialog($('#ContextSettingsDialogContainer'), '$JSText{"Settings"}', '20%', 'Center', true,
+    Core.UI.Dialog.ShowContentDialog($('#ContextSettingsDialogContainer'), '$JSText{"Settings"}', '15%', 'Center', true,
         [
             {
                 Label: '$JSText{"Submit"}',
                 Type: 'Submit',
-                Class: 'Primary'}
-        ]);
+                Class: 'Primary',
+                Function: function () {
+                    var $ListContainer = $('.AllocationListContainer').find('.AssignedFields'),
+                        $FieldObj;
+                    if (isJQueryObject($ListContainer) && $ListContainer.length) {
+                        $.each($ListContainer.find('li'), function() {
+                            $FieldObj = $('<input />').attr('name', 'UserFilterColumnsEnabled').attr('type', 'hidden').attr('value', $(this).attr('data-fieldname'));
+                            $ListContainer.append($FieldObj);
+                        });
+                    }
+                    return true;
+                }
+            }
+        ], true);
     Event.preventDefault();
     Event.stopPropagation();
+    Core.Agent.TableFilters.SetAllocationList();
     return false;
 });
+
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:ContextSettings -->
@@ -136,3 +188,14 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
 </div>
 
 <!-- dtl:block:OverviewNavBar -->
+
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    Core.Config.AddConfig({
+<!-- dtl:block:ColumnTranslation -->
+        'Column$QData{"ColumnName"}': '$JSText{"$QData{"TranslateString"}"}'<!-- dtl:block:ColumnTranslationSeparator -->,<!-- dtl:block:ColumnTranslationSeparator -->
+<!-- dtl:block:ColumnTranslation -->
+
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->

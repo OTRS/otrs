@@ -1,5 +1,5 @@
 // --
-// Core.UI.Accessibility.UnitTest.js - UnitTests
+// Core.Form.UnitTest.js - UnitTests
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/\n";
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see

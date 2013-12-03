@@ -9,126 +9,635 @@
 
 <!-- dtl:block:ContentLargeTicketGenericFilter -->
 <ul class="Tab Actions">
-    <li class="$QData{"Locked::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Locked">$Text{"My locked tickets"} ($QData{"Locked"})</a></li>
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-    $('#Dashboard$QData{"Name"}Locked').unbind('click').bind('click', function(){
-        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Locked;CustomerID=$QData{"CustomerID"}', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
-            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
-        });
-        return false;
-    });
-//]]></script>
-<!-- dtl:js_on_document_complete -->
-
+    <li class="$QData{"Locked::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Locked" data-filter="Locked">$Text{"My locked tickets"} ($QData{"Locked"})</a></li>
 <!-- dtl:block:ContentLargeTicketGenericFilterWatcher -->
-    <li class="$QData{"Watcher::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Watcher">$Text{"My watched tickets"} ($QData{"Watcher"})</a></li>
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-    $('#Dashboard$QData{"Name"}Watcher').unbind('click').bind('click', function(){
-        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Watcher;CustomerID=$QData{"CustomerID"}', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
-            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
-        });
-        return false;
-    });
-//]]></script>
-<!-- dtl:js_on_document_complete -->
+    <li class="$QData{"Watcher::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Watcher" data-filter="Watcher">$Text{"My watched tickets"} ($QData{"Watcher"})</a></li>
 <!-- dtl:block:ContentLargeTicketGenericFilterWatcher -->
-
 <!-- dtl:block:ContentLargeTicketGenericFilterResponsible -->
-    <li class="$QData{"Responsible::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Responsible">$Text{"My responsibilities"} ($QData{"Responsible"})</a></li>
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-    $('#Dashboard$QData{"Name"}Responsible').unbind('click').bind('click', function(){
-        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=Responsible;CustomerID=$QData{"CustomerID"}', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
-            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
-        });
-        return false;
-    });
-//]]></script>
-<!-- dtl:js_on_document_complete -->
-
+    <li class="$QData{"Responsible::Selected"}"><a href="#" id="Dashboard$QData{"Name"}Responsible" data-filter="Responsible">$Text{"My responsibilities"} ($QData{"Responsible"})</a></li>
 <!-- dtl:block:ContentLargeTicketGenericFilterResponsible -->
 <!-- dtl:block:ContentLargeTicketGenericFilterMyQueues -->
-    <li class="$QData{"MyQueues::Selected"}"><a href="#" id="Dashboard$QData{"Name"}MyQueues">$Text{"Tickets in My Queues"} ($QData{"MyQueues"})</a></li>
+    <li class="$QData{"MyQueues::Selected"}"><a href="#" id="Dashboard$QData{"Name"}MyQueues" data-filter="MyQueues">$Text{"Tickets in My Queues"} ($QData{"MyQueues"})</a></li>
 <!-- dtl:block:ContentLargeTicketGenericFilterMyQueues -->
-    <li class="$QData{"All::Selected"} Last"><a href="#" id="Dashboard$QData{"Name"}All">$Text{"All tickets"} ($QData{"All"})</a></li>
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-    $('#Dashboard$QData{"Name"}MyQueues').unbind('click').bind('click', function(){
-        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=MyQueues;CustomerID=$QData{"CustomerID"}', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
-            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
-        });
-        return false;
-    });
-    $('#Dashboard$QData{"Name"}All').unbind('click').bind('click', function(){
-        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=All;CustomerID=$QData{"CustomerID"}', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
-            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
-        });
-        return false;
-    });
-//]]></script>
-<!-- dtl:js_on_document_complete -->
+    <li class="$QData{"All::Selected"} Last"><a href="#" id="Dashboard$QData{"Name"}All" data-filter="All">$Text{"All tickets"} ($QData{"All"})</a></li>
 </ul>
-
 <!-- dtl:block:ContentLargeTicketGenericFilterNavBar -->
 <span class="Pagination">
     $Data{"SiteNavBar"}
 </span>
 <!-- dtl:block:ContentLargeTicketGenericFilterNavBar -->
-
 <!-- dtl:block:ContentLargeTicketGenericFilter -->
-<table class="DataTable">
-    <tbody>
-<!-- dtl:block:ContentLargeTicketGenericRow -->
-        <tr class="MasterAction">
-<!-- dtl:block:ContentLargeTicketGenericRowMeta -->
-            <td class="$QData{"ClassTable"} Flags" title="$Text{"$Data{"Title"}"}">
-<!-- dtl:block:ContentLargeTicketGenericRowMetaImage -->
-                <div class="$QData{"Class"} Small" title="$Text{"$Data{"Title"}"}">
-                    <span class="$QData{"ClassSpan"}">$Text{"$Data{"Title"}"}</span>
-                </div>
-<!-- dtl:block:ContentLargeTicketGenericRowMetaImage -->
-            </td>
-<!-- dtl:block:ContentLargeTicketGenericRowMeta -->
-            <td class="W10pc">
-                <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$Data{"TicketID"}" title="$QData{"Title"}" class="AsBlock MasterActionLink">$Data{"TicketNumber"}</a>
-            </td>
-            <td class="W50pc">
-                <div title="$QData{"Title"}">$QData{"Title","70"}</div>
-            </td>
-            <td>$QData{"Time"}</td>
-        </tr>
-<!-- dtl:block:ContentLargeTicketGenericRow -->
-<!-- dtl:block:ContentLargeTicketGenericNone -->
-        <tr>
-            <td>
-                $Text{"none"}
-            </td>
-        </tr>
-<!-- dtl:block:ContentLargeTicketGenericNone -->
-    </tbody>
-</table>
+
+#<!-- This form will not be submitted, we need it for the AJAX calls. -->
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="CustomerID" value="$QData{"CustomerID"}"/>
+    <input type="hidden" name="Filter$QData{"Name"}" id="Filter$QData{"Name"}" value="$QData{"FilterValue"}" />
+    <table class="DataTable">
+        <thead>
+<!-- dtl:block:ContentLargeTicketGenericHeader -->
+            <tr>
+
+<!-- dtl:block:GeneralOverviewHeader -->
+
+<!-- dtl:block:ContentLargeTicketGenericHeaderMeta -->
+                <th class="DashboardHeader $QData{"CSS"}">
+<!-- dtl:block:ContentLargeTicketGenericHeaderMetaLink -->
+                    <a id="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" name="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" href="#" title="$Data{"Title"}" ></a>
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-$('.MasterAction').bind('click', function (Event) {
-    var $MasterActionLink = $(this).find('.MasterActionLink');
-    // only act if the link was not clicked directly
-    if (Event.target !== $MasterActionLink.get(0)) {
-        window.location = $MasterActionLink.attr('href');
+    $('#$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}').unbind('click').bind('click', function (Event) {
+        var Filter, LinkPage, ColumnFilterName, CustomerID;
+
+        Filter  = $('#Filter$QData{"Name"}').val() || 'All';
+        LinkPage = '';
+        CustomerID = $('input[name=CustomerID]').val() || '';
+
+        // get all column filters
+        $('.ColumnFilter').each(function(){
+            ColumnFilterName  = $(this).attr('name');
+
+            // get all options of current column filter
+            $(this).children().each( function() {
+                if ( $(this).attr('value') && $(this).attr('selected') ) {
+                    LinkPage = LinkPage + ColumnFilterName + '=' + $(this).attr('value') + ';';
+                }
+            });
+        });
+
+        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=' + Filter + ';' + LinkPage + ';CustomerID=' + CustomerID + ';SortBy=$QData{"HeaderColumnName"};OrderBy=$QData{"OrderBy"}', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
+        });
+        Event.preventDefault();
         return false;
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+
+<!-- dtl:block:ContentLargeTicketGenericHeaderMetaLink -->
+<!-- dtl:block:ContentLargeTicketGenericHeaderMetaEmpty -->
+                    <span title="$Text{"$Data{"HeaderColumnName"}"}"></span>
+<!-- dtl:block:ContentLargeTicketGenericHeaderMetaEmpty -->
+
+                </th>
+<!-- dtl:block:ContentLargeTicketGenericHeaderMeta -->
+
+<!-- dtl:block:ContentLargeTicketGenericHeaderTicketHeader -->
+<!-- dtl:block:ContentLargeTicketGenericHeaderTicketNumberColumn -->
+                <th class="DashboardHeader TicketNumber $QData{"CSS"}">
+                    <a id="TicketNumberOverviewControl$QData{"Name"}" name="TicketNumberOverviewControl$QData{"Name"}" href="#" title="$Data{"Title"}" >$Config{"Ticket::Hook"}</a>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('#TicketNumberOverviewControl$QData{"Name"}').unbind('click').bind('click', function (Event) {
+        var Filter, LinkPage, ColumnFilterName, CustomerID;
+
+        Filter  = $('#Filter$QData{"Name"}').val() || 'All';
+        LinkPage = '';
+        CustomerID = $('input[name=CustomerID]').val() || '';
+
+        // get all column filters
+        $('.ColumnFilter').each(function(){
+            ColumnFilterName  = $(this).attr('name');
+
+            // get all options of current column filter
+            $(this).children().each( function() {
+                if ( $(this).attr('value') && $(this).attr('selected') ) {
+                    LinkPage = LinkPage + ColumnFilterName + '=' + $(this).attr('value') + ';';
+                }
+            });
+        });
+
+        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=' + Filter + ';' + LinkPage + ';CustomerID=' + CustomerID + ';SortBy=TicketNumber;OrderBy=$QData{"OrderBy"}', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
+        });
+        Event.preventDefault();
+        return false;
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+                </th>
+<!-- dtl:block:ContentLargeTicketGenericHeaderTicketNumberColumn -->
+
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumn -->
+                <th class="DashboardHeader $QData{"HeaderColumnName"} $QData{"CSS"}">
+
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLink -->
+                    <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
+                        <i class="icon-filter"></i>
+                    </a>
+                    <div class="ColumnSettingsContainer">
+                        <div class="ColumnSettingsBox">
+                            $Data{"ColumnFilterStrg"}
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLinkCustomerIDSearch -->
+                            <input type="text" class="CustomerIDAutoComplete" autocomplete="off" />
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+Core.Config.Set('CustomerIDAutocomplete.QueryDelay', "$QData{"queryDelay"}");
+Core.Config.Set('CustomerIDAutocomplete.MaxResultsDisplayed', "$QData{"maxResultsDisplayed"}");
+Core.Config.Set('CustomerIDAutocomplete.MinQueryLength', "$QData{"minQueryLength"}");
+Core.Agent.Dashboard.InitCustomerIDAutocomplete( $(".CustomerIDAutoComplete") );
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLinkCustomerIDSearch -->
+
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLinkUserSearch -->
+                            <input type="text" class="UserAutoComplete" autocomplete="off" />
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+Core.Config.Set('UserAutocomplete.QueryDelay', "$QData{"queryDelay"}");
+Core.Config.Set('UserAutocomplete.MaxResultsDisplayed', "$QData{"maxResultsDisplayed"}");
+Core.Config.Set('UserAutocomplete.MinQueryLength', "$QData{"minQueryLength"}");
+Core.Agent.Dashboard.InitUserAutocomplete( $(".UserAutoComplete") );
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLinkUserSearch -->
+                        </div>
+                    </div>
+
+                    <a id="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" name="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" href="#" title="$Data{"Title"}" >$QData{"HeaderNameTranslated"}</a>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('#ColumnFilter$QData{"HeaderColumnName"}$QData{"Name"}').unbind('change').bind('change', function(){
+        var LinkPage, ColumnFilterName, Filter, ColumnFilterID, CustomerID;
+
+        LinkPage = '';
+        Filter   = $('#Filter$QData{"Name"}').val() || 'All';
+        CustomerID = $('input[name=CustomerID]').val() || '';
+
+        // set ColumnFilter value for current ColumnFilter
+        ColumnFilterName = $(this).attr('name');
+        LinkPage = LinkPage + ColumnFilterName + '=' + $(this).val() + ';';
+
+        // remember the current ColumnFilter ID
+        ColumnFilterID = $(this).attr('ID');
+
+        // get all column filters
+        $('.ColumnFilter').each(function(){
+            ColumnFilterName  = $(this).attr('name');
+
+            // exclude current column filter, apparently the selected option is not set to
+            // selected at this point and uses the old value
+            if ($(this).attr('ID') !== ColumnFilterID) {
+
+                // get all options of current column filter
+                $(this).children().each( function() {
+                    if ( $(this).attr('value') && $(this).attr('selected') ) {
+                        LinkPage = LinkPage + ColumnFilterName + '=' + $(this).attr('value') + ';';
+                    }
+                });
+            }
+        });
+
+        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=' + Filter + ';CustomerID=' + CustomerID + ';SortBy=$QData{"SortBy"};OrderBy=$QData{"OrderBy"};' + LinkPage, function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
+        });
+        return false;
+    });
+
+    $('#$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}').unbind('click').bind('click', function (Event) {
+        var LinkPage, ColumnFilterName, Filter, ColumnFilterID, CustomerID;
+
+        LinkPage = '';
+        Filter   = $('#Filter$QData{"Name"}').val() || 'All';
+        CustomerID = $('input[name=CustomerID]').val() || '';
+
+        // set ColumnFilter value for current ColumnFilter
+        ColumnFilterName = $(this).attr('name');
+        LinkPage = LinkPage + ColumnFilterName + '=' + $(this).val() + ';';
+
+        // remember the current ColumnFilter ID
+        ColumnFilterID = $(this).attr('ID');
+
+        // get all column filters
+        $('.ColumnFilter').each(function(){
+            ColumnFilterName  = $(this).attr('name');
+
+            // exclude current column filter, apparently the selected option is not set to
+            // selected at this point and uses the old value
+            if ($(this).attr('ID') !== ColumnFilterID) {
+
+                // get all options of current column filter
+                $(this).children().each( function() {
+                    if ( $(this).attr('value') && $(this).attr('selected') ) {
+                        LinkPage = LinkPage + ColumnFilterName + '=' + $(this).attr('value') + ';';
+                    }
+                });
+            }
+        });
+
+        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=' + Filter + ';CustomerID=' + CustomerID + ';SortBy=$QData{"HeaderColumnName"};OrderBy=$QData{"OrderBy"};' + LinkPage, function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
+        });
+        Event.preventDefault();
+        return false;
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLink -->
+
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnLink -->
+                    <a id="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" name="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" href="#" title="$Data{"Title"}" >$QData{"HeaderNameTranslated"}</a>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('#$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}').unbind('click').bind('click', function (Event) {
+        var LinkPage, ColumnFilterName, Filter, ColumnFilterID, CustomerID;
+
+        LinkPage = '';
+        Filter   = $('#Filter$QData{"Name"}').val() || 'All';
+        CustomerID = $('input[name=CustomerID]').val() || '';
+
+        // set ColumnFilter value for current ColumnFilter
+        ColumnFilterName = $(this).attr('name');
+        LinkPage = LinkPage + ColumnFilterName + '=' + $(this).val() + ';';
+
+        // remember the current ColumnFilter ID
+        ColumnFilterID = $(this).attr('ID');
+
+        // get all column filters
+        $('.ColumnFilter').each(function(){
+            ColumnFilterName  = $(this).attr('name');
+
+            // exclude current column filter, apparently the selected option is not set to
+            // selected at this point and uses the old value
+            if ($(this).attr('ID') !== ColumnFilterID) {
+
+                // get all options of current column filter
+                $(this).children().each( function() {
+                    if ( $(this).attr('value') && $(this).attr('selected') ) {
+                        LinkPage = LinkPage + ColumnFilterName + '=' + $(this).attr('value') + ';';
+                    }
+                });
+            }
+        });
+
+        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=' + Filter + ';CustomerID=' + CustomerID +';SortBy=$QData{"HeaderColumnName"};OrderBy=$QData{"OrderBy"};' + LinkPage, function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
+        });
+        Event.preventDefault();
+        return false;
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnLink -->
+
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilter -->
+                    <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
+                        <i class="icon-filter"></i>
+                    </a>
+                    <div class="ColumnSettingsContainer">
+                        <div class="ColumnSettingsBox">
+                            $Data{"ColumnFilterStrg"}
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLinkCustomerUserSearch -->
+                            <input type="text" class="CustomerUserAutoComplete" autocomplete="off" />
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+Core.Config.Set('CustomerUserAutocomplete.QueryDelay', "$QData{"queryDelay"}");
+Core.Config.Set('CustomerUserAutocomplete.MaxResultsDisplayed', "$QData{"maxResultsDisplayed"}");
+Core.Config.Set('CustomerUserAutocomplete.MinQueryLength', "$QData{"minQueryLength"}");
+Core.Agent.Dashboard.InitCustomerUserAutocomplete( $(".CustomerUserAutoComplete") );
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLinkCustomerUserSearch -->
+                        </div>
+                    </div>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('#ColumnFilter$QData{"HeaderColumnName"}$QData{"Name"}').unbind('change').bind('change', function(){
+        var LinkPage, ColumnFilterName, Filter, ColumnFilterID, CustomerID;
+
+        LinkPage = '';
+        Filter   = $('#Filter$QData{"Name"}').val() || 'All';
+        CustomerID = $('input[name=CustomerID]').val() || '';
+
+        // set ColumnFilter value for current ColumnFilter
+        ColumnFilterName = $(this).attr('name');
+        LinkPage = LinkPage + ColumnFilterName + '=' + $(this).val() + ';';
+
+        // remember the current ColumnFilter ID
+        ColumnFilterID = $(this).attr('ID');
+
+        // get all column filters
+        $('.ColumnFilter').each(function(){
+            ColumnFilterName  = $(this).attr('name');
+
+            // exclude current column filter, apparently the selected option is not set to
+            // selected at this point and uses the old value
+            if ($(this).attr('ID') !== ColumnFilterID) {
+
+                // get all options of current column filter
+                $(this).children().each( function() {
+                    if ( $(this).attr('value') && $(this).attr('selected') ) {
+                        LinkPage = LinkPage + ColumnFilterName + '=' + $(this).attr('value') + ';';
+                    }
+                });
+            }
+        });
+
+        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=' + Filter + ';CustomerID=' + CustomerID + ';SortBy=$QData{"SortBy"};OrderBy=$QData{"OrderBy"};' + LinkPage, function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
+        });
+        return false;
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+                    <span class="Gray" title="$Data{"Title"}" >$QData{"HeaderNameTranslated"}</span>
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilter -->
+
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnEmpty -->
+                    <span class="Gray" title="$Data{"Title"}" >$Data{"HeaderNameTranslated"}</span>
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumnEmpty -->
+                </th>
+<!-- dtl:block:ContentLargeTicketGenericHeaderColumn -->
+<!-- dtl:block:ContentLargeTicketGenericHeaderTicketHeader -->
+
+<!-- dtl:block:GeneralOverviewHeader -->
+
+            </tr>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+$('.DashboardHeader').off('click').on('click', '.ColumnSettingsTrigger', function() {
+
+    var $TriggerObj = $(this),
+        FilterName;
+
+    if ($TriggerObj.hasClass('Active')) {
+
+        $TriggerObj
+            .next('.ColumnSettingsContainer')
+            .find('.ColumnSettingsBox')
+            .fadeOut('fast', function() {
+                $TriggerObj.removeClass('Active');
+            });
     }
+    else {
+
+        // slide up all open settings widgets
+        $('.ColumnSettingsTrigger')
+            .next('.ColumnSettingsContainer')
+            .find('.ColumnSettingsBox')
+            .fadeOut('fast', function() {
+                $(this).parent().prev('.ColumnSettingsTrigger').removeClass('Active');
+            });
+
+        // show THIS settings widget
+        $TriggerObj
+            .next('.ColumnSettingsContainer')
+            .find('.ColumnSettingsBox')
+            .fadeIn('fast', function() {
+
+                $TriggerObj.addClass('Active');
+
+                // refresh filter dropdown
+                FilterName = $TriggerObj
+                    .next('.ColumnSettingsContainer')
+                    .find('select')
+                    .attr('name');
+
+                if ( $TriggerObj.closest('th').hasClass('CustomerID') || $TriggerObj.closest('th').hasClass('CustomerUserID') || $TriggerObj.closest('th').hasClass('Responsible') || $TriggerObj.closest('th').hasClass('Owner') ) {
+
+                    if (!$TriggerObj.parent().find('.SelectedValue').length) {
+                        Core.AJAX.FormUpdate($TriggerObj.parents('form'), 'AJAXFilterUpdate', FilterName, [ FilterName ], function() {
+                            var AutoCompleteValue = $TriggerObj
+                                    .next('.ColumnSettingsContainer')
+                                    .find('select')
+                                    .val(),
+                                AutoCompleteText  = $TriggerObj
+                                    .next('.ColumnSettingsContainer')
+                                    .find('select')
+                                    .find('option:selected')
+                                    .text();
+
+                            if (AutoCompleteValue !== 'DeleteFilter') {
+
+                                $TriggerObj
+                                    .next('.ColumnSettingsContainer')
+                                    .find('select')
+                                    .after('<span class="SelectedValue Hidden"><a href="#">x</a><span title="' + AutoCompleteText + ' (' + AutoCompleteValue + ')">' + AutoCompleteText + ' (' + AutoCompleteValue + ')</span></span>')
+                                    .parent()
+                                    .find('.SelectedValue')
+                                    .find('a')
+                                    .off()
+                                    .on('click', function() {
+                                        $(this)
+                                            .closest('.ColumnSettingsContainer')
+                                            .find('select')
+                                            .val('DeleteFilter')
+                                            .trigger('change');
+
+                                        return false;
+                                    });
+                            }
+                        });
+                    }
+                }
+                else {
+                    Core.AJAX.FormUpdate($TriggerObj.parents('form'), 'AJAXFilterUpdate', FilterName, [ FilterName ]);
+                }
+        });
+    }
+
+    return false;
 });
+
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+
+<!-- dtl:block:ContentLargeTicketGenericHeader -->
+        </thead>
+
+        <tbody>
+<!-- dtl:block:ContentLargeTicketGenericRow -->
+            <tr class="MasterAction">
+
+<!-- dtl:block:GeneralOverviewRow -->
+
+<!-- dtl:block:ContentLargeTicketGenericRowMeta -->
+                <td class="$QData{"ClassTable"} Flags" title="$Text{"$Data{"Title"}"}">
+<!-- dtl:block:ContentLargeTicketGenericRowMetaImage -->
+                    <div class="$QData{"Class"} Small" title="$Text{"$Data{"Title"}"}">
+                        <span class="$QData{"ClassSpan"}">
+                            <i class="icon-star"></i>
+                            <i class="icon-star"></i>
+                            <em>$Text{"$Data{"Title"}"}</em>
+                        </span>
+                    </div>
+<!-- dtl:block:ContentLargeTicketGenericRowMetaImage -->
+                </td>
+<!-- dtl:block:ContentLargeTicketGenericRowMeta -->
+
+#            <td class="W10pc">
+#                <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$Data{"TicketID"}" title="$QData{"Title"}" class="AsBlock MasterActionLink">$Data{"TicketNumber"}</a>
+#            </td>
+#            <td class="W50pc">
+#                <div title="$QData{"Title"}">$QData{"Title","70"}</div>
+#            </td>
+#            <td>$QData{"Time"}</td>
+
+<!-- dtl:block:ContentLargeTicketGenericTicketColumn -->
+<!-- dtl:block:ContentLargeTicketGenericTicketNumber -->
+                <td>
+                    <a href="$Env{"Baselink"}Action=AgentTicketZoom;TicketID=$Data{"TicketID"}" title="$QData{"Title"}" class="AsBlock MasterActionLink">$Data{"TicketNumber"}</a>
+                </td>
+<!-- dtl:block:ContentLargeTicketGenericTicketNumber -->
+<!-- dtl:block:ContentLargeTicketGenericEscalationTime -->
+                <td>
+                    <div title="$Text{"Service Time"}: $QData{"EscalationTimeWorkingTime"} - $TimeShort{"$QData{"EscalationDestinationDate"}"}" class="$QData{"EscalationClass"}">$QData{"EscalationTimeHuman"}<br/>$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>
+                </td>
+<!-- dtl:block:ContentLargeTicketGenericEscalationTime -->
+<!-- dtl:block:ContentLargeTicketGenericColumn -->
+                <td>
+                    <div title="$QData{"GenericValue"}">$QData{"GenericValue","40"}</div>
+                </td>
+<!-- dtl:block:ContentLargeTicketGenericColumn -->
+<!-- dtl:block:ContentLargeTicketGenericColumnTranslatable -->
+                <td>
+                    <div title="$Text{"$Data{"GenericValue"}"}">$Text{"$Data{"GenericValue"}"}</div>
+                </td>
+<!-- dtl:block:ContentLargeTicketGenericColumnTranslatable -->
+<!-- dtl:block:ContentLargeTicketGenericColumnTime -->
+                <td>
+                    <div title="$TimeShort{"$QData{"GenericValue"}"}">$TimeShort{"$Data{"GenericValue"}"}</div>
+                </td>
+<!-- dtl:block:ContentLargeTicketGenericColumnTime -->
+<!-- dtl:block:ContentLargeTicketGenericColumnEscalation -->
+                <td>
+                    <div title="$QData{"GenericValue"}" class="$QData{"Class"}">$QData{"GenericValue"}</div>
+                </td>
+<!-- dtl:block:ContentLargeTicketGenericColumnEscalation -->
+<!-- dtl:block:ContentLargeTicketGenericTicketColumn -->
+
+<!-- dtl:block:ContentLargeTicketGenericDynamicField -->
+                <td>
+                    <div title="$QData{"Title"}">
+<!-- dtl:block:ContentLargeTicketGenericDynamicFieldLink -->
+                        <a href="$Data{"Link"}"  target="_blank" class="DynamicFieldLink">$Data{"Value"}</a>
+<!-- dtl:block:ContentLargeTicketGenericDynamicFieldLink -->
+<!-- dtl:block:ContentLargeTicketGenericDynamicFieldPlain -->
+                        $Data{"Value"}
+<!-- dtl:block:ContentLargeTicketGenericDynamicFieldPlain -->
+                    </div>
+                </td>
+<!-- dtl:block:ContentLargeTicketGenericDynamicField -->
+
+<!-- dtl:block:GeneralOverviewRow -->
+
+            </tr>
+<!-- dtl:block:ContentLargeTicketGenericRow -->
+<!-- dtl:block:ContentLargeTicketGenericNone -->
+            <tr>
+                <td class="AutoColspan">
+                    $Text{"none"}
+                </td>
+            </tr>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+$('.AutoColspan').each(function() {
+    var ColspanCount = $(this).closest('table').find('th').length;
+    $(this).attr('colspan', ColspanCount);
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+
+<!-- dtl:block:ContentLargeTicketGenericNone -->
+        </tbody>
+    </table>
+</form>
+
+<!-- dtl:block:ContentLargeTicketGenericRefresh -->
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+Core.Config.Set('RefreshSeconds_$QData{"NameHTML"}', parseInt("$QData{"RefreshTime"}", 10) || 0);
+if (Core.Config.Get('RefreshSeconds_$QData{"NameHTML"}')) {
+    Core.Config.Set('Timer_$QData{"NameHTML"}', window.setTimeout(function() {
+
+        // get active filter
+        var Filter = $('#Dashboard$QData{"Name"}-box').find('.Tab.Actions li.Selected a').attr('data-filter');
+        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=' + Filter + ';CustomerID=$QData{"CustomerID"}', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
+        });
+        clearTimeout(Core.Config.Get('Timer_$QData{"NameHTML"}'));
+    }, Core.Config.Get('RefreshSeconds_$QData{"NameHTML"}') * 1000));
+}
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ContentLargeTicketGenericRefresh -->
+
+<!-- dtl:block:ContentLargeTicketGenericRemoveFilters -->
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+if (!$('#Dashboard$QData{"Name"}-box').find('.ActionMenu').find('.RemoveFilters').length) {
+    $('#Dashboard$QData{"Name"}-box')
+        .find('.ActionMenu')
+        .prepend('<div class="WidgetAction RemoveFilters"><a href="#" id="Dashboard$QData{"Name"}-remove-filters" title="$Text{"Remove active filters for this widget."}"><i class="icon-trash"></i></a></div>')
+        .find('.RemoveFilters')
+        .on('click', function() {
+
+            // get active filter
+            var Filter = $('#Dashboard$QData{"Name"}-box').find('.Tab.Actions li.Selected a').attr('data-filter');
+            $('#Dashboard$QData{"Name"}-box').addClass('Loading');
+            Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=' + Filter + ';CustomerID=$QData{"CustomerID"};RemoveFilters=1', function () {
+                Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+                $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
+            });
+            return false;
+        });
+}
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ContentLargeTicketGenericRemoveFilters -->
+
+<!-- dtl:block:ContentLargeTicketGenericRemoveFiltersRemove -->
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+$('#Dashboard$QData{"Name"}-box').find('.RemoveFilters').remove();
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:ContentLargeTicketGenericRemoveFiltersRemove -->
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('.MasterAction').bind('click', function (Event) {
+        var $MasterActionLink = $(this).find('.MasterActionLink');
+        // prevent MasterAction on Dynamic Fields links
+        if ($(Event.target).hasClass('DynamicFieldLink')) {
+            return true;
+        }
+        // only act if the link was not clicked directly
+        if (Event.target !== $MasterActionLink.get(0)) {
+            window.location = $MasterActionLink.attr('href');
+            return false;
+        }
+    });
+
+    $('#Dashboard$QData{"Name"}-box').find('.Tab.Actions li a').unbind('click').bind('click', function() {
+        var Filter = $(this).attr('data-filter'),
+        CustomerID;
+
+        CustomerID = $('input[name=CustomerID]').val() || '';
+
+        $('#Dashboard$QData{"Name"}-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=' + Filter + ';CustomerID=' + CustomerID, function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
+            $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
+        });
+        return false;
+    });
 //]]></script>
 <!-- dtl:js_on_document_complete -->

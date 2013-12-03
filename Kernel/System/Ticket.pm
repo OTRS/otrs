@@ -38,6 +38,9 @@ use Kernel::System::ProcessManagement::Activity;
 use Kernel::System::ProcessManagement::ActivityDialog;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Ticket::Article;
+use Kernel::System::TicketSearch;
+use Kernel::System::EventHandler;
 
 use vars qw(@ISA);
 
@@ -114,9 +117,6 @@ sub new {
     # 0=off; 1=on;
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # set @ISA
-    @ISA = ( 'Kernel::System::Ticket::Article', 'Kernel::System::TicketSearch' );
-
     # get needed objects
     for my $Needed (qw(ConfigObject LogObject TimeObject DBObject MainObject EncodeObject)) {
         if ( $Param{$Needed} ) {
@@ -131,6 +131,12 @@ sub new {
         %Param,
         Type => 'Ticket',
         TTL  => 60 * 60 * 24 * 3,
+    );
+
+    @ISA = qw(
+        Kernel::System::Ticket::Article
+        Kernel::System::TicketSearch
+        Kernel::System::EventHandler
     );
 
     # create common needed module objects
@@ -180,7 +186,6 @@ sub new {
         = Kernel::System::ProcessManagement::ActivityDialog->new( %{$Self} );
 
     # init of event handler
-    push @ISA, 'Kernel::System::EventHandler';
     $Self->EventHandlerInit(
         Config     => 'Ticket::EventModulePost',
         BaseObject => 'TicketObject',
@@ -192,34 +197,30 @@ sub new {
     # load ticket number generator
     my $GeneratorModule = $Self->{ConfigObject}->Get('Ticket::NumberGenerator')
         || 'Kernel::System::Ticket::Number::AutoIncrement';
-    if ( !$Self->{MainObject}->Require($GeneratorModule) ) {
+    if ( !$Self->{MainObject}->RequireBaseClass($GeneratorModule) ) {
         die "Can't load ticket number generator backend module $GeneratorModule! $@";
     }
-    push @ISA, $GeneratorModule;
 
     # load ticket index generator
     my $GeneratorIndexModule = $Self->{ConfigObject}->Get('Ticket::IndexModule')
         || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
-    if ( !$Self->{MainObject}->Require($GeneratorIndexModule) ) {
+    if ( !$Self->{MainObject}->RequireBaseClass($GeneratorIndexModule) ) {
         die "Can't load ticket index backend module $GeneratorIndexModule! $@";
     }
-    push @ISA, $GeneratorIndexModule;
 
     # load article storage module
     my $StorageModule = $Self->{ConfigObject}->Get('Ticket::StorageModule')
         || 'Kernel::System::Ticket::ArticleStorageDB';
-    if ( !$Self->{MainObject}->Require($StorageModule) ) {
+    if ( !$Self->{MainObject}->RequireBaseClass($StorageModule) ) {
         die "Can't load ticket storage backend module $StorageModule! $@";
     }
-    push @ISA, $StorageModule;
 
     # load article search index module
     my $SearchIndexModule = $Self->{ConfigObject}->Get('Ticket::SearchIndexModule')
         || 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB';
-    if ( !$Self->{MainObject}->Require($SearchIndexModule) ) {
+    if ( !$Self->{MainObject}->RequireBaseClass($SearchIndexModule) ) {
         die "Can't load ticket search index backend module $SearchIndexModule! $@";
     }
-    push @ISA, $SearchIndexModule;
 
     # load ticket extension modules
     my $CustomModule = $Self->{ConfigObject}->Get('Ticket::CustomModule');
@@ -231,11 +232,11 @@ sub new {
         else {
             $ModuleList{Init} = $CustomModule;
         }
+        MODULEKEY:
         for my $ModuleKey ( sort keys %ModuleList ) {
             my $Module = $ModuleList{$ModuleKey};
-            next if !$Module;
-            next if !$Self->{MainObject}->Require($Module);
-            push @ISA, $Module;
+            next MODULEKEY if !$Module;
+            next MODULEKEY if !$Self->{MainObject}->RequireBaseClass($Module);
         }
     }
 
@@ -567,7 +568,7 @@ sub TicketCreate {
 
     # log ticket creation
     $Self->{LogObject}->Log(
-        Priority => 'notice',
+        Priority => 'info',
         Message => "New Ticket [$Param{TN}/" . substr( $Param{Title}, 0, 15 ) . "] created "
             . "(TicketID=$TicketID,Queue=$Param{Queue},Priority=$Param{Priority},State=$Param{State})",
     );
@@ -876,7 +877,7 @@ strip/clean up a ticket subject
     my $NewSubject = $TicketObject->TicketSubjectClean(
         TicketNumber => '2004040510440485',
         Subject      => $OldSubject,
-        Size         => $SubjectSizeToBeDisplayed   # optional
+        Size         => $SubjectSizeToBeDisplayed   # optional, if 0 do not cut subject
     );
 
 =cut
@@ -895,21 +896,22 @@ sub TicketSubjectClean {
     # get config options
     my $TicketHook        = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
-    my $TicketSubjectSize
-        = $Param{Size}
-        || $Self->{ConfigObject}->Get('Ticket::SubjectSize')
-        || 120;
+    my $TicketSubjectSize = $Param{Size};
+    if ( !defined $TicketSubjectSize ) {
+        $TicketSubjectSize = $Self->{ConfigObject}->Get('Ticket::SubjectSize')
+            || 120;
+    }
     my $TicketSubjectRe  = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
     my $TicketSubjectFwd = $Self->{ConfigObject}->Get('Ticket::SubjectFwd');
 
     # remove all possible ticket hook formats with []
-    $Subject =~ s/\[\Q$TicketHook: $Param{TicketNumber}\E\]\s*//g;
-    $Subject =~ s/\[\Q$TicketHook:$Param{TicketNumber}\E\]\s*//g;
-    $Subject =~ s/\[\Q$TicketHook$TicketHookDivider$Param{TicketNumber}\E\]\s*//g;
+    $Subject =~ s/\[\s*\Q$TicketHook: $Param{TicketNumber}\E\s*\]\s*//g;
+    $Subject =~ s/\[\s*\Q$TicketHook:$Param{TicketNumber}\E\s*\]\s*//g;
+    $Subject =~ s/\[\s*\Q$TicketHook$TicketHookDivider$Param{TicketNumber}\E\s*\]\s*//g;
 
     # remove all ticket numbers with []
     if ( $Self->{ConfigObject}->Get('Ticket::SubjectCleanAllNumbers') ) {
-        $Subject =~ s/\[\Q$TicketHook$TicketHookDivider\E\d+?\]\s*//g;
+        $Subject =~ s/\[\s*\Q$TicketHook$TicketHookDivider\E\d+?\s*\]\s*//g;
     }
 
     # remove all possible ticket hook formats without []
@@ -922,20 +924,20 @@ sub TicketSubjectClean {
         $Subject =~ s/\Q$TicketHook$TicketHookDivider\E\d+?\s*//g;
     }
 
-    # remove leading "..:\s" and "..[\d+]:\s" e. g. "Re: " or "Re[5]: "
-    $Subject =~ s/^(..(\[\d+\])?:\s)+//;
-
     # remove leading number with configured "RE:\s" or "RE[\d+]:\s" e. g. "RE: " or "RE[4]: "
-    $Subject =~ s/^($TicketSubjectRe(\[\d+\])?:\s)+//;
+    $Subject =~ s/^($TicketSubjectRe(\[\d+\])?:\s)+//i;
 
     # remove leading number with configured "Fwd:\s" or "Fwd[\d+]:\s" e. g. "Fwd: " or "Fwd[4]: "
-    $Subject =~ s/^($TicketSubjectFwd(\[\d+\])?:\s)+//;
+    $Subject =~ s/^($TicketSubjectFwd(\[\d+\])?:\s)+//i;
 
     # trim white space at the beginning or end
     $Subject =~ s/(^\s+|\s+$)//;
 
     # resize subject based on config
-    $Subject =~ s/^(.{$TicketSubjectSize}).*$/$1 [...]/;
+    # do not cut subject, if size parameter was 0
+    if ($TicketSubjectSize) {
+        $Subject =~ s/^(.{$TicketSubjectSize}).*$/$1 [...]/;
+    }
 
     return $Subject;
 }
@@ -1394,24 +1396,25 @@ sub _TicketGetClosed {
 
     # Get id for history types
     my @HistoryTypeIDs;
-    for my $HistoryType (qw ( StateUpdate NewTicket )) {
+    for my $HistoryType (qw(StateUpdate NewTicket)) {
         push @HistoryTypeIDs, $Self->HistoryTypeLookup( Type => $HistoryType );
     }
 
     return if !$Self->{DBObject}->Prepare(
         SQL => "
-            SELECT create_time
+            SELECT MAX(create_time)
             FROM ticket_history
             WHERE ticket_id = ?
                AND state_id IN (${\(join ', ', sort @List)})
                AND history_type_id IN  (${\(join ', ', sort @HistoryTypeIDs)})
-            ORDER BY create_time DESC",
-        Bind  => [ \$Param{TicketID} ],
-        Limit => 1,
+            ",
+        Bind => [ \$Param{TicketID} ],
     );
 
     my %Data;
+    ROW:
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        last ROW if !defined $Row[0];
         $Data{Closed} = $Row[0];
 
         # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
@@ -1533,6 +1536,9 @@ sub TicketTitleUpdate {
         Bind => [ \$Param{Title}, \$Param{UserID}, \$Param{TicketID} ],
     );
 
+    # clear ticket cache
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
+
     # history insert
     $Self->HistoryAdd(
         TicketID     => $Param{TicketID},
@@ -1540,9 +1546,6 @@ sub TicketTitleUpdate {
         Name         => "\%\%$Ticket{Title}\%\%$Param{Title}",
         CreateUserID => $Param{UserID},
     );
-
-    # clear ticket cache
-    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # trigger event
     $Self->EventHandler(
@@ -2372,10 +2375,11 @@ sub TicketEscalationDateCalculation {
         EscalationSolutionTime => 'Solution',
     );
     my $EscalationAttribute;
+    KEY:
     for my $Key ( sort keys %Map ) {
         if ( $Escalation{ $Map{$Key} . 'Time' } ) {
             $EscalationAttribute = 1;
-            last;
+            last KEY;
         }
     }
     return if !$EscalationAttribute;
@@ -2623,6 +2627,7 @@ sub TicketEscalationIndexBuild {
         # get latest customer contact time
         my $LastSenderTime;
         my $LastSenderType = '';
+        ROW:
         for my $Row ( reverse @SenderHistory ) {
 
             # fill up latest sender time (as initial value)
@@ -2631,19 +2636,19 @@ sub TicketEscalationIndexBuild {
             }
 
             # do not use locked tickets for calculation
-            #last if $Ticket{Lock} eq 'lock';
+            #last ROW if $Ticket{Lock} eq 'lock';
 
             # do not use /int/ article types for calculation
-            next if $Row->{ArticleType} =~ /int/i;
+            next ROW if $Row->{ArticleType} =~ /int/i;
 
             # only use 'agent' and 'customer' sender types for calculation
-            next if $Row->{SenderType} !~ /^(agent|customer)$/;
+            next ROW if $Row->{SenderType} !~ /^(agent|customer)$/;
 
-            # last if latest was customer and the next was not customer
+            # last ROW if latest was customer and the next was not customer
             # otherwise use also next, older customer article as latest
             # customer followup for starting escalation
             if ( $Row->{SenderType} eq 'agent' && $LastSenderType eq 'customer' ) {
-                last;
+                last ROW;
             }
 
             # start escalation on latest customer article
@@ -2655,7 +2660,7 @@ sub TicketEscalationIndexBuild {
             # start escalation on latest agent article
             if ( $Row->{SenderType} eq 'agent' ) {
                 $LastSenderTime = $Row->{Created};
-                last;
+                last ROW;
             }
         }
         if ($LastSenderTime) {
@@ -2934,7 +2939,7 @@ sub TicketSLASet {
 
 =item TicketCustomerSet()
 
-Set customer data of ticket. Can set 'No' (CustomerID), 
+Set customer data of ticket. Can set 'No' (CustomerID),
 'User' (CustomerUserID), or both.
 
     my $Success = $TicketObject->TicketCustomerSet(
@@ -2988,6 +2993,9 @@ sub TicketCustomerSet {
         }
     }
 
+    # clear ticket cache
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
+
     # if no change
     if ( !$Param{History} ) {
         return;
@@ -3000,9 +3008,6 @@ sub TicketCustomerSet {
         Name         => "\%\%" . $Param{History},
         CreateUserID => $Param{UserID},
     );
-
-    # clear ticket cache
-    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # trigger event
     $Self->EventHandler(
@@ -3067,7 +3072,10 @@ sub TicketPermission {
             # create object
             my $ModuleObject = $Modules{$Module}->{Module}->new(
                 ConfigObject => $Self->{ConfigObject},
+                EncodeObject => $Self->{EncodeObject},
                 LogObject    => $Self->{LogObject},
+                MainObject   => $Self->{MainObject},
+                TimeObject   => $Self->{TimeObject},
                 DBObject     => $Self->{DBObject},
                 TicketObject => $Self,
                 QueueObject  => $Self->{QueueObject},
@@ -3174,7 +3182,10 @@ sub TicketCustomerPermission {
             # create object
             my $ModuleObject = $Modules{$Module}->{Module}->new(
                 ConfigObject        => $Self->{ConfigObject},
+                EncodeObject        => $Self->{EncodeObject},
                 LogObject           => $Self->{LogObject},
+                MainObject          => $Self->{MainObject},
+                TimeObject          => $Self->{TimeObject},
                 DBObject            => $Self->{DBObject},
                 TicketObject        => $Self,
                 QueueObject         => $Self->{QueueObject},
@@ -3308,6 +3319,14 @@ or use a time stamp:
         UserID   => 23,
     );
 
+or use a diff (set pending time to "now" + diff minutes)
+
+    my $Success = $TicketObject->TicketPendingTimeSet(
+        Diff     => ( 7 * 24 * 60 ),  # minutes (here: 10080 minutes - 7 days)
+        TicketID => 123,
+        UserID   => 23,
+    );
+
 If you want to set the pending time to null, just supply zeros:
 
     my $Success = $TicketObject->TicketPendingTimeSet(
@@ -3337,8 +3356,20 @@ sub TicketPendingTimeSet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{String} ) {
+    if ( !$Param{String} && !$Param{Diff} ) {
         for my $Needed (qw(Year Month Day Hour Minute TicketID UserID)) {
+            if ( !defined $Param{$Needed} ) {
+                $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+                return;
+            }
+        }
+    }
+    elsif (
+        !$Param{String} &&
+        !( $Param{Year} && $Param{Month} && $Param{Day} && $Param{Hour} && $Param{Minute} )
+        )
+    {
+        for my $Needed (qw(Diff TicketID UserID)) {
             if ( !defined $Param{$Needed} ) {
                 $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
                 return;
@@ -3367,6 +3398,7 @@ sub TicketPendingTimeSet {
     }
     elsif (
         !$Param{String}
+        && !$Param{Diff}
         && $Param{Minute} == 0
         && $Param{Hour} == 0 && $Param{Day} == 0
         && $Param{Month} == 0
@@ -3383,6 +3415,14 @@ sub TicketPendingTimeSet {
             $Time = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Param{String}, );
             ( $Param{Sec}, $Param{Minute}, $Param{Hour}, $Param{Day}, $Param{Month}, $Param{Year} )
                 = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Time, );
+        }
+        elsif ( $Param{Diff} ) {
+            $Time = $Self->{TimeObject}->SystemTime() + ( $Param{Diff} * 60 );
+            ( $Param{Sec}, $Param{Minute}, $Param{Hour}, $Param{Day}, $Param{Month}, $Param{Year} )
+                =
+                $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $Time,
+                );
         }
         else {
             $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
@@ -3401,6 +3441,9 @@ sub TicketPendingTimeSet {
         Bind => [ \$Time, \$Param{UserID}, \$Param{TicketID} ],
     );
 
+    # clear ticket cache
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
+
     # history insert
     $Self->HistoryAdd(
         TicketID    => $Param{TicketID},
@@ -3413,9 +3456,6 @@ sub TicketPendingTimeSet {
             . sprintf( "%02d", $Param{Minute} ) . '',
         CreateUserID => $Param{UserID},
     );
-
-    # clear ticket cache
-    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # trigger event
     $Self->EventHandler(
@@ -4085,6 +4125,9 @@ sub TicketOwnerSet {
         Bind => [ \$Param{NewUserID}, \$Param{UserID}, \$Param{TicketID} ],
     );
 
+    # clear ticket cache
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
+
     # add history
     $Self->HistoryAdd(
         TicketID     => $Param{TicketID},
@@ -4092,9 +4135,6 @@ sub TicketOwnerSet {
         HistoryType  => 'OwnerUpdate',
         Name         => "\%\%$Param{NewUser}\%\%$Param{NewUserID}",
     );
-
-    # clear ticket cache
-    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # send agent notify
     if ( !$Param{SendNoNotification} ) {
@@ -4271,6 +4311,9 @@ sub TicketResponsibleSet {
         Bind => [ \$Param{NewUserID}, \$Param{UserID}, \$Param{TicketID} ],
     );
 
+    # clear ticket cache
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
+
     # add history
     $Self->HistoryAdd(
         TicketID     => $Param{TicketID},
@@ -4278,9 +4321,6 @@ sub TicketResponsibleSet {
         HistoryType  => 'ResponsibleUpdate',
         Name         => "\%\%$Param{NewUser}\%\%$Param{NewUserID}",
     );
-
-    # clear ticket cache
-    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # send agent notify
     if ( !$Param{SendNoNotification} ) {
@@ -4539,6 +4579,9 @@ sub TicketPrioritySet {
         Bind => [ \$Param{PriorityID}, \$Param{UserID}, \$Param{TicketID} ],
     );
 
+    # clear ticket cache
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
+
     # add history
     $Self->HistoryAdd(
         TicketID     => $Param{TicketID},
@@ -4548,9 +4591,6 @@ sub TicketPrioritySet {
         Name         => "\%\%$Ticket{Priority}\%\%$Ticket{PriorityID}"
             . "\%\%$Param{Priority}\%\%$Param{PriorityID}",
     );
-
-    # clear ticket cache
-    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # trigger event
     $Self->EventHandler(
@@ -4705,11 +4745,14 @@ returns a hash of some of the ticket data
 calculated based on ticket history info at the given date.
 
     my %HistoryData = $TicketObject->HistoryTicketGet(
-        StopYear  => 2003,
-        StopMonth => 12,
-        StopDay   => 24,
-        TicketID  => 123,
-        Force     => 0,     # 1: don't use cache
+        StopYear   => 2003,
+        StopMonth  => 12,
+        StopDay    => 24,
+        StopHour   => 10, (optional, default 23)
+        StopMinute => 0,  (optional, default 59)
+        StopSecond => 0,  (optional, default 59)
+        TicketID   => 123,
+        Force      => 0,     # 1: don't use cache
     );
 
 returns
@@ -4752,13 +4795,17 @@ sub HistoryTicketGet {
             return;
         }
     }
+    $Param{StopHour}   = defined $Param{StopHour}   ? $Param{StopHour}   : '23';
+    $Param{StopMinute} = defined $Param{StopMinute} ? $Param{StopMinute} : '59';
+    $Param{StopSecond} = defined $Param{StopSecond} ? $Param{StopSecond} : '59';
 
     # format month and day params
     for my $DateParameter (qw(StopMonth StopDay)) {
         $Param{$DateParameter} = sprintf( "%02d", $Param{$DateParameter} );
     }
 
-    my $CacheKey = 'HistoryTicketGet::'
+    my $CacheKey
+        = 'HistoryTicketGet::'
         . join( '::', map { ( $_ || 0 ) . "::$Param{$_}" } sort keys %Param );
 
     my $Cached = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
@@ -4766,7 +4813,8 @@ sub HistoryTicketGet {
         return %{$Cached};
     }
 
-    my $Time = "$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59";
+    my $Time
+        = "$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} $Param{StopHour}:$Param{StopMinute}:$Param{StopSecond}";
     return if !$Self->{DBObject}->Prepare(
         SQL => '
             SELECT th.name, tht.name, th.create_time, th.create_by, th.ticket_id,
@@ -4909,7 +4957,7 @@ sub HistoryTicketGet {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "No such TicketID in ticket history till "
-                . "'$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ($Param{TicketID})!",
+                . "'$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} $Param{StopHour}:$Param{StopMinute}:$Param{StopSecond}' ($Param{TicketID})!",
         );
         return;
     }
@@ -5291,6 +5339,9 @@ sub TicketAccountTime {
         ],
     );
 
+    # clear ticket cache
+    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
+
     # add history
     my $AccountedTime = $Self->TicketAccountedTimeGet( TicketID => $Param{TicketID} );
     $Self->HistoryAdd(
@@ -5300,9 +5351,6 @@ sub TicketAccountTime {
         HistoryType  => 'TimeAccounting',
         Name         => "\%\%$Param{TimeUnit}\%\%$AccountedTime",
     );
-
-    # clear ticket cache
-    $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # trigger event
     $Self->EventHandler(
@@ -5347,6 +5395,13 @@ sub TicketMerge {
         SQL => 'UPDATE article SET ticket_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE ticket_id = ?',
         Bind => [ \$Param{MainTicketID}, \$Param{UserID}, \$Param{MergeTicketID} ],
+    );
+
+    # bug 9635
+    # do the same with article_search (harmless if not used)
+    return if !$Self->{DBObject}->Do(
+        SQL => 'UPDATE article_search SET ticket_id = ? WHERE ticket_id = ?',
+        Bind => [ \$Param{MainTicketID}, \$Param{MergeTicketID} ],
     );
 
     # reassign article history
@@ -6077,6 +6132,23 @@ sub TicketAcl {
     # to store the restricted actvity dialogs (ProcessManagement)
     my %AllActivityDialogs;
 
+    # to store all active and fadeaway processes (ProcessManagement), later they will be reduced to
+    #    only the available processes after ACL rules
+    my %AllProcesses;
+
+    my $Processes = $Self->{ConfigObject}->Get('Process');
+    if ( IsHashRefWithData($Processes) ) {
+        for my $ProcessEntityID ( sort keys %{$Processes} ) {
+            if (
+                grep    { $_ eq $Processes->{$ProcessEntityID}{State} } 'Active'
+                || grep { $_ eq $Processes->{$ProcessEntityID}{State} } 'FadeAway'
+                )
+            {
+                $AllProcesses{$ProcessEntityID} = $Processes->{$ProcessEntityID}{Name} || '';
+            }
+        }
+    }
+
     # match also frontend options
     my %Checks;
     my %ChecksDatabase;
@@ -6133,7 +6205,7 @@ sub TicketAcl {
         # take over the ChecksDatabase to the Checks hash as basis
         if ( $ChecksDatabase{Process} && %{ $ChecksDatabase{Process} } ) {
             my %ProcessDatabase = %{ $ChecksDatabase{Process} };
-            %{ $Checks{Process} } = %ProcessDatabase;
+            $Checks{Process} = \%ProcessDatabase;
         }
     }
 
@@ -6162,8 +6234,8 @@ sub TicketAcl {
         if ( IsHashRefWithData( $Activity->{ActivityDialog} ) ) {
 
             # store all ActivityDialogs from activity
-            %AllActivityDialogs = map { $Activity->{ActivityDialog}{$_} => 1 }
-                keys %{ $Activity->{ActivityDialog} };
+            %AllActivityDialogs = map { $_ => 1 }
+                values %{ $Activity->{ActivityDialog} };
         }
     }
 
@@ -7052,6 +7124,12 @@ sub TicketAcl {
     my %PossibleActivityDialogs;
     my %PossibleNotActivityDialogs;
 
+    # to Check if there was already a matching ACL
+    # that had Possible->{Processes} configured (ProcessManagement)
+    my $HadPossibleProcesses = 0;
+    my %PossibleProcesses;
+    my %PossibleNotProcesses;
+
     ACLRULES:
     for my $Acl ( sort keys %Acls ) {
 
@@ -7299,6 +7377,53 @@ sub TicketAcl {
             }
         }
 
+        # build new Process data hash (ProcessManagement)
+        # for Step{Possible}
+        if ( IsArrayRefWithData( $Step{Possible}{'Process'} ) )
+        {
+            $HadPossibleProcesses = 1;
+            if ( !%PossibleProcesses ) {
+
+                # Reformat @{ $Step{Possible}->{'Processes'} } array so that each array
+                # value becomes a hashkey with hashvalue 1
+                %PossibleProcesses = map { $_ => 1 } @{ $Step{Possible}{'Process'} };
+            }
+            else {
+
+                # 1. grep line: Find all Values of the
+                #   @{ $Step{Possible}->{'Process'} } array
+                #   that are already in the %PossibleProcesses Hash
+                # 2. map line: Just those that were found will form become keys
+                #   of the %PossibleProcesses Hash
+                %PossibleProcesses
+                    = map { $_ => 1 } grep { $PossibleProcesses{$_} }
+                    @{ $Step{Possible}{'Process'} };
+            }
+        }
+
+        # for Step{PossibleNot}
+        if ( IsArrayRefWithData( $Step{PossibleNot}{'Process'} ) )
+        {
+
+            if ( !%PossibleNotProcesses ) {
+
+                # Reformat @{ $Step{PossibleNot}->{'Process'} } array so that each array
+                # value becomes a hashkey with hashvalue 1
+                %PossibleNotProcesses
+                    = map { $_ => 1 } @{ $Step{PossibleNot}{'Process'} };
+            }
+            else {
+
+                # Add the Arrayvalues of the PossibleNot as hash keys with hashvalue 1
+                # to the existing %PossibleNotProcesses Hash
+                # (map returns an anonymous hash in here)
+                %PossibleNotProcesses = (
+                    %PossibleNotProcesses,
+                    map { $_ => 1 } @{ $Step{PossibleNot}{'Process'} }
+                );
+            }
+        }
+
         # build new ticket data hash
         if (
             ( %Checks || %ChecksDatabase )
@@ -7458,11 +7583,42 @@ sub TicketAcl {
         %AllActivityDialogs
             = map { $_ => 1 } grep { !$PossibleNotActivityDialogs{$_} } keys %AllActivityDialogs;
     }
-    if (%AllActivityDialogs) {
-        %{ $Self->{TicketAclActivityDialogData} } = %AllActivityDialogs;
+    $Self->{TicketAclActivityDialogData} = \%AllActivityDialogs;
+
+    # after all ACL checks, sum up the PossibleProcesses
+    # as well as the PossibleNotProcesses
+    # Rules:
+    # 1. %AllProcesses is the origin
+    # 2. if there are %PossibleProcesses find the processes of %AllProcesses
+    #       that are also present in %PossibleProcesses
+    # 3. if there are %PossibleNotProcesses the %AllProcesses hash of above
+    #       is reduced by the %PossibleNotProcesses
+
+    if ($HadPossibleProcesses) {
+
+        # grep part: find those keys of %AllProcesses that are
+        # in %PossibleProcesses
+        # map part: reformat array returned by grep
+        # to become the new AllProcesses hash
+
+        %AllProcesses
+            = map { $_ => 1 } grep { $PossibleProcesses{$_} } keys %AllProcesses;
+    }
+
+    if ( IsHashRefWithData( \%PossibleNotProcesses ) ) {
+
+        # grep part: find those keys of %AllProcesses that are NOT
+        # in the %PossibleNotProcesses
+        # map part: reformat array returned by grep
+        # to become the new AllProcesses hash
+        %AllProcesses
+            = map { $_ => 1 } grep { !$PossibleNotProcesses{$_} } keys %AllProcesses;
+    }
+    if (%AllProcesses) {
+        %{ $Self->{TicketAclProcessData} } = %AllProcesses;
     }
     else {
-        %{ $Self->{TicketAclActivityDialogData} } = ();
+        %{ $Self->{TicketAclProcessData} } = ();
     }
 
     # return if no new param exists
@@ -7848,9 +8004,52 @@ sub TicketAclActivityDialogData {
     }
 
     # Limit the activity dialogs to the ones allowed by acls
-    #        my @returners
-    #            = grep { $Self->{TicketAclActivityDialogData}->{$_} } @{ $Param{ActivityDialogs} };
     return grep { $Self->{TicketAclActivityDialogData}->{$_} } @{ $Param{ActivityDialogs} };
+}
+
+=item TicketAclProcessData()
+
+return the ACL validated possible processes as hash after TicketAcl()
+
+    my %PossibleActivityDialogs = $TicketObject->TicketAclProcessData(
+        Processes => {
+            P1 => 'Process1 Name',
+            P2 => 'Process2 Name',
+            P3 => 'Process3 Name',
+        },
+    );
+
+=cut
+
+sub TicketAclProcessData {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !IsHashRefWithData( $Param{Processes} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Processes!'
+        );
+        return;
+    }
+
+    # Root user didn't produce TicketAclProcessData
+    # -> Return all questioned processes
+    if ( !defined $Self->{TicketAclProcessData} ) {
+        return $Param{Processes};
+    }
+
+    # If no restriction was set, allow all processes
+    if ( !IsHashRefWithData( $Self->{TicketAclProcessData} ) ) {
+        return $Param{Processes};
+    }
+
+    # Limit the processes to the ones allowed by acls
+    my %ACLValidatedProcesses
+        = map { $_ => $Param{Processes}->{$_} }
+        grep { $Self->{TicketAclProcessData}->{$_} } keys %{ $Param{Processes} };
+
+    return \%ACLValidatedProcesses;
 }
 
 sub DESTROY {

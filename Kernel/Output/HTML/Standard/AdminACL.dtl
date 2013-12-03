@@ -1,6 +1,6 @@
 # --
 # AdminACL.dtl - provides HTML for AdminACL
-# Copyright (C) 2003-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -90,7 +90,7 @@
                 <h2>$Text{"ACLs"}</h2>
             </div>
             <div class="Content">
-                <p class="ACLNote">$Text{"Please note: The table beyond represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs."}</p>
+                <p class="ACLNote">$Text{"Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs."}</p>
                 <table class="DataTable" id="ACLs">
                     <thead>
                         <tr>
@@ -104,11 +104,11 @@
                     <tbody>
 <!-- dtl:block:ACLRow -->
                         <tr>
-                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLEdit;ID=$QData{"ID"}">$QData{"Name"}</a></td>
+                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLEdit;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                             <td>$QData{"Comment"}</td>
                             <td>$Text{"$Data{"ValidID"}"}</td>
-                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLExport;ID=$QData{"ID"};$QEnv{"ChallengeTokenParam"}" class="Export AsBlock">$Text{"Export"}</a></td>
-                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLCopy;ID=$QData{"ID"};$QEnv{"ChallengeTokenParam"}" class="Copy AsBlock">$Text{"Copy"}</a></td>
+                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLExport;ID=$LQData{"ID"};$QEnv{"ChallengeTokenParam"}" class="Export AsBlock">$Text{"Export"}</a></td>
+                            <td><a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ACLCopy;ID=$LQData{"ID"};$QEnv{"ChallengeTokenParam"}" class="Copy AsBlock">$Text{"Copy"}</a></td>
                         </tr>
 <!-- dtl:block:ACLRow -->
 <!-- dtl:block:ACLNoDataRow -->

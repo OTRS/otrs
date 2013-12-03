@@ -225,8 +225,9 @@ sub Run {
 
         # get service list
         my %ServiceList = $Self->{ServiceObject}->ServiceList(
-            Valid  => 0,
-            UserID => $Self->{UserID},
+            Valid        => 0,
+            KeepChildren => 1,
+            UserID       => $Self->{UserID},
         );
 
         # get valid list
@@ -331,8 +332,9 @@ sub _MaskNew {
 
     # get service list
     my %ServiceList = $Self->{ServiceObject}->ServiceList(
-        Valid  => 1,
-        UserID => $Self->{UserID},
+        Valid        => 1,
+        KeepChildren => 1,
+        UserID       => $Self->{UserID},
     );
 
     # generate ServiceOptionStrg
@@ -343,7 +345,7 @@ sub _MaskNew {
         Multiple    => 1,
         Size        => 5,
         Translation => 0,
-        TreeView    => ($ListType eq 'tree') ? 1 : 0,
+        TreeView    => ( $ListType eq 'tree' ) ? 1 : 0,
         Max         => 200,
     );
 

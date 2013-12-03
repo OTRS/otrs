@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::Valid;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::Auth - agent authentication module.
@@ -122,7 +120,7 @@ sub new {
             $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
         }
 
-        $Self->{"AuthBackend$Count"} = $GenericModule->new( %Param, Count => $Count );
+        $Self->{"AuthBackend$Count"} = $GenericModule->new( %{$Self}, Count => $Count );
     }
 
     # load sync modules
@@ -137,7 +135,7 @@ sub new {
             $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
         }
 
-        $Self->{"AuthSyncBackend$Count"} = $GenericModule->new( %Param, Count => $Count );
+        $Self->{"AuthSyncBackend$Count"} = $GenericModule->new( %{$Self}, Count => $Count );
     }
 
     return $Self;
@@ -177,16 +175,17 @@ sub Auth {
 
     # use all 11 auth backends and return on first true
     my $User;
+    COUNT:
     for my $Count ( '', 1 .. 10 ) {
 
         # return on no config setting
-        next if !$Self->{"AuthBackend$Count"};
+        next COUNT if !$Self->{"AuthBackend$Count"};
 
         # check auth backend
         $User = $Self->{"AuthBackend$Count"}->Auth(%Param);
 
         # next on no success
-        next if !$User;
+        next COUNT if !$User;
 
         # configured auth sync backend
         my $AuthSyncBackend = $Self->{ConfigObject}->Get("AuthModule::UseSyncBackend$Count");
@@ -232,8 +231,7 @@ sub Auth {
             );
         }
 
-        # last if user is true
-        last if $User;
+        last COUNT if $User;
     }
 
     # return if no auth user

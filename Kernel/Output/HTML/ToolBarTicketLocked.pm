@@ -71,6 +71,10 @@ sub Run {
     my $ClassNew     = $Param{Config}->{CssClassNew};
     my $ClassReached = $Param{Config}->{CssClassReached};
 
+    my $Icon        = $Param{Config}->{Icon};
+    my $IconNew     = $Param{Config}->{IconNew};
+    my $IconReached = $Param{Config}->{IconReached};
+
     my $URL = $Self->{LayoutObject}->{Baselink};
     my %Return;
     my $Priority = $Param{Config}->{Priority};
@@ -80,8 +84,9 @@ sub Run {
             Count       => $CountNew,
             Description => 'Locked Tickets New',
             Class       => $ClassNew,
+            Icon        => $IconNew,
             Link        => $URL . 'Action=AgentTicketLockedView;Filter=New',
-            AccessKey   => 'k',
+            AccessKey   => $Param{Config}->{AccessKeyNew} || '',
         };
     }
     if ($CountReached) {
@@ -90,8 +95,9 @@ sub Run {
             Count       => $CountReached,
             Description => 'Locked Tickets Reminder Reached',
             Class       => $ClassReached,
+            Icon        => $IconReached,
             Link        => $URL . 'Action=AgentTicketLockedView;Filter=ReminderReached',
-            AccessKey   => 'k',
+            AccessKey   => $Param{Config}->{AccessKeyReached} || '',
         };
     }
     if ($Count) {
@@ -100,8 +106,9 @@ sub Run {
             Count       => $Count,
             Description => 'Locked Tickets Total',
             Class       => $Class,
+            Icon        => $Icon,
             Link        => $URL . 'Action=AgentTicketLockedView',
-            AccessKey   => 'k',
+            AccessKey   => $Param{Config}->{AccessKey} || '',
         };
     }
     return %Return;

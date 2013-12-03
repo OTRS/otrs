@@ -12,9 +12,15 @@ package Kernel::System::JSON;
 use strict;
 use warnings;
 
-use JSON;
+# on PerlEx JSON::XS causes problems so force JSON::PP as backend
+# see http://bugs.otrs.org/show_bug.cgi?id=7337
+BEGIN {
+    if ( $ENV{GATEWAY_INTERFACE} && $ENV{GATEWAY_INTERFACE} =~ m{\A CGI-PerlEx} ) {
+        $ENV{PERL_JSON_BACKEND} = 'JSON::PP';
+    }
+}
 
-use vars qw(@ISA);
+use JSON;
 
 =head1 NAME
 

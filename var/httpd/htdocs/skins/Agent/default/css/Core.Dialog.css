@@ -56,18 +56,18 @@
     border-top-right-radius: 8px;
 }
 
-.Dialog > .Header .Close{
+.Dialog > .Header .Close {
     display: block;
     position: absolute;
     height: 12px;
     width: 12px;
-    background: url(../img/dialog_close.png) no-repeat;
     right: 8px;
     top: 7px;
+    color: #000;
 }
 
-.Dialog > .Header .Close:hover{
-    background-position: bottom;
+.Dialog > .Header .Close:hover i {
+    color: #E57633;
 }
 
 .Dialog > .Header h1 {
@@ -146,5 +146,72 @@
     top: 100px;
     left: 300px;
 }
+
+
+
+/**
+ * subsection   Settings
+ */
+
+.Dialog fieldset {
+    margin-bottom: 15px;
+}
+
+.Dialog .WidgetSettingsForm fieldset {
+    margin-bottom: 0px;
+}
+
+.Dialog .Field.LayoutGrid {
+    padding-top: 7px;
+}
+
+.Dialog .Field.LayoutGrid .Tablelike {
+    width: 98%;
+}
+
+.Dialog .Buttons {
+    background: #ddd;
+    background: -moz-linear-gradient(top,  #eee 0%, #ddd 50%, #ccc 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee), color-stop(50%,#ddd), color-stop(100%,#ccc));
+    background: -webkit-linear-gradient(top,  #eee 0%,#ddd 50%,#ccc 100%);
+    background: -o-linear-gradient(top,  #eee 0%,#ddd 50%,#ccc 100%);
+    background: -ms-linear-gradient(top,  #eee 0%,#ddd 50%,#ccc 100%);
+    background: linear-gradient(to bottom,  #eee 0%,#ddd 50%,#ccc 100%);
+    border-top: 1px solid #ccc;
+    margin: 15px -8px -8px;
+    padding: 10px 10px 9px 10px;
+    text-align: center;
+}
+
+.Dialog .Field.LayoutGrid .AllocationList {
+    max-height: 192px;
+}
+
+.Field.LayoutGrid .AllocationList.AvailableFields {
+    max-height: 155px;
+}
+
+.Dialog .Field.LayoutGrid .AllocationList.OrderNumbers {
+    list-style: decimal inside;
+}
+
+.FilterInputContainer {
+    width: 98%;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    background-color: #eee;
+}
+
+.FilterInputContainer input {
+    width: 95%;
+    display: block;
+    margin: 7px auto;
+}
+
+#ContextSettingsDialogOverviewSmall {
+    width: 950px;
+    max-height: 600px;
+}
+
 
 } /* end @media */

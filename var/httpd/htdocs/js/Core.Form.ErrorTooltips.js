@@ -1,5 +1,5 @@
 // --
-// Core.UI.Tooltips.js - provides provides Tooltip functions
+// Core.Form.ErrorTooltips.js - provides provides Tooltip functions
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see

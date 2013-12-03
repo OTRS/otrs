@@ -24,8 +24,6 @@ use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::GenericInterface::Operation::Ticket::TicketCreate - GenericInterface Ticket TicketCreate Operation backend
@@ -298,8 +296,6 @@ sub Run {
             ErrorCode    => 'TicketUpdate.AccessDenied',
             ErrorMessage => "TicketUpdate: User does not have access to the ticket!",
         );
-
-        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
     }
 
     # check optional hashes
@@ -1195,6 +1191,7 @@ check if user has permissions to update ticket attributes.
         ErrorCode    => "function.error",           # if error
         ErrorMessage => "Error description"
     }
+
 =cut
 
 sub _CheckUpdatePermissions {
@@ -1375,6 +1372,7 @@ updates a ticket and creates an article and sets dynamic fields and attachments 
         Success      => 0,                         # if unexpected error
         ErrorMessage => "$Param{ErrorCode}: $Param{ErrorMessage}",
     }
+
 =cut
 
 sub _TicketUpdate {
@@ -1397,7 +1395,7 @@ sub _TicketUpdate {
 
     # get customer information
     if ( $Ticket->{CustomerUser} ) {
-        my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+        %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
             User => $Ticket->{CustomerUser},
         );
     }
@@ -1483,7 +1481,7 @@ sub _TicketUpdate {
         else {
 
             # data is the same as in ticket nothing to do
-            $Success = 0;
+            $Success = 1;
         }
 
         if ( !$Success ) {
@@ -1726,12 +1724,30 @@ sub _TicketUpdate {
         }
     }
 
-    # update Ticket->CustomerUser
-    if ( $Ticket->{CustomerUser} ) {
+    # update Ticket->CustomerUser && Ticket->CustomerID
+    if ( $Ticket->{CustomerUser} || $Ticket->{CustomerID} ) {
+
+        # set values to empty if they are not defined
+        $TicketData{CustomerUserID} = $TicketData{CustomerUserID} || '';
+        $TicketData{CustomerID}     = $TicketData{CustomerID}     || '';
+        $Ticket->{CustomerUser}     = $Ticket->{CustomerUser}     || '';
+        $Ticket->{CustomerID}       = $Ticket->{CustomerID}       || '';
+
         my $Success;
-        if ( $Ticket->{CustomerUser} ne $TicketData{CustomerUserID} ) {
+        if (
+            $Ticket->{CustomerUser} ne $TicketData{CustomerUserID}
+            || $Ticket->{CustomerID} ne $TicketData{CustomerID}
+            )
+        {
+            my $CustomerID = $CustomerUserData{UserCustomerID} || '';
+
+            # use user defined CustomerID if defined
+            if ( defined $Ticket->{CustomerID} && $Ticket->{CustomerID} ne '' ) {
+                $CustomerID = $Ticket->{CustomerID};
+            }
+
             $Success = $Self->{TicketObject}->TicketCustomerSet(
-                No => $CustomerUserData{UserCustomerID} || '',
+                No       => $CustomerID,
                 User     => $Ticket->{CustomerUser},
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},

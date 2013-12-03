@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::CacheInternal;
 
-use vars qw(@ISA);
-
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -73,22 +71,61 @@ sub SetPreferences {
 
     # delete old data
     return if !$Self->{DBObject}->Do(
-        SQL => "DELETE FROM $Self->{PreferencesTable} WHERE "
-            . " $Self->{PreferencesTableUserID} = ? AND $Self->{PreferencesTableKey} = ?",
+        SQL => "
+            DELETE FROM $Self->{PreferencesTable}
+            WHERE $Self->{PreferencesTableUserID} = ?
+                AND $Self->{PreferencesTableKey} = ?",
         Bind => [ \$Param{UserID}, \$Param{Key} ],
     );
 
     # insert new data
     return if !$Self->{DBObject}->Do(
-        SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableUserID}, "
-            . " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) "
-            . " VALUES (?, ?, ?)",
+        SQL => "
+            INSERT INTO $Self->{PreferencesTable}
+            ($Self->{PreferencesTableUserID}, $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue})
+            VALUES (?, ?, ?)",
         Bind => [ \$Param{UserID}, \$Param{Key}, \$Value ],
     );
 
     # delete cache
     $Self->{CacheInternalObject}->Delete(
         Key => $Self->{CachePrefix} . $Param{UserID},
+    );
+
+    return 1;
+}
+
+=item RenamePreferences()
+
+rename the old userid with the new userid in the preferences
+
+returns 1 if success or undef otherwise
+
+    my $Success = $PreferencesObject->RenamePreferences(
+        NewUserID => 2,
+        OldUserID => 1,
+    );
+
+=cut
+
+sub RenamePreferences {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Param{NewUserID};
+    return if !$Param{OldUserID};
+
+    # update the preferences
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "
+            UPDATE $Self->{PreferencesTable}
+            SET $Self->{PreferencesTableUserID} = ?
+            WHERE $Self->{PreferencesTableUserID} = ?",
+        Bind => [ \$Param{NewUserID}, \$Param{OldUserID}, ],
+    );
+
+    # delete cache
+    $Self->{CacheInternalObject}->Delete(
+        Key => $Self->{CachePrefix} . $Param{OldUserID},
     );
 
     return 1;
@@ -107,8 +144,10 @@ sub GetPreferences {
 
     # get preferences
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} "
-            . " FROM $Self->{PreferencesTable} WHERE $Self->{PreferencesTableUserID} = ?",
+        SQL => "
+            SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}
+            FROM $Self->{PreferencesTable}
+            WHERE $Self->{PreferencesTableUserID} = ?",
         Bind => [ \$Param{UserID} ],
     );
 
@@ -133,15 +172,26 @@ sub SearchPreferences {
     my $Key   = $Param{Key}   || '';
     my $Value = $Param{Value} || '';
 
+    my $Lower = '';
+    if ( $Self->{DBObject}->GetDatabaseFunction('CaseSensitive') ) {
+        $Lower = 'LOWER';
+    }
+
+    my $SQL = "
+        SELECT $Self->{PreferencesTableUserID}, $Self->{PreferencesTableValue}
+        FROM $Self->{PreferencesTable}
+        WHERE $Self->{PreferencesTableKey} = ?";
+    my @Bind = ( \$Key );
+
+    if ($Value) {
+        $SQL .= " AND $Lower($Self->{PreferencesTableValue}) LIKE $Lower(?)";
+        push @Bind, \$Value;
+    }
+
     # get preferences
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT $Self->{PreferencesTableUserID}, $Self->{PreferencesTableValue} "
-            . " FROM "
-            . " $Self->{PreferencesTable} "
-            . " WHERE "
-            . " $Self->{PreferencesTableKey} = ? AND "
-            . " $Self->{Lower}($Self->{PreferencesTableValue}) LIKE $Self->{Lower}(?)",
-        Bind => [ \$Key, \$Value ],
+        SQL  => $SQL,
+        Bind => \@Bind,
     );
 
     # fetch the result

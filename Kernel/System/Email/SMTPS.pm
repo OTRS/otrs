@@ -1,5 +1,5 @@
 # --
-# Kernel/System/Email/SMTPS.pm - the global email send module
+# Kernel/System/Email/SMTPS.pm - email send backend for SMTP/SSL
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -12,198 +12,32 @@ package Kernel::System::Email::SMTPS;
 use strict;
 use warnings;
 
-use Net::SMTP::SSL;
+use Net::SSLGlue::SMTP;
 
-sub new {
-    my ( $Type, %Param ) = @_;
+use base qw(Kernel::System::Email::SMTP);
 
-    # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    # check all needed objects
-    for (qw(ConfigObject LogObject EncodeObject)) {
-        die "Got no $_" if ( !$Self->{$_} );
-    }
-
-    # debug
-    $Self->{Debug} = $Param{Debug} || 0;
-    if ( $Self->{Debug} > 2 ) {
-
-        # shown on STDERR
-        $Self->{SMTPDebug} = 1;
-    }
-
-    # smtp timeout in sec
-    $Self->{SMTPTimeout} = 30;
-
-    # get config data
-    $Self->{FQDN}     = $Self->{ConfigObject}->Get('FQDN');
-    $Self->{MailHost} = $Self->{ConfigObject}->Get('SendmailModule::Host')
-        || die "No SendmailModule::Host found in Kernel/Config.pm";
-    $Self->{SMTPPort} = $Self->{ConfigObject}->Get('SendmailModule::Port') || 'smtp(25)';
-    $Self->{User}     = $Self->{ConfigObject}->Get('SendmailModule::AuthUser');
-    $Self->{Password} = $Self->{ConfigObject}->Get('SendmailModule::AuthPassword');
-    return $Self;
-}
-
-sub Check {
-    my ( $Self, %Param ) = @_;
-
-    # try it 3 times to connect with the SMTP server
-    # (M$ Exchange Server 2007 have sometimes problems on port 25)
-    my $SMTP;
-    TRY:
-    for my $Try ( 1 .. 3 ) {
-
-        # connect to mail server
-        $SMTP = Net::SMTP::SSL->new(
-            $Self->{MailHost},
-            Hello   => $Self->{FQDN},
-            Port    => $Self->{SMTPPort},
-            Timeout => $Self->{SMTPTimeout},
-            Debug   => $Self->{SMTPDebug},
-        );
-
-        last TRY if $SMTP;
-
-        # sleep 0,3 seconds;
-        select( undef, undef, undef, 0.3 );    ## no critic
-    }
-
-    # return if no connect was possible
-    if ( !$SMTP ) {
-        return ( Successful => 0, Message => "Can't connect to $Self->{MailHost}: $!!" );
-    }
-
-    # use smtp auth if configured
-    if ( $Self->{User} && $Self->{Password} ) {
-        if ( !$SMTP->auth( $Self->{User}, $Self->{Password} ) ) {
-            my $Error = $SMTP->code() . $SMTP->message();
-            $SMTP->quit();
-            return (
-                Successful => 0,
-                Message =>
-                    "SMTPS authentication failed: $Error! Enable Net::SMTP::SSL debug for more info!"
-            );
-        }
-    }
-
-    return ( Successful => 1, SMTPS => $SMTP );
-}
-
-sub Send {
+sub _Connect {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Header Body ToArray)) {
+    for (qw(MailHost FQDN)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-    if ( !$Param{From} ) {
-        $Param{From} = '';
-    }
 
-    # try it 3 times to connect with the SMTP server
-    # (M$ Exchange Server 2007 have sometimes problems on port 25)
-    my $SMTP;
-    TRY:
-    for my $Try ( 1 .. 3 ) {
-
-        # connect to mail server
-        $SMTP = Net::SMTP::SSL->new(
-            $Self->{MailHost},
-            Hello   => $Self->{FQDN},
-            Port    => $Self->{SMTPPort},
-            Timeout => $Self->{SMTPTimeout},
-            Debug   => $Self->{SMTPDebug},
-        );
-
-        last TRY if $SMTP;
-
-        # sleep 0,3 seconds;
-        select( undef, undef, undef, 0.3 );    ## no critic
-    }
-
-    # return if no connect was possible
-    if ( !$SMTP ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't connect to $Self->{MailHost}: $!!",
-        );
-        return;
-    }
-
-    # use smtp auth if configured
-    if ( $Self->{User} && $Self->{Password} ) {
-        if ( !$SMTP->auth( $Self->{User}, $Self->{Password} ) ) {
-            my $Error = $SMTP->code() . $SMTP->message();
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message =>
-                    "SMTP authentication failed: $Error! Enable Net::SMTP::SSL debug for more info!",
-            );
-            $SMTP->quit();
-            return;
-        }
-    }
-
-    # set from, return it from was not accepted
-    if ( !$SMTP->mail( $Param{From} ) ) {
-        my $Error = $SMTP->code() . $SMTP->message();
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message =>
-                "Can't use from '$Param{From}': $Error! Enable Net::SMTP::SSL debug for more info!",
-        );
-        $SMTP->quit();
-        return;
-    }
-
-    # get recipients
-    my $ToString = '';
-    for my $To ( @{ $Param{ToArray} } ) {
-        $ToString .= $To . ',';
-        if ( !$SMTP->to($To) ) {
-            my $Error = $SMTP->code() . $SMTP->message();
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message =>
-                    "Can't send to '$To': $Error! Enable Net::SMTP::SSL debug for more info!",
-            );
-            $SMTP->quit();
-            return;
-        }
-    }
-
-    # encode utf8 header strings (of course, there should only be 7 bit in there!)
-    $Self->{EncodeObject}->EncodeOutput( $Param{Header} );
-
-    # encode utf8 body strings
-    $Self->{EncodeObject}->EncodeOutput( $Param{Body} );
-
-    # send data
-    if ( !$SMTP->data( ${ $Param{Header} }, "\n", ${ $Param{Body} } ) ) {
-        my $Error = $SMTP->code() . $SMTP->message();
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't send message: $Error! Enable Net::SMTP::SSL debug for more info!"
-        );
-        $SMTP->quit();
-        return;
-    }
-    $SMTP->quit();
-
-    # debug
-    if ( $Self->{Debug} > 2 ) {
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "Sent email to '$ToString' from '$Param{From}'.",
-        );
-    }
-    return 1;
+    # set up connection connection
+    my $SMTP = Net::SMTP->new(
+        $Param{MailHost},
+        Hello           => $Param{FQDN},
+        Port            => $Param{SMTPPort} || 465,
+        Timeout         => 30,
+        Debug           => $Param{SMTPDebug},
+        SSL             => 1,
+        SSL_verify_mode => 0,
+    );
+    return $SMTP;
 }
 
 1;

@@ -1,0 +1,1 @@
+﻿CKEDITOR.plugins.setLang("image2","fa",{alt:"متن جایگزین",btnUpload:"به سرور بفرست",captioned:"Captioned image",infoTab:"اطلاعات تصویر",lockRatio:"قفل کردن نسبت",menu:"ویژگی​های تصویر",pathName:"image",pathNameCaption:"caption",resetSize:"بازنشانی اندازه",resizer:"Click and drag to resize",title:"ویژگی​های تصویر",uploadTab:"Upload",urlMissing:"آدرس URL اصلی تصویر یافت نشد."});

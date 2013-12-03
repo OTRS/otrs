@@ -25,7 +25,7 @@ installation.
 If you want to deploy on Windows we ship an installer that automatically
 installs OTRS, Apache (a webserver), Perl including all modules, MySQL, and
 sets up the cron jobs for you. Please refer to
-http://doc.otrs.org/3.1/en/html/installation.html#installation-on-windows
+http://doc.otrs.org/3.3/en/html/installation.html#installation-on-windows
 for detailed instructions.
 
 The OTRS system user in this example is "otrs" and the installation
@@ -68,7 +68,7 @@ Usually the package for My::Module would be called "perl-My-Module".
 first determine the name of the package the module is shipped in.
 Usually the package for My::Module would be called "libmy-module-perl".
 
-        shell> apt-get search Digest::MD5
+        shell> apt-cache search Digest::MD5
 
         Then install:
 
@@ -215,22 +215,19 @@ Make sure to execute it as the OTRS system user!
 12. OTRS Scheduler Service
 ---------------------------
 
-This step is optional. OTRS comes with a scheduler service. You'll only need
-to set up the scheduler service if you're using the Generic Interface with
-web services that need polling (OTRS as a consumer) or with web services
-where requests are sent asynchronously.
+OTRS comes with a scheduler service that is used to perform asynchronous tasks.
 
 The OTRS RPMs will set up the Scheduler Service automatically.
 If you install from source, you can install the service by copying the
-scripts/otrs-scheduler-linux file to /etc/init.d and give it the appropriate
-permissions. This will make sure the scheduler service starts when the system
-starts up.
+scripts/otrs-scheduler-linux file to /etc/init.d and giving it the appropriate permissions.
+
+This will make sure the scheduler service starts when the system starts up.
 
 Notes
 =====
 
 We advise you to read the OTRS performance tuning chapter on our homepage:
-http://doc.otrs.org/3.1/en/html/performance-tuning.html.
+http://doc.otrs.org/3.3/en/html/performance-tuning.html.
 
 If you encounter problems with the installation, you can send a message to our
 mailing list otrs@otrs.org (http://lists.otrs.org/).

@@ -49,11 +49,14 @@ sub Run {
     my $Priority  = $Param{Config}->{Priority};
     my $AccessKey = $Param{Config}->{AccessKey};
     my $CssClass  = $Param{Config}->{CssClass};
+    my $Icon      = $Param{Config}->{Icon};
+
     my %Return;
     $Return{$Priority} = {
         Block       => 'ToolBarItem',
         Description => $Text,
         Class       => $CssClass,
+        Icon        => $Icon,
         Link        => $URL,
         AccessKey   => $AccessKey,
     };

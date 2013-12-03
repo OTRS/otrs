@@ -18,9 +18,6 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::User;
 
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
-
 =head1 NAME
 
 Kernel::System::ACL::DB::ACL.pm
@@ -120,7 +117,7 @@ returns the id of the created ACL if success or undef otherwise
 
     my $ID = $ACL->ACLAdd(
         Name           => 'NameOfACL'           # mandatory
-        Comment        => 'Comment',            # mandatory
+        Comment        => 'Comment',            # optional
         Description    => 'Description',        # optional
         StopAfterMatch => 1,                    # optional
         ConfigMatch    => $ConfigMatchHashRef,  # optional
@@ -139,7 +136,7 @@ sub ACLAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Key (qw(Name Comment ValidID UserID)) {
+    for my $Key (qw(Name ValidID UserID)) {
         if ( !$Param{$Key} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -150,7 +147,7 @@ sub ACLAdd {
     }
 
     # define Description field if not present
-    $Param{Description} = '' if !defined $Param{Description};
+    $Param{Description} //= '';
 
     my $ConfigMatch  = '';
     my $ConfigChange = '';
@@ -439,7 +436,7 @@ returns 1 if success or undef otherwise
     my $Success = $ACLObject->ACLUpdate(
         ID             => 123,                  # mandatory
         Name           => 'NameOfACL',          # mandatory
-        Comment        => 'Comment',            # mandatory
+        Comment        => 'Comment',            # optional
         Description    => 'Description',        # optional
         StopAfterMatch => 1,                    # optional
         ValidID        => 'ValidID',            # mandatory
@@ -454,7 +451,7 @@ sub ACLUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Key (qw(ID Name Comment ValidID UserID)) {
+    for my $Key (qw(ID Name ValidID UserID)) {
         if ( !$Param{$Key} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
             return;
@@ -462,7 +459,7 @@ sub ACLUpdate {
     }
 
     # define Description field if not present
-    $Param{Description} = '' if !defined $Param{Description};
+    $Param{Description} //= '';
 
     my $ConfigMatch  = '';
     my $ConfigChange = '';
@@ -541,13 +538,13 @@ sub ACLUpdate {
 
     if (
         $CurrentName
-        && $CurrentName           eq $Param{Name}
-        && $CurrentComment        eq $Param{Comment}
-        && $CurrentDescription    eq $Param{Description}
+        && $CurrentName eq $Param{Name}
+        && $CurrentComment eq $Param{Comment}
+        && $CurrentDescription eq $Param{Description}
         && $CurrentStopAfterMatch eq $Param{StopAfterMatch}
-        && $CurrentValidID        eq $Param{ValidID}
-        && $CurrentConfigMatch    eq $Param{ConfigMatch}
-        && $CurrentConfigChange   eq $Param{ConfigChange}
+        && $CurrentValidID eq $Param{ValidID}
+        && $CurrentConfigMatch eq $Param{ConfigMatch}
+        && $CurrentConfigChange eq $Param{ConfigChange}
         )
     {
         return 1;
@@ -632,7 +629,8 @@ sub ACLList {
 
     if ( $ValidIDsStrg ne 'ALL' ) {
 
-        my $ValidIDsStrgDB = join ',', map $Self->{DBObject}->Quote($_, 'Integer'), @{ $Param{ValidIDs} };
+        my $ValidIDsStrgDB = join ',', map $Self->{DBObject}->Quote( $_, 'Integer' ),
+            @{ $Param{ValidIDs} };
 
         $SQL .= "WHERE valid_id IN ($ValidIDsStrgDB)";
     }
@@ -727,7 +725,7 @@ sub ACLListGet {
     if ( $ValidIDsStrg ne 'ALL' ) {
 
         my $ValidIDsStrgDB
-            = join ',', map $Self->{DBObject}->Quote($_, 'Integer'), @{ $Param{ValidIDs} };
+            = join ',', map $Self->{DBObject}->Quote( $_, 'Integer' ), @{ $Param{ValidIDs} };
 
         $SQL .= "WHERE valid_id IN ($ValidIDsStrgDB)";
     }
@@ -896,7 +894,7 @@ sub ACLDump {
     );
 
     my $Output = '';
-    for my $ACLName ( keys %ACLDump ) {
+    for my $ACLName ( sort keys %ACLDump ) {
 
         # create output
         $Output .= $Self->_ACLItemOutput(
@@ -929,6 +927,8 @@ sub ACLDump {
 # OTRS config file (automatically generated)
 # VERSION:1.1
 package Kernel::Config::Files::ZZZACL;
+use strict;
+use warnings;
 use utf8;
 sub Load {
     my ($File, $Self) = @_;
@@ -978,8 +978,6 @@ sub _ACLItemOutput {
     return $Output . "\n";
 }
 
-=cut
-
 1;
 
 =back
@@ -991,12 +989,6 @@ This software is part of the OTRS project (L<http://otrs.org/>).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=cut
-
-=head1 VERSION
-
-$Revision: 1.13 $ $Date: 2013/05/08 17:18:35 $
 
 =cut
 

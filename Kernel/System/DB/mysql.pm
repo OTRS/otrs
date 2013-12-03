@@ -36,6 +36,13 @@ sub LoadPreferences {
     $Self->{'DB::CaseSensitive'}        = 0;
     $Self->{'DB::LikeEscapeString'}     = '';
 
+    # how to determine server version
+    # version can have package prefix, we need to extract that
+    # example of VERSION() output: '5.5.32-0ubuntu0.12.04.1'
+    # if VERSION() contains 'MariaDB', add MariaDB, otherwise MySQL.
+    $Self->{'DB::Version'}
+        = "SELECT CONCAT( IF (INSTR( VERSION(),'MariaDB'),'MariaDB ','MySQL '), SUBSTRING_INDEX(VERSION(),'-',1))";
+
     # DBI/DBD::mysql attributes
     # disable automatic reconnects as they do not execute DB::Connect, which will
     # cause charset problems
@@ -56,8 +63,7 @@ sub LoadPreferences {
     #$Self->{'DB::ShellConnect'} = '';
 
     # init sql setting on db connect
-    if ( !$Self->{ConfigObject}->Get('Database::ShellOutput') )
-    {
+    if ( !$Self->{ConfigObject}->Get('Database::ShellOutput') ) {
         $Self->{'DB::Connect'} = 'SET NAMES utf8';
     }
 
@@ -398,7 +404,7 @@ sub TableAlter {
             push @SQL, $SQLStart . " CHANGE $Tag->{NameOld} $Tag->{NameNew} $Tag->{Type} NULL";
 
             # remove possible default (not on TEXT/BLOB/LONGBLOB type, not supported by mysql)
-            if ( $Tag->{Type} !~ /^(TEXT|BLOB|LONGBLOB)$/i ) {
+            if ( $Tag->{Type} !~ /^(TEXT|MEDIUMTEXT|BLOB|LONGBLOB)$/i ) {
                 push @SQL, "ALTER TABLE $Table ALTER $Tag->{NameNew} DROP DEFAULT";
             }
 

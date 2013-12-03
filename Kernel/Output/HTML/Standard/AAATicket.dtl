@@ -136,6 +136,12 @@ $Text{"auto remove"}
 $Text{"auto reply"}
 $Text{"auto reply/new ticket"}
 
+# Templates
+$Text{"Create"}
+$Text{"Answer"}
+$Text{"Forward"}
+$Text{"Phone call"}
+
 $Text{"Ticket "%s" created!"}
 $Text{"Ticket Number"}
 $Text{"Ticket Object"}
@@ -168,7 +174,7 @@ $Text{"Send Email and create a new Ticket"}
 $Text{"Create new Email Ticket and send this out (Outbound)"}
 $Text{"Create new Phone Ticket (Inbound)"}
 $Text{"Address %s replaced with registered customer address."}
-$Text{"Customer automatically added in Cc."}
+$Text{"Customer user automatically added in Cc."}
 $Text{"Overview of all open Tickets"}
 $Text{"Locked Tickets"}
 $Text{"My Locked Tickets"}
@@ -201,6 +207,7 @@ $Text{"Delete this ticket"}
 $Text{"Mark as Spam!"}
 $Text{"My Queues"}
 $Text{"Shown Tickets"}
+$Text{"Shown Columns"}
 $Text{"Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>"."}
 $Text{"Ticket %s: first response time is over (%s)!"}
 $Text{"Ticket %s: first response time will be over in %s!"}
@@ -278,6 +285,7 @@ $Text{"All escalated tickets"}
 $Text{"All tickets with a reminder set where the reminder date has been reached"}
 $Text{"Archived tickets"}
 $Text{"Unarchived tickets"}
+$Text{"Ticket Information"}
 
 # ticket history text
 $Text{"History::Move"}

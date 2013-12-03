@@ -60,7 +60,7 @@
                         <tr>
                             <th>$Text{"Email address"}</th>
                             <th>$Text{"Display name"}</th>
-                            <th>$Text{"Comment"}</th>
+                            <th>$Text{"Queue"}</th>
                             <th>$Text{"Validity"}</th>
                             <th>$Text{"Changed"}</th>
                             <th>$Text{"Created"}</th>
@@ -75,10 +75,10 @@
                         </tr>
 <!-- dtl:block:NoDataFoundMsg -->
 <!-- dtl:block:OverviewResultRow -->
-                        <tr>
-                            <td><a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
+                        <tr class="MasterAction">
+                            <td><a class="AsBlock MasterActionLink" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"}">$QData{"Name"}</a></td>
                             <td title="$QData{"Realname"}">$QData{"Realname","26"}</td>
-                            <td title="$QData{"Comment"}">$QData{"Comment","26"}</td>
+                            <td>$QData{"Queue"}</td>
                             <td>$Text{"$Data{"Valid"}"}</td>
                             <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
                             <td>$TimeShort{"$QData{"CreateTime"}"}</td>
@@ -87,6 +87,18 @@
                     </tbody>
                 </table>
             </div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+$('.MasterAction').bind('click', function (Event) {
+    var $MasterActionLink = $(this).find('.MasterActionLink');
+    // only act if the link was not clicked directly
+    if (Event.target !== $MasterActionLink.get(0)) {
+        window.location = $MasterActionLink.attr('href');
+        return false;
+    }
+});
+//]]></script>
+<!--dtl:js_on_document_complete-->
 <!-- dtl:block:OverviewResult -->
 
 <!-- dtl:block:OverviewUpdate -->

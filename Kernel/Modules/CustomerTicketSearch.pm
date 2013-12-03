@@ -62,6 +62,22 @@ sub new {
         FieldFilter => $Self->{DynamicFieldFilter} || {},
     );
 
+    # reduce the dynamic fields to only the ones that are desinged for customer interface
+    my @CustomerDynamicFields;
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        my $IsCustomerInterfaceCapable = $Self->{BackendObject}->HasBehavior(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsCustomerInterfaceCapable',
+        );
+        next DYNAMICFIELD if !$IsCustomerInterfaceCapable;
+
+        push @CustomerDynamicFields, $DynamicFieldConfig;
+    }
+    $Self->{DynamicField} = \@CustomerDynamicFields;
+
     # get the ticket dynamic fields for overview display
     $Self->{OverviewDynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid       => 1,
@@ -69,12 +85,44 @@ sub new {
         FieldFilter => $Self->{Config}->{SearchOverviewDynamicField} || {},
     );
 
+    # reduce the dynamic fields to only the ones that are desinged for customer interface
+    my @OverviewCustomerDynamicFields;
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{OverviewDynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        my $IsCustomerInterfaceCapable = $Self->{BackendObject}->HasBehavior(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsCustomerInterfaceCapable',
+        );
+        next DYNAMICFIELD if !$IsCustomerInterfaceCapable;
+
+        push @OverviewCustomerDynamicFields, $DynamicFieldConfig;
+    }
+    $Self->{OverviewDynamicField} = \@OverviewCustomerDynamicFields;
+
     # get the ticket dynamic fields for CSV display
     $Self->{CSVDynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid       => 1,
         ObjectType  => ['Ticket'],
         FieldFilter => $Self->{Config}->{SearchCSVDynamicField} || {},
     );
+
+    # reduce the dynamic fields to only the ones that are desinged for customer interface
+    my @CSVCustomerDynamicFields;
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{CSVDynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        my $IsCustomerInterfaceCapable = $Self->{BackendObject}->HasBehavior(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsCustomerInterfaceCapable',
+        );
+        next DYNAMICFIELD if !$IsCustomerInterfaceCapable;
+
+        push @CSVCustomerDynamicFields, $DynamicFieldConfig;
+    }
+    $Self->{CSVDynamicField} = \@CSVCustomerDynamicFields;
 
     return $Self;
 }
@@ -152,7 +200,9 @@ sub Run {
         }
 
         # get array params
-        for my $Key (qw(StateIDs StateTypeIDs PriorityIDs OwnerIDs ResponsibleIDs ServiceIDs TypeIDs))
+        for my $Key (
+            qw(StateIDs StateTypeIDs PriorityIDs OwnerIDs ResponsibleIDs ServiceIDs TypeIDs)
+            )
         {
 
             # get search array params (get submitted params)
@@ -168,17 +218,30 @@ sub Run {
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-            # extract the dynamic field value from the web request
-            my $DynamicFieldValue = $Self->{BackendObject}->SearchFieldValueGet(
-                DynamicFieldConfig     => $DynamicFieldConfig,
-                ParamObject            => $Self->{ParamObject},
-                ReturnProfileStructure => 1,
-                LayoutObject           => $Self->{LayoutObject},
+            # get search field preferences
+            my $SearchFieldPreferences = $Self->{BackendObject}->SearchFieldPreferences(
+                DynamicFieldConfig => $DynamicFieldConfig,
             );
 
-            # set the complete value structure in GetParam to store it later in the search profile
-            if ( IsHashRefWithData($DynamicFieldValue) ) {
-                %GetParam = ( %GetParam, %{$DynamicFieldValue} );
+            next DYNAMICFIELD if !IsArrayRefWithData($SearchFieldPreferences);
+
+            PREFERENCE:
+            for my $Preference ( @{$SearchFieldPreferences} ) {
+
+                # extract the dynamic field value from the web request
+                my $DynamicFieldValue = $Self->{BackendObject}->SearchFieldValueGet(
+                    DynamicFieldConfig     => $DynamicFieldConfig,
+                    ParamObject            => $Self->{ParamObject},
+                    ReturnProfileStructure => 1,
+                    LayoutObject           => $Self->{LayoutObject},
+                    Type                   => $Preference->{Type},
+                );
+
+                # set the complete value structure in GetParam to store it later in the search
+                # profile
+                if ( IsHashRefWithData($DynamicFieldValue) ) {
+                    %GetParam = ( %GetParam, %{$DynamicFieldValue} );
+                }
             }
         }
     }
@@ -270,12 +333,12 @@ sub Run {
             }
         }
 
-
         my %TimeMap = (
-            TicketCreate             => 'Time',
+            TicketCreate => 'Time',
         );
 
-        for my $TimeType (sort keys %TimeMap) {
+        for my $TimeType ( sort keys %TimeMap ) {
+
             # get create time settings
             if ( !$GetParam{ $TimeMap{$TimeType} . 'SearchType' } ) {
 
@@ -283,75 +346,78 @@ sub Run {
             }
             elsif ( $GetParam{ $TimeMap{$TimeType} . 'SearchType' } eq 'TimeSlot' ) {
                 for my $Key (qw(Month Day)) {
-                    $GetParam{$TimeType . 'TimeStart'  . $Key}
-                        = sprintf( "%02d", $GetParam{$TimeType . 'TimeStart' . $Key} );
-                    $GetParam{$TimeType . 'TimeStop' . $Key}
-                        = sprintf( "%02d", $GetParam{$TimeType . 'TimeStop' . $Key} );
+                    $GetParam{ $TimeType . 'TimeStart' . $Key }
+                        = sprintf( "%02d", $GetParam{ $TimeType . 'TimeStart' . $Key } );
+                    $GetParam{ $TimeType . 'TimeStop' . $Key }
+                        = sprintf( "%02d", $GetParam{ $TimeType . 'TimeStop' . $Key } );
                 }
                 if (
-                    $GetParam{$TimeType . 'TimeStartDay'}
-                    && $GetParam{$TimeType . 'TimeStartMonth'}
-                    && $GetParam{$TimeType . 'TimeStartYear'}
+                    $GetParam{ $TimeType . 'TimeStartDay' }
+                    && $GetParam{ $TimeType . 'TimeStartMonth' }
+                    && $GetParam{ $TimeType . 'TimeStartYear' }
                     )
                 {
-                    $GetParam{$TimeType . 'TimeNewerDate'}
-                        = $GetParam{$TimeType . 'TimeStartYear'} . '-'
-                        . $GetParam{$TimeType . 'TimeStartMonth'} . '-'
-                        . $GetParam{$TimeType . 'TimeStartDay'}
+                    $GetParam{ $TimeType . 'TimeNewerDate' }
+                        = $GetParam{ $TimeType . 'TimeStartYear' } . '-'
+                        . $GetParam{ $TimeType . 'TimeStartMonth' } . '-'
+                        . $GetParam{ $TimeType . 'TimeStartDay' }
                         . ' 00:00:00';
                 }
                 if (
-                    $GetParam{$TimeType . 'TimeStopDay'}
-                    && $GetParam{$TimeType . 'TimeStopMonth'}
-                    && $GetParam{$TimeType . 'TimeStopYear'}
+                    $GetParam{ $TimeType . 'TimeStopDay' }
+                    && $GetParam{ $TimeType . 'TimeStopMonth' }
+                    && $GetParam{ $TimeType . 'TimeStopYear' }
                     )
                 {
-                    $GetParam{$TimeType . 'TimeOlderDate'}
-                        = $GetParam{$TimeType . 'TimeStopYear'} . '-'
-                        . $GetParam{$TimeType . 'TimeStopMonth'} . '-'
-                        . $GetParam{$TimeType . 'TimeStopDay'}
+                    $GetParam{ $TimeType . 'TimeOlderDate' }
+                        = $GetParam{ $TimeType . 'TimeStopYear' } . '-'
+                        . $GetParam{ $TimeType . 'TimeStopMonth' } . '-'
+                        . $GetParam{ $TimeType . 'TimeStopDay' }
                         . ' 23:59:59';
                 }
             }
             elsif ( $GetParam{ $TimeMap{$TimeType} . 'SearchType' } eq 'TimePoint' ) {
                 if (
-                    $GetParam{$TimeType . 'TimePoint'}
-                    && $GetParam{$TimeType . 'TimePointStart'}
-                    && $GetParam{$TimeType . 'TimePointFormat'}
+                    $GetParam{ $TimeType . 'TimePoint' }
+                    && $GetParam{ $TimeType . 'TimePointStart' }
+                    && $GetParam{ $TimeType . 'TimePointFormat' }
                     )
                 {
                     my $Time = 0;
-                    if ( $GetParam{$TimeType . 'TimePointFormat'} eq 'minute' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'};
+                    if ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'minute' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' };
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointFormat'} eq 'hour' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'} * 60;
+                    elsif ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'hour' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' } * 60;
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointFormat'} eq 'day' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'} * 60 * 24;
+                    elsif ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'day' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' } * 60 * 24;
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointFormat'} eq 'week' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'} * 60 * 24 * 7;
+                    elsif ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'week' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' } * 60 * 24 * 7;
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointFormat'} eq 'month' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'} * 60 * 24 * 30;
+                    elsif ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'month' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' } * 60 * 24 * 30;
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointFormat'} eq 'year' ) {
-                        $Time = $GetParam{$TimeType . 'TimePoint'} * 60 * 24 * 365;
+                    elsif ( $GetParam{ $TimeType . 'TimePointFormat' } eq 'year' ) {
+                        $Time = $GetParam{ $TimeType . 'TimePoint' } * 60 * 24 * 365;
                     }
-                    if ( $GetParam{$TimeType . 'TimePointStart'} eq 'Before' ) {
+                    if ( $GetParam{ $TimeType . 'TimePointStart' } eq 'Before' ) {
+
                         # more than ... ago
-                        $GetParam{$TimeType . 'TimeOlderMinutes'} = $Time;
+                        $GetParam{ $TimeType . 'TimeOlderMinutes' } = $Time;
                     }
-                    elsif ( $GetParam{$TimeType . 'TimePointStart'} eq 'Next' ) {
+                    elsif ( $GetParam{ $TimeType . 'TimePointStart' } eq 'Next' ) {
+
                         # within next
-                        $GetParam{$TimeType . 'TimeNewerMinutes'} = 0;
-                        $GetParam{$TimeType . 'TimeOlderMinutes'} = -$Time;
+                        $GetParam{ $TimeType . 'TimeNewerMinutes' } = 0;
+                        $GetParam{ $TimeType . 'TimeOlderMinutes' } = -$Time;
                     }
                     else {
+
                         # within last ...
-                        $GetParam{$TimeType . 'TimeOlderMinutes'} = 0;
-                        $GetParam{$TimeType . 'TimeNewerMinutes'} = $Time;
+                        $GetParam{ $TimeType . 'TimeOlderMinutes' } = 0;
+                        $GetParam{ $TimeType . 'TimeNewerMinutes' } = $Time;
                     }
                 }
             }
@@ -397,21 +463,44 @@ sub Run {
         for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-            # extract the dynamic field value from the web request
-            my $SearchParameter = $Self->{BackendObject}->SearchFieldParameterBuild(
+            # get search field preferences
+            my $SearchFieldPreferences = $Self->{BackendObject}->SearchFieldPreferences(
                 DynamicFieldConfig => $DynamicFieldConfig,
-                Profile            => \%GetParam,
-                LayoutObject       => $Self->{LayoutObject},
             );
 
-            # set search parameter
-            if ( defined $SearchParameter ) {
-                $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                    = $SearchParameter->{Parameter};
+            next DYNAMICFIELD if !IsArrayRefWithData($SearchFieldPreferences);
 
-                # set value to display
-                $DynamicFieldSearchDisplay{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                    = $SearchParameter->{Display};
+            PREFERENCE:
+            for my $Preference ( @{$SearchFieldPreferences} ) {
+
+                my $DynamicFieldValue = $Self->{BackendObject}->SearchFieldValueGet(
+                    DynamicFieldConfig     => $DynamicFieldConfig,
+                    ParamObject            => $Self->{ParamObject},
+                    Type                   => $Preference->{Type},
+                    ReturnProfileStructure => 1,
+                );
+
+                # set the complete value structure in %DynamicFieldValues to discard those where the
+                # value will not be possible to get
+                next PREFERENCE if !IsHashRefWithData($DynamicFieldValue);
+
+                # extract the dynamic field value from the profile
+                my $SearchParameter = $Self->{BackendObject}->SearchFieldParameterBuild(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Profile            => \%GetParam,
+                    LayoutObject       => $Self->{LayoutObject},
+                    Type               => $Preference->{Type},
+                );
+
+                # set search parameter
+                if ( defined $SearchParameter ) {
+                    $DynamicFieldSearchParameters{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                        = $SearchParameter->{Parameter};
+
+                    # set value to display
+                    $DynamicFieldSearchDisplay{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                        = $SearchParameter->{Display};
+                }
             }
         }
 
@@ -559,7 +648,7 @@ sub Run {
 
             if ( $Self->{ConfigObject}->Get('PreferencesGroups')->{CSVSeparator}->{Active} ) {
                 my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
-                $UserCSVSeparator = $UserData{UserCSVSeparator};
+                $UserCSVSeparator = $UserData{UserCSVSeparator} if $UserData{UserCSVSeparator};
             }
 
             my %HeaderMap = (
@@ -696,8 +785,9 @@ sub Run {
                 my $Label = $DynamicFieldConfig->{Label};
 
                 # get field sortable condition
-                my $IsSortable = $Self->{BackendObject}->IsSortable(
+                my $IsSortable = $Self->{BackendObject}->HasBehavior(
                     DynamicFieldConfig => $DynamicFieldConfig,
+                    Behavior           => 'IsSortable',
                 );
 
                 if ($IsSortable) {
@@ -707,7 +797,7 @@ sub Run {
                         $Self->{SortBy}
                         && (
                             $Self->{SortBy} eq
-                            ( 'Search_DynamicField_' . $DynamicFieldConfig->{Name} )
+                            ( 'DynamicField_' . $DynamicFieldConfig->{Name} )
                         )
                         )
                     {
@@ -954,18 +1044,54 @@ sub Run {
                 }
                 $Value = $Item;
             }
+            if ( $Key eq 'TimeSearchType' ) {
 
-            if ( $Key ne 'TimeSearchType' ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'SearchTerms',
-                    Data => {
-                        %Param,
-                        Attribute => $Attribute,
-                        Key       => $Key,
-                        Value     => $Value,
-                    },
-                );
+                if ( $GetParam{TimeSearchType} eq 'TimeSlot' ) {
+
+                    my $StartDate = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
+                        $GetParam{TicketCreateTimeStartYear}
+                            . '-' . $GetParam{TicketCreateTimeStartMonth}
+                            . '-' . $GetParam{TicketCreateTimeStartDay}
+                            . ' 00:00:00', 'DateFormatShort'
+                    );
+
+                    my $StopDate = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
+                        $GetParam{TicketCreateTimeStopYear}
+                            . '-' . $GetParam{TicketCreateTimeStopMonth}
+                            . '-' . $GetParam{TicketCreateTimeStopDay}
+                            . ' 00:00:00', 'DateFormatShort'
+                    );
+
+                    $Attribute = 'Created between';
+                    $Value
+                        = $StartDate . ' '
+                        . $Self->{LayoutObject}->{LanguageObject}->Get('and') . ' '
+                        . $StopDate;
+                }
+                else {
+
+                    my $Mapping = {
+                        'Last'   => 'Created within the last',
+                        'Before' => 'Created more than ... ago',
+                    };
+
+                    $Attribute = $Mapping->{ $GetParam{TicketCreateTimePointStart} };
+                    $Value
+                        = $GetParam{TicketCreateTimePoint} . ' '
+                        . $Self->{LayoutObject}->{LanguageObject}
+                        ->Get( $GetParam{TicketCreateTimePointFormat} . '(s)' );
+                }
             }
+
+            $Self->{LayoutObject}->Block(
+                Name => 'SearchTerms',
+                Data => {
+                    %Param,
+                    Attribute => $Attribute,
+                    Key       => $Key,
+                    Value     => $Value,
+                },
+            );
         }
 
         # cycle through the activated Dynamic Fields for this screen
@@ -1086,60 +1212,82 @@ sub Run {
 
             my $PossibleValuesFilter;
 
-            # get PossibleValues
-            my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+            my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
+                Behavior           => 'IsACLReducible',
             );
-            # check if field has PossibleValues property in its configuration
-            if ( IsHashRefWithData( $PossibleValues ) ) {
 
-                # get historical values from database
-                my $HistoricalValues = $Self->{BackendObject}->HistoricalValuesGet(
+            if ($IsACLReducible) {
+
+                # get PossibleValues
+                my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
                     DynamicFieldConfig => $DynamicFieldConfig,
                 );
 
-                my $Data = $PossibleValues;
+                # check if field has PossibleValues property in its configuration
+                if ( IsHashRefWithData($PossibleValues) ) {
 
-                # add historic values to current values (if they don't exist anymore)
-                if ( IsHashRefWithData($HistoricalValues) ) {
-                    for my $Key ( sort keys %{$HistoricalValues} ) {
-                        if ( !$Data->{$Key} ) {
-                            $Data->{$Key} = $HistoricalValues->{$Key}
+                    # get historical values from database
+                    my $HistoricalValues = $Self->{BackendObject}->HistoricalValuesGet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                    );
+
+                    my $Data = $PossibleValues;
+
+                    # add historic values to current values (if they don't exist anymore)
+                    if ( IsHashRefWithData($HistoricalValues) ) {
+                        for my $Key ( sort keys %{$HistoricalValues} ) {
+                            if ( !$Data->{$Key} ) {
+                                $Data->{$Key} = $HistoricalValues->{$Key}
+                            }
                         }
                     }
-                }
 
-                # convert possible values key => value to key => key for ACLs using a Hash slice
-                my %AclData = %{$Data};
-                @AclData{ keys %AclData } = keys %AclData;
+                    # convert possible values key => value to key => key for ACLs using a Hash slice
+                    my %AclData = %{$Data};
+                    @AclData{ keys %AclData } = keys %AclData;
 
-                # set possible values filter from ACLs
-                my $ACL = $Self->{TicketObject}->TicketAcl(
-                    Action         => $Self->{Action},
-                    ReturnType     => 'Ticket',
-                    ReturnSubType  => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                    Data           => \%AclData,
-                    CustomerUserID => $Self->{UserID},
-                );
-                if ($ACL) {
-                    my %Filter = $Self->{TicketObject}->TicketAclData();
+                    # set possible values filter from ACLs
+                    my $ACL = $Self->{TicketObject}->TicketAcl(
+                        Action         => $Self->{Action},
+                        ReturnType     => 'Ticket',
+                        ReturnSubType  => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                        Data           => \%AclData,
+                        CustomerUserID => $Self->{UserID},
+                    );
+                    if ($ACL) {
+                        my %Filter = $Self->{TicketObject}->TicketAclData();
 
-                    # convert Filer key => key back to key => value using map
-                    %{$PossibleValuesFilter} = map { $_ => $Data->{$_} } keys %Filter;
+                        # convert Filer key => key back to key => value using map
+                        %{$PossibleValuesFilter} = map { $_ => $Data->{$_} } keys %Filter;
+                    }
                 }
             }
 
-            # get field html
-            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} }
-                = $Self->{BackendObject}->SearchFieldRender(
-                DynamicFieldConfig   => $DynamicFieldConfig,
-                Profile              => \%GetParam,
-                PossibleValuesFilter => $PossibleValuesFilter,
-                DefaultValue =>
-                    $Self->{Config}->{Defaults}->{DynamicField}->{ $DynamicFieldConfig->{Name} },
-                LayoutObject           => $Self->{LayoutObject},
-                ConfirmationCheckboxes => 1,
-                );
+            # get search field preferences
+            my $SearchFieldPreferences = $Self->{BackendObject}->SearchFieldPreferences(
+                DynamicFieldConfig => $DynamicFieldConfig,
+            );
+
+            next DYNAMICFIELD if !IsArrayRefWithData($SearchFieldPreferences);
+
+            PREFERENCE:
+            for my $Preference ( @{$SearchFieldPreferences} ) {
+
+                # get field html
+                $DynamicFieldHTML{ $DynamicFieldConfig->{Name} . $Preference->{Type} }
+                    = $Self->{BackendObject}->SearchFieldRender(
+                    DynamicFieldConfig   => $DynamicFieldConfig,
+                    Profile              => \%GetParam,
+                    PossibleValuesFilter => $PossibleValuesFilter,
+                    DefaultValue =>
+                        $Self->{Config}->{Defaults}->{DynamicField}
+                        ->{ $DynamicFieldConfig->{Name} },
+                    LayoutObject           => $Self->{LayoutObject},
+                    ConfirmationCheckboxes => 1,
+                    Type                   => $Preference->{Type},
+                    );
+            }
         }
 
         # generate search mask
@@ -1314,8 +1462,9 @@ sub MaskForm {
             Last   => 'within the last ...',
             Before => 'more than ... ago',
         },
-        Name => 'TicketCreateTimePointStart',
-        SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
+        Translation => 1,
+        Name        => 'TicketCreateTimePointStart',
+        SelectedID  => $Param{TicketCreateTimePointStart} || 'Last',
     );
     $Param{TicketCreateTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
         Data => {
@@ -1326,8 +1475,9 @@ sub MaskForm {
             month  => 'month(s)',
             year   => 'year(s)',
         },
-        Name       => 'TicketCreateTimePointFormat',
-        SelectedID => $Param{TicketCreateTimePointFormat},
+        Translation => 1,
+        Name        => 'TicketCreateTimePointFormat',
+        SelectedID  => $Param{TicketCreateTimePointFormat},
     );
     $Param{TicketCreateTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
@@ -1381,18 +1531,31 @@ sub MaskForm {
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        # skip fields if HTML could not be retrieved
-        next DYNAMICFIELD if !IsHashRefWithData(
-            $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} }
+        # get search field preferences
+        my $SearchFieldPreferences = $Self->{BackendObject}->SearchFieldPreferences(
+            DynamicFieldConfig => $DynamicFieldConfig,
         );
 
-        $Self->{LayoutObject}->Block(
-            Name => 'DynamicField',
-            Data => {
-                Label => $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} }->{Label},
-                Field => $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} }->{Field},
-            },
-        );
+        next DYNAMICFIELD if !IsArrayRefWithData($SearchFieldPreferences);
+
+        PREFERENCE:
+        for my $Preference ( @{$SearchFieldPreferences} ) {
+
+            # skip fields that HTML could not be retrieved
+            next PREFERENCE if !IsHashRefWithData(
+                $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} . $Preference->{Type} }
+            );
+
+            $Self->{LayoutObject}->Block(
+                Name => 'DynamicField',
+                Data => {
+                    Label => $Param{DynamicFieldHTML}
+                        ->{ $DynamicFieldConfig->{Name} . $Preference->{Type} }->{Label},
+                    Field => $Param{DynamicFieldHTML}
+                        ->{ $DynamicFieldConfig->{Name} . $Preference->{Type} }->{Field},
+                },
+            );
+        }
     }
 
     # html search mask output

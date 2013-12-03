@@ -85,49 +85,53 @@ my @Tests = (
         Name => 'Output() - test 2',
     },
 
-    # --------------------------------------------------------- #
-    # Commented out this UnitTest as this test will fail        #
-    # This functionality never worked in otrs, but it would be  #
-    # desirable that it will be fixed in the Output() function  #
-    # in Layout.pm                                              #
-    # --------------------------------------------------------- #
-    #
-    #    # test 3
-    #    {
-    #        Input => '<!-- dtl:block:ConfigElementBlock1 -->
-    #<b>$QData{"Name"}</b>
-    #<!-- dtl:block:ConfigElementBlock1 -->
-    #<!-- dtl:block:ConfigElementBlock2 -->
-    #<b>$QData{"Name"}</b>
-    #<!-- dtl:block:ConfigElementBlock2 -->',
-    #        Result => '
-    #<!--ConfigElementBlock1-->
-    #<b>test123</b>
-    #<!--/ConfigElementBlock1-->
-    #
-    #<!--ConfigElementBlock1-->
-    #<b>test1235</b>
-    #<!--/ConfigElementBlock1-->
-    #
-    #<!--ConfigElementBlock2-->
-    #<b>test1234</b>
-    #<!--/ConfigElementBlock2-->',
-    #        Block => [
-    #            {
-    #                Name => 'ConfigElementBlock1',
-    #                Data => { Name => 'test123' },
-    #            },
-    #            {
-    #                Name => 'ConfigElementBlock2',
-    #                Data => { Name => 'test1234' },
-    #            },
-    #            {
-    #                Name => 'ConfigElementBlock1',
-    #                Data => { Name => 'test1235' },
-    #            },
-    #        ],
-    #        Name => 'Output() - test 3',
-    #    },
+    # test 3
+    {
+        Input => '
+<!-- dtl:block:Block1 -->
+<b>$QData{"Name"}</b>
+<!-- dtl:block:Block11 -->
+    <b>$QData{"Name"}</b>
+<!-- dtl:block:Block11 -->
+<!-- dtl:block:Block1 -->
+<!-- dtl:block:Block2 -->
+<b>$QData{"Name"}</b>
+<!-- dtl:block:Block2 -->
+',
+        Result => '
+
+<b>Block1_1</b>
+
+    <b>Block11_1</b>
+    <b>Block11_2</b>
+<b>Block1_2</b>
+
+
+<b>Block2_1</b>',
+        Block => [
+            {
+                Name => 'Block1',
+                Data => { Name => 'Block1_1' },
+            },
+            {
+                Name => 'Block11',
+                Data => { Name => 'Block11_1' },
+            },
+            {
+                Name => 'Block11',
+                Data => { Name => 'Block11_2' },
+            },
+            {
+                Name => 'Block1',
+                Data => { Name => 'Block1_2' },
+            },
+            {
+                Name => 'Block2',
+                Data => { Name => 'Block2_1' },
+            },
+        ],
+        Name => 'Output() - test 3',
+    },
 
     # test 4
     {

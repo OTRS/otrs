@@ -101,9 +101,14 @@ sub Auth {
     my $GetPw      = '';
 
     # sql query
-    my $SQL = "SELECT $Self->{Pw}, $Self->{Key} FROM $Self->{Table} WHERE "
-        . " $Self->{Key} = '" . $Self->{DBObject}->Quote($User) . "'";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL => "
+            SELECT $Self->{Pw}, $Self->{Key} FROM $Self->{Table} WHERE
+            $Self->{Key} = ?
+            ",
+        Bind => [ \$Param{User} ],
+    );
+
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $GetPw  = $Row[0];
         $UserID = $Row[1];
@@ -158,27 +163,29 @@ sub Auth {
         }
 
         elsif ( $GetPw =~ m{^BCRYPT:} ) {
+
             # require module, log errors if module was not found
             if ( !$Self->{MainObject}->Require('Crypt::Eksblowfish::Bcrypt') ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "User: '$User' tried to authenticate with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
+                    Message =>
+                        "User: '$User' tried to authenticate with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
                 );
                 return;
             }
 
             # get salt and cost from stored PW string
-            my ($Cost, $Salt, $Base64Hash) = $GetPw =~ m{^BCRYPT:(\d+):(.{16}):(.*)$}xms;
+            my ( $Cost, $Salt, $Base64Hash ) = $GetPw =~ m{^BCRYPT:(\d+):(.{16}):(.*)$}xms;
 
             # remove UTF8 flag, required by Crypt::Eksblowfish::Bcrypt
-            $Self->{EncodeObject}->EncodeOutput(\$Pw);
+            $Self->{EncodeObject}->EncodeOutput( \$Pw );
 
             # calculate password hash with the same cost and hash settings
             my $Octets = Crypt::Eksblowfish::Bcrypt::bcrypt_hash(
                 {
                     key_nul => 1,
-                    cost => $Cost,
-                    salt => $Salt,
+                    cost    => $Cost,
+                    salt    => $Salt,
                 },
                 $Pw
             );

@@ -51,8 +51,8 @@ Translating OTRS
   Make sure that you have a clean system with a current configuration. No modules
   may be installed or linked into the system!
 
-    otrs.CreateTranslationFile -l <Language>
-    otrs.CreateTranslationFile -l all
+    otrs.CreateTranslationFile.pl -l <Language>
+    otrs.CreateTranslationFile.pl -l all
 
 Translating Extension Modules
 =============================
@@ -61,15 +61,15 @@ Translating Extension Modules
   that needs to be translated has to be installed or linked into the system, but
   only this one!
 
-    otrs.CreateTranslationFile -l <Language> -m <module_directory>
-    otrs.CreateTranslationFile -l all -m <module_directory>
+    otrs.CreateTranslationFile.pl -l <Language> -m <module_directory>
+    otrs.CreateTranslationFile.pl -l all -m <module_directory>
 
 Optional Parameters
 =============================
 
   To purge obsolete translation entries, use -p
 
-    otrs.CreateTranslationFile -l all -p
+    otrs.CreateTranslationFile.pl -l all -p
 
 EOF
 }
@@ -471,6 +471,7 @@ $Separator
 package Kernel::Language::${Language}_$Module;
 
 use strict;
+use warnings;
 
 sub Data {
     my \$Self = shift;
@@ -491,16 +492,7 @@ EOF
             if ( $_ =~ /\$\$START\$\$/ && !$MetaData{DataPrinted} ) {
                 $MetaData{DataPrinted} = 1;
 
-                my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-                    = $CommonObject{TimeObject}->SystemTime2Date(
-                    SystemTime => $CommonObject{TimeObject}->SystemTime(),
-                    );
-
-                $NewOut .= <<"EOF";
-    # Last translation file sync: $Year-$Month-$Day $Hour:$Min:$Sec
-
-    # possible charsets
-EOF
+                $NewOut .= "    # possible charsets\n";
                 $NewOut .= "    \$Self->{Charset} = [";
                 for ( $LanguageCoreObject->GetPossibleCharsets() ) {
                     $NewOut .= "'$_', ";

@@ -268,12 +268,12 @@ $Include{"RichTextEditor"}
 
                 </dl>
 
-
-                <p class="SpacingTop">
-                    $Text{"Example response"}:
-                </p>
-                <textarea rows="5" cols="60" name="Response">
-
+                <div class="SpacingTop">
+                    <label for="ResponseReference">
+                        $Text{"Example response"}:
+                    </label>
+                </div>
+                <textarea rows="5" cols="60" id="ResponseReference">
 Thanks for your email.
 
 You wrote:

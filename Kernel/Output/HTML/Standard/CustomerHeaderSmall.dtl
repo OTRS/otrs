@@ -29,22 +29,22 @@ $Include{"Copyright"}
     <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}icons/product.ico" type="image/ico" />
 
 <!-- dtl:block:CommonCSS -->
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
 <!-- dtl:block:CommonCSS -->
 
 <!-- dtl:block:CommonCSS_IE8 -->
 <!--[if IE 7]>
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:CommonCSS_IE8 -->
 
 <!-- dtl:block:ModuleCSS -->
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
 <!-- dtl:block:ModuleCSS -->
 
 <!-- dtl:block:ModuleCSS_IE8 -->
 <!--[if IE 7]>
-    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Customer/$LQData{"Skin"}/$QData{"CSSDirectory"}/$QData{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:ModuleCSS_IE8 -->
 

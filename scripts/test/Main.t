@@ -301,9 +301,11 @@ $Self->False(
 my $Path                  = $Self->{ConfigObject}->Get('TempDir');
 my $DirectoryWithFiles    = "$Path/WithFiles";
 my $DirectoryWithoutFiles = "$Path/WithoutFiles";
+my $SubDirA               = "$DirectoryWithFiles/a";
+my $SubDirB               = "$DirectoryWithFiles/b";
 
 # create needed test directories
-for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
+for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles, $SubDirA, $SubDirB, ) {
     if ( !mkdir $Directory ) {
         $Self->True(
             0,
@@ -313,21 +315,24 @@ for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
 }
 
 # create test files
-for my $Suffix (
-    0 .. 5,
-    'öäüßカスタマ',         # Unicode NFC
-    'Второй_файл',    # Unicode NFD
-    )
-{
-    my $Success = $Self->{MainObject}->FileWrite(
-        Directory => $DirectoryWithFiles,
-        Filename  => "Example_File_$Suffix",
-        Content   => \'',
-    );
-    $Self->True(
-        $Success,
-        "DirectoryRead() - create '$DirectoryWithFiles/Example_File_$Suffix'!",
-    );
+for my $Directory ( $DirectoryWithFiles, $SubDirA, $SubDirB, ) {
+
+    for my $Suffix (
+        0 .. 5,
+        'öäüßカスタマ',         # Unicode NFC
+        'Второй_файл',    # Unicode NFD
+        )
+    {
+        my $Success = $Self->{MainObject}->FileWrite(
+            Directory => $Directory,
+            Filename  => "Example_File_$Suffix",
+            Content   => \'',
+        );
+        $Self->True(
+            $Success,
+            "DirectoryRead() - create '$Directory/Example_File_$Suffix'!",
+        );
+    }
 }
 
 @Tests = (
@@ -347,9 +352,49 @@ for my $Suffix (
         ],
     },
     {
+        Name      => 'Read directory with files, \'Example_File*\' Filter, recursive',
+        Filter    => 'Example_File*',
+        Directory => $DirectoryWithFiles,
+        Recursive => 1,
+        Results   => [
+            "$DirectoryWithFiles/Example_File_0",
+            "$DirectoryWithFiles/Example_File_1",
+            "$DirectoryWithFiles/Example_File_2",
+            "$DirectoryWithFiles/Example_File_3",
+            "$DirectoryWithFiles/Example_File_4",
+            "$DirectoryWithFiles/Example_File_5",
+            "$DirectoryWithFiles/Example_File_öäüßカスタマ",
+            "$DirectoryWithFiles/Example_File_Второй_файл",
+            "$SubDirA/Example_File_0",
+            "$SubDirA/Example_File_1",
+            "$SubDirA/Example_File_2",
+            "$SubDirA/Example_File_3",
+            "$SubDirA/Example_File_4",
+            "$SubDirA/Example_File_5",
+            "$SubDirA/Example_File_öäüßカスタマ",
+            "$SubDirA/Example_File_Второй_файл",
+            "$SubDirB/Example_File_0",
+            "$SubDirB/Example_File_1",
+            "$SubDirB/Example_File_2",
+            "$SubDirB/Example_File_3",
+            "$SubDirB/Example_File_4",
+            "$SubDirB/Example_File_5",
+            "$SubDirB/Example_File_öäüßカスタマ",
+            "$SubDirB/Example_File_Второй_файл",
+
+        ],
+    },
+    {
         Name      => 'Read directory with files, \'XX_NOTEXIST_XX\' Filter',
         Filter    => 'XX_NOTEXIST_XX',
         Directory => $DirectoryWithFiles,
+        Results   => [],
+    },
+    {
+        Name      => 'Read directory with files, \'XX_NOTEXIST_XX\' Filter, recursive',
+        Filter    => 'XX_NOTEXIST_XX',
+        Directory => $DirectoryWithFiles,
+        Recursive => 1,
         Results   => [],
     },
     {
@@ -360,6 +405,23 @@ for my $Suffix (
             "$DirectoryWithFiles/Example_File_0",
             "$DirectoryWithFiles/Example_File_1",
             "$DirectoryWithFiles/Example_File_2",
+        ],
+    },
+    {
+        Name      => 'Read directory with files, *0 *1 *2 Filters, recursive',
+        Filter    => [ '*0', '*1', '*2' ],
+        Directory => $DirectoryWithFiles,
+        Recursive => 1,
+        Results   => [
+            "$DirectoryWithFiles/Example_File_0",
+            "$DirectoryWithFiles/Example_File_1",
+            "$DirectoryWithFiles/Example_File_2",
+            "$SubDirA/Example_File_0",
+            "$SubDirA/Example_File_1",
+            "$SubDirA/Example_File_2",
+            "$SubDirB/Example_File_0",
+            "$SubDirB/Example_File_1",
+            "$SubDirB/Example_File_2",
         ],
     },
     {
@@ -385,6 +447,8 @@ for my $Suffix (
             "$DirectoryWithFiles/Example_File_5",
             "$DirectoryWithFiles/Example_File_öäüßカスタマ",
             "$DirectoryWithFiles/Example_File_Второй_файл",
+            "$DirectoryWithFiles/a",
+            "$DirectoryWithFiles/b",
         ],
     },
     {
@@ -400,6 +464,42 @@ for my $Suffix (
             "$DirectoryWithFiles/Example_File_5",
             "$DirectoryWithFiles/Example_File_öäüßカスタマ",
             "$DirectoryWithFiles/Example_File_Второй_файл",
+            "$DirectoryWithFiles/a",
+            "$DirectoryWithFiles/b",
+        ],
+    },
+    {
+        Name      => 'Read directory with files, no Filter (multiple), recursive',
+        Filter    => [ '*', '*', '*' ],
+        Directory => $DirectoryWithFiles,
+        Recursive => 1,
+        Results   => [
+            "$DirectoryWithFiles/Example_File_0",
+            "$DirectoryWithFiles/Example_File_1",
+            "$DirectoryWithFiles/Example_File_2",
+            "$DirectoryWithFiles/Example_File_3",
+            "$DirectoryWithFiles/Example_File_4",
+            "$DirectoryWithFiles/Example_File_5",
+            "$DirectoryWithFiles/Example_File_öäüßカスタマ",
+            "$DirectoryWithFiles/Example_File_Второй_файл",
+            "$DirectoryWithFiles/a",
+            "$DirectoryWithFiles/b",
+            "$SubDirA/Example_File_0",
+            "$SubDirA/Example_File_1",
+            "$SubDirA/Example_File_2",
+            "$SubDirA/Example_File_3",
+            "$SubDirA/Example_File_4",
+            "$SubDirA/Example_File_5",
+            "$SubDirA/Example_File_öäüßカスタマ",
+            "$SubDirA/Example_File_Второй_файл",
+            "$SubDirB/Example_File_0",
+            "$SubDirB/Example_File_1",
+            "$SubDirB/Example_File_2",
+            "$SubDirB/Example_File_3",
+            "$SubDirB/Example_File_4",
+            "$SubDirB/Example_File_5",
+            "$SubDirB/Example_File_öäüßカスタマ",
+            "$SubDirB/Example_File_Второй_файл",
         ],
     },
     {
@@ -436,6 +536,7 @@ for my $Test (@Tests) {
     my @Results = $Self->{MainObject}->DirectoryRead(
         Directory => $Test->{Directory},
         Filter    => $Test->{Filter},
+        Recursive => $Test->{Recursive},
     );
 
     # Mac OS will store all filenames as NFD internally.
@@ -516,7 +617,7 @@ for my $Test (@Tests) {
 
 # Generate Random string test
 
-my $Token = $Self->{MainObject}->GenerateRandomString();
+my $Token  = $Self->{MainObject}->GenerateRandomString();
 my $Length = length($Token);
 
 $Self->True(
@@ -548,12 +649,12 @@ $Self->Is(
 
 my %Values;
 my $Seen = 0;
-for my $Counter ( 1 ... 100_000 ) {
-   my $Random = $Self->{MainObject}->GenerateRandomString( Length => 16 );
-   if ( $Values{$Random}++ ) {
-      $Seen = 1;
-      last;
-   }
+for my $Counter ( 1 .. 100_000 ) {
+    my $Random = $Self->{MainObject}->GenerateRandomString( Length => 16 );
+    if ( $Values{$Random}++ ) {
+        $Seen = 1;
+        last;
+    }
 }
 
 $Self->Is(
@@ -562,5 +663,24 @@ $Self->Is(
     "GenerateRandomString - no duplicates in 100k iterations",
 );
 
+# test with custom alphabet
+my $NoHexChar;
+COUNTER:
+for my $Counter ( 1 .. 1000 ) {
+    my $HexString = $Self->{MainObject}->GenerateRandomString(
+        Length => 32,
+        Dictionary => [ 0 .. 9, 'a' .. 'f' ],
+    );
+    if ( $HexString =~ m{[^0-9a-f]}xms ) {
+        $NoHexChar = $HexString;
+        last COUNTER;
+    }
+}
+
+$Self->Is(
+    $NoHexChar,
+    undef,
+    'Test output for hex chars in 1000 generated random strings with hex dictionary',
+);
 
 1;

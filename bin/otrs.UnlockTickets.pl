@@ -39,8 +39,6 @@ use Kernel::System::User;
 use Kernel::System::State;
 use Kernel::System::Lock;
 
-use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
-
 my $Debug = 0;
 
 # common objects

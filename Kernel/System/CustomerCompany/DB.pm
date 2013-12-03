@@ -15,9 +15,6 @@ use warnings;
 use Kernel::System::Cache;
 use Kernel::System::Valid;
 
-use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 0.1 $) [1];
-
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -52,18 +49,6 @@ sub new {
         $Self->{SearchSuffix} = '*';
     }
 
-    # charset settings
-    $Self->{SourceCharset} = $Self->{CustomerCompanyMap}->{Params}->{SourceCharset} || '';
-    $Self->{DestCharset}   = $Self->{CustomerCompanyMap}->{Params}->{DestCharset}   || '';
-    $Self->{CharsetConvertForce}
-        = $Self->{CustomerCompanyMap}->{Params}->{CharsetConvertForce} || '';
-
-    # db connection settings, disable Encode utf8 if source db is no utf8
-    my %DatabasePreferences;
-    if ( $Self->{SourceCharset} !~ /utf(-8|8)/i ) {
-        $DatabasePreferences{Encode} = 0;
-    }
-
     # create cache object, but only if CacheTTL is set in customer config
     if ( $Self->{CustomerCompanyMap}->{CacheTTL} ) {
         $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
@@ -82,7 +67,6 @@ sub new {
             DatabaseUser => $Self->{CustomerCompanyMap}->{Params}->{User},
             DatabasePw   => $Self->{CustomerCompanyMap}->{Params}->{Password},
             Type         => $Self->{CustomerCompanyMap}->{Params}->{Type} || '',
-            %DatabasePreferences,
         ) || die('Can\'t connect to database!');
 
         # remember that we have the DBObject not from parent call
@@ -132,6 +116,8 @@ sub CustomerCompanyList {
 
     # add valid option if required
     my $SQL;
+    my @Bind;
+
     if ($Valid) {
         $SQL
             .= "$Self->{CustomerCompanyValid} IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
@@ -156,13 +142,14 @@ sub CustomerCompanyList {
             if ( $CustomerCompanySearchFields && ref $CustomerCompanySearchFields eq 'ARRAY' ) {
 
                 my @SQLParts;
-                my $QuotedPart = $Self->{DBObject}->Quote($Part);
                 for my $Field ( @{$CustomerCompanySearchFields} ) {
                     if ( $Self->{CaseSensitive} ) {
-                        push @SQLParts, "LOWER($Field) LIKE LOWER('$QuotedPart')";
+                        push @SQLParts, "LOWER($Field) LIKE LOWER(?)";
+                        push @Bind,     \$Part;
                     }
                     else {
-                        push @SQLParts, "$Field LIKE '$QuotedPart'";
+                        push @SQLParts, "$Field LIKE ?";
+                        push @Bind,     \$Part;
                     }
                 }
                 if (@SQLParts) {
@@ -171,7 +158,6 @@ sub CustomerCompanyList {
             }
         }
     }
-    $SQL = $Self->_ConvertTo($SQL);
 
     # sql
     my $CompleteSQL
@@ -181,6 +167,7 @@ sub CustomerCompanyList {
     # ask database
     $Self->{DBObject}->Prepare(
         SQL   => $CompleteSQL,
+        Bind  => \@Bind,
         Limit => 50000,
     );
 
@@ -189,7 +176,7 @@ sub CustomerCompanyList {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         my $CustomerCompanyID = shift @Row;
-        $List{$CustomerCompanyID} = join( ' ', map { $Self->_ConvertFrom($_) } @Row );
+        $List{$CustomerCompanyID} = join( ' ', @Row );
     }
 
     # cache request
@@ -240,14 +227,13 @@ sub CustomerCompanyGet {
     my $CustomerID = $Param{Name} || $Param{CustomerID};
 
     $SQL .= " FROM $Self->{CustomerCompanyTable} WHERE ";
-    my $CustomerIDQuoted = $Self->{DBObject}->Quote($CustomerID);
+
     if ( $Self->{CaseSensitive} ) {
         $SQL .= "LOWER($Self->{CustomerCompanyKey}) = LOWER( ? )";
     }
     else {
         $SQL .= "$Self->{CustomerCompanyKey} = ?";
     }
-    $SQL = $Self->_ConvertTo($SQL);
 
     # get initial data
     return if !$Self->{DBObject}->Prepare(
@@ -262,7 +248,7 @@ sub CustomerCompanyGet {
         my $MapCounter = 0;
 
         for my $Field (@Fields) {
-            $Data{ $FieldsMap{$Field} } = $Self->_ConvertFrom( $Row[$MapCounter] );
+            $Data{ $FieldsMap{$Field} } = $Row[$MapCounter];
             $MapCounter++;
         }
 
@@ -295,45 +281,29 @@ sub CustomerCompanyAdd {
         return;
     }
 
+    my @Fields;
+    my @Placeholders;
+    my @Values;
+
+    for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
+        push @Fields,       $Entry->[2];
+        push @Placeholders, '?';
+        push @Values,       \$Param{ $Entry->[0] };
+    }
+    if ( !$Self->{ForeignDB} ) {
+        push @Fields,       qw(create_time create_by change_time change_by);
+        push @Placeholders, qw(current_timestamp ? current_timestamp ?);
+        push @Values, ( \$Param{UserID}, \$Param{UserID} );
+    }
+
     # build insert
     my $SQL = "INSERT INTO $Self->{CustomerCompanyTable} (";
+    $SQL .= join( ', ', @Fields ) . " ) VALUES ( " . join( ', ', @Placeholders ) . " )";
 
-    my $FieldInserted;
-    for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
-        $SQL .= ', ' if ($FieldInserted);
-        $SQL .= " $Entry->[2] ";
-        $FieldInserted = 1;
-    }
-
-    if ( !$Self->{ForeignDB} ) {
-        $SQL .= ', ' if ($FieldInserted);
-        $SQL .= 'create_time, create_by, change_time, change_by';
-    }
-    $SQL .= ") VALUES (";
-
-    my $ValueInserted;
-    for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
-
-        $SQL .= ', ' if ($ValueInserted);
-
-        if ( $Entry->[5] =~ /^int$/i ) {
-            $SQL .= " " . $Self->{DBObject}->Quote( $Param{ $Entry->[0] }, 'Integer' );
-        }
-        else {
-            $SQL .= " '" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
-        }
-
-        $ValueInserted = 1;
-    }
-
-    if ( !$Self->{ForeignDB} ) {
-        $SQL .= ', ' if ($ValueInserted);
-        $SQL .= "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID}";
-    }
-    $SQL .= ")";
-
-    $SQL = $Self->_ConvertTo($SQL);
-    return if !$Self->{DBObject}->Do( SQL => $SQL );
+    return if !$Self->{DBObject}->Do(
+        SQL  => $SQL,
+        Bind => \@Values,
+    );
 
     # log notice
     $Self->{LogObject}->Log(
@@ -364,36 +334,36 @@ sub CustomerCompanyUpdate {
         }
     }
 
-    # update db
-    my $SQL = "UPDATE $Self->{CustomerCompanyTable} SET ";
-    my $FieldInserted;
+    my @Fields;
+    my @Values;
 
+    FIELD:
     for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
-
-        $SQL .= ', ' if $FieldInserted;
-        if ( $Entry->[5] =~ /^int$/i ) {
-            $SQL .= " $Entry->[2] = " . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } );
-        }
-        elsif ( $Entry->[0] !~ /^UserPassword$/i ) {
-            $SQL .= " $Entry->[2] = '" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
-        }
-        $FieldInserted = 1;
+        next FIELD if $Entry->[0] =~ /^UserPassword$/i;
+        push @Fields, $Entry->[2] . ' = ?';
+        push @Values, \$Param{ $Entry->[0] };
     }
-
     if ( !$Self->{ForeignDB} ) {
-        $SQL .= ", change_time = current_timestamp, change_by = $Param{UserID} ";
+        push @Fields, ( 'change_time = current_timestamp', 'change_by = ?' );
+        push @Values, \$Param{UserID};
     }
 
-    my $CustomerCompanyIDQuoted = $Self->{DBObject}->Quote( $Param{CustomerCompanyID} );
+    # create SQL statement
+    my $SQL = "UPDATE $Self->{CustomerCompanyTable} SET ";
+    $SQL .= join( ', ', @Fields );
+
     if ( $Self->{CaseSensitive} ) {
-        $SQL .= " WHERE LOWER($Self->{CustomerCompanyKey}) = LOWER('$CustomerCompanyIDQuoted')";
+        $SQL .= " WHERE LOWER($Self->{CustomerCompanyKey}) = LOWER( ? )";
     }
     else {
-        $SQL .= " WHERE $Self->{CustomerCompanyKey} = '$CustomerCompanyIDQuoted'";
+        $SQL .= " WHERE $Self->{CustomerCompanyKey} = ?";
     }
-    $SQL = $Self->_ConvertTo($SQL);
+    push @Values, \$Param{CustomerCompanyID};
 
-    return if !$Self->{DBObject}->Do( SQL => $SQL );
+    return if !$Self->{DBObject}->Do(
+        SQL  => $SQL,
+        Bind => \@Values,
+    );
 
     # log notice
     $Self->{LogObject}->Log(
@@ -410,41 +380,6 @@ sub CustomerCompanyUpdate {
     return 1;
 }
 
-sub _ConvertFrom {
-    my ( $Self, $Text ) = @_;
-
-    return if !defined $Text;
-
-    if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
-        return $Text;
-    }
-
-    return $Self->{EncodeObject}->Convert(
-        Text  => $Text,
-        From  => $Self->{SourceCharset},
-        To    => $Self->{DestCharset},
-        Force => $Self->{CharsetConvertForce},
-    );
-}
-
-sub _ConvertTo {
-    my ( $Self, $Text ) = @_;
-
-    return if !defined $Text;
-
-    if ( !$Self->{SourceCharset} || !$Self->{DestCharset} ) {
-        $Self->{EncodeObject}->EncodeInput( \$Text );
-        return $Text;
-    }
-
-    return $Self->{EncodeObject}->Convert(
-        Text  => $Text,
-        To    => $Self->{SourceCharset},
-        From  => $Self->{DestCharset},
-        Force => $Self->{CharsetConvertForce},
-    );
-}
-
 sub _CustomerCompanyCacheClear {
     my ( $Self, %Param ) = @_;
 
@@ -457,7 +392,7 @@ sub _CustomerCompanyCacheClear {
 
     $Self->{CacheObject}->Delete(
         Type => $Self->{CacheType},
-        Key  => "CustomerComapnyGet::$Param{CustomerID}",
+        Key  => "CustomerCompanyGet::$Param{CustomerID}",
     );
 
     # delete all search cache entries

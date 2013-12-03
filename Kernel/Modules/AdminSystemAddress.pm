@@ -328,6 +328,9 @@ sub _Overview {
     # get valid list
     my %ValidList = $Self->{ValidObject}->ValidList();
 
+    # get queue list
+    my %QueueList = $Self->{QueueObject}->QueueList();
+
     for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
         my %Data = $Self->{SystemAddressObject}->SystemAddressGet( ID => $ListKey );
@@ -335,6 +338,7 @@ sub _Overview {
             Name => 'OverviewResultRow',
             Data => {
                 Valid => $ValidList{ $Data{ValidID} },
+                Queue => $QueueList{ $Data{QueueID} },
                 %Data,
             },
         );

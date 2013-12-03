@@ -68,6 +68,11 @@ o Name:    CPAN Authen::SASL
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    # Copyright (c) 1998-2005 Graham Barr. All rights reserved.
 
+o Name:    CPAN CGI::Emulate::PSGI
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright (c) 2009-2010 by tokuhirom.
+
 o Name:    CPAN Crypt::PasswdMD5
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
@@ -79,16 +84,22 @@ o Name:    CPAN Date::Pcalc
   Note:    # Copyright (c) 1999-2001 by J. David Eisenberg; portions Copyright
            # (c) 1993-2001 by Steffen Beyer. All rights reserved.
 
+o Name:    CPAN HTTP::Date
+  Web;     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright 1995-1999, Gisle Aas
+
 o Name:    CPAN IO::Interactive
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    # Copyright (c) 2005, Damian Conway <DCONWAY@cpan.org>. All rights reserved.
 
-o Name:    CPAN IO::Lines
+o Name:    CPAN Linux::Distribution
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    # Copyright (c) 1996 by Eryq.  All rights reserved.
-           # Copyright (c) 1999,2001 by ZeeGee Software Inc. All rights reserved.
+  Note:    # Alexandr Ciornii <alexchorny@gmail.com>, http://chorny.net
+           # Alberto Re, <alberto@accidia.net>
+           # Judith Lebzelter, <judith@osdl.org>
 
 o Name:    CPAN Locale::Codes
   Web:     n/a
@@ -97,6 +108,17 @@ o Name:    CPAN Locale::Codes
            # Copyright (c) 2001      Michael Hennecke (Locale::Currency)
            # Copyright (c) 2001-2010 Neil Bowers
            # Copyright (c) 2010-2011 Sullivan Beck
+
+o Name:    CPAN LWP
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    #   © 1995-2010 Gisle Aas. All rights reserved.
+           #   © 1995 Martijn Koster. All rights reserved.
+
+o Name:    CPAN LWP::Protocol::https
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright 1997-2011 Gisle Aas.
 
 o Name:    CPAN MIME::Tools
   Web:     n/a
@@ -115,6 +137,17 @@ o Name:    CPAN MailTools
   Note:    # Copyrights 1995-2000 Graham Barr <gbarr@pobox.com> and 2001-2007
            # Mark Overmeer <perl@overmeer.net>.
 
+o Name:    CPAN Module::Refresh
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright 2004,2011 by Jesse Vincent <jesse@bestpractical.com>,
+           # Audrey Tang <audreyt@audreyt.org>
+
+o Name:    CPAN Net::HTTP
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note:    # Copyright 2001-2003 Gisle Aas.
+
 o Name:    CPAN Net::IMAP::Simple
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
@@ -122,20 +155,10 @@ o Name:    CPAN Net::IMAP::Simple
            # Copyright (c) 2004 Casey West.
            # Copyright (c) 1999 Joao Fonseca.
 
-o Name:    CPAN Net::POP3::SSLWrapper
+o Name:    CPAN Net::SSLGlue
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-
-o Name:    CPAN Net::SMTP::SSL
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    # Copyright (c) 2004 Casey West.  All rights reserved.
-
-o Name:    CPAN Net::SMTP::TLS::ButMaintained
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    # Copyright (C) Alexander Christian Westholm
-           # Copyright (C) Fayland Lam <fayland@gmail.com>
+  Note:    # (c) 2008-2013, Steffen Ullrich. All Rights Reserved.
 
 o Name:    CPAN Text::CSV
   Web:     n/a
@@ -230,6 +253,6 @@ o Name:    CPAN Email::Valid
            # and/or modify it under the same terms as Perl itself.
   Note:    # Copyright 1998-2003, Maurice Aubrey <maurice@hevanet.com>. All rights reserved.
 
-o Name:    Tree Icon (tree.png)
+o Name:    Some Icons (tree.png)
   Web:     Yusuke Kamiyamane, http://p.yusukekamiyamane.com
   License: CC Attribution 3.0

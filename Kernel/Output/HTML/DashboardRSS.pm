@@ -90,9 +90,10 @@ sub Run {
     }
 
     my $Count = 0;
+    ITEM:
     for my $Item ( $Feed->get_item() ) {
         $Count++;
-        last if $Count > $Self->{Config}->{Limit};
+        last ITEM if $Count > $Self->{Config}->{Limit};
         my $Time = $Item->pubDate();
         my $Ago;
         if ($Time) {

@@ -15,6 +15,7 @@ use warnings;
 use Kernel::System::State;
 use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
+use Kernel::System::CheckItem;
 use Kernel::System::TemplateGenerator;
 use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
@@ -39,6 +40,7 @@ sub new {
     # needed objects
     $Self->{StateObject}        = Kernel::System::State->new(%Param);
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{CheckItemObject}    = Kernel::System::CheckItem->new(%Param);
     $Self->{SystemAddress}      = Kernel::System::SystemAddress->new(%Param);
     $Self->{ArticleID}          = $Self->{ParamObject}->GetParam( Param => 'ArticleID' ) || '';
     $Self->{Config}             = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
@@ -123,8 +125,9 @@ sub Run {
             );
             if ( !$AccessOk ) {
                 my $Output = $Self->{LayoutObject}->Header(
-                    Value => $Ticket{Number},
-                    Type  => 'Small',
+                    Value     => $Ticket{Number},
+                    Type      => 'Small',
+                    BodyClass => 'Popup',
                 );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => $Self->{LayoutObject}->{LanguageObject}
@@ -267,8 +270,9 @@ $Param{Signature}";
 
         # print form ...
         my $Output = $Self->{LayoutObject}->Header(
-            Value => $Ticket{TicketNumber},
-            Type  => 'Small',
+            Value     => $Ticket{TicketNumber},
+            Type      => 'Small',
+            BodyClass => 'Popup',
         );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketBounce',
@@ -304,23 +308,52 @@ $Param{Signature}";
         # check forward email address
         if ( !$Param{BounceTo} ) {
             $Error{'BounceToInvalid'} = 'ServerError';
+            $Self->{LayoutObject}->Block( Name => 'BounceToCustomerGenericServerErrorMsg' );
         }
         for my $Email ( Mail::Address->parse( $Param{BounceTo} ) ) {
             my $Address = $Email->address();
             if ( $Self->{SystemAddress}->SystemAddressIsLocalAddress( Address => $Address ) ) {
+                $Self->{LayoutObject}->Block( Name => 'BounceToCustomerGenericServerErrorMsg' );
+                $Error{'BounceToInvalid'} = 'ServerError';
+            }
+
+            # check email address
+            elsif ( !$Self->{CheckItemObject}->CheckEmail( Address => $Address ) ) {
+                my $BounceToErrorMsg =
+                    'BounceTo'
+                    . $Self->{CheckItemObject}->CheckErrorType()
+                    . 'ServerErrorMsg';
+                $Self->{LayoutObject}->Block( Name => $BounceToErrorMsg );
                 $Error{'BounceToInvalid'} = 'ServerError';
             }
         }
 
-        if ( !$Param{To} ) {
-            $Error{'ToInvalid'} = 'ServerError';
-        }
+        if ( $Param{InformSender} ) {
+            if ( !$Param{To} ) {
+                $Error{'ToInvalid'} = 'ServerError';
+                $Self->{LayoutObject}->Block( Name => 'ToCustomerGenericServerErrorMsg' );
+            }
+            else {
 
-        if ( !$Param{Subject} ) {
-            $Error{'SubjectInvalid'} = 'ServerError';
-        }
-        if ( !$Param{Body} ) {
-            $Error{'BodyInvalid'} = 'ServerError';
+                # check email address(es)
+                for my $Email ( Mail::Address->parse( $Param{To} ) ) {
+                    if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
+                        my $ToErrorMsg =
+                            'To'
+                            . $Self->{CheckItemObject}->CheckErrorType()
+                            . 'ServerErrorMsg';
+                        $Self->{LayoutObject}->Block( Name => $ToErrorMsg );
+                        $Error{'ToInvalid'} = 'ServerError';
+                    }
+                }
+            }
+
+            if ( !$Param{Subject} ) {
+                $Error{'SubjectInvalid'} = 'ServerError';
+            }
+            if ( !$Param{Body} ) {
+                $Error{'BodyInvalid'} = 'ServerError';
+            }
         }
 
         #check for error
@@ -338,9 +371,9 @@ $Param{Signature}";
                 $NextStates{''} = '-';
             }
             $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data     => \%NextStates,
-                Name     => 'BounceStateID',
-                Selected => $Param{BounceStateID},
+                Data       => \%NextStates,
+                Name       => 'BounceStateID',
+                SelectedID => $Param{BounceStateID},
             );
 
             # add rich text editor
@@ -355,10 +388,20 @@ $Param{Signature}";
                 );
             }
 
+            # prepare bounce tags if body is rich text
+            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+
+                # prepare bounce tags
+                $Param{Body} =~ s/&lt;OTRS_TICKET&gt;/&amp;lt;OTRS_TICKET&amp;gt;/gi;
+                $Param{Body} =~ s/&lt;OTRS_BOUNCE_TO&gt;/&amp;lt;OTRS_BOUNCE_TO&amp;gt;/gi;
+            }
+
             $Param{InformationFormat} = $Param{Body};
+            $Param{InformSenderChecked} = $Param{InformSender} ? 'checked="checked"' : '';
 
             my $Output = $Self->{LayoutObject}->Header(
-                Type => 'Small',
+                Type      => 'Small',
+                BodyClass => 'Popup',
             );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketBounce',

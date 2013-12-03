@@ -30,8 +30,6 @@ use lib dirname($RealBin) . "/../Kernel/cpan-lib";
 
 use Getopt::Std;
 
-use vars qw($VERSION);
-
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::Main;

@@ -80,7 +80,7 @@ use MIME::Tools qw(:config :msgs);
 #------------------------------
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.503";
+$VERSION = "5.504";
 
 
 #------------------------------
@@ -104,6 +104,8 @@ my $TSPECIAL = '()<>@,;:\</[]?="';
 #" Fix emacs highlighting...
 
 my $TOKEN    = '[^ \x00-\x1f\x80-\xff' . "\Q$TSPECIAL\E" . ']+';
+
+my $QUOTED_STRING = '"([^\\\\"]*(?:\\\\.(?:[^\\\\"]*))*)"';
 
 # Encoded token:
 my $ENCTOKEN = "=\\?[^?]*\\?[A-Za-z]\\?[^?]+\\?=";
@@ -239,14 +241,18 @@ sub parse_params {
 	$raw =~ m/\G$SPCZ(\;$SPCZ)+/og or last;             # skip leading separator
 	$raw =~ m/\G($PARAMNAME)\s*=\s*/og or last;      # give up if not a param
 	$param = lc($1);
-	$raw =~ m/\G(?:("([^"]*)")|($ENCTOKEN)|($BADTOKEN)|($TOKEN))/g or last;   # give up if no value"
-	my ($qstr, $str, $enctoken, $badtoken, $token) = ($1, $2, $3, $4, $5);
+	$raw =~ m/\G(?:$QUOTED_STRING|($ENCTOKEN)|($BADTOKEN)|($TOKEN))/g or last;   # give up if no value"
+	my ($qstr, $enctoken, $badtoken, $token) = ($1, $2, $3, $4, $5);
+	if (defined($qstr)) {
+            # unescape
+	    $qstr =~ s/\\(.)/$1/g;
+	}
 	if (defined($badtoken)) {
 	    # Strip leading/trailing whitespace from badtoken
 	    $badtoken =~ s/^\s+//;
 	    $badtoken =~ s/\s+\z//;
 	}
-	$val = defined($qstr) ? $str :
+	$val = defined($qstr) ? $qstr :
 	    (defined($enctoken) ? $enctoken :
 	     (defined($badtoken) ? $badtoken : $token));
 
@@ -374,6 +380,7 @@ sub stringify {
     foreach $key (sort keys %$self) {
 	next if ($key !~ /^[a-z][a-z-_0-9]*$/);  # only lowercase ones!
 	defined($val = $self->{$key}) or next;
+        $val =~ s/(["\\])/\\$1/g;
 	$str .= qq{; $key="$val"};
     }
     $str;

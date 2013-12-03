@@ -379,5 +379,38 @@
             <String Regex="">auto follow up</String>
         </Setting>
     </ConfigItem>
-
+    <ConfigItem Name="GenericInterface::Operation::TicketSearch###SearchLimit" Required="1" Valid="1">
+        <Description Translatable="1">Maximum number of tickets to be displayed in the result of this operation.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Operation::TicketSearch</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]{1,8}$">500</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Operation::TicketSearch###SortBy::Default" Required="1" Valid="1">
+        <Description Translatable="1">Defines the default ticket attribute for ticket sorting of the ticket search result of this operation.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Operation::TicketSearch</SubGroup>
+        <Setting>
+            <Option SelectedID="Age">
+                <Item Key="Age">Age</Item>
+                <Item Key="Ticket">Ticket</Item>
+                <Item Key="Subject">Subject</Item>
+                <Item Key="Queue">Queue</Item>
+                <Item Key="Priority">Priority</Item>
+                <Item Key="EscalationTime">EscalationTime</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="GenericInterface::Operation::TicketSearch###Order::Default" Required="1" Valid="1">
+        <Description Translatable="1">Defines the default ticket order in the ticket search result of the this operation. Up: oldest on top. Down: latest on top.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Operation::TicketSearch</SubGroup>
+        <Setting>
+            <Option SelectedID="Down">
+                <Item Key="Down">Down</Item>
+                <Item Key="Up">Up</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
 </otrs_config>

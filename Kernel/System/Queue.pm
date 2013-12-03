@@ -15,7 +15,7 @@ use warnings;
 use Kernel::System::CacheInternal;
 use Kernel::System::CustomerGroup;
 use Kernel::System::Group;
-use Kernel::System::StandardResponse;
+use Kernel::System::StandardTemplate;
 use Kernel::System::SysConfig;
 use Kernel::System::Time;
 use Kernel::System::Valid;
@@ -89,7 +89,7 @@ sub new {
     for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
+    $Self->{ValidObject}         = Kernel::System::Valid->new( %{$Self} );
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
         Type => 'Queue',
@@ -97,15 +97,15 @@ sub new {
     );
 
     # lib object
-    $Self->{StandardResponseObject} = Kernel::System::StandardResponse->new(%Param);
+    $Self->{StandardTemplateObject} = Kernel::System::StandardTemplate->new( %{$Self} );
     if ( !$Param{GroupObject} ) {
-        $Self->{GroupObject} = Kernel::System::Group->new(%Param);
+        $Self->{GroupObject} = Kernel::System::Group->new( %{$Self} );
     }
     else {
         $Self->{GroupObject} = $Param{GroupObject};
     }
     if ( !$Param{CustomerGroupObject} ) {
-        $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new(%Param);
+        $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new( %{$Self} );
     }
     else {
         $Self->{CustomerGroupObject} = $Param{CustomerGroupObject};
@@ -215,6 +215,7 @@ sub GetSignature {
 }
 
 # for comapt!
+# DEPRECATED
 sub SetQueueStandardResponse {
     my ( $Self, %Param ) = @_;
 
@@ -227,79 +228,225 @@ sub SetQueueStandardResponse {
     }
 
     # sql
-    return $Self->{DBObject}->Do(
-        SQL => 'INSERT INTO queue_standard_response '
-            . '(queue_id, standard_response_id, create_time, create_by, change_time, change_by)'
+    my $Success = $Self->{DBObject}->Do(
+        SQL => 'INSERT INTO queue_standard_template '
+            . '(queue_id, standard_template_id, create_time, create_by, change_time, change_by)'
             . ' VALUES ( ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [ \$Param{QueueID}, \$Param{ResponseID}, \$Param{UserID}, \$Param{UserID} ],
     );
+
+    $Self->{CacheInternalObject}->CleanUp();
+    return $Success;
 }
 
 =item GetStandardResponses()
+
+DEPRECATED: This function will be removed in further versions of otrs.
 
 get std responses of a queue
 
     my %Responses = $QueueObject->GetStandardResponses( QueueID => 123 );
 
+Returns:
+    %Responses = (
+        1 => 'Some Name',
+        2 => 'Some Name',
+    );
+
+    my %Responses = $QueueObject->GetStandardResponses(
+        QueueID       => 123,
+        TemplateTypes => 1,
+    );
+
+Returns:
+    %Responses = (
+        Answer => {
+            1 => 'Some Name',
+            2 => 'Some Name',
+        },
+        # ...
+    );
+
     my %Queues = $QueueObject->GetStandardResponses( StandardResponseID => 123 );
+
+Returns:
+    %Queues = (
+        1 => 'Some Name',
+        2 => 'Some Name',
+    );
 
 =cut
 
 sub GetStandardResponses {
     my ( $Self, %Param ) = @_;
 
+    # compat
+    if (
+        ( !defined $Param{StandardTemplateID} || !$Param{StandardTemplateID} )
+        && $Param{StandardResponseID}
+        )
+    {
+        $Param{StandardTemplateID} = $Param{StandardResponseID};
+    }
+    return $Self->QueueStandardTemplateMemberList(%Param);
+}
+
+=item QueueStandardTemplateMemberAdd()
+
+to add a template to a queue
+
+    my $Success = $QueueObject->QueueStandardTemplateMemberAdd(
+        QueueID            => 123,
+        StandardTemplateID => 123,
+        Active             => 1,        # optional
+        UserID             => 123,
+    );
+
+=cut
+
+sub QueueStandardTemplateMemberAdd {
+    my ( $Self, %Param ) = @_;
+
     # check needed stuff
-    if ( !$Param{QueueID} && !$Param{StandardResponseID} ) {
+    for my $Argument (qw(QueueID StandardTemplateID UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    # delete existing relation
+    return if !$Self->{DBObject}->Do(
+        SQL => 'DELETE FROM queue_standard_template
+            WHERE queue_id = ?
+            AND standard_template_id = ?',
+        Bind => [ \$Param{QueueID}, \$Param{StandardTemplateID} ],
+    );
+
+    # return if relation is not active
+    if ( !$Param{Active} ) {
+        $Self->{CacheInternalObject}->CleanUp();
+        return 1;
+    }
+
+    # insert new relation
+    my $Success = $Self->{DBObject}->Do(
+        SQL => '
+            INSERT INTO queue_standard_template (queue_id, standard_template_id, create_time,
+                create_by, change_time, change_by)
+            VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
+        Bind => [ \$Param{QueueID}, \$Param{StandardTemplateID}, \$Param{UserID}, \$Param{UserID} ],
+    );
+
+    $Self->{CacheInternalObject}->CleanUp();
+    return $Success;
+}
+
+=item QueueStandardTemplateMemberList()
+
+get std responses of a queue
+
+    my %Templates = $QueueObject->QueueStandardTemplateMemberList( QueueID => 123 );
+
+Returns:
+    %Templates = (
+        1 => 'Some Name',
+        2 => 'Some Name',
+    );
+
+    my %Responses = $QueueObject->QueueStandardTemplateMemberList(
+        QueueID       => 123,
+        TemplateTypes => 1,
+    );
+
+Returns:
+    %Responses = (
+        Answer => {
+            1 => 'Some Name',
+            2 => 'Some Name',
+        },
+        # ...
+    );
+
+    my %Queues = $QueueObject->QueueStandardTemplateMemberList( StandardTemplateID => 123 );
+
+Returns:
+    %Queues = (
+        1 => 'Some Name',
+        2 => 'Some Name',
+    );
+
+=cut
+
+sub QueueStandardTemplateMemberList {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{QueueID} && !$Param{StandardTemplateID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Got no StandardResponseID or QueueID!',
+            Message  => 'Got no StandardTemplateID or QueueID!',
         );
         return;
     }
 
+    my $TemplateTypes = $Param{TemplateTypes} || '0';
+
+    my $CacheKey;
+
     if ( $Param{QueueID} ) {
 
-        # check if this result is present
-        return %{ $Self->{"StandardResponses::$Param{QueueID}"} }
-            if $Self->{"StandardResponses::$Param{QueueID}"};
+        # check if this result is present (in cache)
+        $CacheKey = "StandardTemplates::$Param{QueueID}::$TemplateTypes";
+        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        return %{$Cache} if ref $Cache eq 'HASH';
 
-        # get std. responses
-        my $SQL = "SELECT sr.id, sr.name "
-            . " FROM standard_response sr, queue_standard_response qsr WHERE "
-            . " qsr.queue_id IN ("
+        # get std. templates
+        my $SQL = "SELECT st.id, st.name, st.template_type "
+            . " FROM standard_template st, queue_standard_template qst WHERE "
+            . " qst.queue_id IN ("
             . $Self->{DBObject}->Quote( $Param{QueueID}, 'Integer' )
             . ") AND "
-            . " qsr.standard_response_id = sr.id AND "
-            . " sr.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )"
-            . " ORDER BY sr.name";
+            . " qst.standard_template_id = st.id AND "
+            . " st.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )"
+            . " ORDER BY st.name";
 
         return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
         # fetch the result
-        my %StandardResponses;
+        my %StandardTemplates;
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $StandardResponses{ $Row[0] } = $Row[1];
+
+            if ( $Param{TemplateTypes} ) {
+                $StandardTemplates{ $Row[2] }->{ $Row[0] } = $Row[1];
+            }
+            else {
+                $StandardTemplates{ $Row[0] } = $Row[1];
+            }
         }
 
-        # store std responses
-        $Self->{"StandardResponses::$Param{QueueID}"} = \%StandardResponses;
-
-        return %StandardResponses;
+        # store std templates (in cache)
+        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%StandardTemplates );
+        return %StandardTemplates;
     }
 
     else {
 
-        # check if this result is present
-        return %{ $Self->{"Queues::$Param{StandardResponseID}"} }
-            if $Self->{"Queues::$Param{StandardResponseID}"};
+        # check if this result is present (in cache)
+        $CacheKey = "Queues::$Param{StandardTemplateID}";
+        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        return %{$Cache} if ref $Cache eq 'HASH';
 
         # get queues
         my $SQL = "SELECT q.id, q.name "
-            . " FROM queue q, queue_standard_response qsr WHERE "
-            . " qsr.standard_response_id IN ("
-            . $Self->{DBObject}->Quote( $Param{StandardResponseID}, 'Integer' )
+            . " FROM queue q, queue_standard_template qst WHERE "
+            . " qst.standard_template_id IN ("
+            . $Self->{DBObject}->Quote( $Param{StandardTemplateID}, 'Integer' )
             . ") AND "
-            . " qsr.queue_id = q.id AND "
+            . " qst.queue_id = q.id AND "
             . " q.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )"
             . " ORDER BY q.name";
 
@@ -311,8 +458,8 @@ sub GetStandardResponses {
             $Queues{ $Row[0] } = $Row[1];
         }
 
-        # store queues
-        $Self->{"Queues::$Param{StandardResponseID}"} = \%Queues;
+        # store queues (in cache)
+        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Queues );
 
         return %Queues;
     }
@@ -705,49 +852,51 @@ sub QueueAdd {
     # reset cache
     $Self->{CacheInternalObject}->CleanUp();
 
-    my $StandardResponse2QueueByCreating
-        = $Self->{ConfigObject}->Get('StandardResponse2QueueByCreating');
+    my $StandardTemplate2QueueByCreating
+        = $Self->{ConfigObject}->Get('StandardTemplate2QueueByCreating');
 
     # add default responses (if needed), add response by name
     if (
-        $StandardResponse2QueueByCreating
-        && ref $StandardResponse2QueueByCreating eq 'ARRAY'
-        && @{$StandardResponse2QueueByCreating}
+        $StandardTemplate2QueueByCreating
+        && ref $StandardTemplate2QueueByCreating eq 'ARRAY'
+        && @{$StandardTemplate2QueueByCreating}
         )
     {
 
-        SR:
-        for my $SR ( @{$StandardResponse2QueueByCreating} ) {
+        ST:
+        for my $ST ( @{$StandardTemplate2QueueByCreating} ) {
 
-            my $StandardResponseID = $Self->{StandardResponseObject}->StandardResponseLookup(
-                StandardResponse => $SR,
+            my $StandardTemplateID = $Self->{StandardTemplateObject}->StandardTemplateLookup(
+                StandardTemplate => $ST,
             );
 
-            next SR if !$StandardResponseID;
+            next ST if !$StandardTemplateID;
 
-            $Self->SetQueueStandardResponse(
-                QueueID    => $QueueID,
-                ResponseID => $StandardResponseID,
-                UserID     => $Param{UserID},
+            $Self->QueueStandardTemplateMemberAdd(
+                QueueID            => $QueueID,
+                StandardTemplateID => $StandardTemplateID,
+                Active             => 1,
+                UserID             => $Param{UserID},
             );
         }
     }
 
-    # get standard response id
-    my $StandardResponseID2QueueByCreating
-        = $Self->{ConfigObject}->Get('StandardResponseID2QueueByCreating');
+    # get standard template id
+    my $StandardTemplateID2QueueByCreating
+        = $Self->{ConfigObject}->Get(' StandardTemplate2QueueByCreating');
 
-    return $QueueID if !$StandardResponseID2QueueByCreating;
-    return $QueueID if ref $StandardResponseID2QueueByCreating ne 'ARRAY';
-    return $QueueID if !@{$StandardResponseID2QueueByCreating};
+    return $QueueID if !$StandardTemplateID2QueueByCreating;
+    return $QueueID if ref $StandardTemplateID2QueueByCreating ne 'ARRAY';
+    return $QueueID if !@{$StandardTemplateID2QueueByCreating};
 
-    # add response by id
-    for my $ResponseID ( @{$StandardResponseID2QueueByCreating} ) {
+    # add template by id
+    for my $StandardTemplateID ( @{$StandardTemplateID2QueueByCreating} ) {
 
-        $Self->SetQueueStandardResponse(
-            QueueID    => $QueueID,
-            ResponseID => $ResponseID,
-            UserID     => $Param{UserID},
+        $Self->QueueStandardTemplateMemberAdd(
+            QueueID            => $QueueID,
+            StandardTemplateID => $StandardTemplateID,
+            Active             => 1,
+            UserID             => $Param{UserID},
         );
     }
 

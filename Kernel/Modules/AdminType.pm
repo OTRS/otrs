@@ -43,6 +43,11 @@ sub Run {
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
         my %Data = $Self->{TypeObject}->TypeGet( ID => $ID );
+        if ( !%Data ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need Type!',
+            );
+        }
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -76,6 +81,13 @@ sub Run {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }
+        }
+
+        my %Data = $Self->{TypeObject}->TypeGet( ID => $GetParam{ID} );
+        if ( !%Data ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need Type!',
+            );
         }
 
         # if no errors occurred

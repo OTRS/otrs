@@ -66,11 +66,12 @@ sub ActionRow {
             $BulkFeature = 1;
         }
         else {
+            GROUP:
             for my $Group (@Groups) {
-                next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+                next GROUP if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
                 if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
                     $BulkFeature = 1;
-                    last;
+                    last GROUP;
                 }
             }
         }
@@ -95,13 +96,14 @@ sub ActionRow {
     if (
         $Param{Config}->{OverviewMenuModules}
         && ref $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewMenuModule') eq 'HASH'
-    ) {
+        )
+    {
 
         my %Menus = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewMenuModule') };
         MENUMODULE:
         for my $Menu ( sort keys %Menus ) {
 
-            next MENUMODULE if !IsHashRefWithData($Menus{$Menu});
+            next MENUMODULE if !IsHashRefWithData( $Menus{$Menu} );
             next MENUMODULE if ( $Menus{$Menu}->{View} && $Menus{$Menu}->{View} ne $Param{View} );
 
             # load module
@@ -144,9 +146,9 @@ sub ActionRow {
                 $Self->{LayoutObject}->Block(
                     Name => $Item->{Block},
                     Data => {
-                        ID          => $Item->{ID},
-                        Name        => $Self->{LayoutObject}->{LanguageObject}->Get( $Item->{Name} ),
-                        Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
+                        ID   => $Item->{ID},
+                        Name => $Self->{LayoutObject}->{LanguageObject}->Get( $Item->{Name} ),
+                        Link => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
                         Description => $Item->{Description},
                         Block       => $Item->{Block},
                         Class       => $Class,
@@ -206,11 +208,12 @@ sub Run {
             $BulkFeature = 1;
         }
         else {
+            GROUP:
             for my $Group (@Groups) {
-                next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+                next GROUP if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
                 if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
                     $BulkFeature = 1;
-                    last;
+                    last GROUP;
                 }
             }
         }
@@ -317,7 +320,7 @@ sub _Show {
         UserID        => $Self->{UserID},
         DynamicFields => 0,
         Order         => 'DESC',
-        Limit         => 5,
+        Limit => $Self->{ConfigObject}->Get('Ticket::Frontend::Overview::PreviewArticleLimit') || 5,
     );
 
     # check if certain article sender types should be excluded from preview
@@ -366,13 +369,15 @@ sub _Show {
     # create human age
     $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
 
-    # fetch all std. responses ...
-    my %StandardResponses
-        = $Self->{QueueObject}->GetStandardResponses( QueueID => $Article{QueueID} );
+    # fetch all std. templates ...
+    my %StandardTemplates = $Self->{QueueObject}->QueueStandardTemplateMemberList(
+        QueueID       => $Article{QueueID},
+        TemplateTypes => 1,
+    );
 
     $Param{StandardResponsesStrg} = $Self->{LayoutObject}->BuildSelection(
         Name => 'ResponseID',
-        Data => \%StandardResponses,
+        Data => $StandardTemplates{Answer} || {},
     );
 
     # customer info
@@ -922,13 +927,14 @@ sub _Show {
         if ($PreviewArticleTypeExpanded) {
 
             my $ClassCount = 0;
+            ARTICLE_ITEM:
             for my $ArticleItem (@ArticleBody) {
-                next if !$ArticleItem;
+                next ARTICLE_ITEM if !$ArticleItem;
 
                 # check if current article type should be shown as expanded
                 if ( $ArticleItem->{ArticleType} eq $PreviewArticleTypeExpanded ) {
                     $ArticleItem->{Class} = 'Active';
-                    last;
+                    last ARTICLE_ITEM;
                 }
 
                 # otherwise display the last article in the list as expanded (default)
@@ -1045,9 +1051,15 @@ sub _Show {
                     );
 
                     # fetch all std. responses
-                    my %StandardResponses = $Self->{QueueObject}->GetStandardResponses(
-                        QueueID => $Article{QueueID},
+                    my %StandardTemplates = $Self->{QueueObject}->QueueStandardTemplateMemberList(
+                        QueueID       => $Article{QueueID},
+                        TemplateTypes => 1,
                     );
+
+                    my %StandardResponses;
+                    if ( IsHashRefWithData( $StandardTemplates{Answer} ) ) {
+                        %StandardResponses = %{ $StandardTemplates{Answer} };
+                    }
 
                     # get StandardResponsesStrg
                     $StandardResponses{0}

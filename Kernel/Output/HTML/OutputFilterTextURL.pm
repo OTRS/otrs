@@ -12,8 +12,6 @@ package Kernel::Output::HTML::OutputFilterTextURL;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -40,6 +38,7 @@ sub Pre {
 
     $Self->{LinkHash} = undef;
     my $Counter = 0;
+    my %Seen;
     ${ $Param{Data} } =~ s{
         ( > | < | &gt; | &lt; | )  # $1 greater-than and less-than sign
 
@@ -67,20 +66,26 @@ sub Pre {
         my $Start = $1;
         my $Link  = $2;
         my $End   = $3;
-        $Counter++;
-        if ( $Link !~ m{^ ( http | https | ftp ) : \/ \/ }xi ) {
-            if ($Link =~ m{^ ftp }smx ) {
-                $Link = 'ftp://' . $Link;
-            }
-            else {
-                $Link = 'http://' . $Link;
-            }
+        if ($Seen{$Link}) {
+            $Start . $Seen{$Link} . $End;
         }
-        my $Length = length $Link ;
-        $Length = $Length < 75 ? $Length : 75;
-        my $String = '#' x $Length;
-        $Self->{LinkHash}->{"[$String$Counter]"} = $Link;
-        $Start . "[$String$Counter]" . $End;
+        else {
+            $Counter++;
+            if ( $Link !~ m{^ ( http | https | ftp ) : \/ \/ }xi ) {
+                if ($Link =~ m{^ ftp }smx ) {
+                    $Link = 'ftp://' . $Link;
+                }
+                else {
+                    $Link = 'http://' . $Link;
+                }
+            }
+            my $Length = length $Link ;
+            $Length = $Length < 75 ? $Length : 75;
+            my $String = '#' x $Length;
+            $Self->{LinkHash}->{"[$String$Counter]"} = $Link;
+            $Seen{$Link} = "[$String$Counter]";
+            $Start . "[$String$Counter]" . $End;
+        }
     }egxism;
 
     return $Param{Data};
@@ -101,7 +106,7 @@ sub Post {
             $LinkSmall =~ s/^(.{75}).*$/$1\[\.\.\]/gs;
             $Self->{LinkHash}->{$Key} =~ s/ //g;
             ${ $Param{Data} }
-                =~ s/\Q$Key\E/<a href=\"$Self->{LinkHash}->{$Key}\" target=\"_blank\" title=\"$Self->{LinkHash}->{$Key}\">$LinkSmall<\/a>/;
+                =~ s/\Q$Key\E/<a href=\"$Self->{LinkHash}->{$Key}\" target=\"_blank\" title=\"$Self->{LinkHash}->{$Key}\">$LinkSmall<\/a>/g;
         }
     }
 

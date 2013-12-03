@@ -36,8 +36,8 @@ sub new {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
     # get dynamic fields
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -104,26 +104,28 @@ sub Run {
             UserID => 1,
         );
         next NOTIFICATION if !$Notification{Data};
+
+        KEY:
         for my $Key ( sort keys %{ $Notification{Data} } ) {
 
             # ignore not ticket related attributes
-            next if $Key eq 'Recipients';
-            next if $Key eq 'RecipientAgents';
-            next if $Key eq 'RecipientGroups';
-            next if $Key eq 'RecipientRoles';
-            next if $Key eq 'RecipientEmail';
-            next if $Key eq 'Events';
-            next if $Key eq 'ArticleTypeID';
-            next if $Key eq 'ArticleSenderTypeID';
-            next if $Key eq 'ArticleSubjectMatch';
-            next if $Key eq 'ArticleBodyMatch';
-            next if $Key eq 'ArticleAttachmentInclude';
-            next if $Key eq 'NotificationArticleTypeID';
+            next KEY if $Key eq 'Recipients';
+            next KEY if $Key eq 'RecipientAgents';
+            next KEY if $Key eq 'RecipientGroups';
+            next KEY if $Key eq 'RecipientRoles';
+            next KEY if $Key eq 'RecipientEmail';
+            next KEY if $Key eq 'Events';
+            next KEY if $Key eq 'ArticleTypeID';
+            next KEY if $Key eq 'ArticleSenderTypeID';
+            next KEY if $Key eq 'ArticleSubjectMatch';
+            next KEY if $Key eq 'ArticleBodyMatch';
+            next KEY if $Key eq 'ArticleAttachmentInclude';
+            next KEY if $Key eq 'NotificationArticleTypeID';
 
             # check ticket attributes
-            next if !$Notification{Data}->{$Key};
-            next if !@{ $Notification{Data}->{$Key} };
-            next if !$Notification{Data}->{$Key}->[0];
+            next KEY if !$Notification{Data}->{$Key};
+            next KEY if !@{ $Notification{Data}->{$Key} };
+            next KEY if !$Notification{Data}->{$Key}->[0];
             my $Match = 0;
             VALUE:
             for my $Value ( @{ $Notification{Data}->{$Key} } ) {
@@ -140,20 +142,27 @@ sub Run {
                     # get the dynamic field config for this field
                     my $DynamicFieldConfig = $Self->{DynamicFieldConfigLookup}->{$DynamicFieldName};
 
-                    next if !$DynamicFieldConfig;
+                    next VALUE if !$DynamicFieldConfig;
+
+                    my $IsNotificationEventCondition = $Self->{BackendObject}->HasBehavior(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        Behavior           => 'IsNotificationEventCondition',
+                    );
+
+                    next VALUE if !$IsNotificationEventCondition;
 
                     $Match = $Self->{BackendObject}->ObjectMatch(
                         DynamicFieldConfig => $DynamicFieldConfig,
                         Value              => $Value,
                         ObjectAttributes   => \%Ticket,
                     );
-                    last if $Match;
+                    last VALUE if $Match;
                 }
                 else {
 
                     if ( $Value eq $Ticket{$Key} ) {
                         $Match = 1;
-                        last;
+                        last VALUE;
                     }
                 }
             }
@@ -177,7 +186,7 @@ sub Run {
                     next VALUE if !$Value;
                     if ( $Value == $Article{ArticleTypeID} ) {
                         $Match = 1;
-                        last;
+                        last VALUE;
                     }
                 }
                 next NOTIFICATION if !$Match;
@@ -191,22 +200,23 @@ sub Run {
                     next VALUE if !$Value;
                     if ( $Value == $Article{SenderTypeID} ) {
                         $Match = 1;
-                        last;
+                        last VALUE;
                     }
                 }
                 next NOTIFICATION if !$Match;
             }
 
             # check subject & body
+            KEY:
             for my $Key (qw( Subject Body )) {
-                next if !$Notification{Data}->{ 'Article' . $Key . 'Match' };
+                next KEY if !$Notification{Data}->{ 'Article' . $Key . 'Match' };
                 my $Match = 0;
                 VALUE:
                 for my $Value ( @{ $Notification{Data}->{ 'Article' . $Key . 'Match' } } ) {
                     next VALUE if !$Value;
                     if ( $Article{$Key} =~ /\Q$Value\E/i ) {
                         $Match = 1;
-                        last;
+                        last VALUE;
                     }
                 }
                 next NOTIFICATION if !$Match;
@@ -220,13 +230,14 @@ sub Run {
                     StripPlainBodyAsAttachment => 3,
                 );
                 if (%Index) {
+                    FILE_ID:
                     for my $FileID ( sort keys %Index ) {
                         my %Attachment = $Self->{TicketObject}->ArticleAttachment(
                             ArticleID => $Param{Data}->{ArticleID},
                             FileID    => $FileID,
                             UserID    => $Param{UserID},
                         );
-                        next if !%Attachment;
+                        next FILE_ID if !%Attachment;
                         push @Attachments, \%Attachment;
                     }
                 }
@@ -324,7 +335,7 @@ sub _SendNotificationToRecipients {
                     )
                 {
                     $Self->{LogObject}->Log(
-                        Priority => 'notice',
+                        Priority => 'info',
                         Message  => 'Send no customer notification because no customer is set!',
                     );
                     next RECIPIENT;
@@ -337,7 +348,7 @@ sub _SendNotificationToRecipients {
                     );
                     if ( !$CustomerUser{UserEmail} ) {
                         $Self->{LogObject}->Log(
-                            Priority => 'notice',
+                            Priority => 'info',
                             Message  => "Send no customer notification because of missing "
                                 . "customer email (CustomerUserID=$CustomerUser{CustomerUserID})!",
                         );
@@ -390,8 +401,8 @@ sub _SendNotificationToRecipients {
     if ( $Param{Notification}->{Data}->{RecipientAgents} ) {
         RECIPIENT:
         for my $Recipient ( @{ $Param{Notification}->{Data}->{RecipientAgents} } ) {
-            next if $Recipient == 1;
-            next if $AgentUsed{$Recipient};
+            next RECIPIENT if $Recipient == 1;
+            next RECIPIENT if $AgentUsed{$Recipient};
             $AgentUsed{$Recipient} = 1;
 
             my %User = $Self->{UserObject}->GetUserData(
@@ -541,8 +552,9 @@ sub _SendNotification {
     );
 
     # get notification texts
+    KEY:
     for (qw(Subject Body)) {
-        next if $Notification{$_};
+        next KEY if $Notification{$_};
         $Notification{$_} = "No CustomerNotification $_ for $Param{Type} found!";
     }
 
@@ -574,8 +586,9 @@ sub _SendNotification {
         $Notification{Body} =~ s/<OTRS_CUSTOMER_REALNAME>/$RealName/g;
     }
 
+    KEY:
     for my $Key ( sort keys %Ticket ) {
-        next if !defined $Ticket{$Key};
+        next KEY if !defined $Ticket{$Key};
 
         my $DisplayKeyValue = $Ticket{$Key};
         my $DisplayValue    = $Ticket{$Key};
@@ -629,8 +642,9 @@ sub _SendNotification {
         UserID        => $Param{UserID},
         NoOutOfOffice => 1,
     );
+    KEY:
     for ( sort keys %CurrentPreferences ) {
-        next if !defined $CurrentPreferences{$_};
+        next KEY if !defined $CurrentPreferences{$_};
         $Notification{Body} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
     }
@@ -650,8 +664,9 @@ sub _SendNotification {
         UserID        => $OwnerID,
         NoOutOfOffice => 1,
     );
+    KEY:
     for ( sort keys %OwnerPreferences ) {
-        next if !$OwnerPreferences{$_};
+        next KEY if !$OwnerPreferences{$_};
         $Notification{Body} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
     }
@@ -672,8 +687,9 @@ sub _SendNotification {
         UserID        => $ResponsibleID,
         NoOutOfOffice => 1,
     );
+    KEY:
     for ( sort keys %ResponsiblePreferences ) {
-        next if !$ResponsiblePreferences{$_};
+        next KEY if !$ResponsiblePreferences{$_};
         $Notification{Body} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
     }
@@ -684,8 +700,9 @@ sub _SendNotification {
 
     # get ref of email params
     my %GetParam = %{ $Param{CustomerMessageParams} };
+    KEY:
     for ( sort keys %GetParam ) {
-        next if !$GetParam{$_};
+        next KEY if !$GetParam{$_};
         $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
     }
@@ -697,8 +714,9 @@ sub _SendNotification {
         );
 
         # replace customer stuff with tags
+        KEY:
         for ( sort keys %CustomerUser ) {
-            next if !$CustomerUser{$_};
+            next KEY if !$CustomerUser{$_};
             $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
         }
@@ -715,10 +733,11 @@ sub _SendNotification {
         DynamicFields => 0,
     );
     my %ArticleAgent;
+    ARTICLE:
     for my $Article ( reverse @ArticleBoxAgent ) {
-        next if $Article->{SenderType} ne 'agent';
+        next ARTICLE if $Article->{SenderType} ne 'agent';
         %ArticleAgent = %{$Article};
-        last;
+        last ARTICLE;
     }
 
     my %ArticleContent = (
@@ -738,9 +757,10 @@ sub _SendNotification {
                 $Article{Body} =~ s/(^>.+|.{4,78})(?:\s|\z)/$1\n/gm;
             }
 
+            KEY:
             for ( sort keys %Article ) {
 
-                next if !$Article{$_};
+                next KEY if !$Article{$_};
 
                 $Notification{Body} =~ s/<$ArticleItem$_>/$Article{$_}/gi;
                 $Notification{Subject} =~ s/<$ArticleItem$_>/$Article{$_}/gi;
@@ -827,7 +847,7 @@ sub _SendNotification {
 
         # log event
         $Self->{LogObject}->Log(
-            Priority => 'notice',
+            Priority => 'info',
             Message  => "Sent agent '$Notification{Name}' notification to '$Recipient{Email}'.",
         );
 
@@ -872,7 +892,7 @@ sub _SendNotification {
 
         # log event
         $Self->{LogObject}->Log(
-            Priority => 'notice',
+            Priority => 'info',
             Message  => "Sent customer '$Notification{Name}' notification to '$Recipient{Email}'.",
         );
 

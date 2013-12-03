@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/DynamicFieldFromCustomerUser.pm - ticket event module
-# Copyright (C) 2003-2012 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,6 @@ use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
-
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -26,13 +23,16 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for my $Needed (qw(ConfigObject TicketObject LogObject CustomerUserObject)) {
+    for my $Needed (
+        qw(ConfigObject TicketObject LogObject EncodeObject MainObject DBObject TimeObject CustomerUserObject)
+        )
+    {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
     # create extra needed objects
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
     # get dynamic fields list
     my $DynamicFields = $Self->{DynamicFieldObject}->DynamicFieldList(
@@ -85,10 +85,10 @@ sub Run {
     # also continue if there was no CustomerUser data found - erase values
     # loop over the configured mapping of customer data variables to dynamic fields
     CUSTOMERUSERVARIABLENAME:
-    for my $CustomerUserVariableName (sort keys %Mapping) {
+    for my $CustomerUserVariableName ( sort keys %Mapping ) {
 
         # check config for the particular mapping
-        if (!defined $Self->{DynamicFields}->{$Mapping{$CustomerUserVariableName}} ) {
+        if ( !defined $Self->{DynamicFields}->{ $Mapping{$CustomerUserVariableName} } ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message =>
@@ -105,7 +105,7 @@ sub Run {
         $Self->{BackendObject}->ValueSet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ObjectID           => $Param{Data}->{TicketID},
-            Value              => $CustomerUserData{ $CustomerUserVariableName } || '',
+            Value              => $CustomerUserData{$CustomerUserVariableName} || '',
             UserID             => $Param{UserID},
         );
     }

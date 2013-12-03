@@ -12,8 +12,6 @@ package Kernel::System::PDF;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::PDF - pdf lib
@@ -2162,6 +2160,7 @@ sub _TableBlockNextCalculate {
         }
 
         # now calculate, what cells can output (what cells are active)
+        COLUMN_COUNTER:
         for ( my $ColumnCounter = 0; $ColumnCounter < scalar @$Row; $ColumnCounter++ ) {
 
             # calculate RowStart and ColumnStart
@@ -2175,7 +2174,7 @@ sub _TableBlockNextCalculate {
                 $RowStart    = $RowCounter;
                 $ColumnStart = $ColumnCounter;
                 $ColumnStop  = $ColumnStart;
-                last;
+                last COLUMN_COUNTER;
             }
         }
         $RowCounter++;

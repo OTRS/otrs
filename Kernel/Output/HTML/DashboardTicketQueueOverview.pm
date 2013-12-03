@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardTicketQueueOverview.pm
-# Copyright (C) 2003-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +13,6 @@ use strict;
 use warnings;
 
 use Kernel::System::State;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -165,18 +162,29 @@ sub Run {
 
     for my $HeaderItem (@Headers) {
         $Self->{LayoutObject}->Block(
-            Name => 'ContentLargeTicketGenericHeaderStatus',
+            Name => 'ContentLargeTicketQueueOverviewHeaderStatus',
             Data => {
-                Text  => $HeaderItem,
+                Text => $HeaderItem,
             },
         );
     }
 
+    my $HasContent;
+
     # iterate over all queues, print results;
     my @StatusTotal;
+    QUEUE:
     for my $Queue ( sort values %Queues ) {
+
+        # Hide empty queues
+        if ( !grep { $_ > 0 } @{ $Results{$Queue} } ) {
+            next QUEUE;
+        }
+
+        $HasContent++;
+
         $Self->{LayoutObject}->Block(
-            Name => 'ContentLargeTicketGenericQueueName',
+            Name => 'ContentLargeTicketQueueOverviewQueueName',
             Data => { QueueName => $Queue, }
         );
 
@@ -185,7 +193,7 @@ sub Run {
         my $RowTotal;
         for my $StateOrderID ( sort keys %{ $Self->{Config}->{States} } ) {
             $Self->{LayoutObject}->Block(
-                Name => 'ContentLargeTicketGenericQueueResults',
+                Name => 'ContentLargeTicketQueueOverviewQueueResults',
                 Data => {
                     Number  => $Results{$Queue}[$Counter],
                     QueueID => $QueueToID{$Queue},
@@ -201,7 +209,7 @@ sub Run {
 
         # print row (queue) total
         $Self->{LayoutObject}->Block(
-            Name => 'ContentLargeTicketGenericQueueTotal',
+            Name => 'ContentLargeTicketQueueOverviewQueueTotal',
             Data => {
                 Number   => $RowTotal,
                 QueueID  => $QueueToID{$Queue},
@@ -212,18 +220,45 @@ sub Run {
 
     }
 
-    $Self->{LayoutObject}->Block(
-        Name => 'ContentLargeTicketGenericStatusTotalRow',
-    );
-
-    for my $StateOrderID ( sort keys %{ $Self->{Config}->{States} } ) {
+    if ($HasContent) {
         $Self->{LayoutObject}->Block(
-            Name => 'ContentLargeTicketGenericStatusTotal',
+            Name => 'ContentLargeTicketQueueOverviewStatusTotalRow',
+        );
+
+        for my $StateOrderID ( sort keys %{ $Self->{Config}->{States} } ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ContentLargeTicketQueueOverviewStatusTotal',
+                Data => {
+                    Number   => $StatusTotal[$StateOrderID],
+                    QueueIDs => $QueueIDURL,
+                    StateID  => $States{ ${ $Self->{Config}->{States} }{$StateOrderID} },
+                    Sort     => $Sort,
+                },
+            );
+        }
+    }
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentLargeTicketQueueOverviewNone',
             Data => {
-                Number   => $StatusTotal[$StateOrderID],
-                QueueIDs => $QueueIDURL,
-                StateID  => $States{ ${ $Self->{Config}->{States} }{$StateOrderID} },
-                Sort     => $Sort,
+                ColumnCount => ( scalar keys %{ $Self->{Config}->{States} } ) + 2,
+                }
+        );
+    }
+
+    # check for refresh time
+    my $Refresh = '';
+    if ( $Self->{UserRefreshTime} ) {
+        $Refresh = 60 * $Self->{UserRefreshTime};
+        my $NameHTML = $Self->{Name};
+        $NameHTML =~ s{-}{_}xmsg;
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentLargeTicketQueueOverviewRefresh',
+            Data => {
+                %{ $Self->{Config} },
+                Name        => $Self->{Name},
+                NameHTML    => $NameHTML,
+                RefreshTime => $Refresh,
             },
         );
     }

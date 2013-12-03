@@ -31,7 +31,7 @@ sub new {
         $Self->{MainObject}->Die("Can't load loop protection backend module $BackendModule! $@");
     }
 
-    $Self->{Backend} = $BackendModule->new(%Param);
+    $Self->{Backend} = $BackendModule->new( %{$Self} );
 
     return $Self;
 }

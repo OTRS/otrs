@@ -294,7 +294,7 @@ sub Sign {
     }
 
     my $Certificate = $Self->CertificateGet(%Param);
-    my %Attributes = $Self->CertificateAttributes(
+    my %Attributes  = $Self->CertificateAttributes(
         Certificate => $Certificate,
         Filename    => $Param{Filename}
     );
@@ -759,7 +759,9 @@ sub CertificateRemove {
             $Success = 0;
     }
 
-    $Message .= ". Private certificate successfully deleted" if ($PrivateExists);
+    if ($PrivateExists) {
+        $Message .= ". Private certificate successfully deleted";
+    }
 
     if ($Success) {
 
@@ -771,7 +773,6 @@ sub CertificateRemove {
             Type => 'SMIME_Private',
         );
     }
-
 
     %Result = (
         Successful => $Success,
@@ -923,7 +924,7 @@ sub CertificateRead {
         return;
     }
 
-    # set options to retreive certiciate contents
+    # set options to retrieve certiciate contents
     my $Options = "x509 -in $File -noout -text";
 
     # get the output string
@@ -1829,21 +1830,26 @@ sub _FetchAttributesFromCert {
         $Line =~ tr{\r\n}{}d;
 
         # look for every attribute by filter
+        FILTER:
         for my $Filter ( sort keys %Filters ) {
             if ( $Line =~ m{\A $Filters{$Filter} \z}xms ) {
                 $AttributesRef->{$Filter} = $1 || '';
 
           # delete the match key from filter  to don't search again this value and improve the speed
                 delete $Filters{$Filter};
-                last;
+                last FILTER;
             }
         }
     }
 
     # prepare attributes data for use
-    $AttributesRef->{Issuer} =~ s{=}{= }xmsg  if $AttributesRef->{Issuer};
-    $AttributesRef->{Subject} =~ s{\/}{ }xmsg if $AttributesRef->{Subject};
-    $AttributesRef->{Subject} =~ s{=}{= }xmsg if $AttributesRef->{Subject};
+    if ( $AttributesRef->{Issuer} ) {
+        $AttributesRef->{Issuer} =~ s{=}{= }xmsg;
+    }
+    if ( $AttributesRef->{Subject} ) {
+        $AttributesRef->{Subject} =~ s{\/}{ }xmsg;
+        $AttributesRef->{Subject} =~ s{=}{= }xmsg;
+    }
 
     my %Month = (
         Jan => '01', Feb => '02', Mar => '03', Apr => '04', May => '05', Jun => '06',
@@ -1865,10 +1871,11 @@ sub _FetchAttributesFromCert {
                 $Day = "0" . int($Day);
             }
 
+            MONTH_KEY:
             for my $MonthKey ( sort keys %Month ) {
                 if ( $AttributesRef->{$DateType} =~ /$MonthKey/i ) {
                     $Month = $Month{$MonthKey};
-                    last;
+                    last MONTH_KEY;
                 }
             }
             $AttributesRef->{"Short$DateType"} = "$Year-$Month-$Day";

@@ -217,8 +217,15 @@ if ( !$Host ) {
 }
 
 # create url
-my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
-my $BaseURL     = "http://$Host/${ScriptAlias}/nph-genericinterface.pl/";
+my $ScriptAlias   = $Self->{ConfigObject}->Get('ScriptAlias');
+my $ApacheBaseURL = "http://$Host/${ScriptAlias}/nph-genericinterface.pl/";
+my $PlackBaseURL;
+if ( $Self->{ConfigObject}->Get('UnitTestPlackServerPort') ) {
+    $PlackBaseURL
+        = "http://localhost:"
+        . $Self->{ConfigObject}->Get('UnitTestPlackServerPort')
+        . '/nph-genericinterface.pl/';
+}
 
 for my $Test (@Tests) {
 
@@ -342,57 +349,67 @@ for my $Test (@Tests) {
     #
     for my $RequestMethod (qw(get post)) {
 
-        for my $WebserviceAccess (
-            "WebserviceID/$WebserviceID",
-            "Webservice/$WebserviceNameEncoded"
-            )
-        {
+        my @BaseURLs = ($ApacheBaseURL);
+        if ($PlackBaseURL) {
+            push @BaseURLs, $PlackBaseURL;
+        }
 
-            my $URL = $BaseURL . $WebserviceAccess;
-            my $Response;
-            my $ResponseData;
-            my $QueryString = $CreateQueryString->(
-                $Self,
-                Data   => $Test->{RequestData},
-                Encode => 1,
-            );
+        for my $BaseURL (@BaseURLs) {
 
-            if ( $RequestMethod eq 'get' ) {
-                $URL .= "?$QueryString";
-                $Response = LWP::UserAgent->new()->$RequestMethod($URL);
-            }
-            else {    # POST
-                $Response = LWP::UserAgent->new()->$RequestMethod( $URL, Content => $QueryString );
-            }
-            chomp( $ResponseData = $Response->decoded_content() );
+            for my $WebserviceAccess (
+                "WebserviceID/$WebserviceID",
+                "Webservice/$WebserviceNameEncoded"
+                )
+            {
 
-            if ( $Test->{ResponseSuccess} ) {
-                for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
-                    my $QueryStringPart = URI::Escape::uri_escape_utf8($Key);
-                    if ( $Test->{ResponseData}->{$Key} ) {
-                        $QueryStringPart
-                            .= '=' . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
+                my $URL = $BaseURL . $WebserviceAccess;
+                my $Response;
+                my $ResponseData;
+                my $QueryString = $CreateQueryString->(
+                    $Self,
+                    Data   => $Test->{RequestData},
+                    Encode => 1,
+                );
+
+                if ( $RequestMethod eq 'get' ) {
+                    $URL .= "?$QueryString";
+                    $Response = LWP::UserAgent->new()->$RequestMethod($URL);
+                }
+                else {    # POST
+                    $Response
+                        = LWP::UserAgent->new()->$RequestMethod( $URL, Content => $QueryString );
+                }
+                chomp( $ResponseData = $Response->decoded_content() );
+
+                if ( $Test->{ResponseSuccess} ) {
+                    for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
+                        my $QueryStringPart = URI::Escape::uri_escape_utf8($Key);
+                        if ( $Test->{ResponseData}->{$Key} ) {
+                            $QueryStringPart
+                                .= '='
+                                . URI::Escape::uri_escape_utf8( $Test->{ResponseData}->{$Key} );
+                        }
+
+                        $Self->True(
+                            index( $ResponseData, $QueryStringPart ) > -1,
+                            "$Test->{Name} $WebserviceAccess real HTTP $RequestMethod request (needs configured and running webserver) result data contains $QueryStringPart ($URL)",
+                        );
                     }
 
-                    $Self->True(
-                        index( $ResponseData, $QueryStringPart ) > -1,
-                        "$Test->{Name} $WebserviceAccess real HTTP $RequestMethod request (needs configured and running webserver) result data contains $QueryStringPart",
+                    $Self->Is(
+                        $Response->code(),
+                        200,
+                        "$Test->{Name} $WebserviceAccess real HTTP $RequestMethod request (needs configured and running webserver) result success status ($URL)",
                     );
                 }
-
-                $Self->Is(
-                    $Response->code(),
-                    200,
-                    "$Test->{Name} $WebserviceAccess real HTTP $RequestMethod request (needs configured and running webserver) result success status",
-                );
-            }
-            else {
-                $Self->Is(
-                    $Response->code(),
-                    500,
-                    "$Test->{Name} $WebserviceAccess real HTTP $RequestMethod request (needs configured and running webserver) result error status"
-                    ,
-                );
+                else {
+                    $Self->Is(
+                        $Response->code(),
+                        500,
+                        "$Test->{Name} $WebserviceAccess real HTTP $RequestMethod request (needs configured and running webserver) result error status ($URL)"
+                        ,
+                    );
+                }
             }
         }
     }
@@ -414,7 +431,7 @@ for my $Test (@Tests) {
 #
 for my $RequestMethod (qw(get post)) {
 
-    my $URL = $BaseURL . 'undefined';
+    my $URL = $ApacheBaseURL . 'undefined';
     my $ResponseData;
 
     my $Response = LWP::UserAgent->new()->$RequestMethod($URL);
@@ -423,7 +440,7 @@ for my $RequestMethod (qw(get post)) {
     $Self->Is(
         $Response->code(),
         500,
-        "Nonexisting Webservice real HTTP $RequestMethod request result error status",
+        "Nonexisting Webservice real HTTP $RequestMethod request result error status ($URL)",
     );
 }
 

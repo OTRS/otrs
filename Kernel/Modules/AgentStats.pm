@@ -296,12 +296,14 @@ sub Run {
             # load static module
             my $Params = $Self->{StatsObject}->GetParams( StatID => $StatID );
             $Self->{LayoutObject}->Block( Name => 'Static', );
+            PARAMITEM:
             for my $ParamItem ( @{$Params} ) {
-                next if $ParamItem->{Name} eq 'GraphSize';
+                next PARAMITEM if $ParamItem->{Name} eq 'GraphSize';
                 $Self->{LayoutObject}->Block(
                     Name => 'ItemParam',
                     Data => {
                         Param => $ParamItem->{Frontend},
+                        Name  => $ParamItem->{Name},
                         Field => $Self->{LayoutObject}->BuildSelection(
                             Data       => $ParamItem->{Data},
                             Name       => $ParamItem->{Name},
@@ -330,7 +332,7 @@ sub Run {
                 );
                 OBJECTATTRIBUTE:
                 for my $ObjectAttribute ( @{ $Stat->{$Use} } ) {
-                    next if !$ObjectAttribute->{Selected};
+                    next OBJECTATTRIBUTE if !$ObjectAttribute->{Selected};
 
                     my %ValueHash;
                     $Flag = 1;
@@ -504,16 +506,28 @@ sub Run {
                             elsif ( $ObjectAttribute->{TimeRelativeUnit} ) {
                                 my $TimeScale = _TimeScale();
                                 if ( $TimeType eq 'Extended' ) {
-                                    my @TimeScaleArray = reverse( keys( %{$TimeScale} ) );
                                     my %TimeScaleOption;
-                                    for (@TimeScaleArray) {
+                                    ITEM:
+                                    for (
+                                        sort {
+                                            $TimeScale->{$a}->{Position}
+                                                <=> $TimeScale->{$b}->{Position}
+                                        } keys %{$TimeScale}
+                                        )
+                                    {
                                         $TimeScaleOption{$_} = $TimeScale->{$_}{Value};
-                                        last if $ObjectAttribute->{TimeRelativeUnit} eq $_;
+                                        last ITEM if $ObjectAttribute->{TimeRelativeUnit} eq $_;
                                     }
                                     $BlockData{TimeRelativeUnit}
                                         = $Self->{LayoutObject}->BuildSelection(
-                                        Data => \%TimeScaleOption,
                                         Name => $ObjectAttribute->{Element} . 'TimeRelativeUnit',
+                                        Data => \%TimeScaleOption,
+                                        Sort => 'IndividualKey',
+                                        SelectedID     => $ObjectAttribute->{TimeRelativeUnit},
+                                        SortIndividual => [
+                                            'Second', 'Minute', 'Hour', 'Day',
+                                            'Week', 'Month', 'Year'
+                                        ],
                                         );
                                 }
                                 $BlockData{TimeRelativeCountMax}
@@ -536,19 +550,33 @@ sub Run {
                                 elsif ( $TimeType eq 'Extended' ) {
                                     my $TimeScale = _TimeScale();
                                     my %TimeScaleOption;
-                                    for ( sort keys %{$TimeScale} ) {
+                                    ITEM:
+                                    for (
+                                        sort {
+                                            $TimeScale->{$b}->{Position}
+                                                <=> $TimeScale->{$a}->{Position}
+                                        } keys %{$TimeScale}
+                                        )
+                                    {
                                         $TimeScaleOption{$_} = $TimeScale->{$_}->{Value};
-                                        last if $ObjectAttribute->{SelectedValues}[0] eq $_;
+                                        last ITEM if $ObjectAttribute->{SelectedValues}[0] eq $_;
                                     }
                                     $BlockData{TimeScaleUnitMax}
                                         = $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }
                                         {Value};
                                     $BlockData{TimeScaleCountMax}
                                         = $ObjectAttribute->{TimeScaleCount};
+
                                     $BlockData{TimeScaleUnit}
                                         = $Self->{LayoutObject}->BuildSelection(
-                                        Data => \%TimeScaleOption,
-                                        Name => $ObjectAttribute->{Element},
+                                        Name           => $ObjectAttribute->{Element},
+                                        Data           => \%TimeScaleOption,
+                                        SelectedID     => $ObjectAttribute->{SelectedValues}[0],
+                                        Sort           => 'IndividualKey',
+                                        SortIndividual => [
+                                            'Second', 'Minute', 'Hour', 'Day',
+                                            'Week', 'Month', 'Year'
+                                        ],
                                         );
                                     $Self->{LayoutObject}->Block(
                                         Name => 'TimeScaleInfo',
@@ -582,10 +610,12 @@ sub Run {
         }
         my %YesNo        = ( 0 => 'No',      1 => 'Yes' );
         my %ValidInvalid = ( 0 => 'invalid', 1 => 'valid' );
-        $Stat->{SumRowValue} = $YesNo{ $Stat->{SumRow} };
-        $Stat->{SumColValue} = $YesNo{ $Stat->{SumCol} };
-        $Stat->{CacheValue}  = $YesNo{ $Stat->{Cache} };
-        $Stat->{ValidValue}  = $ValidInvalid{ $Stat->{Valid} };
+        $Stat->{SumRowValue}                = $YesNo{ $Stat->{SumRow} };
+        $Stat->{SumColValue}                = $YesNo{ $Stat->{SumCol} };
+        $Stat->{CacheValue}                 = $YesNo{ $Stat->{Cache} };
+        $Stat->{ShowAsDashboardWidgetValue} = $YesNo{ $Stat->{ShowAsDashboardWidget} // 0 };
+        $Stat->{ValidValue}                 = $ValidInvalid{ $Stat->{Valid} };
+
         for (qw(CreatedBy ChangedBy)) {
             $Stat->{$_} = $Self->{UserObject}->UserName( UserID => $Stat->{$_} );
         }
@@ -829,7 +859,10 @@ sub Run {
 
             # save string
             KEY:
-            for my $Key (qw(Title Description Object File SumRow SumCol Cache StatType Valid)) {
+            for my $Key (
+                qw(Title Description Object File SumRow SumCol Cache ShowAsDashboardWidget StatType Valid)
+                )
+            {
                 if ( defined( $Self->{ParamObject}->GetParam( Param => $Key ) ) ) {
                     $Data{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
                     $Data{$Key} =~ s{(^\s+|\s+$)}{}xg;
@@ -886,9 +919,10 @@ sub Run {
             $Param{Select} = $Self->{ParamObject}->GetParam( Param => 'Select' );
             $Data{StatType} = $Stat->{StatType};
 
+            OBJECTATTRIBUTE:
             for my $ObjectAttribute ( @{ $Stat->{UseAsXvalue} } ) {
-                next if !defined $Param{Select};
-                next if $Param{Select} ne $ObjectAttribute->{Element};
+                next OBJECTATTRIBUTE if !defined $Param{Select};
+                next OBJECTATTRIBUTE if $Param{Select} ne $ObjectAttribute->{Element};
 
                 my @Array = $Self->{ParamObject}->GetArray( Param => $Param{Select} );
                 $Data{UseAsXvalue}[0]{SelectedValues} = \@Array;
@@ -900,7 +934,7 @@ sub Run {
                 $Data{UseAsXvalue}[0]{Fixed} = $Fixed ? 1 : 0;
 
                 # Check if Time was selected
-                next if $ObjectAttribute->{Block} ne 'Time';
+                next OBJECTATTRIBUTE if $ObjectAttribute->{Block} ne 'Time';
 
                 # This part is only needed if the block time is selected
                 # perhaps a separate function is better
@@ -1054,9 +1088,12 @@ sub Run {
             my $Index            = 0;
             my $SelectFieldError = 0;
             $Data{StatType} = $Stat->{StatType};
+
+            OBJECTATTRIBUTE:
             for my $ObjectAttribute ( @{ $Stat->{UseAsRestriction} } ) {
                 my $Element = $ObjectAttribute->{Element};
-                next if !$Self->{ParamObject}->GetParam( Param => "Select$Element" );
+                next OBJECTATTRIBUTE
+                    if !$Self->{ParamObject}->GetParam( Param => "Select$Element" );
 
                 my @Array = $Self->{ParamObject}->GetArray( Param => $Element );
                 $Data{UseAsRestriction}[$Index]{SelectedValues} = \@Array;
@@ -1173,6 +1210,9 @@ sub Run {
     # ---------------------------------------------------------- #
     # edit stats specification
     # ---------------------------------------------------------- #
+    elsif ( $Self->{Subaction} eq 'EditSpecificationAJAXUpdate' ) {
+        return $Self->EditSpecificationAJAXUpdate();
+    }
     elsif ( $Self->{Subaction} eq 'EditSpecification' ) {
         my %Frontend;
         my $Stat = {};
@@ -1228,7 +1268,7 @@ sub Run {
                         Data => {
                             Name      => 'Dynamic-Object',
                             StateType => 'dynamic',
-                            }
+                        },
                     );
                 }
 
@@ -1357,7 +1397,7 @@ sub Run {
         }
 
         # create selectboxes 'Cache', 'SumRow', 'SumCol', and 'Valid'
-        for my $Key (qw(Cache SumRow SumCol)) {
+        for my $Key (qw(Cache ShowAsDashboardWidget SumRow SumCol)) {
             $Frontend{ 'Select' . $Key } = $Self->{LayoutObject}->BuildSelection(
                 Data => {
                     0 => 'No',
@@ -1365,6 +1405,18 @@ sub Run {
                 },
                 SelectedID => $Stat->{$Key} || 0,
                 Name => $Key,
+            );
+        }
+
+  # If this is a new stat, assume that it does not support the dashboard widget at the start.
+  #   This is corrected by a call to AJAXUpdate when the page loads and when the user makes changes.
+        if ( $Stat->{StatID} eq 'new' || !$Stat->{ObjectBehaviours}->{ProvidesDashboardWidget} ) {
+            $Frontend{'SelectShowAsDashboardWidget'} = $Self->{LayoutObject}->BuildSelection(
+                Data => {
+                    0 => 'No (not supported)',
+                },
+                SelectedID => 0,
+                Name       => 'ShowAsDashboardWidget',
             );
         }
 
@@ -1494,11 +1546,14 @@ sub Run {
 
             if ( $ObjectAttribute->{Block} eq 'MultiSelectField' ) {
                 $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
-                    Data           => $ObjectAttribute->{Values},
-                    Name           => $ObjectAttribute->{Element},
-                    Multiple       => 1,
-                    Size           => 5,
-                    Class          => ($ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField}) ? 'DynamicFieldWithTreeView' : '',
+                    Data     => $ObjectAttribute->{Values},
+                    Name     => $ObjectAttribute->{Element},
+                    Multiple => 1,
+                    Size     => 5,
+                    Class =>
+                        ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} )
+                    ? 'DynamicFieldWithTreeView'
+                    : '',
                     SelectedID     => $ObjectAttribute->{SelectedValues},
                     Translation    => $ObjectAttribute->{Translation},
                     TreeView       => $ObjectAttribute->{TreeView} || 0,
@@ -1509,8 +1564,9 @@ sub Run {
 
                 );
 
-                if ($ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField}) {
-                    $BlockData{SelectField} .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+                if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
+                    $BlockData{SelectField}
+                        .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
                 }
             }
 
@@ -1590,11 +1646,14 @@ sub Run {
 
             if ( $ObjectAttribute->{Block} eq 'MultiSelectField' ) {
                 $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
-                    Data           => $ObjectAttribute->{Values},
-                    Name           => $ObjectAttribute->{Element},
-                    Multiple       => 1,
-                    Size           => 5,
-                    Class          => ($ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField}) ? 'DynamicFieldWithTreeView' : '',
+                    Data     => $ObjectAttribute->{Values},
+                    Name     => $ObjectAttribute->{Element},
+                    Multiple => 1,
+                    Size     => 5,
+                    Class =>
+                        ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} )
+                    ? 'DynamicFieldWithTreeView'
+                    : '',
                     SelectedID     => $ObjectAttribute->{SelectedValues},
                     Translation    => $ObjectAttribute->{Translation},
                     TreeView       => $ObjectAttribute->{TreeView} || 0,
@@ -1604,8 +1663,9 @@ sub Run {
                         . $ObjectAttribute->{Element} . "')",
                 );
 
-                if ($ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField}) {
-                    $BlockData{SelectField} .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+                if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
+                    $BlockData{SelectField}
+                        .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
                 }
             }
 
@@ -1718,11 +1778,14 @@ sub Run {
                 )
             {
                 $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
-                    Data           => $ObjectAttribute->{Values},
-                    Name           => $ObjectAttribute->{Element},
-                    Multiple       => 1,
-                    Size           => 5,
-                    Class          => ($ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField}) ? 'DynamicFieldWithTreeView' : '',
+                    Data     => $ObjectAttribute->{Values},
+                    Name     => $ObjectAttribute->{Element},
+                    Multiple => 1,
+                    Size     => 5,
+                    Class =>
+                        ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} )
+                    ? 'DynamicFieldWithTreeView'
+                    : '',
                     SelectedID     => $ObjectAttribute->{SelectedValues},
                     Translation    => $ObjectAttribute->{Translation},
                     TreeView       => $ObjectAttribute->{TreeView} || 0,
@@ -1732,8 +1795,9 @@ sub Run {
                         . $ObjectAttribute->{Element} . "')",
                 );
 
-                if ($ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField}) {
-                    $BlockData{SelectField} .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+                if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
+                    $BlockData{SelectField}
+                        .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
                 }
             }
 
@@ -2138,7 +2202,7 @@ sub Run {
 
             if ( $Self->{ConfigObject}->Get('PreferencesGroups')->{CSVSeparator}->{Active} ) {
                 my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
-                $UserCSVSeparator = $UserData{UserCSVSeparator};
+                $UserCSVSeparator = $UserData{UserCSVSeparator} if $UserData{UserCSVSeparator};
             }
             $Output .= $Self->{CSVObject}->Array2CSV(
                 Head      => $HeadArrayRef,
@@ -2245,13 +2309,14 @@ sub Run {
 
                 # start table output
                 $Self->{PDFObject}->PageNew( %PageParam, FooterRight => $Page . ' 1', );
+                COUNT:
                 for ( 2 .. $MaxPages ) {
 
                     # output table (or a fragment of it)
                     %TableParam = $Self->{PDFObject}->Table( %TableParam, );
 
                     # stop output or output next page
-                    last if $TableParam{State};
+                    last COUNT if $TableParam{State};
 
                     $Self->{PDFObject}->PageNew( %PageParam, FooterRight => $Page . ' ' . $_, );
                 }
@@ -2325,6 +2390,58 @@ sub Run {
     # show error screen
     # ---------------------------------------------------------- #
     return $Self->{LayoutObject}->ErrorScreen( Message => 'Invalid Subaction process!' );
+}
+
+sub EditSpecificationAJAXUpdate {
+    my ( $Self, %Param ) = @_;
+
+    my %GetParam;
+    $GetParam{Object}   = $Self->{ParamObject}->GetParam( Param => "Object" )   || '';
+    $GetParam{File}     = $Self->{ParamObject}->GetParam( Param => "File" )     || '';
+    $GetParam{StatType} = $Self->{ParamObject}->GetParam( Param => "StatType" ) || '';
+    $GetParam{ShowAsDashboardWidget}
+        = $Self->{ParamObject}->GetParam( Param => "ShowAsDashboardWidget" || 0 );
+
+    my $Data = {
+        0 => 'No (not supported)',
+    };
+
+    my $ObjectName;
+    if ( $GetParam{StatType} eq 'static' ) {
+        $ObjectName = 'Kernel::System::Stats::Static::' . $GetParam{File};
+    }
+    else {
+        $ObjectName = 'Kernel::System::Stats::Dynamic::' . $GetParam{Object};
+    }
+
+    my $ObjectBehaviours = $Self->{StatsObject}->GetObjectBehaviours(
+        ObjectModule => $ObjectName,
+    );
+
+    if ( $ObjectBehaviours->{ProvidesDashboardWidget} ) {
+        $Data = {
+            0 => 'No',
+            1 => 'Yes'
+        };
+    }
+
+    my $JSON = $Self->{LayoutObject}->BuildSelectionJSON(
+        [
+            {
+                Name         => 'ShowAsDashboardWidget',
+                Data         => $Data,
+                SelectedID   => $GetParam{ShowAsDashboardWidget},
+                Translation  => 1,
+                PossibleNone => 0,
+            },
+        ],
+    );
+    return $Self->{LayoutObject}->Attachment(
+        ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        Content     => $JSON,
+        Type        => 'inline',
+        NoCache     => 1,
+    );
 }
 
 =begin Internal:
@@ -2698,10 +2815,10 @@ sub _ColumnAndRowTranslation {
         # sort
         my $DisableDefaultResultSort = grep {
             $_->{DisableDefaultResultSort}
-            && $_->{DisableDefaultResultSort} == 1
+                && $_->{DisableDefaultResultSort} == 1
         } @{ $Param{StatRef}->{UseAsXvalue} };
 
-        if (!$DisableDefaultResultSort) {
+        if ( !$DisableDefaultResultSort ) {
             @{ $Param{StatArrayRef} } = sort { $a->[0] cmp $b->[0] } @{ $Param{StatArrayRef} };
         }
 

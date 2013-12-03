@@ -36,6 +36,10 @@ sub LoadPreferences {
     $Self->{'DB::CaseSensitive'}        = 1;
     $Self->{'DB::LikeEscapeString'}     = q{ESCAPE '\\'};
 
+    # how to determine server version
+    $Self->{'DB::Version'}
+        = "SELECT CONCAT('Oracle ', version) FROM product_component_version WHERE product LIKE 'Oracle Database%'";
+
     # dbi attributes
     $Self->{'DB::Attribute'} = {
         LongTruncOk => 1,
@@ -49,9 +53,10 @@ sub LoadPreferences {
     $Self->{'DB::Encode'} = 0;
 
     # shell setting
-    $Self->{'DB::Comment'}      = '-- ';
-    $Self->{'DB::ShellCommit'}  = ';';
-    $Self->{'DB::ShellConnect'} = 'SET DEFINE OFF';
+    $Self->{'DB::Comment'}     = '-- ';
+    $Self->{'DB::ShellCommit'} = ';';
+    $Self->{'DB::ShellConnect'}
+        = "SET DEFINE OFF;\nSET SQLBLANKLINES ON";    # must be on separate lines!
 
     # init sql setting on db connect
     #$Self->{'DB::Connect'} = '';
@@ -240,7 +245,16 @@ sub TableCreate {
                 $Shell = "/\n--";
             }
             push( @Return2, "DROP SEQUENCE $Sequence" );
-            push( @Return2, "CREATE SEQUENCE $Sequence" );
+            push(
+                @Return2,
+                "CREATE SEQUENCE $Sequence\n"
+                    . "INCREMENT BY 1\n"
+                    . "START WITH 1\n"
+                    . "NOMAXVALUE\n"
+                    . "NOCYCLE\n"
+                    . "CACHE 20\n"
+                    . "ORDER",
+            );
             push(
                 @Return2,
                 "CREATE OR REPLACE TRIGGER $Sequence"
@@ -729,6 +743,7 @@ sub Insert {
     my $SQL    = '';
     my @Keys   = ();
     my @Values = ();
+    TAG:
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start' ) {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
@@ -744,7 +759,7 @@ sub Insert {
 
             # do not use auto increment values
             if ( $Tag->{Type} && $Tag->{Type} =~ /^AutoIncrement$/i ) {
-                next;
+                next TAG;
             }
             $Tag->{Key} = ${ $Self->Quote( \$Tag->{Key} ) };
             push @Keys, $Tag->{Key};

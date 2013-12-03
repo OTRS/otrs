@@ -13,8 +13,6 @@ package Kernel::System::Ticket::CustomerPermission::CustomerIDCheck;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -59,8 +57,9 @@ sub Run {
     }
 
     # check customer ids, return access if customer id is the same
+    CUSTOMERID:
     for my $CustomerID (@CustomerIDs) {
-        next if !$Ticket{CustomerID};
+        next CUSTOMERID if !$Ticket{CustomerID};
         return 1 if ( lc $Ticket{CustomerID} eq lc $CustomerID );
     }
 

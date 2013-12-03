@@ -17,8 +17,6 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::Service - service lib
@@ -97,7 +95,7 @@ sub new {
     my $GeneratorModule = $Self->{ConfigObject}->Get('Service::PreferencesModule')
         || 'Kernel::System::Service::PreferencesDB';
     if ( $Self->{MainObject}->Require($GeneratorModule) ) {
-        $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
+        $Self->{PreferencesObject} = $GeneratorModule->new( %{$Self} );
     }
 
     return $Self;
@@ -132,7 +130,12 @@ sub ServiceList {
     }
 
     # read cache
-    my $CacheKey = 'ServiceList::' . $Param{Valid};
+    my $CacheKey = 'ServiceList::Valid::' . $Param{Valid};
+
+    if ( defined $Param{KeepChildren} && $Param{KeepChildren} eq '1' ) {
+        $CacheKey .= '::KeepChildren::' . $Param{KeepChildren};
+    }
+
     my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return %{$Cache} if ref $Cache eq 'HASH';
 
@@ -179,14 +182,16 @@ sub ServiceList {
     }
 
     # delete invalid services and childs
-    for my $ServiceID ( sort keys %ServiceList ) {
+    if ( !defined $Param{KeepChildren} || !$Param{KeepChildren} ) {
+        for my $ServiceID ( sort keys %ServiceList ) {
 
-        INVALIDNAME:
-        for my $InvalidName ( sort keys %ServiceInvalidList ) {
+            INVALIDNAME:
+            for my $InvalidName ( sort keys %ServiceInvalidList ) {
 
-            if ( $ServiceList{$ServiceID} =~ m{ \A \Q$InvalidName\E :: }xms ) {
-                delete $ServiceList{$ServiceID};
-                last INVALIDNAME;
+                if ( $ServiceList{$ServiceID} =~ m{ \A \Q$InvalidName\E :: }xms ) {
+                    delete $ServiceList{$ServiceID};
+                    last INVALIDNAME;
+                }
             }
         }
     }
@@ -769,12 +774,14 @@ sub ServiceUpdate {
         ],
     );
 
+    my $LikeService = $Self->{DBObject}->Quote( $OldServiceName, 'Like' ) . '::%';
+
     # find all childs
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT id, name FROM service WHERE name LIKE '"
-            . $Self->{DBObject}->Quote( $OldServiceName, 'Like' )
-            . "::%'",
+        SQL  => "SELECT id, name FROM service WHERE name LIKE ?",
+        Bind => [ \$LikeService ],
     );
+
     my @Childs;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Child;
@@ -829,6 +836,8 @@ sub ServiceSearch {
     my $SQL
         = "SELECT id FROM service WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
 
+    my @Bind;
+
     if ( $Param{Name} ) {
 
         # quote
@@ -837,14 +846,19 @@ sub ServiceSearch {
         # replace * with % and clean the string
         $Param{Name} =~ s{ \*+ }{%}xmsg;
         $Param{Name} =~ s{ %+ }{%}xmsg;
+        my $LikeString = '%' . $Param{Name} . '%';
+        push @Bind, \$LikeString;
 
-        $SQL .= " AND name LIKE '$Param{Name}' ";
+        $SQL .= " AND name LIKE ?";
     }
 
     $SQL .= ' ORDER BY name';
 
     # search service in db
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind,
+    );
 
     my @ServiceList;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -895,8 +909,8 @@ sub CustomerUserServiceMemberList {
         return;
     }
 
-    # set default
-    if ( !defined $Param{DefaultServices} ) {
+    # set default (only 1 or 0 is allowed to correctly set the cache key)
+    if ( !defined $Param{DefaultServices} || $Param{DefaultServices} ) {
         $Param{DefaultServices} = 1;
     }
     else {

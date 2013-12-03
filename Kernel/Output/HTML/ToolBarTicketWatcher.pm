@@ -48,11 +48,12 @@ sub Run {
     }
     if (@Groups) {
         my $Access = 0;
+        GROUP:
         for my $Group (@Groups) {
-            next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+            next GROUP if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
             if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
                 $Access = 1;
-                last;
+                last GROUP;
             }
         }
 
@@ -92,36 +93,44 @@ sub Run {
     my $ClassNew     = $Param{Config}->{CssClassNew};
     my $ClassReached = $Param{Config}->{CssClassReached};
 
+    my $Icon        = $Param{Config}->{Icon};
+    my $IconNew     = $Param{Config}->{IconNew};
+    my $IconReached = $Param{Config}->{IconReached};
+
     my $URL = $Self->{LayoutObject}->{Baselink};
     my %Return;
+    my $Priority = $Param{Config}->{Priority};
     if ($CountNew) {
-        $Return{'0999977'} = {
+        $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
             Description => 'Watched Tickets New',
             Count       => $CountNew,
             Class       => $ClassNew,
+            Icon        => $IconNew,
             Link        => $URL . 'Action=AgentTicketWatchView;Filter=New',
-            AccessKey   => '',
+            AccessKey   => $Param{Config}->{AccessKeyNew} || '',
         };
     }
     if ($CountReached) {
-        $Return{'0999978'} = {
+        $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
             Description => 'Watched Tickets Reminder Reached',
             Count       => $CountReached,
             Class       => $ClassReached,
+            Icon        => $IconReached,
             Link        => $URL . 'Action=AgentTicketWatchView;Filter=ReminderReached',
-            AccessKey   => '',
+            AccessKey   => $Param{Config}->{AccessKeyReached} || '',
         };
     }
     if ($Count) {
-        $Return{'0999979'} = {
+        $Return{ $Priority++ } = {
             Block       => 'ToolBarItem',
             Description => 'Watched Tickets Total',
             Count       => $Count,
             Class       => $Class,
+            Icon        => $Icon,
             Link        => $URL . 'Action=AgentTicketWatchView',
-            AccessKey   => '',
+            AccessKey   => $Param{Config}->{AccessKey} || '',
         };
     }
     return %Return;

@@ -6,14 +6,17 @@
 .DS_Store
 *.swp
 *.swo
+*~
 
 # OTRS
+ARCHIVE
 doc/manual/en
 Kernel/Config/Files/ZZZ*.pm
 Kernel/Config/GenericAgent.pm
 Kernel/Config.pm
 Kernel/Language/*.old
 bin/cgi-bin/.htaccess
+scripts/apache2-perl-startup2.pl
 var/virtualfs
 var/run
 var/log/*.log
@@ -27,12 +30,16 @@ var/httpd/htdocs/skins/Agent/default/css-cache
 var/httpd/htdocs/skins/Agent/default/css-cache/*
 var/httpd/htdocs/skins/Agent/ivory/css-cache
 var/httpd/htdocs/skins/Agent/ivory/css-cache/*
+var/httpd/htdocs/skins/Agent/ivory-slim/css-cache
+var/httpd/htdocs/skins/Agent/ivory-slim/css-cache/*
 var/httpd/htdocs/skins/Agent/slim/css-cache/*
 var/httpd/htdocs/skins/Customer/default/css-cache/*
 var/httpd/htdocs/skins/Customer/ivory/css-cache/*
 var/sessions/Data*
 var/sessions/State*
 var/article/*
+var/cron/*
+!var/cron/*.dist
 
 # Fred
 Fred.sopm
@@ -58,18 +65,26 @@ Support.sopm
 CHANGES-Support
 Kernel/Config/Files/Support.xml
 Kernel/cpan-lib/Archive/*
-Kernel/cpan-lib/Linux/*
 Kernel/Language/*_Support.pm
+Kernel/Modules/AdminSupport.pm
 Kernel/System/Support
+Kernel/System/Support.pm
+Kernel/Output/HTML/Standard/AdminSupport*
 var/httpd/htdocs/skins/Agent/default/css/Support.Default.css
 
 # OTRSCodePolicy
 .tidyall.d
+perltidy.LOG.old
 Perl/Critic
 TidyAll
-scripts/test/OTRSCodePolicy.t
+Kernel/cpan-lib/Pod/Strip.pm
+scripts/install-git-hooks.pl
+scripts/uninstall-git-hooks.pl
+OTRSCodePolicy*
 
 # ITSM
 var/stats/*.xml.installed
 bin/CodeInstall.pl
 bin/DatabaseInstall.pl
+perltidy.LOG
+.procmailrc

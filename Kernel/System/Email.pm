@@ -8,6 +8,7 @@
 # --
 
 package Kernel::System::Email;
+## nofilter(TidyAll::Plugin::OTRS::Perl::Require)
 
 use strict;
 use warnings;
@@ -100,9 +101,9 @@ sub new {
     return if !$Self->{MainObject}->Require($GenericModule);
 
     # create backend object
-    $Self->{Backend} = $GenericModule->new(%Param);
+    $Self->{Backend} = $GenericModule->new( %{$Self} );
 
-    $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new(%Param);
+    $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new( %{$Self} );
 
     return $Self;
 }
@@ -312,11 +313,6 @@ sub Send {
         $Header{Encoding} = $Self->{ConfigObject}->Get('SendmailEncodingForce');
     }
 
-    # body encode if utf8 and base64 is used
-    if ( $Header{Encoding} =~ /utf(8|-8)/i && $Header{Encoding} =~ /base64/i ) {
-        $Self->{EncodeObject}->EncodeOutput( \$Param{Body} );
-    }
-
     # check and create message id
     if ( $Param{'Message-ID'} ) {
         $Header{'Message-ID'} = $Param{'Message-ID'};
@@ -338,7 +334,9 @@ sub Send {
         );
     }
 
-    # build MIME::Entity
+    # build MIME::Entity, Data should be bytes, not utf-8
+    # see http://bugs.otrs.org/show_bug.cgi?id=9832
+    $Self->{EncodeObject}->EncodeOutput( \$Param{Body} );
     my $Entity = MIME::Entity->build( %Header, Data => $Param{Body} );
 
     # set In-Reply-To and References header
@@ -349,6 +347,7 @@ sub Send {
     for my $Key ( 'In-Reply-To', 'References' ) {
         next if !$Param{$Key};
         my $Value = $Param{$Key};
+
         # Split up '<msgid><msgid>' to allow line folding (see bug#9345).
         $Value =~ s{><}{> <}xmsg;
         $Header->replace( $Key, $Value );
@@ -536,6 +535,12 @@ sub Send {
             # according to RFC3156 all line endings MUST be CR/LF
             $T =~ s/\x0A/\x0D\x0A/g;
             $T =~ s/\x0D+/\x0D/g;
+
+            # remove empty line after multi-part preable as it will be removed later by MIME::Parser
+            #    otherwise signed content will be different than the actual mail and verify will
+            #    fail
+            $T =~ s{(This is a multi-part message in MIME format...\r\n)\r\n}{$1};
+
             my $Sign = $CryptObject->Sign(
                 Message  => $T,
                 Filename => $Param{Sign}->{Key},
@@ -699,7 +704,7 @@ sub Send {
     # set envelope sender for replies
     my $RealFrom = $Self->{ConfigObject}->Get('SendmailEnvelopeFrom') || '';
     if ( !$RealFrom ) {
-        my @Sender   = Mail::Address->parse( $Param{From} );
+        my @Sender = Mail::Address->parse( $Param{From} );
         $RealFrom = $Sender[0]->address();
     }
 

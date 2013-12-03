@@ -28,7 +28,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new(%Param);
+    $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new( %{$Self} );
 
     return $Self;
 }
@@ -55,10 +55,11 @@ sub GetQueueID {
 
     # check addresses
     my $QueueID;
+    EMAIL:
     for my $Email (@EmailAddresses) {
-        next if !$Email;
+        next EMAIL if !$Email;
         my $Address = $Self->{ParserObject}->GetEmailAddress( Email => $Email );
-        next if !$Address;
+        next EMAIL if !$Address;
 
         # lookup queue id if recipiend address
         $QueueID = $Self->{SystemAddressObject}->SystemAddressQueueID(
@@ -81,7 +82,7 @@ sub GetQueueID {
                 );
             }
         }
-        last if $QueueID;
+        last EMAIL if $QueueID;
     }
 
     # if no queue id got found, lookup postmaster queue id

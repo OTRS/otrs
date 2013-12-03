@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::CacheInternal;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::Valid - valid lib

@@ -9,6 +9,7 @@
 
 use strict;
 use warnings;
+use utf8;
 use vars (qw($Self));
 
 use Kernel::System::CSV;
@@ -177,12 +178,12 @@ $Self->Is(
 );
 
 # -------------------------------------------------
-# tests because of the douple "" problem bug# 2263
+# tests because of the double "" problem bug# 2263
 # -------------------------------------------------
 my $TextWithNewLine = "Hallo guys,\nhere was a newline. And again.\n";
 my @TableData       = (
     [
-        '<a href="/sirios-cvs-utf8/index.pl?Action=AgentStats&Subaction=Overview" class="navitem">�bersicht</a>',
+        '<a href="/sirios-cvs-utf8/index.pl?Action=AgentStats&Subaction=Overview" class="navitem">Übersicht</a>',
         '"'
     ],
     [ '4""4', 'asdf"SDF' ],
@@ -196,7 +197,7 @@ $CSV = $CSVObject->Array2CSV(
 );
 
 $CSVReference = qq{"RowA";"RowB"\n}
-    . qq{"<a href=""/sirios-cvs-utf8/index.pl?Action=AgentStats&Subaction=Overview"" class=""navitem"">�bersicht</a>";""""\n}
+    . qq{"<a href=""/sirios-cvs-utf8/index.pl?Action=AgentStats&Subaction=Overview"" class=""navitem"">Übersicht</a>";""""\n}
     . qq{"4""""4";"asdf""SDF"\n}
     . qq{"""a""";"xxx"\n}
     . qq{"34";"} . $TextWithNewLine . qq{"\n};

@@ -12,8 +12,6 @@ package Kernel::GenericInterface::Requester;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Invoker;

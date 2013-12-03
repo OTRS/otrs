@@ -8,13 +8,17 @@
 # --
 
 package Kernel::Modules::AgentDashboardCommon;
+## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
 
 use strict;
 use warnings;
 
 use Kernel::System::Cache;
 use Kernel::System::CustomerCompany;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Stats;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,7 +34,7 @@ sub new {
         }
     }
 
-    $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
+    $Self->{CacheObject}           = Kernel::System::Cache->new(%Param);
     $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
 
     $Self->{SlaveDBObject}     = $Self->{DBObject};
@@ -58,32 +62,91 @@ sub new {
         }
     }
 
+    # create extra needed objects
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{StatsObject}        = Kernel::System::Stats->new(%Param);
+
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $BackendConfigKey = 'DashboardBackend';
+    my $BackendConfigKey  = 'DashboardBackend';
     my $MainMenuConfigKey = 'AgentDashboard::MainMenu';
-    my $UserSettingsKey  = 'UserDashboard';
+    my $UserSettingsKey   = 'UserDashboard';
 
-    if ($Self->{Action} eq 'AgentCustomerInformationCenter') {
-        $BackendConfigKey = 'AgentCustomerInformationCenter::Backend';
+    if ( $Self->{Action} eq 'AgentCustomerInformationCenter' ) {
+        $BackendConfigKey  = 'AgentCustomerInformationCenter::Backend';
         $MainMenuConfigKey = 'AgentCustomerInformationCenter::MainMenu';
-        $UserSettingsKey  = 'UserCustomerInformationCenter';
+        $UserSettingsKey   = 'UserCustomerInformationCenter';
     }
 
     # load backends
-    my $Config = $Self->{ConfigObject}->Get( $BackendConfigKey );
+    my $Config = $Self->{ConfigObject}->Get($BackendConfigKey);
     if ( !$Config ) {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => 'No such config for ' . $BackendConfigKey,
         );
     }
 
+    # Disable stats widgets in IE8. This can be removed if IE8 support is removed someday.
+    my $IsIE8;
 
-    if ($Self->{Action} eq 'AgentCustomerInformationCenter') {
+    if (
+        $Self->{LayoutObject}->{Browser} eq 'MSIE'
+        && $Self->{LayoutObject}->{BrowserMajorVersion} <= 8
+        )
+    {
+        $IsIE8 = 1;
+    }
+
+    # Get all configured statistics from the system that should be shown as a dashboard widget
+    #   and register them dynamically in the configuration. This does not work in IE8.
+    if ( $Self->{Action} eq 'AgentDashboard' && !$IsIE8 ) {
+        my $StatsHash = $Self->{StatsObject}->StatsListGet();
+
+        if ( IsHashRefWithData($StatsHash) ) {
+            STATID:
+            for my $StatID ( sort keys %{$StatsHash} ) {
+                next STATID if !$StatsHash->{$StatID}->{ShowAsDashboardWidget};
+
+                # replace all line breaks with spaces (otherwise $Text{""} will not work correctly)
+                $StatsHash->{$StatID}->{Description} =~ s{\r?\n|\r}{ }msxg;
+
+                my $Description = $Self->{LayoutObject}->{LanguageObject}
+                    ->Get( $StatsHash->{$StatID}->{Description} );
+
+                my $Title = $Self->{LayoutObject}->{LanguageObject}
+                    ->Get( $StatsHash->{$StatID}->{Title} );
+                $Title = $Self->{LayoutObject}->{LanguageObject}->Get('Statistic') . ': ' . $Title;
+
+                $Config->{ ( $StatID + 1000 ) . '-Stats' } = {
+                    'Block'       => 'ContentLarge',
+                    'Default'     => 0,
+                    'Module'      => 'Kernel::Output::HTML::DashboardStats',
+                    'Title'       => $Title,
+                    'StatID'      => $StatID,
+                    'Description' => $Description,
+                    'Group'       => 'stats',
+                };
+            }
+        }
+    }
+
+    # Hack: remove JS files for d3 if IE8 is used, because it would break.
+    if ($IsIE8) {
+        my @ModuleJS = @{
+            $Self->{ConfigObject}->Get('Frontend::Module')->{AgentDashboard}->{Loader}
+                ->{JavaScript} || []
+        };
+        @ModuleJS = grep { $_ !~ m/d3js/ } @ModuleJS;
+        $Self->{ConfigObject}->Get('Frontend::Module')->{AgentDashboard}->{Loader}->{JavaScript}
+            = \@ModuleJS;
+    }
+
+    if ( $Self->{Action} eq 'AgentCustomerInformationCenter' ) {
 
         $Self->{CustomerID} = $Self->{ParamObject}->GetParam( Param => 'CustomerID' );
 
@@ -100,7 +163,6 @@ sub Run {
                 return $Output;
             }
         }
-
     }
 
     # update/close item
@@ -129,7 +191,7 @@ sub Run {
         }
 
         my $URL = "Action=$Self->{Action}";
-        if ($Self->{CustomerID}) {
+        if ( $Self->{CustomerID} ) {
             $URL .= ";CustomerID=" . $Self->{LayoutObject}->LinkEncode( $Self->{CustomerID} );
         }
 
@@ -208,10 +270,11 @@ sub Run {
         my @Backends = $Self->{ParamObject}->GetArray( Param => 'Backend' );
         for my $Name ( sort keys %{$Config} ) {
             my $Active = 0;
+            BACKEND:
             for my $Backend (@Backends) {
-                next if $Backend ne $Name;
+                next BACKEND if $Backend ne $Name;
                 $Active = 1;
-                last;
+                last BACKEND;
             }
             my $Key = $UserSettingsKey . $Name;
 
@@ -233,7 +296,7 @@ sub Run {
         }
 
         my $URL = "Action=$Self->{Action}";
-        if ($Self->{CustomerID}) {
+        if ( $Self->{CustomerID} ) {
             $URL .= ";CustomerID=" . $Self->{LayoutObject}->LinkEncode( $Self->{CustomerID} );
         }
 
@@ -254,7 +317,7 @@ sub Run {
         my $Key  = $UserSettingsKey . 'Position';
         my $Data = '';
         for my $Backend (@Backends) {
-            $Backend =~ s/^Dashboard(.+?)-box$/$1/g;
+            $Backend =~ s{ \A Dashboard (.+?) -box \z }{$1}gxms;
             $Data .= $Backend . ';';
         }
 
@@ -287,7 +350,77 @@ sub Run {
 
         my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
 
-        my %Element = $Self->_Element( Name => $Name, Configs => $Config, AJAX => 1 );
+        # get the column filters from the web request
+        my %ColumnFilter;
+        my %GetColumnFilter;
+        my %GetColumnFilterSelect;
+
+        COLUMNNAME:
+        for my $ColumnName (
+            qw(Owner Responsible State Queue Priority Type Lock Service SLA CustomerID CustomerUserID)
+            )
+        {
+            my $FilterValue
+                = $Self->{ParamObject}->GetParam( Param => 'ColumnFilter' . $ColumnName . $Name )
+                || '';
+            next COLUMNNAME if $FilterValue eq '';
+
+            if ( $ColumnName eq 'CustomerID' ) {
+                push @{ $ColumnFilter{$ColumnName} }, $FilterValue;
+            }
+            elsif ( $ColumnName eq 'CustomerUserID' ) {
+                push @{ $ColumnFilter{CustomerUserLogin} }, $FilterValue;
+            }
+            else {
+                push @{ $ColumnFilter{ $ColumnName . 'IDs' } }, $FilterValue;
+            }
+
+            $GetColumnFilter{ $ColumnName . $Name } = $FilterValue;
+            $GetColumnFilterSelect{$ColumnName} = $FilterValue;
+        }
+
+        # get all dynamic fields
+        $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+            Valid      => 1,
+            ObjectType => ['Ticket'],
+        );
+
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+
+            my $FilterValue
+                = $Self->{ParamObject}->GetParam(
+                Param => 'ColumnFilterDynamicField_' . $DynamicFieldConfig->{Name} . $Name
+                );
+
+            next DYNAMICFIELD if !defined $FilterValue;
+            next DYNAMICFIELD if $FilterValue eq '';
+
+            $ColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = {
+                Equals => $FilterValue,
+            };
+            $GetColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} . $Name }
+                = $FilterValue;
+            $GetColumnFilterSelect{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                = $FilterValue;
+        }
+
+        my $SortBy  = $Self->{ParamObject}->GetParam( Param => 'SortBy' );
+        my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' );
+
+        my %Element = $Self->_Element(
+            Name                  => $Name,
+            Configs               => $Config,
+            AJAX                  => 1,
+            SortBy                => $SortBy,
+            OrderBy               => $OrderBy,
+            ColumnFilter          => \%ColumnFilter,
+            GetColumnFilter       => \%GetColumnFilter,
+            GetColumnFilterSelect => \%GetColumnFilterSelect,
+        );
+
         if ( !%Element ) {
             $Self->{LayoutObject}->FatalError(
                 Message => "Can't get element data of $Name!",
@@ -302,6 +435,38 @@ sub Run {
         );
     }
 
+    # deliver element
+    elsif ( $Self->{Subaction} eq 'AJAXFilterUpdate' ) {
+
+        my $ElementChanged = $Self->{ParamObject}->GetParam( Param => 'ElementChanged' );
+        my ($Name)         = $ElementChanged =~ m{ ( \d{4} - .*? ) \z }gxms;
+        my $Column         = $ElementChanged;
+        $Column =~ s{ \A ColumnFilter }{}gxms;
+        $Column =~ s{ $Name }{}gxms;
+
+        my $FilterContent = $Self->_Element(
+            Name              => $Name,
+            FilterContentOnly => 1,
+            FilterColumn      => $Column,
+            ElementChanged    => $ElementChanged,
+            Configs           => $Config,
+        );
+
+        if ( !$FilterContent ) {
+            $Self->{LayoutObject}->FatalError(
+                Message => "Can't get filter content data of $Name!",
+            );
+        }
+
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $FilterContent,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+
+    }
+
     # store last queue screen
     $Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
@@ -311,7 +476,7 @@ sub Run {
 
     my %ContentBlockData;
 
-    if ($Self->{Action} eq 'AgentCustomerInformationCenter') {
+    if ( $Self->{Action} eq 'AgentCustomerInformationCenter' ) {
 
         $ContentBlockData{CustomerID} = $Self->{CustomerID};
 
@@ -323,7 +488,8 @@ sub Run {
         );
 
         if ( $CustomerCompanyData{CustomerCompanyName} ) {
-            $ContentBlockData{CustomerIDTitle} = "$CustomerCompanyData{CustomerCompanyName} ($Self->{CustomerID})";
+            $ContentBlockData{CustomerIDTitle}
+                = "$CustomerCompanyData{CustomerCompanyName} ($Self->{CustomerID})";
         }
     }
 
@@ -380,17 +546,20 @@ sub Run {
     }
 
     # add not ordered plugins (e. g. new active)
+    NAME:
     for my $Name ( sort keys %Backends ) {
         my $Included = 0;
+        ITEM:
         for my $Item (@Order) {
-            next if $Item ne $Name;
+            next ITEM if $Item ne $Name;
             $Included = 1;
         }
-        next if $Included;
+        next NAME if $Included;
         push @Order, $Name;
     }
 
     # try every backend to load and execute it
+    NAME:
     for my $Name (@Order) {
 
         # get element data
@@ -399,20 +568,20 @@ sub Run {
             Configs  => $Config,
             Backends => \%Backends,
         );
-        next if !%Element;
+        next NAME if !%Element;
 
         # NameForm (to support IE, is not working with "-" in form names)
         my $NameForm = $Name;
-        $NameForm =~ s/-//g;
+        $NameForm =~ s{-}{}g;
 
         # rendering
         $Self->{LayoutObject}->Block(
             Name => $Element{Config}->{Block},
             Data => {
                 %{ $Element{Config} },
-                Name     => $Name,
-                NameForm => $NameForm,
-                Content  => ${ $Element{Content} },
+                Name       => $Name,
+                NameForm   => $NameForm,
+                Content    => ${ $Element{Content} },
                 CustomerID => $Self->{CustomerID} || '',
             },
         );
@@ -427,7 +596,14 @@ sub Run {
                     NameForm => $NameForm,
                 },
             );
+            PARAM:
             for my $Param ( @{ $Element{Preferences} } ) {
+
+                # special parameters are added, which do not have a dtl block,
+                # because the displayed fields are added with the output filter,
+                # so there is no need to call any block here
+                next PARAM if !$Param->{Block};
+
                 $Self->{LayoutObject}->Block(
                     Name => $Element{Config}->{Block} . 'PreferencesItem',
                     Data => {
@@ -492,6 +668,56 @@ sub Run {
         }
     }
 
+    # add translations for the allocation lists for regular columns
+    my $Columns = $Self->{ConfigObject}->Get('DefaultOverviewColumns') || {};
+    if ( $Columns && IsHashRefWithData($Columns) ) {
+        for my $Column ( sort keys %{$Columns} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ColumnTranslation',
+                Data => {
+                    ColumnName      => $Column,
+                    TranslateString => $Column,
+                },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'ColumnTranslationSeparator',
+            );
+        }
+    }
+
+    # add translations for the allocation lists for dynamic field columns
+    my $ColumnsDynamicField = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid      => 0,
+        ObjectType => ['Ticket'],
+    );
+
+    if ( $ColumnsDynamicField && IsArrayRefWithData($ColumnsDynamicField) ) {
+
+        my $Counter = 0;
+
+        DYNAMICFIELD:
+        for my $DynamicField ( sort @{$ColumnsDynamicField} ) {
+
+            next DYNAMICFIELD if !$DynamicField;
+
+            $Counter++;
+
+            $Self->{LayoutObject}->Block(
+                Name => 'ColumnTranslation',
+                Data => {
+                    ColumnName      => 'DynamicField_' . $DynamicField->{Name},
+                    TranslateString => $DynamicField->{Label},
+                },
+            );
+
+            if ( $Counter < scalar @{$ColumnsDynamicField} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ColumnTranslationSeparator',
+                );
+            }
+        }
+    }
+
     my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Output .= $Self->{LayoutObject}->Output(
@@ -505,9 +731,14 @@ sub Run {
 sub _Element {
     my ( $Self, %Param ) = @_;
 
-    my $Name     = $Param{Name};
-    my $Configs  = $Param{Configs};
-    my $Backends = $Param{Backends};
+    my $Name                  = $Param{Name};
+    my $Configs               = $Param{Configs};
+    my $Backends              = $Param{Backends};
+    my $SortBy                = $Param{SortBy};
+    my $OrderBy               = $Param{OrderBy};
+    my $ColumnFilter          = $Param{ColumnFilter};
+    my $GetColumnFilter       = $Param{GetColumnFilter};
+    my $GetColumnFilterSelect = $Param{GetColumnFilterSelect};
 
     # check permissions
     if ( $Configs->{$Name}->{Group} ) {
@@ -529,11 +760,17 @@ sub _Element {
     return if !$Self->{MainObject}->Require($Module);
     my $Object = $Module->new(
         %{$Self},
-        DBObject     => $Self->{SlaveDBObject},
-        TicketObject => $Self->{SlaveTicketObject},
-        Config       => $Configs->{$Name},
-        Name         => $Name,
-        CustomerID   => $Self->{CustomerID} || '',
+        DBObject              => $Self->{SlaveDBObject},
+        TicketObject          => $Self->{SlaveTicketObject},
+        Config                => $Configs->{$Name},
+        Name                  => $Name,
+        CustomerID            => $Self->{CustomerID} || '',
+        SortBy                => $SortBy,
+        OrderBy               => $OrderBy,
+        ColumnFilter          => $ColumnFilter,
+        GetColumnFilter       => $GetColumnFilter,
+        GetColumnFilterSelect => $GetColumnFilterSelect,
+
     );
 
     # get module config
@@ -542,6 +779,16 @@ sub _Element {
     # get module preferences
     my @Preferences = $Object->Preferences();
     return @Preferences if $Param{PreferencesOnly};
+
+    if ( $Param{FilterContentOnly} ) {
+        my $FilterContent = $Object->FilterContent(
+            FilterColumn => $Param{FilterColumn},
+            Config       => $Configs->{$Name},
+            Name         => $Name,
+            CustomerID   => $Self->{CustomerID} || '',
+        );
+        return $FilterContent;
+    }
 
     # add backend to settings selection
     if ($Backends) {
@@ -564,7 +811,10 @@ sub _Element {
     my $Content;
     my $CacheKey = $Config{CacheKey};
     if ( !$CacheKey ) {
-        $CacheKey = $Name . '-' . ($Self->{CustomerID} || '') . '-' . $Self->{LayoutObject}->{UserLanguage};
+        $CacheKey
+            = $Name . '-'
+            . ( $Self->{CustomerID} || '' ) . '-'
+            . $Self->{LayoutObject}->{UserLanguage};
     }
     if ( $Config{CacheTTL} ) {
         $Content = $Self->{CacheObject}->Get(
@@ -575,9 +825,9 @@ sub _Element {
 
     # execute backends
     my $CacheUsed = 1;
-    if ( !defined $Content ) {
+    if ( !defined $Content || $SortBy ) {
         $CacheUsed = 0;
-        $Content = $Object->Run(
+        $Content   = $Object->Run(
             AJAX => $Param{AJAX},
             CustomerID => $Self->{CustomerID} || '',
         );

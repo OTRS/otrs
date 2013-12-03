@@ -36,8 +36,6 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::GenericInterface::Operation::Ticket::Common - common operation functions
@@ -322,7 +320,6 @@ sub ValidateLock {
         my $Lock = $Self->{LockObject}->LockLookup(
             LockID => $Param{LockID},
         );
-        use Data::Dumper;
         return if !$Lock;
     }
     else {

@@ -646,6 +646,19 @@ my @Queries = (
         },
     },
     {
+        Query  => 'smith ()',
+        Result => {
+            Some1 => 1,
+            Some2 => 0,
+            Some3 => 1,
+            Some4 => 1,
+            Some5 => 0,
+            Some6 => 0,
+            Some7 => 0,
+            Some8 => 0,
+        },
+    },
+    {
         Query  => 'customer_id_with_underscores',
         Result => {
             Some1 => 0,

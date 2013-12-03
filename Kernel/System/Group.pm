@@ -15,8 +15,6 @@ use warnings;
 use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::Group - group and roles lib
@@ -82,7 +80,7 @@ sub new {
     for (qw(DBObject ConfigObject MainObject LogObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %{$Self},
@@ -208,9 +206,9 @@ sub GroupAdd {
         $GroupID = $Row[0];
     }
 
-    # log notice
+    # log
     $Self->{LogObject}->Log(
-        Priority => 'notice',
+        Priority => 'info',
         Message  => "Group: '$Param{Name}' ID: '$GroupID' created successfully ($Param{UserID})!",
     );
 
@@ -1182,7 +1180,8 @@ returns a list of role/user members
     RoleIDs: role ids (array ref)
     UserIDs: user ids (array ref)
 
-    Result: HASH -> returns a hash of key => group id, value => group name
+    Result: HASH -> returns a hash of key => name pairs:
+                     either RoleID => RoleName or UserID => UserLogin
             Name -> returns an array of user names
             ID   -> returns an array of user ids
 
@@ -1193,7 +1192,7 @@ returns a list of role/user members
         Result => 'HASH',
     );
 
-    Example (get user of roles):
+    Example (get users of role):
 
     $GroupObject->GroupUserRoleMemberList(
         RoleID => $ID,
@@ -1248,7 +1247,7 @@ sub GroupUserRoleMemberList {
     my $ValidIDs = join( ', ', $Self->{ValidObject}->ValidIDsGet() );
 
     # sql
-    my $SQL = "SELECT ru.role_id, ru.user_id, r.name FROM role_user ru, roles r, users u
+    my $SQL = "SELECT ru.role_id, ru.user_id, r.name, u.login FROM role_user ru, roles r, users u
         WHERE r.valid_id IN ($ValidIDs)
             AND r.id = ru.role_id
             AND ru.user_id = u.id
@@ -1288,11 +1287,11 @@ sub GroupUserRoleMemberList {
         my $Value = '';
         if ( $Param{RoleID} || $Param{RoleIDs} ) {
             $Key   = $Row[1];
-            $Value = $Row[0];
+            $Value = $Row[3];
         }
         else {
             $Key   = $Row[0];
-            $Value = $Row[1];
+            $Value = $Row[2];
         }
 
         # remember permissions
@@ -1303,7 +1302,7 @@ sub GroupUserRoleMemberList {
         }
     }
 
-    # role lookup base on UserID or GroupID
+    # role lookup base on UserID or RoleID
 
     # return result
     if ( $Param{Result} && $Param{Result} eq 'ID' ) {
@@ -1553,9 +1552,9 @@ sub RoleAdd {
         $RoleID = $Row[0];
     }
 
-    # log notice
+    # log
     $Self->{LogObject}->Log(
-        Priority => 'notice',
+        Priority => 'info',
         Message  => "Role: '$Param{Name}' ID: '$RoleID' created successfully ($Param{UserID})!",
     );
 

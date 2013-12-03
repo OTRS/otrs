@@ -64,11 +64,12 @@ sub ActionRow {
             $BulkFeature = 1;
         }
         else {
+            GROUP:
             for my $Group (@Groups) {
-                next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+                next GROUP if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
                 if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
                     $BulkFeature = 1;
-                    last;
+                    last GROUP;
                 }
             }
         }
@@ -93,13 +94,14 @@ sub ActionRow {
     if (
         $Param{Config}->{OverviewMenuModules}
         && ref $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewMenuModule') eq 'HASH'
-    ) {
+        )
+    {
 
         my %Menus = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewMenuModule') };
         MENUMODULE:
         for my $Menu ( sort keys %Menus ) {
 
-            next MENUMODULE if !IsHashRefWithData($Menus{$Menu});
+            next MENUMODULE if !IsHashRefWithData( $Menus{$Menu} );
             next MENUMODULE if ( $Menus{$Menu}->{View} && $Menus{$Menu}->{View} ne $Param{View} );
 
             # load module
@@ -142,9 +144,9 @@ sub ActionRow {
                 $Self->{LayoutObject}->Block(
                     Name => $Item->{Block},
                     Data => {
-                        ID          => $Item->{ID},
-                        Name        => $Self->{LayoutObject}->{LanguageObject}->Get( $Item->{Name} ),
-                        Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
+                        ID   => $Item->{ID},
+                        Name => $Self->{LayoutObject}->{LanguageObject}->Get( $Item->{Name} ),
+                        Link => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
                         Description => $Item->{Description},
                         Block       => $Item->{Block},
                         Class       => $Class,
@@ -205,11 +207,12 @@ sub Run {
             $BulkFeature = 1;
         }
         else {
+            GROUP:
             for my $Group (@Groups) {
-                next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+                next GROUP if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
                 if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
                     $BulkFeature = 1;
-                    last;
+                    last GROUP;
                 }
             }
         }
@@ -325,9 +328,6 @@ sub _Show {
         DynamicFields => 0,
     );
 
-    # show ticket create time in current view
-    $Article{Created} = $Ticket{Created};
-
     # Fallback for tickets without articles: get at least basic ticket data
     if ( !%Article ) {
         %Article = %Ticket;
@@ -339,6 +339,9 @@ sub _Show {
         $Article{Subject} = $Article{Title};
     }
 
+    # show ticket create time in current view
+    $Article{Created} = $Ticket{Created};
+
     # user info
     my %UserInfo = $Self->{UserObject}->GetUserData(
         UserID => $Article{OwnerID},
@@ -348,13 +351,15 @@ sub _Show {
     # create human age
     $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
 
-    # fetch all std. responses ...
-    my %StandardResponses
-        = $Self->{QueueObject}->GetStandardResponses( QueueID => $Article{QueueID} );
+    # fetch all std. templates ...
+    my %StandardTemplates = $Self->{QueueObject}->QueueStandardTemplateMemberList(
+        QueueID       => $Article{QueueID},
+        TemplateTypes => 1,
+    );
 
     $Param{StandardResponsesStrg} = $Self->{LayoutObject}->BuildSelection(
         Name => 'ResponseID',
-        Data => \%StandardResponses,
+        Data => $StandardTemplates{Answer} || {},
     );
 
     # customer info

@@ -42,6 +42,13 @@ sub LoadPreferences {
     $Self->{'DB::CaseSensitive'}        = 1;
     $Self->{'DB::LikeEscapeString'}     = '';
 
+    # how to determine server version
+    # version string can contain a suffix, we only need what's on the left of it
+    # example of full string: "PostgreSQL 9.2.4, compiled by Visual C++ build 1600, 64-bit"
+    # another example: "PostgreSQL 9.1.9 on i686-pc-linux-gnu"
+    # our results: "PostgreSQL 9.2.4", "PostgreSQL 9.1.9".
+    $Self->{'DB::Version'} = "SELECT SUBSTRING(VERSION(), 'PostgreSQL [0-9\.]*')";
+
     # dbi attributes
     $Self->{'DB::Attribute'} = {};
 
@@ -49,7 +56,7 @@ sub LoadPreferences {
     $Self->{'DB::CurrentTimestamp'} = '';
 
     # set encoding of selected data to utf8
-    $Self->{'DB::Encode'} = 1;
+    $Self->{'DB::Encode'} = 0;
 
     # shell setting
     $Self->{'DB::Comment'}      = '-- ';
@@ -57,8 +64,7 @@ sub LoadPreferences {
     $Self->{'DB::ShellConnect'} = 'SET standard_conforming_strings TO ON';
 
     # init sql setting on db connect
-    $Self->{'DB::Connect'} = 'SET standard_conforming_strings TO ON';
-
+    $Self->{'DB::Connect'} = "SET standard_conforming_strings TO ON;\n SET NAMES 'utf8';";
     return 1;
 }
 
@@ -607,6 +613,7 @@ sub Insert {
     my $SQL    = '';
     my @Keys   = ();
     my @Values = ();
+    TAG:
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start' ) {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
@@ -623,7 +630,7 @@ sub Insert {
             # do not use auto increment values, in other cases use something like
             # SELECT setval('table_id_seq', (SELECT max(id) FROM table));
             if ( $Tag->{Type} && $Tag->{Type} =~ /^AutoIncrement$/i ) {
-                next;
+                next TAG;
             }
             $Tag->{Key} = ${ $Self->Quote( \$Tag->{Key} ) };
             push @Keys, $Tag->{Key};

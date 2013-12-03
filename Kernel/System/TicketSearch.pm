@@ -12,8 +12,6 @@ package Kernel::System::TicketSearch;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 
@@ -466,7 +464,7 @@ sub TicketSearch {
     # Limit the search to just one TicketID (used by the GenericAgent
     #   to filter for events on single tickets with the job's ticket filter).
     if ( $Param{TicketID} ) {
-        $SQLExt .= ' AND st.id = ' . $Self->{DBObject}->Quote($Param{TicketID}, 'Integer');
+        $SQLExt .= ' AND st.id = ' . $Self->{DBObject}->Quote( $Param{TicketID}, 'Integer' );
     }
 
     # add ticket flag table
@@ -932,7 +930,8 @@ sub TicketSearch {
 
             $SQLExt .= " AND tf$Index.ticket_key = '" . $Self->{DBObject}->Quote($Key) . "'";
             $SQLExt .= " AND tf$Index.ticket_value = '" . $Self->{DBObject}->Quote($Value) . "'";
-            $SQLExt .= " AND tf$Index.create_by = " . $Self->{DBObject}->Quote($TicketFlagUserID, 'Integer');
+            $SQLExt .= " AND tf$Index.create_by = "
+                . $Self->{DBObject}->Quote( $TicketFlagUserID, 'Integer' );
 
             $Index++;
         }
@@ -1035,7 +1034,28 @@ sub TicketSearch {
                 # check search attribute, we do not need to search for *
                 next if $Text =~ /^\%{1,3}$/;
 
-                $SQLExtSub .= ' OR ' if ($Counter);
+                # validate data type
+                my $ValidateSuccess = $Self->{DynamicFieldBackendObject}->ValueValidate(
+                    DynamicFieldConfig => $DynamicField,
+                    Value              => $Text,
+                    UserID             => $Param{UserID},
+                );
+                if ( !$ValidateSuccess ) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message =>
+                            "Search not executed due to invalid value '"
+                            . $Text
+                            . "' on field '"
+                            . $DynamicField->{Name}
+                            . "'!",
+                    );
+                    return;
+                }
+
+                if ($Counter) {
+                    $SQLExtSub .= ' OR ';
+                }
                 $SQLExtSub .= $Self->{DynamicFieldBackendObject}->SearchSQLGet(
                     DynamicFieldConfig => $DynamicField,
                     TableAlias         => "dfv$DynamicFieldJoinCounter",
@@ -1081,6 +1101,9 @@ sub TicketSearch {
         }
     }
 
+    # remember current time to prevent searches for future timestamps
+    my $CurrentSystemTime = $Self->{TimeObject}->SystemTime();
+
     # get articles created older/newer than x minutes or older/newer than a date
     my %ArticleTime = (
         ArticleCreateTime => 'art.incoming_time',
@@ -1110,6 +1133,7 @@ sub TicketSearch {
         }
 
         # get articles created older than xxxx-xx-xx xx:xx date
+        my $CompareOlderNewerDate;
         if ( $Param{ $Key . 'OlderDate' } ) {
             if (
                 $Param{ $Key . 'OlderDate' }
@@ -1132,6 +1156,16 @@ sub TicketSearch {
                 Minute => $5,
                 Second => $6,
             );
+            if ( !$SystemTime ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        "Search not executed due to invalid time '"
+                        . $Param{ $Key . 'OlderDate' } . "'!",
+                );
+                return;
+            }
+            $CompareOlderNewerDate = $SystemTime;
 
             $SQLExt .= " AND $ArticleTime{$Key} <= '" . $SystemTime . "'";
 
@@ -1160,6 +1194,21 @@ sub TicketSearch {
                 Minute => $5,
                 Second => $6,
             );
+            if ( !$SystemTime ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        "Search not executed due to invalid time '"
+                        . $Param{ $Key . 'NewerDate' } . "'!",
+                );
+                return;
+            }
+
+            # don't execute queries if newer date is after current date
+            return if $SystemTime > $CurrentSystemTime;
+
+            # don't execute queries if older/newer date restriction show now valid timeframe
+            return if $CompareOlderNewerDate && $SystemTime > $CompareOlderNewerDate;
 
             $SQLExt .= " AND $ArticleTime{$Key} >= '" . $SystemTime . "'";
         }
@@ -1212,6 +1261,7 @@ sub TicketSearch {
     for my $Key ( sort keys %TicketTime ) {
 
         # get tickets created/escalated older than xxxx-xx-xx xx:xx date
+        my $CompareOlderNewerDate;
         if ( $Param{ $Key . 'OlderDate' } ) {
 
             # check time format
@@ -1234,6 +1284,17 @@ sub TicketSearch {
             my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
                 String => $Param{ $Key . 'OlderDate' },
             );
+            if ( !$Time ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        "Search not executed due to invalid time '"
+                        . $Param{ $Key . 'OlderDate' } . "'!",
+                );
+                return;
+            }
+            $CompareOlderNewerDate = $Time;
+
             $SQLExt .= " AND $TicketTime{$Key} <= $Time";
         }
 
@@ -1258,6 +1319,22 @@ sub TicketSearch {
             my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
                 String => $Param{ $Key . 'NewerDate' },
             );
+            if ( !$Time ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        "Search not executed due to invalid time '"
+                        . $Param{ $Key . 'NewerDate' } . "'!",
+                );
+                return;
+            }
+
+            # don't execute queries if newer date is after current date
+            return if $Time > $CurrentSystemTime;
+
+            # don't execute queries if older/newer date restriction show now valid timeframe
+            return if $CompareOlderNewerDate && $Time > $CompareOlderNewerDate;
+
             $SQLExt .= " AND $TicketTime{$Key} >= $Time";
         }
     }
@@ -1289,6 +1366,7 @@ sub TicketSearch {
     }
 
     # get tickets changed older than xxxx-xx-xx xx:xx date
+    my $CompareChangeTimeOlderNewerDate;
     if ( $Param{TicketChangeTimeOlderDate} ) {
 
         # check time format
@@ -1303,6 +1381,19 @@ sub TicketSearch {
             );
             return;
         }
+        my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{TicketChangeTimeOlderDate},
+        );
+        if ( !$Time ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "Search not executed due to invalid time '"
+                    . $Param{TicketChangeTimeOlderDate} . "'!",
+            );
+            return;
+        }
+        $CompareChangeTimeOlderNewerDate = $Time;
 
         $SQLExt .= " AND th.create_time <= '"
             . $Self->{DBObject}->Quote( $Param{TicketChangeTimeOlderDate} ) . "'";
@@ -1321,6 +1412,24 @@ sub TicketSearch {
             );
             return;
         }
+        my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{TicketChangeTimeNewerDate},
+        );
+        if ( !$Time ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "Search not executed due to invalid time '"
+                    . $Param{TicketChangeTimeNewerDate} . "'!",
+            );
+            return;
+        }
+
+        # don't execute queries if newer date is after current date
+        return if $Time > $CurrentSystemTime;
+
+        # don't execute queries if older/newer date restriction show now valid timeframe
+        return if $CompareChangeTimeOlderNewerDate && $Time > $CompareChangeTimeOlderNewerDate;
 
         $SQLExt .= " AND th.create_time >= '"
             . $Self->{DBObject}->Quote( $Param{TicketChangeTimeNewerDate} ) . "'";
@@ -1353,6 +1462,7 @@ sub TicketSearch {
     }
 
     # get tickets closed older than xxxx-xx-xx xx:xx date
+    my $CompareCloseTimeOlderNewerDate;
     if ( $Param{TicketCloseTimeOlderDate} ) {
 
         # check time format
@@ -1367,6 +1477,19 @@ sub TicketSearch {
             );
             return;
         }
+        my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{TicketCloseTimeOlderDate},
+        );
+        if ( !$Time ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "Search not executed due to invalid time '"
+                    . $Param{TicketCloseTimeOlderDate} . "'!",
+            );
+            return;
+        }
+        $CompareCloseTimeOlderNewerDate = $Time;
 
         # get close state ids
         my @List = $Self->{StateObject}->StateGetStatesByType(
@@ -1396,6 +1519,24 @@ sub TicketSearch {
             );
             return;
         }
+        my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{TicketCloseTimeNewerDate},
+        );
+        if ( !$Time ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "Search not executed due to invalid time '"
+                    . $Param{TicketCloseTimeNewerDate} . "'!",
+            );
+            return;
+        }
+
+        # don't execute queries if newer date is after current date
+        return if $Time > $CurrentSystemTime;
+
+        # don't execute queries if older/newer date restriction show now valid timeframe
+        return if $CompareCloseTimeOlderNewerDate && $Time > $CompareCloseTimeOlderNewerDate;
 
         # get close state ids
         my @List = $Self->{StateObject}->StateGetStatesByType(
@@ -1458,6 +1599,7 @@ sub TicketSearch {
     }
 
     # get pending tickets older than xxxx-xx-xx xx:xx date
+    my $ComparePendingTimeOlderNewerDate;
     if ( $Param{TicketPendingTimeOlderDate} ) {
 
         # check time format
@@ -1475,6 +1617,17 @@ sub TicketSearch {
         my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
             String => $Param{TicketPendingTimeOlderDate},
         );
+        if ( !$TimeStamp ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "Search not executed due to invalid time '"
+                    . $Param{TicketPendingTimeOlderDate} . "'!",
+            );
+            return;
+        }
+        $ComparePendingTimeOlderNewerDate = $TimeStamp;
+
         $SQLExt .= " AND st.until_time <= $TimeStamp";
     }
 
@@ -1494,6 +1647,23 @@ sub TicketSearch {
         my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
             String => $Param{TicketPendingTimeNewerDate},
         );
+        if ( !$TimeStamp ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "Search not executed due to invalid time '"
+                    . $Param{TicketPendingTimeNewerDate} . "'!",
+            );
+            return;
+        }
+
+        # don't execute queries if newer date is after current date
+        return if $TimeStamp > $CurrentSystemTime;
+
+        # don't execute queries if older/newer date restriction show now valid timeframe
+        return
+            if $ComparePendingTimeOlderNewerDate && $TimeStamp > $ComparePendingTimeOlderNewerDate;
+
         $SQLExt .= " AND st.until_time >= $TimeStamp";
     }
 

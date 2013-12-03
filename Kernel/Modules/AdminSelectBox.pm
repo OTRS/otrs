@@ -8,6 +8,7 @@
 # --
 
 package Kernel::Modules::AdminSelectBox;
+## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
 
 use strict;
 use warnings;
@@ -36,7 +37,7 @@ sub Run {
 
     # secure mode message (don't allow this action until secure mode is enabled)
     if ( !$Self->{ConfigObject}->Get('SecureMode') ) {
-        $Self->{LayoutObject}->SecureMode();
+        return $Self->{LayoutObject}->SecureMode();
     }
 
     $Param{ResultFormatStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -69,10 +70,9 @@ sub Run {
 
             # fetch database and add row blocks
             if ( $Self->{DBObject}->Prepare( SQL => $Param{SQL}, Limit => $Param{Max} ) ) {
-                my $Count = 0;
-                my @Head;
+
                 my @Data;
-                my $TableOpened;
+                my $MatchesFound;
 
                 # add result block
                 $Self->{LayoutObject}->Block(
@@ -80,33 +80,26 @@ sub Run {
                     Data => \%Param,
                 );
 
-                my $MatchesFound;
+                my @Head = $Self->{DBObject}->GetColumnNames();
+                for my $Column (@Head) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ColumnHead',
+                        Data => {
+                            ColumnName => $Column,
+                        },
+                    );
+                }
 
                 # if there are any matching rows, they are shown
+                ROW:
                 while ( my @Row = $Self->{DBObject}->FetchrowArray( RowNames => 1 ) ) {
 
                     $MatchesFound = 1;
 
-                    if ( !$TableOpened ) {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'ResultTableStart',
-                        );
-                        $Self->{LayoutObject}->Block(
-                            Name => 'ResultTableEnd',
-                        );
-                        $TableOpened++;
-                    }
-
                     # get csv data
                     if ( $Param{ResultFormat} eq 'CSV' ) {
-                        $Count++;
-                        if ( $Count == 1 ) {
-                            @Head = @Row;
-                            next;
-                        }
                         push @Data, \@Row;
-                        next;
-                        last if $Count > 2000;
+                        next ROW;
                     }
 
                     $Self->{LayoutObject}->Block(
@@ -133,6 +126,9 @@ sub Run {
                 if ( !$MatchesFound ) {
                     $Self->{LayoutObject}->Block(
                         Name => 'NoMatches',
+                        Data => {
+                            Colspan => scalar @Head,
+                        },
                     );
                 }
 
@@ -141,7 +137,7 @@ sub Run {
 
                 if ( $Self->{ConfigObject}->Get('PreferencesGroups')->{CSVSeparator}->{Active} ) {
                     my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
-                    $UserCSVSeparator = $UserData{UserCSVSeparator};
+                    $UserCSVSeparator = $UserData{UserCSVSeparator} if $UserData{UserCSVSeparator};
                 }
 
                 my $TimeStamp = $Self->{TimeObject}->CurrentTimestamp();

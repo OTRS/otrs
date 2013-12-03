@@ -107,7 +107,7 @@ my @Tests = (
                         PriorityID  => 3,
                         State       => 'new',
                         HistoryType => 'NewTicket',
-                        Type        => 'default',
+                        Type        => 'Unclassified',
                     },
                     {
                         CreateBy    => 1,
@@ -117,7 +117,7 @@ my @Tests = (
                         PriorityID  => 3,
                         State       => 'new',
                         HistoryType => 'CustomerUpdate',
-                        Type        => 'default',
+                        Type        => 'Unclassified',
                     },
                     {
                         CreateBy    => 1,
@@ -127,7 +127,7 @@ my @Tests = (
                         PriorityID  => 3,
                         State       => 'new',
                         HistoryType => 'OwnerUpdate',
-                        Type        => 'default',
+                        Type        => 'Unclassified',
                     },
                     {
                         CreateBy    => 1,
@@ -137,7 +137,7 @@ my @Tests = (
                         PriorityID  => 3,
                         State       => 'new',
                         HistoryType => 'OwnerUpdate',
-                        Type        => 'default',
+                        Type        => 'Unclassified',
                     },
                 ],
             },

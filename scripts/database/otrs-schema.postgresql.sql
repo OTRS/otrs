@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2013-06-24 12:38:54
+--  driver: postgresql
 -- ----------------------------------------------------------
 SET standard_conforming_strings TO ON;
 -- ----------------------------------------------------------
@@ -8,7 +8,7 @@ SET standard_conforming_strings TO ON;
 CREATE TABLE acl (
     id serial NOT NULL,
     name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NOT NULL,
+    comments VARCHAR (250) NULL,
     description VARCHAR (250) NULL,
     valid_id INTEGER NOT NULL,
     stop_after_match INTEGER NULL,
@@ -67,7 +67,7 @@ CREATE TABLE users (
 CREATE TABLE user_preferences (
     user_id INTEGER NOT NULL,
     preferences_key VARCHAR (150) NOT NULL,
-    preferences_value VARCHAR (250) NULL
+    preferences_value TEXT NULL
 );
 CREATE INDEX user_preferences_user_id ON user_preferences (user_id);
 -- ----------------------------------------------------------
@@ -644,13 +644,14 @@ CREATE TABLE time_accounting (
 );
 CREATE INDEX time_accounting_ticket_id ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
---  create table standard_response
+--  create table standard_template
 -- ----------------------------------------------------------
-CREATE TABLE standard_response (
+CREATE TABLE standard_template (
     id serial NOT NULL,
     name VARCHAR (200) NOT NULL,
     text VARCHAR NULL,
     content_type VARCHAR (250) NULL,
+    template_type VARCHAR (100) DEFAULT 'Answer' NOT NULL,
     comments VARCHAR (250) NULL,
     valid_id INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
@@ -658,14 +659,14 @@ CREATE TABLE standard_response (
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT standard_response_name UNIQUE (name)
+    CONSTRAINT standard_template_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
---  create table queue_standard_response
+--  create table queue_standard_template
 -- ----------------------------------------------------------
-CREATE TABLE queue_standard_response (
+CREATE TABLE queue_standard_template (
     queue_id INTEGER NOT NULL,
-    standard_response_id INTEGER NOT NULL,
+    standard_template_id INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,
@@ -690,12 +691,12 @@ CREATE TABLE standard_attachment (
     CONSTRAINT standard_attachment_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
---  create table standard_response_attachment
+--  create table standard_template_attachment
 -- ----------------------------------------------------------
-CREATE TABLE standard_response_attachment (
+CREATE TABLE standard_template_attachment (
     id serial NOT NULL,
     standard_attachment_id INTEGER NOT NULL,
-    standard_response_id INTEGER NOT NULL,
+    standard_template_id INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,
@@ -924,7 +925,8 @@ CREATE TABLE postmaster_filter (
     f_stop INTEGER NULL,
     f_type VARCHAR (20) NOT NULL,
     f_key VARCHAR (200) NOT NULL,
-    f_value VARCHAR (200) NOT NULL
+    f_value VARCHAR (200) NOT NULL,
+    f_not INTEGER NULL
 );
 CREATE INDEX postmaster_filter_f_name ON postmaster_filter (f_name);
 -- ----------------------------------------------------------

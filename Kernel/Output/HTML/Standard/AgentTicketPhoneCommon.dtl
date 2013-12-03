@@ -15,7 +15,8 @@
     <div class="LayoutPopup ARIARoleMain">
 
         <div class="Header">
-            <h1>$Text{"Phone call"}: $QData{"TicketNumber"} - $QData{"Title","60"}</h1>
+            <h1>$Text{"Phone call"}: $QData{"TicketNumber"} - $QData{"Title"}</h1>
+            <p class="AsteriskExplanation">$Text{"All fields marked with an asterisk (*) are mandatory."}</p>
 
 <!-- dtl:block:TicketBack -->
             <p>
@@ -25,7 +26,7 @@
 
         </div>
 
-        <div class="LayoutFixedSidebar SidebarLast">
+        <div class="LayoutFixedSidebar SidebarLast Content">
 
             <div class="SidebarColumn">
 <!-- dtl:block:CustomerTable -->
@@ -68,8 +69,24 @@
 
 <!-- OutputFilterHook_NoTicketOptionsFallback -->
 
+<!-- dtl:block:StandardTemplate -->
+                    <label for="StandardTemplateID">$Text{"Text Template"}:</label>
+                    <div class="Field">
+                        $Data{"StandardTemplateStrg"}
+                        <p class="FieldExplanation">Setting a template will overwrite any text or attachment.</p>
+                    </div>
+                    <div class="Clear"></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#StandardTemplateID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($(this).closest('form'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+        return false;
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:StandardTemplate -->
                     <label class="Mandatory" for="RichText"><span class="Marker">*</span>$Text{"Text"}:</label>
-                    <div class="RichTextField">
+                    <div id="RichTextField" class="RichTextField">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
@@ -127,7 +144,7 @@ $Include{"RichTextEditor"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#NextStateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate( $(this).parents('form'), 'AJAXUpdate', 'NextStateID', [ $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate( $(this).parents('form'), 'AJAXUpdate', 'NextStateID', ['StandardTemplateID' $Data{"DynamicFieldNamesStrg"}]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -173,14 +190,14 @@ $Include{"RichTextEditor"}
 #<!-- dtl:block:DynamicField_Field2 -->
 
 <!-- dtl:block:TimeUnitsLabel -->
-                    <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+                    <label for="TimeUnits">$Text{"Time units"} $Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
 <!-- dtl:block:TimeUnitsLabel -->
 <!-- dtl:block:TimeUnitsLabelMandatory -->
-                    <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span>$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+                    <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span>$Text{"Time units"} $Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
 <!-- dtl:block:TimeUnitsLabelMandatory -->
 <!-- dtl:block:TimeUnits -->
                     <div class="Field">
-                        <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="W25pc Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}"/>
+                        <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="W50pc Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}"/>
                         <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
                         <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                     </div>
@@ -191,7 +208,7 @@ $Include{"RichTextEditor"}
             </div>
         </div>
         <div class="Footer">
-            <button class="Primary" id="submitRichText" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}"><span><i class="icon-check"></i> $Text{"Submit"}</span></button>
         </div>
     </div>
 </form>
@@ -200,5 +217,6 @@ $Include{"RichTextEditor"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     Core.Agent.TicketAction.Init();
+    Core.Config.Set('Localization.Delete', "$JSText{"Delete"}");
 //]]></script>
 <!--dtl:js_on_document_complete-->

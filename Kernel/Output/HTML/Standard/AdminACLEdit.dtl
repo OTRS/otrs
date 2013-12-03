@@ -1,6 +1,6 @@
 # --
 # AdminACLEdit.dtl - provides HTML for AdminACL
-# Copyright (C) 2003-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,7 +41,7 @@
                     <strong>$Text{"Change settings"}</strong>: $Text{"Set up what you want to change if the criteria match. Keep in mind that 'Possible' is a white list, 'PossibleNot' a black list."}
                 </p>
                 <p class="FieldExplanation">
-                    $Text{"Check the official"} <a href="http://doc.otrs.org/3.2/en/html/customization.html#idp16984720" target="_blank">$Text{"documentation"}</a>.
+                    $Text{"Check the official"} <a href="http://doc.otrs.org/3.3/en/html/customization.html#acl" target="_blank">$Text{"documentation"}</a>.
                 </p>
             </div>
         </div>
@@ -52,7 +52,7 @@
             <div class="WidgetSimple Expanded">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Show or hide the content"}"></a>
+                        <a href="#" title="$Text{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Edit ACL information"}</h2>
                 </div>
@@ -76,15 +76,9 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label class="Mandatory" for="Comment"><span class="Marker">*</span> $Text{"Comment"}:</label>
+                        <label for="Comment">$Text{"Comment"}:</label>
                         <div class="Field">
-                            <input type="text" name="Comment" id="Comment" value="$QData{"Comment"}" class="W50pc Validate_Required $QData{"CommentServerError"}" maxlength="70"/>
-                            <div id="CommentError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
-                            <div id="CommentServerError" class="TooltipErrorMessage">
-                                <p>$Text{"This field is required."}</p>
-                            </div>
+                            <input type="text" name="Comment" id="Comment" value="$QData{"Comment"}" class="W50pc $QData{"CommentServerError"}" maxlength="70"/>
                         </div>
                         <div class="Clear"></div>
 
@@ -118,7 +112,7 @@
             <div class="WidgetSimple">
                 <div class="Header Expanded">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="$Text{"Show or hide the content"}"></a>
+                        <a href="#" title="$Text{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
                     <h2>$Text{"Edit ACL structure"}</h2>
                 </div>

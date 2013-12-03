@@ -15,6 +15,7 @@ use warnings;
 use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
+use Kernel::System::User;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,14 +28,15 @@ sub new {
 
     # get all objects
     for my $Object (
-        qw(DBObject ConfigObject TicketObject LogObject ParserObject TimeObject QueueObject StateObject PriorityObject)
+        qw(DBObject ConfigObject TicketObject LogObject ParserObject TimeObject QueueObject StateObject MainObject EncodeObject PriorityObject)
         )
     {
         $Self->{$Object} = $Param{$Object} || die 'Got no $Object';
     }
 
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-    $Self->{LinkObject}         = Kernel::System::LinkObject->new(%Param);
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
+    $Self->{LinkObject}         = Kernel::System::LinkObject->new( %{$Self} );
+    $Self->{UserObject}         = Kernel::System::User->new( %{$Self} );
 
     return $Self;
 }
@@ -164,6 +166,24 @@ sub Run {
         $GetParam{'X-OTRS-CustomerUser'} = $GetParam{SenderEmailAddress};
     }
 
+    # get ticket owner
+    my $OwnerID = $GetParam{'X-OTRS-OwnerID'} || $Param{InmailUserID};
+    if ( $GetParam{'X-OTRS-Owner'} ) {
+        my $TmpOwnerID = $Self->{UserObject}->UserLookup( UserLogin => $GetParam{'X-OTRS-Owner'} );
+        $OwnerID = $TmpOwnerID || $OwnerID;
+    }
+
+    my %Opts;
+    if ( $GetParam{'X-OTRS-ResponsibleID'} ) {
+        $Opts{ResponsibleID} = $GetParam{'X-OTRS-ResponsibleID'};
+    }
+
+    if ( $GetParam{'X-OTRS-Responsible'} ) {
+        my $TmpResponsibleID
+            = $Self->{UserObject}->UserLookup( UserLogin => $GetParam{'X-OTRS-Responsible'} );
+        $Opts{ResponsibleID} = $TmpResponsibleID || $Opts{ResponsibleID};
+    }
+
     # create new ticket
     my $NewTn    = $Self->{TicketObject}->TicketCreateNumber();
     my $TicketID = $Self->{TicketObject}->TicketCreate(
@@ -178,8 +198,9 @@ sub Run {
         SLA          => $GetParam{'X-OTRS-SLA'} || '',
         CustomerID   => $GetParam{'X-OTRS-CustomerNo'},
         CustomerUser => $GetParam{'X-OTRS-CustomerUser'},
-        OwnerID      => $Param{InmailUserID},
+        OwnerID      => $OwnerID,
         UserID       => $Param{InmailUserID},
+        %Opts,
     );
 
     if ( !$TicketID ) {
@@ -404,15 +425,10 @@ sub Run {
 
     # debug
     if ( $Self->{Debug} > 0 ) {
-        print "From: $GetParam{From}\n";
-        print "ReplyTo: $GetParam{ReplyTo}\n" if ( $GetParam{ReplyTo} );
-        print "To: $GetParam{To}\n";
-        print "Cc: $GetParam{Cc}\n" if ( $GetParam{Cc} );
-        print "Subject: $GetParam{Subject}\n";
-        print "MessageID: $GetParam{'Message-ID'}\n";
-        print "Queue: $Queue\n";
-        print "SenderType: $GetParam{'X-OTRS-SenderType'}\n";
-        print "ArticleType: $GetParam{'X-OTRS-ArticleType'}\n";
+        for my $Attribute ( sort keys %GetParam ) {
+            next if !$GetParam{$Attribute};
+            print "$Attribute: $GetParam{$Attribute}\n";
+        }
     }
 
     # dynamic fields

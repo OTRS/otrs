@@ -14,8 +14,6 @@ use warnings;
 
 use Kernel::System::CustomerUser;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::CustomerAuth - customer authentication module.
@@ -90,7 +88,7 @@ sub new {
     }
 
     # get customer user object to validate customers
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
 
     # load generator auth module
     for my $Count ( '', 1 .. 10 ) {
@@ -100,7 +98,7 @@ sub new {
         if ( !$Self->{MainObject}->Require($GenericModule) ) {
             $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
         }
-        $Self->{"Backend$Count"} = $GenericModule->new( %Param, Count => $Count );
+        $Self->{"Backend$Count"} = $GenericModule->new( %{$Self}, Count => $Count );
     }
 
     return $Self;
@@ -140,10 +138,11 @@ sub Auth {
 
     # use all 11 backends and return on first auth
     my $User;
+    COUNT:
     for ( '', 1 .. 10 ) {
 
         # next on no config setting
-        next if !$Self->{"Backend$_"};
+        next COUNT if !$Self->{"Backend$_"};
 
         # check auth backend
         $User = $Self->{"Backend$_"}->Auth(%Param);
@@ -155,7 +154,7 @@ sub Auth {
                 Value  => $_,
                 UserID => $User,
             );
-            last;
+            last COUNT;
         }
     }
 
@@ -174,7 +173,7 @@ sub Auth {
         return;
     }
 
-    # check if user is vaild
+    # check if user is valid
     my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $User );
     if ( defined $CustomerData{ValidID} && $CustomerData{ValidID} ne 1 ) {
         $Self->{LogObject}->Log(

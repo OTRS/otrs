@@ -13,15 +13,23 @@ use vars (qw($Self));
 use utf8;
 
 use Kernel::System::StandardResponse;
+use Kernel::System::UnitTest::Helper;
 
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %{$Self},
+    UnitTestObject             => $Self,
+    RestoreSystemConfiguration => 0,
+);
 my $StandardResponseObject = Kernel::System::StandardResponse->new( %{$Self} );
+
+my $RandomID = $HelperObject->GetRandomID();
 
 # tests
 my @Tests = (
     {
         Name => 'text',
         Add  => {
-            Name        => 'text',
+            Name        => 'text' . $RandomID,
             ValidID     => 1,
             Response    => 'Response text',
             ContentType => 'text/plain; charset=iso-8859-1',
@@ -29,14 +37,14 @@ my @Tests = (
             UserID      => 1,
         },
         AddGet => {
-            Name        => 'text',
+            Name        => 'text' . $RandomID,
             ValidID     => 1,
             Response    => 'Response text',
             ContentType => 'text/plain; charset=iso-8859-1',
             Comment     => 'some comment',
         },
         Update => {
-            Name        => 'text2',
+            Name        => 'text2' . $RandomID,
             ValidID     => 1,
             Response    => 'Response text\'2',
             ContentType => 'text/plain; charset=utf-8',
@@ -44,7 +52,7 @@ my @Tests = (
             UserID      => 1,
         },
         UpdateGet => {
-            Name        => 'text2',
+            Name        => 'text2' . $RandomID,
             ValidID     => 1,
             Response    => 'Response text\'2',
             ContentType => 'text/plain; charset=utf-8',
@@ -81,13 +89,13 @@ for my $Test (@Tests) {
     );
     $Self->Is(
         $Name,
-        $Test->{Name},
+        $Test->{Add}->{Name},
         "StandardResponseLookup()",
     );
 
     # lookup by Name
     my $LookupID = $StandardResponseObject->StandardResponseLookup(
-        StandardResponse => $Test->{Name},
+        StandardResponse => $Test->{Add}->{Name},
     );
     $Self->Is(
         $ID,

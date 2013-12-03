@@ -1,6 +1,6 @@
 # --
 # ACL.t - ACL DB tests
-# Copyright (C) 2003-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,17 +54,6 @@ my @Tests = (
             Name           => undef,
             UserID         => $UserID,
             Comment        => 'Comment',
-            StopAfterMatch => 1,
-            ValidID        => 1,
-        },
-        Success => 0,
-
-    },
-    {
-        Name   => 'ACLAdd Test 4: No Comment',
-        Config => {
-            Name           => undef,
-            UserID         => $UserID,
             StopAfterMatch => 1,
             ValidID        => 1,
         },
@@ -345,19 +334,6 @@ for my $Test (@Tests) {
             ID           => 1,
             Name         => undef,
             Comment      => 'Comment',
-            ValidID      => 1,
-            ConfigMatch  => { 'Properties' => {} },
-            ConfigChange => { 'Possible' => {} },
-            UserID       => $UserID,
-        },
-        Success => 0,
-    },
-    {
-        Name   => 'ACLUpdate Test 5: No Comment',
-        Config => {
-            ID           => 1,
-            Name         => "ACL-$RandomID",
-            Comment      => undef,
             ValidID      => 1,
             ConfigMatch  => { 'Properties' => {} },
             ConfigChange => { 'Possible' => {} },

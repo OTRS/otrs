@@ -19,7 +19,8 @@
     <div class="LayoutPopup ARIARoleMain">
 
         <div class="Header">
-            <h1>$Text{"Bounce Ticket"}: $QData{"TicketNumber"} - $QData{"Title","60"}</h1>
+            <h1>$Text{"Bounce Ticket"}: $QData{"TicketNumber"} - $QData{"Title"}</h1>
+            <p class="AsteriskExplanation">$Text{"All fields marked with an asterisk (*) are mandatory."}</p>
 
 <!-- dtl:block:TicketBack -->
             <p>
@@ -40,11 +41,27 @@
         <div class="Content">
 
             <fieldset class="TableLike FixedLabel">
-                <label for="BounceTo">$Text{"Bounce to"}:</label>
+                <label class="Mandatory" for="BounceTo"><span class="Marker">*</span>$Text{"Bounce to"}:</label>
                 <div class="Field">
-                    <input type="$QEnv{"EmailFieldType"}" name="BounceTo" id="BounceTo" value="" class="W50pc Validate_Required $QData{"BounceToInvalid"}"/>
+                    <input type="$QEnv{"EmailFieldType"}" name="BounceTo" id="BounceTo" value="$QData{"BounceTo"}" class="W50pc Validate_Required $QData{"BounceToInvalid"}"/>
                     <div id="BounceToError" class="TooltipErrorMessage" ><p>$Text{"You need a email address."}</p></div>
-                    <div id="BounceToServerError" class="TooltipErrorMessage"><p>$Text{"Need a valid email address or don't use a local email address."}</p></div>
+                    <div id="BounceToServerError" class="TooltipErrorMessage">
+<!-- dtl:block:BounceToCustomerGenericServerErrorMsg -->
+                        <p>$Text{"Need a valid email address or don't use a local email address."}</p>
+<!-- dtl:block:BounceToCustomerGenericServerErrorMsg -->
+<!-- dtl:block:BounceToInvalidConfigServerErrorMsg -->
+                        <p>$Text{"This email address is not allowed due to the system configuration."}</p>
+<!-- dtl:block:BounceToInvalidConfigServerErrorMsg -->
+<!-- dtl:block:BounceToInvalidMXServerErrorMsg -->
+                        <p>$Text{"This email address failed MX check."}</p>
+<!-- dtl:block:BounceToInvalidMXServerErrorMsg -->
+<!-- dtl:block:BounceToInvalidDNSServerErrorMsg -->
+                        <p>$Text{"DNS problem, please check your configuration and the error log."}</p>
+<!-- dtl:block:BounceToInvalidDNSServerErrorMsg -->
+<!-- dtl:block:BounceToInvalidSyntaxServerErrorMsg -->
+                        <p>$Text{"The syntax of this email address is incorrect."}</p>
+<!-- dtl:block:BounceToInvalidSyntaxServerErrorMsg -->
+                    </div>
                 </div>
                 <div class="Clear"></div>
 
@@ -56,7 +73,7 @@
 
                 <label for="InformSender">$Text{"Inform sender"}:</label>
                 <div class="Field">
-                    <input type="checkbox" name="InformSender" id="InformSender" value="1"/>
+                    <input type="checkbox" name="InformSender" id="InformSender" value="1" $QData{"InformSenderChecked"}/>
                 </div>
                 <div class="Clear"></div>
 
@@ -67,28 +84,78 @@
                 </div>
                 <div class="Clear"></div>
 
-                <label for="To">$Text{"To"}:</label>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+
+# initial setting for to/subject/body
+SwitchMandatoryFields();
+
+# watch for changes of inform sender field
+$('#InformSender').bind('click', function(){
+    SwitchMandatoryFields();
+});
+
+# function to switch between mandatory and optional
+function SwitchMandatoryFields() {
+    var InformSenderChecked = $('#InformSender').prop('checked'),
+        $ElementsLabelObj = $('#To,#Subject,#RichText').parent().prev('label');
+
+    if ( InformSenderChecked ) {
+        $ElementsLabelObj
+            .addClass('Mandatory')
+            .find('.Marker')
+            .removeClass('Hidden');
+    }
+    else if ( !InformSenderChecked ) {
+        $ElementsLabelObj
+            .removeClass('Mandatory')
+            .find('.Marker')
+            .addClass('Hidden');
+    }
+
+    return;
+}
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+
+                <label for="To"><span class="Marker Hidden">*</span>$Text{"To"}:</label>
                 <div class="Field">
-                    <input type="text" name="To" id="To" value="$QData{"To"}" class="W50pc Validate_Required $QData{"ToInvalid"}"/>
+                    <input type="text" name="To" id="To" value="$QData{"To"}" class="W50pc Validate_DependingRequiredAND Validate_Depending_InformSender $QData{"ToInvalid"}"/>
                     <div id="ToError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
-                    <div id="ToServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                    <div id="ToServerError" class="TooltipErrorMessage">
+<!-- dtl:block:ToCustomerGenericServerErrorMsg -->
+                        <p>$Text{"This field is required."}</p>
+<!-- dtl:block:ToCustomerGenericServerErrorMsg -->
+<!-- dtl:block:ToInvalidConfigServerErrorMsg -->
+                        <p>$Text{"This email address is not allowed due to the system configuration."}</p>
+<!-- dtl:block:ToInvalidConfigServerErrorMsg -->
+<!-- dtl:block:ToInvalidMXServerErrorMsg -->
+                        <p>$Text{"This email address failed MX check."}</p>
+<!-- dtl:block:ToInvalidMXServerErrorMsg -->
+<!-- dtl:block:ToInvalidDNSServerErrorMsg -->
+                        <p>$Text{"DNS problem, please check your configuration and the error log."}</p>
+<!-- dtl:block:ToInvalidDNSServerErrorMsg -->
+<!-- dtl:block:ToInvalidSyntaxServerErrorMsg -->
+                        <p>$Text{"The syntax of this email address is incorrect."}</p>
+<!-- dtl:block:ToInvalidSyntaxServerErrorMsg -->
+                    </div>
                 </div>
                 <div class="Clear"></div>
 
-                <label for="Subject">$Text{"Subject"}:</label>
+                <label for="Subject"><span class="Marker Hidden">*</span>$Text{"Subject"}:</label>
                 <div class="Field">
-                    <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="W50pc Validate_Required $QData{"SubjectInvalid"}"/>
+                    <input type="text" name="Subject" id="Subject" value="$QData{"Subject"}" class="W50pc Validate_DependingRequiredAND Validate_Depending_InformSender $QData{"SubjectInvalid"}"/>
                     <div id="SubjectError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
                     <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                 </div>
                 <div class="Clear"></div>
 
-                <label for="RichText">$Text{"Text"}:</label>
+                <label for="RichText"><span class="Marker Hidden">*</span>$Text{"Text"}:</label>
                 <div class="RichTextField">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-                    <textarea id="RichText" class="RichText Validate_Required $QData{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}">$Data{"InformationFormat"}</textarea>
+                    <textarea id="RichText" class="RichText Validate_DependingRequiredAND Validate_Depending_InformSender $QData{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}">$Data{"InformationFormat"}</textarea>
                     <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                     <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                 </div>
@@ -97,7 +164,7 @@ $Include{"RichTextEditor"}
             </fieldset>
         </div>
         <div class="Footer">
-            <button class="Primary" id="submitRichText" accesskey="g" title="$Text{"Send mail!"} (g)" type="submit" value="$Text{"Send mail!"}">$Text{"Send mail!"}</button>
+            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="$Text{"Send mail"} (g)" type="submit" value="$Text{"Send mail"}" ><span><i class="icon-envelope-alt"></i> $Text{"Send mail"}</span></button>
         </div>
     </div>
 </form>

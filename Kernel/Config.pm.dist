@@ -30,7 +30,7 @@ sub Load {
     # ---------------------------------------------------- #
 
     # The database host
-    $Self->{DatabaseHost} = 'localhost';
+    $Self->{DatabaseHost} = '127.0.0.1';
 
     # The database name
     $Self->{Database} = 'otrs';
@@ -95,13 +95,8 @@ sub Load {
 # ---------------------------------------------------- #
 # needed system stuff (don't edit this)                #
 # ---------------------------------------------------- #
-use strict;
-use warnings;
 
-use vars qw(@ISA);
-
-use Kernel::Config::Defaults;
-push (@ISA, 'Kernel::Config::Defaults');
+use base qw(Kernel::Config::Defaults);
 
 # -----------------------------------------------------#
 

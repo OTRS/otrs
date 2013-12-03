@@ -14,9 +14,6 @@ use warnings;
 
 use Kernel::System::State;
 
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
-
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -35,7 +32,7 @@ sub new {
     }
 
     # create additional objects
-    $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{StateObject} = Kernel::System::State->new( %{$Self} );
 
     return $Self;
 }
@@ -95,7 +92,7 @@ sub Run {
             if ( $Self->{Debug} >= 1 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message  => 'No number found in subject.',
+                    Message => "No number found in subject: '" . join( '', @SubjectLines ) . "'",
                 );
             }
         }
@@ -203,10 +200,9 @@ sub Run {
         }
 
         # build subject
-        $Param{GetParam}->{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
-            TicketNumber => $TicketNumber,
-            Subject      => $Param{GetParam}->{Subject},
-        );
+        my $TicketHook        = $Self->{ConfigObject}->Get('Ticket::Hook');
+        my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
+        $Param{GetParam}->{Subject} .= " [$TicketHook$TicketHookDivider$TicketNumber]";
 
         # set sender type and article type
         $Param{GetParam}->{'X-OTRS-FollowUp-SenderType'}  = $Param{JobConfig}->{SenderType};
@@ -234,21 +230,3 @@ sub Run {
 }
 
 1;
-
-=back
-
-=head1 TERMS AND CONDITIONS
-
-This software is part of the OTRS project (http://otrs.org/).
-
-This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=cut
-
-=head1 VERSION
-
-$Revision: 1.10 $ $Date: 2012/09/12 12:15:11 $
-
-=cut

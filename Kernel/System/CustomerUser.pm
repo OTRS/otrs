@@ -15,7 +15,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 use Kernel::System::EventHandler;
 
-use vars qw(@ISA);
+use base qw(Kernel::System::EventHandler);
 
 =head1 NAME
 
@@ -87,7 +87,7 @@ sub new {
     my $GeneratorModule = $Self->{ConfigObject}->Get('CustomerPreferences')->{Module}
         || 'Kernel::System::CustomerUser::Preferences::DB';
     if ( $Self->{MainObject}->Require($GeneratorModule) ) {
-        $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
+        $Self->{PreferencesObject} = $GeneratorModule->new( %{$Self} );
     }
 
     # load customer user backend module
@@ -102,16 +102,15 @@ sub new {
         }
         $Self->{"CustomerUser$Count"} = $GenericModule->new(
             Count => $Count,
-            %Param,
+            %{$Self},
             PreferencesObject => $Self->{PreferencesObject},
             CustomerUserMap   => $Self->{ConfigObject}->Get("CustomerUser$Count"),
         );
     }
 
-    $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
+    $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new( %{$Self} );
 
     # init of event handler
-    push @ISA, 'Kernel::System::EventHandler';
     $Self->EventHandlerInit(
         Config     => 'CustomerUser::EventModulePost',
         BaseObject => 'CustomerUserObject',
@@ -372,6 +371,8 @@ sub CustomerUserDataGet {
             %Company = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
                 CustomerID => $Customer{UserCustomerID},
             );
+
+            $Company{CustomerCompanyValidID} = $Company{ValidID};
         }
 
         # return customer data
@@ -643,7 +644,7 @@ search in user preferences
 
     my %UserList = $CustomerUserObject->SearchPreferences(
         Key   => 'UserSomeKey',
-        Value => 'SomeValue',
+        Value => 'SomeValue',   # optional, limit to a certain value/pattern
     );
 
 =cut

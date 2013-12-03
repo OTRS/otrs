@@ -26,8 +26,38 @@ select[multiple=multiple] {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     /* Opera 10.5 has per default a grey background */
     background-color: #FFF;
-    -webkit-box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
-    box-shadow: 0 1px 2px #E8E8E8 inset, 0 1px 0 #FFF;
+    -webkit-box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
+    box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
+}
+
+input[type=text],
+input[type=password] {
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+select[multiple=multiple] {
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    min-width: 300px;
+    padding: 3px;
+    box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
+}
+
+select[multiple=multiple] option {
+    padding: 2px;
+}
+
+select[multiple=multiple] option:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+input#Subject {
+    font-size: 13px;
+    padding: 5px;
+    font-weight: bold;
 }
 
 input[type=text],
@@ -189,8 +219,13 @@ button.Reset:active {
     font-size: 2px;
 }
 
-.Field .ShowTreeSelection {
+.Field .ShowTreeSelection, .WidgetSettingsForm .ShowTreeSelection {
     display: inline-block;
+}
+
+.WidgetSettingsForm .ShowTreeSelection {
+    position: relative;
+    top: -4px;
 }
 
 #TreeContainer #TreeSearch {
@@ -292,6 +327,14 @@ form fieldset {
     margin: 5px 0;
 }
 
+.SidebarColumn .FieldExplanation.Error {
+    border: 1px solid #F03432;
+    color: #F03432;
+    line-height: 150%;
+    margin: 7px 0px;
+    padding: 7px 10px;
+}
+
 form label.Mandatory {
     color: black !important;
 }
@@ -342,6 +385,15 @@ form label.LabelError {
 .BccCustomerContainer .CustomerTicketText  {
     width: 89%;
     margin-left: 7px;
+}
+
+.CustomerContainer .CustomerTicketText {
+    transition: background-color 1s ease, border 1s ease;
+}
+
+.CustomerContainer .CustomerTicketText.MainCustomer {
+    background-color: #F7ECC3;
+    border: 1px solid #E8CC8B;
 }
 
 .CustomerContainer .CustomerTicketText.Radio {
@@ -467,6 +519,13 @@ fieldset.TableLike > .Row > .FloatingField {
     float: left;
 }
 
+body.Popup fieldset.TableLike > .RichTextField,
+body.Popup fieldset.TableLike > .Row > .RichTextField,
+body.Popup fieldset.TableLike > .FloatingField,
+body.Popup fieldset.TableLike > .Row > .FloatingField {
+    margin: 7px 7px 0px 7px;
+}
+
 .RTL fieldset.TableLike > .RichTextField,
 .RTL fieldset.TableLike > .Row > .RichTextField,
 .RTL fieldset.TableLike > .FloatingField,
@@ -474,6 +533,13 @@ fieldset.TableLike > .Row > .FloatingField {
     padding-left: 0;
     padding-right: 10px;
     float: right;
+}
+
+body.Popup .RTL fieldset.TableLike > .RichTextField,
+body.Popup .RTL fieldset.TableLike > .Row > .RichTextField,
+body.Popup .RTL fieldset.TableLike > .FloatingField,
+body.Popup .RTL fieldset.TableLike > .Row > .FloatingField {
+    margin: 7px 7px 0px 7px;
 }
 
 fieldset.TableLike > .Value,
@@ -552,6 +618,11 @@ fieldset.TableLike.FixedLabelSmall > .Row > .Value {
 fieldset.TableLike.FixedLabelSmall > .FixedValueSmall,
 fieldset.TableLike.FixedLabelSmall > .Row > .FixedValueSmall {
     width: 143px;
+}
+fieldset.TableLike.FixedLabelSmall > p.FixedValueSmall > em.Error {
+    display: block;
+    font-size: 11px;
+    margin-top: 3px;
 }
 
 fieldset.TableLike.Narrow > label,

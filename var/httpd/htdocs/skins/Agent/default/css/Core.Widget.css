@@ -27,12 +27,23 @@ ul.Tablelike:first-child {
     margin-right: 0;
 }
 
+.StrikeThrough a {
+    text-decoration: line-through;
+}
+
 ul.Tablelike li {
     line-height: 20px;
     padding: 0 4px;
     min-height: 20px;
     background-color: #FFF;
     border-radius: 3px;
+}
+
+ul.Tablelike li.OneRow,
+ul.Tablelike li.OneRow .AsBlock {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 ul.Tablelike li.Even {
@@ -115,6 +126,9 @@ ul.Tablelike li.Header + li {
 .WidgetSimple > .Header h3 {
     padding: 4px 3px;
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .WidgetSimple > .Content {
@@ -126,8 +140,8 @@ ul.Tablelike li.Header + li {
     overflow: auto;
     /**
      *   START IE9 Hover Bug Workaround
-     *   The problem occurs when you have a container that has a fixed width set, an overflow set to 
-     *   auto, content long enough to trigger the horizontal scroll and a hover style set 
+     *   The problem occurs when you have a container that has a fixed width set, an overflow set to
+     *   auto, content long enough to trigger the horizontal scroll and a hover style set
      *   on elements inside the container.
      *   The container mysteriously increases in size.
      *   (e.g. if you have installed OTRSDashboardOverviewFilters and many dynamic fields are
@@ -145,6 +159,46 @@ ul.Tablelike li.Header + li {
     margin-bottom: 15px;
 }
 
+.WidgetSimple .WidgetSettingsForm fieldset {
+    margin-bottom: 0px;
+}
+
+.WidgetSimple .Field.LayoutGrid {
+    padding-top: 7px;
+}
+
+.WidgetSimple .Field.LayoutGrid .Tablelike {
+    width: 98%;
+}
+
+.WidgetSimple .Buttons {
+    background: #ddd;
+    background: -moz-linear-gradient(top,  #eee 0%, #ddd 50%, #ccc 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee), color-stop(50%,#ddd), color-stop(100%,#ccc));
+    background: -webkit-linear-gradient(top,  #eee 0%,#ddd 50%,#ccc 100%);
+    background: -o-linear-gradient(top,  #eee 0%,#ddd 50%,#ccc 100%);
+    background: -ms-linear-gradient(top,  #eee 0%,#ddd 50%,#ccc 100%);
+    background: linear-gradient(to bottom,  #eee 0%,#ddd 50%,#ccc 100%);
+    border-top: 1px solid #ccc;
+    margin: 15px -8px -10px -8px;
+    padding: 10px 10px 9px 10px;
+    text-align: center;
+    font-size: 11px;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+.WidgetSimple .Buttons.NoMargin {
+    margin-top: 5px;
+}
+
+.WidgetSimple .Field.LayoutGrid .AllocationList {
+    max-height: 192px;
+}
+
+.WidgetSimple .Field.LayoutGrid .AllocationList.OrderNumbers {
+    list-style: decimal inside;
+}
+
 /**
  * @subsection Widgets as notices
  */
@@ -158,6 +212,7 @@ ul.Tablelike li.Header + li {
     color: #442A0B;
     font-weight: bold;
     padding-bottom: 8px;
+    line-height: 140%;
 }
 
 /**
@@ -188,10 +243,14 @@ ul.Tablelike li.Header + li {
 .WidgetBox > .Header .WidgetAction + h2 {
     margin: 0;
     padding-left: 30px;
+    padding-right: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .RTL .WidgetBox > .Header .WidgetAction + h2 {
-    padding-left: 0;
+    padding-left: 200px;
     padding-right: 30px;
 }
 
@@ -266,9 +325,10 @@ ul.Tablelike li.Header + li {
 
 .WidgetAction {
     height: 19px;
-    width: 22px;
+    width: 16px;
     padding-right: 1px;
     float: left;
+    text-align: center;
 }
 
 .RTL .WidgetAction {
@@ -285,9 +345,29 @@ ul.Tablelike li.Header + li {
 .Expanded.AnimationRunning > .Header > .WidgetAction.Toggle {
     height: 13px;
     width: 12px;
-    margin: 5px 6px 5px 2px;
-    background: url(../img/toggle_arrow.png) no-repeat 0 0;
+    margin: 5px 0px 5px 2px;
     float: left;
+}
+
+.WidgetAction.Toggle i {
+    font-size: 17px;
+    position: absolute;
+    left: 7px;
+    top: 2px;
+    color: #555 !important;
+}
+
+#ArticleItems .WidgetAction.Toggle i,
+#DynamicFieldsWidget .WidgetAction.Toggle i {
+    top: -1px;
+}
+
+.Expanded .WidgetAction.Toggle i.icon-caret-right {
+    display: none !important;
+}
+
+.Collapsed .WidgetAction.Toggle i.icon-caret-down {
+    display: none !important;
 }
 
 .Header:active > .WidgetAction.Toggle {
@@ -313,18 +393,15 @@ ul.Tablelike li.Header + li {
 }
 
 /* Settings */
-.WidgetAction.Settings a {
-    background: url(../img/widget_settings.png) no-repeat 2px 2px;
+.WidgetAction i {
+    color: #bbb;
+    display: block !important;
+    margin: 2px 0px 0px 2px;
+    vertical-align: middle;
 }
 
-/* Close */
-.WidgetAction.Close a {
-    background: url(../img/widget_close.png) no-repeat 2px 2px;
-}
-
-.WidgetAction.Settings a:hover,
-.WidgetAction.Close a:hover {
-    background-position: 2px -16px;
+.WidgetAction:hover i {
+    color: #000;
 }
 
 /**
@@ -333,6 +410,12 @@ ul.Tablelike li.Header + li {
 
 .ActionList li {
     margin-bottom: 7px;
+}
+
+.ActionList li.Separated {
+    border-bottom: 1px solid #CCCCCC;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
 }
 
 .ActionList li:last-child {
@@ -367,10 +450,20 @@ ul.Tablelike li.Header + li {
     border-radius: 3px;
     display: inline-block;
     cursor: pointer;
+    transition: all ease-in 1s;
 }
 
-.ActionList li a.Fullsize {
+.CallForAction.LittleSpacingTop {
+    margin-top: 5px;
+}
+
+.ActionList li a.Fullsize, .CallForAction.Fullsize {
     display: block;
+}
+
+.CallForAction.Fullsize {
+    width: 100%;
+    text-align: center;
 }
 
 /**
@@ -417,6 +510,11 @@ ul.Tablelike li.Header + li {
     text-shadow: 0 1px 0 #DDD;
 }
 
+.CallForAction.Disabled, .CallForAction.Disabled span {
+    color: #999;
+    cursor: default;
+}
+
 .CallForAction.Plus span {
     background: url(../img/icons/plus-button.png) no-repeat scroll;
 }
@@ -428,6 +526,9 @@ ul.Tablelike li.Header + li {
 }
 .CallForAction.Clone span {
     background: url(../img/icons/reports.png) no-repeat scroll;
+}
+.CallForAction.Save span {
+    background: url(../img/icons/disk.png) no-repeat scroll;
 }
 .CallForAction.Trash span {
     background: url(../img/icons/trash-can.png) no-repeat scroll;
@@ -452,7 +553,8 @@ ul.Tablelike li.Header + li {
 .CallForAction.Trash span,
 .CallForAction.History span,
 .CallForAction.Debug span,
-.CallForAction.Refresh span {
+.CallForAction.Refresh span,
+.CallForAction.Save span {
     padding-left: 23px;
     background-position: 2px 2px;
 }
@@ -469,7 +571,8 @@ ul.Tablelike li.Header + li {
 .CallForAction.Trash:active span,
 .CallForAction.History:active span,
 .CallForAction.Debug:active span,
-.CallForAction.Refresh:active span {
+.CallForAction.Refresh:active span,
+.CallForAction.Save:active span {
     background-position: 2px 3px;
 }
 

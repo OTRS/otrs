@@ -309,7 +309,7 @@ sub ArticlePlain {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # decode attachment if it's e. g. a postgresql backend!!!
-        if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') && $Row[0] !~ / / ) {
+        if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') && $Row[0] !~ m/ / ) {
             $Data = decode_base64( $Row[0] );
         }
         else {
@@ -414,15 +414,16 @@ sub ArticleAttachmentIndexRaw {
         Silent    => 1,
     );
 
+    FILENAME:
     for my $Filename ( sort @List ) {
         my $FileSize    = -s $Filename;
         my $FileSizeRaw = $FileSize;
 
         # do not use control file
-        next if $Filename =~ /\.content_alternative$/;
-        next if $Filename =~ /\.content_id$/;
-        next if $Filename =~ /\.content_type$/;
-        next if $Filename =~ /\/plain.txt$/;
+        next FILENAME if $Filename =~ /\.content_alternative$/;
+        next FILENAME if $Filename =~ /\.content_id$/;
+        next FILENAME if $Filename =~ /\.content_type$/;
+        next FILENAME if $Filename =~ /\/plain.txt$/;
 
         # human readable file size
         if ($FileSize) {
@@ -556,11 +557,12 @@ sub ArticleAttachment {
     );
 
     if (@List) {
+        FILENAME:
         for my $Filename (@List) {
-            next if $Filename =~ /\.content_alternative$/;
-            next if $Filename =~ /\.content_id$/;
-            next if $Filename =~ /\.content_type$/;
-            next if $Filename =~ /\/plain.txt$/;
+            next FILENAME if $Filename =~ /\.content_alternative$/;
+            next FILENAME if $Filename =~ /\.content_id$/;
+            next FILENAME if $Filename =~ /\.content_type$/;
+            next FILENAME if $Filename =~ /\/plain.txt$/;
 
             # add the info the the hash
             $Counter++;

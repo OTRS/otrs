@@ -12,8 +12,6 @@ package Kernel::Output::HTML::LayoutLoader;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 use Kernel::System::Loader;
 
 =head1 NAME

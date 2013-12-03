@@ -14,10 +14,12 @@ use warnings;
 
 use MIME::Base64;
 use Date::Pcalc qw(:all);
+use Storable qw();
 
 use Kernel::System::XML;
-
-use vars qw(@ISA);
+use Kernel::System::Cache;
+use Kernel::System::CSV;
+use Kernel::System::VariableCheck qw(:all);
 
 =head1 NAME
 
@@ -42,7 +44,6 @@ create an object
     use Kernel::System::DB;
     use Kernel::System::Group;
     use Kernel::System::Time;
-    use Kernel::System::CSV;
     use Kernel::System::User;
     use Kernel::System::Stats;
 
@@ -76,9 +77,6 @@ create an object
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
     );
-    my $CSVObject = Kernel::System::CSV->new(
-        LogObject => $LogObject,
-    );
     my $UserObject = Kernel::System::User->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
@@ -93,7 +91,6 @@ create an object
         LogObject    => $LogObject,
         DBObject     => $DBObject,
         MainObject   => $MainObject,
-        CSVObject    => $CSVObject,
         TimeObject   => $TimeObject,
         GroupObject  => $GroupObject,
         UserObject   => $UserObject,
@@ -112,7 +109,7 @@ sub new {
     # check object list for completeness
     for my $Object (
         qw(
-        ConfigObject LogObject UserID GroupObject UserObject TimeObject MainObject CSVObject
+        ConfigObject LogObject UserID GroupObject UserObject TimeObject MainObject
         DBObject EncodeObject
         )
         )
@@ -120,8 +117,11 @@ sub new {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
 
+    $Self->{CSVObject} = $Param{CSVObject} || Kernel::System::CSV->new(%Param);
+
     # create supplementary objects
-    $Self->{XMLObject} = Kernel::System::XML->new(%Param);
+    $Self->{XMLObject}   = Kernel::System::XML->new( %{$Self} );
+    $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
 
     # temporary directory
     $Self->{StatsTempDir} = $Self->{ConfigObject}->Get('Home') . '/var/stats/';
@@ -193,6 +193,10 @@ sub StatsAdd {
         return;
     }
 
+    $Self->{CacheObject}->CleanUp(
+        Type => 'Stats',
+    );
+
     return $StatID;
 }
 
@@ -214,6 +218,13 @@ sub StatsGet {
     if ( !$Param{StatID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need StatID!' );
     }
+
+    my $CacheKey = 'StatsGet::' . ( join '::', %Param );
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'Stats',
+        Key  => $CacheKey,
+    );
+    return $Cache if ref $Cache eq 'HASH';
 
     # get hash from storage
     my @XMLHash = $Self->{XMLObject}->XMLHashGet(
@@ -237,6 +248,7 @@ sub StatsGet {
     for my $Key (
         qw(Title Object File Description SumRow SumCol StatNumber
         Cache StatType Valid ObjectModule CreatedBy ChangedBy Created Changed
+        ShowAsDashboardWidget
         )
         )
     {
@@ -256,6 +268,12 @@ sub StatsGet {
         }
     }
 
+    if ( $Stat{ObjectModule} ) {
+        $Stat{ObjectBehaviours} = $Self->GetObjectBehaviours(
+            ObjectModule => $Stat{ObjectModule},
+        );
+    }
+
     # get the configuration elements of the dynamic stats
     # %Allowed is used to avoid double selection in different forms
     my %Allowed;
@@ -267,7 +285,17 @@ sub StatsGet {
         ObjectModule => $Stat{ObjectModule},
     );
 
-    return \%Stat if $Param{NoObjectAttributes};
+    if ( $Param{NoObjectAttributes} ) {
+
+        $Self->{CacheObject}->Set(
+            Type  => 'Stats',
+            Key   => $CacheKey,
+            Value => \%Stat,
+            TTL   => 24 * 60 * 60,
+        );
+
+        return \%Stat;
+    }
 
     KEY:
     for my $Key (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
@@ -358,6 +386,13 @@ sub StatsGet {
         $Stat{$Key} = \@StatAttributesSimplified;
     }
 
+    $Self->{CacheObject}->Set(
+        Type  => 'Stats',
+        Key   => $CacheKey,
+        Value => \%Stat,
+        TTL   => 24 * 60 * 60,
+    );
+
     return \%Stat;
 }
 
@@ -412,6 +447,10 @@ sub StatsUpdate {
     }
 
     for my $Key ( sort keys %{$StatOld} ) {
+
+        # Don't store the behaviour data
+        next if $Key eq 'ObjectBehaviours';
+
         if ( $Key eq 'UseAsXvalue' || $Key eq 'UseAsValueSeries' || $Key eq 'UseAsRestriction' ) {
             my $Index = 0;
             REF:
@@ -489,6 +528,10 @@ sub StatsUpdate {
         return;
     }
 
+    $Self->{CacheObject}->CleanUp(
+        Type => 'Stats',
+    );
+
     return 1;
 }
 
@@ -559,22 +602,39 @@ sub StatsDelete {
         Message  => "Delete stats (StatsID = $Param{StatID})",
     );
 
+    $Self->{CacheObject}->CleanUp(
+        Type => 'Stats',
+    );
+
     return 1;
 }
 
-=item GetStatsList()
+=item StatsListGet()
 
-lists all stats id's
+fetches all statistics that the current user may see
 
-    my $ArrayRef = $StatsObject->GetStatsList(
-        OrderBy   => 'ID' || 'Title' || 'Object', # optional
-        Direction => 'ASC' || 'DESC',             # optional
-    );
+    my $StatsRef = $StatsObject->StatsListGet();
+
+    Returns
+
+    {
+        6 => {
+            Title => "Title of stat",
+            ...
+        }
+    }
 
 =cut
 
-sub GetStatsList {
+sub StatsListGet {
     my ( $Self, %Param ) = @_;
+
+    my $CacheKey = 'StatsListGet::' . ( join '::', %Param );
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'Stats',
+        Key  => $CacheKey,
+    );
+    return $Cache if ref $Cache eq 'HASH';
 
     my @SearchResult;
     if ( !( @SearchResult = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats' ) ) ) {
@@ -589,10 +649,8 @@ sub GetStatsList {
         Result => 'ID',
     );
 
-    $Param{OrderBy} ||= 'ID';
+    my %Result;
 
-    # a solution with more performance is useful
-    my %ResultHash;
     for my $StatID (@SearchResult) {
         my $Stat = $Self->StatsGet(
             StatID             => $StatID,
@@ -618,33 +676,65 @@ sub GetStatsList {
             }
         }
         if ( $UserPermission == 1 ) {
-
-            # order by title
-            if ( $Param{OrderBy} eq 'Title' ) {
-                $ResultHash{$StatID} = $Stat->{Title} || '';
-            }
-
-            # order by object
-            elsif ( $Param{OrderBy} eq 'Object' ) {
-                $ResultHash{$StatID} = $Stat->{Object} || '';
-            }
-
-            # order by id
-            else {
-                $ResultHash{$StatID} = int $StatID;
-            }
+            $Result{$StatID} = $Stat;
         }
     }
+
+    $Self->{CacheObject}->Set(
+        Type  => 'Stats',
+        Key   => $CacheKey,
+        Value => \%Result,
+        TTL   => 24 * 60 * 60,
+    );
+
+    return \%Result;
+}
+
+=item GetStatsList()
+
+lists all stats id's
+
+    my $ArrayRef = $StatsObject->GetStatsList(
+        OrderBy   => 'ID' || 'Title' || 'Object', # optional
+        Direction => 'ASC' || 'DESC',             # optional
+    );
+
+=cut
+
+sub GetStatsList {
+    my ( $Self, %Param ) = @_;
+
+    my $CacheKey = 'GetStatsList::' . ( join '::', %Param );
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'Stats',
+        Key  => $CacheKey,
+    );
+    return $Cache if ref $Cache eq 'ARRAY';
+
+    my %ResultHash = %{ $Self->StatsListGet() || {} };
+
     my @SortArray;
+
+    $Param{OrderBy} ||= 'ID';
+
     if ( $Param{OrderBy} eq 'ID' ) {
-        @SortArray = sort { $ResultHash{$a} <=> $ResultHash{$b} } keys %ResultHash;
+        @SortArray = sort { $a <=> $b } keys %ResultHash;
     }
     else {
-        @SortArray = sort { $ResultHash{$a} cmp $ResultHash{$b} } keys %ResultHash;
+        @SortArray
+            = sort { $ResultHash{$a}->{ $Param{OrderBy} } cmp $ResultHash{$b}->{ $Param{OrderBy} } }
+            keys %ResultHash;
     }
     if ( $Param{Direction} && $Param{Direction} eq 'DESC' ) {
         @SortArray = reverse @SortArray;
     }
+
+    $Self->{CacheObject}->Set(
+        Type  => 'Stats',
+        Key   => $CacheKey,
+        Value => \@SortArray,
+        TTL   => 24 * 60 * 60,
+    );
 
     return \@SortArray;
 }
@@ -709,7 +799,9 @@ sub SumBuild {
             for my $Index2 ( 1 .. $#{ $Data[$Index1] } ) {
 
                 # make sure we have a value to add
-                $Data[$Index1][$Index2] = 0 if !defined $Data[$Index1][$Index2];
+                if ( !defined $Data[$Index1][$Index2] ) {
+                    $Data[$Index1][$Index2] = 0;
+                }
 
                 # extract the value
                 my $Value = $Data[$Index1][$Index2];
@@ -999,10 +1091,11 @@ sub CompletenessCheck {
 
     my %StatData = %{ $Param{StatData} };
     if ( $Param{Section} eq 'Specification' || $Param{Section} eq 'All' ) {
+        KEY:
         for (qw(Title Description StatType Permission Format ObjectModule)) {
             if ( !$StatData{$_} ) {
                 push @IndexArray, 0;
-                last;
+                last KEY;
             }
         }
         if ( $StatData{StatType} && $StatData{StatType} eq 'static' && !$StatData{File} ) {
@@ -1012,10 +1105,11 @@ sub CompletenessCheck {
             push @IndexArray, 2;
         }
         if ( !$Param{StatData}{GraphSize} && $Param{StatData}{Format} ) {
+            FORMAT:
             for ( @{ $StatData{Format} } ) {
                 if ( $_ =~ m{^GD::Graph\.*}x ) {
                     push @IndexArray, 3;
-                    last;
+                    last FORMAT;
                 }
             }
         }
@@ -1391,7 +1485,7 @@ sub GetObjectName {
     my $Module = $Param{ObjectModule};
 
     # check if it is cached
-    return $Self->{'Cache::ObjectModule'}->{$Module} if $Self->{'Cache::ObjectName'}->{$Module};
+    return $Self->{'Cache::ObjectName'}->{$Module} if $Self->{'Cache::ObjectName'}->{$Module};
 
     # load module, return if module does not exist
     # (this is important when stats are uninstalled, see also bug# 4269)
@@ -1403,9 +1497,50 @@ sub GetObjectName {
     my $Name = $StatObject->GetObjectName();
 
     # cache the result
-    $Self->{'Cache::ObjectModule'}->{$Module} = $Name;
+    $Self->{'Cache::ObjectName'}->{$Module} = $Name;
 
     return $Name;
+}
+
+=item GetObjectBehaviours()
+
+get behaviours that a statistic supports
+
+    my %Behaviours = $StatsObject->GetObjectBehaviours(
+        ObjectModule => 'Kernel::System::Stats::Dynamic::TicketList',
+    );
+
+    returns
+
+    {
+        ProvidesDashboardWidget => 1,
+        ...
+    }
+
+=cut
+
+sub GetObjectBehaviours {
+    my ( $Self, %Param ) = @_;
+    my $Module = $Param{ObjectModule};
+
+    # check if it is cached
+    return $Self->{'Cache::ObjectBehaviours'}->{$Module}
+        if $Self->{'Cache::ObjectBehaviours'}->{$Module};
+
+    # load module, return if module does not exist
+    # (this is important when stats are uninstalled, see also bug# 4269)
+    return if !$Self->{MainObject}->Require($Module);
+
+    my $StatObject = $Module->new( %{$Self} );
+    return if !$StatObject;
+
+    return if !$StatObject->can('GetObjectBehaviours');
+    my %ObjectBehaviours = $StatObject->GetObjectBehaviours();
+
+    # cache the result
+    $Self->{'Cache::ObjectBehaviours'}->{$Module} = %ObjectBehaviours;
+
+    return \%ObjectBehaviours;
 }
 
 =item ObjectFileCheck()
@@ -1762,6 +1897,10 @@ sub Import {
         ],
     );
 
+    $Self->{CacheObject}->CleanUp(
+        Type => 'Stats',
+    );
+
     return $StatID;
 }
 
@@ -1805,11 +1944,11 @@ sub GetParams {
 
 =item StatsRun()
 
-run a stats
+run a statistic.
 
     my $StatArray = $StatsObject->StatsRun(
-        StatID   => '123',
-        GetParam => \%GetParam,
+        StatID     => '123',
+        GetParam   => \%GetParam,
     );
 
 =cut
@@ -1887,6 +2026,370 @@ sub StatsRun {
         );
     }
     return \@Result;
+}
+
+=item StatsResultCacheCompute()
+
+computes stats results and adds them to the cache.
+This can be used to precompute stats data e. g. for dashboard widgets in a cron job.
+
+    my $StatArray = $StatsObject->StatsResultCacheCompute(
+        StatID       => '123',
+        UserGetParam => \%UserGetParam, # user settings of non-fixed fields
+    );
+
+=cut
+
+sub StatsResultCacheCompute {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(StatID UserGetParam)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    my %GetParam = $Self->_StatsParamsGenerate(%Param);
+    return if !%GetParam;
+
+    my $CacheKey = "StatsRunCached::$Self->{UserID}::$Param{StatID}::";
+    $CacheKey .= $Self->{MainObject}->Dump( \%GetParam );
+
+    my $Result = $Self->StatsRun(
+        StatID   => $Param{StatID},
+        GetParam => \%GetParam,
+    );
+
+    # Only set/update the cache after computing it, otherwise no cache data
+    #   would be available in between.
+    return $Self->{CacheObject}->Set(
+        Type  => 'StatsRun',
+        Key   => $CacheKey,
+        Value => $Result,
+        TTL   => 24 * 60 * 60,    # cache it for a day, will be overwritten by next function call
+    );
+}
+
+=item StatsResultCacheGet()
+
+gets cached statistic results. Will never run the statistic.
+This can be used to fetch cached stats data e. g. for stats widgets in the dashboard.
+
+    my $StatArray = $StatsObject->StatsResultCacheGet(
+        StatID       => '123',
+        GetParam     => \%GetParam,
+    );
+
+=cut
+
+sub StatsResultCacheGet {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(StatID UserGetParam)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    my %GetParam = $Self->_StatsParamsGenerate(%Param);
+    return if !%GetParam;
+
+    my $CacheKey = "StatsRunCached::$Self->{UserID}::$Param{StatID}::";
+    $CacheKey .= $Self->{MainObject}->Dump( \%GetParam );
+
+    return $Self->{CacheObject}->Get(
+        Type => 'StatsRun',
+        Key  => $CacheKey,
+    );
+}
+
+# This internal function gets the full stats parameters merged with the user's
+#   parameters.
+sub _StatsParamsGenerate {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(StatID UserGetParam)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    my %UserGetParam = %{ $Param{UserGetParam} };
+
+    my $Stat = $Self->StatsGet( StatID => $Param{StatID} );
+    if ( !IsHashRefWithData($Stat) ) {
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => "Could not load stat $Param{StatID}!" );
+    }
+
+    # Get current date for static stats.
+    my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
+
+    # get params
+    my %GetParam;
+
+    my %TimeInSeconds = (
+        Year   => 31536000,    # 60 * 60 * 60 * 365
+        Month  => 2592000,     # 60 * 60 * 24 * 30
+        Week   => 604800,      # 60 * 60 * 24 * 7
+        Day    => 86400,       # 60 * 60 * 24
+        Hour   => 3600,        # 60 * 60
+        Minute => 60,
+        Second => 1,
+    );
+
+    # not sure, if this is the right way
+    if ( $Stat->{StatType} eq 'static' ) {
+        $GetParam{Year}  = $Y;
+        $GetParam{Month} = $M;
+        $GetParam{Day}   = $D;
+
+        my $Params = $Self->GetParams( StatID => $Param{StatID} );
+        PARAMITEM:
+        for my $ParamItem ( @{$Params} ) {
+
+            next if !defined $UserGetParam{ $ParamItem->{Name} };
+
+            # param is array
+            if ( $ParamItem->{Multiple} ) {
+                $GetParam{ $ParamItem->{Name} } = $UserGetParam{ $ParamItem->{Name} } || [];
+                next PARAMITEM;
+            }
+
+            # param is string
+            $GetParam{ $ParamItem->{Name} } = $UserGetParam{ $ParamItem->{Name} };
+        }
+    }
+    else {
+        my $TimePeriod = 0;
+
+        for my $Use (qw(UseAsRestriction UseAsXvalue UseAsValueSeries)) {
+            $Stat->{$Use} ||= [];
+
+            my @Array   = @{ $Stat->{$Use} };
+            my $Counter = 0;
+            ELEMENT:
+            for my $Element (@Array) {
+                next ELEMENT if !$Element->{Selected};
+
+                if ( !$Element->{Fixed} ) {
+                    if ( $UserGetParam{ $Use . $Element->{Element} } )
+                    {
+                        if ( ref $UserGetParam{ $Use . $Element->{Element} } ) {
+                            $Element->{SelectedValues}
+                                = $UserGetParam{ $Use . $Element->{Element} };
+                        }
+                        else {
+                            $Element->{SelectedValues}
+                                = [ $UserGetParam{ $Use . $Element->{Element} } ];
+                        }
+                    }
+                    if ( $Element->{Block} eq 'Time' ) {
+
+                        # Check if it is an absolute time period
+                        if ( $Element->{TimeStart} )
+                        {
+
+                            # Use the stat data as fallback
+                            my %Time = (
+                                TimeStart => $Element->{TimeStart},
+                                TimeStop  => $Element->{TimeStop},
+                            );
+
+                            for my $Limit (qw(Start Stop)) {
+                                for my $Unit (qw(Year Month Day Hour Minute Second)) {
+                                    if (
+                                        defined(
+                                            $UserGetParam{
+                                                $Use
+                                                    . $Element->{Element}
+                                                    . "$Limit$Unit"
+                                                }
+                                        )
+                                        )
+                                    {
+                                        $Time{ $Limit . $Unit }
+                                            = $UserGetParam{
+                                            $Use
+                                                . $Element->{Element}
+                                                . "$Limit$Unit"
+                                            };
+                                    }
+                                }
+                                if ( !defined( $Time{ $Limit . 'Hour' } ) ) {
+                                    if ( $Limit eq 'Start' ) {
+                                        $Time{StartHour}   = 0;
+                                        $Time{StartMinute} = 0;
+                                        $Time{StartSecond} = 0;
+                                    }
+                                    elsif ( $Limit eq 'Stop' ) {
+                                        $Time{StopHour}   = 23;
+                                        $Time{StopMinute} = 59;
+                                        $Time{StopSecond} = 59;
+                                    }
+                                }
+                                elsif ( !defined( $Time{ $Limit . 'Second' } ) ) {
+                                    if ( $Limit eq 'Start' ) {
+                                        $Time{StartSecond} = 0;
+                                    }
+                                    elsif ( $Limit eq 'Stop' ) {
+                                        $Time{StopSecond} = 59;
+                                    }
+                                }
+                                if ( $Time{ $Limit . 'Year' } ) {
+                                    $Time{"Time$Limit"} = sprintf(
+                                        "%04d-%02d-%02d %02d:%02d:%02d",
+                                        $Time{ $Limit . 'Year' },
+                                        $Time{ $Limit . 'Month' },
+                                        $Time{ $Limit . 'Day' },
+                                        $Time{ $Limit . 'Hour' },
+                                        $Time{ $Limit . 'Minute' },
+                                        $Time{ $Limit . 'Second' },
+                                    );
+                                }
+                            }
+
+                            # integrate this functionality in the completenesscheck
+                            if (
+                                $Self->{TimeObject}->TimeStamp2SystemTime(
+                                    String => $Time{TimeStart}
+                                )
+                                < $Self->{TimeObject}->TimeStamp2SystemTime(
+                                    String => $Element->{TimeStart}
+                                )
+                                )
+                            {
+
+                                $Self->{LogObject}->Log(
+                                    Priority => 'error',
+                                    Message =>
+                                        "User StartTime $Time{TimeStart} is before configured StartTime $Element->{TimeStart}!",
+                                );
+
+                                return;
+                            }
+
+                            # integrate this functionality in the completenesscheck
+                            if (
+                                $Self->{TimeObject}->TimeStamp2SystemTime(
+                                    String => $Time{TimeStop}
+                                )
+                                > $Self->{TimeObject}->TimeStamp2SystemTime(
+                                    String => $Element->{TimeStop}
+                                )
+                                )
+                            {
+                                $Self->{LogObject}->Log(
+                                    Priority => 'error',
+                                    Message =>
+                                        "User StopTime $Time{TimeStop} is after configured StopTime $Element->{TimeStop}!",
+                                );
+
+                                return;
+                            }
+
+                            $Element->{TimeStart} = $Time{TimeStart};
+                            $Element->{TimeStop}  = $Time{TimeStop};
+                            $TimePeriod
+                                = (
+                                $Self->{TimeObject}->TimeStamp2SystemTime(
+                                    String => $Element->{TimeStop}
+                                    )
+                                )
+                                - (
+                                $Self->{TimeObject}->TimeStamp2SystemTime(
+                                    String => $Element->{TimeStart}
+                                    )
+                                );
+                        }
+                        else {
+                            my %Time;
+                            $Time{TimeRelativeUnit}
+                                = $UserGetParam{ $Use . $Element->{Element} . 'TimeRelativeUnit' };
+                            $Time{TimeRelativeCount}
+                                = $UserGetParam{ $Use . $Element->{Element} . 'TimeRelativeCount' };
+
+                            # Use Values of the stat as fallback
+                            $Time{TimeRelativeCount} //= $Element->{TimeRelativeCount};
+                            $Time{TimeRelativeUnit}  //= $Element->{TimeRelativeUnit};
+
+                            my $TimePeriodAdmin = $Element->{TimeRelativeCount}
+                                * $TimeInSeconds{ $Element->{TimeRelativeUnit} };
+                            my $TimePeriodAgent = $Time{TimeRelativeCount}
+                                * $TimeInSeconds{ $Time{TimeRelativeUnit} };
+
+                            # integrate this functionality in the completenesscheck
+                            if ( $TimePeriodAgent > $TimePeriodAdmin ) {
+                                $Self->{LogObject}->Log(
+                                    Priority => 'error',
+                                    Message =>
+                                        "User TimePeriod is greater than allowed TimePeriod!",
+                                );
+
+                                return;
+                            }
+
+                            $TimePeriod                   = $TimePeriodAgent;
+                            $Element->{TimeRelativeCount} = $Time{TimeRelativeCount};
+                            $Element->{TimeRelativeUnit}  = $Time{TimeRelativeUnit};
+                        }
+                        if ( $UserGetParam{ $Use . $Element->{Element} . 'TimeScaleCount' } )
+                        {
+                            $Element->{TimeScaleCount}
+                                = $UserGetParam{ $Use . $Element->{Element} . 'TimeScaleCount' };
+                        }
+                        else {
+                            $Element->{TimeScaleCount} = 1;
+                        }
+                    }
+                }
+
+                $GetParam{$Use}[$Counter] = $Element;
+                $Counter++;
+
+            }
+            if ( ref $GetParam{$Use} ne 'ARRAY' ) {
+                $GetParam{$Use} = [];
+            }
+        }
+
+        # check if the timeperiod is too big or the time scale too small
+        if (
+            $GetParam{UseAsXvalue}[0]{Block} eq 'Time'
+            && (
+                !$GetParam{UseAsValueSeries}[0]
+                || (
+                    $GetParam{UseAsValueSeries}[0]
+                    && $GetParam{UseAsValueSeries}[0]{Block} ne 'Time'
+                )
+            )
+            )
+        {
+            my $ScalePeriod = $TimeInSeconds{ $GetParam{UseAsXvalue}[0]{SelectedValues}[0] } || 0;
+
+            # integrate this functionality in the completenesscheck
+            if (
+                $TimePeriod / ( $ScalePeriod * $GetParam{UseAsXvalue}[0]{TimeScaleCount} )
+                > ( $Self->{ConfigObject}->Get('Stats::MaxXaxisAttributes') || 1000 )
+                )
+            {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message =>
+                        "The reporting time interval is too small, please use a larger time scale!",
+                );
+
+                return;
+            }
+        }
+    }
+
+    return %GetParam;
 }
 
 =item StringAndTimestamp2Filename()
@@ -2148,31 +2651,31 @@ sub _GenerateStaticStats {
         );
 
         @Result = $Self->_GetResultCache( Filename => $Filename );
-    }
-
-    # try to get data if nothing is there
-    if ( !@Result ) {
-
-        # run stats function
-        @Result = $StatObject->Run(
-            %GetParam,
-
-            # these two lines are requirements of me, perhaps this
-            # information is needed for former static stats
-            Format => $Param{Format}->[0],
-            Module => $Param{ObjectModule},
-        );
-
-        # write cache if configured
-        if ( $Param{Cache} ) {
-            $Self->_WriteResultCache(
-                GetParam => \%GetParam,
-                StatID   => $Param{StatID},
-                Data     => \@Result,
-            );
+        if (@Result) {
+            return @Result;
         }
     }
+
+    # run stats function
+    @Result = $StatObject->Run(
+        %GetParam,
+
+        # these two lines are requirements of me, perhaps this
+        # information is needed for former static stats
+        Format => $Param{Format}->[0],
+        Module => $Param{ObjectModule},
+    );
+
     $Result[0]->[0] = $Param{Title} . ' ' . $Result[0]->[0];
+
+    # write cache if configured
+    if ( $Param{Cache} ) {
+        $Self->_WriteResultCache(
+            GetParam => \%GetParam,
+            StatID   => $Param{StatID},
+            Data     => \@Result,
+        );
+    }
 
     return @Result;
 }
@@ -2237,6 +2740,9 @@ sub _GenerateDynamicStats {
         for my $Element (@Array) {
             next ELEMENT if !$Element->{Selected};
 
+            # Clone the element as we are going to modify it - avoid modifying the original data
+            $Element = ${ Storable::dclone( \$Element ) };
+
             delete $Element->{Selected};
             delete $Element->{Fixed};
             if ( $Element->{Block} eq 'Time' ) {
@@ -2271,11 +2777,19 @@ sub _GenerateDynamicStats {
                             = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, 1, 0, 0, 0 );
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'Week' ) {
-                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, -1, 0 );
+                        ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, 0, 0, 0 );
                         $Element->{TimeStop} = sprintf(
                             "%04d-%02d-%02d %02d:%02d:%02d",
                             $Y, $M, $D, 23, 59, 59
                         );
+
+                        # $Count was reduced by 1 before, this has to be reverted for Week
+                        #     Examples:
+                        #     Week set to 1, $Count will be 0 then - 0 * 7 = 0 (means today)
+                        #     Week set to 2, $Count will be 1 then - 1 * 7 = 7 (means last week)
+                        #     With the fix, example 1 will mean last week and example 2 will mean
+                        #     last two weeks
+                        $Count++;
                         ( $Y, $M, $D ) = Add_Delta_Days( $Y, $M, $D, -$Count * 7 );
                         $Element->{TimeStart}
                             = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, 0, 0, 0 );
@@ -2958,6 +3472,20 @@ sub _GenerateDynamicStats {
     elsif ( $ArraySelected[0] ) {
         unshift( @HeaderLine, $ArraySelected[0]{Name} || '' );
     }
+    else {
+
+        # in cases where there is no value set, then the headers get wrong unless a empty element
+        #    is added in the header, bug 9796
+        #
+        #   e.g. from:
+        #    Raw    | Misc | PostMaster |    |
+        #    Ticket | 10   | 20         | 30 |
+        #
+        #    to:
+        #           | Raw | Misc | PostMaster |
+        #    Ticket | 10  | 20   | 30         |
+        unshift( @HeaderLine, '' );
+    }
 
     # push the first array elements in the StatsArray
     my $Title = $Param{Title};
@@ -2974,13 +3502,16 @@ sub _GenerateDynamicStats {
             Filename => 'Stats' . $Param{StatID} . '-' . $CacheString . '.cache',
         );
 
-        return @StatArray if @StatArray;
+        if (@StatArray) {
+            return @StatArray;
+        }
     }
 
     # create the table structure
     my %TableStructure;
     for my $Row ( sort keys %ValueSeries ) {
         my @Cells;
+        CELL:
         for my $Cell ( @{ $Xvalue->{SelectedValues} } ) {    # get each cell
             $ValueSeries{$Row} ||= {};
             my %Attributes = ( %{ $ValueSeries{$Row} }, %RestrictionAttribute );
@@ -3001,7 +3532,7 @@ sub _GenerateDynamicStats {
                         )
                         )
                     {
-                        next;
+                        next CELL;
                     }
                 }
                 $Attributes{$TimeStop}  = $Cell->{TimeStop};
@@ -3066,12 +3597,11 @@ sub _GenerateDynamicStats {
     return @StatArray if !$Param{Cache};
 
     # check if we should cache this result
-    # get the current time
     if ( !$TitleTimeStart || !$TitleTimeStop ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message =>
-                "Can't cache: StatID $Param{StatID} have no time period, so you can't cache the stat!",
+                "Can't cache: StatID $Param{StatID} has no time period, so you can't cache the stat!",
         );
         return @StatArray;
     }
@@ -3193,7 +3723,7 @@ sub _CreateStaticResultCacheFilename {
 
 =item _SetResultCache()
 
-write the result array as cache in the filesystem
+cache the stats result with a given cache key (Filename).
 
     $StatsObject->_SetResultCache(
         Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
@@ -3216,31 +3746,19 @@ sub _SetResultCache {
         }
     }
 
-    # convert the result array into a csv string
-    my $CSVString = $Self->{CSVObject}->Array2CSV( Data => $Param{Result}, );
-    $Self->{EncodeObject}->EncodeOutput( \$CSVString );
-
-    # write the csv string into the filesystem
-    my $Filehandle;
-    my $Path = $Self->{ConfigObject}->Get('TempDir');
-    if ( !open $Filehandle, '>', "$Path/$Param{Filename}" ) {    ## no critic
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't write: $Path/$Param{Filename}!",
-        );
-        return;
-    }
-
-    binmode $Filehandle;
-    print $Filehandle $CSVString;
-    close $Filehandle;
+    $Self->{CacheObject}->Set(
+        Type  => 'StatsRun',
+        Key   => $Param{Filename},
+        Value => $Param{Result},
+        TTL   => 24 * 60 * 60,
+    );
 
     return 1;
 }
 
 =item _GetResultCache()
 
-get the result array cache out of the filesystem
+get stats result from cache, if any
 
     my @Result = $StatsObject->_GetResultCache(
         Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
@@ -3260,44 +3778,33 @@ sub _GetResultCache {
         return;
     }
 
-    my $Path      = $Self->{ConfigObject}->Get('TempDir');
-    my $CSVString = '';
-    if ( open my $Filehandle, '<', "$Path/$Param{Filename}" ) {    ## no critic
-        binmode $Filehandle;
-        while (<$Filehandle>) {
-            $CSVString .= $_;
-        }
-        close $Filehandle;
-        $Self->{EncodeObject}->EncodeInput( \$CSVString );
-    }
-
-    my $ResultRef = $Self->{CSVObject}->CSV2Array(
-        String    => $CSVString,
-        Separator => ';',
-        Quote     => '"',
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'StatsRun',
+        Key  => $Param{Filename},
     );
 
-    return @{$ResultRef};
+    if ( ref $Cache ) {
+
+        #print STDERR "Using cache...\n";
+        return @{$Cache};
+    }
+
+    #print STDERR "Not using cache...\n";
+    return;
 }
+
+=item _DeleteCache()
+
+clean up stats result cache.
+
+=cut
 
 sub _DeleteCache {
     my ( $Self, %Param ) = @_;
 
-    my $Path = $Self->{ConfigObject}->Get('TempDir');
-
-    if ( $Path !~ m{^.*\/$}x ) {
-        $Path .= '/';
-    }
-
-    my @Files = $Self->{MainObject}->DirectoryRead(
-        Directory => $Path,
-        Filter    => 'Stats' . $Param{StatID} . '-*.cache',
+    return $Self->{CacheObject}->CleanUp(
+        Type => 'Stats',
     );
-
-    for my $File (@Files) {
-        unlink $File;
-    }
-    return 1;
 }
 
 sub _MonthArray {
@@ -3376,7 +3883,8 @@ sub _AutomaticSampleImport {
 
 =item _GetCacheString()
 
-return the cache string
+returns a string that can be used for caching this particular statistic
+with the given parameters.
 
     my $Result = $StatsObject->_GetCacheString(
         UseAsXvalue      => $UseAsXvalueRef

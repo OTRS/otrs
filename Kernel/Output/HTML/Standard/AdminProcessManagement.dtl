@@ -104,24 +104,24 @@
 <!-- dtl:block:ProcessRow -->
                         <tr>
                             <td>
-                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessEdit;ID=$QData{"ID"};EntityID=$QData{"EntityID"}" title="$QData{"Name"} ($QData{"EntityID"})">
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessEdit;ID=$LQData{"ID"};EntityID=$LQData{"EntityID"}" title="$QData{"Name"} ($QData{"EntityID"})">
                                     $QData{"Name"}
                                 </a>
                             </td>
                             <td>$QData{"Description"}</td>
                             <td>$Text{"$Data{"State"}"}</td>
                             <td>
-                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessExport;ID=$QData{"ID"}" class="Export AsBlock" title="$Text{"Export Process Configuration"}">
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessExport;ID=$LQData{"ID"}" class="Export AsBlock" title="$Text{"Export Process Configuration"}">
                                     $Text{"Export"}
                                 </a>
                             </td>
                             <td>
-                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessCopy;ID=$QData{"ID"};$QEnv{"ChallengeTokenParam"}" class="Copy AsBlock" title="$Text{"Copy Process"}">
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessCopy;ID=$LQData{"ID"};$QEnv{"ChallengeTokenParam"}" class="Copy AsBlock" title="$Text{"Copy Process"}">
                                     $Text{"Copy"}
                                 </a>
                             </td>
                             <td>
-                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessPrint;ID=$QData{"ID"};$QEnv{"ChallengeTokenParam"}" class="Print AsBlock AsPopup PopupType_ProcessOverview">
+                                <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessPrint;ID=$LQData{"ID"};$QEnv{"ChallengeTokenParam"}" class="Print AsBlock AsPopup PopupType_ProcessOverview">
                                     $Text{"Print"}
                                 </a>
                             </td>

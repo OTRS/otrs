@@ -48,6 +48,15 @@
 <!--dtl:js_on_document_complete-->
                 </p>
 
+<!-- dtl:block:PossibleNextActionContainer -->
+                <p class="SpacingTop">
+<!-- dtl:block:PossibleNextActionRow -->
+                    <a href="$Data{"Link"}" title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Description"}"}</a>
+                    <br/>
+<!-- dtl:block:PossibleNextActionRow -->
+                </p>
+<!-- dtl:block:PossibleNextActionContainer -->
+
             </div>
         </div>
     </div>

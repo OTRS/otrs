@@ -125,6 +125,10 @@ strong {
 
 form #cke_RichText {
     border: none;
+    box-shadow: none;
+    border: 1px solid #ccc;
+    margin: 0px 10px 3px 0px;
+    float: left;
 }
 
 form #cke_RichText span.cke_wrapper {
@@ -239,6 +243,10 @@ div.Clear {
 .WidgetSimple textarea {
     width: 100%;
     height: 180px;
+}
+
+.WidgetSimple .ErrorMessage .WidgetAction {
+    display: none;
 }
 
 /**

@@ -15,7 +15,7 @@ use warnings;
 use if $^O eq 'MSWin32', "Win32::Console::ANSI";
 use Term::ANSIColor;
 
-use vars qw(@ISA);
+use Kernel::System::Environment;
 
 =head1 NAME
 
@@ -97,6 +97,9 @@ sub new {
         }
     }
 
+    # create additional objects
+    $Self->{EnvironmentObject} = Kernel::System::Environment->new( %{$Self} );
+
     $Self->{Output} = $Param{Output} || 'ASCII';
 
     if ( $Self->{Output} eq 'HTML' ) {
@@ -157,6 +160,7 @@ sub Run {
 
     $Self->{TestCountOk}    = 0;
     $Self->{TestCountNotOk} = 0;
+    FILE:
     for my $File (@Files) {
 
         # check if only some tests are requested
@@ -168,7 +172,7 @@ sub Run {
                 }
             }
             if ( !$Use ) {
-                next;
+                next FILE;
             }
         }
         $Self->{TestCount} = 0;
@@ -202,134 +206,10 @@ sub Run {
     $ResultSummary{Product} = $Product;
     $ResultSummary{Host}    = $Self->{ConfigObject}->Get('FQDN');
     $ResultSummary{Perl}    = sprintf "%vd", $^V;
-    $ResultSummary{OS}      = $^O;
-
-    if ( -e '/etc/SuSE-release' ) {
-
-        my $ConfigFile = $Self->{MainObject}->FileRead(
-            Location => '/etc/SuSE-release',
-            Result   => 'ARRAY',
-        );
-
-        if ( $ConfigFile && $ConfigFile->[0] ) {
-            $ResultSummary{Vendor} = $ConfigFile->[0];
-        }
-        else {
-            $ResultSummary{Vendor} = 'SUSE unknown';
-        }
-    }
-    elsif ( -e '/etc/fedora-release' ) {
-
-        my $ConfigFile = $Self->{MainObject}->FileRead(
-            Location => '/etc/fedora-release',
-            Result   => 'ARRAY',
-        );
-
-        if ( $ConfigFile && $ConfigFile->[0] ) {
-            $ResultSummary{Vendor} = $ConfigFile->[0];
-        }
-        else {
-            $ResultSummary{Vendor} = 'Fedora unknown';
-        }
-    }
-    elsif ( -e '/etc/redhat-release' ) {
-
-        my $ConfigFile = $Self->{MainObject}->FileRead(
-            Location => '/etc/redhat-release',
-            Result   => 'ARRAY',
-        );
-
-        if ( $ConfigFile && $ConfigFile->[0] ) {
-            $ResultSummary{Vendor} = $ConfigFile->[0];
-        }
-        else {
-            $ResultSummary{Vendor} = 'RedHat unknown';
-        }
-    }
-    elsif ( -e '/etc/lsb-release' ) {
-
-        my $ConfigFile = $Self->{MainObject}->FileRead(
-            Location => '/etc/lsb-release',
-            Result   => 'ARRAY',
-        );
-
-        if ( $ConfigFile && $ConfigFile->[0] ) {
-            $ConfigFile->[0] =~ s/DISTRIB_ID=//;
-            $ResultSummary{Vendor} = $ConfigFile->[0];
-            if ( $ConfigFile->[1] ) {
-                $ConfigFile->[1] =~ s/DISTRIB_RELEASE=//;
-                chomp $ResultSummary{Vendor};
-                $ResultSummary{Vendor} .= ' ' . $ConfigFile->[1];
-            }
-            else {
-                $ResultSummary{Vendor} .= ' (unknown release)';
-            }
-        }
-        else {
-            $ResultSummary{Vendor} = 'Ubuntu unknown';
-        }
-    }
-    elsif ( -e '/etc/debian_version' ) {
-
-        my $ConfigFile = $Self->{MainObject}->FileRead(
-            Location => '/etc/debian_version',
-            Result   => 'ARRAY',
-        );
-
-        if ( $ConfigFile && $ConfigFile->[0] ) {
-            $ResultSummary{Vendor} = 'Debian ' . $ConfigFile->[0];
-        }
-        else {
-            $ResultSummary{Vendor} = 'Debian unknown';
-        }
-    }
-    elsif ( -e '/etc/gentoo-release' ) {
-
-        my $ConfigFile = $Self->{MainObject}->FileRead(
-            Location => '/etc/gentoo-release',
-            Result   => 'ARRAY',
-        );
-
-        if ( $ConfigFile && $ConfigFile->[0] ) {
-            $ResultSummary{Vendor} = $ConfigFile->[0];
-        }
-        else {
-            $ResultSummary{Vendor} = 'Gentoo unknown';
-        }
-    }
-    elsif ( $^O eq 'freebsd' ) {
-
-        my $Release = `uname -r`;
-        $ResultSummary{Vendor} = 'FreeBSD ' . $Release;
-    }
-    elsif ( $^O eq 'MSWin32' ) {
-
-        $ResultSummary{Vendor} = 'MS Windows unknown';
-
-        my @Release = `systeminfo`;
-
-        for my $Row (@Release) {
-
-            my ($Name) = $Row =~ m{ \A OS \s Name: \s+ (.+?) \s* \z }xms;
-
-            if ($Name) {
-                $Name =~ s{Microsoft}{MS}xmsg;
-                $ResultSummary{Vendor} = $Name;
-            }
-
-            my ($Version) = $Row =~ m{ \A OS \s Version: \s+ (.+?) \s* \z }xms;
-
-            if ($Version) {
-                $ResultSummary{Vendor} .= ' ' . $Version;
-            }
-        }
-    }
-    else {
-        $ResultSummary{Vendor} = 'unknown';
-    }
-
-    chomp $ResultSummary{Vendor};
-    $ResultSummary{Database}  = $Self->{DBObject}->{'DB::Type'};
+    my %OSInfo = $Self->{EnvironmentObject}->OSInfoGet();
+    $ResultSummary{OS}        = $OSInfo{OS};
+    $ResultSummary{Vendor}    = $OSInfo{OSName};
+    $ResultSummary{Database}  = $Self->{DBObject}->Version();
     $ResultSummary{TestOk}    = $Self->{TestCountOk};
     $ResultSummary{TestNotOk} = $Self->{TestCountNotOk};
 
@@ -732,6 +612,7 @@ sub _DataDiff {
         return 1 if $#A ne $#B;
 
         # compare array
+        COUNT:
         for my $Count ( 0 .. $#A ) {
 
             # do nothing, it's ok
@@ -743,7 +624,7 @@ sub _DataDiff {
             if ( $A[$Count] ne $B[$Count] ) {
                 if ( ref $A[$Count] eq 'ARRAY' || ref $A[$Count] eq 'HASH' ) {
                     return 1 if $Self->_DataDiff( Data1 => $A[$Count], Data2 => $B[$Count] );
-                    next;
+                    next COUNT;
                 }
                 return 1;
             }
@@ -757,13 +638,14 @@ sub _DataDiff {
         my %B = %{ $Param{Data2} };
 
         # compare %A with %B and remove it if checked
+        KEY:
         for my $Key ( sort keys %A ) {
 
             # Check if both are undefined
             if ( !defined $A{$Key} && !defined $B{$Key} ) {
                 delete $A{$Key};
                 delete $B{$Key};
-                next;
+                next KEY;
             }
 
             # return diff, because its different
@@ -772,7 +654,7 @@ sub _DataDiff {
             if ( $A{$Key} eq $B{$Key} ) {
                 delete $A{$Key};
                 delete $B{$Key};
-                next;
+                next KEY;
             }
 
             # return if values are different
@@ -780,7 +662,7 @@ sub _DataDiff {
                 return 1 if $Self->_DataDiff( Data1 => $A{$Key}, Data2 => $B{$Key} );
                 delete $A{$Key};
                 delete $B{$Key};
-                next;
+                next KEY;
             }
             return 1;
         }

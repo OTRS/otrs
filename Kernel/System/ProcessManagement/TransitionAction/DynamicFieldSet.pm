@@ -104,8 +104,8 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    $Self->{DynamicFieldObject}        = Kernel::System::DynamicField->new(%Param);
-    $Self->{DynamicFieldBackendObject} = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{DynamicFieldObject}        = Kernel::System::DynamicField->new( %{$Self} );
+    $Self->{DynamicFieldBackendObject} = Kernel::System::DynamicField::Backend->new( %{$Self} );
     return $Self;
 }
 
@@ -145,10 +145,10 @@ sub Run {
 
     for my $Needed (
         qw(UserID Ticket ProcessEntityID ActivityEntityID TransitionEntityID
-            TransitionActionEntityID Config
-            )
-            )
-        {
+        TransitionActionEntityID Config
+        )
+        )
+    {
         if ( !defined $Param{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -160,8 +160,8 @@ sub Run {
 
     # define a common message to output in case of any error
     my $CommonMessage = "Process: $Param{ProcessEntityID} Activity: $Param{ActivityEntityID}"
-        ." Transition: $Param{TransitionEntityID}"
-        ." TransitionAction: $Param{TransitionActionEntityID} - ";
+        . " Transition: $Param{TransitionEntityID}"
+        . " TransitionAction: $Param{TransitionActionEntityID} - ";
 
     # Check if we have Ticket to deal with
     if ( !IsHashRefWithData( $Param{Ticket} ) ) {

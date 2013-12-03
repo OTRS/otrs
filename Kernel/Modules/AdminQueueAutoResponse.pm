@@ -8,6 +8,7 @@
 # --
 
 package Kernel::Modules::AdminQueueAutoResponse;
+## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
 
 use strict;
 use warnings;
@@ -30,7 +31,7 @@ sub new {
     }
 
     # create extra needed objects
-    $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
+    $Self->{ValidObject}        = Kernel::System::Valid->new(%Param);
     $Self->{AutoResponseObject} = Kernel::System::AutoResponse->new(%Param);
     $Self->{QueueObject}        = Kernel::System::Queue->new(%Param);
 

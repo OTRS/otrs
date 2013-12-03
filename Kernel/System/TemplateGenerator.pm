@@ -8,6 +8,7 @@
 # --
 
 package Kernel::System::TemplateGenerator;
+## nofilter(TidyAll::Plugin::OTRS::Perl::Time)
 
 use strict;
 use warnings;
@@ -16,15 +17,13 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::Salutation;
 use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
-use Kernel::System::StandardResponse;
+use Kernel::System::StandardTemplate;
 use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 use Kernel::Language;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
-
-use vars qw(@ISA);
 
 =head1 NAME
 
@@ -145,14 +144,14 @@ sub new {
 
     $Self->{RichText} = $Self->{ConfigObject}->Get('Frontend::RichText');
 
-    $Self->{HTMLUtilsObject}        = Kernel::System::HTMLUtils->new(%Param);
-    $Self->{SalutationObject}       = Kernel::System::Salutation->new(%Param);
-    $Self->{SignatureObject}        = Kernel::System::Signature->new(%Param);
-    $Self->{SystemAddressObject}    = Kernel::System::SystemAddress->new(%Param);
-    $Self->{StandardResponseObject} = Kernel::System::StandardResponse->new(%Param);
-    $Self->{NotificationObject}     = Kernel::System::Notification->new(%Param);
-    $Self->{AutoResponseObject}     = Kernel::System::AutoResponse->new(%Param);
-    $Self->{DynamicFieldObject}     = Kernel::System::DynamicField->new(%Param);
+    $Self->{HTMLUtilsObject}        = Kernel::System::HTMLUtils->new( %{$Self} );
+    $Self->{SalutationObject}       = Kernel::System::Salutation->new( %{$Self} );
+    $Self->{SignatureObject}        = Kernel::System::Signature->new( %{$Self} );
+    $Self->{SystemAddressObject}    = Kernel::System::SystemAddress->new( %{$Self} );
+    $Self->{StandardTemplateObject} = Kernel::System::StandardTemplate->new( %{$Self} );
+    $Self->{NotificationObject}     = Kernel::System::Notification->new( %{$Self} );
+    $Self->{AutoResponseObject}     = Kernel::System::AutoResponse->new( %{$Self} );
+    $Self->{DynamicFieldObject}     = Kernel::System::DynamicField->new( %{$Self} );
     $Self->{BackendObject}          = Kernel::System::DynamicField::Backend->new(
         TimeObject => $Self->{TicketObject}->{TimeObject},
         %Param
@@ -408,12 +407,11 @@ sub Sender {
                     . $Separator . ' ' . $Address{RealName};
             }
         }
-
     }
 
     # prepare realname quote
     if ( $Address{RealName} =~ /(,|@|\(|\)|:)/ && $Address{RealName} !~ /^("|')/ ) {
-        $Address{RealName} =~ s/"/\"/g;
+        $Address{RealName} =~ s/"//g;    # remove any quotes that are already present
         $Address{RealName} = '"' . $Address{RealName} . '"';
     }
     my $Sender = "$Address{RealName} <$Address{Email}>";
@@ -422,6 +420,8 @@ sub Sender {
 }
 
 =item Response()
+
+DEPRECATED: This function will be removed in further versions of otrs.
 
 generate response
 
@@ -450,44 +450,9 @@ sub Response {
         }
     }
 
-    # get  queue
-    my %Ticket = $Self->{TicketObject}->TicketGet(
-        TicketID      => $Param{TicketID},
-        DynamicFields => 0,
-    );
+    $Param{TemplateID} = $Param{ResponseID};
 
-    # get salutation
-    my %Queue = $Self->{QueueObject}->QueueGet(
-        ID => $Ticket{QueueID},
-    );
-    my %Response = $Self->{StandardResponseObject}->StandardResponseGet(
-        ID => $Param{ResponseID},
-    );
-
-    # do text/plain to text/html convert
-    if ( $Self->{RichText} && $Response{ContentType} =~ /text\/plain/i ) {
-        $Response{ContentType} = 'text/html';
-        $Response{Response}    = $Self->{HTMLUtilsObject}->ToHTML(
-            String => $Response{Response},
-        );
-    }
-
-    # do text/html to text/plain convert
-    if ( !$Self->{RichText} && $Response{ContentType} =~ /text\/html/i ) {
-        $Response{ContentType} = 'text/plain';
-        $Response{Response}    = $Self->{HTMLUtilsObject}->ToAscii(
-            String => $Response{Response},
-        );
-    }
-
-    # replace place holder stuff
-    my $ResponseText = $Self->_Replace(
-        RichText => $Self->{RichText},
-        Text     => $Response{Response} || '',
-        TicketID => $Param{TicketID},
-        Data     => $Param{Data},
-        UserID   => $Param{UserID},
-    );
+    my $ResponseText = $Self->Template(%Param);
 
     my $Salutation = $Self->Salutation(%Param);
 
@@ -499,6 +464,76 @@ sub Response {
         Salutation       => $Salutation,
         Signature        => $Signature,
     );
+}
+
+=item Template()
+
+generate template
+
+    my $Template = $TemplateGeneratorObject->Template(
+        TemplateID => 123
+        TicketID   => 123,                  # Optional
+        Data       => $ArticleHashRef,      # Optional
+        UserID     => 123,
+    );
+
+Returns:
+
+    $Template =>  'Some text';
+
+=cut
+
+sub Template {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(TemplateID UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    my %Template = $Self->{StandardTemplateObject}->StandardTemplateGet(
+        ID => $Param{TemplateID},
+    );
+
+    # do text/plain to text/html convert
+    if (
+        $Self->{RichText}
+        && $Template{ContentType} =~ /text\/plain/i
+        && $Template{Template}
+        )
+    {
+        $Template{ContentType} = 'text/html';
+        $Template{Template}    = $Self->{HTMLUtilsObject}->ToHTML(
+            String => $Template{Template},
+        );
+    }
+
+    # do text/html to text/plain convert
+    if (
+        !$Self->{RichText}
+        && $Template{ContentType} =~ /text\/html/i
+        && $Template{Template}
+        )
+    {
+        $Template{ContentType} = 'text/plain';
+        $Template{Template}    = $Self->{HTMLUtilsObject}->ToAscii(
+            String => $Template{Template},
+        );
+    }
+
+    # replace place holder stuff
+    my $TemplateText = $Self->_Replace(
+        RichText => $Self->{RichText},
+        Text     => $Template{Template} || '',
+        TicketID => $Param{TicketID} || '',
+        Data     => $Param{Data} || {},
+        UserID   => $Param{UserID},
+    );
+
+    return $TemplateText;
 }
 
 =item Attributes()
@@ -1092,6 +1127,21 @@ sub _Replace {
     # cleanup
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
 
+    my $HashGlobalReplace = sub {
+        my ( $Tag, %H ) = @_;
+
+        # Generate one single matching string for all keys to save performance.
+        my $Keys = join '|', map {quotemeta} grep { defined $H{$_} } keys %H;
+
+        # Add all keys also as lowercase to be able to match case insensitive,
+        #   e. g. <OTRS_CUSTOMER_From> and <OTRS_CUSTOMER_FROM>.
+        for my $Key ( sort keys %H ) {
+            $H{ lc $Key } = $H{$Key};
+        }
+
+        $Param{Text} =~ s/(?:$Tag)($Keys)$End/$H{ lc $1 }/ieg;
+    };
+
     # get owner data and replace it with <OTRS_RESPONSIBLE_...
     $Tag = $Start . 'OTRS_RESPONSIBLE_';
     if ( $Ticket{ResponsibleID} ) {
@@ -1111,10 +1161,7 @@ sub _Replace {
         }
 
         # replace it
-        for ( sort keys %Responsible ) {
-            next if !defined $Responsible{$_};
-            $Param{Text} =~ s/$Tag$_$End/$Responsible{$_}/gi;
-        }
+        $HashGlobalReplace->( $Tag, %Responsible );
     }
 
     # cleanup
@@ -1137,12 +1184,7 @@ sub _Replace {
         }
     }
 
-    # replace it
-    for ( sort keys %CurrentUser ) {
-        next if !defined $CurrentUser{$_};
-        $Param{Text} =~ s/$Tag$_$End/$CurrentUser{$_}/gi;
-        $Param{Text} =~ s/$Tag2$_$End/$CurrentUser{$_}/gi;
-    }
+    $HashGlobalReplace->( "$Tag|$Tag2", %CurrentUser );
 
     # replace other needed stuff
     $Param{Text} =~ s/$Start OTRS_FIRST_NAME $End/$CurrentUser{UserFirstname}/gxms;
@@ -1170,13 +1212,24 @@ sub _Replace {
     # <OTRS_TICKET_DynamicField_NameX> returns the stored key
     # <OTRS_TICKET_DynamicField_NameX_Value> returns the display value
 
-    # to store all the DynamicField display values
+    my %DynamicFields;
+
+    # For systems with many Dynamic fields we do not want to load them all unless needed
+    # Find what Dynamic Field Values are requested
+    while ( $Param{Text} =~ m/$Tag DynamicField_(\S+?)(_Value)? $End/gixms ) {
+        $DynamicFields{$1} = 1;
+    }
+
+    # to store all the required DynamicField display values
     my %DynamicFieldDisplayValues;
 
-    # cycle trough the activated Dynamic Fields for this screen
+    # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        # we only load the ones requested
+        next DYNAMICFIELD if !$DynamicFields{ $DynamicFieldConfig->{Name} };
 
         my $LanguageObject;
 
@@ -1223,14 +1276,7 @@ sub _Replace {
     }
 
     # replace it
-    for ( sort keys %Ticket ) {
-        next if !defined $Ticket{$_};
-        $Param{Text} =~ s/$Tag$_$End/$Ticket{$_}/gi;
-    }
-    for ( sort keys %DynamicFieldDisplayValues ) {
-        next if !defined $DynamicFieldDisplayValues{$_};
-        $Param{Text} =~ s/$Tag$_$End/$DynamicFieldDisplayValues{$_}/gi;
-    }
+    $HashGlobalReplace->( $Tag, %Ticket, %DynamicFieldDisplayValues );
 
     # COMPAT
     $Param{Text} =~ s/$Start OTRS_TICKET_ID $End/$Ticket{TicketID}/gixms;
@@ -1266,10 +1312,7 @@ sub _Replace {
 
         # replace <OTRS_CUSTOMER_*> tags
         $Tag = $Start . 'OTRS_CUSTOMER_';
-        for ( sort keys %Data ) {
-            next if !defined $Data{$_};
-            $Param{Text} =~ s/$Tag$_$End/$Data{$_}/gi;
-        }
+        $HashGlobalReplace->( $Tag, %Data );
 
         # replace <OTRS_CUSTOMER_BODY> and <OTRS_COMMENT> tags
         for my $Key (qw(OTRS_CUSTOMER_BODY OTRS_COMMENT)) {
@@ -1278,6 +1321,7 @@ sub _Replace {
                 my $Line       = 2500;
                 my @Body       = split( /\n/, $Data{Body} );
                 my $NewOldBody = '';
+                COUNTER:
                 for ( my $i = 0; $i < $Line; $i++ ) {
                     if ( $#Body >= $i ) {
 
@@ -1297,7 +1341,7 @@ sub _Replace {
                         }
                     }
                     else {
-                        last;
+                        last COUNTER;
                     }
                 }
                 chomp $NewOldBody;
@@ -1440,16 +1484,11 @@ sub _Replace {
         }
 
         # replace it
-        for my $Key ( sort keys %CustomerUser ) {
-            next if !defined $CustomerUser{$Key};
-            $Param{Text} =~ s/$Tag$Key$End/$CustomerUser{$Key}/gi;
-            $Param{Text} =~ s/$Tag2$Key$End/$CustomerUser{$Key}/gi;
-        }
+        $HashGlobalReplace->( "$Tag|$Tag2", %CustomerUser );
     }
 
     # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
-    $Param{Text} =~ s/$Tag.+?$End/-/gi;
-    $Param{Text} =~ s/$Tag2.+?$End/-/gi;
+    $Param{Text} =~ s/(?:$Tag|$Tag2).+?$End/-/gi;
 
     return $Param{Text};
 }

@@ -165,6 +165,32 @@ sub Run {
         );
     }
 
+    # get the permission for the phone ticket creation
+    my $NewAgentTicketPhonePermission = $Self->{LayoutObject}->Permission(
+        Action => 'AgentTicketPhone',
+        Type   => 'rw',
+    );
+
+    # check the permission for the phone ticket creation
+    if ($NewAgentTicketPhonePermission) {
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewResultNewAgentTicketPhone',
+        );
+    }
+
+    # get the permission for the email ticket creation
+    my $NewAgentTicketEmailPermission = $Self->{LayoutObject}->Permission(
+        Action => 'AgentTicketEmail',
+        Type   => 'rw',
+    );
+
+    # check the permission for the email ticket creation
+    if ($NewAgentTicketEmailPermission) {
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewResultNewAgentTicketEmail',
+        );
+    }
+
     my @CustomerKeys
         = sort { lc( $CustomerIDs->{$a} ) cmp lc( $CustomerIDs->{$b} ) } keys %{$CustomerIDs};
     @CustomerKeys = splice @CustomerKeys, $Self->{StartHit} - 1, $Self->{PageShown};
@@ -241,6 +267,30 @@ sub Run {
             },
         );
 
+        # check the permission for the phone ticket creation
+        if ($NewAgentTicketPhonePermission) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ContentLargeCustomerUserListNewAgentTicketPhone',
+                Data => {
+                    %Param,
+                    CustomerKey       => $CustomerKey,
+                    CustomerListEntry => $CustomerIDs->{$CustomerKey},
+                },
+            );
+        }
+
+        # check the permission for the email ticket creation
+        if ($NewAgentTicketEmailPermission) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ContentLargeCustomerUserListNewAgentTicketEmail',
+                Data => {
+                    %Param,
+                    CustomerKey       => $CustomerKey,
+                    CustomerListEntry => $CustomerIDs->{$CustomerKey},
+                },
+            );
+        }
+
         if ( $Self->{ConfigObject}->Get('SwitchToCustomer') && $Self->{SwitchToCustomerPermission} )
         {
             $Self->{LayoutObject}->Block(
@@ -260,6 +310,24 @@ sub Run {
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeCustomerUserListNone',
             Data => {},
+        );
+    }
+
+    # check for refresh time
+    my $Refresh = '';
+    if ( $Self->{UserRefreshTime} ) {
+        $Refresh = 60 * $Self->{UserRefreshTime};
+        my $NameHTML = $Self->{Name};
+        $NameHTML =~ s{-}{_}xmsg;
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentLargeTicketGenericRefresh',
+            Data => {
+                %{ $Self->{Config} },
+                Name        => $Self->{Name},
+                NameHTML    => $NameHTML,
+                RefreshTime => $Refresh,
+                CustomerID  => $Param{CustomerID},
+            },
         );
     }
 

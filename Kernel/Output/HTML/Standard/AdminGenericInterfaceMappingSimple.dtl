@@ -14,7 +14,7 @@
             <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice">$Text{"Web Services"}</a>
 
             $Config{"GenericInterface::Webservice::Path::Separator"}
-            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$QData{"WebserviceID"}">$QData{"WebserviceName"}</a>
+            <a href="$Env{"Baselink"}Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$LQData{"WebserviceID"}">$QData{"WebserviceName"}</a>
 
             $Config{"GenericInterface::Webservice::Path::Separator"}
             <a href="$Env{"Baselink"}Action=$LQData{"ActionFrontendModule"};Subaction=Change;$LQData{"ActionType"}=$LQData{"Action"};WebserviceID=$LQData{"WebserviceID"}">$QData{"ActionType"} $QData{"Action"}</a>
@@ -113,7 +113,7 @@
                         <div class="WidgetSimple Expanded WidgetKey $QData{"Classes"}">
                             <div class="Header">
                                 <div class="WidgetAction Toggle">
-                                    <a href="#" title="$JSText{"Show or hide the content"}"></a>
+                                    <a href="#" title="$JSText{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                                 </div>
                                 <h3 class="Title">$Text{"Mapping for Key "} $QData{"KeyMapNew"}</h3>
                                 <div class="AdditionalInformation SpacingTopMini">

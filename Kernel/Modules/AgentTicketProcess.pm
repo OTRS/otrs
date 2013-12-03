@@ -8,6 +8,7 @@
 # --
 
 package Kernel::Modules::AgentTicketProcess;
+## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
 
 use strict;
 use warnings;
@@ -23,8 +24,6 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::Service;
 use Kernel::System::SLA;
-use Kernel::System::User;
-use Kernel::System::Group;
 use Kernel::System::Lock;
 use Kernel::System::Priority;
 use Kernel::System::CustomerUser;
@@ -42,7 +41,7 @@ sub new {
     for my $Needed (
         qw(
         ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject TimeObject MainObject
-        EncodeObject QueueObject
+        EncodeObject QueueObject UserObject GroupObject
         )
         )
     {
@@ -57,8 +56,6 @@ sub new {
     $Self->{PriorityObject}       = Kernel::System::Priority->new(%Param);
     $Self->{ServiceObject}        = Kernel::System::Service->new(%Param);
     $Self->{SLAObject}            = Kernel::System::SLA->new(%Param);
-    $Self->{UserObject}           = Kernel::System::User->new(%Param);
-    $Self->{GroupObject}          = Kernel::System::Group->new(%Param);
     $Self->{ActivityObject}       = Kernel::System::ProcessManagement::Activity->new(%Param);
     $Self->{ActivityDialogObject} = Kernel::System::ProcessManagement::ActivityDialog->new(%Param);
     $Self->{TransitionActionObject}
@@ -260,8 +257,21 @@ sub Run {
         }
     }
 
+    # list only Active processes by default
+    my @ProcessStates = ('Active');
+
+    # set AJAXDialog for proper error responses, screen display and process list
+    $Self->{AJAXDialog} = $Self->{ParamObject}->GetParam( Param => 'AJAXDialog' ) || '';
+
+    # fetch also FadeAway processes to continue working with existing tickets, but not to start new
+    #    ones
+    if ( !$Self->{AJAXDialog} && $Self->{Subaction} ) {
+        push @ProcessStates, 'FadeAway'
+    }
+
+    # get processes
     my $ProcessList = $Self->{ProcessObject}->ProcessList(
-        ProcessState => ['Active'],
+        ProcessState => \@ProcessStates,
         Interface    => ['AgentInterface'],
     );
     my $ProcessEntityID = $Self->{ParamObject}->GetParam( Param => 'ProcessEntityID' );
@@ -273,8 +283,17 @@ sub Run {
         );
     }
 
-    # set AJAXDialog for proper error responses and screen display
-    $Self->{AJAXDialog} = $Self->{ParamObject}->GetParam( Param => 'AJAXDialog' ) || '';
+    # validate the ProcessList with stored acls
+    $Self->{TicketObject}->TicketAcl(
+        ReturnType    => 'Ticket',
+        ReturnSubType => '-',
+        Data          => $ProcessList,
+        UserID        => $Self->{UserID},
+    );
+
+    $ProcessList = $Self->{TicketObject}->TicketAclProcessData(
+        Processes => $ProcessList,
+    );
 
     # If we have no Subaction or Subaction is 'Create' and submitted ProcessEntityID is invalid
     # Display the ProcessList
@@ -287,10 +306,40 @@ sub Run {
         )
         )
     {
+
+        # get process id (if any, a process should be pre-selected)
+        $Param{ProcessID} = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        if ( $Param{ProcessID} ) {
+            $Param{PreSelectProcess} = 1;
+        }
+
         return $Self->_DisplayProcessList(
             %Param,
             ProcessList     => $ProcessList,
             ProcessEntityID => $ProcessEntityID
+        );
+    }
+
+    # check if the selected process from the list is valid, prevent tamper with process selection
+    #    list (not existing, invalid an fade away processes must not be able to start a new process
+    #    ticket)
+    elsif (
+        $Self->{Subaction} eq 'DisplayActivityDialogAJAX'
+        && !$ProcessList->{$ProcessEntityID}
+        && $Self->{AJAXDialog}
+        )
+    {
+
+        # translate the error message (as it will be injected in the HTML)
+        my $ErrorMessage
+            = $Self->{LayoutObject}->{LanguageObject}->Get("The selected process is invalid!");
+
+        # return a predefined HTML sctructure as the AJAX call is expecting and HTML response
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/html; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => '<div class="ServerError" data-message="' . $ErrorMessage . '"></div>',
+            Type        => 'inline',
+            NoCache     => 1,
         );
     }
 
@@ -461,9 +510,12 @@ sub _RenderAjax {
                 = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
 
             next DIALOGFIELD if !IsHashRefWithData($DynamicFieldConfig);
-            next DIALOGFIELD if !$Self->{BackendObject}->IsAJAXUpdateable(
+
+            my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
+                Behavior           => 'IsACLReducible',
             );
+            next DIALOGFIELD if !$IsACLReducible;
 
             my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
@@ -471,7 +523,7 @@ sub _RenderAjax {
             my %DynamicFieldCheckParam = map { $_ => $Param{GetParam}{$_} }
                 grep {m{^DynamicField_}xms} ( keys %{ $Param{GetParam} } );
 
-            # convert possible values key => value to key => key for ACLs usign a Hash slice
+            # convert possible values key => value to key => key for ACLs using a Hash slice
             my %AclData = %{$PossibleValues};
             @AclData{ keys %AclData } = keys %AclData;
 
@@ -640,6 +692,14 @@ sub _RenderAjax {
         }
         elsif ( $Self->{NameToID}{$CurrentField} eq 'SLAID' ) {
             next DIALOGFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
+
+            # if SLA is render before service (by it order in the fields) it needs to create
+            # the service list
+            if ( !IsHashRefWithData($Services) ) {
+                $Services = $Self->_GetServices(
+                    %{ $Param{GetParam} },
+                );
+            }
 
             my $Data = $Self->_GetSLAs(
                 %{ $Param{GetParam} },
@@ -2070,39 +2130,47 @@ sub _RenderDynamicField {
 
     my $PossibleValuesFilter;
 
-    # get PossibleValues
-    my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+    my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
         DynamicFieldConfig => $DynamicFieldConfig,
+        Behavior           => 'IsACLReducible',
     );
 
-    # All Ticket DynamicFields
-    # used for ACL checking
-    my %DynamicFieldCheckParam = map { $_ => $Param{GetParam}{$_} }
-        grep {m{^DynamicField_}xms} ( keys %{ $Param{GetParam} } );
+    if ($IsACLReducible) {
 
-    # check if field has PossibleValues property in its configuration
-    if ( IsHashRefWithData( $PossibleValues ) ) {
-
-        # convert possible values key => value to key => key for ACLs usign a Hash slice
-        my %AclData = %{ $PossibleValues };
-        @AclData{ keys %AclData } = keys %AclData;
-
-        # set possible values filter from ACLs
-        my $ACL = $Self->{TicketObject}->TicketAcl(
-            %{ $Param{GetParam} },
-            DynamicField  => \%DynamicFieldCheckParam,
-            Action        => $Self->{Action},
-            ReturnType    => 'Ticket',
-            ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-            Data          => \%AclData,
-            UserID        => $Self->{UserID},
+        # get PossibleValues
+        my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
         );
-        if ($ACL) {
-            my %Filter = $Self->{TicketObject}->TicketAclData();
 
-            # convert Filer key => key back to key => value using map
-            %{$PossibleValuesFilter}
-                = map { $_ => $PossibleValues->{$_} } keys %Filter;
+        # All Ticket DynamicFields
+        # used for ACL checking
+        my %DynamicFieldCheckParam = map { $_ => $Param{GetParam}{$_} }
+            grep {m{^DynamicField_}xms} ( keys %{ $Param{GetParam} } );
+
+        # check if field has PossibleValues property in its configuration
+        if ( IsHashRefWithData($PossibleValues) ) {
+
+            # convert possible values key => value to key => key for ACLs using a Hash slice
+            my %AclData = %{$PossibleValues};
+            @AclData{ keys %AclData } = keys %AclData;
+
+            # set possible values filter from ACLs
+            my $ACL = $Self->{TicketObject}->TicketAcl(
+                %{ $Param{GetParam} },
+                DynamicField  => \%DynamicFieldCheckParam,
+                Action        => $Self->{Action},
+                ReturnType    => 'Ticket',
+                ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                Data          => \%AclData,
+                UserID        => $Self->{UserID},
+            );
+            if ($ACL) {
+                my %Filter = $Self->{TicketObject}->TicketAclData();
+
+                # convert Filer key => key back to key => value using map
+                %{$PossibleValuesFilter}
+                    = map { $_ => $PossibleValues->{$_} } keys %Filter;
+            }
         }
     }
 
@@ -2382,9 +2450,6 @@ sub _RenderCustomer {
         };
     }
 
-    my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
-
     my %CustomerUserData = ();
 
     my $SubmittedCustomerUserID = $Param{GetParam}{CustomerUserID};
@@ -2415,12 +2480,6 @@ sub _RenderCustomer {
     # set some customer search autocomplete properties
     $Self->{LayoutObject}->Block(
         Name => 'CustomerSearchAutoComplete',
-        Data => {
-            minQueryLength      => $AutoCompleteConfig->{MinQueryLength}      || 2,
-            queryDelay          => $AutoCompleteConfig->{QueryDelay}          || 100,
-            maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
-            ActiveAutoComplete  => $AutoCompleteConfig->{Active},
-        },
     );
 
     if (
@@ -3690,8 +3749,13 @@ sub _StoreActivityDialog {
     my $IsUpload = 0;
 
     # attachment delete
+    my @AttachmentIDs = map {
+        my ($ID) = $_ =~ m{ \A AttachmentDelete (\d+) \z }xms;
+        $ID ? $ID : ();
+    } $Self->{ParamObject}->GetParamNames();
+
     COUNT:
-    for my $Count ( 1 .. 32 ) {
+    for my $Count ( reverse sort @AttachmentIDs ) {
         my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
         next COUNT if !$Delete;
         %Error = ();
@@ -3783,6 +3847,17 @@ sub _StoreActivityDialog {
         {
 
             next DIALOGFIELD if $CheckedFields{ $Self->{NameToID}{'CustomerID'} };
+
+            # is not possible to a have an invisible field for this particular value
+            # on agent interface
+            if ( $ActivityDialog->{Fields}{$CurrentField}{Display} == 0 ) {
+
+                my $InvisibleFieldMessage =
+                    "Couldn't use CustomerID as an invisible field, please contact your system administrator!";
+                $Self->{LayoutObject}->FatalError(
+                    Message => $InvisibleFieldMessage,
+                );
+            }
 
             my $CustomerID = $Param{GetParam}{CustomerID};
             if ( !$CustomerID ) {
@@ -4350,15 +4425,15 @@ sub _StoreActivityDialog {
                         # asssined SLA is still valid
                         if (
                             $UpdateFieldName eq 'ServiceID'
-                            && !defined $TicketParam{ SLAID }
+                            && !defined $TicketParam{SLAID}
                             )
                         {
 
                             # get ticket details
                             my %Ticket = $Self->{TicketObject}->TicketGet(
-                                    TicketID      => $TicketID,
-                                    DynamicFields => 0,
-                                    UserID        => $Self->{UserID},
+                                TicketID      => $TicketID,
+                                DynamicFields => 0,
+                                UserID        => $Self->{UserID},
                             );
 
                             # if ticket already have an SLA assigned get the list SLAs for the new
@@ -4436,6 +4511,15 @@ sub _DisplayProcessList {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,
+        );
+    }
+
+    if ( $Param{PreSelectProcess} && $Param{ProcessID} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'PreSelectProcess',
+            Data => {
+                ProcessID => $Param{ProcessID},
+            },
         );
     }
 
@@ -4991,6 +5075,14 @@ sub _GetPriorities {
 sub _GetQueues {
     my ( $Self, %Param ) = @_;
 
+    # check which type of permission is needed: if the process ticket
+    # already exists (= TicketID is present), we need the 'move_into'
+    # permission otherwise the 'create' permission
+    my $PermissionType = 'create';
+    if ( $Param{TicketID} ) {
+        $PermissionType = 'move_into';
+    }
+
     # check own selection
     my %NewQueues;
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueOwnSelection') ) {
@@ -5003,7 +5095,7 @@ sub _GetQueues {
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
             %Queues = $Self->{TicketObject}->MoveList(
                 %Param,
-                Type    => 'create',
+                Type    => $PermissionType,
                 Action  => $Self->{Action},
                 QueueID => $Self->{QueueID},
                 UserID  => $Self->{UserID},
@@ -5018,10 +5110,10 @@ sub _GetQueues {
             );
         }
 
-        # get create permission queues
+        # get permission queues
         my %UserGroups = $Self->{GroupObject}->GroupMemberList(
             UserID => $Self->{UserID},
-            Type   => 'create',
+            Type   => $PermissionType,
             Result => 'HASH',
         );
 
@@ -5120,13 +5212,12 @@ sub _GetAJAXUpdatableFields {
             # skip any field with wrong config
             next FIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-            # get field update status
-            my $Updateable = $Self->{BackendObject}->IsAJAXUpdateable(
+            # skip field if is not IsACLReducible (updatable)
+            my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
+                Behavior           => 'IsACLReducible',
             );
-
-            # skip field if is not updatable
-            next FIELD if !$Updateable;
+            next FIELD if !$IsACLReducible;
 
             push @UpdatableFields, $Field;
         }

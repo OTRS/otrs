@@ -8,6 +8,7 @@
 # --
 
 package Kernel::System::EventHandler;
+## nofilter(TidyAll::Plugin::OTRS::Perl::PODSpelling)
 
 use strict;
 use warnings;
@@ -20,9 +21,7 @@ Kernel::System::EventHandler - event handler interface
 
 Inherit from this class if you want to use events there.
 
-    use vars qw(@ISA);
-    use Kernel::System::EventHandler;
-    push @ISA, 'Kernel::System::EventHandler';
+    use base qw(Kernel::System::EventHandler);
 
 In your class, have to call L</EventHandlerInit()> first.
 
@@ -222,11 +221,24 @@ sub EventHandler {
 
         if ( $Self->{ExecuteModuleOnEvent}->{$Module}->{ $Param{Event} } ) {
 
-            # next if we are not in transaction mode, but module is in transaction
-            next MODULE if !$Param{Transaction} && $Modules->{$Module}->{Transaction};
+            if ( $Self->{EventHandlerTransaction} && !$Param{Transaction} ) {
 
-            # next if we are in transaction mode, but module is not in transaction
-            next MODULE if $Param{Transaction} && !$Modules->{$Module}->{Transaction};
+                # This is a special case. A new event was fired during processing of
+                #   the queued events in transaction mode. This event must be immediately
+                #   processed.
+            }
+            else {
+
+                # This is the regular case. A new event was fired in regular mode, or
+                #   we are processing a queued event in transaction mode. Only execute
+                #   this if the transaction settings of event and listener are the same.
+
+                # next if we are not in transaction mode, but module is in transaction
+                next MODULE if !$Param{Transaction} && $Modules->{$Module}->{Transaction};
+
+                # next if we are in transaction mode, but module is not in transaction
+                next MODULE if $Param{Transaction} && !$Modules->{$Module}->{Transaction};
+            }
 
             # load event module
             next MODULE if !$Self->{MainObject}->Require( $Modules->{$Module}->{Module} );

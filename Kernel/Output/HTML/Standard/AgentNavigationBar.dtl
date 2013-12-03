@@ -24,9 +24,12 @@
     <!-- dtl:block:ItemAreaSub -->
         </li>
     <!-- dtl:block:ItemArea -->
+    <!-- dtl:block:SearchIcon -->
         <li id="nav-search">
-            <a class="Search ARIARoleSearch ARIAHasPopup" id="GlobalSearchNav" href="$Env{"Baselink"}Action=AgentTicketSearch" title="$Text{"Search"}"><span class="SearchIcon">$Text{"Search"}</span></a>
-            <span></span>
+            <a class="Search ARIARoleSearch ARIAHasPopup" id="GlobalSearchNav" href="$Env{"Baselink"}Action=AgentTicketSearch" title="$Text{"Search"}">
+                <i class="icon-search"></i>
+            </a>
         </li>
+    <!-- dtl:block:SearchIcon -->
     </ul>
 </div>

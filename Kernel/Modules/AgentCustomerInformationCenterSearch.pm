@@ -8,6 +8,7 @@
 # --
 
 package Kernel::Modules::AgentCustomerInformationCenterSearch;
+## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
 
 use strict;
 use warnings;
@@ -65,7 +66,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+        = $Self->{ConfigObject}->Get('AutoComplete::Agent###CustomerSearch');
 
     my $MaxResults = $AutoCompleteConfig->{MaxResultsDisplayed} || 20;
 
@@ -78,32 +79,28 @@ sub Run {
         my %CustomerCompanyList = $Self->{CustomerCompanyObject}->CustomerCompanyList(
             Search => $Self->{ParamObject}->GetParam( Param => 'Term' ) || '',
         );
-        push @CustomerIDs, keys %CustomerCompanyList;
 
-        my @Result;
-
+        # add CustomerIDs for which no CustomerCompany are registered
         my %Seen;
-
-        CUSTOMERID:
-        for my $CustomerID ( sort @CustomerIDs ) {
+        for my $CustomerID (@CustomerIDs) {
 
             # skip duplicates
             next CUSTOMERID if $Seen{$CustomerID};
             $Seen{$CustomerID} = 1;
 
-            my %CustomerCompanyData = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
-                CustomerID => $CustomerID,
-            );
-
-            my $Label = $CustomerID;
-
-            if ( $CustomerCompanyData{CustomerCompanyName} ) {
-                $Label .= " ($CustomerCompanyData{CustomerCompanyName})";
+            # identifies unknown companies
+            if ( !exists $CustomerCompanyList{$CustomerID} ) {
+                $CustomerCompanyList{$CustomerID} = $CustomerID;
             }
 
-            push @Result, { Label => $Label || $CustomerID, Value => $CustomerID };
+        }
 
-            last CUSTOMERID if scalar keys %Seen >= $MaxResults;
+        # build result list
+        my @Result;
+        CUSTOMERID:
+        for my $CustomerID ( sort keys %CustomerCompanyList ) {
+            push @Result, { Label => $CustomerCompanyList{$CustomerID}, Value => $CustomerID };
+            last CUSTOMERID if scalar @Result >= $MaxResults;
         }
 
         my $JSON = $Self->{LayoutObject}->JSONEncode(
@@ -150,22 +147,16 @@ sub Run {
         );
     }
 
-    # build customer search autocomplete fields
-    $Self->{LayoutObject}->Block(
-        Name => 'CustomerSearchAutoComplete',
-        Data => {
-            ActiveAutoComplete  => $AutoCompleteConfig->{Active},
-            minQueryLength      => $AutoCompleteConfig->{MinQueryLength} || 2,
-            queryDelay          => $AutoCompleteConfig->{QueryDelay} || 100,
-            maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
-        },
-    );
-
     my $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentCustomerInformationCenterSearch',
         Data         => \%Param,
     );
-    return $Output;
+    return $Self->{LayoutObject}->Attachment(
+        ContentType => 'text/html; charset=' . $Self->{LayoutObject}->{Charset},
+        Content     => $Output || '',
+        Type        => 'inline',
+        NoCache     => 1,
+    );
 }
 
 1;

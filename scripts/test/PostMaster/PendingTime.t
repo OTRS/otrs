@@ -15,11 +15,17 @@ use Kernel::System::PostMaster;
 use Kernel::System::PostMaster::Filter;
 use Kernel::System::Ticket;
 use Kernel::Config;
-
+use Kernel::System::UnitTest::Helper;
 use Kernel::System::Time;
 
 # create local config object
 my $ConfigObject = Kernel::Config->new();
+
+my $HelperObject = Kernel::System::UnitTest::Helper->new(
+    %{$Self},
+    UnitTestObject => $Self,
+);
+$HelperObject->FixedTimeSet();
 
 my $TimeObject = Kernel::System::Time->new( %{$Self} );
 
@@ -302,23 +308,11 @@ Some Content in Body
     );
 
     for my $Key ( sort keys %{ $Test->{CheckNewTicket} } ) {
-
-        # fuzzy check
-        if ( $Key eq 'UntilTime' ) {
-            $Self->True(
-                abs( $Ticket{$Key} - $Test->{CheckNewTicket}->{$Key} ) < 5,
-                "$Test->{Name} - NewTicket - Check result value $Key does not differ more than 5s",
-            );
-        }
-
-        # exact check
-        else {
-            $Self->Is(
-                $Ticket{$Key},
-                $Test->{CheckNewTicket}->{$Key},
-                "$Test->{Name} - NewTicket - Check result value $Key",
-            );
-        }
+        $Self->Is(
+            $Ticket{$Key},
+            $Test->{CheckNewTicket}->{$Key},
+            "$Test->{Name} - NewTicket - Check result value $Key",
+        );
     }
 
     my $Subject = 'Subject: ' . $TicketObject->TicketSubjectBuild(
@@ -367,23 +361,11 @@ Some Content in Body
     );
 
     for my $Key ( sort keys %{ $Test->{CheckFollowUp} } ) {
-
-        # fuzzy check
-        if ( $Key eq 'UntilTime' ) {
-            $Self->True(
-                abs( $Ticket{$Key} - $Test->{CheckFollowUp}->{$Key} ) < 5,
-                "$Test->{Name} - FollowUp - Check result value $Key does not differ more than 5s",
-            );
-        }
-
-        # exact check
-        else {
-            $Self->Is(
-                $Ticket{$Key},
-                $Test->{CheckFollowUp}->{$Key},
-                "$Test->{Name} - FollowUp - Check result value $Key",
-            );
-        }
+        $Self->Is(
+            $Ticket{$Key},
+            $Test->{CheckFollowUp}->{$Key},
+            "$Test->{Name} - FollowUp - Check result value $Key",
+        );
     }
 
     # delete ticket

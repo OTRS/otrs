@@ -111,7 +111,7 @@
                     <input type="hidden" name="ID" value="$QData{"ID"}"/>
                     <fieldset class="TableLike">
 <!-- dtl:block:ChangeItemList -->
-                        <label for="IDs_$Data{"TypeID"}">$Text{"Template for"} "$Text{"$Data{"Type"}"}":</label>
+                        <label for="IDs_$Data{"TypeID"}">$Text{"$Data{"Type"}"}:</label>
                         <div class="Field">
                             $Data{"DataStrg"}
                         </div>

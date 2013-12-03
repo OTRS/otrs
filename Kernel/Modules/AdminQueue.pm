@@ -8,6 +8,7 @@
 # --
 
 package Kernel::Modules::AdminQueue;
+## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
 
 use strict;
 use warnings;
@@ -395,7 +396,7 @@ sub Run {
                 }
 
                 return $Self->{LayoutObject}->Redirect(
-                    OP => "Action=AdminQueueResponses&Subaction=Queue&ID=$ID",
+                    OP => "Action=AdminQueueTemplates&Subaction=Queue&ID=$ID",
                 );
             }
         }

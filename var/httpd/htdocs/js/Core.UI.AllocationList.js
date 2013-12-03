@@ -32,25 +32,25 @@ Core.UI.AllocationList = (function (TargetNS) {
      * @param {String} DataAttribute
      *      The data attribute to determine the selection
      * @return {Array} An array of values defined by DataAttribute
-     */    
+     */
     TargetNS.GetResult = function (ResultListSelector, DataAttribute) {
         var $List = $(ResultListSelector),
             Result = [];
-        
+
         if (!$List.length || !$List.find('li').length) {
             return [];
         }
-        
+
         $List.find('li').each(function () {
             var Value = $(this).data(DataAttribute);
             if (typeof Value !== 'undefined') {
                 Result.push(Value);
             }
         });
-        
+
         return Result;
     };
-    
+
     /**
      * @function
      * @description
@@ -65,15 +65,15 @@ Core.UI.AllocationList = (function (TargetNS) {
      *      The Callback which is called if an element is removed from a list
      * @return nothing
      */
-    TargetNS.Init = function (ListSelector, ConnectorSelector, ReceiveCallback, RemoveCallback) {
+    TargetNS.Init = function (ListSelector, ConnectorSelector, ReceiveCallback, RemoveCallback, SortStopCallback) {
         var $Lists = $(ListSelector);
-        
+
         if (!$Lists.length) {
             return;
         }
-        
+
         $Lists
-            .find('li').removeClass('Even').end()    
+            .find('li').removeClass('Even').end()
             .sortable({
                 connectWith: ConnectorSelector,
                 receive: function (Event, UI) {
@@ -84,6 +84,11 @@ Core.UI.AllocationList = (function (TargetNS) {
                 remove: function (Event, UI) {
                     if ($.isFunction(RemoveCallback)) {
                         RemoveCallback(Event, UI);
+                    }
+                },
+                stop: function (Event, UI) {
+                    if ($.isFunction(SortStopCallback)) {
+                        SortStopCallback(Event, UI);
                     }
                 }
             }).disableSelection();

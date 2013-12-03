@@ -12,8 +12,6 @@ package Kernel::Output::HTML::LayoutPopup;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::Output::HTML::LayoutPopup - CSS/JavaScript

@@ -226,7 +226,22 @@ sub Sync {
                             . 'from Kernel/Config/Defaults.pm (User* has been added!).',
                     );
                 }
-                $SyncUser{$Key} = $Entry->get_value( $UserSyncMap->{$Key} );
+
+                my $AttributeNames = $UserSyncMap->{$Key};
+                if ( ref $AttributeNames ne 'ARRAY' ) {
+                    $AttributeNames = [$AttributeNames];
+                }
+                ATTRIBUTE_NAME:
+                for my $AttributeName ( @{$AttributeNames} ) {
+                    if ( $AttributeName =~ /^_/ ) {
+                        $SyncUser{$Key} = substr( $AttributeName, 1 );
+                        last ATTRIBUTE_NAME;
+                    }
+                    elsif ( $Entry->get_value($AttributeName) ) {
+                        $SyncUser{$Key} = $Entry->get_value($AttributeName);
+                        last ATTRIBUTE_NAME;
+                    }
+                }
 
                 # e. g. set utf-8 flag
                 $SyncUser{$Key} = $Self->_ConvertFrom(

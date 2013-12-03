@@ -12,6 +12,8 @@ use warnings;
 use vars (qw($Self));
 use utf8;
 
+use Storable;
+
 use Kernel::System::AuthSession;
 
 # use local Config object because it will be modified
@@ -26,6 +28,33 @@ my @BackendModuleFiles = $Self->{MainObject}->DirectoryRead(
     Filter    => '*.pm',
     Silent    => 1,
 );
+
+# read sample data
+my @SampleSessionFiles = $Self->{MainObject}->DirectoryRead(
+    Directory => $HomeDir . '/scripts/test/sample/AuthSession/',
+    Filter    => '*',
+);
+
+my @SampleSessionData;
+SESSIONFILE:
+for my $SessionFile (@SampleSessionFiles) {
+
+    # read data
+    my $Content = $Self->{MainObject}->FileRead(
+        Location        => $SessionFile,
+        Type            => 'Local',
+        Mode            => 'binmode',
+        DisableWarnings => 1,
+    );
+
+    next SESSIONFILE if !$Content;
+    next SESSIONFILE if ref $Content ne 'SCALAR';
+
+    # read data structure back from file dump, use block eval for safety reasons
+    my $Session = eval { Storable::thaw( ${$Content} ) };
+
+    push @SampleSessionData, $Session;
+}
 
 MODULEFILE:
 for my $ModuleFile (@BackendModuleFiles) {
@@ -64,18 +93,42 @@ for my $ModuleFile (@BackendModuleFiles) {
             $Size = $Size . ' Bytes';
         }
 
-        my $SessionID = $SessionObject->CreateSessionID(
+        my %NewSessionData = (
             UserLogin                => 'root',
             UserEmail                => 'root@example.com',
             'LongStringNew' . $Count => $LongString,
             UserTest                 => 'SomeÄÖÜß.',
             UserType                 => 'User',
+            SomeComplexData => {    # verify that complex data can be stored too
+                'CaseSensitive' => 1,
+            },
         );
+
+        my $SessionID = $SessionObject->CreateSessionID(%NewSessionData);
 
         # tests
         $Self->True(
             $SessionID,
             "#$Module - CreateSessionID()",
+        );
+
+        my %NewSessionDataCheck = $SessionObject->GetSessionIDData( SessionID => $SessionID );
+        delete $NewSessionDataCheck{UserChallengeToken};
+        delete $NewSessionDataCheck{UserRemoteAddr};
+        delete $NewSessionDataCheck{UserRemoteUserAgent};
+        delete $NewSessionDataCheck{UserSessionStart};
+
+        $Self->IsDeeply(
+            \%NewSessionDataCheck,
+            \%NewSessionData,
+            "Initial session data",
+        );
+
+        my @Sessions = $SessionObject->GetAllSessionIDs();
+        my %SessionList = map { $_ => 1 } @Sessions;
+        $Self->True(
+            $SessionList{$SessionID},
+            "#$Module - SessionList - new session in list",
         );
 
         my %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
@@ -313,6 +366,59 @@ for my $ModuleFile (@BackendModuleFiles) {
     $Self->True(
         $CleanUp,
         "#$Module - CleanUp()",
+    );
+
+    my @Session = $SessionObject->GetAllSessionIDs();
+
+    $Self->Is(
+        scalar @Session,
+        0,
+        "#$Module - SessionList() no sessions left",
+    );
+
+    SESSION:
+    for my $Session (@SampleSessionData) {
+
+        next SESSION if !$Session;
+        next SESSION if ref $Session ne 'HASH';
+        next SESSION if !%{$Session};
+
+        # create session
+        my $RealSessionID = $SessionObject->CreateSessionID( %{$Session} );
+
+        # test if session was successfully created
+        $Self->True(
+            $RealSessionID,
+            "#$Module - CreateSessionID()",
+        );
+
+        my %RealSessionData = $SessionObject->GetSessionIDData( SessionID => $RealSessionID );
+
+        for my $Key (qw(UserChallengeToken UserRemoteAddr UserRemoteUserAgent UserSessionStart)) {
+            delete $RealSessionData{$Key};
+            delete $Session->{$Key};
+        }
+
+        $Self->IsDeeply(
+            \%RealSessionData,
+            $Session,
+            "Real session data check",
+        );
+    }
+
+    $CleanUp = $SessionObject->CleanUp();
+
+    $Self->True(
+        $CleanUp,
+        "#$Module - CleanUp()",
+    );
+
+    @Session = $SessionObject->GetAllSessionIDs();
+
+    $Self->Is(
+        scalar @Session,
+        0,
+        "#$Module - SessionList() no sessions left",
     );
 }
 

@@ -1,5 +1,5 @@
 // --
-// Core.Agent.Admin.GenericAgentEvent.js - provides the special module functions for the GenericInterface job.
+// Core.Agent.Admin.GenericAgent.js - provides the special module functions for the GenericInterface job.
 // Copyright (C) 2003-2013 OTRS AG, http://otrs.org/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see

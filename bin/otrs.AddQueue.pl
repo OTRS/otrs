@@ -55,14 +55,14 @@ $CommonObject{SystemAddressObject} = Kernel::System::SystemAddress->new(%CommonO
 
 # get options
 my %Opts;
-getopts( 'hg:n:s:S:c:r:u:l:C:', \%Opts );
+getopts( 'hg:n:s:S:c:t:r:u:l:C:', \%Opts );
 
 if ( $Opts{h} ) {
     print STDOUT "otrs.AddQueue.pl - add new queue\n";
     print STDOUT "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print STDOUT "usage: otrs.AddQueue.pl -n <NAME> -g <GROUP> [-s <SYSTEMADDRESSID> -S \n";
     print STDOUT
-        "<SYSTEMADDRESS> -c <COMMENT> -r <FirstResponseTime> -u <UpdateTime> \n";
+        "<SYSTEMADDRESS> -c <COMMENT> -t <UnlockTimeout> -r <FirstResponseTime> -u <UpdateTime> \n";
     print STDOUT "-l <SolutionTime> -C <CalendarID>]\n";
     exit 1;
 }
@@ -112,6 +112,7 @@ my $Success = $CommonObject{QueueObject}->QueueAdd(
     GroupID         => $GroupID,
     SystemAddressID => $SystemAddressID || $Opts{s} || undef,
     Comment           => $Opts{c} || undef,
+    UnlockTimeout     => $Opts{t} || undef,
     FirstResponseTime => $Opts{r} || undef,
     UpdateTime        => $Opts{u} || undef,
     SolutionTime      => $Opts{l} || undef,

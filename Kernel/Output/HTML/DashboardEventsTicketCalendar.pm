@@ -13,10 +13,8 @@ use strict;
 use warnings;
 
 use Kernel::System::DynamicField;
+use Kernel::System::CustomerUser;
 use Kernel::System::VariableCheck qw(:all);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,7 +25,7 @@ sub new {
 
     # get needed objects
     for (
-        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID QueueObject)
+        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID QueueObject TimeObject)
         )
     {
         die "Got no $_!" if ( !$Self->{$_} );
@@ -36,6 +34,7 @@ sub new {
     # create extra needed object
     $Self->{StateObject}        = Kernel::System::State->new(%Param);
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
 
     # get dynamic fields list
     $Self->{DynamicFieldsList} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -132,6 +131,7 @@ sub Run {
     my $Counter = 1;
     my $Limit   = scalar keys %Tickets;
     if (%Tickets) {
+        TICKET:
         for my $TicketID ( sort keys %Tickets ) {
 
             my %TicketDetail = $Self->{TicketObject}->TicketGet(
@@ -146,6 +146,15 @@ sub Run {
                 $TicketDetail{ 'DynamicField_' . $EndTimeDynamicField }
                 )
             {
+
+                # end time should be greater than start time
+                my $StartTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $TicketDetail{ 'DynamicField_' . $StartTimeDynamicField },
+                );
+                my $EndTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $TicketDetail{ 'DynamicField_' . $EndTimeDynamicField },
+                );
+                next TICKET if $StartTime > $EndTime;
 
                 my %Data;
                 $Data{ID}    = $TicketID;
@@ -206,6 +215,18 @@ sub Run {
                         next TICKETFIELD if !$Key;
                         next TICKETFIELD if !$EventTicketFields->{$Key};
 
+                        if ( $Key eq 'CustomerUserID' && $TicketDetail{$Key} ) {
+                            $TicketDetail{$Key} = $Self->{CustomerUserObject}->CustomerName(
+                                UserLogin => $TicketDetail{$Key},
+                            );
+                        }
+
+                        # translate state and priority name
+                        if ( ( $Key eq 'State' || $Key eq 'Priority' ) && $TicketDetail{$Key} ) {
+                            $TicketDetail{$Key} = $Self->{LayoutObject}->{LanguageObject}
+                                ->Get( $TicketDetail{$Key} );
+                        }
+
                         $Self->{LayoutObject}->Block(
                             Name => 'CalendarEventInfoTicketFieldElement',
                             Data => {
@@ -232,11 +253,22 @@ sub Run {
                         next DYNAMICFIELD if !$Item;
                         next DYNAMICFIELD if !$Self->{DynamicFieldLookup}->{$Item}->{Label};
 
+                        # check if we need to format the date
+                        my $InfoValue = $TicketDetail{ 'DynamicField_' . $Item };
+                        if ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'DateTime' ) {
+                            $InfoValue = $Self->{LayoutObject}->{LanguageObject}
+                                ->FormatTimeString($InfoValue);
+                        }
+                        elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Date' ) {
+                            $InfoValue = $Self->{LayoutObject}->{LanguageObject}
+                                ->FormatTimeString( $InfoValue, 'DateFormatShort' );
+                        }
+
                         $Self->{LayoutObject}->Block(
                             Name => 'CalendarEventInfoDynamicFieldElement',
                             Data => {
                                 InfoLabel => $Self->{DynamicFieldLookup}->{$Item}->{Label},
-                                InfoValue => $TicketDetail{ 'DynamicField_' . $Item },
+                                InfoValue => $InfoValue,
                             },
                         );
                     }

@@ -27,7 +27,7 @@ Core.Agent.Admin.DynamicFieldMultiselect = (function (TargetNS) {
      * @return nothing
      *      This function removes a value from possible values list and creates a stub input so
      *      the server can identify if a value is empty or deleted (useful for server validation)
-     *      It also deletes the Value from the DefautlValues list
+     *      It also deletes the Value from the DefaultValues list
      */
     TargetNS.RemoveValue = function (IDSelector){
 

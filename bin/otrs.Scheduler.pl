@@ -40,6 +40,9 @@ use Kernel::System::DB;
 use Kernel::System::PID;
 use Kernel::Scheduler;
 
+# defie PID name
+my $PIDName = 'otrs.Scheduler';
+
 # get options
 my %Opts = ();
 getopt( 'hfap', \%Opts );
@@ -63,9 +66,7 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
     my %CommonObject = _CommonObjects();
 
     # get the process ID
-    my %PID = $CommonObject{PIDObject}->PIDGet(
-        Name => 'otrs.Scheduler',
-    );
+    my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
     # no process ID means that is not running
     if ( !%PID ) {
@@ -86,7 +87,10 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
     if ( exists $Opts{f} ) {
 
         # delete process ID lock
-        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
+            Name  => $PID{Name},
+            Force => 1,
+        );
 
         # log daemon stop
         if ( !$PIDDelSuccess ) {
@@ -99,14 +103,14 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
 
         # delete PID file
         my $Home    = $CommonObject{ConfigObject}->Get('Home');
-        my $PIDFILE = $Home . '/var/run/scheduler.pid';
+        my $PIDFile = $Home . '/var/run/scheduler.pid';
 
-        if ( unlink($PIDFILE) == 0 ) {
+        if ( unlink($PIDFile) == 0 ) {
 
             # log PID file cannot be deleted
             $CommonObject{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Scheduler could not delete PID file! $!",
+                Message  => "Scheduler could not delete PID file:'$PIDFile'! $!",
             );
         }
     }
@@ -121,9 +125,7 @@ if ( $Opts{a} && $Opts{a} eq "status" ) {
     my %CommonObject = _CommonObjects();
 
     # get the process ID
-    my %PID = $CommonObject{PIDObject}->PIDGet(
-        Name => 'otrs.Scheduler',
-    );
+    my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
     # no process ID means that is not running
     if ( !%PID ) {
@@ -188,9 +190,7 @@ if ( $Opts{a} && $Opts{a} eq "reload" ) {
     my %CommonObject = _CommonObjects();
 
     # get the process ID
-    my %PID = $CommonObject{PIDObject}->PIDGet(
-        Name => 'otrs.Scheduler',
-    );
+    my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
     # no process ID means that is not running
     if ( !%PID ) {
@@ -218,7 +218,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         my %CommonObject = _CommonObjects();
 
         # check if PID is already there
-        my %PID = $CommonObject{PIDObject}->PIDGet( Name => 'otrs.Scheduler' );
+        my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
         if (%PID) {
 
@@ -232,7 +232,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
             # calculate time difference
             my $DeltaTime = $Time - $PID{Changed};
 
-            # remove PID if changed time is grater than
+            # remove PID if changed time is greater than
             if ( $DeltaTime > $PIDUpdateTime ) {
 
                 # _AutoStop returns an exit code for the OS, we need the opposite value
@@ -343,17 +343,22 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     # create common objects
     my %CommonObject = _CommonObjects();
 
-    # create new PID on the Database
-    $CommonObject{PIDObject}->PIDCreate( Name => 'otrs.Scheduler' );
+    # if start is forced, be sure to remove any PID from any host
+    my $Force = $Opts{f} ? 1 : '';
 
-    # get the process ID
-    my %PID = $CommonObject{PIDObject}->PIDGet(
-        Name => 'otrs.Scheduler',
+    # create new PID on the Database
+    $CommonObject{PIDObject}->PIDCreate(
+        Name  => $PIDName,
+        Force => $Force,
     );
 
+    # get the process ID
+    my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
+
     # set run directory for PID File
-    my $Home   = $CommonObject{ConfigObject}->Get('Home');
-    my $RunDir = $Home . '/var/run';
+    my $Home    = $CommonObject{ConfigObject}->Get('Home');
+    my $RunDir  = $Home . '/var/run';
+    my $PIDFile = "$RunDir/scheduler.pid";
 
     # check if RunDir exists, otherwise create it
     if ( !-d "$RunDir" ) {
@@ -370,16 +375,16 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     }
 
     # write PID to the PID file (if possible)
-    my $PIDFILE;
-    if ( open $PIDFILE, ">", "$RunDir/scheduler.pid" ) {    ## no critic
-        print $PIDFILE $PID{PID};
-        close $PIDFILE;
+    my $PIDFH;
+    if ( open $PIDFH, ">", $PIDFile ) {    ## no critic
+        print $PIDFH $PID{PID};
+        close $PIDFH;
     }
 
     # otherwise stop if we can't write the PID on the PID file
     else {
         my $ExitCode = _AutoStop(
-            Message   => "Can not write into the PIDFILE: $!",
+            Message   => "Can not write into the PID file:'$PIDFile'! $!",
             DeletePID => 1,
         );
         exit $ExitCode;
@@ -418,9 +423,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     while (1) {
 
         # get the process ID
-        my %PID = $CommonObject{PIDObject}->PIDGet(
-            Name => 'otrs.Scheduler',
-        );
+        my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
         # check if process ID was deleted from DB
         if ( !%PID ) {
@@ -539,9 +542,7 @@ sub _AutoRestart {
     my %CommonObject = _CommonObjects();
 
     # get the process ID
-    my %PID = $CommonObject{PIDObject}->PIDGet(
-        Name => 'otrs.Scheduler',
-    );
+    my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
     # Log daemon start up
     $CommonObject{LogObject}->Log(
@@ -568,7 +569,7 @@ sub _AutoRestart {
 
     my $StartExitCode = system("$Scheduler -a start");
 
-    if ( $StartExitCode ) {
+    if ($StartExitCode) {
         $CommonObject{LogObject}->Log(
             Priority => 'error',
             Message  => "Could not start-up new Scheduler instance.",
@@ -601,9 +602,7 @@ sub _AutoStop {
     if ( $Param{DeletePID} ) {
 
         # get the process ID
-        my %PID = $CommonObject{PIDObject}->PIDGet(
-            Name => 'otrs.Scheduler',
-        );
+        my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
         # delete process ID lock
         my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
@@ -620,20 +619,20 @@ sub _AutoStop {
 
         #delete PID file
         my $Home    = $CommonObject{ConfigObject}->Get('Home');
-        my $PIDFILE = $Home . '/var/run/scheduler.pid';
+        my $PIDFile = $Home . '/var/run/scheduler.pid';
 
         # check if the PID file exists
         # on some linux ditributions if the init.d script is called with the method "restart"
         # the PID file is deleted (e.g start-stop-daemon based init scripts)
-        if ( -e $PIDFILE ) {
+        if ( -e $PIDFile ) {
 
             # if the PID file exists check if is possible to delete or send an error
-            if ( unlink($PIDFILE) == 0 ) {
+            if ( unlink($PIDFile) == 0 ) {
 
                 # log PID file cannot be deleted
                 $CommonObject{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Scheduler could not delete PID file! $!",
+                    Message  => "Scheduler could not delete PID file:'$PIDFile'! $!",
                 );
                 $ExitCode = 1;
                 return $ExitCode;

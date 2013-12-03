@@ -1,5 +1,5 @@
 # --
-# AgentTicketSearchResultPrint.dtl - html for ticket status view (all tickets)
+# AgentTicketSearchResultPrint.dtl - html for ticket search result
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -32,7 +32,7 @@
                     <td class="contentvalue">$TimeLong{"$Data{"Created"}"}</td>
                     <td class="contentvalue">$QData{"From","30"}<br/>$QData{"Subject","30"}</td>
                     <td class="contentvalue">$Text{"$Data{"State"}"}<br/>$QData{"Queue","30"}</td>
-                    <td class="contentvalue">$QData{"Owner","30"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","30"})</td>
+                    <td class="contentvalue">$QData{"UserFullname"}</td>
                     <td class="contentvalue">$QData{"CustomerID","15"}&nbsp;<br/>$QData{"CustomerName","15"}</td>
                 </tr>
 <!-- dtl:block:Record -->

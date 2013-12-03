@@ -19,8 +19,6 @@ use Kernel::System::CacheInternal;
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::User - user lib
@@ -154,6 +152,9 @@ sub GetUserData {
         return;
     }
 
+    # get configuration for the full name order
+    my $FirstnameLastNameOrder = $Self->{ConfigObject}->Get('FirstnameLastnameOrder') || 0;
+
     # check if result is cached
     if ( $Param{Valid} ) {
         $Param{Valid} = 1;
@@ -174,6 +175,7 @@ sub GetUserData {
             = 'GetUserData::User::'
             . $Param{User} . '::'
             . $Param{Valid} . '::'
+            . $FirstnameLastNameOrder . '::'
             . $Param{NoOutOfOffice};
     }
     else {
@@ -181,6 +183,7 @@ sub GetUserData {
             = 'GetUserData::UserID::'
             . $Param{UserID} . '::'
             . $Param{Valid} . '::'
+            . $FirstnameLastNameOrder . '::'
             . $Param{NoOutOfOffice};
     }
 
@@ -260,6 +263,40 @@ sub GetUserData {
         }
     }
 
+    # generate the full name and save it in the hash
+    my $UserFullname;
+    if ( $FirstnameLastNameOrder eq '0' ) {
+        $UserFullname = $Data{UserFirstname} . ' '
+            . $Data{UserLastname};
+    }
+    elsif ( $FirstnameLastNameOrder eq '1' ) {
+        $UserFullname = $Data{UserLastname} . ', '
+            . $Data{UserFirstname};
+    }
+    elsif ( $FirstnameLastNameOrder eq '2' ) {
+        $UserFullname = $Data{UserFirstname} . ' '
+            . $Data{UserLastname} . ' ('
+            . $Data{UserLogin} . ')';
+    }
+    elsif ( $FirstnameLastNameOrder eq '3' ) {
+        $UserFullname = $Data{UserLastname} . ', '
+            . $Data{UserFirstname} . ' ('
+            . $Data{UserLogin} . ')';
+    }
+    elsif ( $FirstnameLastNameOrder eq '4' ) {
+        $UserFullname = '(' . $Data{UserLogin}
+            . ') ' . $Data{UserFirstname}
+            . ' ' . $Data{UserLastname};
+    }
+    elsif ( $FirstnameLastNameOrder eq '5' ) {
+        $UserFullname = '(' . $Data{UserLogin}
+            . ') ' . $Data{UserLastname}
+            . ', ' . $Data{UserFirstname};
+    }
+
+    # save the generated fullname in the hash.
+    $Data{UserFullname} = $UserFullname;
+
     # get preferences
     my %Preferences = $Self->GetPreferences( UserID => $Data{UserID} );
 
@@ -306,13 +343,14 @@ sub GetUserData {
     my $Config = $Self->{ConfigObject}->Get('PreferencesGroups');
     if ( $Config && ref $Config eq 'HASH' ) {
 
+        KEY:
         for my $Key ( sort keys %{$Config} ) {
 
             # next if no default data exists
-            next if !defined $Config->{$Key}->{DataSelected};
+            next KEY if !defined $Config->{$Key}->{DataSelected};
 
             # check if data is defined
-            next if defined $Data{ $Config->{$Key}->{PrefKey} };
+            next KEY if defined $Data{ $Config->{$Key}->{PrefKey} };
 
             # set default data
             $Data{ $Config->{$Key}->{PrefKey} } = $Config->{$Key}->{DataSelected};
@@ -529,6 +567,21 @@ to search users
         Valid            => 1, # not required
     );
 
+Returns hash of UserID, Login pairs:
+
+    my %List = (
+        1 => 'root@locahost',
+        4 => 'admin',
+        9 => 'joe',
+    );
+
+For PostMasterSearch, it returns hash of UserID, Email pairs:
+
+    my %List = (
+        4 => 'john@example.com',
+        9 => 'joe@example.com',
+    );
+
 =cut
 
 sub UserSearch {
@@ -549,22 +602,20 @@ sub UserSearch {
     # get like escape string needed for some databases (e.g. oracle)
     my $LikeEscapeString = $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
 
-    # build SQL string 1/2
-    my $SQL    = "SELECT $Self->{UserTableUserID} ";
-    my @Fields = qw(login first_name last_name);
-    if (@Fields) {
-        for my $Entry (@Fields) {
-            $SQL .= ", $Entry";
-        }
-    }
+    # build SQL string
+    my $SQL = "SELECT $Self->{UserTableUserID}, login
+                   FROM $Self->{UserTable} WHERE ";
+    my @Bind;
 
-    # build SQL string 2/2
-    $SQL .= " FROM $Self->{UserTable} WHERE ";
     if ( $Param{Search} ) {
-        $SQL .= $Self->{DBObject}->QueryCondition(
-            Key   => \@Fields,
-            Value => $Param{Search},
-        ) . ' ';
+
+        my %QueryCondition = $Self->{DBObject}->QueryCondition(
+            Key      => [qw(login first_name last_name)],
+            Value    => $Param{Search},
+            BindMode => 1,
+        );
+        $SQL .= $QueryCondition{SQL} . ' ';
+        push @Bind, @{ $QueryCondition{Values} };
     }
     elsif ( $Param{PostMasterSearch} ) {
 
@@ -586,9 +637,11 @@ sub UserSearch {
         return;
     }
     elsif ( $Param{UserLogin} ) {
+
+        $SQL .= " $Self->{Lower}($Self->{UserTableUser}) LIKE ? $LikeEscapeString";
         $Param{UserLogin} =~ s/\*/%/g;
-        $SQL .= " $Self->{Lower}($Self->{UserTableUser}) LIKE $Self->{Lower}('"
-            . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Like' ) . "') $LikeEscapeString";
+        $Param{UserLogin} = $Self->{DBObject}->Quote( $Param{UserLogin}, 'Like' );
+        push @Bind, \$Param{UserLogin};
     }
 
     # add valid option
@@ -598,18 +651,14 @@ sub UserSearch {
 
     # get data
     return if !$Self->{DBObject}->Prepare(
-        SQL => $SQL,
+        SQL   => $SQL,
+        Bind  => \@Bind,
         Limit => $Self->{UserSearchListLimit} || $Param{Limit},
     );
 
     # fetch the result
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        for ( 1 .. 8 ) {
-            if ( $Row[$_] ) {
-                $Users{ $Row[0] } .= $Row[$_] . ' ';
-            }
-        }
-        $Users{ $Row[0] } =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+        $Users{ $Row[0] } = $Row[1];
     }
 
     return %Users;
@@ -691,7 +740,8 @@ sub SetPassword {
         if ( !$Self->{MainObject}->Require('Crypt::Eksblowfish::Bcrypt') ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "User: '$User{UserLogin}' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
+                Message =>
+                    "User: '$User{UserLogin}' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
             );
             return;
         }
@@ -700,14 +750,14 @@ sub SetPassword {
         my $Salt = $Self->{MainObject}->GenerateRandomString( Length => 16 );
 
         # remove UTF8 flag, required by Crypt::Eksblowfish::Bcrypt
-        $Self->{EncodeObject}->EncodeOutput(\$Pw);
+        $Self->{EncodeObject}->EncodeOutput( \$Pw );
 
         # calculate password hash
         my $Octets = Crypt::Eksblowfish::Bcrypt::bcrypt_hash(
             {
-                    key_nul => 1,
-                    cost => 9,
-                    salt => $Salt,
+                key_nul => 1,
+                cost    => 9,
+                salt    => $Salt,
             },
             $Pw
         );
@@ -864,7 +914,7 @@ sub UserName {
     my %User = $Self->GetUserData(%Param);
 
     return if !%User;
-    return "$User{UserFirstname} $User{UserLastname}";
+    return $User{UserFullname};
 }
 
 =item UserList()
@@ -892,9 +942,13 @@ sub UserList {
         $Valid = 0;
     }
 
+    # get configuration for the full name order
+    my $FirstnameLastNameOrder = $Self->{ConfigObject}->Get('FirstnameLastnameOrder') || 0;
+
     # check cache
-    my $CacheKey = 'UserList::' . $Type . '::' . $Valid;
-    my $Cache    = $Self->{CacheInternalObject}->Get(
+    my $CacheKey = 'UserList::' . $Type . '::' . $Valid
+        . '::' . $FirstnameLastNameOrder;
+    my $Cache = $Self->{CacheInternalObject}->Get(
         Key => $CacheKey,
     );
     return %{$Cache} if $Cache;
@@ -913,7 +967,8 @@ sub UserList {
     # sql query
     if ($Valid) {
         return if !$Self->{DBObject}->Prepare(
-            SQL => "SELECT $SelectStr FROM $Self->{ConfigObject}->{DatabaseUserTable} WHERE valid_id IN "
+            SQL =>
+                "SELECT $SelectStr FROM $Self->{ConfigObject}->{DatabaseUserTable} WHERE valid_id IN "
                 . "( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )",
         );
     }
@@ -924,18 +979,26 @@ sub UserList {
     }
 
     # fetch the result
+    my %UsersRaw;
     my %Users;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        if ( $Type eq 'Short' ) {
-            $Users{ $Row[0] } = $Row[1];
-        }
-        else {
-            $Users{ $Row[0] } = "$Row[1], $Row[2] ($Row[3])";
+        $UsersRaw{ $Row[0] } = $Row[1];
+    }
+
+    if ( $Type eq 'Short' ) {
+        %Users = %UsersRaw;
+    }
+    else {
+        for my $CurrentUserID ( sort keys %UsersRaw ) {
+            my $UserFullname = $Self->UserName( UserID => $CurrentUserID );
+            $Users{$CurrentUserID} = $UserFullname;
         }
     }
-     # check vacation option
+
+    # check vacation option
+    USERID:
     for my $UserID ( sort keys %Users ) {
-        next if !$UserID;
+        next USERID if !$UserID;
 
         my %User = $Self->GetUserData(
             UserID => $UserID,
@@ -1016,23 +1079,7 @@ sub SetPreferences {
 
     # delete cache
     my $Login = $Self->UserLookup( UserID => $Param{UserID} );
-    my @CacheKeys = (
-        'GetUserData::User::' . $Login . '::0::0',
-        'GetUserData::User::' . $Login . '::0::1',
-        'GetUserData::User::' . $Login . '::1::0',
-        'GetUserData::User::' . $Login . '::1::1',
-        'GetUserData::UserID::' . $Param{UserID} . '::0::0',
-        'GetUserData::UserID::' . $Param{UserID} . '::0::1',
-        'GetUserData::UserID::' . $Param{UserID} . '::1::0',
-        'GetUserData::UserID::' . $Param{UserID} . '::1::1',
-        'UserList::Short::0',
-        'UserList::Short::1',
-        'UserList::Long::0',
-        'UserList::Long::1',
-    );
-    for my $CacheKey (@CacheKeys) {
-        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
-    }
+    $Self->{CacheInternalObject}->CleanUp();
 
     # set preferences
     return $Self->{PreferencesObject}->SetPreferences(%Param);
@@ -1060,7 +1107,7 @@ search in user preferences
 
     my %UserList = $UserObject->SearchPreferences(
         Key   => 'UserEmail',
-        Value => 'email@example.com',
+        Value => 'email@example.com',   # optional, limit to a certain value/pattern
     );
 
 =cut

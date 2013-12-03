@@ -22,7 +22,7 @@ my $RepositoryRoot = $Self->{ConfigObject}->Get('Package::RepositoryRoot') || []
 
 my @Tests = (
     {
-        Name        => 'Test ' . $TestNumber++,
+        Name        => 'GET - empty url - Test ' . $TestNumber++,
         URL         => "",
         Timeout     => $TimeOut,
         Proxy       => $Proxy,
@@ -30,7 +30,7 @@ my @Tests = (
         ErrorNumber => '400',
     },
     {
-        Name        => 'Test ' . $TestNumber++,
+        Name        => 'GET - wrong url - Test ' . $TestNumber++,
         URL         => "wrongurl",
         Timeout     => $TimeOut,
         Proxy       => $Proxy,
@@ -38,7 +38,7 @@ my @Tests = (
         ErrorNumber => '400',
     },
     {
-        Name        => 'Test ' . $TestNumber++,
+        Name        => 'GET - invalid url - Test ' . $TestNumber++,
         URL         => "http://novalidurl",
         Timeout     => $TimeOut,
         Proxy       => $Proxy,
@@ -46,7 +46,7 @@ my @Tests = (
         ErrorNumber => '500',
     },
     {
-        Name        => 'Test ' . $TestNumber++,
+        Name        => 'GET - http - invalid proxy - Test ' . $TestNumber++,
         URL         => "http://ftp.otrs.org/pub/otrs/packages/otrs.xml",
         Timeout     => $TimeOut,
         Proxy       => 'http://NoProxy',
@@ -54,15 +54,7 @@ my @Tests = (
         ErrorNumber => '500',
     },
     {
-        Name        => 'Test ' . $TestNumber++,
-        URL         => "http://ftp.otrs.org/pub/otrs/packages/otrs.xml",
-        Timeout     => $TimeOut,
-        Proxy       => 'http://NoProxy',
-        Success     => '0',
-        ErrorNumber => '500',
-    },
-    {
-        Name        => 'Test ' . $TestNumber++,
+        Name        => 'GET - http - ftp proxy - Test ' . $TestNumber++,
         URL         => "http://ftp.otrs.org/pub/otrs/packages/otrs.xml",
         Timeout     => $TimeOut,
         Proxy       => 'ftp://NoProxy',
@@ -70,20 +62,71 @@ my @Tests = (
         ErrorNumber => '400',
     },
     {
-        Name    => 'Test ' . $TestNumber++,
+        Name    => 'GET - http - long timeout - Test ' . $TestNumber++,
         URL     => "http://ftp.otrs.org/pub/otrs/packages/otrs.xml",
         Timeout => '100',
         Proxy   => $Proxy,
         Success => '1',
     },
     {
-        Name    => 'Test ' . $TestNumber++,
+        Name    => 'GET - http - Test ' . $TestNumber++,
         URL     => "http://ftp.otrs.org/pub/otrs/packages/otrs.xml",
         Timeout => $TimeOut,
         Proxy   => $Proxy,
         Success => '1',
     },
-
+    {
+        Name    => 'GET - https - Test ' . $TestNumber++,
+        URL     => "https://portal.otrs.com/",
+        Timeout => $TimeOut,
+        Proxy   => $Proxy,
+        Success => '1',
+    },
+    {
+        Name => 'POST - hashref - Test ' . $TestNumber++,
+        URL  => "https://pav.otrs.com/otrs/public.pl",
+        Type => "POST",
+        Data => {
+            'Action'  => 'PublicPackageVerification',
+            'Package' => 'Test::9fa881ef2e2cdafecd06fa689ca2044e',
+        },
+        Timeout => $TimeOut,
+        Proxy   => $Proxy,
+        Success => '1',
+        Content => '{"Test":"not_verified"}',
+    },
+    {
+        Name => 'POST - arrayref - Test ' . $TestNumber++,
+        URL  => "https://pav.otrs.com/otrs/public.pl",
+        Type => "POST",
+        Data => [
+            'Action'  => 'PublicPackageVerification',
+            'Package' => 'Test::9fa881ef2e2cdafecd06fa689ca2044e',
+        ],
+        Timeout => $TimeOut,
+        Proxy   => $Proxy,
+        Success => '1',
+        Content => '{"Test":"not_verified"}',
+    },
+    {
+        Name        => 'POST - data but no arrayref or hashref - Test ' . $TestNumber++,
+        URL         => "https://pav.otrs.com/otrs/public.pl",
+        Type        => "POST",
+        Data        => 'SomeData',
+        Timeout     => $TimeOut,
+        Proxy       => $Proxy,
+        Success     => 0,
+        ErrorNumber => 0,
+    },
+    {
+        Name        => 'POST - no data - Test ' . $TestNumber++,
+        URL         => "https://pav.otrs.com/otrs/public.pl",
+        Type        => "POST",
+        Timeout     => $TimeOut,
+        Proxy       => $Proxy,
+        Success     => 0,
+        ErrorNumber => 0,
+    },
 );
 
 # get repository list
@@ -111,7 +154,7 @@ for my $Test (@Tests) {
     $Self->Is(
         ref $WebUserAgentObject,
         'Kernel::System::WebUserAgent',
-        "$Test->{Name} - WebsUserAgent object creation",
+        "$Test->{Name} - WebUserAgent object creation",
     );
 
     $Self->True(
@@ -120,7 +163,9 @@ for my $Test (@Tests) {
     );
 
     my %Response = $WebUserAgentObject->Request(
-        URL => $Test->{URL},
+        URL  => $Test->{URL},
+        Type => $Test->{Type},
+        Data => $Test->{Data},
     );
 
     $Self->True(
@@ -149,6 +194,13 @@ for my $Test (@Tests) {
             substr( $Response{Status}, 0, 3 ),
             '200',
             "$Test->{Name} - WebUserAgent - Check request status",
+        );
+    }
+    if ( $Test->{Content} ) {
+        $Self->Is(
+            ${ $Response{Content} },
+            $Test->{Content},
+            "$Test->{Name} - WebUserAgent - Check request content",
         );
     }
 }

@@ -17,8 +17,6 @@ use Kernel::System::Scheduler::TaskManager;
 use Kernel::Scheduler::TaskHandler;
 use Kernel::System::PID;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::Scheduler - Scheduler lib
@@ -241,7 +239,7 @@ sub Run {
                 next TASKITEM;
             }
             $Self->{LogObject}->Log(
-                Priority => 'notice',
+                Priority => 'info',
                 Message  => "Task is rescheduled.",
             );
         }

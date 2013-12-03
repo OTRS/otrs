@@ -38,8 +38,6 @@ use Kernel::System::Ticket;
 use Kernel::System::User;
 use Kernel::System::State;
 
-use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
-
 # common objects
 my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
@@ -241,4 +239,4 @@ for my $TicketID (@TicketIDs) {
     }
 }
 
-exit(0);
+exit;

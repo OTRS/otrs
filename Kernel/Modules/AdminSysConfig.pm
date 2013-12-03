@@ -137,7 +137,7 @@ sub Run {
             if ( defined $Self->{ParamObject}->GetParam( Param => "Reset$_" ) ) {
                 $Self->{SysConfigObject}->ConfigItemReset( Name => $_ );
                 $Anker = $ItemHash{Name};
-                next;
+                next ITEM;
             }
 
             # Get ElementActive (checkbox)
@@ -981,7 +981,7 @@ sub Run {
 
         # secure mode message (don't allow this action till secure mode is enabled)
         if ( !$Self->{ConfigObject}->Get('SecureMode') ) {
-            $Self->{LayoutObject}->SecureMode();
+            return $Self->{LayoutObject}->SecureMode();
         }
 
         $Self->{LayoutObject}->Block( Name => 'ActionList' );

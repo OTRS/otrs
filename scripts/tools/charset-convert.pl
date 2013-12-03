@@ -22,8 +22,6 @@
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-
 use Encode;
 use Getopt::Std;
 
@@ -32,7 +30,7 @@ getopt( 'sdf', \%Opts );
 
 # usage
 if ( $Opts{h} ) {
-    print "charset-convert.pl <Revision $VERSION> - convert a charset of a file\n";
+    print "charset-convert.pl - convert a charset of a file\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print "usage: charset-convert.pl -s <SOURCE_CHARSET> -d <DEST_CHARSET> -f <FILE>\n";
     print "       charset-convert.pl -s <SOURCE_CHARSET> -d <DEST_CHARSET> < file\n";

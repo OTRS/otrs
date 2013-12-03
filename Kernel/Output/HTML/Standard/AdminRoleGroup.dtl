@@ -216,6 +216,17 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     Core.UI.Table.InitTableFilter($('#Filter'), $('#UserGroups'));
+
+    Core.App.Subscribe('Event.UI.Table.InitTableFilter.Change', function ($FilterInput, $Container, ColumnNumber) {
+        // Only one filter present on page, no check needed
+        // Filter is set, remove checkbox to select all entries
+        if ($FilterInput.val().length) {
+            $('#UserGroups th input[type=checkbox]').addClass('Invisible');
+        }
+        else {
+            $('#UserGroups th input[type=checkbox]').removeClass('Invisible');
+        }
+    });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
 <!-- dtl:block:Change -->

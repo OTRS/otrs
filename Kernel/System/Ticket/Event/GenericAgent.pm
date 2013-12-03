@@ -12,9 +12,6 @@ package Kernel::System::Ticket::Event::GenericAgent;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
-
 use Kernel::System::GenericAgent;
 use Kernel::System::VariableCheck qw(:all);
 

@@ -64,7 +64,7 @@
 
                                 <label class="Mandatory" for="FieldOrder"><span class="Marker">*</span> $Text{"Field order"}:</label>
                                 <div class="Field">
-                                    $Data{"DynamicFieldOrderSrtg"}
+                                    $Data{"DynamicFieldOrderStrg"}
                                     <div id="FieldOrderError" class="TooltipErrorMessage"><p>$Text{"This field is required and must be numeric."}</p></div>
                                     <div id="FieldOrderServerError" class="TooltipErrorMessage"><p>$Text{"$Data{"FieldOrderServerErrorMessage"}"}</p></div>
                                     <p class="FieldExplanation">$Text{"This is the order in which this field will be shown on the screens where is active."}</p>

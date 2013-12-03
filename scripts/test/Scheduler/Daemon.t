@@ -44,8 +44,11 @@ my $CheckAction = sub {
 
     my $StateBefore = `$Scheduler -a status`;
 
+    # remove new lines
+    $StateBefore =~ s{\n}{};
+
     $Self->True(
-        scalar( $StateBefore =~ m/^\Q$Param{StateBefore}\E/smxi ),
+        scalar( $StateBefore =~ m/^\Q$Param{StateBefore}\E/i ),
         "$Name state before action (should be '$Param{StateBefore}' and is '$StateBefore' ... ignoring case)",
     );
 
@@ -54,11 +57,20 @@ my $CheckAction = sub {
 
     my %PIDInfoBefore = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
 
-    $Self->Is(
-        $PIDBefore,
-        $PIDInfoBefore{PID} || 0,
-        "$Name PID matches DB value before action (current state $StateBefore)",
-    );
+    if ( $Param{PIDDifferentBefore} ) {
+        $Self->IsNot(
+            $PIDBefore,
+            $PIDInfoBefore{PID} || 0,
+            "$Name PID should not match DB value before action (current state $StateBefore)",
+        );
+    }
+    else {
+        $Self->Is(
+            $PIDBefore,
+            $PIDInfoBefore{PID} || 0,
+            "$Name PID matches DB value before action (current state $StateBefore)",
+        );
+    }
 
     # check if force action is needed
     my $Force = '';
@@ -141,7 +153,7 @@ my $CheckAction = sub {
                 if ( $Seconds == $Param{SleepAfterAction} ) {
                     $Self->True(
                         0,
-                        "$Name timeout wating for $Seconds seconds state is $IntStateAfter!",
+                        "$Name timeout waiting for $Seconds seconds state is $IntStateAfter!",
                     );
                 }
             }
@@ -150,8 +162,11 @@ my $CheckAction = sub {
 
     my $StateAfter = `$Scheduler -a status`;
 
+    # remove new lines
+    $StateAfter =~ s{\n}{};
+
     $Self->True(
-        scalar( $StateAfter =~ m/^\Q$Param{StateAfter}\E/smxi ),
+        scalar( $StateAfter =~ m/^\Q$Param{StateAfter}\E/i ),
         "$Name state after action (Should be '$Param{StateAfter}' and is '$StateAfter' ... ignoring case)",
     );
 
@@ -166,11 +181,20 @@ my $CheckAction = sub {
 
     my %PIDInfoAfter = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
 
-    $Self->Is(
-        $PIDAfter,
-        $PIDInfoAfter{PID} || 0,
-        "$Name PID matches DB value after action (current state $StateAfter)",
-    );
+    if ( $Param{PIDDifferentAfter} ) {
+        $Self->IsNot(
+            $PIDAfter,
+            $PIDInfoAfter{PID} || 0,
+            "$Name PID should not match DB value after action (current state $StateAfter)",
+        );
+    }
+    else {
+        $Self->Is(
+            $PIDAfter,
+            $PIDInfoAfter{PID} || 0,
+            "$Name PID matches DB value after action (current state $StateAfter)",
+        );
+    }
 };
 
 my $SleepTime;
@@ -192,11 +216,11 @@ if ( $PreviousSchedulerStatus =~ /^running/i ) {
 # special case where scheduler is not running but PID is registered
 if ( $PreviousSchedulerStatus =~ m{registered}i ) {
 
-    # force stop direcly before CheckAction
+    # force stop directly before CheckAction
     my $ResultMessage = `$Scheduler -a stop -f 1 2>&1`;
     $Self->True(
         1,
-        "Force stoping due to bad status...",
+        "Force stopping due to bad status...",
     );
 
     $Self->Is(
@@ -326,7 +350,7 @@ $CheckAction->(
 
 my %PIDInfo1 = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
 
-# this sleep is needed just to test that scheduler is still runing and not self-restart on a short
+# this sleep is needed just to test that scheduler is still running and not self-restart on a short
 # wait
 print "Sleeping 2s\n";
 sleep 2;
@@ -392,7 +416,7 @@ $CheckAction->(
     PIDChangeExpected   => 1,
 );
 
-# set new configuration so shceduler will not be auto-restarted anymore during the test
+# set new configuration so scheduler will not be auto-restarted during the test
 $ConfigUpdated = $SysConfigObject->ConfigItemUpdate(
     Valid => 1,
     Key   => 'Scheduler::RestartAfterSeconds',
@@ -528,7 +552,7 @@ $CheckAction->(
 );
 
 $CheckAction->(
-    Name                => 'Final stop',
+    Name                => 'Stop after delete PID',
     Action              => 'stop',
     Force               => 1,
     ExpectActionSuccess => 1,
@@ -552,6 +576,155 @@ for my $Seconds ( 1 .. $SleepTime ) {
 
 # get the process ID
 my %PID = $PIDObject->PIDGet(
+    Name => 'otrs.Scheduler',
+);
+
+# verify that PID is removed
+$Self->False(
+    $PID{PID},
+    "Scheduler PID was correctly removed from DB",
+);
+
+# start shceduler normally (tests before this point should leave a clean system)
+$CheckAction->(
+    Name                => 'Start for PID host change',
+    Action              => 'start',
+    ExpectActionSuccess => 1,
+    SleepAfterAction    => 20,
+    StateBefore         => 'not running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 1,
+);
+
+# manually modify the PID host
+my $RandomID      = $HelperObject->GetRandomID();
+my $UpdateSuccess = $Self->{DBObject}->Do(
+    SQL => '
+        UPDATE process_id
+        SET process_host = ?
+        WHERE process_name = ?',
+    Bind => [ \$RandomID, \'otrs.Scheduler' ],
+);
+$Self->True(
+    $UpdateSuccess,
+    'Updated Host for Force delete',
+);
+my %UpdatedPIDGet = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
+$Self->Is(
+    $UpdatedPIDGet{Host},
+    $RandomID,
+    'PIDGet() for Force delete (Host)',
+);
+
+# check after changed PID host on database
+$CheckAction->(
+    Name                => 'Check status after changed PID host',
+    Action              => 'status',
+    ExpectActionSuccess => 1,
+    StateBefore         => 'running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 0,
+);
+
+# use normal stop to try to stop the scheduler
+$CheckAction->(
+    Name                => 'Nomal stop',
+    Action              => 'stop',
+    ExpectActionSuccess => 1,
+    StateBefore         => 'running',
+    StateAfter          => 'not running',
+    PIDChangeExpected   => 1,
+    PIDDifferentAfter   => 1,
+);
+
+# Wait for slow systems
+$SleepTime = 20;
+print "Waiting at most $SleepTime s until scheduler stops\n";
+ACTIVESLEEP:
+for my $Seconds ( 1 .. $SleepTime ) {
+    my $SchedulerStatus = `$Scheduler -a status`;
+    if ( $SchedulerStatus !~ m{\A running }msxi ) {
+        last ACTIVESLEEP;
+    }
+    print "Sleeping for $Seconds seconds...\n";
+    sleep 1;
+}
+
+# try normal start, it should not work as PID is still registered in the DB
+$CheckAction->(
+    Name                => 'Start after PID host change',
+    Action              => 'start',
+    ExpectActionSuccess => 0,
+    SleepAfterAction    => 20,
+    StateBefore         => 'not running',
+    StateAfter          => 'not running',
+    PIDChangeExpected   => 0,
+    PIDDifferentBefore  => 1,
+    PIDDifferentAfter   => 1,
+);
+
+# use forced stop to stop the scheduler (thsi should remove the PID even from another host)
+$CheckAction->(
+    Name                => 'Forced stop',
+    Action              => 'stop',
+    Force               => 1,
+    ExpectActionSuccess => 1,
+    StateBefore         => 'not running',
+    StateAfter          => 'not running',
+    PIDChangeExpected   => 0,
+    PIDDifferentBefore  => 1,
+);
+
+# Wait for slow systems
+$SleepTime = 20;
+print "Waiting at most $SleepTime s until scheduler stops\n";
+ACTIVESLEEP:
+for my $Seconds ( 1 .. $SleepTime ) {
+    my $SchedulerStatus = `$Scheduler -a status`;
+    if ( $SchedulerStatus !~ m{\A running }msxi ) {
+        last ACTIVESLEEP;
+    }
+    print "Sleeping for $Seconds seconds...\n";
+    sleep 1;
+}
+
+# start scheduer normally
+$CheckAction->(
+    Name                => 'Start after force stop for PID host change',
+    Action              => 'start',
+    ExpectActionSuccess => 1,
+    SleepAfterAction    => 20,
+    StateBefore         => 'not running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 1,
+);
+
+# stop scheduer (using force, just to make sure to leave a clean system)
+$CheckAction->(
+    Name                => 'Final stop for PID host change',
+    Action              => 'stop',
+    Force               => 1,
+    ExpectActionSuccess => 1,
+    StateBefore         => 'running',
+    StateAfter          => 'not running',
+    PIDChangeExpected   => 1,
+);
+
+# Wait for slow systems
+$SleepTime = 20;
+print "Waiting at most $SleepTime s until scheduler stops\n";
+ACTIVESLEEP:
+for my $Seconds ( 1 .. $SleepTime ) {
+    my $SchedulerStatus = `$Scheduler -a status`;
+    if ( $SchedulerStatus !~ m{\A running }msxi ) {
+        last ACTIVESLEEP;
+    }
+    print "Sleeping for $Seconds seconds...\n";
+    sleep 1;
+}
+
+# get the process ID
+%PID = $PIDObject->PIDGet(
     Name => 'otrs.Scheduler',
 );
 

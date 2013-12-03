@@ -1,0 +1,283 @@
+# --
+# AdminTemplate.dtl - provides HTML form for AdminTemplate
+# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- dtl:block:Overview -->
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Manage Templates"}</h1>
+
+    <div class="SidebarColumn">
+<!-- dtl:block:ActionList -->
+        <div class="WidgetSimple">
+            <div class="Header"><h2>$Text{"Actions"}</h2></div>
+            <div class="Content">
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction"><span>$Text{"Go to overview"}</span></a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+<!-- dtl:block:ActionAdd -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Add" class="CallForAction Plus"><span>$Text{"Add template"}</span></a>
+                    </li>
+<!-- dtl:block:ActionAdd -->
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:Filter -->
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="Filter">$Text{"Filter"}</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="Filter" class="W50pc" name="Filter" value="" title="$Text{"Filter"}" />
+            </div>
+        </div>
+<!-- dtl:block:Filter -->
+<!-- dtl:block:ActionList -->
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Hint"}</h2>
+            </div>
+            <div class="Content">
+
+                <p class="FieldExplanation">
+                    $Text{"A template is a default text which helps your agents to write faster tickets, answers or forwards."}
+                </p>
+                <p>
+                    $Text{"Attention"}:
+                    <a href="$Env{"Baselink"}Action=AdminQueueTemplates">$Text{"Don't forget to add new templates to queues."}</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+<!-- dtl:block:OverviewResult -->
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"List"}</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable" id="Templates">
+                    <thead>
+                        <tr>
+                            <th>$Text{"Type"}</th>
+                            <th>$Text{"Name"}</th>
+                            <th>$Text{"Attachments"}</th>
+                            <th>$Text{"Comment"}</th>
+                            <th>$Text{"Validity"}</th>
+                            <th>$Text{"Changed"}</th>
+                            <th>$Text{"Created"}</th>
+                            <th>$Text{"Delete"}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="7">$Text{"No matches found."}</td>
+                        </tr>
+<!-- dtl:block:NoDataFoundMsg -->
+                        <tr>
+                            <td colspan="7">
+                                $Text{"No data found."}
+                            </td>
+                        </tr>
+<!-- dtl:block:NoDataFoundMsg -->
+<!-- dtl:block:OverviewResultRow -->
+                        <tr>
+                            <td>$Text{"$Data{"TemplateType"}"}</td>
+                            <td>
+                                <a class="AsBlock" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Change;ID=$LQData{"ID"};Type=$LQData{"TemplateType"}">$QData{"Name"}</a>
+                            </td>
+                            <td>$QData{"Attachments"}</td>
+                            <td title="$QData{"Comment"}">$QData{"Comment","26"}</td>
+                            <td>$Text{"$Data{"Valid"}"}</td>
+                            <td>$TimeShort{"$QData{"ChangeTime"}"}</td>
+                            <td>$TimeShort{"$QData{"CreateTime"}"}</td>
+                            <td class="Center">
+                                <a class="TrashCan" href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Delete;ID=$LQData{"ID"};$QEnv{"ChallengeTokenParam"}" title="$Text{"Delete this entry"}">
+                                    $Text{"Delete this entry"}
+                                </a>
+                            </td>
+                        </tr>
+<!-- dtl:block:OverviewResultRow -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    Core.UI.Table.InitTableFilter($('#Filter'), $('#Templates'));
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:OverviewResult -->
+<!-- dtl:block:OverviewUpdate -->
+
+<!-- dtl:block:RichText -->
+$Include{"RichTextEditor"}
+<!-- dtl:block:RichText -->
+
+        <div class="WidgetSimple">
+            <div class="Header">
+<!-- dtl:block:HeaderAdd -->
+                <h2>$Text{"Add Template"}</h2>
+<!-- dtl:block:HeaderAdd -->
+<!-- dtl:block:HeaderEdit -->
+                <h2>$Text{"Edit Template"}</h2>
+<!-- dtl:block:HeaderEdit -->
+            </div>
+            <div class="Content">
+                <form action="$Env{"CGIHandle"}" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                    <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
+                    <input type="hidden" name="ID" value="$QData{"ID"}"/>
+                    <fieldset class="TableLike">
+                        <label class="Mandatory" for="TemplateType"><span class="Marker">*</span> $Text{"Type"}:</label>
+                        <div class="Field">
+                            $Data{"TemplateTypeString"}
+                            <div id="TemplateTypeError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="TemplateTypeServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+                        <label class="Mandatory" for="Name"><span class="Marker">*</span> $Text{"Name"}:</label>
+                        <div class="Field">
+                            <input type="text" name="Name" id="Name" value="$QData{"Name"}" class="W50pc Validate_Required $QData{"NameInvalid"}" maxlength="200"/>
+                            <div id="NameError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="NameServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+                        <label for="RichText">$Text{"Template"}:</label>
+                        <div class="RichTextField">
+                            <textarea id="RichText" class="RichText" rows="10" cols="60" name="Template">$QData{"Template"}</textarea>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="IDs">$Text{"Attachments"}:</label>
+                        <div class="Field">
+                            $Data{"AttachmentOption"}
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> $Text{"Validity"}:</label>
+                        <div class="Field">
+                            $Data{"ValidOption"}
+                            <div id="ValidIDError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Comment">$Text{"Comment"}:</label>
+                        <div class="Field">
+                            <input type="text" name="Comment" id="Comment" value="$QData{"Comment"}" class="W50pc" maxlength="250"/>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field">
+                            <button class="Primary" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+                            $Text{"or"}
+                            <a href="$Env{"Baselink"}Action=AdminTemplate">$Text{"Cancel"}</a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <div class="WidgetSimple SpacingTop">
+            <div class="Header">
+                <h2>$Text{"Reference"}</h2>
+            </div>
+            <div class="Content">
+
+                <p>$Text{"You can use the following tags"}:</p>
+                <dl>
+                    <dt><code>&lt;OTRS_OWNER_*&gt;</code></dt>
+                    <dd>
+                        $Text{"Ticket owner options"} ($Text{"e. g."}
+                        <code>&lt;OTRS_OWNER_UserFirstname&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_RESPONSIBLE_*&gt;</code></dt>
+                    <dd>
+                        $Text{"Ticket responsible options"} ($Text{"e. g."}
+                        <code>&lt;OTRS_RESPONSIBLE_UserFirstname&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CURRENT_*&gt;</code></dt>
+                    <dd>
+                        $Text{"Options of the current user who requested this action"} ($Text{"e. g."}
+                        <code>&lt;OTRS_CURRENT_UserFirstname&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_TICKET_*&gt;</code></dt>
+                    <dd>
+                        $Text{"Options of the ticket data"} ($Text{"e. g."}
+                        <code>&lt;OTRS_TICKET_TicketNumber>, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_TICKET_DynamicField_*&gt;</code></dt>
+                    <dd>
+                        $Text{"Options of ticket dynamic fields internal key values"}
+                        ($Text{" e. g."} <code>&lt;OTRS_TICKET_DynamicField_TestField&gt;,
+                        &lt;OTRS_TICKET_DynamicField_TicketFreeText1&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_TICKET_DynamicField_*_Value&gt;</code></dt>
+                    <dd>
+                        $Text{"Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields"}
+                        ($Text{" e. g."} <code>&lt;OTRS_TICKET_DynamicField_TestField_Value&gt;,
+                        &lt;OTRS_TICKET_DynamicField_TicketFreeText1_Value&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CUSTOMER_DATA_*&gt;</code></dt>
+                    <dd>
+                        $Text{"Options of the current customer user data"} ($Text{"e. g."}
+                        <code>&lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CONFIG_*&gt;</code></dt>
+                    <dd>
+                        $Text{"Config options"} ($Text{"e. g."} <code>&lt;OTRS_CONFIG_HttpType&gt;</code>).
+                    </dd>
+                </dl>
+
+                <div class="SpacingTop"></div>
+                <p>
+                    <strong>$Text{"Note"}:</strong>
+                    $Text{"Create type templates only supports this smart tags"}:
+                    <code><strong> &lt;OTRS_CURRENT_*&gt;</strong></code> $Text{"and"} <code><strong> &lt;OTRS_CONFIG_*&gt;</strong></code>
+                </p>
+
+                <p class="SpacingTop">
+                    $Text{"Example template"}:
+                </p>
+                <textarea rows="5" cols="60" name="Templatee">
+$Text{"The current ticket state is"}: "&lt;OTRS_TICKET_State&gt;"
+
+$Text{"Your email address is"}: "&lt;OTRS_CUSTOMER_UserEmail&gt;"
+                </textarea>
+            </div>
+        </div>
+<!-- dtl:block:OverviewUpdate -->
+    </div>
+    <div class="Clear"></div>
+</div>
+<!-- dtl:block:Overview -->

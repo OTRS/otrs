@@ -64,7 +64,7 @@ sub Run {
 
         # check recipients
         next if !$Article->{To};
-        
+
         my @ToEmailAddresses = $Self->{ParserObject}->SplitAddressLine(
             Line => $Article->{To},
         );
@@ -73,13 +73,14 @@ sub Run {
         );
         my @EmailAdresses = ( @ToEmailAddresses, @CcEmailAddresses );
 
+        EMAIL:
         for my $Email (@EmailAdresses) {
             my $Recipient = $Self->{ParserObject}->GetEmailAddress(
                 Email => $Email,
             );
             if ( lc $Recipient eq lc $Param{GetParam}->{'X-Sender'} ) {
                 $InternalForward = 1;
-                last;
+                last EMAIL;
             }
         }
     }
@@ -87,10 +88,11 @@ sub Run {
 
     # get latest customer article (current arrival)
     my $ArticleID;
+    ARTICLE:
     for my $Article ( reverse @ArticleIndex ) {
-        next if $Article->{SenderType} ne 'customer';
+        next ARTICLE if $Article->{SenderType} ne 'customer';
         $ArticleID = $Article->{ArticleID};
-        last;
+        last ARTICLE;
     }
     return 1 if !$ArticleID;
 

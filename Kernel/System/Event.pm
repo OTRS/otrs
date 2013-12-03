@@ -36,6 +36,7 @@ create an object
     use Kernel::System::Main;
     use Kernel::System::Time;
     use Kernel::System::DB;
+    use Kernel::System::DynamicField;
     use Kernel::System::Event;
 
     my $ConfigObject = Kernel::Config->new();
@@ -83,17 +84,17 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
+    my $Self = {};
     bless( $Self, $Type );
+
+    # check needed objects
+    for (qw(ConfigObject LogObject DBObject TimeObject MainObject EncodeObject DynamicFieldObject))
+    {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    }
 
     # debug level
     $Self->{Debug} = $Param{Debug} || 0;
-
-    # check all needed objects
-    for (qw(ConfigObject LogObject DBObject TimeObject MainObject EncodeObject DynamicFieldObject))
-    {
-        die "Got no $_" if !$Self->{$_};
-    }
 
     return $Self;
 }

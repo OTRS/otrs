@@ -1,0 +1,1 @@
+﻿CKEDITOR.plugins.setLang("image2","ko",{alt:"이미지 설명",btnUpload:"서버로 전송",captioned:"Captioned image",infoTab:"이미지 정보",lockRatio:"비율 유지",menu:"이미지 설정",pathName:"image",pathNameCaption:"caption",resetSize:"원래 크기로",resizer:"Click and drag to resize",title:"이미지 설정",uploadTab:"Upload",urlMissing:"이미지 소스 URL이 없습니다."});

@@ -30,6 +30,7 @@ Core.App.Ready(function() {
         // config
         Baselink: '$Env{"Baselink"}',
         CGIHandle: '$Env{"CGIHandle"}',
+        WebPath: '$Config{"Frontend::WebPath"}',
         Action: '$QEnv{"Action"}',
         SessionIDCookie: '$QEnv{"SessionIDCookie"}',
         SessionName: '$Config{"SessionName"}',
@@ -40,17 +41,29 @@ Core.App.Ready(function() {
         UserLanguage: '$QEnv{"UserLanguage"}',
         CheckEmailAddresses: parseInt('$Config{"CheckEmailAddresses"}', 10),
         AnimationEnabled: parseInt('$Config{"Frontend::AnimationEnabled"}', 10),
+<!-- dtl:block:AutoCompleteConfig -->
+        Autocomplete: Core.JSON.Parse('$Data{"AutocompleteConfig"}'),
+<!-- dtl:block:AutoCompleteConfig -->
         // translation
         ValidateServerErrorTitle: '$JSText{"Error"}',
         ValidateServerErrorMsg: '$JSText{"One or more errors occurred!"}',
         DialogCloseMsg: '$JSText{"Close this dialog"}',
-        PopupBlockerMsg: '$JSText{"Could not open popup window. Please disable any popup blockers for this application."}'
+        PopupBlockerMsg: '$JSText{"Could not open popup window. Please disable any popup blockers for this application."}',
+        SearchMsg: '$JSText{"Search"}',
+        ApplyButtonText: '$JSText{"Apply"}',
+        NoElementsToSelectFromMsg: '$JSText{"There are currently no elements available to select from."}'
     });
 
     Core.Customer.Init();
 
 $Include{"Datepicker"}
 
+});
+
+// Register event for tree selection dialog
+$('.ShowTreeSelection').bind('click', function (Event) {
+    Core.UI.TreeSelection.ShowTreeSelection($(this));
+    return false;
 });
 //]]></script>
 

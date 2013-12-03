@@ -12,6 +12,11 @@ package Kernel::System::StandardResponse;
 use strict;
 use warnings;
 
+use base qw(Kernel::System::StandardTemplate);
+use Kernel::System::CacheInternal;
+use Kernel::System::Valid;
+use Kernel::System::VariableCheck qw(:all);
+
 =head1 NAME
 
 Kernel::System::StandardResponse - auto response lib
@@ -19,6 +24,9 @@ Kernel::System::StandardResponse - auto response lib
 =head1 SYNOPSIS
 
 All std response functions. E. g. to add std response or other functions.
+
+StandardResponse is now DEPRECATED and it will be removed in further versions of otrs
+Pleae use StandardTemplate instead
 
 =head1 PUBLIC INTERFACE
 
@@ -73,7 +81,7 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject)) {
+    for (qw(ConfigObject LogObject DBObject EncodeObject MainObject)) {
         if ( $Param{$_} ) {
             $Self->{$_} = $Param{$_};
         }
@@ -82,19 +90,30 @@ sub new {
         }
     }
 
+    # create additional objects
+    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
+        %{$Self},
+        Type => 'StandardTemplate',
+        TTL  => 60 * 60 * 24 * 20,
+    );
+    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
+
     return $Self;
 }
 
 =item StandardResponseAdd()
 
+DEPRECATED. This function will be removed in firther versions of otrs.
+
 add new std response
 
     my $ID = $StandardResponseObject->StandardResponseAdd(
-        Name        => 'New Standard Response',
-        Response    => 'Thank you for your email.',
-        ContentType => 'text/plain; charset=utf-8',
-        ValidID     => 1,
-        UserID      => 123,
+        Name         => 'New Standard Response',
+        Response     => 'Thank you for your email.',
+        ContentType  => 'text/plain; charset=utf-8',
+        TemplateType => 'Answer',                     # or 'Forward' or 'Create'
+        ValidID      => 1,
+        UserID       => 123,
     );
 
 =cut
@@ -102,36 +121,20 @@ add new std response
 sub StandardResponseAdd {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(Name ValidID Response ContentType UserID)) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    # compat
+    if ( !defined $Param{TemplateType} || !$Param{TemplateType} ) {
+        $Param{TemplateType} = 'Answer';
+    }
+    if ( !defined $Param{Template} || !$Param{Template} ) {
+        $Param{Template} = $Param{Response} || '';
     }
 
-    # sql
-    return if !$Self->{DBObject}->Do(
-        SQL => 'INSERT INTO standard_response (name, valid_id, comments, text, '
-            . ' content_type, create_time, create_by, change_time, change_by)'
-            . ' VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
-        Bind => [
-            \$Param{Name}, \$Param{ValidID}, \$Param{Comment}, \$Param{Response},
-            \$Param{ContentType}, \$Param{UserID}, \$Param{UserID},
-        ],
-    );
-    my $ID;
-    return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT id FROM standard_response WHERE name = ? AND change_by = ?',
-        Bind => [ \$Param{Name}, \$Param{UserID}, ],
-    );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $ID = $Row[0];
-    }
-    return $ID;
+    return $Self->StandardTemplateAdd(%Param);
 }
 
 =item StandardResponseGet()
+
+DEPRECATED. This function will be removed in firther versions of otrs.
 
 get std response attributes
 
@@ -147,6 +150,7 @@ Returns:
         Comment             => 'Some comment',
         Response            => 'Response content',
         ContentType         => 'text/plain',
+        TemplateType        => 'Answer',
         ValidID             => '1',
         CreateTime          => '2010-04-07 15:41:15',
         CreateBy            => '321',
@@ -159,38 +163,19 @@ Returns:
 sub StandardResponseGet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
-        return;
+    my %Response = $Self->StandardTemplateGet(%Param);
+
+    if ( IsHashRefWithData( \%Response ) ) {
+        $Response{Response} = $Response{Template};
+        return %Response;
     }
 
-    # sql
-    return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT name, valid_id, comments, text, content_type, '
-            . 'create_time, create_by, change_time, change_by '
-            . 'FROM standard_response WHERE id = ?',
-        Bind => [ \$Param{ID} ],
-    );
-    my %Data;
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        %Data = (
-            ID          => $Param{ID},
-            Name        => $Data[0],
-            Comment     => $Data[2],
-            Response    => $Data[3],
-            ContentType => $Data[4] || 'text/plain',
-            ValidID     => $Data[1],
-            CreateTime  => $Data[5],
-            CreateBy    => $Data[6],
-            ChangeTime  => $Data[7],
-            ChangeBy    => $Data[8],
-        );
-    }
-    return %Data;
+    return;
 }
 
 =item StandardResponseDelete()
+
+DEPRECATED. This function will be removed in firther versions of otrs.
 
 delete a standard response
 
@@ -203,43 +188,23 @@ delete a standard response
 sub StandardResponseDelete {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
-        return;
-    }
-
-    # delete queue<->std response relation
-    return if !$Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM queue_standard_response WHERE standard_response_id = ?',
-        Bind => [ \$Param{ID} ],
-    );
-
-    # delete attachment<->std response relation
-    return if !$Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM standard_response_attachment WHERE standard_response_id = ?',
-        Bind => [ \$Param{ID} ],
-    );
-
-    # sql
-    return if !$Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM standard_response WHERE id = ?',
-        Bind => [ \$Param{ID} ],
-    );
-    return 1;
+    return $Self->StandardTemplateDelete(%Param);
 }
 
 =item StandardResponseUpdate()
 
+DEPRECATED. This function will be removed in firther versions of otrs.
+
 update std response attributes
 
     $StandardResponseObject->StandardResponseUpdate(
-        ID          => 123,
-        Name        => 'New Standard Response',
-        Response    => 'Thank you for your email.',
-        ContentType => 'text/plain; charset=utf-8',
-        ValidID     => 1,
-        UserID      => 123,
+        ID           => 123,
+        Name         => 'New Standard Response',
+        Response     => 'Thank you for your email.',
+        ContentType  => 'text/plain; charset=utf-8',
+        TemplateType => 'Answer',
+        ValidID      => 1,
+        UserID       => 123,
     );
 
 =cut
@@ -247,29 +212,20 @@ update std response attributes
 sub StandardResponseUpdate {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(ID Name ValidID Response ContentType UserID)) {
-        if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    # compat
+    if ( !defined $Param{TemplateType} || !$Param{TemplateType} ) {
+        $Param{TemplateType} = 'Answer';
+    }
+    if ( !defined $Param{Template} || !$Param{Template} ) {
+        $Param{Template} = $Param{Response} || '';
     }
 
-    # sql
-    return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE standard_response SET'
-            . ' name = ?, text = ?, content_type = ?, comments = ?,'
-            . ' valid_id = ?, change_time = current_timestamp, change_by = ?'
-            . ' WHERE id = ?',
-        Bind => [
-            \$Param{Name}, \$Param{Response}, \$Param{ContentType}, \$Param{Comment},
-            \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
-        ],
-    );
-    return 1;
+    return $Self->StandardTemplateUpdate(%Param);
 }
 
 =item StandardResponseLookup()
+
+DEPRECATED. This function will be removed in firther versions of otrs.
 
 return the name or the std response id
 
@@ -288,59 +244,39 @@ return the name or the std response id
 sub StandardResponseLookup {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    if ( !$Param{StandardResponse} && !$Param{StandardResponseID} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Got no StandardResponse or StandardResponseID!'
-        );
-        return;
-    }
-
-    # check if we ask the same request?
-    if ( $Param{StandardResponseID} && $Self->{"StandardResponseLookup$Param{StandardResponseID}"} )
+    # compat
+    if (
+        ( !defined $Param{StandardTemplateID} || !$Param{StandardTemplateID} )
+        && $Param{StandardResponseID}
+        )
     {
-        return $Self->{"StandardResponseLookup$Param{StandardResponseID}"};
+        $Param{StandardTemplateID} = $Param{StandardResponseID}
     }
-    if ( $Param{StandardResponse} && $Self->{"StandardResponseLookup$Param{StandardResponse}"} ) {
-        return $Self->{"StandardResponseLookup$Param{StandardResponse}"};
-    }
-
-    # get data
-    my $SQL;
-    my $Suffix;
-    my @Bind;
-    if ( $Param{StandardResponse} ) {
-        $Suffix = 'StandardResponseID';
-        $SQL    = 'SELECT id FROM standard_response WHERE name = ?';
-        @Bind   = ( \$Param{StandardResponse} );
-    }
-    else {
-        $Suffix = 'StandardResponse';
-        $SQL    = 'SELECT name FROM standard_response WHERE id = ?';
-        @Bind   = ( \$Param{StandardResponseID} );
-    }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-
-        # store result
-        $Self->{"StandardResponse$Suffix"} = $Row[0];
+    if (
+        ( !defined $Param{StandardTemplate} || !$Param{StandardTemplate} )
+        && $Param{StandardResponse}
+        )
+    {
+        $Param{StandardTemplate} = $Param{StandardResponse}
     }
 
-    # check if data exists
-    if ( !exists $Self->{"StandardResponse$Suffix"} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Found no \$$Suffix!" );
-        return;
-    }
-
-    return $Self->{"StandardResponse$Suffix"};
+    return $Self->StandardTemplateLookup(%Param);
 }
 
 =item StandardResponseList()
 
+DEPRECATED. This function will be removed in firther versions of otrs.
+
 get all valid std responses
 
     my %StandardResponses = $StandardResponseObject->StandardResponseList();
+
+Returns:
+    %StandardResponses = (
+        1 => 'Some Name',
+        2 => 'Some Name2',
+        3 => 'Some Name3',
+    );
 
 get all std responses
 
@@ -348,21 +284,18 @@ get all std responses
         Valid => 0,
     );
 
+Returns:
+    %StandardResponses = (
+        1 => 'Some Name',
+        2 => 'Some Name2',
+    );
+
 =cut
 
 sub StandardResponseList {
     my ( $Self, %Param ) = @_;
 
-    if ( !defined $Param{Valid} ) {
-        $Param{Valid} = 1;
-    }
-
-    # return data
-    return $Self->{DBObject}->GetTableData(
-        Table => 'standard_response',
-        What  => 'id, name',
-        Valid => $Param{Valid},
-    );
+    return $Self->StandardTemplateList(%Param);
 }
 
 1;

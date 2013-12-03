@@ -16,8 +16,6 @@ use Kernel::System::CacheInternal;
 use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
-use vars qw(@ISA);
-
 =head1 NAME
 
 Kernel::System::LinkObject - to link objects like tickets, faqs, ...

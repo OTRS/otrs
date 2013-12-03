@@ -156,14 +156,15 @@ sub _ArticleIndexQuerySQLExt {
     );
     my $SQLExt      = '';
     my $FullTextSQL = '';
+    KEY:
     for my $Key ( sort keys %FieldSQLMapFullText ) {
-        next if !$Param{Data}->{$Key};
+        next KEY if !$Param{Data}->{$Key};
 
         # replace * by % for SQL like
         $Param{Data}->{$Key} =~ s/\*/%/gi;
 
         # check search attribute, we do not need to search for *
-        next if $Param{Data}->{$Key} =~ /^\%{1,3}$/;
+        next KEY if $Param{Data}->{$Key} =~ /^\%{1,3}$/;
 
         if ($FullTextSQL) {
             $FullTextSQL .= ' ' . $Param{Data}->{ContentSearch} . ' ';
@@ -236,14 +237,15 @@ sub _ArticleIndexString {
     my %List;
     my $IndexString = '';
     my $Count       = 0;
+    WORD:
     for my $Word ( @{$ListOfWords} ) {
         $Count++;
 
         # only index the first 1000 words
-        last if $Count > $WordCountMax;
+        last WORD if $Count > $WordCountMax;
         if ( $List{$Word} ) {
             $List{$Word}++;
-            next;
+            next WORD;
         }
         else {
             $List{$Word} = 1;
@@ -275,7 +277,7 @@ sub _ArticleIndexStringToWord {
     my @ListOfWords;
 
     WORD:
-    for my $Word (split /\s+/, ${ $Param{String} }) {
+    for my $Word ( split /\s+/, ${ $Param{String} } ) {
 
         # Apply filters
         for my $Filter (@Filters) {
@@ -287,7 +289,7 @@ sub _ArticleIndexStringToWord {
 
         # only index words/strings within length boundaries
         my $Length = length $Word;
-        if ( $Length < $LengthMin || $Length > $LengthMax) {
+        if ( $Length < $LengthMin || $Length > $LengthMax ) {
             next WORD;
         }
 

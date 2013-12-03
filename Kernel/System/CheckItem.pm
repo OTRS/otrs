@@ -181,6 +181,7 @@ sub CheckEmail {
             }
 
             else {
+
                 # mx record lookup
                 my @MXRecords = Net::DNS::mx( $Resolver, $Host );
                 if ( !@MXRecords ) {

@@ -33,13 +33,12 @@ sub new {
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
-    $Self->{DynamicFieldBackendObject} = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
     # get configured object types
     $Self->{ObjectTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::ObjectType');
 
     # get the fields config
-    $Self->{FieldTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::Backend') || {};
+    $Self->{FieldTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::Driver') || {};
 
     # set possible values handling strings
     $Self->{EmptyString}     = '_DynamicFields_EmptyString_Dont_Use_It_String_Please';
@@ -132,7 +131,7 @@ sub _AddAction {
     if ( $GetParam{Name} ) {
 
         # check if name is alphanumeric
-        if ( $GetParam{Name} !~ m{\A ( ?: [a-zA-Z] | \d )+ \z}xms ) {
+        if ( $GetParam{Name} !~ m{\A (?: [a-zA-Z] | \d )+ \z}xms ) {
 
             # add server error error class
             $Errors{NameServerError} = 'ServerError';
@@ -161,7 +160,7 @@ sub _AddAction {
     if ( $GetParam{FieldOrder} ) {
 
         # check if field order is numeric and positive
-        if ( $GetParam{FieldOrder} !~ m{\A ( ?: \d )+ \z}xms ) {
+        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
 
             # add server error error class
             $Errors{FieldOrderServerError}        = 'ServerError';
@@ -301,9 +300,10 @@ sub _Change {
     if ( IsHashRefWithData( $DynamicFieldData->{Config} ) ) {
 
         # set PossibleValues
-        $Config{PossibleValues} = $Self->{DynamicFieldBackendObject}->PossibleValuesGet(
-            DynamicFieldConfig => $DynamicFieldData,
-        ) || {};
+        $Config{PossibleValues} = {};
+        if ( IsHashRefWithData( $DynamicFieldData->{Config}->{PossibleValues} ) ) {
+            $Config{PossibleValues} = $DynamicFieldData->{Config}->{PossibleValues};
+        }
 
         # set DefaultValue
         $Config{DefaultValue} = $DynamicFieldData->{Config}->{DefaultValue};
@@ -373,7 +373,7 @@ sub _ChangeAction {
     if ( $GetParam{Name} ) {
 
         # check if name is lowercase
-        if ( $GetParam{Name} !~ m{\A ( ?: [a-zA-Z] | \d )+ \z}xms ) {
+        if ( $GetParam{Name} !~ m{\A (?: [a-zA-Z] | \d )+ \z}xms ) {
 
             # add server error error class
             $Errors{NameServerError} = 'ServerError';
@@ -419,7 +419,7 @@ sub _ChangeAction {
     if ( $GetParam{FieldOrder} ) {
 
         # check if field order is numeric and positive
-        if ( $GetParam{FieldOrder} !~ m{\A ( ?: \d )+ \z}xms ) {
+        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
 
             # add server error error class
             $Errors{FieldOrderServerError}        = 'ServerError';
@@ -541,8 +541,10 @@ sub _ShowScreen {
 
     # get the list of order numbers (is already sorted).
     my @DynamicfieldOrderList;
+    my %DynamicfieldNamesList;
     for my $Dynamicfield ( @{$DynamicFieldList} ) {
         push @DynamicfieldOrderList, $Dynamicfield->{FieldOrder};
+        $DynamicfieldNamesList{ $Dynamicfield->{FieldOrder} } = $Dynamicfield->{Label};
     }
 
     # when adding we need to create an extra order number for the new field
@@ -556,13 +558,27 @@ sub _ShowScreen {
         push @DynamicfieldOrderList, $LastOrderNumber;
     }
 
-    my $DynamicFieldOrderSrtg = $Self->{LayoutObject}->BuildSelection(
-        Data          => \@DynamicfieldOrderList,
+    # show the names of the other fields to ease ordering
+    my %OrderNamesList;
+    my $CurrentlyText = $Self->{LayoutObject}->{LanguageObject}->Get('Currently') . ': ';
+    for my $OrderNumber ( sort @DynamicfieldOrderList ) {
+        $OrderNamesList{$OrderNumber} = $OrderNumber;
+        if ( $DynamicfieldNamesList{$OrderNumber} && $OrderNumber ne $Param{FieldOrder} ) {
+            $OrderNamesList{$OrderNumber}
+                = $OrderNumber . ' - '
+                . $CurrentlyText
+                . $DynamicfieldNamesList{$OrderNumber}
+        }
+    }
+
+    my $DynamicFieldOrderStrg = $Self->{LayoutObject}->BuildSelection(
+        Data          => \%OrderNamesList,
         Name          => 'FieldOrder',
         SelectedValue => $Param{FieldOrder} || 1,
         PossibleNone  => 0,
         Translation   => 0,
-        Class         => 'W50pc Validate_Number',
+        Sort          => 'NumericKey',
+        Class         => 'W75pc Validate_Number',
     );
 
     my %ValidList = $Self->{ValidObject}->ValidList();
@@ -742,7 +758,7 @@ sub _ShowScreen {
         Data         => {
             %Param,
             ValidityStrg           => $ValidityStrg,
-            DynamicFieldOrderSrtg  => $DynamicFieldOrderSrtg,
+            DynamicFieldOrderStrg  => $DynamicFieldOrderStrg,
             ValueCounter           => $ValueCounter,
             DefaultValueStrg       => $DefaultValueStrg,
             PossibleNoneStrg       => $PossibleNoneStrg,

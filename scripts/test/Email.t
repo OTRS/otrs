@@ -62,6 +62,17 @@ my @Tests = (
             Charset => 'utf8',
         },
     },
+    {
+        Name => 'utf8 - high unicode characters',
+        Data => {
+            From    => '"Служба поддержки (support)" <me@example.com>',
+            To      => 'friend@example.com',
+            Subject => 'Test related to bug#9832',
+            Body    => "\x{2660}",
+            Type    => 'text/plain',
+            Charset => 'utf8',
+        },
+    },
 );
 
 my $Count = 0;

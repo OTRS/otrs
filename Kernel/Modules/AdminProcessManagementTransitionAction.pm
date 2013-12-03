@@ -544,13 +544,37 @@ sub _ShowEdit {
         );
     }
 
+    # lookup existing Transition Actions on disk
+    my $Directory
+        = $Self->{ConfigObject}->Get('Home') . '/Kernel/System/ProcessManagement/TransitionAction';
+    my @List = $Self->{MainObject}->DirectoryRead(
+        Directory => $Directory,
+        Filter    => '*.pm',
+    );
+    my %TransitionAction;
+    for my $Item (@List) {
+
+        # remove .pm
+        $Item =~ s/^.*\/(.+?)\.pm$/$1/;
+        $TransitionAction{ 'Kernel::System::ProcessManagement::TransitionAction::' . $Item }
+            = $Item;
+    }
+
+    # build TransitionAction string
+    $Param{ModuleStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data         => \%TransitionAction,
+        Name         => 'Module',
+        PossibleNone => 1,
+        SelectedID   => $TransitionActionData->{Config}->{Module},
+        Class        => 'Validate_Required ' . ( $Param{Errors}->{'ModuleInvalid'} || '' ),
+    );
+
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => "AdminProcessManagementTransitionAction",
         Data         => {
             %Param,
             %{$TransitionActionData},
-            Name   => $TransitionActionData->{Name},
-            Module => $TransitionActionData->{Config}->{Module},
+            Name => $TransitionActionData->{Name},
         },
     );
 

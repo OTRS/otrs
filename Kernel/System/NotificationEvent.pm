@@ -102,7 +102,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     # debug
     $Self->{Debug} = $Param{Debug} || 0;

@@ -3,7 +3,6 @@
  * Other parts of that are dynamically created within the dtl.
  *
  * @project     OTRS (http://www.otrs.org) - Agent Frontend
- * @version     $Revision: 1.1 $
  * @copyright   OTRS AG
  * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
  */
@@ -35,6 +34,56 @@ div.EventDetails {
 .EventDetails > fieldset.TableLike > label,
 .EventDetails > fieldset.TableLike > .Value {
     line-height: 1em;
+}
+
+.FilterInputContainer {
+    width: 98%;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    background-color: #eee;
+}
+
+.FilterInputContainer input {
+    width: 95%;
+    display: block;
+    margin: 7px auto;
+}
+
+.SettingsWidget label {
+    position: relative;
+    display: block;
+    padding: 2px 2px 2px 25px;
+    margin-bottom: 3px;
+    line-height: 150%;
+    -webkit-border-radius-: 3px;
+     -moz-border-radius-: 3px;
+     -ms-border-radius-: 3px;
+     -o-border-radius-: 3px;
+     border-radius-: 3px;
+     color: #777;
+}
+
+.SettingsWidget label.Checked {
+    color: #000;
+}
+
+.SettingsWidget label:hover {
+    background-color: #ddd;
+    border-color: #ccc;
+    color: #000;
+    border: 1px solid #ccc;
+    padding: 1px 1px 1px 24px;
+}
+
+.SettingsWidget label input {
+    position: absolute;
+    left: 1px;
+    top: 1px;
+}
+
+.SettingsWidget label:hover input {
+    left: 0px;
+    top: 0px;
 }
 
 } /* end @media */

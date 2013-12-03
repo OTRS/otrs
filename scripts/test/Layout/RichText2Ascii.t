@@ -1,5 +1,5 @@
 # --
-# scripts/test/Layout/ASCII2HTML.t - layout testscript
+# scripts/test/Layout/RichText2Ascii.t - layout testscript
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -48,13 +48,13 @@ my $LayoutObject = Kernel::Output::HTML::Layout->new(
 
 my @Tests = (
     {
-        Name => 'Plain',
+        Name   => 'Plain',
         String => 'some plain text',
         Result => 'some plain text',
 
     },
     {
-        Name => 'Umlauts',
+        Name   => 'Umlauts',
         String => '&Auml;nderung',
         Result => 'Änderung',
 

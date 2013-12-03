@@ -15,10 +15,9 @@ use warnings;
 use Kernel::Language;
 use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
+use Kernel::System::VariableCheck qw(:all);
 
 use URI::Escape qw();
-
-use vars qw(@ISA);
 
 =head1 NAME
 
@@ -86,6 +85,9 @@ create a new object
         TicketObject
         GroupObject
 
+    in addition for AgentCustomerViewTable() you need
+        DBObject
+
 =cut
 
 sub new {
@@ -116,6 +118,9 @@ sub new {
 
     # reset block data
     delete $Self->{BlockData};
+
+    # empty action if not defined
+    $Self->{Action} = '' if !defined $Self->{Action};
 
     # get/set some common params
     if ( !$Self->{UserTheme} ) {
@@ -217,31 +222,25 @@ sub new {
         {
             $Self->{Browser} = 'MSIE';
 
-            # For IE 5.5 - 8.0, we break the header in a special way that makes
+            # For IE 7 & 8, we break the header in a special way that makes
             # things work. I don't really want to know.
-            if ( $1 =~ /(\d)\.(\d)/ ) {
+            if ( $1 =~ /(\d+)\.(\d+)/ ) {
                 $Self->{BrowserMajorVersion} = $1;
                 $Self->{BrowserMinorVersion} = $2;
-                if (
-                    $1 == 5
-                    && $2 == 5
-                    || $1 == 6 && $2 == 0
-                    || $1 == 7 && $2 == 0
-                    || $1 == 8 && $2 == 0
-                    )
-                {
+                if ( $1 == 7 && $2 == 0 || $1 == 8 && $2 == 0 ) {
                     $Self->{BrowserBreakDispositionHeader} = 1;
                 }
 
 #
-# In IE up to version 8, there is a technical limitation for < 32
+# In IE up to version 9, there is a technical limitation for < 32
 #   CSS file links. Subsequent links will be ignored. Therefore
 #   the loader must be activated for delivering CSS to this browser.
 #   The loader will concatenate and minify the files, resulting in
 #   very few CSS file links.
 #   See also http://social.msdn.microsoft.com/Forums/en-US/iewebdevelopment/thread/ad1b6e88-bbfa-4cc4-9e95-3889b82a7c1d.
+#   See also http://blogs.msdn.com/b/ieinternals/archive/2011/05/14/internet-explorer-stylesheet-rule-selector-import-sheet-limit-maximum.aspx
 #
-                if ( $1 <= 8 ) {
+                if ( $Self->{BrowserMajorVersion} <= 9 ) {
                     $Self->{ConfigObject}->Set(
                         Key   => 'Loader::Enabled::CSS',
                         Value => 1,
@@ -403,10 +402,10 @@ sub new {
         for my $File (@Files) {
             if ( $File !~ /Layout.pm$/ ) {
                 $File =~ s{\A.*\/(.+?).pm\z}{$1}xms;
-                if ( !$Self->{MainObject}->Require("Kernel::Output::HTML::$File") ) {
+                my $ClassName = "Kernel::Output::HTML::$File";
+                if ( !$Self->{MainObject}->RequireBaseClass($ClassName) ) {
                     $Self->FatalError();
                 }
-                push @ISA, "Kernel::Output::HTML::$File";
             }
         }
     }
@@ -543,11 +542,12 @@ sub Output {
         else {
             $File = "$Self->{TemplateDir}/../Standard/$Param{TemplateFile}.dtl";
         }
-        ## no critic
-        if ( open my $TEMPLATEIN, '<', $File ) {
-            ## use critic
-            $TemplateString = do { local $/; <$TEMPLATEIN> };
-            close $TEMPLATEIN;
+        my $ResultRef = $Self->{MainObject}->FileRead(
+            Location => $File,
+            Mode     => 'utf8',
+        );
+        if ( ref $ResultRef ) {
+            $TemplateString = ${$ResultRef};
         }
         else {
             $Self->{LogObject}->Log(
@@ -851,7 +851,7 @@ sub Output {
 
         # find document ready
         $Output =~ s{
-                <!--\s{0,1}dtl:js_on_document_complete\s{0,1}-->(.+?)<!--\s{0,1}dtl:js_on_document_complete\s{0,1}-->
+                <!--[ ]?dtl:js_on_document_complete[ ]?-->(.+?)<!--[ ]?dtl:js_on_document_complete[ ]?-->
         }
         {
                 if (!$Self->{JSOnDocumentComplete}->{$1}) {
@@ -864,7 +864,7 @@ sub Output {
         # replace document ready placeholder (only if it's not included via $Include{""})
         if ( !$Param{Include} ) {
             $Output =~ s{
-                <!--\s{0,1}dtl:js_on_document_complete_placeholder\s{0,1}-->
+                <!--[ ]?dtl:js_on_document_complete_placeholder[ ]?-->
             }
             {
                 if ( $Self->{EnvRef}->{JSOnDocumentComplete} ) {
@@ -975,14 +975,15 @@ sub Redirect {
         $Param{Redirect} .= $Param{OP};
     }
 
-    # check if IIS is used, add absolute url for IIS workaround
+    # check if IIS 6 is used, add absolute url for IIS workaround
     # see also:
     #  o http://bugs.otrs.org/show_bug.cgi?id=2230
+    #  o http://bugs.otrs.org/show_bug.cgi?id=9835
     #  o http://support.microsoft.com/default.aspx?scid=kb;en-us;221154
-    if ( $ENV{SERVER_SOFTWARE} =~ /^microsoft\-iis/i ) {
+    if ( $ENV{SERVER_SOFTWARE} =~ /^microsoft\-iis\/6/i ) {
         my $Host = $ENV{HTTP_HOST} || $Self->{ConfigObject}->Get('FQDN');
         my $HttpType = $Self->{ConfigObject}->Get('HttpType');
-        $Param{Redirect} = $HttpType . '://' . $Host . '/' . $Param{Redirect};
+        $Param{Redirect} = $HttpType . '://' . $Host . $Param{Redirect};
     }
     my $Output = $Cookies . $Self->Output( TemplateFile => 'Redirect', Data => \%Param );
 
@@ -1177,8 +1178,7 @@ sub SecureMode {
     my $Output = $Self->Header( Area => 'Frontend', Title => 'Secure Mode' );
     $Output .= $Self->Output( TemplateFile => 'AdminSecureMode', Data => \%Param );
     $Output .= $Self->Footer();
-    $Self->Print( Output => \$Output );
-    exit;
+    return $Output;
 }
 
 sub FatalDie {
@@ -1473,9 +1473,11 @@ sub Header {
 
     # area and title
     if ( !$Param{Area} ) {
-        $Param{Area}
-            = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{NavBarName}
-            || '';
+        $Param{Area} = (
+            defined $Self->{Action}
+            ? $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{NavBarName}
+            : ''
+        );
     }
     if ( !$Param{Title} ) {
         $Param{Title} = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{Title}
@@ -1596,7 +1598,7 @@ sub Footer {
     if ($HasDatepicker) {
         my $VacationDays     = $Self->DatepickerGetVacationDays();
         my $VacationDaysJSON = $Self->JSONEncode(
-            Data => $VacationDays
+            Data => $VacationDays,
         );
 
         my $TextDirection = $Self->{LanguageObject}->{TextDirection} || '';
@@ -1613,14 +1615,33 @@ sub Footer {
     # NewTicketInNewWindow
     if ( $Self->{ConfigObject}->Get('NewTicketInNewWindow::Enabled') ) {
         $Self->Block(
-            Name => 'NewTicketInNewWindow'
+            Name => 'NewTicketInNewWindow',
         );
     }
+
+    # AutoComplete-Config
+    my $AutocompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Agent');
+
+    for my $ConfigElement ( sort keys %{$AutocompleteConfig} ) {
+        $AutocompleteConfig->{$ConfigElement}->{ButtonText}
+            = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}->{ButtonText} );
+    }
+
+    my $AutocompleteConfigJSON = $Self->JSONEncode(
+        Data => $AutocompleteConfig,
+    );
+
+    $Self->Block(
+        Name => 'AutoCompleteConfig',
+        Data => {
+            AutocompleteConfig => $AutocompleteConfigJSON,
+        },
+    );
 
     # Banner
     if ( !$Self->{ConfigObject}->Get('Secure::DisableBanner') ) {
         $Self->Block(
-            Name => 'Banner'
+            Name => 'Banner',
         );
     }
 
@@ -2286,7 +2307,35 @@ sub NoPermission {
     my ( $Self, %Param ) = @_;
 
     my $WithHeader = $Param{WithHeader} || 'yes';
-    $Param{Message} = 'Insufficient Rights.' if ( !$Param{Message} );
+
+    my $TranslatableMessage = $Self->{LanguageObject}->Get(
+        "We are sorry, you do not have permissions anymore to access this ticket in its'current state. "
+    );
+    $TranslatableMessage .= '<br/>';
+    $TranslatableMessage .= $Self->{LanguageObject}->Get(" You can take one of the next actions:");
+    $Param{Message} = $TranslatableMessage if ( !$Param{Message} );
+
+    # get config option for possible next actions
+    my $PossibleNextActions = $Self->{ConfigObject}->Get('PossibleNextActions');
+
+    POSSIBLE:
+    if ( IsHashRefWithData($PossibleNextActions) ) {
+        $Self->Block(
+            Name => 'PossibleNextActionContainer',
+        );
+        for my $Key ( sort keys %{$PossibleNextActions} ) {
+            next POSSIBLE if !$Key;
+            next POSSIBLE if !$PossibleNextActions->{$Key};
+
+            $Self->Block(
+                Name => 'PossibleNextActionRow',
+                Data => {
+                    Link        => $PossibleNextActions->{$Key},
+                    Description => $Key,
+                },
+            );
+        }
+    }
 
     # create output
     my $Output;
@@ -2661,7 +2710,7 @@ sub PageNavBar {
         elsif ( $i > ( $WindowStart + $WindowSize ) ) {
             my $StartWindow     = $WindowStart + $WindowSize + 1;
             my $LastStartWindow = int( $Pages / $WindowSize );
-            my $BaselinkAllBack = $Baselink . "StartHit=" . ( $i - 1 ) * $Param{PageShown};
+            my $BaselinkAllBack = $Baselink . "StartHit=" . ( ( $i - 1 ) * $Param{PageShown} + 1 );
             my $BaselinkAllNext
                 = $Baselink . "StartHit=" . ( ( $Param{PageShown} * ( $Pages - 1 ) ) + 1 );
 
@@ -2789,6 +2838,7 @@ sub NavigationBar {
 
             # check shown permission
             my $Shown = 0;
+            PERMISSION:
             for my $Permission (qw(GroupRo Group)) {
 
                 # array access restriction
@@ -2797,7 +2847,7 @@ sub NavigationBar {
                         my $Key = 'UserIs' . $Permission . '[' . $_ . ']';
                         if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
                             $Shown = 1;
-                            last;
+                            last PERMISSION;
                         }
                     }
                 }
@@ -2807,22 +2857,23 @@ sub NavigationBar {
                     my $Key = 'UserIs' . $Permission . '[' . $Item->{$Permission} . ']';
                     if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
                         $Shown = 1;
-                        last;
+                        last PERMISSION;
                     }
                 }
 
                 # no access restriction
                 elsif ( !$Item->{GroupRo} && !$Item->{Group} ) {
                     $Shown = 1;
-                    last;
+                    last PERMISSION;
                 }
             }
             next if !$Shown;
 
             # set prio of item
             my $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
+            COUNT:
             for ( 1 .. 51 ) {
-                last if !$NavBar{$Key};
+                last COUNT if !$NavBar{$Key};
 
                 $Item->{Prio}++;
                 $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
@@ -2894,6 +2945,13 @@ sub NavigationBar {
                 },
             );
         }
+    }
+
+    # show search icon if any search router is configured
+    if ( IsHashRefWithData( $Self->{ConfigObject}->Get('Frontend::Search') ) ) {
+        $Self->Block(
+            Name => 'SearchIcon',
+        );
     }
 
     # create & return output
@@ -3021,6 +3079,7 @@ sub BuildDateSelection {
         && $Param{ $Prefix . 'Year' }
         && $Param{ $Prefix . 'Month' }
         && $Param{ $Prefix . 'Day' }
+        && !$Param{OverrideTimeZone}
         )
     {
         my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
@@ -3198,11 +3257,11 @@ sub BuildDateSelection {
     # Datepicker
     $DatepickerHTML = '<!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
         Core.UI.Datepicker.Init({
-            Day: $(\'#' . $Prefix . 'Day\'),
-            Month: $(\'#' . $Prefix . 'Month\'),
-            Year: $(\'#' . $Prefix . 'Year\'),
-            Hour: $(\'#' . $Prefix . 'Hour\'),
-            Minute: $(\'#' . $Prefix . 'Minute\'),
+            Day: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Day"),
+            Month: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Month"),
+            Year: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Year"),
+            Hour: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Hour"),
+            Minute: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Minute"),
             DateInFuture: ' . ( $ValidateDateInFuture ? 'true' : 'false' ) . ',
             WeekDayStart: ' . $WeekDayStart . '
         });
@@ -3513,6 +3572,25 @@ sub CustomerFooter {
         );
     }
 
+    # AutoComplete-Config
+    my $AutocompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Customer');
+
+    for my $ConfigElement ( sort keys %{$AutocompleteConfig} ) {
+        $AutocompleteConfig->{$ConfigElement}->{ButtonText}
+            = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
+    }
+
+    my $AutocompleteConfigJSON = $Self->JSONEncode(
+        Data => $AutocompleteConfig,
+    );
+
+    $Self->Block(
+        Name => 'AutoCompleteConfig',
+        Data => {
+            AutocompleteConfig => $AutocompleteConfigJSON,
+        },
+    );
+
     # create & return output
     return $Self->Output( TemplateFile => "CustomerFooter$Type", Data => \%Param );
 }
@@ -3564,6 +3642,7 @@ sub CustomerNavigationBar {
             }
 
             # check shown permission
+            PERMISSION:
             for my $Permission (qw(GroupRo Group)) {
 
                 # array access restriction
@@ -3572,7 +3651,7 @@ sub CustomerNavigationBar {
                         my $Key = 'UserIs' . $Permission . '[' . $Type . ']';
                         if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
                             $Shown = 1;
-                            last;
+                            last PERMISSION;
                         }
                     }
                 }
@@ -3582,22 +3661,23 @@ sub CustomerNavigationBar {
                     my $Key = 'UserIs' . $Permission . '[' . $Item->{$Permission} . ']';
                     if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
                         $Shown = 1;
-                        last;
+                        last PERMISSION;
                     }
                 }
 
                 # no access restriction
                 elsif ( !$Item->{GroupRo} && !$Item->{Group} ) {
                     $Shown = 1;
-                    last;
+                    last PERMISSION;
                 }
             }
             next if !$Shown;
 
             # set prio of item
             my $Key = sprintf( "%07d", $Item->{Prio} );
+            COUNT:
             for ( 1 .. 51 ) {
-                last if !$NavBarModule{$Key};
+                last COUNT if !$NavBarModule{$Key};
 
                 $Item->{Prio}++;
             }
@@ -3984,7 +4064,10 @@ sub _RichTextReplaceLinkOfInlineContent {
         (<img.+?src=("|'))[^>]+ContentID=(.+?)("|')([^>]+>)
     }
     {
-        $1 . 'cid:' . $3 . $4 . $5;
+        my ($Start, $CID, $Close, $End) = ($1, $3, $4, $5);
+        # Make sure we only get the CID and not extra stuff like session information
+        $CID =~ s{^([^;&]+).*}{$1}smx;
+        $Start . 'cid:' . $CID . $Close . $End;
     }esgxi;
 
     return $Param{String};
@@ -4030,17 +4113,22 @@ sub RichTextDocumentServe {
 
     # get charset and convert content to internal charset
     if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
-        my $Charset = $Param{Data}->{ContentType};
-        $Charset =~ s/.+?charset=("|'|)(\w+)/$2/gi;
-        $Charset =~ s/"|'//g;
-        $Charset =~ s/(.+?);.*/$1/g;
+        my $Charset;
+        if ( $Param{Data}->{ContentType} =~ m/.+?charset=("|'|)(.+)/ig ) {
+            $Charset = $2;
+            $Charset =~ s/"|'//g;
+        }
+        if ( !$Charset ) {
+            $Charset = 'us-ascii';
+            $Param{Data}->{ContentType} .= '; charset="us-ascii"';
+        }
 
         # convert charset
         if ($Charset) {
             $Param{Data}->{Content} = $Self->{EncodeObject}->Convert(
                 Text => $Param{Data}->{Content},
                 From => $Charset,
-                To   => $Self->{UserCharset},
+                To   => 'utf-8',
             );
 
             # replace charset in content
@@ -4137,10 +4225,11 @@ sub RichTextDocumentServe {
         }
 
         # find matching attachment and replace it with runtime url to image
+        ATTACHMENT_ID:
         for my $AttachmentID (  sort keys %{ $Param{Attachments} }) {
-            next if lc $Param{Attachments}->{$AttachmentID}->{ContentID} ne lc "<$ContentID>";
+            next ATTACHMENT_ID if lc $Param{Attachments}->{$AttachmentID}->{ContentID} ne lc "<$ContentID>";
             $ContentID = $AttachmentLink . $AttachmentID . $SessionID;
-            last;
+            last ATTACHMENT_ID;
         }
 
         # return new runtime url
@@ -4212,15 +4301,15 @@ sub RichTextDocumentCleanup {
 
 =cut
 
-sub _BlockTemplatePreferences {
+sub _BlocksByLayer {
     my ( $Self, %Param ) = @_;
 
     my %TagsOpen;
-    my @Preferences;
     my $LastLayerCount = 0;
-    my $Layer          = 0;
-    my $LastLayer      = '';
-    my $CurrentLayer   = '';
+    my $Layer          = -1;
+    my @Layer;
+    my $LastLayer    = '';
+    my $CurrentLayer = '';
     my %UsedNames;
     my $TemplateFile = $Param{TemplateFile} || '';
     if ( !defined $Param{Template} ) {
@@ -4233,7 +4322,7 @@ sub _BlockTemplatePreferences {
     }
 
     $Param{Template} =~ s{
-        <!--\s{0,1}dtl:block:(.+?)\s{0,1}-->
+        <!--[ ]?dtl:block:(.+?)[ ]?-->
     }
     {
         my $BlockName = $1;
@@ -4241,7 +4330,7 @@ sub _BlockTemplatePreferences {
             $Layer++;
             $TagsOpen{$BlockName} = 1;
             my $CL = '';
-            if ($Layer == 1) {
+            if ($Layer == 0) {
                 $LastLayer = '';
                 $CurrentLayer = $BlockName;
             }
@@ -4254,11 +4343,7 @@ sub _BlockTemplatePreferences {
             }
             $LastLayerCount = $Layer;
             if (!$UsedNames{$BlockName}) {
-                push (@Preferences, {
-                    Name => $BlockName,
-                    Layer => $Layer,
-                    },
-                );
+                push @{ $Layer[$Layer] }, $BlockName;
                 $UsedNames{$BlockName} = 1;
             }
         }
@@ -4282,10 +4367,10 @@ sub _BlockTemplatePreferences {
 
     # remember block data
     if ($TemplateFile) {
-        $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} = \@Preferences;
+        $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} = \@Layer;
     }
 
-    return \@Preferences;
+    return \@Layer;
 }
 
 sub _BlockTemplatesReplace {
@@ -4298,22 +4383,28 @@ sub _BlockTemplatesReplace {
     my $TemplateString = $Param{Template};
 
     # get availabe template block preferences
-    my $BlocksRef = $Self->_BlockTemplatePreferences(
+    my $BlocksByLayer = $Self->_BlocksByLayer(
         Template => $$TemplateString,
         TemplateFile => $Param{TemplateFile} || '',
     );
     my %BlockLayer;
     my %BlockTemplates;
-    for my $Block ( reverse @{$BlocksRef} ) {
+
+    for ( my $Layer = $#$BlocksByLayer; $Layer >= 0; $Layer-- ) {
+        my $Blocks = $BlocksByLayer->[$Layer];
+        my $Names = join '|', map { quotemeta $_ } @$Blocks;
         $$TemplateString =~ s{
-            <!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->(.+?)<!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->
+            <!--[ ]?dtl:block:($Names)[ ]?-->(.+?)<!--[ ]?dtl:block:\1[ ]?-->
         }
         {
-            $BlockTemplates{$Block->{Name}} = $1;
-            "<!-- dtl:place_block:$Block->{Name} -->";
+            $BlockTemplates{$1} = $2;
+            "<!-- dtl:place_block:$1 -->";
         }segxm;
-        $BlockLayer{ $Block->{Name} } = $Block->{Layer};
+        for my $Name (@$Blocks) {
+            $BlockLayer{$Name} = $Layer + 1;
+        }
     }
+    undef $BlocksByLayer;
 
     # create block template string
     my @BR;
@@ -4748,12 +4839,19 @@ sub _BuildSelectionDataRefCreate {
     # for HashRef and ArrayRef only
     my %DisabledElements;
 
+    # dclone $Param{Data} because the subroutine unfortunately modifies
+    # the original data ref
+    if ( !$Self->{MainObject}->Require("Storable") ) {
+        $Self->FatalError();
+    }
+    my $DataLocal = Storable::dclone( $Param{Data} );
+
     # if HashRef was given
-    if ( ref $Param{Data} eq 'HASH' ) {
+    if ( ref $DataLocal eq 'HASH' ) {
 
         # get missing parents and mark them for disable later
         if ( $OptionRef->{Sort} eq 'TreeView' ) {
-            my %List = reverse %{ $Param{Data} };
+            my %List = reverse %{$DataLocal};
 
             # get each data value
             for my $Key ( sort keys %List ) {
@@ -4775,7 +4873,7 @@ sub _BuildSelectionDataRefCreate {
                         $DisabledElements{$ElementLongName} = 1;
 
                         # add the element to the original data to be disabled later
-                        $Param{Data}->{ $ElementLongName . '_Disabled' } = $ElementLongName;
+                        $DataLocal->{ $ElementLongName . '_Disabled' } = $ElementLongName;
                     }
                     $Parents .= $Element . '::';
                 }
@@ -4785,7 +4883,7 @@ sub _BuildSelectionDataRefCreate {
         # sort hash (before the translation)
         my @SortKeys;
         if ( $OptionRef->{Sort} eq 'IndividualValue' && $OptionRef->{SortIndividual} ) {
-            my %List = reverse %{ $Param{Data} };
+            my %List = reverse %{$DataLocal};
             for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
                 if ( $List{$Key} ) {
                     push @SortKeys, $List{$Key};
@@ -4797,33 +4895,33 @@ sub _BuildSelectionDataRefCreate {
 
         # translate value
         if ( $OptionRef->{Translation} ) {
-            for my $Row ( sort keys %{ $Param{Data} } ) {
-                $Param{Data}->{$Row} = $Self->{LanguageObject}->Get( $Param{Data}->{$Row} );
+            for my $Row ( sort keys %{$DataLocal} ) {
+                $DataLocal->{$Row} = $Self->{LanguageObject}->Get( $DataLocal->{$Row} );
             }
         }
 
         # sort hash (after the translation)
         if ( $OptionRef->{Sort} eq 'NumericKey' ) {
-            @SortKeys = sort { $a <=> $b } ( keys %{ $Param{Data} } );
+            @SortKeys = sort { $a <=> $b } ( keys %{$DataLocal} );
         }
         elsif ( $OptionRef->{Sort} eq 'NumericValue' ) {
             @SortKeys
-                = sort { $Param{Data}->{$a} <=> $Param{Data}->{$b} } ( keys %{ $Param{Data} } );
+                = sort { $DataLocal->{$a} <=> $DataLocal->{$b} } ( keys %{$DataLocal} );
         }
         elsif ( $OptionRef->{Sort} eq 'AlphanumericKey' ) {
-            @SortKeys = sort( keys %{ $Param{Data} } );
+            @SortKeys = sort( keys %{$DataLocal} );
         }
         elsif ( $OptionRef->{Sort} eq 'TreeView' ) {
 
             # add suffix for correct sorting
             my %SortHash;
-            for ( sort keys %{ $Param{Data} } ) {
-                $SortHash{$_} = $Param{Data}->{$_} . '::';
+            for ( sort keys %{$DataLocal} ) {
+                $SortHash{$_} = $DataLocal->{$_} . '::';
             }
             @SortKeys = sort { $SortHash{$a} cmp $SortHash{$b} } ( keys %SortHash );
         }
         elsif ( $OptionRef->{Sort} eq 'IndividualKey' && $OptionRef->{SortIndividual} ) {
-            my %List = %{ $Param{Data} };
+            my %List = %{$DataLocal};
             for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
                 if ( $List{$Key} ) {
                     push @SortKeys, $Key;
@@ -4838,23 +4936,23 @@ sub _BuildSelectionDataRefCreate {
         }
         else {
             @SortKeys
-                = sort { $Param{Data}->{$a} cmp $Param{Data}->{$b} } ( keys %{ $Param{Data} } );
+                = sort { $DataLocal->{$a} cmp $DataLocal->{$b} } ( keys %{$DataLocal} );
             $OptionRef->{Sort} = 'AlphanumericValue';
         }
 
         # create DataRef
         for my $Row (@SortKeys) {
             $DataRef->[$Counter]->{Key}   = $Row;
-            $DataRef->[$Counter]->{Value} = $Param{Data}->{$Row};
+            $DataRef->[$Counter]->{Value} = $DataLocal->{$Row};
             $Counter++;
         }
     }
 
     # if ArrayHashRef was given
-    elsif ( ref $Param{Data} eq 'ARRAY' && ref $Param{Data}->[0] eq 'HASH' ) {
+    elsif ( ref $DataLocal eq 'ARRAY' && ref $DataLocal->[0] eq 'HASH' ) {
 
         # create DataRef
-        for my $Row ( @{ $Param{Data} } ) {
+        for my $Row ( @{$DataLocal} ) {
             if ( ref $Row eq 'HASH' && defined $Row->{Key} ) {
                 $DataRef->[$Counter]->{Key}   = $Row->{Key};
                 $DataRef->[$Counter]->{Value} = $Row->{Value};
@@ -4878,11 +4976,11 @@ sub _BuildSelectionDataRefCreate {
     }
 
     # if ArrayRef was given
-    elsif ( ref $Param{Data} eq 'ARRAY' ) {
+    elsif ( ref $DataLocal eq 'ARRAY' ) {
 
         # get missing parents and mark them for disable later
         if ( $OptionRef->{Sort} eq 'TreeView' ) {
-            my %List = map { $_ => 1 } @{ $Param{Data} };
+            my %List = map { $_ => 1 } @{$DataLocal};
 
             # get each data value
             for my $Key ( sort keys %List ) {
@@ -4904,7 +5002,7 @@ sub _BuildSelectionDataRefCreate {
                         $DisabledElements{$ElementLongName} = 1;
 
                         # add the element to the original data to be disabled later
-                        push @{ $Param{Data} }, $ElementLongName;
+                        push @{$DataLocal}, $ElementLongName;
                     }
                     $Parents .= $Element . '::';
                 }
@@ -4912,15 +5010,15 @@ sub _BuildSelectionDataRefCreate {
         }
 
         if ( $OptionRef->{Sort} eq 'IndividualValue' && $OptionRef->{SortIndividual} ) {
-            my %List = map { $_ => 1 } @{ $Param{Data} };
-            $Param{Data} = [];
+            my %List = map { $_ => 1 } @{$DataLocal};
+            $DataLocal = [];
             for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
                 if ( $List{$Key} ) {
-                    push @{ $Param{Data} }, $Key;
+                    push @{$DataLocal}, $Key;
                     delete $List{$Key};
                 }
             }
-            push @{ $Param{Data} }, sort { $a cmp $b } ( keys %List );
+            push @{$DataLocal}, sort { $a cmp $b } ( keys %List );
         }
 
         my %ReverseHash;
@@ -4928,15 +5026,15 @@ sub _BuildSelectionDataRefCreate {
         # translate value
         if ( $OptionRef->{Translation} ) {
             my @TranslateArray;
-            for my $Row ( @{ $Param{Data} } ) {
+            for my $Row ( @{$DataLocal} ) {
                 my $TranslateString = $Self->{LanguageObject}->Get($Row);
                 push @TranslateArray, $TranslateString;
                 $ReverseHash{$TranslateString} = $Row;
             }
-            $Param{Data} = \@TranslateArray;
+            $DataLocal = \@TranslateArray;
         }
         else {
-            for my $Row ( @{ $Param{Data} } ) {
+            for my $Row ( @{$DataLocal} ) {
                 $ReverseHash{$Row} = $Row;
             }
         }
@@ -4944,22 +5042,22 @@ sub _BuildSelectionDataRefCreate {
         # sort array
         if ( $OptionRef->{Sort} eq 'AlphanumericKey' || $OptionRef->{Sort} eq 'AlphanumericValue' )
         {
-            my @SortArray = sort( @{ $Param{Data} } );
-            $Param{Data} = \@SortArray;
+            my @SortArray = sort( @{$DataLocal} );
+            $DataLocal = \@SortArray;
         }
         elsif ( $OptionRef->{Sort} eq 'NumericKey' || $OptionRef->{Sort} eq 'NumericValue' ) {
-            my @SortArray = sort { $a <=> $b } ( @{ $Param{Data} } );
-            $Param{Data} = \@SortArray;
+            my @SortArray = sort { $a <=> $b } ( @{$DataLocal} );
+            $DataLocal = \@SortArray;
         }
         elsif ( $OptionRef->{Sort} eq 'TreeView' ) {
 
             # sort array, add '::' in the comparison, for proper sort of Items with Items::SubItems
-            my @SortArray = sort { $a . '::' cmp $b . '::' } @{ $Param{Data} };
-            $Param{Data} = \@SortArray;
+            my @SortArray = sort { $a . '::' cmp $b . '::' } @{$DataLocal};
+            $DataLocal = \@SortArray;
         }
 
         # create DataRef
-        for my $Row ( @{ $Param{Data} } ) {
+        for my $Row ( @{$DataLocal} ) {
             $DataRef->[$Counter]->{Key}   = $ReverseHash{$Row};
             $DataRef->[$Counter]->{Value} = $Row;
             $Counter++;
@@ -4968,8 +5066,8 @@ sub _BuildSelectionDataRefCreate {
 
     # check disabled items on ArrayRef or HashRef only
     if (
-        ref $Param{Data} eq 'HASH'
-        || ( ref $Param{Data} eq 'ARRAY' && ref $Param{Data}->[0] ne 'HASH' )
+        ref $DataLocal eq 'HASH'
+        || ( ref $DataLocal eq 'ARRAY' && ref $DataLocal->[0] ne 'HASH' )
         )
     {
         for my $Row ( @{$DataRef} ) {
@@ -4999,17 +5097,9 @@ sub _BuildSelectionDataRefCreate {
         for my $Row ( @{$DataRef} ) {
 
             # REMARK: This is the same solution as in Ascii2Html
-            $Row->{Value} =~ s/^(.{$OptionRef->{Max}}).+?$/$1\[\.\.\]/gs;
-
-            #$Row->{Value} = substr( $Row->{Value}, 0, $OptionRef->{Max} );
-        }
-    }
-
-    # HTMLQuote option
-    if ( $OptionRef->{HTMLQuote} ) {
-        for my $Row ( @{$DataRef} ) {
-            $Row->{Key}   = $Self->Ascii2Html( Text => $Row->{Key} );
-            $Row->{Value} = $Self->Ascii2Html( Text => $Row->{Value} );
+            if ( length $Row > $OptionRef->{Max} ) {
+                $Row = substr( $Row, 0, $OptionRef->{Max} - 5 ) . '[...]';
+            }
         }
     }
 
@@ -5040,6 +5130,14 @@ sub _BuildSelectionDataRefCreate {
             {
                 $Row->{Selected} = 1;
             }
+        }
+    }
+
+    # HTMLQuote option
+    if ( $OptionRef->{HTMLQuote} ) {
+        for my $Row ( @{$DataRef} ) {
+            $Row->{Key}   = $Self->Ascii2Html( Text => $Row->{Key} );
+            $Row->{Value} = $Self->Ascii2Html( Text => $Row->{Value} );
         }
     }
 
@@ -5139,8 +5237,9 @@ sub _BuildSelectionOutput {
         }
         $String .= '</select>';
 
-        if ($Param{TreeView}) {
-            $String .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+        if ( $Param{TreeView} ) {
+            $String
+                .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
         }
 
     }
@@ -5204,6 +5303,61 @@ sub _RemoveScriptTags {
 
     }
     return $Code;
+}
+
+=item WrapPlainText()
+
+This sub has two main functionalities:
+1. Check every line and make sure that "\n" is the ending of the line.
+2. If the line does _not_ start with ">" (e.g. not cited text)
+wrap it after the number of "MaxCharacters" (e.g. if MaxCharacters is "80" wrap after 80 characters).
+Do this _just_ if the line, that should be wrapped, contains space characters at which the line can be wrapped.
+
+If you need more info to understand what it does, take a look at the UnitTest WrapPlainText.t to see
+use cases there.
+
+my $WrappedPlainText = $LayoutObject->WrapPlainText(
+    PlainText     => "Some Plain text that is longer than the amount stored in MaxCharacters",
+    MaxCharacters => 80,
+);
+
+=cut
+
+sub WrapPlainText {
+    my ( $Self, %Param ) = @_;
+
+    # Return if we did not get MaxCharacters
+    # or MaxCharacters doesn't contain just an int
+    if ( !IsPositiveInteger( $Param{MaxCharacters} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Got no or invalid MaxCharacters!",
+        );
+        return;
+    }
+
+    # Return if we didn't get PlainText
+    if ( !defined $Param{PlainText} ) {
+        return;
+    }
+
+    # Return if we got no Scalar
+    if ( ref $Param{PlainText} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Had no string in PlainText!",
+        );
+        return;
+    }
+
+    # Return PlainText if we have less than MaxCharacters
+    if ( length $Param{PlainText} < $Param{MaxCharacters} ) {
+        return $Param{PlainText};
+    }
+
+    my $WorkString = $Param{PlainText};
+    $WorkString =~ s/(^>.+|.{4,$Param{MaxCharacters}})(?:\s|\z)/$1\n/gm;
+    return $WorkString;
 }
 
 #COMPAT: to 3.0.x and lower (can be removed later)

@@ -3,3 +3,5 @@
 <!--          Web: http://otrs.com/ - Lists: http://lists.otrs.org/            -->
 <!--  GNU AFFERO General Public License: http://www.gnu.org/licenses/agpl.txt  -->
 <!--                                                                           -->
+# nofilter(TidyAll::Plugin::OTRS::Common::HeaderlineFilename)
+# nofilter(TidyAll::Plugin::OTRS::Legal::AGPLValidator)

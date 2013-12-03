@@ -91,7 +91,7 @@ sub Run {
                 UserID    => $Param{Data}->{UserID},
             );
 
-            # last if article was not shown
+            # last ARTICLE if article was not shown
             if ( !$ArticleFlag{Seen} ) {
                 $ArticleAllSeen = 0;
                 last ARTICLE;

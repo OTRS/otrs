@@ -52,29 +52,13 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
      * @return nothing
      */
     TargetNS.InitAutocomplete = function ($Input, Subaction) {
-        $Input.autocomplete({
-            minLength: Core.Config.Get('Autocomplete.MinQueryLength'),
-            delay: Core.Config.Get('Autocomplete.QueryDelay'),
-            open: function() {
-                // force a higher z-index than the overlay/dialog
-                $(this).autocomplete('widget').addClass('ui-overlay-autocomplete');
-                return false;
-            },
-            source: function (Request, Response) {
+        Core.UI.Autocomplete.Init($Input, function (Request, Response) {
                 var URL = Core.Config.Get('Baselink'), Data = {
                     Action: 'AgentCustomerInformationCenterSearch',
                     Subaction: Subaction,
                     Term: Request.term,
-                    MaxResults: Core.Config.Get('Autocomplete.MaxResultsDisplayed')
+                    MaxResults: Core.UI.Autocomplete.GetConfig('MaxResultsDisplayed')
                 };
-
-                // if an old ajax request is already running, stop the old request and start the new one
-                if ($Input.data('AutoCompleteXHR')) {
-                    $Input.data('AutoCompleteXHR').abort();
-                    $Input.removeData('AutoCompleteXHR');
-                    // run the response function to hide the request animation
-                    Response({});
-                }
 
                 $Input.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, Data, function (Result) {
                     var Data = [];
@@ -87,11 +71,9 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
                     });
                     Response(Data);
                 }));
-            },
-            select: function (Event, UI) {
-                Redirect(UI.item.value, Event);
-            }
-        });
+        }, function (Event, UI) {
+            Redirect(UI.item.value, Event);
+        }, 'CustomerSearch');
     };
 
     /**

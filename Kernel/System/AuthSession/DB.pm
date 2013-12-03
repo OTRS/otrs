@@ -12,7 +12,8 @@ package Kernel::System::AuthSession::DB;
 use strict;
 use warnings;
 
-use Storable;
+use Storable qw();
+use MIME::Base64 qw();
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -171,7 +172,7 @@ sub GetSessionIDData {
 
         # deserialize data if needed
         if ( $Row[3] ) {
-            my $Value = eval { Storable::thaw( $Row[2] ) };
+            my $Value = eval { Storable::thaw( MIME::Base64::decode_base64( $Row[2] ) ) };
 
             # workaround for the oracle problem with empty
             # strings and NULL values in VARCHAR columns
@@ -277,7 +278,7 @@ sub CreateSessionID {
 
     # create challenge token
     my $ChallengeToken = $Self->{MainObject}->GenerateRandomString(
-         Length => 32,
+        Length => 32,
     );
 
     my %Data;
@@ -470,7 +471,7 @@ sub CleanUp {
 
     # use 'truncate table' if possible in order to reset the auto increment value
     if (
-        $Self->{DBType}    eq 'mysql'
+        $Self->{DBType} eq 'mysql'
         || $Self->{DBType} eq 'postgresql'
         || $Self->{DBType} eq 'oracle'
         || $Self->{DBType} eq 'mssql'
@@ -588,14 +589,14 @@ sub _SQLCreate {
             my $Serialized = 0;
 
             if (
-                ref $Value    eq 'HASH'
+                ref $Value eq 'HASH'
                 || ref $Value eq 'ARRAY'
                 || ref $Value eq 'SCALAR'
                 )
             {
 
                 # dump the data
-                $Value      = Storable::nfreeze($Value);
+                $Value      = MIME::Base64::encode_base64( Storable::nfreeze($Value) );
                 $Serialized = 1;
             }
 
@@ -638,7 +639,7 @@ sub _SQLCreate {
 
             if (
                 !defined $Value
-                || $Value     eq ''
+                || $Value eq ''
                 || ref $Value eq 'HASH'
                 || ref $Value eq 'ARRAY'
                 || ref $Value eq 'SCALAR'
@@ -659,7 +660,7 @@ sub _SQLCreate {
                 }
 
                 # dump the data
-                $Value      = Storable::nfreeze($Value);
+                $Value      = MIME::Base64::encode_base64( Storable::nfreeze($Value) );
                 $Serialized = 1;
             }
 
@@ -718,14 +719,14 @@ sub _SQLCreate {
             my $Serialized = 0;
 
             if (
-                ref $Value    eq 'HASH'
+                ref $Value eq 'HASH'
                 || ref $Value eq 'ARRAY'
                 || ref $Value eq 'SCALAR'
                 )
             {
 
                 # dump the data
-                $Value      = Storable::nfreeze($Value);
+                $Value      = MIME::Base64::encode_base64( Storable::nfreeze($Value) );
                 $Serialized = 1;
             }
 

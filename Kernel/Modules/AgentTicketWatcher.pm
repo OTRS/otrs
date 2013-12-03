@@ -94,7 +94,7 @@ sub Run {
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID},
         );
-        if (!$Access) {
+        if ( !$Access ) {
             return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
         }
 
@@ -153,6 +153,8 @@ sub Run {
             OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID}",
         );
     }
+
+    $Self->{LayoutObject}->ErrorScreen( Message => 'Invalid subaction' );
 }
 
 1;

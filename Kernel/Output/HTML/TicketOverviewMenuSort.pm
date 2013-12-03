@@ -2,8 +2,6 @@
 # Kernel/Output/HTML/TicketOverviewMenuSort.pm
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 # --
-# $Id: TicketOverviewMenuSort.pm,v 1.26 2012/11/20 15:04:18 mh Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
@@ -17,9 +15,6 @@ use warnings;
 use Kernel::Language;
 
 use Kernel::System::VariableCheck qw(:all);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -62,7 +57,7 @@ sub Run {
 
     my @SortData;
     my $SelectedSortByOption;
-    for my $CurrentSortByOption ( keys %{$SortConfiguration} ) {
+    for my $CurrentSortByOption ( sort keys %{$SortConfiguration} ) {
 
         # add separator
         if (@SortData) {
@@ -82,7 +77,7 @@ sub Run {
             my $Selected = 0;
             if (
                 $CurrentSortByOption eq $Param{SortBy}
-                && $CurrentOrderBy   eq $Param{OrderBy}
+                && $CurrentOrderBy eq $Param{OrderBy}
                 )
             {
                 $Selected             = 1;
@@ -113,10 +108,11 @@ sub Run {
     return if !$ReturnData{HTML};
 
     # build redirect param hash for Core.App.InternalRedirect
-    my $RedirectParams = "Action: '$Self->{Action}',\n";
+    my %RedirectParams;
+    $RedirectParams{Action} = "\'$Self->{Action}\'";
     for my $PossibleParam (qw(Filter)) {
         if ( $Param{$PossibleParam} ) {
-            $RedirectParams .= "$PossibleParam: '$Param{ $PossibleParam }',\n";
+            $RedirectParams{$PossibleParam} = "\'$Param{ $PossibleParam }\'";
         }
     }
 
@@ -124,7 +120,26 @@ sub Run {
         my @SplittedLinkFilters = split( /[;&]/, $Param{LinkFilter} );
         for my $CurrentLinkFilter ( sort @SplittedLinkFilters ) {
             my @KeyValue = split( /=/, $CurrentLinkFilter );
-            $RedirectParams .= "$KeyValue[0]: '$KeyValue[1]',\n";
+            $RedirectParams{ $KeyValue[0] } = "\'$KeyValue[1]\'";
+        }
+    }
+
+    $RedirectParams{SortBy}  = 'Selection[0]';
+    $RedirectParams{OrderBy} = 'Selection[1]';
+
+    my $RedirectParamsString = '';
+    my $ParamLength          = scalar keys %RedirectParams;
+    my $ParamCounter         = 0;
+    for my $ParamKey ( sort keys %RedirectParams ) {
+        $ParamCounter++;
+        $RedirectParamsString .= "$ParamKey: $RedirectParams{$ParamKey}";
+
+        # prevent comma after last element for correct functionality in IE
+        if ( $ParamCounter < $ParamLength ) {
+            $RedirectParamsString .= ",\n";
+        }
+        else {
+            $RedirectParamsString .= "\n";
         }
     }
 
@@ -135,9 +150,7 @@ sub Run {
     var Selection = \$(this).val().split('|');
     if ( Selection.length === 2 ) {
         Core.App.InternalRedirect({
-            ${RedirectParams}
-            SortBy: Selection[0],
-            OrderBy: Selection[1],
+            ${RedirectParamsString}
         });
     }
 });

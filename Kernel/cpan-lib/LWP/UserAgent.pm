@@ -5,7 +5,7 @@ use vars qw(@ISA $VERSION);
 
 require LWP::MemberMixin;
 @ISA = qw(LWP::MemberMixin);
-$VERSION = "6.04";
+$VERSION = "6.05";
 
 use HTTP::Request ();
 use HTTP::Response ();
@@ -33,12 +33,12 @@ sub new
     my $local_address = delete $cnf{local_address};
     my $ssl_opts = delete $cnf{ssl_opts} || {};
     unless (exists $ssl_opts->{verify_hostname}) {
-	# The processing of HTTPS_CA_* below is for compatiblity with Crypt::SSLeay
+	# The processing of HTTPS_CA_* below is for compatibility with Crypt::SSLeay
 	if (exists $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME}) {
 	    $ssl_opts->{verify_hostname} = $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME};
 	}
 	elsif ($ENV{HTTPS_CA_FILE} || $ENV{HTTPS_CA_DIR}) {
-	    # Crypt-SSLeay compatiblity (verify peer certificate; but not the hostname)
+	    # Crypt-SSLeay compatibility (verify peer certificate; but not the hostname)
 	    $ssl_opts->{verify_hostname} = 0;
 	    $ssl_opts->{SSL_verify_mode} = 1;
 	}
@@ -852,7 +852,7 @@ sub run_handlers {
 }
 
 
-# depreciated
+# deprecated
 sub use_eval   { shift->_elem('use_eval',  @_); }
 sub use_alarm
 {
@@ -1036,6 +1036,7 @@ sub no_proxy {
 
 sub _new_response {
     my($request, $code, $message, $content) = @_;
+    $message ||= HTTP::Status::status_message($code);
     my $response = HTTP::Response->new($code, $message);
     $response->request($request);
     $response->header("Client-Date" => HTTP::Date::time2str(time));
@@ -1126,7 +1127,7 @@ The following additional options are also accepted: If the C<env_proxy> option
 is passed in with a TRUE value, then proxy settings are read from environment
 variables (see env_proxy() method below).  If C<env_proxy> isn't provided the
 C<PERL_LWP_ENV_PROXY> environment variable controls if env_proxy() is called
-during initalization.  If the C<keep_alive> option is passed in, then a
+during initialization.  If the C<keep_alive> option is passed in, then a
 C<LWP::ConnCache> is set up (see conn_cache() method below).  The C<keep_alive>
 value is passed on as the C<total_capacity> for the connection cache.
 

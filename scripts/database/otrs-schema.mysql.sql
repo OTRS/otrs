@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2013-06-24 12:38:54
+#  driver: mysql
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table acl
@@ -7,7 +7,7 @@
 CREATE TABLE acl (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NOT NULL,
+    comments VARCHAR (250) NULL,
     description VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     stop_after_match SMALLINT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE users (
 CREATE TABLE user_preferences (
     user_id INTEGER NOT NULL,
     preferences_key VARCHAR (150) NOT NULL,
-    preferences_value VARCHAR (250) NULL,
+    preferences_value LONGBLOB NULL,
     INDEX user_preferences_user_id (user_id)
 );
 # ----------------------------------------------------------
@@ -643,13 +643,14 @@ CREATE TABLE time_accounting (
     INDEX time_accounting_ticket_id (ticket_id)
 );
 # ----------------------------------------------------------
-#  create table standard_response
+#  create table standard_template
 # ----------------------------------------------------------
-CREATE TABLE standard_response (
+CREATE TABLE standard_template (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     text TEXT NULL,
     content_type VARCHAR (250) NULL,
+    template_type VARCHAR (100) NOT NULL DEFAULT 'Answer',
     comments VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -657,14 +658,14 @@ CREATE TABLE standard_response (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX standard_response_name (name)
+    UNIQUE INDEX standard_template_name (name)
 );
 # ----------------------------------------------------------
-#  create table queue_standard_response
+#  create table queue_standard_template
 # ----------------------------------------------------------
-CREATE TABLE queue_standard_response (
+CREATE TABLE queue_standard_template (
     queue_id INTEGER NOT NULL,
-    standard_response_id INTEGER NOT NULL,
+    standard_template_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -689,12 +690,12 @@ CREATE TABLE standard_attachment (
     UNIQUE INDEX standard_attachment_name (name)
 );
 # ----------------------------------------------------------
-#  create table standard_response_attachment
+#  create table standard_template_attachment
 # ----------------------------------------------------------
-CREATE TABLE standard_response_attachment (
+CREATE TABLE standard_template_attachment (
     id INTEGER NOT NULL AUTO_INCREMENT,
     standard_attachment_id INTEGER NOT NULL,
-    standard_response_id INTEGER NOT NULL,
+    standard_template_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -924,6 +925,7 @@ CREATE TABLE postmaster_filter (
     f_type VARCHAR (20) NOT NULL,
     f_key VARCHAR (200) NOT NULL,
     f_value VARCHAR (200) NOT NULL,
+    f_not SMALLINT NULL,
     INDEX postmaster_filter_f_name (f_name)
 );
 # ----------------------------------------------------------
@@ -1101,7 +1103,7 @@ CREATE TABLE virtual_fs (
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id),
     INDEX virtual_fs_backend (backend(60)),
-    INDEX virtual_fs_filename (filename(350))
+    INDEX virtual_fs_filename (filename(255))
 );
 # ----------------------------------------------------------
 #  create table virtual_fs_preferences
@@ -1122,7 +1124,7 @@ CREATE TABLE virtual_fs_db (
     content LONGBLOB NOT NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id),
-    INDEX virtual_fs_db_filename (filename(350))
+    INDEX virtual_fs_db_filename (filename(255))
 );
 # ----------------------------------------------------------
 #  create table package_repository

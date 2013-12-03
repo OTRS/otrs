@@ -19,37 +19,30 @@
     <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
             <h1>
-
 <!-- dtl:block:HeaderAgentTicketFreeText -->
-                $Text{"Change Free Text of Ticket"}
+$Text{"Change Free Text of Ticket"}:
 <!-- dtl:block:HeaderAgentTicketFreeText -->
-
 <!-- dtl:block:HeaderAgentTicketOwner -->
-                $Text{"Change Owner of Ticket"}
+$Text{"Change Owner of Ticket"}:
 <!-- dtl:block:HeaderAgentTicketOwner -->
-
 <!-- dtl:block:HeaderAgentTicketClose -->
-                $Text{"Close Ticket"}
+$Text{"Close Ticket"}:
 <!-- dtl:block:HeaderAgentTicketClose -->
-
 <!-- dtl:block:HeaderAgentTicketNote -->
-                $Text{"Add Note to Ticket"}
+$Text{"Add Note to Ticket"}:
 <!-- dtl:block:HeaderAgentTicketNote -->
-
 <!-- dtl:block:HeaderAgentTicketPending -->
-                $Text{"Set Pending"}
+$Text{"Set Pending"}:
 <!-- dtl:block:HeaderAgentTicketPending -->
-
 <!-- dtl:block:HeaderAgentTicketPriority -->
-                $Text{"Change Priority of Ticket"}
+$Text{"Change Priority of Ticket"}:
 <!-- dtl:block:HeaderAgentTicketPriority -->
-
 <!-- dtl:block:HeaderAgentTicketResponsible -->
-                $Text{"Change Responsible of Ticket"}
+$Text{"Change Responsible of Ticket"}:
 <!-- dtl:block:HeaderAgentTicketResponsible -->
-
-                : $Data{"TicketNumber"} - $QData{"Title","60"}
+$Data{"TicketNumber"} - $QData{"Title"}
             </h1>
+            <p class="AsteriskExplanation">$Text{"All fields marked with an asterisk (*) are mandatory."}</p>
 
 <!-- dtl:block:TicketBack -->
             <p>
@@ -89,7 +82,7 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
 $('#TypeID').bind('change', function (Event) {
-    Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'TypeID', [ 'ServiceID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+    Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'TypeID', [ 'ServiceID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
 });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -105,13 +98,30 @@ $('#TypeID').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#ServiceID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'ServiceID', [ 'TypeID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'ServiceID', [ 'TypeID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:Service -->
+
+<!-- dtl:block:ServiceMandatory -->
+                <label class="Mandatory" for="ServiceID"><span class="Marker">*</span>$Text{"Service"}:</label>
+                <div class="Field">
+                    $Data{"ServiceStrg"}
+                    <div id="ServiceIDError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                    <div id="ServiceIDServerError" class="TooltipErrorMessage"><p>$Text{"Service invalid."}</p></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#ServiceID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'ServiceID', [ 'TypeID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+                </div>
+                <div class="Clear"></div>
+<!-- dtl:block:ServiceMandatory -->
 
 <!-- dtl:block:SLA -->
                 <label for="SLAID">$Text{"Service Level Agreement"}:</label>
@@ -120,13 +130,30 @@ $('#TypeID').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#SLAID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'SLAID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'SLAID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:SLA -->
+
+<!-- dtl:block:SLAMandatory -->
+                <label class="Mandatory" for="SLAID"><span class="Marker">*</span>$Text{"Service Level Agreement"}:</label>
+                <div class="Field">
+                    $Data{"SLAStrg"}
+                    <div id="SLAIDError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                    <div id="SLAIDServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#SLAID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'SLAID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+                </div>
+                <div class="Clear"></div>
+<!-- dtl:block:SLAMandatory -->
 
 <!-- dtl:block:Queue -->
                 <label for="NewQueueID">$Text{"Queue"}:</label>
@@ -137,7 +164,7 @@ $('#TypeID').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#NewQueueID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'QueueID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'QueueID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -154,9 +181,7 @@ $('#TypeID').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#NewOwnerID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewOwnerID', [ 'TypeID', 'ServiceID', 'SLAID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
-    });
-    $('#NewOwnerID').bind('focus', function () {
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewOwnerID', [ 'TypeID', 'ServiceID', 'SLAID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
         Core.Agent.TicketAction.SelectRadioButton('New','NewOwnerType');
     });
 //]]></script>
@@ -172,9 +197,7 @@ $('#TypeID').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#OldOwnerID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'OldOwnerID', [ 'TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
-    });
-    $('#OldOwnerID').bind('focus', function () {
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'OldOwnerID', [ 'TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
         Core.Agent.TicketAction.SelectRadioButton('Old','NewOwnerType');
     });
 //]]></script>
@@ -190,7 +213,7 @@ $('#TypeID').bind('change', function (Event) {
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#NewResponsibleID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewResponsibleID', [ 'TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewStateID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewResponsibleID', [ 'TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -215,9 +238,15 @@ $('#TypeID').bind('change', function (Event) {
                 <div class="Clear"></div>
 <!-- dtl:block:InvolvedAgent -->
 
+<!-- dtl:block:SubjectLabel -->
+                <label for="Subject">$Text{"Subject"}:</label>
+<!-- dtl:block:SubjectLabel -->
+<!-- dtl:block:SubjectLabelMandatory -->
                 <label class="Mandatory" for="Subject"><span class="Marker">*</span>$Text{"Subject"}:</label>
+<!-- dtl:block:SubjectLabelMandatory -->
+
                 <div class="Field">
-                    <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="W75pc Validate_Required $Data{"SubjectInvalid"}"/>
+                    <input type="text" id="Subject" name="Subject" value="$QData{"Subject"}" class="W75pc $Data{"SubjectRequired"} $Data{"SubjectInvalid"}"/>
                     <div id="SubjectError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                     <div id="SubjectServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                 </div>
@@ -241,14 +270,18 @@ $('#TypeID').bind('change', function (Event) {
 
 <!-- OutputFilterHook_NoTicketOptionsFallback -->
 
+<!-- dtl:block:RichTextLabel -->
+                <label for="RichText">$Text{"Text"}:</label>
+<!-- dtl:block:RichTextLabel -->
+<!-- dtl:block:RichTextLabelMandatory -->
                 <label class="Mandatory" for="RichText"><span class="Marker">*</span>$Text{"Text"}:</label>
-                <div class="RichTextField">
+<!-- dtl:block:RichTextLabelMandatory -->
 
+                <div class="RichTextField">
 <!-- dtl:block:RichText -->
 $Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
-
-                    <textarea id="RichText" class="RichText Validate_Required $Data{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <textarea id="RichText" class="RichText $Data{"BodyRequired"} $Data{"BodyInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
                     <div id="RichTextError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                     <div id="RichTextServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                 </div>
@@ -308,7 +341,7 @@ $Include{"RichTextEditor"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#NewStateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewStateID', ['TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewPriorityID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewStateID', ['TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -333,7 +366,7 @@ $Include{"RichTextEditor"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#NewPriorityID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewPriorityID', ['TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewPriorityID', ['TypeID', 'ServiceID', 'SLAID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID' $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -374,14 +407,14 @@ $Include{"RichTextEditor"}
 #<!-- dtl:block:DynamicField_Field2 -->
 
 <!-- dtl:block:TimeUnitsLabel -->
-                <label for="TimeUnits">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+                <label for="TimeUnits">$Text{"Time units"} $Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
 <!-- dtl:block:TimeUnitsLabel -->
 <!-- dtl:block:TimeUnitsLabelMandatory -->
-                <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span>$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
+                <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span>$Text{"Time units"} $Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</label>
 <!-- dtl:block:TimeUnitsLabelMandatory -->
 <!-- dtl:block:TimeUnits -->
                 <div class="Field">
-                    <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}"/>
+                    <input type="text" name="TimeUnits" id="TimeUnits" value="$QData{"TimeUnits"}" class="W50pc Validate_TimeUnits $QData{"TimeUnitsRequired"} $QData{"TimeUnitsInvalid"}"/>
                     <div id="TimeUnitsError" class="TooltipErrorMessage"><p>$Text{"Invalid time!"}</p></div>
                     <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
                 </div>
@@ -391,7 +424,7 @@ $Include{"RichTextEditor"}
             </fieldset>
         </div>
         <div class="Footer">
-            <button class="Primary" id="submitRichText" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}">$Text{"Submit"}</button>
+            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="$Text{"Submit"} (g)" type="submit" value="$Text{"Submit"}"><span><i class="icon-check"></i> $Text{"Submit"}</span></button>
         </div>
     </div>
 </form>

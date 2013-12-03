@@ -7,14 +7,6 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<!-- dtl:block:CustomerSearchAutoComplete -->
-<script type="text/javascript">//<![CDATA[
-    Core.Config.Set('Autocomplete.QueryDelay', "$QData{"queryDelay"}");
-    Core.Config.Set('Autocomplete.MaxResultsDisplayed', "$QData{"maxResultsDisplayed"}");
-    Core.Config.Set('Autocomplete.MinQueryLength', "$QData{"minQueryLength"}");
-//]]></script>
-<!-- dtl:block:CustomerSearchAutoComplete -->
-
 <div class="InnerContent">
     <form action="$Env{"CGIHandle"}" method="post" id="AgentCustomerInformationCenterSearchForm">
         <input type="hidden" name="Action" value="$Env{"Action"}"/>

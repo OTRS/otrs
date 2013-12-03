@@ -287,7 +287,7 @@ sub _MaskNew {
         Name           => 'ParentID',
         SelectedID     => $Param{ParentID} || $ServiceData{ParentID},
         PossibleNone   => 1,
-        TreeView       => ($ListType eq 'tree') ? 1 : 0,
+        TreeView       => ( $ListType eq 'tree' ) ? 1 : 0,
         DisabledBranch => $ServiceData{Name},
         Translation    => 0,
     );

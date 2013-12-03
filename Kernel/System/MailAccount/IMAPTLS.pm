@@ -46,7 +46,7 @@ sub Connect {
         Server   => $Param{Host},
         User     => $Param{Login},
         Password => $Param{Password},
-        Starttls => 1,                  # may need to change to param
+        Starttls => [ SSL_verify_mode => 0 ],
         Debug    => $Param{Debug},
         Uid      => 1,
 
@@ -145,6 +145,7 @@ sub _Fetch {
         }
     }
     else {
+        MESSAGE_NO:
         for my $Messageno ( @{$Messages} ) {
 
             # check if reconnect is needed
@@ -154,7 +155,7 @@ sub _Fetch {
                 if ($CMD) {
                     print "$AuthType: Reconnect Session after $MaxPopEmailSession messages...\n";
                 }
-                last;
+                last MESSAGE_NO;
             }
             if ($CMD) {
                 print
@@ -225,7 +226,7 @@ sub _Fetch {
                 $Self->{Limit}++;
                 if ( $Self->{Limit} >= $Limit ) {
                     $Self->{Reconnect} = 0;
-                    last;
+                    last MESSAGE_NO;
                 }
             }
             if ($CMD) {

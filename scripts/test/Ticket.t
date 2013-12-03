@@ -69,7 +69,7 @@ $Self->True(
     'TicketCreate()',
 );
 
-my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID );
+my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID, Extended => 1 );
 $Self->Is(
     $Ticket{Title},
     'Some Ticket_Title',
@@ -134,6 +134,11 @@ $Self->Is(
     $Ticket{TypeID},
     '1',
     'TicketGet() (TypeID)',
+);
+$Self->Is(
+    $Ticket{SolutionTime},
+    $Ticket{Created},
+    'Ticket created as closed as Solution Time = Creation Time',
 );
 
 my $TestUserLogin = $HelperObject->TestUserCreate(
@@ -511,6 +516,34 @@ $Self->True(
     'TicketSearch() (HASH:Body,StateType:Open)',
 );
 
+$TicketObject->MoveTicket(
+    Queue              => 'Junk',
+    TicketID           => $TicketID,
+    SendNoNotification => 1,
+    UserID             => 1,
+);
+
+$TicketObject->MoveTicket(
+    Queue              => 'Raw',
+    TicketID           => $TicketID,
+    SendNoNotification => 1,
+    UserID             => 1,
+);
+
+my %HD = $TicketObject->HistoryTicketGet(
+    StopYear  => 4000,
+    StopMonth => 1,
+    StopDay   => 1,
+    TicketID  => $TicketID,
+    Force     => 1,
+);
+my $QueueLookupID = $QueueObject->QueueLookup( Queue => $HD{Queue} );
+$Self->Is(
+    $QueueLookupID,
+    $HD{QueueID},
+    'HistoryTicketGet() Check history queue',
+);
+
 my $TicketMove = $TicketObject->MoveTicket(
     Queue              => 'Junk',
     TicketID           => $TicketID,
@@ -676,6 +709,24 @@ $Self->IsNot(
     $ChangeTime,
     $TicketData{Changed},
     'Change_time updated in TicketTitleUpdate()',
+);
+
+# check if we have a Ticket Title Update history record
+my @HistoryLines = $TicketObject->HistoryGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+my $HistoryItem = pop @HistoryLines;
+$Self->Is(
+    $HistoryItem->{HistoryType},
+    'TitleUpdate',
+    "TicketTitleUpdate - found HistoryItem",
+);
+
+$Self->Is(
+    $HistoryItem->{Name},
+    '%%Some Ticket_Title%%Some Title 1234567',
+    "TicketTitleUpdate - Found new title",
 );
 
 # get updated ticket data
@@ -1789,6 +1840,30 @@ $Self->Is(
     "TicketPendingTimeSet() - Pending Time - not set",
 );
 
+my $Diff               = 60;
+my $CurrentSystemTime  = $Self->{TimeObject}->SystemTime();
+my $PendingTimeSetDiff = $TicketObject->TicketPendingTimeSet(
+    Diff     => $Diff,
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+$Self->True(
+    $PendingTimeSetDiff,
+    "TicketPendingTimeSet() - Pending Time - set diff",
+);
+
+%TicketPending = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+
+$Self->Is(
+    $TicketPending{RealTillTimeNotUsed},
+    $CurrentSystemTime + $Diff * 60,
+    "TicketPendingTimeSet() - diff time check",
+);
+
 my $PendingTimeSet = $TicketObject->TicketPendingTimeSet(
     TicketID => $TicketID,
     UserID   => 1,
@@ -1946,6 +2021,56 @@ $Self->Is(
     "TicketPendingTimeSet() - Set to new - Pending Time not set",
 );
 
+# check that searches with NewerDate in the future are not executed
+$HelperObject->FixedTimeAddSeconds( -60 * 60 );
+
+# Test TicketCreateTimeNewerDate (future date)
+$SystemTime = $Self->{TimeObject}->SystemTime();
+%TicketIDs  = $TicketObject->TicketSearch(
+    Result                    => 'HASH',
+    Limit                     => 100,
+    TicketCreateTimeNewerDate => $Self->{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $SystemTime + ( 60 * 60 ),
+    ),
+    UserID     => 1,
+    Permission => 'rw',
+);
+$Self->False(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:TicketCreateTimeNewerDate => -60)',
+);
+
+# Test ArticleCreateTimeNewerDate (future date)
+$SystemTime = $Self->{TimeObject}->SystemTime();
+%TicketIDs  = $TicketObject->TicketSearch(
+    Result                     => 'HASH',
+    Limit                      => 100,
+    ArticleCreateTimeNewerDate => $Self->{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $SystemTime + ( 60 * 60 ),
+    ),
+    UserID     => 1,
+    Permission => 'rw',
+);
+$Self->False(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:ArticleCreateTimeNewerDate => -60)',
+);
+
+# Test TicketCloseTimeNewerDate (future date)
+%TicketIDs = $TicketObject->TicketSearch(
+    Result                   => 'HASH',
+    Limit                    => 100,
+    TicketCloseTimeNewerDate => $Self->{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $SystemTime + ( 60 * 60 ),
+    ),
+    UserID     => 1,
+    Permission => 'rw',
+);
+$Self->False(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:TicketCloseTimeNewerDate => -60)',
+);
+
 # the ticket is no longer needed
 $TicketObject->TicketDelete(
     TicketID => $TicketID,
@@ -1993,6 +2118,25 @@ for my $NewStateID (@NewStates) {
         ValidID => 1,
         UserID  => 1,
     );
+}
+
+# check response of ticket search for invalid timestamps
+for my $SearchParam (qw(ArticleCreateTime TicketCreateTime TicketPendingTime)) {
+    for my $ParamOption (qw(OlderDate NewerDate)) {
+        $TicketObject->TicketSearch(
+            $SearchParam . $ParamOption => '2000-02-31 00:00:00',
+            UserID                      => 1,
+        );
+        my $ErrorMessage = $Self->{LogObject}->GetLogEntry(
+            Type => 'error',
+            What => 'Message',
+        );
+        $Self->Is(
+            $ErrorMessage,
+            "Search not executed due to invalid time '2000-02-31 00:00:00'!",
+            "TicketSearch() (Handling invalid timestamp in '$SearchParam$ParamOption')",
+        );
+    }
 }
 
 1;

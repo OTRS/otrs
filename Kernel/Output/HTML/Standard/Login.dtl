@@ -27,12 +27,12 @@ $Include{"Copyright"}
     <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}icons/product.ico" type="image/ico" />
 
 <!-- dtl:block:CommonCSS -->
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$Data{"CSSDirectory"}/$Data{"Filename"}" />
 <!-- dtl:block:CommonCSS -->
 
 <!-- dtl:block:CommonCSS_IE8 -->
 <!--[if IE 8]>
-    <link rel="stylesheet" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$LQData{"CSSDirectory"}/$LQData{"Filename"}" />
+    <link rel="stylesheet" type="text/css" href="$Config{"Frontend::WebPath"}skins/Agent/$LQData{"Skin"}/$Data{"CSSDirectory"}/$Data{"Filename"}" />
     <![endif]-->
 <!-- dtl:block:CommonCSS_IE8 -->
 
@@ -65,7 +65,7 @@ $Include{"HTMLHeadBlockEvents"}
 
 </head>
 <!-- end header -->
-<body class="$QData{"BodyClass"}">
+<body class="$QData{"BodyClass"} LoginScreen">
 
     <div id="Header" class="ARIARoleBanner">
         <div id="Logo"></div>
@@ -124,7 +124,7 @@ $Include{"HTMLHeadBlockEvents"}
                                         $Text{"Username"}:
                                     </label>
                                     <div class="Field">
-                                        <input type="text" id="User" name="User" value="$QData{"User"}" class="W50pc Validate_Required" />
+                                        <input type="text" id="User" name="User" value="$QData{"User"}" class="W75pc Validate_Required" />
                                         <div id="UserError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
                                     </div>
                                     <div class="Clear"></div>
@@ -134,7 +134,7 @@ $Include{"HTMLHeadBlockEvents"}
                                         $Text{"Password"}:
                                     </label>
                                     <div class="Field">
-                                        <input type="password" id="Password" name="Password" class="W50pc Validate_Required" />
+                                        <input type="password" id="Password" name="Password" class="W75pc Validate_Required" />
                                         <div id="PasswordError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
                                     </div>
                                     <div class="Clear"></div>
@@ -149,7 +149,7 @@ $Include{"HTMLHeadBlockEvents"}
                                     -->
 
                                     <div class="Field SpacingTopSmall">
-                                        <button type="submit" id="LoginButton" value="$Text{"Login"}" disabled="disabled">$Text{"Login"}</button>
+                                        <button type="submit" id="LoginButton" class="Primary CallForAction" value="$Text{"Login"}" disabled="disabled"><span>$Text{"Login"}</span></button>
                                     </div>
                                     <div class="Clear"></div>
                                 </fieldset>
@@ -181,13 +181,13 @@ $Include{"HTMLHeadBlockEvents"}
                                         $Text{"Username"}:
                                     </label>
                                     <div class="Field">
-                                        <input type="text" id="PasswordUser" name="User" value="" class="W50pc Validate_Required" readonly="readonly"/>
+                                        <input type="text" id="PasswordUser" name="User" value="" class="W75pc Validate_Required" readonly="readonly"/>
                                         <div id="PasswordUserError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
                                     </div>
                                     <div class="Clear"></div>
 
                                     <div class="Field SpacingTop">
-                                        <button type="submit" value="$Text{"Submit"}" disabled="disabled">$Text{"Submit"}</button>
+                                        <button type="submit" Class="Primary CallForAction" value="$Text{"Request New Password"}" disabled="disabled"><span>$Text{"Request New Password"}</span></button>
                                     </div>
                                     <div class="Clear"></div>
                                 </fieldset>

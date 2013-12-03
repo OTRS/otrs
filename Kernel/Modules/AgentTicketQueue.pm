@@ -12,8 +12,11 @@ package Kernel::Modules::AgentTicketQueue;
 use strict;
 use warnings;
 
+use Kernel::System::JSON;
 use Kernel::System::State;
 use Kernel::System::Lock;
+use Kernel::System::DynamicField;
+use Kernel::System::VariableCheck qw(:all);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,8 +38,10 @@ sub new {
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
     # some new objects
-    $Self->{StateObject} = Kernel::System::State->new(%Param);
-    $Self->{LockObject}  = Kernel::System::Lock->new(%Param);
+    $Self->{JSONObject}         = Kernel::System::JSON->new( %{$Self} );
+    $Self->{StateObject}        = Kernel::System::State->new(%Param);
+    $Self->{LockObject}         = Kernel::System::Lock->new(%Param);
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
 
     # get config data
     $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('Ticket::ViewableSenderTypes')
@@ -57,6 +62,13 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $SortBy = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
+        || $Self->{Config}->{'SortBy::Default'}
+        || 'Age';
+    my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' )
+        || $Self->{Config}->{'Order::Default'}
+        || 'Up';
+
     # store last queue screen
     $Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
@@ -64,14 +76,98 @@ sub Run {
         Value     => $Self->{RequestedURL},
     );
 
-    my $SortBy = $Self->{Config}->{'SortBy::Default'} || 'Age';
-    if ( $Self->{ParamObject}->GetParam( Param => 'SortBy' ) ) {
-        $SortBy = $Self->{ParamObject}->GetParam( Param => 'SortBy' );
+    # store last screen
+    $Self->{SessionObject}->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key       => 'LastScreenView',
+        Value     => $Self->{RequestedURL},
+    );
+
+    # get filters stored in the user preferences
+    my %Preferences = $Self->{UserObject}->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+    my $StoredFiltersKey = 'UserStoredFilterColumns-' . $Self->{Action};
+    my $StoredFilters    = $Self->{JSONObject}->Decode(
+        Data => $Preferences{$StoredFiltersKey},
+    );
+
+    # delete stored filters if needed
+    if ( $Self->{ParamObject}->GetParam( Param => 'DeleteFilters' ) ) {
+        $StoredFilters = {};
     }
 
-    my $OrderBy;
-    if ( $Self->{ParamObject}->GetParam( Param => 'OrderBy' ) ) {
-        $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' );
+    # get the column filters from the web request or user preferences
+    my %ColumnFilter;
+    my %GetColumnFilter;
+    COLUMNNAME:
+    for my $ColumnName (
+        qw(Owner Responsible State Queue Priority Type Lock Service SLA CustomerID CustomerUserID)
+        )
+    {
+        # get column filter from web request
+        my $FilterValue = $Self->{ParamObject}->GetParam( Param => 'ColumnFilter' . $ColumnName )
+            || '';
+
+        # if filter is not present in the web request, try with the user preferences
+        if ( $FilterValue eq '' ) {
+            if ( $ColumnName eq 'CustomerID' ) {
+                $FilterValue = $StoredFilters->{$ColumnName}->[0] || '';
+            }
+            elsif ( $ColumnName eq 'CustomerUserID' ) {
+                $FilterValue = $StoredFilters->{CustomerUserLogin}->[0] || '';
+            }
+            else {
+                $FilterValue = $StoredFilters->{ $ColumnName . 'IDs' }->[0] || '';
+            }
+        }
+        next COLUMNNAME if $FilterValue eq '';
+        next COLUMNNAME if $FilterValue eq 'DeleteFilter';
+
+        if ( $ColumnName eq 'CustomerID' ) {
+            push @{ $ColumnFilter{$ColumnName} }, $FilterValue;
+            $GetColumnFilter{$ColumnName} = $FilterValue;
+        }
+        elsif ( $ColumnName eq 'CustomerUserID' ) {
+            push @{ $ColumnFilter{CustomerUserLogin} }, $FilterValue;
+            $GetColumnFilter{$ColumnName} = $FilterValue;
+        }
+        else {
+            push @{ $ColumnFilter{ $ColumnName . 'IDs' } }, $FilterValue;
+            $GetColumnFilter{$ColumnName} = $FilterValue;
+        }
+    }
+
+    # get all dynamic fields
+    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        Valid      => 1,
+        ObjectType => ['Ticket'],
+    );
+
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+
+        # get filter from web request
+        my $FilterValue = $Self->{ParamObject}->GetParam(
+            Param => 'ColumnFilterDynamicField_' . $DynamicFieldConfig->{Name}
+        );
+
+        # if no filter from web request, try from user preferences
+        if ( !defined $FilterValue || $FilterValue eq '' ) {
+            $FilterValue
+                = $StoredFilters->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }->{Equals};
+        }
+
+        next DYNAMICFIELD if !defined $FilterValue;
+        next DYNAMICFIELD if $FilterValue eq '';
+        next DYNAMICFIELD if $FilterValue eq 'DeleteFilter';
+
+        $ColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = {
+            Equals => $FilterValue,
+        };
+        $GetColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $FilterValue;
     }
 
     # if we have only one queue, check if there
@@ -97,10 +193,14 @@ sub Run {
     if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
-    my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
-    $Output .= $Self->{LayoutObject}->NavigationBar();
-    $Self->{LayoutObject}->Print( Output => \$Output );
-    $Output = '';
+
+    my $Output;
+    if ( $Self->{Subaction} ne 'AJAXFilterUpdate' ) {
+        $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Self->{LayoutObject}->Print( Output => \$Output );
+        $Output = '';
+    }
 
     # viewable locks
     my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock( Type => 'ID' );
@@ -175,14 +275,97 @@ sub Run {
         $Self->{LayoutObject}->FatalError( Message => "Invalid Filter: $Self->{Filter}!" );
     }
 
+    # lookup latest used view mode
+    if ( !$Self->{View} && $Self->{ 'UserTicketOverview' . $Self->{Action} } ) {
+        $Self->{View} = $Self->{ 'UserTicketOverview' . $Self->{Action} };
+    }
+
+    # otherwise use Preview as default as in LayoutTicket
+    $Self->{View} ||= 'Preview';
+
+    # get personal page shown count
+    my $PageShownPreferencesKey = 'UserTicketOverview' . $Self->{View} . 'PageShown';
+    my $PageShown = $Self->{$PageShownPreferencesKey} || 10;
+
+    # do shown tickets lookup
+    my $Limit = 10_000;
+
+    my $ElementChanged = $Self->{ParamObject}->GetParam( Param => 'ElementChanged' ) || '';
+    my $HeaderColumn = $ElementChanged;
+    $HeaderColumn =~ s{\A ColumnFilter }{}msxg;
+
     # get data (viewable tickets...)
     # search all tickets
     my @ViewableTickets;
+    my @OriginalViewableTickets;
+
     if (@ViewableQueueIDs) {
-        @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-            %{ $Filters{ $Self->{Filter} }->{Search} },
-            Limit  => $Self->{Start} + 50,
-            Result => 'ARRAY',
+
+        # get ticket values
+        if (
+            !IsStringWithData($HeaderColumn)
+            || (
+                IsStringWithData($HeaderColumn)
+                && (
+                    $Self->{ConfigObject}->Get('OnlyValuesOnTicket') ||
+                    $HeaderColumn eq 'CustomerID' ||
+                    $HeaderColumn eq 'CustomerUserID'
+                )
+            )
+            )
+        {
+            @OriginalViewableTickets = $Self->{TicketObject}->TicketSearch(
+                %{ $Filters{ $Self->{Filter} }->{Search} },
+                Limit  => $Limit,
+                Result => 'ARRAY',
+            );
+
+            @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+                %{ $Filters{ $Self->{Filter} }->{Search} },
+                %ColumnFilter,
+                Limit  => $Self->{Start} + $PageShown - 1,
+                Result => 'ARRAY',
+            );
+        }
+
+    }
+
+    if ( $Self->{Subaction} eq 'AJAXFilterUpdate' ) {
+
+        my $FilterContent = $Self->{LayoutObject}->TicketListShow(
+            FilterContentOnly   => 1,
+            HeaderColumn        => $HeaderColumn,
+            ElementChanged      => $ElementChanged,
+            OriginalTicketIDs   => \@OriginalViewableTickets,
+            Action              => 'AgentTicketStatusView',
+            Env                 => $Self,
+            View                => $Self->{View},
+            EnableColumnFilters => 1,
+        );
+
+        if ( !$FilterContent ) {
+            $Self->{LayoutObject}->FatalError(
+                Message => "Can't get filter content data of $HeaderColumn!",
+            );
+        }
+
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $FilterContent,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+    else {
+
+        # store column filters
+        my $StoredFilters = \%ColumnFilter;
+
+        my $StoredFiltersKey = 'UserStoredFilterColumns-' . $Self->{Action};
+        $Self->{UserObject}->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => $StoredFiltersKey,
+            Value  => $Self->{JSONObject}->Encode( Data => $StoredFilters ),
         );
     }
 
@@ -193,6 +376,7 @@ sub Run {
         if (@ViewableQueueIDs) {
             $Count = $Self->{TicketObject}->TicketSearch(
                 %{ $Filters{$Filter}->{Search} },
+                %ColumnFilter,
                 Result => 'COUNT',
             );
         }
@@ -208,12 +392,17 @@ sub Run {
         };
     }
 
-    my $LinkSort = 'QueueID='
-        . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{QueueID} )
-        . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
-        . ';Filter='
-        . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
-        . ';';
+    my $ColumnFilterLink = '';
+    COLUMNNAME:
+    for my $ColumnName ( sort keys %GetColumnFilter ) {
+        next COLUMNNAME if !$ColumnName;
+        next COLUMNNAME if !defined $GetColumnFilter{$ColumnName};
+        next COLUMNNAME if $GetColumnFilter{$ColumnName} eq '';
+        $ColumnFilterLink
+            .= ';' . $Self->{LayoutObject}->Ascii2Html( Text => 'ColumnFilter' . $ColumnName )
+            . '=' . $Self->{LayoutObject}->Ascii2Html( Text => $GetColumnFilter{$ColumnName} )
+    }
+
     my $LinkPage = 'QueueID='
         . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{QueueID} )
         . ';Filter='
@@ -221,14 +410,34 @@ sub Run {
         . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
         . ';SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
         . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
+        . $ColumnFilterLink
         . ';';
+    my $LinkSort = 'QueueID='
+        . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{QueueID} )
+        . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+        . ';Filter='
+        . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
+        . $ColumnFilterLink
+        . ';';
+
     my $LinkFilter = 'QueueID='
         . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{QueueID} )
+        . ';SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
+        . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
+        . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
         . ';';
+
+    my $LastColumnFilter = $Self->{ParamObject}->GetParam( Param => 'LastColumnFilter' ) || '';
+
+    if ( !$LastColumnFilter && $ColumnFilterLink ) {
+
+        # is planned to have a link to go back here
+        $LastColumnFilter = 1;
+    }
 
     my %NavBar = $Self->BuildQueueView( QueueIDs => \@ViewableQueueIDs, Filter => $Self->{Filter} );
 
-    # show ticket's
+    # show tickets
     $Self->{LayoutObject}->Print(
         Output => \$Self->{LayoutObject}->TicketListShow(
 
@@ -242,7 +451,13 @@ sub Run {
             ),
 
             TicketIDs => \@ViewableTickets,
-            Total     => $CountTotal,
+
+            OriginalTicketIDs => \@OriginalViewableTickets,
+            GetColumnFilter   => \%GetColumnFilter,
+            LastColumnFilter  => $LastColumnFilter,
+            Action            => 'AgentTicketQueue',
+            Total             => $CountTotal,
+            RequestedURL      => $Self->{RequestedURL},
 
             NavBar => \%NavBar,
             View   => $Self->{View},
@@ -256,13 +471,18 @@ sub Run {
             LinkSort   => $LinkSort,
             LinkFilter => $LinkFilter,
 
-            OrderBy => $OrderBy,
-            SortBy  => $SortBy,
+            OrderBy             => $OrderBy,
+            SortBy              => $SortBy,
+            EnableColumnFilters => 1,
+            ColumnFilterForm    => {
+                QueueID => $Self->{QueueID} || '',
+                Filter  => $Self->{Filter}  || '',
+            },
         ),
     );
 
     # get page footer
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $Self->{LayoutObject}->Footer() if $Self->{Subaction} ne 'AJAXFilterUpdate';
     return $Output;
 }
 

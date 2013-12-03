@@ -12,8 +12,6 @@ package Kernel::System::Ticket::Custom;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
-
 # disable redefine warnings in this scope
 {
 no warnings 'redefine';

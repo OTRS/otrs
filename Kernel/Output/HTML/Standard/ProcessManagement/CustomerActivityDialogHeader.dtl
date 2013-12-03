@@ -28,7 +28,7 @@
 <!-- dtl:block:DescriptionShort -->
                     </h1>
 <!-- dtl:block:DescriptionLong -->
-                    $QData{"DescriptionLong"} - 
+                    $QData{"DescriptionLong"} -
 <!-- dtl:block:DescriptionLong -->
 <!-- dtl:block:CancelLink -->
                     <p>

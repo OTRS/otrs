@@ -21,8 +21,7 @@
 <!-- dtl:block:PriorityFlag -->
                 <div class="Flag" title="$Text{"$Data{"Priority"}"}"><span class="PriorityID-$QData{"PriorityID"}">$Text{"$Data{"Priority"}"}</span></div>
 <!-- dtl:block:PriorityFlag -->
-                $QData{"Title","65"}
-                <span class="TicketHook">$QData{"TicketNumber"}</span>
+                $QData{"Title"}
             </h2>
             <ul id="TicketOptions">
 
@@ -32,7 +31,7 @@
 
 <!-- dtl:block:Expand -->
                 <li>
-                    <a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketID=$LQData{"TicketID"};ZoomExpand=$LQData{"ZoomExpand"}" class="ZoomExpand$Data{"ExpandOption"}" title="$Text{"Show $Data{"ExpandText"} article$Data{"ExpandPlural"}"}">$Text{"Show $Data{"ExpandText"} article$Data{"ExpandPlural"}"}</a>
+                    <a href="$Env{"Baselink"}Action=CustomerTicketZoom;TicketID=$LQData{"TicketID"};ZoomExpand=$LQData{"ZoomExpand"}" class="ZoomExpand$Data{"ExpandOption"}"} title="$Text{"$Data{"ExpandText"}"}">$Text{"$Data{"ExpandText"}"}</a>
                     <input type="hidden" name="ZoomExpand" id="ZoomExpand" value="$QData{"ZoomExpand"}" />
                 </li>
 <!-- dtl:block:Expand -->
@@ -51,11 +50,11 @@
                     <div class="MessageHeader">
 
 <!-- dtl:block:ArticleContracted -->
-                        <h3><a href="$Env{"Baselink"}Action=$Env{"Action"};TicketNumber=$LQData{"TicketNumber"};ArticleID=$LQData{"ArticleID"}">$QData{"FromRealname","60"} &ndash; <span title="$Text{"Expand article"}...">$QData{"Subject","120"}</span></a></h3>
+                        <h3><a href="$Env{"Baselink"}Action=$Env{"Action"};TicketNumber=$LQData{"TicketNumber"};ArticleID=$LQData{"ArticleID"}">$QData{"FromRealname"} &ndash; <span title="$Text{"Expand article"}...">$QData{"Subject"}</span></a></h3>
 <!-- dtl:block:ArticleContracted -->
 
 <!-- dtl:block:ArticleExpanded -->
-                        <h3><a href="$Env{"Baselink"}Action=$Env{"Action"};TicketNumber=$LQData{"TicketNumber"};ArticleID=$LQData{"ArticleID"}">$QData{"FromRealname","60"} &ndash; <span title="$QData{"Subject"}">$QData{"Subject","120"}</span></a></h3>
+                        <h3><a href="$Env{"Baselink"}Action=$Env{"Action"};TicketNumber=$LQData{"TicketNumber"};ArticleID=$LQData{"ArticleID"}">$QData{"FromRealname"} &ndash; <span title="$QData{"Subject"}">$QData{"Subject"}</span></a></h3>
 <!-- dtl:block:ArticleExpanded -->
 
                         <span class="Age" title="$TimeLong{"$QData{"Created"}"}">$Data{"Age"}</span>
@@ -66,12 +65,12 @@
                         <div class="Details SeperatorRow">
 <!-- dtl:block:ArticleRow -->
                             <div>
-                                <div class="Label">$Text{"$Data{"Key"}"}:</div> <span title="$QData{"Value"}">$QData{"Realname","100"}</span>
+                                <div class="Label">$Text{"$Data{"Key"}"}:</div> <span title="$QData{"Value"}">$QData{"Realname"}</span>
                                 <div class="Clear"></div>
                             </div>
 <!-- dtl:block:ArticleRow -->
                             <div>
-                                <div class="Label">$Text{"Subject"}:</div> <span title="$QData{"Subject"}">$QData{"Subject","150"}</span>
+                                <div class="Label">$Text{"Subject"}:</div> <span title="$QData{"Subject"}">$QData{"Subject"}</span>
                                 <div class="Clear"></div>
                             </div>
 
@@ -131,11 +130,11 @@
 # Use the HTML5 sandbox attribute to prevent plugins and scripts from being executed in the browser.
 # Use IE's (non-standard) security attribute to achieve something similar in older IE browsers. Append session info to URL because IE will not send cookies.
 # Set 'allow-popups' to allow IE10+ to open links. ref: http://www.w3.org/html/wg/wiki/ChangeProposals/sandbox_allow_popups
-                            <iframe sandbox="allow-same-origin allow-popups" security="restricted" title="about:blank" frameborder="0" id="VisibleFrame" class="VisibleFrame" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"};$QEnv{"SessionName"}=$QEnv{"SessionID"}"></iframe>
+                            <iframe sandbox="allow-same-origin allow-popups" $Data{"MSSecurityRestricted"} title="about:blank" frameborder="0" id="VisibleFrame" class="VisibleFrame" src="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"};$QEnv{"SessionName"}=$QEnv{"SessionID"}"></iframe>
 <!-- dtl:block:BodyHTMLLoad -->
 <!-- dtl:block:BodyHTMLPlaceholder -->
 #                           <!-- Here we need to append the session info if cookies are disabled, because the layout object cannot automatically do that here, like in the other iframe (only for src attribute). -->
-                            <iframe sandbox="allow-same-origin" security="restricted" src="about:blank" frameborder="0" title="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"};$QData{"SessionInformation"};$QEnv{"SessionName"}=$QEnv{"SessionID"}"></iframe>
+                            <iframe sandbox="allow-same-origin" $Data{"MSSecurityRestricted"} src="about:blank" frameborder="0" title="$Env{"Baselink"}Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=$QData{"ArticleID"};FileID=$QData{"AttachmentIDOfHTMLBody"};$QData{"SessionInformation"};$QEnv{"SessionName"}=$QEnv{"SessionID"}"></iframe>
 <!-- dtl:block:BodyHTMLPlaceholder -->
                         </div>
                     </div>
@@ -157,9 +156,10 @@
                             <div class="Clear"></div>
                         </div>
                     </li>
+                    <li><span class="Key">$Config{"Ticket::Hook"}:</span> <span>$QData{"TicketNumber"}</span></li>
 
 <!-- dtl:block:Type -->
-                    <li><span class="Key">$Text{"Type"}:</span> <span title="$QData{"Type"}">$QData{"Type","18"}</span></li>
+                    <li><span class="Key">$Text{"Type"}:</span> <span title="$QData{"Type"}">$QData{"Type"}</span></li>
 <!-- dtl:block:Type -->
 <!-- dtl:block:Service -->
                     <li><span class="Key">$Text{"Service"}:</span> <span title="$Text{"$Data{"Service"}"}">$Text{"$Data{"Service"}"}</span></li>
@@ -174,7 +174,7 @@
                     <li><span class="Key">$Text{"Priority"}:</span> <span title="$Text{"$Data{"Priority"}"}">$Text{"$Data{"Priority"}"}</span></li>
 <!-- dtl:block:Priority -->
 <!-- dtl:block:Queue -->
-                    <li><span class="Key">$Text{"Queue"}:</span> <span title="$QData{"Queue"}">$QData{"Queue","18"}</span></li>
+                    <li><span class="Key">$Text{"Queue"}:</span> <span title="$QData{"Queue"}">$QData{"Queue"}</span></li>
 <!-- dtl:block:Queue -->
 <!-- dtl:block:Owner -->
                     <li><span class="Key">$Text{"Owner"}:</span> $QData{"OwnerName"}</li>
@@ -198,16 +198,16 @@
 # Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
 # field names
 #<!-- dtl:block:TicketDynamicField_Field1 -->
-#                <li>
-#                    <span class="Key">$Text{"$Data{"Label"}"}:</span>
-#                    <span title="$QData{"Title1"}">$Data{"Value"}</span>
-#                </li>
+#                    <li>
+#                        <span class="Key">$Text{"$Data{"Label"}"}:</span>
+#                        <span title="$QData{"Title1"}">$Data{"Value"}</span>
+#                    </li>
 #<!-- dtl:block:TicketDynamicField_Field1 -->
 #<!-- dtl:block:TicketDynamicField_Field2 -->
-#                <li>
-#                    <span class="Key">$Text{"$Data{"Label"}"}:</span>
-#                    <span title="$QData{"Title2"}">$Data{"Value"}</span>
-#                </li>
+#                    <li>
+#                        <span class="Key">$Text{"$Data{"Label"}"}:</span>
+#                        <span title="$QData{"Title2"}">$Data{"Value"}</span>
+#                    </li>
 #<!-- dtl:block:TicketDynamicField_Field2 -->
 
                 </ul>
@@ -220,7 +220,7 @@
                         </div>
                     </li>
 <!-- dtl:block:ActivityDialog -->
-                    <li><a title="$QData{"Name"}" class="AsPopup PopupType_TicketAction" href="$Env{"Baselink"}Action=CustomerTicketProcess;Subaction=DisplayActivityDialog;TicketID=$QData{"TicketID"};ProcessEntityID=$QData{"ProcessEntityID"};ActivityDialogEntityID=$QData{"ActivityDialogEntityID"}">$QData{"Name"}</a></li>
+                    <li><a title="$QData{"Name"}" class="AsPopup PopupType_TicketAction" href="$Env{"Baselink"}Action=CustomerTicketProcess;Subaction=DisplayActivityDialog;TicketID=$LQData{"TicketID"};ProcessEntityID=$LQData{"ProcessEntityID"};ActivityDialogEntityID=$LQData{"ActivityDialogEntityID"}">$QData{"Name"}</a></li>
 <!-- dtl:block:ActivityDialog -->
 <!-- dtl:block:NoActivityDialog -->
                     <li>$Text{"There are no dialogs available at this point in the process."}</li>
@@ -231,17 +231,31 @@
 <!-- dtl:block:FollowUp -->
             <div id="FollowUp" class="$QData{"FollowUpVisible"}">
                 <div id="Messenger">
-                    <input class="DontPrint" type="text" name="Subject" id="Subject" value="$QData{"Subject"}" />
+                    <fieldset class="DontPrint">
+                        <div>
+                            <label for="Subject">
+                                $Text{"Subject"}:
+                            </label>
+                            <input class="DontPrint" type="text" name="Subject" id="Subject" title="$Text{"Subject"}" value="$QData{"Subject"}" />
+                            <div class="Clear"></div>
+                        </div>
+                        <div>
+                            <label for="RichText" class="Mandatory">
+                                <span class="Marker">*</span>
+                                $Text{"Text"}:
+                            </label>
 <!-- dtl:block:RichText-->
-                    $Include{"CustomerRichTextEditor"}
+                            $Include{"CustomerRichTextEditor"}
 <!-- dtl:block:RichText-->
-                    <textarea title="$Text{"Reply"}" id="RichText" class="RichText DontPrint Validate_RequiredRichText $QData{"RichTextInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-                    <div id="RichTextError" class="TooltipErrorMessage">
-                        <p>$Text{"This field is required."}</p>
-                    </div>
-                    <div id="RichTextServerError" class="TooltipErrorMessage NoJavaScriptMessage$QData{"RichTextInvalid"}">
-                        <p>$Text{"This field is required."}</p>
-                    </div>
+                            <textarea title="$Text{"Reply"}" id="RichText" class="RichText DontPrint Validate_RequiredRichText $QData{"RichTextInvalid"}" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                            <div id="RichTextError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="RichTextServerError" class="TooltipErrorMessage NoJavaScriptMessage$QData{"RichTextInvalid"}">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                        </div>
+                    </fieldset>
                     <fieldset class="DontPrint">
                         <div id="AttachmentHolder">
                             <label for="Attachment">$Text{"Attachment"}:</label>
@@ -283,7 +297,7 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#StateID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'StateID', [ 'PriorityID', 'TicketID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'StateID', [ 'PriorityID', 'TicketID' $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -295,7 +309,7 @@
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#PriorityID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'PriorityID', [ 'StateID', 'TicketID', $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'PriorityID', [ 'StateID', 'TicketID' $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->

@@ -18,21 +18,21 @@
             <div class="Content">
                 <fieldset class="TableLike FixedLabelSmall">
                     <label>$Text{"Process"}:</label>
-                    <p class="Value FixedValueSmall" title="$QData{"Process"}">$QData{"Process","18"}</p>
+                    <p class="Value FixedValueSmall" title="$QData{"Process"}">$QData{"Process"}</p>
                     <div class="Clear"></div>
                 </fieldset>
 
                 <fieldset class="TableLike FixedLabelSmall">
                     <label>$Text{"Activity"}:</label>
-                    <p class="Value FixedValueSmall" title="$QData{"Activity"}">$QData{"Activity","18"}</p>
+                    <p class="Value FixedValueSmall" title="$QData{"Activity"}">$QData{"Activity"}</p>
                     <div class="Clear"></div>
 
                     <label>$Text{"Dialog"}:</label>
-                    <p class="Value FixedValueSmall" title="$QData{"ActivityDialog"}">$QData{"ActivityDialog","18"}</p>
+                    <p class="Value FixedValueSmall" title="$QData{"ActivityDialog"}">$QData{"ActivityDialog"}</p>
                     <div class="Clear"></div>
 <!-- dtl:block:ProcessInfoSidebarActivityDialogDesc -->
                     <label>$Text{"Description"}:</label>
-                    <p class="Value FixedValueSmall" title="$QData{"ActivityDialogDescription"}">$QData{"ActivityDialogDescription","18"}</p>
+                    <p class="Value FixedValueSmall" title="$QData{"ActivityDialogDescription"}">$QData{"ActivityDialogDescription"}</p>
                     <div class="Clear"></div>
 <!-- dtl:block:ProcessInfoSidebarActivityDialogDesc -->
                 </fieldset>

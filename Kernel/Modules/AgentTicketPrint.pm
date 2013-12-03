@@ -187,13 +187,7 @@ sub Run {
     # generate pdf output
     if ( $Self->{PDFObject} ) {
         my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
-        my $Time      = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
-        my $Url       = ' ';
-        if ( $ENV{REQUEST_URI} ) {
-            $Url = $Self->{ConfigObject}->Get('HttpType') . '://'
-                . $Self->{ConfigObject}->Get('FQDN')
-                . $ENV{REQUEST_URI};
-        }
+        my $Time = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
         my %Page;
 
         # get maximum number of pages
@@ -221,7 +215,7 @@ sub Run {
             . $Self->{UserLastname} . ' ('
             . $Self->{UserEmail} . ') '
             . $Time;
-        $Page{FooterLeft} = $Url;
+        $Page{FooterLeft} = '';
         $Page{PageText}   = $Self->{LayoutObject}->{LanguageObject}->Get('Page');
         $Page{PageCount}  = 1;
 
@@ -572,6 +566,7 @@ sub _PDFOutputTicketInfos {
     $TableParam{PaddingBottom}       = 3;
 
     # output table
+    PAGE:
     for ( $Page{PageCount} .. $Page{MaxPages} ) {
 
         # output table (or a fragment of it)
@@ -579,7 +574,7 @@ sub _PDFOutputTicketInfos {
 
         # stop output or output next page
         if ( $TableParam{State} ) {
-            last;
+            last PAGE;
         }
         else {
             $Self->{PDFObject}->PageNew(
@@ -670,6 +665,7 @@ sub _PDFOutputLinkedObjects {
     $TableParam{PaddingBottom}   = 3;
 
     # output table
+    PAGE:
     for ( $Page{PageCount} .. $Page{MaxPages} ) {
 
         # output table (or a fragment of it)
@@ -677,7 +673,7 @@ sub _PDFOutputLinkedObjects {
 
         # stop output or output next page
         if ( $TableParam{State} ) {
-            last;
+            last PAGE;
         }
         else {
             $Self->{PDFObject}->PageNew(
@@ -783,6 +779,7 @@ sub _PDFOutputTicketDynamicFields {
         $TableParam{PaddingBottom}   = 3;
 
         # output table
+        PAGE:
         for ( $Page{PageCount} .. $Page{MaxPages} ) {
 
             # output table (or a fragment of it)
@@ -790,7 +787,7 @@ sub _PDFOutputTicketDynamicFields {
 
             # stop output or output next page
             if ( $TableParam{State} ) {
-                last;
+                last PAGE;
             }
             else {
                 $Self->{PDFObject}->PageNew(
@@ -875,6 +872,7 @@ sub _PDFOutputCustomerInfos {
         $TableParam{PaddingBottom}   = 3;
 
         # output table
+        PAGE:
         for ( $Page{PageCount} .. $Page{MaxPages} ) {
 
             # output table (or a fragment of it)
@@ -882,7 +880,7 @@ sub _PDFOutputCustomerInfos {
 
             # stop output or output next page
             if ( $TableParam{State} ) {
-                last;
+                last PAGE;
             }
             else {
                 $Self->{PDFObject}->PageNew(
@@ -1064,6 +1062,7 @@ sub _PDFOutputArticles {
         $TableParam1{PaddingBottom}   = 3;
 
         # output table (article infos)
+        PAGE:
         for ( $Page{PageCount} .. $Page{MaxPages} ) {
 
             # output table (or a fragment of it)
@@ -1071,7 +1070,7 @@ sub _PDFOutputArticles {
 
             # stop output or output next page
             if ( $TableParam1{State} ) {
-                last;
+                last PAGE;
             }
             else {
                 $Self->{PDFObject}->PageNew(
@@ -1094,6 +1093,7 @@ sub _PDFOutputArticles {
         $TableParam2{PaddingBottom}           = 8;
 
         # output table (article body)
+        PAGE:
         for ( $Page{PageCount} .. $Page{MaxPages} ) {
 
             # output table (or a fragment of it)
@@ -1101,7 +1101,7 @@ sub _PDFOutputArticles {
 
             # stop output or output next page
             if ( $TableParam2{State} ) {
-                last;
+                last PAGE;
             }
             else {
                 $Self->{PDFObject}->PageNew(
