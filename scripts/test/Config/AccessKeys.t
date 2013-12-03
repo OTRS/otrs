@@ -62,8 +62,10 @@ ACCESSKEYSCUSTOMER:
 for my $CustomerModule ( sort keys %CustomerModules ) {
 
     # check navbar items
-    if ( $CustomerModules{$CustomerModule}->{NavBar}
-        && @{ $CustomerModules{$CustomerModule}->{NavBar} } )
+    if (
+        $CustomerModules{$CustomerModule}->{NavBar}
+        && @{ $CustomerModules{$CustomerModule}->{NavBar} }
+        )
     {
 
         NAVBARITEMS:

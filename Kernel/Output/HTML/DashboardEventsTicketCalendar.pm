@@ -223,7 +223,8 @@ sub Run {
 
                         # translate state and priority name
                         if ( ( $Key eq 'State' || $Key eq 'Priority' ) && $TicketDetail{$Key} ) {
-                            $TicketDetail{$Key} = $Self->{LayoutObject}->{LanguageObject}->Get($TicketDetail{$Key});
+                            $TicketDetail{$Key} = $Self->{LayoutObject}->{LanguageObject}
+                                ->Get( $TicketDetail{$Key} );
                         }
 
                         $Self->{LayoutObject}->Block(
@@ -254,11 +255,13 @@ sub Run {
 
                         # check if we need to format the date
                         my $InfoValue = $TicketDetail{ 'DynamicField_' . $Item };
-                        if ($Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'DateTime') {
-                            $InfoValue = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString($InfoValue);
+                        if ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'DateTime' ) {
+                            $InfoValue = $Self->{LayoutObject}->{LanguageObject}
+                                ->FormatTimeString($InfoValue);
                         }
-                        elsif ($Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Date') {
-                            $InfoValue = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString($InfoValue, 'DateFormatShort');
+                        elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Date' ) {
+                            $InfoValue = $Self->{LayoutObject}->{LanguageObject}
+                                ->FormatTimeString( $InfoValue, 'DateFormatShort' );
                         }
 
                         $Self->{LayoutObject}->Block(
