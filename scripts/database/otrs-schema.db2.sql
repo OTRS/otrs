@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2012-07-05 09:12:50
+--  driver: db2, generated: 2013-12-03 14:31:50
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1418,3 +1418,4 @@ CREATE TABLE dynamic_field (
     PRIMARY KEY(id),
     CONSTRAINT dynamic_field_name UNIQUE (name)
 );
+
