@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2010-08-03 10:09:04
+#  driver: mysql, generated: 2013-12-03 14:34:22
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -1113,7 +1113,7 @@ CREATE TABLE virtual_fs (
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id),
     INDEX virtual_fs_backend (backend(60)),
-    INDEX virtual_fs_filename (filename(350))
+    INDEX virtual_fs_filename (filename(255))
 );
 # ----------------------------------------------------------
 #  create table virtual_fs_preferences
@@ -1134,7 +1134,7 @@ CREATE TABLE virtual_fs_db (
     content LONGBLOB NOT NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id),
-    INDEX virtual_fs_db_filename (filename(350))
+    INDEX virtual_fs_db_filename (filename(255))
 );
 # ----------------------------------------------------------
 #  create table package_repository

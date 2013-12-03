@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2010-08-03 10:09:03
+--  driver: db2, generated: 2013-12-03 14:34:21
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 
@@ -376,3 +376,4 @@ ALTER TABLE virtual_fs_preferences ADD CONSTRAINT FK_virtual_fs_preferences_virt
 ALTER TABLE package_repository ADD CONSTRAINT FK_package_repository_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 
 ALTER TABLE package_repository ADD CONSTRAINT FK_package_repository_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+
