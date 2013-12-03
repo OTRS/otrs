@@ -9,27 +9,27 @@
 
 <div id="NavigationContainer">
     <ul id="Navigation" class="ARIARoleNavigation">
-    <!-- dtl:block:ItemArea -->
+<!-- dtl:block:ItemArea -->
         <li id="nav-$QData{"NameForID"}" class="$QData{"CSS"}">
             <a href="$Env{"Baselink"}$Data{"Link"}" title="$Text{"$Data{"Name"}"}$QData{"AccessKeyReference"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}</a>
             <span></span>
-    <!-- dtl:block:ItemAreaSub -->
+<!-- dtl:block:ItemAreaSub -->
             <ul id="nav-$QData{"NameForID"}-container">
-    <!-- dtl:block:ItemAreaSubItem -->
+<!-- dtl:block:ItemAreaSubItem -->
                 <li id="nav-$QData{"NameTop"}-$QData{"NameForID"}">
                     <a href="$Env{"Baselink"}$Data{"Link"}" title="$Text{"$Data{"Description"}"}$QData{"AccessKeyReference"}" accesskey="$QData{"AccessKey"}" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}</a>
                 </li>
-    <!-- dtl:block:ItemAreaSubItem -->
+<!-- dtl:block:ItemAreaSubItem -->
             </ul>
-    <!-- dtl:block:ItemAreaSub -->
+<!-- dtl:block:ItemAreaSub -->
         </li>
-    <!-- dtl:block:ItemArea -->
-    <!-- dtl:block:SearchIcon -->
+<!-- dtl:block:ItemArea -->
+<!-- dtl:block:SearchIcon -->
         <li id="nav-search">
             <a class="Search ARIARoleSearch ARIAHasPopup" id="GlobalSearchNav" href="$Env{"Baselink"}Action=AgentTicketSearch" title="$Text{"Search"}">
                 <i class="icon-search"></i>
             </a>
         </li>
-    <!-- dtl:block:SearchIcon -->
+<!-- dtl:block:SearchIcon -->
     </ul>
 </div>
