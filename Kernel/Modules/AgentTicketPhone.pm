@@ -280,7 +280,7 @@ sub Run {
             # if To is present and is no a queue
             # set To as article from
             my $FromQueueID;
-            if ( IsStringWithData($Article{To}) ) {
+            if ( IsStringWithData( $Article{To} ) ) {
                 $FromQueueID = $Self->{QueueObject}->QueueLookup( Queue => $Article{To} );
                 if ( !defined $FromQueueID ) {
                     $ArticleFrom = $Article{To};
