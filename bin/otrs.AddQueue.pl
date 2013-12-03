@@ -1,3 +1,4 @@
+#!/usr/bin/perl
 # --
 # bin/otrs.AddQueue.pl - Add Queue from CLI
 # Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
