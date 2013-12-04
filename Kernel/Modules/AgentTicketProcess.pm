@@ -2089,7 +2089,7 @@ sub _RenderPendingTime {
             $Param{ActivityDialogField}->{Display} && $Param{ActivityDialogField}->{Display} == 2
             ) ? 1 : 0,
         Format           => 'DateInputFormatLong',
-        YearPeriodPast   => 1,
+        YearPeriodPast   => 0,
         YearPeriodFuture => 5,
         DiffTime         => $Param{ActivityDialogField}->{DefaultValue}
             || $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime')

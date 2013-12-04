@@ -1536,7 +1536,7 @@ sub _Mask {
             $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
                 %Param,
                 Format           => 'DateInputFormatLong',
-                YearPeriodPast   => 1,
+                YearPeriodPast   => 0,
                 YearPeriodFuture => 5,
                 DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime')
                     || 0,

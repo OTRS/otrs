@@ -1105,7 +1105,7 @@ sub AgentMove {
         if ( $StateData{TypeName} =~ /pending/i ) {
             $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
                 Format           => 'DateInputFormatLong',
-                YearPeriodPast   => 1,
+                YearPeriodPast   => 0,
                 YearPeriodFuture => 5,
                 DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime')
                     || 0,
