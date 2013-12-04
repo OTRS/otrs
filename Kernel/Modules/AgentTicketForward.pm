@@ -1272,7 +1272,7 @@ sub _Mask {
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
-        YearPeriodPast   => 1,
+        YearPeriodPast   => 0,
         YearPeriodFuture => 5,
         Format           => 'DateInputFormatLong',
         DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
