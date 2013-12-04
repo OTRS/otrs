@@ -279,7 +279,6 @@ sub Run {
 
             # if To is present and is no a queue
             # set To as article from
-            my $FromQueueID;
             if ( IsStringWithData( $Article{To} ) ) {
                 my %Queues = $Self->{QueueObject}->QueueList();
                 my %QueueLookup = reverse %Queues;
