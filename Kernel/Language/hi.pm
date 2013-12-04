@@ -1129,6 +1129,7 @@ sub Data {
         'Run this task' => 'इस कार्य को चलाएँ',
         'Job Settings' => 'कार्य व्यवस्थाऐं',
         'Job name' => 'कार्य का नाम',
+        'The name you entered already exists.' => '',
         'Toggle this widget' => 'इस मशीन को स्विच करें',
         'Automatic execution (multiple tickets)' => '',
         'Execution Schedule' => '',
@@ -1266,7 +1267,6 @@ sub Data {
         'The name is typically used to call up an operation of a remote web service.' =>
             '',
         'Please provide a unique name for this web service invoker.' => '',
-        'The name you entered already exists.' => '',
         'Invoker backend' => '',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             '',
@@ -2723,6 +2723,7 @@ sub Data {
         # Template: CustomerWarning
 
         # Template: DashboardEventsTicketCalendar
+        'All-day' => '',
         'Sunday' => 'रविवार',
         'Monday' => 'सोमवार',
         'Tuesday' => 'मंगलवार',
@@ -3385,6 +3386,8 @@ sub Data {
             'प्रतिनिधि अंतरफलक के टिकट के ध्यानाधीन दृश्य में तयशुदा टिकट की छँटाई के लिए टिकट की विशेषता को परिभाषित करता है।',
         'Defines the default ticket attribute for ticket sorting of the ticket search result of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के टिकट के खोज परिणाम में तयशुदा टिकट की छँटाई के लिए टिकट की विशेषता को परिभाषित करता है।',
+        'Defines the default ticket attribute for ticket sorting of the ticket search result of this operation.' =>
+            '',
         'Defines the default ticket bounced notification for customer/sender in the ticket bounce screen of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के टिकट के बाउंस स्क्रीन में ग्राहक/प्रेषक के लिए तयशुदा टिकट के अधिसूचना बाउंस को परिभाषित करता है।',
         'Defines the default ticket next state after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -3401,6 +3404,8 @@ sub Data {
             'प्रतिनिधि अंतरफलक की लॉक दृश्य में तयशुदा टिकट के क्रम को परिभाषित करता है। ऊपर:शीर्ष पर सबसे पुरानी। नीचे:शीर्ष पर नवीनतम।',
         'Defines the default ticket order in the ticket search result of the agent interface. Up: oldest on top. Down: latest on top.' =>
             'प्रतिनिधि अंतरफलक की खोज परिणाम में तयशुदा टिकट के क्रम को परिभाषित करता है। ऊपर:शीर्ष पर सबसे पुरानी। नीचे:शीर्ष पर नवीनतम।',
+        'Defines the default ticket order in the ticket search result of the this operation. Up: oldest on top. Down: latest on top.' =>
+            '',
         'Defines the default ticket order in the watch view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             'प्रतिनिधि अंतरफलक की ध्यानाधीन दृश्य में तयशुदा टिकट के क्रम को परिभाषित करता है। ऊपर:शीर्ष पर सबसे पुरानी। नीचे:शीर्ष पर नवीनतम।',
         'Defines the default ticket order of a search result in the customer interface. Up: oldest on top. Down: latest on top.' =>
@@ -4136,6 +4141,8 @@ sub Data {
             'टिकटों की अधिकतम संख्या प्रतिनिधि अंतरफलक में एक खोज के परिणाम में प्रदर्शित करने के लिए।',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
             'टिकटों की अधिकतम संख्या ग्राहक अंतरफलक में एक खोज के परिणाम में प्रदर्शित करने के लिए।',
+        'Maximum number of tickets to be displayed in the result of this operation.' =>
+            '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'टिकट ज़ूम दृश्य में ग्राहक जानकारी तालिका का अधिकतम आकार(अक्षरों में)।',
         'Module for To-selection in new ticket screen in the customer interface.' =>

@@ -1132,6 +1132,7 @@ sub Data {
         'Run this task' => 'Ejecutar esta tarea',
         'Job Settings' => 'Ajustes del trabajo',
         'Job name' => 'Nombre del trabajo',
+        'The name you entered already exists.' => 'El nombre introducido ya existe.',
         'Toggle this widget' => 'Conmutar este widget',
         'Automatic execution (multiple tickets)' => 'Ejecución automática (múltiples tickets)',
         'Execution Schedule' => 'Planificación de la ejecución',
@@ -1269,7 +1270,6 @@ sub Data {
         'The name is typically used to call up an operation of a remote web service.' =>
             'El nombre se usa normalmente para llamar una operación de un servicio web remoto.',
         'Please provide a unique name for this web service invoker.' => 'Proporcione un nombre único para este invocador de servicio web.',
-        'The name you entered already exists.' => 'El nombre introducido ya existe.',
         'Invoker backend' => 'Motor del invocador',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             'Se llamará a este módulo de motor de invocador OTRS para preparar los datos a enviar al sistema remoto, y para procesar los datos de la respuesta.',
@@ -2726,6 +2726,7 @@ sub Data {
         # Template: CustomerWarning
 
         # Template: DashboardEventsTicketCalendar
+        'All-day' => '',
         'Sunday' => 'Domingo',
         'Monday' => 'Lunes',
         'Tuesday' => 'Martes',
@@ -3388,6 +3389,8 @@ sub Data {
             '',
         'Defines the default ticket attribute for ticket sorting of the ticket search result of the agent interface.' =>
             '',
+        'Defines the default ticket attribute for ticket sorting of the ticket search result of this operation.' =>
+            '',
         'Defines the default ticket bounced notification for customer/sender in the ticket bounce screen of the agent interface.' =>
             '',
         'Defines the default ticket next state after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -3403,6 +3406,8 @@ sub Data {
         'Defines the default ticket order in the ticket locked view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             '',
         'Defines the default ticket order in the ticket search result of the agent interface. Up: oldest on top. Down: latest on top.' =>
+            '',
+        'Defines the default ticket order in the ticket search result of the this operation. Up: oldest on top. Down: latest on top.' =>
             '',
         'Defines the default ticket order in the watch view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             '',
@@ -4138,6 +4143,8 @@ sub Data {
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             '',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
+            '',
+        'Maximum number of tickets to be displayed in the result of this operation.' =>
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',

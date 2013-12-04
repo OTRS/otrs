@@ -1127,6 +1127,7 @@ sub Data {
         'Run this task' => 'Käivita tegevus',
         'Job Settings' => 'Tegevuse seaded',
         'Job name' => 'Tegevuse nimetus',
+        'The name you entered already exists.' => '',
         'Toggle this widget' => '',
         'Automatic execution (multiple tickets)' => '',
         'Execution Schedule' => '',
@@ -1264,7 +1265,6 @@ sub Data {
         'The name is typically used to call up an operation of a remote web service.' =>
             '',
         'Please provide a unique name for this web service invoker.' => '',
-        'The name you entered already exists.' => '',
         'Invoker backend' => '',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             '',
@@ -2721,6 +2721,7 @@ sub Data {
         # Template: CustomerWarning
 
         # Template: DashboardEventsTicketCalendar
+        'All-day' => '',
         'Sunday' => '',
         'Monday' => '',
         'Tuesday' => '',
@@ -3383,6 +3384,8 @@ sub Data {
             '',
         'Defines the default ticket attribute for ticket sorting of the ticket search result of the agent interface.' =>
             '',
+        'Defines the default ticket attribute for ticket sorting of the ticket search result of this operation.' =>
+            '',
         'Defines the default ticket bounced notification for customer/sender in the ticket bounce screen of the agent interface.' =>
             '',
         'Defines the default ticket next state after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -3398,6 +3401,8 @@ sub Data {
         'Defines the default ticket order in the ticket locked view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             '',
         'Defines the default ticket order in the ticket search result of the agent interface. Up: oldest on top. Down: latest on top.' =>
+            '',
+        'Defines the default ticket order in the ticket search result of the this operation. Up: oldest on top. Down: latest on top.' =>
             '',
         'Defines the default ticket order in the watch view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             '',
@@ -4133,6 +4138,8 @@ sub Data {
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             '',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
+            '',
+        'Maximum number of tickets to be displayed in the result of this operation.' =>
             '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',

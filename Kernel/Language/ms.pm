@@ -1126,6 +1126,7 @@ sub Data {
         'Run this task' => 'Jalankan tugas ini',
         'Job Settings' => 'kerja Tetapan',
         'Job name' => 'Nama kerja',
+        'The name you entered already exists.' => 'Nama yang anda masukkan sudah wujud.',
         'Toggle this widget' => 'ubah widget ini',
         'Automatic execution (multiple tickets)' => '',
         'Execution Schedule' => '',
@@ -1263,7 +1264,6 @@ sub Data {
         'The name is typically used to call up an operation of a remote web service.' =>
             'Nama biasanya digunakan untuk memanggil operasi perkhidmatan web jauh.',
         'Please provide a unique name for this web service invoker.' => 'Sila berikan nama unik untuk invoker perkhidmatan web ini.',
-        'The name you entered already exists.' => 'Nama yang anda masukkan sudah wujud.',
         'Invoker backend' => 'Invoker backend',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             'Modul OTRS invoker backend ini akan dipanggil untuk menyediakan data untuk dihantar ke sistem jauh, dan untuk memproses data respons.',
@@ -2720,6 +2720,7 @@ sub Data {
         # Template: CustomerWarning
 
         # Template: DashboardEventsTicketCalendar
+        'All-day' => '',
         'Sunday' => 'Ahad',
         'Monday' => 'Isnin',
         'Tuesday' => 'Selasa',
@@ -3382,6 +3383,8 @@ sub Data {
             'Mentakrifkan sifat tiket asal untuk aturan tiket dalam paparan pantau dari paparan ejen',
         'Defines the default ticket attribute for ticket sorting of the ticket search result of the agent interface.' =>
             'Mentakrifkan sifat tiket asal untuk aturan tiket dalam hasil pencarian tiket dari paparan ejen.',
+        'Defines the default ticket attribute for ticket sorting of the ticket search result of this operation.' =>
+            '',
         'Defines the default ticket bounced notification for customer/sender in the ticket bounce screen of the agent interface.' =>
             'Mentakrifkan notifikasi melantun tiket asal untuk pelanggan/penghantar dalam skrin lantunan tiket dari paparan ejen.',
         'Defines the default ticket next state after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -3398,6 +3401,8 @@ sub Data {
             'Mentakrifkan turutan tiket asal dalam paparan tiket terkunci dari paparan ejen. Atas: yang lama di atas. Bawah: yang terbaru di atas.',
         'Defines the default ticket order in the ticket search result of the agent interface. Up: oldest on top. Down: latest on top.' =>
             'Mentakrifkan turutan tiket asal dalam hasil carian tiket dari paparan ejen. Atas: yang lama di atas. Bawah: yang terbaru di atas.',
+        'Defines the default ticket order in the ticket search result of the this operation. Up: oldest on top. Down: latest on top.' =>
+            '',
         'Defines the default ticket order in the watch view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             'Mentakrifkan turutan tiket asal dalam paparan pantau dari paparan ejen. Atas: yang lama di atas. Bawah: yang terbaru di atas.',
         'Defines the default ticket order of a search result in the customer interface. Up: oldest on top. Down: latest on top.' =>
@@ -4133,6 +4138,8 @@ sub Data {
             'Jumlah maksimum tiket untuk dipamerkan dalam hasil carian dalam paparan ejen.',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
             'Jumlah tiket untuk dipamerkan dalam hasil carian dalam paparan pelanggan.',
+        'Maximum number of tickets to be displayed in the result of this operation.' =>
+            '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'Saiz maksimum (dalam aksara) dari jadual maklumat pelanggan dalam paparan zum tiket.',
         'Module for To-selection in new ticket screen in the customer interface.' =>

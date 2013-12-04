@@ -1127,6 +1127,7 @@ sub Data {
         'Run this task' => 'Ejecutar esta tarea',
         'Job Settings' => 'Configuraciones de la Tarea',
         'Job name' => 'Nombre de la tarea',
+        'The name you entered already exists.' => '',
         'Toggle this widget' => 'Activar este widget',
         'Automatic execution (multiple tickets)' => '',
         'Execution Schedule' => '',
@@ -1264,7 +1265,6 @@ sub Data {
         'The name is typically used to call up an operation of a remote web service.' =>
             '',
         'Please provide a unique name for this web service invoker.' => '',
-        'The name you entered already exists.' => '',
         'Invoker backend' => '',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             '',
@@ -2721,6 +2721,7 @@ sub Data {
         # Template: CustomerWarning
 
         # Template: DashboardEventsTicketCalendar
+        'All-day' => '',
         'Sunday' => 'Domingo',
         'Monday' => 'Lunes',
         'Tuesday' => 'Martes',
@@ -3383,6 +3384,8 @@ sub Data {
             'Define el atributo de ticket por defecto para ordenar los tickets en la vista de monitoreo, en la interfaz del agente.',
         'Defines the default ticket attribute for ticket sorting of the ticket search result of the agent interface.' =>
             'Define el atributo de ticket por defecto para ordenar los tickets del resultado de una b√∫squeda, en la interfaz del agente.',
+        'Defines the default ticket attribute for ticket sorting of the ticket search result of this operation.' =>
+            '',
         'Defines the default ticket bounced notification for customer/sender in the ticket bounce screen of the agent interface.' =>
             'Define la notificaci√≥n por defecto para tickets rebotados, que se enviar√° al cliente/remitente, en la ventana de rebotar un ticket, en la interfaz del agente.',
         'Defines the default ticket next state after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -3399,6 +3402,8 @@ sub Data {
             'Define el orden por defecto de los tickets, en la vista de tickets bloqueados de la interfaz del agente. Arriba: m√°s antiguo al principio. Abajo: m√°s reciente al principio.',
         'Defines the default ticket order in the ticket search result of the agent interface. Up: oldest on top. Down: latest on top.' =>
             'Define el orden por defecto de los tickets, resultado de una b√∫squeda de tickets en la interfaz del agente. Arriba: m√°s antiguo al principio. Abajo: m√°s reciente al principio.',
+        'Defines the default ticket order in the ticket search result of the this operation. Up: oldest on top. Down: latest on top.' =>
+            '',
         'Defines the default ticket order in the watch view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             'Define el orden por defecto de los tickets, en la vista de tickets monitoreados de la interfaz del agente. Arriba: m√°s antiguo al principio. Abajo: m√°s reciente al principio.',
         'Defines the default ticket order of a search result in the customer interface. Up: oldest on top. Down: latest on top.' =>
@@ -4134,6 +4139,8 @@ sub Data {
             'N√∫mero m√°ximo de tickets para ser mostrados en el resultado de una b√∫squeda, en la interfaz del agente.',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
             'N√∫mero m√°ximo de tickets para ser mostrados en el resultado de una b√∫squeda, en la interfaz del cliente.',
+        'Maximum number of tickets to be displayed in the result of this operation.' =>
+            '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'N√∫mero m√°ximo (en caracteres) de la tabla de informaci√≥n del cliente en la vista detallada del ticket.',
         'Module for To-selection in new ticket screen in the customer interface.' =>
