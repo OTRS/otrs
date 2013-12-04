@@ -118,7 +118,7 @@ sub new {
 
     $Self->{RegistrationURL} = 'https://cloud.otrs.com/otrs/public.pl';
 
-    $Self->{APIVersion} = 1;
+    $Self->{APIVersion} = 2;
 
     return $Self;
 }
@@ -308,6 +308,7 @@ sub Register {
             APIVersion  => $Self->{APIVersion},
             State       => 'active',
             OldUniqueID => $OldRegistration{UniqueID} || '',
+            OldAPIKey   => $OldRegistration{APIKey} || '',
             Token       => $Param{Token},
             OTRSID      => $Param{OTRSID},
             Type        => $Param{Type},
