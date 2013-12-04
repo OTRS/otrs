@@ -1,4 +1,4 @@
-#3.2.13 201?-??-??
+#3.2.13 2013-12-10
  - 2013-12-02 Fixed bug#[9327](http://bugs.otrs.org/show_bug.cgi?id=9327) - Filter breaks "Select all" functionality.
  - 2013-11-29 Fixed bug#[9999](http://bugs.otrs.org/show_bug.cgi?id=9999) - Timestamps in HistoricalValueGet return milliseconds on SQL Server.
  - 2013-11-29 Fixed bug#[10027](http://bugs.otrs.org/show_bug.cgi?id=10027) - Added old ticket information to ticket_history.
