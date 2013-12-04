@@ -17,7 +17,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 08:51:55
+    # Last translation file sync: 2013-12-04 12:14:31
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -213,6 +213,9 @@ sub Data {
         'Medium' => 'Medium',
         'Large' => 'Stor',
         'Date picker' => 'Datovælger',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Ny meddelelse',
         'New message!' => 'Ny meddelelse!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -391,6 +394,7 @@ sub Data {
         'Redo' => 'Gendan',
         'Scheduler process is registered but might not be running.' => 'Scheduler-processen er registreret, men kører måske ikke.',
         'Scheduler is not running.' => 'Scheduleren kører ikke.',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Nytårsdag',
@@ -2568,9 +2572,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => 'Fuldtekst-søgning',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Du er logget ind som',
 
         # Template: HeaderSmall
@@ -4562,6 +4563,7 @@ sub Data {
         'Customer Data' => 'Kundedata',
         'Department' => 'Afdeling',
         'For more info see:' => 'For mere information se:',
+        'Fulltext search' => 'Fuldtekst-søgning',
         'Logout successful. Thank you for using OTRS!' => 'Du er nu logget ud. Tak fordi du bruger OTRS.',
         'Manager' => 'Leder',
         'Online' => 'Logget ind',

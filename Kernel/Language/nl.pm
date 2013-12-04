@@ -22,7 +22,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 08:52:16
+    # Last translation file sync: 2013-12-04 12:14:52
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -218,6 +218,9 @@ sub Data {
         'Medium' => 'Middel',
         'Large' => 'Groot',
         'Date picker' => 'Datumkiezer',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Nieuw bericht',
         'New message!' => 'Nieuw bericht.',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -396,6 +399,7 @@ sub Data {
         'Redo' => 'Herhalen',
         'Scheduler process is registered but might not be running.' => 'Schedulerproces is geregistreerd, maar niet actief.',
         'Scheduler is not running.' => 'De Scheduler is niet actief.',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Nieuwjaarsdag',
@@ -2573,9 +2577,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => 'Zoeken',
-        'CustomerID Search' => 'Zoeken op klantcode',
-        'CustomerUser Search' => 'Zoeken op klant',
         'You are logged in as' => 'Ingelogd als',
 
         # Template: HeaderSmall
@@ -4567,9 +4568,12 @@ sub Data {
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Wijzigingen aangebracht aan de processen hebben alleen invloed op het systeem als u de processen synchroniseert. Door het synchroniseren van de processen worden de aangemaakte wijzigingen weggeschreven naar de configuratie.',
         'Customer Data' => 'Klantgegevens',
+        'CustomerID Search' => 'Zoeken op klantcode',
+        'CustomerUser Search' => 'Zoeken op klant',
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
             'Heeft u een feature niet kunnen vinden? De OTRS Groep levert add-ons voor klanten met een subscription:',
         'For more info see:' => 'Voor meer informatie zie:',
+        'Fulltext search' => 'Zoeken',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
             'Als er een root-wachtwoord voor deze database nodig is, vul deze hier in. Anders moet dit veld leeg blijven.',
         'Logout successful. Thank you for using OTRS!' => 'U bent afgemeld. Bedankt voor het gebruiken van OTRS.',

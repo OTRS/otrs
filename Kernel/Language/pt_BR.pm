@@ -20,7 +20,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 08:52:19
+    # Last translation file sync: 2013-12-04 12:14:55
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -216,6 +216,9 @@ sub Data {
         'Medium' => 'Médio',
         'Large' => 'Grande',
         'Date picker' => 'Seleção de data',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Nova mensagem',
         'New message!' => 'Nova mensagem!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -394,6 +397,7 @@ sub Data {
         'Redo' => 'Refazer',
         'Scheduler process is registered but might not be running.' => 'Processo do agendador está registrado mas pode não estar em execução.',
         'Scheduler is not running.' => 'Agendador não está em execução',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Ano Novo',
@@ -2571,9 +2575,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => 'Busca Completa',
-        'CustomerID Search' => 'Busca por ID do Cliente',
-        'CustomerUser Search' => 'Busca por Usuário do Cliente',
         'You are logged in as' => 'Você está logado como',
 
         # Template: HeaderSmall
@@ -4569,9 +4570,12 @@ sub Data {
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             'Configura o índice de texto completo. Execute "bin/otrs.RebuildFulltextIndex.pl" de forma a gerar um novo índice.',
         'Customer Data' => 'Dados do Cliente',
+        'CustomerID Search' => 'Busca por ID do Cliente',
+        'CustomerUser Search' => 'Busca por Usuário do Cliente',
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
             'Não encontrou uma funcionalidade necessária? O Grupo OTRS fornece Add-Ons exclusivos aos assinantes:',
         'For more info see:' => 'Para mais informações acesse:',
+        'Fulltext search' => 'Busca Completa',
         'Logout successful. Thank you for using OTRS!' => 'Encerrado com sucesso. Obrigado por utilizar nosso gerenciador de chamados!',
         'Package verification failed!' => 'A verificação do pacote falhou!',
         'Please supply a' => 'Por favor, forneça um(a)',

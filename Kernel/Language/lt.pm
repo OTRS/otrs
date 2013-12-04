@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 08:52:12
+    # Last translation file sync: 2013-12-04 12:14:48
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -212,6 +212,9 @@ sub Data {
         'Medium' => 'Vidutinis',
         'Large' => 'Didelis',
         'Date picker' => 'Datos parinkiklis',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Nauja žinutė',
         'New message!' => 'Nauja žinutė!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -390,6 +393,7 @@ sub Data {
         'Redo' => 'Atstatyti',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Naujieji metai',
@@ -2567,9 +2571,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Prisijungėte kaip',
 
         # Template: HeaderSmall

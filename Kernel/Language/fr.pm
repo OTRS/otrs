@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 08:52:04
+    # Last translation file sync: 2013-12-04 12:14:40
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -219,6 +219,9 @@ sub Data {
         'Medium' => 'Moyen',
         'Large' => 'Grand',
         'Date picker' => 'Selection de date',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Nouveau message',
         'New message!' => 'Nouveau message !',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -397,6 +400,7 @@ sub Data {
         'Redo' => 'Refaire',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Jour du nouvel an',
@@ -2574,9 +2578,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => 'Recherche plein texte',
-        'CustomerID Search' => 'Recherche ID Client',
-        'CustomerUser Search' => 'Recherche Utilisateur Client',
         'You are logged in as' => 'Vous êtes connecté avec',
 
         # Template: HeaderSmall
@@ -4568,7 +4569,10 @@ sub Data {
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'Impossible de mettre à jour le mot de passe, il doit contenir au moins 2 lettres en minuscule et 2 en majuscule!',
         'Customer Data' => 'Données client',
+        'CustomerID Search' => 'Recherche ID Client',
+        'CustomerUser Search' => 'Recherche Utilisateur Client',
         'For more info see:' => 'Pour plus d\'informations, allez à',
+        'Fulltext search' => 'Recherche plein texte',
         'Logout successful. Thank you for using OTRS!' => 'Déconnexion réussie. Merci d\'avoir utilisé OTRS !',
         'Package verification failed!' => 'Vérification du paquet échouée !',
         'Please supply a' => 'Veuillez donner une',

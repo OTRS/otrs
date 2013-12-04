@@ -25,7 +25,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 08:52:20
+    # Last translation file sync: 2013-12-04 12:14:56
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -221,6 +221,9 @@ sub Data {
         'Medium' => 'Средний',
         'Large' => 'Большой',
         'Date picker' => 'Выбор даты',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Новое сообщение',
         'New message!' => 'Новое сообщение!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -399,6 +402,7 @@ sub Data {
         'Redo' => 'Повторить',
         'Scheduler process is registered but might not be running.' => 'Процесс планировщика зарегистрирован, но может не быть запущен.',
         'Scheduler is not running.' => 'Планировщик не запущен.',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Новый Год',
@@ -2576,9 +2580,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => 'Полнотекстовый поиск',
-        'CustomerID Search' => 'Поиск по ID клиента',
-        'CustomerUser Search' => 'Поиск по логину',
         'You are logged in as' => 'Вы вошли как',
 
         # Template: HeaderSmall
@@ -4722,7 +4723,9 @@ sub Data {
         'Customer history search (e. g. "ID342425").' => 'Поиск по клиенту (например, «ID342425»).',
         'Customer user will be needed to have a customer history and to login via customer panel.' =>
             'Учетная запись клиента необходима для ведения истории клиента и для доступа к клиентской панели.',
+        'CustomerID Search' => 'Поиск по ID клиента',
         'CustomerUser' => 'Клиент',
+        'CustomerUser Search' => 'Поиск по логину',
         'D' => 'D',
         'DB connect host' => 'Сервер базы данных',
         'Days' => 'Дни',
@@ -4773,6 +4776,7 @@ sub Data {
         'Form' => 'Форма',
         'Foward ticket: ' => 'Переслать заявку',
         'Frontend' => 'Режим пользователя',
+        'Fulltext search' => 'Полнотекстовый поиск',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Полнотекстовый поиск в заявке (например, «Mar*in» или «Baue*»)',
         'Go' => 'Выполнить',
         'Group Ro' => 'Группа только для чтения',

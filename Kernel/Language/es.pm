@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 08:51:58
+    # Last translation file sync: 2013-12-04 12:14:34
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -217,6 +217,9 @@ sub Data {
         'Medium' => 'Mediano',
         'Large' => 'Grande',
         'Date picker' => 'Selector de fecha',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Mensaje nuevo',
         'New message!' => '¡Mensaje nuevo!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -395,6 +398,7 @@ sub Data {
         'Redo' => 'Rehacer',
         'Scheduler process is registered but might not be running.' => 'El proceso del planificador está registrado, pero podría no estar ejecutándose.',
         'Scheduler is not running.' => 'El planificador no está en ejecución.',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Año nuevo',
@@ -2572,9 +2576,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => 'Búsqueda de texto completo',
-        'CustomerID Search' => 'Búsqueda de identificador de cliente',
-        'CustomerUser Search' => 'Búsqueda de usuario cliente',
         'You are logged in as' => 'Ha entrado como',
 
         # Template: HeaderSmall
@@ -4564,7 +4565,10 @@ sub Data {
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'No es posible actualizar la contraseña, debe contener al menos 2 minúsculas y 2 mayúsculas.',
         'Customer Data' => 'Datos del cliente',
+        'CustomerID Search' => 'Búsqueda de identificador de cliente',
+        'CustomerUser Search' => 'Búsqueda de usuario cliente',
         'For more info see:' => 'Para mas información consulte:',
+        'Fulltext search' => 'Búsqueda de texto completo',
         'Logout successful. Thank you for using OTRS!' => 'Sesión cerrada con éxito. ¡Gracias por utilizar OTRS!',
         'Package verification failed!' => '¡Error en la verificación del paquete!',
         'Please supply a' => 'Proporcione un',

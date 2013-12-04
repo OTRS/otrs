@@ -23,7 +23,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 08:52:05
+    # Last translation file sync: 2013-12-04 12:14:41
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -219,6 +219,9 @@ sub Data {
         'Medium' => 'Moyen (M)',
         'Large' => 'Grand (L)',
         'Date picker' => 'Selection de date',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Nouveau message',
         'New message!' => 'Nouveau message ',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -397,6 +400,7 @@ sub Data {
         'Redo' => 'Refaire',
         'Scheduler process is registered but might not be running.' => 'Le processus d\'ordonnancement est autorisé, mais n\'est peut-être pas en fonction.',
         'Scheduler is not running.' => 'L\'ordonnanceur n\'est pas en fonction.',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Jour de l\'An',
@@ -2574,9 +2578,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Vous êtes connecté en tant que',
 
         # Template: HeaderSmall

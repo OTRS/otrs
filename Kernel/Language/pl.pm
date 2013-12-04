@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 08:52:17
+    # Last translation file sync: 2013-12-04 12:14:53
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -214,6 +214,9 @@ sub Data {
         'Medium' => 'Średnie',
         'Large' => 'Duże',
         'Date picker' => 'Wybór daty',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Nowa wiadomość',
         'New message!' => 'Nowa wiadomość!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -392,6 +395,7 @@ sub Data {
         'Redo' => 'Ponów',
         'Scheduler process is registered but might not be running.' => 'Proces harmonogramu zadań jest zarejestrowany ale prawdopodobnie nie jest uruchomiony.',
         'Scheduler is not running.' => 'Harmonogram zadań nie jest uruchomiony.',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Nowy Rok',
@@ -2569,9 +2573,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => 'szukaj...',
-        'CustomerID Search' => 'Szukaj ID klienta',
-        'CustomerUser Search' => 'Szukaj użytkownika klienta',
         'You are logged in as' => 'Jesteś zalogowany jako',
 
         # Template: HeaderSmall
@@ -4572,7 +4573,9 @@ sub Data {
         'Customer Data' => 'Dane klienta',
         'Customer Interface' => 'Interfejs klienta',
         'Customer history' => 'Historia klienta',
+        'CustomerID Search' => 'Szukaj ID klienta',
         'CustomerID{CustomerUser}' => 'ID klienta',
+        'CustomerUser Search' => 'Szukaj użytkownika klienta',
         'Database Backend' => 'Baza danych',
         'Database setup succesful!' => 'Baza danych pomyślnie utworzona!',
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
@@ -4587,6 +4590,7 @@ sub Data {
         'Fax{CustomerUser}' => 'Faks',
         'Firstname{CustomerUser}' => 'Imię',
         'For more info see:' => 'Więcej informacji',
+        'Fulltext search' => 'szukaj...',
         'Historic Time Range' => 'Okres historii',
         'Inactive' => 'Nieaktywne',
         'Lastname{CustomerUser}' => 'Nazwisko',

@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 08:54:38
+    # Last translation file sync: 2013-12-04 12:14:32
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -212,12 +212,11 @@ sub Data {
         'Medium' => 'Mittel',
         'Large' => 'Groß',
         'Date picker' => 'Datumsauswahl',
-        'New message' => 'Neue Nachricht',
-        'New message!' => 'Neue Nachricht!',
         'The field content is too long!' => 'Der Feldinhalt ist zu lang!',
         'Maximum size is %s characters.' => 'Die Maximallänge beträgt %s Zeichen.',
         'This field is required or' => 'Dieses Feld ist ein Pflichtfeld oder',
-
+        'New message' => 'Neue Nachricht',
+        'New message!' => 'Neue Nachricht!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
             'Bitte beantworten Sie dieses Ticket, um in die normale Queue-Ansicht zurück zu kommen!',
         'You have %s new message(s)!' => 'Sie haben %s neue Nachricht(en) bekommen!',
@@ -394,6 +393,7 @@ sub Data {
         'Redo' => 'Wiederholen',
         'Scheduler process is registered but might not be running.' => 'Scheduler-Prozess ist registriert, scheint aber nicht zu laufen.',
         'Scheduler is not running.' => 'Scheduler läuft nicht.',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Neujahr',
@@ -2571,9 +2571,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => 'Volltextsuche',
-        'CustomerID Search' => 'Kunden-Nr.-Suche',
-        'CustomerUser Search' => 'Kunden-Login-Suche',
         'You are logged in as' => 'Angemeldet als',
 
         # Template: HeaderSmall
@@ -4565,10 +4562,13 @@ sub Data {
         'Changes to the Processes here only affect the behaviour of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Änderungen an den Prozessen wirken sich erst dann aus, wenn Sie die Prozesskonfiguration synchronisieren. Dabei werden alle Änderungen in die Systemkonfiguration übernommen.',
         'Customer Data' => 'Kunden-/Kontakt-Daten',
+        'CustomerID Search' => 'Kunden-Nr.-Suche',
+        'CustomerUser Search' => 'Kunden-Login-Suche',
         'Database already contains data - it should be empty!' => 'Die Datenbank enthält bereits Daten obwohl sie leer sein sollte!',
         'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
             'Der Turbo für Ihr OTRS - Exklusive Feature Add-Ons für Subscription-Kunden:',
         'For more info see:' => 'Für mehr Informationen hier:',
+        'Fulltext search' => 'Volltextsuche',
         'Historic Time Range' => 'Historischer Zeitraum',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
             'Sollte ein Root-Passwort für die Datenbank gesetzt sein, muss dieses hier angegeben werden. Anderenfalls muss dieses Feld leer bleiben.',

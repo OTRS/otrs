@@ -18,7 +18,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 08:52:03
+    # Last translation file sync: 2013-12-04 12:14:39
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -214,6 +214,9 @@ sub Data {
         'Medium' => 'Keskikokoinen',
         'Large' => 'Suuri',
         'Date picker' => 'Valitse päivä',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Uusi viesti',
         'New message!' => 'Uusi viesti!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -392,6 +395,7 @@ sub Data {
         'Redo' => 'Tee uudelleen',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Uudenvuodenpäivä',
@@ -2569,9 +2573,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => 'Tekstihaku',
-        'CustomerID Search' => 'AsiakasID haku',
-        'CustomerUser Search' => 'Hae asiakkaista',
         'You are logged in as' => 'Olet kirjautunut käyttäjänä',
 
         # Template: HeaderSmall
@@ -4561,7 +4562,10 @@ sub Data {
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'Salasanan päivitys ei onnistunut, sen tulee sisältää vähintään 2 pientä ja 2 isoa kirjainta!',
         'Customer Data' => 'Asiakastieto',
+        'CustomerID Search' => 'AsiakasID haku',
+        'CustomerUser Search' => 'Hae asiakkaista',
         'For more info see:' => 'Katso lisätietoa:',
+        'Fulltext search' => 'Tekstihaku',
         'Logout successful. Thank you for using OTRS!' => 'Uloskirjautuminen onnistui. Kiitos kun käytit OTRS-järjestelmää',
         'Please supply a' => 'Ole hyvä ja kirjoita',
         'Please supply a first name' => 'Ole hyvä ja anna etunimesi',

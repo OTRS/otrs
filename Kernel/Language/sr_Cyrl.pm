@@ -16,7 +16,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 08:52:23
+    # Last translation file sync: 2013-12-04 12:14:59
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -212,6 +212,9 @@ sub Data {
         'Medium' => 'Средње',
         'Large' => 'Крупно',
         'Date picker' => 'Избор датума',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Нова порука',
         'New message!' => 'Нова порука!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -390,6 +393,7 @@ sub Data {
         'Redo' => 'Понови',
         'Scheduler process is registered but might not be running.' => 'Планер процес је регистрован, али можда није покренут.',
         'Scheduler is not running.' => 'Планер не ради.',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Нова година',
@@ -2567,9 +2571,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Пријављени сте као',
 
         # Template: HeaderSmall

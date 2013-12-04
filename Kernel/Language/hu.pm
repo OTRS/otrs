@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: 2013-10-02 08:52:08
+    # Last translation file sync: 2013-12-04 12:14:45
 
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
@@ -217,6 +217,9 @@ sub Data {
         'Medium' => 'Közepes',
         'Large' => 'Nagy',
         'Date picker' => '',
+        'The field content is too long!' => '',
+        'Maximum size is %s characters.' => '',
+        'This field is required or' => '',
         'New message' => 'Új üzenet',
         'New message!' => 'Új üzenet!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -395,6 +398,7 @@ sub Data {
         'Redo' => 'Újravon',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => 'Az ütemező nem fut.',
+        'The selected process is invalid!' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => '',
@@ -2572,9 +2576,6 @@ sub Data {
         # Template: HTMLHeadBlockEvents
 
         # Template: Header
-        'Fulltext search' => '',
-        'CustomerID Search' => '',
-        'CustomerUser Search' => '',
         'You are logged in as' => 'Belépve:',
 
         # Template: HeaderSmall
