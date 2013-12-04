@@ -1,4 +1,4 @@
-#3.3.3 2013-??-??
+#3.3.3 2013-12-10
  - 2013-11-07 Updated Chinese simplified translation, thanks to Michael Shi.
  - 2013-12-03 Fixed bug#[10022](http://bugs.otrs.org/show_bug.cgi?id=10022) - Ticket form looses To, Cc and Bcc when submitting form.
  - 2013-12-02 Fixed bug#[9928](http://bugs.otrs.org/show_bug.cgi?id=9928) - Dropdown field in tree mode are not displayed in tree mode in column filters.
