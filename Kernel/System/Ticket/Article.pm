@@ -1741,6 +1741,7 @@ sub ArticleGet {
         }
     }
 
+    my $EmailParser = Kernel::System::EmailParser->new( %{$Self}, Mode => 'Standalone' );
     # article stuff
     for my $Part (@Content) {
 
@@ -1780,7 +1781,6 @@ sub ArticleGet {
         $Part->{State}     = $StateData{Name};
 
         # add real name lines
-        my $EmailParser = Kernel::System::EmailParser->new( %{$Self}, Mode => 'Standalone' );
         KEY:
         for my $Key (qw( From To Cc)) {
             next if !$Part->{$Key};
