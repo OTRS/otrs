@@ -147,8 +147,8 @@
                             </ul>
                             <ul class="AllocationList Tablelike W90pc" id="AvailableFields">
 <!-- dtl:block:AvailableFieldRow -->
-                                <li title="Name: $QData{"Field"}" data-id="$QData{"Field"}" data-config="">
-                                    $QData{"Field"}
+                                <li title="Name: $Text{"$QData{"Field"}"}" data-id="$QData{"Field"}" data-config="">
+                                    $Text{"$QData{"Field"}"}
                                     <span class="Functions ShowOnAssignedList">
                                         <a href="#" data-id="$QData{"Field"}" data-entity="$QData{"Field"}" class="FieldDetailsOverlay Icon Icon_Edit" title="$Text{"Edit"}"></a>
                                     </span>
@@ -164,8 +164,8 @@
                             </ul>
                             <ul class="AllocationList Tablelike W90pc" id="AssignedFields">
 <!-- dtl:block:AssignedFieldRow -->
-                                <li data-id="$QData{"Field"}" data-entity="$QData{"Field"}" data-config='$Data{"FieldConfig"}' title="Name: $QData{"Field"}">
-                                    $QData{"Field"}
+                                <li data-id="$QData{"Field"}" data-entity="$QData{"Field"}" data-config='$Data{"FieldConfig"}' title="Name: $Text{"$QData{"Field"}"}">
+                                    $Text{"$QData{"Field"}"}
                                     <span class="Functions ShowOnAssignedList">
                                         <a href="#" data-id="$QData{"Field"}" data-entity="$QData{"Field"}" class="FieldDetailsOverlay Icon Icon_Edit" title="$Text{"Edit"}"></a>
                                     </span>

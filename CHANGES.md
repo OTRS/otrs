@@ -1,5 +1,5 @@
 #3.3.4 201?-??-??
- -
+ - 2013-12-03 Fixed bug#[10060](http://bugs.otrs.org/show_bug.cgi?id=10060) - Field names are not translated in graphical process editor.
 
 #3.3.3 2013-12-10
  - 2013-11-07 Updated Chinese simplified translation, thanks to Michael Shi.
