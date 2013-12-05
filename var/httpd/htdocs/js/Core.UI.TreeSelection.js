@@ -119,6 +119,10 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 }
             }
 
+            // In case of disabled elements, the ID is always "-", which causes duplications.
+            // Therefore, we assign a random ID to avoid conflicts.
+            ElementID = (ElementID === '-') ? Math.floor((Math.random() * 100000) + 1) : ElementID;
+
             // collect data of current service and add it to elements array
             CurrentElement = {
                 ID:       ElementID,
