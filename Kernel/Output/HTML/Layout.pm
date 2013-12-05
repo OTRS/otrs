@@ -3070,6 +3070,11 @@ sub BuildDateSelection {
     my ( $s, $m, $h, $D, $M, $Y ) = $Self->{UserTimeObject}->SystemTime2Date(
         SystemTime => $Self->{UserTimeObject}->SystemTime() + $DiffTime,
     );
+
+    my ( $Cs, $Cm, $Ch, $CD, $CM, $CY ) = $Self->{UserTimeObject}->SystemTime2Date(
+        SystemTime => $Self->{UserTimeObject}->SystemTime(),
+    );
+
     my $DatepickerHTML = '';
 
     # time zone translation
@@ -3114,6 +3119,15 @@ sub BuildDateSelection {
                 $Year{$_} = $_;
             }
         }
+
+        # Check if the DiffTime is in a future year. In this case, we add the missing years between
+        # $CY (current year) and $Y (year) to allow the user to manually set back the year if needed.
+        if ($Y > $CY) {
+            for ($CY .. $Y) {
+                $Year{$_} = $_;
+            }
+        }
+
         $Param{Year} = $Self->BuildSelection(
             Name        => $Prefix . 'Year',
             Data        => \%Year,
