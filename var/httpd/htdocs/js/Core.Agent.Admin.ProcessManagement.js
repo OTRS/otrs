@@ -968,7 +968,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     if (typeof FieldConfig.Config === 'undefined'){
                         FieldConfig.Config = {};
                     }
-                    $('#ArticleType').val(FieldConfig.Config.ArticleType);
+                    if (FieldConfig.Config.ArticleType) {
+                        $('#ArticleType').val(FieldConfig.Config.ArticleType);
+                    }
                 }
 
             }
