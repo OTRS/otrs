@@ -304,11 +304,19 @@ sub _ShowEdit {
         $TransitionList{ $Transition->{EntityID} } = $Transition->{Name};
     }
 
+    # fix sorting by names
+    my @TransitionList;
+    for my $TransitionID (sort { lc $TransitionList{$a} cmp lc $TransitionList{$b} } keys %TransitionList) {
+        push @TransitionList, {
+            Key   => $TransitionID,
+            Value => $TransitionList{$TransitionID},
+        };
+    }
+
     $Param{Transition} = $Self->{LayoutObject}->BuildSelection(
-        Data        => \%TransitionList,
+        Data        => \@TransitionList,
         Name        => "Transition",
         ID          => "Transition",
-        Sort        => 'AlphanumericKey',
         Title       => $Self->{LayoutObject}->{LanguageObject}->Get("Transition"),
         Translation => 1,
         Class       => 'W50pc',
