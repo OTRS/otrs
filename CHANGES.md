@@ -1,4 +1,5 @@
 #3.3.4 201?-??-??
+ - 2013-12-05 Fixed bug#[10055](http://bugs.otrs.org/show_bug.cgi?id=10055) - Queue-Treeview not working correctly.
  - 2013-12-05 Fixed bug#[10061](http://bugs.otrs.org/show_bug.cgi?id=10061) - ArticleType dropdown in graphical ActivityDialog mask loads with empty value
  - 2013-12-05 Fixed bug#[10060](http://bugs.otrs.org/show_bug.cgi?id=10060) - Field names are not translated in graphical process editor.
 
