@@ -1,4 +1,5 @@
 #3.3.4 201?-??-??
+ - 2013-12-05 Fixed bug#[7820](http://bugs.otrs.org/show_bug.cgi?id=7820) - inexact german translation in ticket conversation.
  - 2013-12-05 Fixed bug#[10044](http://bugs.otrs.org/show_bug.cgi?id=10044) - PendingDiffTime removes 2013 (current year) when reaching end of the year.
  - 2013-12-05 Fixed bug#[10049](http://bugs.otrs.org/show_bug.cgi?id=10049) - Transition names in path edit screen ordered by ID instead of name.
  - 2013-12-05 Fixed bug#[10055](http://bugs.otrs.org/show_bug.cgi?id=10055) - Queue-Treeview not working correctly.
