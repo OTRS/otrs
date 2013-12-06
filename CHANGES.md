@@ -1,4 +1,5 @@
 #3.3.4 201?-??-??
+ - 2013-12-06 Fixed bug#[7792](http://bugs.otrs.org/show_bug.cgi?id=7792) - Ticket-Action "Change Queue" is hardcoded and should be called "Queue" only.
  - 2013-12-06 Fixed bug#[4663](http://bugs.otrs.org/show_bug.cgi?id=4663) - browsing article tree by "next / down" and "previous / up" buttons.
  - 2013-12-06 Fixed bug#[4512](http://bugs.otrs.org/show_bug.cgi?id=4512) - HTMLUtils ToAscii forces line breake on fixed line-length 78.
  - 2013-12-06 Fixed bug#[9109](http://bugs.otrs.org/show_bug.cgi?id=9109) - Printing ticket does not show the full subject line.
