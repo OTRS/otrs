@@ -337,7 +337,7 @@ $('#$QData{"FormID"} select[name=$QData{"PhoneElementID"}]').bind('change', func
                             <input type="hidden" name="Action" value="AgentTicketMove"/>
                             <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
                             <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
-                            <label for="DestQueueID" class="InvisibleText">$Text{"Change queue"}:</label>
+                            <label for="DestQueueID" class="InvisibleText">$Text{"Queue"}:</label>
                             $Data{"MoveQueuesStrg"}
                         </form>
 <!-- dtl:js_on_document_complete -->
@@ -351,7 +351,7 @@ $('#$QData{"FormID"} select[name=$QData{"PhoneElementID"}]').bind('change', func
 <!-- dtl:block:MoveLink -->
 <!-- dtl:block:MoveForm -->
                     <li>
-                        <a href="$Env{"Baselink"}Action=AgentTicketMove;TicketID=$LQData{"TicketID"};" class="AsPopup PopupType_TicketAction" title="$Text{"Change Queue"}">$Text{"Change Queue"}</a>
+                        <a href="$Env{"Baselink"}Action=AgentTicketMove;TicketID=$LQData{"TicketID"};" class="AsPopup PopupType_TicketAction" title="$Text{"Change Queue"}">$Text{"Queue"}</a>
                     </li>
 <!-- dtl:block:MoveForm -->
                 </ul>
