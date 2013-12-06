@@ -1,4 +1,5 @@
 #3.3.4 201?-??-??
+ - 2013-12-06 Fixed bug#[10066](http://bugs.otrs.org/show_bug.cgi?id=10066) - Required field isn't marked in AgentTicketCustomer.
  - 2013-12-05 Fixed bug#[10059](http://bugs.otrs.org/show_bug.cgi?id=10059) - Service selection unavailable if customer selection is possible.
  - 2013-12-05 Fixed bug#[10062](http://bugs.otrs.org/show_bug.cgi?id=10062) - Text label indent for locale RU - AgentÒicketViewCompose
  - 2013-12-05 Fixed bug#[7820](http://bugs.otrs.org/show_bug.cgi?id=7820) - inexact german translation in ticket conversation.
