@@ -689,12 +689,20 @@ sub _ShowEdit {
             delete $AvailableFields{$Field};
         }
 
-        # display available fields
+        # sort by translated field names
+        my %AvailableFieldsTranslated;
         for my $Field ( sort keys %AvailableFields ) {
+            my $Translation = $Self->{LayoutObject}->{LanguageObject}->Get($Field);
+            $AvailableFieldsTranslated{$Field} = $Translation;
+        }
+
+        # display available fields
+        for my $Field ( sort { $AvailableFieldsTranslated{$a} cmp $AvailableFieldsTranslated{$b} } keys %AvailableFieldsTranslated ) {
             $Self->{LayoutObject}->Block(
                 Name => 'AvailableFieldRow',
                 Data => {
-                    Field => $Field,
+                    Field               => $Field,
+                    FieldnameTranslated => $AvailableFieldsTranslated{$Field},
                 },
             );
         }
@@ -738,12 +746,20 @@ sub _ShowEdit {
     }
     else {
 
-        # display available fields
+        # sort by translated field names
+        my %AvailableFieldsTranslated;
         for my $Field ( sort keys %AvailableFields ) {
+            my $Translation = $Self->{LayoutObject}->{LanguageObject}->Get($Field);
+            $AvailableFieldsTranslated{$Field} = $Translation;
+        }
+
+        # display available fields
+        for my $Field ( sort { $AvailableFieldsTranslated{$a} cmp $AvailableFieldsTranslated{$b} } keys %AvailableFieldsTranslated ) {
             $Self->{LayoutObject}->Block(
                 Name => 'AvailableFieldRow',
                 Data => {
-                    Field => $Field,
+                    Field               => $Field,
+                    FieldnameTranslated => $AvailableFieldsTranslated{$Field},
                 },
             );
         }
