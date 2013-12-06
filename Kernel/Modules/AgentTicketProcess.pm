@@ -573,6 +573,11 @@ sub _RenderAjax {
                 %{ $Param{GetParam} },
             );
 
+            my $PossibleNone = 1;
+            if ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2 ) {
+                $PossibleNone = 0;
+            }
+
             # add Owner to the JSONCollector
             push(
                 @JSONCollector,
@@ -580,7 +585,7 @@ sub _RenderAjax {
                     Name         => $Self->{NameToID}{$CurrentField},
                     Data         => $Data,
                     SelectedID   => $Param{GetParam}{ $Self->{NameToID}{$CurrentField} },
-                    PossibleNone => 0,
+                    PossibleNone => $PossibleNone,
                     Translation  => 0,
                     Max          => 100,
                 },
@@ -594,6 +599,11 @@ sub _RenderAjax {
                 %{ $Param{GetParam} },
             );
 
+            my $PossibleNone = 1;
+            if ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2 ) {
+                $PossibleNone = 0;
+            }
+
             # add Responsible to the JSONCollector
             push(
                 @JSONCollector,
@@ -601,7 +611,7 @@ sub _RenderAjax {
                     Name         => $Self->{NameToID}{$CurrentField},
                     Data         => $Data,
                     SelectedID   => $Param{GetParam}{ $Self->{NameToID}{$CurrentField} },
-                    PossibleNone => 0,
+                    PossibleNone => $PossibleNone,
                     Translation  => 0,
                     Max          => 100,
                 },
@@ -2574,11 +2584,15 @@ sub _RenderResponsible {
         ValidateRequired => '',
     );
 
-    # If field is required put in the necessary variables for
-    # ValidateRequired class input field, Mandatory class for the label
+    my $PossibleNone = 1;
+
+    # if field is required put in the necessary variables for
+    #    ValidateRequired class input field, Mandatory class for the label
+    #    do not allow empty selection
     if ( $Param{ActivityDialogField}->{Display} && $Param{ActivityDialogField}->{Display} == 2 ) {
         $Data{ValidateRequired} = 'Validate_Required';
         $Data{MandatoryClass}   = 'Mandatory';
+        $PossibleNone           = 0;
     }
 
     my $SelectedValue;
@@ -2610,14 +2624,32 @@ sub _RenderResponsible {
         }
     }
 
-    # Get TicketValue
-    if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue ) {
+    # if there is no user from GetParam or default and the field is mandatory get it from the ticket
+    #    (if any)
+    if (
+        !$SelectedValue
+        && !$PossibleNone
+        && IsHashRefWithData( $Param{Ticket} )
+        )
+    {
         $SelectedValue = $Param{Ticket}->{Responsible};
     }
 
-    # use the current user
-    if ( !$SelectedValue ) {
+    # use current user as fallback, for all other cases where there is still no user
+    elsif ( !$SelectedValue ) {
         $SelectedValue = $Self->{UserObject}->UserLookup( UserID => $Self->{UserID} );
+    }
+
+    # if we have a user already and the field is not mandatory and it is the same as in ticket, then
+    #    set it to none (as it doesn't need to be changed afterall)
+    elsif (
+        $SelectedValue
+        && $PossibleNone
+        && IsHashRefWithData( $Param{Ticket} )
+        && $SelectedValue eq $Param{Ticket}->{Responsible}
+        )
+    {
+        $SelectedValue = '';
     }
 
     # set server errors
@@ -2636,11 +2668,12 @@ sub _RenderResponsible {
 
     # build Responsible string
     $Data{Content} = $Self->{LayoutObject}->BuildSelection(
-        Data        => $Responsibles,
-        Name        => 'ResponsibleID',
-        Translation => 1,
-        SelectedID  => $SelectedID,
-        Class       => $ServerError,
+        Data         => $Responsibles,
+        Name         => 'ResponsibleID',
+        Translation  => 1,
+        SelectedID   => $SelectedID,
+        Class        => $ServerError,
+        PossibleNone => $PossibleNone,
     );
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -2707,11 +2740,15 @@ sub _RenderOwner {
         ValidateRequired => '',
     );
 
-    # If field is required put in the necessary variables for
-    # ValidateRequired class input field, Mandatory class for the label
+    my $PossibleNone = 1;
+
+    # if field is required put in the necessary variables for
+    #    ValidateRequired class input field, Mandatory class for the label
+    #    do not allow empty selection
     if ( $Param{ActivityDialogField}->{Display} && $Param{ActivityDialogField}->{Display} == 2 ) {
         $Data{ValidateRequired} = 'Validate_Required';
         $Data{MandatoryClass}   = 'Mandatory';
+        $PossibleNone           = 0;
     }
 
     my $SelectedValue;
@@ -2747,14 +2784,32 @@ sub _RenderOwner {
         }
     }
 
-    # Get TicketValue
-    if ( IsHashRefWithData( $Param{Ticket} ) && !$SelectedValue ) {
+    # if there is no user from GetParam or default and the field is mandatory get it from the ticket
+    #    (if any)
+    if (
+        !$SelectedValue
+        && !$PossibleNone
+        && IsHashRefWithData( $Param{Ticket} )
+        )
+    {
         $SelectedValue = $Param{Ticket}->{Owner};
     }
 
-    # use the current user
-    if ( !$SelectedValue ) {
+    # use current user as fallback, for all other cases where there is still no user
+    elsif ( !$SelectedValue ) {
         $SelectedValue = $Self->{UserObject}->UserLookup( UserID => $Self->{UserID} );
+    }
+
+    # if we have a user already and the field is not mandatory and it is the same as in ticket, then
+    #    set it to none (as it doesn't need to be changed afterall)
+    elsif (
+        $SelectedValue
+        && $PossibleNone
+        && IsHashRefWithData( $Param{Ticket} )
+        && $SelectedValue eq $Param{Ticket}->{Owner}
+        )
+    {
+        $SelectedValue = '';
     }
 
     # set server errors
@@ -2773,11 +2828,12 @@ sub _RenderOwner {
 
     # build Owner string
     $Data{Content} = $Self->{LayoutObject}->BuildSelection(
-        Data        => $Owners,
-        Name        => 'OwnerID',
-        Translation => 1,
-        SelectedID  => $SelectedID,
-        Class       => $ServerError,
+        Data         => $Owners,
+        Name         => 'OwnerID',
+        Translation  => 1,
+        SelectedID   => $SelectedID || '',
+        Class        => $ServerError,
+        PossibleNone => $PossibleNone,
     );
 
     # set fields that will get an AJAX loader icon when this field changes
