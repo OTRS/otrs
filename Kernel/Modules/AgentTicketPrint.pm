@@ -208,13 +208,6 @@ sub Run {
         $Page{MarginBottom} = 40;
         $Page{MarginLeft}   = 40;
         $Page{HeaderRight}  = $HeaderRight;
-        $Page{HeadlineLeft} = $HeadlineLeft;
-        $Page{HeadlineRight}
-            = $PrintedBy . ' '
-            . $Self->{UserFirstname} . ' '
-            . $Self->{UserLastname} . ' ('
-            . $Self->{UserEmail} . ') '
-            . $Time;
         $Page{FooterLeft} = '';
         $Page{PageText}   = $Self->{LayoutObject}->{LanguageObject}->Get('Page');
         $Page{PageCount}  = 1;
@@ -231,27 +224,35 @@ sub Run {
         );
         $Page{PageCount}++;
 
-        # type of print tag
-        my $PrintTag = '';
+        $Self->{PDFObject}->PositionSet(
+            Move => 'relativ',
+            Y    => -6,
+        );
 
-        $PrintTag = ($ArticleID) ? 'Article' : 'Ticket';
-        $PrintTag = ( $Self->{LayoutObject}->{LanguageObject}->Get($PrintTag) ) . ' ' .
-            ( $Self->{LayoutObject}->{LanguageObject}->Get('Print') );
-
-        # output headline
+        # output title
         $Self->{PDFObject}->Text(
-            Text     => $PrintTag,
-            Height   => 9,
-            Type     => 'Cut',
-            Font     => 'ProportionalBold',
-            Align    => 'right',
-            FontSize => 9,
-            Color    => '#666666',
+            Text => $Ticket{Title},
+            FontSize => 13,
         );
 
         $Self->{PDFObject}->PositionSet(
             Move => 'relativ',
             Y    => -6,
+        );
+
+        # output "printed by"
+        $Self->{PDFObject}->Text(
+            Text     => $PrintedBy . ' '
+            . $Self->{UserFirstname} . ' '
+            . $Self->{UserLastname} . ' ('
+            . $Self->{UserEmail} . ')'
+            . ', ' . $Time,
+            FontSize => 9,
+        );
+
+        $Self->{PDFObject}->PositionSet(
+            Move => 'relativ',
+            Y    => -14,
         );
 
         # output ticket infos
@@ -398,27 +399,27 @@ sub _PDFOutputTicketInfos {
     # create left table
     my $TableLeft = [
         {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('State') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('State'),
             Value => $Self->{LayoutObject}->{LanguageObject}->Get( $Ticket{State} ),
         },
         {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Priority') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Priority'),
             Value => $Self->{LayoutObject}->{LanguageObject}->Get( $Ticket{Priority} ),
         },
         {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Queue') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Queue'),
             Value => $Ticket{Queue},
         },
         {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Lock') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Lock'),
             Value => $Self->{LayoutObject}->{LanguageObject}->Get( $Ticket{Lock} ),
         },
         {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID'),
             Value => $Ticket{CustomerID},
         },
         {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Owner') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Owner'),
             Value => $Ticket{Owner} . ' ('
                 . $UserInfo{UserFirstname} . ' '
                 . $UserInfo{UserLastname} . ')',
@@ -435,7 +436,7 @@ sub _PDFOutputTicketInfos {
                 . $Param{ResponsibleData}->{UserLastname} . ')';
         }
         my $Row = {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Responsible') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Responsible'),
             Value => $Responsible,
         };
         push( @{$TableLeft}, $Row );
@@ -444,7 +445,7 @@ sub _PDFOutputTicketInfos {
     # add type row, if feature is enabled
     if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
         my $Row = {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Type') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Type'),
             Value => $Ticket{Type},
         };
         push( @{$TableLeft}, $Row );
@@ -453,12 +454,12 @@ sub _PDFOutputTicketInfos {
     # add service and sla row, if feature is enabled
     if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
         my $RowService = {
-            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Service') . ':',
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Service'),
             Value => $Ticket{Service} || '-',
         };
         push( @{$TableLeft}, $RowService );
         my $RowSLA = {
-            Key => $Self->{LayoutObject}->{LanguageObject}->Get('SLA') . ':',
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('SLA'),
             Value => $Ticket{SLA} || '-',
         };
         push( @{$TableLeft}, $RowSLA );
@@ -467,11 +468,11 @@ sub _PDFOutputTicketInfos {
     # create right table
     my $TableRight = [
         {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Age') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Age'),
             Value => $Self->{LayoutObject}->{LanguageObject}->Get( $Ticket{Age} ),
         },
         {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Created') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Created'),
             Value => $Self->{LayoutObject}->Output(
                 Template => '$TimeLong{"$Data{"Created"}"}',
                 Data     => \%Ticket,
@@ -481,7 +482,7 @@ sub _PDFOutputTicketInfos {
 
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
         my $Row = {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Accounted time') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Accounted time'),
             Value => $Ticket{TicketTimeUnits},
         };
         push( @{$TableRight}, $Row );
@@ -490,7 +491,7 @@ sub _PDFOutputTicketInfos {
     # only show pending until unless it is really pending
     if ( $Ticket{PendingUntil} ) {
         my $Row = {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Pending till') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Pending till'),
             Value => $Ticket{PendingUntil},
         };
         push( @{$TableRight}, $Row );
@@ -499,7 +500,7 @@ sub _PDFOutputTicketInfos {
     # add first response time row
     if ( defined( $Ticket{FirstResponseTime} ) ) {
         my $Row = {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('First Response Time') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('First Response Time'),
             Value => $Self->{LayoutObject}->Output(
                 Template => '$TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}',
                 Data     => \%Ticket,
@@ -511,7 +512,7 @@ sub _PDFOutputTicketInfos {
     # add update time row
     if ( defined( $Ticket{UpdateTime} ) ) {
         my $Row = {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Update Time') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Update Time'),
             Value => $Self->{LayoutObject}->Output(
                 Template => '$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}',
                 Data     => \%Ticket,
@@ -523,7 +524,7 @@ sub _PDFOutputTicketInfos {
     # add solution time row
     if ( defined( $Ticket{SolutionTime} ) ) {
         my $Row = {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Solution Time') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Solution Time'),
             Value => $Self->{LayoutObject}->Output(
                 Template => '$TimeShort{"$QData{"SolutionTimeDestinationDate"}"}',
                 Data     => \%Ticket,
@@ -550,18 +551,17 @@ sub _PDFOutputTicketInfos {
         $TableParam{CellData}[$Row][4]{Content}         = $TableRight->[$Row]->{Value};
     }
 
-    $TableParam{ColumnData}[0]{Width} = 80;
-    $TableParam{ColumnData}[1]{Width} = 170.5;
-    $TableParam{ColumnData}[2]{Width} = 4;
-    $TableParam{ColumnData}[3]{Width} = 80;
-    $TableParam{ColumnData}[4]{Width} = 170.5;
+    $TableParam{ColumnData}[0]{Width} = 70;
+    $TableParam{ColumnData}[1]{Width} = 156.5;
+    $TableParam{ColumnData}[2]{Width} = 1;
+    $TableParam{ColumnData}[3]{Width} = 70;
+    $TableParam{ColumnData}[4]{Width} = 156.5;
 
     $TableParam{Type}                = 'Cut';
     $TableParam{Border}              = 0;
-    $TableParam{FontSize}            = 6;
-    $TableParam{BackgroundColorEven} = '#AAAAAA';
-    $TableParam{BackgroundColorOdd}  = '#DDDDDD';
-    $TableParam{Padding}             = 1;
+    $TableParam{FontSize}            = 7;
+    $TableParam{BackgroundColorEven} = '#DDDDDD';
+    $TableParam{Padding}             = 6;
     $TableParam{PaddingTop}          = 3;
     $TableParam{PaddingBottom}       = 3;
 
