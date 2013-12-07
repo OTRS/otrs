@@ -1,5 +1,5 @@
 #3.2.14 201?-??-??
- -
+ - 2013-12-06 Fixed bug#[10070](http://bugs.otrs.org/show_bug.cgi?id=10070) - Wrong error message if Transition contains no transition actions.
 
 #3.2.13 2013-12-10
  - 2013-12-02 Fixed bug#[9327](http://bugs.otrs.org/show_bug.cgi?id=9327) - Filter breaks "Select all" functionality.
