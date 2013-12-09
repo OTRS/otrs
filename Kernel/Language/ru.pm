@@ -10,6 +10,7 @@
 # Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
 # Copyright (C) 2012-2013 Vadim Goncharov <vgoncharov at mail.ru>
 # Copyright (C) 2013 Alexey Gluhov <glalexnn at yandex.ru>
+# Copyright (C) 2013 Andrey N. Burdin <BurdinAN at it-sakh.net>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -152,7 +153,7 @@ sub Data {
         'Signature' => 'Подпись',
         'Signatures' => 'Подписи',
         'Customer' => 'Клиент',
-        'CustomerID' => 'ID клиента',
+        'CustomerID' => 'ID компании',
         'CustomerIDs' => 'ID клиентов',
         'customer' => 'клиент',
         'agent' => 'агент',
@@ -253,7 +254,7 @@ sub Data {
         'Install OTRS' => 'Инсталлировать OTRS',
         'Intro' => 'Интро',
         'License' => 'Лицензия',
-        'Database' => 'Имя базы данных',
+        'Database' => 'База данных',
         'Configure Mail' => 'Конфигурировать почту',
         'Database deleted.' => 'База данных удалена.',
         'Enter the password for the administrative database user.' => '',
@@ -412,9 +413,9 @@ sub Data {
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
-        'Problems processing server result. Please try again later.' => '',
-        'Username and password do not match. Please try again.' => '',
-        'The selected process is invalid!' => '',
+        'Problems processing server result. Please try again later.' => 'Проблемы, обрабатывающие результат сервера. Попробуйте еще раз позже.',
+        'Username and password do not match. Please try again.' => 'Имя пользователя и пароль не соовпадают. Попробуйте еще раз.',
+        'The selected process is invalid!' => 'Выбранный процесс - неправильный!',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Новый Год',
@@ -868,12 +869,12 @@ sub Data {
         'ACL Management' => '',
         'Filter for ACLs' => '',
         'Filter' => 'Фильтр',
-        'ACL Name' => '',
+        'ACL Name' => 'Название ACL',
         'Actions' => 'Действия',
-        'Create New ACL' => '',
+        'Create New ACL' => 'Создать новый ACL',
         'Deploy ACLs' => '',
-        'Export ACLs' => '',
-        'Configuration import' => '',
+        'Export ACLs' => 'Экспорт  ACLs',
+        'Configuration import' => 'Импорт конфигурации',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             '',
         'This field is required.' => 'Это поле обязательно.',
@@ -958,18 +959,18 @@ sub Data {
         'Example response' => 'Пример ответа',
 
         # Template: AdminCustomerCompany
-        'Customer Management' => 'Управление клиентами',
+        'Customer Management' => 'Управление компаниями',
         'Wildcards like \'*\' are allowed.' => 'Разрешены шаблоны типа \'*\'.',
-        'Add customer' => 'Добавить клиента',
+        'Add customer' => 'Добавить компанию',
         'Select' => 'Выбор',
-        'Please enter a search term to look for customers.' => 'Введите запрос для поиска клиентов.',
-        'Add Customer' => 'Добавить клиента',
-        'Edit Customer' => 'Редактировать клиента',
+        'Please enter a search term to look for customers.' => 'Введите запрос для поиска компании.',
+        'Add Customer' => 'Добавить компанию',
+        'Edit Customer' => 'Редактировать компанию',
 
         # Template: AdminCustomerUser
-        'Customer User Management' => 'Управление пользователями (для клиентов)',
+        'Customer User Management' => 'Управление клиентами',
         'Back to search results' => 'Назад к результатам поиска',
-        'Add customer user' => '',
+        'Add customer user' => 'Добавить клиента',
         'Hint' => 'Подсказка',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             '',
@@ -977,7 +978,7 @@ sub Data {
         'Login as' => 'Зайти данным пользователем',
         'Switch to customer' => 'Переключится на клиента',
         'Add Customer User' => 'Добавить клиента',
-        'Edit Customer User' => '',
+        'Edit Customer User' => 'Редактировать клиента',
         'This field is required and needs to be a valid email address.' =>
             'Это поле обязательно, и должно быть корректным адресом электронной почты.',
         'This email address is not allowed due to the system configuration.' =>
@@ -1004,7 +1005,7 @@ sub Data {
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Если ничего не выбрано, тогда у этой группы не будет прав (заявки будут недоступны клиенту).',
         'Search Results' => 'Результаты поиска:',
-        'Customers' => 'Клиенты',
+        'Customers' => 'Компании',
         'Groups' => 'Группы',
         'No matches found.' => 'Совпадений не найдено.',
         'Change Group Relations for Customer' => 'Изменить связи с группами для клиента',
@@ -1137,7 +1138,7 @@ sub Data {
         'Job Settings' => 'Настройки задания',
         'Job name' => 'Имя задания',
         'Toggle this widget' => 'Переключить показ этого блока',
-        'Automatic execution (multiple tickets)' => '',
+        'Automatic execution (multiple tickets)' => 'Автоматическое выполнение (несколько заявок)',
         'Execution Schedule' => '',
         'Schedule minutes' => 'Запускать в минуты',
         'Schedule hours' => 'Запускать в часы',
@@ -1146,22 +1147,22 @@ sub Data {
             'Это задание агента не запускается автоматически',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             'Для автоматического запуска укажите как минимум одно из значений в минутах, часах или днях!',
-        'Event based execution (single ticket)' => '',
-        'Event Triggers' => '',
+        'Event based execution (single ticket)' => 'Триггеры событий (одна заявка)',
+        'Event Triggers' => 'Триггеры событий',
         'List of all configured events' => '',
         'Delete this event' => 'Удалить это событие',
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
             '',
         'If a ticket event is fired, the ticket filter will be applied to check if the ticket matches. Only then the job is run on that ticket.' =>
             '',
-        'Do you really want to delete this event trigger?' => '',
-        'Add Event Trigger' => '',
+        'Do you really want to delete this event trigger?' => 'Вы действительно хотите удалить этот триггер события?',
+        'Add Event Trigger' => 'Добавить триггер события',
         'To add a new event select the event object and event name and click on the "+" button' =>
-            '',
-        'Duplicate event.' => '',
+            'Чтобы добавить новое событие выберите тип, событие и щелкните "+" кнопку.',
+        'Duplicate event.' => 'Дублировать событие',
         'This event is already attached to the job, Please use a different one.' =>
             '',
-        'Delete this Event Trigger' => '',
+        'Delete this Event Trigger' => 'Удаление Триггера События',
         'Ticket Filter' => 'Фильтр заявок',
         '(e. g. 10*5155 or 105658*)' => '(например, 10*5155 или 105658*)',
         '(e. g. 234321)' => '(например, 234321)',
@@ -1218,8 +1219,8 @@ sub Data {
         'New Dynamic Field Values' => 'Новые значения динамических полей',
         'Archive selected tickets' => 'Архивировать выбранные заявки',
         'Add Note' => 'Добавить заметку',
-        'Time units' => 'Единицы времени',
-        '(work units)' => '',
+        'Time units' => 'Затраченное время',
+        '(work units)' => '(мин.)',
         'Ticket Commands' => 'Команды по заявке',
         'Send agent/customer notifications on changes' => 'Отправлять уведомление агенту при изменениях',
         'CMD' => 'Команда',
@@ -1241,7 +1242,7 @@ sub Data {
         'Affected Tickets' => 'Выбранные задания',
 
         # Template: AdminGenericInterfaceDebugger
-        'GenericInterface Debugger for Web Service %s' => '',
+        'GenericInterface Debugger for Web Service %s' => 'Интерфейс отладки для Вебсервисов',
         'Web Services' => 'Вебсервисы',
         'Debugger' => 'Отладчик',
         'Go back to web service' => 'Перейти назад к веб сервису',
@@ -1341,7 +1342,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
         'GenericInterface Transport HTTP::SOAP for Web Service %s' => '',
-        'Network transport' => '',
+        'Network transport' => 'Сетевой транспорт',
         'Properties' => 'Свойства',
         'Endpoint' => '',
         'URI to indicate a specific location for accessing a service.' =>
@@ -1395,28 +1396,28 @@ sub Data {
         'The password for the proxy user.' => '',
 
         # Template: AdminGenericInterfaceWebservice
-        'GenericInterface Web Service Management' => '',
-        'Add web service' => '',
-        'Clone web service' => '',
+        'GenericInterface Web Service Management' => 'Интерфейс управления Вебсервисами',
+        'Add web service' => 'Добавить Вебсервис',
+        'Clone web service' => 'Дублировать Вебсервис',
         'The name must be unique.' => '',
-        'Clone' => '',
-        'Export web service' => '',
-        'Import web service' => '',
+        'Clone' => 'Дублировать',
+        'Export web service' => 'Экспорт Вебсервиса',
+        'Import web service' => 'Импорт Вебсервиса',
         'Configuration File' => '',
         'The file must be a valid web service configuration YAML file.' =>
             '',
         'Import' => 'Импорт',
         'Configuration history' => 'История конфигурации',
-        'Delete web service' => '',
+        'Delete web service' => 'Удалить Вебсервис',
         'Do you really want to delete this web service?' => '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             '',
         'If you want to return to overview please click the "Go to overview" button.' =>
             '',
-        'Web Service List' => '',
-        'Remote system' => '',
-        'Provider transport' => '',
-        'Requester transport' => '',
+        'Web Service List' => 'Список Вебсервисов',
+        'Remote system' => 'Удаленная система',
+        'Provider transport' => 'Транспорт провайдера',
+        'Requester transport' => 'Транспорт запрашиваюшего',
         'Details' => 'Подробно',
         'Debug threshold' => 'Порог отладки',
         'In provider mode, OTRS offers web services which are used by remote systems.' =>
@@ -1643,24 +1644,24 @@ sub Data {
         'Edit Priority' => 'Изменить приоритет',
 
         # Template: AdminProcessManagement
-        'Process Management' => '',
-        'Filter for Processes' => '',
-        'Process Name' => '',
-        'Create New Process' => '',
-        'Synchronize All Processes' => '',
+        'Process Management' => 'Управление процессами',
+        'Filter for Processes' => 'Фильтр процессов',
+        'Process Name' => 'Имя процесса',
+        'Create New Process' => 'Создание нового процесса',
+        'Synchronize All Processes' => 'Синхронизировать все процессы',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
-            '',
-        'Upload process configuration' => '',
-        'Import process configuration' => '',
+            'Здесь Вы можете загрузить конфигурационный файл, чтобы импортировать процесс к Вашей системе. Файл должен быть в формате .yml.',
+        'Upload process configuration' => 'Загрузить конфигурацию процесса',
+        'Import process configuration' => 'Импортировать конфигурацию процесса',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
-            '',
+            'Чтобы создать новый Процесс, Вы можете или импортировать Процесс, который экспортировался из другой системы, или создайте полностью новый.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             '',
-        'Processes' => '',
-        'Process name' => '',
+        'Processes' => 'Процессы',
+        'Process name' => 'Название процесса',
         'Print' => 'Печать',
-        'Export Process Configuration' => '',
-        'Copy Process' => '',
+        'Export Process Configuration' => 'Экспорт конфигурации процесса',
+        'Copy Process' => 'Скопировать процесс',
 
         # Template: AdminProcessManagementActivity
         'Cancel & close window' => 'Отменить и закрыть окно',
@@ -1734,8 +1735,8 @@ sub Data {
         # Template: AdminProcessManagementProcessEdit
         'Edit Process' => '',
         'Print process information' => '',
-        'Delete Process' => '',
-        'Delete Inactive Process' => '',
+        'Delete Process' => 'Удаление процесса',
+        'Delete Inactive Process' => 'Удалить неактивный процесс',
         'Available Process Elements' => '',
         'The Elements listed above in this sidebar can be moved to the canvas area on the right by using drag\'n\'drop.' =>
             '',
@@ -1755,9 +1756,9 @@ sub Data {
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
         'Edit this Activity' => '',
-        'Save settings' => '',
+        'Save settings' => 'Сохранить настройки',
         'Save Activities, Activity Dialogs and Transitions' => '',
-        'Do you really want to delete this Process?' => '',
+        'Do you really want to delete this Process?' => 'Вы действительно хотите удалить этот Процесс?',
         'Do you really want to delete this Activity?' => '',
         'Do you really want to delete this Activity Dialog?' => '',
         'Do you really want to delete this Transition?' => '',
@@ -1867,80 +1868,80 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
         'Filter for Templates' => '',
-        'Templates' => '',
+        'Templates' => 'Шаблоны',
         'Change Queue Relations for Template' => '',
         'Change Template Relations for Queue' => '',
 
         # Template: AdminRegistration
-        'System Registration Management' => '',
-        'Edit details' => '',
-        'Overview of registered systems' => '',
-        'Deregister system' => '',
-        'System Registration' => '',
-        'This system is registered with OTRS Group.' => '',
-        'System type' => '',
-        'Unique ID' => '',
-        'Last communication with registration server' => '',
-        'OTRS-ID Login' => '',
+        'System Registration Management' => 'Управление регистрацией',
+        'Edit details' => 'Редактировать информацию',
+        'Overview of registered systems' => 'Обзор зарегистрированных систем',
+        'Deregister system' => 'Удалить регистрацию системы',
+        'System Registration' => 'Регистрация системы',
+        'This system is registered with OTRS Group.' => 'Эта система зарегистрирована в OTRS Group.',
+        'System type' => 'Тип системы',
+        'Unique ID' => 'Уникальный индентификатор',
+        'Last communication with registration server' => 'Последняя связь с регистрационным сервером',
+        'OTRS-ID Login' => 'Уч. запись OTRS-ID',
         'System registration is a service of OTRS group, which provides a lot of advantages!' =>
-            '',
-        'Read more' => '',
+            'Регистрация системы - это сервис от OTRS group, который предоставляет много преимуществ!',
+        'Read more' => 'Подробно',
         'You need to log in with your OTRS-ID to register your system.' =>
-            '',
+            'Вы должны войти в систему со своей уч. записью OTRS-ID, чтобы зарегистрировать Вашу систему.',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
-            '',
-        'What are the advantages of system registration?' => '',
-        'You will receive updates about relevant security releases.' => '',
+            'Ваша уч. запись OTRS-ID - это адрес электронной почты, Вы раньше регистрировались в системе на веб-странице OTRS.com.',
+        'What are the advantages of system registration?' => 'Каковы преимущества регистрации системы?',
+        'You will receive updates about relevant security releases.' => 'Вы получите обновления о соответствующих выпусках безопасности.',
         'With your system registration we can improve our services for you, because we have all relevant information available.' =>
-            '',
-        'This is only the beginning!' => '',
+            'С Вашей регистрацией мы можем улучшить наши службы для Вас, потому что мы имеем всю релевантную информацию в наличии.',
+        'This is only the beginning!' => 'Это - только начало!',
         'We will inform you about our new services and offerings soon.' =>
-            '',
-        'Can I use OTRS without being registered?' => '',
-        'System registration is optional.' => '',
-        'You can download and use OTRS without being registered.' => '',
-        'Is it possible to deregister?' => '',
-        'You can deregister at any time.' => '',
-        'Which data is transfered when registering?' => '',
-        'A registered system sends the following data to OTRS Group:' => '',
+            'Мы сообщим Вам о наших новых службах и предложениях быстрее.',
+        'Can I use OTRS without being registered?' => 'Я могу использовать OTRS без регистрации?',
+        'System registration is optional.' => 'Регистрация как дополнительная опция.',
+        'You can download and use OTRS without being registered.' => 'Вы можете загрузить и использовать OTRS без регистрации.',
+        'Is it possible to deregister?' => 'Действительно ли возможно удалить регистрацию системы (отрегистрироватся)?',
+        'You can deregister at any time.' => 'В любое время Вы можете удалить регистрацию(отрегистрироватся).',
+        'Which data is transfered when registering?' => 'Какие данные будут переданы, при регистрации?',
+        'A registered system sends the following data to OTRS Group:' => 'Зарегистрированная система посылает следующие данные в OTRS Group:',
         'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
-            '',
-        'Why do I have to provide a description for my system?' => '',
-        'The description of the system is optional.' => '',
+            'Fully Qualified Domain Name (FQDN), версия OTRS, Базаданных, Операционная система и версия Perl',
+        'Why do I have to provide a description for my system?' => 'Почему я должен предоставить описание для своей системы?',
+        'The description of the system is optional.' => 'Описание системы (необязательно).',
         'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
-            '',
-        'How often does my OTRS system send updates?' => '',
+            'Описание и тип системы, который Вы определяете сами, это помогает Вам идентифицировать и управлять деталями своих зарегистрированных систем.',
+        'How often does my OTRS system send updates?' => 'Как часто моя система OTRS отправляет обновления(отчеты)?',
         'Your system will send updates to the registration server at regular intervals.' =>
-            '',
-        'Typically this would be around once every three days.' => '',
+            'Ваша система отправит обновления (отчет) на сервер OTRS group периодически.',
+        'Typically this would be around once every three days.' => 'Обычно это происходит один раз в три дня.',
         'In case you would have further questions we would be glad to answer them.' =>
-            '',
-        'Please visit our' => '',
-        'portal' => '',
-        'and file a request.' => '',
+            'В случае, если у Вас возникли вопросы, мы будем рады ответить на них.',
+        'Please visit our' => 'Посетите наш',
+        'portal' => 'портал',
+        'and file a request.' => 'и задайте вопрос.',
         'If you deregister your system, you will loose these benefits:' =>
-            '',
+            'Если Вы удалите зарегистрированую систему, то Вы потеряете следующие преимущества:',
         'You need to log in with your OTRS-ID to deregister your system.' =>
-            '',
-        'OTRS-ID' => '',
-        'You don\'t have an OTRS-ID yet?' => '',
+            'Вы должны войти в систему под своей уч. записью OTRS-ID, чтобы удалить зарегистрированую Вашу систему.',
+        'OTRS-ID' => 'OTRS-ID',
+        'You don\'t have an OTRS-ID yet?' => 'У Вас еще нет уч. записи OTRS-ID?',
         'Sign up now' => 'Войти',
-        'Forgot your password?' => '',
-        'Retrieve a new one' => '',
+        'Forgot your password?' => 'Забыли свой пароль?',
+        'Retrieve a new one' => 'Получите новый',
         'This data will be frequently transferred to OTRS Group when you register this system.' =>
-            '',
+            'Эти данные будут часто передаваться OTRS Group, когда Вы зарегистрируете эту систему.',
         'Attribute' => 'Атрибут',
-        'FQDN' => '',
-        'OTRS Version' => '',
-        'Operating System' => '',
-        'Perl Version' => '',
-        'Optional description of this system.' => '',
-        'Register' => '',
-        'Deregister System' => '',
+        'FQDN' => 'Полное имя домена',
+        'OTRS Version' => 'Версия OTRS',
+        'Operating System' => 'Операционная система',
+        'Perl Version' => 'Версия Perl',
+        'Optional description of this system.' => 'Необязательное описание этой системы',
+        'Register' => 'Регистрация',
+        'Deregister System' => 'Удалить зарегистрированиую систему(отрегистрировать)',
         'Continuing with this step will deregister the system from OTRS Group.' =>
-            '',
-        'Deregister' => '',
-        'You can modify the system type and description here.' => '',
+            'Продолжите этот шаг и вы удалите зарегистрированиую ситему из скписка OTRS Group.',
+        'Deregister' => 'Удалить регистрацию',
+        'You can modify the system type and description here.' => 'Вы можете изменить тип системы и описание здесь.',
 
         # Template: AdminRole
         'Role Management' => 'Управление ролями',
@@ -2140,16 +2141,16 @@ sub Data {
             'Отображаемое имя и адрес электронной почты будут показываться в отправляемой вами почте.',
 
         # Template: AdminTemplate
-        'Manage Templates' => '',
-        'Add template' => '',
+        'Manage Templates' => 'Управление шаблонами',
+        'Add template' => 'Добавить шаблон',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
-            '',
-        'Don\'t forget to add new templates to queues.' => '',
-        'Add Template' => '',
-        'Edit Template' => '',
-        'Template' => '',
-        'Create type templates only supports this smart tags' => '',
-        'Example template' => '',
+            'Шаблон - текст по умолчанию, который помогает Вашим агентам писать более быстрые заявки, ответы или перенаправления.',
+        'Don\'t forget to add new templates to queues.' => 'Не забывайте добавлять новые шаблоны к очередям.',
+        'Add Template' => 'Добавить шаблон',
+        'Edit Template' => 'Изменить шаблон',
+        'Template' => 'Шаблон',
+        'Create type templates only supports this smart tags' => 'Создайте шаблоны типа, только поддерживает это умные теги',
+        'Example template' => 'Пример шаблона',
         'The current ticket state is' => 'Текущее состояние заявки',
         'Your email address is' => 'Ваш email адрес ',
 
@@ -2201,7 +2202,7 @@ sub Data {
         'Apply' => 'Применить',
 
         # Template: AgentCustomerInformationCenter
-        'Customer Information Center' => '',
+        'Customer Information Center' => 'Информация о клиенте',
 
         # Template: AgentCustomerInformationCenterBlank
 
@@ -2413,7 +2414,7 @@ sub Data {
         'Set Pending' => 'Поставить в ожидание',
         'Change Priority of Ticket' => 'Изменить приоритет заявки',
         'Change Responsible of Ticket' => 'Изменить ответственного заявки',
-        'All fields marked with an asterisk (*) are mandatory.' => '',
+        'All fields marked with an asterisk (*) are mandatory.' => 'Все поля, отмеченные со звездочкой (*), обязательны.',
         'Service invalid.' => 'Некорректный сервис.',
         'New Owner' => 'Новый владелец',
         'Please set a new owner!' => 'Пожалуйста, установите',
@@ -2941,7 +2942,7 @@ sub Data {
         '(UserLogin) Lastname, Firstname' => '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '',
-        'Access Control Lists (ACL)' => '',
+        'Access Control Lists (ACL)' => 'Списки управления доступом (ACL)',
         'AccountedTime' => '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             '',
@@ -3044,7 +3045,7 @@ sub Data {
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             '',
         'ArticleTree' => '',
-        'Attachments <-> Templates' => '',
+        'Attachments <-> Templates' => 'Вложения <-> Шаблоны',
         'Auto Responses <-> Queues' => 'Автоответы <-> Очередь',
         'Automated line break in text messages after x number of chars.' =>
             '',
@@ -3090,12 +3091,12 @@ sub Data {
         'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => '',
-        'Company Status' => '',
+        'Company Status' => 'Информация по компании клиента',
         'Company Tickets' => 'Заявки компании',
         'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
-        'Configure Processes.' => '',
-        'Configure and manage ACLs.' => '',
+        'Configure Processes.' => 'Настройка процессов',
+        'Configure and manage ACLs.' => 'Настройка и управление списками доступа(ACLs).',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
@@ -3110,8 +3111,8 @@ sub Data {
         'Create and manage Service Level Agreements (SLAs).' => 'Создание и управление Соглашениями об Уровне Сервиса (SLA-ми).',
         'Create and manage agents.' => 'Создание и управление агентами.',
         'Create and manage attachments.' => 'Создание и управление вложениями.',
-        'Create and manage customer users.' => '',
-        'Create and manage customers.' => 'Создание и управление клиентами.',
+        'Create and manage customer users.' => 'Создание и управление клиентом.',
+        'Create and manage customers.' => 'Создание и управление компаниями.',
         'Create and manage dynamic fields.' => 'Создание и управление динамическими полями.',
         'Create and manage event based notifications.' => 'Создание и управление уведомлениями по событию.',
         'Create and manage groups.' => 'Создание и управление группами.',
@@ -3121,21 +3122,21 @@ sub Data {
         'Create and manage salutations.' => 'Создание и управление приветствиями.',
         'Create and manage services.' => 'Создание и управление сервисами.',
         'Create and manage signatures.' => 'Создание и управление подписями.',
-        'Create and manage templates.' => '',
+        'Create and manage templates.' => 'Создание и управление шаблонами.',
         'Create and manage ticket priorities.' => 'Создание и управление приоритетами заявок.',
         'Create and manage ticket states.' => 'Создание и управление состояними заявок.',
         'Create and manage ticket types.' => 'Создание и управление типами заявок.',
-        'Create and manage web services.' => '',
+        'Create and manage web services.' => 'Создание и управление вебсервисами.',
         'Create new email ticket and send this out (outbound)' => 'Создать заявку по email (исходящую) и отправить ее',
         'Create new phone ticket (inbound)' => 'Создать телефонную заявку (входящую)',
         'Create new process ticket' => '',
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
-        'Customer Company Administration' => '',
-        'Customer Company Information' => '',
-        'Customer User <-> Groups' => '',
-        'Customer User <-> Services' => '',
-        'Customer User Administration' => '',
+        'Customer Company Administration' => 'Управление компаниями клиентов',
+        'Customer Company Information' => 'Информация о компании клиента',
+        'Customer User <-> Groups' => 'Клиенты <-> Группы',
+        'Customer User <-> Services' => 'Клиенты <-> Сервисы',
+        'Customer User Administration' => 'Управление клиентами',
         'Customer Users' => 'Клиенты',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
@@ -3885,7 +3886,7 @@ sub Data {
             '',
         'Event module that updates tickets after an update of the Customer User.' =>
             '',
-        'Execute SQL statements.' => '',
+        'Execute SQL statements.' => 'Выполнение SQL запросов.',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '',
         'Executes follow up mail attachments checks in  mails that don\'t have a ticket number in the subject.' =>
@@ -4077,16 +4078,16 @@ sub Data {
             '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
             '',
-        'Lastname, Firstname' => '',
+        'Lastname, Firstname' => 'Имя, Фамилия',
         'Lastname, Firstname (UserLogin)' => '',
         'Link agents to groups.' => 'Связать агентов с группами.',
         'Link agents to roles.' => 'Связать агентов с ролями.',
-        'Link attachments to templates.' => '',
-        'Link customer user to groups.' => '',
-        'Link customer user to services.' => '',
+        'Link attachments to templates.' => 'Связать вложения с шаблонами.',
+        'Link customer user to groups.' => 'Связать клиентов с группами.',
+        'Link customer user to services.' => 'Связать клиентов с сервисами.',
         'Link queues to auto responses.' => 'Связать очереди с автоответами.',
         'Link roles to groups.' => 'Связать роли с группами.',
-        'Link templates to queues.' => '',
+        'Link templates to queues.' => 'Связать шаблоны с очередями.',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -4119,11 +4120,11 @@ sub Data {
             '',
         'Manage PGP keys for email encryption.' => 'Управления PGP ключами для шифрования почтовых сообщений.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Управление POP3 или IMAP учетными записями для получения почтовых сообщений.',
-        'Manage S/MIME certificates for email encryption.' => '',
+        'Manage S/MIME certificates for email encryption.' => 'Управляйте сертификатами S/MIME для шифрования почты.',
         'Manage existing sessions.' => 'Управление активными сеансами.',
-        'Manage notifications that are sent to agents.' => '',
-        'Manage system registration.' => '',
-        'Manage tasks triggered by event or time based execution.' => '',
+        'Manage notifications that are sent to agents.' => 'Управляйте уведомлениями, которые отправляют агенты.',
+        'Manage system registration.' => 'Регистрация системы на портале OTRS Group',
+        'Manage tasks triggered by event or time based execution.' => 'Управляйте задачами, инициированными событием, или выполненные по времени.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4323,7 +4324,7 @@ sub Data {
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             '',
-        'S/MIME Certificate Upload' => '',
+        'S/MIME Certificate Upload' => 'Загрузка Сертификата S/MIME',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Search Customer' => 'Искать клиента',
@@ -4769,7 +4770,7 @@ sub Data {
         'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
-        'Templates <-> Queues' => '',
+        'Templates <-> Queues' => 'Шаблоны <-> Очереди',
         'Textarea' => '',
         'The "bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.' =>
             '',
@@ -4853,7 +4854,7 @@ sub Data {
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
-        ' (work units)' => ' (рабочие единицы)',
+        ' (work units)' => ' (мин.)',
         '%s Tickets affected! Do you really want to use this job?' => '%s заявок будет изменено! Выполнить это задание?',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' =>
             'Проверять MX-записи домена, на который отправляется email при ответе. Не используйте эту возможность, если сервер с OTRS доступен по слабому каналу!',
@@ -4923,6 +4924,7 @@ sub Data {
         'All Agents' => 'Все агенты',
         'All Customer variables like defined in config option CustomerUser.' =>
             'Все дополнительные поля информации о клиенте определяются параметрах пользователя.',
+        'All Perl modules needed are currently installed.' => 'Все необходимые модули Perl, установлены.',
         'All customer tickets.' => 'Все заявки клиента.',
         'All email addresses get excluded on replaying on composing an email.' =>
             'Все адреса, исключаемые при ответе на письмо',
@@ -4975,6 +4977,22 @@ sub Data {
         'Change user <-> group settings' => 'Группы пользователей',
         'Change users <-> roles settings' => 'Изменить распределения ролей по пользователям',
         'ChangeLog' => 'Журнал изменений',
+        'Check "System Time" vs "Current Timestamp".' => 'Проверка "Системное время" по сравнению с "Текущим временем".',
+        'Check "max_allowed_packet" setting.' => 'Проверка настройки "max_allowed_packet".',
+        'Check "query_cache_size" setting.' => 'Проверка настройки "query_cache_size"',
+        'Check Default Storage Engine.' => 'Проверка механизма храниния по умолчанию.',
+        'Check Perl Modules installed.' => 'Проверка установленных Perl модулей',
+        'Check Perl version.' => 'Проверка версии Perl',
+        'Check database version.' => 'Проверка версии базы данных.',
+        'Check disk usage.' => 'Проверка использования диска.',
+        'Check for CGI Accelerator.' => 'Проверка использования CGI Accelerator.',
+        'Check if the client uses utf8 for the connection.' => 'Проверка, использует ли клиент utf8 для соединения.',
+        'Check if the database uses utf8 as charset.' => 'Проверка, использует ли база данных utf8 кодировку.',
+        'Check if the system uses Apache::DBI.' => 'Проверка использования Apache::DBI.',
+        'Check if the system uses Apache::Reload/Apache2::Reload.' => 'Проверка использования Apache::Reload/Apache2::Reload.',
+        'Check if the system uses mod_deflate.' => 'Проверка использования mod_deflate.',
+        'Check if the system uses mod_headers.' => 'Проверка использования mod_headers.',
+        'Check the utf8 table charset collation.' => 'Проверка использования таблицами utf8 кодировки.',
         'Child-Object' => 'Объект-потомок',
         'Clear From' => 'Очистить форму',
         'Clear To' => 'Очистить',
@@ -5041,6 +5059,9 @@ sub Data {
             'Не нашли требуемую возможность/функцию? OTRS Group предоставляет купившим подписку клиентам эксклюзивные Адд-Оны:',
         'Diff' => 'Diff',
         'Discard all changes and return to the compose screen' => 'Отказаться от всех изменений и вернуться в окно составления письма',
+        'Disk is full' => 'Диск заполнен',
+        'Display environment variables' => 'Переменные среды',
+        'Display web server version.' => 'Версия Веб сервера',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' =>
             'Обрабатывать или отфильтровывать входящие письма на основе полей заголовка! Возможно использование регулярных выражений.',
         'Do you really want to delete this Object?' => 'Удалить этот объект?',
@@ -5089,6 +5110,7 @@ sub Data {
         'Frontend' => 'Режим пользователя',
         'Fulltext search' => 'Полнотекстовый поиск',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Полнотекстовый поиск в заявке (например, «Mar*in» или «Baue*»)',
+        'General information about your system.' => 'Общая информация о Вашей системе.',
         'Go' => 'Выполнить',
         'Group Ro' => 'Группа только для чтения',
         'Group based' => 'Группа',
@@ -5130,6 +5152,7 @@ sub Data {
         'In this form you can select the basic specifications.' => 'В данной форме вы можете выбрать основные требования.',
         'Information about the Stat' => 'Информация об отчете',
         'Insert of the common specifications' => 'Вставьте дополнительные требования',
+        'Install Information' => 'Информация по установке',
         'Invalid SessionID!' => 'Неверный идентификатор сессии!',
         'Involved' => 'Привлечение',
         'Is Job Valid' => 'Данная задача действительна',
@@ -5358,7 +5381,10 @@ sub Data {
         'Show' => 'Показать',
         'Show  article' => 'Показать сообщение',
         'Shows the ticket history!' => 'Показать историю заявки!',
+        'Shows the used Kernel version.' => 'Используемая версия Ядра',
+        'Shows the used distribution.' => 'Используемый дистрибутив.',
         'Site' => 'Место',
+        'Size of the current database.' => 'Размер базы данных.',
         'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
             'Пропуск этого шага автоматически пропустит и регистрацию вашей OTRS. Вы действительно хотите продолжить?',
         'Solution' => 'Решение',
@@ -5373,6 +5399,7 @@ sub Data {
         'Sub-Service of' => 'Дополнительная сервис для',
         'Subgroup \'' => 'Подгруппа \'',
         'Subscribe' => 'Подписаться',
+        'Support Assessment' => 'Состояние системы',
         'Symptom' => 'Признак',
         'System History' => 'История',
         'System State Management' => 'Управление системными состояниями',
@@ -5491,6 +5518,7 @@ sub Data {
         'for ' => 'для',
         'for agent firstname' => 'для агента — имя',
         'for agent lastname' => 'для агента — фамилия',
+        'is used.' => 'используется.',
         'kill all sessions' => 'Закрыть все текущие сеансы',
         'kill session' => 'Завершить сеанс',
         'maximal period form' => 'Максимальный период с',
