@@ -2880,30 +2880,41 @@ sub SendAutoResponse {
     }
 
     # send email
-    my $ArticleID = $Self->ArticleSend(
-        ArticleType    => 'email-external',
-        SenderType     => 'system',
-        TicketID       => $Param{TicketID},
-        HistoryType    => $HistoryType,
-        HistoryComment => "\%\%$AutoReplyAddresses",
-        From           => "$AutoResponse{SenderRealname} <$AutoResponse{SenderAddress}>",
-        To             => $AutoReplyAddresses,
-        Cc             => $Cc,
-        Charset        => $AutoResponse{Charset},
-        MimeType       => $AutoResponse{ContentType},
-        Subject        => $AutoResponse{Subject},
-        Body           => $AutoResponse{Text},
-        InReplyTo      => $OrigHeader{'Message-ID'},
-        Loop           => 1,
-        UserID         => $Param{UserID},
-    );
+    if ( @AutoReplyAddresses ) {
+        my $ArticleID = $Self->ArticleSend(
+            ArticleType    => 'email-external',
+            SenderType     => 'system',
+            TicketID       => $Param{TicketID},
+            HistoryType    => $HistoryType,
+            HistoryComment => "\%\%$AutoReplyAddresses",
+            From           => "$AutoResponse{SenderRealname} <$AutoResponse{SenderAddress}>",
+            To             => $AutoReplyAddresses,
+            Cc             => $Cc,
+            Charset        => $AutoResponse{Charset},
+            MimeType       => $AutoResponse{ContentType},
+            Subject        => $AutoResponse{Subject},
+            Body           => $AutoResponse{Text},
+            InReplyTo      => $OrigHeader{'Message-ID'},
+            Loop           => 1,
+            UserID         => $Param{UserID},
+        );
+    
+        # log
+        $Self->{LogObject}->Log(
+            Priority => 'info',
+            Message  => "Sent auto response ($HistoryType) for Ticket [$Ticket{TicketNumber}]"
+                . " (TicketID=$Param{TicketID}, ArticleID=$ArticleID) to '$AutoReplyAddresses'."
+        );
+    }
+    else {
+        # log
+        $Self->{LogObject}->Log(
+            Priority => 'info',
+            Message  => "No auto response addresses for Ticket [$Ticket{TicketNumber}]"
+                . " (TicketID=$Param{TicketID}, ArticleID=$ArticleID).."
+        );
+    }
 
-    # log
-    $Self->{LogObject}->Log(
-        Priority => 'info',
-        Message  => "Sent auto response ($HistoryType) for Ticket [$Ticket{TicketNumber}]"
-            . " (TicketID=$Param{TicketID}, ArticleID=$ArticleID) to '$AutoReplyAddresses'."
-    );
 
     # event
     $Self->EventHandler(
