@@ -5348,7 +5348,7 @@ via the Preferences button after logging in.
         <Group>Framework</Group>
         <SubGroup>Core::Stats</SubGroup>
         <Setting>
-            <String>stats1;stats2</String>
+            <String>stats</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Core::MirrorDB::DSN" Required="0" Valid="0" ConfigLevel="200">
