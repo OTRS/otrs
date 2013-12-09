@@ -1,4 +1,5 @@
 #3.3.4 201?-??-??
+ - 2013-12-09 Fixed bug#[10077](http://bugs.otrs.org/show_bug.cgi?id=10077) - regular expressions in postmaster filter return 1 if no regex match.
  - 2013-12-09 Fixed bug#[10075](http://bugs.otrs.org/show_bug.cgi?id=10075) - Stats widgets permission group is hardcoded to "stats"
  - 2013-12-06 Updated Swedish translation, thanks to Andreas Berger.
  - 2013-12-06 Updated Russian translation, thanks to Andrey N. Burdin.
