@@ -107,6 +107,9 @@ sub Run {
     if ( $Self->{Action} eq 'AgentDashboard' && !$IsIE8 ) {
         my $StatsHash = $Self->{StatsObject}->StatsListGet();
 
+        my $StatsPermissionGroups
+            = $Self->{ConfigObject}->Get('Stats::DashboardPermissions') || 'stats';
+
         if ( IsHashRefWithData($StatsHash) ) {
             STATID:
             for my $StatID ( sort keys %{$StatsHash} ) {
@@ -129,7 +132,7 @@ sub Run {
                     'Title'       => $Title,
                     'StatID'      => $StatID,
                     'Description' => $Description,
-                    'Group'       => 'stats',
+                    'Group'       => $StatsPermissionGroups,
                 };
             }
         }
