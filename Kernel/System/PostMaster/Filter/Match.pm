@@ -67,8 +67,9 @@ sub Run {
     }
 
     # match 'Match => ???' stuff
-    my $Matched    = '';
-    my $MatchedNot = 0;
+    my $Matched       = '';
+    my $MatchedNot    = 0;
+    my $MatchedResult = '';
     for ( sort keys %Match ) {
 
         # match only email addresses
@@ -81,7 +82,10 @@ sub Run {
             for my $Recipients (@EmailAddresses) {
                 my $Email = $Self->{ParserObject}->GetEmailAddress( Email => $Recipients );
                 if ( $Email =~ /^$SearchEmail$/i ) {
-                    $LocalMatched = $SearchEmail || 1;
+                    $LocalMatched = 1;
+                    if ($SearchEmail) {
+                        $MatchedResult = $SearchEmail;
+                    }
                     if ( $Self->{Debug} > 1 ) {
                         $Self->{LogObject}->Log(
                             Priority => 'debug',
@@ -95,7 +99,7 @@ sub Run {
                 $MatchedNot = 1;
             }
             else {
-                $Matched = $LocalMatched;
+                $Matched = 1;
             }
         }
 
@@ -104,11 +108,9 @@ sub Run {
 
             # don't lose older match values if more than one header is
             # used for matching.
+            $Matched = 1;
             if ($1) {
-                $Matched = $1;
-            }
-            else {
-                $Matched = $Matched || '1';
+                $MatchedResult = $1;
             }
             if ( $Self->{Debug} > 1 ) {
                 $Self->{LogObject}->Log(
@@ -130,8 +132,8 @@ sub Run {
 
     # should I ignore the incoming mail?
     if ( $Matched && !$MatchedNot ) {
-        for ( keys %Set ) {
-            $Set{$_} =~ s/\[\*\*\*\]/$Matched/;
+        for ( sort keys %Set ) {
+            $Set{$_} =~ s/\[\*\*\*\]/$MatchedResult/;
             $Param{GetParam}->{$_} = $Set{$_};
             $Self->{LogObject}->Log(
                 Priority => 'notice',
