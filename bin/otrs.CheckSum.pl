@@ -145,14 +145,16 @@ sub R {
             if ( !$Compare{$File} ) {
                 print "Notice: New $File\n";
             }
-            elsif ( $Compare{$File} ne $Digest ) {
+            elsif ( $Compare{$File} ne $Digest && !-e "$File.save" ) {     ## ignore files with .save 
                 print "Notice: Dif $File\n";
+            } 
+            elsif ( -e "$File.save") {     ## report .save files as modified by the OTRS Package Manager
+                print "Notice: OPM Changed $File\n"
             }
             if ( defined $Compare{$File} ) {
                 delete $Compare{$File};
             }
         }
     }
-
     return 1;
 }
