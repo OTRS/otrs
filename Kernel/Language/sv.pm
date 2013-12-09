@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
-# Copyright (C) 2012 Andreas Berger" <andreas.berger at hagfors.se>
+# Copyright (C) 2013 Andreas Berger" <andreas.berger at hagfors.se>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,15 +46,15 @@ sub Data {
         'Done' => 'Klar',
         'Cancel' => 'Avbryt',
         'Reset' => 'Nollställ',
-        'more than ... ago' => '',
+        'more than ... ago' => 'mer än ... sedan',
         'in more than ...' => '',
-        'within the last ...' => '',
-        'within the next ...' => '',
+        'within the last ...' => 'inom de senaste ...',
+        'within the next ...' => 'inom de nästa ...',
         'Created within the last' => '',
         'Created more than ... ago' => '',
         'Today' => 'Idag',
         'Tomorrow' => 'Imorgon',
-        'Next week' => '',
+        'Next week' => 'Nästa vecka',
         'day' => 'dag',
         'days' => 'dagar',
         'day(s)' => 'dag(ar)',
@@ -212,7 +212,7 @@ sub Data {
         'Medium' => 'Mellan',
         'Large' => 'Stor',
         'Date picker' => 'Datumväljare',
-        'Show Tree Selection' => '',
+        'Show Tree Selection' => 'Visa trädval',
         'The field content is too long!' => '',
         'Maximum size is %s characters.' => '',
         'This field is required or' => '',
@@ -636,10 +636,10 @@ sub Data {
         'End forwarded message' => '',
         'new' => 'ny',
         'open' => 'öppen',
-        'Open' => 'Öppen',
+        'Open' => 'Öppna',
         'Open tickets' => 'Öppna ärenden',
         'closed' => 'stängt',
-        'Closed' => 'Stängt',
+        'Closed' => 'Stängda',
         'Closed tickets' => 'Stängda ärenden',
         'removed' => 'borttagen',
         'pending reminder' => 'väntar på påminnelse',
@@ -718,7 +718,7 @@ sub Data {
         'Show the ticket history' => 'Visa ärende-historik',
         'Print this ticket' => 'Skriv ut detta ärende',
         'Print this article' => 'Skriv ut den här artikeln',
-        'Split' => '',
+        'Split' => 'Dela',
         'Split this article' => 'Dela den här artikeln',
         'Forward article via mail' => 'Vidarebefordra artikeln via e-post',
         'Change the ticket priority' => 'Ändra ärendets prioritet',
@@ -806,7 +806,7 @@ sub Data {
             '',
         'Archived tickets' => 'Arkiverade ärenden',
         'Unarchived tickets' => 'Oarkiverade ärenden',
-        'Ticket Information' => '',
+        'Ticket Information' => 'Ärende-information',
         'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
         'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
@@ -869,7 +869,7 @@ sub Data {
         'Configuration import' => '',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             '',
-        'This field is required.' => '',
+        'This field is required.' => 'Detta fält är obligatoriskt',
         'Overwrite existing ACLs?' => '',
         'Upload ACL configuration' => '',
         'Import ACL configuration(s)' => '',
@@ -883,7 +883,7 @@ sub Data {
         'ACL name' => '',
         'Validity' => '',
         'Copy' => '',
-        'No data found.' => '',
+        'No data found.' => 'Ingen data hittades.',
 
         # Template: AdminACLEdit
         'Edit ACL %s' => '',
@@ -972,7 +972,7 @@ sub Data {
         'Add Customer User' => '',
         'Edit Customer User' => '',
         'This field is required and needs to be a valid email address.' =>
-            '',
+            'Detta fält är obligatoriskt och måste vara en giltig epost-adress',
         'This email address is not allowed due to the system configuration.' =>
             '',
         'This email address failed MX check.' => '',
@@ -2191,7 +2191,7 @@ sub Data {
         'Add email address %s to the To field' => '',
         'Add email address %s to the Cc field' => '',
         'Add email address %s to the Bcc field' => '',
-        'Apply' => '',
+        'Apply' => 'Verkställ',
 
         # Template: AgentCustomerInformationCenter
         'Customer Information Center' => '',
@@ -2199,7 +2199,7 @@ sub Data {
         # Template: AgentCustomerInformationCenterBlank
 
         # Template: AgentCustomerInformationCenterSearch
-        'Customer ID' => '',
+        'Customer ID' => 'KundID',
         'Customer User' => 'Kundanvändare',
 
         # Template: AgentCustomerSearch
@@ -2227,12 +2227,12 @@ sub Data {
 
         # Template: AgentDashboardCustomerUserList
         'Customer information' => 'Kundinformation',
-        'Phone ticket' => '',
-        'Email ticket' => '',
+        'Phone ticket' => 'Telefonärende',
+        'Email ticket' => 'Epost-ärende',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
-        'New phone ticket from %s' => '',
-        'New email ticket to %s' => '',
+        'New phone ticket from %s' => 'Nytt telefonärende från %s',
+        'New email ticket to %s' => 'Nytt e-postärende från %s',
 
         # Template: AgentDashboardIFrame
 
@@ -2325,7 +2325,7 @@ sub Data {
         'Finish' => 'Slut',
 
         # Template: AgentStatsEditSpecification
-        'Permissions' => '',
+        'Permissions' => 'Behörigheter',
         'You can select one or more groups to define access for different agents.' =>
             '',
         'Some result formats are disabled because at least one needed package is not installed.' =>
@@ -2406,7 +2406,7 @@ sub Data {
         'Set Pending' => 'Markera som väntande',
         'Change Priority of Ticket' => '',
         'Change Responsible of Ticket' => '',
-        'All fields marked with an asterisk (*) are mandatory.' => '',
+        'All fields marked with an asterisk (*) are mandatory.' => 'Alla fält markerade med en asterisk (*) är obligatoriska.',
         'Service invalid.' => '',
         'New Owner' => 'Ny Ägare',
         'Please set a new owner!' => 'Vänligen sätt en ny ägare!',
@@ -2451,23 +2451,23 @@ sub Data {
             '',
         'Remove Cc' => '',
         'Remove Bcc' => '',
-        'Address book' => '',
+        'Address book' => 'Adressbok',
         'Pending Date' => 'Väntar till',
         'for pending* states' => 'för väntetillstånd',
         'Date Invalid!' => '',
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Ändra kund för ärende',
-        'Customer user' => '',
+        'Customer user' => 'Användare',
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Skapa nytt e-postärende',
         'From queue' => 'Från kö',
-        'To customer user' => '',
+        'To customer user' => 'Till kundanvändare',
         'Please include at least one customer user for the ticket.' => '',
-        'Select this customer as the main customer.' => '',
+        'Select this customer as the main customer.' => 'Sätt den här användaren som den primära användaren',
         'Remove Ticket Customer User' => '',
-        'Get all' => '',
+        'Get all' => 'Hämta alla',
         'Text Template' => '',
 
         # Template: AgentTicketEscalation
@@ -2600,9 +2600,9 @@ sub Data {
         'Add Filter' => '',
         'Set' => 'Använd',
         'Reset Filter' => '',
-        'Show one article' => '',
-        'Show all articles' => '',
-        'Unread articles' => '',
+        'Show one article' => 'Visa en artikel',
+        'Show all articles' => 'Visa alla artiklar',
+        'Unread articles' => 'Olästa artiklar',
         'No.' => '',
         'Important' => '',
         'Unread Article!' => '',
@@ -2664,8 +2664,8 @@ sub Data {
         'Your email address (this will become your username)' => '',
 
         # Template: CustomerNavigationBar
-        'Edit personal preferences' => '',
-        'Logout %s' => '',
+        'Edit personal preferences' => 'Ändra personliga inställningar',
+        'Logout %s' => 'Logga ut %s',
 
         # Template: CustomerPreferences
 
@@ -2676,8 +2676,8 @@ sub Data {
 
         # Template: CustomerTicketOverview
         'Welcome!' => 'Välkommen!',
-        'Please click the button below to create your first ticket.' => '',
-        'Create your first ticket' => '',
+        'Please click the button below to create your first ticket.' => 'Vänligen klicka på knappen nedan för att skapa ditt första ärende',
+        'Create your first ticket' => 'Skapa ditt första ärende',
 
         # Template: CustomerTicketPrint
         'Ticket Print' => '',
@@ -2691,19 +2691,19 @@ sub Data {
         'Profile' => 'Profil',
         'e. g. 10*5155 or 105658*' => '',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => '',
-        'Carbon Copy' => '',
-        'Types' => '',
-        'Time restrictions' => '',
-        'No time settings' => '',
-        'Only tickets created' => '',
-        'Only tickets created between' => '',
+        'Carbon Copy' => 'Kopia',
+        'Types' => 'Typer',
+        'Time restrictions' => 'Tidsrestriktioner',
+        'No time settings' => 'Inga tidsinställningar',
+        'Only tickets created' => 'Bara ärenden skapade',
+        'Only tickets created between' => 'Bara ärenden skapade mellan',
         'Ticket archive system' => '',
-        'Save search as template?' => '',
-        'Save as Template?' => '',
-        'Save as Template' => '',
-        'Template Name' => '',
-        'Pick a profile name' => '',
-        'Output to' => '',
+        'Save search as template?' => 'Spara sökning som mall?',
+        'Save as Template?' => 'Spara som mall?',
+        'Save as Template' => 'Spara som mall',
+        'Template Name' => 'Mallnamn',
+        'Pick a profile name' => 'Välj ett profilnamn',
+        'Output to' => 'Utdata till',
 
         # Template: CustomerTicketSearchOpenSearchDescription
 
@@ -2716,28 +2716,28 @@ sub Data {
 
         # Template: CustomerTicketZoom
         'Expand article' => '',
-        'Information' => '',
+        'Information' => 'Information',
         'Next Steps' => '',
-        'Reply' => '',
+        'Reply' => 'Svara',
 
         # Template: CustomerWarning
 
         # Template: DashboardEventsTicketCalendar
         'All-day' => '',
-        'Sunday' => '',
-        'Monday' => '',
-        'Tuesday' => '',
-        'Wednesday' => '',
-        'Thursday' => '',
-        'Friday' => '',
-        'Saturday' => '',
-        'Su' => '',
-        'Mo' => '',
-        'Tu' => '',
-        'We' => '',
-        'Th' => '',
-        'Fr' => '',
-        'Sa' => '',
+        'Sunday' => 'Söndag',
+        'Monday' => 'Måndag',
+        'Tuesday' => 'Tisdag',
+        'Wednesday' => 'Onsdag',
+        'Thursday' => 'Torsdag',
+        'Friday' => 'Fredag',
+        'Saturday' => 'Lördag',
+        'Su' => 'Sö',
+        'Mo' => 'Må',
+        'Tu' => 'Ti',
+        'We' => 'On',
+        'Th' => 'To',
+        'Fr' => 'Fr',
+        'Sa' => 'Lö',
         'Event Information' => '',
         'Ticket fields' => '',
         'Dynamic fields' => '',
@@ -3085,7 +3085,7 @@ sub Data {
             '',
         'Comment for new history entries in the customer interface.' => '',
         'Company Status' => '',
-        'Company Tickets' => '',
+        'Company Tickets' => 'Företagets ärenden',
         'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
         'Configure Processes.' => '',
@@ -4068,7 +4068,7 @@ sub Data {
             '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '',
-        'Interface language' => '',
+        'Interface language' => 'Gränssnittsspråk',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
             '',
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
@@ -4175,7 +4175,7 @@ sub Data {
             '',
         'Module to use database filter storage.' => '',
         'Multiselect' => '',
-        'My Tickets' => '',
+        'My Tickets' => 'Mina ärenden',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
@@ -4187,7 +4187,7 @@ sub Data {
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
         'Notifications (Event)' => 'Meddelande (Akitivtet)',
-        'Number of displayed tickets' => '',
+        'Number of displayed tickets' => 'Antal visade ärenden',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
@@ -4281,7 +4281,7 @@ sub Data {
         'Recognize if a ticket is a follow up to an existing ticket using an external ticket number.' =>
             '',
         'Refresh Overviews after' => '',
-        'Refresh interval' => '',
+        'Refresh interval' => 'Uppdateringsintervall',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4813,8 +4813,8 @@ sub Data {
         'Ticket Queue Overview' => '',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
-        'Ticket overview' => '',
-        'TicketNumber' => '',
+        'Ticket overview' => 'Ärendeöversikt',
+        'TicketNumber' => 'Ärendenummer',
         'Tickets' => 'Ärenden',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
