@@ -5343,6 +5343,14 @@ via the Preferences button after logging in.
             <String Regex="^[0-9]{1,5}$">1000</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Stats::DashboardPermissions" Required="0" Valid="1">
+        <Description Translatable="1">Defines a list of groups which should have the permission to see stats dashboards (e.g. group1;group2;group3).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Stats</SubGroup>
+        <Setting>
+            <String>stats1;stats2</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Core::MirrorDB::DSN" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.</Description>
         <Group>Framework</Group>

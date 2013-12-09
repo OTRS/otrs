@@ -1,6 +1,7 @@
 #3.3.4 201?-??-??
- - 2013-12-06 Updated Swedish translation, thanks to Andreas Berger.
- - 2013-12-06 Updated Russian translation, thanks to Andrey N. Burdin.
+ - 2013-12-09 Updated Swedish translation, thanks to Andreas Berger.
+ - 2013-12-09 Fixed bug#[10075](http://bugs.otrs.org/show_bug.cgi?id=10075) - Stats widgets permission group is hardcoded to "stats"
+ - 2013-12-09 Updated Russian translation, thanks to Andrey N. Burdin.
  - 2013-12-06 Fixed bug#[10070](http://bugs.otrs.org/show_bug.cgi?id=10070) - Wrong error message if Transition contains no transition actions.
  - 2013-12-06 Fixed bug#[10058](http://bugs.otrs.org/show_bug.cgi?id=10058) - Owner and Responsible are mandatory if enabled.
  - 2013-12-06 Fixed bug#[7792](http://bugs.otrs.org/show_bug.cgi?id=7792) - Ticket-Action "Change Queue" is hardcoded and should be called "Queue" only.
