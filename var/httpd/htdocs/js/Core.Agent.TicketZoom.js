@@ -238,11 +238,6 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             return false;
         });
 
-        // arrow key navigation for articles
-        $('#ArticleTable').on('focus', 'tr', function(Event) {
-            $(this).trigger('click');
-        });
-
         // Table sorting
         Core.UI.Table.Sort.Init($('#ArticleTable'), function () {
             $(this).find('tr')
