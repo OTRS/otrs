@@ -159,6 +159,9 @@ sub ArticleDeletePlain {
         }
     }
 
+    # return if we only need to check one backend
+    return 1 unless $Self->{CheckAllBackends};
+
     # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
 
@@ -202,6 +205,9 @@ sub ArticleDeleteAttachment {
             }
         }
     }
+
+    # return if we only need to check one backend
+    return 1 unless $Self->{CheckAllBackends};
 
     # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
@@ -405,6 +411,9 @@ sub ArticlePlain {
         return ${$Data};
     }
 
+    # return if we only need to check one backend
+    return unless $Self->{CheckAllBackends};
+
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};
 
@@ -538,6 +547,9 @@ sub ArticleAttachmentIndexRaw {
 
     # return if index exists
     return %Index if %Index;
+
+    # return if we only need to check one backend
+    return unless $Self->{CheckAllBackends};
 
     # return if only delete in my backend
     return %Index if $Param{OnlyMyBackend};
@@ -689,6 +701,9 @@ sub ArticleAttachment {
             }
         }
     }
+
+    # return if we only need to check one backend
+    return unless $Self->{CheckAllBackends};
 
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};
