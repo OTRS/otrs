@@ -259,7 +259,7 @@ sub GetEmailAddress {
     my ( $Self, %Param ) = @_;
 
     my $Email = '';
-    for my $EmailSplit ( $Self->_ParseCached( Email => $Param{Email} ) ) {
+    for my $EmailSplit ( $Self->_MailAddressParse( Email => $Param{Email} ) ) {
         $Email = $EmailSplit->address();
     }
 
@@ -295,7 +295,7 @@ sub GetRealname {
     }
 
     # fallback of Mail::Address
-    for my $EmailSplit ( $Self->_ParseCached( Email => $Param{Email} ) ) {
+    for my $EmailSplit ( $Self->_MailAddressParse( Email => $Param{Email} ) ) {
         $Realname = $EmailSplit->name();
     }
     return $Realname;
@@ -317,7 +317,7 @@ sub SplitAddressLine {
     my ( $Self, %Param ) = @_;
 
     my @GetParam;
-    for my $Line ( $Self->_ParseCached( Email => $Param{Line} ) ) {
+    for my $Line ( $Self->_MailAddressParse( Email => $Param{Line} ) ) {
         push @GetParam, $Line->format();
     }
     return @GetParam;
@@ -970,9 +970,9 @@ sub _DecodeMimewords {
     return decode_mimewords($String);
 }
 
-=item _ParseCached()
+=item _MailAddressParse()
 
-    my @Chunks = $Self->_ParseCached(Email => $Email);
+    my @Chunks = $Self->_MailAddressParse(Email => $Email);
 
 Wrapper for C<Email::Address->parse($Email)>, but cache it, since it's
 not too fast, and often called.
@@ -980,7 +980,7 @@ not too fast, and often called.
 =cut
 
 
-sub _ParseCached {
+sub _MailAddressParse {
     my ( $Self, %Param ) = @_;
 
     my $Email = $Param{Email};
