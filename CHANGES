@@ -10,6 +10,7 @@
 # --
 
 3.1.19 2013-??-??
+ - 2013-12-09 Fixed bug#10077 - regular expressions in postmaster filter return 1 if no regex match.
  - 2013-09-20 Fixed bug#8489 - setting Tickets per page resets AgentTicketQueue.
  - 2013-09-06 Fixed bug#9661 - Useless code in DynamicField backend.
  - 2013-07-24 Fixed bug#9622 - Actions in Small ticket overview don't work when cookies are turned off.
