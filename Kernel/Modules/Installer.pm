@@ -616,6 +616,12 @@ sub Run {
         # execute database statements
         for my $Statement (@Statements) {
             my @Description = split( ' ', $Statement );
+
+            # prevent unitilialized variables
+            for my $Index ( 0 .. 2 ) {
+                $Description[$Index] //= '';
+            }
+
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
                 Data => { Item => "$Description[0] $Description[1] $Description[2]" },
