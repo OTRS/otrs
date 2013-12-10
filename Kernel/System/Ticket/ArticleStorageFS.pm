@@ -159,9 +159,6 @@ sub ArticleDeletePlain {
         }
     }
 
-    # return if we only need to check one backend
-    return 1 unless $Self->{CheckAllBackends};
-
     # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
 
@@ -205,9 +202,6 @@ sub ArticleDeleteAttachment {
             }
         }
     }
-
-    # return if we only need to check one backend
-    return 1 unless $Self->{CheckAllBackends};
 
     # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};

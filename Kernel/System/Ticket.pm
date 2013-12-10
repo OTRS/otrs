@@ -215,9 +215,10 @@ sub new {
         die "Can't load ticket storage backend module $StorageModule! $@";
     }
 
-    # do we need to check all backends, or just one? (only enabled in
-    # TicketArticleStorageSwitch)
-    $Self->{CheckAllBackends} = 0;
+    # do we need to check all backends, or just one?
+    $Self->{CheckAllBackends} =
+        $Self->{ConfigObject}->Get('Ticket::StorageModule::CheckAllBackends')
+        // 0;
 
     # load article search index module
     my $SearchIndexModule = $Self->{ConfigObject}->Get('Ticket::SearchIndexModule')
@@ -7935,7 +7936,9 @@ sub TicketArticleStorageSwitch {
     $Self->{ConfigObject}->{'Ticket::EventModulePost'} = $EventConfig;
 
     # restore previous behaviour
-    $Self->{CheckAllBackends} = 1;
+    $Self->{CheckAllBackends} =
+        $Self->{ConfigObject}->Get('Ticket::StorageModule::CheckAllBackends')
+        // 0;
 
     return 1;
 }
