@@ -338,6 +338,12 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
                     }
                 }
                 else {
+                    Core.App.Subscribe('Event.AJAX.FormUpdate.Callback', function(Data) {
+                        var FieldName = FilterName;
+                        if (Data[FieldName] && $('#' + FieldName).hasClass('DynamicFieldWithTreeView')) {
+                            Core.UI.TreeSelection.RestoreDynamicFieldTreeView($('#' + FieldName), Data[FieldName], '', 1);
+                        }
+                    });
                     Core.AJAX.FormUpdate($('#ColumnFilterAttributes'), 'AJAXFilterUpdate', FilterName, [ FilterName ]);
                 }
         });

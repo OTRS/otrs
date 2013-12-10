@@ -1657,8 +1657,14 @@ sub _GetColumnValues {
             else {
 
                 # get PossibleValues
-                $ColumnFilterValues{$HeaderColumn} = $Self->{BackendObject}->PossibleValuesGet(
+                my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
                     DynamicFieldConfig => $DynamicFieldConfig,
+                );
+
+                # transform possible values into the format needed for BuildSelectionJSON
+                $ColumnFilterValues{$HeaderColumn} = $Self->{BackendObject}->BuildSelectionDataGet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    PossibleValues     => $PossibleValues,
                 );
             }
             last;
@@ -1700,6 +1706,10 @@ sub _InitialColumnFilter {
     my $Class = 'ColumnFilter';
     if ( $Param{Css} ) {
         $Class .= ' ' . $Param{Css};
+    }
+
+    if ( $Param{ColumnName} =~ m{ \A DynamicField_ }xms ) {
+        $Class .= ' DynamicFieldWithTreeView';
     }
 
     # build select HTML
