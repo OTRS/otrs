@@ -345,6 +345,55 @@ sub SetIO {
     return;
 }
 
+=item EncodingIsAsciiSuperset()
+
+Checks if an encoding is a superset of ASCII, that is, encodes the
+codepoints from 0 to 127 the same way as ASCII.
+
+    my $IsSuperset = $EncodeObject->EncodingIsAsciiSuperset(
+        Encoding    => 'UTF-8',
+    );
+
+=cut
+
+sub EncodingIsAsciiSuperset {
+    my ( $Self, %Param ) = @_;
+    if ( !defined $Param{Encoding} ) {
+        print STDERR "Need Encoding!\n";
+        return;
+    }
+    my $Test = join '', map chr, 0..127;
+    return Encode::encode($Param{Encoding}, $Test)
+           eq Encode::encode('ASCII', $Test);
+}
+
+=item FindAsciiSupersetEncoding()
+
+From a list of character encodings, returns the first that
+is a superset of ASCII. If none matches, C<ASCII> is returned.
+
+    my $Encoding = $EncodeObject->FindAsciiSupersetEncoding(
+        Encodings   => [ 'UTF-16LE', 'UTF-8' ],
+    );
+
+=cut
+
+sub FindAsciiSupersetEncoding {
+    my ( $Self, %Param ) = @_;
+    if ( !defined $Param{Encodings} ) {
+        print STDERR "Need Encodings!\n";
+        return;
+    }
+    for my $Encoding (@{ $Param{Encodings} }) {
+        next unless $Encoding;
+        if ( $Self->EncodingIsAsciiSuperset(Encoding => $Encoding) ) {
+            return $Encoding;
+        }
+    }
+    return 'ASCII';
+}
+
+
 #
 # DEPRECATED METHODS
 #

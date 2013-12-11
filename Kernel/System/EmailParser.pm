@@ -223,9 +223,12 @@ sub GetParam {
                         $Remember{ $Array->[0] } = 1;
                     }
                 }
+                my $Encoding = $Self->{EncodeObject}->FindAsciiSupersetEncoding(
+                    Encodings => [ $Array->[1], $Self->GetCharset() ],
+                );
                 $ReturnLine .= $Self->{EncodeObject}->Convert2CharsetInternal(
                     Text  => $Array->[0],
-                    From  => $Array->[1] || $Self->GetCharset() || 'us-ascii',
+                    From  => $Encoding,
                     Check => 1,
                 );
             }
