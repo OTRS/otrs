@@ -145,6 +145,9 @@ sub Run {
         || $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::Order::Default')
         || 'Down';
 
+    # disable output of customer company tickets
+    $Self->{DisableCompanyTickets} = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
+
     $Self->{Profile}        = $Self->{ParamObject}->GetParam( Param => 'Profile' )        || '';
     $Self->{SaveProfile}    = $Self->{ParamObject}->GetParam( Param => 'SaveProfile' )    || '';
     $Self->{TakeLastSearch} = $Self->{ParamObject}->GetParam( Param => 'TakeLastSearch' ) || '';
@@ -502,6 +505,11 @@ sub Run {
                         = $SearchParameter->{Display};
                 }
             }
+        }
+
+        # disable output of company tickets if configured
+        if ($Self->{DisableCompanyTickets}) {
+            $GetParam{CustomerUserLogin} = $Self->{UserID};
         }
 
         # perform ticket search
