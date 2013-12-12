@@ -21,7 +21,7 @@ sub Data {
     # possible charsets
     $Self->{Charset} = ['utf-8', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
-    $Self->{DateFormat}          = '%D/%M %Y %T';
+    $Self->{DateFormat}          = '%Y-%M-%D %T';
     $Self->{DateFormatLong}      = '%A %D. %B %Y %T';
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
@@ -80,7 +80,7 @@ sub Data {
         'second(s)' => 'sekund(er)',
         'seconds' => 'sekunder',
         'second' => 'sekund',
-        's' => '',
+        's' => 's',
         'Time unit' => '',
         'wrote' => 'skrev',
         'Message' => 'Meddelande',
@@ -132,7 +132,7 @@ sub Data {
         'Hit' => 'Träff',
         'Hits' => 'Träffar',
         'Text' => 'Text',
-        'Standard' => '',
+        'Standard' => 'Standard',
         'Lite' => 'Enkel',
         'User' => 'Användare',
         'Username' => 'Användarnamn',
@@ -259,7 +259,7 @@ sub Data {
         'Take this Customer' => 'Välj denna kund',
         'Take this User' => 'Välj denna användare',
         'possible' => 'möjlig',
-        'reject' => 'Avvisas',
+        'reject' => 'avvisa',
         'reverse' => 'baklänges',
         'Facility' => 'Innrättning',
         'Time Zone' => 'Tidszon',
@@ -358,9 +358,9 @@ sub Data {
         'Please press Back and try again.' => 'Tryck på bakåtknappen och försök igen.',
         'Sent password reset instructions. Please check your email.' => '',
         'Sent new password to %s. Please check your email.' => '',
-        'Upcoming Events' => 'Kommande evenemang',
-        'Event' => 'Evenemang',
-        'Events' => 'Evenemang',
+        'Upcoming Events' => 'Kommande händelser',
+        'Event' => 'Händelse',
+        'Events' => 'Händelser',
         'Invalid Token!' => 'Ogiltlig inmatning!',
         'more' => 'mer',
         'Collapse' => 'Kollapsa',
@@ -376,8 +376,8 @@ sub Data {
             '',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
-        'Mark' => '',
-        'Unmark' => '',
+        'Mark' => 'Markera',
+        'Unmark' => 'Avmarkera',
         'Bold' => 'Fet',
         'Italic' => 'Kursiv',
         'Underline' => 'Understruket',
@@ -615,9 +615,9 @@ sub Data {
         'merged' => 'sammanfogat',
         'closed successful' => 'Löst och stängt',
         'closed unsuccessful' => 'Olöst men stängt',
-        'Locked Tickets Total' => '',
+        'Locked Tickets Total' => 'Låsta ärenden totalt',
         'Locked Tickets Reminder Reached' => '',
-        'Locked Tickets New' => '',
+        'Locked Tickets New' => 'Nya låsta ärenden',
         'Responsible Tickets Total' => '',
         'Responsible Tickets New' => '',
         'Responsible Tickets Reminder Reached' => '',
@@ -635,7 +635,7 @@ sub Data {
         'Forwarded message from' => '',
         'End forwarded message' => '',
         'new' => 'ny',
-        'open' => 'öppen',
+        'open' => 'Öppet',
         'Open' => 'Öppna',
         'Open tickets' => 'Öppna ärenden',
         'closed' => 'stängt',
@@ -663,7 +663,7 @@ sub Data {
         'very high' => 'kritisk',
         '1 very low' => '1 planeras',
         '2 low' => '2 låg',
-        '3 normal' => '3 medium',
+        '3 normal' => '3 normal',
         '4 high' => '4 hög',
         '5 very high' => '5 kritisk',
         'auto follow up' => '',
@@ -672,7 +672,7 @@ sub Data {
         'auto reply' => '',
         'auto reply/new ticket' => '',
         'Create' => 'Skapa',
-        'Answer' => '',
+        'Answer' => 'Svar',
         'Phone call' => 'Telefonsamtal',
         'Ticket "%s" created!' => 'Ärende "%s" skapad!',
         'Ticket Number' => 'Ärendenummer',
@@ -680,15 +680,15 @@ sub Data {
         'No such Ticket Number "%s"! Can\'t link it!' => 'Ärendenummer "%s" finns inte, kan inte länka dit!',
         'You don\'t have write access to this ticket.' => '',
         'Sorry, you need to be the ticket owner to perform this action.' =>
-            '',
-        'Please change the owner first.' => '',
+            'Tyvärr, du måste vara ägare av ärendet för att utföra den här åtgärden.',
+        'Please change the owner first.' => 'Vänligen ändra ägare först.',
         'Ticket selected.' => '',
         'Ticket is locked by another agent.' => '',
         'Ticket locked.' => '',
         'Don\'t show closed Tickets' => 'Visa inte stängda ärenden',
         'Show closed Tickets' => 'Visa stängda ärenden',
         'New Article' => 'Ny artikel',
-        'Unread article(s) available' => '',
+        'Unread article(s) available' => 'Olästa artiklar tillgängliga',
         'Remove from list of watched tickets' => '',
         'Add to list of watched tickets' => '',
         'Email-Ticket' => 'E-postärende',
@@ -726,16 +726,16 @@ sub Data {
         'Link this ticket to other objects' => 'Länka detta ärende till andra objekt',
         'Change the owner for this ticket' => 'Byt ägare av detta ärende',
         'Change the  customer for this ticket' => 'Ändra kund för detta ärende',
-        'Add a note to this ticket' => 'Lägg till en notering till detta ärendet',
-        'Merge into a different ticket' => '',
+        'Add a note to this ticket' => 'Lägg till en notering till detta ärende',
+        'Merge into a different ticket' => 'Sammanfoga till ett annat ärende',
         'Set this ticket to pending' => 'Sätt ärendet som väntande',
         'Close this ticket' => 'Stäng detta ärende',
         'Look into a ticket!' => 'Visa ärendet!',
         'Delete this ticket' => 'Ta bort detta ärende',
         'Mark as Spam!' => 'Markera som SPAM!',
         'My Queues' => 'Mina köer',
-        'Shown Tickets' => 'Visade Ärenden',
-        'Shown Columns' => '',
+        'Shown Tickets' => 'Visade ärenden',
+        'Shown Columns' => 'Visa kolumner',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
             'Ditt e-postärende med nummer "<OTRS_TICKET>" har slagits samman med "<OTRS_MERGE_TO_TICKET>".',
         'Ticket %s: first response time is over (%s)!' => 'Ärende %s: första åtgärdstid har passerats (%s)!',
@@ -745,7 +745,7 @@ sub Data {
         'Ticket %s: solution time is over (%s)!' => 'Ärende %s: lösningstid har passerats (%s)!',
         'Ticket %s: solution time will be over in %s!' => 'Ärende %s: lösningstid har passerats om %s!',
         'There are more escalated tickets!' => 'Det finns fler eskalerade ärenden!',
-        'Plain Format' => '',
+        'Plain Format' => 'Enkelt format',
         'Reply All' => 'Svara alla',
         'Direction' => '',
         'Agent (All with write permissions)' => '',
@@ -791,8 +791,8 @@ sub Data {
         'Create new Ticket' => 'Skapa nytt ärende',
         'Customer called' => 'Kund ringde',
         'phone call' => 'telefonsamtal',
-        'Phone Call Outbound' => 'Telefonsamtal utgående',
-        'Phone Call Inbound' => 'Telefonsamtal inkommande',
+        'Phone Call Outbound' => 'Utgående telefonsamtal',
+        'Phone Call Inbound' => 'Inkommande telefonsamtal',
         'Reminder Reached' => 'Påminnelse finns',
         'Reminder Tickets' => 'Påminnelse ärenden',
         'Escalated Tickets' => 'Eskalerade ärenden',
@@ -800,8 +800,8 @@ sub Data {
         'Open Tickets / Need to be answered' => 'Öppna ärenden / Måste besvaras',
         'All open tickets, these tickets have already been worked on, but need a response' =>
             '',
-        'All new tickets, these tickets have not been worked on yet' => '',
-        'All escalated tickets' => '',
+        'All new tickets, these tickets have not been worked on yet' => 'Alla nya ärenden, dessa ärenden har inte arbetats med än',
+        'All escalated tickets' => 'Alla eskalerade ärenden',
         'All tickets with a reminder set where the reminder date has been reached' =>
             '',
         'Archived tickets' => 'Arkiverade ärenden',
@@ -862,7 +862,7 @@ sub Data {
         'Filter for ACLs' => '',
         'Filter' => 'Filter',
         'ACL Name' => '',
-        'Actions' => '',
+        'Actions' => 'Åtgärder',
         'Create New ACL' => '',
         'Deploy ACLs' => '',
         'Export ACLs' => '',
@@ -881,7 +881,7 @@ sub Data {
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
         'ACL name' => '',
-        'Validity' => '',
+        'Validity' => 'Giltighet',
         'Copy' => '',
         'No data found.' => 'Ingen data hittades.',
 
@@ -927,12 +927,12 @@ sub Data {
 
         # Template: AdminAutoResponse
         'Auto Response Management' => 'Autosvar-hantering',
-        'Add auto response' => '',
-        'Add Auto Response' => '',
-        'Edit Auto Response' => '',
+        'Add auto response' => 'Lägg till autosvar',
+        'Add Auto Response' => 'Lägg till autosvar',
+        'Edit Auto Response' => 'Redigera autosvar',
         'Response' => 'Svar',
-        'Auto response from' => '',
-        'Reference' => '',
+        'Auto response from' => 'Autosvar från',
+        'Reference' => 'Referens',
         'You can use the following tags' => '',
         'To get the first 20 character of the subject.' => 'För att få dom första 20 tecknen i ärenderaden',
         'To get the first 5 lines of the email.' => 'För att få dom första fem raderna i mejlet',
@@ -972,7 +972,7 @@ sub Data {
         'Add Customer User' => '',
         'Edit Customer User' => '',
         'This field is required and needs to be a valid email address.' =>
-            'Detta fält är obligatoriskt och måste vara en giltig epost-adress',
+            'Detta fält är obligatoriskt och måste vara en giltig e-post-adress',
         'This email address is not allowed due to the system configuration.' =>
             '',
         'This email address failed MX check.' => '',
@@ -2002,7 +2002,7 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'SMIME Certificate' => '',
-        'Close window' => '',
+        'Close window' => 'Stäng fönstret',
 
         # Template: AdminSalutation
         'Salutation Management' => 'Hantering av Hälsningsfraser',
@@ -2133,14 +2133,14 @@ sub Data {
             '',
 
         # Template: AdminTemplate
-        'Manage Templates' => '',
-        'Add template' => '',
+        'Manage Templates' => 'Hantera mallar',
+        'Add template' => 'Lägg till mall',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
-            '',
-        'Don\'t forget to add new templates to queues.' => '',
+            'En mall är en standardtext som hjälper dina agenter att skriva ärenden, svar eller vidarebefordran snabbare.',
+        'Don\'t forget to add new templates to queues.' => 'Glöm inte att lägga till nya mallar till köer.',
         'Add Template' => '',
-        'Edit Template' => '',
-        'Template' => '',
+        'Edit Template' => 'Redigera mall',
+        'Template' => 'Mall',
         'Create type templates only supports this smart tags' => '',
         'Example template' => '',
         'The current ticket state is' => 'Nuvarande ärendestatus',
@@ -2214,7 +2214,7 @@ sub Data {
         'Dashboard' => 'Dashboard',
 
         # Template: AgentDashboardCalendarOverview
-        'in' => 'i',
+        'in' => 'om',
 
         # Template: AgentDashboardCommon
         'Available Columns' => '',
@@ -2275,7 +2275,7 @@ sub Data {
         # Template: AgentHTMLReferenceOverview
 
         # Template: AgentHTMLReferencePageLayout
-        'The ticket has been locked' => '',
+        'The ticket has been locked' => 'Ärendet har låsts',
         'Undo & close window' => 'Ångra & stäng fönstret',
 
         # Template: AgentInfo
@@ -2528,7 +2528,7 @@ sub Data {
         # Template: AgentTicketPlain
         'Email Text Plain View' => '',
         'Plain' => 'Enkel',
-        'Download this email' => '',
+        'Download this email' => 'Ladda ner denna e-post',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Ärendeinfo',
@@ -2559,7 +2559,7 @@ sub Data {
         'Fulltext' => 'Fritext',
         'Remove' => '',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
-            '',
+            'Sökningar i attributen Från, Till, CC, Ärende och meddelandetext åsidosätter andra attribut med samma namn.',
         'Customer User Login' => 'kundanvändare loginnamn',
         'Created in Queue' => 'Skapad i Kö',
         'Lock state' => '',
@@ -2604,11 +2604,11 @@ sub Data {
         'Show all articles' => 'Visa alla artiklar',
         'Unread articles' => 'Olästa artiklar',
         'No.' => '',
-        'Important' => '',
-        'Unread Article!' => '',
-        'Incoming message' => '',
-        'Outgoing message' => '',
-        'Internal message' => '',
+        'Important' => 'Viktigt',
+        'Unread Article!' => 'Oläst artikel!',
+        'Incoming message' => 'Inkommande meddelande',
+        'Outgoing message' => 'Utgående meddelande',
+        'Internal message' => 'Internt meddelande',
         'Resize' => '',
 
         # Template: AttachmentBlocker
@@ -2646,7 +2646,7 @@ sub Data {
             '',
         'Please see the documentation or ask your admin for further information.' =>
             '',
-        'Login' => 'Logga in',
+        'Login' => 'Inloggning',
         'User name' => 'Användarnamn',
         'Your user name' => 'Ditt användarnamn',
         'Your password' => 'Ditt lösenord',
@@ -2752,11 +2752,11 @@ sub Data {
         'Error Message' => '',
         'You can' => '',
         'Send a bugreport' => '',
-        'go back to the previous page' => '',
+        'go back to the previous page' => 'gå tillbaka till föregående sida',
         'Error Details' => '',
 
         # Template: Footer
-        'Top of page' => '',
+        'Top of page' => 'Överst på sidan',
 
         # Template: FooterJS
         'If you now leave this page, all open popup windows will be closed, too!' =>
@@ -2928,7 +2928,7 @@ sub Data {
         'Counter' => 'Räknare',
 
         # Template: Warning
-        'Go back to the previous page' => '',
+        'Go back to the previous page' => 'Gå tillbaka till föregående sida',
 
         # SysConfig
         '(UserLogin) Firstname Lastname' => '',
@@ -3187,6 +3187,8 @@ sub Data {
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
+            '',
+        'Defines a list of groups which should have the permission to see stats dashboards (e.g. group1;group2;group3).' =>
             '',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
             '',
@@ -4186,7 +4188,7 @@ sub Data {
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
-        'Notifications (Event)' => 'Meddelande (Akitivtet)',
+        'Notifications (Event)' => 'Meddelande (Aktivitet)',
         'Number of displayed tickets' => 'Antal visade ärenden',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '',
@@ -4855,10 +4857,13 @@ sub Data {
         #
         ' (work units)' => ' (arbetsenheter)',
         'Add Customer Company' => 'Lägg till Kundföretag',
+        'Add a decision!' => 'Lägg till ett beslut!',
         'Attachments <-> Responses' => '<Bifogade filer <-> Svar',
         'Customer Company Management' => 'Kundföretagshantering',
         'Customer Data' => 'Kunddata',
         'Database-User' => 'Databas-Användare',
+        'Decision' => 'Beslut',
+        'Due Date' => 'Slutdatum',
         'Escalation in' => 'Eskalering om',
         'For more info see:' => 'För mer info:',
         'From customer' => 'Från kund',
@@ -4870,6 +4875,8 @@ sub Data {
         'Package verification failed!' => 'Paketverifiering misslyckades!',
         'Responses' => 'Svar',
         'Responses <-> Queues' => 'Svar <-> Kö',
+        'Review Required' => 'Översyn krävs',
+        'Search Result' => 'Sökresultat',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Säkert läge måste slås av för att kunna ominstallera via webb-installeraren.',
         'To customer' => 'Till kund',
