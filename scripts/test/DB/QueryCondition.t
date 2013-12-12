@@ -49,6 +49,7 @@ my %Fill = (
     Some7 => 'Test (with) (brackets)',
     Some8 => 'Test (with) (brackets) and & and |',
     Some9 => 'Test for franz!gans merged with exclamation mark',
+    Some10 => 'customer & id with ampersand & spaces',
 );
 for my $Key ( sort keys %Fill ) {
     my $SQL = "INSERT INTO test_condition (name_a, name_b) VALUES ('$Key', '$Fill{$Key}')";
@@ -840,6 +841,38 @@ my @Queries = (
             Some6 => 0,
             Some7 => 0,
             Some8 => 1,
+        },
+    },
+    {
+        Query => $Self->{DBObject}->QueryStringEscape(
+            QueryString => 'customer & id with ampersand & spaces',
+        ),
+        Result => {
+            Some1  => 0,
+            Some2  => 0,
+            Some3  => 0,
+            Some4  => 0,
+            Some5  => 0,
+            Some6  => 0,
+            Some7  => 0,
+            Some8  => 0,
+            Some9  => 0,
+            Some10 => 1,
+        },
+    },
+    {
+        Query  => 'customer & id with ampersand & spaces',
+        Result => {
+            Some1  => 0,
+            Some2  => 0,
+            Some3  => 0,
+            Some4  => 0,
+            Some5  => 0,
+            Some6  => 0,
+            Some7  => 0,
+            Some8  => 0,
+            Some9  => 0,
+            Some10 => 0,
         },
     },
 );

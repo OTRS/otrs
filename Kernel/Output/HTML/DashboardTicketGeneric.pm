@@ -219,6 +219,14 @@ sub Run {
     # find and show ticket list
     my $CacheUsed = 1;
     if ( !$TicketIDs ) {
+
+        # quote all CustomerIDs
+        if ( $TicketSearch{CustomerID} ) {
+            $TicketSearch{CustomerID} = $Self->{DBObject}->QueryStringEscape(
+                QueryString => $TicketSearch{CustomerID},
+            );
+        }
+
         $CacheUsed = 0;
         my @TicketIDsArray = $Self->{TicketObject}->TicketSearch(
             Result => 'ARRAY',

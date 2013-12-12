@@ -1,4 +1,5 @@
 #3.2.14 201?-??-??
+ - 2013-12-12 Fixed bug#[9650](http://bugs.otrs.org/show_bug.cgi?id=9650) - Special character in customer id breaks Open Tickets in AgentTicketZoom.
  - 2013-12-11 Fixed bug#[9723](http://bugs.otrs.org/show_bug.cgi?id=9723) - TicketAccountedTime stat does not run on Oracle with many tickets
  - 2013-12-09 Fixed bug#[10077](http://bugs.otrs.org/show_bug.cgi?id=10077) - regular expressions in postmaster filter return 1 if no regex match.
  - 2013-12-06 Fixed bug#[10070](http://bugs.otrs.org/show_bug.cgi?id=10070) - Wrong error message if Transition contains no transition actions.
