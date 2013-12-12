@@ -516,6 +516,13 @@ sub Run {
 
     if ( !$TicketIDs ) {
 
+        # quote all CustomerIDs
+        if ( $TicketSearch{CustomerID} ) {
+            $TicketSearch{CustomerID} = $Self->{DBObject}->QueryStringEscape(
+                QueryString => $TicketSearch{CustomerID},
+            );
+        }
+
         # add sort by parameter to the search
         if (
             !defined $TicketSearch{SortBy}

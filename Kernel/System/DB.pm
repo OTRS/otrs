@@ -1170,8 +1170,33 @@ sub QueryCondition {
     $Param{Value} =~ s/^(?<!\\)\((&&|\|\|)/(/g;
 
     # clean up not needed spaces in condistions
-    $Param{Value} =~ s/(\s((?<!\\)\(|(?<!\\)\)|\||&))/$2/g;
-    $Param{Value} =~ s/(((?<!\\)\(|(?<!\\)\)|\||&)\s)/$2/g;
+    # removed spaces examples
+    # [SPACE](, [SPACE]), [SPACE]|, [SPACE]&
+    # example not removed spaces
+    # [SPACE]\\(, [SPACE]\\), [SPACE]\\&
+    $Param{Value} =~ s{(
+        \s
+        (
+              (?<!\\) \(
+            | (?<!\\) \)
+            |         \|
+            | (?<!\\) &
+        )
+    )}{$2}xg;
+
+    # removed spaces examples
+    # )[SPACE], )[SPACE], |[SPACE], &[SPACE]
+    # example not removed spaces
+    # \\([SPACE], \\)[SPACE], \\&[SPACE]
+    $Param{Value} =~ s{(
+        (
+              (?<!\\) \(
+            | (?<!\\) \)
+            |         \|
+            | (?<!\\) &
+        )
+        \s
+    )}{$2}xg;
 
     # use extended condition mode
     # 1. replace " " by "&&"
