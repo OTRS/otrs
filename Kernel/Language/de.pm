@@ -2676,6 +2676,7 @@ sub Data {
         'Welcome!' => 'Willkommen!',
         'Please click the button below to create your first ticket.' => 'Bitte verwenden Sie den Knopf unten zur Erstellung Ihres ersten Tickets.',
         'Create your first ticket' => 'Ihr erstes Ticket erstellen',
+        'This option will deny the access to customer company tickets, which are not created by the customer user.' => 'Diese Option verweigert den Zugriff auf Tickets von anderen Kundenbenutzern mit der selben Kundenfirma.',
 
         # Template: CustomerTicketPrint
         'Ticket Print' => 'Ticket-Druckansicht',
