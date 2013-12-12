@@ -8,6 +8,7 @@
 # --
 
 package Kernel::Modules::CustomerTicketOverview;
+## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
 
 use strict;
 use warnings;
@@ -125,35 +126,32 @@ sub Run {
                 Name   => 'All',
                 Prio   => 1000,
                 Search => {
-                    CustomerUserLogin => $Self->{UserID},
-                    OrderBy           => $Self->{OrderBy},
-                    SortBy            => $Self->{SortBy},
-                    CustomerUserID    => $Self->{UserID},
-                    Permission        => 'ro',
+                    OrderBy        => $Self->{OrderBy},
+                    SortBy         => $Self->{SortBy},
+                    CustomerUserID => $Self->{UserID},
+                    Permission     => 'ro',
                 },
             },
             Open => {
                 Name   => 'Open',
                 Prio   => 1100,
                 Search => {
-                    CustomerUserLogin => $Self->{UserID},
-                    StateType         => 'Open',
-                    OrderBy           => $Self->{OrderBy},
-                    SortBy            => $Self->{SortBy},
-                    CustomerUserID    => $Self->{UserID},
-                    Permission        => 'ro',
+                    StateType      => 'Open',
+                    OrderBy        => $Self->{OrderBy},
+                    SortBy         => $Self->{SortBy},
+                    CustomerUserID => $Self->{UserID},
+                    Permission     => 'ro',
                 },
             },
             Closed => {
                 Name   => 'Closed',
                 Prio   => 1200,
                 Search => {
-                    CustomerUserLogin => $Self->{UserID},
-                    StateType         => 'Closed',
-                    OrderBy           => $Self->{OrderBy},
-                    SortBy            => $Self->{SortBy},
-                    CustomerUserID    => $Self->{UserID},
-                    Permission        => 'ro',
+                    StateType      => 'Closed',
+                    OrderBy        => $Self->{OrderBy},
+                    SortBy         => $Self->{SortBy},
+                    CustomerUserID => $Self->{UserID},
+                    Permission     => 'ro',
                 },
             },
         },
@@ -230,6 +228,17 @@ sub Run {
     my $AllTicketsTotal = 0;
     for my $Filter ( sort keys %{ $Filters{ $Self->{Subaction} } } ) {
         $Counter++;
+
+        # quote all CustomerIDs
+        my $CustomerIDs = $Filters{ $Self->{Subaction} }->{$Filter}->{Search}->{CustomerID};
+        if ( IsArrayRefWithData($CustomerIDs) ) {
+            for my $CustomerID ( @{$CustomerIDs} ) {
+                $CustomerID = $Self->{DBObject}->QueryStringEscape(
+                    QueryString => $CustomerID,
+                );
+            }
+        }
+
         my $Count = $Self->{TicketObject}->TicketSearch(
             %{ $Filters{ $Self->{Subaction} }->{$Filter}->{Search} },
             %SearchInArchive,
