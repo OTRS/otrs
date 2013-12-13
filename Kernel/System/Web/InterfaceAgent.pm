@@ -768,7 +768,7 @@ sub Run {
                     $Param{AccessRo} = 1;
                 }
             }
-            if ( !$Param{AccessRo} && !$Param{AccessRw} || !$Param{AccessRo} && $Param{AccessRw} ) {
+            if ( !$Param{AccessRo} ) {
 
                 # new layout object
                 my $LayoutObject = Kernel::Output::HTML::Layout->new(
