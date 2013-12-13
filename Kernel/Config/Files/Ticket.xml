@@ -860,6 +860,17 @@ Description>
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerDisableCompanyTicketAccess" Required="1" Valid="1">
+        <Description Translatable="1">This option will deny the access to customer company tickets, which are not created by the customer user.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketOverviewCustomEmptyText" Required="0" Valid="0">
         <Description Translatable="1">Custom text for the page shown to customers that have no tickets yet.</Description>
         <Group>Ticket</Group>

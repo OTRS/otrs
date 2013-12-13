@@ -27,6 +27,9 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
+    # disable output of customer company tickets
+    $Self->{DisableCompanyTickets} = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
+
     return $Self;
 }
 
@@ -40,6 +43,9 @@ sub Run {
             return;
         }
     }
+
+    # disable output of customer company tickets if configured
+    return if $Self->{DisableCompanyTickets};
 
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(

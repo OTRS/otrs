@@ -56,6 +56,9 @@ sub new {
     $Self->{DynamicFieldFilter}
         = $Self->{ConfigObject}->Get("Ticket::Frontend::CustomerTicketOverview")->{DynamicField};
 
+    # disable output of customer company tickets
+    $Self->{DisableCompanyTickets} = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
+
     # get the dynamic fields for this screen
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid       => 1,
@@ -81,6 +84,9 @@ sub Run {
         return $Self->{LayoutObject}->Redirect(
             OP => 'Action=CustomerTicketOverview;Subaction=MyTickets',
         );
+    }
+    elsif ( $Self->{Subaction} eq 'CompanyTickets' && $Self->{DisableCompanyTickets} ) {
+        return $Self->{LayoutObject}->CustomerNoPermission( WithHeader => 'yes' );
     }
 
     # check needed CustomerID
@@ -139,7 +145,11 @@ sub Run {
                 },
             },
         },
-        CompanyTickets => {
+    );
+
+    # add filter for customer company if not disabled
+    if ( !$Self->{DisableCompanyTickets} ) {
+        $Filters{CompanyTickets} = {
             All => {
                 Name   => 'All',
                 Prio   => 1000,
@@ -178,8 +188,9 @@ sub Run {
                     Permission     => 'ro',
                 },
             },
-        },
-    );
+        };
+    }
+
 
     # check if filter is valid
     if ( !$Filters{ $Self->{Subaction} }->{ $Self->{Filter} } ) {
