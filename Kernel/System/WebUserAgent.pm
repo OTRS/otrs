@@ -14,6 +14,7 @@ use warnings;
 
 use LWP::UserAgent;
 
+use Kernel::System::Encode;
 use Kernel::System::VariableCheck qw(:all);
 
 =head1 NAME
@@ -83,6 +84,8 @@ sub new {
     for my $Object (qw(DBObject ConfigObject LogObject MainObject)) {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
+
+    $Self->{EncodeObject} = $Param{EncodeObject} || Kernel::System::Encode->new();
 
     $Self->{Timeout} = $Param{Timeout} || $Self->{ConfigObject}->Get('WebUserAgent::Timeout') || 15;
     $Self->{Proxy}   = $Param{Proxy}   || $Self->{ConfigObject}->Get('WebUserAgent::Proxy')   || '';
@@ -205,10 +208,14 @@ sub Request {
         );
     }
 
+    # get the content to convert internal used charset
+    my $ResponseContent = $Response->decoded_content();
+    $Self->{EncodeObject}->EncodeInput( \$ResponseContent );
+
     # return request
     return (
         Status  => $Response->status_line(),
-        Content => \$Response->content(),
+        Content => \$ResponseContent,
     );
 }
 
