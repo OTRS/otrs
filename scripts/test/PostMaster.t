@@ -46,6 +46,12 @@ my %NeededDynamicfields = (
     TicketFreeText2 => 1,
     TicketFreeKey3  => 1,
     TicketFreeText3 => 1,
+    TicketFreeKey4  => 1,
+    TicketFreeText4 => 1,
+    TicketFreeKey5  => 1,
+    TicketFreeText5 => 1,
+    TicketFreeKey5  => 1,
+    TicketFreeText5 => 1,
     TicketFreeTime1 => 1,
     TicketFreeTime2 => 1,
     TicketFreeTime3 => 1,
@@ -781,6 +787,30 @@ my @Tests = (
             'X-OTRS-TicketValue3' => 'Text3#3',
         },
     },
+    {
+        Name  => '#4 - Regular Expressions - match',
+        Match => {
+            From => '(\w+)@example.com',
+        },
+        Set => {
+            'X-OTRS-TicketKey4'   => '[***]',
+        },
+        Check => {
+            DynamicField_TicketFreeKey4  => 'sender',
+        },
+    },
+    {
+        Name  => '#5 - Regular Expressions - match but no optional match result',
+        Match => {
+            From => 'sender([f][o][o])?@example.com',
+        },
+        Set => {
+            'X-OTRS-TicketKey5'   => '[***]',
+        },
+        Check => {
+            DynamicField_TicketFreeKey5  => undef,
+        },
+    },
 );
 
 # set filter
@@ -850,7 +880,7 @@ Some Content in Body
             $Self->Is(
                 $Ticket{$Key},
                 $Test->{Check}->{$Key},
-                "#Filter $Type Run() - $Key",
+                "#Filter $Type Run('$Test->{Name}') - $Key",
             );
         }
     }
