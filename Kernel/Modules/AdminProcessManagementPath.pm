@@ -306,7 +306,9 @@ sub _ShowEdit {
 
     # fix sorting by names
     my @TransitionList;
-    for my $TransitionID (sort { lc $TransitionList{$a} cmp lc $TransitionList{$b} } keys %TransitionList) {
+    for my $TransitionID ( sort { lc $TransitionList{$a} cmp lc $TransitionList{$b} }
+        keys %TransitionList )
+    {
         push @TransitionList, {
             Key   => $TransitionID,
             Value => $TransitionList{$TransitionID},

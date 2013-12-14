@@ -696,7 +696,9 @@ sub _ShowEdit {
         }
 
         # display available fields
-        for my $Field ( sort { $AvailableFieldsTranslated{$a} cmp $AvailableFieldsTranslated{$b} } keys %AvailableFieldsTranslated ) {
+        for my $Field ( sort { $AvailableFieldsTranslated{$a} cmp $AvailableFieldsTranslated{$b} }
+            keys %AvailableFieldsTranslated )
+        {
             $Self->{LayoutObject}->Block(
                 Name => 'AvailableFieldRow',
                 Data => {
@@ -753,7 +755,9 @@ sub _ShowEdit {
         }
 
         # display available fields
-        for my $Field ( sort { $AvailableFieldsTranslated{$a} cmp $AvailableFieldsTranslated{$b} } keys %AvailableFieldsTranslated ) {
+        for my $Field ( sort { $AvailableFieldsTranslated{$a} cmp $AvailableFieldsTranslated{$b} }
+            keys %AvailableFieldsTranslated )
+        {
             $Self->{LayoutObject}->Block(
                 Name => 'AvailableFieldRow',
                 Data => {

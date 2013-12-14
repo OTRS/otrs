@@ -207,6 +207,7 @@ sub Run {
         # Set sender type and article type.
         $Param{GetParam}->{'X-OTRS-FollowUp-SenderType'}  = $Param{JobConfig}->{SenderType};
         $Param{GetParam}->{'X-OTRS-FollowUp-ArticleType'} = $Param{JobConfig}->{ArticleType};
+
         # Also set these parameters. It could be that the follow up is rejected by Reject.pm
         #   (follow-ups not allowed), but the original article will still be attached to the ticket.
         $Param{GetParam}->{'X-OTRS-SenderType'}  = $Param{JobConfig}->{SenderType};

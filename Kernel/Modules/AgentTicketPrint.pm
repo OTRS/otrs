@@ -208,9 +208,9 @@ sub Run {
         $Page{MarginBottom} = 40;
         $Page{MarginLeft}   = 40;
         $Page{HeaderRight}  = $HeaderRight;
-        $Page{FooterLeft} = '';
-        $Page{PageText}   = $Self->{LayoutObject}->{LanguageObject}->Get('Page');
-        $Page{PageCount}  = 1;
+        $Page{FooterLeft}   = '';
+        $Page{PageText}     = $Self->{LayoutObject}->{LanguageObject}->Get('Page');
+        $Page{PageCount}    = 1;
 
         # create new pdf document
         $Self->{PDFObject}->DocumentNew(
@@ -231,7 +231,7 @@ sub Run {
 
         # output title
         $Self->{PDFObject}->Text(
-            Text => $Ticket{Title},
+            Text     => $Ticket{Title},
             FontSize => 13,
         );
 
@@ -242,11 +242,11 @@ sub Run {
 
         # output "printed by"
         $Self->{PDFObject}->Text(
-            Text     => $PrintedBy . ' '
-            . $Self->{UserFirstname} . ' '
-            . $Self->{UserLastname} . ' ('
-            . $Self->{UserEmail} . ')'
-            . ', ' . $Time,
+            Text => $PrintedBy . ' '
+                . $Self->{UserFirstname} . ' '
+                . $Self->{UserLastname} . ' ('
+                . $Self->{UserEmail} . ')'
+                . ', ' . $Time,
             FontSize => 9,
         );
 
