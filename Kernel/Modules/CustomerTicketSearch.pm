@@ -94,7 +94,8 @@ sub Run {
         || 'Down';
 
     # disable output of customer company tickets
-    $Self->{DisableCompanyTickets} = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
+    $Self->{DisableCompanyTickets}
+        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
 
     $Self->{Profile}        = $Self->{ParamObject}->GetParam( Param => 'Profile' )        || '';
     $Self->{SaveProfile}    = $Self->{ParamObject}->GetParam( Param => 'SaveProfile' )    || '';
@@ -406,7 +407,7 @@ sub Run {
         }
 
         # disable output of company tickets if configured
-        if ($Self->{DisableCompanyTickets}) {
+        if ( $Self->{DisableCompanyTickets} ) {
             $GetParam{CustomerUserLogin} = $Self->{UserID};
         }
 

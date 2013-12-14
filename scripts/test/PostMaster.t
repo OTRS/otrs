@@ -793,10 +793,10 @@ my @Tests = (
             From => '(\w+)@example.com',
         },
         Set => {
-            'X-OTRS-TicketKey4'   => '[***]',
+            'X-OTRS-TicketKey4' => '[***]',
         },
         Check => {
-            DynamicField_TicketFreeKey4  => 'sender',
+            DynamicField_TicketFreeKey4 => 'sender',
         },
     },
     {
@@ -805,10 +805,10 @@ my @Tests = (
             From => 'sender([f][o][o])?@example.com',
         },
         Set => {
-            'X-OTRS-TicketKey5'   => '[***]',
+            'X-OTRS-TicketKey5' => '[***]',
         },
         Check => {
-            DynamicField_TicketFreeKey5  => undef,
+            DynamicField_TicketFreeKey5 => undef,
         },
     },
 );

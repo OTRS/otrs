@@ -919,7 +919,7 @@ sub _ReportingValues {
 
             # init vars
             my @TicketIDStrings;
-            my $TicktIDString = '';
+            my $TicktIDString   = '';
             my $TicketIDCounter = 1;
 
             # build array of strings with a maximum of 1000 ticket ids
@@ -934,7 +934,7 @@ sub _ReportingValues {
                 }
 
                 # at 1000 elements push them into array
-                if ( $TicketIDCounter == 1000) {
+                if ( $TicketIDCounter == 1000 ) {
 
                     # push string with maximum of 1000 values
                     push @TicketIDStrings, $TicktIDString;
@@ -944,14 +944,14 @@ sub _ReportingValues {
                     $TicketAmount = $TicketAmount - 1000;
 
                     # reset variables
-                    $TicktIDString = '';
+                    $TicktIDString   = '';
                     $TicketIDCounter = 0;
                 }
                 $TicketIDCounter++;
             }
 
             # check if there are tickets left
-            if ( $TicketAmount ) {
+            if ($TicketAmount) {
 
                 # push remaining tickets
                 push @TicketIDStrings, $TicktIDString;
@@ -959,10 +959,10 @@ sub _ReportingValues {
 
             # init used vars for the following loop
             my $TicketStringCounter = 1;
-            my $TicketString = '';
+            my $TicketString        = '';
 
             # build sql string
-            for my $TicketIDString ( @TicketIDStrings ) {
+            for my $TicketIDString (@TicketIDStrings) {
                 if ( $TicketStringCounter == 1 ) {
                     $TicketString .= "ticket_id IN ( $TicketIDString )";
                 }
