@@ -204,9 +204,14 @@ sub Run {
         my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
         $Param{GetParam}->{Subject} .= " [$TicketHook$TicketHookDivider$TicketNumber]";
 
-        # set sender type and article type
+        # Set sender type and article type.
         $Param{GetParam}->{'X-OTRS-FollowUp-SenderType'}  = $Param{JobConfig}->{SenderType};
         $Param{GetParam}->{'X-OTRS-FollowUp-ArticleType'} = $Param{JobConfig}->{ArticleType};
+
+        # Also set these parameters. It could be that the follow up is rejected by Reject.pm
+        #   (follow-ups not allowed), but the original article will still be attached to the ticket.
+        $Param{GetParam}->{'X-OTRS-SenderType'}  = $Param{JobConfig}->{SenderType};
+        $Param{GetParam}->{'X-OTRS-ArticleType'} = $Param{JobConfig}->{ArticleType};
 
     }
     else {

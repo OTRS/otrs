@@ -118,14 +118,19 @@ sub Run {
             }
         }
     }
-    my %Tickets = $Self->{TicketObject}->TicketSearch(
-        SortBy => $Self->{ConfigObject}->{'SortBy::Default'} || 'Age',
-        QueueIDs => [ sort keys %QueuesConfigured ],
-        UserID   => $Self->{UserID},
-        StateIDs => \@ViewableStateIDs,
-        Result   => 'HASH',
-        %DynamicFieldTimeSearch,
-    );
+
+    my %Tickets;
+    if ( IsHashRefWithData(%QueuesConfigured) ) {
+        %Tickets = $Self->{TicketObject}->TicketSearch(
+            SortBy => $Self->{ConfigObject}->{'SortBy::Default'} || 'Age',
+            QueueIDs => [ sort keys %QueuesConfigured ],
+            UserID   => $Self->{UserID},
+            StateIDs => \@ViewableStateIDs,
+            Result   => 'HASH',
+            %DynamicFieldTimeSearch,
+        );
+    }
+
     my @EventsDisplayed;
 
     my $Counter = 1;

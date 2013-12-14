@@ -300,6 +300,9 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         CheckPhoneCustomerCountLimit();
     };
 
+    function htmlDecode(Text){
+        return Text.replace(/&amp;/g, '&');
+    }
 
     /**
      * @function
@@ -310,6 +313,10 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
      *      This function add a new ticket customer
      */
     TargetNS.AddTicketCustomer = function (Field, CustomerValue, CustomerKey, SetAsTicketCustomer) {
+
+        if ( CustomerKey && CustomerKey !== '') {
+            CustomerKey = htmlDecode(CustomerKey);
+        }
 
         if (CustomerValue === '') {
             return false;

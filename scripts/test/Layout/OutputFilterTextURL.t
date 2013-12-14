@@ -47,17 +47,18 @@ my $LayoutObject = Kernel::Output::HTML::Layout->new(
 
 my @Tests = (
     {
-        Name     => 'Simple URL',
-        Input    => 'http://www.url.com',
+        Name  => 'Simple URL',
+        Input => 'http://www.url.com',
     },
     {
-        Name     => 'URL with parameters',
-        Input    => 'http://www.url.com?parameter=test;parameter2=test2',
+        Name  => 'URL with parameters',
+        Input => 'http://www.url.com?parameter=test;parameter2=test2',
     },
     {
-        Name     => 'URL with round brackets',
-        Input    => 'http://www.url.com/file(1)name/file(2)name',
+        Name  => 'URL with round brackets',
+        Input => 'http://www.url.com/file(1)name/file(2)name',
     },
+
     # {
     #     Name     => 'URL with square brackets',
     #     Input    => 'http://www.url.com?host[0]=hostname;[1]',
@@ -67,13 +68,17 @@ my @Tests = (
 for my $Test (@Tests) {
 
     my $Output = $LayoutObject->Ascii2Html(
-        Text => $Test->{Input},
+        Text        => $Test->{Input},
         LinkFeature => 1,
     );
 
     $Self->Is(
         $Output,
-        '<a href="' . $Test->{Input} . '" target="_blank" title="' . $Test->{Input} . '">' . $Test->{Input} . '</a>',
+        '<a href="'
+            . $Test->{Input}
+            . '" target="_blank" title="'
+            . $Test->{Input} . '">'
+            . $Test->{Input} . '</a>',
         $Test->{Name},
     );
 }

@@ -1,4 +1,13 @@
+3.4.0.betaX 20??-??-??
+ - 2013-12-13 Fixed bug#[10074](http://bugs.otrs.org/show_bug.cgi?id=10074) - Error if no queue matched in DashboardEventsTicketCalendar.
+ - 2013-12-13 Fixed bug#[10090](http://bugs.otrs.org/show_bug.cgi?id=10090) - Problems with special characters in Kernel/System/WebUserAgent.pm.
+ - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
+
 #3.3.4 201?-??-??
+ - 2013-12-12 Fixed bug#[965](http://bugs.otrs.org/show_bug.cgi?id=9650) - Special character in customer id breaks Open Tickets in AgentTicketZoom.
+ - 2013-12-12 Added functionality to disable access to tickets of other customers with the same customer company in customer interface.
+ - 2013-12-12 Fixed bug#[9702](http://bugs.otrs.org/show_bug.cgi?id=9702) - Wrong article type with external ticketnumber recognition i.c.w. follow-up reject option.
+ - 2013-12-11 Fixed bug#[9723](http://bugs.otrs.org/show_bug.cgi?id=9723) - TicketAccountedTime stat does not run on Oracle with many tickets
  - 2013-12-09 Fixed bug#[10078](http://bugs.otrs.org/show_bug.cgi?id=10078) - Installer: error log after creating mysql database.
  - 2013-12-09 Fixed bug#[10056](http://bugs.otrs.org/show_bug.cgi?id=10056) - Installer fails when special characters in database user's password.
  - 2013-12-09 Fixed bug#[10077](http://bugs.otrs.org/show_bug.cgi?id=10077) - regular expressions in postmaster filter return 1 if no regex match.

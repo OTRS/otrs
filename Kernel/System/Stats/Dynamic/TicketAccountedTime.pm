@@ -948,8 +948,82 @@ sub _ReportingValues {
             return %Reporting;
         }
 
-        my $TicketString = join ', ', @TicketIDs;
-        push @Where, "ticket_id IN ( $TicketString )";
+        # get db type
+        my $DBType = $Self->{DBObject}->{'DB::Type'};
+
+        # here comes a workaround for ORA-01795: maximum number of expressions in a list is 1000
+        # for oracle we make sure, that we don 't get more than 1000 ticket ids in a list
+        # so instead of "ticket_id IN ( 1, 2, 3, ... 2001 )", we are splitting this up to
+        # "ticket_id IN ( 1, 2, 3, ... 1000 ) OR ticket_id IN ( 1001, 1002, ... 2000)"
+        # see bugzilla #9723: http://bugs.otrs.org/show_bug.cgi?id=9723
+        if ( $DBType eq 'oracle' ) {
+
+            # save number of TicketIDs
+            my $TicketAmount = scalar @TicketIDs;
+
+            # init vars
+            my @TicketIDStrings;
+            my $TicktIDString   = '';
+            my $TicketIDCounter = 1;
+
+            # build array of strings with a maximum of 1000 ticket ids
+            for my $TicketID (@TicketIDs) {
+
+                # start building string
+                if ( $TicketIDCounter == 1 ) {
+                    $TicktIDString .= $TicketID;
+                }
+                else {
+                    $TicktIDString .= ', ' . $TicketID;
+                }
+
+                # at 1000 elements push them into array
+                if ( $TicketIDCounter == 1000 ) {
+
+                    # push string with maximum of 1000 values
+                    push @TicketIDStrings, $TicktIDString;
+
+                    # subtract 1000 from remaining ticket amount
+                    # we use this to push the remaining tickets
+                    $TicketAmount = $TicketAmount - 1000;
+
+                    # reset variables
+                    $TicktIDString   = '';
+                    $TicketIDCounter = 0;
+                }
+                $TicketIDCounter++;
+            }
+
+            # check if there are tickets left
+            if ($TicketAmount) {
+
+                # push remaining tickets
+                push @TicketIDStrings, $TicktIDString;
+            }
+
+            # init used vars for the following loop
+            my $TicketStringCounter = 1;
+            my $TicketString        = '';
+
+            # build sql string
+            for my $TicketIDString (@TicketIDStrings) {
+                if ( $TicketStringCounter == 1 ) {
+                    $TicketString .= "ticket_id IN ( $TicketIDString )";
+                }
+                else {
+                    $TicketString .= " OR ticket_id IN ( $TicketIDString )";
+                }
+                $TicketStringCounter++;
+            }
+
+            push @Where, $TicketString;
+        }
+        else {
+
+            # for all other databases, just join all TicketIDs in a string
+            my $TicketString = join ', ', @TicketIDs;
+            push @Where, "ticket_id IN ( $TicketString )";
+        }
     }
 
     if ( $SearchAttributes->{AccountedByAgent} ) {

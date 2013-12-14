@@ -162,6 +162,7 @@ sub CheckEmail {
         # do dns query
         my $Resolver = Net::DNS::Resolver->new();
         if ($Resolver) {
+
             # it's no fun to have this hanging in the web interface
             $Resolver->tcp_timeout(3);
             $Resolver->udp_timeout(3);
