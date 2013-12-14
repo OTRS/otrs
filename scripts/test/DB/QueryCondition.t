@@ -40,15 +40,15 @@ for my $SQL (@SQL) {
 }
 
 my %Fill = (
-    Some1 => 'John Smith',
-    Some2 => 'John Meier',
-    Some3 => 'Franz Smith',
-    Some4 => 'Franz Ferdinand Smith',
-    Some5 => 'customer_id_with_underscores',
-    Some6 => 'customer&id&with&ampersands',
-    Some7 => 'Test (with) (brackets)',
-    Some8 => 'Test (with) (brackets) and & and |',
-    Some9 => 'Test for franz!gans merged with exclamation mark',
+    Some1  => 'John Smith',
+    Some2  => 'John Meier',
+    Some3  => 'Franz Smith',
+    Some4  => 'Franz Ferdinand Smith',
+    Some5  => 'customer_id_with_underscores',
+    Some6  => 'customer&id&with&ampersands',
+    Some7  => 'Test (with) (brackets)',
+    Some8  => 'Test (with) (brackets) and & and |',
+    Some9  => 'Test for franz!gans merged with exclamation mark',
     Some10 => 'customer & id with ampersand & spaces',
 );
 for my $Key ( sort keys %Fill ) {

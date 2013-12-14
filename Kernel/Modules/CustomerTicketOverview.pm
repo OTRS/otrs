@@ -57,7 +57,8 @@ sub new {
         = $Self->{ConfigObject}->Get("Ticket::Frontend::CustomerTicketOverview")->{DynamicField};
 
     # disable output of customer company tickets
-    $Self->{DisableCompanyTickets} = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
+    $Self->{DisableCompanyTickets}
+        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
 
     # get the dynamic fields for this screen
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -200,7 +201,6 @@ sub Run {
             },
         };
     }
-
 
     # check if filter is valid
     if ( !$Filters{ $Self->{Subaction} }->{ $Self->{Filter} } ) {

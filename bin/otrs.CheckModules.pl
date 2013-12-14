@@ -118,7 +118,7 @@ my $Help;
 GetOptions( all => \$AllModules, list => \$PackageList, h => \$Help );
 
 # check needed params
-if ( $Help ) {
+if ($Help) {
     print "otrs.CheckModules.pl - OTRS CheckModules\n";
     print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.CheckModules.pl [-list|all] \n";
@@ -646,7 +646,7 @@ sub _PackageList {
 
                 MODULESUB:
                 for my $ModuleSub ( @{ $Module->{Depends} } ) {
-                    my $Required = $Module->{Required};
+                    my $Required          = $Module->{Required};
                     my %InstallCommandSub = _GetInstallCommand($ModuleSub);
 
                     next MODULESUB if !IsHashRefWithData( \%InstallCommandSub );

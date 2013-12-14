@@ -3120,10 +3120,10 @@ sub BuildDateSelection {
             }
         }
 
-        # Check if the DiffTime is in a future year. In this case, we add the missing years between
-        # $CY (current year) and $Y (year) to allow the user to manually set back the year if needed.
-        if ($Y > $CY) {
-            for ($CY .. $Y) {
+       # Check if the DiffTime is in a future year. In this case, we add the missing years between
+       # $CY (current year) and $Y (year) to allow the user to manually set back the year if needed.
+        if ( $Y > $CY ) {
+            for ( $CY .. $Y ) {
                 $Year{$_} = $_;
             }
         }
