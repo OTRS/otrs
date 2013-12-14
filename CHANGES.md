@@ -1,4 +1,5 @@
 3.4.0.betaX 20??-??-??
+ - 2013-12-13 Fixed bug#[10074](http://bugs.otrs.org/show_bug.cgi?id=10074) - Error if no queue matched in DashboardEventsTicketCalendar.
  - 2013-12-13 Fixed bug#[10090](http://bugs.otrs.org/show_bug.cgi?id=10090) - Problems with special characters in Kernel/System/WebUserAgent.pm.
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
