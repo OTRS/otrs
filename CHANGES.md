@@ -1,4 +1,5 @@
 #3.3.4 201?-??-??
+ - 2013-12-16 Updated Russian translation, thanks to Yuriy Kolesnikov.
  - 2013-12-13 Fixed bug#[10074](http://bugs.otrs.org/show_bug.cgi?id=10074) - Error if no queue matched in DashboardEventsTicketCalendar.
  - 2013-12-12 Fixed bug#[965](http://bugs.otrs.org/show_bug.cgi?id=9650) - Special character in customer id breaks Open Tickets in AgentTicketZoom.
  - 2013-12-12 Added functionality to disable access to tickets of other customers with the same customer company in customer interface.
