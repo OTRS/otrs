@@ -384,8 +384,8 @@ sub Data {
             '',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
-        'Mark' => '',
-        'Unmark' => '',
+        'Mark' => 'Отметить',
+        'Unmark' => 'Снать отметку',
         'Bold' => 'Полужирный',
         'Italic' => 'Курсив',
         'Underline' => 'Подчеркнутый',
@@ -1005,7 +1005,7 @@ sub Data {
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Если ничего не выбрано, тогда у этой группы не будет прав (заявки будут недоступны клиенту).',
         'Search Results' => 'Результаты поиска:',
-        'Customers' => 'Компании',
+        'Customers' => 'Клиенты',
         'Groups' => 'Группы',
         'No matches found.' => 'Совпадений не найдено.',
         'Change Group Relations for Customer' => 'Изменить связи с группами для клиента',
@@ -3196,6 +3196,8 @@ sub Data {
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             '',
+        'Defines a list of groups which should have the permission to see stats dashboards (e.g. group1;group2;group3).' =>
+            '',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
             '',
         'Defines a regular expression that filters all email addresses that should not be used in the application.' =>
@@ -4816,6 +4818,8 @@ sub Data {
         'This option defines the process tickets default priority.' => '',
         'This option defines the process tickets default queue.' => '',
         'This option defines the process tickets default state.' => '',
+        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
         'Ticket Queue Overview' => '',
@@ -4931,7 +4935,6 @@ sub Data {
         'All Agents' => 'Все агенты',
         'All Customer variables like defined in config option CustomerUser.' =>
             'Все дополнительные поля информации о клиенте определяются параметрах пользователя.',
-        'All Perl modules needed are currently installed.' => 'Все необходимые модули Perl, установлены.',
         'All customer tickets.' => 'Все заявки клиента.',
         'All email addresses get excluded on replaying on composing an email.' =>
             'Все адреса, исключаемые при ответе на письмо',
@@ -4984,22 +4987,6 @@ sub Data {
         'Change user <-> group settings' => 'Группы пользователей',
         'Change users <-> roles settings' => 'Изменить распределения ролей по пользователям',
         'ChangeLog' => 'Журнал изменений',
-        'Check "System Time" vs "Current Timestamp".' => 'Проверка "Системное время" по сравнению с "Текущим временем".',
-        'Check "max_allowed_packet" setting.' => 'Проверка настройки "max_allowed_packet".',
-        'Check "query_cache_size" setting.' => 'Проверка настройки "query_cache_size"',
-        'Check Default Storage Engine.' => 'Проверка механизма храниния по умолчанию.',
-        'Check Perl Modules installed.' => 'Проверка установленных Perl модулей',
-        'Check Perl version.' => 'Проверка версии Perl',
-        'Check database version.' => 'Проверка версии базы данных.',
-        'Check disk usage.' => 'Проверка использования диска.',
-        'Check for CGI Accelerator.' => 'Проверка использования CGI Accelerator.',
-        'Check if the client uses utf8 for the connection.' => 'Проверка, использует ли клиент utf8 для соединения.',
-        'Check if the database uses utf8 as charset.' => 'Проверка, использует ли база данных utf8 кодировку.',
-        'Check if the system uses Apache::DBI.' => 'Проверка использования Apache::DBI.',
-        'Check if the system uses Apache::Reload/Apache2::Reload.' => 'Проверка использования Apache::Reload/Apache2::Reload.',
-        'Check if the system uses mod_deflate.' => 'Проверка использования mod_deflate.',
-        'Check if the system uses mod_headers.' => 'Проверка использования mod_headers.',
-        'Check the utf8 table charset collation.' => 'Проверка использования таблицами utf8 кодировки.',
         'Child-Object' => 'Объект-потомок',
         'Clear From' => 'Очистить форму',
         'Clear To' => 'Очистить',
@@ -5066,9 +5053,6 @@ sub Data {
             'Не нашли требуемую возможность/функцию? OTRS Group предоставляет купившим подписку клиентам эксклюзивные Адд-Оны:',
         'Diff' => 'Diff',
         'Discard all changes and return to the compose screen' => 'Отказаться от всех изменений и вернуться в окно составления письма',
-        'Disk is full' => 'Диск заполнен',
-        'Display environment variables' => 'Переменные среды',
-        'Display web server version.' => 'Версия Веб сервера',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' =>
             'Обрабатывать или отфильтровывать входящие письма на основе полей заголовка! Возможно использование регулярных выражений.',
         'Do you really want to delete this Object?' => 'Удалить этот объект?',
@@ -5117,7 +5101,6 @@ sub Data {
         'Frontend' => 'Режим пользователя',
         'Fulltext search' => 'Полнотекстовый поиск',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Полнотекстовый поиск в заявке (например, «Mar*in» или «Baue*»)',
-        'General information about your system.' => 'Общая информация о Вашей системе.',
         'Go' => 'Выполнить',
         'Group Ro' => 'Группа только для чтения',
         'Group based' => 'Группа',
@@ -5388,10 +5371,7 @@ sub Data {
         'Show' => 'Показать',
         'Show  article' => 'Показать сообщение',
         'Shows the ticket history!' => 'Показать историю заявки!',
-        'Shows the used Kernel version.' => 'Используемая версия Ядра',
-        'Shows the used distribution.' => 'Используемый дистрибутив.',
         'Site' => 'Место',
-        'Size of the current database.' => 'Размер базы данных.',
         'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
             'Пропуск этого шага автоматически пропустит и регистрацию вашей OTRS. Вы действительно хотите продолжить?',
         'Solution' => 'Решение',
@@ -5406,7 +5386,6 @@ sub Data {
         'Sub-Service of' => 'Дополнительная сервис для',
         'Subgroup \'' => 'Подгруппа \'',
         'Subscribe' => 'Подписаться',
-        'Support Assessment' => 'Состояние системы',
         'Symptom' => 'Признак',
         'System History' => 'История',
         'System State Management' => 'Управление системными состояниями',
@@ -5525,7 +5504,6 @@ sub Data {
         'for ' => 'для',
         'for agent firstname' => 'для агента — имя',
         'for agent lastname' => 'для агента — фамилия',
-        'is used.' => 'используется.',
         'kill all sessions' => 'Закрыть все текущие сеансы',
         'kill session' => 'Завершить сеанс',
         'maximal period form' => 'Максимальный период с',
