@@ -85,6 +85,7 @@ OTRSCodePolicy*
 # ITSM
 var/stats/*.xml.installed
 bin/CodeInstall.pl
+bin/ModuleCode.pl
 bin/DatabaseInstall.pl
 perltidy.LOG
 .procmailrc
