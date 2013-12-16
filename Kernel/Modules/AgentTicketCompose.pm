@@ -1564,7 +1564,7 @@ sub _Mask {
         $State{SelectedID} = $Param{GetParam}->{StateID};
     }
     else {
-        $State{SelectedValue} = $Param{NextState} || $Self->{Config}->{StateDefault};
+        $State{SelectedValue} = $Self->{Config}->{StateDefault};
     }
     $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
         Data         => $Param{NextStates},

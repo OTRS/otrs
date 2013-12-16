@@ -1,4 +1,5 @@
 3.4.0.betaX 20??-??-??
+ - 2013-12-16 Fixed bug#[10097](http://bugs.otrs.org/show_bug.cgi?id=10097) - $Param{NextState} is always undef in AgentTicketCompose.
  - 2013-12-16 Updated Russian translation, thanks to Yuriy Kolesnikov.
  - 2013-12-16 Improved mail address parsing speed, thanks to Moritz Lenz!
  - 2013-12-13 Fixed bug#[10074](http://bugs.otrs.org/show_bug.cgi?id=10074) - Error if no queue matched in DashboardEventsTicketCalendar.
