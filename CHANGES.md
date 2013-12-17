@@ -1,4 +1,5 @@
 #3.3.4 201?-??-??
+ - 2013-12-17 Fixed bug#[10103](http://bugs.otrs.org/show_bug.cgi?id=10103) - ArticleTypeID is always undef in AgentTicketCompose
  - 2013-12-16 Fixed bug#[10080](http://bugs.otrs.org/show_bug.cgi?id=10080) - Bad group check in otrs-scheduler-linux.
  - 2013-12-16 Fixed bug#[10097](http://bugs.otrs.org/show_bug.cgi?id=10097) - $Param{NextState} is always undef in AgentTicketCompose.
  - 2013-12-16 Updated Russian translation, thanks to Yuriy Kolesnikov.
