@@ -314,7 +314,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
      */
     TargetNS.AddTicketCustomer = function (Field, CustomerValue, CustomerKey, SetAsTicketCustomer) {
 
-        if ( CustomerKey && CustomerKey !== '') {
+        if ( typeof CustomerKey !== 'undefined') {
             CustomerKey = htmlDecode(CustomerKey);
         }
 
