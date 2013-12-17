@@ -47,7 +47,7 @@ prog=otrs-scheduler
 # set Scheduler script
 Scheduler=$OTRS_HOME/bin/otrs.Scheduler.pl
 
-# Regular expresions
+# Regular expressions
 RegExDigit="[0-9]+"
 
 #Check user and group
@@ -58,22 +58,21 @@ if [[ ! $TestUID =~ $RegExDigit ]]; then
     exit 1
 fi
 
-TestGID=$(id -g $Group)
-if [[ ! $TestGID =~ $RegExDigit ]]; then
+test `getent group | awk -F : '{print $1}' |grep "^${Group}$"` || {
     echo "The group ${Group} does not exist in this system."
     exit 1
-fi
+}
 
 CanRun() {
 
-    # check if scheduler can be runned
+    # check if scheduler can be run
     test -x "$Scheduler" || {
         echo "Cannot run $Scheduler"
         exit 1
     }
 }
 
-# check if scheduler can be runned
+# check if scheduler can be run
 CanRun
 
 # set Scheduler PID
@@ -125,7 +124,7 @@ if [ "$system" = "suse" ]; then
         startproc -u $User $Scheduler -a start
     }
 
-    # this is part of openSUSE 11.3 workaround since it cant find the process
+    # this is part of openSUSE 11.3 workaround since it can't find the process
     # it can't stop it, so a forced killed is needed in a redefined killproc()
     # when openSUSE 11.3 will reach end of support killproc() can be deleted
     killproc(){
@@ -197,14 +196,14 @@ start() {
         daemon  --user $User "${Scheduler} -a start" > /dev/null
         RETVAL=$?
 
-        # check if Scheduler start successfuly and display success message
+        # check if Scheduler start successfully and display success message
         if [ $RETVAL -eq 0 ]; then
             succ_msg
 
         # otherwise display fail message
         else
 
-            # workaround OpenSUSE 11.3 returns 7 becasuse it can't find the process
+            # workaround OpenSUSE 11.3 returns 7 because it can't find the process
             if [ "$system" = "suse" -a $RETVAL -eq 7 ]; then
                RETVAL=0
                succ_msg
@@ -213,7 +212,7 @@ start() {
             fi
         fi
 
-    # otherwise cant run it again
+    # otherwise can't run it again
     else
        begin "OTRS Scheduler is already running ${PID}"
        fail_msg
