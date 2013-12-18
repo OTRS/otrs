@@ -629,17 +629,34 @@ fetches all statistics that the current user may see
 sub StatsListGet {
     my ( $Self, %Param ) = @_;
 
-    my $CacheKey = 'StatsListGet::' . ( join '::', %Param );
+    my @SearchResult;
+
+    # Only cache the XML search as we need to filter based on user permissions later
+    my $CacheKey = 'StatsListGet::XMLSearch';
     my $Cache = $Self->{CacheObject}->Get(
         Type => 'Stats',
         Key  => $CacheKey,
     );
-    return $Cache if ref $Cache eq 'HASH';
 
-    my @SearchResult;
-    if ( !( @SearchResult = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats' ) ) ) {
-        $Self->_AutomaticSampleImport();
-        return if !( @SearchResult = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats' ) );
+    # Do we have a cache available?
+    if (ref $Cache eq 'ARRAY') {
+        @SearchResult = @{ $Cache };
+    }
+    else {
+        # No cache. Is there stats data yet?
+        if ( !( @SearchResult = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats' ) ) ) {
+            # Import sample stats
+            $Self->_AutomaticSampleImport();
+            # Load stats again
+            return if !( @SearchResult = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats' ) );
+        }
+        $Self->{CacheObject}->Set(
+            Type  => 'Stats',
+            Key   => $CacheKey,
+            Value => \@SearchResult,
+            TTL   => 24 * 60 * 60,
+        );
+
     }
 
     # get user groups
@@ -679,13 +696,6 @@ sub StatsListGet {
             $Result{$StatID} = $Stat;
         }
     }
-
-    $Self->{CacheObject}->Set(
-        Type  => 'Stats',
-        Key   => $CacheKey,
-        Value => \%Result,
-        TTL   => 24 * 60 * 60,
-    );
 
     return \%Result;
 }
