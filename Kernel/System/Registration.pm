@@ -552,6 +552,9 @@ sub RegistrationUpdateSend {
         return %Result;
     }
 
+    # convert internal used charset
+    $Self->{EncodeObject}->EncodeInput( $Response{Content} );
+
     # decode JSON data
     my $ResponseData = $Self->{JSONObject}->Decode(
         Data => ${ $Response{Content} },
