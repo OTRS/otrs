@@ -1537,10 +1537,18 @@ sub _Mask {
             = $ArticleTypeID;
     }
 
+    my $ArticleTypeIDSelected = $Param{ArticleTypeID};
+    if ( $Param{GetParam}->{ArticleTypeID} ) {
+
+        # set param ArticleType
+        $ArticleTypeIDSelected = $Param{GetParam}->{ArticleTypeID};
+
+    }
+
     $Param{ArticleTypesStrg} = $Self->{LayoutObject}->BuildSelection(
         Data       => \%ArticleTypes,
         Name       => 'ArticleTypeID',
-        SelectedID => $Param{GetParam}->{ArticleTypeID},
+        SelectedID => $ArticleTypeIDSelected,
     );
 
     # build customer search autocomplete field
