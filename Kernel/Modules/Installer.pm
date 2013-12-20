@@ -1109,7 +1109,7 @@ sub ReConfigure {
 
     # write new config file
     ## no critic
-    open( my $Out, '>', $ConfigFile )
+    open( my $Out, '>:utf8', $ConfigFile )
         || return "Can't open $ConfigFile: $!";
     print $Out $Config;
     ## use critic
