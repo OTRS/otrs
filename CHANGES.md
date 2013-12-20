@@ -1,15 +1,16 @@
-3.4.0.betaX 20??-??-??
- - 2013-12-16 Fixed bug#[10080](http://bugs.otrs.org/show_bug.cgi?id=10080) - Bad group check in otrs-scheduler-linux.
- - 2013-12-16 Fixed bug#[10097](http://bugs.otrs.org/show_bug.cgi?id=10097) - $Param{NextState} is always undef in AgentTicketCompose.
- - 2013-12-16 Updated Russian translation, thanks to Yuriy Kolesnikov.
+#3.4.0.beta1 20??-??-??
  - 2013-12-16 Improved mail address parsing speed, thanks to Moritz Lenz!
- - 2013-12-13 Fixed bug#[10074](http://bugs.otrs.org/show_bug.cgi?id=10074) - Error if no queue matched in DashboardEventsTicketCalendar.
  - 2013-12-13 Fixed bug#[10090](http://bugs.otrs.org/show_bug.cgi?id=10090) - Problems with special characters in Kernel/System/WebUserAgent.pm.
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.4 201?-??-??
+ - 2013-12-20 Fixed bug#[10099](http://bugs.otrs.org/show_bug.cgi?id=10099) - Missing challenge token checks on customer interface.
  - 2013-12-18 Fixed bug#[10110](http://bugs.otrs.org/show_bug.cgi?id=10110) - Stats list may show too few or too many stats.
  - 2013-12-17 Fixed bug#[10103](http://bugs.otrs.org/show_bug.cgi?id=10103) - ArticleTypeID is always undef in AgentTicketCompose
+ - 2013-12-16 Updated Russian translation, thanks to Yuriy Kolesnikov.
+ - 2013-12-16 Fixed bug#[10080](http://bugs.otrs.org/show_bug.cgi?id=10080) - Bad group check in otrs-scheduler-linux.
+ - 2013-12-16 Fixed bug#[10097](http://bugs.otrs.org/show_bug.cgi?id=10097) - $Param{NextState} is always undef in AgentTicketCompose.
+ - 2013-12-13 Fixed bug#[10074](http://bugs.otrs.org/show_bug.cgi?id=10074) - Error if no queue matched in DashboardEventsTicketCalendar.
  - 2013-12-12 Fixed bug#[965](http://bugs.otrs.org/show_bug.cgi?id=9650) - Special character in customer id breaks Open Tickets in AgentTicketZoom.
  - 2013-12-12 Added functionality to disable access to tickets of other customers with the same customer company in customer interface.
  - 2013-12-12 Fixed bug#[9702](http://bugs.otrs.org/show_bug.cgi?id=9702) - Wrong article type with external ticketnumber recognition i.c.w. follow-up reject option.
