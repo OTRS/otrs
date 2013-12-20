@@ -49,7 +49,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'Update' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $Self->{LayoutObject}->ChallengeTokenCheck(Type => 'Customer');
 
         # check group param
         my $Group = $Self->{ParamObject}->GetParam( Param => 'Group' ) || '';

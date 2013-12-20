@@ -1113,11 +1113,17 @@ sub ChallengeTokenCheck {
     }
 
     # no valid token found
-    $Self->FatalError(
-        Message => 'Invalid Challenge Token!',
-    );
+    if ($Param{Type} && lc $Param{Type} eq 'customer') {
+        $Self->CustomerFatalError(
+            Message => 'Invalid Challenge Token!',
+        );
+    }
+    else {
+        $Self->FatalError(
+            Message => 'Invalid Challenge Token!',
+        );
+    }
 
-    # ChallengeToken ok
     return;
 }
 
