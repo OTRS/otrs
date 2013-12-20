@@ -227,7 +227,7 @@ sub Run {
     }
 
     if ( $Self->{Subaction} eq 'StoreActivityDialog' && $ProcessEntityID ) {
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $Self->{LayoutObject}->ChallengeTokenCheck(Type => 'Customer');
 
         return $Self->_StoreActivityDialog(
             %Param,

@@ -1,4 +1,5 @@
 #3.2.14 201?-??-??
+ - 2013-12-20 Fixed bug#[10099](http://bugs.otrs.org/show_bug.cgi?id=10099) - Missing challenge token checks on customer interface.
  - 2013-12-17 Fixed bug#[10103](http://bugs.otrs.org/show_bug.cgi?id=10103) - ArticleTypeID is always undef in AgentTicketCompose.
  - 2013-12-12 Added functionality to disable access to tickets of other customers with the same customer company in customer interface.
  - 2013-12-12 Fixed bug#[9650](http://bugs.otrs.org/show_bug.cgi?id=9650) - Special character in customer id breaks Open Tickets in AgentTicketZoom.

@@ -305,6 +305,10 @@ sub Run {
 
     # check follow up
     elsif ( $Self->{Subaction} eq 'Store' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck(Type => 'Customer');
+
         my $NextScreen = $Self->{NextScreen} || $Self->{Config}->{NextScreenAfterFollowUp};
         my %Error;
 
