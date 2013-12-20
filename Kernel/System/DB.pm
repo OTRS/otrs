@@ -14,7 +14,6 @@ use strict;
 use warnings;
 
 use DBI;
-use utf8;
 
 use Kernel::System::Time;
 use Kernel::System::VariableCheck qw(:all);
@@ -107,11 +106,6 @@ sub new {
     $Self->{DSN}  = $Param{DatabaseDSN}  || $Self->{ConfigObject}->Get('DatabaseDSN');
     $Self->{USER} = $Param{DatabaseUser} || $Self->{ConfigObject}->Get('DatabaseUser');
     $Self->{PW}   = $Param{DatabasePw}   || $Self->{ConfigObject}->Get('DatabasePw');
-
-    # set utf8 flag, to be able to use non ascii characters in the conection string
-    for my $ParamName (qw(USER PW)) {
-        utf8::encode( $Self->{$ParamName} );
-    }
 
     $Self->{SlowLog} = $Param{'Database::SlowLog'}
         || $Self->{ConfigObject}->Get('Database::SlowLog');
