@@ -177,7 +177,7 @@ sub Run {
     for my $Queue ( sort values %Queues ) {
 
         # Hide empty queues
-        if ( !grep { $_ > 0 } @{ $Results{$Queue} } ) {
+        if ( !grep { defined $_ && $_ > 0 } @{ $Results{$Queue} } ) {
             next QUEUE;
         }
 
@@ -202,8 +202,8 @@ sub Run {
                     Sort    => $Sort,
                 },
             );
-            $RowTotal += $Results{$Queue}[$Counter];
-            $StatusTotal[$StateOrderID] += $Results{$Queue}[$Counter];
+            $RowTotal += $Results{$Queue}[$Counter] || 0;
+            $StatusTotal[$StateOrderID] += $Results{$Queue}[$Counter] || 0;
             $Counter++;
         }
 
