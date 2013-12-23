@@ -1576,7 +1576,10 @@ sub _Init {
         }
 
         # Ok, cache was not used, parse the config files
-        my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $ConfigFile );
+        my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(
+            String     => $ConfigFile, 
+            Sourcename => $File,
+        );
 
         $Data{$File} = \@XMLHash;
 
