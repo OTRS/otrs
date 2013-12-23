@@ -5922,6 +5922,7 @@ via the Preferences button after logging in.
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Array>
+                <Item>thirdparty/json/json2.js</Item>
                 <Item>thirdparty/jquery-1.10.0/jquery.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
                 <Item>thirdparty/jquery-validate-1.11.1/jquery.validate.js</Item>
