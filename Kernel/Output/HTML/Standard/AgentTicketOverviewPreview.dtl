@@ -370,7 +370,12 @@ $Data{"Body"}
 
         // only act if the link was not clicked directly
         if (Event.target !== $MasterActionLink.get(0)) {
-            window.location = $MasterActionLink.attr('href');
+            if (Event.ctrlKey || Event.metaKey) {
+                window.open($MasterActionLink.attr('href'));
+            }
+            else {
+                window.location = $MasterActionLink.attr('href');
+            }
             return false;
         }
     });
