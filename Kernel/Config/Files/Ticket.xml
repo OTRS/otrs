@@ -8208,6 +8208,7 @@ $QData{"Body"}
                 <Item Key="Action">Action</Item>
                 <Item Key="ActivityDialog">ActivityDialog</Item>
                 <Item Key="Form">Form</Item>
+                <Item Key="Process">Process</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -8221,6 +8222,7 @@ $QData{"Body"}
                 <Item Key="Action">Action</Item>
                 <Item Key="ActivityDialog">ActivityDialog</Item>
                 <Item Key="Form">Form</Item>
+                <Item Key="Process">Process</Item>
             </Hash>
         </Setting>
     </ConfigItem>
