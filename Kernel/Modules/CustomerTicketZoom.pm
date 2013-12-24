@@ -141,7 +141,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'Store' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck(Type => 'Customer');
+        $Self->{LayoutObject}->ChallengeTokenCheck( Type => 'Customer' );
 
         my $NextScreen = $Self->{NextScreen} || $Self->{Config}->{NextScreenAfterFollowUp};
         my %Error;
