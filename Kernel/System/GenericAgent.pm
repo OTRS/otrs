@@ -1293,7 +1293,7 @@ sub _JobRunTicket {
             else {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Coud not set dynamic field $DynamicFieldConfig->{Name} "
+                    Message  => "Could not set dynamic field $DynamicFieldConfig->{Name} "
                         . "for Ticket $Ticket.",
                 );
             }
