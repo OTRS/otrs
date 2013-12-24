@@ -224,7 +224,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'StoreNew' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck(Type => 'Customer');
+        $Self->{LayoutObject}->ChallengeTokenCheck( Type => 'Customer' );
 
         my $NextScreen = $Self->{Config}->{NextScreenAfterNewTicket};
         my %Error;
