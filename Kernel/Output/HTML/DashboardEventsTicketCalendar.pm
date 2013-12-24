@@ -111,7 +111,7 @@ sub Run {
     );
 
     my %QueuesConfigured;
-    for my $Queue (@$Queues) {
+    for my $Queue ( @{$Queues} ) {
         for my $QueueID ( sort keys %QueuesAll ) {
             if ( $QueuesAll{$QueueID} eq $Queue ) {
                 $QueuesConfigured{$QueueID} = $QueuesAll{$QueueID};
