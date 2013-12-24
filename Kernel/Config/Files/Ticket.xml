@@ -9421,7 +9421,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element1" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9433,7 +9433,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element2" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9445,7 +9445,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element3" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9457,7 +9457,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element4" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9469,7 +9469,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element5" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9481,7 +9481,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element6" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9493,7 +9493,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element7" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9505,7 +9505,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element8" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9517,7 +9517,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element9" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9529,7 +9529,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element10" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9541,7 +9541,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element11" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9553,7 +9553,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element12" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9565,7 +9565,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element13" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9577,7 +9577,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element14" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9589,7 +9589,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element15" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9601,7 +9601,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element16" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
