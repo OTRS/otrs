@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketOverviewSmall.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -79,9 +79,9 @@ sub new {
         )
     {
         @ColumnsAvailable = grep { $Self->{Config}->{DefaultColumns}->{$_} ne '0' }
-            keys %{ $Self->{Config}->{DefaultColumns} };
+            sort keys %{ $Self->{Config}->{DefaultColumns} };
         @ColumnsEnabled = grep { $Self->{Config}->{DefaultColumns}->{$_} eq '2' }
-            keys %{ $Self->{Config}->{DefaultColumns} };
+            sort _DefaultColumnSort keys %{ $Self->{Config}->{DefaultColumns} };
     }
 
     # get dynamic fields
@@ -1876,6 +1876,35 @@ sub _ColumnFilterJSON {
     );
 
     return $JSON;
+}
+
+sub _DefaultColumnSort {
+
+    my %DefaultColumns = (
+        Age                    => 110,
+        Changed                => 111,
+        CustomerID             => 170,
+        CustomerName           => 171,
+        CustomerUserID         => 172,
+        EscalationResponseTime => 113,
+        EscalationSolutionTime => 112,
+        EscalationTime         => 111,
+        EscalationUpdateTime   => 114,
+        Lock                   => 140,
+        Owner                  => 160,
+        PendingTime            => 112,
+        Priority               => 193,
+        Queue                  => 150,
+        Responsible            => 161,
+        SLA                    => 192,
+        Service                => 191,
+        State                  => 130,
+        TicketNumber           => 100,
+        Title                  => 120,
+        Type                   => 180,
+    );
+
+    return $DefaultColumns{$a} <=> $DefaultColumns{$b};
 }
 
 1;

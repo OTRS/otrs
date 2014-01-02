@@ -1,4 +1,5 @@
 #3.3.4 201?-??-??
+ - 2014-01-02 Fixed bug#[10116](http://bugs.otrs.org/show_bug.cgi?id=10116) - Random ordering of columns in "Small" ticket lists.
  - 2013-12-23 Fixed bug#[10079](http://bugs.otrs.org/show_bug.cgi?id=10079) - Cannot operate OTRS on IE7 because of JavaScript error.
  - 2013-12-23 Fixed bug#[10094](http://bugs.otrs.org/show_bug.cgi?id=10094) - Former FAO OTRSACLExtensions not available in the ACL Editor.
  - 2013-12-20 Fixed bug#[10099](http://bugs.otrs.org/show_bug.cgi?id=10099) - Missing challenge token checks on customer interface.
