@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster/Filter/ExternalTicketNumberRecognition.pm - Recognize incoming emails as followups
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -135,7 +135,7 @@ sub Run {
         }
     }
 
-    # Is there a ticket for this ticket number?
+    # is there a ticket for this ticket number?
     my %Query = (
         Result => 'ARRAY',
         Limit  => 1,
@@ -182,7 +182,7 @@ sub Run {
     # get the first and only ticket id
     my $TicketID = shift @TicketIDs;
 
-    # OK, found ticket to deal with
+    # ok, found ticket to deal with
     if ($TicketID) {
 
         # get ticket number
@@ -204,11 +204,11 @@ sub Run {
         my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
         $Param{GetParam}->{Subject} .= " [$TicketHook$TicketHookDivider$TicketNumber]";
 
-        # Set sender type and article type.
+        # set sender type and article type.
         $Param{GetParam}->{'X-OTRS-FollowUp-SenderType'}  = $Param{JobConfig}->{SenderType};
         $Param{GetParam}->{'X-OTRS-FollowUp-ArticleType'} = $Param{JobConfig}->{ArticleType};
 
-        # Also set these parameters. It could be that the follow up is rejected by Reject.pm
+        # also set these parameters. It could be that the follow up is rejected by Reject.pm
         #   (follow-ups not allowed), but the original article will still be attached to the ticket.
         $Param{GetParam}->{'X-OTRS-SenderType'}  = $Param{JobConfig}->{SenderType};
         $Param{GetParam}->{'X-OTRS-ArticleType'} = $Param{JobConfig}->{ArticleType};
