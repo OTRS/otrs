@@ -127,6 +127,18 @@ my @Tests = (
         Success     => 0,
         ErrorNumber => 0,
     },
+    {
+        Name    => 'GET - http - long timeout - Test ' . $TestNumber++,
+        URL     => "http://ftp.otrs.org/pub/otrs/packages/otrs.xml",
+        Timeout => '100',
+        Proxy   => $Proxy,
+        Success => '1',
+        Header  => {
+            Content_Type => 'text/json',
+        },
+        Return  => 'REQUEST', 
+        Matches => qr!Content-Type:\s+text/json!,
+    },
 );
 
 # get repository list
@@ -164,9 +176,7 @@ for my $Test (@Tests) {
     );
 
     my %Response = $WebUserAgentObject->Request(
-        URL  => $Test->{URL},
-        Type => $Test->{Type},
-        Data => $Test->{Data},
+        %{$Test},
     );
 
     $Self->True(
@@ -196,6 +206,13 @@ for my $Test (@Tests) {
             '200',
             "$Test->{Name} - WebUserAgent - Check request status",
         );
+
+        if ( $Test->{Matches} ) {
+            $Self->True(
+                $Response{Content} =~ $Test->{Matches},
+                "$Test->{Name} - Matches",
+            );
+        }
     }
     if ( $Test->{Content} ) {
         $Self->Is(

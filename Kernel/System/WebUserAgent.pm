@@ -12,6 +12,7 @@ package Kernel::System::WebUserAgent;
 use strict;
 use warnings;
 
+use HTTP::Headers;
 use LWP::UserAgent;
 
 use Kernel::System::Encode;
@@ -126,6 +127,18 @@ returns
         Content => $ContentRef, # content of requested URL
     );
 
+You can even pass some headers
+
+    my %Response = $WebUserAgentObject->Request(
+        URL    => 'http://example.com/someurl',
+        Type   => 'POST',
+        Data   => [ Attribute => 'Value', Attribute => 'OtherValue' ],
+        Header => {
+            Authorization => 'Basic xxxx',
+            Content_Type  => 'text/json',
+        }, 
+    );
+
 =cut
 
 sub Request {
@@ -161,6 +174,13 @@ sub Request {
 
         # init agent
         my $UserAgent = LWP::UserAgent->new();
+
+        # set headers
+        if ( $Param{Header} ) {
+            $UserAgent->default_headers(
+                HTTP::Headers->new( %{ $Param{Headers} } ),
+            );
+        }
 
         # set timeout
         $UserAgent->timeout( $Self->{Timeout} );
@@ -211,6 +231,13 @@ sub Request {
     # get the content to convert internal used charset
     my $ResponseContent = $Response->decoded_content();
     $Self->{EncodeObject}->EncodeInput( \$ResponseContent );
+
+    if ( $Param{Return} && $Param{Return} eq 'REQUEST' ) {
+        return (
+            Status  => $Response->status_line(),
+            Content => $Response->request()->as_string(),
+        );
+    }
 
     # return request
     return (
