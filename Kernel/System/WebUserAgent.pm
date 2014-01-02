@@ -178,7 +178,7 @@ sub Request {
         # set headers
         if ( $Param{Header} ) {
             $UserAgent->default_headers(
-                HTTP::Headers->new( %{ $Param{Headers} } ),
+                HTTP::Headers->new( %{ $Param{Header} } ),
             );
         }
 

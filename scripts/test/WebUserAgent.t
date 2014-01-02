@@ -128,7 +128,7 @@ my @Tests = (
         ErrorNumber => 0,
     },
     {
-        Name    => 'GET - http - long timeout - Test ' . $TestNumber++,
+        Name    => 'GET - http - Header ' . $TestNumber++,
         URL     => "http://ftp.otrs.org/pub/otrs/packages/otrs.xml",
         Timeout => '100',
         Proxy   => $Proxy,
@@ -209,7 +209,7 @@ for my $Test (@Tests) {
 
         if ( $Test->{Matches} ) {
             $Self->True(
-                $Response{Content} =~ $Test->{Matches},
+                ( $Response{Content} =~ $Test->{Matches} ) || undef,
                 "$Test->{Name} - Matches",
             );
         }
