@@ -1,6 +1,6 @@
 # --
 # AdminSMIME.dtl - provides HTML form for AdminSMIME html
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -63,6 +63,21 @@
 
 <!-- dtl:block:SMIMEFilter -->
 
+<!-- dtl:block:OverviewHint -->
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Hint"}</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    $Text{"To show certificate details click on a certificate icon."}
+                </p>
+                <p class="FieldExplanation">
+                    $Text{"To manage private certificate relations click on a private key icon."}
+                </p>
+            </div>
+        </div>
+<!-- dtl:block:OverviewHint -->
 <!-- dtl:block:SignerCertHint -->
         <div class="WidgetSimple">
             <div class="Header">
