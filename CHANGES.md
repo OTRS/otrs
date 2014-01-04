@@ -1,4 +1,5 @@
 #3.3.4 201?-??-??
+ - 2014-01-03 Fixed bug#[9978](http://bugs.otrs.org/show_bug.cgi?id=9978) - Activity Dialog for Customer shows "No Process configured!".
  - 2014-01-03 Fixed bug#[10134](http://bugs.otrs.org/show_bug.cgi?id=10134) - Missing information on icon actions for SMIME certificates and keys.
  - 2014-01-02 Fixed bug#[10116](http://bugs.otrs.org/show_bug.cgi?id=10116) - Random ordering of columns in "Small" ticket lists.
  - 2013-12-23 Fixed bug#[10079](http://bugs.otrs.org/show_bug.cgi?id=10079) - Cannot operate OTRS on IE7 because of JavaScript error.
