@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketProcess.pm - to create process tickets
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -235,14 +235,22 @@ sub Run {
         push @ProcessStates, 'FadeAway'
     }
 
+    # get the list of processes that customer can start
     my $ProcessList = $Self->{ProcessObject}->ProcessList(
         ProcessState => \@ProcessStates,
         Interface    => ['CustomerInterface'],
     );
 
+    # also get the list of processes initiated by agents, as an activity dialog might be configured
+    # for the customer interface
+    my $FollowupProcessList = $Self->{ProcessObject}->ProcessList(
+        ProcessState => \@ProcessStates,
+        Interface => [ 'AgentInterface', 'CustomerInterface' ],
+    );
+
     my $ProcessEntityID = $Self->{ParamObject}->GetParam( Param => 'ProcessEntityID' );
 
-    if ( !IsHashRefWithData($ProcessList) ) {
+    if ( !IsHashRefWithData($ProcessList) && !IsHashRefWithData($FollowupProcessList) ) {
         return $Self->{LayoutObject}->CustomerErrorScreen(
             Message => 'No Process configured!',
             Comment => 'Please contact the admin.',
@@ -261,20 +269,31 @@ sub Run {
         Processes => $ProcessList,
     );
 
+    $Self->{TicketObject}->TicketAcl(
+        ReturnType     => 'Ticket',
+        ReturnSubType  => '-',
+        Data           => $FollowupProcessList,
+        CustomerUserID => $Self->{UserID},
+    );
+
+    $FollowupProcessList = $Self->{TicketObject}->TicketAclProcessData(
+        Processes => $FollowupProcessList,
+    );
+
     # set AJAXDialog for proper error responses and screen display
     $Self->{AJAXDialog} = $Self->{ParamObject}->GetParam( Param => 'AJAXDialog' ) || '';
 
-    # If we have no Subaction or Subaction is 'Create' and submitted ProcessEntityID is invalid
-    # Display the ProcessList
-    if (
-        !$Self->{Subaction}
-        || (
-            $Self->{Subaction} eq 'DisplayActivityDialog'
-            && !$ProcessList->{$ProcessEntityID}
-            && $Self->{AJAXDialog}
-        )
-        )
-    {
+    # if we have no subaction display the process list to start a new one
+    if ( !$Self->{Subaction} ) {
+
+        # to display the process list is mandatory to have processes that customer can start
+        if ( !IsHashRefWithData($ProcessList) ) {
+            return $Self->{LayoutObject}->CustomerErrorScreen(
+                Message => 'No Process configured!',
+                Comment => 'Please contact the admin.',
+            );
+        }
+
         return $Self->_DisplayProcessList(
             %Param,
             ProcessList     => $ProcessList,
@@ -308,7 +327,7 @@ sub Run {
     # if invalid process is detected on a ActivityDilog popup screen show an error message
     elsif (
         $Self->{Subaction} eq 'DisplayActivityDialog'
-        && !$ProcessList->{$ProcessEntityID}
+        && !$FollowupProcessList->{$ProcessEntityID}
         && !$Self->{AJAXDialog}
         )
     {
