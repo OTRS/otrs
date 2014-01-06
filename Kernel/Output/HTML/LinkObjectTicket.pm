@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module for link object 'Ticket'.
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

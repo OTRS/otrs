@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # DBUpdate-to-3.2.pl - update script to migrate OTRS 3.1.x to 3.2.x
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
