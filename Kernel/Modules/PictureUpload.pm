@@ -66,9 +66,10 @@ sub Run {
         my @AttachmentData = $Self->{UploadCacheObject}->FormIDGetAllFilesData(
             FormID => $FormID,
         );
+        ATTACHMENT:
         for my $Attachment (@AttachmentData) {
-            next if !$Attachment->{ContentID};
-            next if $Attachment->{ContentID} ne $ContentID;
+            next ATTACHMENT if !$Attachment->{ContentID};
+            next ATTACHMENT if $Attachment->{ContentID} ne $ContentID;
             return $Self->{LayoutObject}->Attachment(
                 Type => 'inline',
                 %{$Attachment},

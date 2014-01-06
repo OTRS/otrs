@@ -755,8 +755,9 @@ sub SendEmail {
     }
 
     # check some values
+    LINE:
     for my $Line (qw(To Cc Bcc)) {
-        next if !$GetParam{$Line};
+        next LINE if !$GetParam{$Line};
         for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
             if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
                 $Error{ $Line . 'ErrorType' }
@@ -897,6 +898,7 @@ sub SendEmail {
 
         # remove unused inline images
         my @NewAttachmentData;
+        ATTACHMENT:
         for my $Attachment (@AttachmentData) {
             my $ContentID = $Attachment->{ContentID};
             if ( $ContentID && ( $Attachment->{ContentType} =~ /image/i ) ) {
@@ -909,7 +911,7 @@ sub SendEmail {
                 $GetParam{Body} =~ s/(ContentID=)$ContentIDLinkEncode/$1$ContentID/g;
 
                 # ignore attachment if not linked in body
-                next if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
+                next ATTACHMENT if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
             }
 
             # remember inline images and normal attachments
@@ -925,8 +927,9 @@ sub SendEmail {
 
     # send email
     my $To = '';
+    KEY:
     for my $Key (qw(To Cc Bcc)) {
-        next if !$GetParam{$Key};
+        next KEY if !$GetParam{$Key};
         if ($To) {
             $To .= ', ';
         }
@@ -1048,10 +1051,11 @@ sub AjaxUpdate {
     # run compose modules
     if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' ) {
         my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
+        JOB:
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            next JOB if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
 
             my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
 

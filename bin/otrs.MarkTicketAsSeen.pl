@@ -124,10 +124,11 @@ for my $TicketID (@TicketIDs) {
     );
     my @Data;
     for my $ArticleID (@ArticleIndex) {
+        USERID:
         for my $UserID ( sort keys %Users ) {
 
             # check permission
-            next if !$UserAccess{$UserID};
+            next USERID if !$UserAccess{$UserID};
 
             push @Data, {
                 ArticleID => $ArticleID,
@@ -147,10 +148,11 @@ for my $TicketID (@TicketIDs) {
     }
 
     # update ticket flag
+    USERID:
     for my $UserID ( sort keys %Users ) {
 
         # check permission
-        next if !$UserAccess{$UserID};
+        next USERID if !$UserAccess{$UserID};
 
         # set ticket flag
         $TicketObject->TicketFlagSet(

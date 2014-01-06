@@ -599,8 +599,9 @@ sub _GetParams {
 
     # get params for keys
     my $KeyIndex = 0;
+    KEYCOUNTER:
     for my $KeyCounter ( 1 .. $GetParam->{KeyCounter} ) {
-        next if !$Self->{ParamObject}->GetParam( Param => 'KeyIndex' . $KeyCounter );
+        next KEYCOUNTER if !$Self->{ParamObject}->GetParam( Param => 'KeyIndex' . $KeyCounter );
         $KeyIndex++;
         KEY_ITEM:
         for my $KeyItem (qw(KeyMapTypeStrg KeyName KeyMapNew ValueCounter)) {

@@ -330,7 +330,6 @@ sub Run {
         ARTICLE:
         for my $Article (@ArticleBox) {
 
-            # next if not attachments required
             next ARTICLE if !$Attachments;
 
             # get attachment index (without attachments)
@@ -342,7 +341,6 @@ sub Run {
                 UserID                     => $UserID,
             );
 
-            # next if not attachments
             next ARTICLE if !IsHashRefWithData( \%AtmIndex );
 
             my @Attachments;
@@ -355,7 +353,6 @@ sub Run {
                     UserID    => $UserID,
                 );
 
-                # next if not attachment
                 next ATTACHMENT if !IsHashRefWithData( \%Attachment );
 
                 # convert content to base64

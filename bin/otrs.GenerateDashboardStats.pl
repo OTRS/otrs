@@ -105,7 +105,7 @@ sub Run {
                 Valid         => 1,
                 NoOutOfOffice => 1,
             );
-            next if ( !%UserData );
+            next USERID if ( !%UserData );
 
             print "    User: $UserData{UserLogin} ($UserID)\n";
 

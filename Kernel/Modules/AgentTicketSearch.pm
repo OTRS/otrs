@@ -373,8 +373,9 @@ sub Run {
             }
 
             # insert new profile params
+            KEY:
             for my $Key ( sort keys %GetParam ) {
-                next if !defined $GetParam{$Key};
+                next KEY if !defined $GetParam{$Key};
                 $Self->{SearchProfileObject}->SearchProfileAdd(
                     Base      => 'TicketSearch',
                     Name      => $Self->{Profile},
@@ -1113,9 +1114,10 @@ sub Run {
         # if no profile is used, set default params of default attributes
         if ( !$Profile ) {
             if ( $Self->{Config}->{Defaults} ) {
+                KEY:
                 for my $Key ( sort keys %{ $Self->{Config}->{Defaults} } ) {
-                    next if !$Self->{Config}->{Defaults}->{$Key};
-                    next if $Key eq 'DynamicField';
+                    next KEY if !$Self->{Config}->{Defaults}->{$Key};
+                    next KEY if $Key eq 'DynamicField';
 
                     if ( $Key =~ /^(Ticket|Article)(Create|Change|Close|Escalation)/ ) {
                         my @Items = split /;/, $Self->{Config}->{Defaults}->{$Key};
@@ -1902,8 +1904,9 @@ sub Run {
             EscalationTimeSearchType => 'TicketEscalation',
             ArticleTimeSearchType    => 'ArticleCreate',
         );
+        KEY:
         for my $Key ( sort keys %Map ) {
-            next if !defined $GetParamBackup{$Key};
+            next KEY if !defined $GetParamBackup{$Key};
             if ( $GetParamBackup{$Key} eq 'TimePoint' ) {
                 $GetParamBackup{ $Map{$Key} . 'TimePoint' } = 1;
             }
@@ -1918,9 +1921,10 @@ sub Run {
             @ShownAttributes = split /;/, $GetParamBackup{ShownAttributes};
         }
         my %AlreadyShown;
+        ITEM:
         for my $Item (@Attributes) {
             my $Key = $Item->{Key};
-            next if !$Key;
+            next ITEM if !$Key;
 
             # check if shown
             if (@ShownAttributes) {
@@ -1932,15 +1936,15 @@ sub Run {
                         last SHOWN_ATTRIBUTE;
                     }
                 }
-                next if !$Show;
+                next ITEM if !$Show;
             }
             else {
-                next if !defined $GetParamBackup{$Key};
-                next if $GetParamBackup{$Key} eq '';
+                next ITEM if !defined $GetParamBackup{$Key};
+                next ITEM if $GetParamBackup{$Key} eq '';
             }
 
             # show attribute
-            next if $AlreadyShown{$Key};
+            next ITEM if $AlreadyShown{$Key};
             $AlreadyShown{$Key} = 1;
             $Self->{LayoutObject}->Block(
                 Name => 'SearchAJAXShow',
@@ -1962,9 +1966,10 @@ sub Run {
             }
 
             if (%Defaults) {
+                KEY:
                 for my $Key ( sort keys %Defaults ) {
-                    next if $Key eq 'DynamicField';    # Ignore entry for DF config
-                    next if $AlreadyShown{$Key};
+                    next KEY if $Key eq 'DynamicField';    # Ignore entry for DF config
+                    next KEY if $AlreadyShown{$Key};
                     $AlreadyShown{$Key} = 1;
 
                     $Self->{LayoutObject}->Block(

@@ -202,12 +202,13 @@ sub CustomerPreferencesForm {
         }
 
         # show each preferences setting
+        PRIO:
         for my $Prio ( sort keys %Data ) {
             my $Group = $Data{$Prio};
-            next if !$Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group};
+            next PRIO if !$Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group};
 
             my %Preference = %{ $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group} };
-            next if !$Preference{Active};
+            next PRIO if !$Preference{Active};
 
             # load module
             my $Module = $Preference{Module} || 'Kernel::Output::HTML::CustomerPreferencesGeneric';
@@ -220,7 +221,7 @@ sub CustomerPreferencesForm {
                 Debug      => $Self->{Debug},
             );
             my @Params = $Object->Param( UserData => $Param{UserData} );
-            next if !@Params;
+            next PRIO if !@Params;
 
             # show item
             $Self->{LayoutObject}->Block(

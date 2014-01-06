@@ -1014,13 +1014,15 @@ sub Run {
                 Translation => 0,
             },
         );
+
+        KEY:
         for my $Key (
             qw(TicketNumber From To Cc Subject Body CustomerID TimeSearchType StateType
             StateIDs StateTypeIDs PriorityIDs OwnerIDs ResponsibleIDs
             )
             )
         {
-            next if !$GetParam{$Key};
+            next KEY if !$GetParam{$Key};
             my $Attribute = $IDMap{$Key}->{Name}   || $Key;
             my $Object    = $IDMap{$Key}->{Object} || '';
             my $Method    = $IDMap{$Key}->{Method};

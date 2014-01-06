@@ -884,13 +884,15 @@ sub Run {
 
             # remove unused inline images
             my @NewAttachmentData;
+            ATTACHMENT:
             for my $Attachment (@AttachmentData) {
                 my $ContentID = $Attachment->{ContentID};
                 if ($ContentID) {
                     my $ContentIDHTMLQuote = $Self->{LayoutObject}->Ascii2Html(
                         Text => $ContentID,
                     );
-                    next if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
+                    next ATTACHMENT
+                        if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
                 }
 
                 # remember inline images and normal attachments
@@ -1029,8 +1031,9 @@ sub AgentMove {
     my %UserHash;
     if ( $Param{OldUser} ) {
         my $Counter = 1;
+        USER:
         for my $User ( reverse @{ $Param{OldUser} } ) {
-            next if $UserHash{ $User->{UserID} };
+            next USER if $UserHash{ $User->{UserID} };
             $UserHash{ $User->{UserID} } = "$Counter: $User->{UserLastname} "
                 . "$User->{UserFirstname} ($User->{UserLogin})";
             $Counter++;
@@ -1101,7 +1104,7 @@ sub AgentMove {
 
     STATE_ID:
     for my $StateID ( sort keys %{ $Param{NextStates} } ) {
-        next if !$StateID;
+        next STATE_ID if !$StateID;
         my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $StateID );
         if ( $StateData{TypeName} =~ /pending/i ) {
             $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
@@ -1184,8 +1187,9 @@ sub AgentMove {
     }
 
     # show attachments
+    ATTACHMENT:
     for my $Attachment ( @{ $Param{Attachments} } ) {
-        next if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
+        next ATTACHMENT if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,
@@ -1322,8 +1326,9 @@ sub _GetOldOwners {
     my %UserHash;
     if (@OldUserInfo) {
         my $Counter = 1;
+        USER:
         for my $User ( reverse @OldUserInfo ) {
-            next if $UserHash{ $User->{UserID} };
+            next USER if $UserHash{ $User->{UserID} };
             $UserHash{ $User->{UserID} } = "$Counter: $User->{UserLastname} "
                 . "$User->{UserFirstname} ($User->{UserLogin})";
             $Counter++;

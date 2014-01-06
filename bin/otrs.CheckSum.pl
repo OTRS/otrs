@@ -129,7 +129,6 @@ sub R {
         next FILE if $File =~ /js-cache/;
         next FILE if $File =~ /css-cache/;
 
-        # next if not readable
         # print "File: $File\n";
         open( my $In, '<', $OrigFile ) || die "ERROR: $!";    ## no critic
 

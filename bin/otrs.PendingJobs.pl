@@ -192,7 +192,7 @@ for my $TicketID (@TicketIDs) {
     for my $UserID (@UserID) {
 
         # remember if reminder got already sent
-        next if $AlreadySent{$UserID};
+        next USERID if $AlreadySent{$UserID};
         $AlreadySent{$UserID} = 1;
 
         # get user data
