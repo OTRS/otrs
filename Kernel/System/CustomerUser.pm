@@ -91,10 +91,10 @@ sub new {
     }
 
     # load customer user backend module
+    SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        # next if customer backend is not used
-        next if !$Self->{ConfigObject}->Get("CustomerUser$Count");
+        next SOURCE if !$Self->{ConfigObject}->Get("CustomerUser$Count");
 
         my $GenericModule = $Self->{ConfigObject}->Get("CustomerUser$Count")->{Module};
         if ( !$Self->{MainObject}->Require($GenericModule) ) {
@@ -139,7 +139,6 @@ sub CustomerSourceList {
     SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        # next if customer backend is not used
         next SOURCE if !$Self->{ConfigObject}->Get("CustomerUser$Count");
         if ( defined $Param{ReadOnly} ) {
             my $CustomerBackendConfig = $Self->{ConfigObject}->Get("CustomerUser$Count");
@@ -196,10 +195,10 @@ sub CustomerSearch {
     }
 
     my %Data;
+    SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        # next if customer backend is not used
-        next if !$Self->{"CustomerUser$Count"};
+        next SOURCE if !$Self->{"CustomerUser$Count"};
 
         # get customer search result of backend and merge it
         my %SubData = $Self->{"CustomerUser$Count"}->CustomerSearch(%Param);
@@ -222,10 +221,10 @@ sub CustomerUserList {
     my ( $Self, %Param ) = @_;
 
     my %Data;
+    SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        # next if customer backend is not used
-        next if !$Self->{"CustomerUser$Count"};
+        next SOURCE if !$Self->{"CustomerUser$Count"};
 
         # get customer list result of backend and merge it
         my %SubData = $Self->{"CustomerUser$Count"}->CustomerUserList(%Param);
@@ -250,10 +249,10 @@ sub CustomerIDList {
     my ( $Self, %Param ) = @_;
 
     my @Data;
+    SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        # next if customer backend is not used
-        next if !$Self->{"CustomerUser$Count"};
+        next SOURCE if !$Self->{"CustomerUser$Count"};
 
         # get customer list result of backend and merge it
         push @Data, $Self->{"CustomerUser$Count"}->CustomerIDList(%Param);
@@ -280,10 +279,10 @@ get customer user name
 sub CustomerName {
     my ( $Self, %Param ) = @_;
 
+    SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        # next if customer backend is not used
-        next if !$Self->{"CustomerUser$Count"};
+        next SOURCE if !$Self->{"CustomerUser$Count"};
 
         # get customer name and return it
         my $Name = $Self->{"CustomerUser$Count"}->CustomerName(%Param);
@@ -307,10 +306,10 @@ get customer user customer ids
 sub CustomerIDs {
     my ( $Self, %Param ) = @_;
 
+    SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        # next if customer backend is not used
-        next if !$Self->{"CustomerUser$Count"};
+        next SOURCE if !$Self->{"CustomerUser$Count"};
 
         # get customer id's and return it
         my @CustomerIDs = $Self->{"CustomerUser$Count"}->CustomerIDs(%Param);
@@ -336,25 +335,22 @@ sub CustomerUserDataGet {
 
     return if !$Param{User};
 
+    SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        # next if customer backend is not used
-        next if !$Self->{"CustomerUser$Count"};
+        next SOURCE if !$Self->{"CustomerUser$Count"};
 
-        # next if no customer got found
         my %Customer = $Self->{"CustomerUser$Count"}->CustomerUserDataGet( %Param, );
-        next if !%Customer;
+        next SOURCE if !%Customer;
 
         # add preferences defaults
         my $Config = $Self->{ConfigObject}->Get('CustomerPreferencesGroups');
         if ($Config) {
+            KEY:
             for my $Key ( sort keys %{$Config} ) {
 
-                # next if no default data exists
-                next if !defined $Config->{$Key}->{DataSelected};
-
-                # check if data is defined
-                next if defined $Customer{ $Config->{$Key}->{PrefKey} };
+                next KEY if !defined $Config->{$Key}->{DataSelected};
+                next KEY if defined $Customer{ $Config->{$Key}->{PrefKey} };
 
                 # set default data
                 $Customer{ $Config->{$Key}->{PrefKey} } = $Config->{$Key}->{DataSelected};
@@ -653,10 +649,10 @@ sub SearchPreferences {
     my ( $Self, %Param ) = @_;
 
     my %Data;
+    SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        # next if customer backend is not used
-        next if !$Self->{"CustomerUser$Count"};
+        next SOURCE if !$Self->{"CustomerUser$Count"};
 
         # get customer search result of backend and merge it
         # call new api (2.4.8 and higher)
