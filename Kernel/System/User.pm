@@ -346,7 +346,6 @@ sub GetUserData {
         KEY:
         for my $Key ( sort keys %{$Config} ) {
 
-            # next if no default data exists
             next KEY if !defined $Config->{$Key}->{DataSelected};
 
             # check if data is defined

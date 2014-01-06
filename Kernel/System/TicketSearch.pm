@@ -946,7 +946,6 @@ sub TicketSearch {
     );
     for my $Key ( sort keys %FieldSQLMap ) {
 
-        # next if attribute is not used
         next if !defined $Param{$Key};
 
         # if it's no ref, put it to array ref
@@ -958,7 +957,6 @@ sub TicketSearch {
         my $Used = 0;
         for my $Value ( @{ $Param{$Key} } ) {
 
-            # next if no search attribute is given
             next if !$Value;
 
             # replace wild card search

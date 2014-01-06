@@ -565,18 +565,6 @@ sub _Show {
         }
     }
 
-    # build header lines
-    #    for (qw(From To Cc Subject)) {
-    #        next if !$Article{$_};
-    #        $Self->{LayoutObject}->Block(
-    #            Name => 'Row',
-    #            Data => {
-    #                Key   => $_,
-    #                Value => $Article{$_},
-    #            },
-    #        );
-    #    }
-
     # create output
     $Self->{LayoutObject}->Block(
         Name => 'AgentAnswer',

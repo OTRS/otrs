@@ -475,7 +475,6 @@ sub CustomerIDs {
         SPLIT:
         for my $Split ( ';', ',', '|' ) {
 
-            # next if separator is not there
             next SPLIT if $Data{UserCustomerIDs} !~ /\Q$Split\E/;
 
             # split it

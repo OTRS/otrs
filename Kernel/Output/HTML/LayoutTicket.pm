@@ -531,7 +531,6 @@ sub ArticleQuote {
                 ATMCOUNT:
                 for my $AttachmentID ( sort keys %Attachments ) {
 
-                    # next if cid is not matching
                     if ( lc $Attachments{$AttachmentID}->{ContentID} ne lc "<$ContentID>" ) {
                         next ATMCOUNT;
                     }

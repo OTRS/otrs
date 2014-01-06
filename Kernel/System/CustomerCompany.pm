@@ -89,7 +89,6 @@ sub new {
     # load customer company backend modules
     for my $Count ( '', 1 .. 10 ) {
 
-        # next if backend is not used
         next if !$Self->{ConfigObject}->Get("CustomerCompany$Count");
 
         my $GenericModule = $Self->{ConfigObject}->Get("CustomerCompany$Count")->{Module}
@@ -210,10 +209,8 @@ sub CustomerCompanyGet {
 
     for my $Count ( '', 1 .. 10 ) {
 
-        # next if backend is not used
         next if !$Self->{"CustomerCompany$Count"};
 
-        # next if no company got found
         my %Company = $Self->{"CustomerCompany$Count"}->CustomerCompanyGet( %Param, );
         next if !%Company;
 
@@ -302,7 +299,6 @@ sub CustomerCompanySourceList {
     SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        # next if backend is not used
         next SOURCE if !$Self->{ConfigObject}->Get("CustomerCompany$Count");
         if ( defined $Param{ReadOnly} ) {
             my $BackendConfig = $Self->{ConfigObject}->Get("CustomerCompany$Count");
@@ -348,7 +344,6 @@ sub CustomerCompanyList {
     my %Data;
     for my $Count ( '', 1 .. 10 ) {
 
-        # next if backend is not used
         next if !$Self->{"CustomerCompany$Count"};
 
         # get comppany list result of backend and merge it

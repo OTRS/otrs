@@ -1151,13 +1151,11 @@ sub LinkList {
         TYPE:
         for my $Type ( sort keys %{ $Links{$Object} } ) {
 
-            # next if link type is pointed
             next TYPE if $TypePointedList{$Type};
 
             # extract source target pair
             my $SourceTarget = $Links{$Object}->{$Type};
 
-            # next if there are no target entries
             next TYPE if !$SourceTarget->{Target};
 
             # set empty hash reference as default

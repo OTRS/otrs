@@ -2389,7 +2389,6 @@ sub TicketEscalationDateCalculation {
     my %Data;
     for my $Key ( sort keys %Map ) {
 
-        # next if no escalation time for this type is given
         next if !$Ticket{$Key};
 
         # get time before or over escalation (escalation_destination_unixtime - now)

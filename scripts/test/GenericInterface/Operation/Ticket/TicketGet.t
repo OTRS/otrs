@@ -589,7 +589,6 @@ for my $Article (@ArticleBox) {
         UserID                     => 1,
     );
 
-    # next if not attachments
     next ARTICLE if !IsHashRefWithData( \%AtmIndex );
 
     my @Attachments;
@@ -602,7 +601,6 @@ for my $Article (@ArticleBox) {
             UserID    => 1,
         );
 
-        # next if not attachment
         next ATTACHMENT if !IsHashRefWithData( \%Attachment );
 
         # convert content to base64

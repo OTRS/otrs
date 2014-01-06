@@ -3475,7 +3475,6 @@ for my $Test (@Tests) {
                 UserID    => 1,
             );
 
-            # next if not attachment
             next ATTACHMENT if !IsHashRefWithData( \%Attachment );
 
             # convert content to base64
