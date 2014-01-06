@@ -228,6 +228,7 @@ my @Tests = (
 # Notification names should be stored,
 # for deleting they later
 my @NotificationNames;
+TEST:
 for my $Test (@Tests) {
 
     # Add notification
@@ -242,7 +243,7 @@ for my $Test (@Tests) {
             $SuccessAdd,
             "$Test->{Name} - NotificationAdd()",
         );
-        next;
+        next TEST;
     }
     else {
         $Self->True(
@@ -299,7 +300,7 @@ for my $Test (@Tests) {
             $SuccessUpdate,
             "$Test->{Name} - NotificationUpdate() False",
         );
-        next;
+        next TEST;
     }
     else {
         $Self->True(

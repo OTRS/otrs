@@ -853,6 +853,7 @@ my @Tests = (
 );
 
 my @WebserviceIDs;
+TEST:
 for my $Test (@Tests) {
 
     # add config
@@ -865,7 +866,7 @@ for my $Test (@Tests) {
             $WebserviceID,
             "$Test->{Name} - WebserviceAdd()",
         );
-        next;
+        next TEST;
     }
     else {
         $Self->True(
@@ -951,7 +952,7 @@ for my $Test (@Tests) {
             $Success,
             "$Test->{Name} - WebserviceUpdate() False",
         );
-        next;
+        next TEST;
     }
     else {
         $Self->True(

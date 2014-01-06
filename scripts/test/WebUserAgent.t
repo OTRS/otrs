@@ -143,6 +143,7 @@ for my $URL ( @{$RepositoryRoot} ) {
     push @Tests, \%NewEntry;
 }
 
+TEST:
 for my $Test (@Tests) {
 
     my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
@@ -183,7 +184,7 @@ for my $Test (@Tests) {
             $Test->{ErrorNumber},
             "$Test->{Name} - WebUserAgent - Check error number",
         );
-        next;
+        next TEST;
     }
     else {
         $Self->True(

@@ -1709,6 +1709,7 @@ sub PackageBuild {
         $XML .= "\n";
     }
 
+    TAG:
     for my $Tag (
         qw(Name Version Vendor URL License ChangeLog Description Framework OS
         IntroInstall IntroUninstall IntroReinstall IntroUpgrade
@@ -1718,7 +1719,7 @@ sub PackageBuild {
 
         # don't use CodeInstall CodeUpgrade CodeUninstall CodeReinstall in index mode
         if ( $Param{Type} && $Tag =~ /(Code|Intro)(Install|Upgrade|Uninstall|Reinstall)/ ) {
-            next;
+            next TAG;
         }
 
         if ( ref $Param{$Tag} eq 'HASH' ) {

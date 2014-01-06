@@ -302,6 +302,7 @@ my @Tests = (
 );
 
 my %NotificationIDs;
+TEST:
 for my $Test (@Tests) {
 
     # Add NotificationEvent
@@ -315,7 +316,7 @@ for my $Test (@Tests) {
             $NotificationID,
             "$Test->{Name} - NotificationEventAdd()",
         );
-        next;
+        next TEST;
     }
     else {
         $Self->True(
@@ -448,7 +449,7 @@ for my $Test (@Tests) {
             $SuccessUpdate,
             "$Test->{Name} - NotificationEventUpdate() False",
         );
-        next;
+        next TEST;
     }
     else {
         $Self->True(

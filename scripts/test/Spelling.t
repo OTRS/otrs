@@ -102,6 +102,7 @@ my @Tests = (
 
 );
 
+TEST:
 for my $Test (@Tests) {
 
     # configure spell checker bin
@@ -145,7 +146,7 @@ for my $Test (@Tests) {
             "$Test->{Name} - Spelling -Seems like language file was not found," .
                 " you must install the English dictionary for the spell checker!",
         );
-        next;
+        next TEST;
     }
 
     if ( $Test->{Replace} ) {

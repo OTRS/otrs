@@ -232,6 +232,7 @@ my @Tests = (
     },
 );
 
+TEST:
 for my $Test (@Tests) {
     my $SuccessCounter = 0;
 
@@ -247,7 +248,7 @@ for my $Test (@Tests) {
             $DeserializerError,
             "$Test->{Name} - SOAP::Deserializer with error $DeserializerError",
         );
-        next;
+        next TEST;
     }
     else {
         $Self->False(

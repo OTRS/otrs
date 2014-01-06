@@ -202,6 +202,7 @@ my @Tests = (
 );
 
 my @SearchProfileNames;
+TEST:
 for my $Test (@Tests) {
 
     # Add SearchProfile
@@ -214,7 +215,7 @@ for my $Test (@Tests) {
             $SuccessAdd,
             "$Test->{Name} - SearchProfileAdd()",
         );
-        next;
+        next TEST;
     }
     else {
         $Self->True(

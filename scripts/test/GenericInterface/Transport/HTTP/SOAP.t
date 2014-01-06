@@ -709,6 +709,7 @@ my @Tests = (
     },
 );
 
+TEST:
 for my $Test (@Tests) {
 
     # update webservice with real config
@@ -763,7 +764,7 @@ for my $Test (@Tests) {
             );
         }
 
-        next;
+        next TEST;
     }
 
     $Self->True(

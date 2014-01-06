@@ -182,6 +182,7 @@ sub ExecuteDBJobs {
     # process all jobs
 
     my %DBJobs = $CommonObject{GenericAgentObject}->JobList();
+    DBJOB:
     for my $DBJob ( sort keys %DBJobs ) {
 
         # get job
@@ -194,10 +195,9 @@ sub ExecuteDBJobs {
                 $Schedule = 1;
             }
         }
-        next if !$Schedule;
+        next DBJOB if !$Schedule;
 
-        # next if jobs is invalid
-        next if !$DBJobRaw{Valid};
+        next DBJOB if !$DBJobRaw{Valid};
 
         # get time params to check last and current run
         my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
@@ -216,7 +216,7 @@ sub ExecuteDBJobs {
                     $Match = 1;
                 }
             }
-            next if !$Match;
+            next DBJOB if !$Match;
         }
 
         # check ScheduleMinutes
@@ -227,7 +227,7 @@ sub ExecuteDBJobs {
                     $Match = 1;
                 }
             }
-            next if !$Match;
+            next DBJOB if !$Match;
         }
 
         # check ScheduleHours
@@ -238,7 +238,7 @@ sub ExecuteDBJobs {
                     $Match = 1;
                 }
             }
-            next if !$Match;
+            next DBJOB if !$Match;
         }
 
         # check if job already was running less than 10 minutes (+- 5 secs) ago
@@ -250,7 +250,7 @@ sub ExecuteDBJobs {
         {
             my $SecsAgo = $CurrentTime - $DBJobRaw{ScheduleLastRunUnixTime};
             print "Job '$DBJob' last finished $SecsAgo seconds ago. Skipping for now.\n";
-            next;
+            next DBJOB;
         }
 
         # log event

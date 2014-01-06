@@ -3857,18 +3857,6 @@ sub _AutomaticSampleImport {
     while ( defined( my $Filename = readdir DIRE ) ) {
         if ( $Filename =~ m{^.*\.$Language\.xml$}x ) {
 
-            # check filesize
-            #            my $Filesize = -s $Directory.$Filename;
-            #            if ($Filesize > $MaxFilesize) {
-            #                print "File: $Filename too big! max. $MaxFilesize byte allowed.\n";
-            #                $CommonObject{LogObject}->Log(
-            #                    Priority => 'error',
-            #                    Message => "Can't file imported: $Directory.$Filename",
-            #                );
-            #                next;
-            #            }
-
-            # read file
             my $Filehandle;
             if ( !open $Filehandle, '<', $Directory . $Filename ) {    ## no critic
                 $Self->{LogObject}->Log(

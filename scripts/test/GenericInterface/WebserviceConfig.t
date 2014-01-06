@@ -155,6 +155,7 @@ my @Tests = (
 
 my @WebserviceIDs;
 
+TEST:
 for my $Test (@Tests) {
 
     # add (call with 2>&1 to also get STDERR)
@@ -166,7 +167,7 @@ for my $Test (@Tests) {
             $?,
             "$Test->{Name} - Add - WebserviceConfig $Test->{ParamsAdd} $Test->{FileAdd}",
         );
-        next;
+        next TEST;
     }
     else {
         my $FileExist = -e $Test->{FileAdd} ? 1 : 0;
@@ -203,7 +204,7 @@ for my $Test (@Tests) {
             $?,
             "$Test->{Name} - Read - Webservice $Test->{ParamsRead} $WebserviceID",
         );
-        next;
+        next TEST;
     }
     else {
         $Self->False(
@@ -241,7 +242,7 @@ for my $Test (@Tests) {
             $?,
             "$Test->{Name} - Update - Webservice $Test->{ParamsUpdate} $Test->{FileUpdate} -i $WebserviceID",
         );
-        next;
+        next TEST;
     }
     else {
         my $FileExist = -e $Test->{FileUpdate} ? 1 : 0;

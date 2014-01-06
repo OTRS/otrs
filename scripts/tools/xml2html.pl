@@ -95,9 +95,10 @@ for my $Tag (@XMLARRAY) {
         $HTML .= " <font size=\"-2\">";
         my $AttrList = '';
 
+        TAG:
         for ( sort keys %{$Tag} ) {
             if ( $_ =~ /^(Tag|TagType|Content)$/ ) {
-                next;
+                next TAG;
             }
             if ($AttrList) {
                 $AttrList .= ", ";
