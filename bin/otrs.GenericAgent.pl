@@ -131,6 +131,7 @@ elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => $JobName ) ) {
 }
 
 # while to run several times if -b is used
+LOOP:
 while (1) {
 
     # set new PID
@@ -150,7 +151,7 @@ while (1) {
     }
 
     # return if no interval is set
-    last if !$Opts{b};
+    last LOOP if !$Opts{b};
 
     # sleep till next interval
     print "NOTICE: Waiting for next interval ($Opts{b} min)...\n";
