@@ -144,10 +144,11 @@ if ( $Opts{a} !~ /^(list|file)/ && $Opts{p} ) {
                 URL  => $URL,
                 Lang => $CommonObject{ConfigObject}->Get('DefaultLanguage'),
             );
+            PACKAGE:
             for my $Package (@Packages) {
                 if ( $Package->{Name} eq $PackageName ) {
                     $PackageName = $Package->{File};
-                    last;
+                    last PACKAGE;
                 }
             }
         }
@@ -167,13 +168,14 @@ if ( $Opts{a} !~ /^(list|file)/ && $Opts{p} ) {
             );
         }
         else {
+            PACKAGE:
             for my $Package ( $CommonObject{PackageObject}->RepositoryList() ) {
                 if ( $Opts{p} eq $Package->{Name}->{Content} ) {
                     $FileString = $CommonObject{PackageObject}->RepositoryGet(
                         Name    => $Package->{Name}->{Content},
                         Version => $Package->{Version}->{Content},
                     );
-                    last;
+                    last PACKAGE;
                 }
             }
         }

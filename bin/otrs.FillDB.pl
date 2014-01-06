@@ -377,10 +377,11 @@ EOF
             # set state
             # try more times to get an closed state to be more real
             my $StateID = '';
+            COUNT:
             for ( 1 .. 12 ) {
                 $StateID = $StateList[ int( rand( $#StateList + 1 ) ) ];
                 if ( $States{$StateID} =~ /^close/ ) {
-                    last;
+                    last COUNT;
                 }
             }
             $CommonObjects->{TicketObject}->StateSet(

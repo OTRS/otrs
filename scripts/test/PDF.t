@@ -1722,8 +1722,8 @@ $TableCalculate{18}{ReturnColumnData}[0]{Block}         = 0;
 $TableCalculate{18}{ReturnRowData}[0]{MinFontSize} = 10;
 
 # start testing TableCalculate()
-for ( sort keys %TableCalculate ) {
-    my $Test   = $_;
+TEST:
+for my $Test ( sort keys %TableCalculate ) {
     my $TestOk = 0;
 
     my %TableCalculateParams;
@@ -1765,6 +1765,7 @@ for ( sort keys %TableCalculate ) {
     # check returned ColumnData
     my $TestColumnOk  = 0;
     my $CounterColumn = 0;
+    COLUMN:
     for my $Column ( @{ $TableCalculate{$Test}{ReturnColumnData} } ) {
         if (
             $Return{ColumnData}->[$CounterColumn]->{Width} eq $Column->{Width}
@@ -1792,7 +1793,7 @@ for ( sort keys %TableCalculate ) {
             print "\n";
 
             $TestColumnOk = 0;
-            last;
+            last COLUMN;
         }
 
         $CounterColumn++;
@@ -1802,6 +1803,7 @@ for ( sort keys %TableCalculate ) {
     my $TestRowOk  = 0;
     my $CounterRow = 0;
     if ($TestColumnOk) {
+        ROW:
         for my $Row ( @{ $TableCalculate{$Test}{ReturnRowData} } ) {
             if ( $Return{RowData}->[$CounterRow]->{MinFontSize} eq $Row->{MinFontSize} ) {
                 $TestRowOk = 1;
@@ -1813,7 +1815,7 @@ for ( sort keys %TableCalculate ) {
                 print "\n";
 
                 $TestRowOk = 0;
-                last;
+                last ROW;
             }
 
             $CounterRow++;
@@ -1823,8 +1825,10 @@ for ( sort keys %TableCalculate ) {
     # check returned CellData
     if ($TestRowOk) {
         my $CounterCellRow = 0;
+        ROW:
         for my $Row ( @{ $TableCalculate{$Test}{ReturnCellData} } ) {
             my $CounterCellColumn = 0;
+            CELL:
             for my $Cell ( @{ $TableCalculate{$Test}{ReturnCellData}[$CounterCellRow] } ) {
                 if (
                     $Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Content} eq
@@ -1875,13 +1879,13 @@ for ( sort keys %TableCalculate ) {
                     print "\n";
 
                     $TestOk = 0;
-                    last;
+                    last CELL;
                 }
                 $CounterCellColumn++;
             }
             $CounterCellRow++;
             if ( !$TestOk ) {
-                last;
+                last ROW;
             }
         }
     }
