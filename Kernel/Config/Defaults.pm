@@ -168,6 +168,7 @@ sub LoadDefaults {
         'fi' => 'Suomi',
         'fr' => 'Fran&ccedil;ais',
         'fr_CA' => 'Fran&ccedil;ais (Canada)',
+        'he' => 'Hebrew (עִבְרִית)',
         'hi' => 'Hindi',
         'hr' => 'Hrvatski',
         'hu' => 'Magyar',
