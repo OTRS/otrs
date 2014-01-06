@@ -25,6 +25,11 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
     UnitTestObject => $Self,
 );
 
+# Use a fixed year to compare the time selection results
+$HelperObject->FixedTimeSet(
+    $Self->{TimeObject}->TimeStamp2SystemTime( String => '2013-12-12 00:00:00'),
+);
+
 my $DFBackendObject = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
 my $ParamObject = Kernel::System::Web::Request->new(
