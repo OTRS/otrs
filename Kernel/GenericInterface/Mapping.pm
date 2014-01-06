@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Mapping.pm - GenericInterface data mapping interface
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Mapping.pm,v 1.18.2.1 2012-07-30 23:33:18 ep Exp $
 # --

@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.FillDB.pl - fill db with demo data
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.FillDB.pl,v 1.7.2.2 2012-09-25 11:46:44 mg Exp $
 # --

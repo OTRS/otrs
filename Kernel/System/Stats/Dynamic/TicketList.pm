@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketList.pm,v 1.19.2.1 2012-05-02 23:07:32 cr Exp $
 # --

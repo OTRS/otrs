@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Log/SysLog.pm - a wrapper for Sys::Syslog or xyz::Syslog
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: SysLog.pm,v 1.21 2012-01-27 14:49:56 mg Exp $
 # --

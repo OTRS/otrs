@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # scripts/apache2-perl-startup.pl - to load the modules if mod_perl is used
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: apache2-perl-startup.pl,v 1.53.2.1 2012-12-13 14:24:41 mb Exp $
 # --

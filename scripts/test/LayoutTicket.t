@@ -1,6 +1,6 @@
 # --
 # scripts/test/LayoutTicket.t - layout module testscript
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: LayoutTicket.t,v 1.7 2011-11-17 11:32:28 mg Exp $
 # --

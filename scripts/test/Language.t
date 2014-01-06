@@ -1,6 +1,6 @@
 # --
 # scripts/test/Language.t - Language module testscript
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Language.t,v 1.4 2011-04-15 11:13:50 ub Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # DynamicFieldValue.t - DynamicFieldValue backend tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: DynamicFieldValue.t,v 1.15.2.1 2012-05-30 11:30:32 mg Exp $
 # --

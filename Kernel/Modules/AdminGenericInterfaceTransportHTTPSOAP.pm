@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminGenericInterfaceTransportHTTPSOAP.pm - provides a TransportHTTPSOAP view for admins
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.10 2012-03-15 02:15:26 cr Exp $
 # --

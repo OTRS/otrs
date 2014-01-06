@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/NotificationOutofOfficeCheck.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: NotificationOutofOfficeCheck.pm,v 1.1 2011-05-18 11:43:12 mb Exp $
 # --

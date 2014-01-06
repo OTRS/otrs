@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Stats/Static/StateAction.pm - static stat for ticket history
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: StateAction.pm,v 1.4 2011-05-31 09:36:55 mb Exp $
 # --

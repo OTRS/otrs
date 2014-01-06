@@ -1,6 +1,6 @@
 # --
 # Kernel/System/EmailParser.pm - the global email parser module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: EmailParser.pm,v 1.107.2.1 2012-11-29 12:42:28 mg Exp $
 # --

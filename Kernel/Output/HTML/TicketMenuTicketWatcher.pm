@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketMenuTicketWatcher.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketMenuTicketWatcher.pm,v 1.21 2012-01-06 14:58:05 mg Exp $
 # --

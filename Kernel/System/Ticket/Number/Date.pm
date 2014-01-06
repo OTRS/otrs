@@ -1,6 +1,6 @@
 # --
 # Ticket/Number/Date.pm - a date ticket number generator
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Date.pm,v 1.31.8.1 2013-02-01 13:13:54 mg Exp $
 # --

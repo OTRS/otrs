@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/ArticleAttachmentDownload.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: ArticleAttachmentDownload.pm,v 1.15.2.1 2013-01-02 13:02:46 mn Exp $
 # --

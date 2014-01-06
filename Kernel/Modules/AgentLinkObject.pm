@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentLinkObject.pm - to link objects
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentLinkObject.pm,v 1.62 2012-01-06 13:00:04 mg Exp $
 # --

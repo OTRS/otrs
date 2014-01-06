@@ -1,6 +1,6 @@
 # --
 # TaskHandler.t - TaskHandler tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: TaskHandler.t,v 1.5 2011-03-10 14:00:43 mg Exp $
 # --

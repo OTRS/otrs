@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketSearch.pm,v 1.145.2.2 2012-08-06 07:33:37 mg Exp $
 # --

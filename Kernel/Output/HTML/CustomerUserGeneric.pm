@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/CustomerUserGeneric.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerUserGeneric.pm,v 1.5 2009-07-01 07:31:38 ub Exp $
 # --

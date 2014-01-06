@@ -1,6 +1,6 @@
 # --
 # Kernel/System/GenericInterface/DebugLog.pm - log interface for generic interface
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: DebugLog.pm,v 1.18.2.1 2012-05-08 15:48:20 mb Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Debugger.t - GenericInterface debugger tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Debugger.t,v 1.8 2011-03-01 23:59:17 cg Exp $
 # --

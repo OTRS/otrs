@@ -1,6 +1,6 @@
 # --
 # Daemon.t - Scheduler tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Daemon.t,v 1.13.2.4 2012-11-13 20:40:18 cr Exp $
 # --

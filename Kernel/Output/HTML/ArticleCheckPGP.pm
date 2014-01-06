@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/ArticleCheckPGP.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: ArticleCheckPGP.pm,v 1.25.4.1 2012-10-17 20:40:25 cr Exp $
 # --

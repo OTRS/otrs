@@ -1,6 +1,6 @@
 # --
 # TicketCreate.t - GenericInterface TicketCreate tests for TicketConnector backend
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketCreate.t,v 1.10.2.3 2012-11-09 23:52:35 cr Exp $
 # --

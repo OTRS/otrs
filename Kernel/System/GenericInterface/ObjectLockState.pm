@@ -1,6 +1,6 @@
 # --
 # Kernel/System/GenericInterface/ObjectLockState.pm - backend for lock state handling
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: ObjectLockState.pm,v 1.3 2011-02-28 12:46:18 mg Exp $
 # --

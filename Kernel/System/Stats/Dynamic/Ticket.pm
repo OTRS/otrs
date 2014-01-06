@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Ticket.pm,v 1.38 2012-02-28 10:38:01 jp Exp $
 # --

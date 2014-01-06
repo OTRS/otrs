@@ -1,6 +1,6 @@
 # --
 # Handler.t - GenericInterface event handler tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Handler.t,v 1.9.2.3 2012-12-12 05:34:09 cr Exp $
 # --

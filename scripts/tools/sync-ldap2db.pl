@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # scripts/tools/sync-ldap2db.pl - sync a ldap directory to database
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: sync-ldap2db.pl,v 1.10 2009-02-16 12:40:23 tr Exp $
 # --

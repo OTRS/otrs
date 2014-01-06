@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketQueue.pm,v 1.79.2.1 2012-09-29 05:55:12 cg Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: ArticleCheckSMIME.pm,v 1.28.2.2 2013-02-08 22:52:41 cr Exp $
 # --

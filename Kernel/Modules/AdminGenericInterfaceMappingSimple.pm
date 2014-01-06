@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminGenericInterfaceMappingSimple.pm,v 1.21 2012-04-20 00:19:42 ep Exp $
 # --

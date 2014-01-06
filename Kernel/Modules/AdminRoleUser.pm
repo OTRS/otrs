@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminRoleUser.pm - to add/update/delete roles <-> users
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminRoleUser.pm,v 1.32 2011-12-23 13:35:56 mg Exp $
 # --

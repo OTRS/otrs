@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CheckItem.pm - the global spelling module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: CheckItem.pm,v 1.41 2011-09-07 20:52:38 en Exp $
 # --

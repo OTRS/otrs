@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Debugger.pm - GenericInterface data debugger interface
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Debugger.pm,v 1.17 2011-02-24 14:38:06 mg Exp $
 # --

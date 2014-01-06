@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Mapping/Simple.pm - GenericInterface simple data mapping backend
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Simple.pm,v 1.20 2011-05-03 11:26:02 mb Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/Backend/Dropdown.pm - Delegate for DynamicField Dropdown backend
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Dropdown.pm,v 1.63.2.1 2012-05-31 01:26:10 cr Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Transport/HTTP/SOAP.pm - GenericInterface network transport interface for HTTP::SOAP
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: SOAP.pm,v 1.45.2.5 2012-12-05 15:06:30 cr Exp $
 # --

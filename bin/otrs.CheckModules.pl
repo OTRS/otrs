@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.CheckModules.pl,v 1.36.2.1 2012-12-11 16:04:14 mg Exp $
 # --
@@ -173,7 +173,8 @@ my @NeededModules = (
     {
         Module   => 'List::Util::XS',
         Required => 1,
-        Comment  => "Do a 'force install Scalar::Util' via cpan shell to fix this problem. Please make sure to have an c compiler and make installed before.",
+        Comment =>
+            "Do a 'force install Scalar::Util' via cpan shell to fix this problem. Please make sure to have an c compiler and make installed before.",
     },
     {
         Module   => 'Locale::Codes',

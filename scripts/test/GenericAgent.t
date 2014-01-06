@@ -1,6 +1,6 @@
 # --
 # GenericAgent.t - GenericAgent tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: GenericAgent.t,v 1.14 2011-12-12 19:18:14 cg Exp $
 # --

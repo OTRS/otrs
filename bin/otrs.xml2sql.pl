@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.xml2sql.pl - a xml 2 sql processor
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.xml2sql.pl,v 1.7 2011-11-03 21:00:04 mb Exp $
 # --

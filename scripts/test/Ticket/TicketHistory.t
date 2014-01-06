@@ -1,6 +1,6 @@
 # --
 # TicketHistory.t - ticket module testscript
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketHistory.t,v 1.2.2.1 2013-01-14 12:18:43 mg Exp $
 # --

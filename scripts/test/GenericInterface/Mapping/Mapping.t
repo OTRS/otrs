@@ -1,6 +1,6 @@
 # --
 # Mapping.t - Mapping tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Mapping.t,v 1.10 2011-03-11 00:28:23 sb Exp $
 # --

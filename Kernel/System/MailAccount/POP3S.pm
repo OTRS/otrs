@@ -1,6 +1,6 @@
 # --
 # Kernel/System/MailAccount/POP3S.pm - lib for pop3 accounts
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: POP3S.pm,v 1.13 2011-03-09 13:41:55 mb Exp $
 # --

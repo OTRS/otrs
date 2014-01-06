@@ -1,6 +1,6 @@
 # --
 # ArticleFlags.t - ticket module testscript
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: ArticleFlags.t,v 1.1 2011-08-30 11:53:51 mg Exp $
 # --

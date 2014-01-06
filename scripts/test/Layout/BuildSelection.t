@@ -1,6 +1,6 @@
 # --
 # scripts/test/Layout/BuildSelection.t - layout BuildSelection() testscript
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: BuildSelection.t,v 1.9.2.4 2013-01-30 14:15:59 des Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Operation.pm - GenericInterface operation interface
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Operation.pm,v 1.15 2012-01-16 15:09:02 mg Exp $
 # --

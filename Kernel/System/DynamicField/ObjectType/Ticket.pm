@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/ObjectType/Ticket.pm - Ticket object handler for DynamicField
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Ticket.pm,v 1.9 2011-11-25 10:19:42 mg Exp $
 # --

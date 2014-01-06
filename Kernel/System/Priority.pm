@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Priority.pm - all ticket priority function
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Priority.pm,v 1.36 2012-03-29 11:11:55 mh Exp $
 # --

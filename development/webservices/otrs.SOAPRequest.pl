@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # otrs.SOAPRequest.pl - sample to send a SOAP request to OTRS Generic Interface Ticket Connector
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.SOAPRequest.pl,v 1.1 2012-01-30 21:07:13 cr Exp $
 # --

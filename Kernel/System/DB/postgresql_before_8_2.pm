@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DB/postgresql_before_8_2.pm - postgresql database backend for older systems with PostgreSQL 8.1 or before
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: postgresql_before_8_2.pm,v 1.1 2011-09-16 09:30:10 mg Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Test.t - Mapping tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Test.t,v 1.11 2011-03-24 09:46:46 mg Exp $
 # --

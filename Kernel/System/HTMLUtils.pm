@@ -1,6 +1,6 @@
 # --
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: HTMLUtils.pm,v 1.35.2.5 2012-11-08 14:07:32 des Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminService.pm - admin frontend to manage services
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminService.pm,v 1.35.2.2 2012-06-05 10:22:51 ub Exp $
 # --

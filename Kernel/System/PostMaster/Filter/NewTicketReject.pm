@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster/Filter/NewTicketReject.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: NewTicketReject.pm,v 1.17 2011-11-05 19:19:31 mb Exp $
 # --

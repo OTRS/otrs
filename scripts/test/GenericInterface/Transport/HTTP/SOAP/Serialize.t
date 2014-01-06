@@ -1,6 +1,6 @@
 # --
 # Serialize.t - SOAP Serialize tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Serialize.t,v 1.13 2011-06-16 20:23:16 cr Exp $
 # --

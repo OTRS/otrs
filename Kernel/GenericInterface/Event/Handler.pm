@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Event/Handler.pm - event handler module for the GenericInterface
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Handler.pm,v 1.4 2012-03-29 07:29:48 mg Exp $
 # --

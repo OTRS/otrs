@@ -1,6 +1,6 @@
 # --
 # Kernel/System/TicketSearch.pm - all ticket search functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketSearch.pm,v 1.13.2.5 2013-01-10 15:43:33 ub Exp $
 # --

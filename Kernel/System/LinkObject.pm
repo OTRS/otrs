@@ -1,6 +1,6 @@
 # --
 # Kernel/System/LinkObject.pm - to link objects
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: LinkObject.pm,v 1.58.4.3 2013-01-21 16:14:39 ub Exp $
 # --

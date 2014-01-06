@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Lock.pm,v 1.35.2.1 2012-07-01 23:09:45 mh Exp $
 # --

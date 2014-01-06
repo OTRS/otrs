@@ -1,6 +1,6 @@
 # --
 # Kernel/System/User.pm - some user functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: User.pm,v 1.121 2012-03-26 21:59:24 mh Exp $
 # --

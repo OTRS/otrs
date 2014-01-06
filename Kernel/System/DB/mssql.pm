@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DB/mssql.pm - mssql database backend
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: mssql.pm,v 1.63 2011-12-12 08:19:14 mg Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/Backend/BackendCommon.pm - Dynamic field backend functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: BackendCommon.pm,v 1.5 2011-10-31 20:11:16 cr Exp $
 # --

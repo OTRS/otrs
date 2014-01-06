@@ -1,6 +1,6 @@
 # --
 # Kernel/Language.pm - provides multi language support
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Language.pm,v 1.79 2011-08-12 09:06:15 mg Exp $
 # --

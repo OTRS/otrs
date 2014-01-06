@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Email/SMTP.pm - the global email send module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: SMTP.pm,v 1.29 2010-01-12 15:55:38 martin Exp $
 # --

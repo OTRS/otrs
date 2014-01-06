@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: SMIME.pm,v 1.55.2.12 2013-02-08 23:00:57 cr Exp $
 # --

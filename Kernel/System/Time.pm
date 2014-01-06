@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Time.pm - time functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Time.pm,v 1.57 2010-12-01 13:41:07 bes Exp $
 # --

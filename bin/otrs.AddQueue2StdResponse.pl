@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddQueue2StdResponse.pl.pl - Assign Roles to Groups from CLI
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.AddQueue2StdResponse.pl,v 1.1.2.2 2012-07-05 10:05:58 mb Exp $
 # --

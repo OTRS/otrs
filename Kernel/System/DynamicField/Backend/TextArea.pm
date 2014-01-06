@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/Backend/TextArea.pm - Delegate for DynamicField TextArea backend
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: TextArea.pm,v 1.48.2.5 2012-11-14 22:14:54 cr Exp $
 # --

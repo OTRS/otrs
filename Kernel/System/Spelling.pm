@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Spelling.pm - the global spelling module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Spelling.pm,v 1.34 2012-03-20 08:19:38 mg Exp $
 # --

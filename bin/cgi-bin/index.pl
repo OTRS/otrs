@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/cgi-bin/index.pl - the global CGI handle file (incl. auth) for OTRS
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: index.pl,v 1.90 2011-03-08 14:11:25 mb Exp $
 # --

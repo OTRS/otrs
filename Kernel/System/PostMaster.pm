@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: PostMaster.pm,v 1.87.2.3 2013-02-04 10:29:29 mg Exp $
 # --

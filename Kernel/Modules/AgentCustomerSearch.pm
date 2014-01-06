@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentCustomerSearch.pm - a module used for the autocomplete feature
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentCustomerSearch.pm,v 1.29.2.1 2012-06-06 12:04:56 mb Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Transport.pm - GenericInterface network transport interface
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Transport.pm,v 1.12 2011-02-28 12:12:42 sb Exp $
 # --

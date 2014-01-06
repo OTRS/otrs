@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/ObjectType/Article.pm - Article object handler for DynamicField
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Article.pm,v 1.2 2011-12-08 14:06:44 mg Exp $
 # --

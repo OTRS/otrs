@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardTicketStatsGeneric.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: DashboardTicketStatsGeneric.pm,v 1.19 2011-11-24 10:22:50 mg Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminPostMasterFilter.pm,v 1.38.2.1 2012-05-11 08:33:02 mb Exp $
 # --

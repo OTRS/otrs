@@ -1,6 +1,6 @@
 # --
 # Test.t - Operations tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Test.t,v 1.8 2011-06-27 20:16:12 cg Exp $
 # --

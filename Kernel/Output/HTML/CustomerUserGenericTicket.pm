@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/CustomerUserGenericTicket.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerUserGenericTicket.pm,v 1.20 2012-01-23 14:43:21 mg Exp $
 # --

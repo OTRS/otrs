@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminGenericInterfaceWebservice.pm,v 1.34.2.1 2013-01-09 18:25:08 cr Exp $
 # --

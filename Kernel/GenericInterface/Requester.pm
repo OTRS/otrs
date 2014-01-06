@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Requester.pm - GenericInterface Requester handler
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Requester.pm,v 1.12 2011-05-09 16:33:44 cr Exp $
 # --

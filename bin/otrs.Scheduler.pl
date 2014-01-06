@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # otrs.Scheduler.pl - provides Scheduler Daemon control on Unix like OS
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.Scheduler.pl,v 1.37 2011-11-29 13:31:21 mg Exp $
 # --
@@ -510,7 +510,7 @@ exit 1;
 # Internal
 sub _help {
     print "otrs.Scheduler.pl <Revision $VERSION> - OTRS Scheduler Daemon\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print "Usage: otrs.Scheduler.pl -a <ACTION> (start|stop|status) [-f (force)]\n";
 
     # Not documented!

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SysConfig.pm - all system config tool functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: SysConfig.pm,v 1.34 2012-03-01 18:04:44 mg Exp $
 # --

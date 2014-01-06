@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminDynamicFieldDateTime.pm - provides a dynamic fields Date Time config view for admins
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminDynamicFieldDateTime.pm,v 1.15 2012-04-18 19:40:22 cr Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster/Filter/CMD.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: CMD.pm,v 1.14 2010-10-04 11:01:03 bes Exp $
 # --

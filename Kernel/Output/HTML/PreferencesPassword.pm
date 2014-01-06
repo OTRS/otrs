@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/PreferencesPassword.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: PreferencesPassword.pm,v 1.28 2011-11-29 13:27:14 mb Exp $
 # --

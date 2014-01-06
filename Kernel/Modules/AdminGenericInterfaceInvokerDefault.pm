@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm - provides a log view for admins
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminGenericInterfaceInvokerDefault.pm,v 1.5.2.1 2012-09-24 23:30:29 cr Exp $
 # --

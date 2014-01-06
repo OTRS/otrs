@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/TicketNewMessageUpdate.pm - update ticket new message flag
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketNewMessageUpdate.pm,v 1.5 2010-11-26 05:43:46 martin Exp $
 # --

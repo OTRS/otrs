@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketStatusView.pm - status for all open tickets
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketStatusView.pm,v 1.29 2011-12-15 15:12:59 mg Exp $
 # --

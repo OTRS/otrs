@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicFieldValue.pm - DynamicField values backend
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: DynamicFieldValue.pm,v 1.20.2.1 2012-05-30 11:30:32 mg Exp $
 # --

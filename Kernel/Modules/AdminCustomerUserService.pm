@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminCustomerUserService.pm,v 1.25 2011-12-21 14:19:46 mg Exp $
 # --

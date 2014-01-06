@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Operation/Session/Common.pm - common operation functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Common.pm,v 1.3 2012-01-26 17:02:00 cr Exp $
 # --

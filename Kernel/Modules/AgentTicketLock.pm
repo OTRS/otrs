@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketLock.pm - to set or unset a lock for tickets
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketLock.pm,v 1.17 2012-01-24 00:08:45 cr Exp $
 # --

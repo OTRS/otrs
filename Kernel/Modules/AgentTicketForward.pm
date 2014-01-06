@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketForward.pm,v 1.131.2.5 2012-05-30 20:48:41 cr Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminDynamicFieldDropdown.pm - provides a dynamic fields text config view for admins
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminDynamicFieldDropdown.pm,v 1.15 2012-04-18 19:38:01 cr Exp $
 # --

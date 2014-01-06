@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module for link object 'Ticket'.
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: LinkObjectTicket.pm,v 1.20 2011-02-09 11:12:20 bes Exp $
 # --

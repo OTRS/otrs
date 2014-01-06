@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminQueue.pm,v 1.82.2.1 2012-12-13 13:14:51 mg Exp $
 # --

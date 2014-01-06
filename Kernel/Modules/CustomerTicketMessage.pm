@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerTicketMessage.pm,v 1.100.2.3 2012-07-01 12:29:48 ub Exp $
 # --

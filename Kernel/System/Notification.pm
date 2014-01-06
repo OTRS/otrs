@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Notification.pm - lib for notifications
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Notification.pm,v 1.38.2.1 2012-06-07 11:51:01 mb Exp $
 # --

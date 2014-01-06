@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Text.pm,v 1.64.2.1 2012-11-14 22:14:54 cr Exp $
 # --

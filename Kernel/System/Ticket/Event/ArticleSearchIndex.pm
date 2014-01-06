@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/ArticleSearchIndex.pm - update article search index
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: ArticleSearchIndex.pm,v 1.4 2009-09-16 08:59:37 martin Exp $
 # --

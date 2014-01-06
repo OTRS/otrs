@@ -1,6 +1,6 @@
 # --
 # Kernel/System/State.pm - All ticket state related functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: State.pm,v 1.56.2.2 2012-10-09 07:36:30 mg Exp $
 # --

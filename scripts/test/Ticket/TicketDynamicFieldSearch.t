@@ -1,6 +1,6 @@
 # --
 # TicketDynamicFieldSearch.t - ticket module testscript
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketDynamicFieldSearch.t,v 1.7 2011-10-26 22:15:41 cg Exp $
 # --

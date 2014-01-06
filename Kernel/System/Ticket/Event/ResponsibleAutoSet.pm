@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/ResponsibleAutoSet.pm - a event module for auto set of responible
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: ResponsibleAutoSet.pm,v 1.5 2011-11-25 10:14:18 mg Exp $
 # --

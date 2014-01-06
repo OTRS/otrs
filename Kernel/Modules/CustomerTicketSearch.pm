@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerTicketSearch.pm,v 1.80.2.4 2012-11-19 12:36:33 mb Exp $
 # --

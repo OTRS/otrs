@@ -1,6 +1,6 @@
 # --
 # DebugLog.t - DebugLog tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: DebugLog.t,v 1.3 2011-02-24 23:20:09 cg Exp $
 # --

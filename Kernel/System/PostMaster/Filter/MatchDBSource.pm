@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster/Filter/MatchDBSource.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: MatchDBSource.pm,v 1.21.4.1 2013-02-07 14:01:06 ub Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Scheduler/TaskManager.pm - Scheduler TaskManager backend
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: TaskManager.pm,v 1.15.2.1 2013-01-09 18:21:29 cr Exp $
 # --

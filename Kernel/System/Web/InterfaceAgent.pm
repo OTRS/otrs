@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: InterfaceAgent.pm,v 1.64 2012-01-23 15:12:16 mb Exp $
 # --

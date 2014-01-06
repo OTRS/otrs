@@ -1,6 +1,6 @@
 # --
 # Kernel/System/GenericAgent/TriggerEscalationStartEvents.pm - trigger escalation start events
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: TriggerEscalationStartEvents.pm,v 1.3.2.1 2012-05-21 14:04:48 cg Exp $
 # --

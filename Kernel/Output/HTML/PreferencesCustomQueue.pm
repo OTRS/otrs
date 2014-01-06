@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/PreferencesCustomQueue.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: PreferencesCustomQueue.pm,v 1.17 2012-04-05 19:22:39 mb Exp $
 # --

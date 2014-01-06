@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerPreferences.pm,v 1.31.4.1 2012-10-10 12:03:22 mh Exp $
 # --
@@ -49,7 +49,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'Update' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck(Type => 'Customer');
+        $Self->{LayoutObject}->ChallengeTokenCheck( Type => 'Customer' );
 
         # check group param
         my $Group = $Self->{ParamObject}->GetParam( Param => 'Group' ) || '';

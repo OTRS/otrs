@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Loader.pm - CSS/JavaScript loader backend
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Loader.pm,v 1.18.2.1 2012-07-01 23:09:45 mh Exp $
 # --

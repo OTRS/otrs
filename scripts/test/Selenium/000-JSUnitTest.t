@@ -1,6 +1,6 @@
 # --
 # 000-JSUnitTest.t - frontend tests that collect the JavaScript unit test results
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: 000-JSUnitTest.t,v 1.9 2011-02-09 15:45:30 mg Exp $
 # --

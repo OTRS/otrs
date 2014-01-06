@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.RebuildConfig.pl - rebuild config
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.RebuildConfig.pl,v 1.14 2010-08-06 17:49:20 cr Exp $
 # --
@@ -59,7 +59,7 @@ $CommonObject{SysConfigObject} = Kernel::System::SysConfig->new(%CommonObject);
 # rebuild
 # ---
 print "otrs.RebuildConfig.pl <Revision $VERSION> - OTRS rebuild default config\n";
-print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
 if ( $CommonObject{SysConfigObject}->WriteDefault() ) {
     print "Done.\n";
     exit;

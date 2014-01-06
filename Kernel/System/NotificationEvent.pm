@@ -1,6 +1,6 @@
 # --
 # Kernel/System/NotificationEvent.pm - notification system module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: NotificationEvent.pm,v 1.8 2012-03-07 22:47:55 mb Exp $
 # --

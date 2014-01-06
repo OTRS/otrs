@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # scripts/rpc-example.pl - soap example client
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: rpc-example.pl,v 1.8 2011-10-24 09:22:12 mg Exp $
 # --

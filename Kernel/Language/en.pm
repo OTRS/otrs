@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/en.pm - provides en_US languag translation
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: en.pm,v 1.40 2011-09-15 11:38:47 mg Exp $
 # --

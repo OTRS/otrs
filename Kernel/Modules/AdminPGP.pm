@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminPGP.pm - to add/update/delete pgp keys
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminPGP.pm,v 1.33 2011-12-23 14:13:43 mg Exp $
 # --

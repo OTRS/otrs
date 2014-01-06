@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: StaticDB.pm,v 1.79.2.1 2012-08-24 12:12:07 mg Exp $
 # --

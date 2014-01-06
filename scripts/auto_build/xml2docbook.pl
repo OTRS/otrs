@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # xml2docbook.pl - config xml to docbook
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: xml2docbook.pl,v 1.26 2011-08-12 09:06:16 mg Exp $
 # --

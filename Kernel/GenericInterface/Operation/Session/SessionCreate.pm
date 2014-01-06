@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Operation/Session/SessionCreate.pm - GenericInterface SessionCreate operation backend
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: SessionCreate.pm,v 1.1 2012-01-25 18:01:43 cr Exp $
 # --

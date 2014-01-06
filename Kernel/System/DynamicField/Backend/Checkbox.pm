@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/Backend/Checkbox.pm - Delegate for DynamicField Checkbox backend
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Checkbox.pm,v 1.52.2.2 2012-06-19 23:53:27 cr Exp $
 # --

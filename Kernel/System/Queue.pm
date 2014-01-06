@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Queue.pm - lib for queue functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Queue.pm,v 1.138 2012-04-17 19:07:54 mb Exp $
 # --

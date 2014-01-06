@@ -1,7 +1,7 @@
 # --
 # Kernel/System/Ticket/Permission/OwnerCheck.pm - the sub
 # module of the global ticket handle
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: OwnerCheck.pm,v 1.13 2011-09-20 22:02:42 cr Exp $
 # --

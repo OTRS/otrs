@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Provider.pm,v 1.22 2011-07-21 14:45:57 cr Exp $
 # --

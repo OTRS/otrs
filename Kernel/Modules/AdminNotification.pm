@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminNotification.pm,v 1.36 2011-12-23 13:58:18 mg Exp $
 # --

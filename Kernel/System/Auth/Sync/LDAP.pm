@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Auth/Sync/LDAP.pm - provides the ldap sync
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: LDAP.pm,v 1.11 2011-08-12 09:06:16 mg Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Scheduler/TaskHandler/Test.pm - Scheduler task handler test backend
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Test.pm,v 1.12 2011-07-26 19:50:13 cr Exp $
 # --

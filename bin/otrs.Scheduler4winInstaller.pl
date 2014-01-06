@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # otrs.Scheduler4winInstaller.pl - helps to install OTRS Scheduler on Microsoft Windows OS
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.Scheduler4winInstaller.pl,v 1.6 2011-05-10 16:31:15 cr Exp $
 # --
@@ -128,6 +128,6 @@ else {
 # Internal
 sub _help {
     print "otrs.Scheduler4WinInstaller.pl <Revision $VERSION> - OTRS Scheduler daemon\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.Scheduler4WinInstaller.pl -a <ACTION> (install|remove) ";
 }

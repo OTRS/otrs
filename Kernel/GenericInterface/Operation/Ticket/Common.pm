@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Operation/Ticket/Common.pm - Ticket common operation functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Common.pm,v 1.35.2.1 2012-05-29 17:32:31 cr Exp $
 # --
