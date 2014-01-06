@@ -41,8 +41,9 @@ sub Run {
 
     # build url
     my $URL = '';
+    KEY:
     for my $Key (@Params) {
-        next if !$Param{Data}->{$Key};
+        next KEY if !$Param{Data}->{$Key};
         if ($URL) {
             $URL .= ', ';
         }

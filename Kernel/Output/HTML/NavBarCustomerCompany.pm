@@ -33,9 +33,10 @@ sub Run {
     return if !$Self->{ConfigObject}->Get('Frontend::Module')->{AdminCustomerCompany};
 
     # check if customer company feature is active
+    SOURCE:
     for my $Item ( '', 1 .. 10 ) {
         my $CustomerMap = $Self->{ConfigObject}->Get( 'CustomerUser' . $Item );
-        next if !$CustomerMap;
+        next SOURCE if !$CustomerMap;
 
         # return if CustomerCompany feature is used
         return if $CustomerMap->{CustomerCompanySupport};

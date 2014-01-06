@@ -131,6 +131,7 @@ sub GroupMemberAdd {
     }
 
     # update permission
+    TYPE:
     for my $Type ( sort keys %{ $Param{Permission} } ) {
 
         # delete existing permission
@@ -150,7 +151,7 @@ sub GroupMemberAdd {
         }
 
         # insert new permission (if needed)
-        next if !$Param{Permission}->{$Type};
+        next TYPE if !$Param{Permission}->{$Type};
         $Self->{DBObject}->Do(
             SQL => 'INSERT INTO group_customer_user '
                 . '(user_id, group_id, permission_key, permission_value, '

@@ -40,6 +40,7 @@ sub Run {
     # get all Frontend::Module
     my %NavBarModule;
     my $FrontendModuleConfig = $Self->{ConfigObject}->Get('Frontend::Module');
+    MODULE:
     for my $Module ( sort keys %{$FrontendModuleConfig} ) {
         my %Hash = %{ $FrontendModuleConfig->{$Module} };
         if (
@@ -81,7 +82,7 @@ sub Run {
                 }
 
             }
-            next if !$Shown;
+            next MODULE if !$Shown;
 
             my $Key = sprintf( "%07d", $Hash{NavBarModule}->{Prio} || 0 );
             COUNT:

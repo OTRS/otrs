@@ -208,10 +208,11 @@ sub Auth {
 
         # use all 11 sync backends
         else {
+            SOURCE:
             for my $Count ( '', 1 .. 10 ) {
 
                 # return on no config setting
-                next if !$Self->{"AuthSyncBackend$Count"};
+                next SOURCE if !$Self->{"AuthSyncBackend$Count"};
 
                 # sync backend
                 $Self->{"AuthSyncBackend$Count"}->Sync( %Param, User => $User );

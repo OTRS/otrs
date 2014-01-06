@@ -91,9 +91,10 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
 
     # load generator auth module
+    SOURCE:
     for my $Count ( '', 1 .. 10 ) {
         my $GenericModule = $Self->{ConfigObject}->Get("Customer::AuthModule$Count");
-        next if !$GenericModule;
+        next SOURCE if !$GenericModule;
 
         if ( !$Self->{MainObject}->Require($GenericModule) ) {
             $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");

@@ -89,11 +89,12 @@ sub Preferences {
         # load static module
         my $Params = $Self->{StatsObject}->GetParams( StatID => $StatID );
         $Self->{LayoutObject}->Block( Name => 'Static', );
+        PARAM_ITEM:
         for my $ParamItem ( @{$Params} ) {
 
-            next if $ParamItem->{Name} eq 'GraphSize';
-            next if $ParamItem->{Name} eq 'Year';
-            next if $ParamItem->{Name} eq 'Month';
+            next PARAM_ITEM if $ParamItem->{Name} eq 'GraphSize';
+            next PARAM_ITEM if $ParamItem->{Name} eq 'Year';
+            next PARAM_ITEM if $ParamItem->{Name} eq 'Month';
 
             if ( $StatsSettings && $StatsSettings->{ $ParamItem->{Name} } ) {
                 $ParamItem->{SelectedID} = $StatsSettings->{ $ParamItem->{Name} };

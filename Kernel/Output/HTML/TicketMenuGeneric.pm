@@ -72,6 +72,7 @@ sub Run {
     if ( $Param{Config}->{Group} ) {
         my @Items = split /;/, $Param{Config}->{Group};
         my $AccessOk;
+        ITEM:
         for my $Item (@Items) {
             my ( $Permission, $Name ) = split /:/, $Item;
             if ( !$Permission || !$Name ) {
@@ -86,7 +87,7 @@ sub Run {
                 Type   => $Permission,
                 Result => 'Name',
             );
-            next if !@Groups;
+            next ITEM if !@Groups;
 
             GROUP:
             for my $Group (@Groups) {

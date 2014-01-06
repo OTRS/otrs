@@ -87,9 +87,10 @@ sub new {
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     # load customer company backend modules
+    SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        next if !$Self->{ConfigObject}->Get("CustomerCompany$Count");
+        next SOURCE if !$Self->{ConfigObject}->Get("CustomerCompany$Count");
 
         my $GenericModule = $Self->{ConfigObject}->Get("CustomerCompany$Count")->{Module}
             || 'Kernel::System::CustomerCompany::DB';
@@ -207,12 +208,13 @@ sub CustomerCompanyGet {
         return;
     }
 
+    SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        next if !$Self->{"CustomerCompany$Count"};
+        next SOURCE if !$Self->{"CustomerCompany$Count"};
 
         my %Company = $Self->{"CustomerCompany$Count"}->CustomerCompanyGet( %Param, );
-        next if !%Company;
+        next SOURCE if !%Company;
 
         # return company data
         return (
@@ -342,9 +344,10 @@ sub CustomerCompanyList {
     my ( $Self, %Param ) = @_;
 
     my %Data;
+    SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        next if !$Self->{"CustomerCompany$Count"};
+        next SOURCE if !$Self->{"CustomerCompany$Count"};
 
         # get comppany list result of backend and merge it
         my %SubData = $Self->{"CustomerCompany$Count"}->CustomerCompanyList(%Param);
