@@ -1,6 +1,6 @@
 # --
 # Kernel/System/EmailParser.pm - the global email parser module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -979,14 +979,13 @@ not too fast, and often called.
 
 =cut
 
-
 sub _MailAddressParse {
     my ( $Self, %Param ) = @_;
 
     my $Email = $Param{Email};
     my $Cache = $Self->{EmailCache};
 
-    if ($Self->{EmailCache}->{$Email}) {
+    if ( $Self->{EmailCache}->{$Email} ) {
         return @{ $Self->{EmailCache}->{$Email} };
     }
 

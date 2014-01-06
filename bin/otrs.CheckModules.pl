@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -120,7 +120,7 @@ GetOptions( all => \$AllModules, list => \$PackageList, h => \$Help );
 # check needed params
 if ($Help) {
     print "otrs.CheckModules.pl - OTRS CheckModules\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.CheckModules.pl [-list|all] \n";
     print "
    otrs.CheckModules.pl
@@ -295,7 +295,8 @@ my @NeededModules = (
     {
         Module   => 'List::Util::XS',
         Required => 1,
-        Comment  => "Do a 'force install Scalar::Util' via cpan shell to fix this problem. Please make sure to have an c compiler and make installed before.",
+        Comment =>
+            "Do a 'force install Scalar::Util' via cpan shell to fix this problem. Please make sure to have an c compiler and make installed before.",
         InstTypes => {
             aptget => 'libscalar-list-utils-perl',
             ppm    => 'List-UtilsBy-XS',

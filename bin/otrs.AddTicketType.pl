@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.AddTicketType.pl - add new Ticket Types
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by

@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.ExportStatsToOPM.pl - export all stats of a system and create a package for the package manager
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -80,7 +80,7 @@ getopt( 'dhvn', \%Opts );
 if ( $Opts{'h'} ) {
     print
         "otrs.ExportStatsToOPM.pl - export all stats of a system and create a package for the package manager\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.ExportStatsToOPM.pl [-n <PACKAGE_NAME>] [-v <PACKAGE_VERSION>]\n";
     print
         "       [-d 'yes' for delete existing stats if the opm will be installed] [-h for help]\n";

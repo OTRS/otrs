@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminProcessManagementPath.pm - process management path
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -306,8 +306,10 @@ sub _ShowEdit {
 
     # fix sorting by names
     my @TransitionList;
-    for my $TransitionID ( sort { lc $TransitionList{$a} cmp lc $TransitionList{$b} }
-        keys %TransitionList )
+    for my $TransitionID (
+        sort { lc $TransitionList{$a} cmp lc $TransitionList{$b} }
+        keys %TransitionList
+        )
     {
         push @TransitionList, {
             Key   => $TransitionID,
