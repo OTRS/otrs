@@ -174,8 +174,10 @@ for my $Test (@Tests) {
 
         # create permission string
         my @Permissions;
+
+        PERMISSION:
         for my $Permission ( sort keys %{ $Test->{Config}->{Permission} } ) {
-            next if !$Test->{Config}->{Permission}->{$Permission};
+            next PERMISSION if !$Test->{Config}->{Permission}->{$Permission};
 
             push @Permissions, $Permission;
         }
@@ -186,8 +188,9 @@ for my $Test (@Tests) {
             "GroupMemberAdd() Test: $Test->{Name} - User: $Test->{Config}->{UID}, Group: $Test->{Config}->{GID}, Permissions:[$PermissionsStrg] with true",
         );
 
+        PERMISSION:
         for my $Permission ( sort keys %{ $Test->{Config}->{Permission} } ) {
-            next if !$Test->{Config}->{Permission}->{$Permission};
+            next PERMISSION if !$Test->{Config}->{Permission}->{$Permission};
 
             # check cache internal is empty
             my $CacheKey
