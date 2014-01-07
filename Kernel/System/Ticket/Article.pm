@@ -962,11 +962,11 @@ sub ArticleTypeLookup {
     my $CacheKey;
     if ( $Param{ArticleType} ) {
         $Key      = $Param{ArticleType};
-        $CacheKey = 'ArticleTypeLookup::' . $Param{ArticleType};
+        $CacheKey = 'ArticleTypeLookup::ArticleType::' . $Param{ArticleType};
     }
     else {
         $Key      = $Param{ArticleTypeID};
-        $CacheKey = 'ArticleTypeLookup::' . $Param{ArticleTypeID};
+        $CacheKey = 'ArticleTypeLookup::ArticleTypeID::' . $Param{ArticleTypeID};
     }
 
     # check cache
