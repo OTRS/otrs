@@ -110,6 +110,7 @@ sub Run {
         );
 
         # get ticket attributes
+        TICKETID:
         for my $TicketID (@TicketIDs) {
 
             my %Ticket = $Self->{TicketObject}->TicketGet(
@@ -126,9 +127,13 @@ sub Run {
             elsif ( $Type eq 'Pending' ) {
 
                 # only show own pending tickets
-                next
-                    if $Ticket{OwnerID} ne $Self->{UserID}
-                    && $Ticket{ResponsibleID} ne $Self->{UserID};
+                if (
+                    $Ticket{OwnerID} ne $Self->{UserID}
+                    && $Ticket{ResponsibleID} ne $Self->{UserID}
+                    )
+                {
+                    next TICKETID;
+                }
                 my $DestDate = $Self->{TimeObject}->SystemTime() + $Ticket{UntilTime};
                 $TimeTill  = $Ticket{UntilTime};
                 $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(

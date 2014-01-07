@@ -617,11 +617,16 @@ sub _GetParams {
 
         # get params for values
         my $ValueIndex = 0;
+        COUNTER:
         for my $ValueCounter ( 1 .. $GetParam->{ 'ValueCounter' . $KeyIndex } ) {
             my $Suffix = $KeyCounter . '_' . $ValueCounter;
-            next
-                if $Self->{ParamObject}->GetParam( Param => 'ValueName' . $Suffix ) eq
-                $Self->{DeletedString};
+            if (
+                $Self->{ParamObject}->GetParam( Param => 'ValueName' . $Suffix ) eq
+                $Self->{DeletedString}
+                )
+            {
+                next COUNTER;
+            }
             $ValueIndex++;
             for my $ValueItem (qw(ValueMapTypeStrg ValueName ValueMapNew)) {
                 my $ValAux = $Self->{ParamObject}->GetParam( Param => $ValueItem . $Suffix ) || '';

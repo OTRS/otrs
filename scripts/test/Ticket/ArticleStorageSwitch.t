@@ -114,10 +114,16 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
 
             # check file attributes
             for my $AttachmentID ( sort keys %{ $ArticleIDs{$ArticleID} } ) {
+
+                ATTACHMENTINDEXID:
                 for my $ID ( sort keys %Index ) {
-                    next
-                        if $ArticleIDs{$ArticleID}->{$AttachmentID}->{Filename} ne
-                        $Index{$ID}->{Filename};
+                    if (
+                        $ArticleIDs{$ArticleID}->{$AttachmentID}->{Filename} ne
+                        $Index{$ID}->{Filename}
+                        )
+                    {
+                        next ATTACHMENTINDEXID;
+                    }
                     for my $Attribute ( sort keys %{ $ArticleIDs{$ArticleID}->{$AttachmentID} } ) {
                         $Self->Is(
                             $Index{$ID}->{$Attribute},
@@ -152,10 +158,16 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
 
             # check file attributes
             for my $AttachmentID ( sort keys %{ $ArticleIDs{$ArticleID} } ) {
+
+                ATTACHMENTINDEXID:
                 for my $ID ( sort keys %Index ) {
-                    next
-                        if $ArticleIDs{$ArticleID}->{$AttachmentID}->{Filename} ne
-                        $Index{$ID}->{Filename};
+                    if (
+                        $ArticleIDs{$ArticleID}->{$AttachmentID}->{Filename} ne
+                        $Index{$ID}->{Filename}
+                        )
+                    {
+                        next ATTACHMENTINDEXID;
+                    }
                     for my $Attribute ( sort keys %{ $ArticleIDs{$ArticleID}->{$AttachmentID} } ) {
                         $Self->Is(
                             $Index{$ID}->{$Attribute},

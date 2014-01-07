@@ -1022,11 +1022,15 @@ sub Run {
             my $Stat = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
             my $Index = 0;
             $Data{StatType} = $Stat->{StatType};
+
+            OBJECTATTRIBUTE:
             for my $ObjectAttribute ( @{ $Stat->{UseAsValueSeries} } ) {
-                next
-                    if !$Self->{ParamObject}->GetParam(
-                    Param => "Select$ObjectAttribute->{Element}"
-                    );
+                if (
+                    !$Self->{ParamObject}->GetParam( Param => "Select$ObjectAttribute->{Element}" )
+                    )
+                {
+                    next OBJECTATTRIBUTE;
+                }
 
                 my @Array = $Self->{ParamObject}->GetArray( Param => $ObjectAttribute->{Element} );
                 $Data{UseAsValueSeries}[$Index]{SelectedValues} = \@Array;
