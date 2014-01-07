@@ -257,7 +257,7 @@ sub Send {
     ATTRIBUTE:
     for my $Attribute (qw(From To Cc Subject)) {
         next ATTRIBUTE if !$Header{$Attribute};
-        $Header{$_} = $Self->_EncodeMIMEWords(
+        $Header{$Attribute} = $Self->_EncodeMIMEWords(
             Field   => $Attribute,
             Line    => $Header{$Attribute},
             Charset => $Param{Charset},
