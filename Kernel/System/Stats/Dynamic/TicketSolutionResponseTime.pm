@@ -930,6 +930,7 @@ sub _ReportingValues {
     my %Response;
     my %ResponseWorkingTime;
 
+    TICKET:
     for my $TicketID (@TicketIDs) {
         $CounterAllOver++;
         my %Ticket = $Self->{TicketObject}->TicketGet(
@@ -945,7 +946,7 @@ sub _ReportingValues {
 
         $SolutionAllOver{$TicketID} = $SolutionTime - $Ticket{CreateTimeUnix};
 
-        next if !defined $Ticket{SolutionInMin};
+        next TICKET if !defined $Ticket{SolutionInMin};
 
         # now collect only data of tickets which are affected by a escalation config
 

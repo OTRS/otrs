@@ -87,6 +87,8 @@ sub AgentCustomerViewTable {
     my $CustomerImage = $Self->{ConfigObject}->Get('Frontend::CustomerUser::Image');
     if ($CustomerImage) {
         my %Modules = %{$CustomerImage};
+
+        MODULE:
         for my $Module ( sort keys %Modules ) {
             if ( !$Self->{MainObject}->Require( $Modules{$Module}->{Module} ) ) {
                 $Self->FatalDie();
@@ -98,7 +100,7 @@ sub AgentCustomerViewTable {
             );
 
             # run module
-            next if !$Object;
+            next MODULE if !$Object;
 
             $Object->Run(
                 Config => $Modules{$Module},
@@ -171,6 +173,8 @@ sub AgentCustomerViewTable {
             Name => 'CustomerItem',
         );
         my %Modules = %{$CustomerItem};
+
+        MODULE:
         for my $Module ( sort keys %Modules ) {
             if ( !$Self->{MainObject}->Require( $Modules{$Module}->{Module} ) ) {
                 $Self->FatalDie();
@@ -182,14 +186,14 @@ sub AgentCustomerViewTable {
             );
 
             # run module
-            next if !$Object;
+            next MODULE if !$Object;
 
             my $Run = $Object->Run(
                 Config => $Modules{$Module},
                 Data   => $Param{Data},
             );
 
-            next if !$Run;
+            next MODULE if !$Run;
 
             $CustomerItemCount++;
         }
@@ -570,9 +574,10 @@ sub ArticleQuote {
             }egxi;
 
             # find inline images using Content-Location instead of Content-ID
+            ATTACHMENT:
             for my $AttachmentID ( sort keys %Attachments ) {
 
-                next if !$Attachments{$AttachmentID}->{ContentID};
+                next ATTACHMENT if !$Attachments{$AttachmentID}->{ContentID};
 
                 # get whole attachment
                 my %AttachmentPicture = $Self->{TicketObject}->ArticleAttachment(
@@ -617,8 +622,9 @@ sub ArticleQuote {
             }
 
             # find not inline images
+            ATTACHMENT:
             for my $AttachmentID ( sort keys %Attachments ) {
-                next if $AttachmentAlreadyUsed{$AttachmentID};
+                next ATTACHMENT if $AttachmentAlreadyUsed{$AttachmentID};
                 $NotInlineAttachments{$AttachmentID} = 1;
             }
 

@@ -284,7 +284,7 @@ for my $Test (@Tests) {
     );
     ATTACHMENT:
     for my $Filename ( sort keys %{ $Test->{Attachment} } ) {
-        next if !$Test->{Attachment}->{$Filename};
+        next ATTACHMENT if !$Test->{Attachment}->{$Filename};
         for my $Attachment (@Attachments) {
             if ( $Attachment->{Filename} eq $Filename ) {
                 $Self->True(

@@ -249,8 +249,10 @@ sub EncodeInput {
     }
 
     if ( ref $What eq 'ARRAY' ) {
+
+        ROW:
         for my $Row ( @{$What} ) {
-            next if !defined $Row;
+            next ROW if !defined $Row;
             Encode::_utf8_on($Row);
         }
         return $What;
@@ -285,9 +287,11 @@ sub EncodeOutput {
     }
 
     if ( ref $What eq 'ARRAY' ) {
+
+        ROW:
         for my $Row ( @{$What} ) {
-            next if !defined $Row;
-            next if !Encode::is_utf8( ${$Row} );
+            next ROW if !defined $Row;
+            next ROW if !Encode::is_utf8( ${$Row} );
             ${$Row} = Encode::encode_utf8( ${$Row} );
         }
         return $What;

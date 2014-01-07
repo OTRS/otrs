@@ -81,6 +81,7 @@ my @Tests = (
     },
 );
 
+TEST:
 for my $Test (@Tests) {
 
     my $Object = Kernel::Scheduler::TaskHandler->new(
@@ -94,7 +95,7 @@ for my $Test (@Tests) {
         "$Test->{Name} - new() result",
     );
 
-    next if !$Object;
+    next TEST if !$Object;
 
     my $Result = $Object->Run( Data => $Test->{TaskData} );
     $Self->Is(

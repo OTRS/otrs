@@ -54,16 +54,17 @@ sub Run {
 
     # check if current sender got an internal forward
     my $InternalForward;
+    ARTICLE:
     for my $Article ( reverse @ArticleIndex ) {
 
         # just check agent sent article
-        next if $Article->{SenderType} ne 'agent';
+        next ARTICLE if $Article->{SenderType} ne 'agent';
 
         # just check email-internal
-        next if $Article->{ArticleType} ne 'email-internal';
+        next ARTICLE if $Article->{ArticleType} ne 'email-internal';
 
         # check recipients
-        next if !$Article->{To};
+        next ARTICLE if !$Article->{To};
 
         my @ToEmailAddresses = $Self->{ParserObject}->SplitAddressLine(
             Line => $Article->{To},

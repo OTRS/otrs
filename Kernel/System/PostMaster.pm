@@ -477,13 +477,15 @@ sub CheckFollowUp {
     # Try to find ticket number in References and In-Reply-To header.
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInReferences') ) {
         my @References = $Self->{ParserObject}->GetReferences();
+
+        REFERENCE:
         for my $Reference (@References) {
 
             # get ticket id of message id
             my $TicketID = $Self->{TicketObject}->ArticleGetTicketIDOfMessageID(
                 MessageID => "<$Reference>",
             );
-            next if !$TicketID;
+            next REFERENCE if !$TicketID;
             my $Tn = $Self->{TicketObject}->TicketNumberLookup( TicketID => $TicketID, );
             if ( $TicketID && $Tn ) {
                 return ( $Tn, $TicketID );

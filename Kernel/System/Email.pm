@@ -240,9 +240,10 @@ sub Send {
 
     # build header
     my %Header;
-    for (qw(From To Cc Subject Charset Reply-To)) {
-        next if !$Param{$_};
-        $Header{$_} = $Param{$_};
+    ATTRIBUTE:
+    for my $Attribute (qw(From To Cc Subject Charset Reply-To)) {
+        next ATTRIBUTE if !$Param{$Attribute};
+        $Header{$Attribute} = $Param{$Attribute};
     }
 
     # loop
@@ -253,11 +254,12 @@ sub Send {
     }
 
     # do some encode
-    for (qw(From To Cc Subject)) {
-        next if !$Header{$_};
+    ATTRIBUTE:
+    for my $Attribute (qw(From To Cc Subject)) {
+        next ATTRIBUTE if !$Header{$Attribute};
         $Header{$_} = $Self->_EncodeMIMEWords(
-            Field   => $_,
-            Line    => $Header{$_},
+            Field   => $Attribute,
+            Line    => $Header{$Attribute},
             Charset => $Param{Charset},
         );
     }
@@ -344,8 +346,9 @@ sub Send {
     if ( $Param{InReplyTo} ) {
         $Param{'In-Reply-To'} = $Param{InReplyTo};
     }
+    KEY:
     for my $Key ( 'In-Reply-To', 'References' ) {
-        next if !$Param{$Key};
+        next KEY if !$Param{$Key};
         my $Value = $Param{$Key};
 
         # Split up '<msgid><msgid>' to allow line folding (see bug#9345).
@@ -683,9 +686,11 @@ sub Send {
     # get recipients
     my @ToArray;
     my $To = '';
-    for (qw(To Cc Bcc)) {
-        next if !$Param{$_};
-        for my $Email ( Mail::Address->parse( $Param{$_} ) ) {
+
+    RECIPIENT:
+    for my $Recipient (qw(To Cc Bcc)) {
+        next RECIPIENT if !$Param{$Recipient};
+        for my $Email ( Mail::Address->parse( $Param{$Recipient} ) ) {
             push( @ToArray, $Email->address() );
             if ($To) {
                 $To .= ', ';

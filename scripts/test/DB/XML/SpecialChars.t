@@ -118,8 +118,10 @@ for my $Character (@SpecialCharacters) {
         $Result,
         "#5.$Counter Prepare() SELECT LIKE value",
     );
+
+    CHARACTER:
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        next if $Character eq '%';    # do not test %, because it's wanted as % for like
+        next CHARACTER if $Character eq '%';    # do not test %, because it's wanted as % for like
 
         $Self->True(
             $Row[0] eq $Character,

@@ -150,6 +150,7 @@ my @Tests = (
 my $Count = 0;
 
 # Testing loop
+TEST:
 for my $Test (@Tests) {
 
     $Count++;
@@ -194,7 +195,7 @@ for my $Test (@Tests) {
     }
 
     # No need test below is constant PARSE set to 0
-    next if ( !$PARSE );
+    next TEST if ( !$PARSE );
 
     # parse email
     my $ParserObject = Kernel::System::EmailParser->new(

@@ -616,7 +616,7 @@ sub _DataDiff {
         for my $Count ( 0 .. $#A ) {
 
             # do nothing, it's ok
-            next if !defined $A[$Count] && !defined $B[$Count];
+            next COUNT if !defined $A[$Count] && !defined $B[$Count];
 
             # return diff, because its different
             return 1 if !defined $A[$Count] || !defined $B[$Count];

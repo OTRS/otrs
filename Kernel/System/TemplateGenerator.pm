@@ -1084,18 +1084,20 @@ sub _Replace {
 
         # html quoting of content
         if ( $Param{RichText} ) {
-            for ( sort keys %Recipient ) {
-                next if !$Recipient{$_};
-                $Recipient{$_} = $Self->{HTMLUtilsObject}->ToHTML(
-                    String => $Recipient{$_},
+            ATTRIBUTE:
+            for my $Attribute ( sort keys %Recipient ) {
+                next ATTRIBUTE if !$Recipient{$Attribute};
+                $Recipient{$Attribute} = $Self->{HTMLUtilsObject}->ToHTML(
+                    String => $Recipient{$Attribute},
                 );
             }
         }
 
         # replace it
-        for ( sort keys %Recipient ) {
-            next if !defined $Recipient{$_};
-            $Param{Text} =~ s/$Tag$_$End/$Recipient{$_}/gi;
+        ATTRIBUTE:
+        for my $Attribute ( sort keys %Recipient ) {
+            next ATTRIBUTE if !defined $Recipient{$Attribute};
+            $Param{Text} =~ s/$Tag$_$End/$Recipient{$Attribute}/gi;
         }
     }
 
@@ -1109,18 +1111,21 @@ sub _Replace {
 
         # html quoting of content
         if ( $Param{RichText} ) {
-            for ( sort keys %Owner ) {
-                next if !$Owner{$_};
-                $Owner{$_} = $Self->{HTMLUtilsObject}->ToHTML(
-                    String => $Owner{$_},
+
+            ATTRIBUTE:
+            for my $Attribute ( sort keys %Owner ) {
+                next ATTRIBUTE if !$Owner{$Attribute};
+                $Owner{$Attribute} = $Self->{HTMLUtilsObject}->ToHTML(
+                    String => $Owner{$Attribute},
                 );
             }
         }
 
         # replace it
-        for ( sort keys %Owner ) {
-            next if !defined $Owner{$_};
-            $Param{Text} =~ s/$Tag$_$End/$Owner{$_}/gi;
+        ATTRIBUTE:
+        for my $Attribute ( sort keys %Owner ) {
+            next ATTRIBUTE if !defined $Owner{$Attribute};
+            $Param{Text} =~ s/$Tag$_$End/$Owner{$Attribute}/gi;
         }
     }
 
@@ -1152,10 +1157,12 @@ sub _Replace {
 
         # html quoting of content
         if ( $Param{RichText} ) {
-            for ( sort keys %Responsible ) {
-                next if !$Responsible{$_};
-                $Responsible{$_} = $Self->{HTMLUtilsObject}->ToHTML(
-                    String => $Responsible{$_},
+
+            ATTRIBUTE:
+            for my $Attribute ( sort keys %Responsible ) {
+                next ATTRIBUTE if !$Responsible{$Attribute};
+                $Responsible{$Attribute} = $Self->{HTMLUtilsObject}->ToHTML(
+                    String => $Responsible{$Attribute},
                 );
             }
         }
@@ -1176,10 +1183,12 @@ sub _Replace {
 
     # html quoting of content
     if ( $Param{RichText} ) {
-        for ( sort keys %CurrentUser ) {
-            next if !$CurrentUser{$_};
-            $CurrentUser{$_} = $Self->{HTMLUtilsObject}->ToHTML(
-                String => $CurrentUser{$_},
+
+        ATTRIBUTE:
+        for my $Attribute ( sort keys %CurrentUser ) {
+            next ATTRIBUTE if !$CurrentUser{$Attribute};
+            $CurrentUser{$Attribute} = $Self->{HTMLUtilsObject}->ToHTML(
+                String => $CurrentUser{$Attribute},
             );
         }
     }
@@ -1199,10 +1208,12 @@ sub _Replace {
 
     # html quoting of content
     if ( $Param{RichText} ) {
-        for ( sort keys %Ticket ) {
-            next if !$Ticket{$_};
-            $Ticket{$_} = $Self->{HTMLUtilsObject}->ToHTML(
-                String => $Ticket{$_},
+
+        ATTRIBUTE:
+        for my $Attribute ( sort keys %Ticket ) {
+            next ATTRIBUTE if !$Ticket{$Attribute};
+            $Ticket{$Attribute} = $Self->{HTMLUtilsObject}->ToHTML(
+                String => $Ticket{$Attribute},
             );
         }
     }
@@ -1296,10 +1307,12 @@ sub _Replace {
 
     # html quoting of content
     if ( $Param{RichText} ) {
-        for ( sort keys %Data ) {
-            next if !$Data{$_};
-            $Data{$_} = $Self->{HTMLUtilsObject}->ToHTML(
-                String => $Data{$_},
+
+        ATTRIBUTE:
+        for my $Attribute ( sort keys %Data ) {
+            next ATTRIBUTE if !$Data{$Attribute};
+            $Data{$Attribute} = $Self->{HTMLUtilsObject}->ToHTML(
+                String => $Data{$Attribute},
             );
         }
     }
@@ -1475,10 +1488,12 @@ sub _Replace {
 
         # html quoting of content
         if ( $Param{RichText} ) {
-            for ( sort keys %CustomerUser ) {
-                next if !$CustomerUser{$_};
-                $CustomerUser{$_} = $Self->{HTMLUtilsObject}->ToHTML(
-                    String => $CustomerUser{$_},
+
+            ATTRIBUTE:
+            for my $Attribute ( sort keys %CustomerUser ) {
+                next ATTRIBUTE if !$CustomerUser{$Attribute};
+                $CustomerUser{$Attribute} = $Self->{HTMLUtilsObject}->ToHTML(
+                    String => $CustomerUser{$Attribute},
                 );
             }
         }

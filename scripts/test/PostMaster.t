@@ -920,8 +920,10 @@ Some Content in Body
         TicketID      => $Return[1],
         DynamicFields => 1,
     );
+
+    TEST:
     for my $Test (@Tests) {
-        next if !$Test->{Check};
+        next TEST if !$Test->{Check};
         for my $Key ( sort keys %{ $Test->{Check} } ) {
             $Self->Is(
                 $Ticket{$Key},

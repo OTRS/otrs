@@ -446,10 +446,11 @@ sub StatsUpdate {
         $StatOld->{$Key} = $StatNew->{$Key};
     }
 
+    KEY:
     for my $Key ( sort keys %{$StatOld} ) {
 
         # Don't store the behaviour data
-        next if $Key eq 'ObjectBehaviours';
+        next KEY if $Key eq 'ObjectBehaviours';
 
         if ( $Key eq 'UseAsXvalue' || $Key eq 'UseAsValueSeries' || $Key eq 'UseAsRestriction' ) {
             my $Index = 0;
@@ -1441,9 +1442,11 @@ sub GetStaticFiles {
 
     # read files
     my %Filelist;
+
+    DIRECTORY:
     while ( defined( my $Filename = readdir DIR ) ) {
-        next if $Filename eq '.';
-        next if $Filename eq '..';
+        next DIRECTORY if $Filename eq '.';
+        next DIRECTORY if $Filename eq '..';
         if ( $Filename =~ m{^(.*)\.pm$}x ) {
             if ( !defined $StaticFiles{$1} ) {
                 $Filelist{$1} = $1;
@@ -1659,10 +1662,11 @@ sub Export {
 
     # wrapper to change ids in used spelling
     # wrap permissions
+    PERMISSION:
     for my $ID ( @{ $StatsXML->{Permission} } ) {
-        next if !$ID;
+        next PERMISSION if !$ID;
         my $Name = $Self->{GroupObject}->GroupLookup( GroupID => $ID->{Content} );
-        next if !$Name;
+        next PERMISSION if !$Name;
         $ID->{Content} = $Name;
     }
 
@@ -2165,7 +2169,7 @@ sub _StatsParamsGenerate {
         PARAMITEM:
         for my $ParamItem ( @{$Params} ) {
 
-            next if !defined $UserGetParam{ $ParamItem->{Name} };
+            next PARAMITEM if !defined $UserGetParam{ $ParamItem->{Name} };
 
             # param is array
             if ( $ParamItem->{Multiple} ) {

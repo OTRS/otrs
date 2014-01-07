@@ -252,7 +252,7 @@ for my $Test (@Tests) {
         next KEY if !$DebugLogResult;
         $ErrorFlag = 0;
     }
-    next if $ErrorFlag;
+    next KEY if $ErrorFlag;
 
     my $DebugLogIDsCommunicationID = $Test->{Config}->{CommunicationID};
 

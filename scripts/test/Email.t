@@ -113,8 +113,9 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
         );
 
         # check header
+        KEY:
         for my $Key (qw(From To Cc Subject)) {
-            next if !$Test->{Data}->{$Key};
+            next KEY if !$Test->{Data}->{$Key};
             $Self->Is(
                 $ParserObject->GetParam( WHAT => $Key ),
                 $Test->{Data}->{$Key},

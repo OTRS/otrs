@@ -425,8 +425,9 @@ sub Run {
 
     # debug
     if ( $Self->{Debug} > 0 ) {
+        ATTRIBUTE:
         for my $Attribute ( sort keys %GetParam ) {
-            next if !$GetParam{$Attribute};
+            next ATTRIBUTE if !$GetParam{$Attribute};
             print "$Attribute: $GetParam{$Attribute}\n";
         }
     }

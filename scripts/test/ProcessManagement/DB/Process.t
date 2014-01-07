@@ -1078,8 +1078,9 @@ for my $Test (@Tests) {
     my $ProcessList = $ProcessObject->ProcessList( %{ $Test->{Config} } );
 
     # remove original processes
+    PROCESSID:
     for my $ProcessID ( sort keys %{$OriginalProcessList} ) {
-        next if !$ProcessList->{$ProcessID};
+        next PROCESSID if !$ProcessList->{$ProcessID};
         delete $ProcessList->{$ProcessID};
     }
 

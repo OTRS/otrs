@@ -42,8 +42,9 @@ sub GetQueueID {
 
     # check possible to, cc and resent-to emailaddresses
     my $Recipient = '';
+    RECIPIENT:
     for my $Key (qw(Resent-To Envelope-To To Cc Delivered-To X-Original-To)) {
-        next if !$GetParam{$Key};
+        next RECIPIENT if !$GetParam{$Key};
         if ($Recipient) {
             $Recipient .= ', ';
         }

@@ -226,17 +226,18 @@ sub ArticleCreate {
     }
 
     # strip not wanted stuff
-    for (qw(From To Cc Subject MessageID InReplyTo References ReplyTo)) {
-        if ( defined $Param{$_} ) {
-            $Param{$_} =~ s/\n|\r//g;
+    for my $Attribute (qw(From To Cc Subject MessageID InReplyTo References ReplyTo)) {
+        if ( defined $Param{$Attribute} ) {
+            $Param{$Attribute} =~ s/\n|\r//g;
         }
         else {
-            $Param{$_} = '';
+            $Param{$Attribute} = '';
         }
     }
-    for (qw(InReplyTo References)) {
-        next if !$Param{$_};
-        $Param{$_} = substr( $Param{$_}, 0, 3800 );
+    ATTRIBUTE:
+    for my $Attribute (qw(InReplyTo References)) {
+        next ATTRIBUTE if !$Param{$Attribute};
+        $Param{$Attribute} = substr( $Param{$Attribute}, 0, 3800 );
     }
 
     # check if this is the first article (for notifications)
@@ -449,26 +450,27 @@ sub ArticleCreate {
         =~ /^(EmailAgent|EmailCustomer|PhoneCallCustomer|WebRequestCustomer|SystemRequest)$/i
         )
     {
+        USER:
         for my $UserID ( $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} ) ) {
 
             # do not send to this user
-            next if $DoNotSend{$UserID};
+            next USER if $DoNotSend{$UserID};
 
             # check if already sent
-            next if $AlreadySent{$UserID};
+            next USER if $AlreadySent{$UserID};
 
             # check personal settings
             my %UserData = $Self->{UserObject}->GetUserData(
                 UserID => $UserID,
                 Valid  => 1,
             );
-            next if !$UserData{UserSendNewTicketNotification};
+            next USER if !$UserData{UserSendNewTicketNotification};
 
             # remember to have sent
             $AlreadySent{$UserID} = 1;
 
             # do not send to this user (mute)
-            next if $DoNotSendMute{$UserID};
+            next USER if $DoNotSendMute{$UserID};
 
             # send notification
             $Self->SendAgentNotification(
@@ -495,22 +497,23 @@ sub ArticleCreate {
             Notify   => 1,
             Result   => 'ARRAY',
         );
+        USER:
         for my $UserID (@UserIDs) {
-            next if !$UserID;
-            next if $UserID == 1;
-            next if $UserID eq $Param{UserID};
+            next USER if !$UserID;
+            next USER if $UserID == 1;
+            next USER if $UserID eq $Param{UserID};
 
             # do not send to this user
-            next if $DoNotSend{$UserID};
+            next USER if $DoNotSend{$UserID};
 
             # check if alreay sent
-            next if $AlreadySent{$UserID};
+            next USER if $AlreadySent{$UserID};
 
             # remember already sent info
             $AlreadySent{$UserID} = 1;
 
             # do not send to this user (mute)
-            next if $DoNotSendMute{$UserID};
+            next USER if $DoNotSendMute{$UserID};
 
             # send notification
             $Self->SendAgentNotification(
@@ -544,29 +547,31 @@ sub ArticleCreate {
                 # add also owner to be notified
                 push @OwnerIDs, $Ticket{OwnerID};
             }
+
+            USER:
             for my $UserID (@OwnerIDs) {
-                next if !$UserID;
-                next if $UserID == 1;
-                next if $UserID eq $Param{UserID};
+                next USER if !$UserID;
+                next USER if $UserID == 1;
+                next USER if $UserID eq $Param{UserID};
 
                 # do not send to this user
-                next if $DoNotSend{$UserID};
+                next USER if $DoNotSend{$UserID};
 
                 # check if alreay sent
-                next if $AlreadySent{$UserID};
+                next USER if $AlreadySent{$UserID};
 
                 # check personal settings
                 my %UserData = $Self->{UserObject}->GetUserData(
                     UserID => $UserID,
                     Valid  => 1,
                 );
-                next if !$UserData{UserSendFollowUpNotification};
+                next USER if !$UserData{UserSendFollowUpNotification};
 
                 # remember already sent info
                 $AlreadySent{$UserID} = 1;
 
                 # do not send to this user (mute)
-                next if $DoNotSendMute{$UserID};
+                next USER if $DoNotSendMute{$UserID};
 
                 # send notification
                 $Self->SendAgentNotification(
@@ -591,29 +596,30 @@ sub ArticleCreate {
                 Notify   => 1,
                 Result   => 'ARRAY',
             );
+            USER:
             for my $UserID (@UserIDs) {
-                next if !$UserID;
-                next if $UserID == 1;
-                next if $UserID eq $Param{UserID};
+                next USER if !$UserID;
+                next USER if $UserID == 1;
+                next USER if $UserID eq $Param{UserID};
 
                 # do not send to this user
-                next if $DoNotSend{$UserID};
+                next USER if $DoNotSend{$UserID};
 
                 # check if alreay sent
-                next if $AlreadySent{$UserID};
+                next USER if $AlreadySent{$UserID};
 
                 # check personal settings
                 my %UserData = $Self->{UserObject}->GetUserData(
                     UserID => $UserID,
                     Valid  => 1,
                 );
-                next if !$UserData{UserSendFollowUpNotification};
+                next USER if !$UserData{UserSendFollowUpNotification};
 
                 # remember already sent info
                 $AlreadySent{$UserID} = 1;
 
                 # do not send to this user (mute)
-                next if $DoNotSendMute{$UserID};
+                next USER if $DoNotSendMute{$UserID};
 
                 # send notification
                 $Self->SendAgentNotification(
@@ -627,16 +633,17 @@ sub ArticleCreate {
             }
 
             # send the rest of agents follow ups
+            USER:
             for my $UserID ( $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} ) ) {
-                next if !$UserID;
-                next if $UserID == 1;
-                next if $UserID eq $Param{UserID};
+                next USER if !$UserID;
+                next USER if $UserID == 1;
+                next USER if $UserID eq $Param{UserID};
 
                 # do not send to this user
-                next if $DoNotSend{$UserID};
+                next USER if $DoNotSend{$UserID};
 
                 # check if alreay sent
-                next if $AlreadySent{$UserID};
+                next USER if $AlreadySent{$UserID};
 
                 # check personal settings
                 my %UserData = $Self->{UserObject}->GetUserData(
@@ -656,7 +663,7 @@ sub ArticleCreate {
                     $AlreadySent{$UserID} = 1;
 
                     # do not send to this user (mute)
-                    next if $DoNotSendMute{$UserID};
+                    next USER if $DoNotSendMute{$UserID};
 
                     # send notification
                     $Self->SendAgentNotification(
@@ -674,19 +681,20 @@ sub ArticleCreate {
 
     # send forced notifications
     if ( $Param{ForceNotificationToUserID} && ref $Param{ForceNotificationToUserID} eq 'ARRAY' ) {
+        USER:
         for my $UserID ( @{ $Param{ForceNotificationToUserID} } ) {
 
             # do not send to this user
-            next if $DoNotSend{$UserID};
+            next USER if $DoNotSend{$UserID};
 
             # check if alreay sent
-            next if $AlreadySent{$UserID};
+            next USER if $AlreadySent{$UserID};
 
             # remember already sent info
             $AlreadySent{$UserID} = 1;
 
             # do not send to this user (mute)
-            next if $DoNotSendMute{$UserID};
+            next USER if $DoNotSendMute{$UserID};
 
             # send notification
             $Self->SendAgentNotification(
@@ -1582,8 +1590,9 @@ sub ArticleGet {
         $Data{Age} = $Self->{TimeObject}->SystemTime() - $Ticket{CreateTimeUnix};
 
         # strip not wanted stuff
+        RECIPIENT:
         for my $Key (qw(From To Cc Subject)) {
-            next if !$Data{$Key};
+            next RECIPIENT if !$Data{$Key};
             $Data{$Key} =~ s/\n|\r//g;
         }
 
@@ -1782,24 +1791,25 @@ sub ArticleGet {
         $Part->{State}     = $StateData{Name};
 
         # add real name lines
-        KEY:
+        RECIPIENT:
         for my $Key (qw( From To Cc)) {
-            next if !$Part->{$Key};
+            next RECIPIENT if !$Part->{$Key};
 
             # check if it's a queue
             if ( $Part->{$Key} !~ /@/ ) {
                 $Part->{ $Key . 'Realname' } = $Part->{$Key};
-                next KEY;
+                next RECIPIENT;
             }
 
             # strip out real names
             my $Realname = '';
+            EMAILADDRESS:
             for my $EmailSplit ( $EmailParser->SplitAddressLine( Line => $Part->{$Key} ) ) {
                 my $Name = $EmailParser->GetRealname( Email => $EmailSplit );
                 if ( !$Name ) {
                     $Name = $EmailParser->GetEmailAddress( Email => $EmailSplit );
                 }
-                next if !$Name;
+                next EMAILADDRESS if !$Name;
                 if ($Realname) {
                     $Realname .= ', ';
                 }
@@ -3425,9 +3435,10 @@ sub ArticleAttachmentIndex {
                     UserID    => $Param{UserID},
                 );
 
+                ATTACHMENT:
                 for my $AttachmentID ( sort keys %Attachments ) {
                     my %File = %{ $Attachments{$AttachmentID} };
-                    next if !$File{ContentID};
+                    next ATTACHMENT if !$File{ContentID};
 
                     # content id cleanup
                     $File{ContentID} =~ s/^<//;

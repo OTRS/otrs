@@ -79,8 +79,9 @@ sub Run {
     # debug
     if ( $Self->{Debug} > 0 ) {
         print "Reject Follow up Ticket\n";
+        ATTRIBUTE:
         for my $Attribute ( sort keys %GetParam ) {
-            next if !$GetParam{$Attribute};
+            next ATTRIBUTE if !$GetParam{$Attribute};
             print "$Attribute: $GetParam{$Attribute}\n";
         }
     }

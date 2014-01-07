@@ -842,8 +842,10 @@ $EmailParserObject = Kernel::System::EmailParser->new(
 
 @Attachments = $EmailParserObject->GetAttachments();
 my $ContentLocation;
+
+ATTACHMENT:
 for my $Attachment (@Attachments) {
-    next if $Attachment->{ContentType} ne 'image/bmp; name="ole0.bmp"';
+    next ATTACHMENT if $Attachment->{ContentType} ne 'image/bmp; name="ole0.bmp"';
     $ContentLocation = $Attachment->{ContentID};
 }
 

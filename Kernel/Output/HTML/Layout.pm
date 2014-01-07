@@ -352,12 +352,14 @@ sub new {
     # force a theme based on host name
     my $DefaultThemeHostBased = $Self->{ConfigObject}->Get('DefaultTheme::HostBased');
     if ( $DefaultThemeHostBased && $ENV{HTTP_HOST} ) {
+
+        THEME:
         for my $RegExp ( sort keys %{$DefaultThemeHostBased} ) {
 
             # do not use empty regexp or theme directories
-            next if !$RegExp;
-            next if $RegExp eq '';
-            next if !$DefaultThemeHostBased->{$RegExp};
+            next THEME if !$RegExp;
+            next THEME if $RegExp eq '';
+            next THEME if !$DefaultThemeHostBased->{$RegExp};
 
             # check if regexp is matching
             if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
@@ -1136,11 +1138,13 @@ sub ChallengeTokenCheck {
 
     # check ChallengeToken of all own sessions
     my @Sessions = $Self->{SessionObject}->GetAllSessionIDs();
+
+    SESSION:
     for my $SessionID (@Sessions) {
         my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $SessionID );
-        next if !$Data{UserID};
-        next if $Data{UserID} ne $Self->{UserID};
-        next if !$Data{UserChallengeToken};
+        next SESSION if !$Data{UserID};
+        next SESSION if $Data{UserID} ne $Self->{UserID};
+        next SESSION if !$Data{UserChallengeToken};
 
         # check ChallengeToken
         return 1 if $ChallengeToken eq $Data{UserChallengeToken};
@@ -1499,15 +1503,17 @@ sub Header {
     my $HeaderMetaModule = $Self->{ConfigObject}->Get('Frontend::HeaderMetaModule');
     if ( ref $HeaderMetaModule eq 'HASH' ) {
         my %Jobs = %{$HeaderMetaModule};
+
+        MODULE:
         for my $Job ( sort keys %Jobs ) {
 
             # load and run module
-            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            next MODULE if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-            next if !$Object;
+            next MODULE if !$Object;
             $Object->Run( %Param, Config => $Jobs{$Job} );
         }
     }
@@ -1518,22 +1524,25 @@ sub Header {
         if ( $Param{ShowToolbarItems} && ref $ToolBarModule eq 'HASH' ) {
             my %Modules;
             my %Jobs = %{$ToolBarModule};
+
+            MODULE:
             for my $Job ( sort keys %Jobs ) {
 
                 # load and run module
-                next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+                next MODULE if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
                 my $Object = $Jobs{$Job}->{Module}->new(
                     %{$Self},
                     LayoutObject => $Self,
                 );
-                next if !$Object;
+                next MODULE if !$Object;
                 %Modules = ( $Object->Run( %Param, Config => $Jobs{$Job} ), %Modules );
             }
 
             # show tool bar items
             my $ToolBarShown = 0;
+            MODULE:
             for my $Key ( sort keys %Modules ) {
-                next if !%{ $Modules{$Key} };
+                next MODULE if !%{ $Modules{$Key} };
 
                 # show tool bar wrapper
                 if ( !$ToolBarShown ) {
@@ -2813,14 +2822,17 @@ sub NavigationBar {
     my %NavBar;
     my $FrontendModuleConfig = $Self->{ConfigObject}->Get('Frontend::Module');
 
+    MODULE:
     for my $Module ( sort keys %{$FrontendModuleConfig} ) {
         my %Hash = %{ $FrontendModuleConfig->{$Module} };
-        next if !$Hash{NavBar};
-        next if ref $Hash{NavBar} ne 'ARRAY';
+        next MODULE if !$Hash{NavBar};
+        next MODULE if ref $Hash{NavBar} ne 'ARRAY';
 
         my @Items = @{ $Hash{NavBar} };
+
+        ITEM:
         for my $Item (@Items) {
-            next if !$Item->{NavBar};
+            next ITEM if !$Item->{NavBar};
             $Item->{CSS} = '';
 
             # highlight active area link
@@ -2873,7 +2885,7 @@ sub NavigationBar {
                     last PERMISSION;
                 }
             }
-            next if !$Shown;
+            next ITEM if !$Shown;
 
             # set prio of item
             my $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
@@ -2900,15 +2912,17 @@ sub NavigationBar {
     # run menu item modules
     if ( ref $Self->{ConfigObject}->Get('Frontend::NavBarModule') eq 'HASH' ) {
         my %Jobs = %{ $Self->{ConfigObject}->Get('Frontend::NavBarModule') };
+
+        MENUMODULE:
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            next MENUMODULE if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-            next if !$Object;
+            next MENUMODULE if !$Object;
 
             # run module
             %NavBar = ( %NavBar, $Object->Run( %Param, Config => $Jobs{$Job} ) );
@@ -2916,9 +2930,10 @@ sub NavigationBar {
     }
 
     # show nav bar
+    ITEM:
     for my $Key ( sort keys %NavBar ) {
-        next if $Key eq 'Sub';
-        next if !%{ $NavBar{$Key} };
+        next ITEM if $Key eq 'Sub';
+        next ITEM if !%{ $NavBar{$Key} };
         my $Item = $NavBar{$Key};
         $Item->{NameForID} = $Item->{Name};
         $Item->{NameForID} =~ s/[ &;]//ig;
@@ -2933,7 +2948,7 @@ sub NavigationBar {
         );
 
         # show sub menu
-        next if !$Sub;
+        next ITEM if !$Sub;
         $Self->Block(
             Name => 'ItemAreaSub',
             Data => $Item,
@@ -2967,15 +2982,17 @@ sub NavigationBar {
     my $NavBarOutputModuleConfig = $Self->{ConfigObject}->Get('Frontend::NavBarOutputModule');
     if ( ref $NavBarOutputModuleConfig eq 'HASH' ) {
         my %Jobs = %{$NavBarOutputModuleConfig};
+
+        OUTPUTMODULE:
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            next OUTPUTMODULE if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-            next if !$Object;
+            next OUTPUTMODULE if !$Object;
 
             # run module
             $Output .= $Object->Run( %Param, Config => $Jobs{$Job} );
@@ -2986,15 +3003,17 @@ sub NavigationBar {
     my $FrontendNotifyModuleConfig = $Self->{ConfigObject}->Get('Frontend::NotifyModule');
     if ( ref $FrontendNotifyModuleConfig eq 'HASH' ) {
         my %Jobs = %{$FrontendNotifyModuleConfig};
+
+        NOTIFICATIONMODULE:
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            next NOTIFICATIONMODULE if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-            next if !$Object;
+            next NOTIFICATIONMODULE if !$Object;
 
             # run module
             $Output .= $Object->Run( %Param, Config => $Jobs{$Job} );
@@ -3008,12 +3027,18 @@ sub NavigationBar {
         my %Jobs = %{ $Self->{ModuleReg}->{NavBarModule} };
 
         # load module
-        next if !$Self->{MainObject}->Require( $Jobs{Module} );
+        if ( !$Self->{MainObject}->Require( $Jobs{Module} ) ) {
+            return $Output;
+        }
+
         my $Object = $Jobs{Module}->new(
             %{$Self},
             LayoutObject => $Self,
         );
-        next if !$Object;
+
+        if ( !$Object ) {
+            return $Output;
+        }
 
         # run module
         $Output .= $Object->Run( %Param, Config => \%Jobs );
@@ -3493,12 +3518,14 @@ sub CustomerHeader {
     my $HeaderMetaModule = $Self->{ConfigObject}->Get( $Frontend . 'Frontend::HeaderMetaModule' );
     if ( ref $HeaderMetaModule eq 'HASH' ) {
         my %Jobs = %{$HeaderMetaModule};
+
+        MODULE:
         for my $Job ( sort keys %Jobs ) {
 
             # load and run module
-            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            next MODULE if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, LayoutObject => $Self );
-            next if !$Object;
+            next MODULE if !$Object;
             $Object->Run( %Param, Config => $Jobs{$Job} );
         }
     }
@@ -3639,14 +3666,17 @@ sub CustomerNavigationBar {
     my %NavBarModule;
     my $FrontendModuleConfig = $Self->{ConfigObject}->Get('CustomerFrontend::Module');
 
+    MODULE:
     for my $Module ( sort keys %{$FrontendModuleConfig} ) {
         my %Hash = %{ $FrontendModuleConfig->{$Module} };
-        next if !$Hash{NavBar};
-        next if ref $Hash{NavBar} ne 'ARRAY';
+        next MODULE if !$Hash{NavBar};
+        next MODULE if ref $Hash{NavBar} ne 'ARRAY';
 
         my @Items = @{ $Hash{NavBar} };
+
+        ITEM:
         for my $Item (@Items) {
-            next if !$Item;
+            next ITEM if !$Item;
 
             # check permissions
             my $Shown = 0;
@@ -3691,7 +3721,7 @@ sub CustomerNavigationBar {
                     last PERMISSION;
                 }
             }
-            next if !$Shown;
+            next ITEM if !$Shown;
 
             # set prio of item
             my $Key = sprintf( "%07d", $Item->{Prio} );
@@ -3752,9 +3782,11 @@ sub CustomerNavigationBar {
     #   with the same Action and Subaction, it cannot be determined which one was used.
     #   Therefore we just highlight the first one.
     my $SelectedFlag;
+
+    ITEM:
     for my $Item ( sort keys %NavBarModule ) {
-        next if !%{ $NavBarModule{$Item} };
-        next if $Item eq 'Sub';
+        next ITEM if !%{ $NavBarModule{$Item} };
+        next ITEM if $Item eq 'Sub';
         $Counter++;
         my $Sub;
         if ( $NavBarModule{$Item}->{NavBar} ) {
@@ -3783,7 +3815,7 @@ sub CustomerNavigationBar {
         );
 
         # show sub menu
-        next if !$Sub;
+        next ITEM if !$Sub;
         $Self->Block(
             Name => 'ItemAreaSub',
             Data => $Item,
@@ -3822,15 +3854,17 @@ sub CustomerNavigationBar {
     my $FrontendNotifyModuleConfig = $Self->{ConfigObject}->Get('CustomerFrontend::NotifyModule');
     if ( ref $FrontendNotifyModuleConfig eq 'HASH' ) {
         my %Jobs = %{$FrontendNotifyModuleConfig};
+
+        NOTIFICATIONMODULE:
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            next NOTIFICATIONMODULE if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-            next if !$Object;
+            next NOTIFICATIONMODULE if !$Object;
 
             # run module
             $Param{Notification} .= $Object->Run( %Param, Config => $Jobs{$Job} );
@@ -4261,8 +4295,9 @@ sub RichTextDocumentServe {
     # http://www.ietf.org/rfc/rfc2557.txt
 
     # find matching attachment and replace it with runtlime url to image
+    ATTACHMENT:
     for my $AttachmentID ( sort keys %{ $Param{Attachments} } ) {
-        next if !$Param{Attachments}->{$AttachmentID}->{ContentID};
+        next ATTACHMENT if !$Param{Attachments}->{$AttachmentID}->{ContentID};
 
         # content id cleanup
         $Param{Attachments}->{$AttachmentID}->{ContentID} =~ s/^<//;

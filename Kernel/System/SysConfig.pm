@@ -1299,6 +1299,8 @@ sub ConfigItemTranslatableStrings {
                 Group    => $Group,
                 SubGroup => $SubGroup,
             );
+
+            CONFIGITEM:
             for my $ConfigItem (@ConfigItemList) {
 
                 # get attributes of each config item
@@ -1306,7 +1308,7 @@ sub ConfigItemTranslatableStrings {
                     Name    => $ConfigItem,
                     Default => 1,
                 );
-                next if !%Config;
+                next CONFIGITEM if !%Config;
 
                 # get translatable strings
                 $Self->_ConfigItemTranslatableStrings( Data => \%Config );
@@ -1642,8 +1644,10 @@ sub _Init {
     # Only the last config XML entry should be used, remove any previous ones.
     my %Seen;
     my @XMLConfigTmp;
+
+    CONFIGITEM:
     for my $ConfigItem ( reverse @{ $Self->{XMLConfig} } ) {
-        next if !$ConfigItem || !$ConfigItem->{Name} || $Seen{ $ConfigItem->{Name} }++;
+        next CONFIGITEM if !$ConfigItem || !$ConfigItem->{Name} || $Seen{ $ConfigItem->{Name} }++;
         push @XMLConfigTmp, $ConfigItem;
     }
     $Self->{XMLConfig} = \@XMLConfigTmp;
@@ -1732,7 +1736,7 @@ sub _DataDiff {
         for my $Count ( 0 .. $#A ) {
 
             # do nothing, it's ok
-            next if !defined $A[$Count] && !defined $B[$Count];
+            next COUNT if !defined $A[$Count] && !defined $B[$Count];
 
             # return diff, because its different
             return 1 if !defined $A[$Count] || !defined $B[$Count];
@@ -1878,8 +1882,10 @@ sub _ConfigItemTranslatableStrings {
 
     # ARRAY
     if ( ref $Param{Data} eq 'ARRAY' ) {
+
+        KEY:
         for my $Key ( @{ $Param{Data} } ) {
-            next if !$Key;
+            next KEY if !$Key;
             $Self->_ConfigItemTranslatableStrings( Data => $Key );
         }
         return;

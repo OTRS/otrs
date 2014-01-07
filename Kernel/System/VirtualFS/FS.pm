@@ -126,10 +126,12 @@ sub Write {
 
     my $DataDir = '';
     my @Dirs = $Self->_SplitDir( Filename => $MD5 );
+
+    DIRECTORY:
     for my $Dir (@Dirs) {
         $DataDir .= '/' . $Dir;
-        next if -e $Self->{DataDir} . $DataDir;
-        next if mkdir $Self->{DataDir} . $DataDir;
+        next DIRECTORY if -e $Self->{DataDir} . $DataDir;
+        next DIRECTORY if mkdir $Self->{DataDir} . $DataDir;
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't create $Self->{DataDir}$DataDir: $!",

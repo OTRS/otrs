@@ -176,8 +176,9 @@ if ( defined $Opts{r} ) {
         Filter    => '*',
     );
 
+    DIRECTORY:
     for my $Directory (@Directories) {
-        next if !-d $Directory;
+        next DIRECTORY if !-d $Directory;
         my $Leave = 0;
         for my $Data ( sort keys %LeaveBackups ) {
             if ( $Directory =~ m/$Data/ ) {

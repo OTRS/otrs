@@ -384,8 +384,10 @@ for my $Test (@Tests) {
         );
 
         my @ExpectedTransitionActions;
+
+        ENTITYID:
         for my $TransitionActionEntityID ( @{ $Test->{Config}->{TransitionActionEntityID} } ) {
-            next if !$TransitionActionEntityID;
+            next ENTITYID if !$TransitionActionEntityID;
 
             # get the transition action form test config
             my %TransitionAction = %{ $Test->{TransitionActions}->{$TransitionActionEntityID} };

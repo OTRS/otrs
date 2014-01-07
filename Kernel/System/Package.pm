@@ -1011,10 +1011,12 @@ sub PackageOnlineRepositories {
 
     my %List;
     my $Name = '';
+
+    TAG:
     for my $Tag (@XMLARRAY) {
 
         # just use start tags
-        next if $Tag->{TagType} ne 'Start';
+        next TAG if $Tag->{TagType} ne 'Start';
 
         # reset package data
         if ( $Tag->{Tag} eq 'Repository' ) {
@@ -1790,6 +1792,7 @@ sub PackageBuild {
 
         $XML .= "    <Filelist>\n";
 
+        FILE:
         for my $File ( @{ $Param{Filelist} } ) {
 
             my %OldParam;
@@ -1800,7 +1803,7 @@ sub PackageBuild {
             }
 
             # do only use doc/* Filelist in index mode
-            next if $Param{Type} && $File->{Location} !~ /^doc\//;
+            next FILE if $Param{Type} && $File->{Location} !~ /^doc\//;
 
             if ( !$Param{Type} ) {
                 $XML .= "        <File";
@@ -2724,12 +2727,13 @@ sub _PackageFileCheck {
 
         for my $FileNew ( @{ $Param{Structure}->{Filelist} } ) {
 
+            FILEOLD:
             for my $FileOld ( @{ $Package->{Filelist} } ) {
 
                 $FileNew->{Location} =~ s/\/\//\//g;
                 $FileOld->{Location} =~ s/\/\//\//g;
 
-                next if $FileNew->{Location} ne $FileOld->{Location};
+                next FILEOLD if $FileNew->{Location} ne $FileOld->{Location};
 
                 $Self->{LogObject}->Log(
                     Priority => 'error',

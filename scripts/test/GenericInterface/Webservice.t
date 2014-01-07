@@ -1000,8 +1000,9 @@ for my $Test (@Tests) {
         "$Test->{Name} - WebserviceHistoryList()",
     );
 
+    COUNT:
     for my $Count ( 0 .. 1 ) {
-        next if !$History[$Count];
+        next COUNT if !$History[$Count];
         my $WebserviceHistoryGet = $WebserviceHistoryObject->WebserviceHistoryGet(
             ID => $History[$Count],
         );
