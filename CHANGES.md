@@ -1,4 +1,5 @@
 #3.3.4 201?-??-??
+ - 2014-01-07 Fixed bug#[10140](http://bugs.otrs.org/show_bug.cgi?id=10140) - Unable to search using before/after in Date Dynamic Fields.
  - 2014-01-06 Fixed bug#[10008](http://bugs.otrs.org/show_bug.cgi?id=10008) - Customer user is automatically added to Cc at response for email-internal in AgentTicketCompose.
  - 2014-01-06 Added Hebrew translation file, thanks to Amir Elion!
  - 2014-01-03 Fixed bug#[9978](http://bugs.otrs.org/show_bug.cgi?id=9978) - Activity Dialog for Customer shows "No Process configured!".
