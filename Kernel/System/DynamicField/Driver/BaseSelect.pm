@@ -580,6 +580,10 @@ sub SearchFieldParameterBuild {
 
     my $DisplayValue;
 
+    if ( defined $Value && !$Value ) {
+        $DisplayValue = '';
+    }
+
     if ($Value) {
         if ( ref $Value eq 'ARRAY' ) {
 
@@ -608,7 +612,7 @@ sub SearchFieldParameterBuild {
         else {
 
             # set the display value
-            $DisplayValue = $Param{DynamicFieldConfig}->{PossibleValues}->{$Value};
+            $DisplayValue = $Param{DynamicFieldConfig}->{Config}->{PossibleValues}->{$Value};
 
             # translate the value
             if (

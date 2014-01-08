@@ -805,11 +805,20 @@ sub SearchFieldParameterBuild {
     # get field value
     my $Value = $Self->SearchFieldValueGet(%Param);
 
+    my $DisplayValue;
+
+    if ( defined $Value && !$Value ) {
+        $DisplayValue = '';
+    }
+
     # do not search if value was not checked (useful for customer interface)
     if ( !$Value ) {
         return {
-            Equals => '',
-            }
+            Parameter => {
+                Equals => $Value,
+            },
+            Display => $DisplayValue,
+        };
     }
 
     # search for a wild card in the value
