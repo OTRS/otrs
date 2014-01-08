@@ -580,6 +580,10 @@ sub SearchFieldParameterBuild {
 
     my $DisplayValue;
 
+    if ( defined $Value && !$Value ) {
+        $DisplayValue = '';
+    }
+
     if ($Value) {
 
         if ( ref $Value eq "ARRAY" ) {
