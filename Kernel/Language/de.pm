@@ -2248,6 +2248,8 @@ sub Data {
         # Template: AgentDashboardStats
         'The content of this statistic is being prepared for you, please be patient.' =>
             'Der Inhalt dieser Statistik wird vorbereitet. Bitte haben Sie etwas Geduld.',
+        'Grouped' => 'Gruppiert',
+        'Stacked' => 'Gestapelt',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Meine gesperrten Tickets',

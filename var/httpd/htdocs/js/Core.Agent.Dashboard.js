@@ -458,7 +458,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
         nv.addGraph(function() {
 
-            var Chart = nv.models.multiBarChart();
+            var Chart = nv.models.OTRSmultiBarChart();
 
             // don't let nv/d3 exceptions block the rest of OTRS JavaScript
             try {
@@ -468,6 +468,11 @@ Core.Agent.Dashboard = (function (TargetNS) {
                     right: 20,
                     bottom: 50,
                     left: 50
+                });
+
+                Chart.controlsData({
+                    groupedName: Core.Config.Get('Grouped') || 'Grouped',
+                    stackedName: Core.Config.Get('Stacked') || 'Stacked'
                 });
 
                 Chart.xAxis.axisLabel(Headings[0]);
