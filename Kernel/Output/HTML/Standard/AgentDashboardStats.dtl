@@ -19,6 +19,10 @@
 <script type="text/javascript">//<![CDATA[
 /*global nv, d3 */
 
+// add translations
+Core.Config.Set('Grouped', '$JSText{"Grouped"}');
+Core.Config.Set('Stacked', '$JSText{"Stacked"}');
+
 (function(){
 
     var Timeout = 500;
