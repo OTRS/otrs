@@ -2858,7 +2858,6 @@ sub SendAutoResponse {
     }
 
     my $AutoReplyAddresses = join( ', ', @AutoReplyAddresses );
-    my $ToAll = $AutoReplyAddresses;
     my $Cc;
 
     # also send CC to customer user if customer user id is used and addresses do not match
@@ -2867,7 +2866,6 @@ sub SendAutoResponse {
             User => $Ticket{CustomerUserID},
         );
         if ( $CustomerUser{UserEmail} && $OrigHeader{From} !~ /\Q$CustomerUser{UserEmail}\E/i ) {
-            $ToAll .= ', ' . $CustomerUser{UserEmail};
             $Cc = $CustomerUser{UserEmail};
         }
     }
@@ -2890,7 +2888,6 @@ sub SendAutoResponse {
         $HistoryType = 'Misc';
     }
 
-    # send email
     if ( !@AutoReplyAddresses && !$Cc ) {
         $Self->{LogObject}->Log(
             Priority => 'info',
@@ -2900,6 +2897,7 @@ sub SendAutoResponse {
         return;
     }
 
+    # send email
     my $ArticleID = $Self->ArticleSend(
         ArticleType    => 'email-external',
         SenderType     => 'system',
