@@ -670,7 +670,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 Core.Agent.Admin.ProcessManagement.ShowOverlay();
                 Core.UI.Popup.OpenPopup(PopupPath, 'Path');
             }
-            Event.stopPropagation();
+            Event.stopImmediatePropagation();
             return false;
         });
     };
