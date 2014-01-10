@@ -13,6 +13,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.4 201?-??-??
+ - 2014-01-10 Updated Brazilian Portugese translation, thanks to Murilo Moreira de Oliveira!
  - 2014-01-10 Fixed bug#[10079](http://bugs.otrs.org/show_bug.cgi?id=10079) - Cannot operate OTRS on IE7 because of JavaScript error.
  - 2014-01-10 Fixed bug#[10113](http://bugs.otrs.org/show_bug.cgi?id=10113) - Management dashboard setting doesn't show up when agent only has RO on stats.
  - 2014-01-10 Fixed bug#[10088](http://bugs.otrs.org/show_bug.cgi?id=10088) - Error messages on recieving mailer daemons.
