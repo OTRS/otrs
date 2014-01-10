@@ -44,21 +44,21 @@ my @Tests = (
         },
         Result => '11:12:13 - 10.01.2014',
     },
-    {
-        Name           => 'All tags test',
-        DateFormatLong => '%A %B %T - %D.%M.%Y',
-        FixedTimeSet   => '2014-01-10 11:12:13',
-        Data           => {
-            Format => 'DateFormatLong',
-            Year   => 2014,
-            Month  => 1,
-            Day    => 10,
-            Hour   => 11,
-            Minute => 12,
-            Second => 13,
-        },
-        Result => 'Fr Jan 11:12:13 - 10.01.2014',
-    },
+    # {
+    #     Name           => 'All tags test',
+    #     DateFormatLong => '%A %B %T - %D.%M.%Y',
+    #     FixedTimeSet   => '2014-01-10 11:12:13',
+    #     Data           => {
+    #         Format => 'DateFormatLong',
+    #         Year   => 2014,
+    #         Month  => 1,
+    #         Day    => 10,
+    #         Hour   => 11,
+    #         Minute => 12,
+    #         Second => 13,
+    #     },
+    #     Result => 'Fr Jan 11:12:13 - 10.01.2014',
+    # },
 );
 
 for my $Test (@Tests) {
