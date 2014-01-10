@@ -2891,6 +2891,15 @@ sub SendAutoResponse {
     }
 
     # send email
+    if ( !@AutoReplyAddresses && !$Cc ) {
+        $Self->{LogObject}->Log(
+            Priority => 'info',
+            Message  => "No auto response addresses for Ticket [$Ticket{TicketNumber}]"
+                . " (TicketID=$Param{TicketID})."
+        );
+        return;
+    }
+
     my $ArticleID = $Self->ArticleSend(
         ArticleType    => 'email-external',
         SenderType     => 'system',
