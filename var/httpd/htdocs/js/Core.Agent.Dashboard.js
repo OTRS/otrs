@@ -470,14 +470,13 @@ Core.Agent.Dashboard = (function (TargetNS) {
                     left: 50
                 });
 
-                //Chart.staggerLabels(true);
+                Chart.staggerLabels(true);
 
                 Chart.controlsData({
                     groupedName: Core.Config.Get('Grouped') || 'Grouped',
                     stackedName: Core.Config.Get('Stacked') || 'Stacked'
                 });
 
-                //Chart.xAxis.axisLabel(Headings[0]);
                 Chart.yAxis.axisLabel("Values").tickFormat(d3.format(ValueFormat));
 
                 d3.select(SVGElement)

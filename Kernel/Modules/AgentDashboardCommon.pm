@@ -512,7 +512,7 @@ sub Run {
             my @Groups = split /;/, $Config->{$Name}->{Group};
             GROUP:
             for my $Group (@Groups) {
-                my $Permission = 'UserIsGroup[' . $Group . ']';
+                my $Permission = 'UserIsGroupRo[' . $Group . ']';
                 if ( defined $Self->{$Permission} && $Self->{$Permission} eq 'Yes' ) {
                     $PermissionOK = 1;
                     last GROUP;
@@ -744,7 +744,7 @@ sub _Element {
         my @Groups = split /;/, $Configs->{$Name}->{Group};
         GROUP:
         for my $Group (@Groups) {
-            my $Permission = 'UserIsGroup[' . $Group . ']';
+            my $Permission = 'UserIsGroupRo[' . $Group . ']';
             if ( defined $Self->{$Permission} && $Self->{$Permission} eq 'Yes' ) {
                 $PermissionOK = 1;
                 last GROUP;
