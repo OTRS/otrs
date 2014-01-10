@@ -21,22 +21,22 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 );
 
 my $LanguageObject = Kernel::Language->new(
+
     #UserTimeZone => $Self->{UserTimeZone},
     UserLanguage => 'de',
     %{$Self},
 );
 
-
 TEST:
 my @Tests = (
     {
-        Name => 'Default format',
+        Name           => 'Default format',
         DateFormatLong => '%T - %D.%M.%Y',
-        FixedTimeSet => '2014-01-10 11:12:13',
-        Data => {
+        FixedTimeSet   => '2014-01-10 11:12:13',
+        Data           => {
             Format => 'DateFormatLong',
             Year   => 2014,
-            Month  => 01,
+            Month  => 1,
             Day    => 10,
             Hour   => 11,
             Minute => 12,
@@ -45,13 +45,13 @@ my @Tests = (
         Result => '11:12:13 - 10.01.2014',
     },
     {
-        Name => 'All tags test',
+        Name           => 'All tags test',
         DateFormatLong => '%A %B %T - %D.%M.%Y',
-        FixedTimeSet => '2014-01-10 11:12:13',
-        Data => {
+        FixedTimeSet   => '2014-01-10 11:12:13',
+        Data           => {
             Format => 'DateFormatLong',
             Year   => 2014,
-            Month  => 01,
+            Month  => 1,
             Day    => 10,
             Hour   => 11,
             Minute => 12,
