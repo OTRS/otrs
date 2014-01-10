@@ -27,7 +27,7 @@ nv.models.OTRSmultiBarChart = function() {
     , tooltips = true
     , tooltip = function(key, x, y, e, graph) {
         return '<h3>' + key + '</h3>' +
-               '<p>' +  y + ': ' + x + '</p>'
+               '<p>' +  x + ': ' + y + '</p>'
       }
     , x //can be accessed via chart.xScale()
     , y //can be accessed via chart.yScale()
