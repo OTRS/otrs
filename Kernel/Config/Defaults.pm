@@ -897,7 +897,6 @@ sub LoadDefaults {
 
     # Agent Common JS
     $Self->{'Loader::Agent::CommonJS'}->{'000-Framework'} =  [
-        'thirdparty/json/json2.js',
         'thirdparty/jquery-1.10.0/jquery.js',
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
         'thirdparty/jquery-ui-1.10.3/jquery-ui.js',
