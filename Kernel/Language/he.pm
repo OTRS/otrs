@@ -339,15 +339,15 @@ sub Data {
         'installed' => 'מותקן',
         'uninstalled' => 'לא מותקן',
         'Security Note: You should activate %s because application is already running!' =>
-            'Security Note: You should activate %s because application is already running!',
-        'Unable to parse repository index document.' => 'Unable to parse repository index document.',
+            '',
+        'Unable to parse repository index document.' => '',
         'No packages for your framework version found in this repository, it only contains packages for other framework versions.' =>
-            'No packages for your framework version found in this repository, it only contains packages for other framework versions.',
+            '',
         'No packages, or no new packages, found in selected repository.' =>
-            'No packages, or no new packages, found in selected repository.',
+            '',
         'Edit the system configuration settings.' => 'ערכו את הגדרות המערכת.',
         'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
-            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
+            '',
         'printed at' => 'הודפס ב',
         'Loading...' => 'טוען...',
         'Dear Mr. %s,' => 'אדון %s היקר,',
@@ -366,7 +366,7 @@ sub Data {
         'Events' => 'אירועים',
         'Invalid Token!' => 'קוד לא תקין!',
         'more' => 'עוד',
-        'Collapse' => 'הקטן',
+        'Collapse' => 'צמצם',
         'Shown' => 'מוצג',
         'Shown customer users' => 'משתמשי לקוח מוצגים',
         'News' => 'חדשות',
@@ -374,11 +374,11 @@ sub Data {
         'OTRS News' => 'חדשות OTRS',
         '7 Day Stats' => 'סטטיסטיקה של 7 ימים',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
-            'Process Management information from database is not in sync with the system configuration, please synchronize all processes.',
+            '',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
-            'Package not verified by the OTRS Group! It is recommended not to use this package.',
+            '',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
-            '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>',
+            '',
         'Mark' => 'סמן',
         'Unmark' => 'בטל סימון',
         'Bold' => 'מודגש',
@@ -405,10 +405,10 @@ sub Data {
         'Redo' => 'בצע שנית',
         'Scheduler process is registered but might not be running.' => 'תהליך מתוזמן רשום אך ייתכן שאינו רץ.',
         'Scheduler is not running.' => 'תהליך מתוזמן אינו רץ.',
-        'Can\'t contact registration server. Please try again later.' => 'Can\'t contact registration server. Please try again later.',
+        'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
-            'No content received from registration server. Please try again later.',
-        'Problems processing server result. Please try again later.' => 'Problems processing server result. Please try again later.',
+            '',
+        'Problems processing server result. Please try again later.' => '',
         'Username and password do not match. Please try again.' => 'שם משתמש וסיסמא אינם תואמים. אנא נסו שנית.',
         'The selected process is invalid!' => 'התהליך שנבחר אינו תקין!',
 
@@ -478,7 +478,7 @@ sub Data {
         'Can\'t update password, this password has already been used. Please choose a new one!' =>
             'לא ניתן לעדכן סיסמא. כבר השתמשתם בסיסמא זו. אנא בחרו סיסמא חדשה!',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
-            'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.',
+            '',
         'CSV Separator' => 'מפריד CSV',
 
         # Template: AAAStats
@@ -493,19 +493,19 @@ sub Data {
         'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' =>
             'אנא בחרו רק פריט אחד או כבו את כפתור ה \'קבוע\' בו מסומן השדה הנבחר!',
         'If you use a checkbox you have to select some attributes of the select field!' =>
-            'If you use a checkbox you have to select some attributes of the select field!',
+            '',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' =>
-            'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!',
+            '',
         'The selected end time is before the start time!' => 'זמן הסיום שנבחר הוא לפני זמן ההתחלה!',
         'You have to select one or more attributes from the select field!' =>
             'אנא בחרו מאפיין אחד או יותר משדה הבחירה!',
         'The selected Date isn\'t valid!' => 'התאריך שנבחר אינו חוקי!',
         'Please select only one or two elements via the checkbox!' => 'אנא בחרו רק פריט אחד או שניים בעזרת תיבת הסימון!',
         'If you use a time scale element you can only select one element!' =>
-            'If you use a time scale element you can only select one element!',
+            '',
         'You have an error in your time selection!' => 'יש לכם שגיאה בבחירה!',
         'Your reporting time interval is too small, please use a larger time scale!' =>
-            'Your reporting time interval is too small, please use a larger time scale!',
+            '',
         'The selected start time is before the allowed start time!' => 'זמן ההתחלה שנבחר הוא לפני זמן ההתחלה המותר!',
         'The selected end time is after the allowed end time!' => 'זמן הסיום שנבחר הוא אחרי זמן הסיום המותר!',
         'The selected time period is larger than the allowed time period!' =>
@@ -768,11 +768,11 @@ sub Data {
             'שלח לי התראה אם פניה מועברת לתוך אחד מ"התורות" שלי.',
         'Send ticket move notifications' => 'שלח התראות בעת העברת פניה',
         'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' =>
-            'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.',
+            '',
         'Custom Queue' => 'תור מותאם',
         'QueueView refresh time' => 'זמן רענון תצוגת תור',
         'If enabled, the QueueView will automatically refresh after the specified time.' =>
-            'If enabled, the QueueView will automatically refresh after the specified time.',
+            '',
         'Refresh QueueView after' => 'רענן תצוגת תור מהירה לאחר',
         'Screen after new ticket' => 'המסך לאחר פניות חשדות',
         'Show this screen after I created a new ticket' => 'הצג מסך זה לאחר שאני יוצר פניה חדשה',
@@ -988,7 +988,7 @@ sub Data {
         'Notice' => 'הודעה',
         'This feature is disabled!' => 'יכולת זו כבויה!',
         'Just use this feature if you want to define group permissions for customers.' =>
-            '',
+            'השתמשו באפשרות זו אם ברצונכם להגדיר הרשאות קבוצתיות עבור לקוחות',
         'Enable it here!' => 'אפשר זאת כאן!',
         'Search for customers.' => 'חיפוש אחר לקוחות.',
         'Edit Customer Default Groups' => 'ערוך קבוצות ברירת מחדל של לקוחות',
@@ -998,7 +998,7 @@ sub Data {
         'Filter for Groups' => 'סנן לפי קבוצות',
         'Select the customer:group permissions.' => 'בחרו את הלקוח:הרשאות קבוצה',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
-            '',
+            'אם דבר לא נבחר, אז אין הרשאות לקבוצה זו (פניות לא יהיו זמינות ללקוח).',
         'Search Results' => 'תוצאות חיפוש',
         'Customers' => 'לקוחות',
         'Groups' => 'קבוצות',
@@ -1037,7 +1037,7 @@ sub Data {
         'Object' => 'אובייקט',
         'Delete this field' => 'מחק שדה זה',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
-            '',
+            'האם אתם באמת רוצים למחוק שדה דינמי זה? כל הנתונים המקושרים יאבדו!',
         'Delete field' => 'מחק שדה',
 
         # Template: AdminDynamicFieldCheckbox
@@ -1046,17 +1046,17 @@ sub Data {
         'Go back to overview' => 'חזור למבט-על',
         'General' => 'כללי',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
-            '',
+            'זהו שדה נדרש, והערך צריך להיות עם תווי אותיות ומספרים בלבד.',
         'Must be unique and only accept alphabetic and numeric characters.' =>
-            '',
+            'חייב להיות ייחודי ולקבל רק תווי אותיות ומספרים.',
         'Changing this value will require manual changes in the system.' =>
-            '',
+            'שינוי ערך זה ידרוש שינויים ידניים במערכת.',
         'This is the name to be shown on the screens where the field is active.' =>
-            '',
+            'זהו השם שיוצג במסכים בו השדה פעיל.',
         'Field order' => 'סדר השדות',
-        'This field is required and must be numeric.' => '',
+        'This field is required and must be numeric.' => 'זהו שדה נדרש והוא חייב להיות מספרי.',
         'This is the order in which this field will be shown on the screens where is active.' =>
-            '',
+            'זהו הסדר בו שדה זה יוצג במסכים בו הוא פעיל.',
         'Field type' => 'סוג השדה',
         'Object type' => 'סוג האובייקט',
         'Internal field' => 'שדה פנימי',
@@ -1104,10 +1104,10 @@ sub Data {
         # Template: AdminDynamicFieldText
         'Number of rows' => 'מספר שורות',
         'Specify the height (in lines) for this field in the edit mode.' =>
-            '',
+            'קבעו את הגובה (בשורות) עבור שדה זו במצב עריכה.',
         'Number of cols' => 'מספר העמודות',
         'Specify the width (in characters) for this field in the edit mode.' =>
-            '',
+            'קבעו את הרוחב (בתווים) עבור שדה זה במצב עריכה.',
 
         # Template: AdminEmail
         'Admin Notification' => 'התראת מנהל מערכת',
@@ -1124,41 +1124,41 @@ sub Data {
         'Send' => 'שלח',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => '',
-        'Add job' => '',
-        'Last run' => '',
-        'Run Now!' => '',
-        'Delete this task' => '',
-        'Run this task' => '',
-        'Job Settings' => '',
-        'Job name' => '',
-        'The name you entered already exists.' => '',
+        'Generic Agent' => 'סוכן גנרי',
+        'Add job' => 'הוסף משימה',
+        'Last run' => 'ריצה אחרונה',
+        'Run Now!' => 'הפעל ריצה כעת!',
+        'Delete this task' => 'מחק משימה זו',
+        'Run this task' => 'הרץ משימה זו',
+        'Job Settings' => 'הגדרות המשימה',
+        'Job name' => 'שם המשימה',
+        'The name you entered already exists.' => 'השם שהקלדתם כבר קיים.',
         'Toggle this widget' => '',
-        'Automatic execution (multiple tickets)' => '',
-        'Execution Schedule' => '',
-        'Schedule minutes' => '',
-        'Schedule hours' => '',
-        'Schedule days' => '',
+        'Automatic execution (multiple tickets)' => 'ביצוע אוטומטי (פניות מרובות)',
+        'Execution Schedule' => 'תזמון הביצוע',
+        'Schedule minutes' => 'דקות התזמון',
+        'Schedule hours' => 'שעות התזמון',
+        'Schedule days' => 'ימי התזמון',
         'Currently this generic agent job will not run automatically.' =>
             '',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             '',
-        'Event based execution (single ticket)' => '',
-        'Event Triggers' => '',
-        'List of all configured events' => '',
+        'Event based execution (single ticket)' => 'ביצוע מבוסס אירוע (פניה בודדת)',
+        'Event Triggers' => 'טריגרים לאירועים',
+        'List of all configured events' => 'רשימת כל האירועים המוגדרים',
         'Delete this event' => 'מחק אירוע זה',
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
             '',
         'If a ticket event is fired, the ticket filter will be applied to check if the ticket matches. Only then the job is run on that ticket.' =>
             '',
-        'Do you really want to delete this event trigger?' => '',
-        'Add Event Trigger' => '',
+        'Do you really want to delete this event trigger?' => 'האם אתם באמת רוצים למחוק טריגר אירוע זה?',
+        'Add Event Trigger' => 'הוסף טריגר לאירוע',
         'To add a new event select the event object and event name and click on the "+" button' =>
-            '',
+            'להוספת אירוע חדש בחרו את אובייקט האירוע ואת שם האירוע ולחצו על כפתור "+"',
         'Duplicate event.' => 'שכפל אירוע',
         'This event is already attached to the job, Please use a different one.' =>
-            '',
-        'Delete this Event Trigger' => '',
+            'אירוע זה כבר משויך למשימה. אנא בחרו אחד אחר.',
+        'Delete this Event Trigger' => 'מחק את טריגר האירוע',
         'Ticket Filter' => 'מסנן פניות',
         '(e. g. 10*5155 or 105658*)' => '(למשל 10*5144 או 105658*)',
         '(e. g. 234321)' => '(למשל 234321)',
@@ -1183,14 +1183,14 @@ sub Data {
         'No pending time settings.' => '',
         'Ticket pending time reached' => '',
         'Ticket pending time reached between' => '',
-        'Escalation times' => '',
-        'No escalation time settings.' => '',
-        'Ticket escalation time reached' => '',
-        'Ticket escalation time reached between' => '',
-        'Escalation - first response time' => '',
-        'Ticket first response time reached' => '',
-        'Ticket first response time reached between' => '',
-        'Escalation - update time' => '',
+        'Escalation times' => 'זמני אסקלציה',
+        'No escalation time settings.' => 'אין הגדרות זמני אסקלציה',
+        'Ticket escalation time reached' => 'הגיע זמן אסקלציה של פניה',
+        'Ticket escalation time reached between' => 'הגיע זמן אסקלציה של פניה בין',
+        'Escalation - first response time' => 'אסקלציה - זמן מענה ראשוני',
+        'Ticket first response time reached' => 'זמן מענה ראשוני לפניה הגיע',
+        'Ticket first response time reached between' => 'זמן מענה ראשוני לפניה הגיע בין',
+        'Escalation - update time' => 'אסקלציה - זמן עדכון',
         'Ticket update time reached' => 'זמן עדכון פניה הגיע',
         'Ticket update time reached between' => 'זמן עדכון פניה הגיע בין',
         'Escalation - solution time' => 'זמן אסקלציה - פתרון',
@@ -1217,8 +1217,8 @@ sub Data {
         'Add Note' => 'הוסף הודעה',
         'Time units' => 'יחידות זמן',
         '(work units)' => '(יחידות עבודה)',
-        'Ticket Commands' => '',
-        'Send agent/customer notifications on changes' => '',
+        'Ticket Commands' => 'פקודות פניה',
+        'Send agent/customer notifications on changes' => 'שלח לסוכן/לקוח התראות על שינויים',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
             '',
@@ -1226,15 +1226,15 @@ sub Data {
         'Warning: All affected tickets will be removed from the database and cannot be restored!' =>
             '',
         'Execute Custom Module' => '',
-        'Param %s key' => '',
+        'Param %s key' => 'מפתח פרמטר %s',
         'Param %s value' => 'ערך פרמטר %s',
         'Save Changes' => 'שמור שינויים',
         'Results' => 'תוצאות',
         '%s Tickets affected! What do you want to do?' => '%s פניות הושפעו! מה אתם רוצים לעשות?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
             '',
-        'Edit job' => '',
-        'Run job' => '',
+        'Edit job' => 'ערוך עבודה',
+        'Run job' => 'הרץ עבודה',
         'Affected Tickets' => 'פניות מושפעות',
 
         # Template: AdminGenericInterfaceDebugger
@@ -1245,7 +1245,7 @@ sub Data {
         'Clear' => 'נקה',
         'Do you really want to clear the debug log of this web service?' =>
             '',
-        'Request List' => '',
+        'Request List' => 'רשימת בקשות',
         'Time' => 'זמן',
         'Remote IP' => '',
         'Loading' => 'טוען...',
@@ -1292,7 +1292,7 @@ sub Data {
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => '',
         'Go back to' => 'חזור אל',
-        'Mapping Simple' => '',
+        'Mapping Simple' => 'מיפוי פשוט',
         'Default rule for unmapped keys' => '',
         'This rule will apply for all keys with no mapping rule.' => '',
         'Default rule for unmapped values' => '',
@@ -1347,8 +1347,8 @@ sub Data {
         'URI to give SOAP methods a context, reducing ambiguities.' => '',
         'e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
             '',
-        'Maximum message length' => '',
-        'This field should be an integer number.' => '',
+        'Maximum message length' => 'אורך הודעה מירבי',
+        'This field should be an integer number.' => 'שדה זה צריך להיות מספר שלם.',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             '',
         'Encoding' => 'קידוד',
@@ -1361,7 +1361,7 @@ sub Data {
         'Character to use as separator between name space and SOAP method.' =>
             '',
         'Usually .Net web services uses a "/" as separator.' => '',
-        'Authentication' => '',
+        'Authentication' => 'אימות',
         'The authentication mechanism to access the remote system.' => '',
         'A "-" value means no authentication.' => '',
         'The user name to be used to access the remote system.' => '',
@@ -1690,8 +1690,8 @@ sub Data {
         'The selected permission does not exist.' => 'ההרשאה שנבחרה אינה קיימת.',
         'Required Lock' => 'נעילה נדרשת',
         'The selected required lock does not exist.' => '',
-        'Submit Advice Text' => '',
-        'Submit Button Text' => '',
+        'Submit Advice Text' => 'טקסט העזרה לשליחה',
+        'Submit Button Text' => 'טקסט כפתור שליחה',
         'Fields' => 'שדות',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
             '',
@@ -2210,11 +2210,11 @@ sub Data {
 
         # Template: AgentCustomerSearch
         'Duplicated entry' => 'רשומה כפולה',
-        'This address already exists on the address list.' => 'Dieser Eintrag existiert bereits in der Adressliste',
-        'It is going to be deleted from the field, please try again.' => 'Er wird aus dem Feld entfernt, bitte versuchen Sie es erneut.',
+        'This address already exists on the address list.' => 'כתובת זו כבר קיימת ברשימת הכתובות',
+        'It is going to be deleted from the field, please try again.' => 'זה יימחק מהשדה, אנא נסו שנית.',
 
         # Template: AgentCustomerTableView
-        'Note: Customer is invalid!' => 'Hinweis: Kunde ist ungültig!',
+        'Note: Customer is invalid!' => 'שימו לב: הלקוח לא תקין!',
 
         # Template: AgentDashboard
         'Dashboard' => 'לוח בקרה',
@@ -2223,8 +2223,8 @@ sub Data {
         'in' => 'in',
 
         # Template: AgentDashboardCommon
-        'Available Columns' => 'Verfügbare Spalten',
-        'Visible Columns (order by drag & drop)' => 'Angezeigte Spalten (שנה durch Ziehen)',
+        'Available Columns' => 'עמודות זמינות',
+        'Visible Columns (order by drag & drop)' => 'עמודות נראות (סדר בגרירה של העמודות)',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2255,13 +2255,13 @@ sub Data {
 
         # Template: AgentDashboardStats
         'The content of this statistic is being prepared for you, please be patient.' =>
-            'Der Inhalt dieser Statistik wird vorbereitet. Bitte haben Sie etwas Geduld.',
+            '',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'הפניות הנעולות שלי',
         'My watched tickets' => 'הפניות במעקב שלי',
         'My responsibilities' => 'באחריות שלי',
-        'Tickets in My Queues' => 'פניות בתורות שלי',
+        'Tickets in My Queues' => 'פניות בתורים שלי',
         'Service Time' => 'זמן השירוץ',
         'Remove active filters for this widget.' => 'הסר מסננים פעילים לחלונית זו.',
 
@@ -2402,7 +2402,7 @@ sub Data {
         'No element selected.' => 'לא נבחר רכיב.',
         'maximal period from' => 'תקופה מירבית מ-',
         'to' => 'עד',
-        'not changable for dashboard statistics' => 'nicht änderbar für Dashboard-Statistiken',
+        'not changable for dashboard statistics' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'שנה את הטקסט "החופשי" של הפניה',
@@ -2470,8 +2470,8 @@ sub Data {
         'Create New Email Ticket' => 'צור פניית דוא"ל חדשה',
         'From queue' => 'מהתור',
         'To customer user' => 'למשתמש לקוח',
-        'Please include at least one customer user for the ticket.' => 'Bitte tragen Sie wenigstens einen Kundenbenutzer für das Ticket ein',
-        'Select this customer as the main customer.' => 'Diesen Kunden als Hauptkunden auswählen.',
+        'Please include at least one customer user for the ticket.' => 'נא לכלול לפחות משתמש לקוח אחד עבור הפניה',
+        'Select this customer as the main customer.' => 'בחר לקוח זה כלקוח העיקרי.',
         'Remove Ticket Customer User' => 'הסר משתמש לקוח מהפניה',
         'Get all' => 'קבל הכל',
         'Text Template' => 'תבנית טקסט',
@@ -3045,7 +3045,7 @@ sub Data {
             '',
         'ArticleTree' => 'Artikelbaum',
         'Attachments <-> Templates' => 'קבצים מצרופים <-> תבניות',
-        'Auto Responses <-> Queues' => 'מענים אוטומטיים <-> תורות',
+        'Auto Responses <-> Queues' => 'מענים אוטומטיים <-> תורים',
         'Automated line break in text messages after x number of chars.' =>
             '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -3115,7 +3115,7 @@ sub Data {
         'Create and manage dynamic fields.' => 'צור ונהל שדות דינמיים.',
         'Create and manage event based notifications.' => 'צור ונהל התראות על בסיס אירועים.',
         'Create and manage groups.' => 'צור ונהל קבוצות.',
-        'Create and manage queues.' => 'צור ונהל תורות.',
+        'Create and manage queues.' => 'צור ונהל תורים.',
         'Create and manage responses that are automatically sent.' => 'צור ונהל מענים שנשלחים אוטומטית.',
         'Create and manage roles.' => 'צור ונהל תפקידים.',
         'Create and manage salutations.' => 'צור ונהל ברכות.',
@@ -4090,9 +4090,9 @@ sub Data {
         'Link attachments to templates.' => 'קשר קבצים מצורפים לתבניות.',
         'Link customer user to groups.' => 'קשר משתמש לקוח לקבוצות.',
         'Link customer user to services.' => 'קשר לקוחות לשירותים.',
-        'Link queues to auto responses.' => 'קשר תורות למענים אוטומטיים.',
+        'Link queues to auto responses.' => 'קשר תורים למענים אוטומטיים.',
         'Link roles to groups.' => 'קשר תפקידים לקבוצות.',
-        'Link templates to queues.' => 'קשר תבניות לתורות.',
+        'Link templates to queues.' => 'קשר תבניות לתורים.',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -4285,7 +4285,7 @@ sub Data {
             '',
         'Provides a matrix overview of the tickets per state per queue.' =>
             '',
-        'Queue view' => 'תצוגת תורות',
+        'Queue view' => 'תצוגת תורים',
         'Recognize if a ticket is a follow up to an existing ticket using an external ticket number.' =>
             '',
         'Refresh Overviews after' => 'רענן מבט-על לאחר',
@@ -4345,7 +4345,7 @@ sub Data {
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             '',
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
-            'שלח לי התראות אם לקוח שולח מעקב ואני הבעלים של הפניה או שהפניה לא נעולה ובאחד מהתורות שאני מנוי עליהם.',
+            'שלח לי התראות אם לקוח שולח מעקב ואני הבעלים של הפניה או שהפניה לא נעולה ובאחד מהתורים שאני מנוי עליהם.',
         'Send notifications to users.' => 'שלח התראות למשתמשים.',
         'Send ticket follow up notifications' => 'שלח התראות מעקב פניות',
         'Sender type for new tickets from the customer inteface.' => '',
@@ -4777,7 +4777,7 @@ sub Data {
         'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
-        'Templates <-> Queues' => 'תבניות <-> תורות',
+        'Templates <-> Queues' => 'תבניות <-> תורים',
         'Textarea' => '',
         'The "bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.' =>
             '',
@@ -4820,7 +4820,7 @@ sub Data {
             '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
-        'Ticket Queue Overview' => 'מבט-על על תורות של פניות',
+        'Ticket Queue Overview' => 'מבט-על על תורים של פניות',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket overview' => 'מבט-על בפניות',
@@ -4885,7 +4885,7 @@ sub Data {
         'Fulltext search' => 'חיפוש טקסט מלא',
         'Historic Time Range' => 'טווח זמן היסטורי',
         'Link attachments to responses templates.' => 'קשר קבצים מצורפים לתבניות מענים.',
-        'Link responses to queues.' => 'קשר מענים לתורות',
+        'Link responses to queues.' => 'קשר מענים לתורים',
         'Manage Responses' => 'נהל מענים',
         'New email ticket for %s' => 'פניה חדשה בדוא"ל עבור %s',
         'New phone ticket for %s' => 'פניה חדשה בטלפון עבור %s',
@@ -4897,7 +4897,7 @@ sub Data {
         'Position' => 'תפקיד',
         'Registration' => 'רישום',
         'Responses' => 'מענים',
-        'Responses <-> Queues' => 'מענים <-> תורות',
+        'Responses <-> Queues' => 'מענים <-> תורים',
         'Send update now' => 'שלח עדכון כעת',
         'Show  article' => 'הצג מאמר',
         'Template for' => 'תבנית עבור',
