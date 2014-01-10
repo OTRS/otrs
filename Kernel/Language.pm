@@ -475,6 +475,15 @@ sub Time {
         $D = $Param{Day}    || 0;
         $M = $Param{Month}  || 0;
         $Y = $Param{Year}   || 0;
+
+        # Calculate missing values like $WD
+        my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, $s ),
+        );
+
+        ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST ) = $Self->{TimeObject}->SystemTime2Date(
+            SystemTime => $SystemTime,
+        );
     }
 
     # do replace
