@@ -136,7 +136,7 @@ You can even pass some headers
         Header => {
             Authorization => 'Basic xxxx',
             Content_Type  => 'text/json',
-        }, 
+        },
     );
 
 =cut

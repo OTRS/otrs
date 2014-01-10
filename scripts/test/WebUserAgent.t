@@ -136,7 +136,7 @@ my @Tests = (
         Header  => {
             Content_Type => 'text/json',
         },
-        Return  => 'REQUEST', 
+        Return  => 'REQUEST',
         Matches => qr!Content-Type:\s+text/json!,
     },
 );
