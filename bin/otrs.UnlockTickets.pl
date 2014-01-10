@@ -141,11 +141,10 @@ elsif ( $Command eq '--timeout' ) {
     exit 0;
 }
 
-
 # unlock ticket by ID
 elsif ( $Command eq '--ticket' ) {
     my $TicketID = shift || '';
-    if ($TicketID eq '') {
+    if ( $TicketID eq '' ) {
         print " No TicketID given!\n";
         exit 0;
     }
