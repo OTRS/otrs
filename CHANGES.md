@@ -3,7 +3,6 @@
  - 2014-01-10 Fixed bug#[10113](http://bugs.otrs.org/show_bug.cgi?id=10113) - Management dashboard setting doesn't show up when agent only has RO on stats.
  - 2014-01-10 Fixed bug#[10088](http://bugs.otrs.org/show_bug.cgi?id=10088) - Error messages on recieving mailer daemons.
  - 2014-01-10 Fixed bug#[10011](http://bugs.otrs.org/show_bug.cgi?id=10011) - Management Dashboard: X-Axis element labels may overlap.
- - 2014-01-10 Fixed bug#[10145](http://bugs.otrs.org/show_bug.cgi?id=10145) - %A is not correctly substituted in Language::Time().
  - 2014-01-09 Fixed bug#[10012](http://bugs.otrs.org/show_bug.cgi?id=10012) - Management Dashboard: strings not translatable.
  - 2014-01-07 Fixed bug#[10140](http://bugs.otrs.org/show_bug.cgi?id=10140) - Unable to search using before/after in Date Dynamic Fields.
  - 2014-01-06 Fixed bug#[10008](http://bugs.otrs.org/show_bug.cgi?id=10008) - Customer user is automatically added to Cc at response for email-internal in AgentTicketCompose.
