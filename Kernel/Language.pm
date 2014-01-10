@@ -445,6 +445,26 @@ Returns a time string in language format (based on translation file).
         Second => 05,
     );
 
+These tags are supported: %A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;
+
+Note that %A only works correctly with Action GET, it might be dropped otherwise.
+
+Also note that it is also possible to pass HTML strings for date input:
+
+    $TimeLong = $LanguageObject->Time(
+        Action => 'RETURN',
+        Format => 'DateInputFormatLong',
+        Mode   => 'NotNumeric',
+        Year   => '<input value="2014"/>',
+        Month  => '<input value="1"/>',
+        Day    => '<input value="10"/>',
+        Hour   => '<input value="11"/>',
+        Minute => '<input value="12"/>',
+        Second => '<input value="13"/>',
+    );
+
+Note that %B may not work in NonNumeric mode.
+
 =cut
 
 sub Time {
@@ -500,8 +520,8 @@ sub Time {
         $ReturnString =~ s/\%M/$M/g;
         $ReturnString =~ s/\%Y/$Y/g;
         $ReturnString =~ s/\%Y/$Y/g;
-        $ReturnString =~ s{(\%A)}{$Self->Get($DAYS[$WD]);}egx;
-        $ReturnString =~ s{(\%B)}{$Self->Get($MONS[$M-1]);}egx;
+        $ReturnString =~ s{(\%A)}{defined $WD ? $Self->Get($DAYS[$WD]) : '';}egx;
+        $ReturnString =~ s{(\%B)}{(defined $M && $M =~ m/^\d+$/) ? $Self->Get($MONS[$M-1]) : '';}egx;
         return $ReturnString;
     }
 
