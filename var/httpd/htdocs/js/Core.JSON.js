@@ -19,7 +19,10 @@ var Core = Core || {};
  */
 Core.JSON = (function (TargetNS) {
 
-    if (!Core.Debug.CheckDependency('Core.JSON', 'JSON.parse', 'JSON parser')) {
+    // Some old browsers (e.g. IE7) don't have native JSON support. Such browsers will
+    // let you see a javascript error message instead of the 'old browser' warning box.
+    // Therefore we do the dependency check silent in this case.
+    if (!Core.Debug.CheckDependency('Core.JSON', 'JSON.parse', 'JSON parser', true)) {
         return;
     }
 
