@@ -1,5 +1,4 @@
 #3.4.0.beta1 20??-??-??
- - 2014-01-09 Fixed bug#[10012](http://bugs.otrs.org/show_bug.cgi?id=10012) - Management Dashboard: strings not translatable
  - 2014-01-07 Fixed bug#[10140](http://bugs.otrs.org/show_bug.cgi?id=10140) - Unable to search using before/after in Date Dynamic Fields.
  - 2014-01-06 Fixed bug#[10008](http://bugs.otrs.org/show_bug.cgi?id=10008) - Customer user is automatically added to Cc at response for email-internal in AgentTicketCompose.
  - 2014-01-03 Fixed bug#[9978](http://bugs.otrs.org/show_bug.cgi?id=9978) - Activity Dialog for Customer shows "No Process configured!".
@@ -11,7 +10,9 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.4 201?-??-??
+ - 2014-01-10 Fixed bug#[10011](http://bugs.otrs.org/show_bug.cgi?id=10011) - Management Dashboard: X-Axis element labels may overlap.
  - 2014-01-10 Fixed bug#[10145](http://bugs.otrs.org/show_bug.cgi?id=10145) - %A is not correctly substituted in Language::Time().
+ - 2014-01-09 Fixed bug#[10012](http://bugs.otrs.org/show_bug.cgi?id=10012) - Management Dashboard: strings not translatable.
  - 2014-01-06 Added Hebrew translation file, thanks to Amir Elion!
  - 2013-12-20 Fixed bug#[10099](http://bugs.otrs.org/show_bug.cgi?id=10099) - Missing challenge token checks on customer interface.
  - 2013-12-18 Fixed bug#[10110](http://bugs.otrs.org/show_bug.cgi?id=10110) - Stats list may show too few or too many stats.
