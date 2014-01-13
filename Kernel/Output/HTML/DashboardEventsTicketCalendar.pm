@@ -120,7 +120,7 @@ sub Run {
     }
 
     my %Tickets;
-    if ( IsHashRefWithData( \%QueuesConfigured ) ) {
+    if (%QueuesConfigured) {
         %Tickets = $Self->{TicketObject}->TicketSearch(
             SortBy => $Self->{ConfigObject}->{'SortBy::Default'} || 'Age',
             QueueIDs => [ sort keys %QueuesConfigured ],
