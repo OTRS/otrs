@@ -612,9 +612,11 @@ sub MaskAgentZoom {
     # get shown article(s)
     my @ArticleBoxShown;
     if ( !$Self->{ZoomExpand} ) {
+        ARTICLEBOX:
         for my $ArticleTmp (@ArticleBox) {
             if ( $ArticleID eq $ArticleTmp->{ArticleID} ) {
                 push @ArticleBoxShown, $ArticleTmp;
+                last ARTICLEBOX;
             }
         }
     }
