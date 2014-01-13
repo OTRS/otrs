@@ -69,6 +69,9 @@ Please run it as the 'otrs' user or with the help of su:
 ";
     }
 
+    # enable autoflushing of STDOUT
+    $| = 1;
+
     print "\nMigration started...\n\n";
 
     # create common objects
