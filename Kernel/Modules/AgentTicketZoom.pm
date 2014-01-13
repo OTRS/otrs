@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -612,10 +612,11 @@ sub MaskAgentZoom {
     # get shown article(s)
     my @ArticleBoxShown;
     if ( !$Self->{ZoomExpand} ) {
+        ARTICLEBOX:
         for my $ArticleTmp (@ArticleBox) {
             if ( $ArticleID eq $ArticleTmp->{ArticleID} ) {
                 push @ArticleBoxShown, $ArticleTmp;
-                last;
+                last ARTICLEBOX;
             }
         }
     }
