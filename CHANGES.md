@@ -13,6 +13,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.4 201?-??-??
+ - 2014-01-14 Fixed bug#[10048](http://bugs.otrs.org/show_bug.cgi?id=10048) - RPM upgrade breaks permissions on config files.
  - 2014-01-14 Fixed bug#[8969](http://bugs.otrs.org/show_bug.cgi?id=8969) - FAQ module Language files installation fails (Kernel/Language permissions).
  - 2014-01-10 Updated traditional Chinese translation.
  - 2014-01-10 Updated Brazilian Portugese translation, thanks to Murilo Moreira de Oliveira!
