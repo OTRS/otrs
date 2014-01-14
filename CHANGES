@@ -10,6 +10,7 @@
 # --
 
 3.1.19 2013-??-??
+ - 2013-12-20 Fixed bug#10158 - Missing quoting in State::StateGetStatesByType().
  - 2013-12-20 Fixed bug#10099 - Missing challenge token checks on customer interface.
  - 2013-09-20 Fixed bug#8489 - setting Tickets per page resets AgentTicketQueue.
  - 2013-09-06 Fixed bug#9661 - Useless code in DynamicField backend.
