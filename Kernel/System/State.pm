@@ -418,6 +418,8 @@ sub StateGetStatesByType {
         }
     }
 
+    @StateType = map { $Self->{DBObject}->Quote($_) } @StateType;
+
     my $SQL = ''
         . 'SELECT ts.id, ts.name, tst.name'
         . ' FROM ticket_state ts, ticket_state_type tst'
