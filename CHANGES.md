@@ -1,4 +1,5 @@
 #3.3.4 201?-??-??
+ - 2014-01-14 Fixed bug#[8969](http://bugs.otrs.org/show_bug.cgi?id=8969) - FAQ module Language files installation fails (Kernel/Language permissions).
  - 2014-01-10 Updated traditional Chinese translation.
  - 2014-01-10 Updated Brazilian Portugese translation, thanks to Murilo Moreira de Oliveira!
  - 2014-01-10 Fixed bug#[10145](http://bugs.otrs.org/show_bug.cgi?id=10145) - %A is not correctly substituted in Language::Time().
