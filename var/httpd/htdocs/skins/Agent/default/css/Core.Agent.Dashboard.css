@@ -86,7 +86,7 @@ div.EventDetails {
     top: 0px;
 }
 
-svg text {
+.WidgetSimple svg text {
     font: 11px Arial !important;
 }
 
