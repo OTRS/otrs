@@ -12,7 +12,7 @@
  - 2013-12-13 Fixed bug#[10090](http://bugs.otrs.org/show_bug.cgi?id=10090) - Problems with special characters in Kernel/System/WebUserAgent.pm.
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
-#3.3.4 201?-??-??
+#3.3.4 2014-01-28
  - 2014-01-14 Fixed bug#[10158](http://bugs.otrs.org/show_bug.cgi?id=10158) - Missing quoting in State::StateGetStatesByType().
  - 2014-01-14 Fixed bug#[10048](http://bugs.otrs.org/show_bug.cgi?id=10048) - RPM upgrade breaks permissions on config files.
  - 2014-01-14 Fixed bug#[8969](http://bugs.otrs.org/show_bug.cgi?id=8969) - FAQ module Language files installation fails (Kernel/Language permissions).
