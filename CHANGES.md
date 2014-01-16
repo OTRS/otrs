@@ -1,4 +1,4 @@
-#3.2.14 201?-??-??
+#3.2.14 2014-01-28
  - 2014-01-14 Fixed bug#[10158](http://bugs.otrs.org/show_bug.cgi?id=10158) - Missing quoting in State::StateGetStatesByType().
  - 2014-01-14 Fixed bug#[8969](http://bugs.otrs.org/show_bug.cgi?id=8969) - FAQ module Language files installation fails (Kernel/Language permissions).
  - 2014-01-07 Fixed bug#[9959](http://bugs.otrs.org/show_bug.cgi?id=9959) - & breaks ExpandCustomerName.
