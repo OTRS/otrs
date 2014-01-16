@@ -445,7 +445,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
                 // nv d3 does not work correcly with non numeric values
                 ResultLine.values.push({
-                    x: HeadingElement,
+                    x: HeadingElement + ' ',
                     y: Value
                 });
             });

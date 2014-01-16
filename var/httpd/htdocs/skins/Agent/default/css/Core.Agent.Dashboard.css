@@ -86,4 +86,8 @@ div.EventDetails {
     top: 0px;
 }
 
+svg text {
+    font: 11px Arial !important;
+}
+
 } /* end @media */
