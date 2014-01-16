@@ -1988,6 +1988,9 @@ sub Data {
         'Add private key' => 'Ajouter une clé privée',
         'Filter for certificates' => 'Filtres pour les certificats',
         'Filter for SMIME certs' => 'Filtres pour les certificats SMIME',
+        'To show certificate details click on a certificate icon.' => '',
+        'To manage private certificate relations click on a private key icon.' =>
+            '',
         'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
             'Vous pouvez ajouter ici des liens à votre certification privée, ceux-ci seront incorporés à votre signature SMIME chaque fois que vous utiliserez cette certification pour signer un courriel.',
         'See also' => 'Consultez aussi le ',
@@ -2255,6 +2258,8 @@ sub Data {
         # Template: AgentDashboardStats
         'The content of this statistic is being prepared for you, please be patient.' =>
             '',
+        'Grouped' => '',
+        'Stacked' => '',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Mes demandes verrouillées',
@@ -3095,8 +3100,8 @@ sub Data {
         'Configure Processes.' => '',
         'Configure and manage ACLs.' => '',
         'Configure your own log text for PGP.' => 'Configure votre journal pour le logiciel de chiffrement PGP.',
-        'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            'Réglage par défaut du champ dynamique de demande. Le champ « Nom » est le champ dynamique qui devrait être utilisé, le champ « Valeur » est la donnée qui sera configurée et le champ « Événement » est celui qui est défini comme déclencheur d\'événement. Veuillez consulter le guide du développeur (http://doc.otrs.org/) au chapitre Module d\'événement de la demande.',
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
+            '',
         'Controls if customers have the ability to sort their tickets.' =>
             'Contrôle la possibilité pour les clients de classer leurs demandes.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -3192,6 +3197,8 @@ sub Data {
             'Détermine un filtre pour les html sortants afin d\'ajouter des liens aux nombres de retraçage des bogues. L\'élément Image permet de faire deux sortes d\'entrées. Tout d\'abord, le nom de l\'image (ex. faq.png). Dans ce cas, le chemin de l\'image dans OTRS sera utilisé. Il est aussi possible d\'insérer le lien vers l\'image.',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Détermine un filtre pour traiter le texte dans les articles afin de mettre en surbrillance des mots clés prédéfinis.',
+        'Defines a list of groups which should have the permission to see stats dashboards (e.g. group1;group2;group3).' =>
+            '',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
             'Détermine une expression rationnelle qui exclu certaines adresses du contrôle de syntaxe si le « Contrôle des adresses électroniques » (CheckEmailAddresses) est réglé à « Oui ». Veuillez entrer une expression rationnelle dans ce champ pour les adresses électroniques qui ne sont pas syntaxiquement correctes, mais qui sont essentielles au système (p.ex. « root@localhost »).',
         'Defines a regular expression that filters all email addresses that should not be used in the application.' =>
@@ -4806,6 +4813,8 @@ sub Data {
         'This option defines the process tickets default priority.' => '',
         'This option defines the process tickets default queue.' => '',
         'This option defines the process tickets default state.' => '',
+        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'Le réglage vous permet de modifier la liste prédéfinie des pays. La modification peut-être particulièrement utile si vous souhaitez travailler avec une courte liste de pays.',
         'Ticket Queue Overview' => '',
@@ -5476,6 +5485,8 @@ sub Data {
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Options de configuration (ex. : <OTRS_CONFIG_HttpType>)',
         'Config options (e. g. <OTRS_CONFIG_HttpType>).' => 'Options de configuration (ex. : <OTRS_CONFIG_HttpType>).',
         'Configure Home in Kernel/Config.pm first!' => 'Configure d\'abord « Home » dans Kernel/Config.pm.',
+        'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
+            'Réglage par défaut du champ dynamique de demande. Le champ « Nom » est le champ dynamique qui devrait être utilisé, le champ « Valeur » est la donnée qui sera configurée et le champ « Événement » est celui qui est défini comme déclencheur d\'événement. Veuillez consulter le guide du développeur (http://doc.otrs.org/) au chapitre Module d\'événement de la demande.',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             'Réglage de l\'index de texte intégral. Exécutez « bin/otrs.RebuildFulltextIndex.pl » pour générer un nouvel index.',
         'Congo' => 'Congo',

@@ -2256,6 +2256,8 @@ sub Data {
         # Template: AgentDashboardStats
         'The content of this statistic is being prepared for you, please be patient.' =>
             '',
+        'Grouped' => '',
+        'Stacked' => '',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'הפניות הנעולות שלי',
@@ -3097,7 +3099,7 @@ sub Data {
         'Configure Processes.' => 'הגדר תהליכים.',
         'Configure and manage ACLs.' => '',
         'Configure your own log text for PGP.' => '',
-        'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',

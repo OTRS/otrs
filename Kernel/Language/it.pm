@@ -1990,6 +1990,9 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Add private key' => 'Aggiungi chiave privata',
         'Filter for certificates' => 'Filtro per i certificati',
         'Filter for SMIME certs' => 'Filtro per i certificari SMIME',
+        'To show certificate details click on a certificate icon.' => '',
+        'To manage private certificate relations click on a private key icon.' =>
+            '',
         'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
             'Qui puoi aggiungere relazioni al tuo certificato privato, e sarà incluso nella firma SMIME ad ogni firma',
         'See also' => 'Vedi anche',
@@ -2257,6 +2260,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         # Template: AgentDashboardStats
         'The content of this statistic is being prepared for you, please be patient.' =>
             '',
+        'Grouped' => '',
+        'Stacked' => '',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Ticket assegnati a me',
@@ -3097,7 +3102,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Configure Processes.' => 'Processi Configurati.',
         'Configure and manage ACLs.' => '',
         'Configure your own log text for PGP.' => '',
-        'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             'Controlla se i clienti hanno la possibilità di ordinare i loro ticket.',
@@ -3194,6 +3199,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             'Definire un filtro per l\'output HTML per aggiungere i link dietro ai numeri bugtraq. L\'elemento Image permette due tipi di input. Uno è il nome di una certa immagine (ad es. faq.png). In questo caso verrà usata la path delle immagini di OTRS. La seconda possibilità è inserire un link all\'immagine.',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Definire un filtro per analizzare il testo negli articoli, in modo da evidenziare certe parole chiave.',
+        'Defines a list of groups which should have the permission to see stats dashboards (e.g. group1;group2;group3).' =>
+            '',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
             'Definire un\'espressione regolare che esclude alcuni indirizzi dal controllo sintattico (se "CheckEmailAddress" è impostato a "Sì"). Inserire una regex in qeusto campo per gli indirizzi email, che non sono sintatticamente validi, ma che sono necessari per il sistema (ad es. "root@localhost").',
         'Defines a regular expression that filters all email addresses that should not be used in the application.' =>
@@ -4808,6 +4815,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'This option defines the process tickets default priority.' => '',
         'This option defines the process tickets default queue.' => '',
         'This option defines the process tickets default state.' => '',
+        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
         'Ticket Queue Overview' => '',
