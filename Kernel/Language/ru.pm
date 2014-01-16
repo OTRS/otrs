@@ -1992,6 +1992,9 @@ sub Data {
         'Add private key' => 'Добавить закрытый ключ',
         'Filter for certificates' => 'Фильтр для сертификатов',
         'Filter for SMIME certs' => 'Фильтр для сертификатов SMIME',
+        'To show certificate details click on a certificate icon.' => '',
+        'To manage private certificate relations click on a private key icon.' =>
+            '',
         'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
             'Здесь вы можете добавлять связи с вашими приватными сертификатами, которые будут встраиваться в подпись SMIME каждый раз, когда вы используете этот сертификат для подписи электронной почты.',
         'See also' => 'См. также',
@@ -2259,6 +2262,8 @@ sub Data {
         # Template: AgentDashboardStats
         'The content of this statistic is being prepared for you, please be patient.' =>
             '',
+        'Grouped' => '',
+        'Stacked' => '',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Мои заблокированные заявки',
@@ -3100,8 +3105,8 @@ sub Data {
         'Configure Processes.' => 'Настройка Процессов',
         'Configure and manage ACLs.' => 'Создание/Редактирование и управление ACL',
         'Configure your own log text for PGP.' => 'Настроить свой собственный текст журнала для PGP.',
-        'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
-            'Настройка умалчиваемых значений для динамических полей (TicketDynmicField). "Имя" задает используемое поле. "Значение" - устанавливает значение поля и "Событие" определят событие установки. Подробно см. (http://doc.otrs.org/), часть "Ticket Event Module".',
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
+            '',
         'Controls if customers have the ability to sort their tickets.' =>
             'Задает возможность сортировки заявок для клиента',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
@@ -5006,6 +5011,8 @@ sub Data {
         'Compose Follow up' => 'Написать ответ',
         'Config Options' => 'Параметры конфигурации',
         'Config options (e. g. <OTRS_CONFIG_HttpType>).' => 'Параметры конфигурации (например, <OTRS_CONFIG_HttpType>).',
+        'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
+            'Настройка умалчиваемых значений для динамических полей (TicketDynmicField). "Имя" задает используемое поле. "Значение" - устанавливает значение поля и "Событие" определят событие установки. Подробно см. (http://doc.otrs.org/), часть "Ticket Event Module".',
         'Contact customer' => 'Связаться с клиентом',
         'Context Settings' => 'Параметры контекста',
         'Country{CustomerUser}' => 'Страна{ПользовательКлиента}',
