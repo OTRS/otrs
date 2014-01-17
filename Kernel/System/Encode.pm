@@ -152,6 +152,17 @@ sub Convert {
         Encode::_utf8_off( $Param{Text} );
     }
 
+    # this is a workaround for following bug in Encode::HanExtra
+    # https://rt.cpan.org/Public/Bug/Display.html?id=71720
+    # see also http://bugs.otrs.org/show_bug.cgi?id=10121
+    if ( $Param{From} eq 'gb18030' ) {
+
+        # require module, print error if module was not found
+        if ( !eval "require Encode::HanExtra" ) {    ## no critic
+            print STDERR "Charset '$Param{From}' requires Encode::HanExtra, which is not installed!\n";
+        }
+    }
+
     # check if encoding exists
     if ( !Encode::resolve_alias( $Param{From} ) ) {
         my $Fallback = 'iso-8859-1';
