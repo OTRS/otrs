@@ -64,13 +64,6 @@ sub new {
         Scalar::Util::weaken( $Self->{TicketObject} );
     }
 
-    # otherwise create it
-    else {
-
-        # Here we must not call weaken(), because this is the only reference
-        $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
-    }
-
     return $Self;
 }
 
@@ -117,6 +110,13 @@ sub PostValueSet {
             );
             return;
         }
+    }
+
+    # check for TicketObject
+    if ( !$Self->{TicketObject} ) {
+
+        # create it on demand
+        $Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
     }
 
     my %Ticket = $Self->{TicketObject}->TicketGet(
