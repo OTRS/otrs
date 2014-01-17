@@ -219,7 +219,7 @@ sub Run {
                         Type => 'Info',
                         What => 'Message',
                         )
-                        || 'Login failed! Your username or password was entered incorrectly.',
+                        || 'Login failed! Your user name or password was entered incorrectly.',
                     LoginFailed => 1,
                     User        => $User,
                     %Param,
