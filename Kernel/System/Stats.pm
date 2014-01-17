@@ -219,7 +219,10 @@ sub StatsGet {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need StatID!' );
     }
 
-    my $CacheKey = 'StatsGet::' . ( join '::', %Param );
+    $Param{NoObjectAttributes} = $Param{NoObjectAttributes} ? 1 : 0;
+
+    my $CacheKey = "StatsGet::StatID::$Param{StatID}::NoObjectAttributes::$Param{NoObjectAttributes}";
+
     my $Cache = $Self->{CacheObject}->Get(
         Type => 'Stats',
         Key  => $CacheKey,
@@ -716,7 +719,10 @@ lists all stats id's
 sub GetStatsList {
     my ( $Self, %Param ) = @_;
 
-    my $CacheKey = 'GetStatsList::' . ( join '::', %Param );
+    $Param{OrderBy}   ||= 'ID';
+    $Param{Direction} ||= 'ASC';
+
+    my $CacheKey = "GetStatsList::OrderBy::$Param{OrderBy}::Direction::$Param{Direction}";
     my $Cache = $Self->{CacheObject}->Get(
         Type => 'Stats',
         Key  => $CacheKey,
@@ -727,8 +733,6 @@ sub GetStatsList {
 
     my @SortArray;
 
-    $Param{OrderBy} ||= 'ID';
-
     if ( $Param{OrderBy} eq 'ID' ) {
         @SortArray = sort { $a <=> $b } keys %ResultHash;
     }
@@ -737,7 +741,7 @@ sub GetStatsList {
             = sort { $ResultHash{$a}->{ $Param{OrderBy} } cmp $ResultHash{$b}->{ $Param{OrderBy} } }
             keys %ResultHash;
     }
-    if ( $Param{Direction} && $Param{Direction} eq 'DESC' ) {
+    if ( $Param{Direction} eq 'DESC' ) {
         @SortArray = reverse @SortArray;
     }
 
