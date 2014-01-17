@@ -1526,7 +1526,7 @@ sub GetObjectName {
 
 get behaviours that a statistic supports
 
-    my %Behaviours = $StatsObject->GetObjectBehaviours(
+    my $Behaviours = $StatsObject->GetObjectBehaviours(
         ObjectModule => 'Kernel::System::Stats::Dynamic::TicketList',
     );
 
@@ -1544,8 +1544,9 @@ sub GetObjectBehaviours {
     my $Module = $Param{ObjectModule};
 
     # check if it is cached
-    return $Self->{'Cache::ObjectBehaviours'}->{$Module}
-        if $Self->{'Cache::ObjectBehaviours'}->{$Module};
+    if ($Self ->{'Cache::ObjectBehaviours'}->{$Module}) {
+        return $Self->{'Cache::ObjectBehaviours'}->{$Module}
+    }
 
     # load module, return if module does not exist
     # (this is important when stats are uninstalled, see also bug# 4269)
@@ -1558,7 +1559,7 @@ sub GetObjectBehaviours {
     my %ObjectBehaviours = $StatObject->GetObjectBehaviours();
 
     # cache the result
-    $Self->{'Cache::ObjectBehaviours'}->{$Module} = %ObjectBehaviours;
+    $Self->{'Cache::ObjectBehaviours'}->{$Module} = \%ObjectBehaviours;
 
     return \%ObjectBehaviours;
 }
