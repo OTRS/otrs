@@ -221,7 +221,8 @@ sub StatsGet {
 
     $Param{NoObjectAttributes} = $Param{NoObjectAttributes} ? 1 : 0;
 
-    my $CacheKey = "StatsGet::StatID::$Param{StatID}::NoObjectAttributes::$Param{NoObjectAttributes}";
+    my $CacheKey
+        = "StatsGet::StatID::$Param{StatID}::NoObjectAttributes::$Param{NoObjectAttributes}";
 
     my $Cache = $Self->{CacheObject}->Get(
         Type => 'Stats',
@@ -724,7 +725,7 @@ sub GetStatsList {
     $Param{Direction} ||= 'ASC';
 
     my $CacheKey = "GetStatsList::OrderBy::$Param{OrderBy}::Direction::$Param{Direction}";
-    my $Cache = $Self->{CacheObject}->Get(
+    my $Cache    = $Self->{CacheObject}->Get(
         Type => 'Stats',
         Key  => $CacheKey,
     );
