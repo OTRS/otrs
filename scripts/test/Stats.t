@@ -171,6 +171,30 @@ $Self->Is(
     'StatsGet() check the ShowAsDashboardWidget flag',
 );
 
+my $ObjectBehaviours = $StatsObject->GetObjectBehaviours(
+    ObjectModule => 'Kernel::System::Stats::Dynamic::Ticket'
+);
+
+$Self->IsDeeply(
+    $ObjectBehaviours,
+    {
+        ProvidesDashboardWidget => 1,
+    },
+    "GetObjectBehaviours without cache",
+);
+
+$ObjectBehaviours = $StatsObject->GetObjectBehaviours(
+    ObjectModule => 'Kernel::System::Stats::Dynamic::Ticket'
+);
+
+$Self->IsDeeply(
+    $ObjectBehaviours,
+    {
+        ProvidesDashboardWidget => 1,
+    },
+    "GetObjectBehaviours with cache",
+);
+
 # check completenesscheck
 my @Notify = $StatsObject->CompletenessCheck(
     StatData => $Stat,
