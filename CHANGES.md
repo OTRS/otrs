@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-01-17 Fixed bug#[10121](http://bugs.otrs.org/show_bug.cgi?id=10121) - QQMails break in OTRS.
  - 2014-01-10 Fixed bug#[10145](http://bugs.otrs.org/show_bug.cgi?id=10145) - %A is not correctly substituted in Language::Time().
  - 2014-01-10 Make it possible to pass HTTP headers to WebUserAgent, thanks to Renée Bäcker.
  - 2014-01-10 Added functionality to unlock just one single ticket in otrs.UnlockTickets.pl, thanks to Martin Gross @ rtt.ag.
