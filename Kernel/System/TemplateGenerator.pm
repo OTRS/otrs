@@ -1125,7 +1125,7 @@ sub _Replace {
         ATTRIBUTE:
         for my $Attribute ( sort keys %Owner ) {
             next ATTRIBUTE if !defined $Owner{$Attribute};
-            $Param{Text} =~ s/$Tag$_$End/$Owner{$Attribute}/gi;
+            $Param{Text} =~ s/$Tag$Attribute$End/$Owner{$Attribute}/gi;
         }
     }
 
