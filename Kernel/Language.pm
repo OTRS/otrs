@@ -521,7 +521,8 @@ sub Time {
         $ReturnString =~ s/\%Y/$Y/g;
         $ReturnString =~ s/\%Y/$Y/g;
         $ReturnString =~ s{(\%A)}{defined $WD ? $Self->Get($DAYS[$WD]) : '';}egx;
-        $ReturnString =~ s{(\%B)}{(defined $M && $M =~ m/^\d+$/) ? $Self->Get($MONS[$M-1]) : '';}egx;
+        $ReturnString
+            =~ s{(\%B)}{(defined $M && $M =~ m/^\d+$/) ? $Self->Get($MONS[$M-1]) : '';}egx;
         return $ReturnString;
     }
 
