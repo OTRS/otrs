@@ -2,41 +2,9 @@
 # A list of all included third party libraries.
 # --
 
-o Name:    CKEditor
-  Web:     http://www.ckeditor.com/
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-
-o Name:    Flot
-  Web:     http://code.google.com/p/flot/
-  License: MIT License - http://www.opensource.org/licenses/mit-license.php
-
-o Name:    ExplorerCanvas
-  Web:     http://excanvas.sourceforge.net/
-  License: Apache License v2 - http://www.apache.org/licenses/LICENSE-2.0
-
-o Name:    jQuery Autocomplete Plugin
-  Web:     http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/
-  License: GNU v3 - http://www.gnu.org/licenses/gpl.html
-
-o Name:    jQuery BGIframe Plugin
-  Web:     http://docs.jquery.com/Plugins/bgiframe
-  License: GNU v3 - http://www.gnu.org/licenses/gpl.html
-
-o Name:    jQuery Form Plugin
-  Web:     http://malsup.com/jquery/form/
-  License: GNU v3 - http://www.gnu.org/licenses/gpl.html
-
-o Name:    jQuery UI
-  Web:     http://www.jqueryui.com/
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-
-o Name:    jQuery
-  Web:     http://www.jquery.com/
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-
-o Name:    DejaVu Fonts
-  Web:     http://dejavu-fonts.org
-  License: Free License - http://dejavu-fonts.org/wiki/License
+# --
+# Perl
+# --
 
 o Name:    CPAN CGI
   Web:     http://stein.cshl.org/WWW/software/CGI/
@@ -252,6 +220,75 @@ o Name:    CPAN Email::Valid
   License: # This library is free software; you can redistribute it
            # and/or modify it under the same terms as Perl itself.
   Note:    # Copyright 1998-2003, Maurice Aubrey <maurice@hevanet.com>. All rights reserved.
+
+# --
+# JavaScript
+# --
+
+o Name:    CKEditor
+  Web:     http://www.ckeditor.com/
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+
+o Name:    D3 Data-Driven Documents
+  Web:     http://d3js.org/
+  License: BSD license - http://opensource.org/licenses/BSD-3-Clause
+
+o Name:    Flot
+  Web:     http://www.flotcharts.org/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    ExplorerCanvas
+  Web:     http://excanvas.sourceforge.net/
+  License: Apache License v2 - http://www.apache.org/licenses/LICENSE-2.0
+
+o Name:    FullCalendar
+  Web:     http://arshaw.com/fullcalendar/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    jQuery
+  Web:     http://www.jquery.com/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    jsTree
+  Web:     http://www.jstree.com/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    jQuery Migrate
+  Web:     https://github.com/jquery/jquery-migrate
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    TableSorter
+  Web:     http://tablesorter.com
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    jQuery UI
+  Web:     http://www.jqueryui.com/
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+
+o Name:    jQuery Validate
+  Web:     http://bassistance.de/jquery-plugins/jquery-plugin-validation/
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+
+o Name:    json2.js
+  Web:     http://www.JSON.org/js.html
+  License: Public Domain
+
+o Name:    jsPlumb
+  Web:     http://jsplumbtoolkit.com/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+o Name:    QUnit
+  Web:     http://qunitjs.com/
+  License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+# --
+# Other
+# --
+
+o Name:    DejaVu Fonts
+  Web:     http://dejavu-fonts.org
+  License: Free License - http://dejavu-fonts.org/wiki/License
+
 
 o Name:    Some Icons (tree.png)
   Web:     Yusuke Kamiyamane, http://p.yusukekamiyamane.com
