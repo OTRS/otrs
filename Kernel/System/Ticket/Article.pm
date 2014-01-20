@@ -1977,7 +1977,7 @@ send article via email and create article with attachments
         From        => 'Some Agent <email@example.com>',                       # not required but useful
         To          => 'Some Customer A <customer-a@example.com>',             # not required but useful
         Cc          => 'Some Customer B <customer-b@example.com>',             # not required but useful
-        ReplyTo     => 'Some Customer B <customer-b@example.com>',             # not required
+        ReplyTo     => 'Some Customer B <customer-b@example.com>',             # not required, is possible to use 'Reply-To' instead
         Subject     => 'some short description',                               # required
         Body        => 'the message text',                                     # required
         InReplyTo   => '<asdasdasd.12@example.com>',                           # not required but useful
@@ -2051,6 +2051,9 @@ sub ArticleSend {
         );
         return;
     }
+
+    # map ReplyTo into Reply-To if present
+    $Param{'Reply-To'} = $Param{ReplyTo} if $Param{ReplyTo};
 
     # clean up
     $Param{Body} =~ s/(\r\n|\n\r)/\n/g;

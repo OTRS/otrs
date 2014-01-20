@@ -14,6 +14,9 @@
  - 2013-12-13 Fixed bug#[10090](http://bugs.otrs.org/show_bug.cgi?id=10090) - Problems with special characters in Kernel/System/WebUserAgent.pm.
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
+#3.3.5 2014-??-??
+ - 2014-01-20 Fixed bug#[10106](http://bugs.otrs.org/show_bug.cgi?id=10106) - Sending Articles with ArticleSend() ignores ReplyTo.
+
 #3.3.4 2014-01-28
  - 2014-01-17 Fixed bug#[10153](http://bugs.otrs.org/show_bug.cgi?id=10153) - Error shown in SysConfig when Setting PendingDiffTime to 30 Days.
  - 2014-01-17 Fixed bug#[10161](http://bugs.otrs.org/show_bug.cgi?id=10161) - Edit Stats - 500 internal Server Error.
