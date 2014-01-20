@@ -1,4 +1,5 @@
 #3.3.4 2014-01-28
+ - 2014-01-20 Fixed bug#[10172](http://bugs.otrs.org/show_bug.cgi?id=10172) - Can't create process tickets with disabled richtext.
  - 2014-01-17 Fixed bug#[10121](http://bugs.otrs.org/show_bug.cgi?id=10121) - QQMails break in OTRS.
  - 2014-01-17 Fixed bug#[10153](http://bugs.otrs.org/show_bug.cgi?id=10153) - Error shown in SysConfig when Setting PendingDiffTime to 30 Days.
  - 2014-01-17 Fixed bug#[10161](http://bugs.otrs.org/show_bug.cgi?id=10161) - Edit Stats - 500 internal Server Error.
