@@ -1,3 +1,6 @@
+#3.3.5 2014-??-??
+ - 2014-01-20 Fixed bug#[10106](http://bugs.otrs.org/show_bug.cgi?id=10106) - Sending Articles with ArticleSend() ignores ReplyTo.
+
 #3.3.4 2014-01-28
  - 2014-01-20 Fixed bug#[10172](http://bugs.otrs.org/show_bug.cgi?id=10172) - Can't create process tickets with disabled richtext.
  - 2014-01-17 Fixed bug#[10121](http://bugs.otrs.org/show_bug.cgi?id=10121) - QQMails break in OTRS.
