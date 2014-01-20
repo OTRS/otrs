@@ -41,7 +41,7 @@
         // remove/destroy CKEditor instances
         // This is needed to initialize other instances (in other activity dialogs)
         // without a page reload
-        if (CKEDITOR && CKEDITOR.instances) {
+        if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances) {
             $.each(CKEDITOR.instances, function (Key, Value) {
                 CKEDITOR.instances[Key].destroy();
             });
