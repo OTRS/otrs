@@ -189,7 +189,9 @@ sub Send {
     }
 
     # map ReplyTo into Reply-To if present
-    $Param{'Reply-To'} = $Param{ReplyTo} if $Param{ReplyTo};
+    if ( $Param{ReplyTo} ) {
+        $Param{'Reply-To'} = $Param{ReplyTo};
+    }
 
     # get sign options for inline
     if ( $Param{Sign} && $Param{Sign}->{SubType} && $Param{Sign}->{SubType} eq 'Inline' ) {

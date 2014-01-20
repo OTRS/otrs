@@ -2053,7 +2053,9 @@ sub ArticleSend {
     }
 
     # map ReplyTo into Reply-To if present
-    $Param{'Reply-To'} = $Param{ReplyTo} if $Param{ReplyTo};
+    if ( $Param{ReplyTo} ) {
+        $Param{'Reply-To'} = $Param{ReplyTo};
+    }
 
     # clean up
     $Param{Body} =~ s/(\r\n|\n\r)/\n/g;
