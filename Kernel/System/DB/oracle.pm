@@ -244,7 +244,15 @@ sub TableCreate {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
                 $Shell = "/\n--";
             }
-            push( @Return2, "DROP SEQUENCE $Sequence" );
+
+            push(
+                @Return2,
+                "IF EXISTS($Sequence) THEN\n"
+                    . "BEGIN\n"
+                    . "    DROP SEQUENCE $Sequence;\n"
+                    . "END;\n",
+            );
+
             push(
                 @Return2,
                 "CREATE SEQUENCE $Sequence\n"
@@ -255,6 +263,7 @@ sub TableCreate {
                     . "CACHE 20\n"
                     . "ORDER",
             );
+
             push(
                 @Return2,
                 "CREATE OR REPLACE TRIGGER $Sequence"
