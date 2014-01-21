@@ -55,7 +55,7 @@ sub SetPreferences {
         }
     }
 
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
+    my $Value = $Param{Value} // '';
 
     # delete old data
     return if !$Self->{DBObject}->Do(
