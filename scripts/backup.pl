@@ -310,7 +310,7 @@ else {
         )
         )
     {
-        die "done\n";
+        print "done\n";
     }
     else {
         die "failed\n";
