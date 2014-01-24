@@ -1,4 +1,5 @@
 #3.2.15 2014-??-??
+ - 2014-01-24 Fixed bug#[9654](http://bugs.otrs.org/show_bug.cgi?id=9654) - TicketUpdate operation doesn't work when authenticated as a customer.
  - 2014-01-24 Fixed bug#[10137](http://bugs.otrs.org/show_bug.cgi?id=10137) - Generic interface TicketCreate operation doesn't work when authenticated as a customer.
 
 #3.2.14 2014-01-28
