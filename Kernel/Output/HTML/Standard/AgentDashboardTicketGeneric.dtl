@@ -86,7 +86,7 @@
 
 <!-- dtl:block:ContentLargeTicketGenericHeaderTicketHeader -->
 <!-- dtl:block:ContentLargeTicketGenericHeaderTicketNumberColumn -->
-                <th class="DashboardHeader TicketNumber $QData{"CSS"}">
+                <th class="DashboardHeader TicketNumber $QData{"CSS"}" data-column="TicketNumber">
                     <a id="TicketNumberOverviewControl$QData{"Name"}" name="TicketNumberOverviewControl$QData{"Name"}" href="#" title="$Data{"Title"}" >$Config{"Ticket::Hook"}</a>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
@@ -123,7 +123,7 @@
 <!-- dtl:block:ContentLargeTicketGenericHeaderTicketNumberColumn -->
 
 <!-- dtl:block:ContentLargeTicketGenericHeaderColumn -->
-                <th class="DashboardHeader $QData{"HeaderColumnName"} $QData{"CSS"}">
+                <th class="DashboardHeader $QData{"HeaderColumnName"} $QData{"CSS"}" data-column="$QData{"HeaderColumnName"}">
 
 <!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLink -->
                     <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
@@ -566,9 +566,20 @@ if (Core.Config.Get('RefreshSeconds_$QData{"NameHTML"}')) {
     Core.Config.Set('Timer_$QData{"NameHTML"}', window.setTimeout(function() {
 
         // get active filter
-        var Filter = $('#Dashboard$QData{"Name"}-box').find('.Tab.Actions li.Selected a').attr('data-filter');
+        var Filter      = $('#Dashboard$QData{"Name"}-box').find('.Tab.Actions li.Selected a').attr('data-filter'),
+            $OrderByObj = $('#Dashboard$QData{"Name"}-box').find('th.SortDescendingLarge, th.SortAscendingLarge'),
+            SortBy      = $OrderByObj.attr('data-column') || '',
+            OrderBy     = '';
+
+        if ($OrderByObj && $OrderByObj.hasClass('SortDescendingLarge')) {
+            OrderBy = 'Up';
+        }
+        else if ($OrderByObj && $OrderByObj.hasClass('SortAscendingLarge')) {
+            OrderBy = 'Down';
+        }
+
         $('#Dashboard$QData{"Name"}-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=' + Filter + ';CustomerID=$QData{"CustomerID"}', function () {
+        Core.AJAX.ContentUpdate($('#Dashboard$QData{"Name"}'), '$Env{"Baselink"}Action=$Env{"Action"};Subaction=Element;Name=$QData{"Name"};Filter=' + Filter + ';CustomerID=$QData{"CustomerID"};SortBy=' + SortBy + ';OrderBy=' + OrderBy, function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard$QData{"Name"}'));
             $('#Dashboard$QData{"Name"}-box').removeClass('Loading');
         });
