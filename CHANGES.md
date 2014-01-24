@@ -1,5 +1,6 @@
 #3.3.5 2014-??-??
- - 2014-01-23 Fixed bug#[10155](http://bugs.otrs.org/show_bug.cgi?id=10155) - backup.pl doesn't compress database dump on non-MySQL-dumps.
+ - 2014-01-24 Fixed bug#[10188](http://bugs.otrs.org/show_bug.cgi?id=10188) - Inconsistency in graphical ACL editor.
+ - 2014-01-23 Fixed bug#[10155](http://bugs.otrs.org/show_bug.cgi?id=10155) - backup.pl doesn't compress database dump on non-MySQL.
  - 2014-01-20 Fixed bug#[10106](http://bugs.otrs.org/show_bug.cgi?id=10106) - Sending Articles with ArticleSend() ignores ReplyTo.
 
 #3.3.4 2014-01-28
