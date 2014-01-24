@@ -1,5 +1,5 @@
 # --
-# MessageID.t - PostMaster tests for Message ID
+# UTF8Filename.t - PostMaster tests for Message ID
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
