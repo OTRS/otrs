@@ -185,6 +185,7 @@
 
 .Dialog .Field.LayoutGrid .AllocationList {
     max-height: 192px;
+    overflow: auto;
 }
 
 .Field.LayoutGrid .AllocationList.AvailableFields {
