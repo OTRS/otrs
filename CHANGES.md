@@ -1,4 +1,5 @@
 #3.3.5 2014-??-??
+ - 2014-01-24 Fixed bug#[10179](http://bugs.otrs.org/show_bug.cgi?id=10179) - No LinkOption in CustomerNavigationBar.dtl.
  - 2014-01-24 Fixed bug#[10178](http://bugs.otrs.org/show_bug.cgi?id=10178) - Stat Permissions.
  - 2014-01-24 Fixed bug#[10188](http://bugs.otrs.org/show_bug.cgi?id=10188) - Inconsistency in graphical ACL editor.
  - 2014-01-23 Fixed bug#[10155](http://bugs.otrs.org/show_bug.cgi?id=10155) - backup.pl doesn't compress database dump on non-MySQL.
