@@ -107,13 +107,20 @@ sub Run {
     if ( $Self->{Action} eq 'AgentDashboard' && !$IsIE8 ) {
         my $StatsHash = $Self->{StatsObject}->StatsListGet();
 
-        my $StatsPermissionGroups
-            = $Self->{ConfigObject}->Get('Stats::DashboardPermissions') || 'stats';
-
         if ( IsHashRefWithData($StatsHash) ) {
             STATID:
             for my $StatID ( sort keys %{$StatsHash} ) {
                 next STATID if !$StatsHash->{$StatID}->{ShowAsDashboardWidget};
+
+                # check permissions
+                next STATID if !$StatsHash->{$StatID}->{Permission};
+                next STATID if !IsArrayRefWithData($StatsHash->{$StatID}->{Permission});
+
+                my @StatsPermissionGroupNames;
+                for my $GroupID (@{$StatsHash->{$StatID}->{Permission}}) {
+                    push @StatsPermissionGroupNames, $Self->{GroupObject}->GroupLookup( GroupID => $GroupID );
+                }
+                my $StatsPermissionGroups = join(';', @StatsPermissionGroupNames);
 
                 # replace all line breaks with spaces (otherwise $Text{""} will not work correctly)
                 $StatsHash->{$StatID}->{Description} =~ s{\r?\n|\r}{ }msxg;
