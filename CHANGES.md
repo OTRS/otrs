@@ -1,4 +1,5 @@
 #3.3.5 2014-??-??
+ - 2014-01-24 Fixed bug#[10120](http://bugs.otrs.org/show_bug.cgi?id=10120) - Management Dashboard: page reload erases stat graph settings.
  - 2014-01-24 Fixed bug#[9276](http://bugs.otrs.org/show_bug.cgi?id=9276) - Auto-reply to ticket entered via Web interface is sent with all lines concatenated to one
  - 2014-01-24 Fixed bug#[10179](http://bugs.otrs.org/show_bug.cgi?id=10179) - No LinkOption in CustomerNavigationBar.dtl.
  - 2014-01-24 Fixed bug#[10178](http://bugs.otrs.org/show_bug.cgi?id=10178) - Stat Permissions.
