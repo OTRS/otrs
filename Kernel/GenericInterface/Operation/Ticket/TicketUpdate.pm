@@ -251,6 +251,10 @@ sub Run {
         );
     }
 
+    if ( $UserType eq 'Customer' ) {
+        $UserID = $Self->{ConfigObject}->Get('CustomerPanelUserID')
+    }
+
     # check TicketID
     my $TicketID;
     if ( $Param{Data}->{TicketNumber} ) {
@@ -1404,7 +1408,7 @@ sub _TicketUpdate {
     my %TicketData = $Self->{TicketObject}->TicketGet(
         TicketID      => $TicketID,
         DynamicFields => 0,
-        UserID        => $Param{UserId},
+        UserID        => $Param{UserID},
     );
 
     # update ticket parameters
