@@ -66,11 +66,17 @@ var/httpd/htdocs/skins/Agent/default/css/Support.Default.css
 
 # OTRSCodePolicy
 .tidyall.d
+perltidy.LOG.old
 Perl/Critic
 TidyAll
-scripts/test/OTRSCodePolicy.t
+Kernel/cpan-lib/Pod/Strip.pm
+scripts/install-git-hooks.pl
+scripts/uninstall-git-hooks.pl
+OTRSCodePolicy*
+
 
 # ITSM
 var/stats/*.xml.installed
 bin/CodeInstall.pl
 bin/DatabaseInstall.pl
+bin/ModuleCode.pl
