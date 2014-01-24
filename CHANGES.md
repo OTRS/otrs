@@ -1,4 +1,5 @@
 #3.3.5 2014-??-??
+ - 2014-01-24 Fixed bug#[10137](http://bugs.otrs.org/show_bug.cgi?id=10137) - Generic interface TicketCreate operation doesn't work when authenticated as a customer.
  - 2014-01-24 Fixed bug#[10176](http://bugs.otrs.org/show_bug.cgi?id=10176) - available columns selection in search result view is not scrollable.
  - 2014-01-24 Fixed bug#[10120](http://bugs.otrs.org/show_bug.cgi?id=10120) - Management Dashboard: page reload erases stat graph settings.
  - 2014-01-24 Fixed bug#[9276](http://bugs.otrs.org/show_bug.cgi?id=9276) - Auto-reply to ticket entered via Web interface is sent with all lines concatenated to one
