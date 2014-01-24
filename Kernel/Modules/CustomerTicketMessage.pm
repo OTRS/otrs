@@ -552,6 +552,12 @@ sub Run {
             );
         }
 
+        my $PlainBody = $GetParam{Body};
+
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+            $PlainBody = $Self->{LayoutObject}->RichText2Ascii( String => $GetParam{Body} );
+        }
+
         # create article
         my $FullName = $Self->{CustomerUserObject}->CustomerName(
             UserLogin => $Self->{UserLogin},
@@ -577,10 +583,11 @@ sub Run {
                 From    => $From,
                 To      => $Self->{UserLogin},
                 Subject => $GetParam{Subject},
-                Body    => $Self->{LayoutObject}->RichText2Ascii( String => $GetParam{Body} ),
+                Body    => $PlainBody,
             },
             Queue => $Self->{QueueObject}->QueueLookup( QueueID => $NewQueueID ),
         );
+
         if ( !$ArticleID ) {
             my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
             $Output .= $Self->{LayoutObject}->CustomerError();
