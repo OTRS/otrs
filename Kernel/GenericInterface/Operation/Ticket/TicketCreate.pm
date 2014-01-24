@@ -238,6 +238,10 @@ sub Run {
         );
     }
 
+    if ( $UserType eq 'Customer' ) {
+        $UserID = $Self->{ConfigObject}->Get('CustomerPanelUserID')
+    }
+
     # check needed hashes
     for my $Needed (qw(Ticket Article)) {
         if ( !IsHashRefWithData( $Param{Data}->{$Needed} ) ) {
@@ -872,7 +876,7 @@ sub _CheckArticle {
     # check Article->TimeUnit
     # TimeUnit could be required or not depending on sysconfig option
     if (
-        !defined $Article->{TimeUnit}
+        !$Article->{TimeUnit}
         && $Self->{ConfigObject}->{'Ticket::Frontend::AccountTime'}
         && $Self->{ConfigObject}->{'Ticket::Frontend::NeedAccountedTime'}
         )
