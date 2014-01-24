@@ -1,4 +1,5 @@
 #3.2.14 2014-01-28
+ - 2014-01-24 Fixed bug#[10137](http://bugs.otrs.org/show_bug.cgi?id=10137) - Generic interface TicketCreate operation doesn't work when authenticated as a customer.
  - 2014-01-20 Fixed bug#[10172](http://bugs.otrs.org/show_bug.cgi?id=10172) - Can't create process tickets with disabled richtext.
  - 2014-01-17 Fixed bug#[10121](http://bugs.otrs.org/show_bug.cgi?id=10121) - QQMails break in OTRS.
  - 2014-01-14 Fixed bug#[10158](http://bugs.otrs.org/show_bug.cgi?id=10158) - Missing quoting in State::StateGetStatesByType().

@@ -240,6 +240,10 @@ sub Run {
         );
     }
 
+    if ( $UserType eq 'Customer' ) {
+        $UserID = $Self->{ConfigObject}->Get('CustomerPanelUserID')
+    }
+
     # check needed hashes
     for my $Needed (qw(Ticket Article)) {
         if ( !IsHashRefWithData( $Param{Data}->{$Needed} ) ) {
