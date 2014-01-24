@@ -15,11 +15,11 @@ $Data{"Notification"}
     <ul>
 <!-- dtl:block:Item -->
         <li class="$QData{"Class"}" title="$Text{"$Data{"Description"}"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$Text{"$Data{"Name"}"} ($QData{"AccessKey"})">$Text{"$Data{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$Text{"$Data{"Name"}"} ($QData{"AccessKey"})" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}</a>
 <!-- dtl:block:ItemAreaSub -->
             <ul>
 <!-- dtl:block:ItemAreaSubItem -->
-                <li><a class="$QData{"Class"}" href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$Text{"$Data{"Name"}"} ($QData{"AccessKey"})">$Text{"$Data{"Name"}"}</a></li>
+                <li><a class="$QData{"Class"}" href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" title="$Text{"$Data{"Name"}"} ($QData{"AccessKey"})" $Data{"LinkOption"}>$Text{"$Data{"Name"}"}</a></li>
 <!-- dtl:block:ItemAreaSubItem -->
                 <li class="Footer"></li>
             </ul>
