@@ -4075,6 +4075,11 @@ sub _StoreActivityDialog {
                 # get the current server Timestamp
                 my $CurrentTimeStamp = $Self->{TimeObject}->CurrentTimestamp();
                 $TicketParam{Title} = "$Param{ProcessName} - $CurrentTimeStamp";
+
+                # use article subject from the web request if any
+                if ( IsStringWithData( $Param{GetParam}->{Subject} ) ) {
+                    $TicketParam{Title} = $Param{GetParam}->{Subject};
+                }
             }
 
             # create a new ticket
