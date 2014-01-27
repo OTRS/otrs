@@ -982,15 +982,6 @@ sub _Show {
                 HTMLResultMode  => 1,
                 StripEmptyLines => $Param{Config}->{StripEmptyLines},
             );
-
-            # do charset check
-            my $CharsetText = $Self->{LayoutObject}->CheckCharset(
-                %{$ArticleItem},
-                Action => 'AgentTicketZoom',
-            );
-            if ($CharsetText) {
-                $ArticleItem->{BodyNote} = $CharsetText;
-            }
         }
 
         $ArticleItem->{Subject} = $Self->{TicketObject}->TicketSubjectClean(

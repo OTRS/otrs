@@ -1290,14 +1290,6 @@ sub _HTMLMask {
                 Text    => $Article{Body},
                 VMax    => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
             );
-
-            # do charset check
-            my $CharsetText = $Self->{LayoutObject}->CheckCharset(
-                %Param, %Article, Action => 'AgentTicketZoom'
-            );
-            if ($CharsetText) {
-                $Param{'Article::TextNote'} = $CharsetText;
-            }
         }
         $Self->{LayoutObject}->Block(
             Name => 'Article',

@@ -2007,44 +2007,6 @@ sub Permission {
     return $Access;
 }
 
-sub CheckCharset {
-    my ( $Self, %Param ) = @_;
-
-    my $Output = '';
-    if ( !$Param{Action} ) {
-        $Param{Action} = '[% Env("Action") %]';
-    }
-
-    # with utf-8 can everything be shown
-    if ( $Self->{UserCharset} !~ /^utf-8$/i ) {
-
-        # replace ' or "
-        $Param{Charset} && $Param{Charset} =~ s/'|"//gi;
-
-        # if the content charset is different to the user charset
-        if ( $Param{Charset} && $Self->{UserCharset} !~ /^$Param{Charset}$/i ) {
-
-            # if the content charset is us-ascii it is always shown correctly
-            if ( $Param{Charset} !~ /us-ascii/i ) {
-                $Output = '<p><i class="small">'
-                    . $Self->{LanguageObject}->Translate("This message was written in a character set other than your own.")
-                    . $Self->{LanguageObject}->Translate("If it is not displayed correctly,")
-                    . ' <a href="'
-                    . $Self->{Baselink}
-                    . "Action=$Param{Action};TicketID=$Param{TicketID}"
-                    . ";ArticleID=$Param{ArticleID};Subaction=ShowHTMLeMail\" target=\"HTMLeMail\">"
-                    . $Self->{LanguageObject}->Translate("click here")
-                    . '</a> '
-                    . $Self->{LanguageObject}->Translate("to open it in a new window.")
-                    . '</i></p>';
-            }
-        }
-    }
-
-    # return note string
-    return $Output;
-}
-
 sub CheckMimeType {
     my ( $Self, %Param ) = @_;
 

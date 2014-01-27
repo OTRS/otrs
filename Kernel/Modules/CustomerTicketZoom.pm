@@ -1351,11 +1351,6 @@ sub _Mask {
                 HTMLResultMode => 1,
                 LinkFeature    => 1,
             );
-
-            # do charset check
-            if ( my $CharsetText = $Self->{LayoutObject}->CheckCharset( %Param, %Article ) ) {
-                $Param{BodyNote} = $CharsetText;
-            }
         }
 
         # security="restricted" may break SSO - disable this feature if requested
