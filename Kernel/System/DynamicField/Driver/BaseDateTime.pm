@@ -242,7 +242,6 @@ EOF
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
         %Param,
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
         Mandatory          => $Param{Mandatory} || '0',
         FieldName          => $FieldName . 'Used',
     );
@@ -564,7 +563,7 @@ EOF
 
         # call EditLabelRender on the common backend
         my $LabelString = $Self->EditLabelRender(
-            DynamicFieldConfig => $Param{DynamicFieldConfig},
+            %Param,
             FieldName          => $FieldName,
             AdditionalText     => $AdditionalText,
         );
@@ -617,7 +616,7 @@ EOF
 
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        %Param,
         FieldName          => $FieldName,
         AdditionalText     => $AdditionalText,
     );
