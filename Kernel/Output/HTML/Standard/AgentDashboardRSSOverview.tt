@@ -1,0 +1,24 @@
+# --
+# AgentDashboardRSSOverview.tt - provides HTML for global dashboard
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<table class="DataTable">
+    <tbody>
+[% RenderBlockStart("ContentSmallRSSOverviewRow") %]
+        <tr>
+            <td>
+[% RenderBlockStart("ContentSmallRSS") %]
+                <a href="[% Data.Link %]" class="AsBlock" title="[% Data.Title | html %]" target="_blank">[% Data.Title | truncate(45) | html %]</a>
+[% RenderBlockEnd("ContentSmallRSS") %]
+[% RenderBlockStart("ContentSmallRSSTimeStamp") %]
+                <a href="[% Data.Link %]" class="AsBlock" title="[% Data.Title | html %] ([% Translate("Posted %s ago.", Data.Ago) | html %])" target="_blank">[% Data.Title | truncate(45) | html %]</a>
+[% RenderBlockEnd("ContentSmallRSSTimeStamp") %]
+            </td>
+        </tr>
+[% RenderBlockEnd("ContentSmallRSSOverviewRow") %]
+    </tbody>
+</table>

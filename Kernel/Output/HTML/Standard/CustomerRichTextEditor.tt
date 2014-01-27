@@ -1,0 +1,32 @@
+# --
+# CustomerRichTextEditor.tt - provides Rich Text Editor for the customer interface
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<script src="[% Config("Frontend::RichTextPath") %]ckeditor.js" type="text/javascript"></script>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Config.Set('RichText.Width', '[% Config("Frontend::RichTextWidth") %]');
+    Core.Config.Set('RichText.Height', '[% Config("Frontend::RichTextHeight") %]');
+    Core.Config.Set('RichText.TextDir', '[% Env("TextDirection") %]');
+    Core.Config.Set('RichText.SpellChecker', '[% Env("BrowserSpellCheckerInline") %]');
+    Core.Config.Set('RichText.EditingAreaCSS', 'body { [% Config("Frontend::RichText::DefaultCSS") %] }');
+    Core.Config.Set('RichText.Toolbar', [
+        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'Image', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
+        '/',
+        ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'SpecialChar', '-', 'Maximize']
+    ]);
+    Core.Config.Set('RichText.ToolbarWithoutImage', [
+        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
+        '/',
+        ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'SpecialChar', '-', 'Maximize']
+    ]);
+    Core.Config.Set('RichText.PictureUploadAction', "[% Data.RichTextPictureUploadAction | html %]");
+
+    Core.UI.RichTextEditor.InitAll();
+//]]></script>
+[% END %]

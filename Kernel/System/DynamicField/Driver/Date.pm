@@ -291,12 +291,15 @@ sub EditFieldRender {
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'UsedError';
 
+        my $FieldRequiredMessage
+            = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+
         # for client side validation
         $HTMLString .= <<"EOF";
 
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"This field is required."}
+        $FieldRequiredMessage
     </p>
 </div>
 EOF
@@ -305,6 +308,7 @@ EOF
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
+        $ErrorMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
         my $DivID = $FieldName . 'UsedServerError';
 
         # for server side validation
@@ -312,7 +316,7 @@ EOF
 
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"$ErrorMessage"}
+        $ErrorMessage
     </p>
 </div>
 EOF
@@ -320,6 +324,7 @@ EOF
 
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
+        %Param,
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         Mandatory          => $Param{Mandatory} || '0',
         FieldName          => $FieldName . 'Used',
@@ -417,10 +422,11 @@ sub DisplayValueRender {
 
     # convert date to localized string
     if ( defined $Param{Value} ) {
-        $Value = $Param{LayoutObject}->Output(
-            Template => '$Date{"$Data{"Value"}"}',
-            Data => { Value => $Param{Value}, },
+        $Value = $Param{LayoutObject}->{LanguageObject}->FormatTimeString(
+            $Param{Value},
+            'DateFormatShort',
         );
+
     }
 
     # in this Driver there is no need for HTMLOutput
@@ -635,9 +641,7 @@ EOF
     );
 
     # build HTML for "and" separator
-    $HTMLString .= <<'EOF';
-  $Text{"and"}
-EOF
+    $HTMLString .= ' ' . $Param{LayoutObject}->{LanguageObject}->Translate("and") . "\n";
 
     # build HTML for stop value set
     $HTMLString .= $Param{LayoutObject}->BuildDateSelection(

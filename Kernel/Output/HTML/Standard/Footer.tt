@@ -1,0 +1,22 @@
+# --
+# Footer.tt - provides global HTML footer
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+
+<div id="Footer" class="ARIARoleContentinfo">
+[% RenderBlockStart("Banner") %]
+    <a href="http://otrs.org/" target="_blank">[% Translate("Powered by") | html %] [% Config("Product") %] [% Config("Version") %]</a>
+[% RenderBlockEnd("Banner") %]
+    <div class="TopOfPage"><a href="#Top">[% Translate("Top of page") | html %] <i class="icon-chevron-sign-up"></i></a></div>
+    <div class="Clear"></div>
+</div>
+
+[% InsertTemplate("FooterJS.tt") %]
+
+</body>
+</html>

@@ -103,7 +103,7 @@ sub Run {
                     Label => $Entry->[1],
                     Value => $CustomerCompany{$Key},
                     URL =>
-                        '$Env{"Baselink"}Action=AdminCustomerCompany;Subaction=Change;CustomerID=$QData{"CustomerID"};Nav=Agent',
+                        '[% Env("Baselink") %]Action=AdminCustomerCompany;Subaction=Change;CustomerID=[% Data.CustomerID | uri %];Nav=Agent',
                     Target => '',
                 },
             );

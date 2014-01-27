@@ -1,0 +1,133 @@
+# --
+# AdminACL.tt - provides HTML for AdminACL
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("ACL Management") | html %]</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="Filter">[% Translate("Filter for ACLs") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="Filter" class="W95pc" name="Filter" value="" title="[% Translate("Filter") | html %]" placeholder="[% Translate("ACL Name") | html %]" />
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLNew" class="CallForAction Fullsize Center Plus"><span>[% Translate("Create New ACL") | html %]</span></a>
+                    </li>
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLDeploy" class="CallForAction Fullsize Center Refresh"><span>[% Translate("Deploy ACLs") | html %]</span></a>
+                    </li>
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLExport" class="CallForAction Fullsize Center Download"><span>[% Translate("Export ACLs") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Configuration import") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.") | html %]
+                </p>
+                <ul class="ActionList">
+                    <li>
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="ACLImport"/>
+                            <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
+                            <input name="FileUpload" id="FileUpload" type="file" size="18" class="Fixed W100pc Validate_Required [% Data.FileUploadInvalid | html %]"/>
+                            <div id="FileUploadError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div id="FileUploadServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <fieldset class="Separated">
+                                <input type="checkbox" id="OverwriteExistingEntities" name="OverwriteExistingEntities" value="1" />
+                                <label for="OverwriteExistingEntities">[% Translate("Overwrite existing ACLs?") | html %]</label>
+                            </fieldset>
+                            <button class="CallForAction Plus Fullsize Center" type="submit" value="[% Translate("Upload ACL configuration") | html %]">
+                                <span>[% Translate("Import ACL configuration(s)") | html %]</span>
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Description") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    [% Translate("Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.") | html %]
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("ACLs") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="ACLNote">[% Translate("Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.") | html %]</p>
+                <table class="DataTable" id="ACLs">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("ACL name") | html %]</th>
+                            <th>[% Translate("Comment") | html %]</th>
+                            <th>[% Translate("Validity") | html %]</th>
+                            <th>[% Translate("Export") | html %]</th>
+                            <th>[% Translate("Copy") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("ACLRow") %]
+                        <tr>
+                            <td><a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLEdit;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>
+                            <td>[% Data.Comment | html %]</td>
+                            <td>[% Translate(Data.ValidID) | html %]</td>
+                            <td><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLExport;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" class="Export AsBlock">[% Translate("Export") | html %]</a></td>
+                            <td><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLCopy;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" class="Copy AsBlock">[% Translate("Copy") | html %]</a></td>
+                        </tr>
+[% RenderBlockEnd("ACLRow") %]
+[% RenderBlockStart("ACLNoDataRow") %]
+                        <tr>
+                            <td colspan="4">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("ACLNoDataRow") %]
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.UI.Table.InitTableFilter($('#Filter'), $('#ACLs'), 0);
+//]]></script>
+[% END %]

@@ -1,0 +1,91 @@
+# --
+# Pagination.tt - provides HTML for generic Pagination
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+[% RenderBlockStart("PageBack") %]
+<a id="[% Data.IDPrefix %]PageAllBack" href="[% Data.BaselinkAllBack %]" title="[% Translate("Show first page") | html %]">|&lt;</a>
+<a id="[% Data.IDPrefix %]PageOneBack" href="[% Data.BaselinkAllNext %]" title="[% Translate("Show previous pages") | html %]">&lt;&lt;</a>
+[% RenderBlockEnd("PageBack") %]
+[% RenderBlockStart("PageBackAjax") %]
+<a id="[% Data.IDPrefix %]PageAllBack" href="#" title="[% Translate("Show first page") | html %]">|&lt;</a>
+<a id="[% Data.IDPrefix %]PageOneBack" href="#" title="[% Translate("Show previous pages") | html %]">&lt;&lt;</a>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#[% Data.IDPrefix %]PageAllBack').unbind('click').bind('click', function(){
+        var $Container = $(this).parents('.WidgetSimple');
+        $Container.addClass('Loading');
+        Core.AJAX.ContentUpdate($('#[% Data.AjaxReplace %]'), '[% Data.BaselinkAllBack %]', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#[% Data.AjaxReplace %]'));
+            $Container.removeClass('Loading');
+        });
+        return false;
+    });
+    $('#[% Data.IDPrefix %]PageOneBack').unbind('click').bind('click', function(){
+        var $Container = $(this).parents('.WidgetSimple');
+        $Container.addClass('Loading');
+        Core.AJAX.ContentUpdate($('#[% Data.AjaxReplace %]'), '[% Data.BaselinkAllNext %]', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#[% Data.AjaxReplace %]'));
+            $Container.removeClass('Loading');
+        });
+        return false;
+    });
+//]]></script>
+[% END %]
+[% RenderBlockEnd("PageBackAjax") %]
+
+
+[% RenderBlockStart("Page") %]
+<a id="[% Data.IDPrefix %]Page[% Data.PageNumber %]" href="[% Data.BaselinkAll %]"[% Data.SelectedPage %] title="[% Translate("Show page %s", Data.PageNumber) | html %]">[% Data.PageNumber %]</a>
+[% RenderBlockEnd("Page") %]
+[% RenderBlockStart("PageAjax") %]
+<a id="[% Data.IDPrefix %]Page[% Data.PageNumber %]" href="#"[% Data.SelectedPage %] title="[% Translate("Show page %s", Data.PageNumber) | html %]">[% Data.PageNumber %]</a>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#[% Data.IDPrefix %]Page[% Data.PageNumber %]').unbind('click').bind('click', function(){
+        var $Container = $(this).parents('.WidgetSimple');
+        $Container.addClass('Loading');
+        Core.AJAX.ContentUpdate($('#[% Data.AjaxReplace %]'), '[% Data.BaselinkAll %]', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#[% Data.AjaxReplace %]'));
+            $Container.removeClass('Loading');
+        });
+        return false;
+    });
+//]]></script>
+[% END %]
+[% RenderBlockEnd("PageAjax") %]
+
+
+[% RenderBlockStart("PageForward") %]
+<a id="[% Data.IDPrefix %]PageOneForward" href="[% Data.BaselinkAllBack %]" title="[% Translate("Show next pages") | html %]">&gt;&gt;</a>
+<a id="[% Data.IDPrefix %]PageAllForward" href="[% Data.BaselinkAllNext %]" title="[% Translate("Show last page") | html %]">&gt;|</a>
+[% RenderBlockEnd("PageForward") %]
+[% RenderBlockStart("PageForwardAjax") %]
+<a id="[% Data.IDPrefix %]PageOneForward" href="#" title="[% Translate("Show next pages") | html %]">&gt;&gt;</a>
+<a id="[% Data.IDPrefix %]PageAllForward" href="#" title="[% Translate("Show last page") | html %]">&gt;|</a>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#[% Data.IDPrefix %]PageOneForward').unbind('click').bind('click', function(){
+        var $Container = $(this).parents('.WidgetSimple');
+        $Container.addClass('Loading');
+        Core.AJAX.ContentUpdate($('#[% Data.AjaxReplace %]'), '[% Data.BaselinkAllBack %]', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#[% Data.AjaxReplace %]'));
+            $Container.removeClass('Loading');
+        });
+        return false;
+    });
+    $('#[% Data.IDPrefix %]PageAllForward').unbind('click').bind('click', function(){
+        var $Container = $(this).parents('.WidgetSimple');
+        $Container.addClass('Loading');
+        Core.AJAX.ContentUpdate($('#[% Data.AjaxReplace %]'), '[% Data.BaselinkAllNext %]', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#[% Data.AjaxReplace %]'));
+            $Container.removeClass('Loading');
+        });
+        return false;
+    });
+//]]></script>
+[% END %]
+[% RenderBlockEnd("PageForwardAjax") %]

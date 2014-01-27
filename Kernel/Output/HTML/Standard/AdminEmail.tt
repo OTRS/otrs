@@ -1,0 +1,134 @@
+# --
+# AdminEmail.tt - provides global HTML AdminEmail
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("RichText") %]
+[% InsertTemplate("RichTextEditor.tt") %]
+[% RenderBlockEnd("RichText") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Admin Notification") | html %]</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("With this module, administrators can send messages to agents, group or role members.") | html %]
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Create Administrative Message") | html %]</h2>
+            </div>
+            <div class="Content">
+
+[% RenderBlockStart("Sent") %]
+                <p>
+                    [% Translate("Your message was sent to") | html %]: [% Data.Bcc | html %]
+                </p>
+[% RenderBlockEnd("Sent") %]
+
+[% RenderBlockStart("Form") %]
+                <form action="[% Env("CGIHandle") %]" method="post" name="compose" class="Validate">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="Send"/>
+
+                    <fieldset class="TableLike">
+                        <label class="Mandatory" for="From"><span class="Marker">*</span> [% Translate("From") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="From" id="From" value="[% Config("AdminEmail") %]" class="W75pc Validate_Required [% Data.FromInvalid | html %]"/>
+                            <div id="FromError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="FromServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="UserIDs">[% Translate("Send message to users") | html %]:</label>
+                        <div class="Field">
+                            [% Data.UserOption %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="GroupIDs">[% Translate("Send message to group members") | html %]:</label>
+                        <div class="Field">
+                            [% Data.GroupOption %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="GroupPermissionRO">[% Translate("Group members need to have permission") | html %]:</label>
+                        <div class="Field">
+                            <input type="radio" name="GroupPermission" id="GroupPermissionRO" value="ro" checked="checked"/>
+                            <label for="GroupPermissionRO">[% Translate("ro") | html %]</label>
+                            <br/>
+                            <input type="radio" name="GroupPermission" id="GroupPermissionRW" value="rw"/>
+                            <label for="GroupPermissionRW">[% Translate("rw") | html %]</label>
+                        </div>
+                        <div class="Clear"></div>
+
+[% RenderBlockStart("RoleRecipients") %]
+                        <label for="RoleIDs">[% Translate("Send message to role members") | html %]:</label>
+                        <div class="Field">
+                            [% Data.RoleOption %]
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("RoleRecipients") %]
+
+[% RenderBlockStart("CustomerUserGroups") %]
+                        <label for="NotifyCustomerUsers">[% Translate("Also send to customers in groups") | html %]:</label>
+                        <div class="Field">
+                            <input type="checkbox" name="NotifyCustomerUsers" id="NotifyCustomerUsers" />
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("CustomerUserGroups") %]
+
+                        <label class="Mandatory" for="Subject"><span class="Marker">*</span> [% Translate("Subject") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Subject" id="Subject" class="W75pc Validate_Required [% Data.SubjectInvalid | html %]" value="[% Data.Subject | html %]" />
+                            <div id="SubjectError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="SubjectServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+
+                        <label class="Mandatory" for="RichText"><span class="Marker">*</span> [% Translate("Body") | html %]:</label>
+                        <div class="RichTextField">
+                            <textarea id="RichText" class="W100pc RichText Validate_RequiredRichText [% Data.RichTextInvalid | html %]" name="Body" rows="16" cols="78">[% Data.Body | html %]</textarea>
+                            <div id="RichTextError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="RichTextServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary" id="submitRichText" type="submit" value="[% Translate("Send") | html %]">[% Translate("Send") | html %]</button>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </form>
+[% RenderBlockEnd("Form") %]
+
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>

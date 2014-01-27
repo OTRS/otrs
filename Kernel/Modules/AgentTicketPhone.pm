@@ -219,7 +219,7 @@ sub Run {
             my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
             $Output .= $Self->{LayoutObject}->Notify(
                 Info => 'Ticket "%s" created!", "' . $Ticket{TicketNumber},
-                Link => '$Env{"Baselink"}Action=AgentTicketZoom;TicketID=' . $Ticket{TicketID},
+                Link => $Self->{LayoutObject}->{Baselink} . 'Action=AgentTicketZoom;TicketID=' . $Ticket{TicketID},
             );
         }
 

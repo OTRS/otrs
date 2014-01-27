@@ -1,0 +1,88 @@
+# --
+# FooterJS.tt - provides global HTML footer JavaScript
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("CommonJS") %]
+<script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") %][% Data.JSDirectory %][% Data.Filename %]"></script>
+[% RenderBlockEnd("CommonJS") %]
+
+[% RenderBlockStart("ModuleJS") %]
+<script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") %][% Data.JSDirectory %][% Data.Filename %]"></script>
+[% RenderBlockEnd("ModuleJS") %]
+
+<script type="text/javascript">//<![CDATA[
+"use strict";
+Core.App.Ready(function () {
+
+    Core.Config.AddConfig({
+        // config
+        Baselink: '[% Env("Baselink") %]',
+        CGIHandle: '[% Env("CGIHandle") %]',
+        WebPath: '[% Config("Frontend::WebPath") %]',
+        Action: '[% Env("Action") | html %]',
+        SessionIDCookie: '[% Env("SessionIDCookie") | html %]',
+        SessionName: '[% Config("SessionName") %]',
+        SessionID: '[% Env("SessionID") | html %]',
+        ChallengeToken: '[% Env("UserChallengeToken") | html %]',
+        CustomerPanelSessionName: '[% Config("CustomerPanelSessionName") %]',
+        Images: '[% Config("Frontend::ImagePath") %]',
+        UserLanguage: '[% Env("UserLanguage") | html %]',
+        CheckEmailAddresses: parseInt('[% Config("CheckEmailAddresses") %]', 10),
+        AnimationEnabled: parseInt('[% Config("Frontend::AnimationEnabled") %]', 10),
+        OpenMainMenuOnHover: parseInt('[% Config("OpenMainMenuOnHover") %]', 10),
+[% RenderBlockStart("AutoCompleteConfig") %]
+        Autocomplete: [% Data.AutocompleteConfig %],
+[% RenderBlockEnd("AutoCompleteConfig") %]
+        // translations
+        ValidateServerErrorTitle: [% Translate("Error") | JSON %],
+        ValidateServerErrorMsg: [% Translate("One or more errors occurred!") | JSON %],
+        PopupLeaveParentWindowMsg: [% Translate("If you now leave this page, all open popup windows will be closed, too!") | JSON %],
+        DialogCloseMsg: [% Translate("Close this dialog") | JSON %],
+        PopupBlockerMsg: [% Translate("Could not open popup window. Please disable any popup blockers for this application.") | JSON %],
+        PopupAlreadyOpenMsg: [% Translate("A popup of this screen is already open. Do you want to close it and load this one instead?") | JSON %],
+        LoadingMsg: [% Translate("Loading...") | JSON %],
+        EmptySearchMsg: [% Translate("Please enter at least one search value or * to find anything.") | JSON %],
+        SearchMsg: [% Translate("Search") | JSON %],
+        ValidationErrorMsg: [% Translate("Please check the fields marked as red for valid inputs.") | JSON %],
+        DeleteMsg: [% Translate("Delete") | JSON %],
+        ApplyButtonText: [% Translate("Apply") | JSON %],
+        NoElementsToSelectFromMsg: [% Translate("There are currently no elements available to select from.") | JSON %]
+    });
+
+    Core.Agent.Init();
+
+[% InsertTemplate("Datepicker.tt") %]
+
+[% RenderBlockStart("NewTicketInNewWindow") %]
+    $('#nav-Tickets-Newphoneticket a').attr('target', '_blank');
+    $('#nav-Tickets-Newemailticket a').attr('target', '_blank');
+    $('.PhoneTicket a').attr('target', '_blank');
+    $('.EmailTicket a').attr('target', '_blank');
+    $('.ProcessTicket a').attr('target', '_blank');
+[% RenderBlockEnd("NewTicketInNewWindow") %]
+
+});
+//]]></script>
+
+<script type="text/javascript">//<![CDATA[
+"use strict";
+Core.App.Ready(function () {
+
+[% PROCESS JSOnDocumentCompleteInsert %]
+
+});
+//]]></script>
+
+# Finally, unblock click events on the page again after all JavaScript was loaded and
+# executed. Put in an own block to make sure it is always run.
+<script type="text/javascript">//<![CDATA[
+"use strict";
+Core.App.Ready(function () {
+    Core.App.UnblockEvents();
+});
+//]]></script>

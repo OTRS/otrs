@@ -1,0 +1,178 @@
+# --
+# AgentStatsView.tt - provides HTML form for view stat screen
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+
+    <h1>[% Translate("View") | html %]: [% Translate(Config("Stats::StatsHook")) | html %] [% Data.StatNumber | html %]</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %][% Env("LastStatsOverview") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockStart("AdminLinks") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AgentStats;Subaction=EditSpecification;StatID=[% Data.StatID | uri %]" class="CallForAction"><span>[% Translate("Edit") | html %]</span></a>
+                    </li>
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AgentStats;Subaction=Delete;StatID=[% Data.StatID | uri %]" class="CallForAction"><span>[% Translate("Delete") | html %]</span></a>
+                    </li>
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AgentStats;Subaction=Export;StatID=[% Data.StatID | uri %]" class="CallForAction"><span>[% Translate("Export config") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("AdminLinks") %]
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p>
+                    [% Translate("With the input and select fields you can influence the format and contents of the statistic.") | html %]
+                    [% Translate("Exactly what fields and formats you can influence is defined by the statistic administrator.") | html %]
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Stat Details") | html %]</h2>
+            </div>
+            <div class="Content">
+
+                <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="compose" id="compose">
+                    <input type="hidden" name="Action"    value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="Run"/>
+                    <input type="hidden" name="StatID"    value="[% Data.StatID | html %]"/>
+                    <input type="hidden" id="PDFUsable" name="PDFUsable" value="[% Data.PDFUsable | html %]"/>
+
+                    <fieldset class="TableLike">
+                        <label>[% Translate(Config("Stats::StatsHook")) | html %]:</label>
+                        <div class="Value">[% Data.StatNumber | html %]</div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Title") | html %]:</label>
+                        <div class="Value">[% Data.Title | html %]</div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Object") | html %]:</label>
+                        <div class="Value">[% Translate(Data.ObjectName) | html %]</div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Description") | html %]:</label>
+                        <div class="Value">[% Data.Description %]</div>
+                        <div class="Clear"></div>
+
+#                       <label>[% Translate("Type") | html %]:</label>
+#                       <div class="Value">[% Translate(Data.StatType) | html %]</div>
+#                       <div class="Clear"></div>
+#
+[% RenderBlockStart("Format") %]
+                        <label for="Format">[% Translate("Format") | html %]:</label>
+                        <div class="Value">[% Data.SelectFormat %]</div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("Format") %]
+[% RenderBlockStart("FormatFixed") %]
+                        <input type="hidden" id="Format" name="Format" value="[% Data.FormatKey | html %]"/>
+                        <label>[% Translate("Format") | html %]:</label>
+                        <div class="Value">[% Translate(Data.Format) | html %]</div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("FormatFixed") %]
+[% RenderBlockStart("Graphsize") %]
+                        <label>[% Translate("Graphsize") | html %]:</label>
+                        <div class="Value">[% Data.SelectGraphSize %]</div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("Graphsize") %]
+[% RenderBlockStart("GraphsizeFixed") %]
+                        <input type="hidden" name="GraphSize" value="[% Data.GraphSizeKey | html %]"/>
+                        <label>[% Translate("Graphsize") | html %]:</label>
+                        <div class="Value">[% Data.GraphSize %]</div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("GraphsizeFixed") %]
+                        <label>[% Translate("Sum rows") | html %]:</label>
+                        <div class="Value">[% Translate(Data.SumRowValue) | html %]</div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Sum columns") | html %]:</label>
+                        <div class="Value">[% Translate(Data.SumColValue) | html %]</div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Cache") | html %]:</label>
+                        <div class="Value">[% Translate(Data.CacheValue) | html %]</div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Show as dashboard widget") | html %]:</label>
+                        <div class="Value">[% Translate(Data.ShowAsDashboardWidgetValue) | html %]</div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Validity") | html %]:</label>
+                        <div class="Value">[% Translate(Data.ValidValue) | html %]</div>
+                        <div class="Clear"></div>
+[% RenderBlockStart("ExchangeAxis") %]
+                        <label>[% Translate("Exchange Axis") | html %]:</label>
+                        <div class="Value">[% Data.ExchangeAxis %]</div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("ExchangeAxis") %]
+                        <label>[% Translate("Created") | html %]:</label>
+                        <div class="Value">[% Data.Created | Localize("TimeLong") %]</div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Created by") | html %]:</label>
+                        <div class="Value">[% Data.CreatedBy | html %]</div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Changed") | html %]:</label>
+                        <div class="Value">[% Data.Changed | Localize("TimeLong") %]</div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Changed by") | html %]:</label>
+                        <div class="Value">[% Data.ChangedBy | html %]</div>
+                        <div class="Clear"></div>
+                    </fieldset>
+
+[% InsertTemplate("AgentStatsViewSettings.tt") %]
+
+[% RenderBlockStart("FormSubmit") %]
+                    <fieldset class="TableLike">
+                        <div class="Value">
+                            <button class="Primary" type="submit" id="StartStatistic" name="Start" value="[% Translate("Start") | html %]">[% Translate("Start") | html %]</button>
+                        </div>
+                    </fieldset>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#StartStatistic').bind('click', function (Event) {
+    var Format = $('#Format').val(),
+        PDFUsable = $('#PDFUsable').val() > 0,
+        URL;
+
+    if (Format === 'Print' && !PDFUsable) {
+        URL = '[% Env("Baselink") %]' + Core.AJAX.SerializeForm($('#compose'));
+        Core.UI.Popup.OpenPopup(URL, 'Statistic', 'Default');
+        return false;
+    }
+});
+//]]></script>
+[% END %]
+
+[% RenderBlockEnd("FormSubmit") %]
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

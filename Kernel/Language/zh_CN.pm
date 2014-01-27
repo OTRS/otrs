@@ -17,6 +17,7 @@ package Kernel::Language::zh_CN;
 
 use strict;
 use warnings;
+use utf8;
 
 sub Data {
     my $Self = shift;

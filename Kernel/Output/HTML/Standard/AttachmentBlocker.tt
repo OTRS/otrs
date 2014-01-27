@@ -1,0 +1,20 @@
+# --
+# AttachmentBlocker.tt - provides attachment blocker message
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+#
+# This file contains inline CSS styles, because it is loaded inside of the
+#   article iframe, and the standard CSS of OTRS is not available there.
+#
+
+<div style="margin: 5px 0; padding: 0px; border: 1px solid #999; border-radius: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px;">
+    <div style="padding: 5px; background-color: #DDD; font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 11px; text-align: center;">
+        [% Translate("To protect your privacy, remote content was blocked.") | html %]
+        <a href="[% Env("Baselink") %][% Env("RequestedURL") %];LoadExternalImages=1">[% Translate("Load blocked content.") | html %]</a>
+    </div>
+</div>

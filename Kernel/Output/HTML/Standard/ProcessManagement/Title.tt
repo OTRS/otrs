@@ -1,0 +1,25 @@
+# --
+# Title.tt - provides Title HTML for the AgentTicketProcess.pm
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+[% RenderBlockStart("rw:Title") %]
+<label for="[% Data.FieldID | html %]" class="[% Data.MandatoryClass | html %]">
+[% RenderBlockStart("LabelSpan") %]
+    <span class="Marker">*</span>
+[% RenderBlockEnd("LabelSpan") %]
+    [% Data.Label | html %]:
+</label>
+<div class="Field">
+    <input class="W75pc [% Data.ValidateRequired | html %] [% Data.ServerError | html %]" type="text" name="[% Data.FieldID | html %]" id="[% Data.FieldID | html %]" value="[% Data.Value | html %]"/>
+    <div id="[% Data.FieldID | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+    <div id="[% Data.FieldID | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+[% RenderBlockStart("rw:Title:DescriptionShort") %]
+    <div class="FieldExplanation">[% Data.DescriptionShort | html %]</div>
+[% RenderBlockEnd("rw:Title:DescriptionShort") %]
+</div>
+<div class="Clear"></div>
+[% RenderBlockEnd("rw:Title") %]

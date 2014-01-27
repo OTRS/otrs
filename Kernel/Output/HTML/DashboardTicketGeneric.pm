@@ -387,9 +387,7 @@ sub Config {
 
     return (
         %{ $Self->{Config} },
-
-        # remember, do not allow to use page cache
-        # (it's not working because of internal filter)
+        # Don't cache this globally as it contains JS that is not inside of the HTML.
         CacheTTL => undef,
         CacheKey => undef,
     );

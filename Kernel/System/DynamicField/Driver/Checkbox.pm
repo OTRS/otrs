@@ -298,11 +298,14 @@ EOF
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'Error';
 
+        my $FieldRequiredMessage
+            = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+
         # for client side validation
         $HTMLString .= <<"EOF";
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"This field is required."}
+        $FieldRequiredMessage
     </p>
 </div>
 EOF
@@ -311,13 +314,14 @@ EOF
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
+        $ErrorMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
         my $DivID = $FieldName . 'ServerError';
 
         # for server side validation
         $HTMLString .= <<"EOF";
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"$ErrorMessage"}
+        $ErrorMessage
     </p>
 </div>
 EOF
@@ -325,6 +329,7 @@ EOF
 
     # call EditLabelRender on the common backend
     my $LabelString = $Self->EditLabelRender(
+        %Param,
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         Mandatory          => $Param{Mandatory} || '0',
         FieldName          => $FieldName,
@@ -449,7 +454,7 @@ sub DisplayValueRender {
     }
 
     # always translate value
-    $Value = $Param{LayoutObject}->{LanguageObject}->Get($Value);
+    $Value = $Param{LayoutObject}->{LanguageObject}->Translate($Value);
 
     # in this backend there is no need for HTMLOutput
     # Title is always equal to Value
@@ -600,7 +605,7 @@ sub SearchFieldParameterBuild {
 
                 # translate the value
                 if ( defined $Param{LayoutObject} ) {
-                    $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Get($DisplayItem);
+                    $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Translate($DisplayItem);
                 }
 
                 push @DisplayItemList, $DisplayItem;
@@ -626,7 +631,7 @@ sub SearchFieldParameterBuild {
 
             # translate the value
             if ( defined $Param{LayoutObject} ) {
-                $DisplayValue = $Param{LayoutObject}->{LanguageObject}->Get($DisplayValue);
+                $DisplayValue = $Param{LayoutObject}->{LanguageObject}->Translate($DisplayValue);
             }
         }
 
@@ -795,7 +800,7 @@ sub ValueLookup {
     if ( defined $Param{LanguageObject} ) {
 
         # translate value
-        $Value = $Param{LanguageObject}->Get($Value);
+        $Value = $Param{LanguageObject}->Translate($Value);
     }
 
     return $Value;
@@ -829,7 +834,7 @@ sub ColumnFilterValuesGet {
 
         my $OriginalValueName = $ColumnFilterValues->{$ValueKey};
         $ColumnFilterValues->{$ValueKey}
-            = $Param{LayoutObject}->{LanguageObject}->Get($OriginalValueName);
+            = $Param{LayoutObject}->{LanguageObject}->Translate($OriginalValueName);
     }
 
     return $ColumnFilterValues;

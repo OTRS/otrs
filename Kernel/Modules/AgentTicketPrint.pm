@@ -187,7 +187,7 @@ sub Run {
     # generate pdf output
     if ( $Self->{PDFObject} ) {
         my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
-        my $Time = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
+        my $Time      = $Self->{LayoutObject}->{Time};
         my %Page;
 
         # get maximum number of pages
@@ -473,9 +473,9 @@ sub _PDFOutputTicketInfos {
         },
         {
             Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Created'),
-            Value => $Self->{LayoutObject}->Output(
-                Template => '$TimeLong{"$Data{"Created"}"}',
-                Data     => \%Ticket,
+            Value => $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
+                $Ticket{Created},
+                'DateFormat',
             ),
         },
     ];
@@ -501,9 +501,10 @@ sub _PDFOutputTicketInfos {
     if ( defined( $Ticket{FirstResponseTime} ) ) {
         my $Row = {
             Key   => $Self->{LayoutObject}->{LanguageObject}->Get('First Response Time'),
-            Value => $Self->{LayoutObject}->Output(
-                Template => '$TimeShort{"$QData{"FirstResponseTimeDestinationDate"}"}',
-                Data     => \%Ticket,
+            Value => $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
+                $Ticket{FirstResponseTimeDestinationDate},
+                'DateFormat',
+                'NoSeconds',
             ),
         };
         push( @{$TableRight}, $Row );
@@ -513,9 +514,10 @@ sub _PDFOutputTicketInfos {
     if ( defined( $Ticket{UpdateTime} ) ) {
         my $Row = {
             Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Update Time'),
-            Value => $Self->{LayoutObject}->Output(
-                Template => '$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}',
-                Data     => \%Ticket,
+            Value => $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
+                $Ticket{UpdateTimeDestinationDate},
+                'DateFormat',
+                'NoSeconds',
             ),
         };
         push( @{$TableRight}, $Row );
@@ -525,9 +527,10 @@ sub _PDFOutputTicketInfos {
     if ( defined( $Ticket{SolutionTime} ) ) {
         my $Row = {
             Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Solution Time'),
-            Value => $Self->{LayoutObject}->Output(
-                Template => '$TimeShort{"$QData{"SolutionTimeDestinationDate"}"}',
-                Data     => \%Ticket,
+            Value => $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
+                $Ticket{SolutionTimeDestinationDate},
+                'DateFormat',
+                'NoSeconds',
             ),
         };
         push( @{$TableRight}, $Row );
@@ -983,11 +986,12 @@ sub _PDFOutputArticles {
         }
         $TableParam1{CellData}[$Row][0]{Content}
             = $Self->{LayoutObject}->{LanguageObject}->Get('Created') . ':';
-        $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-        $TableParam1{CellData}[$Row][1]{Content} = $Self->{LayoutObject}->Output(
-            Template => '$TimeLong{"$Data{"Created"}"}',
-            Data     => \%Article,
-        );
+        $TableParam1{CellData}[$Row][0]{Font} = 'ProportionalBold';
+        $TableParam1{CellData}[$Row][1]{Content}
+            = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
+            $Article{Created},
+            'DateFormat',
+            );
         $TableParam1{CellData}[$Row][1]{Content}
             .= ' ' . $Self->{LayoutObject}->{LanguageObject}->Get('by');
         $TableParam1{CellData}[$Row][1]{Content}
@@ -1260,10 +1264,11 @@ sub _HTMLMask {
         for my $FileID ( sort keys %AtmIndex ) {
             my %File = %{ $AtmIndex{$FileID} };
             $File{Filename} = $Self->{LayoutObject}->Ascii2Html( Text => $File{Filename} );
+            my $DownloadText = $Self->{LayoutObject}->{LanguageObject}->Translate("Download");
             $Param{'Article::ATM'}
-                .= '<a href="$Env{"Baselink"}Action=AgentTicketAttachment;'
+                .= '<a href="' . $Self->{LayoutObject}->{Baselink} . 'Action=AgentTicketAttachment;'
                 . "ArticleID=$Article{ArticleID};FileID=$FileID\" target=\"attachment\" "
-                . "title=\"\$Text{\"Download\"}: $File{Filename}\">"
+                . "title=\"$DownloadText: $File{Filename}\">"
                 . "$File{Filename}</a> $File{Filesize}<br/>";
         }
 

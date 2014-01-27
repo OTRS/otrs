@@ -1,0 +1,201 @@
+# --
+# AgentTicketOverviewNavBar.tt - html for ticket overview table
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("OverviewNavBar") %]
+<div class="OverviewBox ARIARoleMain [% Data.View | html %]">
+    <h1>[% Translate(Data.TitleName) | html %]: [% Translate(Data.TitleValue) | html %]</h1>
+
+    [% Data.DataInTheMiddle %]
+
+    <div class="OverviewControl" id="OverviewControl">
+        <div>
+            <div class="ControlRow">
+[% RenderBlockStart("OverviewNavBarFilter") %]
+                <ul class="Tabs">
+[% RenderBlockStart("OverviewNavBarFilterItem") %]
+[% RenderBlockStart("OverviewNavBarFilterItemSelected") %]
+                    <li class="Active [% Data.CSS | html %]">
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.FilterLink %]Filter=[% Data.Filter | uri %]">[% Translate(Data.Name) | html %]<span>[% Data.Count | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("OverviewNavBarFilterItemSelected") %]
+[% RenderBlockStart("OverviewNavBarFilterItemSelectedNot") %]
+                    <li class="[% Data.CSS | html %]">
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.FilterLink %]Filter=[% Data.Filter | uri %]">[% Translate(Data.Name) | html %]<span>[% Data.Count | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("OverviewNavBarFilterItemSelectedNot") %]
+[% RenderBlockStart("OverviewNavBarFilterItemSplit") %]
+                    -
+[% RenderBlockEnd("OverviewNavBarFilterItemSplit") %]
+[% RenderBlockEnd("OverviewNavBarFilterItem") %]
+                </ul>
+[% RenderBlockEnd("OverviewNavBarFilter") %]
+[% RenderBlockStart("OverviewNavBarPageBack") %]
+                <ul class="Tabs">
+                    <li>
+                        <a name="OverviewControl" id="TicketSearch" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkBack %]">[% Translate("Change search options") | html %]</a>
+                    </li>
+                </ul>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#TicketSearch').bind('click', function (Event) {
+        Core.Agent.Search.OpenSearchDialog( 'AgentTicketSearch', "[% Data.Profile | html %]" );
+        return false;
+    });
+//]]></script>
+[% END %]
+[% RenderBlockEnd("OverviewNavBarPageBack") %]
+
+[% RenderBlockStart("ContextSettings") %]
+
+                <ul class="ContextFunctions">
+
+[% RenderBlockStart("DocumentActionRowRemoveColumnFilters") %]
+                    <li class="[% Data.CSS | html %]">
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];DeleteFilters=DeleteFilters" title="[% Translate("Remove active filters for this screen.") | html %]">
+                            <i class="icon-trash"></i>
+                        </a>
+                    </li>
+[% RenderBlockEnd("DocumentActionRowRemoveColumnFilters") %]
+
+                    <li class="ContextSettings">
+                        <a href="#" id="ShowContextSettingsDialog" title="[% Translate("Settings") | html %]"><span>[% Translate("Settings") | html %]</span></a>
+                    </li>
+                </ul>
+
+                <div id="ContextSettingsDialogContainer" class="Hidden">
+                    <form action="[% Env("CGIHandle") %]" method="post" id="ContextSettingsDialogOverview[% Data.View | html %]" class="WidgetSettingsForm">
+                        <input type="hidden" name="Action" value="AgentPreferences"/>
+                        <input type="hidden" name="Subaction" value="Update"/>
+                        <input type="hidden" name="Group" value="[% Data.Group | html %]"/>
+                        <input type="hidden" name="RedirectURL" value="[% Data.RequestedURL | html %]"/>
+                        <fieldset class="TableLike FixedLabelSmall">
+                            <label for="[% Data.PreferencesKey | html %]">[% Translate("Tickets per page") | html %]:</label>
+                            <div class="Field">
+                                [% Data.PageShownString %]
+                            </div>
+                            <div class="Clear"></div>
+
+[% RenderBlockStart("FilterColumnSettings") %]
+                            <input type="hidden" class="ColumnsEnabledJSON" value="[% Data.ColumnsEnabled | html %]" />
+                            <input type="hidden" class="ColumnsAvailableJSON" value="[% Data.ColumnsAvailable | html %]" />
+                            <input type="hidden" name="Group" value="[% Data.GroupName | html %]"/>
+                            <input type="hidden" name="FilterAction" value="[% Data.Name | html %]"/>
+                            <label class="DontPrint" for="[% Data.NamePref | html %]">[% Translate(Data.Desc) | html %]:</label>
+                            <div class="Field DontPrint LayoutGrid AllocationListContainer">
+                                <div class="Size1of2">
+                                    <ul class="Tablelike">
+                                        <li class="Header">[% Translate("Available Columns") | html %]</li>
+                                    </ul>
+                                    <div class="FilterInputContainer">
+                                        <input type="text" class="FilterAvailableFields" name="FilterAvailableFields" value="" title="[% Translate("Filter available fields") | html %]" placeholder="[% Translate("Filter available fields") | html %]..." />
+                                    </div>
+                                    <ul class="AllocationList Tablelike AvailableFields SettingsOverview" id="AvailableField-Dashboard[% Data.Name | html %]"></ul>
+                                </div>
+                                <div class="Size1of2">
+                                    <ul class="Tablelike">
+                                        <li class="Header">[% Translate("Visible Columns (order by drag & drop)") | html %]</li>
+                                    </ul>
+                                    <ul class="AllocationList Tablelike AssignedFields OrderNumbers SettingsOverview" id="AssignedFields-Dashboard[% Data.Name | html %]"></ul>
+                                </div>
+                            </div>
+                            <div class="Clear"></div>
+
+[% RenderBlockEnd("FilterColumnSettings") %]
+
+                        </fieldset>
+                    </form>
+                </div>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#ShowContextSettingsDialog').bind('click', function (Event) {
+    Core.UI.Dialog.ShowContentDialog($('#ContextSettingsDialogContainer'), [% Translate("Settings") | JSON %], '15%', 'Center', true,
+        [
+            {
+                Label: [% Translate("Submit") | JSON %],
+                Type: 'Submit',
+                Class: 'Primary',
+                Function: function () {
+                    var $ListContainer = $('.AllocationListContainer').find('.AssignedFields'),
+                        $FieldObj;
+                    if (isJQueryObject($ListContainer) && $ListContainer.length) {
+                        $.each($ListContainer.find('li'), function() {
+                            $FieldObj = $('<input />').attr('name', 'UserFilterColumnsEnabled').attr('type', 'hidden').attr('value', $(this).attr('data-fieldname'));
+                            $ListContainer.append($FieldObj);
+                        });
+                    }
+                    return true;
+                }
+            }
+        ], true);
+    Event.preventDefault();
+    Event.stopPropagation();
+    Core.Agent.TableFilters.SetAllocationList();
+    return false;
+});
+
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ContextSettings") %]
+
+            </div>
+            <div class="ActionRow">
+                <div class="OverviewActions">
+                    [% Data.ActionRow %]
+                    <ul class="OverviewZoom">
+[% RenderBlockStart("OverviewNavBarViewMode") %]
+[% RenderBlockStart("OverviewNavBarViewModeSelected") %]
+                        <li class="Active">
+                            <a class="[% Data.Name | html %]" name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];Filter=[% Data.Filter | uri %];View=[% Data.View | uri %];[% Data.LinkFilter %]" title="[% Translate(Data.Name) | html %]">
+                                <span class="ImageMode">
+                                    <span class="NameShort">[% Translate(Data.NameShort) | html %]</span>
+                                    <span class="NameLong">[% Translate(Data.Name) | html %]</span>
+                                </span>
+                            </a>
+                        </li>
+[% RenderBlockEnd("OverviewNavBarViewModeSelected") %]
+[% RenderBlockStart("OverviewNavBarViewModeNotSelected") %]
+                        <li>
+                            <a class="[% Data.Name | html %]" name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];Filter=[% Data.Filter | uri %];View=[% Data.View | uri %];[% Data.LinkFilter %]" title="[% Translate(Data.Name) | html %]">
+                                <span class="ImageMode">
+                                    <span class="NameShort">[% Translate(Data.NameShort) | html %]</span>
+                                    <span class="NameLong">[% Translate(Data.Name) | html %]</span>
+                                </span>
+                            </a>
+                        </li>
+[% RenderBlockEnd("OverviewNavBarViewModeNotSelected") %]
+[% RenderBlockEnd("OverviewNavBarViewMode") %]
+                    </ul>
+                    <span class="Pagination">
+[% RenderBlockStart("OverviewNavBarPageNavBar") %]
+                        [% Data.ResultLong %]
+                        [% Data.SiteNavBarLong %]
+[% RenderBlockEnd("OverviewNavBarPageNavBar") %]
+                    </span>
+                    <div class="ClearLeft"></div>
+                </div>
+# sort order bar if needed
+                [% Data.SortOrderBar %]
+            </div>
+        </div>
+    </div>
+</div>
+
+[% RenderBlockEnd("OverviewNavBar") %]
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Config.AddConfig({
+[% RenderBlockStart("ColumnTranslation") %]
+        'Column[% Data.ColumnName | html %]': [% Translate(Data.TranslateString) | JSON %][% RenderBlockStart("ColumnTranslationSeparator") %],[% RenderBlockEnd("ColumnTranslationSeparator") %]
+[% RenderBlockEnd("ColumnTranslation") %]
+
+    });
+//]]></script>
+[% END %]

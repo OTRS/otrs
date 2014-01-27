@@ -44,7 +44,7 @@ sub Run {
             Rel   => 'search',
             Type  => 'application/opensearchdescription+xml',
             Title => $Title,
-            Href  => '$Env{"Baselink"}Action=' . $Param{Config}->{Action}
+            Href  => $Self->{LayoutObject}->{Baselink} . 'Action=' . $Param{Config}->{Action}
                 . ';Subaction=OpenSearchDescription' . $Session,
         },
     );

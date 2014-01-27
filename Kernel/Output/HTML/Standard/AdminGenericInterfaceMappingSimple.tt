@@ -1,0 +1,295 @@
+# --
+# AdminGenericInterfaceMappingSimple.tt - provides HTML form for AdminLog
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceMappingSimple">
+    <h1>[% Translate("GenericInterface Mapping Simple for Web Service %s", Data.WebserviceName) | html %]</h1>
+    <div class="GenericInterfaceWebserviceConfigPath">
+        <h3>
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+            <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice">[% Translate("Web Services") | html %]</a>
+
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+            <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]">[% Data.WebserviceName | html %]</a>
+
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+            <a href="[% Env("Baselink") %]Action=[% Data.ActionFrontendModule | uri %];Subaction=Change;[% Data.ActionType | uri %]=[% Data.Action | uri %];WebserviceID=[% Data.WebserviceID | uri %]">[% Data.ActionType | html %] [% Data.Action | html %]</a>
+
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+            [% Translate(Data.MappingDirection) | html %]
+        </h3>
+    </div>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Data.ActionFrontendModule | uri %];Subaction=Change;[% Data.ActionType | uri %]=[% Data.Action | uri %];WebserviceID=[% Data.WebserviceID | uri %]" class="CallForAction">
+                            <span>[% Translate("Go back to") | html %] [% Data.LowerCaseActionType | html %]</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Mapping Simple") | html %]</h2>
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="[% Data.Subaction | html %]Action"/>
+                    <input type="hidden" name="WebserviceID" value="[% Data.WebserviceID | html %]" id="WebserviceID"/>
+                    <input type="hidden" name="CommunicationType" value="[% Data.CommunicationType | html %]" />
+                    <input type="hidden" name="Operation" value="[% Data.Operation | html %]" />
+                    <input type="hidden" name="Invoker" value="[% Data.Invoker | html %]" />
+                    <input type="hidden" name="Direction" value="[% Data.Direction | html %]"/>
+[% RenderBlockStart("KeyCounter") %]
+                    <input type="hidden" name="KeyCounter" id="KeyCounter" value="[% Data.KeyIndex | html %]" />
+[% RenderBlockEnd("KeyCounter") %]
+                    <fieldset class="TableLike  SpacingTop">
+                        <label for="DefaultKeyType">[% Translate("Default rule for unmapped keys") | html %]:</label>
+                        <div class="Field">
+                            [% Data.DefaultKeyTypeStrg %]
+                            <div id="DefaultKeyTypeError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="DefaultKeyTypeServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <input id="DefaultKeyMapTo" name="DefaultKeyMapTo" class="W25pc DefaultKeyType [% Data.DefaultKeyMapToHidden | html %] [% Data.DefaultKeyMapToError | html %]" type="text" maxlength="100" value="[% Data.DefaultKeyMapTo | html %]"/>
+                            <div id="DefaultKeyMapToError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="DefaultKeyMapToServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <p class="FieldExplanation">[% Translate("This rule will apply for all keys with no mapping rule.") | html %]</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="DefaultKeyType">[% Translate("Default rule for unmapped values") | html %]:</label>
+                        <div class="Field">
+                            [% Data.DefaultValueTypeStrg %]
+                            <div id="DefaultKeyValueTypeError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="DefaultValueTypeServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <input id="DefaultValueMapTo"name="DefaultValueMapTo"  class="W25pc DefaultValueType [% Data.DefaultValueMapToHidden | html %] [% Data.DefaultValueMapToError | html %]" type="text" maxlength="100" value="[% Data.DefaultValueMapTo | html %]"/>
+                            <div id="DefaultValueMapToError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="DefaultValueMapToServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <p class="FieldExplanation">[% Translate("This rule will apply for all values with no mapping rule.") | html %]</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="AddKeyMapping">[% Translate("New key map") | html %]:</label>
+                        <div class="Field">
+                            <div class="NewRule">
+                                <button type="button" id="AddKeyMapping" class="Add" value="Add key mapping">[% Translate("Add key mapping") | html %]</button>
+                            </div>
+                        </div>
+                        <div class="Clear Spacing"></div>
+                    </fieldset>
+                    <div class="Content Spacing" id="KeyInsert">
+
+[% RenderBlockStart("KeyTemplate") %]
+                        <div class="WidgetSimple Expanded WidgetKey [% Data.Classes | html %]">
+                            <div class="Header">
+                                <div class="WidgetAction Toggle">
+                                    <a href="#" title=[% Translate("Show or hide the content") | JSON %]><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                                </div>
+                                <h3 class="Title">[% Translate("Mapping for Key ") | html %] [% Data.KeyMapNew | html %]</h3>
+                                <div class="AdditionalInformation SpacingTopMini">
+                                    <button type="button" id="RemoveKeyMapping[% Data.KeyIndex | html %]" class="Remove" value="Remove key mapping">[% Translate("Remove key mapping") | html %]</button>
+                                </div>
+                            </div>
+                            <div class="Content">
+
+                                <fieldset class="TableLike FixedLabelSmall">
+                                    <label>[% Translate("Key mapping") | html %]:</label>
+                                    <div class="Spacing"></div>
+                                    <div class="Field KeyTemplateHeader">
+                                        <label for="KeyName[% Data.KeyIndex | html %]" class="Mandatory KeyName[% Data.KeyIndex | html %]Label"><span class="Marker">*</span>[% Translate("Map key") | html %]:</label>
+                                        <input name="KeyName[% Data.KeyIndex | html %]" id="KeyName[% Data.KeyIndex | html %]" class="W20pc Validate_Required [% Data.KeyNameError | html %]" type="text" maxlength="100" value="[% Data.KeyName | html %]"/>
+                                        <div id="KeyName[% Data.KeyIndex | html %]Error" class="TooltipErrorMessage">
+                                            <p>[% Translate("This field is required.") | html %]</p>
+                                        </div>
+                                        <div id="KeyName[% Data.KeyIndex | html %]ServerError" class="TooltipErrorMessage">
+                                            <p>[% Translate("This field is required.") | html %]</p>
+                                        </div>
+
+                                        <label for="KeyMapTypeStrg[% Data.KeyIndex | html %]" class="KeyMapTypeStrg[% Data.KeyIndex | html %]Label">[% Translate("matching the") | html %]:</label>
+                                        [% Data.KeyMapTypeStrg %]
+                                        <div id="KeyMapTypeStrg[% Data.KeyIndex | html %]Error" class="TooltipErrorMessage">
+                                            <p>[% Translate("This field is required.") | html %]</p>
+                                        </div>
+                                        <div id="KeyMapTypeStrg[% Data.KeyIndex | html %]ServerError" class="TooltipErrorMessage">
+                                            <p>[% Translate("This field is required.") | html %]</p>
+                                        </div>
+
+                                        <label for="KeyMapNew[% Data.KeyIndex | html %]" class="Mandatory KeyMapNew[% Data.KeyIndex | html %]Label"><span class="Marker">*</span>[% Translate("to new key") | html %]:</label>
+                                        <input name="KeyMapNew[% Data.KeyIndex | html %]" id="KeyMapNew[% Data.KeyIndex | html %]" class="W20pc Validate_Required NewValue [% Data.KeyMapNewError | html %]" type="text" maxlength="100" value="[% Data.KeyMapNew | html %]"/>
+                                        <div id="KeyMapNew[% Data.KeyIndex | html %]Error" class="TooltipErrorMessage">
+                                            <p>[% Translate("This field is required.") | html %]</p>
+                                        </div>
+                                        <div id="KeyMapNew[% Data.KeyIndex | html %]ServerError" class="TooltipErrorMessage">
+                                            <p>[% Translate("This field is required.") | html %]</p>
+                                        </div>
+                                        <input type="hidden" name="KeyIndex[% Data.KeyIndex | html %]" id="KeyIndex[% Data.KeyIndex | html %]" value="[% Data.KeyIndex | html %]" class="KeyIndex" />
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label>[% Translate("Value mapping") | html %]:</label>
+                                    <div class="Field ValueInsert">
+[% RenderBlockStart("ValueTemplateRowIndex") %]
+                                        <input type="hidden" name="ValueCounter[% Data.KeyIndex | html %]" value="[% Data.ValueIndex | html %]" id="ValueCounter[% Data.KeyIndex | html %]" class="ValueCounter" />
+[% RenderBlockEnd("ValueTemplateRowIndex") %]
+                                        <div class="Spacing"></div>
+[% RenderBlockStart("ValueTemplateRow") %]
+                                        <div class="ValueTemplateRow SpacingTopSmall">
+                                            <label class="Mandatory" for="ValueName[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]"><span class="Marker">*</span>[% Translate("Map value") | html %]:</label>
+                                            <input name="ValueName[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]" id="ValueName[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]" class="W20pc Validate_Required [% Data.ValueNameError | html %]" type="text" maxlength="100" value="[% Data.ValueName | html %]"/>
+                                            <div id="ValueName[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]Error" class="TooltipErrorMessage">
+                                                <p>[% Translate("This field is required.") | html %]</p>
+                                            </div>
+                                            <div id="ValueName[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]ServerError" class="TooltipErrorMessage">
+                                                <p>[% Translate("This field is required.") | html %]</p>
+                                            </div>
+
+                                            <label for="ValueMapTypeStrg[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]">[% Translate("matching the") | html %]:</label>
+                                            [% Data.ValueMapTypeStrg %]
+                                            <div id="ValueMapTypeStrg[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]Error" class="TooltipErrorMessage">
+                                                <p>[% Translate("This field is required.") | html %]</p>
+                                            </div>
+                                            <div id="ValueMapTypeStrg[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]ServerError" class="TooltipErrorMessage">
+                                                <p>[% Translate("This field is required.") | html %]</p>
+                                            </div>
+
+                                            <label class="Mandatory" for="ValueMapNew[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]"><span class="Marker">*</span>[% Translate("to new value") | html %]:</label>
+                                            <input name="ValueMapNew[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]" id="ValueMapNew[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]" class="W20pc Validate_Required [% Data.ValueMapNewError | html %]" type="text" maxlength="100" value="[% Data.ValueMapNew | html %]"/>
+                                            <div id="ValueMapNew[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]Error" class="TooltipErrorMessage">
+                                                <p>[% Translate("This field is required.") | html %]</p>
+                                            </div>
+                                            <div id="ValueMapNew[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]ServerError" class="TooltipErrorMessage">
+                                                <p>[% Translate("This field is required.") | html %]</p>
+                                            </div>
+                                            <button type="button" id="RemoveValueMapping[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]" class="Remove ValueRemove" value="Remove value mapping">[% Translate("Remove value mapping") | html %]</button>
+                                        </div>
+[% RenderBlockEnd("ValueTemplateRow") %]
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <fieldset class="TableLike  SpacingTop">
+                                        <label for="AddValueMapping[% Data.KeyIndex | html %]" class="AddValueMapping">[% Translate("New value map") | html %]:</label>
+                                        <div class="Field">
+                                            <div class="NewValueMap">
+                                                <button type="button" id="AddValueMapping[% Data.KeyIndex | html %]" class="Add ValueAdd" value="Add Value mapping">[% Translate("Add value mapping") | html %]</button>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <div class="Clear"></div>
+
+                                </fieldset>
+                            </div>
+                        </div>
+[% RenderBlockEnd("KeyTemplate") %]
+
+[% RenderBlockStart("ValueTemplate") %]
+                        <div class="ValueTemplateRow ValueTemplate SpacingTopSmall Hidden">
+                            <label for="ValueName" class="Mandatory ValueNameLabel"><span class="Marker">*</span>[% Translate("Map value") | html %]:</label>
+                            <input name="ValueName" id="ValueName" class="W20pc" type="text" maxlength="100" value=""/>
+                            <div id="ValueNameError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="ValueNameServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+
+                            <label for="ValueMapTypeStrg" class="ValueMapTypeStrgLabel">[% Translate("matching the") | html %]:</label>
+                            [% Data.ValueMapTypeStrg %]
+                            <div id="ValueMapTypeStrgError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="ValueMapTypeStrgServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+
+                            <label for="ValueMapNew" class="Mandatory ValueMapNewLabel"><span class="Marker">*</span>[% Translate("to new value") | html %]:</label>
+                            <input name="ValueMapNew" id="ValueMapNew" class="W20pc" type="text" maxlength="100" value=""/>
+                            <div id="ValueMapNewError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="ValueMapNewServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <button type="button" id="RemoveValueMapping" class="Remove ValueRemove" value="Spacing Remove value mapping">[% Translate("Remove value mapping") | html %]</button>
+                        </div>
+[% RenderBlockEnd("ValueTemplate") %]
+
+                    </div>
+                    <fieldset class="TableLike">
+                        <div class="Field Spacing">
+                            <button class="Primary" type="submit" value="[% Translate("Save") | html %]">[% Translate("Save") | html %]</button>
+
+                            <button type="submit" id="SaveAndFinishButton" value="[% Translate("Save and finish") | html %]">[% Translate("Save and finish") | html %]</button>
+                            <input type="hidden" name="ReturnToAction" id="ReturnToAction" value="" />
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#SaveAndFinishButton').bind('click', function(){
+    $('#ReturnToAction').val(1);
+});
+//]]></script>
+[% END %]
+
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Data.ActionFrontendModule | uri %];Subaction=Change;[% Data.ActionType | uri %]=[% Data.Action | uri %];WebserviceID=[% Data.WebserviceID | uri %]">[% Translate("Cancel") | html %]</a>
+                        </div>
+
+                    </fieldset>
+                    <div class="Clear"></div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="Hidden" id="DeleteDialogContainer">
+    <span class="WarningDialog ">&nbsp;</span>
+    <p id="DeleteDialog" class="Center Warning">
+        [% Translate("Do you really want to delete this key mapping?") | html %]
+    </p>
+    <div class="SpacingTop"></div>
+</div>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Agent.Admin.GenericInterfaceMapping.Init({
+    WebserviceID: [% Data.WebserviceID | html %],
+    DeletedString: "[% Data.DeletedString | html %]",
+    Localization: {
+        DeleteKeyMappingMsg: [% Translate("Delete this Key Mapping") | JSON %],
+        DeleteMsg: [% Translate("Delete") | JSON %],
+        CancelMsg: [% Translate("Cancel") | JSON %]
+    }
+});
+//]]></script>
+[% END %]

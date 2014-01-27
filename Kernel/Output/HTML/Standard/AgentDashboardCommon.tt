@@ -1,0 +1,256 @@
+# --
+# AgentDashboardCommon.tt - common dashobard HTML
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="SidebarColumn">
+    <div class="DontPrint WidgetSimple Collapsed Animate SettingsWidget">
+        <div class="Header">
+            <div class="WidgetAction Toggle">
+                <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+            </div>
+            <h2>[% Translate("Settings") | html %]</h2>
+        </div>
+        <div class="Content">
+            <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                <input type="hidden" name="Subaction" value="UpdateSettings"/>
+                <input type="hidden" name="CustomerID" value="[% Data.CustomerID | html %]"/>
+                <ul>
+[% RenderBlockStart("ContentSettings") %]
+                    <li>
+                        <span title="[% Translate(Data.Description) | html %]">
+                            <label for="Settings[% Data.Name | html %]">
+                                <input type="checkbox" name="Backend" id="Settings[% Data.Name | html %]" value="[% Data.Name | html %]" [% Data.Checked %]/>
+                                [% Translate(Data.Title) | html %]
+                            </label>
+                        </span>
+                    </li>
+[% RenderBlockEnd("ContentSettings") %]
+                </ul>
+                <div class="Buttons NoMargin">
+                    <button class="button Primary CallForAction" accesskey="g" title="[% Translate("Save settings") | html %] (g)" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save settings") | html %]</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+[% RenderBlockStart("ContentSmall") %]
+    <div class="WidgetSimple CanDrag" id="Dashboard[% Data.Name | html %]-box">
+        <div class="Header">
+            <div class="ActionMenu">
+[% RenderBlockStart("ContentSmallPreferences") %]
+                <div class="WidgetAction Settings">
+                    <a href="#" id="Dashboard[% Data.Name | html %]-toggle" title="[% Translate("Settings") | html %]">
+                        <i class="icon-gear"></i>
+                    </a>
+                </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.UI.RegisterToggleTwoContainer($('#Dashboard[% Data.Name | html %]-toggle'), $('#Dashboard[% Data.Name | html %]-setting'), $('#Dashboard[% Data.Name | html %]'));
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ContentSmallPreferences") %]
+                <div class="WidgetAction Close">
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateRemove;Name=[% Data.Name | uri %];CustomerID=[% Data.CustomerID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Close") | html %]">
+                        <i class="icon-remove"></i>
+                    </a>
+                </div>
+                <div class="Clear"></div>
+            </div>
+            <h2 title="[% Translate(Data.Description) | html %]">[% Translate(Data.Title) | html %]</h2>
+        </div>
+        <div class="Content">
+            <div id="Dashboard[% Data.Name | html %]-setting" class="Hidden">
+                <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="Dashboard[% Data.NameForm | html %]_setting_form" id="Dashboard[% Data.NameForm | html %]_setting_form">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="UpdatePreferences"/>
+                    <input type="hidden" name="Name" value="[% Data.Name | html %]"/>
+                    <input type="hidden" name="CustomerID" value="[% Data.CustomerID | html %]"/>
+                    <fieldset class="TableLike DontPrint">
+[% RenderBlockStart("ContentSmallPreferencesItem") %]
+[% RenderBlockStart("ContentSmallPreferencesItemOption") %]
+                        <label for="[% Data.NamePref | html %]">[% Translate(Data.Desc) | html %]:</label>
+                        <div class="Field DontPrint">
+                            [% Data.Option %]
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("ContentSmallPreferencesItemOption") %]
+[% RenderBlockStart("ContentSmallPreferencesItemInput") %]
+                        <label class="DontPrint" for="[% Data.NamePref | html %]">[% Translate(Data.Desc) | html %]:</label>
+                        <div class="Field DontPrint">
+                            <input type="text" class="W100pc" name="[% Data.NamePref | html %]" value="[% Data.Data | html %]"/>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("ContentSmallPreferencesItemInput") %]
+[% RenderBlockStart("ContentSmallPreferencesItemTextArea") %]
+                        <label class="DontPrint" for="[% Data.NamePref | html %]">[% Translate(Data.Desc) | html %]:</label>
+                        <div class="Field DontPrint">
+                            <textarea rows="[% Data.Rows | html %]" cols="[% Data.Cols | html %]" name="[% Data.NamePref | html %]">[% Data.Data | html %]</textarea>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("ContentSmallPreferencesItemTextArea") %]
+[% RenderBlockEnd("ContentSmallPreferencesItem") %]
+                        <button id="Dashboard[% Data.Name | html %]_submit" class="button DontPrint" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
+                        <button id="Dashboard[% Data.Name | html %]_cancel" class="button DontPrint" type="submit" value="[% Translate("Cancel") | html %]">[% Translate("Cancel") | html %]</button>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard[% Data.Name | html %]_submit'), 'Dashboard[% Data.Name | html %]', $('#Dashboard[% Data.NameForm | html %]_setting_form'));
+Core.UI.RegisterToggleTwoContainer($('#Dashboard[% Data.Name | html %]_cancel'), $('#Dashboard[% Data.Name | html %]-setting'), $('#Dashboard[% Data.Name | html %]'));
+//]]></script>
+[% END %]
+                    </fieldset>
+                </form>
+            </div>
+            <div id="Dashboard[% Data.Name | html %]">
+                [% Data.Content %]
+            </div>
+[% RenderBlockStart("ContentSmallMore") %]
+            <a href="[% Data.Link %]" title="[% Translate(Data.LinkTitle) | html %]" class="small">[% Translate("more") | html %] &#187;</a>
+[% RenderBlockEnd("ContentSmallMore") %]
+        </div>
+    </div>
+[% RenderBlockEnd("ContentSmall") %]
+</div>
+
+<div class="ContentColumn">
+
+[% RenderBlockStart("MainMenu") %]
+    <div class="ActionRow SpacingBottom">
+        <ul class="Actions">
+[% RenderBlockStart("MainMenuItem") %]
+            <li>
+                <a href="[% Data.Link %]">
+                    [% Translate(Data.Name) | html %]
+                </a>
+            </li>
+[% RenderBlockEnd("MainMenuItem") %]
+        </ul>
+        <div class="Clear"></div>
+    </div>
+[% RenderBlockEnd("MainMenu") %]
+
+[% RenderBlockStart("ContentLarge") %]
+    <div class="WidgetSimple CanDrag" id="Dashboard[% Data.Name | html %]-box">
+        <div class="Header">
+            <div class="ActionMenu">
+[% RenderBlockStart("ContentLargePreferences") %]
+                <div class="WidgetAction Settings">
+                    <a href="#" id="Dashboard[% Data.Name | html %]-toggle" title="[% Translate("Settings") | html %]">
+                        <i class="icon-gear"></i>
+                    </a>
+                </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.UI.RegisterToggleTwoContainer($('#Dashboard[% Data.Name | html %]-toggle'), $('#Dashboard[% Data.Name | html %]-setting'), $('#Dashboard[% Data.Name | html %]'));
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ContentLargePreferences") %]
+                <div class="WidgetAction Close">
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateRemove;Name=[% Data.Name | uri %];CustomerID=[% Data.CustomerID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Close") | html %]">
+                        <i class="icon-remove"></i>
+                    </a>
+                </div>
+                <div class="Clear"></div>
+            </div>
+            <h2 title="[% Translate(Data.Description) | html %]">[% Translate(Data.Title) | html %]</h2>
+        </div>
+
+        <div class="Content">
+            <div id="Dashboard[% Data.Name | html %]-setting" class="Hidden">
+                <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="Dashboard[% Data.NameForm | html %]_setting_form" id="Dashboard[% Data.NameForm | html %]_setting_form" class="WidgetSettingsForm">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="UpdatePreferences"/>
+                    <input type="hidden" name="Name" value="[% Data.Name | html %]"/>
+                    <input type="hidden" name="CustomerID" value="[% Data.CustomerID | html %]"/>
+                    <fieldset class="TableLike FixedLabelSmall DontPrint">
+[% RenderBlockStart("ContentLargePreferencesItem") %]
+[% RenderBlockStart("ContentLargePreferencesItemOption") %]
+                        <label class="DontPrint" for="[% Data.NamePref | html %]">[% Translate(Data.Desc) | html %]:</label>
+                        <div class="DontPrint Field">
+                            [% Data.Option %]
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("ContentLargePreferencesItemOption") %]
+[% RenderBlockStart("ContentLargePreferencesItemInput") %]
+                        <label class="DontPrint" for="[% Data.NamePref | html %]">[% Translate(Data.Desc) | html %]:</label>
+                        <div class="Field DontPrint">
+                            <input type="text" class="W20pc" name="[% Data.NamePref | html %]" value="[% Data.Data | html %]"/>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("ContentLargePreferencesItemInput") %]
+[% RenderBlockStart("ContentLargePreferencesItemTextArea") %]
+                        <label class="DontPrint" for="[% Data.NamePref | html %]">[% Translate(Data.Desc) | html %]:</label>
+                        <div class="Field DontPrint">
+                            <textarea rows="[% Data.Rows | html %]" cols="[% Data.Cols %]" name="[% Data.NamePref | html %]">[% Data.Data | html %]</textarea>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("ContentLargePreferencesItemTextArea") %]
+[% RenderBlockStart("ContentLargePreferencesItemAllocationList") %]
+                        <input type="hidden" name="[% Data.NamePref | html %]" class="ColumnsJSON" value="[% Data.Columns | html %]" />
+                        <input type="hidden" class="ColumnsEnabledJSON" value="[% Data.ColumnsEnabled | html %]" />
+                        <input type="hidden" class="ColumnsAvailableJSON" value="[% Data.ColumnsAvailable | html %]" />
+                        <label class="DontPrint">[% Translate(Data.Desc) | html %]:</label>
+                        <div class="Field DontPrint LayoutGrid AllocationListContainer">
+                            <div class="Size1of2">
+                                <ul class="Tablelike">
+                                    <li class="Header">[% Translate("Available Columns") | html %]</li>
+                                </ul>
+                                <div class="FilterInputContainer">
+                                    <input type="text" class="FilterAvailableFields" name="FilterAvailableFields" value="" title="[% Translate("Filter available fields") | html %]" placeholder="[% Translate("Filter available fields") | html %]..." />
+                                </div>
+                                <ul class="AllocationList Tablelike AvailableFields" id="AvailableField-Dashboard[% Data.Name | html %]"></ul>
+                            </div>
+                            <div class="Size1of2">
+                                <ul class="Tablelike">
+                                    <li class="Header">[% Translate("Visible Columns (order by drag & drop)") | html %]</li>
+                                </ul>
+                                <ul class="AllocationList Tablelike AssignedFields OrderNumbers" id="AssignedFields-Dashboard[% Data.Name | html %]"></ul>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("ContentLargePreferencesItemAllocationList") %]
+[% RenderBlockStart("ContentLargePreferencesItemRawHTML") %]
+                        [% Data.HTML %]
+[% RenderBlockEnd("ContentLargePreferencesItemRawHTML") %]
+[% RenderBlockEnd("ContentLargePreferencesItem") %]
+                        <div class="Buttons">
+                            <button id="Dashboard[% Data.Name | html %]_submit" class="CallForAction DontPrint" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Save Changes") | html %]</span></button>
+                            &nbsp;[% Translate("or") | html %]&nbsp;
+                            <button id="Dashboard[% Data.Name | html %]_cancel" class="CallForAction DontPrint" type="submit" value="[% Translate("Cancel") | html %]"><span>[% Translate("Cancel") | html %]</span></button>
+                        </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Agent.Dashboard.RegisterUpdatePreferences($('#Dashboard[% Data.Name | html %]_submit'), 'Dashboard[% Data.Name | html %]',$('#Dashboard[% Data.NameForm | html %]_setting_form'));
+Core.UI.RegisterToggleTwoContainer($('#Dashboard[% Data.Name | html %]_cancel'), $('#Dashboard[% Data.Name | html %]-setting'), $('#Dashboard[% Data.Name | html %]'));
+//]]></script>
+[% END %]
+                    </fieldset>
+                </form>
+            </div>
+
+            <div id="Dashboard[% Data.Name | html %]">
+                [% Data.Content %]
+            </div>
+[% RenderBlockStart("ContentLargeMore") %]
+            <a href="[% Data.Link %]" title="[% Translate(Data.LinkTitle) | html %]" class="small">[% Translate("more") | html %] &#187;</a>
+[% RenderBlockEnd("ContentLargeMore") %]
+        </div>
+    </div>
+[% RenderBlockEnd("ContentLarge") %]
+</div>
+<div class="Clear"></div>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Config.AddConfig({
+[% RenderBlockStart("ColumnTranslation") %]
+        'Column[% Data.ColumnName | html %]': [% Translate(Data.TranslateString) | JSON %][% RenderBlockStart("ColumnTranslationSeparator") %],[% RenderBlockEnd("ColumnTranslationSeparator") %]
+[% RenderBlockEnd("ColumnTranslation") %]
+    });
+//]]></script>
+[% END %]

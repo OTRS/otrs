@@ -314,19 +314,22 @@ sub EditFieldRender {
     );
 
     if ( $FieldConfig->{TreeView} ) {
-        $HTMLString
-            .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+        my $TreeSelectionMessage = $Param{LayoutObject}->{LanguageObject}->Get("Show Tree Selection");
+        $HTMLString .= ' <a href="#" title="' .  $TreeSelectionMessage . '" class="ShowTreeSelection">' . $TreeSelectionMessage . '</a>';
     }
 
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'Error';
+
+        my $FieldRequiredMessage
+            = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
 
         # for client side validation
         $HTMLString .= <<"EOF";
 
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"This field is required."}
+        $FieldRequiredMessage
     </p>
 </div>
 EOF
@@ -335,6 +338,7 @@ EOF
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
+        $ErrorMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
         my $DivID = $FieldName . 'ServerError';
 
         # for server side validation
@@ -342,7 +346,7 @@ EOF
 
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"$ErrorMessage"}
+        $ErrorMessage
     </p>
 </div>
 EOF
@@ -363,26 +367,22 @@ EOF
         }
 
         # add js to call FormUpdate()
-        $HTMLString .= <<"EOF";
-
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-    \$('$FieldSelector').bind('change', function (Event) {
-        Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName', [ $FieldsToUpdate ]);
-    });
-    Core.App.Subscribe('Event.AJAX.FormUpdate.Callback', function(Data) {
-        var FieldName = '$FieldName';
-        if (Data[FieldName] && \$('#' + FieldName).hasClass('DynamicFieldWithTreeView')) {
-            Core.UI.TreeSelection.RestoreDynamicFieldTreeView(\$('#' + FieldName), Data[FieldName], '' , 1);
-        }
-    });
-//]]></script>
-<!--dtl:js_on_document_complete-->
+        $Param{LayoutObject}->AddJSOnDocumentComplete( Code => <<"EOF");
+\$('$FieldSelector').bind('change', function (Event) {
+    Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName', [ $FieldsToUpdate ]);
+});
+Core.App.Subscribe('Event.AJAX.FormUpdate.Callback', function(Data) {
+    var FieldName = '$FieldName';
+    if (Data[FieldName] && \$('#' + FieldName).hasClass('DynamicFieldWithTreeView')) {
+        Core.UI.TreeSelection.RestoreDynamicFieldTreeView(\$('#' + FieldName), Data[FieldName], '' , 1);
+    }
+});
 EOF
     }
 
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
+        %Param,
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         Mandatory          => $Param{Mandatory} || '0',
         FieldName          => $FieldName,
@@ -520,7 +520,7 @@ sub DisplayValueRender {
         if ( $PossibleValues->{$Item} ) {
             $ReadableValue = $PossibleValues->{$Item};
             if ($TranslatableValues) {
-                $ReadableValue = $Param{LayoutObject}->{LanguageObject}->Get($ReadableValue);
+                $ReadableValue = $Param{LayoutObject}->{LanguageObject}->Translate($ReadableValue);
             }
         }
 
@@ -635,7 +635,7 @@ sub SearchFieldParameterBuild {
                     && defined $Param{LayoutObject}
                     )
                 {
-                    $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Get($DisplayItem);
+                    $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Translate($DisplayItem);
                 }
 
                 push @DisplayItemList, $DisplayItem;
@@ -655,7 +655,7 @@ sub SearchFieldParameterBuild {
                 && defined $Param{LayoutObject}
                 )
             {
-                $DisplayValue = $Param{LayoutObject}->{LanguageObject}->Get($DisplayValue);
+                $DisplayValue = $Param{LayoutObject}->{LanguageObject}->Translate($DisplayValue);
             }
         }
     }
@@ -851,7 +851,7 @@ sub ValueLookup {
             {
 
                 # translate value
-                $Value = $Param{LanguageObject}->Get($Value);
+                $Value = $Param{LanguageObject}->Translate($Value);
             }
         }
         push @Values, $Value;

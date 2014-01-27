@@ -198,9 +198,10 @@ sub Run {
         if ( !$Self->{ConfigObject}->Get('Ticket::Service') ) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data     => '$Text{"Please activate %s first!", "Service"}',
+                Data     => $Self->{LayoutObject}->{LanguageObject}
+                    ->Translate( "Please activate %s first!", "Service" ),
                 Link =>
-                    '$Env{"Baselink"}Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Ticket;SysConfigSubGroup=Core::Ticket#Ticket::Service',
+                    $Self->{LayoutObject}->{Baselink} . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Ticket;SysConfigSubGroup=Core::Ticket#Ticket::Service',
             );
         }
 

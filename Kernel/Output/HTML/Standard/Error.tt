@@ -1,0 +1,87 @@
+# --
+# Error.tt - provides HTML Error screen
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain SpacingTopLarge">
+
+    <div class="W33pc CenterBox SpacingBottomLarge">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Oops! An Error occurred.") | html %]</h2>
+            </div>
+            <div class="Content">
+                <h4>
+                    [% Translate("Error Message") | html %]: <span class="Error">[% Data.Message | html %]</span>
+                </h4>
+                <p class="SpacingTop">
+                    [% Data.Comment | html %].
+                </p>
+
+                <form action="http://bugs.otrs.org/enter_bug.cgi">
+
+                    <textarea class="Hidden" name="comment" rows="1" cols="1"><![CDATA[
+Message:
+[% Data.Message | html %]
+
+Comment:
+[% Data.Comment | html %]
+
+Traceback:
+[% Data.BackendTraceback | html %]"
+                    ]]></textarea>
+                    <input type="hidden" name="bug_file_loc" value="[% Env("SERVER_NAME") | html %][% Env("REQUEST_URI") | html %]"/>
+
+                    <p class="SpacingTop">
+                        [% Translate("You can") | html %]
+                        <button type="submit" value="[% Translate("Send a bugreport") | html %]">[% Translate("Send a bugreport") | html %]</button>
+                        [% Translate("or") | html %]
+                        <a href="#" id="GoBack">[% Translate("go back to the previous page") | html %]</a>.
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#GoBack').bind('click', function (Event) {
+    // check if an older history entry is available
+    if (history.length > 1) {
+        history.back();
+        return false;
+    }
+
+    // if we're in a popup window, close it
+    if (window.opener !== null) {
+        window.close();
+        return false;
+    }
+
+    // normal window, no history: no action possible
+    return false;
+});
+//]]></script>
+[% END %]
+                    </p>
+                </form>
+
+                <div id="Traceback" class="SpacingTop Notice Hidden">
+                    <h4>[% Translate("Error Details") | html %]:</h4>
+
+                </div>
+            </div>
+        </div>
+[% RenderBlockStart("ShowBackendTraceback") %]
+        <div class="WidgetSimple Collapsed SpacingTop">
+            <div class="Header ErrorMessage">
+                <div class="WidgetAction Toggle">
+                    <a href="#" title="[% Translate("Expand") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                </div>
+                <h2>[% Translate("Error Details") | html %]</h2>
+            </div>
+            <div class="Content">
+                <code>Backend [% Data.BackendTraceback | html %]</code>
+            </div>
+        </div>
+[% RenderBlockEnd("ShowBackendTraceback") %]
+    </div>
+</div>

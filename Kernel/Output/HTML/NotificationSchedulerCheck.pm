@@ -70,7 +70,7 @@ sub Run {
         if ( $DeltaTime >= 4 * $PIDUpdateTime ) {
             %NotificationDetails = (
                 Priority => 'Error',
-                Data     => '$Text{"Scheduler process is registered but might not be running."}',
+                Data     => $Self->{LayoutObject}->{LanguageObject}->Translate("Scheduler process is registered but might not be running."),
             );
         }
 
@@ -79,7 +79,7 @@ sub Run {
             %NotificationDetails = (
                 Priority => 'Info',
                 Data =>
-                    '$Text{"Scheduler process is registered but might not be running."}',
+                    $Self->{LayoutObject}->{LanguageObject}->Translate("Scheduler process is registered but might not be running."),
             );
         }
     }
@@ -88,7 +88,7 @@ sub Run {
     else {
         %NotificationDetails = (
             Priority => 'Error',
-            Data     => '$Text{"Scheduler is not running."}',
+            Data     => $Self->{LayoutObject}->{LanguageObject}->Translate("Scheduler is not running."),
         );
     }
 
@@ -106,7 +106,7 @@ sub Run {
     # check if the user is in the Admin group
     # if that is the case, extend the error with a link
     if ( $Groups{admin} ) {
-        $NotificationDetails{Link}      = '$Env{"Baselink"}Action=AdminScheduler';
+        $NotificationDetails{Link}      = $Self->{LayoutObject}->{Baselink} . 'Action=AdminScheduler';
         $NotificationDetails{LinkClass} = 'StartScheduler';
     }
 

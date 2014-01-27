@@ -18,6 +18,7 @@ package Kernel::Language::fr_CA;
 
 use strict;
 use warnings;
+use utf8;
 
 sub Data {
     my $Self = shift;

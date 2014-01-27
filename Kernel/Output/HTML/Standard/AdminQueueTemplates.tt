@@ -1,0 +1,175 @@
+# --
+# AdminQueueTemplates.tt - provides HTML form for AdminInterface
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("Overview") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Manage Template-Queue Relations") | html %]</h1>
+
+    <div class="SidebarColumn">
+
+[% RenderBlockStart("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label>[% Translate("Actions") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionList") %]
+
+[% RenderBlockStart("Filter") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="Filter">[% Translate("Filter") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="Filter" class="W50pc" name="Filter" value="" title="[% Translate("Filter") | html %]" />
+            </div>
+        </div>
+[% RenderBlockEnd("Filter") %]
+
+[% RenderBlockStart("FilterTemplate") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterTemplates">[% Translate("Filter for Templates") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterTemplates" class="W50pc" name="FilterTemplates" value="" title="[% Translate("Filter for Templates") | html %]" />
+            </div>
+        </div>
+[% RenderBlockEnd("FilterTemplate") %]
+[% RenderBlockStart("FilterQueue") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterQueues">[% Translate("Filter for Queues") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterQueues" class="W50pc" name="FilterQueues" value="" title="[% Translate("Filter for Queues") | html %]" />
+            </div>
+        </div>
+[% RenderBlockEnd("FilterQueue") %]
+
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+
+[% RenderBlockStart("OverviewResult") %]
+            <div class="Header">
+                <h2>[% Translate("Overview") | html %]</h2>
+            </div>
+            <div class="Content LayoutGrid ColumnsWithSpacing">
+                <div class="Size1of2">
+                    <ul class="Tablelike" id="Templates">
+                        <li class="Header">[% Translate("Templates") | html %]</li>
+                        <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
+[% RenderBlockStart("NoTemplatesFoundMsg") %]
+                        <li>[% Translate("No data found.") | html %]</li>
+[% RenderBlockEnd("NoTemplatesFoundMsg") %]
+[% RenderBlockStart("List1n") %]
+                        <li><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Data.Subaction | uri %];ID=[% Data.ID | uri %]" class="AsBlock">[% Data.Name | html %]</a></li>
+[% RenderBlockEnd("List1n") %]
+                    </ul>
+                </div>
+                <div class="Size1of2">
+                    <ul class="Tablelike" id="Queues">
+                        <li class="Header">[% Translate("Queues") | html %]</li>
+                        <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
+[% RenderBlockStart("NoQueuesFoundMsg") %]
+                        <li>[% Translate("No data found.") | html %]</li>
+[% RenderBlockEnd("NoQueuesFoundMsg") %]
+[% RenderBlockStart("Listn1") %]
+                        <li><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Data.Subaction | uri %];ID=[% Data.ID | uri %]" class="AsBlock">[% Data.Name | html %]</a></li>
+[% RenderBlockEnd("Listn1") %]
+                    </ul>
+                </div>
+                <div class="Clear"></div>
+            </div>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.UI.Table.InitTableFilter($('#FilterTemplates'), $('#Templates'));
+    Core.UI.Table.InitTableFilter($('#FilterQueues'), $('#Queues'));
+//]]></script>
+[% END %]
+[% RenderBlockEnd("OverviewResult") %]
+[% RenderBlockStart("Change") %]
+            <div class="Header">
+                <h2>
+[% RenderBlockStart("ChangeHeaderQueue") %]
+                    [% Translate("Change Queue Relations for Template") | html %]
+[% RenderBlockEnd("ChangeHeaderQueue") %]
+[% RenderBlockStart("ChangeHeaderTemplate") %]
+                    [% Translate("Change Template Relations for Queue") | html %]
+[% RenderBlockEnd("ChangeHeaderTemplate") %]
+                    <a href="[% Env("Baselink") %]Action=[% Data.ActionHome | uri %];Subaction=Change;[% Data.Queue | uri %]ID=[% Data.ID | uri %]">[% Data.Name | html %]</a>
+                </h2>
+            </div>
+            <div class="Content ">
+                <form action="[% Env("CGIHandle") %]" method="post" name="matrix">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="Change[% Data.Type | html %]"/>
+                    <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
+                    <table class="DataTable VariableWidth" id="ItemsTable">
+                        <thead>
+                            <tr>
+                                <th>[% Translate(Data.VisibleNeType) | html %]</th>
+[% RenderBlockStart("ChangeHeader") %]
+                                <th class="[% Data.Mark | html %]">
+                                    <input type="checkbox" id="SelectAllItemsSelected" name="ItemsSelected" title="[% Translate("Toggle active state for all") | html %]" value="" />
+                                    [% Translate("Active") | html %]
+                                </th>
+[% RenderBlockEnd("ChangeHeader") %]
+                            </tr>
+                        </thead>
+                        <tbody>
+[% RenderBlockStart("ChangeRow") %]
+                            <tr>
+                                <td><a href="[% Env("Baselink") %]Action=Admin[% Data.NeType | uri %];Subaction=Change;[% Data.Queue | uri %]ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>
+                                <td class="[% Data.Mark | html %]">
+                                    <input type="checkbox" name="ItemsSelected" title="[% Translate("Toggle active state for %s", Data.Name) | html %]" value="[% Data.ID | html %]" [% Data.Selected %]/>
+                                    <input type="hidden" name="ItemsAll" value="[% Data.ID | html %]"/>
+
+                                </td>
+                            </tr>
+[% RenderBlockEnd("ChangeRow") %]
+                        </tbody>
+                    </table>
+                    <div class="Field SpacingTop">
+                        <button class="Primary" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
+                        [% Translate("or") | html %]
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                    </div>
+                    <div class="Clear"></div>
+                </form>
+            </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Form.InitSelectAllCheckboxes($('table td input:checkbox[name=ItemsSelected]'), $('#SelectAllItemsSelected'));
+$('input:checkbox[name=ItemsSelected]').bind('click', function () {
+    Core.Form.SelectAllCheckboxes($(this), $('#SelectAllItemsSelected'));
+});
+Core.UI.Table.InitTableFilter($('#Filter'), $('#ItemsTable'));
+Core.Form.HideSelectAllCheckboxes($('#ItemsTable'), '#SelectAllItemsSelected');
+//]]></script>
+[% END %]
+[% RenderBlockEnd("Change") %]
+        </div>
+    </div>
+    <div class="Clear"></div>
+
+</div>
+[% RenderBlockEnd("Overview") %]

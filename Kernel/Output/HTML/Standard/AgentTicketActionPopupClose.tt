@@ -1,0 +1,38 @@
+# --
+# AgentTicketActionPopupClose.tt - provides HTML for closing a popup after a finished request
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("LoadParentURLAndClose") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+if (window.name.match(/OTRSPopup_.+/) &&
+    window.opener &&
+    window.opener.Core &&
+    window.opener.Core.UI &&
+    window.opener.Core.UI.Popup
+) {
+    window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: '[% Env("Baselink") %][% Data.URL %]' });
+    window.close();
+}
+else {
+    window.location.href = '[% Env("Baselink") %][% Data.URL %]';
+}
+//]]></script>
+[% END %]
+[% RenderBlockEnd("LoadParentURLAndClose") %]
+
+[% RenderBlockStart("ReloadParentAndClose") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+if (window.opener) {
+    window.opener.Core.UI.Popup.FirePopupEvent('Reload');
+    window.close();
+}
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ReloadParentAndClose") %]

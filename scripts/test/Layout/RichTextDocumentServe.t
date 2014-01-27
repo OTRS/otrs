@@ -235,7 +235,8 @@ my @Tests = (
         Zum Schutz Ihrer Privatsphäre wurden entfernte Inhalte blockiert.
         <a href="No-$ENV{"SCRIPT_NAME"}?;LoadExternalImages=1">Blockierte Inhalte laden.</a>
     </div>
-</div>1',
+</div>
+1',
             ContentType => 'text/html; charset="utf-8"',
         },
     },

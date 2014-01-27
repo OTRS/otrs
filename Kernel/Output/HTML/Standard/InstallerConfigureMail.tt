@@ -1,0 +1,169 @@
+# --
+# InstallerConfigureMail.tt - provides the form for the Installer's mail configuration
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("ConfigureMail") %]
+<div class="W950px SpacingTop SpacingBottom CenterBox">
+    <form action="[% Env("CGIHandle") %]" method="post" id="FormMail" class="PreventMultipleSubmits">
+        <input type="hidden" name="Action" value="Installer">
+        <input type="hidden" name="Subaction" value="Finish">
+        <input type="hidden" name="Skip" value="0">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate(Data.Item) | html %] ([% Data.Step %])</h2>
+            </div>
+
+            <div class="Content">
+                <fieldset class="TableLike">
+                    <h4>
+                        [% Translate("Configure Outbound Mail") | html %]
+                    </h4>
+                    <div class="Clear"></div>
+
+                    <label for="OutboundMailType">[% Translate("Outbound mail type") | html %]:</label>
+                    <div class="Field">
+                        [% Data.OutboundMailType %]
+                        [% Data.OutboundPorts %]
+                        <p class="FieldExplanation">
+                            [% Translate("Select outbound mail type.") | html %]
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="SMTPPort">[% Translate("Outbound mail port") | html %]:</label>
+                    <div class="Field">
+                        <input type="text" id="SMTPPort" name="SMTPPort" value="[% Data.SMTPPort | html %]" class="W25pc">
+                        <p class="FieldExplanation">
+                            [% Translate("Select outbound mail port.") | html %]
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <fieldset class="TableLike" id="InfoSMTP">
+                    <label for="SMTPHost">[% Translate("SMTP host") | html %]:</label>
+                    <div class="Field">
+                        <input type="text" id="SMTPHost" name="SMTPHost" value="[% Data.SMTPHost | html %]" class="W33pc">
+                        <p class="FieldExplanation">
+                            [% Translate("SMTP host.") | html %]
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="SMTPAuth">[% Translate("SMTP authentication") | html %]:</label>
+                    <div class="Field">
+                        <input type="checkbox" id="SMTPAuth" name="SMTPAuth">
+                        <p class="FieldExplanation">
+                            [% Translate("Does your SMTP host need authentication?") | html %]
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <fieldset class="TableLike Hidden" id="InfoSMTPAuth">
+                    <label for="SMTPAuthUser">[% Translate("SMTP auth user") | html %]:</label>
+                    <div class="Field">
+                        <input type="text" id="SMTPAuthUser" name="SMTPAuthUser" value="[% Data.SMTPAuthUser | html %]" disabled="disabled" class="W33pc" autocomplete="off">
+                        <p class="FieldExplanation">
+                            [% Translate("Username for SMTP auth.") | html %]
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="SMTPAuthPassword">[% Translate("SMTP auth password") | html %]:</label>
+                    <div class="Field">
+                        <input type="password" id="SMTPAuthPassword" name="SMTPAuthPassword" value="[% Data.SMTPAuthPassword | html %]" disabled="disabled" class="W33pc" autocomplete="off">
+                        <p class="FieldExplanation">
+                            [% Translate("Password for SMTP auth.") | html %]
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <fieldset class="TableLike">
+                    <h4>
+                        [% Translate("Configure Inbound Mail") | html %]
+                    </h4>
+                    <div class="Clear"></div>
+
+                    <label for="InboundMailType">[% Translate("Inbound mail type") | html %]:</label>
+                    <div class="Field">
+                        [% Data.InboundMailType %]
+                        <p class="FieldExplanation">
+                            [% Translate("Select inbound mail type.") | html %]
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="InboundHost">[% Translate("Inbound mail host") | html %]:</label>
+                    <div class="Field">
+                        <input type="text" id="InboundHost" name="InboundHost" value="[% Data.InboundHost | html %]" class="W33pc">
+                        <p class="FieldExplanation">
+                            [% Translate("Inbound mail host.") | html %]
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="InboundUser">[% Translate("Inbound mail user") | html %]:</label>
+                    <div class="Field">
+                        <input type="text" id="InboundUser" name="InboundUser" value="[% Data.InboundUser | html %]" class="W33pc" autocomplete="off">
+                        <p class="FieldExplanation">
+                            [% Translate("User for inbound mail.") | html %]
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="InboundPassword">[% Translate("Inbound mail password") | html %]:</label>
+                    <div class="Field">
+                        <input type="password" id="InboundPassword" name="InboundPassword" value="[% Data.InboundPassword | html %]" class="W33pc" autocomplete="off">
+                        <p class="FieldExplanation">
+                            [% Translate("Password for inbound mail.") | html %]
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <fieldset class="TableLike Hidden ErrorMsg">
+                    <h4>
+                        [% Translate("Result of mail configuration check") | html %]
+                    </h4>
+                    <div class="Clear"></div>
+
+                    <div class="Field">
+                        <p class="Error" id="FormMailResultMessage"></p>
+                    </div>
+                    <div class="Clear"></div>
+
+                </fieldset>
+            </div>
+
+            <div id="InstallerContinueWithJS" class="Spacing Right">
+                <button class="Primary" type="button" id="ButtonCheckMail"  value="[% Translate("Check mail configuration") | html %]">[% Translate("Check mail configuration") | html %]</button>
+                <button type="button" id="ButtonSkipMail" value="[% Translate("Skip this step") | html %]">[% Translate("Skip this step") | html %]</button>
+            </div>
+        </div>
+    </form>
+</div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#ButtonCheckMail').bind('click', Core.Installer.CheckMailConfig);
+    $('#ButtonSkipMail').bind('click', function() {
+        Core.Installer.SkipMailConfig();
+        return false;
+    });
+    $('#SMTPAuth').bind('change', function () {
+        Core.Installer.CheckSMTPAuth($(this));
+    });
+    $('#OutboundMailType').bind('change', function () {
+        Core.Installer.SelectOutboundMailType($(this));
+    });
+    $('#OutboundMailType').trigger('change');
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ConfigureMail") %]

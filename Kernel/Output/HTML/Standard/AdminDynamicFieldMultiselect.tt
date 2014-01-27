@@ -1,0 +1,235 @@
+# --
+# AdminDynamicFieldMultiselect.tt - provides HTML form for AdminDynamicFieldsMultiselect
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Dynamic Fields") | html %] - [% Translate(Data.ObjectTypeName) | html %]: [% Translate(Data.Mode) | html %] [% Translate(Data.FieldTypeName) | html %] [% Translate("Field") | html %]</h1>
+
+    <div class="Clear"></div>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminDynamicField" class="CallForAction"><span>[% Translate("Go back to overview") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+            <input type="hidden" name="Action" value="AdminDynamicFieldMultiselect" />
+            <input type="hidden" name="Subaction" value="[% Data.Mode | html %]Action" />
+            <input type="hidden" name="ObjectType" value="[% Data.ObjectType | html %]" />
+            <input type="hidden" name="FieldType" value="[% Data.FieldType | html %]" />
+            <input type="hidden" name="ID" value="[% Data.ID | html %]" />
+
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("General") | html %]</h2>
+                </div>
+                <div class="Content">
+                    <div class="LayoutGrid ColumnsWithSpacing">
+                        <div class="Size1of2">
+                            <fieldset class="TableLike">
+                                <label class="Mandatory" for="Name"><span class="Marker">*</span> [% Translate("Name") | html %]:</label>
+                                <div class="Field">
+                                    <input id="Name" class="W50pc [% Data.NameServerError | html %] [% Data.ShowWarning | html %]  Validate_Alphanumeric" type="text" maxlength="200" value="[% Data.Name | html %]" name="Name" [% Data.ReadonlyInternalField | html %] />
+                                    <div id="NameError" class="TooltipErrorMessage"><p>[% Translate("This field is required, and the value should be alphabetic and numeric characters only.") | html %]</p></div>
+                                    <div id="NameServerError" class="TooltipErrorMessage"><p>[% Translate(Data.NameServerErrorMessage) | html %]</p></div>
+                                    <p class="FieldExplanation">[% Translate("Must be unique and only accept alphabetic and numeric characters.") | html %]</p>
+                                    <p class="Warning Hidden">[% Translate("Changing this value will require manual changes in the system.") | html %]</p>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label class="Mandatory" for="Label"><span class="Marker">*</span> [% Translate("Label") | html %]:</label>
+                                <div class="Field">
+                                    <input id="Label" class="W50pc [% Data.LabelServerError | html %] Validate_Required" type="text" maxlength="200" value="[% Data.Label | html %]" name="Label"/>
+                                    <div id="LabelError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                    <div id="LabelServerError" class="TooltipErrorMessage"><p>[% Translate(Data.LabelServerErrorMessage) | html %]</p></div>
+                                    <p class="FieldExplanation">[% Translate("This is the name to be shown on the screens where the field is active.") | html %]</p>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label class="Mandatory" for="FieldOrder"><span class="Marker">*</span> [% Translate("Field order") | html %]:</label>
+                                <div class="Field">
+                                    [% Data.DynamicFieldOrderStrg %]
+                                    <div id="FieldOrderError" class="TooltipErrorMessage"><p>[% Translate("This field is required and must be numeric.") | html %]</p></div>
+                                    <div id="FieldOrderServerError" class="TooltipErrorMessage"><p>[% Translate(Data.FieldOrderServerErrorMessage) | html %]</p></div>
+                                    <p class="FieldExplanation">[% Translate("This is the order in which this field will be shown on the screens where is active.") | html %]</p>
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
+                        </div>
+                        <div class="Size1of2">
+                            <fieldset class="TableLike">
+                                <label for="ValidID">[% Translate("Validity") | html %]:</label>
+                                <div class="Field">
+                                    [% Data.ValidityStrg %]
+                                </div>
+                                <div class="Clear"></div>
+
+                                <div class="SpacingTop"></div>
+                                <label for="FieldTypeName">[% Translate("Field type") | html %]:</label>
+                                <div class="Field">
+                                    <input id="FieldTypeName" readonly class="W50pc" type="text" maxlength="200" value="[% Translate(Data.FieldTypeName) | html %]" name="FieldTypeName"/>
+                                    <div class="Clear"></div>
+                                </div>
+
+                                <div class="SpacingTop"></div>
+                                <label for="ObjectTypeName">[% Translate("Object type") | html %]:</label>
+                                <div class="Field">
+                                    <input id="ObjectTypeName" readonly class="W50pc" type="text" maxlength="200" value="[% Translate(Data.ObjectTypeName) | html %]" name="ObjectTypeName"/>
+                                    <div class="Clear"></div>
+                                </div>
+
+[% RenderBlockStart("InternalField") %]
+                                <div class="SpacingTop"></div>
+                                <label for="InternalField">[% Translate("Internal field") | html %]:</label>
+                                <div class="Field">
+                                    <input id="InternalField" readonly class="W50pc" type="text" maxlength="1" value="[% Data.InternalField | html %]" name="InternalField"/>
+                                    <p class="FieldExplanation">
+                                        [% Translate("This field is protected and can't be deleted.") | html %]
+                                    </p>
+                                    <div class="Clear"></div>
+                                </div>
+[% RenderBlockEnd("InternalField") %]
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate(Data.FieldTypeName) | html %] [% Translate("Field Settings") | html %]</h2>
+                </div>
+                <div class="Content">
+                    <fieldset class="TableLike">
+                        <label>[% Translate("Possible values") | html %]:</label>
+                        <div class="Field ValueInsert">
+                            <input type="hidden" name="ValueCounter" value="[% Data.ValueCounter | html %]" id="ValueCounter" class="ValueCounter" />
+[% RenderBlockStart("ValueRow") %]
+                            <div class="ValueRow">
+                                <label class="Mandatory" for="Key_[% Data.ValueCounter | html %]"><span class="Marker">*</span>[% Translate("Key") | html %]:</label>
+                                <input name="Key_[% Data.ValueCounter | html %]" id="Key_[% Data.ValueCounter | html %]" class="DefaultValueKeyItem Validate_Required W20pc [% Data.KeyError | html %]" type="text" maxlength="100" value="[% Data.Key | html %]"/>
+                                <div id="Key_[% Data.ValueCounter | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="Key_[% Data.ValueCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate(Data.KeyErrorStrg) | html %]</p></div>
+
+                                <label class="Mandatory" for="Value_[% Data.ValueCounter | html %]"><span class="Marker">*</span>[% Translate("Value") | html %]:</label>
+                                <input name="Value_[% Data.ValueCounter | html %]" id="Value_[% Data.ValueCounter | html %]" class="DefaultValueItem Validate_Required W20pc [% Data.ValueError | html %]" type="text" maxlength="100" value="[% Data.Value | html %]"/>
+                                <div id="Value_[% Data.ValueCounter | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="Value_[% Data.ValueCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+
+                                <button type="button" id="RemoveValue_[% Data.ValueCounter | html %]" class="Remove ValueRemove" value="Remove value">[% Translate("Remove value") | html %]</button>
+                                <div class="SpacingTopMini" ></div>
+                            </div>
+[% RenderBlockEnd("ValueRow") %]
+[% RenderBlockStart("ValueTemplate") %]
+                            <div class="ValueTemplate Hidden">
+                                <label class="Mandatory" for="Key"><span class="Marker">*</span>[% Translate("Key") | html %]:</label>
+                                <input name="Key_[% Data.ValueCounter | html %]" id="Key" class="DefaultValueKeyItem W20pc" type="text" maxlength="100" value="[% Data.Key | html %]"/>
+                                <div id="KeyError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="KeyServerError" class="TooltipErrorMessage"><p>[% Translate(Data.KeyErrorStrg) | html %]</p></div>
+
+                                <label class="Mandatory" for="Value"><span class="Marker">*</span>[% Translate("Value") | html %]:</label>
+                                <input name="Value_[% Data.ValueCounter | html %]" id="Value" class="DefaultValueItem W20pc" type="text" maxlength="100" value="[% Data.Value | html %]"/>
+                                <div id="ValueError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="ValueServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+
+                                <button type="button" id="RemoveValue_[% Data.ValueCounter | html %]" class="Remove ValueRemove" value="Remove value">[% Translate("Remove value") | html %]</button>
+                                <div class="SpacingTopMini" ></div>
+                            </div>
+[% RenderBlockEnd("ValueTemplate") %]
+                            <input type="hidden" name="DeletedValue" value="[% Data.DeletedString | html %]" id="DeletedValue" class="DeletedValue" />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="AddValue">[% Translate("Add value") | html %]:</label>
+                        <div class="Field">
+                            <button id="AddValue" class="Add" type="button" value="Add Value">[% Translate("Add Value") | html %]</button>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="SpacingTop"></div>
+                        <label for="DefaultValue">[% Translate("Default value") | html %]:</label>
+                        <div class="Field">
+                            [% Data.DefaultValueStrg %]
+                            <p class="FieldExplanation">[% Translate("This is the default value for this field.") | html %]</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="SpacingTop"></div>
+                        <label for="DefaultValue">[% Translate("Add empty value") | html %]:</label>
+                        <div class="Field">
+                            [% Data.PossibleNoneStrg %]
+                            <p class="FieldExplanation">[% Translate("Activate this option to create an empty selectable value.") | html %]</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="SpacingTop"></div>
+                        <label for="TreeView">[% Translate("Tree View") | html %]:</label>
+                        <div class="Field">
+                            [% Data.TreeViewStrg %]
+                            <p class="FieldExplanation">[% Translate("Activate this option to display values as a tree.") | html %]</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="TranslatableValues">[% Translate("Translatable values") | html %]:</label>
+                        <div class="Field">
+                            [% Data.TranslatableValuesStrg %]
+                            <p class="FieldExplanation">[% Translate("If you activate this option the values will be translated to the user defined language.") | html %]</p>
+                            <p class="FieldExplanation"><strong>[% Translate("Note") | html %]: </strong>[% Translate("You need to add the translations manually into the language translation files.") | html %]</p>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </div>
+            </div>
+            <fieldset class="TableLike">
+                <div class="Field SpacingTop">
+                    <button type="submit" class="Primary" value="[% Translate("Save") | html %]">[% Translate("Save") | html %]</button>
+                    [% Translate("or") | html %]
+                    <a href="[% Env("Baselink") %]Action=AdminDynamicField">[% Translate("Cancel") | html %]</a>
+                </div>
+                <div class="Clear"></div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('.ShowWarning').bind('change keyup', function (Event) {
+    $('p.Warning').removeClass('Hidden');
+});
+
+//bind click function to add button
+$('#AddValue').bind('click', function () {
+    Core.Agent.Admin.DynamicFieldMultiselect.AddValue(
+        $(this).closest('fieldset').find('.ValueInsert')
+    );
+    return false;
+});
+
+//bind click function to remove button
+$('.ValueRemove').bind('click', function () {
+    Core.Agent.Admin.DynamicFieldMultiselect.RemoveValue($(this).attr('id'));
+    return false;
+});
+
+$('.DefaultValueKeyItem,.DefaultValueItem').bind('keyup', function () {
+    Core.Agent.Admin.DynamicFieldMultiselect.RecreateDefaultValueList();
+});
+
+Core.Agent.Admin.DynamicField.ValidationInit();
+//]]></script>
+[% END %]

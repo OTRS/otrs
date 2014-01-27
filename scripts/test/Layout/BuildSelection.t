@@ -189,7 +189,7 @@ my @Tests = (
         Response =>
             q{<select id="Select1ID" name="Select1" onchange="Core.AJAX.FormUpdate($('#Select1ID'), 'test', 'Select1', ['1', '2']);">
   <option value="1">Object1</option>
-</select> <a href="#" title="$Text\{"Show Tree Selection"\}" class="ShowTreeSelection">$Text\{"Show Tree Selection"\}</a>},
+</select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection">Baumauswahl anzeigen</a>},
         Success      => 1,
         ExecuteJSON  => 1,
         JSONResponse => {
@@ -255,7 +255,7 @@ my @Tests = (
   <option value="12">&nbsp;&nbsp;AttributeB</option>
   <option value="13">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
   <option value="14">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-</select> <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>',
+</select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection">Baumauswahl anzeigen</a>',
         Success      => 1,
         ExecuteJSON  => 1,
         JSONResponse => {
@@ -492,7 +492,7 @@ my @Tests = (
   <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeB</option>
   <option value="13">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
   <option value="14">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-</select> <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>',
+</select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection">Baumauswahl anzeigen</a>',
         Success      => 1,
         ExecuteJSON  => 1,
         JSONResponse => {
@@ -600,7 +600,7 @@ my @Tests = (
   <option value="8">Object2</option>
   <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeB</option>
   <option value="14">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-</select> <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>',
+</select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection">Baumauswahl anzeigen</a>',
         Success      => 1,
         ExecuteJSON  => 1,
         JSONResponse => {
@@ -704,7 +704,7 @@ my @Tests = (
   <option value="Object2::AttributeB">&nbsp;&nbsp;AttributeB</option>
   <option value="Object2::AttributeB::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
   <option value="Object2::AttributeB::Value2">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-</select> <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>',
+</select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection">Baumauswahl anzeigen</a>',
         Success      => 1,
         ExecuteJSON  => 1,
         JSONResponse => {
@@ -817,7 +817,7 @@ my @Tests = (
   <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeB</option>
   <option value="Object2::AttributeB::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
   <option value="Object2::AttributeB::Value2">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-</select> <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>',
+</select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection">Baumauswahl anzeigen</a>',
         Success      => 1,
         ExecuteJSON  => 1,
         JSONResponse => {
@@ -927,7 +927,7 @@ my @Tests = (
   <option value="-" disabled="disabled">&nbsp;&nbsp;AttributeB</option>
   <option value="Object2::AttributeB::Value1">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
   <option value="Object2::AttributeB::Value2">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
-</select> <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>',
+</select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection">Baumauswahl anzeigen</a>',
         Success      => 1,
         ExecuteJSON  => 1,
         JSONResponse => {

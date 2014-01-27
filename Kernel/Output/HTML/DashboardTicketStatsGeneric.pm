@@ -39,16 +39,32 @@ sub Preferences {
 sub Config {
     my ( $Self, %Param ) = @_;
 
-    my $Key = $Self->{LayoutObject}->{UserLanguage} . '-' . $Self->{Name};
     return (
         %{ $Self->{Config} },
-        CacheKey => 'TicketStats' . '-' . $Self->{UserID} . '-' . $Key,
+        # Don't cache this globally as it contains JS that is not inside of the HTML.
+        CacheTTL => undef,
+        CacheKey => undef,
     );
-
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    my $Key = $Self->{LayoutObject}->{UserLanguage} . '-' . $Self->{Name};
+    my $CacheKey = 'TicketStats' . '-' . $Self->{UserID} . '-' . $Key;
+
+    my $Cache = $Self->{CacheObject}->Get(
+        Type => 'Dashboard',
+        Key  => $CacheKey,
+    );
+
+    if (ref $Cache) {
+        return $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentDashboardTicketStats',
+            Data         => $Cache,
+            KeepScriptTags => $Param{AJAX},
+        );
+    }
 
     my %Axis = (
         '7Day' => {
@@ -184,16 +200,27 @@ sub Run {
         Data => \@TicketYAxis,
     );
 
+    my %Data = (
+        %{ $Self->{Config} },
+        Key            => int rand 99999,
+        ChartData      => $ChartDataJSON,
+        TicketWeekdays => $TicketWeekdaysJSON,
+        TicketYAxis    => $TicketYAxisJSON
+    );
+
+    if ( $Self->{Config}->{CacheTTLLocal} ) {
+        $Self->{CacheObject}->Set(
+            Type  => 'Dashboard',
+            Key   => $CacheKey,
+            Value => \%Data,
+            TTL   => $Self->{Config}->{CacheTTLLocal} * 60,
+        );
+    }
+
     my $Content = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentDashboardTicketStats',
-        Data         => {
-            %{ $Self->{Config} },
-            Key            => int rand 99999,
-            ChartData      => $ChartDataJSON,
-            TicketWeekdays => $TicketWeekdaysJSON,
-            TicketYAxis    => $TicketYAxisJSON
-        },
-        KeepScriptTags => 1,
+        Data         => \%Data,
+        KeepScriptTags => $Param{AJAX},
     );
 
     return $Content;

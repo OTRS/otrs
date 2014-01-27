@@ -1,0 +1,27 @@
+# --
+# AgentCustomerInformationCenter.tt - provides HTML for customer information center
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("Content") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarLast">
+    <h1>[% Translate("Customer Information Center") | html %] &mdash; <a href="#" id="CustomerInformationCenterHeading">[% Data.CustomerIDTitle | html %]</a></h1>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.Dashboard.Init();
+    $('#CustomerInformationCenterHeading').bind('click', function() {
+        Core.Agent.CustomerInformationCenterSearch.OpenSearchDialog();
+        return false;
+    });
+//]]></script>
+[% END %]
+
+[% InsertTemplate("AgentDashboardCommon.tt") %]
+
+</div>
+[% RenderBlockEnd("Content") %]

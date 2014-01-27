@@ -1,0 +1,325 @@
+# --
+# AdminPostMasterFilter.tt - provides HTML form for AdminPostMasterFilter
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("Overview") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("PostMaster Filter Management") | html %]</h1>
+
+    <div class="SidebarColumn">
+[% RenderBlockStart("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+[% RenderBlockStart("ActionAdd") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=AddAction" class="CallForAction Plus"><span>[% Translate("Add filter") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionAdd") %]
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionList") %]
+
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    [% Translate("If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    [% Translate("If you use Regular Expressions, you also can use the matched value in () as [***] in the 'Set' action.") | html %]
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="ContentColumn">
+
+[% RenderBlockStart("OverviewResult") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("List") | html %]</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable VariableWidth">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Name") | html %]</th>
+                            <th>[% Translate("Delete") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("NoDataFoundMsg") %]
+                        <tr>
+                            <td colspan="2">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockStart("OverviewResultRow") %]
+                        <tr>
+                            <td><a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Update;Name=[% Data.Name | uri %]">[% Translate(Data.Name) | html %]</a></td>
+                            <td class="Center"><a class="TrashCan" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;Name=[% Data.Name | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this filter") | html %]">[% Translate("Delete this filter") | html %]</a></td>
+                        </tr>
+[% RenderBlockEnd("OverviewResultRow") %]
+                    </tbody>
+                </table>
+            </div>
+        </div>
+[% RenderBlockEnd("OverviewResult") %]
+
+[% RenderBlockStart("OverviewUpdate") %]
+        <form action="[% Env("CGIHandle") %]" method="post" class="Validate">
+            <div class="WidgetSimple">
+                <div class="Header">
+[% RenderBlockStart("HeaderAdd") %]
+                    <h2>[% Translate("Add PostMaster Filter") | html %]</h2>
+[% RenderBlockEnd("HeaderAdd") %]
+[% RenderBlockStart("HeaderEdit") %]
+                    <h2>[% Translate("Edit PostMaster Filter") | html %]</h2>
+[% RenderBlockEnd("HeaderEdit") %]
+                </div>
+                <div class="Content">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="UpdateAction"/>
+                    <input type="hidden" name="OldName" value="[% Data.Name | html %]"/>
+                    <fieldset class="TableLike">
+                        <label class="Mandatory" for="EditName"><span class="Marker">*</span> [% Translate("Name") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" class="W50pc Validate_Required [% Data.NameInvalid | html %]" name="Name" id="EditName" value="[% Data.Name | html %]"/>
+                            <div id="EditNameError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div id="EditNameServerError" class="TooltipErrorMessage"><p>[% Translate("The name is required.") | html %]</p></div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="StopAfterMatch"><span class="Marker">*</span> [% Translate("Stop after match") | html %]:</label>
+                        <div class="Field">
+                            [% Data.StopAfterMatch %]
+                            <div id="StopAfterMatchError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div id="StopAfterMatchServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate("Filter Condition") | html %] <span class="FieldExplanation">([% Translate("AND Condition") | html %])</span></h2>
+                </div>
+                <div class="Content">
+                    <div class="Field">
+                        <label for="MatchHeader1">[% Translate("Header") | html %] 1:</label>
+                        [% Data.MatchHeader1 %]
+                        <div id="MatchHeader1ServerError" class="TooltipErrorMessage">
+                            <p>[% Translate("This field is required.") | html %]</p>
+                        </div>
+
+                        <label for="MatchNot1">[% Translate("Negate") | html %] 1:</label>
+                        <input type="checkbox" name="MatchNot1" id="MatchNot1" value="1" [% Data.MatchNot1 | html %] />
+
+                        <label for="MatchValue1">[% Translate("Value") | html %] 1:</label>
+                        <input type="text" name="MatchValue1" id="MatchValue1" value="[% Data.MatchValue1 | html %]" class="W33pc [% Data.MatchValue1Invalid | html %]" maxlength="100"/>
+                        <div id="MatchValue1ServerError" class="TooltipErrorMessage">
+                            <p>[% Translate("The field needs to be a valid regular expression or a literal word.") | html %]</p>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div class="Field">
+                        <label for="MatchHeader2">[% Translate("Header") | html %] 2:</label>
+                        [% Data.MatchHeader2 %]
+                        <div id="MatchHeader2ServerError" class="TooltipErrorMessage">
+                            <p>[% Translate("This field is required.") | html %]</p>
+                        </div>
+
+                        <label for="MatchNot2">[% Translate("Negate") | html %] 2:</label>
+                        <input type="checkbox" name="MatchNot2" id="MatchNot2" value="1" [% Data.MatchNot2 | html %] />
+
+                        <label for="MatchValue2">[% Translate("Value") | html %] 2:</label>
+                        <input type="text" name="MatchValue2" id="MatchValue2" value="[% Data.MatchValue2 | html %]" class="W33pc [% Data.MatchValue2Invalid | html %]" maxlength="100"/>
+                        <div id="MatchValue2ServerError" class="TooltipErrorMessage">
+                            <p>[% Translate("The field needs to be a valid regular expression or a literal word.") | html %]</p>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div class="Field">
+                        <label for="MatchHeader3">[% Translate("Header") | html %] 3:</label>
+                        [% Data.MatchHeader3 %]
+                        <div id="MatchHeader3ServerError" class="TooltipErrorMessage">
+                            <p>[% Translate("This field is required.") | html %]</p>
+                        </div>
+
+                        <label for="MatchNot3">[% Translate("Negate") | html %] 3:</label>
+                        <input type="checkbox" name="MatchNot3" id="MatchNot3" value="1" [% Data.MatchNot3 | html %] />
+
+                        <label for="MatchValue3">[% Translate("Value") | html %] 3:</label>
+                        <input type="text" name="MatchValue3" id="MatchValue3" value="[% Data.MatchValue3 | html %]" class="W33pc [% Data.MatchValue3Invalid | html %]" maxlength="100"/>
+                        <div id="MatchValue3ServerError" class="TooltipErrorMessage">
+                            <p>[% Translate("The field needs to be a valid regular expression or a literal word.") | html %]</p>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div class="Field">
+                        <label for="MatchHeader4">[% Translate("Header") | html %] 4:</label>
+                        [% Data.MatchHeader4 %]
+                        <div id="MatchHeader4ServerError" class="TooltipErrorMessage">
+                            <p>[% Translate("This field is required.") | html %]</p>
+                        </div>
+
+                        <label for="MatchNot4">[% Translate("Negate") | html %] 4:</label>
+                        <input type="checkbox" name="MatchNot4" id="MatchNot4" value="1" [% Data.MatchNot4 | html %] />
+
+                        <label for="MatchValue4">[% Translate("Value") | html %] 4:</label>
+                        <input type="text" name="MatchValue4" id="MatchValue4" value="[% Data.MatchValue4 | html %]" class="W33pc [% Data.MatchValue4Invalid | html %]" maxlength="100"/>
+                        <div id="MatchValue4ServerError" class="TooltipErrorMessage">
+                            <p>[% Translate("The field needs to be a valid regular expression or a literal word.") | html %]</p>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+                </div>
+            </div>
+
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate("Set Email Headers") | html %]</h2>
+                </div>
+                <div class="Content">
+                    <div class="Field">
+                        <label for="SetHeader1">[% Translate("Header") | html %] 1:</label>
+                        [% Data.SetHeader1 %]
+                        <div id="SetHeader1ServerError" class="TooltipErrorMessage">
+                            <p>[% Translate("This field is required.") | html %]</p>
+                        </div>
+                        <label for="SetValue1">[% Translate("Value") | html %] 1:</label>
+                        <input type="text" name="SetValue1" id="SetValue1" value="[% Data.SetValue1 | html %]" class="W33pc [% Data.SetValue1Invalid | html %]" maxlength="100"/>
+                        <div id="SetValue1ServerError" class="TooltipErrorMessage">
+                            <p>[% Translate("The field needs to be a literal word.") | html %]</p>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div class="Field">
+                        <label for="SetHeader2">[% Translate("Header") | html %] 2:</label>
+                        [% Data.SetHeader2 %]
+                        <div id="SetHeader2ServerError" class="TooltipErrorMessage">
+                            <p>[% Translate("This field is required.") | html %]</p>
+                        </div>
+                        <label for="SetValue2">[% Translate("Value") | html %] 2:</label>
+                        <input type="text" name="SetValue2" id="SetValue2" value="[% Data.SetValue2 | html %]" class="W33pc [% Data.SetValue2Invalid | html %]" maxlength="100"/>
+                        <div id="SetValue2ServerError" class="TooltipErrorMessage">
+                            <p>[% Translate("The field needs to be a literal word.") | html %]</p>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div class="Field">
+                        <label for="SetHeader3">[% Translate("Header") | html %] 3:</label>
+                        [% Data.SetHeader3 %]
+                        <div id="SetHeader3ServerError" class="TooltipErrorMessage">
+                            <p>[% Translate("This field is required.") | html %]</p>
+                        </div>
+                        <label for="SetValue3">[% Translate("Value") | html %] 3:</label>
+                        <input type="text" name="SetValue3" id="SetValue3" value="[% Data.SetValue3 | html %]" class="W33pc [% Data.SetValue3Invalid | html %]" maxlength="100"/>
+                        <div id="SetValue3ServerError" class="TooltipErrorMessage">
+                            <p>[% Translate("The field needs to be a literal word.") | html %]</p>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div class="Field">
+                        <label for="SetHeader4">[% Translate("Header") | html %] 4:</label>
+                        [% Data.SetHeader4 %]
+                        <div id="SetHeader4ServerError" class="TooltipErrorMessage">
+                            <p>[% Translate("This field is required.") | html %]</p>
+                        </div>
+                        <label for="SetValue4">[% Translate("Value") | html %] 4:</label>
+                        <input type="text" name="SetValue4" id="SetValue4" value="[% Data.SetValue4 | html %]" class="W33pc [% Data.SetValue4Invalid | html %]" maxlength="100"/>
+                        <div id="SetValue4ServerError" class="TooltipErrorMessage">
+                            <p>[% Translate("The field needs to be a literal word.") | html %]</p>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+                </div>
+            </div>
+
+            <div class="WidgetSimple SpacingTop">
+                <div class="Header">
+                    <h2>[% Translate("Save Changes") | html %]</h2>
+                </div>
+                <div class="Content">
+                    <fieldset class="TableLike">
+                        <div class="Field SpacingTop">
+                            <button class="CallForAction Primary" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="WidgetSimple SpacingTop">
+            <div class="Header">
+                <h2>[% Translate("Example") | html %]</h2>
+            </div>
+            <div class="Content">
+                <fieldset class="TableLike">
+                    <h4>[% Translate("Filter Condition") | html %]</h4>
+
+                    <label for="MatchHeaderExample">[% Translate("Header") | html %] 1:</label>
+                    <div class="Field">
+                        <select name="MatchHeaderExample" id="MatchHeaderExample" class="W33pc"><option selected="selected" value="To">To</option></select>
+                        <label for="MatchValueExample">[% Translate("Value") | html %] 1:</label>
+                        <input type="text" name="MatchValueExample" id="MatchValueExample" value="(me|test)@example.com" class="W33pc" maxlength="50"/>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <h4>[% Translate("Set Email Headers") | html %]</h4>
+
+                    <label for="SetHeaderExample">[% Translate("Header") | html %] 1:</label>
+                    <div class="Field">
+                        <select name="SetHeaderExample" id="SetHeaderExample" class="W33pc"><option selected="selected" value="X-OTRS-Queue">X-OTRS-Queue</option></select>
+                        <label for="SetValueExample">[% Translate("Value") | html %] 1:</label>
+                        <input type="text" name="SetValueExample" id="SetValueExample" value="SomeQueue" class="W33pc" maxlength="50"/>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+            </div>
+        </div>
+[% RenderBlockEnd("OverviewUpdate") %]
+    </div>
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("Overview") %]

@@ -764,8 +764,10 @@ sub Run {
             }
             my $Output = $Self->{LayoutObject}->PrintHeader( Width => 800 );
             if ( @ViewableTicketIDs == $Self->{SearchLimit} ) {
-                $Param{Warning} = '$Text{"Reached max. count of %s search hits!", "'
-                    . $Self->{SearchLimit} . '"}';
+                $Param{Warning} = $Self->{LayoutObject}->{LanguageObject}->Translate(
+                    "Reached max. count of %s search hits!",
+                    $Self->{SearchLimit},
+                );
             }
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'CustomerTicketSearchResultPrint',

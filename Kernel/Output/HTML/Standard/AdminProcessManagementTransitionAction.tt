@@ -1,0 +1,126 @@
+# --
+# AdminProcessManagementTransitionAction.tt - provides HTML for AdminProcessManagement
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="LayoutPopup ARIARoleMain">
+    <div class="Header">
+        <h1>[% Translate(Data.Title) | html %]</h1>
+[% RenderBlockStart("ClosePopup") %]
+        <p>
+            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ClosePopup" class="ClosePopup">[% Translate("Cancel & close window") | html %]</a>
+        </p>
+[% RenderBlockEnd("ClosePopup") %]
+[% RenderBlockStart("GoBack") %]
+        <p>
+            <a class="GoBack" href="[% Env("Baselink") %]Action=[% Data.Action | uri %];Subaction=[% Data.Subaction | uri %];ID=[% Data.ID | uri %];EntityID=[% Data.EntityID | uri %];StartActivityID=[% Data.StartActivityID | uri %]">[% Translate("Go Back") | html %]</a>
+        </p>
+[% RenderBlockEnd("GoBack") %]
+    </div>
+    <div class="Content">
+        <div class="ContentColumn">
+            <form id="TransitionForm" action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                <input type="hidden" name="Subaction" value="TransitionAction[% Data.Action | html %]Action"/>
+                <input type="hidden" name="EntityID" value="[% Data.EntityID | html %]"/>
+                <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
+                <input type="hidden" name="PopupRedirect" value="" id="PopupRedirect"/>
+                <input type="hidden" name="PopupRedirectID" value="" id="PopupRedirectID"/>
+                <input type="hidden" name="PopupRedirectEntityID" value="" id="PopupRedirectEntityID"/>
+
+[% RenderBlockStart("EditWarning") %]
+                <div class="WidgetSimple Expanded WidgetNotice">
+                    <div class="Content">[% Translate("Please note that changing this transition action will affect the following processes") | html %]: [% Data.ProcessList | html %]</div>
+                </div>
+[% RenderBlockEnd("EditWarning") %]
+
+                <div class="WidgetSimple Expanded">
+                    <div class="Header">
+                        <div class="WidgetAction Toggle">
+                            <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                        </div>
+                        <h2>[% Translate("Transition Action") | html %]</h2>
+                    </div>
+                    <div class="Content">
+                        <fieldset class="TableLike">
+                            <label class="Mandatory" for="Name"><span class="Marker">*</span> [% Translate("Transition Action Name") | html %]:</label>
+                            <div class="Field">
+                                <input type="text" name="Name" id="Name" value="[% Data.Name | html %]" class="W90pc Validate_Required [% Data.NameServerError | html %]" maxlength="70"/>
+                                <div id="NameError" class="TooltipErrorMessage">
+                                    <p>[% Translate("This field is required.") | html %]</p>
+                                </div>
+                                <div id="NameServerError" class="TooltipErrorMessage">
+                                    <p>[% Translate("This field is required.") | html %]</p>
+                                </div>
+                            </div>
+                            <div class="Clear"></div>
+                            <label class="Mandatory" for="Module"><span class="Marker">*</span> [% Translate("Transition Action Module") | html %]:</label>
+                            <div class="Field">
+                                [% Data.ModuleStrg %]
+                                <div id="ModuleError" class="TooltipErrorMessage">
+                                    <p>[% Translate("This field is required.") | html %]</p>
+                                </div>
+                                <div id="ModuleServerError" class="TooltipErrorMessage">
+                                    <p>[% Translate("This field is required.") | html %]</p>
+                                </div>
+                            </div>
+                            <div class="Clear"></div>
+                        </fieldset>
+                        <fieldset class="TableLike">
+                            <label for="Config">[% Translate("Config Parameters") | html %]:</label>
+                            <div class="Field" id="ConfigParams">
+[% RenderBlockStart("ConfigItemInitRow") %]
+                                <fieldset class="Fields">
+                                    <label for="ConfigKey[1]">[% Translate("Key") | html %]:</label>
+                                    <input type="text" name="ConfigKey[1]" id="ConfigKey[1]" />
+                                    <label for="ConfigValue[1]">[% Translate("Value") | html %]:</label>
+                                    <input type="text" name="ConfigValue[1]" id="ConfigValue[1]" />
+                                </fieldset>
+[% RenderBlockEnd("ConfigItemInitRow") %]
+[% RenderBlockStart("ConfigItemEditRow") %]
+                                <fieldset class="Fields">
+                                    <label for="ConfigKey[[% Data.Index | html %]]">[% Translate("Key") | html %]:</label>
+                                    <input type="text" value="[% Data.Key | html %]" name="ConfigKey[[% Data.Index | html %]]" id="ConfigKey[[% Data.Index | html %]]" />
+                                    <label for="ConfigValue[[% Data.Index | html %]]">[% Translate("Value") | html %]:</label>
+                                    <input type="text" value="[% Data.Value | html %]" name="ConfigValue[[% Data.Index | html %]]" id="ConfigValue[[% Data.Index | html %]]" />
+                                    <button class="Remove" type="button" title="[% Translate("Remove this Parameter") | html %]">
+                                        [% Translate("Remove this Parameter") | html %]
+                                    </button>
+                                </fieldset>
+[% RenderBlockEnd("ConfigItemEditRow") %]
+                                <button class="Add" type="button" name="ConfigAdd" id="ConfigAdd" title="[% Translate("Add a new Parameter") | html %]">
+                                    [% Translate("Add a new Parameter") | html %]
+                                </button>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+<!-- Invisible submit button to allow form submit on pressing enter/return without javascript -->
+                <input type="image" width="0" height="0" style="display: none;" />
+            </form>
+            <div id="ConfigParamContainer" style="display:none;">
+                <fieldset class="Fields">
+                    <label for="ConfigKey[_INDEX_]">[% Translate("Key") | html %]:</label>
+                    <input type="text" name="ConfigKey[_INDEX_]" id="ConfigKey[_INDEX_]" />
+                    <label for="ConfigValue[_INDEX_]">[% Translate("Value") | html %]:</label>
+                    <input type="text" name="ConfigValue[_INDEX_]" id="ConfigValue[_INDEX_]" />
+                    <button class="Remove" title="[% Translate("Remove this Parameter") | html %]">
+                        [% Translate("Remove this Parameter") | html %]
+                    </button>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    <div class="Footer">
+        <button class="Primary" id="Submit" title="[% Translate("Submit") | html %]" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
+    </div>
+</div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Agent.Admin.ProcessManagement.InitTransitionActionEdit();
+//]]></script>
+[% END %]

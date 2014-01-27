@@ -1,0 +1,64 @@
+# --
+# NoPermission.tt - provides HTML NoPermission screen
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain">
+
+    <div class="W33pc CenterBox SpacingTopLarge SpacingBottomLarge">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Insufficient Rights") | html %]</h2>
+            </div>
+            <div class="Content">
+                <h4>
+                    [% Translate("Message") | html %]: <span class="Error">[% Data.Message %]</span>
+                </h4>
+
+                <p class="SpacingTop">
+                    [% Data.Comment %]
+                </p>
+
+                <p class="SpacingTop">
+                    <a href="#" id="GoBack">[% Translate("Back to the previous page") | html %]</a>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#GoBack').bind('click', function (Event) {
+
+        // check if an older history entry is available
+        if (history.length > 1) {
+        history.back();
+        return false;
+        }
+
+        // if we're in a popup window, close it
+        if (window.opener !== null) {
+            window.close();
+            return false;
+        }
+
+        // normal window, no history: no action possible
+        return false;
+    });
+//]]></script>
+[% END %]
+                </p>
+
+[% RenderBlockStart("PossibleNextActionContainer") %]
+                <p class="SpacingTop">
+[% RenderBlockStart("PossibleNextActionRow") %]
+                    <a href="[% Data.Link %]" title="[% Translate(Data.Description) | html %]">[% Translate(Data.Description) | html %]</a>
+                    <br/>
+[% RenderBlockEnd("PossibleNextActionRow") %]
+                </p>
+[% RenderBlockEnd("PossibleNextActionContainer") %]
+
+            </div>
+        </div>
+    </div>
+
+</div>

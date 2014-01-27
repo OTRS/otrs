@@ -1,0 +1,149 @@
+# --
+# AdminProcessManagement.tt - provides HTML for AdminProcessManagement
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Process Management") | html %]</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="Filter">[% Translate("Filter for Processes") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="Filter" class="W95pc" name="Filter" value="" title="[% Translate("Filter") | html %]" placeholder="[% Translate("Process Name") | html %]" />
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessNew" class="CallForAction Fullsize Center Plus"><span>[% Translate("Create New Process") | html %]</span></a>
+                    </li>
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessSync" class="CallForAction Fullsize Center Refresh"><span>[% Translate("Synchronize All Processes") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Configuration import") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.") | html %]
+                </p>
+                <ul class="ActionList">
+                    <li>
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="ProcessImport"/>
+                            <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
+                            <input name="FileUpload" id="FileUpload" type="file" size="18" class="Fixed W100pc Validate_Required [% Data.FileUploadInvalid | html %]"/>
+                            <div id="FileUploadError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div id="FileUploadServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+# Disable this because there are problems with the import logic.
+#                            <fieldset class="SpacingTop">
+#                                <input type="checkbox" id="OverwriteExistingEntities" name="OverwriteExistingEntities" value="1" />
+#                                <label for="OverwriteExistingEntities">[% Translate("Overwrite existing entities") | html %]</label>
+#                            </fieldset>
+#
+                            <button class="CallForAction Plus Fullsize Center" type="submit" value="[% Translate("Upload process configuration") | html %]">
+                                <span>[% Translate("Import process configuration") | html %]</span>
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Description") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("To create a new Process you can either import a Process that was exported from another system or create a complete new one.") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    [% Translate("Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.") | html %]
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Processes") | html %]</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable" id="Processes">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Process name") | html %]</th>
+                            <th>[% Translate("Description") | html %]</th>
+                            <th>[% Translate("State") | html %]</th>
+                            <th>[% Translate("Export") | html %]</th>
+                            <th>[% Translate("Copy") | html %]</th>
+                            <th>[% Translate("Print") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("ProcessRow") %]
+                        <tr>
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessEdit;ID=[% Data.ID | uri %];EntityID=[% Data.EntityID | uri %]" title="[% Data.Name | html %] ([% Data.EntityID | html %])">
+                                    [% Data.Name | html %]
+                                </a>
+                            </td>
+                            <td>[% Data.Description | html %]</td>
+                            <td>[% Translate(Data.State) | html %]</td>
+                            <td>
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessExport;ID=[% Data.ID | uri %]" class="Export AsBlock" title="[% Translate("Export Process Configuration") | html %]">
+                                    [% Translate("Export") | html %]
+                                </a>
+                            </td>
+                            <td>
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessCopy;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" class="Copy AsBlock" title="[% Translate("Copy Process") | html %]">
+                                    [% Translate("Copy") | html %]
+                                </a>
+                            </td>
+                            <td>
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessPrint;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" class="Print AsBlock AsPopup PopupType_ProcessOverview">
+                                    [% Translate("Print") | html %]
+                                </a>
+                            </td>
+                        </tr>
+[% RenderBlockEnd("ProcessRow") %]
+[% RenderBlockStart("ProcessNoDataRow") %]
+                        <tr>
+                            <td colspan="4">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("ProcessNoDataRow") %]
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Agent.Admin.ProcessManagement.InitProcessOverview();
+//]]></script>
+[% END %]

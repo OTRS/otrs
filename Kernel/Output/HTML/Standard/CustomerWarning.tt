@@ -1,0 +1,19 @@
+# --
+# CustomerWarning.tt - provides HTML warning screen
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div id="MainBox ARIARoleMain">
+    <div class="Content">
+        <h2>
+            [% Translate("Warning") | html %]: [% Translate(Data.Message) | html %]
+        </h2>
+        <p>
+            [% Translate("Comment") | html %]: [% Translate(Data.Comment) | html %]
+        </p>
+    </div>
+</div>

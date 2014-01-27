@@ -806,19 +806,12 @@ sub Run {
 
                 if ( $Self->{PDFObject} ) {
                     my %Info = ( %Data, %UserInfo );
-                    my $Created = $Self->{LayoutObject}->Output(
-                        Template => '$TimeLong{"$Data{"Created"}"}',
-                        Data     => \%Data,
+                    my $Created = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
+                        $Data{Created},
+                        'DateFormat',
                     );
-                    my $Owner = $Self->{LayoutObject}->Output(
-                        Template =>
-                            '$QData{"Owner","30"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","30"})',
-                        Data => \%Info
-                    );
-                    my $Customer = $Self->{LayoutObject}->Output(
-                        Template => '$QData{"CustomerID","15"} $QData{"CustomerName","15"}',
-                        Data     => \%Data
-                    );
+                    my $Owner    = "$Info{Owner} ($Info{UserFullname})";
+                    my $Customer = "$Data{CustomerID} $Data{CustomerName}";
 
                     my @PDFRow;
                     push @PDFRow,  $Data{TicketNumber};
@@ -847,7 +840,7 @@ sub Run {
                     . $Self->{LayoutObject}->{LanguageObject}->Get('Search');
                 my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
                 my $Page      = $Self->{LayoutObject}->{LanguageObject}->Get('Page');
-                my $Time      = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
+                my $Time      = $Self->{LayoutObject}->{Time};
                 my $Url       = '';
                 if ( $ENV{REQUEST_URI} ) {
                     $Url
@@ -985,8 +978,10 @@ sub Run {
             else {
                 $Output = $Self->{LayoutObject}->PrintHeader( Width => 800 );
                 if ( @ViewableTicketIDs == $Self->{SearchLimit} ) {
-                    $Param{Warning} = '$Text{"Reached max. count of %s search hits!", "'
-                        . $Self->{SearchLimit} . '"}';
+                    $Param{Warning} = $Self->{LayoutObject}->{LanguageObject}->Translate(
+                        "Reached max. count of %s search hits!",
+                        $Self->{SearchLimit},
+                    );
                 }
 
                 $Output .= $Self->{LayoutObject}->Output(

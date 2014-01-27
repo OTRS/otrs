@@ -35,9 +35,9 @@ sub Run {
     # show error notfy, don't work with user id 1
     return $Self->{LayoutObject}->Notify(
         Priority => 'Error',
-        Link     => '$Env{"Baselink"}Action=AdminUser',
+        Link     => $Self->{LayoutObject}->{Baselink} . 'Action=AdminUser',
         Data =>
-            '$Text{"Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead."}',
+            $Self->{LayoutObject}->{LanguageObject}->Translate("Don't use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead."),
     );
 }
 

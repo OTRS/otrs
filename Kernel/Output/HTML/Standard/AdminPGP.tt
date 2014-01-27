@@ -1,0 +1,190 @@
+# --
+# AdminPGP.tt - provides HTML form for AdminPGP html
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("Overview") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("PGP Management") | html %]</h1>
+
+    <div class="SidebarColumn">
+[% RenderBlockStart("Disabled") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Notice") | html %]</h2>
+            </div>
+            <div class="Content ActionList">
+                <form action="[% Env("CGIHandle") %]" method="post">
+                    <input type="hidden" name="Action" value="AdminSysConfig"/>
+                    <input type="hidden" name="Subaction" value="Edit"/>
+                    <input type="hidden" name="SysConfigGroup" value="Framework"/>
+                    <input type="hidden" name="SysConfigSubGroup" value="Crypt::PGP"/>
+                    <h3>[% Translate("This feature is disabled!") | html %]</h3>
+                    <fieldset>
+                        <p class="FieldExplanation">
+                            [% Translate("Use this feature if you want to work with PGP keys.") | html %]
+                        </p>
+                        <div class="Field SpacingTop">
+                            <button class="CallForAction" type="submit" value="[% Translate("Enable it here!") | html %]">
+                                <span>[% Translate("Enable it here!") | html %]</span>
+                            </button>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+[% RenderBlockEnd("Disabled") %]
+
+[% RenderBlockStart("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header"><h2>[% Translate("Actions") | html %]</h2></div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+
+[% RenderBlockStart("ActionSearch") %]
+                    <li>
+                        <form class="SearchBox" action="[% Env("CGIHandle") %]" method="post">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="Search"/>
+                            <input type="text" name="Search" id="Search" value="[% Data.Search | html %]" title="[% Translate("Search") | html %]"/>
+                            <button type="submit" value="[% Translate("Search") | html %]"><span>[% Translate("Search") | html %]</span></button>
+                            <div class="Clear"></div>
+                        </form>
+                    </li>
+[% RenderBlockEnd("ActionSearch") %]
+
+[% RenderBlockStart("ActionAdd") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Add" class="CallForAction Plus"><span>[% Translate("Add PGP key") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionAdd") %]
+
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionList") %]
+
+[% RenderBlockStart("Hint") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("In this way you can directly edit the keyring configured in SysConfig.") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    [% Translate("Description") | html %]:
+                    <a href="http://en.wikipedia.org/wiki/Pretty_Good_Privacy" target="_blank">
+                        [% Translate("Introduction to PGP") | html %]
+                    </a>
+                </p>
+            </div>
+        </div>
+[% RenderBlockEnd("Hint") %]
+    </div>
+
+[% RenderBlockStart("OverviewResult") %]
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Result") | html %]</h2>
+            </div>
+            <div class="Content">
+
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Type") | html %]</th>
+                            <th>[% Translate("Status") | html %]</th>
+                            <th>[% Translate("Identifier") | html %]</th>
+                            <th>[% Translate("Bit") | html %]</th>
+                            <th>[% Translate("Key") | html %]</th>
+                            <th>[% Translate("Fingerprint") | html %]</th>
+                            <th>[% Translate("Created") | html %]</th>
+                            <th>[% Translate("Expires") | html %]</th>
+                            <th>[% Translate("Delete") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("NoDataFoundMsg") %]
+                        <tr>
+                            <td colspan="9">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockStart("Row") %]
+                        <tr>
+                            <td>[% Data.Type | html %]</td>
+                            <td>[% Data.Status | html %]</td>
+                            <td>[% Data.Identifier | truncate(80) | html %]</td>
+                            <td>[% Data.Bit | html %]</td>
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Download;Type=[% Data.Type | uri %];Key=[% Data.Key | uri %];[% Env("ChallengeTokenParam") | html %]">[% Data.Key | html %]</a>
+                            </td>
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=DownloadFingerprint;Type=[% Data.Type | uri %];Key=[% Data.Key | uri %];[% Env("ChallengeTokenParam") | html %]"><span title="[% Data.Fingerprint | html %]">[% Data.Fingerprint | truncate(10) | html %]</span></a>
+                            </td>
+                            <td>[% Data.Created | html %]</td>
+                            <td>[% Data.Expires | html %]</td>
+                            <td class="Center">
+                                <a class="TrashCan" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;Type=[% Data.Type | uri %];Key=[% Data.FingerprintShort | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this key") | html %]">[% Translate("Delete this key") | html %]</a>
+                            </td>
+                        </tr>
+[% RenderBlockEnd("Row") %]
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+[% RenderBlockEnd("OverviewResult") %]
+
+[% RenderBlockStart("AddKey") %]
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Add PGP Key") | html %]</h2>
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="AddKey"/>
+                    <fieldset class="TableLike">
+                        <label class="Mandatory" for="FileUpload"><span class="Marker">*</span> [% Translate("PGP key") | html %]:</label>
+                        <div class="Field">
+                            <input name="FileUpload" id="FileUpload" type="file" class="W50pc Validate_Required [% Data.FileUploadInvalid | html %]" size="30"/>
+                            <div id="FileUploadError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="FileUploadServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary" type="submit">[% Translate("Add") | html %]</button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+[% RenderBlockEnd("AddKey") %]
+
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("Overview") %]

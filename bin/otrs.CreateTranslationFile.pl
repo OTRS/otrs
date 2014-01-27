@@ -223,7 +223,7 @@ sub HandleLanguage {
         UserLanguage => $Language,
     );
 
-    # open .dtl files and write new translation file
+    # open .tt files and write new translation file
     my $Data = '';
     my %UsedWords;
     my %UsedWordsMisc;
@@ -234,113 +234,104 @@ sub HandleLanguage {
 
     my @List = $CommonObject{MainObject}->DirectoryRead(
         Directory => $Directory,
-        Filter    => '*.dtl',
+        Filter    => '*.tt',
     );
 
     print "\nReading template files:\n";
 
     for my $File (@List) {
-        if ( open my $In, '<', $File ) {    ## no critic
-            my $Content = '';
-            while ( my $Line = <$In> ) {
-                if ( $Line !~ /^#/ ) {
-                    $Content .= $Line;
-                }
-            }
-            close $In;
-            $File =~ s!^.*/(.+?)\.dtl!$1!;
+
+        my $ContentRef = $CommonObject{MainObject}->FileRead(
+            Location  => $File,
+            Mode      => 'utf8',
+        );
+
+        if ( ref $ContentRef ) {
+            my $Content = ${$ContentRef};
+            # while ( my $Line = <$In> ) {
+            #     if ( $Line !~ /^#/ ) {
+            #         $Content .= $Line;
+            #     }
+            # }
+            # close $In;
+            $File =~ s!^.*/(.+?)\.tt!$1!;
             print "$File ";
             $Data .= "\n" . $Indent . "# Template: $File\n";
 
-            # replace data tags so that stuff like
-            #   $Text{"$Data{"ernie"}"} will not be translated
-            $Content =~ s{
-            \$(Env|Data|QData)({"(.+?)"}|{""}|{"(.+?)","(.+?)"})
-        }
-        {}gx;
-
-            # replace $Config so that stuff like
-            #   $Text{"$Config{"Ticket::Frontend::TimeUnits"}"} will be translated
-            $Content =~ s{
-            \$Config\{"([^\}]+?)?"\}
-        }
-        {
-            if ( defined $1 ) {
-                $CommonObject{ConfigObject}->Get($1) || '';
-            }
-            else {
-                '';
-            }
-        }egx;
-
             # do translation
             $Content =~ s{
-            \$(?:JS)?Text\{"([^\}]+?)?"(?:,[^\}]+)?\}
-        }
-        {
-            my $Word = '';
-            if ( defined $1 ) {
-                $Word = $1;
+                Translate\(
+                    \s*
+                    "(.*?)(?<!\\)"
+                    \s*
+                    (?:,[^\)]+)?
+                \)
+                (?:\s|[|])
             }
+            {
+                my $Word = $1 // '';
 
-            # if we translate a module, we must handle also that possibly
-            # there is already a translation in the core files
-            if ($IsSubTranslation) {
-                # ignore word if already used
-                if ( $Word && !exists $UsedWords{$Word} && !exists $LanguageCoreObject->{Translation}->{$Word} ) {
+                # unescape any \" signs
+                $Word =~ s{\\"}{"}smxg;
 
-                    # remove it from misc list
-                    $UsedWordsMisc{$Word} = 1;
+                # if we translate a module, we must handle also that possibly
+                # there is already a translation in the core files
+                if ($IsSubTranslation) {
+                    # ignore word if already used
+                    if ( $Word && !exists $UsedWords{$Word} && !exists $LanguageCoreObject->{Translation}->{$Word} ) {
 
-                    # lookup for existing translation
-                    $UsedWords{$Word} = $LanguageObject->{Translation}->{$Word};
-                    my $Translation = $UsedWords{$Word} || '';
-                    $Translation =~ s/'/\\'/g;
-                    my $Key = $Word;
-                    $Key =~ s/'/\\'/g;
+                        # remove it from misc list
+                        $UsedWordsMisc{$Word} = 1;
 
-                    $Param{Stats}->{$Param{Language}}->{$Word} = $Translation;
+                        # lookup for existing translation
+                        $UsedWords{$Word} = $LanguageObject->{Translation}->{$Word};
+                        my $Translation = $UsedWords{$Word} || '';
+                        $Translation =~ s/'/\\'/g;
+                        my $Key = $Word;
+                        $Key =~ s/'/\\'/g;
 
-                    if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
-                        if (length($Key) < $BreakLineAfterChars) {
-                            $Data .= $Indent . "\$Self->{Translation}->{'$Key'} = '$Translation';\n";
-                        }
-                        else {
-                            $Data .= $Indent . "\$Self->{Translation}->{'$Key'} =\n";
-                            $Data .= $Indent . '    ' . "'$Translation';\n";
+                        $Param{Stats}->{$Param{Language}}->{$Word} = $Translation;
+
+                        if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
+                            if (length($Key) < $BreakLineAfterChars) {
+                                $Data .= $Indent . "\$Self->{Translation}->{'$Key'} = '$Translation';\n";
+                            }
+                            else {
+                                $Data .= $Indent . "\$Self->{Translation}->{'$Key'} =\n";
+                                $Data .= $Indent . '    ' . "'$Translation';\n";
+                            }
                         }
                     }
                 }
-            }
-            else {
-                # ignore word if already used
-                if ( $Word && !exists $UsedWords{$Word} ) {
+                else {
+                    # ignore word if already used
+                    if ( $Word && !exists $UsedWords{$Word} ) {
 
-                    # remove it from misc list
-                    $UsedWordsMisc{$Word} = 1;
+                        # remove it from misc list
+                        $UsedWordsMisc{$Word} = 1;
 
-                    # lookup for existing translation
-                    $UsedWords{$Word} = $LanguageCoreObject->{Translation}->{$Word};
-                    my $Translation = $UsedWords{$Word} || '';
-                    $Translation =~ s/'/\\'/g;
+                        # lookup for existing translation
+                        $UsedWords{$Word} = $LanguageCoreObject->{Translation}->{$Word};
+                        my $Translation = $UsedWords{$Word} || '';
+                        $Translation =~ s/'/\\'/g;
 
-                    $Param{Stats}->{$Param{Language}}->{$Word} = $Translation;
+                        $Param{Stats}->{$Param{Language}}->{$Word} = $Translation;
 
-                    my $Key = $Word;
-                    $Key =~ s/'/\\'/g;
-                    if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
-                        if (length($Key) < $BreakLineAfterChars) {
-                            $Data .= $Indent . "'$Key' => '$Translation',\n";
-                        }
-                        else {
-                            $Data .= $Indent . "'$Key' =>\n";
-                            $Data .= $Indent . '    ' . "'$Translation',\n";
+                        my $Key = $Word;
+                        $Key =~ s/'/\\'/g;
+                        if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
+                            if (length($Key) < $BreakLineAfterChars) {
+                                $Data .= $Indent . "'$Key' => '$Translation',\n";
+                            }
+                            else {
+                                $Data .= $Indent . "'$Key' =>\n";
+                                $Data .= $Indent . '    ' . "'$Translation',\n";
+                            }
                         }
                     }
                 }
-            }
-            '';
-        }egx;
+                '';
+            }egx;
         }
         else {
             die "Can't open $File: $!";
@@ -419,7 +410,7 @@ sub HandleLanguage {
             $Translation =~ s/'/\\'/g;
             $Key =~ s/'/\\'/g;
 
-            # if a string was previously in a DTL, but has not yet been translated,
+            # if a string was previously in a TT file, but has not yet been translated,
             # there's no need to preserve it in the translation file.
             next KEY if !$Translation;
 
@@ -472,6 +463,7 @@ package Kernel::Language::${Language}_$Module;
 
 use strict;
 use warnings;
+use utf8;
 
 sub Data {
     my \$Self = shift;
@@ -538,7 +530,12 @@ EOF
     }
 
     print "Writing $TargetFile\n";
-    open( my $Out, '>', $TargetFile ) || die $!;    ## no critic
-    print $Out $NewOut;
-    close $Out;
+
+
+
+    $CommonObject{MainObject}->FileWrite(
+        Location   => $TargetFile,
+        Content    => \$NewOut,
+        Mode       => 'utf8', # binmode|utf8
+    );
 }

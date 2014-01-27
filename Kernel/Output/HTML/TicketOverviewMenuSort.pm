@@ -143,9 +143,7 @@ sub Run {
         }
     }
 
-    $ReturnData{HTML} .= <<"JS";
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
+    $Self->{LayoutObject}->AddJSOnDocumentComplete( Code => <<"JS" );
 \$("#SortBy").change(function(){
     var Selection = \$(this).val().split('|');
     if ( Selection.length === 2 ) {
@@ -154,8 +152,6 @@ sub Run {
         });
     }
 });
-//]]></script>
-<!-- dtl:js_on_document_complete -->
 JS
 
     $ReturnData{HTML} = '<li class="AlwaysPresent SortBy">'

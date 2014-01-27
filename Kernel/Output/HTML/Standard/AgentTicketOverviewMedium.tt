@@ -1,0 +1,337 @@
+# --
+# AgentTicketOverviewMedium.tt - provides HTML Ticket Overview
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+[% RenderBlockStart("DocumentActionRow") %]
+<ul class="Actions">
+[% RenderBlockStart("DocumentActionRowBulk") %]
+    <li class="AlwaysPresent">
+        <span>
+            <input type="checkbox" title="[% Translate("Select all") | html %]" id="SelectAllTickets" autocomplete="off" />
+            <label class="InvisibleText" for="SelectAllTickets">[% Translate("Select all") | html %]</label>
+        </span>
+    </li>
+    <li id="BulkAction" class="AlwaysPresent Inactive [% Data.CSS | html %]">
+        <a href="#">[% Translate(Data.Name) | html %]</a>
+    </li>
+[% RenderBlockEnd("DocumentActionRowBulk") %]
+[% RenderBlockStart("DocumentActionRowItem") %]
+    <li><a class="[% Data.Class | html %]" href="[% Data.Link | html %]" title="[% Data.Description | html %]">[% Data.Name | html %]</a></li>
+[% RenderBlockEnd("DocumentActionRowItem") %]
+[% RenderBlockStart("DocumentActionRowHTML") %]
+    [% Data.HTML %]
+[% RenderBlockEnd("DocumentActionRowHTML") %]
+</ul>
+[% RenderBlockEnd("DocumentActionRow") %]
+
+[% RenderBlockStart("DocumentHeader") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.UI.ActionRow.Init();
+//]]></script>
+[% END %]
+<ul id="TicketOverviewMedium" class="Overview OverviewMedium">
+[% RenderBlockEnd("DocumentHeader") %]
+
+[% RenderBlockStart("NoTicketFound") %]
+    <li id="EmptyMessageMedium">
+        [% Translate("No ticket data found.") | html %]
+    </li>
+[% RenderBlockEnd("NoTicketFound") %]
+
+[% RenderBlockStart("DocumentContent") %]
+    <li id="TicketID_[% Data.TicketID | html %]" class="MasterAction">
+        <div class="Content">
+[% RenderBlockStart("InlineActionRow") %]
+            <ul class="Actions InlineActions">
+[% RenderBlockStart("InlineActionRowItem") %]
+                <li><a id="[% Data.ID | html %]" class="[% Data.Class | html %]" href="[% Data.Link | html %]" title="[% Data.Description | html %]">[% Data.Name | html %]</a></li>
+[% RenderBlockEnd("InlineActionRowItem") %]
+[% RenderBlockStart("InlineActionRowItemHTML") %]
+                [% Data.HTML %]
+[% RenderBlockEnd("InlineActionRowItemHTML") %]
+            </ul>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    // Shows InlineActionRow on hover
+    $('.OverviewMedium > li').bind('mouseenter', function() {
+        $(this).find('ul.InlineActions').show();
+    }).bind('mouseleave', function() {
+        $(this).find('ul.InlineActions').hide();
+    });
+
+    // Fix for IE: Hovering the options of the select triggers a mouseleave of the li, so we have to stop the event propagation
+    $('.OverviewMedium > li ul.InlineActions li form select').bind('mouseleave', function (Event) {
+        Event.stopPropagation();
+    });
+
+    // Stop propagation on click on a part of the InlienActionRow without a link
+    // Otherwise that would trigger the li-wide link to the ticketzoom
+    $('ul.InlineActions').click(function (Event) {
+        Event.cancelBubble = true;
+        if (Event.stopPropagation) {
+            Event.stopPropagation();
+        }
+    });
+//]]></script>
+[% END %]
+[% RenderBlockEnd("InlineActionRow") %]
+[% RenderBlockStart("Bulk") %]
+            <div class="Checkbox">
+                <input class="Checkbox" type="checkbox" name="TicketID" value="[% Data.TicketID | html %]" autocomplete="off" />
+            </div>
+[% RenderBlockEnd("Bulk") %]
+[% RenderBlockStart("Meta") %]
+[% RenderBlockStart("MetaIcon") %]
+            <div class="[% Data.Class | html %]" title="[% Translate(Data.Title) | html %]">
+                <span class="[% Data.ClassSpan | html %]">
+                    <i class="icon-star"></i>
+                    <i class="icon-star"></i>
+                    <em>[% Translate(Data.Title) | html %]</em>
+                </span>
+            </div>
+[% RenderBlockEnd("MetaIcon") %]
+[% RenderBlockEnd("Meta") %]
+            <h2>
+                <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" class="MasterActionLink">[% Config("Ticket::Hook") %]: [% Data.TicketNumber %] &ndash; [% Data.Title | html %]</a>
+            </h2>
+[% RenderBlockStart("MenuItem") %]
+            <a href="[% Env("Baselink") %][% Data.Link %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %]</a>
+[% RenderBlockEnd("MenuItem") %]
+            <table class="Infos">
+                <tbody>
+                    <tr>
+                        <td>
+                            <label>[% Translate("From") | html %]</label><div title="[% Data.From | html %]">[% Data.FromRealname | html %]</div>
+                        </td>
+                        <td>
+                            <label>[% Translate("Age") | html %]</label>[% Data.Age | html %]
+                        </td>
+                        <td>
+                            <label>[% Translate("Queue") | html %]</label><div title="[% Data.Queue | html %]">[% Data.Queue | html %]</div>
+                        </td>
+                        <td>
+[% RenderBlockStart("CustomerIDRW") %]
+                            <label>[% Translate("CustomerID") | html %]</label><a href="[% Config("CustomerDBLink") %]" class="AsPopup PopupType_TicketAction" [% Config("CustomerDBLinkTarget") %]>[% Data.CustomerID | html %]</a>
+[% RenderBlockEnd("CustomerIDRW") %]
+[% RenderBlockStart("CustomerIDRO") %]
+                            <label>[% Translate("CustomerID") | html %]</label>[% Data.CustomerID | html %]
+[% RenderBlockEnd("CustomerIDRO") %]
+                            <br /><div title="[% Data.CustomerName | html %]">[% Data.CustomerName | html %]</div>
+                        </td>
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 is the name of the field and had to be replaced with the actual
+# field name
+#[% RenderBlockStart("DynamicField_Field1") %]
+#                        <td>
+#                            <label>[% Translate(Data.Label) | html %]</label>
+#[% RenderBlockStart("DynamicField_Field1Link") %]
+#                            <div title="[% Data.Title %]"><a href="[% Data.Link %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></div>
+#[% RenderBlockEnd("DynamicField_Field1Link") %]
+#[% RenderBlockStart("DynamicField_Field1Plain") %]
+#                            <div title="[% Data.Title %]"><span>[% Data.Value %]</span></div>
+#[% RenderBlockEnd("DynamicField_Field1Plain") %]
+#                        </td>
+#[% RenderBlockEnd("DynamicField_Field1") %]
+                        <td>
+                            <label>[% Translate("First Response Time") | html %]</label>
+[% RenderBlockStart("FirstResponseTime") %]
+                            <div title="[% Translate("Service Time") | html %]: [% Data.FirstResponseTimeWorkingTime | html %]" class="[% Data.FirstResponseTimeClass | html %]">[% Data.FirstResponseTimeHuman | html %] / [% Data.FirstResponseTimeDestinationDate | Localize("TimeShort") %]</div>
+[% RenderBlockEnd("FirstResponseTime") %]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>[% Translate("To") | html %]</label><div title="[% Data.To | html %]">[% Data.ToRealname | html %]</div>
+                        </td>
+                        <td>
+                            <label>[% Translate("Created") | html %]</label>[% Data.Created | Localize("TimeLong") %]
+                        </td>
+                        <td>
+                            <label>[% Translate("State") | html %]</label><div title="[% Translate(Data.State) | html %]">[% Translate(Data.State) | html %]</div>
+                        </td>
+                        <td>
+[% RenderBlockStart("Type") %]
+                            <label>[% Translate("Type") | html %]</label><div title="[% Data.Type | html %]">[% Data.Type | html %]</div>
+[% RenderBlockEnd("Type") %]
+                        </td>
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field2 is the name of the field and had to be replaced with the actual
+# field name
+#[% RenderBlockStart("DynamicField_Field2") %]
+#                        <td>
+#                            <label>[% Translate(Data.Label) | html %]</label>
+#[% RenderBlockStart("DynamicField_Field2Link") %]
+#                            <div title="[% Data.Title %]"><a href="[% Data.Link %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></div>
+#[% RenderBlockEnd("DynamicField_Field2Link") %]
+#[% RenderBlockStart("DynamicField_Field2Plain") %]
+#                            <div title="[% Data.Title %]"><span>[% Data.Value %]</span></div>
+#[% RenderBlockEnd("DynamicField_Field2Plain") %]
+#                        </td>
+#[% RenderBlockEnd("DynamicField_Field2") %]
+                        <td>
+                            <label>[% Translate("Update Time") | html %]</label>
+[% RenderBlockStart("UpdateTime") %]
+                            <div title="[% Translate("Service Time") | html %]: [% Data.UpdateTimeWorkingTime | html %]" class="[% Data.UpdateTimeClass | html %]">[% Data.UpdateTimeHuman | html %] / [% Data.UpdateTimeDestinationDate | Localize("TimeShort") %]</div>
+[% RenderBlockEnd("UpdateTime") %]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>[% Translate("Subject") | html %]</label><div title="[% Data.Subject | html %]">[% Data.Subject | html %]</div>
+                        </td>
+                        <td>
+                            <label>[% Translate("Owner") | html %]</label><div title="[% Data.UserFirstname | html %] [% Data.UserLastname | html %] ([% Data.Owner | html %])">[% Data.UserFirstname | html %] [% Data.UserLastname | html %]</div>
+                        </td>
+                        <td>
+                            <label>[% Translate("Lock") | html %]</label><div title="[% Translate(Data.Lock) | html %]">[% Translate(Data.Lock) | html %]</div>
+                        </td>
+                        <td>
+[% RenderBlockStart("Service") %]
+                            <label>[% Translate("Service") | html %]</label><div title="[% Data.Service | html %]">[% Data.Service | html %]</div>
+[% RenderBlockEnd("Service") %]
+[% RenderBlockStart("SLA") %]
+                            <label>[% Translate("Service Level Agreement") | html %]</label><div title="[% Data.SLA | html %]">[% Data.SLA | html %]</div>
+[% RenderBlockEnd("SLA") %]
+                        </td>
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field3 is the name of the field and had to be replaced with the actual
+# field name
+#[% RenderBlockStart("DynamicField_Field3") %]
+#                        <td>
+#                            <label>[% Translate(Data.Label) | html %]</label>
+#[% RenderBlockStart("DynamicField_Field3Link") %]
+#                            <div title="[% Data.Title %]"><a href="[% Data.Link %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></div>
+#[% RenderBlockEnd("DynamicField_Field3Link") %]
+#[% RenderBlockStart("DynamicField_Field3Plain") %]
+#                            <div title="[% Data.Title %]"><span>[% Data.Value %]</span></div>
+#[% RenderBlockEnd("DynamicField_Field3Plain") %]
+#                        </td>
+#[% RenderBlockEnd("DynamicField_Field3") %]
+                        <td>
+                            <label>[% Translate("Solution Time") | html %]</label>
+[% RenderBlockStart("SolutionTime") %]
+                            <div title="[% Translate("Service Time") | html %]: [% Data.SolutionTimeWorkingTime | html %]" class="[% Data.SolutionTimeClass | html %]">[% Data.SolutionTimeHuman | html %] / [% Data.SolutionTimeDestinationDate | Localize("TimeShort") %]</div>
+[% RenderBlockEnd("SolutionTime") %]
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+[% RenderBlockStart("DynamicFieldTable") %]
+            <div class="SpacingTop Center DynamicFieldSeparator"></div>
+            <table class="Infos">
+                <tbody>
+[% RenderBlockStart("DynamicFieldTableRow") %]
+                    <tr>
+[% RenderBlockStart("DynamicFieldTableRowRecord") %]
+                        <td>
+                            <label>[% Translate(Data.Label) | html %]</label>
+[% RenderBlockStart("DynamicFieldTableRowRecordLink") %]
+                            <div title="[% Data.Title %]"><a href="[% Data.Link %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></div>
+[% RenderBlockEnd("DynamicFieldTableRowRecordLink") %]
+[% RenderBlockStart("DynamicFieldTableRowRecordPlain") %]
+                            <div title="[% Data.Title %]"><span>[% Data.Value %]</span></div>
+[% RenderBlockEnd("DynamicFieldTableRowRecordPlain") %]
+                        </td>
+[% RenderBlockEnd("DynamicFieldTableRowRecord") %]
+                    </tr>
+[% RenderBlockEnd("DynamicFieldTableRow") %]
+                </tbody>
+            </table>
+[% RenderBlockEnd("DynamicFieldTable") %]
+        </div>
+    </li>
+
+[% RenderBlockEnd("DocumentContent") %]
+
+[% RenderBlockStart("DocumentFooter") %]
+</ul>
+
+<form name="bulk" action="">
+    <input type="hidden" name="TicketID" value=""/>
+</form>
+
+<form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="matrix">
+    <input type="hidden" name="Action" value="AgentTicketBulk"/>
+[% RenderBlockStart("DocumentFooterBulkItem") %]
+    <input type="hidden" name="TicketID" value=""/>
+[% RenderBlockEnd("DocumentFooterBulkItem") %]
+    <input type="hidden" name="TicketID" value=""/>
+</form>
+[% RenderBlockEnd("DocumentFooter") %]
+
+[% RenderBlockStart("DocumentMenuItem") %]
+<li id="[% Data.ID | html %]">
+    <a href="#" title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %]</a>
+</li>
+[% RenderBlockEnd("DocumentMenuItem") %]
+[% RenderBlockStart("DocumentMenuItemMoveForm") %]
+<li class="[% Data.Class | html %]">
+    <form title="[% Translate("Move ticket to a different queue") | html %]" action="[% Env("CGIHandle") %]" method="post">
+        <input type="hidden" name="Action" value="AgentTicketMove"/>
+        <input type="hidden" name="QueueID" value="[% Data.QueueID | html %]"/>
+        <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+        <label for="DestQueueID" class="InvisibleText">[% Translate("Change queue") | html %]:</label>
+        [% Data.MoveQueuesStrg %]
+    </form>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('.OverviewActions').on('change', 'select[name=DestQueueID]', function (Event) {
+        $(this).closest('form').submit();
+    });
+//]]></script>
+[% END %]
+</li>
+[% RenderBlockEnd("DocumentMenuItemMoveForm") %]
+
+[% WRAPPER JSOnDocumentComplete %]
+[% RenderBlockStart("DocumentReadyActionRowAdd") %]
+<script type="text/javascript">//<![CDATA[
+    Core.UI.ActionRow.AddActions($('#TicketID_[% Data.TicketID | html %]'), [% Data.Data %]);
+//]]></script>
+[% RenderBlockEnd("DocumentReadyActionRowAdd") %]
+[% RenderBlockStart("DocumentReadyStart") %]
+<script type="text/javascript">//<![CDATA[
+    Core.UI.InitCheckboxSelection($('div.Checkbox'));
+    $('.MasterAction').bind('click', function (Event) {
+        var $MasterActionLink = $(this).find('.MasterActionLink');
+        // prevent MasterAction on Dynamic Fields links
+        if ($(Event.target).hasClass('DynamicFieldLink')) {
+            return true;
+        }
+        // only act if the link was not clicked directly
+        if (Event.target !== $MasterActionLink.get(0)) {
+            if (Event.ctrlKey || Event.metaKey) {
+                window.open($MasterActionLink.attr('href'));
+            }
+            else {
+                window.location = $MasterActionLink.attr('href');
+            }
+            return false;
+        }
+    });
+//]]></script>
+[% RenderBlockEnd("DocumentReadyStart") %]
+[% END %]
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('a.AsPopup').bind('click', function (Event) {
+        var Matches,
+            PopupType = 'TicketAction';
+
+        Matches = $(this).attr('class').match(/PopupType_(\w+)/);
+        if (Matches) {
+            PopupType = Matches[1];
+        }
+
+        Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
+        return false;
+    });
+//]]></script>
+[% END %]

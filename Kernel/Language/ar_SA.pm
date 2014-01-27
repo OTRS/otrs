@@ -10,6 +10,7 @@ package Kernel::Language::ar_SA;
 
 use strict;
 use warnings;
+use utf8;
 
 sub Data {
     my $Self = shift;

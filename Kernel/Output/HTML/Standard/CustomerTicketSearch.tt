@@ -1,0 +1,155 @@
+# --
+# CustomerTicketSearch.tt - provides HTML form for CustomerTicketSearch.pm
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("Search") %]
+<div id="MainBox" class="Search ARIARoleMain">
+    <div class="Content">
+        <form action="[% Env("CGIHandle") %]" method="get">
+            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+            <input type="hidden" name="Subaction" value="LoadProfile"/>
+            <fieldset>
+                <h2>[% Translate("Profile") | html %]</h2>
+                <div>
+                    <label for="Profile">[% Translate("Search template") | html %]</label>
+                    [% Data.ProfilesStrg %]
+                </div>
+            </fieldset>
+            <div class="Row">
+                <button name="SelectTemplate" type="submit" value="[% Translate("Select") | html %]">[% Translate("Select") | html %]</button>
+                <button name="EraseTemplate" type="submit" value="[% Translate("Delete") | html %]">[% Translate("Delete") | html %]</button>
+                <button name="SearchTemplate" type="submit" value="[% Translate("Search") | html %]">[% Translate("Search") | html %]</button>
+            </div>
+        </form>
+
+        <form action="[% Env("CGIHandle") %]" method="post" name="compose">
+            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+            <input type="hidden" name="Subaction" value="Search"/>
+            <fieldset>
+                <h2>[% Config("Ticket::Hook") %]</h2>
+                <div>
+                    <label for="TicketNumber">[% Config("Ticket::Hook") %]</label>
+                    <input title="[% Config("Ticket::Hook") %]" type="text" name="TicketNumber"id="TicketNumber" size="30" value="[% Data.TicketNumber | html %]"/>
+                    <p>[% Translate("e. g. 10*5155 or 105658*") | html %]</p>
+                </div>
+                <div>
+                    <label for="CustomerID">[% Translate("CustomerID") | html %]</label>
+                    <input title="[% Translate("Customer ID") | html %]" type="text" id="CustomerID" name="CustomerID" value="[% Data.CustomerID | html %]" size="20" />
+                </div>
+            </fieldset>
+            <fieldset>
+                <h2>[% Translate("Fulltext search in tickets (e. g. \"John*n\" or \"Will*\")") | html %]</h2>
+                <div>
+                    <label for="From">[% Translate("From") | html %]</label>
+                    <input title="[% Translate("Sender") | html %]" type="text" id="From" name="From" value="[% Data.From | html %]" size="20" />
+                </div>
+                <div>
+                    <label for="To">[% Translate("To") | html %]</label>
+                    <input title="[% Translate("Recipient") | html %]" type="text" id="To" name="To" value="[% Data.To | html %]" size="20" />
+                </div>
+                <div>
+                    <label for="Cc">[% Translate("Cc") | html %]</label>
+                    <input title="[% Translate("Carbon Copy") | html %]" type="text" id="Cc" name="Cc" value="[% Data.Cc | html %]" size="20" />
+                </div>
+                <div>
+                    <label for="Subject">[% Translate("Subject") | html %]</label>
+                    <input title="[% Translate("Subject") | html %]" type="text" id="Subject" name="Subject" value="[% Data.Subject | html %]" size="20" />
+                </div>
+                <div>
+                    <label for="Body">[% Translate("Text") | html %]</label>
+                    <input title="[% Translate("Text") | html %]" type="text" id="Body" name="Body" value="[% Data.Body | html %]" size="20" />
+                </div>
+[% RenderBlockStart("DynamicField") %]
+                <div>
+                    [% Data.Label %]
+                    [% Data.Field %]
+                </div>
+                <div class="Clear"></div>
+[% RenderBlockEnd("DynamicField") %]
+            </fieldset>
+            <fieldset class="Columns">
+                <div class="Column">
+                    <h2><label for="ServiceIDs">[% Translate("Services") | html %]:</label></h2>
+                    <div>
+                        [% Data.ServicesStrg %]
+                    </div>
+                </div>
+                <div class="Column">
+                    <h2><label for="TypeIDs">[% Translate("Types") | html %]:</label></h2>
+                    <div>
+                        [% Data.TypesStrg %]
+                    </div>
+                </div>
+                <div class="Clear"></div>
+            </fieldset>
+            <fieldset class="Columns">
+                <div class="Column">
+                    <h2><label for="PriorityIDs">[% Translate("Priority") | html %]:</label></h2>
+                    <div>
+                        [% Data.PrioritiesStrg %]
+                    </div>
+                </div>
+                <div class="Column">
+                    <h2><label for="StateIDs">[% Translate("State") | html %]:</label></h2>
+                    <div>
+                        [% Data.StatesStrg %]
+                    </div>
+                </div>
+                <div class="Clear"></div>
+            </fieldset>
+            <fieldset class="TimeSearchType">
+                <h2>[% Translate("Time restrictions") | html %]</h2>
+                <div>
+                    <input title="[% Translate("No time settings") | html %]" type="radio"  id="NoTimeSet" name="TimeSearchType" value="" [% Data.item("TimeSearchType::None") %] />
+                    <label for="NoTimeSet">[% Translate("All") | html %]</label>
+                </div>
+                <div>
+                    <input title="Specific date" type="radio" id="Date" name="TimeSearchType"  value="TimePoint" [% Data.item("TimeSearchType::TimePoint") %] />
+                    <label for="Date">[% Translate("Only tickets created") | html %]</label>
+                    [% Data.TicketCreateTimePointStart %] [% Data.TicketCreateTimePoint %] [% Data.TicketCreateTimePointFormat %]
+                </div>
+                <div>
+                    <input title="Date range" type="radio" id="DateRange" name="TimeSearchType" value="TimeSlot" [% Data.item("TimeSearchType::TimeSlot") %] />
+                    <label for="DateRange">[% Translate("Only tickets created between") | html %]</label>
+                    [% Data.TicketCreateTimeStart %] [% Translate("and") | html %] [% Data.TicketCreateTimeStop %]
+                </div>
+            </fieldset>
+[% RenderBlockStart("SearchInArchive") %]
+            <fieldset>
+                <h2>[% Translate("Ticket archive system") | html %]</h2>
+                <div>
+                    <label for="SearchInArchive">[% Translate("Archive Search") | html %]:</label>
+                    [% Data.SearchInArchiveStrg %]
+                </div>
+            </fieldset>
+[% RenderBlockEnd("SearchInArchive") %]
+            <fieldset>
+                <h2>[% Translate("Save search as template?") | html %]</h2>
+                <div>
+                    <label for="SaveProfile">[% Translate("Save as Template?") | html %]</label>
+                    <input title="[% Translate("Save as Template") | html %]" type="checkbox" id="SaveProfile" name="SaveProfile" />
+                </div>
+                <div>
+                    <label for="Profile">[% Translate("Template Name") | html %]</label>
+                    <input title="[% Translate("Pick a profile name") | html %]" type="text" id="Profile" name="Profile" size="30" value="[% Data.Profile | html %]" />
+                </div>
+            </fieldset>
+            <div id="BottomActionRow" class="ActionRow">
+                <button id="Submit" type="submit" value="[% Translate("Search") | html %]">[% Translate("Search") | html %]</button>
+                <span>[% Translate("Output to") | html %]</span>
+                [% Data.ResultFormStrg %]
+            </div>
+        </form>
+    </div>
+</div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">
+    Core.Customer.InitFocus();
+</script>
+[% END %]
+[% RenderBlockEnd("Search") %]

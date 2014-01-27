@@ -1,0 +1,33 @@
+# --
+# AgentDashboardCustomerCompanyInformation.tt - provides HTML for global dashboard
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+
+<fieldset class="TableLike FixedLabelSmall">
+
+[% RenderBlockStart("ContentSmallCustomerCompanyInformationRow") %]
+
+[% RenderBlockStart("ContentSmallCustomerCompanyInformationRowText") %]
+    <label>[% Translate(Data.Label) | html %]:</label>
+    <div class="Field">[% Data.Value | html %]</div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("ContentSmallCustomerCompanyInformationRowText") %]
+
+[% RenderBlockStart("ContentSmallCustomerCompanyInformationRowLink") %]
+    <label>[% Translate(Data.Label) | html %]:</label>
+    <div class="Field">
+        <a href="[% Data.URL %]" target="[% Data.Target | html %]">
+            [% Data.Value | html %]
+        </a>
+    </div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("ContentSmallCustomerCompanyInformationRowLink") %]
+
+[% RenderBlockEnd("ContentSmallCustomerCompanyInformationRow") %]
+
+</fieldset>

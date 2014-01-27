@@ -1,0 +1,133 @@
+# --
+# AdminQueueAutoResponse.tt - provides HTML form for AdminQueueAutoResponse
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("Overview") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Manage Queue-Auto Response Relations") | html %]</h1>
+
+    <div class="SidebarColumn">
+
+[% RenderBlockStart("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionList") %]
+
+[% RenderBlockStart("FilterQueues") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterQueues">[% Translate("Filter for Queues") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterQueues" class="W50pc" name="FilterQueues" value="" title="[% Translate("Filter for Queues") | html %]" />
+            </div>
+        </div>
+[% RenderBlockEnd("FilterQueues") %]
+[% RenderBlockStart("FilterAutoResponses") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterAutoResponses">[% Translate("Filter for Auto Responses") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterAutoResponses" class="W50pc" name="FilterAutoResponses" value="" title="[% Translate("Filter for Auto Responses") | html %]" />
+            </div>
+        </div>
+[% RenderBlockEnd("FilterAutoResponses") %]
+
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+
+[% RenderBlockStart("OverviewResult") %]
+            <div class="Header">
+                <h2>[% Translate("Overview") | html %]</h2>
+            </div>
+            <div class="Content LayoutGrid ColumnsWithSpacing">
+                <div class="Size1of3">
+                    <ul class="Tablelike" id="Queues">
+                        <li class="Header">[% Translate("Queues") | html %]</li>
+                        <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
+[% RenderBlockStart("NoQueuesFoundMsg") %]
+                        <li>[% Translate("No data found.") | html %]</li>
+[% RenderBlockEnd("NoQueuesFoundMsg") %]
+[% RenderBlockStart("Item") %]
+                        <li><a href="[% Env("Baselink") %]Action=AdminQueueAutoResponse;Subaction=Change;ID=[% Data.QueueID | uri %]" class="AsBlock">[% Data.Queue | html %]</a></li>
+[% RenderBlockEnd("Item") %]
+                    </ul>
+                </div>
+
+                <div class="Size2of3">
+                    <ul class="Tablelike" id="AutoResponses">
+                        <li class="Header">[% Translate("Auto Responses") | html %]</li>
+                        <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
+[% RenderBlockStart("NoAutoResponsesFoundMsg") %]
+                        <li>[% Translate("No data found.") | html %]</li>
+[% RenderBlockEnd("NoAutoResponsesFoundMsg") %]
+[% RenderBlockStart("ItemList") %]
+                        <li><a href="[% Env("Baselink") %]Action=AdminAutoResponse;Subaction=Change;ID=[% Data.ID | uri %]" class="AsBlock">[% Data.Name | html %] ([% Data.Type | html %])</a></li>
+[% RenderBlockEnd("ItemList") %]
+                    </ul>
+                </div>
+            </div>
+            <div class ="Clear"></div>
+[% RenderBlockEnd("OverviewResult") %]
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.UI.Table.InitTableFilter($('#FilterQueues'), $('#Queues'));
+    Core.UI.Table.InitTableFilter($('#FilterAutoResponses'), $('#AutoResponses'));
+//]]></script>
+[% END %]
+
+[% RenderBlockStart("Selection") %]
+            <div class="Header">
+                <h2>
+                    [% Translate("Change Auto Response Relations for Queue") | html %]
+                    <a href="[% Env("Baselink") %]Action=[% Data.ActionHome | uri %];Subaction=Change;QueueID=[% Data.ID | uri %]">[% Data.Name | html %]</a>
+                </h2>
+            </div>
+            <div class="Content ">
+                <form action="[% Env("CGIHandle") %]" method="post">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="ChangeAction"/>
+                    <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
+                    <fieldset class="TableLike">
+[% RenderBlockStart("ChangeItemList") %]
+                        <label for="IDs_[% Data.TypeID %]">[% Translate(Data.Type) | html %]:</label>
+                        <div class="Field">
+                            [% Data.DataStrg %]
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("ChangeItemList") %]
+                        <div class="Field SpacingTop">
+                            <button class="Primary" type="submit" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Data.Action | uri %]">[% Translate("Cancel") | html %]</a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+[% RenderBlockEnd("Selection") %]
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("Overview") %]

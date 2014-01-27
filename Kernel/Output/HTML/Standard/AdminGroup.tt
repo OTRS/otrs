@@ -1,0 +1,195 @@
+# --
+# AdminGroup.tt - provides HTML form for AdminGroup
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Agent = Core.Agent || {};
+Core.Agent.Admin = Core.Agent.Admin || {};
+
+/**
+ * @namespace
+ * @exports TargetNS as Core.Agent.Admin.Group
+ * @description
+ *      This namespace contains the special module functions for AdminGroup.
+ */
+Core.Agent.Admin.Group = (function (TargetNS) {
+    /**
+     * @function
+     * @return nothing
+     *      This function initializes the special module functions
+     */
+    TargetNS.AdminGroupCheck = function () {
+        var NameValue = $('#GroupName').val(),
+            NameOldValue = $('#GroupOldName').val();
+
+        if (!NameOldValue || NameOldValue !== 'admin' || NameValue === 'admin') {
+            return true;
+        }
+
+        if (confirm([% Translate("WARNING: When you change the name of the group 'admin', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.") | JSON %])) {
+            return true;
+        }
+        else {
+            $('#GroupName').focus();
+            return false;
+        }
+    };
+
+    return TargetNS;
+}(Core.Agent.Admin.Group || {}));
+
+    $('#Submit').bind('click', Core.Agent.Admin.Group.AdminGroupCheck);
+//]]></script>
+[% END %]
+
+[% RenderBlockStart("Overview") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Group Management") | html %]</h1>
+
+    <div class="SidebarColumn">
+
+[% RenderBlockStart("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class='Content'>
+                <ul class="ActionList">
+[% RenderBlockStart("ActionAdd") %]
+                    <li>
+                        <form action="[% Env("CGIHandle") %]" method="post">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="Add"/>
+                            <button class="CallForAction Plus" type="submit" value="[% Translate("Add") | html %]">
+                                <span>[% Translate("Add group") | html %]</span>
+                            </button>
+                        </form>
+                    </li>
+[% RenderBlockEnd("ActionAdd") %]
+
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionList") %]
+
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("The admin group is to get in the admin area and the stats group to get stats area.") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    [% Translate("Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    [% Translate("It's useful for ASP solutions. ") | html %]
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+[% RenderBlockStart("OverviewResult") %]
+            <div class="Header">
+                <h2>[% Translate("List") | html %]</h2>
+            </div>
+            <div class="Content">
+
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Name") | html %]</th>
+                            <th>[% Translate("Comment") | html %]</th>
+                            <th>[% Translate("Validity") | html %]</th>
+                            <th>[% Translate("Changed") | html %]</th>
+                            <th>[% Translate("Created") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("OverviewResultRow") %]
+                        <tr>
+                            <td><a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Change;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>
+                            <td title="[% Data.Comment | html %]">[% Data.Comment | truncate(26) | html %]</td>
+                            <td>[% Translate(Data.Valid) | html %]</td>
+                            <td>[% Data.ChangeTime | Localize("TimeShort") %]</td>
+                            <td>[% Data.CreateTime | Localize("TimeShort") %]</td>
+                        </tr>
+[% RenderBlockEnd("OverviewResultRow") %]
+                    </tbody>
+                </table>
+            </div>
+[% RenderBlockEnd("OverviewResult") %]
+
+[% RenderBlockStart("OverviewUpdate") %]
+            <div class="Header">
+[% RenderBlockStart("HeaderAdd") %]
+                <h2>[% Translate("Add Group") | html %]</h2>
+[% RenderBlockEnd("HeaderAdd") %]
+[% RenderBlockStart("HeaderEdit") %]
+                <h2>[% Translate("Edit Group") | html %]</h2>
+[% RenderBlockEnd("HeaderEdit") %]
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post" name="GroupUpdate" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action"/>
+                    <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
+                    <input type="hidden" name="NameOld" id="GroupOldName" value="[% Data.Name | html %]"/>
+                    <fieldset class="TableLike">
+
+                        <label class="Mandatory" for="GroupName"><span class="Marker">*</span> [% Translate("Name") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Name" id="GroupName" value="[% Data.Name | html %]" class="W50pc Validate_Required [% Data.GroupNameInvalid | html %]" maxlength="200"/>
+                            <div id="GroupNameError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="GroupNameServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+
+                        <label for="ValidID">[% Translate("Validity") | html %]:</label>
+                        <div class="Field">
+                            [% Data.ValidOption %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Comment">[% Translate("Comment") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Comment" id="Comment" value="[% Data.Comment | html %]" class="W50pc" maxlength="250"/>
+                        </div>
+                        <div class="Clear"></div>
+
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary" type="submit" id="Submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+[% RenderBlockEnd("OverviewUpdate") %]
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("Overview") %]

@@ -1,0 +1,27 @@
+# --
+# Datepicker.tt - provides the data needed for the JS datepicker
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("DatepickerData") %]
+Core.Config.Set('Datepicker.VacationDays', [% Data.VacationDays %]);
+Core.Config.Set('Datepicker.ErrorMessage', [% Translate("Invalid date!") | JSON %]);
+Core.Config.Set('Datepicker.ErrorMessageDateInFuture', [% Translate("Invalid date (need a future date)!") | JSON %]);
+Core.Config.Set('Datepicker.Localization', {
+PrevText: [% Translate("Previous") | JSON %],
+NextText: [% Translate("Next") | JSON %],
+MonthNames: [[% Translate("January") | JSON %], [% Translate("February") | JSON %], [% Translate("March") | JSON %], [% Translate("April") | JSON %], [% Translate("May_long") | JSON %], [% Translate("June") | JSON %], [% Translate("July") | JSON %], [% Translate("August") | JSON %], [% Translate("September") | JSON %], [% Translate("October") | JSON %], [% Translate("November") | JSON %], [% Translate("December") | JSON %]],
+MonthNamesShort: [[% Translate("Jan") | JSON %], [% Translate("Feb") | JSON %], [% Translate("Mar") | JSON %], [% Translate("Apr") | JSON %], [% Translate("May") | JSON %], [% Translate("Jun") | JSON %], [% Translate("Jul") | JSON %], [% Translate("Aug") | JSON %], [% Translate("Sep") | JSON %], [% Translate("Oct") | JSON %], [% Translate("Nov") | JSON %], [% Translate("Dec") | JSON %]],
+DayNames: [[% Translate("Sunday") | JSON %], [% Translate("Monday") | JSON %], [% Translate("Tuesday") | JSON %], [% Translate("Wednesday") | JSON %], [% Translate("Thursday") | JSON %], [% Translate("Friday") | JSON %], [% Translate("Saturday") | JSON %]],
+DayNamesShort: [[% Translate("Sun") | JSON %], [% Translate("Mon") | JSON %], [% Translate("Tue") | JSON %], [% Translate("Wed") | JSON %], [% Translate("Thu") | JSON %], [% Translate("Fri") | JSON %], [% Translate("Sat") | JSON %]],
+DayNamesMin: [[% Translate("Su") | JSON %], [% Translate("Mo") | JSON %], [% Translate("Tu") | JSON %], [% Translate("We") | JSON %], [% Translate("Th") | JSON %], [% Translate("Fr") | JSON %], [% Translate("Sa") | JSON %]],
+IsRTL: [% Data.IsRTLLanguage %],
+FirstDay: 0,
+ShowMonthAfterYear: 0,
+IconText: [% Translate("Open date selection") | JSON %]
+});
+[% RenderBlockEnd("DatepickerData") %]

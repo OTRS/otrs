@@ -404,6 +404,26 @@ my @NeededModules = (
         },
     },
     {
+        Module   => 'Template',
+        Required => 1,
+        Comment  => 'Template::Toolkit, the rendering engine of OTRS.',
+        InstTypes => {
+            aptget => 'libtemplate-perl',
+            ppm    => 'Template-Toolkit',
+            zypper => 'perl-Template-Toolkit',
+        },
+    },
+    {
+        Module   => 'Template::Stash::XS',
+        Required => 1,
+        Comment  => 'The fast data stash for Template::Toolkit.',
+        InstTypes => {
+            aptget => 'libtemplate-perl',
+            ppm    => 'Template-Toolkit',
+            zypper => 'perl-Template-Toolkit',
+        },
+    },
+    {
         Module    => 'Text::CSV_XS',
         Required  => 0,
         Comment   => 'Recommended for faster CSV handling.',

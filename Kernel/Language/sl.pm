@@ -15,6 +15,7 @@ package Kernel::Language::sl;
 
 use strict;
 use warnings;
+use utf8;
 
 sub Data {
     my $Self = shift;

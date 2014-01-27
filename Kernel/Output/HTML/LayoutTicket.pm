@@ -403,8 +403,13 @@ sub AgentQueueListOption {
     $Param{MoveQueuesStrg} .= "</select>\n";
 
     if ( $Param{TreeView} ) {
+        my $TreeSelectionMessage
+            = $Self->{LanguageObject}->Get("Show Tree Selection");
         $Param{MoveQueuesStrg}
-            .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+            .= ' <a href="#" title="'
+            . $TreeSelectionMessage
+            . '" class="ShowTreeSelection">'
+            . $TreeSelectionMessage . '</a>';
     }
 
     return $Param{MoveQueuesStrg};

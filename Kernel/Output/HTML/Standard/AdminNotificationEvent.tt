@@ -1,0 +1,555 @@
+# --
+# AdminNotificationEvent.tt - provides HTML form for AdminNotificationEvent
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+[% RenderBlockStart("Overview") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Notification Management") | html %]</h1>
+
+    <div class="SidebarColumn">
+[% RenderBlockStart("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+[% RenderBlockStart("ActionAdd") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Add" class="CallForAction Plus"><span>[% Translate("Add notification") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionAdd") %]
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionList") %]
+    </div>
+
+
+    <div class="ContentColumn">
+[% RenderBlockStart("OverviewResult") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("List") | html %]</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th class="W20pc">[% Translate("Name") | html %]</th>
+                            <th>[% Translate("Comment") | html %]</th>
+                            <th>[% Translate("Validity") | html %]</th>
+                            <th>[% Translate("Changed") | html %]</th>
+                            <th>[% Translate("Created") | html %]</th>
+                            <th>[% Translate("Delete") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("NoDataFoundMsg") %]
+                        <tr>
+                            <td colspan="6">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockStart("OverviewResultRow") %]
+                        <tr>
+                            <td><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Change;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>
+                            <td title="[% Data.Comment | html %]">[% Data.Comment | truncate(26) | html %]</td>
+                            <td>[% Translate(Data.Valid) | html %]</td>
+                            <td>[% Data.ChangeTime | Localize("TimeShort") %]</td>
+                            <td>[% Data.CreateTime | Localize("TimeShort") %]</td>
+                            <td class="Center">
+                                <a class="TrashCan" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this notification") | html %]">[% Translate("Delete this notification") | html %]</a>
+                            </td>
+                        </tr>
+[% RenderBlockEnd("OverviewResultRow") %]
+                    </tbody>
+                </table>
+            </div>
+        </div>
+[% RenderBlockEnd("OverviewResult") %]
+
+[% RenderBlockStart("OverviewUpdate") %]
+        <form action="[% Env("CGIHandle") %]" method="post"  class="Validate" name="compose">
+            <div class="WidgetSimple">
+                <div class="Header">
+[% RenderBlockStart("HeaderAdd") %]
+                    <h2>[% Translate("Add Notification") | html %]</h2>
+[% RenderBlockEnd("HeaderAdd") %]
+[% RenderBlockStart("HeaderEdit") %]
+                    <h2>[% Translate("Edit Notification") | html %]</h2>
+[% RenderBlockEnd("HeaderEdit") %]
+                </div>
+                <div class="Content">
+
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="[% Data.Action | uri %]Action"/>
+                    <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
+                    <fieldset class="TableLike">
+
+                        <label for="Name" class="Mandatory">
+                            <span class="Marker">*</span>
+                            [% Translate("Name") | html %]:
+                        </label>
+                        <div class="Field">
+                            <input type="text" name="Name" id="Name" value="[% Data.Name | html %]" class="W50pc Validate_Required [% Data.NameServerError %]" maxlength="200"/>
+                            <div id="NameError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="NameServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Comment">[% Translate("Comment") | html %]: </label>
+                        <div class="Field">
+                            <input type="text" name="Comment" id="Comment" value="[% Data.Comment | html %]" class="W50pc" maxlength="250"/>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ValidID">[% Translate("Validity") | html %]: </label>
+                        <div class="Field">
+                            [% Data.ValidOption %]
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="WidgetSimple SpacingTop">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate("Events") | html %]</h2>
+                </div>
+
+                <div class="Content">
+                    <fieldset class="TableLike">
+
+                        <label for="Events" class="Mandatory">
+                            <span class="Marker">*</span>
+                            [% Translate("Event") | html %]:
+                        </label>
+                        <div class="Field">
+                            [% Data.EventsStrg %]
+                            <div id="EventsError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="EventsServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="WidgetSimple SpacingTop Collapsed">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate("Ticket Filter") | html %]</h2>
+                </div>
+
+                <div class="Content">
+                    <fieldset class="TableLike">
+
+[% RenderBlockStart("OverviewUpdateType") %]
+                        <label for="TypeID">[% Translate("Type") | html %]: </label>
+                        <div class="Field">
+                            [% Data.TypesStrg %]
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("OverviewUpdateType") %]
+                        <label for="StateID">[% Translate("State") | html %]: </label>
+                        <div class="Field">
+                            [% Data.StatesStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="PriorityID">[% Translate("Priority") | html %]: </label>
+                        <div class="Field">
+                            [% Data.PrioritiesStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="QueueID">[% Translate("Queue") | html %]: </label>
+                        <div class="Field">
+                            [% Data.QueuesStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="LockID">[% Translate("Lock") | html %]: </label>
+                        <div class="Field">
+                            [% Data.LocksStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
+[% RenderBlockStart("OverviewUpdateService") %]
+
+                        <label for="ServiceID">[% Translate("Service") | html %]: </label>
+                        <div class="Field">
+                            [% Data.ServicesStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="SLAID">[% Translate("SLA") | html %]: </label>
+                        <div class="Field">
+                            [% Data.SLAsStrg %]
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("OverviewUpdateService") %]
+
+                        <label for="CustomerID">[% Translate("CustomerID") | html %]: </label>
+                        <div class="Field">
+                            <input type="text" name="CustomerID" id="CustomerID" class="W50pc" value="[% Data.CustomerID | html %]"/>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="CustomerUserID">[% Translate("Customer") | html %]: </label>
+                        <div class="Field">
+                            <input type="text" name="CustomerUserID" id="CustomerUserID" class="W50pc" value="[% Data.CustomerUserID | html %]"/>
+                        </div>
+                        <div class="Clear"></div>
+
+[% RenderBlockStart("DynamicField") %]
+                        <div class="SpacingTop"></div>
+                        <label>[% Translate("Dynamic Fields") | html %]</label>
+                        <div class="Clear"></div>
+                        <div class="SpacingTop"></div>
+[% RenderBlockStart("DynamicFieldElement") %]
+                        [% Data.Label %]
+                        <div class="Field">
+                            [% Data.Field %]
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("DynamicFieldElement") %]
+                        <div class="SpacingTop"></div>
+[% RenderBlockEnd("DynamicField") %]
+
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="WidgetSimple SpacingTop Collapsed">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate("Article Filter") | html %] <span class="FieldExplanation">([% Translate("Only for ArticleCreate event") | html %])</span></h2>
+                </div>
+
+                <div class="Content">
+                    <fieldset class="TableLike">
+
+                        <label for="ArticleTypeID">[% Translate("Article type") | html %]: </label>
+                        <div class="Field">
+                            [% Data.ArticleTypesStrg %]
+                            <p class="FieldExplanation">([% Translate("Only for ArticleCreate event") | html %])</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ArticleSenderTypeID">[% Translate("Article sender type") | html %]: </label>
+                        <div class="Field">
+                            [% Data.ArticleSenderTypesStrg %]
+                            <p class="FieldExplanation">([% Translate("Only for ArticleCreate event") | html %])</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ArticleSubjectMatch">[% Translate("Subject match") | html %]: </label>
+                        <div class="Field">
+                            <input type="text" name="ArticleSubjectMatch" id="ArticleSubjectMatch" class="W50pc" value="[% Data.ArticleSubjectMatch | html %]"/>
+                            <p class="FieldExplanation">([% Translate("Only for ArticleCreate event") | html %])</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ArticleBodyMatch">
+                            [% Translate("Body match") | html %]:
+                        </label>
+                        <div class="Field">
+                            <input type="text" name="ArticleBodyMatch" id="ArticleBodyMatch" class="W50pc" value="[% Data.ArticleBodyMatch | html %]"/>
+                            <p class="FieldExplanation">([% Translate("Only for ArticleCreate event") | html %])</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ArticleAttachmentInclude">[% Translate("Include attachments to notification") | html %]: </label>
+                        <div class="Field">
+                            [% Data.ArticleAttachmentIncludeStrg %]
+                            <p class="FieldExplanation">([% Translate("Only for ArticleCreate event") | html %])</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="WidgetSimple SpacingTop">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate("Recipient") | html %]</h2>
+                </div>
+
+                <div class="Content">
+                    <fieldset class="TableLike">
+
+                        <label for="Recipients">[% Translate("Recipient groups") | html %]: </label>
+                        <div class="Field">
+                            [% Data.RecipientsStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="RecipientAgents">[% Translate("Recipient agents") | html %]: </label>
+                        <div class="Field">
+                            [% Data.RecipientAgentsStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="RecipientGroups">[% Translate("Recipient groups") | html %]: </label>
+                        <div class="Field">
+                            [% Data.RecipientGroupsStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="RecipientRoles">[% Translate("Recipient roles") | html %]: </label>
+                        <div class="Field">
+                            [% Data.RecipientRolesStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="RecipientEmail">[% Translate("Recipient email addresses") | html %]: </label>
+                        <div class="Field">
+                            <input type="text" name="RecipientEmail" id="RecipientEmail" class="W50pc" value="[% Data.RecipientEmail | html %]"/>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="WidgetSimple SpacingTop">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate("Notification") | html %]</h2>
+                </div>
+
+                <div class="Content">
+                    <fieldset class="TableLike">
+
+                        <label for="Subject" class="Mandatory">
+                            <span class="Marker">*</span>
+                            [% Translate("Subject") | html %]:
+                        </label>
+                        <div class="Field">
+                            <input type="text" name="Subject" id="Subject" value="[% Data.Subject | html %]" class="W50pc Validate_Required [% Data.SubjectServerError %]" maxlength="200"/>
+                            <div id="SubjectError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="SubjectServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Body" class="Mandatory">
+                            <span class="Marker">*</span>
+                            [% Translate("Text") | html %]:
+                        </label>
+                        <div class="RichTextField">
+                            <textarea rows="12" cols="75" name="Body" id="Body" class="Validate_Required [% Data.BodyServerError %]">[% Data.Body | html %]</textarea>
+                            <div id="BodyError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="BodyServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="NotificationArticleTypeID">[% Translate("Notification article type") | html %]: </label>
+                        <div class="Field">
+                            [% Data.NotificationArticleTypesStrg %]
+                            <p class="FieldExplanation">([% Translate("Only for notifications to specified email addresses") | html %])</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="WidgetSimple SpacingTop">
+                <div class="Header">
+                    <h2>[% Translate("Save Changes") | html %]</h2>
+                </div>
+
+                <div class="Content">
+                    <fieldset class="TableLike">
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary" type="submit" value="[% Translate("Save") | html %]">[% Translate("Save") | html %]</button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="WidgetSimple SpacingTop">
+            <div class="Header">
+                <h2>[% Translate("Reference") | html %]</h2>
+            </div>
+
+            <div class="Content">
+
+                <p>[% Translate("Notifications are sent to an agent or a customer.") | html %]</p>
+
+                <p>[% Translate("You can use the following tags") | html %]:</p>
+                <dl>
+
+                    <dt><code>&lt;OTRS_AGENT_SUBJECT[20]&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the first 20 character of the subject (of the latest agent article).") | html %]
+                    </dd>
+
+                    <dt><code>&lt;OTRS_AGENT_BODY[5]&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the first 5 lines of the body (of the latest agent article).") | html %]
+                    </dd>
+
+                    <dt><code>&lt;OTRS_AGENT_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the article attribute") | html %]
+                        ([% Translate(" e. g.") | html %] <code>&lt;OTRS_AGENT_From&gt;, &lt;OTRS_AGENT_To&gt;, &lt;OTRS_AGENT_Cc&gt;,
+                        &lt;OTRS_AGENT_Subject&gt;, &lt;OTRS_AGENT_Body&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the first 20 character of the subject (of the latest customer article).") | html %]
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CUSTOMER_BODY[5]&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the first 5 lines of the body (of the latest customer article).") | html %]
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CUSTOMER_REALNAME&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the realname of the sender (if given).") | html %]
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CUSTOMER_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the article attribute") | html %]
+                        ([% Translate(" e. g.") | html %] <code>&lt;OTRS_CUSTOMER_From&gt;, &lt;OTRS_CUSTOMER_To&gt;,
+                        &lt;OTRS_CUSTOMER_Cc&gt;, &lt;OTRS_CUSTOMER_Subject&gt; and &lt;OTRS_CUSTOMER_Body&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CUSTOMER_DATA_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("Options of the current customer user data") | html %]
+                        ([% Translate(" e. g.") | html %] <code>&lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_OWNER_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("Ticket owner options") | html %]
+                        ([% Translate(" e. g.") | html %] <code>&lt;OTRS_OWNER_UserFirstname&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_RESPONSIBLE_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("Ticket responsible options") | html %]
+                        ([% Translate(" e. g.") | html %] <code>&lt;OTRS_RESPONSIBLE_UserFirstname&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CURRENT_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("Options of the current user who requested this action") | html %]
+                        ([% Translate(" e. g.") | html %] <code>&lt;OTRS_CURRENT_UserFirstname&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_TICKET_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("Options of the ticket data") | html %]
+                        ([% Translate(" e. g.") | html %] <code>&lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;,
+                        &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_TICKET_DynamicField_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("Options of ticket dynamic fields internal key values") | html %]
+                        ([% Translate(" e. g.") | html %] <code>&lt;OTRS_TICKET_DynamicField_TestField&gt;,
+                        &lt;OTRS_TICKET_DynamicField_TicketFreeText1&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_TICKET_DynamicField_*_Value&gt;</code></dt>
+                    <dd>
+                        [% Translate("Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields") | html %]
+                        ([% Translate(" e. g.") | html %] <code>&lt;OTRS_TICKET_DynamicField_TestField_Value&gt;,
+                        &lt;OTRS_TICKET_DynamicField_TicketFreeText1_Value&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CONFIG_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("Config options") | html %]
+                        ([% Translate(" e. g.") | html %] <code>&lt;OTRS_CONFIG_HttpType&gt;</code>).
+                    </dd>
+
+
+                </dl>
+
+
+                <p class="SpacingTop">
+                    [% Translate("Example response") | html %]:
+                </p>
+                <label for="SubjectExample">[% Translate("Subject") | html %]</label>:
+                <input type="text" name="SubjectExample" id="SubjectExample" value="New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)" size="80" maxlength="80"/>
+                <br/>
+                <label for="ResponseExample">[% Translate("Text") | html %]</label>:
+                <br/>
+                <textarea rows="12" cols="70" name="ResponseExample" id="ResponseExample">
+
+Hi &lt;OTRS_CURRENT_UserFirstname&gt;,
+
+there is a new ticket in "&lt;OTRS_TICKET_Queue&gt;"!
+
+&lt;OTRS_CUSTOMER_FROM&gt; wrote:
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[16]&gt;
+&lt;snip&gt;
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_ID&gt;
+
+Your OTRS Notification Master
+                </textarea>
+            </div>
+        </div>
+[% RenderBlockEnd("OverviewUpdate") %]
+
+    </div>
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("Overview") %]

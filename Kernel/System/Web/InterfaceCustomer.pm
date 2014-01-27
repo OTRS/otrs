@@ -422,10 +422,15 @@ sub Run {
         }
 
         # show logout screen
+        my $LogoutMessage = $LayoutObject->{LanguageObject}->Translate(
+            'Logout successful. Thank you for using %s!',
+            $Self->{ConfigObject}->Get("ProductName"),
+        );
+
         $LayoutObject->Print(
             Output => \$LayoutObject->CustomerLogin(
                 Title   => 'Logout',
-                Message => 'Logout successful. Thank you for using %s!", "$Config{"ProductName"}',
+                Message => $LogoutMessage,
                 %Param,
             ),
         );

@@ -1,0 +1,407 @@
+# --
+# AdminRegistration.tt - provides HTML form for AdminRegistration
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("Overview") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("System Registration Management") | html %]</h1>
+
+    <div class="SidebarColumn">
+
+[% RenderBlockStart("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction">
+                            <span>[% Translate("Go to overview") | html %]</span>
+                        </a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+[% RenderBlockStart("ActionUpdate") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Edit" class="CallForAction">
+                            <span>[% Translate("Edit details") | html %]</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://portal.otrs.com/otrs/customer.pl?Action=CustomerRegisteredSystems" target="_blank" class="CallForAction">
+                            <span>[% Translate("Overview of registered systems") | html %]</span>
+                        </a>
+                    </li>
+[% RenderBlockEnd("ActionUpdate") %]
+[% RenderBlockStart("ActionDeregister") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=OTRSIDValidate" class="CallForAction">
+                            <span>[% Translate("Deregister system") | html %]</span>
+                        </a>
+                    </li>
+[% RenderBlockEnd("ActionDeregister") %]
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionList") %]
+
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+[% RenderBlockStart("OverviewRegistered") %]
+            <div class="Header">
+                <h2>[% Translate("System Registration") | html %]</h2>
+            </div>
+            <div class="Content">
+
+                <div class="ServiceDescription">
+                    [% Translate("This system is registered with OTRS Group.") | html %]
+                </div>
+
+                <fieldset class="TableLike">
+
+                    <label>[% Translate("System type") | html %]:</label>
+                    <div class="Value">[% Data.Type | html %]</div>
+                    <div class="Clear"></div>
+
+                    <label>[% Translate("Description") | html %]:</label>
+                    <div class="Value">[% Data.Description | html %]</div>
+                    <div class="Clear"></div>
+
+                    <label>[% Translate("Unique ID") | html %]:</label>
+                    <div class="Value">[% Data.UniqueID | html %]</div>
+                    <div class="Clear"></div>
+
+                    <label>[% Translate("Last communication with registration server") | html %]:</label>
+                    <div class="Value">[% Data.LastUpdateTime | Localize("TimeShort") %]</div>
+                    <div class="Clear"></div>
+
+                </fieldset>
+            </div>
+            <div class="Clear"></div>
+[% RenderBlockEnd("OverviewRegistered") %]
+[% RenderBlockStart("OTRSIDValidation") %]
+            <div class="Header">
+                <h2>[% Translate("OTRS-ID Login") | html %]</h2>
+            </div>
+            <div class="Content">
+                <form id="FormRegistration" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="BaseLink" value="[% Env("CGIHandle") %]" />
+                    <input type="hidden" name="Action" value="[% Env("Action") %]" />
+                    <input type="hidden" name="Subaction" value="CheckOTRSID" />
+
+[% RenderBlockStart("OTRSIDRegistration") %]
+                    <div class="ServiceDescription">
+                        <p>
+                            [% Translate("System registration is a service of OTRS group, which provides a lot of advantages!") | html %]
+                            <a href="#" id="RegistrationMoreInfo">[% Translate("Read more") | html %]</a>.
+                        </p>
+                        <p>
+                            [% Translate("You need to log in with your OTRS-ID to register your system.") | html %]
+                            [% Translate("Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.") | html %]
+                        </p>
+                    </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#RegistrationMoreInfo').bind('click', function() {
+        Core.UI.Dialog.ShowDialog({
+            Modal: true,
+            Title: [% Translate("System Registration") | JSON %],
+            HTML: $('#QADialog').html(),
+            PositionTop: '70px',
+            PositionLeft: 'Center',
+            CloseOnEscape: true,
+            CloseOnClickOutside: true
+        });
+        return false;
+    });
+//]]></script>
+[% END %]
+                    <div id="QADialog" class="Hidden">
+                        <div class="QA">
+                            <h1>[% Translate("What are the advantages of system registration?") | html %]</h1>
+                            <ul>
+                                <li>
+                                    [% Translate("You will receive updates about relevant security releases.") | html %]
+                                </li>
+                                <li>
+                                    [% Translate("With your system registration we can improve our services for you, because we have all relevant information available.") | html %]
+                                </li>
+                            </ul>
+                            <p>
+                                [% Translate("This is only the beginning!") | html %]
+                                [% Translate("We will inform you about our new services and offerings soon.") | html %]
+                            </p>
+
+                            <h1>[% Translate("Can I use OTRS without being registered?") | html %]</h1>
+                            <p>
+                                [% Translate("System registration is optional.") | html %]
+                                [% Translate("You can download and use OTRS without being registered.") | html %]
+                            </p>
+
+                            <h1>[% Translate("Is it possible to deregister?") | html %]</h1>
+                            <p>
+                                [% Translate("You can deregister at any time.") | html %]
+                            </p>
+
+                            <h1>[% Translate("Which data is transfered when registering?") | html %]</h1>
+                            <p>
+                                [% Translate("A registered system sends the following data to OTRS Group:") | html %]
+                                [% Translate("Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.") | html %]
+                            </p>
+
+                            <h1>[% Translate("Why do I have to provide a description for my system?") | html %]</h1>
+                            <p>
+                                [% Translate("The description of the system is optional.") | html %] [% Translate("The description and system type you specify help you to identify and manage the details of your registered systems.") | html %]
+                            </p>
+
+                            <h1>[% Translate("How often does my OTRS system send updates?") | html %]</h1>
+                            <p>
+                                [% Translate("Your system will send updates to the registration server at regular intervals.") | html %] [% Translate("Typically this would be around once every three days.") | html %]
+                            </p>
+                            <p>
+                                [% Translate("In case you would have further questions we would be glad to answer them.") | html %] [% Translate("Please visit our") | html %] <a href="https://portal.otrs.com/" target="_blank">[% Translate("portal") | html %]</a> [% Translate("and file a request.") | html %]
+                            </p>
+                        </div>
+                    </div>
+[% RenderBlockEnd("OTRSIDRegistration") %]
+[% RenderBlockStart("OTRSIDDeregistration") %]
+                    <div class="ServiceDescription">
+                        <p>
+                            [% Translate("If you deregister your system, you will loose these benefits:") | html %]
+                        </p>
+                        <ul>
+                            <li>
+                                [% Translate("You will receive updates about relevant security releases.") | html %]
+                            </li>
+                            <li>
+                                [% Translate("With your system registration we can improve our services for you, because we have all relevant information available.") | html %]
+                            </li>
+                        </ul>
+                        <p>[% Translate("You need to log in with your OTRS-ID to deregister your system.") | html %]</p>
+                        <p>[% Translate("Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.") | html %]</p>
+                    </div>
+[% RenderBlockEnd("OTRSIDDeregistration") %]
+                    <fieldset class="TableLike">
+                        <label class="Mandatory" for="OTRSID"><span class="Marker">*</span> [% Translate("OTRS-ID") | html %]:</label>
+                        <div class="Field">
+                            <input type="email" name="OTRSID" id="OTRSID" value="[% Data.OTRSID | html %]" class="W50pc Validate_Required [% Data.EmailInvalid | html %]" maxlength="200"/>
+                            <div id="OTRSIDError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="OTRSIDServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+                        <label class="Mandatory" for="Password"><span class="Marker">*</span> [% Translate("Password") | html %]:</label>
+                        <div class="Field">
+                            <input type="password" name="Password" id="Password" class="W50pc Validate_Required [% Data.PasswordInvalid | html %]" maxlength="200"/>
+                            <div id="PasswordError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="PasswordServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <p class="FieldExplanation">
+                                [% Translate("You don't have an OTRS-ID yet?") | html %]
+                                <a href="https://portal.otrs.com/otrs/customer.pl#Signup" target="_blank">
+                                    [% Translate("Sign up now") | html %]
+                                </a>
+                            </p>
+                            <p class="FieldExplanation">
+                                [% Translate("Forgot your password?") | html %]
+                                <a href="https://portal.otrs.com/otrs/customer.pl#Reset" target="_blank">
+                                    [% Translate("Retrieve a new one") | html %]
+                                </a>
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary CallForAction" type="submit" id="Submit">
+                                <span>[% Translate("Next") | html %] <i class="icon-caret-right"></i></span>
+                            </button>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+
+                    <fieldset class="TableLike Hidden ErrorMsg">
+                        <div class="Field">
+                            <p id="FormRegistrationResultMessage" class="Error"></p>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+[% RenderBlockEnd("OTRSIDValidation") %]
+[% RenderBlockStart("Registration") %]
+            <div class="Header">
+                <h2>[% Translate("System Registration") | html %]</h2>
+            </div>
+            <div class="Content">
+                <div class="ServiceDescription">
+                    [% Translate("This data will be frequently transferred to OTRS Group when you register this system.") | html %]
+                </div>
+                <div id="SystemDataListContainer" class="ListContainer">
+                    <table class="DataTable SystemDataListContainer" id="SystemDataList">
+                        <thead>
+                            <tr>
+                                <th>[% Translate("Attribute") | html %]</th>
+                                <th>[% Translate("Value") | html %]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>[% Translate("FQDN") | html %]</td>
+                                <td>[% Data.FQDN | html %]</td>
+                            </tr>
+                            <tr>
+                                <td>[% Translate("OTRS Version") | html %]</td>
+                                <td>[% Data.OTRSVersion | html %]</td>
+                            </tr>
+                            <tr>
+                                <td>[% Translate("Database") | html %]</td>
+                                <td>[% Data.Version | html %]</td>
+                            </tr>
+                            <tr>
+                                <td>[% Translate("Operating System") | html %]</td>
+                                <td>[% Data.OSName | html %]</td>
+                            </tr>
+                            <tr>
+                                <td>[% Translate("Perl Version") | html %]</td>
+                                <td>[% Data.PerlVersion | html %]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <form action="[% Env("CGIHandle") %]" method="post" id="FormRegistration" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="AddAction"/>
+                    <input type="hidden" name="Token" value="[% Data.Token | html %]"/>
+                    <input type="hidden" name="OTRSID" value="[% Data.OTRSID | html %]"/>
+
+                    <fieldset class="TableLike Registration">
+
+                        <label class="Mandatory" for="Type"><span class="Marker">*</span> [% Translate("System type") | html %]:</label>
+                        <div class="Field">
+                            [% Data.SystemTypeOption %]
+                            <div id="TypeError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="SystemTypeServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Description">[% Translate("Description") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Description" id="Description" value="[% Data.Description | html %]" class="W50pc" maxlength="250"/>
+                            <p class="FieldExplanation">[% Translate("Optional description of this system.") | html %]</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary CallForAction" type="submit" id="Submit" value="[% Translate("Register") | html %]">
+                                <span>
+                                    <i class="icon-check"></i>
+                                    [% Translate("Register") | html %]
+                                </span>
+                            </button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+[% RenderBlockEnd("Registration") %]
+[% RenderBlockStart("Deregistration") %]
+            <div class="Header">
+                <h2>[% Translate("Deregister System") | html %]</h2>
+            </div>
+            <div class="Content">
+
+                <form action="[% Env("CGIHandle") %]" method="post" id="FormRegistration" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="DeregisterAction"/>
+                    <input type="hidden" name="Token" value="[% Data.Token | html %]"/>
+                    <input type="hidden" name="OTRSID" value="[% Data.OTRSID | html %]"/>
+
+                    <fieldset class="TableLike">
+                        <div class="ServiceDescription">
+                            [% Translate("Continuing with this step will deregister the system from OTRS Group.") | html %]
+                        </div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary CallForAction" type="submit" id="Submit" value="[% Translate("Deregister") | html %]">
+                                <span>[% Translate("Deregister") | html %]</span>
+                            </button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+[% RenderBlockEnd("Deregistration") %]
+[% RenderBlockStart("Edit") %]
+            <div class="Header">
+                <h2>[% Translate("System Registration") | html %]</h2>
+            </div>
+            <div class="Content">
+                <div class="ServiceDescription">
+                    [% Translate("You can modify the system type and description here.") | html %]
+                </div>
+
+                <form action="[% Env("CGIHandle") %]" method="post" id="FormRegistration" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="EditAction"/>
+
+                    <fieldset class="TableLike Registration">
+
+                        <label class="Mandatory" for="Type"><span class="Marker">*</span> [% Translate("System type") | html %]:</label>
+                        <div class="Field">
+                            [% Data.SystemTypeOption %]
+                            <div id="TypeError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="SystemTypeServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Description">[% Translate("Description") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Description" id="Description" value="[% Data.Description | html %]" class="W50pc" maxlength="250"/>
+                            <p class="FieldExplanation">[% Translate("Optional description of this system.") | html %]</p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary CallForAction" type="submit" id="Submit" value="[% Translate("Update") | html %]">
+                                <span>[% Translate("Update") | html %]</span>
+                            </button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+[% RenderBlockEnd("Edit") %]
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("Overview") %]

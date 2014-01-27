@@ -1,0 +1,41 @@
+# --
+# CustomerActivityDialogHeader.tt - provides CustomerActivityDialogHeader HTML for the CustomerAgentTicketProcess.pm
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div id="MainBox" class="TicketZoom ARIARoleMain">
+    <div class="ContentColumn">
+        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="[% Data.FormName %]" id="[% Data.FormID %]" class="Validate PreventMultipleSubmits">
+            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+            <input type="hidden" name="Subaction" value="[% Data.Subaction | html %]"/>
+            <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+            <input type="hidden" name="ProcessEntityID" value="[% Data.ProcessEntityID | html %]"/>
+            <input type="hidden" name="ActivityDialogEntityID" value="[% Data.ActivityDialogEntityID | html %]"/>
+            <input type="hidden" name="Expand" id="Expand" value=""/>
+            <input type="hidden" name="AJAXDialog" id="AJAXDialog" value="[% Data.AJAXDialog | html %]"/>
+            <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
+            <div class="LayoutPopup">
+[% RenderBlockStart("Header") %]
+                <div class="PopupHeader">
+                    <h1>
+                        [% Data.Name | html %]
+[% RenderBlockStart("DescriptionShort") %]
+                        - [% Data.DescriptionShort | html %]
+[% RenderBlockEnd("DescriptionShort") %]
+                    </h1>
+[% RenderBlockStart("DescriptionLong") %]
+                    [% Data.DescriptionLong | html %] -
+[% RenderBlockEnd("DescriptionLong") %]
+[% RenderBlockStart("CancelLink") %]
+                    <p>
+                        <a class="CancelClosePopup" href="#">[% Translate("Cancel & close window") | html %]</a>
+                    </p>
+[% RenderBlockEnd("CancelLink") %]
+                </div>
+[% RenderBlockEnd("Header") %]
+                <div class="Content">
+                    <fieldset class="TableLike">

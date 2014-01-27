@@ -166,11 +166,14 @@ EOF
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'Error';
 
+        my $FieldRequiredMessage
+            = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+
         # for client side validation
         $HTMLString .= <<"EOF";
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"This field is required."}
+        $FieldRequiredMessage
     </p>
 </div>
 EOF
@@ -179,13 +182,14 @@ EOF
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
+        $ErrorMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
         my $DivID = $FieldName . 'ServerError';
 
         # for server side validation
         $HTMLString .= <<"EOF";
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"$ErrorMessage"}
+        $ErrorMessage
     </p>
 </div>
 EOF
@@ -193,6 +197,7 @@ EOF
 
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
+        %Param,
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         Mandatory          => $Param{Mandatory} || '0',
         FieldName          => $FieldName,

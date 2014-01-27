@@ -126,7 +126,8 @@ sub Run {
 
     # show lock state
     $OutputNotify .= $Self->{LayoutObject}->Notify(
-        Data => $Ticket{TicketNumber} . ': $Text{"Ticket locked."}',
+        Data => "$Ticket{TicketNumber}: "
+            . $Self->{LayoutObject}->{LanguageObject}->Translate("Ticket locked."),
     );
 
     # get lock state && write (lock) permissions
@@ -148,7 +149,8 @@ sub Run {
 
                 # show lock state
                 $OutputNotify = $Self->{LayoutObject}->Notify(
-                    Data => $Ticket{TicketNumber} . ': $Text{"Ticket locked."}',
+                    Data => "$Ticket{TicketNumber}: "
+                        . $Self->{LayoutObject}->{LanguageObject}->Translate("Ticket locked."),
                 );
             }
         }

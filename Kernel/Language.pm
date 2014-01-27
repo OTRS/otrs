@@ -260,19 +260,6 @@ sub Get {
             );
         }
 
-        # charset convert from source translation into shown charset
-        if ( !$Self->{TranslationConvert}->{$What} ) {
-
-            # remember that charset convert is already done
-            $Self->{TranslationConvert}->{$What} = 1;
-
-            # convert
-            $Self->{Translation}->{$What} = $Self->{EncodeObject}->Convert(
-                Text => $Self->{Translation}->{$What},
-                From => $Self->{TranslationCharset},
-                To   => $Self->{ReturnCharset},
-            );
-        }
         my $Text = $Self->{Translation}->{$What};
         if (@Dyn) {
             COUNT:
@@ -329,6 +316,29 @@ sub Get {
     }
 
     return $What;
+}
+
+=item Translate()
+
+translate a text with placeholders.
+
+        my $Text = $LanguageObject->Translate('Hello %s!', 'world');
+
+=cut
+
+sub Translate {
+    my ( $Self, $Text, @Parameters ) = @_;
+
+    $Text = $Self->{Translation}->{$Text} || $Text;
+
+    return $Text if !@Parameters;
+
+    for ( 0 .. $#Parameters ) {
+        return $Text if !defined $Parameters[$_];
+        $Text =~ s/\%(s|d)/$Parameters[$_]/;
+    }
+
+    return $Text;
 }
 
 =item FormatTimeString()

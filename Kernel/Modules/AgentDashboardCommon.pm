@@ -122,7 +122,7 @@ sub Run {
                 }
                 my $StatsPermissionGroups = join(';', @StatsPermissionGroupNames);
 
-                # replace all line breaks with spaces (otherwise $Text{""} will not work correctly)
+                # replace all line breaks with spaces (otherwise Translate() will not work correctly)
                 $StatsHash->{$StatID}->{Description} =~ s{\r?\n|\r}{ }msxg;
 
                 my $Description = $Self->{LayoutObject}->{LanguageObject}

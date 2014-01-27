@@ -1,0 +1,62 @@
+# --
+# AdminProcessManagementPopupResponse.tt - provides HTML for AdminProcessManagement
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="Spacing Center AJAXWaiting">
+    <span class="AJAXLoader" title="[% Translate("Loading") | html %]"></span>
+</div>
+
+[% RenderBlockStart("Redirect") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+var Data = {
+    Action: "[% Data.Action %]",
+    Subaction: "[% Data.Subaction %]",
+    ID: "[% Data.ID %]",
+    EntityID: "[% Data.EntityID %]",
+    Field: "[% Data.Field %]",
+    StartActivityID: "[% Data.StartActivityID %]",
+};
+
+// send results to main window
+window.opener.Core.Agent.Admin.ProcessManagement.UpdateConfig([% Data.ConfigJSON %]);
+
+// reload popup
+Core.App.InternalRedirect(Data);
+//]]></script>
+[% END %]
+[% RenderBlockEnd("Redirect") %]
+
+[% RenderBlockStart("ClosePopup") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+// update screen path
+window.opener.Core.Agent.Admin.ProcessManagement.UpdateScreensPath(window, function (WindowObject) {
+    //send results to main window
+    WindowObject.opener.Core.Agent.Admin.ProcessManagement.UpdateConfig([% Data.ConfigJSON %]);
+
+    // update accordion
+    WindowObject.opener.Core.Agent.Admin.ProcessManagement.UpdateAccordion();
+
+    // update sync message
+    WindowObject.opener.Core.Agent.Admin.ProcessManagement.UpdateSyncMessage();
+
+    // redraw canvas
+    WindowObject.opener.Core.Agent.Admin.ProcessManagement.Canvas.Redraw();
+
+    // remove overlay
+    WindowObject.opener.Core.Agent.Admin.ProcessManagement.HideOverlay();
+
+    // remove onbeforeunload event (which is only needed if you close the popup via the window "X")
+    $(WindowObject).unbind("beforeunload.PMPopup");
+
+    // close popup
+    WindowObject.close();
+});
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ClosePopup") %]

@@ -1,0 +1,23 @@
+# --
+# CustomerError.tt - provides HTML Error screen
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div id="MainBox">
+    <div class="Content">
+        <h2>
+            [% Translate("Error") | html %]: [% Data.Message | html %]
+        </h2>
+        <p>
+            [% Translate("Comment") | html %]: [% Data.Comment | html %]
+        </p>
+        <p>
+            [% Translate("Traceback") | html %]:
+        </p>
+        <pre>[% Data.BackendTraceback | html %]</pre>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+# --
+# AgentDashboardCalendarOverview.tt - provides HTML for global dashboard
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<table class="DataTable">
+    <tbody>
+[% RenderBlockStart("ContentSmallCalendarOverviewRow") %]
+        <tr>
+            <td>
+                <a href="[% Env("Baselink") %][% Data.Link %]" title="[% Data.Title | html %]">[% Data.ObjectNumber %]</a> [% Data.Title | truncate(50) | html %]
+                <br/>
+                <em title="[% Data.TimeStamp | Localize("TimeShort") %]">([% Translate(Data.Text) | html %] [% Translate("in") | html %] [% Data.In | html %])</em>
+            </td>
+        </tr>
+[% RenderBlockEnd("ContentSmallCalendarOverviewRow") %]
+[% RenderBlockStart("ContentSmallCalendarOverviewNone") %]
+        <tr>
+            <td>
+                [% Translate("none") | html %]
+            </td>
+        </tr>
+[% RenderBlockEnd("ContentSmallCalendarOverviewNone") %]
+    </tbody>
+</table>

@@ -319,7 +319,8 @@ sub Run {
         if ( $Self->{CryptObject}->Check() ) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data     => '$Text{"' . $Self->{CryptObject}->Check() . '"}',
+                Data     => $Self->{LayoutObject}->{LanguageObject}
+                    ->Translate( $Self->{CryptObject}->Check() ),
             );
         }
         $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP', Data => \%Param );

@@ -1,0 +1,164 @@
+# --
+# AdminProcessManagementProcessPrint.tt - provides HTML for AdminProcessManagement
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="PrintContainer">
+
+[% RenderBlockStart("Logo") %]
+    <img src="[% Data.LogoURL | html %]" class="Logo" />
+[% RenderBlockEnd("Logo") %]
+    <h1>[% Data.Name | html %]</h1>
+    <h2>
+        [% Translate("State") | html %]: [% Data.State | html %]<br />
+        [% Translate("Start Activity") | html %]: [% Data.StartActivity | html %]<br />
+        [% Translate("Description") | html %]: [% Data.Description | html %]
+    </h2>
+
+    <ul id="Path">
+[% RenderBlockStart("PathItem") %]
+        <li><span>[% Data.ActivityStart | html %]</span> <strong><em>[% Data.Transition | html %] [% Data.TransitionActions | html %]</em><span></span></strong> <span>[% Data.ActivityEnd | html %]</span></li>
+[% RenderBlockEnd("PathItem") %]
+    </ul>
+
+    <h3>[% Translate("Activities") | html %]</h3>
+    <ul class="ItemData">
+[% RenderBlockStart("ActivityRow") %]
+        <li>
+            <h4>
+                [% Data.Name | html %] ([% Data.EntityID | html %])
+                <span>[% Translate("Contains %s dialog(s)", Data.DialogCount) | html %]</span>
+            </h4>
+[% RenderBlockStart("AssignedDialogs") %]
+            <strong>[% Translate("Assigned dialogs") | html %]:</strong>
+            <ol>
+[% RenderBlockStart("AssignedDialogsRow") %]
+                <li>[% Data.Name | html %] ([% Data.EntityID | html %])</li>
+[% RenderBlockEnd("AssignedDialogsRow") %]
+            </ol>
+[% RenderBlockEnd("AssignedDialogs") %]
+        </li>
+[% RenderBlockEnd("ActivityRow") %]
+[% RenderBlockStart("ActivityRowEmpty") %]
+        <li>
+            [% Translate("Activities are not being used in this process.") | html %]
+        </li>
+[% RenderBlockEnd("ActivityRowEmpty") %]
+    </ul>
+
+    <h3>[% Translate("Activity Dialogs") | html %]</h3>
+    <ul class="ItemData">
+[% RenderBlockStart("ActivityDialogRow") %]
+        <li>
+            <h4>
+                [% Data.Name | html %] ([% Data.EntityID | html %])
+                <span>[% Translate("Available in") | html %] [% Data.ShownIn | html %]</span>
+            </h4>
+            <ul class="Attributes">
+[% RenderBlockStart("ElementAttribute") %]
+                <li><strong>[% Data.Key | html %]</strong>: [% Data.Value | html %]</li>
+[% RenderBlockEnd("ElementAttribute") %]
+            </ul>
+[% RenderBlockStart("AssignedFields") %]
+            <strong>[% Translate("Assigned fields") | html %]:</strong>
+            <ol>
+[% RenderBlockStart("AssignedFieldsRow") %]
+                <li>
+                    [% Data.Name | html %]
+[% RenderBlockStart("AssignedFieldsRowValue") %]
+                    <p><strong>[% Data.Key | html %]</strong>: [% Data.Value | html %]</p>
+[% RenderBlockEnd("AssignedFieldsRowValue") %]
+                </li>
+[% RenderBlockEnd("AssignedFieldsRow") %]
+            </ol>
+[% RenderBlockEnd("AssignedFields") %]
+        </li>
+[% RenderBlockEnd("ActivityDialogRow") %]
+[% RenderBlockStart("ActivityDialogRowEmpty") %]
+        <li>
+            [% Translate("Activity dialogs are not being used in this process.") | html %]
+        </li>
+[% RenderBlockEnd("ActivityDialogRowEmpty") %]
+    </ul>
+
+    <h3>[% Translate("Transitions") | html %]</h3>
+    <ul class="ItemData">
+[% RenderBlockStart("TransitionRow") %]
+        <li>
+            <h4>
+                [% Data.Name | html %] ([% Data.EntityID | html %])
+                <span>[% Translate("Condition linking") | html %]: [% Data.ConditionLinking | html %]</span>
+            </h4>
+[% RenderBlockStart("Condition") %]
+            <strong>[% Translate("Conditions") | html %]:</strong>
+            <ol>
+[% RenderBlockStart("ConditionRow") %]
+                <li>
+                    [% Translate("Condition") | html %]
+[% RenderBlockStart("ConditionRowValue") %]
+                    <p><strong>[% Data.Key | html %]</strong>: [% Data.Value | html %]</p>
+[% RenderBlockEnd("ConditionRowValue") %]
+[% RenderBlockStart("ConditionRowSub") %]
+                    <ul>
+                        <li>
+                            <h5>[% Data.NameSub | html %]:</h5>
+[% RenderBlockStart("ConditionRowSubValue") %]
+                            <p class="sub"><strong>[% Data.Key | html %]</strong>: [% Data.Value | html %]</p>
+[% RenderBlockEnd("ConditionRowSubValue") %]
+[% RenderBlockStart("ConditionRowSubSub") %]
+                            <ul>
+                                <li>
+                                    <h6>[% Data.NameSubSub | html %]</h6>
+                                </li>
+[% RenderBlockStart("ConditionRowSubSubValue") %]
+                                <li><strong>[% Data.Key | html %]</strong>: [% Data.Value | html %]</li>
+[% RenderBlockEnd("ConditionRowSubSubValue") %]
+                            </ul>
+[% RenderBlockEnd("ConditionRowSubSub") %]
+                        </li>
+                    </ul>
+[% RenderBlockEnd("ConditionRowSub") %]
+                </li>
+[% RenderBlockEnd("ConditionRow") %]
+            </ol>
+[% RenderBlockEnd("Condition") %]
+
+        </li>
+[% RenderBlockEnd("TransitionRow") %]
+[% RenderBlockStart("TransitionRowEmpty") %]
+        <li>
+            [% Translate("Transitions are not being used in this process.") | html %]
+        </li>
+[% RenderBlockEnd("TransitionRowEmpty") %]
+    </ul>
+
+    <h3>[% Translate("Transition Actions") | html %]</h3>
+    <ul class="ItemData">
+[% RenderBlockStart("TransitionActionRow") %]
+        <li>
+            <h4>
+                [% Data.Name | html %] ([% Data.EntityID | html %])
+                <span>[% Translate("Module name") | html %]: [% Data.Module | html %]</span>
+            </h4>
+[% RenderBlockStart("Config") %]
+            <strong>[% Translate("Configuration") | html %]:</strong>
+            <ol>
+[% RenderBlockStart("ConfigRow") %]
+                <li>[% Data.Name | html %]: [% Data.Value | html %]</li>
+[% RenderBlockEnd("ConfigRow") %]
+            </ol>
+[% RenderBlockEnd("Config") %]
+        </li>
+[% RenderBlockEnd("TransitionActionRow") %]
+[% RenderBlockStart("TransitionActionRowEmpty") %]
+        <li>
+            [% Translate("Transition actions are not being used in this process.") | html %]
+        </li>
+[% RenderBlockEnd("TransitionActionRowEmpty") %]
+    </ul>
+
+</div>

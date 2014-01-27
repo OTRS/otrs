@@ -1,0 +1,166 @@
+# --
+# Installer.tt - provides HTML form for Installer
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain">
+[% RenderBlockStart("Message") %]
+    [% Data.Body %]
+[% RenderBlockEnd("Message") %]
+
+    <div class="W33pc SpacingTop SpacingBottom CenterBox">
+        <noscript>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2 class="Center">[% Translate("JavaScript not available") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="SpacingTop Center">
+                    [% Translate("In order to experience OTRS, you'll need to enable JavaScript in your browser.") | html %]
+                </p>
+            </div>
+        </div>
+        </noscript>
+    </div>
+
+[% RenderBlockStart("Steps") %]
+    <div class="Center">
+        <ul id="ProgressBar" class="ProgressBarElements[% Data.Steps | html %]" SpacingTop SpacingBottom">
+[% RenderBlockStart("StepLicense") %]
+            <li class="First [% Data.Highlight | html %] [% Data.Active | html %]">
+                <span>
+                    <a href="#">[% Translate("Step %s", Data.Step) | html %]<span>[% Translate("License") | html %]</span></a>
+                </span>
+            </li>
+[% RenderBlockEnd("StepLicense") %]
+[% RenderBlockStart("StepDatabase") %]
+            <li class="[% Data.Highlight | html %] [% Data.Active | html %]">
+                <span>
+                    <a href="#">[% Translate("Step %s", Data.Step) | html %]<span>[% Translate("Database Settings") | html %]</span></a>
+                </span>
+            </li>
+[% RenderBlockEnd("StepDatabase") %]
+[% RenderBlockStart("StepGeneral") %]
+            <li class="[% Data.Highlight | html %] [% Data.Active | html %]">
+                <span>
+                    <a href="#">[% Translate("Step %s", Data.Step) | html %]<span>[% Translate("General Specifications and Mail Settings") | html %]</span></a>
+                </span>
+            </li>
+[% RenderBlockEnd("StepGeneral") %]
+[% RenderBlockStart("StepFinish") %]
+            <li class="Last [% Data.Highlight | html %] [% Data.Active | html %]">
+                <span>
+                    <a href="#">[% Translate("Step %s", Data.Step) | html %]<span>[% Translate("Finish") | html %]</span></a>
+                </span>
+            </li>
+[% RenderBlockEnd("StepFinish") %]
+        </ul>
+    </div>
+[% RenderBlockEnd("Steps") %]
+
+[% RenderBlockStart("Intro") %]
+    <div class="W950px SpacingTop SpacingBottom CenterBox">
+        <div class="WidgetSimple SpacingTop" id="WebInstallerBox">
+            <div class="Header">
+                <h2>[% Translate("Welcome to %s", Config("ProductName")) | html %]</h2>
+            </div>
+            <div class="LayoutGrid Content">
+                <div class="Size1of2">
+                    <h4>USA</h4>
+                    <p>OTRS Inc.</p>
+                    <p>19925 Stevens Creek Blvd.</p>
+                    <p>Cupertino, CA 95014-2358</p>
+                    <p>[% Translate("Phone") | html %]: <a href="tel:+14153360178">+1 (415) 3660178</a></p>
+                </div>
+                <div class="Size1of2">
+                    <h4>Germany</h4>
+                    <p>OTRS AG</p>
+                    <p>Norsk-Data-Str. 1</p>
+                    <p>61352 Bad Homburg</p>
+                    <p>[% Translate("Phone") | html %]: <a href="tel:+4961726819880">+49 (0) 6172 681988 0</a></p>
+                </div>
+            </div>
+            <div class="Clear"></div>
+            <div class="LayoutGrid Content">
+                <div class="Size1of2">
+                    <h4>Mexico</h4>
+                    <p>OTRS S.A. de C.V.</p>
+                    <p>Oso 127 - 105, Col. Del Valle</p>
+                    <p>03100 Mexico, D.F.</p>
+                    <p>[% Translate("Phone") | html %]: <a href="tel:+525555243171">+52 55 5524 3171</a></p>
+                </div>
+                <div class="Size1of2">
+                    <h4>The Netherlands</h4>
+                    <p>OTRS B.V.</p>
+                    <p>Schipholweg 103</p>
+                    <p>2316 XC  Leiden</p>
+                    <p>[% Translate("Phone") | html %]: <a href="tel:+31718200255">+31 (0)71 8200 255</a></p>
+                </div>
+            </div>
+            <div class="Clear"></div>
+            <div class="LayoutGrid Content">
+                <div class="Size1of2">
+                    <h4>Malaysia</h4>
+                    <p>OTRS Solution Shd Bdn</p>
+                    <p>No 17-1B, Jalan Puteri 2/7, Bandar Puteri, 47100 Puchong</p>
+                    <p>Selangor</p>
+                    <p>[% Translate("Phone") | html %]: <a href="tel:+60380653323">+603 8065 3323</a></p>
+                </div>
+                <div class="Size1of2">
+                    <h4>Hong Kong</h4>
+                    <p>OTRS Ltd</p>
+                    <p>Rm 406, 4/F, Boss Commercial Centre</p>
+                    <p>28 Ferry Street, Jordon</p>
+                    <p>[% Translate("Phone") | html %]: <a href="tel:+85236901503">+852 3690 1503</a></p>
+                </div>
+            </div>
+            <div class="Clear"></div>
+            <div class="LayoutGrid Content">
+                <p>[% Translate("Web site") | html %]: <a href="http://otrs.com" target="_blank">www.otrs.com</a></p>
+                <p>[% Translate("Email") | html %]: <a href="mailto:otrsteam@otrs.com">otrsteam@otrs.com</a></p>
+            </div>
+            <div class="Clear"></div>
+        </div>
+        <div id="InstallerContinueWithJS" class="SpacingBottom Right">
+            <form action="[% Env("CGIHandle") %]" method="post" class="PreventMultipleSubmits">
+                <input type="hidden" name="Action" value="Installer">
+                <input type="hidden" name="Subaction" value="License">
+                <button class="Primary" type="submit">[% Translate("Next") | html %]</button>
+            </form>
+        </div>
+    </div>
+[% RenderBlockEnd("Intro") %]
+
+[% InsertTemplate("InstallerLicense.tt") %]
+
+[% InsertTemplate("InstallerDBStart.tt") %]
+
+[% InsertTemplate("InstallerDBmysql.tt") %]
+
+[% InsertTemplate("InstallerDBmssql.tt") %]
+
+[% InsertTemplate("InstallerDBoracle.tt") %]
+
+[% InsertTemplate("InstallerDBpostgresql.tt") %]
+
+[% InsertTemplate("InstallerDBResult.tt") %]
+
+[% InsertTemplate("InstallerSystem.tt") %]
+
+[% InsertTemplate("InstallerConfigureMail.tt") %]
+
+[% InsertTemplate("InstallerFinish.tt") %]
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Config.Set('Installer.CheckMailLabelOne', [% Translate("Mail check successful.") | JSON %]);
+    Core.Config.Set('Installer.CheckMailLabelTwo', [% Translate("Error in the mail settings. Please correct and try again.") | JSON %]);
+    $('#InstallerContinueWithJS').show();
+//]]></script>
+[% END %]
+
+</div>

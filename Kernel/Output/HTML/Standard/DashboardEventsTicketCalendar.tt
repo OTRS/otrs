@@ -1,0 +1,139 @@
+# --
+# DashboardEventsTicketCalendar.tt - provides IMG Viewer for global dashboard
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+
+    $(document).ready(function() {
+        Core.Agent.Dashboard.EventsTicketCalendarInit({
+            AllDayText: [% Translate("All-day") | JSON %],
+            MonthNames: [
+                [% Translate("January") | JSON %],
+                [% Translate("February") | JSON %],
+                [% Translate("March") | JSON %],
+                [% Translate("April") | JSON %],
+                [% Translate("May_long") | JSON %],
+                [% Translate("June") | JSON %],
+                [% Translate("July") | JSON %],
+                [% Translate("August") | JSON %],
+                [% Translate("September") | JSON %],
+                [% Translate("October") | JSON %],
+                [% Translate("November") | JSON %],
+                [% Translate("December") | JSON %]
+            ],
+            MonthNamesShort: [
+                [% Translate("Jan") | JSON %],
+                [% Translate("Feb") | JSON %],
+                [% Translate("Mar") | JSON %],
+                [% Translate("Apr") | JSON %],
+                [% Translate("May") | JSON %],
+                [% Translate("Jun") | JSON %],
+                [% Translate("Jul") | JSON %],
+                [% Translate("Aug") | JSON %],
+                [% Translate("Sep") | JSON %],
+                [% Translate("Oct") | JSON %],
+                [% Translate("Nov") | JSON %],
+                [% Translate("Dec") | JSON %]
+            ],
+            DayNames: [
+                [% Translate("Sunday") | JSON %],
+                [% Translate("Monday") | JSON %],
+                [% Translate("Tuesday") | JSON %],
+                [% Translate("Wednesday") | JSON %],
+                [% Translate("Thursday") | JSON %],
+                [% Translate("Friday") | JSON %],
+                [% Translate("Saturday") | JSON %]
+            ],
+            DayNamesShort: [
+                [% Translate("Su") | JSON %],
+                [% Translate("Mo") | JSON %],
+                [% Translate("Tu") | JSON %],
+                [% Translate("We") | JSON %],
+                [% Translate("Th") | JSON %],
+                [% Translate("Fr") | JSON %],
+                [% Translate("Sa") | JSON %]
+            ],
+            ButtonText: {
+                today: [% Translate("Today") | JSON %],
+                month: [% Translate("month") | JSON %],
+                week: [% Translate("week") | JSON %],
+                day: [% Translate("day") | JSON %]
+            },
+            Events: [
+[% RenderBlockStart("CalendarEvent") %]
+                {
+                    id: [% Data.ID | html %],
+                    title: "[% Data.Title | html %]",
+                    start: new Date(    "[% Data.SYear | html %]",
+                                        "[% Data.SMonth | html %]",
+                                        "[% Data.SDay | html %]",
+                                        "[% Data.SHour | html %]",
+                                        "[% Data.SMinute | html %]",
+                                        "[% Data.SSecond | html %]"),
+                    end: new Date(      "[% Data.EYear | html %]",
+                                        "[% Data.EMonth | html %]",
+                                        "[% Data.EDay | html %]",
+                                        "[% Data.EHour | html %]",
+                                        "[% Data.EMinute | html %]",
+                                        "[% Data.ESecond | html %]"),
+                    color: "[% Data.Color | html %]",
+                    url: "[% Data.Url | html %]",
+                    description: "[% Data.Title | html %]<br />[% Data.QueueName | html %]<br />[% Data.Description | html %]",
+                    allDay: false
+                }
+[% RenderBlockStart("CalendarEventComma") %]
+                 ,
+[% RenderBlockEnd("CalendarEventComma") %]
+[% RenderBlockEnd("CalendarEvent") %]
+            ]
+        });
+
+    });
+
+//]]></script>
+[% END %]
+
+[% RenderBlockStart("CalendarDiv") %]
+<div style="width: [% Data.CalendarWidth | html %]%; margin: 0 auto; z-index: 10;" id='calendar'></div>
+[% RenderBlockEnd("CalendarDiv") %]
+
+
+<div class="Hidden" >
+
+[% RenderBlockStart("EventInfo") %]
+    <div class="EventDetails" id="event-content-[% Data.ID | html %]">
+        <h3>[% Translate("Event Information") | html %]</h3>
+        <fieldset class="TableLike">
+
+[% RenderBlockStart("EventTicketFieldContainer") %]
+            <div class="SpacingTopSmall"></div>
+            <h4>[% Translate("Ticket fields") | html %]</h4>
+            <div class="Clear"></div>
+[% RenderBlockStart("CalendarEventInfoTicketFieldElement") %]
+            <label>[% Translate(Data.InfoLabel) | html %]:</label>
+            <p class="Value">[% Data.InfoValue | truncate(50) | html %]</p>
+            <div class="Clear"></div>
+[% RenderBlockEnd("CalendarEventInfoTicketFieldElement") %]
+[% RenderBlockEnd("EventTicketFieldContainer") %]
+
+[% RenderBlockStart("EventDynamicFieldContainer") %]
+            <div class="SpacingTopSmall"></div>
+            <h4>[% Translate("Dynamic fields") | html %]</h4>
+            <div class="Clear"></div>
+[% RenderBlockStart("CalendarEventInfoDynamicFieldElement") %]
+            <label>[% Translate(Data.InfoLabel) | html %]:</label>
+            <p class="Value">[% Data.InfoValue | truncate(50) | html %]</p>
+            <div class="Clear"></div>
+[% RenderBlockEnd("CalendarEventInfoDynamicFieldElement") %]
+[% RenderBlockEnd("EventDynamicFieldContainer") %]
+        </fieldset>
+    </div>
+[% RenderBlockEnd("EventInfo") %]
+
+</div>

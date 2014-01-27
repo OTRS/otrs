@@ -13,6 +13,7 @@ package Kernel::Language::zh_TW;
 
 use strict;
 use warnings;
+use utf8;
 
 sub Data {
     my $Self = shift;

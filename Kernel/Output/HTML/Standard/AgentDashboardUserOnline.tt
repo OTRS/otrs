@@ -1,0 +1,82 @@
+# --
+# AgentDashboardUserOnline.tt - provides HTML for global dashboard
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("ContentSmallUserOnlineFilter") %]
+<ul class="UserFilter Tab Actions">
+    <li class="[% Data.item("Agent::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]Agent" class="[% Data.item("Agent::Selected") | html %]">[% Translate("Agents") | html %] ([% Data.Agent | html %])</a></li>
+    <li class="[% Data.item("Customer::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]Customer" class="[% Data.item("Customer::Selected") | html %]">[% Translate("Customers") | html %] ([% Data.Customer | html %])</a></li>
+</ul>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#Dashboard[% Data.Name | html %]Agent').unbind('click').bind('click', function(){
+        Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=Agent', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard[% Data.Name | html %]'));
+        });
+        return false;
+    });
+    $('#Dashboard[% Data.Name | html %]Customer').unbind('click').bind('click', function(){
+        Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=Customer', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard[% Data.Name | html %]'));
+        });
+        return false;
+    });
+//]]></script>
+[% END %]
+[% RenderBlockStart("ContentSmallTicketGenericFilterNavBar") %]
+<span class="Pagination">
+    [% Data.SiteNavBar %]
+</span>
+[% RenderBlockEnd("ContentSmallTicketGenericFilterNavBar") %]
+
+[% RenderBlockEnd("ContentSmallUserOnlineFilter") %]
+<table class="DataTable">
+    <tbody>
+[% RenderBlockStart("ContentSmallUserOnlineRow") %]
+        <tr>
+            <td>
+                <p title="[% Data.UserEmail | html %]">
+                    [% Data.UserFullname | html %]
+[% RenderBlockStart("ContentSmallUserOnlineRowEmail") %]
+                    ([% Data.UserEmail | truncate(50) | html %])
+[% RenderBlockEnd("ContentSmallUserOnlineRowEmail") %]
+[% RenderBlockStart("ContentSmallUserOnlineRowOutOfOffice") %]
+                    - [% Translate("out of office") | html %]
+[% RenderBlockEnd("ContentSmallUserOnlineRowOutOfOffice") %]
+                </p>
+            </td>
+        </tr>
+[% RenderBlockEnd("ContentSmallUserOnlineRow") %]
+[% RenderBlockStart("ContentSmallUserOnlineNone") %]
+        <tr>
+            <td>
+                [% Translate("none") | html %]
+            </td>
+        </tr>
+[% RenderBlockEnd("ContentSmallUserOnlineNone") %]
+    </tbody>
+</table>
+
+[% RenderBlockStart("ContentSmallUserOnlineRefresh") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Config.Set('RefreshSeconds_[% Data.NameHTML | html %]', parseInt("[% Data.RefreshTime | html %]", 10) || 0);
+if (Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]')) {
+    Core.Config.Set('Timer_[% Data.NameHTML | html %]', window.setTimeout(function() {
+
+        $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %]', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard[% Data.Name | html %]'));
+            $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
+        });
+        clearTimeout(Core.Config.Get('Timer_[% Data.NameHTML | html %]'));
+    }, Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]') * 1000));
+}
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ContentSmallUserOnlineRefresh") %]

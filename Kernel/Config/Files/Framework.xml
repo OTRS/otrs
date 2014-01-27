@@ -3207,7 +3207,7 @@ You can log in via the following URL:
                 <Item Key="Label" Translatable="1">Comment</Item>
                 <Item Key="Key" Translatable="1">Comment</Item>
                 <Item Key="Block">Input</Item>
-                <Item Key="Data">$Env{"UserComment"}</Item>
+                <Item Key="Data">[% Env("UserComment") %]</Item>
                 <Item Key="PrefKey">UserComment</Item>
                 <Item Key="Prio">6000</Item>
                 <Item Key="Active">0</Item>
@@ -3225,7 +3225,7 @@ You can log in via the following URL:
                 <Item Key="Label" Translatable="1">NameX</Item>
                 <Item Key="Key" Translatable="1">Default value for NameX</Item>
                 <Item Key="Block">Input</Item>
-                <Item Key="Data">$Env{"UserDynamicField_NameX"}</Item>
+                <Item Key="Data">[% Env("UserDynamicField_NameX") %]</Item>
                 <Item Key="PrefKey">UserDynamicField_NameX</Item>
                 <Item Key="Prio">7000</Item>
                 <Item Key="Active">1</Item>
@@ -4092,7 +4092,7 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Name" Translatable="1">Edit customer company</Item>
-                <Item Key="Link">$Env{"Baselink"}Action=AdminCustomerCompany;Subaction=Change;CustomerID=$LQData{"CustomerID"};Nav=0</Item>
+                <Item Key="Link">[% Env("Baselink") %]Action=AdminCustomerCompany;Subaction=Change;CustomerID=[% Data.CustomerID | uri %];Nav=0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -4929,7 +4929,7 @@ via the Preferences button after logging in.
         <Group>Framework</Group>
         <SubGroup>Core::Stats</SubGroup>
         <Setting>
-            <String Regex="">Stat#</String>
+            <String Regex="" Translatable="1">Stat#</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::StatsStartNumber" Required="1" Valid="1">
@@ -6239,7 +6239,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Go to dashboard!">$Env{"CGIHandle"}?Action=AgentDashboard</Item>
+                <Item Key="Go to dashboard!">[% Env("CGIHandle") %]?Action=AgentDashboard</Item>
             </Hash>
         </Setting>
     </ConfigItem>

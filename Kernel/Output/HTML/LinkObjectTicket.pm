@@ -188,7 +188,7 @@ sub TableCreateComplex {
                 Type     => 'Link',
                 Key      => $TicketID,
                 Content  => $Ticket->{TicketNumber},
-                Link     => '$Env{"Baselink"}Action=AgentTicketZoom;TicketID=' . $TicketID,
+                Link     => $Self->{LayoutObject}->{Baselink} . 'Action=AgentTicketZoom;TicketID=' . $TicketID,
                 CssClass => $CssClass,
             },
             {
@@ -325,7 +325,7 @@ sub TableCreateSimple {
                     Type     => 'Link',
                     Content  => 'T:' . $Ticket->{TicketNumber},
                     Title    => "$TicketHook$Ticket->{TicketNumber}: $Ticket->{Title}",
-                    Link     => '$Env{"Baselink"}Action=AgentTicketZoom;TicketID=' . $TicketID,
+                    Link     => $Self->{LayoutObject}->{Baselink} . 'Action=AgentTicketZoom;TicketID=' . $TicketID,
                     CssClass => $CssClass,
                 );
 

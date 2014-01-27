@@ -1,0 +1,36 @@
+# --
+# AAAPreferences.tt - $Text variable file
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% Translate("Preferences updated successfully!") | html %]
+
+[% Translate("User Profile") | html %]
+[% Translate("Email Settings") | html %]
+[% Translate("Other Settings") | html %]
+
+[% Translate("Change Password") | html %]
+[% Translate("Current password") | html %]
+[% Translate("New password") | html %]
+[% Translate("Verify password") | html %]
+
+[% Translate("Spelling Dictionary") | html %]
+[% Translate("Default spelling dictionary") | html %]
+
+[% Translate("Max. shown Tickets a page in Overview.") | html %]
+
+[% Translate("The current password is not correct. Please try again!") | html %]
+[% Translate("Can't update password, your new passwords do not match. Please try again!") | html %]
+[% Translate("Can't update password, it contains invalid characters!") | html %]
+[% Translate("Can't update password, it must be at least %s characters long!") | html %]
+[% Translate("Can't update password, it must contain at least 2 lowercase and 2 uppercase characters!") | html %]
+[% Translate("Can't update password, it must contain at least 1 digit!") | html %]
+[% Translate("Can't update password, it must contain at least 2 characters!") | html %]
+[% Translate("Can't update password, this password has already been used. Please choose a new one!") | html %]
+
+[% Translate("Select the separator character used in CSV files (stats and searches). If you don't select a separator here, the default separator for your language will be used.") | html %]
+[% Translate("CSV Separator") | html %]

@@ -1,0 +1,237 @@
+# --
+# AdminSLA.tt - provides HTML form for AdminSLA
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("Overview") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("SLA Management") | html %]</h1>
+
+    <div class="SidebarColumn">
+
+[% RenderBlockStart("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+
+[% RenderBlockStart("ActionAdd") %]
+                    <li>
+                        <a class="CallForAction Plus" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=SLAEdit">
+                            <span>[% Translate("Add SLA") | html %]</span>
+                        </a>
+                    </li>
+[% RenderBlockEnd("ActionAdd") %]
+
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionList") %]
+
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+[% RenderBlockStart("OverviewList") %]
+            <div class="Header">
+                <h2>[% Translate("List") | html %]</h2>
+            </div>
+            <div class="Content">
+
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("SLA") | html %]</th>
+                            <th>[% Translate("Service") | html %]</th>
+                            <th>[% Translate("Comment") | html %]</th>
+                            <th>[% Translate("Validity") | html %]</th>
+                            <th>[% Translate("Changed") | html %]</th>
+                            <th>[% Translate("Created") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("NoDataFoundMsg") %]
+                        <tr>
+                            <td colspan="6">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockStart("OverviewListRow") %]
+                        <tr>
+                            <td><a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=SLAEdit;SLAID=[% Data.SLAID | uri %]">[% Data.Name | html %]</a></td>
+                            <td>[% Translate(Data.Service) | html %]</td>
+                            <td title="[% Data.Comment | html %]">[% Data.Comment | truncate(26) | html %]</td>
+                            <td>[% Translate(Data.Valid) | html %]</td>
+                            <td>[% Data.ChangeTime | Localize("TimeShort") %]</td>
+                            <td>[% Data.CreateTime | Localize("TimeShort") %]</td>
+                        </tr>
+[% RenderBlockEnd("OverviewListRow") %]
+                    </tbody>
+                </table>
+            </div>
+[% RenderBlockEnd("OverviewList") %]
+
+[% RenderBlockStart("SLAEdit") %]
+            <div class="Header">
+[% RenderBlockStart("HeaderAdd") %]
+                <h2>[% Translate("Add SLA") | html %]</h2>
+[% RenderBlockEnd("HeaderAdd") %]
+[% RenderBlockStart("HeaderEdit") %]
+                <h2>[% Translate("Edit SLA") | html %]</h2>
+[% RenderBlockEnd("HeaderEdit") %]
+            </div>
+            <div class="Content">
+
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="SLASave"/>
+                    <input type="hidden" name="SLAID" value="[% Data.SLAID | html %]"/>
+                    <fieldset class="TableLike">
+
+                        <label for="Name">[% Translate("SLA") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Name" id="Name" value="[% Data.Name | html %]" class="W50pc Validate_Required [% Data.NameInvalid | html %]" maxlength="200"/>
+                            <div id="NameError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div id="NameServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ServiceIDs">[% Translate("Service") | html %]:</label>
+                        <div class="Field">
+                            [% Data.ServiceOptionStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Calendar">[% Translate("Calendar") | html %]:</label>
+                        <div class="Field">
+                            [% Data.CalendarOptionStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="FirstResponseTime">[% Translate("Escalation - first response time") | html %] ([% Translate("minutes") | html %]):</label>
+                        <div class="Field">
+                            <input type="text" name="FirstResponseTime" id="FirstResponseTime" value="[% Data.FirstResponseTime | html %]" class="W50px Validate_Number" maxlength="10"/>
+                            <div id="FirstResponseTimeError" class="TooltipErrorMessage"><p>[% Translate("Please write only numbers!") | html %]</p></div>
+                            (<label for="FirstResponseNotify">[% Translate("Notify by") | html %]</label> [% Data.FirstResponseNotifyOptionStrg %])
+                            <p class="FieldExplanation">
+                                [% Translate("0 = no escalation") | html %] - 24 [% Translate("hours") | html %] = 1440 [% Translate("minutes") | html %] - [% Translate("Only business hours are counted.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="UpdateTime">[% Translate("Escalation - update time") | html %] ([% Translate("minutes") | html %]):</label>
+                        <div class="Field">
+                            <input type="text" name="UpdateTime" id="UpdateTime" value="[% Data.UpdateTime | html %]" class="W50px Validate_Number" maxlength="10"/>
+                            <div id="UpdateTimeError" class="TooltipErrorMessage"><p>[% Translate("Please write only numbers!") | html %]</p></div>
+                            (<label for="UpdateNotify">[% Translate("Notify by") | html %]</label> [% Data.UpdateNotifyOptionStrg %])
+                            <p class="FieldExplanation">
+                                [% Translate("0 = no escalation") | html %] - 24 [% Translate("hours") | html %] = 1440 [% Translate("minutes") | html %] - [% Translate("Only business hours are counted.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="SolutionTime">[% Translate("Escalation - solution time") | html %] ([% Translate("minutes") | html %]):</label>
+                        <div class="Field">
+                            <input type="text" name="SolutionTime" id="SolutionTime" value="[% Data.SolutionTime | html %]" class="W50px Validate_Number" maxlength="10"/>
+                            <div id="SolutionTimeError" class="TooltipErrorMessage"><p>[% Translate("Please write only numbers!") | html %]</p></div>
+                            (<label for="SolutionNotify">[% Translate("Notify by") | html %]</label> [% Data.SolutionNotifyOptionStrg %])
+                            <p class="FieldExplanation">
+                                [% Translate("0 = no escalation") | html %] - 24 [% Translate("hours") | html %] = 1440 [% Translate("minutes") | html %] - [% Translate("Only business hours are counted.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ValidID">[% Translate("Validity") | html %]:</label>
+                        <div class="Field">
+                            [% Data.ValidOptionStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Comment">[% Translate("Comment") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Comment" id="Comment" value="[% Data.Comment | html %]" class="W50pc" maxlength="250"/>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockStart("SLAItem") %]
+[% RenderBlockStart("InputKey") %]
+                        <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %] [% Translate(Data.Key) | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="[% Data.Name | html %]" id="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" class="W50pc"/>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("InputKey") %]
+[% RenderBlockStart("Input") %]
+                        <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="[% Data.Name | html %]" id="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" class="W50pc"/>
+                            <p class="FieldExplanation">
+                                [% Translate(Data.Desc) | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("Input") %]
+[% RenderBlockStart("TextArea") %]
+                        <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %]:</label>
+                        <div class="Field">
+                            <textarea name="[% Data.Name | html %]" id="[% Data.Name | html %]" rows="[% Data.Rows | html %]" cols="[% Data.Cols | html %]">[% Data.SelectedID | html %]</textarea>
+                            <p class="FieldExplanation">
+                                [% Translate(Data.Desc) | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+[% RenderBlockEnd("TextArea") %]
+[% RenderBlockStart("Option") %]
+                        <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %] [% Translate(Data.Key) | html %]:</label>
+                        <div class="Field">
+                            [% Data.Option %]
+                            <p class="FieldExplanation">
+                                [% Translate(Data.Desc) | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("Option") %]
+[% RenderBlockStart("Upload") %]
+                        <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %] [% Translate(Data.Key) | html %]:</label>
+                        <div class="Field">
+                            <input name="[% Data.Name | html %]" id="[% Data.Name | html %]" type="file" class="fixed"/>
+                            <a href="">[% Data.Filename | html %]</a>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("Upload") %]
+[% RenderBlockStart("Password") %]
+                        <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %] [% Translate(Data.Key) | html %]:</label>
+                        <div class="Field">
+                            <input type="password" name="[% Data.Name | html %]" id="[% Data.Name | html %]" value="" class="W50pc"/>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("Password") %]
+[% RenderBlockEnd("SLAItem") %]
+                        <div class="Field SpacingTop">
+                            <button class="Primary" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+[% RenderBlockEnd("SLAEdit") %]
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("Overview") %]

@@ -1,0 +1,104 @@
+# --
+# AdminACLNew.tt - provides HTML for AdminACL
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Create New ACL") | html %]</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center Back"><span>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Description") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.") | html %]
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Create New ACL") | html %]</h2>
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="ACLNewAction"/>
+                    <fieldset class="TableLike">
+                        <label class="Mandatory" for="Name"><span class="Marker">*</span> [% Translate("Name") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Name" id="Name" value="[% Data.Name | html %]" class="W50pc Validate_Required [% Data.NameServerError | html %]" maxlength="70"/>
+                            <div id="NameError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="NameServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Comment">[% Translate("Comment") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Comment" id="Comment" value="[% Data.Comment | html %]" class="W50pc [% Data.CommentServerError | html %]" maxlength="70"/>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Description">[% Translate("Description") | html %]:</label>
+                        <div class="Field">
+                            <textarea name="Description" id="Description" class="W50pc [% Data.DescriptionServerError | html %]" rows="5">[% Data.Description | html %]</textarea>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="StopAfterMatch">[% Translate("Stop after match") | html %]:</label>
+                        <div class="Field">
+                            <input type="checkbox" name="StopAfterMatch" id="StopAfterMatch" value="1" [% Data.Checked %] />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> [% Translate("Validity") | html %]:</label>
+                        <div class="Field">
+                            [% Data.ValidOption %]
+                            <div id="ValidIDError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]">[% Translate("Save") | html %]</button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>

@@ -1,0 +1,148 @@
+# --
+# AdminGenericInterfaceWebserviceHistory.tt - provides HTML form for AdminLog
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceWebserviceHistory">
+    <h1>[% Translate("GenericInterface Configuration History for Web Service %s", Data.WebserviceName) | html %]</h1>
+<!-- breadcrumb -->
+    <div class="GenericInterfaceWebserviceConfigPath">
+        <h3>
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+            <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice">[% Translate("Web Services") | html %]</a>
+
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+            <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]">[% Data.WebserviceName | html %]</a>
+
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+            [% Translate("History") | html %]
+        </h3>
+    </div>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]" class="CallForAction">
+                            <span>[% Translate("Go back to Web Service") | html %]</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("Here you can view older versions of the current web service's configuration, export or even restore them.") | html %]
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple WebserviceListWidget">
+            <div class="Header">
+                <h2>
+                    [% Translate("Configuration History List") | html %]
+                </h2>
+            </div>
+            <div class="Content">
+                <div class="ColumnsWithSpacing">
+                    <div class="W75pc">
+                        <div id="WebserviceListContainer" class="ListContainer">
+                            <table class="DataTable" id="WebserviceList">
+                                <thead>
+                                    <tr>
+                                        <th>[% Translate("Version") | html %]</th>
+                                        <th>[% Translate("Create time") | html %]</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="3">[% Translate("Loading") | html %]...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="FieldExplanation">[% Translate("Select a single configuration version to see its details.") | html %]</p>
+                    </div>
+                    <div class="Clear"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="WidgetSimple Hidden" id="WebserviceHistoryDetails">
+            <div class="ControlRow"></div>
+            <div class="LightRow Bottom">
+                <ul class="Actions">
+                    <li id="ExportButton">
+                        <span>[% Translate("Export web service configuration") | html %]</span>
+                    </li>
+                    <li id="RollbackButton">
+                        <span>[% Translate("Restore web service configuration") | html %]</span>
+                    </li>
+                </ul>
+                <div class="ClearLeft"></div>
+            </div>
+            <div class="Content ConfigCode">
+                <pre></pre>
+            </div>
+        </div>
+
+        <div class="Hidden" id="RollbackDialogContainer">
+            <p id="RollbackDialog" class="Warning">
+                [% Translate("Do you really want to restore this version of the web service configuration?") | html %]
+                <br/>
+                [% Translate("Your current web service configuration will be overwritten.") | html %]
+            </p>
+        </div>
+        <div class="Hidden">
+            <form action="[% Env("CGIHandle") %]" method="post" id="ActionForm">
+                <input type="hidden" value="AdminGenericInterfaceWebserviceHistory" name="Action" />
+                <input type="hidden" value="" name="Subaction" id="Subaction" />
+                <input type="hidden" value="[% Data.WebserviceID | html %]" name="WebserviceID" />
+                <input type="hidden" value="" name="WebserviceHistoryID" id="WebserviceHistoryID" />
+            </form>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+
+Core.Agent.Admin.GenericInterfaceWebserviceHistory.Init({
+    WebserviceID: [% Data.WebserviceID | html %],
+    Localization: {
+        WebserviceHistoryErrorMsg: [% Translate("An error occurred during communication.") | JSON %],
+        NoDataFoundMsg: [% Translate("No data found.") | JSON %],
+        ToggleContentMsg: [% Translate("Show or hide the content.") | JSON %],
+        RollbackLogMsg: [% Translate("Restore web service configuration") | JSON %],
+        RollbackMsg: [% Translate("Restore") | JSON %],
+        CancelMsg: [% Translate("Cancel") | JSON %]
+    }
+});
+
+//Load Webservice list on startup without active filter
+Core.Agent.Admin.GenericInterfaceWebserviceHistory.GetWebserviceList();
+
+$('#ExportButton').bind('click', function(){
+    $('#Subaction').attr('value','Export');
+    $('#ActionForm').submit();
+});
+
+$('#RollbackButton').bind('click', Core.Agent.Admin.GenericInterfaceWebserviceHistory.ShowRollbackDialog);
+
+//]]></script>
+[% END %]

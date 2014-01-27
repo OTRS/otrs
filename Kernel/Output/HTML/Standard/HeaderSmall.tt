@@ -1,0 +1,22 @@
+# --
+# HeaderSmall.tt - provides global HTML header
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+#
+# http headers
+Content-Type: text/html; charset=utf-8;
+X-Powered-By: [% Config("Product") %] [% Config("Version") %] - Open Ticket Request System (http://otrs.org/)
+Expires: Tue, 1 Jan 1980 12:00:00 GMT
+Cache-Control: no-cache
+Pragma: no-cache
+
+<!DOCTYPE html>
+<html>
+[% InsertTemplate("Copyright.tt") %]
+[% InsertTemplate("HTMLHead.tt") %]
+<body class="[% Data.BodyClass | html %]">
+    <a name="Top"></a>

@@ -1336,13 +1336,12 @@ sub Run {
         );
 
         my $ResponseFormat = $Self->{ConfigObject}->Get('Ticket::Frontend::ResponseFormat')
-            || '$QData{"Salutation"}
-$QData{"OrigFrom"} $Text{"wrote"}:
-$QData{"Body"}
+            || '[% Data.Salutation | html %]
+[% Data.StdResponse | html %]
+[% Data.Signature | html %]
 
-$QData{"StdResponse"}
-
-$QData{"Signature"}
+[% Data.Created | Localize("TimeShort") %] - [% Data.OrigFromName | html %] [% Translate("wrote") | html %]:
+[% Data.Body | html %]
 ';
 
         # make sure body is rich text

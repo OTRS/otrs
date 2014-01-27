@@ -226,7 +226,8 @@ sub Preferences {
                         for (@Sorted) {
                             my $Value = $ValueHash{$_};
                             if ( $ObjectAttribute->{Translation} ) {
-                                $Value = "\$Text{\"$ValueHash{$_}\"}";
+                                $Value = $Self->{LayoutObject}->{LanguageObject}
+                                    ->Translate( $ValueHash{$_} );
                             }
                             $Self->{LayoutObject}->Block(
                                 Name => 'Fixed',

@@ -1,0 +1,44 @@
+# --
+# AgentDashboardStats.tt - provides stats output as a dashboard widget
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("NoData") %]
+<i class="icon-signal" style="display: block; margin-bottom: 3px; font-size: 20px; text-align: center; color: #E77A34;"></i>
+<p class="Center FieldExplanation">[% Translate("The content of this statistic is being prepared for you, please be patient.") | html %]</p>
+[% RenderBlockEnd("NoData") %]
+
+[% RenderBlockStart("StatsData") %]
+<svg style="height: 350px;" class="GraphWidget[% Data.Name | html %]" id="GraphWidget[% Data.Name | html %]"></svg>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+/*global nv, d3 */
+
+// add translations
+Core.Config.Set('Grouped', [% Translate("Grouped") | JSON %]);
+Core.Config.Set('Stacked', [% Translate("Stacked") | JSON %]);
+
+(function(){
+
+    var Timeout = 500;
+
+    // check if the container is already expanded, otherwise the graph
+    // would have the wrong size after the widget settings have been saved
+    // and the content is being reloaded using ajax.
+    if ($('#GraphWidget[% Data.Name | html %]').parent().is(':visible')) {
+        Timeout = 0;
+    }
+
+    window.setTimeout(function () {
+        var RawData = [% Data.StatsData %];
+        Core.Agent.Dashboard.InitStatsChart("svg.GraphWidget[% Data.Name | html %]", RawData);
+    }, Timeout);
+}());
+//]]></script>
+[% END %]
+[% RenderBlockEnd("StatsData") %]

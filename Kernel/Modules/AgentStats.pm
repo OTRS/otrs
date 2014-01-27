@@ -421,7 +421,8 @@ sub Run {
                             for (@Sorted) {
                                 my $Value = $ValueHash{$_};
                                 if ( $ObjectAttribute->{Translation} ) {
-                                    $Value = "\$Text{\"$ValueHash{$_}\"}";
+                                    $Value = $Self->{LayoutObject}->{LanguageObject}
+                                        ->Translate( $ValueHash{$_} );
                                 }
                                 $Self->{LayoutObject}->Block(
                                     Name => 'Fixed',
@@ -1569,8 +1570,13 @@ sub Run {
                 );
 
                 if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
+                    my $TreeSelectionMessage
+                        = $Param{LayoutObject}->{LanguageObject}->Get("Show Tree Selection");
                     $BlockData{SelectField}
-                        .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+                        .= ' <a href="#" title="'
+                        . $TreeSelectionMessage
+                        . '" class="ShowTreeSelection">'
+                        . $TreeSelectionMessage . '</a>';
                 }
             }
 
@@ -1668,8 +1674,13 @@ sub Run {
                 );
 
                 if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
+                    my $TreeSelectionMessage
+                        = $Param{LayoutObject}->{LanguageObject}->Get("Show Tree Selection");
                     $BlockData{SelectField}
-                        .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+                        .= ' <a href="#" title="'
+                        . $TreeSelectionMessage
+                        . '" class="ShowTreeSelection">'
+                        . $TreeSelectionMessage . '</a>';
                 }
             }
 
@@ -1800,8 +1811,13 @@ sub Run {
                 );
 
                 if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
+                    my $TreeSelectionMessage
+                        = $Param{LayoutObject}->{LanguageObject}->Get("Show Tree Selection");
                     $BlockData{SelectField}
-                        .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+                        .= ' <a href="#" title="'
+                        . $TreeSelectionMessage
+                        . '" class="ShowTreeSelection">'
+                        . $TreeSelectionMessage . '</a>';
                 }
             }
 
@@ -2230,7 +2246,7 @@ sub Run {
             if ( $Self->{PDFObject} ) {
                 my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
                 my $Page      = $Self->{LayoutObject}->{LanguageObject}->Get('Page');
-                my $Time      = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
+                my $Time      = $Self->{LayoutObject}->{Time};
                 my $Url       = ' ';
                 if ( $ENV{REQUEST_URI} ) {
                     $Url

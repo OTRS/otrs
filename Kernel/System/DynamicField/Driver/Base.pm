@@ -153,17 +153,12 @@ EOF
     }
 
     # text
+    $HTMLString .= $Param{LayoutObject}->{LanguageObject}->Translate("$LabelText");
     if ( $Param{AdditionalText} ) {
-        $HTMLString .= <<"EOF";
-    \$Text{"$LabelText"} (\$Text{"$Param{AdditionalText}"}):
-EOF
-
+        $HTMLString .= " ("
+            . $Param{LayoutObject}->{LanguageObject}->Translate("$Param{AdditionalText}") . ")";
     }
-    else {
-        $HTMLString .= <<"EOF";
-    \$Text{"$LabelText"}:
-EOF
-    }
+    $HTMLString .= ":\n";
 
     # closing tag
     $HTMLString .= <<"EOF";

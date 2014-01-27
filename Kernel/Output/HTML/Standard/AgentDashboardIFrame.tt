@@ -1,0 +1,12 @@
+# --
+# AgentDashboardIFrame.tt - provides iframe based Website Viewer for global dashboard
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<iframe src="[% Data.URL | html %]" width="[% Data.Width | html %]" height="[% Data.Height | html %]" name="[% Data.Title | html %]"  marginheight="[% Data.Marginheight | html %]" marginwidth="[% Data.Marginwidth | html %]" frameborder="[% Data.Frameborder | html %]" align="[% Data.Align | html %]" scrolling="[% Data.Scrolling | html %]" ></iframe>
+<div class="Clear"></div>

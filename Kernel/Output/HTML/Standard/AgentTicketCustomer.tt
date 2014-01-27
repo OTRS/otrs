@@ -1,0 +1,74 @@
+# --
+# AgentTicketCustomer.tt - provides HTML for AgentTicketCustomer.pm
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% InsertTemplate("AgentCustomerSearch.tt") %]
+
+[% RenderBlockStart("Customer") %]
+<div class="LayoutPopup ARIARoleMain">
+    <div class="Header">
+        <h1>[% Translate("Change customer of ticket") | html %]: [% Data.TicketNumber | html %] - [% Data.Title | html %]</h1>
+        <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+        <p>
+            <a class="CancelClosePopup" href="#">[% Translate("Cancel & close window") | html %]</a>
+        </p>
+    </div>
+
+    <div class="Content">
+        <div class="LayoutFixedSidebar SidebarLast">
+            <div class="SidebarColumn">
+                <div id="CustomerInfo" class="WidgetSimple">
+                    <div class="Header">
+                        <h2>[% Translate("Customer Information") | html %]</h2>
+                    </div>
+                    <div class="Content">
+                        [% Data.Table %]
+                    </div>
+                </div>
+            </div>
+
+            <div class="ContentColumn">
+                <div class="Content">
+                    <form action="[% Env("CGIHandle") %]" id="MainForm" method="post" name="compose" class="Validate">
+                        <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                        <input type="hidden" name="Subaction" value="Update"/>
+                        <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+                        <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="[% Data.SelectedCustomerUser | html %]"/>
+                        <fieldset class="TableLike FixedLabel">
+                            <label for="CustomerAutoComplete" class="Mandatory"><span class="Marker">*</span> [% Translate("Customer user") | html %]:</label>
+                            <div class="Field">
+                                <input id="CustomerAutoComplete" type="text" name="CustomerUserID" value="[% Data.CustomerUserID | html %]" class="W75pc Validate_Required [% Data.CustomerUserIDInvalid | html %]" autocomplete="off" />
+                                <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label for="CustomerID" class="Mandatory"><span class="Marker">*</span> [% Translate("CustomerID") | html %]:</label>
+                            <div class="Field">
+                                <input type="text" id="CustomerID" name="CustomerID" value="[% Data.CustomerID | html %]" class="W75pc Validate_Required [% Data.CustomerIDInvalid | html %]"/>
+                                <div id="CustomerIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="CustomerIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            </div>
+                            <div class="Clear"></div>
+                            <div class="Field">
+<!-- put the button here and not into the footer, because the CustomerTickets table can be very long -->
+                                <button class="CallForAction Primary" id="Submit" accesskey="g" title="[% Translate("Submit") | html %] (g)" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div class="Clear"></div>
+        </div>
+
+        <div id="CustomerTickets"></div>
+
+    </div>
+    <div class="Footer"></div>
+</div>
+[% RenderBlockEnd("Customer") %]

@@ -1,0 +1,145 @@
+# --
+# CustomerTicketSearchResultShort.tt - html for ticket status view (all tickets)
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div id="MainBox" class="TicketView ARIARoleMain SearchResults [% Config("Ticket::Frontend::CustomerTicketOverviewSortable") %] Sortable">
+    <div class="ActionRow">
+        <ul class="Tabs">
+            <li>
+                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=LoadProfile;[% Data.Link %]">
+                    &larr; [% Translate("Change search options") | html %]
+                </a>
+            </li>
+        </ul>
+[% RenderBlockStart("Pagination") %]
+        <div class="Tabs Pagination">
+            <strong>[% Data.Result %]</strong> [% Translate("of") | html %] <strong>[% Data.TotalHits %]</strong> - [% Translate("Page") | html %]: [% Data.SiteNavBar %]
+        </div>
+[% RenderBlockEnd("Pagination") %]
+        <div class="Clear"></div>
+        <div class="SearchTerms">
+            <h2>[% Translate("Search Results for") | html %]:</h2>
+[% RenderBlockStart("SearchTerms") %]
+            <span>
+                [% Translate(Data.Attribute) | html %]: [% Data.Value | html %]
+# hide remove link, functionality is not yet implemented
+#                <a title="[% Translate("Remove this Search Term.") | html %]" href="[% Data.SearchValue %]">&times;</a>
+            </span>
+[% RenderBlockEnd("SearchTerms") %]
+        </div>
+    </div>
+    <div class="Content">
+        <table class="Overview">
+            <thead>
+                <tr>
+                    <th class="Ticket [% Data.TicketSort %]">
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Search;SortBy=Ticket;Order=[% Data.Order | uri %];Filter=[% Data.Filter | uri %];Limit=[% Data.Limit | uri %];ShowClosedTickets=[% Data.ShowClosed | uri %];Type=[% Data.Type | uri %];Profile=[% Data.Profile | uri %];TakeLastSearch=1">
+                            [% Config("Ticket::Hook") %]
+                        </a>
+                    </th>
+                    <th class="Status [% Data.StateSort %]">
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Search;SortBy=State;Order=[% Data.Order | uri %];Filter=[% Data.Filter | uri %];Limit=[% Data.Limit | uri %];ShowClosedTickets=[% Data.ShowClosed | uri %];Type=[% Data.Type | uri %];Profile=[% Data.Profile | uri %];TakeLastSearch=1">
+                            [% Translate("State") | html %]
+                        </a>
+                    </th>
+                    <th class="Title">
+                        <span>[% Translate("Subject") | html %]</span>
+                    </th>
+                    <th class="Age [% Data.AgeSort %]">
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Search;SortBy=Age;Order=[% Data.Order | uri %];Filter=[% Data.Filter | uri %];Limit=[% Data.Limit | uri %];ShowClosedTickets=[% Data.ShowClosed | uri %];Type=[% Data.Type | uri %];Profile=[% Data.Profile | uri %];TakeLastSearch=1">
+                            [% Translate("Age") | html %]
+                        </a>
+                    </th>
+[% RenderBlockStart("HeaderDynamicField") %]
+                    <th class="DynamicField [% Data.CSS %]">
+[% RenderBlockStart("HeaderDynamicFieldSortable") %]
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Search;SortBy=DynamicField_[% Data.DynamicFieldName | uri %];Order=[% Data.Order | uri %];Filter=[% Data.Filter | uri %];Limit=[% Data.Limit | uri %];ShowClosedTickets=[% Data.ShowClosed | uri %];Type=[% Data.Type | uri %];Profile=[% Data.Profile | uri %];TakeLastSearch=1">
+                            [% Translate(Data.Label) | html %]
+                        </a>
+[% RenderBlockEnd("HeaderDynamicFieldSortable") %]
+[% RenderBlockStart("HeaderDynamicFieldNotSortable") %]
+                        <span>[% Translate(Data.Label) | html %]</span>
+[% RenderBlockEnd("HeaderDynamicFieldNotSortable") %]
+                    </th>
+[% RenderBlockEnd("HeaderDynamicField") %]
+                </tr>
+            </thead>
+            <tbody>
+[% RenderBlockStart("NoDataFoundMsg") %]
+                <tr id="EmptyMessage">
+                    <td colspan="4">
+                        [% Translate("No data found.") | html %]
+                    </td>
+                </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockStart("Record") %]
+                <tr class="MasterAction">
+                    <td class="Ticket"><a href="[% Env("Baselink") %]Action=CustomerTicketZoom;TicketNumber=[% Data.TicketNumber | uri %]" class="MasterActionLink">[% Data.TicketNumber | html %]</a></td>
+                    <td class="Status">[% Translate(Data.State) | html %]</td>
+                    <td class="Title"><div><h2>[% Data.Subject | truncate(60) | html %]</h2>&nbsp;-&nbsp; [% Data.Body | truncate(200) | html %]</div></td>
+                    <td class="Age" title="[% Data.Created | Localize("TimeShort") %]">[% Data.CustomerAge | truncate(20) | html %]</td>
+[% RenderBlockStart("RecordDynamicField") %]
+                    <td class="DynamicField" title="[% Data.Title | html %]">[% Data.Value %]</td>
+[% RenderBlockEnd("RecordDynamicField") %]
+                </tr>
+[% RenderBlockEnd("Record") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('.MasterAction').bind('click', function (Event) {
+        var $MasterActionLink = $(this).find('.MasterActionLink');
+        // only act if the link was not clicked directly
+        if (Event.target !== $MasterActionLink.get(0)) {
+            window.location = $MasterActionLink.attr('href');
+            return false;
+        }
+    });
+//]]></script>
+[% END %]
+            </tbody>
+        </table>
+    </div>
+[% RenderBlockStart("BottomSubNavigation") %]
+    <div id="BottomActionRow" class="ActionRow BigButtons">
+        <ul class="Tabs">
+            <li>
+                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=LoadProfile;[% Data.Link | uri %]">
+                    &larr; [% Translate("Change search options") | html %]
+                </a>
+            </li>
+        </ul>
+        <div class="Tabs Pagination">
+            <strong>[% Data.Result %]</strong> [% Translate("of") | html %] <strong>[% Data.TotalHits %]</strong> - [% Translate("Page") | html %]: [% Data.SiteNavBar %]
+        </div>
+        <div class="Clear"></div>
+    </div>
+[% RenderBlockEnd("BottomSubNavigation") %]
+</div>
+#[% RenderBlockEnd("Record") %]
+#                <dtl if ([% Env("Color") %] eq "") { [% Env("Color") %] = "searchpassive"; }>
+#                <tr valign="top">
+#                    <td class="[% Env("Color") %]">
+#                        <a href="[% Env("Baselink") %]Action=CustomerTicketZoom;TicketNumber=[% Data.TicketNumber | uri %];ArticleID=[% Data.ArticleID | uri %];QueueID=[% Data.QueueID | uri %]">
+#                            [% Data.TicketNumber %]
+#                        </a>
+#                    </td>
+#                    <td class="[% Env("Color") %]">[% Data.Age | html %]</td>
+#                    <td class="[% Env("Color") %]">
+#                        <div title="[% Data.From | html %]">[% Data.From | truncate(30) | html %]</div>
+#                        <div title="[% Data.Subject | html %]">[% Data.Subject | truncate(30) | html %]</div>&nbsp;
+#                    </td>
+#                    <td class="[% Env("Color") %]">
+#                        <div title="[% Translate(Data.State) | html %]">[% Data.State | Translate | truncate(30) | html %]</div>
+#                    </td>
+#                    <td class="[% Env("Color") %]">
+#                        <div title="[% Data.CustomerID | html %]">[% Data.CustomerID | truncate(15) | html %]</div>
+#                        <div title="[% Data.CustomerName | html %]">[% Data.CustomerName | truncate(15) | html %]</div>
+#                    </td>
+#                </tr>
+#                <dtl if ([% Env("Color") %] eq "searchactive") { [% Env("Color") %] = ""; }>
+#                <dtl if ([% Env("Color") %] eq "searchpassive") { [% Env("Color") %] = "searchactive"; }>
+#[% RenderBlockEnd("Record") %]

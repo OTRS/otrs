@@ -1,0 +1,79 @@
+# --
+# AgentTicketHistory.tt - provides HTML form for history
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="LayoutPopup ARIARoleMain">
+
+    <div class="Header">
+        <h1>
+            [% Translate("History of") | html %] [% Config("Ticket::Hook") %]: [% Data.TicketNumber | html %] - [% Data.Title | html %]
+        </h1>
+        <p>
+            <a href="#" class="CancelClosePopup">[% Translate("Close window") | html %]</a>
+        </p>
+    </div>
+
+    <div class="Content">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>
+                    [% Translate("History Content") | html %]
+                </h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Action") | html %]</th>
+                            <th>[% Translate("Comment") | html %]</th>
+                            <th>[% Translate("Zoom") | html %]</th>
+                            <th>[% Translate("User") | html %]</th>
+                            <th>[% Translate("Createtime") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+[% RenderBlockStart("Row") %]
+                        <tr>
+                            <td>
+                                [% Data.HistoryType | html %]
+                            </td>
+                            <td title="[% Data.Name | html %]">
+                                [% Data.Name | truncate(100) | html %]
+                            </td>
+                            <td>
+[% RenderBlockStart("NoLinkZoom") %]
+                                -
+[% RenderBlockEnd("NoLinkZoom") %]
+[% RenderBlockStart("ShowLinkZoom") %]
+                                <a class="LinkZoomView AsBlock" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]">[% Translate("Zoom view") | html %]</a>
+[% RenderBlockEnd("ShowLinkZoom") %]
+                            </td>
+                            <td>
+                                [% Data.UserFullname | html %]
+                            </td>
+                            <td>
+                                [% Data.CreateTime | Localize("TimeLong") %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("Row") %]
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('a.LinkZoomView').bind('click', function () {
+        window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: $(this).attr('href')});
+        window.close();
+    });
+//]]></script>
+[% END %]
+    </div>
+</div>
