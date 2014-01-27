@@ -71,9 +71,9 @@ my $App = CGI::Emulate::PSGI->handler(
         };
         warn $@ if $@;
 
-        my $profile;
-        if ($ENV{NYTPROF} && $ENV{REQUEST_URI} =~ /NYTProf=([\w-]+)/) {
-            $profile = 1;
+        my $Profile;
+        if ( $ENV{NYTPROF} && $ENV{REQUEST_URI} =~ /NYTProf=([\w-]+)/ ) {
+            $Profile = 1;
             DB::enable_profile("nytprof-$1.out")
         }
 
@@ -81,11 +81,14 @@ my $App = CGI::Emulate::PSGI->handler(
         eval {
             do "bin/cgi-bin/$ENV{SCRIPT_NAME}";
         };
-        if ($@ && $@ ne "exit called\n") {
+        if ( $@ && $@ ne "exit called\n" ) {
             warn $@;
         }
-        DB::finish_profile() if $profile;
-    }
+
+        if ($Profile) {
+            DB::finish_profile();
+        }
+    },
 );
 
 # Small helper function to determine the path to a static file
