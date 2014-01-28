@@ -666,15 +666,20 @@ sub Run {
                 );
             }
 
-            # Use customer data as From, if possible
-            my %LastCustomerArticle = $Self->{TicketObject}->ArticleLastCustomerArticle(
-                TicketID      => $Self->{TicketID},
-                DynamicFields => 0,
-            );
+            my $From;
 
-            my $From = $LastCustomerArticle{From};
+            if ( lc $Self->{Config}->{SenderType} eq 'customer' ) {
 
-            # If we don't have a customer article, use the agent as From
+                # Use customer data as From, if possible
+                my %LastCustomerArticle = $Self->{TicketObject}->ArticleLastCustomerArticle(
+                    TicketID      => $Self->{TicketID},
+                    DynamicFields => 0,
+                );
+
+                $From = $LastCustomerArticle{From};
+            }
+
+            # If we don't have a customer article, or if SenderType is "agent", use the agent as From.
             if ( !$From ) {
                 my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
                 $From = $TemplateGenerator->Sender(
