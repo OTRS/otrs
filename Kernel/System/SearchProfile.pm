@@ -252,6 +252,7 @@ sub SearchProfileDelete {
 
     # delete cache
     my $CacheKey = $Login . '::' . $Param{Name};
+    $Self->{CacheInternalObject}->Delete( Key => $Login );
     $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
     return 1;
 }
