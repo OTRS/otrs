@@ -1,4 +1,5 @@
 #3.3.5 2014-??-??
+ - 2014-01-28 Fixed bug#[9692](http://bugs.otrs.org/show_bug.cgi?id=9692) - On PhoneOutbound articles,  the FROM field shows Customer ID instead Agent ID.
  - 2014-01-28 Fixed bug#[10147](http://bugs.otrs.org/show_bug.cgi?id=10147) - Cache may remain incorrectly in SearchProfile.
  - 2014-01-24 Fixed bug#[10189](http://bugs.otrs.org/show_bug.cgi?id=10189) - ProcessManagement: Use article subject if no ticket title is set.
  - 2014-01-24 Fixed bug#[9654](http://bugs.otrs.org/show_bug.cgi?id=9654) - TicketUpdate operation doesn't work when authenticated as a customer.
