@@ -144,7 +144,14 @@ Core.UI.TreeSelection = (function (TargetNS) {
         });
 
         Elements.sort(function(a, b) {
-            return (a.Level - b.Level);
+            if (a.Level - b.Level === 0)
+            {
+                return (a.Name.localeCompare(b.Name));
+            }
+            else
+            {
+                return (a.Level - b.Level);
+            }
         });
 
         // go through all levels and collect the elements and their children
