@@ -298,6 +298,16 @@ for my $SearchProfileName (@SearchProfileNames) {
         $SuccessGet,
         "SearchProfileGet() - Deleted entry",
     );
+
+    # check deleting from SearchProfileList
+    my %SearchProfileList
+        = $SearchProfileObject->SearchProfileList( Base => $Base, UserLogin => $UserID );
+
+    $Self->False(
+        $SearchProfileList{$SearchProfileName},
+        "SearchProfileList() - Deleted entry $SearchProfileName",
+    );
 }
+
 
 1;
