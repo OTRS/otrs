@@ -75,7 +75,7 @@ var/httpd/htdocs/skins/Agent/default/css/Support.Default.css
 # OTRSCodePolicy
 .tidyall.d
 perltidy.LOG.old
-Perl/Critic
+bin/otrs.CodePolicy.pl
 TidyAll
 Kernel/cpan-lib/Pod/Strip.pm
 scripts/install-git-hooks.pl
