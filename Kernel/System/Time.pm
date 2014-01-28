@@ -120,7 +120,7 @@ sub SystemTime2TimeStamp {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{SystemTime} ) {
+    if ( !defined $Param{SystemTime} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SystemTime!' );
         return;
     }
@@ -168,7 +168,7 @@ sub SystemTime2Date {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{SystemTime} ) {
+    if ( !defined $Param{SystemTime} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SystemTime!' );
         return;
     }
@@ -311,7 +311,7 @@ sub TimeStamp2SystemTime {
     }
 
     # return error
-    if ( !$SytemTime ) {
+    if ( !defined $SytemTime ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Invalid Date '$Param{String}'!",
@@ -357,7 +357,7 @@ sub Date2SystemTime {
         );
     };
 
-    if ( !$SytemTime ) {
+    if ( !defined $SytemTime ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message =>
