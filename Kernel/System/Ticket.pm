@@ -5513,6 +5513,13 @@ sub TicketMerge {
         UserID   => $Param{UserID},
     );
 
+    # remove seen flag for all users on the main ticket
+    my $Success = $Self->TicketFlagDelete(
+        TicketID => $Param{MainTicketID},
+        Key      => 'Seen',
+        AllUsers => 1,
+    );
+
     # trigger event
     $Self->EventHandler(
         Event => 'TicketMerge',
