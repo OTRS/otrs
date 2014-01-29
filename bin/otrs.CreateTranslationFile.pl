@@ -242,12 +242,13 @@ sub HandleLanguage {
     for my $File (@List) {
 
         my $ContentRef = $CommonObject{MainObject}->FileRead(
-            Location  => $File,
-            Mode      => 'utf8',
+            Location => $File,
+            Mode     => 'utf8',
         );
 
         if ( ref $ContentRef ) {
             my $Content = ${$ContentRef};
+
             # while ( my $Line = <$In> ) {
             #     if ( $Line !~ /^#/ ) {
             #         $Content .= $Line;
@@ -531,11 +532,9 @@ EOF
 
     print "Writing $TargetFile\n";
 
-
-
     $CommonObject{MainObject}->FileWrite(
-        Location   => $TargetFile,
-        Content    => \$NewOut,
-        Mode       => 'utf8', # binmode|utf8
+        Location => $TargetFile,
+        Content  => \$NewOut,
+        Mode     => 'utf8',        # binmode|utf8
     );
 }

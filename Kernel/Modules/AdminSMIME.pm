@@ -561,7 +561,8 @@ sub _Overview {
             Data     => $Self->{LayoutObject}->{LanguageObject}
                 ->Translate( "Please activate %s first!", "SMIME" ),
             Link =>
-                $Self->{LayoutObject}->{Baselink} . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
+                $Self->{LayoutObject}->{Baselink}
+                . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
         );
     }
 
@@ -575,7 +576,8 @@ sub _Overview {
                     "$PathKey " . $Self->{ConfigObject}->Get($PathKey),
                 ),
                 Link =>
-                    $Self->{LayoutObject}->{Baselink} . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
+                    $Self->{LayoutObject}->{Baselink}
+                    . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
             );
         }
     }
@@ -585,7 +587,8 @@ sub _Overview {
             Data     => $Self->{LayoutObject}->{LanguageObject}
                 ->Translate( "Cannot create %s!", "CryptObject" ),
             Link =>
-                $Self->{LayoutObject}->{Baselink} . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
+                $Self->{LayoutObject}->{Baselink}
+                . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
         );
     }
     if ( $Self->{CryptObject} && $Self->{CryptObject}->Check() ) {
@@ -766,7 +769,8 @@ sub _SignerCertificateOverview {
             Data     => $Self->{LayoutObject}->{LanguageObject}
                 ->Translate( "Please activate %s first!", "SMIME" ),
             Link =>
-                $Self->{LayoutObject}->{Baselink} . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
+                $Self->{LayoutObject}->{Baselink}
+                . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
         );
     }
 
@@ -781,7 +785,8 @@ sub _SignerCertificateOverview {
                 ),
                 ,
                 Link =>
-                    $Self->{LayoutObject}->{Baselink} . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
+                    $Self->{LayoutObject}->{Baselink}
+                    . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
             );
         }
     }
@@ -791,7 +796,8 @@ sub _SignerCertificateOverview {
             Data     => $Self->{LayoutObject}->{LanguageObject}
                 ->Translate( "Cannot create %s!", "CryptObject" ),
             Link =>
-                $Self->{LayoutObject}->{Baselink} . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
+                $Self->{LayoutObject}->{Baselink}
+                . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
         );
     }
     if ( $Self->{CryptObject} && $Self->{CryptObject}->Check() ) {

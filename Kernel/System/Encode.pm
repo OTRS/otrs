@@ -158,11 +158,11 @@ sub Convert {
     # distributed charsets by Encode::HanExtra
     # http://search.cpan.org/~jhi/perl-5.8.1/ext/Encode/lib/Encode/Supported.pod
     my %AdditionalChineseCharsets = (
-        'big5ext'   => 1,
-        'big5plus'  => 1,
-        'cccii'     => 1,
-        'euc-tw'    => 1,
-        'gb18030'   => 1,
+        'big5ext'  => 1,
+        'big5plus' => 1,
+        'cccii'    => 1,
+        'euc-tw'   => 1,
+        'gb18030'  => 1,
     );
 
     # check if one of the Encode::HanExtra charsets occurs
@@ -170,7 +170,8 @@ sub Convert {
 
         # require module, print error if module was not found
         if ( !eval "require Encode::HanExtra" ) {    ## no critic
-            print STDERR "Charset '$Param{From}' requires Encode::HanExtra, which is not installed!\n";
+            print STDERR
+                "Charset '$Param{From}' requires Encode::HanExtra, which is not installed!\n";
         }
     }
 

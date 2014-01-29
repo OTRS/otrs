@@ -27,7 +27,6 @@ use Kernel::System::Main;
 # create local config object
 my $ConfigObject = Kernel::Config->new();
 
-
 for my $Backend (qw(DB FS)) {
     $ConfigObject->Set(
         Key   => 'Ticket::StorageModule',
@@ -80,23 +79,23 @@ for my $Backend (qw(DB FS)) {
         $Attachments{1},
         {
             'ContentAlternative' => '',
-            'ContentID' => '',
-            'Filesize' => '132 Bytes',
-            'ContentType' => 'application/pdf; name="=?UTF-8?Q?Documentacio=CC=81n=2Epdf?="',
-            'Filename' => 'Documentación.pdf',
-            'FilesizeRaw' => '132',
+            'ContentID'          => '',
+            'Filesize'           => '132 Bytes',
+            'ContentType'        => 'application/pdf; name="=?UTF-8?Q?Documentacio=CC=81n=2Epdf?="',
+            'Filename'           => 'Documentación.pdf',
+            'FilesizeRaw'        => '132',
         },
         "$Backend - Attachment filename",
     );
 
     my $Success = $TicketObject->TicketDelete(
-       TicketID => $TicketID,
-       UserID   => 1,
+        TicketID => $TicketID,
+        UserID   => 1,
     );
 
     $Self->True(
-       $Success,
-       "$Backend - TicketDelete - removed ticket $TicketID",
+        $Success,
+        "$Backend - TicketDelete - removed ticket $TicketID",
     );
 }
 

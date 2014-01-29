@@ -387,6 +387,7 @@ sub Config {
 
     return (
         %{ $Self->{Config} },
+
         # Don't cache this globally as it contains JS that is not inside of the HTML.
         CacheTTL => undef,
         CacheKey => undef,

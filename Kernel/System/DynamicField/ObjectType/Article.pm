@@ -116,7 +116,7 @@ sub PostValueSet {
     if ( !$Self->{TicketObject} ) {
 
         # create it on demand
-        $Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
+        $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
     }
 
     my %Article = $Self->{TicketObject}->ArticleGet(

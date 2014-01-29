@@ -50,7 +50,8 @@ sub Run {
             Priority => 'Notice',
             Link     => $Self->{LayoutObject}->{Baselink} . 'Action=AgentPreferences',
             Data =>
-                $Self->{LayoutObject}->{LanguageObject}->Translate("You have Out of Office enabled, would you like to disable it?"),
+                $Self->{LayoutObject}->{LanguageObject}
+                ->Translate("You have Out of Office enabled, would you like to disable it?"),
         );
     }
     else {

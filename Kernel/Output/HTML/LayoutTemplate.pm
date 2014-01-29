@@ -170,6 +170,7 @@ sub Output {
         my $Success = $Self->{TemplateObject} = Template->new(
             {
                 CONTEXT => $Context,
+
                 #DEBUG => Template::Constants::DEBUG_ALL,
             }
         );

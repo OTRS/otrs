@@ -679,7 +679,7 @@ sub Run {
                 $From = $LastCustomerArticle{From};
             }
 
-            # If we don't have a customer article, or if SenderType is "agent", use the agent as From.
+          # If we don't have a customer article, or if SenderType is "agent", use the agent as From.
             if ( !$From ) {
                 my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
                 $From = $TemplateGenerator->Sender(

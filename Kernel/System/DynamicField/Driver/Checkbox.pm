@@ -330,8 +330,8 @@ EOF
     # call EditLabelRender on the common backend
     my $LabelString = $Self->EditLabelRender(
         %Param,
-        Mandatory          => $Param{Mandatory} || '0',
-        FieldName          => $FieldName,
+        Mandatory => $Param{Mandatory} || '0',
+        FieldName => $FieldName,
     );
 
     my $Data = {
@@ -534,7 +534,7 @@ sub SearchFieldRender {
     # call EditLabelRender on the common backend
     my $LabelString = $Self->EditLabelRender(
         %Param,
-        FieldName          => $FieldName,
+        FieldName => $FieldName,
     );
 
     my $Data = {

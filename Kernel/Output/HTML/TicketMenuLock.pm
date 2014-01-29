@@ -78,7 +78,8 @@ sub Run {
             %Param,
             Name        => 'Unlock',
             Description => 'Unlock to give it back to the queue',
-            Link => 'Action=AgentTicketLock;Subaction=Unlock;TicketID=[% Data.TicketID | uri %];[% Env("ChallengeTokenParam") | html %]',
+            Link =>
+                'Action=AgentTicketLock;Subaction=Unlock;TicketID=[% Data.TicketID | uri %];[% Env("ChallengeTokenParam") | html %]',
         };
     }
 
@@ -89,7 +90,8 @@ sub Run {
         %Param,
         Name        => 'Lock',
         Description => 'Lock it to work on it',
-        Link => 'Action=AgentTicketLock;Subaction=Lock;TicketID=[% Data.TicketID | uri %];[% Env("ChallengeTokenParam") | html %]',
+        Link =>
+            'Action=AgentTicketLock;Subaction=Lock;TicketID=[% Data.TicketID | uri %];[% Env("ChallengeTokenParam") | html %]',
     };
 }
 

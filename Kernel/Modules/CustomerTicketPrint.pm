@@ -1012,7 +1012,9 @@ sub _HTMLMask {
             $File{Filename} = $Self->{LayoutObject}->Ascii2Html( Text => $File{Filename} );
             my $DownloadText = $Self->{LayoutObject}->{LanguageObject}->Translate("Download");
             $Param{'Article::ATM'}
-                .= '<a href="' . $Self->{LayoutObject}->{Baselink} . 'Action=CustomerTicketAttachment;'
+                .= '<a href="'
+                . $Self->{LayoutObject}->{Baselink}
+                . 'Action=CustomerTicketAttachment;'
                 . "ArticleID=$Article{ArticleID};FileID=$FileID\" target=\"attachment\" "
                 . "title=\"$DownloadText: $File{Filename}\">"
                 . "$File{Filename}</a> $File{Filesize}<br/>";

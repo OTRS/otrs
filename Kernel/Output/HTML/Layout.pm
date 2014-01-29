@@ -745,7 +745,7 @@ sub FatalError {
     my ( $Self, %Param ) = @_;
 
     # Prevent endless recursion in case of problems with Template engine.
-    return if ($Self->{InFatalError}++);
+    return if ( $Self->{InFatalError}++ );
 
     if ( $Param{Message} ) {
         $Self->{LogObject}->Log(
@@ -1200,7 +1200,7 @@ sub Footer {
         $Self->Block(
             Name => 'DatepickerData',
             Data => {
-                VacationDays  => $VacationDaysJSON,
+                VacationDays => $VacationDaysJSON,
                 IsRTLLanguage => ( $TextDirection eq 'rtl' ) ? 1 : 0,
             },
         );
@@ -2341,7 +2341,8 @@ sub PageNavBar {
 
     # only show total amount of pages if there is more than one
     if ( $Pages > 1 ) {
-        $Param{NavBarLong} = "- " . $Self->{LanguageObject}->Translate("Page") . ": $Param{SearchNavBar}";
+        $Param{NavBarLong}
+            = "- " . $Self->{LanguageObject}->Translate("Page") . ": $Param{SearchNavBar}";
     }
     else {
         $Param{SearchNavBar} = '';
@@ -2349,9 +2350,11 @@ sub PageNavBar {
 
     # return data
     return (
-        TotalHits      => $Param{TotalHits},
-        Result         => $Param{Results},
-        ResultLong     => "$Param{Results} " . $Self->{LanguageObject}->Translate("of") . " $Param{TotalHits}",
+        TotalHits  => $Param{TotalHits},
+        Result     => $Param{Results},
+        ResultLong => "$Param{Results} "
+            . $Self->{LanguageObject}->Translate("of")
+            . " $Param{TotalHits}",
         SiteNavBar     => $Param{SearchNavBar},
         SiteNavBarLong => $Param{NavBarLong},
         Link           => $Param{Link},
@@ -2885,8 +2888,8 @@ sub BuildDateSelection {
         DateInFuture: ' . ( $ValidateDateInFuture ? 'true' : 'false' ) . ',
         WeekDayStart: ' . $WeekDayStart . '
     });';
-    $Self->AddJSOnDocumentComplete( Code => $DatepickerJS);
-    $Self->{HasDatepicker} = 1; # Call some Datepicker init code.
+    $Self->AddJSOnDocumentComplete( Code => $DatepickerJS );
+    $Self->{HasDatepicker} = 1;    # Call some Datepicker init code.
 
     return $Output;
 }
@@ -3145,7 +3148,7 @@ sub CustomerFooter {
         $Self->Block(
             Name => 'DatepickerData',
             Data => {
-                VacationDays  => $VacationDaysJSON,
+                VacationDays => $VacationDaysJSON,
                 IsRTLLanguage => ( $TextDirection eq 'rtl' ) ? 1 : 0,
             },
         );
@@ -3185,7 +3188,7 @@ sub CustomerFatalError {
     my ( $Self, %Param ) = @_;
 
     # Prevent endless recursion in case of problems with Template engine.
-    return if ($Self->{InFatalError}++);
+    return if ( $Self->{InFatalError}++ );
 
     if ( $Param{Message} ) {
         $Self->{LogObject}->Log(
@@ -4503,7 +4506,11 @@ sub _BuildSelectionOutput {
 
         if ( $Param{TreeView} ) {
             my $TreeSelectionMessage = $Self->{LanguageObject}->Get("Show Tree Selection");
-            $String .= ' <a href="#" title="' .  $TreeSelectionMessage . '" class="ShowTreeSelection">' . $TreeSelectionMessage . '</a>';
+            $String
+                .= ' <a href="#" title="'
+                . $TreeSelectionMessage
+                . '" class="ShowTreeSelection">'
+                . $TreeSelectionMessage . '</a>';
         }
 
     }

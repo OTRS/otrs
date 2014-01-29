@@ -185,10 +185,12 @@ sub TableCreateComplex {
 
         my @ItemColumns = (
             {
-                Type     => 'Link',
-                Key      => $TicketID,
-                Content  => $Ticket->{TicketNumber},
-                Link     => $Self->{LayoutObject}->{Baselink} . 'Action=AgentTicketZoom;TicketID=' . $TicketID,
+                Type    => 'Link',
+                Key     => $TicketID,
+                Content => $Ticket->{TicketNumber},
+                Link    => $Self->{LayoutObject}->{Baselink}
+                    . 'Action=AgentTicketZoom;TicketID='
+                    . $TicketID,
                 CssClass => $CssClass,
             },
             {
@@ -322,10 +324,12 @@ sub TableCreateSimple {
 
                 # define item data
                 my %Item = (
-                    Type     => 'Link',
-                    Content  => 'T:' . $Ticket->{TicketNumber},
-                    Title    => "$TicketHook$Ticket->{TicketNumber}: $Ticket->{Title}",
-                    Link     => $Self->{LayoutObject}->{Baselink} . 'Action=AgentTicketZoom;TicketID=' . $TicketID,
+                    Type    => 'Link',
+                    Content => 'T:' . $Ticket->{TicketNumber},
+                    Title   => "$TicketHook$Ticket->{TicketNumber}: $Ticket->{Title}",
+                    Link    => $Self->{LayoutObject}->{Baselink}
+                        . 'Action=AgentTicketZoom;TicketID='
+                        . $TicketID,
                     CssClass => $CssClass,
                 );
 

@@ -37,7 +37,9 @@ sub Run {
         Priority => 'Error',
         Link     => $Self->{LayoutObject}->{Baselink} . 'Action=AdminUser',
         Data =>
-            $Self->{LayoutObject}->{LanguageObject}->Translate("Don't use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead."),
+            $Self->{LayoutObject}->{LanguageObject}->Translate(
+            "Don't use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead."
+            ),
     );
 }
 

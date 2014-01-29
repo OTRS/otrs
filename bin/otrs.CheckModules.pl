@@ -404,9 +404,9 @@ my @NeededModules = (
         },
     },
     {
-        Module   => 'Template',
-        Required => 1,
-        Comment  => 'Template::Toolkit, the rendering engine of OTRS.',
+        Module    => 'Template',
+        Required  => 1,
+        Comment   => 'Template::Toolkit, the rendering engine of OTRS.',
         InstTypes => {
             aptget => 'libtemplate-perl',
             ppm    => 'Template-Toolkit',
@@ -414,9 +414,9 @@ my @NeededModules = (
         },
     },
     {
-        Module   => 'Template::Stash::XS',
-        Required => 1,
-        Comment  => 'The fast data stash for Template::Toolkit.',
+        Module    => 'Template::Stash::XS',
+        Required  => 1,
+        Comment   => 'The fast data stash for Template::Toolkit.',
         InstTypes => {
             aptget => 'libtemplate-perl',
             ppm    => 'Template-Toolkit',

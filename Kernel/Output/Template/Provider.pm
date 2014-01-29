@@ -170,6 +170,7 @@ sub _fetch {
 
             # Store in-memory and return the compiled template
             if ($compiled_template) {
+
                 # Make sure template cache does not get too big
                 if ( keys %{ $self->{_TemplateCache} } > 1000 ) {
                     $self->{_TemplateCache} = {};
@@ -199,6 +200,7 @@ sub _fetch {
     ( $template, $error ) = $self->_compile( $template, $self->_compiled_filename($name) );
 
     if ($error) {
+
         # return any compile time error
         return ( $template, $error );
     }
@@ -336,9 +338,9 @@ in-memory cache cannot be used.
 =cut
 
 sub store {
-    my ($Self, $Name, $Data) = @_;
+    my ( $Self, $Name, $Data ) = @_;
 
-    return $Data; # no-op
+    return $Data;    # no-op
 }
 
 =item _PreProcessTemplateContent()

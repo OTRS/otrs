@@ -41,6 +41,7 @@ sub Config {
 
     return (
         %{ $Self->{Config} },
+
         # Don't cache this globally as it contains JS that is not inside of the HTML.
         CacheTTL => undef,
         CacheKey => undef,
@@ -50,7 +51,7 @@ sub Config {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Key = $Self->{LayoutObject}->{UserLanguage} . '-' . $Self->{Name};
+    my $Key      = $Self->{LayoutObject}->{UserLanguage} . '-' . $Self->{Name};
     my $CacheKey = 'TicketStats' . '-' . $Self->{UserID} . '-' . $Key;
 
     my $Cache = $Self->{CacheObject}->Get(
@@ -58,10 +59,10 @@ sub Run {
         Key  => $CacheKey,
     );
 
-    if (ref $Cache) {
+    if ( ref $Cache ) {
         return $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentDashboardTicketStats',
-            Data         => $Cache,
+            TemplateFile   => 'AgentDashboardTicketStats',
+            Data           => $Cache,
             KeepScriptTags => $Param{AJAX},
         );
     }
@@ -218,8 +219,8 @@ sub Run {
     }
 
     my $Content = $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentDashboardTicketStats',
-        Data         => \%Data,
+        TemplateFile   => 'AgentDashboardTicketStats',
+        Data           => \%Data,
         KeepScriptTags => $Param{AJAX},
     );
 

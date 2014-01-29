@@ -325,8 +325,8 @@ EOF
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
         %Param,
-        Mandatory          => $Param{Mandatory} || '0',
-        FieldName          => $FieldName . 'Used',
+        Mandatory => $Param{Mandatory} || '0',
+        FieldName => $FieldName . 'Used',
     );
 
     my $Data = {
@@ -616,8 +616,8 @@ EOF
         # call EditLabelRender on the common driver
         my $LabelString = $Self->EditLabelRender(
             %Param,
-            FieldName          => $FieldName,
-            AdditionalText     => $AdditionalText,
+            FieldName      => $FieldName,
+            AdditionalText => $AdditionalText,
         );
 
         my $Data = {
@@ -661,8 +661,8 @@ EOF
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
         %Param,
-        FieldName          => $FieldName,
-        AdditionalText     => $AdditionalText,
+        FieldName      => $FieldName,
+        AdditionalText => $AdditionalText,
     );
 
     my $Data = {

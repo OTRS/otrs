@@ -309,5 +309,4 @@ for my $SearchProfileName (@SearchProfileNames) {
     );
 }
 
-
 1;

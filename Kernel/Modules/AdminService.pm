@@ -185,7 +185,8 @@ sub Run {
                 Data     => $Self->{LayoutObject}->{LanguageObject}
                     ->Translate( "Please activate %s first!", "Service" ),
                 Link =>
-                    $Self->{LayoutObject}->{Baselink} . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Ticket;SysConfigSubGroup=Core::Ticket#Ticket::Service',
+                    $Self->{LayoutObject}->{Baselink}
+                    . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Ticket;SysConfigSubGroup=Core::Ticket#Ticket::Service',
             );
         }
 
