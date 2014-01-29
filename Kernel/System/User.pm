@@ -1062,7 +1062,10 @@ sub SetPreferences {
     );
 
     # no updated needed
-    return 1 if exists $User{ $Param{Key} } && defined $Param{Value} && $User{ $Param{Key} } eq $Param{Value};
+    return 1
+        if exists $User{ $Param{Key} }
+        && defined $Param{Value}
+        && $User{ $Param{Key} } eq $Param{Value};
 
     # delete cache
     my $Login = $Self->UserLookup( UserID => $Param{UserID} );

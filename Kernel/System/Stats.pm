@@ -1539,7 +1539,7 @@ sub GetObjectBehaviours {
     my $Module = $Param{ObjectModule};
 
     # check if it is cached
-    if ($Self ->{'Cache::ObjectBehaviours'}->{$Module}) {
+    if ( $Self->{'Cache::ObjectBehaviours'}->{$Module} ) {
         return $Self->{'Cache::ObjectBehaviours'}->{$Module}
     }
 

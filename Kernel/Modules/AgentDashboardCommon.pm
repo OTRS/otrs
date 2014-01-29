@@ -114,13 +114,14 @@ sub Run {
 
                 # check permissions
                 next STATID if !$StatsHash->{$StatID}->{Permission};
-                next STATID if !IsArrayRefWithData($StatsHash->{$StatID}->{Permission});
+                next STATID if !IsArrayRefWithData( $StatsHash->{$StatID}->{Permission} );
 
                 my @StatsPermissionGroupNames;
-                for my $GroupID (@{$StatsHash->{$StatID}->{Permission}}) {
-                    push @StatsPermissionGroupNames, $Self->{GroupObject}->GroupLookup( GroupID => $GroupID );
+                for my $GroupID ( @{ $StatsHash->{$StatID}->{Permission} } ) {
+                    push @StatsPermissionGroupNames,
+                        $Self->{GroupObject}->GroupLookup( GroupID => $GroupID );
                 }
-                my $StatsPermissionGroups = join(';', @StatsPermissionGroupNames);
+                my $StatsPermissionGroups = join( ';', @StatsPermissionGroupNames );
 
                 # replace all line breaks with spaces (otherwise $Text{""} will not work correctly)
                 $StatsHash->{$StatID}->{Description} =~ s{\r?\n|\r}{ }msxg;
