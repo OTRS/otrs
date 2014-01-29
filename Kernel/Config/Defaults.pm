@@ -365,6 +365,7 @@ sub LoadDefaults {
 
     # in case you want to add always one filter to each ldap query, use
     # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
+    # or if you want to filter with a locigal OR-Expression, like AlwaysFilter => '(|(mail=*abc.com)(mail=*xyz.com))'
 #    $Self->{'AuthModule::LDAP::AlwaysFilter'} = '';
 
     # in case you want to add a suffix to each login name, then
@@ -437,6 +438,7 @@ sub LoadDefaults {
 
     # in case you want to add always one filter to each ldap query, use
     # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
+    # or if you want to filter with a locigal OR-Expression, like AlwaysFilter => '(|(mail=*abc.com)(mail=*xyz.com))'
 #    $Self->{'AuthSyncModule::LDAP::AlwaysFilter'} = '';
 
     # AuthSyncModule::LDAP::UserSyncMap
