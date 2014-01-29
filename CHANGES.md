@@ -1,4 +1,5 @@
 #3.2.15 2014-??-??
+ - 2014-01-28 Fixed bug#[10205](http://bugs.otrs.org/show_bug.cgi?id=10205) - GenericInterface: Mandatory TimeUnits can't be 0.
  - 2014-01-28 Fixed bug#[10196](http://bugs.otrs.org/show_bug.cgi?id=10196) - Ticket merge action does not notify the owner of the existing ticket.
  - 2014-01-28 Fixed bug#[9692](http://bugs.otrs.org/show_bug.cgi?id=9692) - On PhoneOutbound articles,  the FROM field shows Customer ID instead Agent ID.
  - 2014-01-24 Fixed bug#[10189](http://bugs.otrs.org/show_bug.cgi?id=10189) - ProcessManagement: Use article subject if no ticket title is set.
