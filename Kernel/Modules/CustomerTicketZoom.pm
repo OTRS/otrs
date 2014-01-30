@@ -614,6 +614,15 @@ sub Run {
                 State     => $NextState,
                 UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             );
+
+            # set unlock on close state
+            if ( $NextState =~ /^close/i ) {
+                $Self->{TicketObject}->TicketLockSet(
+                    TicketID => $Self->{TicketID},
+                    Lock     => 'unlock',
+                    UserID   => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                );
+            }
         }
 
         # set priority
