@@ -1,4 +1,5 @@
 #3.3.5 2014-??-??
+ - 2014-01-30 Fixed bug#[8656](http://bugs.otrs.org/show_bug.cgi?id=8656) - Clicking the cancel button in the Add Web services screen results in an error no matter what data was filled in.
  - 2014-01-30 Fixed bug#[10209](http://bugs.otrs.org/show_bug.cgi?id=10209) - When opening tree selection dialog, the search field should get the focus.
  - 2014-01-28 Fixed bug#[10205](http://bugs.otrs.org/show_bug.cgi?id=10205) - GenericInterface: Mandatory TimeUnits can't be 0.
  - 2014-01-28 Fixed bug#[10196](http://bugs.otrs.org/show_bug.cgi?id=10196) - Ticket merge action does not notify the owner of the existing ticket.
