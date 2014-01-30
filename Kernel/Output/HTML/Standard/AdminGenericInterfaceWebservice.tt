@@ -417,7 +417,7 @@ $('#SaveAndFinishButton').bind('click', function(){
 [% END %]
 [% RenderBlockEnd("SaveAndFinishButton") %]
                             [% Translate("or") | html %]
-                            <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]">[% Translate("Cancel") | html %]</a>
+                            <a href="[% Env("Baselink") %]Action=[% Env('Action') %]">[% Translate("Cancel") | html %]</a>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>
