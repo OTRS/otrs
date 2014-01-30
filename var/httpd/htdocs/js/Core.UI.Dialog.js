@@ -545,6 +545,9 @@ Core.UI.Dialog = (function (TargetNS) {
             // write the new DialogCopy back
             Core.Data.Set($('body'), 'DialogCopy', DialogCopy);
         }
+
+        // publish close event
+        Core.App.Publish('Event.UI.Dialog.CloseDialog.Close', $Dialog);
     };
 
     return TargetNS;

@@ -219,6 +219,10 @@ button.Reset:active {
     font-size: 2px;
 }
 
+.ShowTreeSelection:focus {
+    background-color: #ddd;
+}
+
 .Field .ShowTreeSelection, .WidgetSettingsForm .ShowTreeSelection {
     display: inline-block;
 }
@@ -294,6 +298,11 @@ button.Reset:active {
 }
 
 #JSTree .jstree-hovered {
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+#JSTree a:focus {
     background-color: #eee;
     border-color: #ddd;
 }
