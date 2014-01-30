@@ -281,7 +281,7 @@
     </form>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-    $('.OverviewActions').on('change', 'select[name=DestQueueID]', function (Event) {
+    $('.InlineActions').on('change', 'select[name=DestQueueID]', function (Event) {
         $(this).closest('form').submit();
     });
 //]]></script>
