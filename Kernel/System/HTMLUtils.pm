@@ -944,6 +944,34 @@ sub Safety {
     my $TagStart = '(?:<|[+]ADw-)';
     my $TagEnd   = '(?:>|[+]AD4-)';
 
+    # This can also be entity-encoded to hide it from the parser.
+    #   Browsers seem to tolerate an omitted ";".
+    my $JavaScriptPrefixRegex = '
+        (?: j | &\#106[;]? | &\#x6a[;]? )
+        (?: a | &\#97[;]?  | &\#x61[;]? )
+        (?: v | &\#118[;]? | &\#x76[;]? )
+        (?: a | &\#97[;]?  | &\#x61[;]? )
+        (?: s | &\#115[;]? | &\#x73[;]? )
+        (?: c | &\#99[;]?  | &\#x63[;]? )
+        (?: r | &\#114[;]? | &\#x72[;]? )
+        (?: i | &\#105[;]? | &\#x69[;]? )
+        (?: p | &\#112[;]? | &\#x70[;]? )
+        (?: t | &\#116[;]? | &\#x74[;]? )
+    ';
+
+    my $ExpressionPrefixRegex = '
+        (?: e | &\#101[;]? | &\#x65[;]? )
+        (?: x | &\#120[;]? | &\#x78[;]? )
+        (?: p | &\#112[;]? | &\#x70[;]? )
+        (?: r | &\#114[;]? | &\#x72[;]? )
+        (?: e | &\#101[;]? | &\#x65[;]? )
+        (?: s | &\#115[;]? | &\#x73[;]? )
+        (?: s | &\#115[;]? | &\#x73[;]? )
+        (?: i | &\#105[;]? | &\#x69[;]? )
+        (?: o | &\#111[;]? | &\#x6f[;]? )
+        (?: n | &\#110[;]? | &\#x6e[;]? )
+    ';
+
     # Replace as many times as it is needed to avoid nesting tag attacks.
     do {
         $Replaced = undef;
@@ -961,7 +989,7 @@ sub Safety {
 
             # remove style/javascript parts
             $Replaced += ${$String} =~ s{
-                $TagStart style[^>]+?javascript(.+?|) $TagEnd (.*?) $TagStart /style \s* $TagEnd
+                $TagStart style[^>]+? $JavaScriptPrefixRegex (.+?|) $TagEnd (.*?) $TagStart /style \s* $TagEnd
             }
             {}sgxim;
 
@@ -980,7 +1008,7 @@ sub Safety {
             }egsxim;
         }
 
-        # remove style/javascript parts
+        # remove HTTP refirects
         $Replaced += ${$String} =~ s{
             $TagStart meta [^>]+? http-equiv=('|"|)refresh [^>]+? $TagEnd
         }
@@ -1028,7 +1056,7 @@ sub Safety {
 
                 # remove on action attributes
                 $Replaced += $Tag =~ s{
-                    \son.+?=(".+?"|'.+?'|.+?)($TagEnd|\s)
+                    (?:\s|/) on.+?=(".+?"|'.+?'|.+?)($TagEnd|\s)
                 }
                 {$2}sgxim;
 
@@ -1040,9 +1068,9 @@ sub Safety {
 
                 # remove javascript in a href links or src links
                 $Replaced += $Tag =~ s{
-                    ((?:\s|;)(?:background|url|src|href)=)
+                    ((?:\s|;|/)(?:background|url|src|href)=)
                     ('|"|)                                  # delimiter, can be empty
-                    (?:\s*javascript.*?)                 # javascript, followed by anything but the delimiter
+                    (?:\s* $JavaScriptPrefixRegex .*?)      # javascript, followed by anything but the delimiter
                     \2                                      # delimiter again
                     (\s|$TagEnd)
                 }
@@ -1052,13 +1080,13 @@ sub Safety {
 
                 # remove link javascript tags
                 $Replaced += $Tag =~ s{
-                    ($TagStart link .+? javascript (.+?|) $TagEnd)
+                    ($TagStart link .+? $JavaScriptPrefixRegex (.+?|) $TagEnd)
                 }
                 {}sgxim;
 
                 # remove MS CSS expressions (JavaScript embedded in CSS)
                 $Replaced += $Tag =~ s{
-                    \sstyle=("|')[^\1]*?expression[(].*?\1($TagEnd|\s)
+                    \sstyle=("|')[^\1]*? $ExpressionPrefixRegex [(].*?\1($TagEnd|\s)
                 }
                 {
                     $2;
@@ -1068,7 +1096,7 @@ sub Safety {
             # remove load tags
             if ($Param{NoIntSrcLoad} || $Param{NoExtSrcLoad}) {
                 $Tag =~ s{
-                    ($TagStart (.+?) \s src=(.+?) (\s.+?|) $TagEnd)
+                    ($TagStart (.+?) (?: \s | /) src=(.+?) (\s.+?|) $TagEnd)
                 }
                 {
                     my $URL = $3;
