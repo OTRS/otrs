@@ -9,6 +9,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.5 2014-??-??
+ - 2014-01-30 Fixed bug#[10209](http://bugs.otrs.org/show_bug.cgi?id=10209) - When opening tree selection dialog, the search field should get the focus.
  - 2014-01-28 Fixed bug#[10205](http://bugs.otrs.org/show_bug.cgi?id=10205) - GenericInterface: Mandatory TimeUnits can't be 0.
  - 2014-01-28 Fixed bug#[10196](http://bugs.otrs.org/show_bug.cgi?id=10196) - Ticket merge action does not notify the owner of the existing ticket.
  - 2014-01-28 Fixed bug#[10130](http://bugs.otrs.org/show_bug.cgi?id=10130) - Events Ticket Calendar not working.

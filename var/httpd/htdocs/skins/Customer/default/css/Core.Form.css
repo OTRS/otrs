@@ -415,6 +415,10 @@ div.TooltipErrorMessage {
     top: -5px;
 }
 
+.ShowTreeSelection:focus {
+    background-color: #ddd;
+}
+
 fieldset .ShowTreeSelection {
     display: inline-block;
 }
@@ -485,6 +489,11 @@ fieldset .ShowTreeSelection {
 }
 
 #JSTree .jstree-hovered {
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+#JSTree a:focus {
     background-color: #eee;
     border-color: #ddd;
 }
