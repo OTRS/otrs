@@ -1,6 +1,6 @@
 # --
 # Kernel/System/EmailParser.pm - the global email parser module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -259,7 +259,7 @@ sub GetEmailAddress {
     my ( $Self, %Param ) = @_;
 
     my $Email = '';
-    for my $EmailSplit ( Mail::Address->parse( $Param{Email} ) ) {
+    for my $EmailSplit ( $Self->_MailAddressParse( Email => $Param{Email} ) ) {
         $Email = $EmailSplit->address();
     }
 
@@ -295,7 +295,7 @@ sub GetRealname {
     }
 
     # fallback of Mail::Address
-    for my $EmailSplit ( Mail::Address->parse( $Param{Email} ) ) {
+    for my $EmailSplit ( $Self->_MailAddressParse( Email => $Param{Email} ) ) {
         $Realname = $EmailSplit->name();
     }
     return $Realname;
@@ -317,7 +317,7 @@ sub SplitAddressLine {
     my ( $Self, %Param ) = @_;
 
     my @GetParam;
-    for my $Line ( Mail::Address->parse( $Param{Line} ) ) {
+    for my $Line ( $Self->_MailAddressParse( Email => $Param{Line} ) ) {
         push @GetParam, $Line->format();
     }
     return @GetParam;
@@ -968,6 +968,31 @@ sub _DecodeMimewords {
         $String =~ s{\? = \s+ = \? $Encoding \? Q \?}{}gmsx;
     }
     return decode_mimewords($String);
+}
+
+=item _MailAddressParse()
+
+    my @Chunks = $ParserObject->_MailAddressParse(Email => $Email);
+
+Wrapper for C<Email::Address->parse($Email)>, but cache it, since it's
+not too fast, and often called.
+
+=cut
+
+sub _MailAddressParse {
+    my ( $Self, %Param ) = @_;
+
+    my $Email = $Param{Email};
+    my $Cache = $Self->{EmailCache};
+
+    if ( $Self->{EmailCache}->{$Email} ) {
+        return @{ $Self->{EmailCache}->{$Email} };
+    }
+
+    my @Chunks = Mail::Address->parse($Email);
+    $Self->{EmailCache}->{$Email} = \@Chunks;
+
+    return @Chunks;
 }
 
 =end Internal:

@@ -1,0 +1,49 @@
+# --
+# AgentCustomerTableView.tt - provides HTML customer table view
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+[% RenderBlockStart("Customer") %]
+<fieldset class="TableLike FixedLabelSmall Narrow">
+[% RenderBlockStart("CustomerImage") %]
+[% RenderBlockStart("CustomerImageRealname") %]
+    <p>
+        [% Data.UserFirstname | truncate(200) | html %] [% Data.UserLastname | truncate(200) | html %]
+    </p>
+[% RenderBlockEnd("CustomerImageRealname") %]
+    <div>
+        <img src="[% Data.URL %]" />
+    </div>
+[% RenderBlockEnd("CustomerImage") %]
+[% RenderBlockStart("CustomerRow") %]
+    <label>[% Translate(Data.Key) | html %]:</label>
+    <p class="Value FixedValueSmall" title="[% Data.Value | html %]">
+        [% Data.LinkStart %][% Data.ValueShort %][% Data.LinkStop %]
+[% RenderBlockStart("CustomerRowItem") %]
+        <a href="[% Data.URL %]" target="[% Data.Target | html %]">
+            <img src="[% Config("Frontend::ImagePath") %][% Data.Image | html %]" border="0" alt="[% Translate(Data.Action) | html %]" title="[% Translate(Data.Alt) | html %]" />
+        </a>
+[% RenderBlockEnd("CustomerRowItem") %]
+[% RenderBlockStart("CustomerRowCustomerCompanyInvalid") %]
+        <em class="Error">[% Translate("Note: Customer is invalid!") | html %]</em>
+[% RenderBlockEnd("CustomerRowCustomerCompanyInvalid") %]
+    </p>
+    <div class="Clear"></div>
+[% RenderBlockEnd("CustomerRow") %]
+
+[% RenderBlockStart("CustomerItem") %]
+    <ul class="ItemRow">
+[% RenderBlockStart("CustomerItemRow") %]
+        <li>
+            <a class="[% Data.CSSClass %]" href="[% Data.URL %]" target="[% Data.Target %]" title="[% Translate(Data.Text) | html %]">
+                [% Translate(Data.Text) | html %][% Data.Extension | html %]
+            </a>
+        </li>
+[% RenderBlockEnd("CustomerItemRow") %]
+    </ul>
+[% RenderBlockEnd("CustomerItem") %]
+</fieldset>
+[% RenderBlockEnd("Customer") %]

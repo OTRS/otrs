@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket.pm - all ticket functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -215,6 +215,11 @@ sub new {
         die "Can't load ticket storage backend module $StorageModule! $@";
     }
 
+    # do we need to check all backends, or just one?
+    $Self->{CheckAllBackends} =
+        $Self->{ConfigObject}->Get('Ticket::StorageModule::CheckAllBackends')
+        // 0;
+
     # load article search index module
     my $SearchIndexModule = $Self->{ConfigObject}->Get('Ticket::SearchIndexModule')
         || 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB';
@@ -303,8 +308,9 @@ sub TicketCheckNumber {
         UserID   => 1,
     );
 
+    HISTORYLINE:
     for my $Data ( reverse @Lines ) {
-        next if $Data->{HistoryType} ne 'Merged';
+        next HISTORYLINE if $Data->{HistoryType} ne 'Merged';
         if ( $Data->{Name} =~ /^.*\(\d+?\/(\d+?)\)$/ ) {
             return $1;
         }
@@ -1819,6 +1825,8 @@ sub TicketQueueSet {
         if ( $Param{ForceNotificationToUserID} ) {
             push @UserIDs, @{ $Param{ForceNotificationToUserID} };
         }
+
+        USER:
         for my $UserID (@UserIDs) {
             if ( !$Used{$UserID} && $UserID ne $Param{UserID} ) {
                 $Used{$UserID} = 1;
@@ -1826,7 +1834,7 @@ sub TicketQueueSet {
                     UserID => $UserID,
                     Valid  => 1,
                 );
-                next if !$UserData{UserSendMoveNotification};
+                next USER if !$UserData{UserSendMoveNotification};
 
                 # send agent notification
                 $Self->SendAgentNotification(
@@ -2387,10 +2395,11 @@ sub TicketEscalationDateCalculation {
     # calculate escalation times based on escalation properties
     my $Time = $Self->{TimeObject}->SystemTime();
     my %Data;
+
+    TIME:
     for my $Key ( sort keys %Map ) {
 
-        # next if no escalation time for this type is given
-        next if !$Ticket{$Key};
+        next TIME if !$Ticket{$Key};
 
         # get time before or over escalation (escalation_destination_unixtime - now)
         my $TimeTillEscalation = $Ticket{$Key} - $Time;
@@ -2506,10 +2515,12 @@ sub TicketEscalationIndexBuild {
             EscalationUpdateTime   => 'escalation_update_time',
             EscalationSolutionTime => 'escalation_solution_time',
         );
+
+        TIME:
         for my $Key ( sort keys %EscalationTimes ) {
 
             # check if table update is needed
-            next if !$Ticket{$Key};
+            next TIME if !$Ticket{$Key};
 
             # update ticket table
             $Self->{DBObject}->Do(
@@ -3056,6 +3067,8 @@ sub TicketPermission {
     # run all TicketPermission modules
     if ( ref $Self->{ConfigObject}->Get('Ticket::Permission') eq 'HASH' ) {
         my %Modules = %{ $Self->{ConfigObject}->Get('Ticket::Permission') };
+
+        MODULE:
         for my $Module ( sort keys %Modules ) {
 
             # log try of load module
@@ -3067,7 +3080,7 @@ sub TicketPermission {
             }
 
             # load module
-            next if !$Self->{MainObject}->Require( $Modules{$Module}->{Module} );
+            next MODULE if !$Self->{MainObject}->Require( $Modules{$Module}->{Module} );
 
             # create object
             my $ModuleObject = $Modules{$Module}->{Module}->new(
@@ -3166,6 +3179,8 @@ sub TicketCustomerPermission {
     # run all CustomerTicketPermission modules
     if ( ref $Self->{ConfigObject}->Get('CustomerTicket::Permission') eq 'HASH' ) {
         my %Modules = %{ $Self->{ConfigObject}->Get('CustomerTicket::Permission') };
+
+        MODULE:
         for my $Module ( sort keys %Modules ) {
 
             # log try of load module
@@ -3177,7 +3192,7 @@ sub TicketCustomerPermission {
             }
 
             # load module
-            next if !$Self->{MainObject}->Require( $Modules{$Module}->{Module} );
+            next MODULE if !$Self->{MainObject}->Require( $Modules{$Module}->{Module} );
 
             # create object
             my $ModuleObject = $Modules{$Module}->{Module}->new(
@@ -3280,9 +3295,11 @@ sub GetSubscribedUserIDsByQueueID {
 
     # check if user is valid and check permissions
     my @CleanUserIDs;
+
+    USER:
     for my $UserID (@UserIDs) {
         my %User = $Self->{UserObject}->GetUserData( UserID => $UserID, Valid => 1 );
-        next if !%User;
+        next USER if !%User;
 
         # just send emails to permitted agents
         my %GroupMember = $Self->{GroupObject}->GroupMemberList(
@@ -4215,15 +4232,19 @@ sub TicketOwnerList {
         Bind => [ \$Param{TicketID} ],
     );
     my @UserID;
+
+    USER:
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        next if !$Row[0];
-        next if $Row[0] eq 1;
+        next USER if !$Row[0];
+        next USER if $Row[0] eq 1;
         push @UserID, $Row[0];
     }
     my @UserInfo;
+
+    USER:
     for my $UserID (@UserID) {
         my %User = $Self->{UserObject}->GetUserData( UserID => $UserID, Cache => 1, Valid => 1 );
-        next if !%User;
+        next USER if !%User;
         push @UserInfo, \%User;
     }
     return @UserInfo;
@@ -4493,13 +4514,14 @@ sub TicketInvolvedAgentsList {
 
     # collect agent information
     my @UserInfo;
+    USER:
     for my $SingleUser (@User) {
         my %User = $Self->{UserObject}->GetUserData(
             UserID => $SingleUser,
             Valid  => 1,
             Cache  => 1,
         );
-        next if !%User;
+        next USER if !%User;
         push @UserInfo, \%User;
     }
 
@@ -5489,6 +5511,13 @@ sub TicketMerge {
         Lock     => 'unlock',
         TicketID => $Param{MergeTicketID},
         UserID   => $Param{UserID},
+    );
+
+    # remove seen flag for all users on the main ticket
+    my $Success = $Self->TicketFlagDelete(
+        TicketID => $Param{MainTicketID},
+        Key      => 'Seen',
+        AllUsers => 1,
     );
 
     # trigger event
@@ -7091,8 +7120,10 @@ sub TicketAcl {
     # check acl module
     my $Modules = $Self->{ConfigObject}->Get('Ticket::Acl::Module');
     if ($Modules) {
+
+        MODULE:
         for my $Module ( sort keys %{$Modules} ) {
-            next if !$Self->{MainObject}->Require( $Modules->{$Module}->{Module} );
+            next MODULE if !$Self->{MainObject}->Require( $Modules->{$Module}->{Module} );
 
             my $Generic = $Modules->{$Module}->{Module}->new(
                 %{$Self},
@@ -7690,6 +7721,9 @@ sub TicketArticleStorageSwitch {
     my $EventConfig = $Self->{ConfigObject}->Get('Ticket::EventModulePost');
     $Self->{ConfigObject}->{'Ticket::EventModulePost'} = {};
 
+    # make sure that CheckAllBackends is set for the duration of this method
+    $Self->{CheckAllBackends} = 1;
+
     # get articles
     my @ArticleIndex = $Self->ArticleIndex(
         TicketID => $Param{TicketID},
@@ -7926,6 +7960,11 @@ sub TicketArticleStorageSwitch {
 
     # set events
     $Self->{ConfigObject}->{'Ticket::EventModulePost'} = $EventConfig;
+
+    # restore previous behaviour
+    $Self->{CheckAllBackends} =
+        $Self->{ConfigObject}->Get('Ticket::StorageModule::CheckAllBackends')
+        // 0;
 
     return 1;
 }

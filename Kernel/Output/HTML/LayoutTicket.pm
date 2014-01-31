@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -87,6 +87,8 @@ sub AgentCustomerViewTable {
     my $CustomerImage = $Self->{ConfigObject}->Get('Frontend::CustomerUser::Image');
     if ($CustomerImage) {
         my %Modules = %{$CustomerImage};
+
+        MODULE:
         for my $Module ( sort keys %Modules ) {
             if ( !$Self->{MainObject}->Require( $Modules{$Module}->{Module} ) ) {
                 $Self->FatalDie();
@@ -98,7 +100,7 @@ sub AgentCustomerViewTable {
             );
 
             # run module
-            next if !$Object;
+            next MODULE if !$Object;
 
             $Object->Run(
                 Config => $Modules{$Module},
@@ -171,6 +173,8 @@ sub AgentCustomerViewTable {
             Name => 'CustomerItem',
         );
         my %Modules = %{$CustomerItem};
+
+        MODULE:
         for my $Module ( sort keys %Modules ) {
             if ( !$Self->{MainObject}->Require( $Modules{$Module}->{Module} ) ) {
                 $Self->FatalDie();
@@ -182,14 +186,14 @@ sub AgentCustomerViewTable {
             );
 
             # run module
-            next if !$Object;
+            next MODULE if !$Object;
 
             my $Run = $Object->Run(
                 Config => $Modules{$Module},
                 Data   => $Param{Data},
             );
 
-            next if !$Run;
+            next MODULE if !$Run;
 
             $CustomerItemCount++;
         }
@@ -399,8 +403,13 @@ sub AgentQueueListOption {
     $Param{MoveQueuesStrg} .= "</select>\n";
 
     if ( $Param{TreeView} ) {
+        my $TreeSelectionMessage
+            = $Self->{LanguageObject}->Get("Show Tree Selection");
         $Param{MoveQueuesStrg}
-            .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+            .= ' <a href="#" title="'
+            . $TreeSelectionMessage
+            . '" class="ShowTreeSelection">'
+            . $TreeSelectionMessage . '</a>';
     }
 
     return $Param{MoveQueuesStrg};
@@ -531,7 +540,6 @@ sub ArticleQuote {
                 ATMCOUNT:
                 for my $AttachmentID ( sort keys %Attachments ) {
 
-                    # next if cid is not matching
                     if ( lc $Attachments{$AttachmentID}->{ContentID} ne lc "<$ContentID>" ) {
                         next ATMCOUNT;
                     }
@@ -571,9 +579,10 @@ sub ArticleQuote {
             }egxi;
 
             # find inline images using Content-Location instead of Content-ID
+            ATTACHMENT:
             for my $AttachmentID ( sort keys %Attachments ) {
 
-                next if !$Attachments{$AttachmentID}->{ContentID};
+                next ATTACHMENT if !$Attachments{$AttachmentID}->{ContentID};
 
                 # get whole attachment
                 my %AttachmentPicture = $Self->{TicketObject}->ArticleAttachment(
@@ -618,8 +627,9 @@ sub ArticleQuote {
             }
 
             # find not inline images
+            ATTACHMENT:
             for my $AttachmentID ( sort keys %Attachments ) {
-                next if $AttachmentAlreadyUsed{$AttachmentID};
+                next ATTACHMENT if $AttachmentAlreadyUsed{$AttachmentID};
                 $NotInlineAttachments{$AttachmentID} = 1;
             }
 

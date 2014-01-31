@@ -1,6 +1,6 @@
 # --
 # Kernel/System/JSON.pm - Wrapper functions for encoding and decoding JSON
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use warnings;
 # on PerlEx JSON::XS causes problems so force JSON::PP as backend
 # see http://bugs.otrs.org/show_bug.cgi?id=7337
 BEGIN {
-    if ( $ENV{GATEWAY_INTERFACE} && $ENV{GATEWAY_INTERFACE} =~ m{\A CGI-PerlEx} ) {
+    if ( $ENV{GATEWAY_INTERFACE} && $ENV{GATEWAY_INTERFACE} =~ m{\A CGI-PerlEx}xmsi ) {
         $ENV{PERL_JSON_BACKEND} = 'JSON::PP';
     }
 }

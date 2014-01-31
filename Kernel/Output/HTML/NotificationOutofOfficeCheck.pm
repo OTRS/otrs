@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/NotificationOutofOfficeCheck.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,9 +48,10 @@ sub Run {
     if ( $TimeStart < $Time && $TimeEnd > $Time ) {
         return $Self->{LayoutObject}->Notify(
             Priority => 'Notice',
-            Link     => '$Env{"Baselink"}Action=AgentPreferences',
+            Link     => $Self->{LayoutObject}->{Baselink} . 'Action=AgentPreferences',
             Data =>
-                '$Text{"You have Out of Office enabled, would you like to disable it?"}',
+                $Self->{LayoutObject}->{LanguageObject}
+                ->Translate("You have Out of Office enabled, would you like to disable it?"),
         );
     }
     else {

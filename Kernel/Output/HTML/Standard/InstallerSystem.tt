@@ -1,0 +1,124 @@
+# --
+# InstallerSystem.tt - provides the system data for the Installer
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("System") %]
+<div class="W950px SpacingTop SpacingBottom CenterBox">
+    <form action="[% Env("CGIHandle") %]" method="post" class="PreventMultipleSubmits">
+        <input type="hidden" name="Action" value="Installer">
+        <input type="hidden" name="Subaction" value="ConfigureMail">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate(Data.Item) | html %] ([% Data.Step %])</h2>
+            </div>
+
+            <div class="Content">
+                <fieldset class="TableLike">
+                    <label for="SystemID">[% Translate("SystemID") | html %]:</label>
+                    <div class="Field">
+                        [% Data.SystemIDString %]
+                        <p class="FieldExplanation">
+                            [% Translate("The identifier of the system. Each ticket number and each HTTP session ID contain this number.") | html %]
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="FQDN">[% Translate("System FQDN") | html %]:</label>
+                    <div class="Field">
+                        <input type="text" id="FQDN" name="FQDN" value="[% Data.FQDN | html %]" class="W33pc">
+                        <p class="FieldExplanation">
+                            [% Translate("Fully qualified domain name of your system.") | html %]
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="AdminEmail">[% Translate("AdminEmail") | html %]:</label>
+                    <div class="Field">
+                        <input type="text" id="AdminEmail" name="AdminEmail" value="[% Config("AdminEmail") %]" class="W33pc">
+                        <p class="FieldExplanation">
+                            [% Translate("Email address of the system administrator.") | html %]
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="Organization">[% Translate("Organization") | html %]:</label>
+                    <div class="Field">
+                        <input type="text" id="Organization" name="Organization" value="[% Config("Organization") %]" class="W33pc">
+                    </div>
+                    <div class="Clear"></div>
+
+[% RenderBlockStart("LogModule") %]
+                    <h4>
+                        [% Translate("Log") | html %]
+                    </h4>
+                    <div class="Clear"></div>
+
+                    <label for="LogModule">[% Translate("LogModule") | html %]:</label>
+                    <div class="Field">
+                        [% Data.LogModuleString %]
+                        <p class="FieldExplanation">
+                            [% Translate("Log backend to use.") | html %]
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <div class="Row Row_LogFile Hidden">
+                        <label for="LogModule::LogFile">[% Translate("LogFile") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" id="LogModule::LogFile" name="LogModule::LogFile" value="[% Config("LogModule::LogFile") %]" class="W33pc">
+                        </div>
+                        <div class="Clear"></div>
+                    </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+// Show only Log File Location field if log module File is selected
+$('select#LogModule').bind('change', function(){
+    if (/Kernel::System::Log::File/.test($(this).val())) {
+        $('.Row_LogFile').show();
+    }
+    else {
+        $('.Row_LogFile').hide();
+    }
+}).trigger('change');
+//]]></script>
+[% END %]
+[% RenderBlockEnd("LogModule") %]
+
+                    <h4>
+                        [% Translate("Webfrontend") | html %]
+                    </h4>
+                    <div class="Clear"></div>
+
+                    <label for="DefaultLanguage">[% Translate("Default language") | html %]:</label>
+                    <div class="Field">
+                        [% Data.LanguageString %]
+                        <p class="FieldExplanation">
+                            [% Translate("Default language.") | html %]
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="CheckMXRecord">[% Translate("CheckMXRecord") | html %]:</label>
+                    <div class="Field">
+                        [% Data.SelectCheckMXRecord %]
+                        <p class="FieldExplanation">
+                            [% Translate("Email addresses that are manually entered are checked against the MX records found in DNS. Don't use this option if your DNS is slow or does not resolve public addresses.") | html %]
+                        </p>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <div class="SpacingTop Right">
+                    <button class="Primary" type="submit"}">[% Translate("Next") | html %]</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+[% RenderBlockEnd("System") %]

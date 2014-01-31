@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketMenuTicketWatcher.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -84,7 +84,7 @@ sub Run {
             Name        => 'Unwatch',
             Description => 'Remove from list of watched tickets',
             Link =>
-                'Action=AgentTicketWatcher;Subaction=Unsubscribe;TicketID=$QData{"TicketID"};$QEnv{"ChallengeTokenParam"}',
+                'Action=AgentTicketWatcher;Subaction=Unsubscribe;TicketID=[% Data.TicketID | uri %];[% Env("ChallengeTokenParam") | html %]',
         };
     }
 
@@ -96,7 +96,7 @@ sub Run {
         Name        => 'Watch',
         Description => 'Add to list of watched tickets',
         Link =>
-            'Action=AgentTicketWatcher;Subaction=Subscribe;TicketID=$QData{"TicketID"};$QEnv{"ChallengeTokenParam"}',
+            'Action=AgentTicketWatcher;Subaction=Subscribe;TicketID=[% Data.TicketID | uri %];[% Env("ChallengeTokenParam") | html %]',
     };
 }
 

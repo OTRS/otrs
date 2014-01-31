@@ -1,6 +1,6 @@
 # --
 # Webservice.t - Webservice tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -853,6 +853,7 @@ my @Tests = (
 );
 
 my @WebserviceIDs;
+TEST:
 for my $Test (@Tests) {
 
     # add config
@@ -865,7 +866,7 @@ for my $Test (@Tests) {
             $WebserviceID,
             "$Test->{Name} - WebserviceAdd()",
         );
-        next;
+        next TEST;
     }
     else {
         $Self->True(
@@ -951,7 +952,7 @@ for my $Test (@Tests) {
             $Success,
             "$Test->{Name} - WebserviceUpdate() False",
         );
-        next;
+        next TEST;
     }
     else {
         $Self->True(
@@ -999,8 +1000,9 @@ for my $Test (@Tests) {
         "$Test->{Name} - WebserviceHistoryList()",
     );
 
+    COUNT:
     for my $Count ( 0 .. 1 ) {
-        next if !$History[$Count];
+        next COUNT if !$History[$Count];
         my $WebserviceHistoryGet = $WebserviceHistoryObject->WebserviceHistoryGet(
             ID => $History[$Count],
         );

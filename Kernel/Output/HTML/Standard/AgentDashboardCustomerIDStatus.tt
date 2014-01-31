@@ -1,0 +1,63 @@
+# --
+# AgentDashboardCustomerIDStatus.tt - provides HTML for global dashboard
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+
+<fieldset class="TableLike FixedLabel">
+
+[% RenderBlockStart("ContentSmallCustomerIDStatusEscalatedTickets") %]
+    <label>[% Translate("Escalated tickets") | html %]:</label>
+    <div class="Field">
+        <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;EscalationTimeSearchType=TimePoint;TicketEscalationTimePointStart=Before;TicketEscalationTimePointFormat=minute;TicketEscalationTimePoint=1;CustomerID=[% Data.CustomerID | uri %]">
+            [% Data.Count | html %]
+        </a>
+    </div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("ContentSmallCustomerIDStatusEscalatedTickets") %]
+
+[% RenderBlockStart("ContentSmallCustomerIDStatusOpenTickets") %]
+    <label>[% Translate("Open tickets") | html %]:</label>
+    <div class="Field">
+        <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=Open;CustomerID=[% Data.CustomerID | uri %]">
+            [% Data.Count | html %]
+        </a>
+    </div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("ContentSmallCustomerIDStatusOpenTickets") %]
+
+[% RenderBlockStart("ContentSmallCustomerIDStatusClosedTickets") %]
+    <label>[% Translate("Closed tickets") | html %]:</label>
+    <div class="Field">
+        <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=Closed;CustomerID=[% Data.CustomerID | uri %]">
+            [% Data.Count | html %]
+        </a>
+    </div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("ContentSmallCustomerIDStatusClosedTickets") %]
+
+[% RenderBlockStart("ContentSmallCustomerIDStatusAllTickets") %]
+    <label>[% Translate("All tickets") | html %]:</label>
+    <div class="Field">
+        <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;CustomerID=[% Data.CustomerID | uri %]">
+            [% Data.Count | html %]
+        </a>
+    </div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("ContentSmallCustomerIDStatusAllTickets") %]
+
+[% RenderBlockStart("ContentSmallCustomerIDStatusArchivedTickets") %]
+    <label>[% Translate("Archived tickets") | html %]:</label>
+    <div class="Field">
+        <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;CustomerID=[% Data.CustomerID | uri %];SearchInArchive=ArchivedTickets">
+            [% Data.Count | html %]
+        </a>
+    </div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("ContentSmallCustomerIDStatusArchivedTickets") %]
+
+</fieldset>

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -421,9 +421,11 @@ sub Run {
         if ( !$Deployed ) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data     => "$Name $Version"
-                    . ' - $Text{"Package not correctly deployed! Please reinstall the package."}',
-                Link => '$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name='
+                Data     => "$Name $Version - "
+                    . $Self->{LayoutObject}->{LanguageObject}
+                    ->Translate("Package not correctly deployed! Please reinstall the package."),
+                Link => $Self->{LayoutObject}->{Baselink}
+                    . 'Action=AdminPackageManager;Subaction=View;Name='
                     . $Name
                     . ';Version='
                     . $Version,
@@ -435,7 +437,9 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
                 Data     => "$Name $Version - "
-                    . '$Text{"Package not verified by the OTRS Group! It is recommended not to use this package."}',
+                    . $Self->{LayoutObject}->{LanguageObject}->Translate(
+                    "Package not verified by the OTRS Group! It is recommended not to use this package."
+                    ),
             );
         }
 
@@ -1363,9 +1367,11 @@ sub Run {
     for my $ReinstallKey ( sort keys %NeedReinstall ) {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Error',
-            Data     => "$ReinstallKey $NeedReinstall{$ReinstallKey}"
-                . ' - $Text{"Package not correctly deployed! Please reinstall the package."}',
-            Link => '$Env{"Baselink"}Action=$Env{"Action"};Subaction=View;Name='
+            Data     => "$ReinstallKey $NeedReinstall{$ReinstallKey} - "
+                . $Self->{LayoutObject}->{LanguageObject}
+                ->Translate("Package not correctly deployed! Please reinstall the package."),
+            Link => $Self->{LayoutObject}->{Baselink}
+                . 'Action=AdminPackageManager;Subaction=View;Name='
                 . $ReinstallKey
                 . ';Version='
                 . $NeedReinstall{$ReinstallKey},
@@ -1381,7 +1387,9 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Error',
             Data     => "$Package $NotVerifiedPackages{$Package} - "
-                . '$Text{"Package not verified by the OTRS Group! It is recommended not to use this package."}',
+                . $Self->{LayoutObject}->{LanguageObject}->Translate(
+                "Package not verified by the OTRS Group! It is recommended not to use this package."
+                ),
         );
     }
 

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminProcessManagementActivityDialog.pm - process management activity
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -689,12 +689,24 @@ sub _ShowEdit {
             delete $AvailableFields{$Field};
         }
 
-        # display available fields
+        # sort by translated field names
+        my %AvailableFieldsTranslated;
         for my $Field ( sort keys %AvailableFields ) {
+            my $Translation = $Self->{LayoutObject}->{LanguageObject}->Get($Field);
+            $AvailableFieldsTranslated{$Field} = $Translation;
+        }
+
+        # display available fields
+        for my $Field (
+            sort { $AvailableFieldsTranslated{$a} cmp $AvailableFieldsTranslated{$b} }
+            keys %AvailableFieldsTranslated
+            )
+        {
             $Self->{LayoutObject}->Block(
                 Name => 'AvailableFieldRow',
                 Data => {
-                    Field => $Field,
+                    Field               => $Field,
+                    FieldnameTranslated => $AvailableFieldsTranslated{$Field},
                 },
             );
         }
@@ -738,12 +750,24 @@ sub _ShowEdit {
     }
     else {
 
-        # display available fields
+        # sort by translated field names
+        my %AvailableFieldsTranslated;
         for my $Field ( sort keys %AvailableFields ) {
+            my $Translation = $Self->{LayoutObject}->{LanguageObject}->Get($Field);
+            $AvailableFieldsTranslated{$Field} = $Translation;
+        }
+
+        # display available fields
+        for my $Field (
+            sort { $AvailableFieldsTranslated{$a} cmp $AvailableFieldsTranslated{$b} }
+            keys %AvailableFieldsTranslated
+            )
+        {
             $Self->{LayoutObject}->Block(
                 Name => 'AvailableFieldRow',
                 Data => {
-                    Field => $Field,
+                    Field               => $Field,
+                    FieldnameTranslated => $AvailableFieldsTranslated{$Field},
                 },
             );
         }

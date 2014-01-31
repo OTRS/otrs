@@ -1,6 +1,6 @@
 # --
 # DynamicField.t - DynamicField tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -252,6 +252,8 @@ my $OriginalDynamicFields = $DynamicFieldObject->DynamicFieldListGet( Valid => 0
 
 my @DynamicFieldIDs;
 my %FieldNames;
+
+TEST:
 for my $Test (@Tests) {
 
     my $FieldName = $Test->{Name} . $RandomID;
@@ -290,7 +292,7 @@ for my $Test (@Tests) {
             $DynamicFieldID,
             "$Test->{Name} - DynamicFieldAdd()",
         );
-        next;
+        next TEST;
     }
     else {
         $Self->True(
@@ -382,7 +384,7 @@ for my $Test (@Tests) {
             $Success,
             "$Test->{Name} - DynamicFieldUpdate() False",
         );
-        next;
+        next TEST;
     }
     else {
         $Self->True(

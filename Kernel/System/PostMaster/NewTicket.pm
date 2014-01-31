@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -425,8 +425,9 @@ sub Run {
 
     # debug
     if ( $Self->{Debug} > 0 ) {
+        ATTRIBUTE:
         for my $Attribute ( sort keys %GetParam ) {
-            next if !$GetParam{$Attribute};
+            next ATTRIBUTE if !$GetParam{$Attribute};
             print "$Attribute: $GetParam{$Attribute}\n";
         }
     }

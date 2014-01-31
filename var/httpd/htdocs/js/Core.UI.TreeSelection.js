@@ -119,6 +119,10 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 }
             }
 
+            // In case of disabled elements, the ID is always "-", which causes duplications.
+            // Therefore, we assign a random ID to avoid conflicts.
+            ElementID = (ElementID === '-') ? Math.floor((Math.random() * 100000) + 1) : ElementID;
+
             // collect data of current service and add it to elements array
             CurrentElement = {
                 ID:       ElementID,
@@ -140,7 +144,12 @@ Core.UI.TreeSelection = (function (TargetNS) {
         });
 
         Elements.sort(function(a, b) {
-            return (a.Level - b.Level);
+            if (a.Level - b.Level === 0) {
+                return (a.Name.localeCompare(b.Name));
+            }
+            else {
+                return (a.Level - b.Level);
+            }
         });
 
         // go through all levels and collect the elements and their children
@@ -171,7 +180,8 @@ Core.UI.TreeSelection = (function (TargetNS) {
             StyleSheetURL,
             $SelectedNodesObj,
             SelectedNodes = [],
-            $CurrentTreeObj;
+            $CurrentTreeObj,
+            $CurrentFocusedObj;
 
         if (!$SelectObj) {
             return false;
@@ -298,7 +308,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             Core.UI.Dialog.ShowContentDialog('<div class="OverlayTreeSelector" id="TreeContainer"></div>', DialogTitle, '20%', 'Center', true);
             $('#TreeContainer')
                 .prepend($TreeObj)
-                .prepend('<div id="TreeSearch"><input type="text" id="TreeSearch" placeholder="' + Core.Config.Get('SearchMsg') + '..." /><span title="' + Core.Config.Get('DeleteMsg') + '">x</span></div>')
+                .prepend('<div id="TreeSearch"><input type="text" id="TreeSearchInput" placeholder="' + Core.Config.Get('SearchMsg') + '..." /><span title="' + Core.Config.Get('DeleteMsg') + '">x</span></div>')
                 .append('<input type="button" id="SubmitTree" class="Primary" title="' + Core.Config.Get('ApplyButtonText') + '" value="' + Core.Config.Get('ApplyButtonText') + '" />');
         }
         else {
@@ -309,6 +319,10 @@ Core.UI.TreeSelection = (function (TargetNS) {
             $SelectObj.hide();
             $TriggerObj.addClass('TreeSelectionVisible');
         }
+
+        // get the element which is currently being focused and set the focus to the search field
+        $CurrentFocusedObj = document.activeElement;
+        $('#TreeSearch').find('input').focus();
 
         $('#TreeSearch').find('input').bind('keyup', function() {
             $TreeObj.jstree("search", $(this).val());
@@ -340,6 +354,13 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 }
             }
             Core.UI.Dialog.CloseDialog($('.Dialog'));
+        });
+
+        // when the dialog is closed, give the last focused element the focus again
+        Core.App.Subscribe('Event.UI.Dialog.CloseDialog.Close', function(Dialog) {
+            if ($(Dialog).find('#TreeContainer').length && !$(Dialog).find('#SearchForm').length) {
+                $CurrentFocusedObj.focus();
+            }
         });
     };
 

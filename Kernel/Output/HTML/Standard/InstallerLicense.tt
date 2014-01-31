@@ -1,0 +1,32 @@
+# --
+# InstallerLicense.tt - provides the license for the Installer
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("License") %]
+<div class="W950px SpacingTop SpacingBottom CenterBox">
+    <div class="WidgetSimple">
+        <div class="Header">
+            <h2>[% Translate(Data.Item) | html %] ([% Data.Step %])</h2>
+        </div>
+
+        <div class="Content Center">
+[% InsertTemplate("InstallerLicenseText.tt") %]
+
+            <div id="InstallerContinueWithJS" class="SpacingTop Right">
+                <form action="[% Env("CGIHandle") %]" method="post" class="PreventMultipleSubmits">
+                    <input type="hidden" name="Subaction" value="Start">
+                    <button class="Primary" type="submit" value="[% Translate("Accept license") | html %]">[% Translate("Accept license") | html %]</button>
+                </form>
+                <form action="[% Env("CGIHandle") %]" method="post" class="SpacingTop PreventMultipleSubmits"">
+                    <button type="submit" value="[% Translate("Don't accept license") | html %]">[% Translate("Don't accept license") | html %]</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+[% RenderBlockEnd("License") %]

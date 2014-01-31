@@ -1,6 +1,6 @@
 # --
 # DebugLog.t - DebugLog tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -252,7 +252,7 @@ for my $Test (@Tests) {
         next KEY if !$DebugLogResult;
         $ErrorFlag = 0;
     }
-    next if $ErrorFlag;
+    next KEY if $ErrorFlag;
 
     my $DebugLogIDsCommunicationID = $Test->{Config}->{CommunicationID};
 

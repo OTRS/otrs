@@ -1,0 +1,148 @@
+# --
+# AgentTicketMerge.tt - provides HTML form for ticket merge mask
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="compose" class="Validate PreventMultipleSubmits">
+    <input type="hidden" name="Action"    value="AgentTicketMerge"/>
+    <input type="hidden" name="Subaction" value="Merge"/>
+    <input type="hidden" name="TicketID"  value="[% Data.TicketID | html %]"/>
+
+    <div class="LayoutPopup ARIARoleMain">
+        <div class="Header">
+            <h1>[% Translate("Ticket Merge") | html %]: [% Data.TicketNumber | html %] - [% Data.Title | html %]</h1>
+            <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+
+[% RenderBlockStart("TicketBack") %]
+            <p>
+                <a class="CancelClosePopup" href="#">[% Translate("Cancel & close window") | html %]</a>
+            </p>
+[% RenderBlockEnd("TicketBack") %]
+
+[% RenderBlockStart("PropertiesLock") %]
+            <p>
+                [% Translate("The ticket has been locked") | html %].
+                <a class="UndoClosePopup" href="[% Env("Baselink") %]Action=AgentTicketLock;Subaction=Unlock;TicketID=[% Data.TicketID | uri %];[% Env("ChallengeTokenParam") | html %]">
+                    [% Translate("Undo & close window") | html %]
+                </a>
+            </p>
+[% RenderBlockEnd("PropertiesLock") %]
+
+        </div>
+        <div class="Content">
+
+            <div class="Content">
+                <fieldset class="TableLike FixedLabel">
+
+                    <label class="Mandatory" for="MainTicketNumber"><span class="Marker">*</span>[% Translate("Merge to") | html %] [% Config("Ticket::Hook") %]:</label>
+                    <div class="Field">
+                        <input type="text" id="MainTicketNumber" name="MainTicketNumber" value="[% Data.MainTicketNumber | html %]" class="Validate_Required [% Data.MainTicketNumberInvalid %] W33pc" />
+                        <div id="MainTicketNumberError" class="TooltipErrorMessage"><p>[% Translate("You need to use a ticket number!") | html %]</p></div>
+                        <div id="MainTicketNumberServerError" class="TooltipErrorMessage"><p>[% Translate("A valid ticket number is required.") | html %]</p></div>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="InformSender">[% Translate("Inform sender") | html %]:</label>
+                    <div class="Field">
+                        <input type="checkbox" id="InformSender" name="InformSender" value="1" [% Data.InformSenderChecked | html %]/>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="From">[% Translate("From") | html %]:</label>
+                    <div class="Field">
+                        [% Data.From | html %]
+                        <input type="hidden" id="From" name="From" value="[% Data.From | html %]"/>
+                    </div>
+                    <div class="Clear"></div>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+
+# initial setting for to/subject/body
+SwitchMandatoryFields();
+
+# watch for changes of inform sender field
+$('#InformSender').bind('click', function(){
+    SwitchMandatoryFields();
+});
+
+# function to switch between mandatory and optional
+function SwitchMandatoryFields() {
+    var InformSenderChecked = $('#InformSender').prop('checked'),
+        $ElementsLabelObj = $('#To,#Subject,#RichText').parent().prev('label');
+
+    if ( InformSenderChecked ) {
+        $ElementsLabelObj
+            .addClass('Mandatory')
+            .find('.Marker')
+            .removeClass('Hidden');
+    }
+    else if ( !InformSenderChecked ) {
+        $ElementsLabelObj
+            .removeClass('Mandatory')
+            .find('.Marker')
+            .addClass('Hidden');
+    }
+
+    return;
+}
+//]]></script>
+[% END %]
+
+                    <label for="To"><span class="Marker Hidden">*</span>[% Translate("To") | html %]:</label>
+                    <div class="Field">
+                        <input type="text" id="To" name="To" value="[% Data.To | html %]" class="Validate_DependingRequiredAND Validate_Depending_InformSender [% Data.ToInvalid %] W75pc"/>
+                        <div id="ToError" class="TooltipErrorMessage" ><p>[% Translate("Need a valid email address.") | html %]</p></div>
+                        <div id="ToServerError" class="TooltipErrorMessage">
+[% RenderBlockStart("ToCustomerGenericServerErrorMsg") %]
+                            <p>[% Translate("Need a valid email address or don't use a local email address.") | html %]</p>
+[% RenderBlockEnd("ToCustomerGenericServerErrorMsg") %]
+[% RenderBlockStart("ToInvalidConfigServerErrorMsg") %]
+                            <p>[% Translate("This email address is not allowed due to the system configuration.") | html %]</p>
+[% RenderBlockEnd("ToInvalidConfigServerErrorMsg") %]
+[% RenderBlockStart("ToInvalidMXServerErrorMsg") %]
+                            <p>[% Translate("This email address failed MX check.") | html %]</p>
+[% RenderBlockEnd("ToInvalidMXServerErrorMsg") %]
+[% RenderBlockStart("ToInvalidDNSServerErrorMsg") %]
+                            <p>[% Translate("DNS problem, please check your configuration and the error log.") | html %]</p>
+[% RenderBlockEnd("ToInvalidDNSServerErrorMsg") %]
+[% RenderBlockStart("ToInvalidSyntaxServerErrorMsg") %]
+                            <p>[% Translate("The syntax of this email address is incorrect.") | html %]</p>
+[% RenderBlockEnd("ToInvalidSyntaxServerErrorMsg") %]
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="Subject"><span class="Marker Hidden">*</span>[% Translate("Subject") | html %]:</label>
+                    <div class="Field">
+                        <input type="text" id="Subject" name="Subject" value="[% Data.Subject | html %]" class="Validate_DependingRequiredAND Validate_Depending_InformSender [% Data.SubjectInvalid %] W75pc"/>
+                        <div id="SubjectError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        <div id="SubjectServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label for="RichText"><span class="Marker Hidden">*</span>[% Translate("Text") | html %]:</label>
+                    <div class="RichTextField">
+
+[% RenderBlockStart("RichText") %]
+[% InsertTemplate("RichTextEditor.tt") %]
+[% RenderBlockEnd("RichText") %]
+
+                        <textarea id="RichText" class="RichText Validate_DependingRequiredAND Validate_Depending_InformSender [% Data.RichTextInvalid %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]" >[% Data.Body | html %]</textarea>
+                        <div id="RichTextError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        <div id="RichTextServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                    </div>
+                    <div class="Clear"></div>
+
+                </fieldset>
+            </div>
+        </div>
+        <div class="Footer">
+            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="[% Translate("Submit") | html %] (g)" type="submit" value="[% Translate("Submit") | html %]"><span><i class="icon-check"></i> [% Translate("Submit") | html %]</span></button>
+        </div>
+    </div>
+</form>

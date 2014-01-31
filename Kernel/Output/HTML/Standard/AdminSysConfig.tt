@@ -1,0 +1,172 @@
+# --
+# AdminSysConfig.tt - provides HTML form for AdminSysConfig html
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("SysConfig") | html %]</h1>
+
+    <div class="SidebarColumn">
+
+[% RenderBlockStart("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+
+[% RenderBlockStart("SearchBox") %]
+                    <li>
+                        <form action="[% Env("CGIHandle") %]" method="post" class="SearchBox">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="Search"/>
+                            <input type="hidden" name="DontWriteDefault" value="1"/>
+                            <input type="text" name="Search" id="SysConfigSearch" value="[% Data.Search | html %]" title="[% Translate("Search") | html %]" />
+                            <button title="[% Translate("Navigate by searching in %s settings", Data.ConfigCounter) | html %]" type="submit" value="[% Translate("Search") | html %]">
+                                <span>[% Translate("Search") | html %]</span>
+                            </button>
+                            <p class="FieldExplanation">
+                                <label for="SysConfigSearch">
+                                    [% Translate("Navigate by searching in %s settings", Data.ConfigCounter) | html %]
+                                </label>
+                            </p>
+                        </form>
+                    </li>
+[% RenderBlockEnd("SearchBox") %]
+
+[% RenderBlockStart("ConfigGroups") %]
+                    <li>
+                        <form action="[% Env("CGIHandle") %]" method="post" id="SysConfigGroupForm">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="SelectGroup"/>
+                            <input type="hidden" name="DontWriteDefault" value="1"/>
+                            <div>
+                                [% Data.List %]
+                            </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#SysConfigGroup').bind('change', function(){
+    $('#SysConfigGroupForm').submit();
+});
+//]]></script>
+[% END %]
+                            <p class="FieldExplanation">
+                                <label for="SysConfigGroup">
+                                    [% Translate("Navigate by selecting config groups") | html %]
+                                </label>
+                            </p>
+                        </form>
+                    </li>
+[% RenderBlockEnd("ConfigGroups") %]
+
+[% RenderBlockStart("Download") %]
+                    <li>
+                        <a title="[% Translate("Download all system config changes") | html %]" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Download;DontWriteDefault=1" class="CallForAction Download">
+                            <span>[% Translate("Export settings") | html %]</span>
+                        </a>
+                    </li>
+[% RenderBlockEnd("Download") %]
+
+[% RenderBlockStart("ActionImport") %]
+                    <li>
+                        <a title="[% Translate("Load SysConfig settings from file") | html %]" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Import" class="CallForAction Upload">
+                            <span>[% Translate("Import settings") | html %]</span>
+                        </a>
+                    </li>
+[% RenderBlockEnd("ActionImport") %]
+
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionList") %]
+
+    </div>
+
+    <div class="ContentColumn">
+
+[% RenderBlockStart("Import") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Import Settings") | html %]</h2>
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="Upload"/>
+                    <fieldset class="TableLike">
+                        <div class="Field">
+                            <input name="file_upload" type="file" />
+                        </div>
+                        <div class="Field">
+                            <button title="[% Translate("Load SysConfig settings from file") | html %]" class="Primary" type="submit" value="[% Translate("Import") | html %]">
+                                [% Translate("Submit") | html %]
+                            </button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+[% RenderBlockEnd("Import") %]
+
+[% RenderBlockStart("ContentOverview") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Result") | html %]</h2>
+            </div>
+            <div class="Content">
+[% RenderBlockStart("NoSearchTerms") %]
+                <div class="Content">
+                    <p>[% Translate("Please enter a search term to look for settings.") | html %]</p>
+                </div>
+[% RenderBlockEnd("NoSearchTerms") %]
+[% RenderBlockStart("OverviewResult") %]
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Subgroup") | html %]</th>
+                            <th>[% Translate("Elements") | html %]</th>
+                            <th>[% Translate("Group") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("NoDataFoundMsg") %]
+                        <tr>
+                            <td colspan="3">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockStart("Row") %]
+                        <tr>
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Edit;SysConfigSubGroup=[% Data.SubGroup | uri %];SysConfigGroup=[% Data.Group | uri %]">
+                                    [% Data.SubGroup | html %]
+                                </a>
+                            </td>
+                            <td>[% Data.SubGroupCount | html %]</td>
+                            <td>[% Data.Group | html %]</td>
+                        </tr>
+[% RenderBlockEnd("Row") %]
+                    </tbody>
+                </table>
+[% RenderBlockEnd("OverviewResult") %]
+            </div>
+        </div>
+[% RenderBlockEnd("ContentOverview") %]
+
+    </div>
+    <div class="Clear"></div>
+</div>

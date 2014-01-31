@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -236,6 +236,10 @@ sub Run {
             ErrorCode    => 'TicketCreate.AuthFail',
             ErrorMessage => "TicketCreate: User could not be authenticated!",
         );
+    }
+
+    if ( $UserType eq 'Customer' ) {
+        $UserID = $Self->{ConfigObject}->Get('CustomerPanelUserID')
     }
 
     # check needed hashes

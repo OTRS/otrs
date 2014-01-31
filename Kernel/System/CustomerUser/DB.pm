@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -475,7 +475,6 @@ sub CustomerIDs {
         SPLIT:
         for my $Split ( ';', ',', '|' ) {
 
-            # next if separator is not there
             next SPLIT if $Data{UserCustomerIDs} !~ /\Q$Split\E/;
 
             # split it
@@ -510,13 +509,12 @@ sub CustomerIDs {
             TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
     }
+
     return @CustomerIDs;
 }
 
 sub CustomerUserDataGet {
     my ( $Self, %Param ) = @_;
-
-    my %Data;
 
     # check needed stuff
     if ( !$Param{User} ) {
@@ -526,7 +524,6 @@ sub CustomerUserDataGet {
 
     # build select
     my $SQL = 'SELECT ';
-
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         $SQL .= " $Entry->[2], ";
     }
@@ -541,7 +538,7 @@ sub CustomerUserDataGet {
         return %{$Data} if ref $Data eq 'HASH';
     }
 
-    # check CustomerKey type
+    # check customer key type
     my $User = $Param{User};
 
     if ( $Self->{CaseSensitive} ) {
@@ -551,14 +548,19 @@ sub CustomerUserDataGet {
         $SQL .= "LOWER($Self->{CustomerKey}) = LOWER(?)";
     }
 
-    # get initial data
+    # ask the database
     return if !$Self->{DBObject}->Prepare(
-        SQL  => $SQL,
-        Bind => [ \$User ],
+        SQL   => $SQL,
+        Bind  => [ \$User ],
+        Limit => 1,
     );
 
+    # fetch the result
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
         my $MapCounter = 0;
+
         for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
             $Data{ $Entry->[0] } = $Row[$MapCounter];
             $MapCounter++;
@@ -603,7 +605,6 @@ sub CustomerUserDataGet {
         );
     }
 
-    # return data
     return ( %Data, %Preferences );
 }
 

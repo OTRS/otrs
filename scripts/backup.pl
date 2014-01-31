@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # scripts/backup.pl - the backup script
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -46,7 +46,7 @@ my $DBDump      = '';
 getopt( 'hcrtd', \%Opts );
 if ( exists $Opts{h} ) {
     print "backup.pl - backup script\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print
         "usage: backup.pl -d /data_backup_dir/ [-c gzip|bzip2] [-r 30] [-t fullbackup|nofullbackup|dbonly]\n";
     exit 1;
@@ -176,8 +176,9 @@ if ( defined $Opts{r} ) {
         Filter    => '*',
     );
 
+    DIRECTORY:
     for my $Directory (@Directories) {
-        next if !-d $Directory;
+        next DIRECTORY if !-d $Directory;
         my $Leave = 0;
         for my $Data ( sort keys %LeaveBackups ) {
             if ( $Directory =~ m/$Data/ ) {
@@ -309,7 +310,7 @@ else {
         )
         )
     {
-        die "done\n";
+        print "done\n";
     }
     else {
         die "failed\n";

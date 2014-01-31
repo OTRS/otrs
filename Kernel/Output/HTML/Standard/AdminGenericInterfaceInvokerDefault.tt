@@ -1,0 +1,299 @@
+# --
+# AdminGenericInterfaceInvokerDefault.tt - provides HTML form for AdminLog
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceInvokerDefault">
+[% RenderBlockStart("TitleAdd") %]
+    <h1>[% Translate("Add new Invoker to Web Service %s", Data.WebserviceName) | html %]</h1>
+[% RenderBlockEnd("TitleAdd") %]
+[% RenderBlockStart("TitleChange") %]
+    <h1>[% Translate("Change Invoker %s of Web Service %s", Data.Invoker, Data.WebserviceName) | html %]</h1>
+[% RenderBlockEnd("TitleChange") %]
+<!-- breadcrumb -->
+    <div class="GenericInterfaceWebserviceConfigPath">
+        <h3>
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+            <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice">[% Translate("Web Services") | html %]</a>
+
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+            <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]">[% Data.WebserviceName | html %]</a>
+
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+[% RenderBlockStart("NavigationAdd") %]
+            [% Translate("Add new invoker") | html %]
+[% RenderBlockEnd("NavigationAdd") %]
+[% RenderBlockStart("NavigationChange") %]
+            [% Translate("Change invoker %s", Data.Invoker) | html %]
+[% RenderBlockEnd("NavigationChange") %]
+        </h3>
+    </div>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]" class="CallForAction"><span>[% Translate("Go back to web service") | html %]</span></a>
+                    </li>
+[% RenderBlockStart("ActionListDelete") %]
+                    <li>
+                        <button class="CallForAction Trash W75pc" type="button" id="DeleteButton"><span>[% Translate("Delete") | html %]</span></button>
+                        <div class="Hidden" id="DeleteDialogContainer">
+                            <span class="WarningDialog ">&nbsp;</span>
+                            <p id="DeleteDialog" class="Center Warning">
+                                [% Translate("Do you really want to delete this invoker?") | html %]
+                            </p>
+                            <p class="Center Warning">
+                                [% Translate("All configuration data will be lost.") | html %]
+                            </p>
+                            <div class="SpacingTop"></div>
+                        </div>
+                    </li>
+[% RenderBlockEnd("ActionListDelete") %]
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Invoker Details") | html %]</h2>
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" class="Validate" method="post">
+                    <input type="hidden" name="Action" value="AdminGenericInterfaceInvokerDefault" />
+                    <input type="hidden" name="Subaction" value="[% Data.Mode | html %]Action" />
+                    <input type="hidden" name="WebserviceID" value="[% Data.WebserviceID | html %]" id="WebserviceID" />
+                    <input type="hidden" name="InvokerType" value="[% Data.InvokerType | html %]" />
+
+                    <fieldset class="TableLike">
+                        <label for="Invoker" class="Mandatory">
+                            <span class="Marker">*</span>
+                            [% Translate("Name") | html %]:
+                        </label>
+                        <div class="Field">
+                            <input type="text" class="W50pc RegisterChange Validate_Required [% Data.InvokerServerError | html %]" maxlength="200" id="Invoker" name="Invoker" value="[% Data.Invoker | html %]" />
+                            <input type="hidden" id="OldInvoker" name="OldInvoker" value="[% Data.Invoker | html %]" />
+                            <p class="FieldExplanation">
+                                [% Translate("The name is typically used to call up an operation of a remote web service.") | html %]
+                            </p>
+                            <div id="InvokerError" class="TooltipErrorMessage">
+                                [% Translate("This field is required.") | html %] [% Translate("Please provide a unique name for this web service invoker.") | html %]
+                            </div>
+                            <div id="InvokerServerError" class="TooltipErrorMessage">
+                                [% Translate("The name you entered already exists.") | html %]
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Description">
+                            [% Translate("Description") | html %]:
+                        </label>
+                        <div class="Field">
+                            <input type="text" class="W50pc RegisterChange" maxlength="200" id="Description" name="Description" value="[% Data.Description | html %]" />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="InvokerTypeDisplay">[% Translate("Invoker backend") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" readonly="readonly" class="W50pc" id="InvokerTypeDisplay" value="[% Data.InvokerType | html %]" />
+                            <p class="FieldExplanation">
+                                [% Translate("This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="MappingOutbound">[% Translate("Mapping for outgoing request data") | html %]:</label>
+                        <div class="Field">
+                            [% Data.MappingOutboundStrg %]
+                            <input type="hidden" id="MappingOutboundConfigDialog" value="[% Data.MappingOutboundConfigDialog | html %]" />
+[% RenderBlockStart("MappingOutboundConfigureButton") %]
+                            <button type="button" class="HideOnChange" id="MappingOutboundConfigureButton" value="[% Translate("Configure") | html %]">[% Translate("Configure") | html %]</button>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#MappingOutboundConfigureButton').bind('click', function(){
+    var URL;
+
+    if ($('#MappingOutboundConfigDialog').val()) {
+        URL = Core.Config.Get('Baselink') + 'Action=' + $('#MappingOutboundConfigDialog').val();
+        URL += ';Subaction=Change;Invoker=' + $('#OldInvoker').val() + ';Direction=MappingOutbound' + ';WebserviceID=' + $('#WebserviceID').val();
+        window.location.href = URL;
+    }
+});
+//]]></script>
+[% END %]
+[% RenderBlockEnd("MappingOutboundConfigureButton") %]
+                            <p class="FieldExplanation">
+                                [% Translate("The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="MappingInbound">[% Translate("Mapping for incoming response data") | html %]:</label>
+                        <div class="Field">
+                            [% Data.MappingInboundStrg %]
+                            <input type="hidden" id="MappingInboundConfigDialog" value="[% Data.MappingInboundConfigDialog | html %]" />
+[% RenderBlockStart("MappingInboundConfigureButton") %]
+                            <button type="button" class="HideOnChange" id="MappingInboundConfigureButton" value="[% Translate("Configure") | html %]">[% Translate("Configure") | html %]</button>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#MappingInboundConfigureButton').bind('click', function(){
+    var URL;
+
+    if ($('#MappingInboundConfigDialog').val()) {
+        URL = Core.Config.Get('Baselink') + 'Action=' + $('#MappingInboundConfigDialog').val();
+        URL += ';Subaction=Change;Invoker=' + $('#OldInvoker').val() + ';Direction=MappingInbound' + ';WebserviceID=' + $('#WebserviceID').val();
+        window.location.href = URL;
+    }
+});
+//]]></script>
+[% END %]
+[% RenderBlockEnd("MappingInboundConfigureButton") %]
+                            <p class="FieldExplanation">
+                                [% Translate("The response data will be processed by this mapping, to transform it to the kind of data the invoker of OTRS expects.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="EventsTable">[% Translate("Event Triggers") | html %]:</label>
+                        <div class="Field W50pc">
+                            <table class="DataTable W50pc" id="EventsTable" summary="List of all configured events">
+                                <thead>
+                                    <tr>
+                                        <th>[% Translate("Event") | html %]</th>
+                                        <th>[% Translate("Asynchronous") | html %]</th>
+                                        <th>[% Translate("Delete") | html %]</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+[% RenderBlockStart("NoDataFoundMsg") %]
+                                    <tr>
+                                        <td colspan="4">
+                                            [% Translate("No data found.") | html %]
+                                        </td>
+                                    </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+
+[% RenderBlockStart("EventRow") %]
+                                    <tr>
+                                        <td class="AsBlock">[% Data.Event | html %]</td>
+                                        <td>[% Data.Asynchronous | html %]</td>
+                                        <td class="Center">
+                                            <a id="DeleteEvent[% Data.Event | html %]" class="TrashCan DeleteEvent" href="#" title="[% Translate("Delete this event") | html %]">
+                                                [% Translate("Delete this event") | html %]
+                                            </a>
+                                        </td>
+                                    </tr>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.Admin.GenericInterfaceInvoker.BindDeleteEventDialog({
+        ElementID:                  'DeleteEvent[% Data.Event | html %]',
+        EventName:                  "[% Data.Event | html %]",
+        ElementSelector:            '#DeleteEvent[% Data.Event | html %]'
+    });
+//]]></script>
+[% END %]
+[% RenderBlockEnd("EventRow") %]
+                                </tbody>
+                            </table>
+                            <p class="FieldExplanation">
+                                [% Translate("This invoker will be triggered by the configured events.") | html %]
+                            </p>
+                        </div>
+
+                        <div class="Hidden" id="DeleteEventDialogContainer">
+                            <div id ="DeleteEventDialog" class="InnerContent GenericInterfaceDialog">
+                                <span class="WarningDialog ">&nbsp;</span>
+                                <p class="Center Warning">[% Translate("Do you really want to delete this event trigger?") | html %]</p>
+                                <div class="SpacingTop"></div>
+                            </div>
+                        </div>
+
+                        <div class="SpacingTop"></div>
+                        <label class="HideOnChange" for="EventType">[% Translate("Add Event Trigger") | html %]:</label>
+                        <div class="Field HideOnChange">
+                            [% Data.EventTypeStrg %]
+[% RenderBlockStart("EventAdd") %]
+                            [% Data.EventStrg %]
+[% RenderBlockEnd("EventAdd") %]
+                            <input type="checkbox" id="Asynchronous" checked="checked" class="GenericInterfaceSpacing" name="Asynchronous"/><label for="Asynchronous">Asynchronous</label>
+                            <button type="button" id="AddEvent" class="Add GenericInterfaceSpacing" name="AddEvent" value="Add Event">Add Event</button>
+                            <p class="FieldExplanation">
+                                [% Translate("To add a new event select the event object and event name and click on the \"+\" button") | html %].
+                            </p>
+                            <p class="FieldExplanation">
+                                [% Translate("Asynchronous event triggers are handled by the OTRS Scheduler in background (recommended).") | html %]
+                                <br/>
+                                [% Translate("Synchronous event triggers would be processed directly during the web request.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button type="submit" class="Primary" value="[% Translate("Save and continue") | html %]">[% Translate("Save") | html %]</button>
+[% RenderBlockStart("SaveAndFinishButton") %]
+                            <button type="submit" id="SaveAndFinishButton" value="[% Translate("Save and finish") | html %]">[% Translate("Save and finish") | html %]</button>
+                            <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#SaveAndFinishButton').bind('click', function(){
+    $('#ReturnToWebservice').val(1);
+});
+//]]></script>
+[% END %]
+[% RenderBlockEnd("SaveAndFinishButton") %]
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]">[% Translate("Cancel") | html %]</a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Agent.Admin.GenericInterfaceInvoker.Init({
+    WebserviceID: [% Data.WebserviceID | html %],
+    Invoker: "[% Data.Invoker | html %]",
+    Action: 'AdminGenericInterfaceInvokerDefault',
+    EventTypeSelected: $('#EventType').val(),
+    Localization: {
+        CommunicationErrorMsg: [% Translate("An error occurred during communication.") | JSON %],
+        DeleteInvokerMsg: [% Translate("Delete this Invoker") | JSON %],
+        DeleteEventMsg: [% Translate("Delete this Event Trigger") | JSON %],
+        DeleteMsg: [% Translate("Delete") | JSON %],
+        CancelMsg: [% Translate("Cancel") | JSON %]
+    }
+});
+
+$('.RegisterChange').bind('change.RegisterChange keyup.RegisterChange', function (Event) {
+    $('.HideOnChange').hide();
+    $('.ShowOnChange').show();
+});
+
+$('#DeleteButton').bind('click', Core.Agent.Admin.GenericInterfaceInvoker.ShowDeleteDialog);
+
+$('#EventType').bind('change', function (){
+    Core.Agent.Admin.GenericInterfaceInvoker.ToogleEventSelect($(this).val());
+});
+
+$('#AddEvent').bind('click', function (){
+    Core.Agent.Admin.GenericInterfaceInvoker.AddEvent( $('#EventType').val() );
+});
+
+//]]></script>
+
+
+[% END %]

@@ -1,0 +1,267 @@
+# --
+# AdminNotification.tt - provides HTML form for AdminNotification
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Notification Management") | html %]</h1>
+[% RenderBlockStart("RichText") %]
+[% InsertTemplate("RichTextEditor.tt") %]
+[% RenderBlockEnd("RichText") %]
+<!-- start form -->
+    <div class="SidebarColumn">
+[% RenderBlockStart("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("ActionLanguageOptions") %]
+                    <li>
+                        <form action="[% Env("CGIHandle") %]" method="post" id="LanguageSelectionForm">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="SelectLanguage"/>
+                            <div>
+                                [% Data.LanguageOption %]
+                            </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#LanguageSelection').bind('change', function(){
+    $('#LanguageSelectionForm').submit();
+});
+//]]></script>
+[% END %]
+                            <p class="FieldExplanation">
+                                <label for="LanguageSelection">
+                                    [% Translate("Select a different language") | html %]
+                                </label>
+                            </p>
+                        </form>
+                    </li>
+[% RenderBlockEnd("ActionLanguageOptions") %]
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionList") %]
+[% RenderBlockStart("NotificationFilter") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterNotification">[% Translate("Filter for Notification") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <ul>
+                    <li>
+                        <form action="">
+                            <fieldset>
+                                <input type="text" id="FilterNotification" class="W50pc" name="FilterNotification" value="" title="[% Translate("Filter for Notification") | html %]" />
+                            </fieldset>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("NotificationFilter") %]
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("Notifications are sent to an agent or a customer.") | html %]
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+[% RenderBlockStart("OverviewResult") %]
+            <div class="Header">
+                <h2>[% Translate("List") | html %]</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable" id="Notifications">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Language") | html %]</th>
+                            <th>[% Translate("Notification") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="2">[% Translate("No matches found.") | html %]</td>
+                        </tr>
+[% RenderBlockStart("OverviewResultRow") %]
+                        <tr>
+                            <td>[% Data.Language %]</td>
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Change;Name=[% Data.Name | uri %]">
+                                    [% Data.Type | html %]
+                                </a>
+                            </td>
+                        </tr>
+[% RenderBlockEnd("OverviewResultRow") %]
+                    </tbody>
+                </table>
+            </div>
+[% RenderBlockEnd("OverviewResult") %]
+
+[% RenderBlockStart("OverviewUpdate") %]
+            <div class="Header">
+                <h2>[% Translate("Edit Notification") | html %]</h2>
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="[% Env("Subaction") %]Action"/>
+                    <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
+                    <input type="hidden" name="Charset" value="[% Env("Charset") %]"/>
+                    <input type="hidden" name="Language" value="[% Data.Language | html %]"/>
+                    <input type="hidden" name="Type" value="[% Data.Type | html %]"/>
+                    <fieldset class="TableLike">
+                        <label>[% Translate("Type") | html %]: </label>
+                        <div class="Field">
+                            [% Data.Language %]::[% Data.Type | html %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="Subject"><span class="Marker">*</span> [% Translate("Subject") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" id="Subject" name="Subject" value="[% Data.Subject | html %]" class="W75pc Validate_Required [% Data.SubjectInvalid | html %]" maxlength="200"/>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="RichText"><span class="Marker">*</span> [% Translate("Text") | html %]:</label>
+                        <div class="RichTextField">
+                            <textarea id="RichText" class="RichText Validate_RequiredRichText [% Data.RichTextInvalid | html %]" rows="12" cols="75" name="Body">[% Data.Body | html %]</textarea>
+                        </div>
+                        <div class="Clear"></div>
+                        <div class="Field">
+                            <button class="Primary" id="submitRichText" type="submit" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+<!-- end form -->
+<!-- start note -->
+        <div class="WidgetSimple SpacingTop">
+            <div class="Header">
+                <h2>[% Translate("Reference") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p>[% Translate("You can use the following tags") | html %]:</p>
+                <dl>
+                    <dt><code>&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the first 20 character of the subject.") | html %]
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CUSTOMER_EMAIL[5]&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the first 5 lines of the email.") | html %]
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CUSTOMER_REALNAME&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the realname of the sender (if given).") | html %]
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CUSTOMER_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("To get the article attribute") | html %] ([% Translate("e. g.") | html %] <code>&lt;OTRS_CUSTOMER_From>,
+                        &lt;OTRS_CUSTOMER_To>, &lt;OTRS_CUSTOMER_Cc>, &lt;OTRS_CUSTOMER_Subject> and
+                        &lt;OTRS_CUSTOMER_Body&gt;</code>).
+                    </dd>
+                    <dt><code>&lt;OTRS_CUSTOMER_DATA_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("Options of the current customer data") | html %] ([% Translate("e. g.") | html %] <code>&lt;OTRS_CUSTOMER_DATA_UserFirstname&gt;</code>).
+                    </dd>
+                    <dt><code>&lt;OTRS_OWNER_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("Ticket owner options") | html %] ([% Translate("e. g.") | html %] <code>&lt;OTRS_OWNER_UserFirstname&gt;</code>).
+                    </dd>
+                    <dt><code>&lt;OTRS_RESPONSIBLE_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("Ticket responsible options") | html %] ([% Translate("e. g.") | html %] <code>&lt;OTRS_RESPONSIBLE_UserFirstname&gt;</code>).
+                    </dd>
+                    <dt><code>&lt;OTRS_CURRENT_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("Options of the current user who requested this action") | html %] ([% Translate("e. g.") | html %] <code>&lt;OTRS_CURRENT_UserFirstname&gt;</code>).
+                    </dd>
+                    <dt><code>&lt;OTRS_TICKET_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("Options of the ticket data") | html %] ([% Translate("e. g.") | html %] <code>&lt;OTRS_TICKET_TicketNumber>, &lt;OTRS_TICKET_TicketID>,
+                        &lt;OTRS_TICKET_Queue>, &lt;OTRS_TICKET_State&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_TICKET_DynamicField_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("Options of ticket dynamic fields internal key values") | html %]
+                        ([% Translate(" e. g.") | html %] <code>&lt;OTRS_TICKET_DynamicField_TestField&gt;,
+                        &lt;OTRS_TICKET_DynamicField_TicketFreeText1&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_TICKET_DynamicField_*_Value&gt;</code></dt>
+                    <dd>
+                        [% Translate("Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields") | html %]
+                        ([% Translate(" e. g.") | html %] <code>&lt;OTRS_TICKET_DynamicField_TestField_Value&gt;,
+                        &lt;OTRS_TICKET_DynamicField_TicketFreeText1_Value&gt;</code>).
+                    </dd>
+
+                    <dt><code>&lt;OTRS_CONFIG_*&gt;</code></dt>
+                    <dd>
+                        [% Translate("Config options") | html %] ([% Translate("e. g.") | html %] <code>&lt;OTRS_CONFIG_HttpType&gt;</code>).
+                    </dd>
+                </dl>
+                <p class="SpacingTop">
+                    [% Translate("Example") | html %]:
+                </p>
+                <fieldset class="TableLike">
+                    <label for="ExampleSubject">[% Translate("Subject") | html %]:</label>
+                    <div class="Field">
+                        <input id="ExampleSubject" type="text" name="Subject" value="New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[18]&gt;)" class="W75pc" maxlength="80"/>
+                    </div>
+                    <label for="ExampleNotification">[% Translate("Text") | html %]:</label>
+                    <div class="Field">
+                        <textarea rows="5" cols="60" name="ExampleNotification" id="ExampleNotification">
+Hi &lt;OTRS_CURRENT_UserFirstname&gt;,
+
+there is a new ticket in "&lt;OTRS_TICKET_Queue&gt;"!
+
+&lt;OTRS_CUSTOMER_FROM&gt; wrote:
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[16]&gt;
+&lt;snip&gt;
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_ID&gt;
+
+Your OTRS Notification Master
+                        </textarea>
+                    </div>
+                </fieldset>
+            </div>
+[% RenderBlockEnd("OverviewUpdate") %]
+        </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.UI.Table.InitTableFilter($('#FilterNotification'), $('#Notifications'), 1);
+//]]></script>
+[% END %]
+    </div>
+    <div class="Clear"></div>
+</div>
+<!-- end note -->

@@ -1,6 +1,6 @@
 # --
 # TicketGet.t - TicketConnector interface tests for TicketConnector backend
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -589,7 +589,6 @@ for my $Article (@ArticleBox) {
         UserID                     => 1,
     );
 
-    # next if not attachments
     next ARTICLE if !IsHashRefWithData( \%AtmIndex );
 
     my @Attachments;
@@ -602,7 +601,6 @@ for my $Article (@ArticleBox) {
             UserID    => 1,
         );
 
-        # next if not attachment
         next ATTACHMENT if !IsHashRefWithData( \%Attachment );
 
         # convert content to base64

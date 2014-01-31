@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/NavBarCustomerCompany.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,9 +33,10 @@ sub Run {
     return if !$Self->{ConfigObject}->Get('Frontend::Module')->{AdminCustomerCompany};
 
     # check if customer company feature is active
+    SOURCE:
     for my $Item ( '', 1 .. 10 ) {
         my $CustomerMap = $Self->{ConfigObject}->Get( 'CustomerUser' . $Item );
-        next if !$CustomerMap;
+        next SOURCE if !$CustomerMap;
 
         # return if CustomerCompany feature is used
         return if $CustomerMap->{CustomerCompanySupport};

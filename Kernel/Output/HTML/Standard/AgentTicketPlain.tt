@@ -1,0 +1,39 @@
+# --
+# AgentTicketPlain.tt - provides HTML plain article
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="LayoutPopup ARIARoleMain">
+
+    <div class="Header">
+        <h1>[% Translate("Email Text Plain View") | html %]: [% Data.TicketNumber | html %] - [% Data.Title | html %]</h1>
+        <p>
+            <a class="CancelClosePopup" href="#">[% Translate("Close window") | html %]</a>
+        </p>
+    </div>
+
+    <div class="Content">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>
+                    [% Translate("Plain") | html %] [% Config("Ticket::Hook") %]: [% Data.TicketNumber | html %] / TicketID: [% Data.TicketID | html %] / ArticleID: [% Data.ArticleID | html %]
+                    -
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Download;ArticleID=[% Data.ArticleID | uri %];TicketID=[% Data.TicketID | uri %]">
+                        [% Translate("Download this email") | html %]
+                    </a>
+                </h2>
+            </div>
+            <div class="Content">
+                <code>
+                [% Data.Text %]
+                </code>
+            </div>
+        </div>
+
+    </div>
+</div>

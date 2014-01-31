@@ -1,6 +1,6 @@
 # --
 # TaskHandler.t - TaskHandler tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -81,6 +81,7 @@ my @Tests = (
     },
 );
 
+TEST:
 for my $Test (@Tests) {
 
     my $Object = Kernel::Scheduler::TaskHandler->new(
@@ -94,7 +95,7 @@ for my $Test (@Tests) {
         "$Test->{Name} - new() result",
     );
 
-    next if !$Object;
+    next TEST if !$Object;
 
     my $Result = $Object->Run( Data => $Test->{TaskData} );
     $Self->Is(

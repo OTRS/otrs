@@ -1,6 +1,6 @@
 # --
 # Kernel/System/XML.pm - lib xml
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -762,6 +762,10 @@ sub XMLParse {
             },
         );
 
+        # get sourcename now to avoid a possible race condition where
+        # $@ could get altered after a failing eval!
+        my $Sourcename = $Param{Sourcename} ? "\n\n($Param{Sourcename})" : '';
+
         if ( eval { $Parser->parse( $Param{String} ) } ) {
             $UseFallback = 0;
 
@@ -769,7 +773,7 @@ sub XMLParse {
             $Self->{XMLQuote} = 0;
         }
         else {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "C-Parser: $@!" );
+            $Self->{LogObject}->Log( Priority => 'error', Message => "C-Parser: $@!$Sourcename" );
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => 'XML::Parser produced errors. I use XML::Parser::Lite as fallback!'

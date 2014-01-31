@@ -1,6 +1,6 @@
 # --
 # CheckModules.t - CheckModules tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,11 +18,12 @@ my $TmpSumString;
 if ( open( $TmpSumString, '-|', "$^X $Home/bin/otrs.CheckModules.pl --all NoColors" ) )
 {    ## no critic
 
+    LINE:
     while (<$TmpSumString>) {
         my $TmpLine = $_;
         $TmpLine =~ s/\n//g;
-        next if !$TmpLine;
-        next if $TmpLine !~ /^\s*o\s\w\w/;
+        next LINE if !$TmpLine;
+        next LINE if $TmpLine !~ /^\s*o\s\w\w/;
         if ( $TmpLine =~ m{ok|optional}ismx ) {
             $Self->True(
                 $TmpLine,

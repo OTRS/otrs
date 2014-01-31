@@ -818,7 +818,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             }
             // otherwise, force the user to enter data in the modal dialog
             else {
-                Fieldname = $(UI.item).clone().find('span').remove().end().text().trim();
+                Fieldname = $(UI.item).data('id').trim();
 
                 // if Field is Mandatory set Display to "Show As Mandatory" as default
                 if ($.inArray(Fieldname, MandatoryFields) > -1) {
@@ -880,7 +880,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             var FieldID = $(this).data('entity'),
                 FieldConfig = $(this).closest('li').data('config'),
                 $Element = $(this),
-                Fieldname = $(this).closest('li').clone().find('span').remove().end().text().trim();
+                Fieldname = $(this).closest('li').data('id').trim();
 
             if (typeof FieldConfig === 'string') {
                 FieldConfig = Core.JSON.Parse(FieldConfig);
@@ -968,7 +968,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     if (typeof FieldConfig.Config === 'undefined'){
                         FieldConfig.Config = {};
                     }
-                    $('#ArticleType').val(FieldConfig.Config.ArticleType);
+                    if (FieldConfig.Config.ArticleType) {
+                        $('#ArticleType').val(FieldConfig.Config.ArticleType);
+                    }
                 }
 
             }

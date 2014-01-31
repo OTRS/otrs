@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -713,7 +713,7 @@ sub _MaskUpdate {
 
     # check for profile errors
     if ( defined $Param{ProfileInvalid} ) {
-        $Param{ProfileInvalidMsg} = '' if !defined $Param{ProfileInvalidMsg};
+        $Param{ProfileInvalidMsg} //= '';
         $Self->{LayoutObject}->Block(
             Name => 'ProfileInvalidMsg' . $Param{ProfileInvalidMsg},
         );

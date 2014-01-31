@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CheckItem.pm - module to check and manipulate strings
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -162,6 +162,10 @@ sub CheckEmail {
         # do dns query
         my $Resolver = Net::DNS::Resolver->new();
         if ($Resolver) {
+
+            # it's no fun to have this hanging in the web interface
+            $Resolver->tcp_timeout(3);
+            $Resolver->udp_timeout(3);
 
             # check if we need to use a specific name server
             my $Nameserver = $Self->{ConfigObject}->Get('CheckMXRecord::Nameserver');

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/LinkObject.pm - to link objects
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1151,13 +1151,11 @@ sub LinkList {
         TYPE:
         for my $Type ( sort keys %{ $Links{$Object} } ) {
 
-            # next if link type is pointed
             next TYPE if $TypePointedList{$Type};
 
             # extract source target pair
             my $SourceTarget = $Links{$Object}->{$Type};
 
-            # next if there are no target entries
             next TYPE if !$SourceTarget->{Target};
 
             # set empty hash reference as default

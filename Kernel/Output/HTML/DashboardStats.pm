@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardStats.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -89,11 +89,12 @@ sub Preferences {
         # load static module
         my $Params = $Self->{StatsObject}->GetParams( StatID => $StatID );
         $Self->{LayoutObject}->Block( Name => 'Static', );
+        PARAM_ITEM:
         for my $ParamItem ( @{$Params} ) {
 
-            next if $ParamItem->{Name} eq 'GraphSize';
-            next if $ParamItem->{Name} eq 'Year';
-            next if $ParamItem->{Name} eq 'Month';
+            next PARAM_ITEM if $ParamItem->{Name} eq 'GraphSize';
+            next PARAM_ITEM if $ParamItem->{Name} eq 'Year';
+            next PARAM_ITEM if $ParamItem->{Name} eq 'Month';
 
             if ( $StatsSettings && $StatsSettings->{ $ParamItem->{Name} } ) {
                 $ParamItem->{SelectedID} = $StatsSettings->{ $ParamItem->{Name} };
@@ -225,7 +226,8 @@ sub Preferences {
                         for (@Sorted) {
                             my $Value = $ValueHash{$_};
                             if ( $ObjectAttribute->{Translation} ) {
-                                $Value = "\$Text{\"$ValueHash{$_}\"}";
+                                $Value = $Self->{LayoutObject}->{LanguageObject}
+                                    ->Translate( $ValueHash{$_} );
                             }
                             $Self->{LayoutObject}->Block(
                                 Name => 'Fixed',

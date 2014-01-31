@@ -1,0 +1,586 @@
+# --
+# AgentTicketOverviewSmall.tt - html for ticket overview table
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+[% RenderBlockStart("DocumentActionRow") %]
+<ul class="Actions">
+[% RenderBlockStart("DocumentActionRowBulk") %]
+    <li id="BulkAction" class="AlwaysPresent Inactive [% Data.CSS | html %]">
+        <a href="#">[% Translate(Data.Name) | html %]</a>
+    </li>
+[% RenderBlockEnd("DocumentActionRowBulk") %]
+
+[% RenderBlockStart("DocumentActionRowLastColumnFilter") %]
+    <li class="">
+        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];DeleteFilters=DeleteFilters">[% Translate("Reset overview") | html %]</a>
+    </li>
+[% RenderBlockEnd("DocumentActionRowLastColumnFilter") %]
+
+[% RenderBlockStart("DocumentActionRowItem") %]
+    <li class="[% Data.CSS | html %]"><a href="#">[% Translate(Data.Name) | html %]</a></li>
+[% RenderBlockEnd("DocumentActionRowItem") %]
+</ul>
+[% RenderBlockEnd("DocumentActionRow") %]
+
+[% RenderBlockStart("DocumentContent") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.UI.ActionRow.Init();
+//]]></script>
+[% END %]
+<div id="OverviewBody" class="Overview TicketList">
+[% RenderBlockStart("NoTicketFound") %]
+    <div id="EmptyMessageSmall">
+        [% Translate("No ticket data found.") | html %]
+    </div>
+[% RenderBlockEnd("NoTicketFound") %]
+    <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="matrix">
+        <input type="hidden" name="Action" value="AgentTicketBulk"/>
+        <input type="hidden" name="TicketID" value=""/>
+        <input type="hidden" name="LastColumnFilter" id="LastColumnFilter" value="[% Data.LastColumnFilter | html %]"/>
+[% RenderBlockStart("OverviewTable") %]
+        <table class="TableSmall NoCellspacing">
+[% RenderBlockStart("TableHeader") %]
+            <thead>
+                <tr>
+
+[% RenderBlockStart("GeneralOverviewHeader") %]
+
+[% RenderBlockStart("BulkNavBar") %]
+                    <th class="Checkbox">
+                        <input type="checkbox" class="Checkbox" title="[% Translate("Select all") | html %]" id="SelectAllTickets" autocomplete="off" />
+                    </th>
+[% RenderBlockEnd("BulkNavBar") %]
+[% RenderBlockStart("OverviewNavBarPageFlag") %]
+                    <th class="[% Data.CSS | html %]">
+[% RenderBlockStart("OverviewNavBarPageFlagLink") %]
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=[% Data.Name | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Translate(Data.Title) | html %]"></a>
+[% RenderBlockEnd("OverviewNavBarPageFlagLink") %]
+[% RenderBlockStart("OverviewNavBarPageFlagEmpty") %]
+                        <span title="[% Translate(Data.Name) | html %]"></span>
+[% RenderBlockEnd("OverviewNavBarPageFlagEmpty") %]
+                    </th>
+[% RenderBlockEnd("OverviewNavBarPageFlag") %]
+
+[% RenderBlockStart("OverviewNavBarPageTicketHeader") %]
+[% RenderBlockStart("OverviewNavBarPageTicketNumber") %]
+                    <th class="TicketNumber [% Data.CSS | html %]">
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=TicketNumber;OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title %]">[% Config("Ticket::Hook") %]</a>
+                    </th>
+[% RenderBlockEnd("OverviewNavBarPageTicketNumber") %]
+[% RenderBlockStart("OverviewNavBarPageColumn") %]
+                    <th class="OverviewHeader [% Data.HeaderColumnName | html %] [% Data.CSS | html %]">
+
+[% RenderBlockStart("OverviewNavBarPageColumnFilter") %]
+                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle %]">
+                            <i class="icon-filter"></i>
+                        </a>
+                        <div class="ColumnSettingsContainer">
+                            <div class="ColumnSettingsBox">
+                                [% Data.ColumnFilterStrg %]
+
+[% RenderBlockStart("ContentLargeTicketGenericHeaderColumnFilterLinkCustomerUserSearch") %]
+                                <input type="text" class="CustomerUserAutoComplete" autocomplete="off" />
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Config.Set('CustomerUserAutocomplete.QueryDelay', "[% Data.queryDelay | html %]");
+Core.Config.Set('CustomerUserAutocomplete.MaxResultsDisplayed', "[% Data.maxResultsDisplayed | html %]");
+Core.Config.Set('CustomerUserAutocomplete.MinQueryLength', "[% Data.minQueryLength | html %]");
+Core.Agent.TableFilters.InitCustomerUserAutocomplete( $(".CustomerUserAutoComplete") );
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ContentLargeTicketGenericHeaderColumnFilterLinkCustomerUserSearch") %]
+
+                            </div>
+                        </div>
+                        <span class="Gray" title="[% Data.Title %]">[% Data.ColumnNameTranslated | html %]</span>
+[% RenderBlockEnd("OverviewNavBarPageColumnFilter") %]
+
+[% RenderBlockStart("OverviewNavBarPageColumnFilterLink") %]
+                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle %]">
+                            <i class="icon-filter"></i>
+                        </a>
+                        <div class="ColumnSettingsContainer">
+                            <div class="ColumnSettingsBox">
+                                [% Data.ColumnFilterStrg %]
+
+[% RenderBlockStart("ContentLargeTicketGenericHeaderColumnFilterLinkCustomerIDSearch") %]
+                                <input type="text" class="CustomerIDAutoComplete" autocomplete="off" />
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Config.Set('CustomerIDAutocomplete.QueryDelay', "[% Data.queryDelay | html %]");
+Core.Config.Set('CustomerIDAutocomplete.MaxResultsDisplayed', "[% Data.maxResultsDisplayed | html %]");
+Core.Config.Set('CustomerIDAutocomplete.MinQueryLength', "[% Data.minQueryLength | html %]");
+Core.Agent.TableFilters.InitCustomerIDAutocomplete( $(".CustomerIDAutoComplete") );
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ContentLargeTicketGenericHeaderColumnFilterLinkCustomerIDSearch") %]
+
+[% RenderBlockStart("ContentLargeTicketGenericHeaderColumnFilterLinkUserSearch") %]
+                                <input type="text" class="UserAutoComplete" autocomplete="off" />
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Config.Set('UserAutocomplete.QueryDelay', "[% Data.queryDelay | html %]");
+Core.Config.Set('UserAutocomplete.MaxResultsDisplayed', "[% Data.maxResultsDisplayed | html %]");
+Core.Config.Set('UserAutocomplete.MinQueryLength', "[% Data.minQueryLength | html %]");
+Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ContentLargeTicketGenericHeaderColumnFilterLinkUserSearch") %]
+                            </div>
+                        </div>
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=[% Data.ColumnName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title %]">[% Data.ColumnNameTranslated | html %]</a>
+[% RenderBlockEnd("OverviewNavBarPageColumnFilterLink") %]
+
+[% RenderBlockStart("OverviewNavBarPageColumnLink") %]
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=[% Data.ColumnName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title %]">[% Data.ColumnNameTranslated | html %]</a>
+[% RenderBlockEnd("OverviewNavBarPageColumnLink") %]
+
+[% RenderBlockStart("OverviewNavBarPageColumnEmpty") %]
+                        <span class="Gray" title="[% Data.Title %]">[% Data.ColumnNameTranslated | html %]</span>
+[% RenderBlockEnd("OverviewNavBarPageColumnEmpty") %]
+
+                    </th>
+[% RenderBlockEnd("OverviewNavBarPageColumn") %]
+[% RenderBlockEnd("OverviewNavBarPageTicketHeader") %]
+
+[% RenderBlockStart("OverviewNavBarPageDynamicField") %]
+                    <th class="OverviewHeader [% Data.HeaderColumnName | html %] DynamicField Last [% Data.CSS | html %]">
+[% RenderBlockStart("OverviewNavBarPageDynamicFieldSortable") %]
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title %]">[% Translate(Data.Label) | html %]</a>
+[% RenderBlockEnd("OverviewNavBarPageDynamicFieldSortable") %]
+[% RenderBlockStart("OverviewNavBarPageDynamicFieldNotSortable") %]
+                        <span class="Gray" title="[% Data.Title %]">[% Translate(Data.Label) | html %]</span>
+[% RenderBlockEnd("OverviewNavBarPageDynamicFieldNotSortable") %]
+
+[% RenderBlockStart("OverviewNavBarPageDynamicFieldFiltrableSortable") %]
+                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle %]">
+                            <i class="icon-filter"></i>
+                        </a>
+                        <div class="ColumnSettingsContainer">
+                            <div class="ColumnSettingsBox">
+                                [% Data.ColumnFilterStrg %]
+                            </div>
+                        </div>
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title %]">[% Data.Label | html %]</a>
+[% RenderBlockEnd("OverviewNavBarPageDynamicFieldFiltrableSortable") %]
+
+[% RenderBlockStart("OverviewNavBarPageDynamicFieldFiltrableNotSortable") %]
+                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle %]">
+                            <i class="icon-filter"></i>
+                        </a>
+                        <div class="ColumnSettingsContainer">
+                            <div class="ColumnSettingsBox">
+                                [% Data.ColumnFilterStrg %]
+                            </div>
+                        </div>
+                        <span class="Gray" title="[% Data.Title %]">[% Data.Label | html %]</span>
+[% RenderBlockEnd("OverviewNavBarPageDynamicFieldFiltrableNotSortable") %]
+
+                    </th>
+[% RenderBlockEnd("OverviewNavBarPageDynamicField") %]
+
+[% RenderBlockEnd("GeneralOverviewHeader") %]
+
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#[% RenderBlockStart("OverviewNavBarPageDynamicField_Field1") %]
+#                    <th class="DynamicField Last [% Data.CSS | html %]">
+#[% RenderBlockStart("OverviewNavBarPageDynamicField_Field1_Sortable") %]
+#                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]">[% Translate(Data.Label) | html %]</a>
+#[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field1_Sortable") %]
+#[% RenderBlockStart("OverviewNavBarPageDynamicField_Field1_NotSortable") %]
+#                        <span class="Gray" title="[% Data.Title %]">[% Translate(Data.Label) | html %]</span>
+#[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field1_NotSortable") %]
+#[% RenderBlockStart("OverviewNavBarPageDynamicField_Field1_FiltrableSortable") %]
+#                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle %]">
+#                            <i class="icon-filter"></i>
+#                        </a>
+#                        <div class="ColumnSettingsContainer">
+#                            <div class="ColumnSettingsBox">
+#                                [% Data.ColumnFilterStrg %]
+#                            </div>
+#                        </div>
+#                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title %]">[% Data.Label | html %]</a>
+#[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field1_FiltrableSortable") %]
+#[% RenderBlockStart("OverviewNavBarPageDynamicField_Field1_FiltrableNotSortable") %]
+#                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle %]">
+#                            <i class="icon-filter"></i>
+#                        </a>
+#                        <div class="ColumnSettingsContainer">
+#                            <div class="ColumnSettingsBox">
+#                                [% Data.ColumnFilterStrg %]
+#                            </div>
+#                        </div>
+#                        <span class="Gray" title="[% Data.Title %]">[% Data.Label | html %]</span>
+#[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field1_FiltrableNotSortable") %]
+#                    </th>
+#[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field1") %]
+#[% RenderBlockStart("OverviewNavBarPageDynamicField_Field2") %]
+#                    <th class="DynamicField Last [% Data.CSS | html %]">
+#[% RenderBlockStart("OverviewNavBarPageDynamicField_Field2_Sortable") %]
+#                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]">[% Translate(Data.Label) | html %]</a>
+#[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field2_Sortable") %]
+#[% RenderBlockStart("OverviewNavBarPageDynamicField_Field2_NotSortable") %]
+#                        <span class="Gray" title="[% Data.Title %]">[% Translate(Data.Label) | html %]</span>
+#[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field2_NotSortable") %]
+#[% RenderBlockStart("OverviewNavBarPageDynamicField_Field2_FiltrableSortable") %]
+#                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle %]">
+#                            <i class="icon-filter"></i>
+#                        </a>
+#                        <div class="ColumnSettingsContainer">
+#                            <div class="ColumnSettingsBox">
+#                                [% Data.ColumnFilterStrg %]
+#                            </div>
+#                        </div>
+#                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title %]">[% Data.Label | html %]</a>
+#[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field2_FiltrableSortable") %]
+#[% RenderBlockStart("OverviewNavBarPageDynamicField_Field2_FiltrableNotSortable") %]
+#                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle %]">
+#                            <i class="icon-filter"></i>
+#                        </a>
+#                        <div class="ColumnSettingsContainer">
+#                            <div class="ColumnSettingsBox">
+#                                [% Data.ColumnFilterStrg %]
+#                            </div>
+#                        </div>
+#                        <span class="Gray" title="[% Data.Title %]">[% Data.Label | html %]</span>
+#[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field2_FiltrableNotSortable") %]
+#[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field2") %]
+#                    </th>
+# ---
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function() {
+
+    var $TriggerObj = $(this),
+        FilterName;
+
+    if ($TriggerObj.hasClass('Active')) {
+
+        $TriggerObj
+            .next('.ColumnSettingsContainer')
+            .find('.ColumnSettingsBox')
+            .fadeOut('fast', function() {
+                $TriggerObj.removeClass('Active');
+            });
+    }
+    else {
+
+        // slide up all open settings widgets
+        $('.ColumnSettingsTrigger')
+            .next('.ColumnSettingsContainer')
+            .find('.ColumnSettingsBox')
+            .fadeOut('fast', function() {
+                $(this).parent().prev('.ColumnSettingsTrigger').removeClass('Active');
+            });
+
+        // show THIS settings widget
+        $TriggerObj
+            .next('.ColumnSettingsContainer')
+            .find('.ColumnSettingsBox')
+            .fadeIn('fast', function() {
+
+                $TriggerObj.addClass('Active');
+
+                // refresh filter dropdown
+                FilterName = $TriggerObj
+                    .next('.ColumnSettingsContainer')
+                    .find('select')
+                    .attr('name');
+
+                if (
+                        $TriggerObj.closest('th').hasClass('CustomerID')
+                        || $TriggerObj.closest('th').hasClass('CustomerUserID')
+                        || $TriggerObj.closest('th').hasClass('Responsible')
+                        || $TriggerObj.closest('th').hasClass('Owner')
+                    ) {
+
+                    if (!$TriggerObj.parent().find('.SelectedValue').length) {
+                        Core.AJAX.FormUpdate($('#Nothing'), 'AJAXFilterUpdate', FilterName, [ FilterName ], function() {
+                            var AutoCompleteValue = $TriggerObj
+                                    .next('.ColumnSettingsContainer')
+                                    .find('select')
+                                    .val(),
+                                AutoCompleteText  = $TriggerObj
+                                    .next('.ColumnSettingsContainer')
+                                    .find('select')
+                                    .find('option:selected')
+                                    .text();
+
+                            if (AutoCompleteValue !== 'DeleteFilter') {
+
+                                $TriggerObj
+                                    .next('.ColumnSettingsContainer')
+                                    .find('select')
+                                    .after('<span class="SelectedValue Hidden"><a href="#">x</a>' + AutoCompleteText + ' (' + AutoCompleteValue + ')</span>')
+                                    .parent()
+                                    .find('.SelectedValue')
+                                    .find('a')
+                                    .off()
+                                    .on('click', function() {
+                                        $(this)
+                                            .closest('.ColumnSettingsContainer')
+                                            .find('select')
+                                            .val('DeleteFilter')
+                                            .trigger('change');
+
+                                        return false;
+                                    });
+                            }
+                        });
+                    }
+                }
+                else {
+                    Core.AJAX.FormUpdate($('#ColumnFilterAttributes'), 'AJAXFilterUpdate', FilterName, [ FilterName ]);
+                }
+        });
+    }
+
+    return false;
+});
+
+//]]></script>
+[% END %]
+                </tr>
+            </thead>
+[% RenderBlockEnd("TableHeader") %]
+[% RenderBlockStart("TableBody") %]
+            <tbody>
+[% RenderBlockStart("Record") %]
+                <tr id="TicketID_[% Data.TicketID | html %]" class="MasterAction">
+
+[% RenderBlockStart("GeneralOverviewRow") %]
+
+[% RenderBlockStart("Bulk") %]
+                    <td class="Checkbox NonTextContent">
+                        <input class="Checkbox" type="checkbox" name="TicketID" value="[% Data.TicketID | html %]"  autocomplete="off" />
+                    </td>
+[% RenderBlockEnd("Bulk") %]
+[% RenderBlockStart("ContentLargeTicketGenericRowMeta") %]
+                    <td class="[% Data.ClassTable | html %]" title="[% Translate(Data.Title) | html %]">
+[% RenderBlockStart("ContentLargeTicketGenericRowMetaImage") %]
+                        <div class="[% Data.Class | html %] Small" title="[% Translate(Data.Title) | html %]">
+                            <span class="[% Data.ClassSpan | html %]">
+                                <i class="icon-star"></i>
+                                <i class="icon-star"></i>
+                                <em>[% Translate(Data.Title) | html %]</em>
+                            </span>
+                        </div>
+[% RenderBlockEnd("ContentLargeTicketGenericRowMetaImage") %]
+                    </td>
+[% RenderBlockEnd("ContentLargeTicketGenericRowMeta") %]
+
+[% RenderBlockStart("RecordTicketData") %]
+[% RenderBlockStart("RecordTicketNumber") %]
+                    <td>
+                        <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Data.TicketNumber %]</a>
+                    </td>
+[% RenderBlockEnd("RecordTicketNumber") %]
+[% RenderBlockStart("RecordEscalationTime") %]
+                    <td>
+                        <div title="[% Translate("Service Time") | html %]: [% Data.EscalationTimeWorkingTime | html %] - [% Data.EscalationDestinationDate | Localize("TimeShort") %]" class="[% Data.EscalationClass | html %]">[% Data.EscalationTimeHuman | html %]<br/>[% Data.UpdateTimeDestinationDate | Localize("TimeShort") %]</div>
+                    </td>
+[% RenderBlockEnd("RecordEscalationTime") %]
+[% RenderBlockStart("RecordOwner") %]
+                    <td>
+                        <div title="[% Data.UserFirstname | html %] [% Data.UserLastname | html %] ([% Data.Owner | html %])">[% Data.UserFirstname | truncate(15) | html %] [% Data.UserLastname | truncate(15) | html %]</div>
+                    </td>
+[% RenderBlockEnd("RecordOwner") %]
+[% RenderBlockStart("RecordCustomerID") %]
+                    <td>
+                        <a href="[% Env("Baselink") %]Action=AgentTicketCustomer;TicketID=[% Data.TicketID | uri %]" class="AsPopup">
+                            <span title="[% Data.CustomerID | html %]">[% Data.CustomerID | truncate(15) | html %]</span>
+                        </a>
+                        <div title="[% Data.CustomerName | html %]">[% Data.CustomerName | truncate(15) | html %]</div>
+                    </td>
+[% RenderBlockEnd("RecordCustomerID") %]
+[% RenderBlockStart("RecordLastCustomerSubject") %]
+                    <td>
+                        <div title="[% Data.From | html %]">[% Data.FromRealname | truncate(30) | html %]</div>
+                        <div title="[% Data.Subject | html %]">[% Data.Subject | html %]</div>
+                    </td>
+[% RenderBlockEnd("RecordLastCustomerSubject") %]
+[% RenderBlockStart("RecordTicketTitle") %]
+                    <td>
+                        <div title="[% Data.From | html %]">[% Data.FromRealname | truncate(30) | html %]</div>
+                        <div title="[% Data.Title | html %]">[% Data.Title | html %]</div>
+                    </td>
+[% RenderBlockEnd("RecordTicketTitle") %]
+[% RenderBlockStart("RecordTicketColumn") %]
+                    <td>
+                        <div title="[% Data.GenericValue | html %]">[% Data.GenericValue | truncate(30) | html %]</div>
+                    </td>
+[% RenderBlockEnd("RecordTicketColumn") %]
+[% RenderBlockStart("RecordTicketColumnTranslatable") %]
+                    <td>
+                        <div title="[% Translate(Data.GenericValue) | html %]">[% Translate(Data.GenericValue) | html %]</div>
+                    </td>
+[% RenderBlockEnd("RecordTicketColumnTranslatable") %]
+[% RenderBlockStart("RecordTicketColumnTime") %]
+                    <td>
+                        <div title="[% Data.GenericValue | Localize("TimeShort") %]">[% Data.GenericValue | Localize("TimeShort") %]</div>
+                    </td>
+[% RenderBlockEnd("RecordTicketColumnTime") %]
+[% RenderBlockStart("RecordTicketColumnEscalation") %]
+                    <td>
+                        <div title="[% Data.GenericValue | html %]" class="[% Data.Class | html %]">[% Data.GenericValue | html %]</div>
+                    </td>
+[% RenderBlockEnd("RecordTicketColumnEscalation") %]
+[% RenderBlockEnd("RecordTicketData") %]
+
+[% RenderBlockStart("RecordDynamicField") %]
+                    <td>
+                        <div title="[% Data.Title | html %]">
+[% RenderBlockStart("RecordDynamicFieldLink") %]
+                            <a href="[% Data.Link %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a>
+[% RenderBlockEnd("RecordDynamicFieldLink") %]
+[% RenderBlockStart("RecordDynamicFieldPlain") %]
+                            [% Data.Value %]
+[% RenderBlockEnd("RecordDynamicFieldPlain") %]
+                        </div>
+                    </td>
+[% RenderBlockEnd("RecordDynamicField") %]
+
+[% RenderBlockEnd("GeneralOverviewRow") %]
+
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#[% RenderBlockStart("RecordDynamicField_Field1") %]
+#                    <td>
+#                        <div title="[% Data.Title | html %]">
+#[% RenderBlockStart("RecordDynamicField_Field1_Link") %]
+#                            <a href="[% Data.Link %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a>
+#[% RenderBlockEnd("RecordDynamicField_Field1_Link") %]
+#[% RenderBlockStart("RecordDynamicField_Field1_Plain") %]
+#                            [% Data.Value %]
+#[% RenderBlockEnd("RecordDynamicField_Field1_Plain") %]
+#                        </div>
+#                    </td>
+#[% RenderBlockEnd("RecordDynamicField_Field1") %]
+#[% RenderBlockStart("RecordDynamicField_Field2") %]
+#                    <td>
+#                        <div title="[% Data.Title | html %]">
+#[% RenderBlockStart("RecordDynamicField_Field2_Link") %]
+#                            <a href="[% Data.Link %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a>
+#[% RenderBlockEnd("RecordDynamicField_Field2_Link") %]
+#[% RenderBlockStart("RecordDynamicField_Field2_Plain") %]
+#                            [% Data.Value %]
+#[% RenderBlockEnd("RecordDynamicField_Field2_Plain") %]
+#                        </div>
+#                    </td>
+#[% RenderBlockEnd("RecordDynamicField_Field2") %]
+
+                </tr>
+
+[% RenderBlockStart("DocumentReadyActionRowAdd") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.UI.ActionRow.AddActions($('#TicketID_[% Data.TicketID | html %]'), [% Data.Data %]);
+//]]></script>
+[% END %]
+[% RenderBlockEnd("DocumentReadyActionRowAdd") %]
+
+[% RenderBlockEnd("Record") %]
+            </tbody>
+[% RenderBlockEnd("TableBody") %]
+        </table>
+[% RenderBlockEnd("OverviewTable") %]
+    </form>
+</div>
+[% RenderBlockStart("DocumentReadyStart") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.UI.InitCheckboxSelection($('table td.Checkbox'));
+    $('.MasterAction').bind('click', function (Event) {
+        var $MasterActionLink = $(this).find('.MasterActionLink');
+        // prevent MasterAction on Dynamic Fields links
+        if ($(Event.target).hasClass('DynamicFieldLink')) {
+            return true;
+        }
+        // only act if the link was not clicked directly
+        if (Event.target !== $MasterActionLink.get(0)) {
+            if (Event.ctrlKey || Event.metaKey) {
+                window.open($MasterActionLink.attr('href'));
+            }
+            else {
+                window.location = $MasterActionLink.attr('href');
+            }
+            return false;
+        }
+    });
+//]]></script>
+[% END %]
+[% RenderBlockEnd("DocumentReadyStart") %]
+[% RenderBlockEnd("DocumentContent") %]
+
+[% RenderBlockStart("DocumentMenuItem") %]
+<li id="[% Data.ID | html %]">
+    <a href="#" title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %]</a>
+</li>
+[% RenderBlockEnd("DocumentMenuItem") %]
+[% RenderBlockStart("DocumentMenuItemMoveForm") %]
+<li class="[% Data.Class | html %]">
+    <form title="[% Translate("Move ticket to a different queue") | html %]" action="[% Env("CGIHandle") %]" method="post">
+        <input type="hidden" name="Action" value="AgentTicketMove"/>
+        <input type="hidden" name="QueueID" value="[% Data.QueueID | html %]"/>
+        <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+        <label for="DestQueueID" class="InvisibleText">[% Translate("Change queue") | html %]:</label>
+        [% Data.MoveQueuesStrg %]
+    </form>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('.OverviewActions').on('change', 'select[name=DestQueueID]', function (Event) {
+        $(this).closest('form').submit();
+    });
+//]]></script>
+[% END %]
+</li>
+[% RenderBlockEnd("DocumentMenuItemMoveForm") %]
+
+[% RenderBlockStart("DocumentColumnFilterForm") %]
+<form title="[% Translate("Column Filters Form") | html %]" action="[% Env("CGIHandle") %]" method="post" name="ColumnFilterAttributes" id="ColumnFilterAttributes">
+[% RenderBlockStart("DocumentColumnFilterFormElement") %]
+    <input type="hidden" name="[% Data.ElementName | html %]" value="[% Data.ElementValue | html %]"/>
+[% RenderBlockEnd("DocumentColumnFilterFormElement") %]
+</form>
+[% RenderBlockEnd("DocumentColumnFilterForm") %]
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('a.AsPopup').bind('click', function (Event) {
+    Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
+    return false;
+});
+
+$('.ColumnFilter').bind('change', function (Event) {
+    var URL, ColumnFilter, NewColumnFilterStrg, MyRegEx;
+
+    // define variables
+    URL = Core.Config.Get('Baselink') + 'Action=' + '[% Env("Action") %]' + ';[% Data.LinkPage %]';
+    ColumnFilter = $(this)[0].name;
+    NewColumnFilterStrg = $(this)[0].name + '=' + $(this).val() + ';';
+    MyRegEx = new  RegExp(ColumnFilter+"=[^;]*;");
+
+    // check for already set parameter and replace
+    if (URL.match(MyRegEx)) {
+        URL = URL.replace(MyRegEx, NewColumnFilterStrg);
+    }
+
+    // otherwise add the new column filter
+    else {
+        URL = URL + NewColumnFilterStrg;
+    }
+
+    // redirect
+    window.location.href =  URL
+});
+//]]></script>
+[% END %]

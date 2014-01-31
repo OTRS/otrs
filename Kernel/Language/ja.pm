@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/ja.pm - provides Japanese language translation
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
 # --
@@ -12,6 +12,7 @@ package Kernel::Language::ja;
 
 use strict;
 use warnings;
+use utf8;
 
 sub Data {
     my $Self = shift;
@@ -1982,6 +1983,9 @@ sub Data {
         'Add private key' => '秘密鍵の追加',
         'Filter for certificates' => '',
         'Filter for SMIME certs' => '',
+        'To show certificate details click on a certificate icon.' => '',
+        'To manage private certificate relations click on a private key icon.' =>
+            '',
         'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
             '',
         'See also' => '参照',
@@ -2249,6 +2253,8 @@ sub Data {
         # Template: AgentDashboardStats
         'The content of this statistic is being prepared for you, please be patient.' =>
             '',
+        'Grouped' => '',
+        'Stacked' => '',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
@@ -3089,7 +3095,7 @@ sub Data {
         'Configure Processes.' => '',
         'Configure and manage ACLs.' => '',
         'Configure your own log text for PGP.' => 'PGPのための利用者独自のログテキストを設定します。',
-        'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '顧客が自らのチケットをソートする機能を持つかどうかを、コントロールします。',
@@ -3186,6 +3192,8 @@ sub Data {
             'バグトラック・ナンバーの後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTRSイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             '事前定義されたキーワードをハイライトするため、項目の中のテキストを処理するフィルタを定義します。',
+        'Defines a list of groups which should have the permission to see stats dashboards (e.g. group1;group2;group3).' =>
+            '',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
             '一部のアドレスをシンタクスのチェックから除外する、通常の表現を定義します（"CheckEmailAddresses"が“Yes”に設定されている場合）。このフィールドに、構文的には有効でないがシステムには必要であるEメールアドレス（例："root@localhost"）に関するregrexを入力してください。',
         'Defines a regular expression that filters all email addresses that should not be used in the application.' =>
@@ -4803,6 +4811,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'This option defines the process tickets default priority.' => '',
         'This option defines the process tickets default queue.' => '',
         'This option defines the process tickets default state.' => '',
+        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
         'Ticket Queue Overview' => '',

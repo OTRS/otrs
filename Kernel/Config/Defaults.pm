@@ -168,6 +168,7 @@ sub LoadDefaults {
         'fi' => 'Suomi',
         'fr' => 'Fran&ccedil;ais',
         'fr_CA' => 'Fran&ccedil;ais (Canada)',
+        'he' => 'Hebrew (עִבְרִית)',
         'hi' => 'Hindi',
         'hr' => 'Hrvatski',
         'hu' => 'Magyar',
@@ -364,6 +365,7 @@ sub LoadDefaults {
 
     # in case you want to add always one filter to each ldap query, use
     # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
+    # or if you want to filter with a locigal OR-Expression, like AlwaysFilter => '(|(mail=*abc.com)(mail=*xyz.com))'
 #    $Self->{'AuthModule::LDAP::AlwaysFilter'} = '';
 
     # in case you want to add a suffix to each login name, then
@@ -436,6 +438,7 @@ sub LoadDefaults {
 
     # in case you want to add always one filter to each ldap query, use
     # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
+    # or if you want to filter with a logical OR-Expression, like AlwaysFilter => '(|(mail=*abc.com)(mail=*xyz.com))'
 #    $Self->{'AuthSyncModule::LDAP::AlwaysFilter'} = '';
 
     # AuthSyncModule::LDAP::UserSyncMap
@@ -896,7 +899,6 @@ sub LoadDefaults {
 
     # Agent Common JS
     $Self->{'Loader::Agent::CommonJS'}->{'000-Framework'} =  [
-        'thirdparty/json/json2.js',
         'thirdparty/jquery-1.10.0/jquery.js',
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
         'thirdparty/jquery-ui-1.10.3/jquery-ui.js',
@@ -1052,7 +1054,7 @@ sub LoadDefaults {
         'Active' => '0',
         'Block' => 'Input',
         'Column' => 'Other Settings',
-        'Data' => '$Env{"UserComment"}',
+        'Data' => '[% Env("UserComment") %]',
         'Key' => 'Comment',
         'Label' => 'Comment',
         'Module' => 'Kernel::Output::HTML::PreferencesGeneric',
@@ -1364,7 +1366,7 @@ via the Preferences button after logging in.
             [ 'UserLogin',      'Username',   'login',      1, 1, 'var', '', 0 ],
             [ 'UserPassword',   'Password',   'pw',         0, 0, 'var', '', 0 ],
             [ 'UserEmail',      'Email',      'email',      1, 1, 'var', '', 0 ],
-#            [ 'UserEmail',      'Email', 'email',           1, 1, 'var', '$Env{"CGIHandle"}?Action=AgentTicketCompose;ResponseID=1;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}', 0, '', 'AsPopup OTRSPopup_TicketAction' ],
+#            [ 'UserEmail',      'Email', 'email',           1, 1, 'var', '[% Env("CGIHandle") %]?Action=AgentTicketCompose;ResponseID=1;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]', 0, '', 'AsPopup OTRSPopup_TicketAction' ],
             [ 'UserCustomerID', 'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
 #            [ 'UserCustomerIDs', 'CustomerIDs', 'customer_ids', 1, 0, 'var', '', 0 ],
             [ 'UserPhone',        'Phone',       'phone',        1, 0, 'var', '', 0 ],
@@ -1492,7 +1494,7 @@ via the Preferences button after logging in.
             [ 'CustomerCompanyZIP',     'Zip',        'zip',         1, 0, 'var', '', 0 ],
             [ 'CustomerCompanyCity',    'City',       'city',        1, 0, 'var', '', 0 ],
             [ 'CustomerCompanyCountry', 'Country',    'country',     1, 0, 'var', '', 0 ],
-            [ 'CustomerCompanyURL',     'URL',        'url',         1, 0, 'var', '$Data{"CustomerCompanyURL"}', 0 ],
+            [ 'CustomerCompanyURL',     'URL',        'url',         1, 0, 'var', '[% Data.CustomerCompanyURL | html %]', 0 ],
             [ 'CustomerCompanyComment', 'Comment',    'comments',    1, 0, 'var', '', 0 ],
             [ 'ValidID',                'Valid',      'valid_id',    0, 1, 'int', '', 0 ],
         ],

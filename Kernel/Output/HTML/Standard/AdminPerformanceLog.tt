@@ -1,0 +1,205 @@
+# --
+# AdminPerformanceLog.tt - provides HTML form for AdminPerformanceLog
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Performance Log") | html %]</h1>
+
+    <div class="SidebarColumn">
+[% RenderBlockStart("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionList") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+[% RenderBlockStart("Enabled") %]
+                <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="Action" value="AdminSysConfig"/>
+                    <input type="hidden" name="Subaction" value="Edit"/>
+                    <input type="hidden" name="SysConfigGroup" value="Framework"/>
+                    <input type="hidden" name="SysConfigSubGroup" value="Core::PerformanceLog"/>
+                    <h3>[% Translate("This feature is enabled!") | html %]</h3>
+                    <fieldset>
+                        <p class="FieldExplanation">
+                            [% Translate("Just use this feature if you want to log each request.") | html %]
+                        </p>
+                        <p class="Error">
+                            [% Translate("Activating this feature might affect your system performance!") | html %]
+                        </p>
+                        <div class="Field SpacingTop">
+                            <button class="CallForAction" type="submit" value="[% Translate("Disable it here!") | html %]">
+                                <span>[% Translate("Disable it here!") | html %]</span>
+                            </button>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </form>
+[% RenderBlockEnd("Enabled") %]
+[% RenderBlockStart("Disabled") %]
+                <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="Action" value="AdminSysConfig"/>
+                    <input type="hidden" name="Subaction" value="Edit"/>
+                    <input type="hidden" name="SysConfigGroup" value="Framework"/>
+                    <input type="hidden" name="SysConfigSubGroup" value="Core::PerformanceLog"/>
+                    <h3>[% Translate("This feature is disabled!") | html %]</h3>
+                    <fieldset>
+                        <p class="FieldExplanation">
+                            [% Translate("Just use this feature if you want to log each request.") | html %]
+                        </p>
+                        <p class="Error">
+                            [% Translate("Activating this feature might affect your system performance!") | html %]
+                        </p>
+                        <div class="Field SpacingTop">
+                            <button class="CallForAction" type="submit" value="[% Translate("Enable it here!") | html %]">
+                                <span>[% Translate("Enable it here!") | html %]</span>
+                            </button>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </form>
+[% RenderBlockEnd("Disabled") %]
+[% RenderBlockStart("Reset") %]
+                <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="Reset"/>
+                    <h3>[% Translate("Logfile too large!") | html %] ([% Data.Size | html %])</h3>
+                    <fieldset>
+                        <p class="Error">
+                            [% Translate("The logfile is too large, you need to reset it") | html %] ([% Data.Size | html %]).
+                        </p>
+                        <div class="Field SpacingTop">
+                            <button class="CallForAction" type="submit" value="[% Translate("Reset") | html %]">
+                                <span>[% Translate("Reset") | html %]</span>
+                            </button>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </form>
+[% RenderBlockEnd("Reset") %]
+            </div>
+        </div>
+    </div>
+
+[% RenderBlockStart("Overview") %]
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Overview") | html %]</h2>
+            </div>
+
+[% RenderBlockStart("OverviewTable") %]
+            <h3 class="Spacing">[% Translate("Range") | html %] ([% Translate("last") | html %] [% Data.Age | html %])</h3>
+            <div class="Content">
+
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Interface") | html %]</th>
+                            <th>[% Translate("Requests") | html %]</th>
+                            <th>[% Translate("Min Response") | html %]</th>
+                            <th>[% Translate("Max Response") | html %]</th>
+                            <th>[% Translate("Average Response") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("OverviewInterface") %]
+                        <tr>
+                            <td>
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=View;Interface=[% Data.Interface | uri %];Minute=[% Data.Minute | uri %]" title="[% Data.Interface | html %]">
+                                    [% Data.Interface | truncate(40) | html %]
+                                </a>
+                            </td>
+                            <td>[% Data.Count | html %]</td>
+                            <td>[% Data.Min | html %]s</td>
+                            <td>[% Data.Max | html %]s</td>
+                            <td>[% Data.Average | html %]s</td>
+                        </tr>
+[% RenderBlockStart("OverviewRow") %]
+                        <tr>
+                            <td class="Indent">
+                                <em>
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=View;Interface=[% Data.Interface | uri %];Module=[% Data.Module | uri %];Minute=[% Data.Minute | uri %]" title="[% Data.Module | html %]">
+                                    [% Data.Module | truncate(40) | html %]
+                                </a>
+                                </em>
+                            </td>
+                            <td><em>[% Data.Count | html %]</em></td>
+                            <td><em>[% Data.Min | html %]s</em></td>
+                            <td><em>[% Data.Max | html %]s</em></td>
+                            <td><em>[% Data.Average | html %]s</em></td>
+                        </tr>
+[% RenderBlockEnd("OverviewRow") %]
+[% RenderBlockEnd("OverviewInterface") %]
+                    </tbody>
+                </table>
+[% RenderBlockEnd("OverviewTable") %]
+            </div>
+        </div>
+    </div>
+[% RenderBlockEnd("Overview") %]
+
+[% RenderBlockStart("View") %]
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Range") | html %] ([% Translate("last") | html %] [% Data.Age | html %])</h2>
+            </div>
+            <div class="Content">
+                <p>
+                    <strong>[% Translate("Interface") | html %]:</strong> [% Data.Interface | html %],
+                    <strong>[% Translate("Module") | html %]:</strong> [% Data.Module | html %],
+                    <strong>[% Translate("Period") | html %]:</strong> [% Data.Period | html %] [% Translate("minutes") | html %]
+                </p>
+                <table class="DataTable SpacingTop AdminPerformanceLog">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Date") | html %]</th>
+                            <th>[% Translate("Requests") | html %]</th>
+                            <th>[% Translate("Min") | html %]</th>
+                            <th>[% Translate("Max") | html %]</th>
+                            <th>[% Translate("Average") | html %]</th>
+                            <th class="ProgressbarColumn"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("ViewRow") %]
+                        <tr>
+                            <td><em>[% Data.Date | Localize("TimeShort") %]</em></td>
+                            <td><em>[% Data.Count | html %]</em></td>
+                            <td><em>[% Data.Min | html %]s</em></td>
+                            <td><em>[% Data.Max | html %]s</em></td>
+                            <td><em>[% Data.Average | html %]s</em></td>
+                            <td><div class="Progressbar" style="width:[% Data.Width | html %];">&nbsp;</div></td>
+                        </tr>
+[% RenderBlockEnd("ViewRow") %]
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+[% RenderBlockEnd("View") %]
+    <div class="Clear"></div>
+</div>

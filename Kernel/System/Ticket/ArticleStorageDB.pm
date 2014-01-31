@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -133,6 +133,9 @@ sub ArticleDeletePlain {
         Bind => [ \$Param{ArticleID} ],
     );
 
+    # return if we only need to check one backend
+    return 1 unless $Self->{CheckAllBackends};
+
     # return of only delete in my backend
     return 1 if $Param{OnlyMyBackend};
 
@@ -167,6 +170,9 @@ sub ArticleDeleteAttachment {
         SQL  => 'DELETE FROM article_attachment WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
+
+    # return if we only need to check one backend
+    return 1 unless $Self->{CheckAllBackends};
 
     # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
@@ -318,6 +324,9 @@ sub ArticlePlain {
     }
     return $Data if defined $Data;
 
+    # return if we only need to check one backend
+    return unless $Self->{CheckAllBackends};
+
     # return of only delete in my backend
     return if $Param{OnlyMyBackend};
 
@@ -404,7 +413,10 @@ sub ArticleAttachmentIndexRaw {
     # return existing index
     return %Index if %Index;
 
-    # return of only delete in my backend
+    # return if we only need to check one backend
+    return unless $Self->{CheckAllBackends};
+
+    # return if only delete in my backend
     return if $Param{OnlyMyBackend};
 
     # try fs (if there is no index in fs)
@@ -543,7 +555,10 @@ sub ArticleAttachment {
     }
     return %Data if defined $Data{Content};
 
-    # return of only delete in my backend
+    # return if we only need to check one backend
+    return unless $Self->{CheckAllBackends};
+
+    # return if only delete in my backend
     return if $Param{OnlyMyBackend};
 
     # try fileystem, if no content is found

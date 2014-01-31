@@ -1,6 +1,6 @@
 # --
 # scripts/test/Stats.t - stats module testscript
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -169,6 +169,30 @@ $Self->Is(
     $Stat->{ShowAsDashboardWidget},
     1,
     'StatsGet() check the ShowAsDashboardWidget flag',
+);
+
+my $ObjectBehaviours = $StatsObject->GetObjectBehaviours(
+    ObjectModule => 'Kernel::System::Stats::Dynamic::Ticket'
+);
+
+$Self->IsDeeply(
+    $ObjectBehaviours,
+    {
+        ProvidesDashboardWidget => 1,
+    },
+    "GetObjectBehaviours without cache",
+);
+
+$ObjectBehaviours = $StatsObject->GetObjectBehaviours(
+    ObjectModule => 'Kernel::System::Stats::Dynamic::Ticket'
+);
+
+$Self->IsDeeply(
+    $ObjectBehaviours,
+    {
+        ProvidesDashboardWidget => 1,
+    },
+    "GetObjectBehaviours with cache",
 );
 
 # check completenesscheck

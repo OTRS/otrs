@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentDashboardCommon.pm - common base for agent dashboards
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -112,7 +112,18 @@ sub Run {
             for my $StatID ( sort keys %{$StatsHash} ) {
                 next STATID if !$StatsHash->{$StatID}->{ShowAsDashboardWidget};
 
-                # replace all line breaks with spaces (otherwise $Text{""} will not work correctly)
+                # check permissions
+                next STATID if !$StatsHash->{$StatID}->{Permission};
+                next STATID if !IsArrayRefWithData( $StatsHash->{$StatID}->{Permission} );
+
+                my @StatsPermissionGroupNames;
+                for my $GroupID ( @{ $StatsHash->{$StatID}->{Permission} } ) {
+                    push @StatsPermissionGroupNames,
+                        $Self->{GroupObject}->GroupLookup( GroupID => $GroupID );
+                }
+                my $StatsPermissionGroups = join( ';', @StatsPermissionGroupNames );
+
+               # replace all line breaks with spaces (otherwise Translate() will not work correctly)
                 $StatsHash->{$StatID}->{Description} =~ s{\r?\n|\r}{ }msxg;
 
                 my $Description = $Self->{LayoutObject}->{LanguageObject}
@@ -129,7 +140,7 @@ sub Run {
                     'Title'       => $Title,
                     'StatID'      => $StatID,
                     'Description' => $Description,
-                    'Group'       => 'stats',
+                    'Group'       => $StatsPermissionGroups,
                 };
             }
         }
@@ -510,7 +521,7 @@ sub Run {
             my @Groups = split /;/, $Config->{$Name}->{Group};
             GROUP:
             for my $Group (@Groups) {
-                my $Permission = 'UserIsGroup[' . $Group . ']';
+                my $Permission = 'UserIsGroupRo[' . $Group . ']';
                 if ( defined $Self->{$Permission} && $Self->{$Permission} eq 'Yes' ) {
                     $PermissionOK = 1;
                     last GROUP;
@@ -645,12 +656,6 @@ sub Run {
         }
     }
 
-    # get output back
-    my $Refresh = '';
-    if ( $Self->{UserRefreshTime} ) {
-        $Refresh = 60 * $Self->{UserRefreshTime};
-    }
-
     # build main menu
     my $MainMenuConfig = $Self->{ConfigObject}->Get($MainMenuConfigKey);
     if ( IsHashRefWithData($MainMenuConfig) ) {
@@ -718,7 +723,7 @@ sub Run {
         }
     }
 
-    my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+    my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => $Self->{Action},
@@ -746,7 +751,7 @@ sub _Element {
         my @Groups = split /;/, $Configs->{$Name}->{Group};
         GROUP:
         for my $Group (@Groups) {
-            my $Permission = 'UserIsGroup[' . $Group . ']';
+            my $Permission = 'UserIsGroupRo[' . $Group . ']';
             if ( defined $Self->{$Permission} && $Self->{$Permission} eq 'Yes' ) {
                 $PermissionOK = 1;
                 last GROUP;

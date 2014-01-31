@@ -1,6 +1,6 @@
 # --
 # scripts/test/Priority.t - Priority module testscript
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -49,6 +49,7 @@ my %AddedPriorities;
 
 %FirstPriorityList = $PriorityObject->PriorityList( Valid => 0 );
 
+TEST:
 for my $Test (@Tests) {
 
     # add
@@ -62,7 +63,7 @@ for my $Test (@Tests) {
         $PriorityID,
         $Test->{Result},
         $Test->{Name} . 'Add',
-    ) || next;
+    ) || next TEST;
 
     $FirstPriorityList{$PriorityID} = $Test->{Input}->{Name};
 
@@ -79,13 +80,13 @@ for my $Test (@Tests) {
         $LookupID,
         $PriorityID,
         $Test->{Name} . 'Lookup Same ID',
-    ) || next;
+    ) || next TEST;
 
     $Self->Is(
         $LookupName,
         $Test->{Input}->{Name},
         $Test->{Name} . 'Lookup Same Name',
-    ) || next;
+    ) || next TEST;
 
     # get
     my %ResultGet = $PriorityObject->PriorityGet(
@@ -98,19 +99,19 @@ for my $Test (@Tests) {
         $ResultGet{ID},
         $PriorityID,
         $Test->{Name} . 'Get Correct ID',
-    ) || next;
+    ) || next TEST;
 
     $Self->Is(
         $ResultGet{ValidID},
         $Test->{Input}->{ValidID},
         $Test->{Name} . 'Get Correct ValidID',
-    ) || next;
+    ) || next TEST;
 
     $Self->Is(
         $ResultGet{Name},
         $Test->{Input}->{Name},
         $Test->{Name} . 'Get Correct Name',
-    ) || next;
+    ) || next TEST;
 
     # change data
     my $NewName = $Test->{Input}->{Name} . ' - update';
@@ -136,7 +137,7 @@ for my $Test (@Tests) {
         $Update,
         1,
         $Test->{Name} . 'Update - Final result',
-    ) || next;
+    ) || next TEST;
 
     my %UpdatedPrio = $PriorityObject->PriorityGet(
         PriorityID => $PriorityID,
@@ -147,7 +148,7 @@ for my $Test (@Tests) {
         $UpdatedPrio{Name},
         $NewName,
         $Test->{Name} . 'Update - get after update',
-    ) || next;
+    ) || next TEST;
 
     $FirstPriorityList{$PriorityID} = "$NewName";
 

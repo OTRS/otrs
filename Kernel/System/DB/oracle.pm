@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DB/oracle.pm - oracle database backend
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,7 +59,7 @@ sub LoadPreferences {
         = "SET DEFINE OFF;\nSET SQLBLANKLINES ON";    # must be on separate lines!
 
     # init sql setting on db connect
-    #$Self->{'DB::Connect'} = '';
+    $Self->{'DB::Connect'} = "ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS'";
 
     return 1;
 }
@@ -244,7 +244,15 @@ sub TableCreate {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
                 $Shell = "/\n--";
             }
-            push( @Return2, "DROP SEQUENCE $Sequence" );
+
+            push(
+                @Return2,
+                "IF EXISTS($Sequence) THEN\n"
+                    . "BEGIN\n"
+                    . "    DROP SEQUENCE $Sequence;\n"
+                    . "END;\n",
+            );
+
             push(
                 @Return2,
                 "CREATE SEQUENCE $Sequence\n"
@@ -255,6 +263,7 @@ sub TableCreate {
                     . "CACHE 20\n"
                     . "ORDER",
             );
+
             push(
                 @Return2,
                 "CREATE OR REPLACE TRIGGER $Sequence"

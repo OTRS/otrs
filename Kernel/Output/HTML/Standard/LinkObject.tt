@@ -1,0 +1,149 @@
+# --
+# LinkObject.tt - provides HTML elements for link object lists
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("Plain") %]
+[% Data.Content %]
+[% RenderBlockEnd("Plain") %]
+
+[% RenderBlockStart("Text") %]
+<span title="[% Data.Content | html %]">[% Data.Content | truncate(Data.MaxLength) | html %]</span>
+[% RenderBlockEnd("Text") %]
+
+[% RenderBlockStart("TextTranslate") %]
+<span title="[% Translate(Data.Content) | html %]">[% Data.Content | Translate | truncate(Data.MaxLength) | html %]</span>
+[% RenderBlockEnd("TextTranslate") %]
+
+[% RenderBlockStart("Link") %]
+<a class="AsBlock LinkObjectLink" href="[% Data.Link %]" title="[% Data.Title | html %]" >[% Data.Content | truncate(Data.MaxLength) | html %]</a>
+[% RenderBlockEnd("Link") %]
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+// Make sure that (only!) from a popup window, links are always opened in a new tab of the main window.
+if (window.opener) {
+    $('a.LinkObjectLink').attr('target', '_blank');
+}
+//]]></script>
+[% END %]
+
+
+[% RenderBlockStart("TimeLong") %]
+[% Data.Content | Localize("TimeLong") %]
+[% RenderBlockEnd("TimeLong") %]
+
+[% RenderBlockStart("Date") %]
+[% Data.Content | Localize("Date") %]
+[% RenderBlockEnd("Date") %]
+
+[% RenderBlockStart("Checkbox") %]
+<input type="checkbox" id="[% Data.Name | html %]" name="[% Data.Name | html %]" value="[% Data.Content | html %]" alt="[% Data.Title | html %]" title="[% Data.Title | html %]"/>
+&nbsp;<br/>
+[% RenderBlockEnd("Checkbox") %]
+
+[% RenderBlockStart("InputText") %]
+<input type="text" id="[% Data.Key | html %]" name="[% Data.Key | html %]" class="W50pc" value="[% Data.Value | html %]" />
+[% RenderBlockEnd("InputText") %]
+
+[% RenderBlockStart("TableSimpleNone") %]
+[% Translate("none") | html %]
+[% RenderBlockEnd("TableSimpleNone") %]
+
+[% RenderBlockStart("TableSimple") %]
+[% RenderBlockStart("TableSimpleType") %]
+<h3 class="SpacingTopSmall">
+    [% Translate(Data.LinkTypeName) | html %]
+</h3>
+<ul class="Tablelike SpacingTopSmall">
+    <li class="Header">[% Translate("Object#") | html %]</li>
+[% RenderBlockStart("TableSimpleTypeRow") %]
+    <li class="[% Data.CssClass | html %]">[% Data.Content %]</li>
+[% RenderBlockEnd("TableSimpleTypeRow") %]
+</ul>
+[% RenderBlockEnd("TableSimpleType") %]
+[% RenderBlockEnd("TableSimple") %]
+
+[% RenderBlockStart("TableComplex") %]
+[% RenderBlockStart("TableComplexBlock") %]
+<div class="WidgetBox SpacingTop Expanded">
+    <div class="LightRow Header">
+        <div class="WidgetAction Toggle"><a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a></div>
+        <h2>[% Translate(Data.BlockDescription) | html %]: [% Translate(Data.Blockname) | html %]</h2>
+    </div>
+[% RenderBlockStart("TableComplexBlockActionRow") %]
+    <div class="LightRow Bottom">
+        <ul class="Actions">
+[% RenderBlockStart("TableComplexBlockActionRowBulk") %]
+            <li class="Bulk">
+                <span>
+                    <input type="checkbox" class="SelectAll" title="[% Translate("Select all") | html %]" id="SelectAllLinks[% Translate(Data.TableNumber) | html %]" autocomplete="off" />
+                    <label class="InvisibleText" for="SelectAllLinks[% Translate(Data.TableNumber) | html %]">[% Translate("Select all") | html %]</label>
+                </span>
+            </li>
+[% RenderBlockEnd("TableComplexBlockActionRowBulk") %]
+        </ul>
+        <div class="ClearLeft"></div>
+    </div>
+[% RenderBlockEnd("TableComplexBlockActionRow") %]
+    <div class="LightRow Content AutoHeight ">
+        <div class="Spacing">
+            <table class="DataTable">
+                <thead>
+                    <tr>
+[% RenderBlockStart("TableComplexBlockColumn") %]
+                        <th> [% Translate(Data.Content) | html %] </th>
+[% RenderBlockEnd("TableComplexBlockColumn") %]
+                    </tr>
+                </thead>
+                <tbody>
+[% RenderBlockStart("TableComplexBlockRow") %]
+                    <tr>
+[% RenderBlockStart("TableComplexBlockRowColumn") %]
+                        <td class="[% Data.CssClass | html %]">
+                            [% Data.Content %]
+                        </td>
+[% RenderBlockEnd("TableComplexBlockRowColumn") %]
+                    </tr>
+[% RenderBlockEnd("TableComplexBlockRow") %]
+                </tbody>
+            </table>
+        </div>
+
+[% RenderBlockStart("TableComplexBlockFooterNormal") %]
+[% RenderBlockEnd("TableComplexBlockFooterNormal") %]
+
+[% RenderBlockStart("TableComplexBlockFooterAdd") %]
+        <div class="SpacingTopSmall">
+            [% Data.LinkTypeStrg %]
+            <button class="Primary" type="submit" title="[% Translate("Add links") | html %]">[% Translate("Add links") | html %]</button>
+        </div>
+        <input type="hidden" name="SubmitLink" value="[% Translate("Link") | html %]" />
+[% RenderBlockEnd("TableComplexBlockFooterAdd") %]
+
+[% RenderBlockStart("TableComplexBlockFooterDelete") %]
+        <div class="SpacingTopSmall">
+            <button class="Primary" type="submit" title="[% Translate("Delete links") | html %]">[% Translate("Delete links") | html %]</button>
+        </div>
+        <input type="hidden" name="SubmitDelete" value="[% Translate("Delete") | html %]" />
+[% RenderBlockEnd("TableComplexBlockFooterDelete") %]
+
+    </div>
+</div>
+[% RenderBlockEnd("TableComplexBlock") %]
+
+[% RenderBlockEnd("TableComplex") %]
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('.SelectAll').bind('click', function () {
+        var Status = $(this).prop('checked');
+        $(this).closest('.WidgetBox').find('table input[type=checkbox]').prop('checked', Status);
+    });
+
+//]]></script>
+[% END %]

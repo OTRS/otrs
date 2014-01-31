@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/Driver/Date.pm - Delegate for DynamicField Date Driver
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -291,12 +291,15 @@ sub EditFieldRender {
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'UsedError';
 
+        my $FieldRequiredMessage
+            = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+
         # for client side validation
         $HTMLString .= <<"EOF";
 
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"This field is required."}
+        $FieldRequiredMessage
     </p>
 </div>
 EOF
@@ -305,6 +308,7 @@ EOF
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
+        $ErrorMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
         my $DivID = $FieldName . 'UsedServerError';
 
         # for server side validation
@@ -312,7 +316,7 @@ EOF
 
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"$ErrorMessage"}
+        $ErrorMessage
     </p>
 </div>
 EOF
@@ -320,9 +324,9 @@ EOF
 
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
-        Mandatory          => $Param{Mandatory} || '0',
-        FieldName          => $FieldName . 'Used',
+        %Param,
+        Mandatory => $Param{Mandatory} || '0',
+        FieldName => $FieldName . 'Used',
     );
 
     my $Data = {
@@ -417,10 +421,11 @@ sub DisplayValueRender {
 
     # convert date to localized string
     if ( defined $Param{Value} ) {
-        $Value = $Param{LayoutObject}->Output(
-            Template => '$Date{"$Data{"Value"}"}',
-            Data => { Value => $Param{Value}, },
+        $Value = $Param{LayoutObject}->{LanguageObject}->FormatTimeString(
+            $Param{Value},
+            'DateFormatShort',
         );
+
     }
 
     # in this Driver there is no need for HTMLOutput
@@ -610,9 +615,9 @@ EOF
 
         # call EditLabelRender on the common driver
         my $LabelString = $Self->EditLabelRender(
-            DynamicFieldConfig => $Param{DynamicFieldConfig},
-            FieldName          => $FieldName,
-            AdditionalText     => $AdditionalText,
+            %Param,
+            FieldName      => $FieldName,
+            AdditionalText => $AdditionalText,
         );
 
         my $Data = {
@@ -635,9 +640,7 @@ EOF
     );
 
     # build HTML for "and" separator
-    $HTMLString .= <<'EOF';
-  $Text{"and"}
-EOF
+    $HTMLString .= ' ' . $Param{LayoutObject}->{LanguageObject}->Translate("and") . "\n";
 
     # build HTML for stop value set
     $HTMLString .= $Param{LayoutObject}->BuildDateSelection(
@@ -657,9 +660,9 @@ EOF
 
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
-        FieldName          => $FieldName,
-        AdditionalText     => $AdditionalText,
+        %Param,
+        FieldName      => $FieldName,
+        AdditionalText => $AdditionalText,
     );
 
     my $Data = {
@@ -835,11 +838,20 @@ sub SearchFieldParameterBuild {
     # get field value
     my $Value = $Self->SearchFieldValueGet(%Param);
 
+    my $DisplayValue;
+
+    if ( defined $Value && !$Value ) {
+        $DisplayValue = '';
+    }
+
     # do not search if value was not checked (useful for customer interface)
     if ( !$Value ) {
         return {
-            Equals => '',
-            }
+            Parameter => {
+                Equals => $Value,
+            },
+            Display => $DisplayValue,
+        };
     }
 
     # search for a wild card in the value
@@ -885,11 +897,8 @@ sub SearchFieldParameterBuild {
                 $DiffTimeMinutes = $Value * 60 * 24 * 365;
             }
 
-            # get the current time in epoch seconds and as timestamp
-            my $Now          = $Self->{TimeObject}->SystemTime();
-            my $NowTimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
-                SystemTime => $Now,
-            );
+            # get the current time in epoch seconds
+            my $Now = $Self->{TimeObject}->SystemTime();
 
             # calculate diff time seconds
             my $DiffTimeSeconds = $DiffTimeMinutes * 60;
@@ -900,21 +909,70 @@ sub SearchFieldParameterBuild {
             if ( $Start eq 'Before' ) {
 
                 # we must subtract the diff because it is in the past
-                my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
+                    = $Self->{TimeObject}->SystemTime2Date(
                     SystemTime => $Now - $DiffTimeSeconds,
+                    );
+
+                # use the last hour from diff time as it will be the upper limit strict
+                my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
+                    Year   => $Year,
+                    Month  => $Month,
+                    Day    => $Day,
+                    Hour   => 00,
+                    Minute => 00,
+                    Second => 00,
+                );
+
+                my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                    SystemTime => $SystemTime,
                 );
 
                 # only search dates in the past (before the time stamp)
-                $Parameter{SmallerThanEquals} = $TimeStamp;
+                $Parameter{SmallerThan} = $TimeStamp;
 
                 # set the display value
-                $DisplayValue = '<= ' . $TimeStamp;
+                $DisplayValue = '< ' . $Year . '-' . $Month . '-' . $Day;
             }
             elsif ( $Start eq 'Last' ) {
 
+                my ( $NSec, $NMin, $NHour, $NDay, $NMonth, $NYear, $NWeekDay )
+                    = $Self->{TimeObject}->SystemTime2Date(
+                    SystemTime => $Now,
+                    );
+
+                # use the last hour from today as it will be the upper limit relative
+                my $NowSystemTime = $Self->{TimeObject}->Date2SystemTime(
+                    Year   => $NYear,
+                    Month  => $NMonth,
+                    Day    => $NDay,
+                    Hour   => 23,
+                    Minute => 59,
+                    Second => 59,
+                );
+
+                my $NowTimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                    SystemTime => $NowSystemTime,
+                );
+
                 # we must subtract the diff because it is in the past
-                my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
+                    = $Self->{TimeObject}->SystemTime2Date(
                     SystemTime => $Now - $DiffTimeSeconds,
+                    );
+
+                # use the first hour from diff time as it will be the lower limit relative
+                my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
+                    Year   => $Year,
+                    Month  => $Month,
+                    Day    => $Day,
+                    Hour   => 00,
+                    Minute => 00,
+                    Second => 00,
+                );
+
+                my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                    SystemTime => $SystemTime,
                 );
 
                 # search dates in the past (after the time stamp and up to now)
@@ -922,13 +980,50 @@ sub SearchFieldParameterBuild {
                 $Parameter{SmallerThanEquals} = $NowTimeStamp;
 
                 # set the display value
-                $DisplayValue = $TimeStamp . ' - ' . $NowTimeStamp;
+                $DisplayValue
+                    = $Year . '-' . $Month . '-' . $Day
+                    . ' - '
+                    . $NYear . '-' . $NMonth . '-' . $NDay;
             }
             elsif ( $Start eq 'Next' ) {
 
+                my ( $NSec, $NMin, $NHour, $NDay, $NMonth, $NYear, $NWeekDay )
+                    = $Self->{TimeObject}->SystemTime2Date(
+                    SystemTime => $Now,
+                    );
+
+                # use the first hour from today as it will be the lower limit relative
+                my $NowSystemTime = $Self->{TimeObject}->Date2SystemTime(
+                    Year   => $NYear,
+                    Month  => $NMonth,
+                    Day    => $NDay,
+                    Hour   => 00,
+                    Minute => 00,
+                    Second => 00,
+                );
+
+                my $NowTimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                    SystemTime => $NowSystemTime,
+                );
+
                 # we must add the diff because it is in the future
-                my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
+                    = $Self->{TimeObject}->SystemTime2Date(
                     SystemTime => $Now + $DiffTimeSeconds,
+                    );
+
+                # use the last hour from diff time as it will be the upper limit relative
+                my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
+                    Year   => $Year,
+                    Month  => $Month,
+                    Day    => $Day,
+                    Hour   => 23,
+                    Minute => 59,
+                    Second => 59,
+                );
+
+                my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                    SystemTime => $SystemTime,
                 );
 
                 # search dates in the future (after now and up to the time stamp)
@@ -936,20 +1031,38 @@ sub SearchFieldParameterBuild {
                 $Parameter{SmallerThanEquals} = $TimeStamp;
 
                 # set the display value
-                $DisplayValue = $NowTimeStamp . ' - ' . $TimeStamp;
+                $DisplayValue
+                    = $NYear . '-' . $NMonth . '-' . $NDay
+                    . ' - '
+                    . $Year . '-' . $Month . '-' . $Day;
             }
             elsif ( $Start eq 'After' ) {
 
                 # we must add the diff because it is in the future
-                my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
+                    = $Self->{TimeObject}->SystemTime2Date(
                     SystemTime => $Now + $DiffTimeSeconds,
+                    );
+
+                # use the last hour from diff time as it will be the lower limit strict
+                my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
+                    Year   => $Year,
+                    Month  => $Month,
+                    Day    => $Day,
+                    Hour   => 23,
+                    Minute => 59,
+                    Second => 59,
+                );
+
+                my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                    SystemTime => $SystemTime,
                 );
 
                 # only search dates in the future (after the time stamp)
-                $Parameter{GreaterThanEquals} = $TimeStamp;
+                $Parameter{GreaterThan} = $TimeStamp;
 
                 # set the display value
-                $DisplayValue = '>= ' . $TimeStamp;
+                $DisplayValue = '> ' . $Year . '-' . $Month . '-' . $Day;
             }
 
             # return search parameter structure

@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.UnlockTickets.pl - to unlock tickets
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -66,7 +66,7 @@ my @ViewableLockIDs = $CommonObject{LockObject}->LockViewableLock( Type => 'ID' 
 # check args
 my $Command = shift || '--help';
 print "otrs.UnlockTickets.pl - unlock tickets\n";
-print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
 
 # unlock all tickets
 if ( $Command eq '--all' ) {
@@ -141,6 +141,28 @@ elsif ( $Command eq '--timeout' ) {
     exit 0;
 }
 
+# unlock ticket by ID
+elsif ( $Command eq '--ticket' ) {
+    my $TicketID = shift || '';
+    if ( $TicketID eq '' ) {
+        print " No TicketID given!\n";
+        exit 0;
+    }
+    print " Unlocking ticket: $TicketID...";
+    my $Unlock = $CommonObject{TicketObject}->LockSet(
+        TicketID => $TicketID,
+        Lock     => 'unlock',
+        UserID   => 1,
+    );
+    if ($Unlock) {
+        print " done.\n";
+    }
+    else {
+        print " failed.\n";
+    }
+    exit 0;
+}
+
 # show usage
 else {
     print "usage: $0 [options] \n";
@@ -148,5 +170,6 @@ else {
     print "  --help        display this option help\n";
     print "  --timeout     unlock old tickets\n";
     print "  --all         unlock all tickets (force)\n";
+    print "  --ticket id   unlock ticket with specified id (force)\n";
     exit 1;
 }

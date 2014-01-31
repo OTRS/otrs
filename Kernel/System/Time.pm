@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Time.pm - time functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -120,7 +120,7 @@ sub SystemTime2TimeStamp {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{SystemTime} ) {
+    if ( !defined $Param{SystemTime} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SystemTime!' );
         return;
     }
@@ -168,7 +168,7 @@ sub SystemTime2Date {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{SystemTime} ) {
+    if ( !defined $Param{SystemTime} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SystemTime!' );
         return;
     }
@@ -208,11 +208,11 @@ sub TimeStamp2SystemTime {
         return;
     }
 
-    my $SytemTime = 0;
+    my $SystemTime = 0;
 
     # match iso date format
     if ( $Param{String} =~ /(\d{4})-(\d{1,2})-(\d{1,2})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
-        $SytemTime = $Self->Date2SystemTime(
+        $SystemTime = $Self->Date2SystemTime(
             Year   => $1,
             Month  => $2,
             Day    => $3,
@@ -224,7 +224,7 @@ sub TimeStamp2SystemTime {
 
     # match iso date format (wrong format)
     elsif ( $Param{String} =~ /(\d{1,2})-(\d{1,2})-(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
-        $SytemTime = $Self->Date2SystemTime(
+        $SystemTime = $Self->Date2SystemTime(
             Year   => $3,
             Month  => $2,
             Day    => $1,
@@ -236,7 +236,7 @@ sub TimeStamp2SystemTime {
 
     # match euro time format
     elsif ( $Param{String} =~ /(\d{1,2})\.(\d{1,2})\.(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
-        $SytemTime = $Self->Date2SystemTime(
+        $SystemTime = $Self->Date2SystemTime(
             Year   => $3,
             Month  => $2,
             Day    => $1,
@@ -252,7 +252,7 @@ sub TimeStamp2SystemTime {
         =~ /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})(\+|\-)((\d{1,2}):(\d{1,2}))/i
         )
     {
-        $SytemTime = $Self->Date2SystemTime(
+        $SystemTime = $Self->Date2SystemTime(
             Year   => $1,
             Month  => $2,
             Day    => $3,
@@ -287,7 +287,7 @@ sub TimeStamp2SystemTime {
                 $Month = $MonthCount + 1;
             }
         }
-        $SytemTime = $Self->Date2SystemTime(
+        $SystemTime = $Self->Date2SystemTime(
             Year   => $5,
             Month  => $Month,
             Day    => $3,
@@ -300,7 +300,7 @@ sub TimeStamp2SystemTime {
         $Param{String} =~ /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})Z$/
         )
     {
-        $SytemTime = $Self->Date2SystemTime(
+        $SystemTime = $Self->Date2SystemTime(
             Year   => $1,
             Month  => $2,
             Day    => $3,
@@ -311,7 +311,7 @@ sub TimeStamp2SystemTime {
     }
 
     # return error
-    if ( !$SytemTime ) {
+    if ( !defined $SystemTime ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Invalid Date '$Param{String}'!",
@@ -319,7 +319,7 @@ sub TimeStamp2SystemTime {
     }
 
     # return system time
-    return $SytemTime;
+    return $SystemTime;
 
 }
 
@@ -357,7 +357,7 @@ sub Date2SystemTime {
         );
     };
 
-    if ( !$SytemTime ) {
+    if ( !defined $SytemTime ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message =>

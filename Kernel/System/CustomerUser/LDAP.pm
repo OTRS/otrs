@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -668,10 +668,10 @@ sub CustomerIDs {
     if ( $Data{UserCustomerIDs} ) {
 
         # used separators
-        separator:
+        SEPARATOR:
         for my $Separator ( ';', ',', '|' ) {
 
-            next separator if $Data{UserCustomerIDs} !~ /\Q$Separator\E/;
+            next SEPARATOR if $Data{UserCustomerIDs} !~ /\Q$Separator\E/;
 
             # split it
             my @IDs = split /\Q$Separator\E/, $Data{UserCustomerIDs};
@@ -682,7 +682,7 @@ sub CustomerIDs {
                 push @CustomerIDs, $ID;
             }
 
-            last separator;
+            last SEPARATOR;
         }
 
         # fallback if no separator got found

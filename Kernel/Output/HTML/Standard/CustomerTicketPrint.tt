@@ -1,0 +1,226 @@
+# --
+# CustomerTicketPrint.tt - provides HTML print view
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<table border="0" cellspacing="1" cellpadding="0" width="100%">
+    <tr>
+        <td class="mainhead">[% Config("Ticket::Hook") %]: [% Data.TicketNumber | html %] / [% Data.Title | html %]</td>
+    </tr>
+    <tr>
+        <td align="right"><small>[% Translate("Ticket Print") | html %]</small></td>
+    </tr>
+</table>
+<table border="0" cellspacing="1" cellpadding="10" width="100%">
+    <tr>
+        <td class="contentkey">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                <tr>
+                    <td width="50%" valign="top">
+                        <table border="0" cellspacing="3" cellpadding="0" width="100%">
+[% RenderBlockStart("TicketState") %]
+                            <tr>
+                                <td class="contentkey" width="40%">[% Translate("State") | html %]:</td>
+                                <td class="contentvalue" width="60%">[% Translate(Data.State) | html %]</td>
+                            </tr>
+[% RenderBlockEnd("TicketState") %]
+[% RenderBlockStart("TicketPriority") %]
+                            <tr>
+                                <td class="contentkey">[% Translate("Priority") | html %]:</td>
+                                <td class="contentvalue">[% Translate(Data.Priority) | html %]</td>
+                            </tr>
+[% RenderBlockEnd("TicketPriority") %]
+[% RenderBlockStart("TicketQueue") %]
+                            <tr>
+                                <td class="contentkey">[% Translate("Queue") | html %]:</td>
+                                <td class="contentvalue">[% Data.Queue | html %]</td>
+                            </tr>
+[% RenderBlockEnd("TicketQueue") %]
+[% RenderBlockStart("TicketType") %]
+                            <tr>
+                                <td class="contentkey">[% Translate("Type") | html %]:</td>
+                                <td class="contentvalue">[% Data.Type | html %]</td>
+                            </tr>
+[% RenderBlockEnd("TicketType") %]
+[% RenderBlockStart("TicketService") %]
+                            <tr>
+                                <td class="contentkey">[% Translate("Service") | html %]:</td>
+                                <td class="contentvalue">[% Data.Service | html %]</td>
+                            </tr>
+[% RenderBlockEnd("TicketService") %]
+[% RenderBlockStart("TicketSLA") %]
+                            <tr>
+                                <td class="contentkey">[% Translate("SLA") | html %]:</td>
+                                <td class="contentvalue">[% Data.SLA | html %]</td>
+                            </tr>
+[% RenderBlockEnd("TicketSLA") %]
+[% RenderBlockStart("TicketOwner") %]
+                            <tr>
+                                <td class="contentkey">[% Translate("Owner") | html %]:</td>
+                                <td class="contentvalue">[% Data.Owner | html %]</td>
+                            </tr>
+[% RenderBlockEnd("TicketOwner") %]
+[% RenderBlockStart("TicketResponsible") %]
+                            <tr>
+                                <td class="contentkey">[% Translate("Responsible") | html %]:</td>
+                                <td class="contentvalue">[% Data.Responsible | html %]</td>
+                            </tr>
+[% RenderBlockEnd("TicketResponsible") %]
+                        </table>
+                    </td>
+                    <td width="50%" valign="top">
+                        <table border="0" cellspacing="3" cellpadding="0" width="100%">
+                            <tr>
+                                <td class="contentkey">[% Translate("CustomerID") | html %]:</td>
+                                <td class="contentvalue">[% Data.CustomerID | html %]</td>
+                            </tr>
+                            <tr>
+                                <td class="contentkey" width="40%">[% Translate("Age") | html %]:</td>
+                                <td class="contentvalue" width="60%">[% Data.Age | html %]</td>
+                            </tr>
+                            <tr>
+                                <td class="contentkey">[% Translate("Created") | html %]:</td>
+                                <td class="contentvalue">[% Data.Created | Localize("TimeLong") %]</td>
+                            </tr>
+[% RenderBlockStart("SolutionTime") %]
+                            <tr>
+                                <td class="contentkey">[% Translate("Solution Time") | html %]:</td>
+                                <td class="contentvalue">[% Data.SolutionTimeDestinationDate | Localize("TimeShort") %]</td>
+                            </tr>
+[% RenderBlockEnd("SolutionTime") %]
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <table border="0" cellspacing="3" cellpadding="0" width="100%">
+                <tr>
+                    <td width="20%"></td>
+                    <td width="30%"></td>
+                    <td width="20%"></td>
+                    <td width="30%"></td>
+                </tr>
+
+[% RenderBlockStart("TicketDynamicFieldHeader") %]
+                <tr>
+                    <td colspan="4"><b><i>[% Translate("Ticket Dynamic Fields") | html %]</i></b></td>
+                </tr>
+[% RenderBlockEnd("TicketDynamicFieldHeader") %]
+
+[% RenderBlockStart("TicketDynamicField") %]
+                <tr>
+                    <td class="contentkey">[% Translate(Data.Label) | html %]:</td>
+                    <td class="contentvalue">
+                        <div title="[% Data.Title | html %]">[% Data.Value %]</div>
+                    </td>
+                </tr>
+[% RenderBlockEnd("TicketDynamicField") %]
+
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#[% RenderBlockStart("TicketDynamicField_Field1") %]
+#               <tr>
+#                   <td class="contentkey">[% Translate(Data.Label) | html %]:</td>
+#                   <td class="contentvalue">
+#                       <div title="[% Data.Title | html %]">[% Data.Value %]</div>
+#                   </td>
+#               </tr>
+#[% RenderBlockEnd("TicketDynamicField_Field1") %]
+#[% RenderBlockStart("TicketDynamicField_Field2") %]
+#               <tr>
+#                   <td class="contentkey">[% Translate(Data.Label) | html %]:</td>
+#                   <td class="contentvalue">
+#                       <div title="[% Data.Title | html %]">[% Data.Value %]</div>
+#                   </td>
+#               </tr>
+#[% RenderBlockEnd("TicketDynamicField_Field2") %]
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4" class="contentkey">
+            [% Translate("Customer Info") | html %]:
+            [% Data.CustomerTable %]
+        </td>
+    </tr>
+</table>
+<!-- start ticket [% Data.TicketNumber %] -->
+[% RenderBlockStart("Article") %]
+<table border="0" width="640" cellpadding="0" cellspacing="0" bgcolor="#000000" class="container">
+    <tr>
+        <td>
+            <table border="0" width="640" cellpadding="10" cellspacing="1" bgcolor="#ffffff">
+                <tr>
+                    <td>
+                        <table border="0" width="100%" cellspacing="0" cellpadding="3">
+                            <tr bgcolor="#ffffff">
+                                <td valign="top" width="100%" class="small">
+                                    <table border="0" width="100%" cellspacing="0" cellpadding="1">
+# From:, To:, Cc:
+[% RenderBlockStart("Row") %]
+                                        <tr>
+                                            <td class="contentkey" width="15%">[% Translate(Data.Key) | html %]:</td>
+                                            <td class="contentvalue" width="85%"> <div title="[% Data.Value | html %]">[% Data.Value | truncate(160) | html %]</div></td>
+                                        </tr>
+[% RenderBlockEnd("Row") %]
+                                        <tr>
+                                            <td class="contentkey">[% Translate("Created") | html %]:</td>
+                                            <td class="contentvalue"> [% Data.Created | Localize("TimeLong") %] [% Translate("by") | html %] [% Translate(Data.SenderType) | html %]</td>
+                                        </tr>
+# show Dynamic Fields for each Article
+[% RenderBlockStart("ArticleDynamicField") %]
+                                        <tr>
+                                            <td class="contentkey" width="15%">[% Translate(Data.Label) | html %]:</td>
+                                            <td class="contentvalue" width="85%">
+                                                <div title="[% Data.Title | html %]">[% Data.Value %]</div>
+                                            </td>
+                                        </tr>
+[% RenderBlockEnd("ArticleDynamicField") %]
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#[% RenderBlockStart("ArticleDynamicField_Field1") %]
+#                                        <tr>
+#                                            <td class="contentkey" width="15%">[% Translate(Data.Label) | html %]:</td>
+#                                            <td class="contentvalue" width="85%">
+#                                                <div title="[% Data.Title | html %]">[% Data.Value %]</div>
+#                                            </td>
+#                                        </tr>
+#[% RenderBlockEnd("ArticleDynamicField_Field1") %]
+#[% RenderBlockStart("ArticleDynamicField_Field2") %]
+#                                        <tr>
+#                                            <td class="contentkey" width="15%">[% Translate(Data.Label) | html %]:</td>
+#                                            <td class="contentvalue" width="85%">
+#                                                <div title="[% Data.Title | html %]">[% Data.Value %]</div>
+#                                            </td>
+#                                        </tr>
+#[% RenderBlockEnd("ArticleDynamicField_Field2") %]
+                                        <tr>
+                                            <td class="contentkey">[% Translate("Type") | html %]:</td>
+                                            <td class="contentvalue"> [% Translate(Data.ArticleType) | html %]</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="contentkey">[% Translate("Attachment") | html %]:</td>
+                                            <td class="contentvalue"> [% Data.item("Article::ATM") %]</td>
+                                        </tr>
+                                    </table>
+[% Data.TextNote %]
+                                    <pre>
+[% Data.Body %]
+                                    </pre>
+                                </td>
+                            </tr>
+                        </table>
+<!-- end ticket -->
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<br/>
+[% RenderBlockEnd("Article") %]

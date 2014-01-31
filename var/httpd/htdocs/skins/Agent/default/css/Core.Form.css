@@ -219,6 +219,10 @@ button.Reset:active {
     font-size: 2px;
 }
 
+.ShowTreeSelection:focus {
+    background-color: #ddd;
+}
+
 .Field .ShowTreeSelection, .WidgetSettingsForm .ShowTreeSelection {
     display: inline-block;
 }
@@ -294,6 +298,11 @@ button.Reset:active {
 }
 
 #JSTree .jstree-hovered {
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+#JSTree a:focus {
     background-color: #eee;
     border-color: #ddd;
 }
@@ -407,13 +416,13 @@ form label.LabelError {
     background-color: #CCCCCC;
     border-radius: 5px 0 0 5px;
     font-size: 11px;
-    left: -30px;
+    right: 100%;
     top: 10px;
     padding: 0 5px;
     position: absolute;
     text-align: center;
     text-shadow: 1px 1px 1px #FFFFFF;
-    width: 20px;
+    min-width: 20px;
     color: #555;
 }
 

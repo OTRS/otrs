@@ -1,0 +1,45 @@
+# --
+# ActivityDialogFooter.tt - provides ActivityDialogFooter HTML for the AgentTicketProcess.pm
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+# nofilter(TidyAll::Plugin::OTRS::DTL::Format)
+                    </fieldset>
+                </div>
+[% RenderBlockStart("Footer") %]
+                <div class="[% Data.FooterCSSClass | html %]">
+[% RenderBlockStart("SubmitAdviceText") %]
+                    <p class="SubmitInfo">[% Data.AdviceText | html %]</p>
+[% RenderBlockEnd("SubmitAdviceText") %]
+                    <button class="Primary CallForAction" id="[% Data.ButtonID | html %]" accesskey="g" title="[% Translate(Data.ButtonTitle) | html %] (g)" type="submit" value="[% Translate(Data.ButtonText) | html %]"><span>[% Translate(Data.ButtonText) | html %]</span></button>
+                </div>
+[% RenderBlockEnd("Footer") %]
+            </div>
+        </form>
+    </div>
+</div>
+[% RenderBlockStart("ParentReload") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+window.opener.Core.UI.Popup.FirePopupEvent('Reload');
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ParentReload") %]
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Form.Validate.Init();
+
+// Register event for tree selection dialog
+Core.UI.TreeSelection.InitTreeSelection();
+//]]></script>
+[% END %]
+
+[% RenderBlockStart("FooterJS") %]
+<script type="text/javascript">
+[% PROCESS JSOnDocumentCompleteInsert %]
+</script>
+[% RenderBlockEnd("FooterJS") %]

@@ -1,0 +1,117 @@
+# --
+# AgentDashboardCustomerUserList.tt - provides HTML for global dashboard
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("ContentLargeCustomerUserListNavBar") %]
+<span class="Pagination">
+    [% Data.SiteNavBar %]
+</span>
+[% RenderBlockEnd("ContentLargeCustomerUserListNavBar") %]
+[% RenderBlockStart("ContentLargeCustomerUserAdd") %]
+<h2><a class="CallForAction Plus" href="[% Env("Baselink") %]Action=AdminCustomerUser;Subaction=Add;CustomerID=[% Data.CustomerID | uri %]"><span>[% Translate("Add Customer") | html %]</span></a></h2>
+[% RenderBlockEnd("ContentLargeCustomerUserAdd") %]
+
+<table class="DataTable">
+    <thead>
+        <tr>
+            <th>[% Translate("Customer login") | html %]</th>
+            <th>[% Translate("Customer information") | html %]</th>
+            <th>[% Translate("Open") | html %]</th>
+            <th>[% Translate("Closed") | html %]</th>
+[% RenderBlockStart("OverviewResultNewAgentTicketPhone") %]
+            <th>[% Translate("Phone ticket") | html %]</th>
+[% RenderBlockEnd("OverviewResultNewAgentTicketPhone") %]
+[% RenderBlockStart("OverviewResultNewAgentTicketEmail") %]
+            <th>[% Translate("Email ticket") | html %]</th>
+[% RenderBlockEnd("OverviewResultNewAgentTicketEmail") %]
+[% RenderBlockStart("OverviewResultSwitchToCustomer") %]
+            <th>[% Translate("Login as") | html %]</th>
+[% RenderBlockEnd("OverviewResultSwitchToCustomer") %]
+        </tr>
+    </thead>
+    <tbody>
+[% RenderBlockStart("ContentLargeCustomerUserListRow") %]
+        <tr>
+            <td>
+[% RenderBlockStart("ContentLargeCustomerUserListRowCustomerKeyLink") %]
+                <a href="[% Env("Baselink") %]Action=AdminCustomerUser;Subaction=Change;ID=[% Data.CustomerKey | uri %];Nav=Agent" class="AsBlock MasterActionLink">
+                    [% Data.CustomerKey | html %]
+                </a>
+[% RenderBlockEnd("ContentLargeCustomerUserListRowCustomerKeyLink") %]
+[% RenderBlockStart("ContentLargeCustomerUserListRowCustomerKeyText") %]
+                [% Data.CustomerKey | html %]
+[% RenderBlockEnd("ContentLargeCustomerUserListRowCustomerKeyText") %]
+            </td>
+            <td>
+                [% Data.CustomerListEntry | html %]
+            </td>
+[% RenderBlockStart("ContentLargeCustomerUserListRowCustomerUserTicketsOpen") %]
+            <td>
+                <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=Open;CustomerUserLogin=[% Data.CustomerKeySQL | uri %]" title="[% Translate("%s open ticket(s) of %s", Data.Count, Data.CustomerKey) | html %]" class="AsBlock">
+                    [% Data.Count | html %]
+                </a>
+            </td>
+[% RenderBlockEnd("ContentLargeCustomerUserListRowCustomerUserTicketsOpen") %]
+[% RenderBlockStart("ContentLargeCustomerUserListRowCustomerUserTicketsClosed") %]
+            <td>
+                <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=Closed;CustomerUserLogin=[% Data.CustomerKeySQL | uri %]" title="[% Translate("%s closed ticket(s) of %s", Data.Count, Data.CustomerKey) | html %]" class="AsBlock">
+                    [% Data.Count | html %]
+                </a>
+            </td>
+[% RenderBlockEnd("ContentLargeCustomerUserListRowCustomerUserTicketsClosed") %]
+[% RenderBlockStart("ContentLargeCustomerUserListNewAgentTicketPhone") %]
+            <td>
+                <a href="[% Env("Baselink") %]Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=[% Data.CustomerKey | uri %]" title="[% Translate("New phone ticket from %s", Data.CustomerKey) | html %]">
+                    <span>[% Translate("Create") | html %]</span>
+                </a>
+            </td>
+[% RenderBlockEnd("ContentLargeCustomerUserListNewAgentTicketPhone") %]
+[% RenderBlockStart("ContentLargeCustomerUserListNewAgentTicketEmail") %]
+            <td>
+                <a href="[% Env("Baselink") %]Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=[% Data.CustomerKey | uri %]" title="[% Translate("New email ticket to %s", Data.CustomerKey) | html %]">
+                    <span>[% Translate("Create") | html %]</span>
+                </a>
+            </td>
+[% RenderBlockEnd("ContentLargeCustomerUserListNewAgentTicketEmail") %]
+[% RenderBlockStart("OverviewResultRowSwitchToCustomer") %]
+            <td>
+                <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminCustomerUser;Subaction=Switch;ID=[% Data.CustomerKey | uri %];[% Env("ChallengeTokenParam") | html %]" target="_blank">[% Translate("Switch to customer") | html %]</a>
+            </td>
+[% RenderBlockEnd("OverviewResultRowSwitchToCustomer") %]
+        </tr>
+[% RenderBlockEnd("ContentLargeCustomerUserListRow") %]
+[% RenderBlockStart("ContentLargeCustomerUserListNone") %]
+        <tr>
+            <td>
+                [% Translate("none") | html %]
+            </td>
+        </tr>
+[% RenderBlockEnd("ContentLargeCustomerUserListNone") %]
+    </tbody>
+</table>
+
+[% RenderBlockStart("ContentLargeTicketGenericRefresh") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Config.Set('RefreshSeconds_[% Data.NameHTML | html %]', parseInt("[% Data.RefreshTime | html %]", 10) || 0);
+if (Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]')) {
+    Core.Config.Set('Timer_[% Data.NameHTML | html %]', window.setTimeout(function() {
+
+        // get active filter
+        var Filter = $('#Dashboard[% Data.Name | html %]-box').find('.Tab.Actions li.Selected a').attr('data-filter');
+        $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
+        Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=[% Data.CustomerID | html %]', function () {
+            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard[% Data.Name | html %]'));
+            $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
+        });
+        clearTimeout(Core.Config.Get('Timer_[% Data.NameHTML | html %]'));
+    }, Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]') * 1000));
+}
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ContentLargeTicketGenericRefresh") %]

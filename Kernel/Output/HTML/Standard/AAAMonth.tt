@@ -1,0 +1,33 @@
+# --
+# AAAMonth.tt - $Text variable file
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% Translate("Jan") | html %]
+[% Translate("Feb") | html %]
+[% Translate("Mar") | html %]
+[% Translate("Apr") | html %]
+[% Translate("May") | html %]
+[% Translate("Jun") | html %]
+[% Translate("Jul") | html %]
+[% Translate("Aug") | html %]
+[% Translate("Sep") | html %]
+[% Translate("Oct") | html %]
+[% Translate("Nov") | html %]
+[% Translate("Dec") | html %]
+[% Translate("January") | html %]
+[% Translate("February") | html %]
+[% Translate("March") | html %]
+[% Translate("April") | html %]
+[% Translate("May_long") | html %]
+[% Translate("June") | html %]
+[% Translate("July") | html %]
+[% Translate("August") | html %]
+[% Translate("September") | html %]
+[% Translate("October") | html %]
+[% Translate("November") | html %]
+[% Translate("December") | html %]

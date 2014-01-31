@@ -1,0 +1,16 @@
+# --
+# CustomerTicketSearchOpenSearchDescription.tt - provides opensearch form for CustomerTicketSearch
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<?xml version="1.0" encoding="utf-8" ?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:ie="http://schemas.microsoft.com/Search/2008/">
+<ShortName>[% Config("ProductName") | html %] - [% Translate("Customer") | html %] ([% Config("Ticket::Hook") | html %])</ShortName>
+<Description>[% Config("ProductName") | html %] - [% Translate("Customer") | html %] ([% Config("Ticket::Hook") | html %])</Description>
+<InputEncoding>[% Env("UserCharset") %]</InputEncoding>
+<Url type="text/html" template="[% Config("HttpType") %]://[% Config("FQDN") %][% Env("Baselink") %]Action=CustomerTicketSearch;Subaction=Search;TicketNumber={searchTerms}" />
+<Image height="16" width="16" type="image/x-icon">[% Config("HttpType") %]://[% Config("FQDN") %][% Config("Frontend::ImagePath") %]icons/product.ico</Image>
+</OpenSearchDescription>

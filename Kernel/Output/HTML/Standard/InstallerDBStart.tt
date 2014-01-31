@@ -1,0 +1,68 @@
+# --
+# InstallerDBStart.tt - provides the Installer's form to configure the DB
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("DatabaseStart") %]
+<div class="W950px SpacingTop SpacingBottom CenterBox">
+    <form action="[% Env("CGIHandle") %]" method="post" id="FormDB" class="PreventMultipleSubmits">
+        <input type="hidden" name="Action"    value="Installer" />
+        <input type="hidden" name="Subaction" value="DB" />
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate(Data.Item) | html %] ([% Data.Step %])</h2>
+            </div>
+
+            <div class="Content">
+                <fieldset class="TableLike">
+                    <label for="DBType">[% Translate("Type") | html %]:</label>
+                    <div class="Field">
+                        [% Data.SelectDBType %]
+                    </div>
+                    <div class="Clear"></div>
+
+                    <label>[% Translate("Install Type") | html %]:</label>
+                    <div class="Field">
+                        <div>
+                            <input type="radio" id="DBInstallTypeCreateDB" name="DBInstallType" checked value="CreateDB" />
+                            <label for="DBInstallTypeCreateDB">[% Translate("Create a new database for OTRS") | html %]</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="DBInstallTypeUseDB" name="DBInstallType" value="UseDB" />
+                            <label for="DBInstallTypeUseDB">[% Translate("Use an existing database for OTRS") | html %]</label>
+                        </div>
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <div class="Spacing Right">
+                    <button class="Primary" type="submit" id="FormDBSubmit">[% Translate("Next") | html %]</button>
+                </div>
+                <div class="Clear"></div>
+            </div>
+        </div>
+    </form>
+</div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+// Allow only CreateDB if database is not Oracle
+$('select#DBType').bind('change', function(){
+    if (/oracle/.test($(this).val())) {
+        $("#DBInstallTypeUseDB").attr("checked", true);
+        $("#DBInstallTypeUseDB").attr("disabled", "disabled");
+        $("#DBInstallTypeCreateDB").attr("disabled", "disabled");
+    }
+    else {
+        $("#DBInstallTypeUseDB").removeAttr("disabled");
+        $("#DBInstallTypeCreateDB").removeAttr("disabled");
+        $("#DBInstallTypeCreateDB").attr("checked", true);
+    }
+}).trigger('change');
+//]]></script>
+[% END %]
+[% RenderBlockEnd("DatabaseStart") %]

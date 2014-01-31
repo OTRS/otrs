@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/Driver/Base.pm - Dynamic field backend functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -153,17 +153,12 @@ EOF
     }
 
     # text
+    $HTMLString .= $Param{LayoutObject}->{LanguageObject}->Translate("$LabelText");
     if ( $Param{AdditionalText} ) {
-        $HTMLString .= <<"EOF";
-    \$Text{"$LabelText"} (\$Text{"$Param{AdditionalText}"}):
-EOF
-
+        $HTMLString .= " ("
+            . $Param{LayoutObject}->{LanguageObject}->Translate("$Param{AdditionalText}") . ")";
     }
-    else {
-        $HTMLString .= <<"EOF";
-    \$Text{"$LabelText"}:
-EOF
-    }
+    $HTMLString .= ":\n";
 
     # closing tag
     $HTMLString .= <<"EOF";

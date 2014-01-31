@@ -1,0 +1,232 @@
+# --
+# AdminDynamicField.tt - provides HTML form for DynamicFields
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("Main") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Dynamic Fields Management") | html %] - [% Translate(Data.Action) | html %]</h1>
+
+    <div class="Clear"></div>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("ActionAddDynamicField") %]
+                    <li>
+                        <h3><label for="[% Data.SelectName | html %]">[% Translate(Data.ObjectType) | html %]</label></h3>
+                        [% Data.AddDynamicFieldStrg %]
+                        <div class="FieldExplanation">
+                            <p>[% Translate("Add new field for object") | html %]: [% Translate(Data.ObjectType) | html %]</p>
+                        </div>
+                    </li>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#[% Data.SelectName %]').bind('change', function() {
+    if ($(this).val() !== '') {
+        Core.Agent.Admin.DynamicField.Redirect($(this).val(), '[% Data.ObjectType %]');
+
+        // reset select value to none
+        $(this).val('');
+    }
+});
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ActionAddDynamicField") %]
+                </ul>
+            </div>
+        </div>
+
+[% RenderBlockStart("ConfigSet") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Config.Set('DynamicFields', [% Data.FieldDialogsConfig %] );
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ConfigSet") %]
+
+[% RenderBlockStart("Hint") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <div class="FieldExplanation">
+                    <p>
+                        [% Translate("To add a new field, select the field type form one of the object's list, the object defines the boundary of the field and it can't be changed after the field creation.") | html %]
+                    </p>
+                </div>
+            </div>
+        </div>
+[% RenderBlockEnd("Hint") %]
+    </div>
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Dynamic Fields List") | html %]</h2>
+
+[% RenderBlockStart("ContextSettings") %]
+                <ul class="ContextFunctions">
+                    <li class="ContextSettings">
+                        <a href="#" id="ShowContextSettingsDialog" title="[% Translate("Settings") | html %]"><span>[% Translate("Settings") | html %]</span></a>
+                    </li>
+                </ul>
+
+                <div id="ContextSettingsDialogContainer" class="Hidden">
+                    <form action="[% Env("CGIHandle") %]" method="post" id="ContextSettingsDialog">
+                        <input type="hidden" name="Action" value="AgentPreferences"/>
+                        <input type="hidden" name="Subaction" value="Update"/>
+                        <input type="hidden" name="Group" value="[% Data.Group | html %]"/>
+                        <input type="hidden" name="RedirectURL" value="[% Data.RequestedURL | html %]"/>
+                        <fieldset class="TableLike">
+                            <label for="[% Data.PreferencesKey | html %]">[% Translate("Dynamic fields per page") | html %]:</label>
+                            <div class="Field">
+                                [% Data.PageShownString %]
+                            </div>
+                            <div class="Clear"></div>
+                        </fieldset>
+                    </form>
+                </div>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#ShowContextSettingsDialog').bind('click', function (Event) {
+    Core.UI.Dialog.ShowContentDialog($('#ContextSettingsDialogContainer'), [% Translate("Settings") | JSON %], '20%', 'Center', true,
+        [
+            {
+                Label: [% Translate("Submit") | JSON %],
+                Type: 'Submit',
+                Class: 'Primary'}
+        ]);
+    Event.preventDefault();
+    Event.stopPropagation();
+    return false;
+});
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ContextSettings") %]
+
+            </div>
+            <div class="DynamicFieldsPagination">
+                <span class="Pagination">
+[% RenderBlockStart("OverviewNavBarPageNavBar") %]
+                    [% Data.ResultLong %]
+                    [% Data.SiteNavBarLong %]
+[% RenderBlockEnd("OverviewNavBarPageNavBar") %]
+                </span>
+            </div>
+            <div class="Clear"></div>
+
+            <div class="DynamicFieldsContent">
+                <table class="DataTable" id="DynamicFieldsTable" summary="List of all registered Dynamic Fields">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Name") | html %]</th>
+                            <th>[% Translate("Label") | html %]</th>
+                            <th>[% Translate("Order") | html %]</th>
+                            <th>[% Translate("Type") | html %]</th>
+                            <th>[% Translate("Object") | html %]</th>
+                            <th>[% Translate("Validity") | html %]</th>
+                            <th>[% Translate("Delete") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("NoDataFound") %]
+                        <tr>
+                            <td colspan="6">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("NoDataFound") %]
+[% RenderBlockStart("DynamicFieldsRow") %]
+                        <tr id="DynamicFieldID_[% Data.ID | html %]" class="MasterAction">
+                            <td>
+                                <a href="[% Env("Baselink") %]Action=[% Data.ConfigDialog | uri %];Subaction=Change;ObjectType=[% Data.ObjectType | uri %];FieldType=[% Data.FieldType | uri %];ID=[% Data.ID | uri %]" title="[% Data.Name | html %]" class="MasterActionLink">[% Data.Name %]</a>
+                            </td>
+                            <td>
+                                <div>[% Translate(Data.Label) | html %]</div>
+                            </td>
+                            <td>
+                                <div>[% Data.FieldOrder %]</div>
+                            </td>
+                            <td>
+                                <div>[% Translate(Data.FieldTypeName) | html %]</div>
+                            </td>
+                            <td>
+                                <div>[% Translate(Data.ObjectTypeName) | html %]</div>
+                            </td>
+                            <td>
+                                <div>[% Translate(Data.Valid) | html %]</div>
+                            </td>
+                            <td class="Center">
+[% RenderBlockStart("DeleteLink") %]
+                                <div>
+                                    <a class="TrashCan DynamicFieldDelete" href="#" data-query-string="Action=AdminDynamicField;Subaction=DynamicFieldDelete;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this field") | html %]">[% Translate("Delete this field") | html %]</a>
+                                </div>
+[% RenderBlockEnd("DeleteLink") %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("DynamicFieldsRow") %]
+                    </tbody>
+                </table>
+            </div>
+        </div>
+[% RenderBlockStart("MaxFieldOrder") %]
+        <input id="MaxFieldOrder" type="hidden" name="MaxFieldOrder" value="[% Data.MaxFieldOrder | html %]"/>
+[% RenderBlockEnd("MaxFieldOrder") %]
+
+        <div class="Clear"></div>
+    </div>
+</div>
+[% RenderBlockEnd("Main") %]
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('.MasterAction').bind('click', function (Event) {
+    var $MasterActionLink = $(this).find('.MasterActionLink');
+    // only act if the link was not clicked directly
+    if (Event.target !== $MasterActionLink.get(0)) {
+        window.location = $MasterActionLink.attr('href');
+        return false;
+    }
+});
+
+$('.DynamicFieldDelete').bind('click', function (Event) {
+
+    if (window.confirm([% Translate("Do you really want to delete this dynamic field? ALL associated data will be LOST!") | JSON %])) {
+
+        Core.UI.Dialog.ShowDialog({
+            Title: [% Translate("Delete field") | JSON %],
+            HTML: 'Deleting the field and its data. This may take a while...',
+            Modal: true,
+            CloseOnClickOutside: false,
+            CloseOnEscape: false,
+            PositionTop: '20%',
+            PositionLeft: 'Center',
+            Buttons: []
+        });
+
+        Core.AJAX.FunctionCall(
+            '[% Env("Baselink") %]',
+            $(this).data('query-string') + 'Confirmed=1;',
+            function() {
+                window.location.reload();
+            }
+        );
+    }
+
+    // don't interfere with MasterAction
+    Event.stopPropagation();
+    Event.preventDefault();
+    return false;
+});
+//]]></script>
+[% END %]

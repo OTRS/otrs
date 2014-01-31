@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -123,7 +123,7 @@ sub Run {
     # generate pdf output
     if ( $Self->{PDFObject} ) {
         my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
-        my $Time = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
+        my $Time      = $Self->{LayoutObject}->{Time};
         my %Page;
 
         # get maximum number of pages
@@ -350,9 +350,9 @@ sub _PDFOutputTicketInfos {
         },
         {
             Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Created') . ':',
-            Value => $Self->{LayoutObject}->Output(
-                Template => '$TimeLong{"$Data{"Created"}"}',
-                Data     => \%Ticket,
+            Value => $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
+                $Ticket{Created},
+                'DateFormat',
             ),
         },
     ];
@@ -707,12 +707,13 @@ sub _PDFOutputArticles {
         }
         $TableParam1{CellData}[$Row][0]{Content}
             = $Self->{LayoutObject}->{LanguageObject}->Get('Created') . ':';
-        $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-        $TableParam1{CellData}[$Row][1]{Content} = $Self->{LayoutObject}->Output(
-            Template => '$TimeLong{"$Data{"Created"}"}',
-            Data     => \%Article,
-        );
+        $TableParam1{CellData}[$Row][0]{Font} = 'ProportionalBold';
         $TableParam1{CellData}[$Row][1]{Content}
+            = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
+            $Article{Created},
+            'DateFormat',
+            ),
+            $TableParam1{CellData}[$Row][1]{Content}
             .= ' ' . $Self->{LayoutObject}->{LanguageObject}->Get('by');
         $TableParam1{CellData}[$Row][1]{Content}
             .= ' ' . $Self->{LayoutObject}->{LanguageObject}->Get( $Article{SenderType} );
@@ -1009,10 +1010,13 @@ sub _HTMLMask {
         for my $FileID ( sort keys %AtmIndex ) {
             my %File = %{ $AtmIndex{$FileID} };
             $File{Filename} = $Self->{LayoutObject}->Ascii2Html( Text => $File{Filename} );
+            my $DownloadText = $Self->{LayoutObject}->{LanguageObject}->Translate("Download");
             $Param{'Article::ATM'}
-                .= '<a href="$Env{"Baselink"}Action=CustomerTicketAttachment;'
+                .= '<a href="'
+                . $Self->{LayoutObject}->{Baselink}
+                . 'Action=CustomerTicketAttachment;'
                 . "ArticleID=$Article{ArticleID};FileID=$FileID\" target=\"attachment\" "
-                . "title=\"\$Text{\"Download\"}: $File{Filename}\">"
+                . "title=\"$DownloadText: $File{Filename}\">"
                 . "$File{Filename}</a> $File{Filesize}<br/>";
         }
 
@@ -1032,14 +1036,6 @@ sub _HTMLMask {
                 Text    => $Article{Body},
                 VMax    => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
             );
-
-            # do charset check
-            my $CharsetText = $Self->{LayoutObject}->CheckCharset(
-                %Param, %Article, Action => 'AgentTicketZoom',
-            );
-            if ($CharsetText) {
-                $Param{'Article::TextNote'} = $CharsetText;
-            }
         }
         $Self->{LayoutObject}->Block(
             Name => 'Article',

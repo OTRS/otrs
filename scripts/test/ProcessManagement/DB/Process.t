@@ -1,6 +1,6 @@
 # --
 # Process.t - ProcessManagement DB process tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1078,8 +1078,9 @@ for my $Test (@Tests) {
     my $ProcessList = $ProcessObject->ProcessList( %{ $Test->{Config} } );
 
     # remove original processes
+    PROCESSID:
     for my $ProcessID ( sort keys %{$OriginalProcessList} ) {
-        next if !$ProcessList->{$ProcessID};
+        next PROCESSID if !$ProcessList->{$ProcessID};
         delete $ProcessList->{$ProcessID};
     }
 

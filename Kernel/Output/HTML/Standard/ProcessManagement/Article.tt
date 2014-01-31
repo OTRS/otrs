@@ -1,0 +1,85 @@
+# --
+# Article.tt - provides Article fields HTML for the AgentTicketProcess.pm
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+[% RenderBlockStart("rw:Article") %]
+
+<div class="FieldSeparator"></div>
+
+[% RenderBlockStart("rw:Article:InformAgent") %]
+<label for="InformUserID">[% Translate("Inform Agent") | html %]:</label>
+<div class="Field">
+    [% Data.OptionStrg %]
+</div>
+<div class="Clear"></div>
+[% RenderBlockEnd("rw:Article:InformAgent") %]
+
+<label class="[% Data.MandatoryClass | html %]" for="Subject">
+[% RenderBlockStart("LabelSpanSubject") %]
+    <span class="Marker">*</span>
+[% RenderBlockEnd("LabelSpanSubject") %]
+    [% Data.LabelSubject | html %]:
+</label>
+<div class="Field">
+    <input type="text" id="Subject" name="Subject" value="[% Data.Subject | html %]" class="W75pc [% Data.ValidateRequired | html %] [% Data.SubjectServerError | html %] Validate_DependingRequiredAND Validate_Depending_RichText"/>
+    <div id="SubjectError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+    <div id="SubjectServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+</div>
+<div class="Clear"></div>
+
+<label class="[% Data.MandatoryClass | html %]" for="RichText">
+[% RenderBlockStart("LabelSpanBody") %]
+    <span class="Marker">*</span>
+[% RenderBlockEnd("LabelSpanBody") %]
+    [% Data.LabelBody | html %]:
+</label>
+<div class="RichTextField">
+[% RenderBlockStart("RichText") %]
+[% InsertTemplate("RichTextEditor.tt") %]
+[% RenderBlockEnd("RichText") %]
+    <textarea id="RichText" class="RichText [% Data.ValidateRequired | html %] [% Data.BodyServerError | html %] Validate_DependingRequiredAND Validate_Depending_Subject" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
+    <div id="RichTextError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+    <div id="RichTextServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+</div>
+<div class="Clear"></div>
+<label>[% Translate("Attachment") | html %]:</label>
+<div class="Field">
+    <ul>
+[% RenderBlockStart("Attachment") %]
+        <li>
+            [% Data.Filename | html %] ([% Data.Filesize | html %])
+            <button type="submit" id="AttachmentDelete[% Data.FileID | html %]" name="AttachmentDelete[% Data.FileID | html %]" value="[% Translate("Delete") | html %]" class="SpacingLeft">[% Translate("Delete") | html %]</button>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#AttachmentDelete[% Data.FileID | html %]').bind('click', function () {
+        Core.Form.Validate.DisableValidation($('#AttachmentDelete[% Data.FileID | html %]').closest('form'));
+    });
+//]]></script>
+[% END %]
+        </li>
+[% RenderBlockEnd("Attachment") %]
+        <li>
+            <input name="FileUpload" id="FileUpload" type="file" size="40"/>
+            <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
+        </li>
+    </ul>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#FileUpload').bind('change', function (Event) {
+        var $Form = $('#FileUpload').closest('form');
+        Core.Form.Validate.DisableValidation($Form);
+        $Form.find('#AttachmentUpload').val('1').end().submit();
+    });
+//]]></script>
+[% END %]
+</div>
+[% RenderBlockStart("rw:Article:DescriptionShort") %]
+<div class="Field FieldExplanation">[% Data.DescriptionShort %]</div>
+[% RenderBlockEnd("rw:Article:DescriptionShort") %]
+<div class="Clear"></div>
+<div class="FieldSeparator"></div>
+[% RenderBlockEnd("rw:Article") %]

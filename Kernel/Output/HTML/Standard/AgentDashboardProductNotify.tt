@@ -1,0 +1,28 @@
+# --
+# AgentDashboardProductNotify.tt - provides HTML for global dashboard
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<table class="DataTable">
+    <tbody>
+[% RenderBlockStart("ContentProductMessage") %]
+        <tr>
+            <td>
+                [% Data.Message %]
+                <hr width="100%"/>
+            </td>
+        </tr>
+[% RenderBlockEnd("ContentProductMessage") %]
+[% RenderBlockStart("ContentProductRelease") %]
+        <tr>
+            <td>
+                [% Translate("%s %s is available!", Data.Name, Data.Version) | html %] [% Translate("Please update now.") | html %] (<a href="[% Data.Link %]" target="_blank">[% Translate("Release Note") | html %] - [% Translate("Level") | html %]: [% Translate(Data.Severity) | html %]</a>)
+            </td>
+        </tr>
+[% RenderBlockEnd("ContentProductRelease") %]
+    </tbody>
+</table>

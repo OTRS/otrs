@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -477,13 +477,15 @@ sub CheckFollowUp {
     # Try to find ticket number in References and In-Reply-To header.
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInReferences') ) {
         my @References = $Self->{ParserObject}->GetReferences();
+
+        REFERENCE:
         for my $Reference (@References) {
 
             # get ticket id of message id
             my $TicketID = $Self->{TicketObject}->ArticleGetTicketIDOfMessageID(
                 MessageID => "<$Reference>",
             );
-            next if !$TicketID;
+            next REFERENCE if !$TicketID;
             my $Tn = $Self->{TicketObject}->TicketNumberLookup( TicketID => $TicketID, );
             if ( $TicketID && $Tn ) {
                 return ( $Tn, $TicketID );

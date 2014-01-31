@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminPGP.pm - to add/update/delete pgp keys
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -319,7 +319,8 @@ sub Run {
         if ( $Self->{CryptObject}->Check() ) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data     => '$Text{"' . $Self->{CryptObject}->Check() . '"}',
+                Data     => $Self->{LayoutObject}->{LanguageObject}
+                    ->Translate( $Self->{CryptObject}->Check() ),
             );
         }
         $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP', Data => \%Param );

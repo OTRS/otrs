@@ -1,0 +1,82 @@
+# --
+# ActivityDialogHeader.tt - provides ActivityDialogHeader HTML for the AgentTicketProcess.pm
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="LayoutFixedSidebar SidebarLast [% Data.MainBoxClass | html %]">
+
+    <div class="SidebarColumn">
+[% RenderBlockStart("ProcessInfoSidebar") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Process Information") | html %]</h2>
+            </div>
+            <div class="Content">
+                <fieldset class="TableLike FixedLabelSmall">
+                    <label>[% Translate("Process") | html %]:</label>
+                    <p class="Value FixedValueSmall" title="[% Data.Process | html %]">[% Data.Process | html %]</p>
+                    <div class="Clear"></div>
+                </fieldset>
+
+                <fieldset class="TableLike FixedLabelSmall">
+                    <label>[% Translate("Activity") | html %]:</label>
+                    <p class="Value FixedValueSmall" title="[% Data.Activity | html %]">[% Data.Activity | html %]</p>
+                    <div class="Clear"></div>
+
+                    <label>[% Translate("Dialog") | html %]:</label>
+                    <p class="Value FixedValueSmall" title="[% Data.ActivityDialog | html %]">[% Data.ActivityDialog | html %]</p>
+                    <div class="Clear"></div>
+[% RenderBlockStart("ProcessInfoSidebarActivityDialogDesc") %]
+                    <label>[% Translate("Description") | html %]:</label>
+                    <p class="Value FixedValueSmall" title="[% Data.ActivityDialogDescription | html %]">[% Data.ActivityDialogDescription | html %]</p>
+                    <div class="Clear"></div>
+[% RenderBlockEnd("ProcessInfoSidebarActivityDialogDesc") %]
+                </fieldset>
+            </div>
+        </div>
+[% RenderBlockEnd("ProcessInfoSidebar") %]
+    </div>
+
+    <div class="ContentColumn">
+        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="[% Data.FormName %]" id="[% Data.FormID %]" class="Validate PreventMultipleSubmits">
+            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+            <input type="hidden" name="Subaction" value="[% Data.Subaction | html %]"/>
+            <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+            <input type="hidden" name="ProcessEntityID" value="[% Data.ProcessEntityID | html %]"/>
+            <input type="hidden" name="ActivityDialogEntityID" value="[% Data.ActivityDialogEntityID | html %]"/>
+            <input type="hidden" name="Expand" id="Expand" value=""/>
+            <input type="hidden" name="AJAXDialog" id="AJAXDialog" value="[% Data.AJAXDialog | html %]"/>
+            <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
+            <div class="LayoutPopup ARIARoleMain">
+[% RenderBlockStart("Header") %]
+                <div class="Header">
+                    <h1>
+                        [% Data.Name | html %]
+[% RenderBlockStart("DescriptionShort") %]
+                        - [% Data.DescriptionShort | html %]
+[% RenderBlockEnd("DescriptionShort") %]
+                    </h1>
+                    <p>
+[% RenderBlockStart("DescriptionLong") %]
+                        [% Data.DescriptionLong | html %] -
+[% RenderBlockEnd("DescriptionLong") %]
+[% RenderBlockStart("CancelLink") %]
+                        <a class="CancelClosePopup" href="#">[% Translate("Cancel & close window") | html %]</a>
+[% RenderBlockEnd("CancelLink") %]
+                    </p>
+[% RenderBlockStart("PropertiesLock") %]
+                    <p>
+                        [% Translate("The ticket has been locked") | html %].
+                        <a class="UndoClosePopup" href="[% Env("Baselink") %]Action=AgentTicketLock;Subaction=Unlock;TicketID=[% Data.TicketID %];[% Env("ChallengeTokenParam") | html %]">
+                            [% Translate("Undo & close window") | html %]
+                        </a>
+                    </p>
+[% RenderBlockEnd("PropertiesLock") %]
+                </div>
+[% RenderBlockEnd("Header") %]
+                <div class="Content">
+                    <fieldset class="TableLike">

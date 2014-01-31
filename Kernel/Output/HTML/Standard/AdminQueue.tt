@@ -1,0 +1,370 @@
+# --
+# AdminQueue.tt - provides HTML form for AdminQueue
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("Overview") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Manage Queues") | html %]</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+
+[% RenderBlockStart("ActionList") %]
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+
+[% RenderBlockStart("ActionOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionOverview") %]
+
+[% RenderBlockStart("ActionAdd") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Add" class="CallForAction Plus"><span>[% Translate("Add queue") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ActionAdd") %]
+
+                </ul>
+            </div>
+[% RenderBlockEnd("ActionList") %]
+
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+
+[% RenderBlockStart("OverviewResult") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("List") | html %]</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Name") | html %]</th>
+                            <th>[% Translate("Group") | html %]</th>
+                            <th>[% Translate("Comment") | html %]</th>
+                            <th>[% Translate("Validity") | html %]</th>
+                            <th>[% Translate("Changed") | html %]</th>
+                            <th>[% Translate("Created") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("NoDataFoundMsg") %]
+                        <tr>
+                            <td colspan="6">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockStart("OverviewResultRow") %]
+                        <tr>
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Change;QueueID=[% Data.QueueID | uri %]">[% Data.Name | html %]</a>
+                            </td>
+                            <td>[% Data.GroupName | html %]</td>
+                            <td title="[% Data.Comment | html %]">[% Data.Comment | truncate(26) | html %]</td>
+                            <td>[% Translate(Data.Valid) | html %]</td>
+                            <td>[% Data.ChangeTime | Localize("TimeShort") %]</td>
+                            <td>[% Data.CreateTime | Localize("TimeShort") %]</td>
+                        </tr>
+[% RenderBlockEnd("OverviewResultRow") %]
+                    </tbody>
+                </table>
+            </div>
+        </div>
+[% RenderBlockEnd("OverviewResult") %]
+
+[% RenderBlockStart("OverviewUpdate") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+[% RenderBlockStart("HeaderAdd") %]
+                <h2>[% Translate("Add Queue") | html %]</h2>
+[% RenderBlockEnd("HeaderAdd") %]
+[% RenderBlockStart("HeaderEdit") %]
+                <h2>[% Translate("Edit Queue") | html %]</h2>
+[% RenderBlockEnd("HeaderEdit") %]
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="[% Data.Action | uri %]Action"/>
+                    <input type="hidden" name="QueueID" value="[% Data.QueueID | html %]"/>
+                    <fieldset class="TableLike">
+                        <label class="Mandatory" for="Name"><span class="Marker">*</span> [% Translate("Name") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Name" id="Name" value="[% Data.Name | html %]" class="W50pc Validate_Required [% Data.NameInvalid | html %]" maxlength="50"/>
+                            <div id="NameError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="NameServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ParentQueueID">[% Translate("Sub-queue of") | html %]:</label>
+                        <div class="Field">
+                            [% Data.QueueOption %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="GroupID"><span class="Marker">*</span> [% Translate("Group") | html %]:</label>
+                        <div class="Field">
+                            [% Data.GroupOption %]
+                            <div id="GroupIDError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="GroupIDServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="UnlockTimeout">
+                            [% Translate("Unlock timeout") | html %] [% Translate("minutes") | html %]:
+                        </label>
+                        <div class="Field">
+                            <input type="text" name="UnlockTimeout" id="UnlockTimeout" value="[% Data.UnlockTimeout | html %]" class="W20pc" maxlength="10"/>
+                            <p class="FieldExplanation">
+                                [% Translate("0 = no unlock") | html %] - 24 [% Translate("hours") | html %] = 1440 [% Translate("minutes") | html %] - [% Translate("Only business hours are counted.") | html %]
+                            </p>
+                            <p class="FieldExplanation">
+                                [% Translate("If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="FirstResponseTime">
+                            [% Translate("Escalation - first response time") | html %] ([% Translate("minutes") | html %]):
+                        </label>
+                        <div class="Field">
+                            <input type="text" name="FirstResponseTime" id="FirstResponseTime" value="[% Data.FirstResponseTime | html %]" class="W20pc" maxlength="10"/>
+                            ( <label>[% Translate("Notify by") | html %]  [% Data.FirstResponseNotifyOptionStrg %] </label> )
+                            <p class="FieldExplanation">
+                                [% Translate("0 = no escalation") | html %] - 24 [% Translate("hours") | html %] = 1440 [% Translate("minutes") | html %] - [% Translate("Only business hours are counted.") | html %]
+                            </p>
+                            <p class="FieldExplanation">
+                                [% Translate("If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="UpdateTime">
+                            [% Translate("Escalation - update time") | html %] ([% Translate("minutes") | html %]):
+                        </label>
+                        <div class="Field">
+                            <input type="text" name="UpdateTime" id="UpdateTime" value="[% Data.UpdateTime | html %]" class="W20pc" maxlength="10"/>
+                            ( <label>[% Translate("Notify by") | html %]  [% Data.UpdateNotifyOptionStrg %]</label> )
+                            <p class="FieldExplanation">
+                                [% Translate("0 = no escalation") | html %] - 24 [% Translate("hours") | html %] = 1440 [% Translate("minutes") | html %] - [% Translate("Only business hours are counted.") | html %]
+                            </p>
+                            <p class="FieldExplanation">
+                                [% Translate("If there is an article added, such as a follow-up via email or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="SolutionTime">
+                            [% Translate("Escalation - solution time") | html %] ([% Translate("minutes") | html %]):
+                        </label>
+                        <div class="Field">
+                            <input type="text" name="SolutionTime" id="SolutionTime" value="[% Data.SolutionTime | html %]" class="W20pc" maxlength="10"/>
+                            ( <label>[% Translate("Notify by") | html %]  [% Data.SolutionNotifyOptionStrg %] </label>)
+                            <p class="FieldExplanation">
+                                [% Translate("0 = no escalation") | html %] - 24 [% Translate("hours") | html %] = 1440 [% Translate("minutes") | html %] - [% Translate("Only business hours are counted.") | html %]
+                            </p>
+                            <p class="FieldExplanation">
+                                [% Translate("If the ticket is not set to closed before the time defined here expires, the ticket is escalated.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="FollowUpID"><span class="Marker">*</span> [% Translate("Follow up Option") | html %]:</label>
+                        <div class="Field">
+                            [% Data.FollowUpOption %]
+                            <p class="FieldExplanation">
+                                [% Translate("Specifies if follow up to closed tickets would re-open the ticket, be rejected or lead to a new ticket.") | html %]
+                            </p>
+                            <div id="FollowUpIDError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="FollowUpIDServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="FollowUpLock"><span class="Marker">*</span> [% Translate("Ticket lock after a follow up") | html %]:</label>
+                        <div class="Field">
+                            [% Data.FollowUpLockYesNoOption %]
+                            <p class="FieldExplanation">
+                                [% Translate("If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner.") | html %]
+                            </p>
+                            <div id="FollowUpLockError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="FollowUpLockServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="SystemAddressID"><span class="Marker">*</span> [% Translate("System address") | html %]:</label>
+                        <div class="Field">
+                            [% Data.SystemAddressOption %]
+                            <p class="FieldExplanation">
+                                [% Translate("Will be the sender address of this queue for email answers.") | html %]
+                            </p>
+                            <div id="SystemAddressIDError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="SystemAddressIDServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+[% RenderBlockStart("OptionalField") %]
+                        <label for="DefaultSignKey">[% Translate("Default sign key") | html %] <em>([% Data.Email | html %])</em>:</label>
+                        <div class="Field">
+                            [% Data.DefaultSignKeyOption %]
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("OptionalField") %]
+
+                        <label class="Mandatory" for="SalutationID"><span class="Marker">*</span> [% Translate("Salutation") | html %]:</label>
+                        <div class="Field">
+                            [% Data.SalutationOption %]
+                            <p class="FieldExplanation">
+                                [% Translate("The salutation for email answers.") | html %]
+                            </p>
+                            <div id="SalutationIDError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="SalutationIDServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="SignatureID"><span class="Marker">*</span> [% Translate("Signature") | html %]:</label>
+                        <div class="Field">
+                            [% Data.SignatureOption %]
+                            <p class="FieldExplanation">
+                                [% Translate("The signature for email answers.") | html %]
+                            </p>
+                            <div id="SignatureIDError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="SignatureIDServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Calendar">[% Translate("Calendar") | html %]:</label>
+                        <div class="Field">
+                            [% Data.CalendarOption %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> [% Translate("Validity") | html %]:</label>
+                        <div class="Field">
+                            [% Data.ValidOption %]
+                            <div id="ValidIDError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Comment">[% Translate("Comment") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Comment" id="Comment" value="[% Data.Comment | html %]" class="W50pc" maxlength="250"/>
+                        </div>
+                        <div class="Clear"></div>
+
+[% RenderBlockStart("Item") %]
+[% RenderBlockStart("InputKey") %]
+                        <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %] [% Translate(Data.Key) | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="[% Data.Name | html %]" id="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" class="W50pc" maxlength="30"/>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("InputKey") %]
+[% RenderBlockStart("Input") %]
+                        <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="[% Data.Name | html %]" id="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" class="W50pc" maxlength="30"/>
+                            <p class="FieldExplanation">
+                                [% Translate(Data.Desc) | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("Input") %]
+[% RenderBlockStart("TextArea") %]
+                        <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %]:</label>
+                        <div class="Field">
+                            <textarea name="[% Data.Name | html %]" id="[% Data.Name | html %]" rows="[% Data.Rows | html %]" cols="[% Data.Cols | html %]">[% Data.SelectedID | html %]</textarea>
+                            <p class="FieldExplanation">
+                                [% Translate(Data.Desc) | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("TextArea") %]
+[% RenderBlockStart("Option") %]
+                        <label for="[% Data.Name %]">[% Translate(Data.Label) | html %] [% Translate(Data.Key) | html %]:</label>
+                        <div class="Field">
+                            [% Data.Option %]
+                            <p class="FieldExplanation">
+                                [% Translate(Data.Desc) | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("Option") %]
+[% RenderBlockStart("Upload") %]
+                        <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %] [% Translate(Data.Key) | html %]:</label>
+                        <div class="Field">
+                            <input type="file" name="[% Data.Name | html %]" id="[% Data.Name | html %]" class="W50pc" maxlength="30"/>
+                            <a href="">[% Data.Filename | html %]</a>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("Upload") %]
+[% RenderBlockStart("Password") %]
+                        <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %] [% Translate(Data.Key) | html %]:</label>
+                        <div class="Field">
+                            <input type="password" name="[% Data.Name | html %]" id="[% Data.Name | html %]" class="W50pc" maxlength="30" value=""/>
+                            <a href="">[% Data.Filename | html %]</a>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("Password") %]
+[% RenderBlockEnd("Item") %]
+                        <div class="Field SpacingTop">
+                            <button class="Primary" id="Submit" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+[% RenderBlockEnd("OverviewUpdate") %]
+    </div>
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("Overview") %]

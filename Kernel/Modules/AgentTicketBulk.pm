@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -247,8 +247,9 @@ sub Run {
 
             # error screen, don't show ticket
             $Output .= $Self->{LayoutObject}->Notify(
-                Data => $Ticket{TicketNumber}
-                    . ': $Text{"You don\'t have write access to this ticket."}',
+                Data => "$Ticket{TicketNumber}: "
+                    . $Self->{LayoutObject}->{LanguageObject}
+                    ->Translate("You don't have write access to this ticket."),
             );
             next TICKET_ID;
         }
@@ -258,7 +259,8 @@ sub Run {
         # check if it's already locked by somebody else
         if ( !$Self->{Config}->{RequiredLock} ) {
             $Output .= $Self->{LayoutObject}->Notify(
-                Data => $Ticket{TicketNumber} . ': $Text{"Ticket selected."}',
+                Data => "$Ticket{TicketNumber}: "
+                    . $Self->{LayoutObject}->{LanguageObject}->Translate("Ticket selected."),
             );
         }
         else {
@@ -269,8 +271,9 @@ sub Run {
                 );
                 if ( !$AccessOk ) {
                     $Output .= $Self->{LayoutObject}->Notify(
-                        Data => $Ticket{TicketNumber}
-                            . ': $Text{"Ticket is locked by another agent."}',
+                        Data => "$Ticket{TicketNumber}: "
+                            . $Self->{LayoutObject}->{LanguageObject}
+                            ->Translate("Ticket is locked by another agent."),
                     );
                     next TICKET_ID;
                 }
@@ -293,7 +296,8 @@ sub Run {
                 NewUserID => $Self->{UserID},
             );
             $Output .= $Self->{LayoutObject}->Notify(
-                Data => $Ticket{TicketNumber} . ': $Text{"Ticket locked."}',
+                Data => "$Ticket{TicketNumber}: "
+                    . $Self->{LayoutObject}->{LanguageObject}->Translate("Ticket locked."),
             );
         }
 

@@ -1,0 +1,23 @@
+# --
+# AgentDashboard.tt - provides HTML for agent dashboard
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("Content") %]
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarLast">
+    <h1>[% Translate("Dashboard") | html %]</h1>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.Dashboard.Init();
+//]]></script>
+[% END %]
+
+[% InsertTemplate("AgentDashboardCommon.tt") %]
+
+</div>
+[% RenderBlockEnd("Content") %]

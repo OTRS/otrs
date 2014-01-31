@@ -1,6 +1,6 @@
 # --
 # EmailParser.t - email parser tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -842,8 +842,10 @@ $EmailParserObject = Kernel::System::EmailParser->new(
 
 @Attachments = $EmailParserObject->GetAttachments();
 my $ContentLocation;
+
+ATTACHMENT:
 for my $Attachment (@Attachments) {
-    next if $Attachment->{ContentType} ne 'image/bmp; name="ole0.bmp"';
+    next ATTACHMENT if $Attachment->{ContentType} ne 'image/bmp; name="ole0.bmp"';
     $ContentLocation = $Attachment->{ContentID};
 }
 

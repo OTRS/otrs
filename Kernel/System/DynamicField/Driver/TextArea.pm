@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/Driver/TextArea.pm - Delegate for DynamicField TextArea Driver
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -167,21 +167,27 @@ sub EditFieldRender {
  # textarea. Otherwise the maxlenght property will prevent to enter more text than the maximum.
     my $HTMLString = <<"EOF";
 <textarea class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabel" rows="$RowsNumber" cols="$ColsNumber" >$Value</textarea>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-  \$('#$FieldName').attr('maxlength','$Self->{MaxLength}');
-//]]></script>
-<!--dtl:js_on_document_complete-->
+EOF
+
+    $Param{LayoutObject}->AddJSOnDocumentComplete( Code => <<"EOF");
+\$('#$FieldName').attr('maxlength','$Self->{MaxLength}');
 EOF
 
     # for client side validation
     my $DivID = $FieldName . 'Error';
 
+    my $ErrorMessage1
+        = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required or");
+    my $ErrorMessage2
+        = $Param{LayoutObject}->{LanguageObject}->Translate("The field content is too long!");
+    my $ErrorMessage3 = $Param{LayoutObject}->{LanguageObject}
+        ->Translate( "Maximum size is %s characters.", $Self->{MaxLength} );
+
     if ( $Param{Mandatory} ) {
         $HTMLString .= <<"EOF";
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"This field is required or"} \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "$Self->{MaxLength}"}
+        $ErrorMessage1 $ErrorMessage2 $ErrorMessage3
     </p>
 </div>
 EOF
@@ -190,7 +196,7 @@ EOF
         $HTMLString .= <<"EOF";
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "$Self->{MaxLength}"}
+        $ErrorMessage2 $ErrorMessage3
     </p>
 </div>
 EOF
@@ -199,13 +205,14 @@ EOF
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
+        $ErrorMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
         my $DivID = $FieldName . 'ServerError';
 
         # for server side validation
         $HTMLString .= <<"EOF";
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"$ErrorMessage"}
+        $ErrorMessage
     </p>
 </div>
 EOF
@@ -213,9 +220,9 @@ EOF
 
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
-        Mandatory          => $Param{Mandatory} || '0',
-        FieldName          => $FieldName,
+        %Param,
+        Mandatory => $Param{Mandatory} || '0',
+        FieldName => $FieldName,
     );
 
     my $Data = {
@@ -342,8 +349,8 @@ EOF
 
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
-        FieldName          => $FieldName,
+        %Param,
+        FieldName => $FieldName,
     );
 
     my $Data = {

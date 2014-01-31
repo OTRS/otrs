@@ -1,0 +1,70 @@
+# --
+# CustomerPreferences.tt - provides HTML form for CustomerPreferences
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("Body") %]
+<div id="MainBox" class="Preferences ARIARoleMain">
+    <div class="Content">
+[% RenderBlockStart("Head") %]
+#       <h1>[% Translate(Data.Header) | html %]</h1>
+[% RenderBlockEnd("Head") %]
+[% RenderBlockStart("Item") %]
+        <div class="Box">
+            <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post" class="Validate">
+                <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                <input type="hidden" name="Subaction" value="Update"/>
+                <input type="hidden" name="Group" value="[% Data.Group | html %]"/>
+                <fieldset>
+                    <h2>[% Translate(Data.Label) | html %]</h2>
+[% RenderBlockStart("Block") %]
+[% RenderBlockStart("InputKey") %]
+                    <div>
+                        <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]</label>
+                        <input title="[% Data.Name | html %]" type="text" id="[% Data.Name | html %]" name="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" size="20" />
+                        <div class="ClearLeft"></div>
+                    </div>
+[% RenderBlockEnd("InputKey") %]
+[% RenderBlockStart("Input") %]
+                    <div>
+                        <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]</label>
+                        <input title="[% Data.Name | html %]" type="text" id="[% Data.Name | html %]" name="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" size="20" />
+                        <div class="ClearLeft"></div>
+                    </div>
+[% RenderBlockEnd("Input") %]
+[% RenderBlockStart("Option") %]
+                    <div>
+                        <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]</label>
+                        [% Data.Option %]
+                        <div class="ClearLeft"></div>
+                    </div>
+[% RenderBlockEnd("Option") %]
+[% RenderBlockStart("Upload") %]
+                    <div>
+                        <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]</label>
+                        <input title="[% Data.Name | html %]" id="[% Data.Name | html %]" name="[% Data.Name | html %]" type="file" size="20" /><br/>
+                        <div title="[% Data.Filename | html %]">[% Data.Filename | html %]</div>
+                        <div class="ClearLeft"></div>
+                    </div>
+[% RenderBlockEnd("Upload") %]
+[% RenderBlockStart("Password") %]
+                    <div>
+                        <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]</label>
+                        <input title="[% Data.Name | html %]" type="password" id="[% Data.Name | html %]" name="[% Data.Name | html %]" value="" size="20" autocomplete="off" />
+                        <div class="ClearLeft"></div>
+                    </div>
+[% RenderBlockEnd("Password") %]
+[% RenderBlockEnd("Block") %]
+                    <button type="submit" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+                </fieldset>
+            </form>
+        </div>
+[% RenderBlockEnd("Item") %]
+        <div class="Clear"></div>
+    </div>
+</div>
+[% RenderBlockEnd("Body") %]

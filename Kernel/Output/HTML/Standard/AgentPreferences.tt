@@ -1,0 +1,130 @@
+# --
+# AgentPreferences.tt - provides HTML form for AgentPreferences
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("Body") %]
+<div class="MainBox ARIARoleMain">
+    <h1>[% Translate("Edit your preferences") | html %]</h1>
+
+    <div class="LayoutGrid ColumnsWithSpacing">
+
+[% RenderBlockStart("Column") %]
+        <div class="Size1of3">
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate(Data.Header) | html %]</h2>
+                </div>
+                <div class="Content">
+
+[% RenderBlockStart("Item") %]
+                    <form action="[% Env("CGIHandle") %]" method="post" class="Validate">
+                        <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                        <input type="hidden" name="Subaction" value="Update"/>
+                        <input type="hidden" name="Group" value="[% Data.Group | html %]"/>
+                        <h3>[% Translate(Data.Label) | html %]</h3>
+
+                        <p class="FieldExplanation">
+                            [% Translate(Data.Desc) | html %]
+                        </p>
+                        <fieldset class="TableLike SpacingBottomMedium">
+[% RenderBlockStart("Block") %]
+[% RenderBlockStart("InputKey") %]
+                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
+                            <div class="Field">
+                                <input type="text" name="[% Data.Name | html %]" id="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" />
+[% RenderBlockStart("InputKeySingleBlock") %]
+                                <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+[% RenderBlockEnd("InputKeySingleBlock") %]
+                            </div>
+                            <div class="Clear"></div>
+[% RenderBlockEnd("InputKey") %]
+[% RenderBlockStart("Input") %]
+                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
+                            <div class="Field">
+                                <input type="text" name="[% Data.Name | html %]" id="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" />
+[% RenderBlockStart("InputSingleBlock") %]
+                                <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+[% RenderBlockEnd("InputSingleBlock") %]
+                            </div>
+                            <div class="Clear"></div>
+[% RenderBlockEnd("Input") %]
+[% RenderBlockStart("Option") %]
+                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
+                            <div class="FloatingField">
+                                [% Data.Option %]
+[% RenderBlockStart("OptionSingleBlock") %]
+                                <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+[% RenderBlockEnd("OptionSingleBlock") %]
+                            </div>
+                            <div class="Clear"></div>
+[% RenderBlockEnd("Option") %]
+[% RenderBlockStart("Upload") %]
+                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
+                            <div class="Field">
+                                <input name="[% Data.Name | html %]" id="[% Data.Name | html %]" type="file" size="20" class="fixed"/>
+                                <br/>
+                                <a href="">[% Data.Filename | html %]</a>
+[% RenderBlockStart("UploadSingleBlock") %]
+                                <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+[% RenderBlockEnd("UploadSingleBlock") %]
+                            </div>
+                            <div class="Clear"></div>
+[% RenderBlockEnd("Upload") %]
+[% RenderBlockStart("Password") %]
+                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
+                            <div class="Field">
+                                <input name="[% Data.Name | html %]" id="[% Data.Name | html %]" type="password" autocomplete="off"/>
+[% RenderBlockStart("PasswordSingleBlock") %]
+                                <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+[% RenderBlockEnd("PasswordSingleBlock") %]
+                            </div>
+                            <div class="Clear"></div>
+[% RenderBlockEnd("Password") %]
+[% RenderBlockStart("OutOfOffice") %]
+                            <p class="FieldExplanation">[% Translate(Data.Key) | html %]</p>
+                            <label>[% Translate("Active") | html %]:</label>
+                            <div class="Field">
+                                <input type="radio" name="OutOfOffice" id="OutOfOfficeOn" value="1" [% Data.OutOfOfficeOn %] />
+                                <label for="OutOfOfficeOn">[% Translate("On") | html %]</label>
+                                <input type="radio" name="OutOfOffice" id="OutOfOfficeOff" value="0" [% Data.OutOfOfficeOff %] />
+                                <label for="OutOfOfficeOff">[% Translate("Off") | html %]</label>
+                            </div>
+                            <div class="Clear"></div>
+                            <label>[% Translate("Start") | html %]:</label>
+                            <div class="Field">
+                                [% Data.OptionStart %]
+                            </div>
+                            <div class="Clear"></div>
+                            <label>[% Translate("End") | html %]:</label>
+                            <div class="Field">
+                                [% Data.OptionEnd %]
+                            </div>
+                            <div class="Clear"></div>
+[% RenderBlockStart("OutOfOfficeSingleBlock") %]
+                            <div class="Field">
+                                <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+                            </div>
+[% RenderBlockEnd("OutOfOfficeSingleBlock") %]
+[% RenderBlockEnd("OutOfOffice") %]
+[% RenderBlockEnd("Block") %]
+[% RenderBlockStart("MultipleBlocks") %]
+                            <div class="Field">
+                                <button type="submit" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+                            </div>
+[% RenderBlockEnd("MultipleBlocks") %]
+                        </fieldset>
+                    </form>
+[% RenderBlockEnd("Item") %]
+                </div>
+            </div>
+        </div>
+[% RenderBlockEnd("Column") %]
+        <div class="Clear"></div>
+    </div>
+</div>
+[% RenderBlockEnd("Body") %]

@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/de.pm - provides German language translation
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -11,6 +11,7 @@ package Kernel::Language::de;
 
 use strict;
 use warnings;
+use utf8;
 
 sub Data {
     my $Self = shift;
@@ -644,10 +645,10 @@ sub Data {
         'pending auto' => 'warten auto',
         'pending auto close+' => 'warten auf erfolgreich schließen',
         'pending auto close-' => 'warten auf erfolglos schließen',
-        'email-external' => 'E-Mail an extern',
-        'email-internal' => 'E-Mail an intern',
-        'note-external' => 'Notiz für extern',
-        'note-internal' => 'Notiz für intern',
+        'email-external' => 'E-Mail extern',
+        'email-internal' => 'E-Mail intern',
+        'note-external' => 'Notiz extern',
+        'note-internal' => 'Notiz intern',
         'note-report' => 'Notiz für reporting',
         'phone' => 'Telefon',
         'sms' => 'SMS',
@@ -1981,6 +1982,9 @@ sub Data {
         'Add private key' => 'Privaten Schlüssel hinzufügen',
         'Filter for certificates' => 'Filter für Zertifikate',
         'Filter for SMIME certs' => 'Filter für SMIME-Zertifikate',
+        'To show certificate details click on a certificate icon.' => 'Zertifikatsdetails können Sie mit einem Klick auf das Zertifikats-Icon aufrufen.',
+        'To manage private certificate relations click on a private key icon.' =>
+            'Um Zertifikats-Zugehörigkeiten zu verwalten können Sie auf das Icon eines privaten Schlüssels klicken.',
         'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
             'Hier können Sie Zugehörigkeiten zu Ihren privaten Zertifikaten hinzufügen, diese werden in die SMIME-Signatur eingebettet, wenn Sie das Zertifikat zum Signieren einer Mail benutzen.',
         'See also' => 'Siehe auch',
@@ -2249,6 +2253,8 @@ sub Data {
         # Template: AgentDashboardStats
         'The content of this statistic is being prepared for you, please be patient.' =>
             'Der Inhalt dieser Statistik wird vorbereitet. Bitte haben Sie etwas Geduld.',
+        'Grouped' => 'Gruppiert',
+        'Stacked' => 'Gestapelt',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Meine gesperrten Tickets',
@@ -3089,7 +3095,7 @@ sub Data {
         'Configure Processes.' => 'Prozesse verwalten.',
         'Configure and manage ACLs.' => 'ACLs konfigurieren und verwalten.',
         'Configure your own log text for PGP.' => '',
-        'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3185,6 +3191,8 @@ sub Data {
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
+            '',
+        'Defines a list of groups which should have the permission to see stats dashboards (e.g. group1;group2;group3).' =>
             '',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
             '',
@@ -4800,6 +4808,8 @@ sub Data {
         'This option defines the process tickets default priority.' => '',
         'This option defines the process tickets default queue.' => '',
         'This option defines the process tickets default state.' => '',
+        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
+            'Diese Option verweigert den Zugriff auf Tickets von anderen Kundenbenutzern mit der selben Kundenfirma.',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
         'Ticket Queue Overview' => '',

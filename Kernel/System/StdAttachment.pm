@@ -1,6 +1,6 @@
 # --
 # Kernel/System/StdAttachment.pm - lib for std attachment
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -484,8 +484,10 @@ sub StdAttachmentSetResponses {
         SQL  => 'DELETE FROM standard_template_attachment WHERE standard_template_id = ?',
         Bind => [ \$Param{ID} ],
     );
+
+    ATTACHMENT:
     for my $ID ( @{ $Param{AttachmentIDsRef} } ) {
-        next if !$ID;
+        next ATTACHMENT if !$ID;
         $Self->{DBObject}->Do(
             SQL => 'INSERT INTO standard_template_attachment (standard_attachment_id, '
                 . 'standard_template_id, create_time, create_by, change_time, change_by)'

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/Driver/BaseDateTime.pm - Dynamic field Driver functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -208,12 +208,15 @@ sub EditFieldRender {
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'UsedError';
 
+        my $FieldRequiredMessage
+            = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+
         # for client side validation
         $HTMLString .= <<"EOF";
 
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"This field is required."}
+        $FieldRequiredMessage
     </p>
 </div>
 EOF
@@ -222,6 +225,7 @@ EOF
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
+        $ErrorMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
         my $DivID = $FieldName . 'UsedServerError';
 
         # for server side validation
@@ -229,7 +233,7 @@ EOF
 
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"$ErrorMessage"}
+        $ErrorMessage
     </p>
 </div>
 EOF
@@ -237,9 +241,9 @@ EOF
 
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
-        Mandatory          => $Param{Mandatory} || '0',
-        FieldName          => $FieldName . 'Used',
+        %Param,
+        Mandatory => $Param{Mandatory} || '0',
+        FieldName => $FieldName . 'Used',
     );
 
     my $Data = {
@@ -382,9 +386,10 @@ sub DisplayValueRender {
 
     # convert date to localized string
     if ( defined $Param{Value} ) {
-        $Value = $Param{LayoutObject}->Output(
-            Template => '$TimeShort{"$Data{"Value"}"}',
-            Data => { Value => $Param{Value}, },
+        $Value = $Param{LayoutObject}->{LanguageObject}->FormatTimeString(
+            $Param{Value},
+            'DateFormat',
+            'NoSeconds',
         );
     }
 
@@ -558,9 +563,9 @@ EOF
 
         # call EditLabelRender on the common backend
         my $LabelString = $Self->EditLabelRender(
-            DynamicFieldConfig => $Param{DynamicFieldConfig},
-            FieldName          => $FieldName,
-            AdditionalText     => $AdditionalText,
+            %Param,
+            FieldName      => $FieldName,
+            AdditionalText => $AdditionalText,
         );
 
         my $Data = {
@@ -591,10 +596,7 @@ EOF
         $LineBreak = '';
     }
 
-    $HTMLString .= <<"EOF";
-  \$Text{\"and\"}
-$LineBreak
-EOF
+    $HTMLString .= ' ' . $Param{LayoutObject}->{LanguageObject}->Translate("and") . "$LineBreak\n";
 
     # build HTML for stop value set
     $HTMLString .= $Param{LayoutObject}->BuildDateSelection(
@@ -614,9 +616,9 @@ EOF
 
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
-        FieldName          => $FieldName,
-        AdditionalText     => $AdditionalText,
+        %Param,
+        FieldName      => $FieldName,
+        AdditionalText => $AdditionalText,
     );
 
     my $Data = {
@@ -805,11 +807,20 @@ sub SearchFieldParameterBuild {
     # get field value
     my $Value = $Self->SearchFieldValueGet(%Param);
 
+    my $DisplayValue;
+
+    if ( defined $Value && !$Value ) {
+        $DisplayValue = '';
+    }
+
     # do not search if value was not checked (useful for customer interface)
     if ( !$Value ) {
         return {
-            Equals => '',
-            }
+            Parameter => {
+                Equals => $Value,
+            },
+            Display => $DisplayValue,
+        };
     }
 
     # search for a wild card in the value

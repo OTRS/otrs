@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/PictureUpload.pm - get picture uploads
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -66,9 +66,10 @@ sub Run {
         my @AttachmentData = $Self->{UploadCacheObject}->FormIDGetAllFilesData(
             FormID => $FormID,
         );
+        ATTACHMENT:
         for my $Attachment (@AttachmentData) {
-            next if !$Attachment->{ContentID};
-            next if $Attachment->{ContentID} ne $ContentID;
+            next ATTACHMENT if !$Attachment->{ContentID};
+            next ATTACHMENT if $Attachment->{ContentID} ne $ContentID;
             return $Self->{LayoutObject}->Attachment(
                 Type => 'inline',
                 %{$Attachment},

@@ -1,0 +1,39 @@
+# --
+# CustomerNavigationBar.tt - provides global HTML NavigationBar
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- start Notifications -->
+[% Data.Notification %]
+<!-- end Notifications -->
+<!-- start NavigationBar -->
+<div id="Navigation">
+    <ul>
+[% RenderBlockStart("Item") %]
+        <li class="[% Data.Class | html %]" title="[% Translate(Data.Description) | html %]">
+            <a href="[% Env("Baselink") %][% Data.Link %]" accesskey="[% Data.AccessKey | html %]" title="[% Translate(Data.Name) | html %] ([% Data.AccessKey | html %])">[% Translate(Data.Name) | html %]</a>
+[% RenderBlockStart("ItemAreaSub") %]
+            <ul>
+[% RenderBlockStart("ItemAreaSubItem") %]
+                <li><a class="[% Data.Class | html %]" href="[% Env("Baselink") %][% Data.Link %]" accesskey="[% Data.AccessKey | html %]" title="[% Translate(Data.Name) | html %] ([% Data.AccessKey | html %])">[% Translate(Data.Name) | html %]</a></li>
+[% RenderBlockEnd("ItemAreaSubItem") %]
+                <li class="Footer"></li>
+            </ul>
+[% RenderBlockEnd("ItemAreaSub") %]
+        </li>
+[% RenderBlockEnd("Item") %]
+    </ul>
+    <ul class="Individual">
+[% RenderBlockStart("Preferences") %]
+        <li class="[% Data.Class | html %]"><a href="[% Env("Baselink") %]Action=CustomerPreferences" title="[% Translate("Edit personal preferences") | html %]">[% Translate("Preferences") | html %]</a></li>
+[% RenderBlockEnd("Preferences") %]
+[% RenderBlockStart("Logout") %]
+        <li class="Last"><a href="[% Env("Baselink") %]Action=Logout">[% Translate("Logout %s %s", Env("UserFirstname"), Env("UserLastname")) | html %]</a></li>
+[% RenderBlockEnd("Logout") %]
+    </ul>
+</div>
+<!-- end NavigationBar -->

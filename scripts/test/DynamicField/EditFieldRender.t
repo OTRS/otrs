@@ -1,6 +1,6 @@
 # --
 # EditFieldRender.t - EditFieldRender() backend tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,6 +23,11 @@ use Kernel::System::VariableCheck qw(:all);
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %$Self,
     UnitTestObject => $Self,
+);
+
+# Use a fixed year to compare the time selection results
+$HelperObject->FixedTimeSet(
+    $Self->{TimeObject}->TimeStamp2SystemTime( String => '2013-12-12 00:00:00' ),
 );
 
 my $DFBackendObject = Kernel::System::DynamicField::Backend->new( %{$Self} );
@@ -225,12 +230,12 @@ my @Tests = (
             UseDefaultValue    => 0,
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{Label}" value="" />
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Text}->{Name}" for="DynamicField_$DynamicFieldConfigs{Text}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Text}->{Label}"}:
+$DynamicFieldConfigs{Text}->{Label}:
 </label>
 EOF
         },
@@ -245,12 +250,12 @@ EOF
             Class              => 'MyClass',
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{Label}" value="Default" />
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Text}->{Name}" for="DynamicField_$DynamicFieldConfigs{Text}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Text}->{Label}"}:
+$DynamicFieldConfigs{Text}->{Label}:
 </label>
 EOF
         },
@@ -267,12 +272,12 @@ EOF
             UseDefaultValue    => 0,
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{Label}" value="äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß" />
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Text}->{Name}" for="DynamicField_$DynamicFieldConfigs{Text}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Text}->{Label}"}:
+$DynamicFieldConfigs{Text}->{Label}:
 </label>
 EOF
         },
@@ -291,12 +296,12 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{Label}" value="äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß" />
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Text}->{Name}" for="DynamicField_$DynamicFieldConfigs{Text}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Text}->{Label}"}:
+$DynamicFieldConfigs{Text}->{Label}:
 </label>
 EOF
         },
@@ -315,12 +320,12 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{Label}" value="äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß" />
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Text}->{Name}" for="DynamicField_$DynamicFieldConfigs{Text}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Text}->{Label}"}:
+$DynamicFieldConfigs{Text}->{Label}:
 </label>
 EOF
         },
@@ -338,18 +343,18 @@ EOF
             Mandatory          => 1,
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="text" class="DynamicFieldText W50pc MyClass Validate_Required" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{Label}" value="A Value" />
 <div id="DynamicField_$DynamicFieldConfigs{Text}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"This field is required."}
+        This field is required.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Text}->{Name}" for="DynamicField_$DynamicFieldConfigs{Text}->{Name}" class="Mandatory">
     <span class="Marker">*</span>
-    \$Text{"$DynamicFieldConfigs{Text}->{Label}"}:
+$DynamicFieldConfigs{Text}->{Label}:
 </label>
 EOF
         },
@@ -368,17 +373,17 @@ EOF
             ErrorMessage       => 'This is an error.'
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="text" class="DynamicFieldText W50pc MyClass ServerError" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{Label}" value="A Value" />
 <div id="DynamicField_$DynamicFieldConfigs{Text}->{Name}ServerError" class="TooltipErrorMessage">
     <p>
-        \$Text{"This is an error."}
+        This is an error.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Text}->{Name}" for="DynamicField_$DynamicFieldConfigs{Text}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Text}->{Label}"}:
+$DynamicFieldConfigs{Text}->{Label}:
 </label>
 EOF
         },
@@ -396,22 +401,17 @@ EOF
             UseDefaultValue    => 0,
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{Label}" rows="7" cols="42" ></textarea>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-  \$('#DynamicField_$DynamicFieldConfigs{TextArea}->{Name}').attr('maxlength','3800');
-//]]></script>
-<!--dtl:js_on_document_complete-->
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
+        The field content is too long! Maximum size is 3800 characters.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{TextArea}->{Name}" for="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}">
-    \$Text{"$DynamicFieldConfigs{TextArea}->{Label}"}:
+$DynamicFieldConfigs{TextArea}->{Label}:
 </label>
 EOF
         },
@@ -426,23 +426,18 @@ EOF
             Class              => 'MyClass',
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{Label}" rows="7" cols="42" >Multi
 Line</textarea>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-  \$('#DynamicField_$DynamicFieldConfigs{TextArea}->{Name}').attr('maxlength','3800');
-//]]></script>
-<!--dtl:js_on_document_complete-->
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
+        The field content is too long! Maximum size is 3800 characters.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{TextArea}->{Name}" for="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}">
-    \$Text{"$DynamicFieldConfigs{TextArea}->{Label}"}:
+$DynamicFieldConfigs{TextArea}->{Label}:
 </label>
 EOF
         },
@@ -459,22 +454,17 @@ EOF
             UseDefaultValue    => 0,
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{Label}" rows="7" cols="42" >äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-  \$('#DynamicField_$DynamicFieldConfigs{TextArea}->{Name}').attr('maxlength','3800');
-//]]></script>
-<!--dtl:js_on_document_complete-->
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
+        The field content is too long! Maximum size is 3800 characters.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{TextArea}->{Name}" for="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}">
-    \$Text{"$DynamicFieldConfigs{TextArea}->{Label}"}:
+$DynamicFieldConfigs{TextArea}->{Label}:
 </label>
 EOF
         },
@@ -494,22 +484,17 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{Label}" rows="7" cols="42" >äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-  \$('#DynamicField_$DynamicFieldConfigs{TextArea}->{Name}').attr('maxlength','3800');
-//]]></script>
-<!--dtl:js_on_document_complete-->
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
+        The field content is too long! Maximum size is 3800 characters.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{TextArea}->{Name}" for="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}">
-    \$Text{"$DynamicFieldConfigs{TextArea}->{Label}"}:
+$DynamicFieldConfigs{TextArea}->{Label}:
 </label>
 EOF
         },
@@ -529,22 +514,17 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{Label}" rows="7" cols="42" >äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-  \$('#DynamicField_$DynamicFieldConfigs{TextArea}->{Name}').attr('maxlength','3800');
-//]]></script>
-<!--dtl:js_on_document_complete-->
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
+        The field content is too long! Maximum size is 3800 characters.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{TextArea}->{Name}" for="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}">
-    \$Text{"$DynamicFieldConfigs{TextArea}->{Label}"}:
+$DynamicFieldConfigs{TextArea}->{Label}:
 </label>
 EOF
         },
@@ -562,23 +542,18 @@ EOF
             Mandatory          => 1,
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <textarea class="DynamicFieldTextArea MyClass Validate_Required Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{Label}" rows="7" cols="42" >A Value</textarea>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-  \$('#DynamicField_$DynamicFieldConfigs{TextArea}->{Name}').attr('maxlength','3800');
-//]]></script>
-<!--dtl:js_on_document_complete-->
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"This field is required or"} \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
+        This field is required or The field content is too long! Maximum size is 3800 characters.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{TextArea}->{Name}" for="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" class="Mandatory">
     <span class="Marker">*</span>
-    \$Text{"$DynamicFieldConfigs{TextArea}->{Label}"}:
+$DynamicFieldConfigs{TextArea}->{Label}:
 </label>
 EOF
         },
@@ -597,27 +572,22 @@ EOF
             ErrorMessage       => 'This is an error.'
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <textarea class="DynamicFieldTextArea MyClass ServerError Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{Label}" rows="7" cols="42" >A Value</textarea>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-  \$('#DynamicField_$DynamicFieldConfigs{TextArea}->{Name}').attr('maxlength','3800');
-//]]></script>
-<!--dtl:js_on_document_complete-->
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
+        The field content is too long! Maximum size is 3800 characters.
     </p>
 </div>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}ServerError" class="TooltipErrorMessage">
     <p>
-        \$Text{"This is an error."}
+        This is an error.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{TextArea}->{Name}" for="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}">
-    \$Text{"$DynamicFieldConfigs{TextArea}->{Label}"}:
+$DynamicFieldConfigs{TextArea}->{Label}:
 </label>
 EOF
         },
@@ -635,13 +605,13 @@ EOF
             UseDefaultValue    => 0,
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
 <input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}"  value="1" />
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Checkbox}->{Label}"}:
+$DynamicFieldConfigs{Checkbox}->{Label}:
 </label>
 EOF
         },
@@ -656,13 +626,13 @@ EOF
             Class              => 'MyClass',
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
 <input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}" checked="checked" value="1" />
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Checkbox}->{Label}"}:
+$DynamicFieldConfigs{Checkbox}->{Label}:
 </label>
 EOF
         },
@@ -679,13 +649,13 @@ EOF
             UseDefaultValue    => 0,
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
 <input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}" checked="checked" value="1" />
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Checkbox}->{Label}"}:
+$DynamicFieldConfigs{Checkbox}->{Label}:
 </label>
 EOF
         },
@@ -705,13 +675,13 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
 <input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}" checked="checked" value="1" />
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Checkbox}->{Label}"}:
+$DynamicFieldConfigs{Checkbox}->{Label}:
 </label>
 EOF
         },
@@ -731,13 +701,13 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
 <input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}"  value="1" />
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Checkbox}->{Label}"}:
+$DynamicFieldConfigs{Checkbox}->{Label}:
 </label>
 EOF
         },
@@ -757,13 +727,13 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
 <input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}" checked="checked" value="1" />
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Checkbox}->{Label}"}:
+$DynamicFieldConfigs{Checkbox}->{Label}:
 </label>
 EOF
         },
@@ -783,13 +753,13 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
 <input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}"  value="1" />
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Checkbox}->{Label}"}:
+$DynamicFieldConfigs{Checkbox}->{Label}:
 </label>
 EOF
         },
@@ -807,19 +777,19 @@ EOF
             Mandatory          => 1,
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
 <input type="checkbox" class="DynamicFieldCheckbox MyClass Validate_Required" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}" checked="checked" value="1" />
 <div id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"This field is required."}
+        This field is required.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" class="Mandatory">
     <span class="Marker">*</span>
-    \$Text{"$DynamicFieldConfigs{Checkbox}->{Label}"}:
+$DynamicFieldConfigs{Checkbox}->{Label}:
 </label>
 EOF
         },
@@ -838,18 +808,18 @@ EOF
             ErrorMessage       => 'This is an error.'
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
 <input type="checkbox" class="DynamicFieldCheckbox MyClass ServerError" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}" checked="checked" value="1" />
 <div id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}ServerError" class="TooltipErrorMessage">
     <p>
-        \$Text{"This is an error."}
+        This is an error.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Checkbox}->{Label}"}:
+$DynamicFieldConfigs{Checkbox}->{Label}:
 </label>
 EOF
         },
@@ -867,16 +837,16 @@ EOF
             ConfirmationNeeded => 1
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="radio" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used0" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="" checked="checked" />
 Ignore this field.
 <div class="clear"></div>
 <input type="radio" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used1" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1"  />
 <input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}" checked="checked" value="1" />
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Checkbox}->{Label}"}:
+$DynamicFieldConfigs{Checkbox}->{Label}:
 </label>
 EOF
         },
@@ -894,15 +864,15 @@ EOF
             UseDefaultValue    => 0,
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" name="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" size="1">
   <option value="">-</option>
   <option value="1">A</option>
   <option value="2">B</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Dropdown}->{Label}"}:
+$DynamicFieldConfigs{Dropdown}->{Label}:
 </label>
 EOF
         },
@@ -917,15 +887,15 @@ EOF
             Class              => 'MyClass',
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" name="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" size="1">
   <option value="">-</option>
   <option value="1">A</option>
   <option value="2" selected="selected">B</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Dropdown}->{Label}"}:
+$DynamicFieldConfigs{Dropdown}->{Label}:
 </label>
 EOF
         },
@@ -942,15 +912,15 @@ EOF
             UseDefaultValue    => 0,
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" name="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" size="1">
   <option value="">-</option>
   <option value="1" selected="selected">A</option>
   <option value="2">B</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Dropdown}->{Label}"}:
+$DynamicFieldConfigs{Dropdown}->{Label}:
 </label>
 EOF
         },
@@ -969,15 +939,15 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" name="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" size="1">
   <option value="">-</option>
   <option value="1" selected="selected">A</option>
   <option value="2">B</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Dropdown}->{Label}"}:
+$DynamicFieldConfigs{Dropdown}->{Label}:
 </label>
 EOF
         },
@@ -996,15 +966,15 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" name="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" size="1">
   <option value="">-</option>
   <option value="1" selected="selected">A</option>
   <option value="2">B</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Dropdown}->{Label}"}:
+$DynamicFieldConfigs{Dropdown}->{Label}:
 </label>
 EOF
         },
@@ -1022,7 +992,7 @@ EOF
             Mandatory          => 1,
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <select class="DynamicFieldText MyClass Validate_Required" id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" name="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" size="1">
   <option value="">-</option>
   <option value="1">A</option>
@@ -1030,14 +1000,14 @@ EOF
 </select>
 <div id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"This field is required."}
+        This field is required.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" class="Mandatory">
     <span class="Marker">*</span>
-    \$Text{"$DynamicFieldConfigs{Dropdown}->{Label}"}:
+$DynamicFieldConfigs{Dropdown}->{Label}:
 </label>
 EOF
         },
@@ -1056,7 +1026,7 @@ EOF
             ErrorMessage       => 'This is an error.'
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <select class="DynamicFieldText MyClass ServerError" id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" name="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" size="1">
   <option value="">-</option>
   <option value="1">A</option>
@@ -1064,13 +1034,13 @@ EOF
 </select>
 <div id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}ServerError" class="TooltipErrorMessage">
     <p>
-        \$Text{"This is an error."}
+        This is an error.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Dropdown}->{Label}"}:
+$DynamicFieldConfigs{Dropdown}->{Label}:
 </label>
 EOF
         },
@@ -1090,13 +1060,13 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" name="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" size="1">
   <option value="2" selected="selected">Value2</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Dropdown}->{Label}"}:
+$DynamicFieldConfigs{Dropdown}->{Label}:
 </label>
 EOF
         },
@@ -1114,14 +1084,14 @@ EOF
             OverridePossibleNone => 0,
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" name="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" size="1">
   <option value="1" selected="selected">A</option>
   <option value="2">B</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Dropdown}->{Label}"}:
+$DynamicFieldConfigs{Dropdown}->{Label}:
 </label>
 EOF
         },
@@ -1139,15 +1109,15 @@ EOF
             ConfirmationNeeded => 1,
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" name="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" size="5">
   <option value="">-</option>
   <option value="1" selected="selected">A</option>
   <option value="2">B</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Dropdown}->{Label}"}:
+$DynamicFieldConfigs{Dropdown}->{Label}:
 </label>
 EOF
         },
@@ -1166,29 +1136,16 @@ EOF
             UpdatableFields    => [ 'StateID', 'PriorityID', ],
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" name="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" size="1">
   <option value="">-</option>
   <option value="1" selected="selected">A</option>
   <option value="2">B</option>
 </select>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-    \$('#DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}').bind('change', function (Event) {
-        Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', 'DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}', [ \'StateID\', \'PriorityID\' ]);
-    });
-    Core.App.Subscribe('Event.AJAX.FormUpdate.Callback', function(Data) {
-        var FieldName = 'DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}';
-        if (Data[FieldName] && \$('#' + FieldName).hasClass('DynamicFieldWithTreeView')) {
-            Core.UI.TreeSelection.RestoreDynamicFieldTreeView(\$('#' + FieldName), Data[FieldName], '' , 1);
-        }
-    });
-//]]></script>
-<!--dtl:js_on_document_complete-->
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Dropdown}->{Label}"}:
+$DynamicFieldConfigs{Dropdown}->{Label}:
 </label>
 EOF
         },
@@ -1206,15 +1163,15 @@ EOF
             UseDefaultValue    => 0,
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
   <option value="">-</option>
   <option value="1">A</option>
   <option value="2">B</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Multiselect}->{Label}"}:
+$DynamicFieldConfigs{Multiselect}->{Label}:
 </label>
 EOF
         },
@@ -1229,15 +1186,15 @@ EOF
             Class              => 'MyClass',
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
   <option value="">-</option>
   <option value="1">A</option>
   <option value="2" selected="selected">B</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Multiselect}->{Label}"}:
+$DynamicFieldConfigs{Multiselect}->{Label}:
 </label>
 EOF
         },
@@ -1254,15 +1211,15 @@ EOF
             UseDefaultValue    => 0,
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
   <option value="">-</option>
   <option value="1" selected="selected">A</option>
   <option value="2">B</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Multiselect}->{Label}"}:
+$DynamicFieldConfigs{Multiselect}->{Label}:
 </label>
 EOF
         },
@@ -1279,15 +1236,15 @@ EOF
             UseDefaultValue    => 0,
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
   <option value="">-</option>
   <option value="1" selected="selected">A</option>
   <option value="2" selected="selected">B</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Multiselect}->{Label}"}:
+$DynamicFieldConfigs{Multiselect}->{Label}:
 </label>
 EOF
         },
@@ -1306,15 +1263,15 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
   <option value="">-</option>
   <option value="1" selected="selected">A</option>
   <option value="2">B</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Multiselect}->{Label}"}:
+$DynamicFieldConfigs{Multiselect}->{Label}:
 </label>
 EOF
         },
@@ -1333,15 +1290,15 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
   <option value="">-</option>
   <option value="1" selected="selected">A</option>
   <option value="2" selected="selected">B</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Multiselect}->{Label}"}:
+$DynamicFieldConfigs{Multiselect}->{Label}:
 </label>
 EOF
         },
@@ -1360,15 +1317,15 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
   <option value="">-</option>
   <option value="1" selected="selected">A</option>
   <option value="2">B</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Multiselect}->{Label}"}:
+$DynamicFieldConfigs{Multiselect}->{Label}:
 </label>
 EOF
         },
@@ -1387,15 +1344,15 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
   <option value="">-</option>
   <option value="1" selected="selected">A</option>
   <option value="2" selected="selected">B</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Multiselect}->{Label}"}:
+$DynamicFieldConfigs{Multiselect}->{Label}:
 </label>
 EOF
         },
@@ -1413,7 +1370,7 @@ EOF
             Mandatory          => 1,
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <select class="DynamicFieldText MyClass Validate_Required" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
   <option value="">-</option>
   <option value="1">A</option>
@@ -1421,14 +1378,14 @@ EOF
 </select>
 <div id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}Error" class="TooltipErrorMessage">
     <p>
-        \$Text{"This field is required."}
+        This field is required.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" class="Mandatory">
     <span class="Marker">*</span>
-    \$Text{"$DynamicFieldConfigs{Multiselect}->{Label}"}:
+$DynamicFieldConfigs{Multiselect}->{Label}:
 </label>
 EOF
         },
@@ -1447,7 +1404,7 @@ EOF
             ErrorMessage       => 'This is an error.'
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <select class="DynamicFieldText MyClass ServerError" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
   <option value="">-</option>
   <option value="1">A</option>
@@ -1455,13 +1412,13 @@ EOF
 </select>
 <div id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}ServerError" class="TooltipErrorMessage">
     <p>
-        \$Text{"This is an error."}
+        This is an error.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Multiselect}->{Label}"}:
+$DynamicFieldConfigs{Multiselect}->{Label}:
 </label>
 EOF
         },
@@ -1481,13 +1438,13 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
   <option value="2" selected="selected">Value2</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Multiselect}->{Label}"}:
+$DynamicFieldConfigs{Multiselect}->{Label}:
 </label>
 EOF
         },
@@ -1505,14 +1462,14 @@ EOF
             OverridePossibleNone => 0,
         },
         ExpectedResults => {
-            Field => << "EOF" . '</select>',
+            Field => <<"EOF" . '</select>',
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
   <option value="1" selected="selected">A</option>
   <option value="2">B</option>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Multiselect}->{Label}"}:
+$DynamicFieldConfigs{Multiselect}->{Label}:
 </label>
 EOF
         },
@@ -1531,29 +1488,16 @@ EOF
             UpdatableFields    => [ 'StateID', 'PriorityID', ],
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <select class="DynamicFieldText MyClass" id="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" multiple="multiple" name="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
   <option value="">-</option>
   <option value="1" selected="selected">A</option>
   <option value="2">B</option>
 </select>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-    \$('#DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}').bind('change', function (Event) {
-        Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', 'DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}', [ \'StateID\', \'PriorityID\' ]);
-    });
-    Core.App.Subscribe('Event.AJAX.FormUpdate.Callback', function(Data) {
-        var FieldName = 'DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}';
-        if (Data[FieldName] && \$('#' + FieldName).hasClass('DynamicFieldWithTreeView')) {
-            Core.UI.TreeSelection.RestoreDynamicFieldTreeView(\$('#' + FieldName), Data[FieldName], '' , 1);
-        }
-    });
-//]]></script>
-<!--dtl:js_on_document_complete-->
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-    \$Text{"$DynamicFieldConfigs{Multiselect}->{Label}"}:
+$DynamicFieldConfigs{Multiselect}->{Label}:
 </label>
 EOF
         },
@@ -1571,7 +1515,7 @@ EOF
             UseDefaultValue    => 1,
         },
         ExpectedResults => {
-            Field => << "EOF" . '    <!--dtl:js_on_document_complete-->',
+            Field => <<"EOF",
 <input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked="checked" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
@@ -1715,21 +1659,11 @@ EOF
   <option value="57">57</option>
   <option value="58">58</option>
   <option value="59">59</option>
-</select><!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
-        Core.UI.Datepicker.Init({
-            Day: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Day"),
-            Month: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Month"),
-            Year: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Year"),
-            Hour: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Hour"),
-            Minute: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Minute"),
-            DateInFuture: false,
-            WeekDayStart: 1
-        });
-    //]]></script>
+</select>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used">
-    \$Text{"$DynamicFieldConfigs{DateTime}->{Label}"}:
+$DynamicFieldConfigs{DateTime}->{Label}:
 </label>
 EOF
         },
@@ -1746,7 +1680,7 @@ EOF
             UseDefaultValue    => 0,
         },
         ExpectedResults => {
-            Field => << "EOF" . '    <!--dtl:js_on_document_complete-->',
+            Field => <<"EOF",
 <input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked="checked" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
@@ -1890,21 +1824,11 @@ EOF
   <option value="57">57</option>
   <option value="58">58</option>
   <option value="59">59</option>
-</select><!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
-        Core.UI.Datepicker.Init({
-            Day: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Day"),
-            Month: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Month"),
-            Year: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Year"),
-            Hour: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Hour"),
-            Minute: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Minute"),
-            DateInFuture: false,
-            WeekDayStart: 1
-        });
-    //]]></script>
+</select>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used">
-    \$Text{"$DynamicFieldConfigs{DateTime}->{Label}"}:
+$DynamicFieldConfigs{DateTime}->{Label}:
 </label>
 EOF
         },
@@ -1928,7 +1852,7 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF" . '    <!--dtl:js_on_document_complete-->',
+            Field => <<"EOF",
 <input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked="checked" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
@@ -2072,21 +1996,11 @@ EOF
   <option value="57">57</option>
   <option value="58">58</option>
   <option value="59">59</option>
-</select><!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
-        Core.UI.Datepicker.Init({
-            Day: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Day"),
-            Month: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Month"),
-            Year: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Year"),
-            Hour: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Hour"),
-            Minute: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Minute"),
-            DateInFuture: false,
-            WeekDayStart: 1
-        });
-    //]]></script>
+</select>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used">
-    \$Text{"$DynamicFieldConfigs{DateTime}->{Label}"}:
+$DynamicFieldConfigs{DateTime}->{Label}:
 </label>
 EOF
         },
@@ -2110,7 +2024,7 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF" . '    <!--dtl:js_on_document_complete-->',
+            Field => <<"EOF",
 <input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked="checked" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
@@ -2254,21 +2168,11 @@ EOF
   <option value="57">57</option>
   <option value="58">58</option>
   <option value="59">59</option>
-</select><!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
-        Core.UI.Datepicker.Init({
-            Day: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Day"),
-            Month: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Month"),
-            Year: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Year"),
-            Hour: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Hour"),
-            Minute: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Minute"),
-            DateInFuture: false,
-            WeekDayStart: 1
-        });
-    //]]></script>
+</select>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used">
-    \$Text{"$DynamicFieldConfigs{DateTime}->{Label}"}:
+$DynamicFieldConfigs{DateTime}->{Label}:
 </label>
 EOF
         },
@@ -2286,7 +2190,7 @@ EOF
             Mandatory          => 1,
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked="checked" class="Validate_Required" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
@@ -2430,28 +2334,17 @@ EOF
   <option value="57">57</option>
   <option value="58">58</option>
   <option value="59">59</option>
-</select><!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
-        Core.UI.Datepicker.Init({
-            Day: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Day"),
-            Month: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Month"),
-            Year: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Year"),
-            Hour: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Hour"),
-            Minute: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Minute"),
-            DateInFuture: false,
-            WeekDayStart: 1
-        });
-    //]]></script>
-    <!--dtl:js_on_document_complete-->
+</select>
 <div id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}UsedError" class="TooltipErrorMessage">
     <p>
-        \$Text{"This field is required."}
+        This field is required.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" class="Mandatory">
     <span class="Marker">*</span>
-    \$Text{"$DynamicFieldConfigs{DateTime}->{Label}"}:
+$DynamicFieldConfigs{DateTime}->{Label}:
 </label>
 EOF
         },
@@ -2470,7 +2363,7 @@ EOF
             ErrorMessage       => 'This is an error.'
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="checkbox" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" value="1" checked="checked" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth" id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
@@ -2614,27 +2507,16 @@ EOF
   <option value="57">57</option>
   <option value="58">58</option>
   <option value="59">59</option>
-</select><!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
-        Core.UI.Datepicker.Init({
-            Day: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Day"),
-            Month: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Month"),
-            Year: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Year"),
-            Hour: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Hour"),
-            Minute: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{DateTime}->{Name}") + "Minute"),
-            DateInFuture: false,
-            WeekDayStart: 1
-        });
-    //]]></script>
-    <!--dtl:js_on_document_complete-->
+</select>
 <div id="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}UsedServerError" class="TooltipErrorMessage">
     <p>
-        \$Text{"This is an error."}
+        This is an error.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used">
-    \$Text{"$DynamicFieldConfigs{DateTime}->{Label}"}:
+$DynamicFieldConfigs{DateTime}->{Label}:
 </label>
 EOF
 
@@ -2653,7 +2535,7 @@ EOF
             UseDefaultValue    => 1,
         },
         ExpectedResults => {
-            Field => << "EOF" . '    <!--dtl:js_on_document_complete-->',
+            Field => <<"EOF",
 <input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked="checked" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
@@ -2711,21 +2593,11 @@ EOF
   <option value="2016">2016</option>
   <option value="2017">2017</option>
   <option value="2018">2018</option>
-</select><!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
-        Core.UI.Datepicker.Init({
-            Day: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Day"),
-            Month: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Month"),
-            Year: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Year"),
-            Hour: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Hour"),
-            Minute: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Minute"),
-            DateInFuture: false,
-            WeekDayStart: 1
-        });
-    //]]></script>
+</select>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used">
-    \$Text{"$DynamicFieldConfigs{Date}->{Label}"}:
+$DynamicFieldConfigs{Date}->{Label}:
 </label>
 EOF
         },
@@ -2742,7 +2614,7 @@ EOF
             UseDefaultValue    => 0,
         },
         ExpectedResults => {
-            Field => << "EOF" . '    <!--dtl:js_on_document_complete-->',
+            Field => <<"EOF",
 <input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked="checked" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
@@ -2800,21 +2672,11 @@ EOF
   <option value="2016">2016</option>
   <option value="2017">2017</option>
   <option value="2018">2018</option>
-</select><!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
-        Core.UI.Datepicker.Init({
-            Day: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Day"),
-            Month: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Month"),
-            Year: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Year"),
-            Hour: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Hour"),
-            Minute: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Minute"),
-            DateInFuture: false,
-            WeekDayStart: 1
-        });
-    //]]></script>
+</select>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used">
-    \$Text{"$DynamicFieldConfigs{Date}->{Label}"}:
+$DynamicFieldConfigs{Date}->{Label}:
 </label>
 EOF
         },
@@ -2836,7 +2698,7 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF" . '    <!--dtl:js_on_document_complete-->',
+            Field => <<"EOF",
 <input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked="checked" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
@@ -2894,21 +2756,11 @@ EOF
   <option value="2016">2016</option>
   <option value="2017">2017</option>
   <option value="2018">2018</option>
-</select><!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
-        Core.UI.Datepicker.Init({
-            Day: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Day"),
-            Month: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Month"),
-            Year: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Year"),
-            Hour: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Hour"),
-            Minute: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Minute"),
-            DateInFuture: false,
-            WeekDayStart: 1
-        });
-    //]]></script>
+</select>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used">
-    \$Text{"$DynamicFieldConfigs{Date}->{Label}"}:
+$DynamicFieldConfigs{Date}->{Label}:
 </label>
 EOF
         },
@@ -2932,7 +2784,7 @@ EOF
             },
         },
         ExpectedResults => {
-            Field => << "EOF" . '    <!--dtl:js_on_document_complete-->',
+            Field => <<"EOF",
 <input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked="checked" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
@@ -2990,21 +2842,11 @@ EOF
   <option value="2016">2016</option>
   <option value="2017">2017</option>
   <option value="2018">2018</option>
-</select><!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
-        Core.UI.Datepicker.Init({
-            Day: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Day"),
-            Month: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Month"),
-            Year: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Year"),
-            Hour: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Hour"),
-            Minute: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Minute"),
-            DateInFuture: false,
-            WeekDayStart: 1
-        });
-    //]]></script>
+</select>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used">
-    \$Text{"$DynamicFieldConfigs{Date}->{Label}"}:
+$DynamicFieldConfigs{Date}->{Label}:
 </label>
 EOF
         },
@@ -3022,7 +2864,7 @@ EOF
             Mandatory          => 1,
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked="checked" class="Validate_Required" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
@@ -3080,28 +2922,17 @@ EOF
   <option value="2016">2016</option>
   <option value="2017">2017</option>
   <option value="2018">2018</option>
-</select><!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
-        Core.UI.Datepicker.Init({
-            Day: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Day"),
-            Month: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Month"),
-            Year: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Year"),
-            Hour: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Hour"),
-            Minute: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Minute"),
-            DateInFuture: false,
-            WeekDayStart: 1
-        });
-    //]]></script>
-    <!--dtl:js_on_document_complete-->
+</select>
 <div id="DynamicField_$DynamicFieldConfigs{Date}->{Name}UsedError" class="TooltipErrorMessage">
     <p>
-        \$Text{"This field is required."}
+        This field is required.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" class="Mandatory">
     <span class="Marker">*</span>
-    \$Text{"$DynamicFieldConfigs{Date}->{Label}"}:
+$DynamicFieldConfigs{Date}->{Label}:
 </label>
 EOF
         },
@@ -3120,7 +2951,7 @@ EOF
             ErrorMessage       => 'This is an error.'
         },
         ExpectedResults => {
-            Field => << "EOF",
+            Field => <<"EOF",
 <input type="checkbox" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" value="1" checked="checked" title="Check to activate this date" />&nbsp;<select class="Validate_DateMonth" id="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" name="DynamicField_$DynamicFieldConfigs{Date}->{Name}Month" title="Month">
   <option value="1">01</option>
   <option value="2">02</option>
@@ -3178,27 +3009,16 @@ EOF
   <option value="2016">2016</option>
   <option value="2017">2017</option>
   <option value="2018">2018</option>
-</select><!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
-        Core.UI.Datepicker.Init({
-            Day: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Day"),
-            Month: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Month"),
-            Year: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Year"),
-            Hour: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Hour"),
-            Minute: \$("#" + Core.App.EscapeSelector("DynamicField_$DynamicFieldConfigs{Date}->{Name}") + "Minute"),
-            DateInFuture: false,
-            WeekDayStart: 1
-        });
-    //]]></script>
-    <!--dtl:js_on_document_complete-->
+</select>
 <div id="DynamicField_$DynamicFieldConfigs{Date}->{Name}UsedServerError" class="TooltipErrorMessage">
     <p>
-        \$Text{"This is an error."}
+        This is an error.
     </p>
 </div>
 EOF
-            Label => << "EOF",
+            Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used">
-    \$Text{"$DynamicFieldConfigs{Date}->{Label}"}:
+$DynamicFieldConfigs{Date}->{Label}:
 </label>
 EOF
 
@@ -3236,6 +3056,12 @@ for my $Test (@Tests) {
         $FieldHTML = $DFBackendObject->EditFieldRender( %{ $Test->{Config} } );
     }
     if ( $Test->{Success} ) {
+
+        # Heredocs always have the newline, even if it is not expected
+        if ( $FieldHTML->{Field} !~ m{\n$} ) {
+            chomp $Test->{ExpectedResults}->{Field};
+        }
+
         $Self->IsDeeply(
             $FieldHTML,
             $Test->{ExpectedResults},

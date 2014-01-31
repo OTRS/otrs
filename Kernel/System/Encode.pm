@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Encode.pm - character encodings
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -152,6 +152,29 @@ sub Convert {
         Encode::_utf8_off( $Param{Text} );
     }
 
+    # this is a workaround for following bug in Encode::HanExtra
+    # https://rt.cpan.org/Public/Bug/Display.html?id=71720
+    # see also http://bugs.otrs.org/show_bug.cgi?id=10121
+    # distributed charsets by Encode::HanExtra
+    # http://search.cpan.org/~jhi/perl-5.8.1/ext/Encode/lib/Encode/Supported.pod
+    my %AdditionalChineseCharsets = (
+        'big5ext'  => 1,
+        'big5plus' => 1,
+        'cccii'    => 1,
+        'euc-tw'   => 1,
+        'gb18030'  => 1,
+    );
+
+    # check if one of the Encode::HanExtra charsets occurs
+    if ( $AdditionalChineseCharsets{ $Param{From} } ) {
+
+        # require module, print error if module was not found
+        if ( !eval "require Encode::HanExtra" ) {    ## no critic
+            print STDERR
+                "Charset '$Param{From}' requires Encode::HanExtra, which is not installed!\n";
+        }
+    }
+
     # check if encoding exists
     if ( !Encode::resolve_alias( $Param{From} ) ) {
         my $Fallback = 'iso-8859-1';
@@ -249,8 +272,10 @@ sub EncodeInput {
     }
 
     if ( ref $What eq 'ARRAY' ) {
+
+        ROW:
         for my $Row ( @{$What} ) {
-            next if !defined $Row;
+            next ROW if !defined $Row;
             Encode::_utf8_on($Row);
         }
         return $What;
@@ -285,9 +310,11 @@ sub EncodeOutput {
     }
 
     if ( ref $What eq 'ARRAY' ) {
+
+        ROW:
         for my $Row ( @{$What} ) {
-            next if !defined $Row;
-            next if !Encode::is_utf8( ${$Row} );
+            next ROW if !defined $Row;
+            next ROW if !Encode::is_utf8( ${$Row} );
             ${$Row} = Encode::encode_utf8( ${$Row} );
         }
         return $What;

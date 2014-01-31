@@ -1,6 +1,6 @@
 # --
 # QueryCondition.t - database tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -40,14 +40,16 @@ for my $SQL (@SQL) {
 }
 
 my %Fill = (
-    Some1 => 'John Smith',
-    Some2 => 'John Meier',
-    Some3 => 'Franz Smith',
-    Some4 => 'Franz Ferdinand Smith',
-    Some5 => 'customer_id_with_underscores',
-    Some6 => 'customer&id&with&ampersands',
-    Some7 => 'Test (with) (brackets)',
-    Some8 => 'Test (with) (brackets) and & and |',
+    Some1  => 'John Smith',
+    Some2  => 'John Meier',
+    Some3  => 'Franz Smith',
+    Some4  => 'Franz Ferdinand Smith',
+    Some5  => 'customer_id_with_underscores',
+    Some6  => 'customer&id&with&ampersands',
+    Some7  => 'Test (with) (brackets)',
+    Some8  => 'Test (with) (brackets) and & and |',
+    Some9  => 'Test for franz!gans merged with exclamation mark',
+    Some10 => 'customer & id with ampersand & spaces',
 );
 for my $Key ( sort keys %Fill ) {
     my $SQL = "INSERT INTO test_condition (name_a, name_b) VALUES ('$Key', '$Fill{$Key}')";
@@ -357,6 +359,20 @@ my @Queries = (
             Some6 => 1,
             Some7 => 1,
             Some8 => 1,
+        },
+    },
+    {
+        Query  => 'franz!gans',
+        Result => {
+            Some1 => 0,
+            Some2 => 0,
+            Some3 => 0,
+            Some4 => 0,
+            Some5 => 0,
+            Some6 => 0,
+            Some7 => 0,
+            Some8 => 0,
+            Some9 => 1,
         },
     },
     {
@@ -825,6 +841,38 @@ my @Queries = (
             Some6 => 0,
             Some7 => 0,
             Some8 => 1,
+        },
+    },
+    {
+        Query => $Self->{DBObject}->QueryStringEscape(
+            QueryString => 'customer & id with ampersand & spaces',
+        ),
+        Result => {
+            Some1  => 0,
+            Some2  => 0,
+            Some3  => 0,
+            Some4  => 0,
+            Some5  => 0,
+            Some6  => 0,
+            Some7  => 0,
+            Some8  => 0,
+            Some9  => 0,
+            Some10 => 1,
+        },
+    },
+    {
+        Query  => 'customer & id with ampersand & spaces',
+        Result => {
+            Some1  => 0,
+            Some2  => 0,
+            Some3  => 0,
+            Some4  => 0,
+            Some5  => 0,
+            Some6  => 0,
+            Some7  => 0,
+            Some8  => 0,
+            Some9  => 0,
+            Some10 => 0,
         },
     },
 );

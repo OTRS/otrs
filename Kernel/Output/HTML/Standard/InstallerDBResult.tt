@@ -1,0 +1,56 @@
+# --
+# InstallerDBResult.tt - provides the status of the new DB for the Installer
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("DatabaseResult") %]
+<div class="W950px SpacingTop SpacingBottom CenterBox">
+    <form action="[% Env("CGIHandle") %]" method="post" class="PreventMultipleSubmits">
+        <input type="hidden" name="Action" value="Installer" />
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate(Data.Item) | html %] ([% Data.Step %])</h2>
+            </div>
+
+            <div class="Content">
+[% RenderBlockStart("DatabaseResultItem") %]
+                <div class="DBItem">
+[% RenderBlockStart("DatabaseResultItemDone") %]
+                    <img src="[% Config("Frontend::ImagePath") %]/icons/tick.png" alt="[% Translate("Done") | html %]" >
+[% RenderBlockEnd("DatabaseResultItemDone") %]
+[% RenderBlockStart("DatabaseResultItemFalse") %]
+                    <img src="[% Config("Frontend::ImagePath") %]/icons/cross.png" alt="[% Translate("Error") | html %]" >
+[% RenderBlockEnd("DatabaseResultItemFalse") %]
+                    [% Data.Item | html %]
+[% RenderBlockStart("DatabaseResultItemMessage") %]
+                    <p>[% Data.Message | html %]</p>
+[% RenderBlockEnd("DatabaseResultItemMessage") %]
+                </div>
+                <div class="Clear"></div>
+[% RenderBlockEnd("DatabaseResultItem") %]
+[% RenderBlockStart("DatabaseResultSuccess") %]
+                <div class="Center Result">
+                    <p class="">[% Translate("Database setup successful!") | html %]</p>
+                </div>
+[% RenderBlockEnd("DatabaseResultSuccess") %]
+                <div class="Center">
+[% RenderBlockStart("DatabaseResultBack") %]
+                    <input type="hidden" name="Subaction" value="Start">
+                    <button class="Primary" type="submit">[% Translate("Back") | html %]</button>
+[% RenderBlockEnd("DatabaseResultBack") %]
+
+[% RenderBlockStart("DatabaseResultNext") %]
+                    <input type="hidden" name="Subaction" value="System">
+                    <button class="Primary" type="submit">[% Translate("Next") | html %]</button>
+[% RenderBlockEnd("DatabaseResultNext") %]
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+[% RenderBlockEnd("DatabaseResult") %]

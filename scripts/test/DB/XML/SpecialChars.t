@@ -1,6 +1,6 @@
 # --
 # SpecialChars.t - database tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -118,8 +118,10 @@ for my $Character (@SpecialCharacters) {
         $Result,
         "#5.$Counter Prepare() SELECT LIKE value",
     );
+
+    CHARACTER:
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        next if $Character eq '%';    # do not test %, because it's wanted as % for like
+        next CHARACTER if $Character eq '%';    # do not test %, because it's wanted as % for like
 
         $Self->True(
             $Row[0] eq $Character,

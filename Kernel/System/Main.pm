@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Main.pm - main core components
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -909,9 +909,10 @@ sub DirectoryRead {
         my @Glob = glob "$Param{Directory}/$Filter";
 
         # look for repeated values
+        NAME:
         for my $GlobName (@Glob) {
 
-            next if !-e $GlobName;
+            next NAME if !-e $GlobName;
             if ( !$Seen{$GlobName} ) {
                 push @GlobResults, $GlobName;
                 $Seen{$GlobName} = 1;
@@ -927,10 +928,12 @@ sub DirectoryRead {
 
         # check all files in current directory
         my @Directories = glob "$Param{Directory}/*";
+
+        DIRECTORY:
         for my $Directory (@Directories) {
 
             # return if file is not a directory
-            next if !-d $Directory;
+            next DIRECTORY if !-d $Directory;
 
             # repeat same glob for directory
             my @SubResult = $Self->DirectoryRead(

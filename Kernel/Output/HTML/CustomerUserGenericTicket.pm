@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/CustomerUserGenericTicket.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -87,13 +87,14 @@ sub Run {
     # get all attributes
     my %TicketSearch = ();
     my @Params = split /;/, $Param{Config}->{Attributes};
+    STRING:
     for my $String (@Params) {
-        next if !$String;
+        next STRING if !$String;
         my ( $Key, $Value ) = split /=/, $String;
 
         # do lookups
         if ( $Lookup{$Key} ) {
-            next if !$Self->{MainObject}->Require( $Lookup{$Key}->{Object} );
+            next STRING if !$Self->{MainObject}->Require( $Lookup{$Key}->{Object} );
             my $Object = $Lookup{$Key}->{Object}->new( %{$Self} );
             my $Method = $Lookup{$Key}->{Method};
             $Value = $Object->$Method( $Lookup{$Key}->{Input} => $Value );

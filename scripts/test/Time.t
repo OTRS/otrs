@@ -1,6 +1,6 @@
 # --
 # Time.t - Time tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -670,5 +670,54 @@ $Self->Is(
     'no vacation day',
     'Vacation - 2005-02-14 (Calendar1)',
 );
+
+# UTC tests
+$ENV{TZ} = 'UTC';
+my @Tests = (
+    {
+        Name       => 'Zero Hour',
+        TimeStamp  => '1970-01-01 00:00:00',
+        SystemTime => 0,
+    },
+    {
+        Name       => '+ Second',
+        TimeStamp  => '1970-01-01 00:00:01',
+        SystemTime => 1,
+    },
+    {
+        Name       => '+ Hour',
+        TimeStamp  => '1970-01-01 01:00:00',
+        SystemTime => 3600,
+    },
+    {
+        Name       => '- Second',
+        TimeStamp  => '1969-12-31 23:59:59',
+        SystemTime => -1,
+    },
+    {
+        Name       => '- Hour',
+        TimeStamp  => '1969-12-31 23:00:00',
+        SystemTime => -3600,
+    },
+);
+
+# the following tests implies a conversion to 'Date' in the middle, so tests for 'Date' are not
+# needed
+for my $Test (@Tests) {
+    my $SystemTime = $TimeObject->TimeStamp2SystemTime( String => $Test->{TimeStamp} );
+    $Self->Is(
+        $SystemTime,
+        $Test->{SystemTime},
+        " $Test->{Name} TimeStamp2SystemTime()",
+    );
+    my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
+        SystemTime => $Test->{SystemTime},
+    );
+    $Self->Is(
+        $TimeStamp,
+        $Test->{TimeStamp},
+        " $Test->{Name} SystemTime2TimeStamp()",
+    );
+}
 
 1;

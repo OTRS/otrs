@@ -1,0 +1,350 @@
+# --
+# AdminGenericInterfaceTransportHTTPSOAP.tt - provides HTML form for AdminLog
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceTransportHTTPSOAP">
+    <h1>[% Translate("GenericInterface Transport HTTP::SOAP for Web Service %s", Data.WebserviceName) | html %]</h1>
+    <div class="GenericInterfaceWebserviceConfigPath">
+        <h3>
+[% RenderBlockStart("WebservicePathElement") %]
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+            <a href="[% Env("Baselink") %][% Data.Link %];Nav=[% Data.Nav | uri %]">
+                [% Data.Name | html %]
+            </a>
+[% RenderBlockEnd("WebservicePathElement") %]
+[% RenderBlockStart("WebservicePathElementNoLink") %]
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+            [% Data.Name | html %]
+[% RenderBlockEnd("WebservicePathElementNoLink") %]
+
+        </h3>
+    </div>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]" class="CallForAction"><span>[% Translate("Go back to web service") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Network transport") | html %]</h2>
+            </div>
+            <div class="Content">
+                <h3>[% Translate("Properties") | html %]</h3>
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action"/>
+                    <input type="hidden" name="WebserviceID" value="[% Data.WebserviceID | html %]" id="WebserviceID"/>
+                    <input type="hidden" name="CommunicationType" value="[% Data.CommunicationType | html %]" id="CommunicationType"/>
+                    <div class="LayoutGrid ColumnsWithSpacing">
+                        <fieldset class="TableLike">
+
+                            <label>[% Translate("Type") | html %]:</label>
+                            <div class="Field">[% Data.Type | html %]</div>
+                            <div class="Clear"></div>
+
+[% RenderBlockStart("Endpoint") %]
+                            <label class="Mandatory" for="Endpoint">
+                                <span class="Marker">*</span> [% Translate("Endpoint") | html %]:
+                            </label>
+                            <div class="Field">
+                                <input id="Endpoint" class="W50pc Validate_Required [% Data.EndpointServerError | html %]" type="text" maxlength="250" value="[% Data.Endpoint | html %]" name="Endpoint"/>
+                                <div id="EndpointError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="EndpointServerError" class="TooltipErrorMessage"><p>[% Translate(Data.EndpointServerErrorMessage) | html %]</p></div>
+                                <p class="FieldExplanation">
+                                    [% Translate("URI to indicate a specific location for accessing a service.") | html %]
+                                    <br/>
+                                    [% Translate("e.g. http://local.otrs.com:8000/Webservice/Example") | html %]
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
+[% RenderBlockEnd("Endpoint") %]
+
+                            <label class="Mandatory" for="NameSpace"><span class="Marker">*</span>[% Translate("Namespace") | html %]:</label>
+                            <div class="Field">
+                                <input id="NameSpace" class="W50pc [% Data.NameSpaceServerError | html %] Validate_Required" type="text" maxlength="250" value="[% Data.NameSpace | html %]" name="NameSpace"/>
+                                <div id="NameSpaceError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="NameSpaceServerError" class="TooltipErrorMessage"><p>[% Translate(Data.NameSpaceServerErrorMessage) | html %]</p></div>
+                                <p class="FieldExplanation">
+                                    [% Translate("URI to give SOAP methods a context, reducing ambiguities.") | html %]
+                                    <br/>
+                                    [% Translate("e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions") | html %]
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
+
+[% RenderBlockStart("TransportProvider") %]
+                            <label class="Mandatory" for="MaxLength"><span class="Marker">*</span>[% Translate("Maximum message length") | html %]:</label>
+                            <div class="Field">
+                                <input id="MaxLength" class="W25pc Validate_Required Validate_Number [% Data.MaxLengthServerError | html %]" type="text" maxlength="10" value="[% Data.MaxLength | html %]" name="MaxLength"/>
+                                <div id="MaxLengthError" class="TooltipErrorMessage"><p>[% Translate("This field should be an integer number.") | html %]</p></div>
+                                <div id="MaxLengthServerError" class="TooltipErrorMessage"><p>[% Translate(Data.MaxLengthServerErrorMessage) | html %]</p></div>
+                                <p class="FieldExplanation">
+                                    [% Translate("Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.") | html %]
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
+[% RenderBlockEnd("TransportProvider") %]
+
+[% RenderBlockStart("TransportRequester") %]
+                            <label for="Encoding">[% Translate("Encoding") | html %]:</label>
+                            <div class="Field">
+                                <input id="Encoding" class="W50pc" type="text" maxlength="250" value="[% Data.Encoding | html %]" name="Encoding"/>
+                                <p class="FieldExplanation">
+                                    [% Translate("The character encoding for the SOAP message contents.") | html %]
+                                    <br/>
+                                    [% Translate("e.g utf-8, latin1, iso-8859-1, cp1250, Etc.") | html %]
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label for="SOAPAction">[% Translate("SOAPAction") | html %]:</label>
+                            <div class="Field">
+                                [% Data.SOAPActionStrg %]
+                                <p class="FieldExplanation">
+                                    [% Translate("Set to \"Yes\" to send a filled SOAPAction header.") | html %]
+                                    <br/>
+                                    [% Translate("Set to \"No\" to send an empty SOAPAction header.") | html %]
+                                </p>
+                            </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#SOAPAction').bind('change', function(){
+    if ( $(this).val() === 'Yes') {
+        $('.SOAPActionField').removeClass('Hidden');
+    }
+    else {
+        $('.SOAPActionField').addClass('Hidden');
+    }
+});
+//]]></script>
+[% END %]
+                            <div class="Clear"></div>
+
+                            <div class="SOAPActionField [% Data.SOAPActionHidden | html %]">
+                                <fieldset class="TableLike">
+
+                                    <label for="SOAPActionSeparator">[% Translate("SOAPAction separator") | html %]:</label>
+                                    <div class="Field ">
+                                        [% Data.SOAPActionSeparatorStrg %]
+                                        <p class="FieldExplanation">
+                                            [% Translate("Character to use as separator between name space and SOAP method.") | html %]
+                                            <br/>
+                                            [% Translate("Usually .Net web services uses a \"/\" as separator.") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                </fieldset>
+                            </div>
+
+                            <label  for="Authentication">[% Translate("Authentication") | html %]:</label>
+                            <div class="Field">
+                                [% Data.AuthenticationStrg %]
+                                <p class="FieldExplanation">
+                                    [% Translate("The authentication mechanism to access the remote system.") | html %]
+                                    <br/>
+                                    [% Translate("A \"-\" value means no authentication.") | html %]
+                                </p>
+                            </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#Authentication').bind('change', function(){
+    if ( $(this).val() === 'BasicAuth') {
+        $('.BasicAuthField').removeClass('Hidden');
+        $('.BasicAuthField').find('#UserName').each(function(){
+            $(this).addClass('Validate_Required');
+        });
+    }
+    else {
+        $('.BasicAuthField').addClass('Hidden');
+        $('.BasicAuthField').find('#User').each(function(){
+            $(this).removeClass('Validate_Required');
+        });
+    }
+});
+//]]></script>
+[% END %]
+                            <div class="Clear"></div>
+
+                            <div class="BasicAuthField [% Data.BasicAuthHidden | html %]">
+                                <fieldset class="TableLike">
+
+                                    <label class="Mandatory" for="User"><span class="Marker">*</span> [% Translate("User") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="User" class="W50pc [% Data.UserValidateRequired | html %] [% Data.UserServerError | html %]" type="text" maxlength="250" value="[% Data.User | html %]" name="User"/>
+                                        <div id="UserError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <div id="UserServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <p class="FieldExplanation">
+                                            [% Translate("The user name to be used to access the remote system.") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label for="Password">[% Translate("Password") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="Password" class="W50pc " type="password" maxlength="250" value="[% Data.Password | html %]" name="Password"/>
+                                        <p class="FieldExplanation">
+                                            [% Translate("The password for the privileged user.") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+                                </fieldset>
+                            </div>
+
+                            <label  for="UseSSL">[% Translate("Use SSL Options") | html %]:</label>
+                            <div class="Field">
+                                [% Data.UseSSLStrg %]
+                                <p class="FieldExplanation">
+                                    [% Translate("Show or hide SSL options to connect to the remote system.") | html %]
+                                </p>
+                            </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#UseSSL').bind('change', function(){
+    if ( $(this).val() === 'Yes') {
+        $('.SSLField').removeClass('Hidden');
+        $('.SSLField').find('#SSLP12Certificate').each(function(){
+            $(this).addClass('Validate_Required');
+        });
+        $('.SSLField').find('#SSLP12Password').each(function(){
+            $(this).addClass('Validate_Required');
+        });
+    }
+
+    else {
+        $('.SSLField').addClass('Hidden');
+        $('.SSLField').find('#SSLP12Certificate').each(function(){
+            $(this).removeClass('Validate_Required');
+        });
+        $('.SSLField').find('#SSLP12Password').each(function(){
+            $(this).removeClass('Validate_Required');
+        });
+    }
+});
+//]]></script>
+[% END %]
+
+                            <div class="SSLField [% Data.SSLHidden | html %]">
+                                <fieldset class="TableLike">
+
+                                    <label class="Mandatory" for="SSLP12Certificate"><span class="Marker">*</span>[% Translate("Certificate File") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="SSLP12Certificate" class="W50pc [% Data.SSLP12CertificateValidateRequired | html %] [% Data.SSLP12CertificateServerError | html %]" type="text" maxlength="250" value="[% Data.SSLP12Certificate | html %]" name="SSLP12Certificate"/>
+                                        <div id="SSLP12CertificateError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <div id="SSLCertificateServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <p class="FieldExplanation">
+                                            [% Translate("The full path and name of the SSL certificate file (must be in .p12 format).") | html %]
+                                            <br/>
+                                            [% Translate("e.g. /opt/otrs/var/certificates/SOAP/certificate.p12") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label class="Mandatory" for="SSLP12Password"><span class="Marker">*</span>[% Translate("Certificate Password File") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="SSLP12Password" class="W50pc [% Data.SSLP12PasswordValidateRequired | html %] [% Data.SSLP12PasswordServerError | html %]" type="password" maxlength="250" value="[% Data.SSLP12Password | html %]" name="SSLP12Password"/>
+                                        <div id="SSLP12PasswordError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <div id="SSLP12PasswordServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <p class="FieldExplanation">
+                                            [% Translate("The password to open the SSL certificate.") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label for="SSLCAFile">[% Translate("Certification Authority (CA) File") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="SSLCAFile" class="W50pc " type="text" maxlength="250" value="[% Data.SSLCAFile | html %]" name="SSLCAFile"/>
+                                        <p class="FieldExplanation">
+                                            [% Translate("The full path and name of the certification authority certificate file that validates SSL certificate.") | html %]
+                                            <br/>
+                                            [% Translate("e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label for="SSLCADir">[% Translate("Certification Authority (CA) Directory") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="SSLCADir" class="W50pc " type="text" maxlength="250" value="[% Data.SSLCADir | html %]" name="SSLCADir"/>
+                                        <p class="FieldExplanation">
+                                            [% Translate("The full path of the certification authority directory where the CA certificates are stored in the file system.") | html %]
+                                            <br/>
+                                            [% Translate("e.g. /opt/otrs/var/certificates/SOAP/CA") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label for="SSLProxy">[% Translate("Proxy Server") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="SSLProxy" class="W50pc " type="text" maxlength="250" value="[% Data.SSLProxy | html %]" name="SSLProxy"/>
+                                        <p class="FieldExplanation">
+                                            [% Translate("URI of a proxy server to be used (if needed).") | html %]
+                                            <br/>
+                                            [% Translate("e.g. http://proxy_hostname:8080") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+                                    <label for="SSLProxyUser">[% Translate("Proxy User") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="SSLProxyUser" class="W50pc" type="text" maxlength="250" value="[% Data.SSLProxyUser | html %]" name="SSLProxyUser"/>
+                                        <p class="FieldExplanation">
+                                            [% Translate("The user name to be used to access the proxy server.") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label for="SSLProxyPassword">[% Translate("Proxy Password") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="SSLProxyPassword" class="W50pc " type="password" maxlength="250" value="[% Data.SSLProxyPassword | html %]" name="SSLProxyPassword"/>
+                                        <p class="FieldExplanation">
+                                            [% Translate("The password for the proxy user.") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+                                </fieldset>
+                            </div>
+
+[% RenderBlockEnd("TransportRequester") %]
+
+                            <div class="Field SpacingTop">
+                                <button type="submit" class="Primary" value="[% Translate("Save and continue") | html %]">[% Translate("Save") | html %]</button>
+[% RenderBlockStart("SaveAndFinishButton") %]
+                                <button type="submit" id="SaveAndFinishButton" value="[% Translate("Save and finish") | html %]">[% Translate("Save and finish") | html %]</button>
+                                <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#SaveAndFinishButton').bind('click', function(){
+    $('#ReturnToWebservice').val(1);
+});
+//]]></script>
+[% END %]
+[% RenderBlockEnd("SaveAndFinishButton") %]
+                                [% Translate("or") | html %]
+                                <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]">[% Translate("Cancel") | html %]</a>
+                            </div>
+                            <div class="Clear"></div>
+                        </fieldset>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <div class="Clear"></div>
+</div>

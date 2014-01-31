@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -320,6 +320,10 @@ sub Run {
 
     # check follow up
     elsif ( $Self->{Subaction} eq 'Store' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck( Type => 'Customer' );
+
         my $NextScreen = $Self->{NextScreen} || $Self->{Config}->{NextScreenAfterFollowUp};
         my %Error;
 
@@ -610,6 +614,15 @@ sub Run {
                 State     => $NextState,
                 UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             );
+
+            # set unlock on close state
+            if ( $NextState =~ /^close/i ) {
+                $Self->{TicketObject}->TicketLockSet(
+                    TicketID => $Self->{TicketID},
+                    Lock     => 'unlock',
+                    UserID   => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                );
+            }
         }
 
         # set priority
@@ -1347,11 +1360,6 @@ sub _Mask {
                 HTMLResultMode => 1,
                 LinkFeature    => 1,
             );
-
-            # do charset check
-            if ( my $CharsetText = $Self->{LayoutObject}->CheckCharset( %Param, %Article ) ) {
-                $Param{BodyNote} = $CharsetText;
-            }
         }
 
         # security="restricted" may break SSO - disable this feature if requested

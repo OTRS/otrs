@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketOverviewPreview.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -404,6 +404,7 @@ sub _Show {
     my @ActionItems;
     if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') eq 'HASH' ) {
         my %Menus = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
+        MENU:
         for my $Menu ( sort keys %Menus ) {
 
             # load module
@@ -420,10 +421,12 @@ sub _Show {
                 Config => $Menus{$Menu},
             );
 
-            next if !$Item;
-            next if ref $Item ne 'HASH';
+            next MENU if !$Item;
+            next MENU if ref $Item ne 'HASH';
+
+            KEY:
             for my $Key (qw(Name Link Description)) {
-                next if !$Item->{$Key};
+                next KEY if !$Item->{$Key};
                 $Item->{$Key} = $Self->{LayoutObject}->Output(
                     Template => $Item->{$Key},
                     Data     => \%Article,
@@ -979,15 +982,6 @@ sub _Show {
                 HTMLResultMode  => 1,
                 StripEmptyLines => $Param{Config}->{StripEmptyLines},
             );
-
-            # do charset check
-            my $CharsetText = $Self->{LayoutObject}->CheckCharset(
-                %{$ArticleItem},
-                Action => 'AgentTicketZoom',
-            );
-            if ($CharsetText) {
-                $ArticleItem->{BodyNote} = $CharsetText;
-            }
         }
 
         $ArticleItem->{Subject} = $Self->{TicketObject}->TicketSubjectClean(
@@ -1086,8 +1080,9 @@ sub _Show {
 
                     # check if reply all is needed
                     my $Recipients = '';
+                    KEY:
                     for my $Key (qw(From To Cc)) {
-                        next if !$ArticleItem->{$Key};
+                        next KEY if !$ArticleItem->{$Key};
                         if ($Recipients) {
                             $Recipients .= ', ';
                         }
@@ -1100,13 +1095,14 @@ sub _Show {
                             Mode => 'Standalone',
                         );
                         my @Addresses = $EmailParser->SplitAddressLine( Line => $Recipients );
+                        ADDRESS:
                         for my $Address (@Addresses) {
                             my $Email = $EmailParser->GetEmailAddress( Email => $Address );
-                            next if !$Email;
+                            next ADDRESS if !$Email;
                             my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
                                 Address => $Email,
                             );
-                            next if $IsLocal;
+                            next ADDRESS if $IsLocal;
                             $RecipientCount++;
                         }
                     }

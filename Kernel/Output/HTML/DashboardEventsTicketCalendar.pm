@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardEventsTicketCalendar.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -111,21 +111,26 @@ sub Run {
     );
 
     my %QueuesConfigured;
-    for my $Queue (@$Queues) {
+    for my $Queue ( @{$Queues} ) {
         for my $QueueID ( sort keys %QueuesAll ) {
             if ( $QueuesAll{$QueueID} eq $Queue ) {
                 $QueuesConfigured{$QueueID} = $QueuesAll{$QueueID};
             }
         }
     }
-    my %Tickets = $Self->{TicketObject}->TicketSearch(
-        SortBy => $Self->{ConfigObject}->{'SortBy::Default'} || 'Age',
-        QueueIDs => [ sort keys %QueuesConfigured ],
-        UserID   => $Self->{UserID},
-        StateIDs => \@ViewableStateIDs,
-        Result   => 'HASH',
-        %DynamicFieldTimeSearch,
-    );
+
+    my %Tickets;
+    if (%QueuesConfigured) {
+        %Tickets = $Self->{TicketObject}->TicketSearch(
+            SortBy => $Self->{ConfigObject}->{'SortBy::Default'} || 'Age',
+            QueueIDs => [ sort keys %QueuesConfigured ],
+            UserID   => $Self->{UserID},
+            StateIDs => \@ViewableStateIDs,
+            Result   => 'HASH',
+            %DynamicFieldTimeSearch,
+        );
+    }
+
     my @EventsDisplayed;
 
     my $Counter = 1;

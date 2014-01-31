@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Auth.pm - provides the authentication
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -208,10 +208,11 @@ sub Auth {
 
         # use all 11 sync backends
         else {
+            SOURCE:
             for my $Count ( '', 1 .. 10 ) {
 
                 # return on no config setting
-                next if !$Self->{"AuthSyncBackend$Count"};
+                next SOURCE if !$Self->{"AuthSyncBackend$Count"};
 
                 # sync backend
                 $Self->{"AuthSyncBackend$Count"}->Sync( %Param, User => $User );

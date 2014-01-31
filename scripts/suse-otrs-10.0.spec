@@ -109,24 +109,11 @@ if test -e /tmp/otrs-old.tmp; then
     rm -rf /tmp/otrs-old.tmp
 fi
 
-# OTRS 2.0 -> OTRS 2.1
-# remove old ticket config file
-if test -e /opt/otrs/Kernel/Config/Files/Ticket.pm; then
-    mv /opt/otrs/Kernel/Config/Files/Ticket.pm /opt/otrs/Kernel/Config/Files/Ticket.pm.not_longer_used
-fi;
-# remove old ticket postmaster config file
-if test -e /opt/otrs/Kernel/Config/Files/TicketPostMaster.pm; then
-    mv /opt/otrs/Kernel/Config/Files/TicketPostMaster.pm /opt/otrs/Kernel/Config/Files/TicketPostMaster.pm.not_longer_used;
-fi
-# remove old faq config file
-if test -e /opt/otrs/Kernel/Config/Files/FAQ.pm; then
-    mv /opt/otrs/Kernel/Config/Files/FAQ.pm /opt/otrs/Kernel/Config/Files/FAQ.pm.not_longer_used;
-fi
-
 # run OTRS rebuild config, delete cache, if the system was already in use (i.e. upgrade).
+export OTRSUSER=otrs
 if test -e /opt/otrs/Kernel/Config/Files/ZZZAAuto.pm; then
-    /opt/otrs/bin/otrs.RebuildConfig.pl;
-    /opt/otrs/bin/otrs.DeleteCache.pl;
+    su $OTRSUSER -s /bin/bash -c /opt/otrs/bin/otrs.RebuildConfig.pl;
+    su $OTRSUSER -s /bin/bash -c /opt/otrs/bin/otrs.DeleteCache.pl;
 fi
 
 # note

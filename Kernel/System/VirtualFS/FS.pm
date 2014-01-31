@@ -1,6 +1,6 @@
 # --
 # Kernel/System/VirtualFS/FS.pm - all virtual fs functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -126,10 +126,12 @@ sub Write {
 
     my $DataDir = '';
     my @Dirs = $Self->_SplitDir( Filename => $MD5 );
+
+    DIRECTORY:
     for my $Dir (@Dirs) {
         $DataDir .= '/' . $Dir;
-        next if -e $Self->{DataDir} . $DataDir;
-        next if mkdir $Self->{DataDir} . $DataDir;
+        next DIRECTORY if -e $Self->{DataDir} . $DataDir;
+        next DIRECTORY if mkdir $Self->{DataDir} . $DataDir;
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't create $Self->{DataDir}$DataDir: $!",

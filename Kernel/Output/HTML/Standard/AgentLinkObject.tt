@@ -1,0 +1,162 @@
+# --
+# AgentLinkObject.tt - provides HTML for AgentLinkObject mask
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("Link") %]
+<div class="LayoutPopup ARIARoleMain">
+
+    <div class="Header">
+        <h1>
+            [% Translate("Link Object: %s", Data.SourceObjectLong) | html %]
+        </h1>
+        <p>
+            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close" id="CloseLink">[% Translate("Close window") | html %]</a>
+
+[% RenderBlockStart("TemporaryLink") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#CloseLink').bind('click', function (Event) {
+        window.close();
+        return false;
+    });
+//]]></script>
+[% END %]
+[% RenderBlockEnd("TemporaryLink") %]
+
+[% RenderBlockStart("LinkMenuDelete") %]
+            [% Translate("or") | html %]
+            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=LinkDelete;Mode=[% Data.Mode | uri %];SourceObject=[% Data.SourceObject | uri %];SourceKey=[% Data.SourceKey | uri %];TargetIdentifier=[% Data.TargetIdentifier | uri %]">
+                [% Translate("go to link delete screen") | html %]
+            </a>
+[% RenderBlockEnd("LinkMenuDelete") %]
+
+        </p>
+    </div>
+
+    <div class="Content">
+        <form action="[% Env("CGIHandle") %]" method="post" name="compose" id="LinkSearchForm">
+            <input type="hidden" name="Action" value="[% Env("Action") %]" />
+            <input type="hidden" name="Mode" value="[% Data.Mode | html %]" />
+            <input type="hidden" name="SourceObject" value="[% Data.SourceObject | html %]" />
+            <input type="hidden" name="SourceKey" value="[% Data.SourceKey | html %]" />
+
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("Select Target Object") | html %]</h2>
+                </div>
+                <div class="Content">
+                    <fieldset class="TableLike">
+                        <label for="TargetIdentifier">
+                            [% Translate("Link Object") | html %] [% Data.SourceObjectNormal | html %] [% Translate("with") | html %]:
+                        </label>
+                        <div class="Field">
+                            [% Data.TargetObjectStrg %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#TargetIdentifier').bind('change', function (Event) {
+        $('#SubmitSelect').addClass('gotclicked');
+        $(this).closest('form').submit();
+    });
+    // Two submits in this form
+    // if SubmitSelect button was clicked,
+    // add "gotclicked" class to this button
+    $('#SubmitSelect').bind('click.Submit', function () {
+       $('#SubmitSelect').addClass('gotclicked');
+    });
+
+    $('#LinkSearchForm').submit(function () {
+        // If SubmitSelect button was clicked,
+        // "gotclicked" was added as class to the button
+        // remove the class and do the search
+        if ( $('#SubmitSelect').hasClass('gotclicked') ) {
+            $('#SubmitSelect').removeClass('gotclicked');
+            return true;
+        }
+
+        var SearchValueFlag = false;
+        $('#LinkSearchForm input, #LinkSearchForm select').each(function () {
+            if ( $(this).attr('name') && $(this).attr('name').match(/^SEARCH\:\:/) ) {
+                if ( $(this).val() && $(this).val() !== '' ) {
+                    SearchValueFlag = true;
+                }
+            }
+        });
+
+        if ( !SearchValueFlag ) {
+           alert(Core.Config.Get('EmptySearchMsg'));
+           return false;
+        }
+    });
+//]]></script>
+[% END %]
+                            <button type="submit" id="SubmitSelect" name="SubmitSelect" value="[% Translate("Select") | html %]">[% Translate("Select") | html %]</button>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("Search") | html %] [% Data.TargetRealname | html %]</h2>
+                </div>
+                <div class="Content">
+                    <fieldset class="TableLike FixedLabel">
+[% RenderBlockStart("LinkSearchRow") %]
+                        <label for="[% Data.FormKey | html %]">
+                            [% Translate(Data.Name) | html %]:
+                        </label>
+                        <div class="Field">
+                            [% Data.InputStrg %]
+                        </div>
+[% RenderBlockEnd("LinkSearchRow") %]
+                        <div class="Field">
+                            <button type="submit" id="SubmitSearch" name="SubmitSearch" value="[% Translate("Search") | html %]">[% Translate("Search") | html %]</button>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+[% RenderBlockStart("LinkTableComplex") %]
+            [% Data.LinkTableStrg %]
+[% RenderBlockEnd("LinkTableComplex") %]
+        </form>
+    </div>
+</div>
+[% RenderBlockEnd("Link") %]
+
+[% RenderBlockStart("Delete") %]
+<div class="LayoutPopup ARIARoleMain">
+
+    <div class="Header">
+        <h1>
+            [% Translate("Unlink Object: %s", Data.SourceObjectNormal) | html %]
+        </h1>
+        <p>
+            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close">[% Translate("Close window") | html %]</a>
+            [% Translate("or") | html %]
+            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Mode=[% Data.Mode | uri %];SourceObject=[% Data.SourceObject | uri %];SourceKey=[% Data.SourceKey | uri %];TargetIdentifier=[% Data.TargetIdentifier | uri %]" class="menuitem">
+                [% Translate("go to link add screen") | html %]
+            </a>
+        </p>
+    </div>
+    <div class="Content">
+        <h2>[% Translate("Select Target Object") | html %]</h2>
+        <form action="[% Env("CGIHandle") %]" method="get">
+            <input type="hidden" name="Action" value="[% Env("Action") %]" />
+            <input type="hidden" name="Subaction" value="LinkDelete" />
+            <input type="hidden" name="Mode" value="[% Data.Mode | html %]" />
+            <input type="hidden" name="SourceObject" value="[% Data.SourceObject | html %]" />
+            <input type="hidden" name="SourceKey" value="[% Data.SourceKey | html %]" />
+            <input type="hidden" name="TargetIdentifier" value="[% Data.TargetIdentifier | html %]" />
+[% RenderBlockStart("DeleteTableComplex") %]
+            [% Data.LinkTableStrg %]
+[% RenderBlockEnd("DeleteTableComplex") %]
+        </form>
+    </div>
+</div>
+[% RenderBlockEnd("Delete") %]

@@ -1,0 +1,40 @@
+# --
+# Owner.tt - provides Owner HTML for the AgentTicketProcess.pm
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+[% RenderBlockStart("rw:Owner") %]
+<input type="hidden" name="OwnerAll" id="OwnerAll" value="[% Data.OwnerAll | html %]"/>
+<label for="[% Data.FieldID | html %]" class="[% Data.MandatoryClass | html %]">
+[% RenderBlockStart("LabelSpan") %]
+    <span class="Marker">*</span>
+[% RenderBlockEnd("LabelSpan") %]
+    [% Data.Label | html %]:
+</label>
+<div class="Field">
+    [% Data.Content %]
+    <a href="#" id="OwnerSelectionGetAll" class="GetAllAJAX" title="[% Translate("Get all") | html %]">[% Translate("Get all") | html %]</a>
+    <div id="[% Data.FieldID | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+    <div id="[% Data.FieldID | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#[% Data.FieldID %]').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', '[% Data.FieldID %]' , [ [% Data.FieldsToUpdate %] ] );
+    });
+    $('#OwnerSelectionGetAll').bind('click', function (Event) {
+        $('#OwnerAll').val('1');
+        Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', '[% Data.FieldID %]', ['[% Data.FieldID %]']);
+        return false;
+    });
+
+//]]></script>
+[% END %]
+[% RenderBlockStart("rw:Owner:DescriptionShort") %]
+    <div class="FieldExplanation">[% Data.DescriptionShort | html %]</div>
+[% RenderBlockEnd("rw:Owner:DescriptionShort") %]
+</div>
+<div class="Clear"></div>
+[% RenderBlockEnd("rw:Owner") %]

@@ -1,0 +1,249 @@
+# --
+# AdminACLEdit.tt - provides HTML for AdminACL
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Edit ACL %s", Data.Name) | html %]</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Center Fullsize Back"><span>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+[% RenderBlockStart("ACLDeleteAction") %]
+                    <li>
+                        <a href="#" id="ACLDelete" class="CallForAction Trash Center Fullsize" data-dialog-element="DeleteACLConfirmationDialog" data-dialog-title="[% Translate("Delete ACL") | html %]" data-id="[% Data.ID | html %]"><span>[% Translate("Delete Invalid ACL") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("ACLDeleteAction") %]
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Description") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    <strong>[% Translate("Match settings") | html %]</strong>: [% Translate("Set up matching criteria for this ACL. Use 'Properties' to match the current screen or 'PropertiesDatabase' to match attributes of the current ticket that are in the database.") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    <strong>[% Translate("Change settings") | html %]</strong>: [% Translate("Set up what you want to change if the criteria match. Keep in mind that 'Possible' is a white list, 'PossibleNot' a black list.") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    [% Translate("Check the official") | html %] <a href="http://doc.otrs.org/3.3/en/html/customization.html#acl" target="_blank">[% Translate("documentation") | html %]</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <form action="[% Env("CGIHandle") %]" method="post" id="ACLForm" class="Validate PreventMultipleSubmits">
+            <div class="WidgetSimple Expanded">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate("Edit ACL information") | html %]</h2>
+                </div>
+                <div class="Content">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="ACLEditAction"/>
+                    <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+                    <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
+                    <input type="hidden" name="ConfigMatch" value="[% Data.ConfigMatch | html %]"/>
+                    <input type="hidden" name="ConfigChange" value="[% Data.ConfigChange | html %]"/>
+                    <fieldset class="TableLike">
+                        <label class="Mandatory" for="Name"><span class="Marker">*</span> [% Translate("Name") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Name" id="Name" value="[% Data.Name | html %]" class="W50pc Validate_Required [% Data.NameServerError | html %]" maxlength="70"/>
+                            <div id="NameError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="NameServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Comment">[% Translate("Comment") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Comment" id="Comment" value="[% Data.Comment | html %]" class="W50pc [% Data.CommentServerError | html %]" maxlength="70"/>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Description">[% Translate("Description") | html %]:</label>
+                        <div class="Field">
+                            <textarea name="Description" id="Description" class="W50pc [% Data.DescriptionServerError | html %]" rows="5">[% Data.Description | html %]</textarea>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="StopAfterMatch">[% Translate("Stop after match") | html %]:</label>
+                        <div class="Field">
+                            <input type="checkbox" name="StopAfterMatch" id="StopAfterMatch" value="1" [% Data.Checked %] />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> [% Translate("Validity") | html %]:</label>
+                        <div class="Field">
+                            [% Data.ValidOption %]
+                            <div id="ValidIDError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="WidgetSimple">
+                <div class="Header Expanded">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate("Edit ACL structure") | html %]</h2>
+                </div>
+                <div class="Content">
+                    <fieldset class="TableLike ACLStructure">
+                        <div class="ACLFields">
+                            <h4>[% Translate("Match settings") | html %]</h4>
+                            <ul class="ACLFieldGroup" id="ACLMatch"></ul>
+                            [% Data.ACLKeysLevel1Match %]
+                        </div>
+                    </fieldset>
+                    <fieldset class="TableLike ACLStructure">
+                        <div class="ACLFields">
+                            <h4>[% Translate("Change settings") | html %]</h4>
+                            <ul class="ACLFieldGroup" id="ACLChange"></ul>
+                            [% Data.ACLKeysLevel1Change %]
+                        </div>
+                    </fieldset>
+
+                    <ul class="Hidden" id="TemplateLevel1">
+                        <li class="DataItem">
+                            <span class="Trigger Collapse"></span>
+                            <span class="Icon Remove"></span>
+                            <strong></strong>
+                            <ul>
+                                <li class="Even Last">
+                                    <span class="Icon Add"></span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="Hidden" id="TemplateLevel2">
+                        <li class="DataItem">
+                            <span class="Trigger Collapse"></span>
+                            <span class="Icon Remove"></span>
+                            <strong></strong>
+                            <ul>
+                                <li>
+                                    <span class="Icon Add NoMargin"></span>
+                                    <input type="text" class="NewDataKey" data-level="3" />
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="Hidden" id="TemplateLevel2Last">
+                        <li class="DataItem">
+                            <span class="Trigger Collapse"></span>
+                            <span class="Icon Remove"></span>
+                            <strong></strong>
+                            <ul class="LastLevel">
+                                <li>
+                                    [% Data.ACLKeysLevel4Prefixes %]
+                                    <span class="Icon Add AddDataItem"></span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="Hidden" id="TemplateLevel3">
+                        <li class="DataItem Editable">
+                            <span class="Icon Remove"></span>
+                            <ul>
+                                <li>
+                                    [% Data.ACLKeysLevel4Prefixes %]
+                                    <span class="Icon Add AddDataItem"></span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="Hidden" id="TemplateLevel4">
+                        <li class="DataItem Editable"><em>x</em></li>
+                    </ul>
+
+                    <div class="Hidden">
+                        [% Data.ACLKeysLevel2Possible %]
+                    </div>
+                    <div class="Hidden">
+                        [% Data.ACLKeysLevel2PossibleNot %]
+                    </div>
+                    <div class="Hidden">
+                        [% Data.ACLKeysLevel2Properties %]
+                    </div>
+                    <div class="Hidden">
+                        [% Data.ACLKeysLevel2PropertiesDatabase %]
+                    </div>
+                    <div class="Hidden">
+                        [% Data.ACLKeysLevel3DynamicFields %]
+                    </div>
+                    <div class="Hidden">
+                        [% Data.ACLKeysLevel3Actions %]
+                    </div>
+
+                    <fieldset class="TableLike">
+                        <div class="Field SpacingTop SaveButtons">
+                            <button class="Primary" id="SubmitAndContinue" type="submit" value="[% Translate("Save") | html %]">[% Translate("Save") | html %]</button>
+                            [% Translate("or") | html %]
+                            <button class="Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]">[% Translate("Save and finish") | html %]</button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="Clear"></div>
+</div>
+
+<div id="Dialogs" class="Hidden">
+    <div id="DeleteACLConfirmationDialog">
+        <p>[% Translate("Do you really want to delete this ACL?") | html %]</p>
+        <p class="SpacingTop"><strong>[% Data.Name | html %]</strong></p>
+    </div>
+</div>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+//Localizations
+Core.Agent.Admin.ACL.Localization = {
+    CancelMsg:      "[% Translate("Cancel") | html %]",
+    DeleteMsg:      "[% Translate("Delete") | html %]",
+    ConfirmRemoval: "[% Translate("This item still contains sub items. Are you sure you want to remove this item including its sub items?") | html %]",
+    AlreadyAdded:   "[% Translate("An item with this name is already present.") | html %]",
+    AddAll:         "[% Translate("Add all") | html %]",
+    JSONError:      "[% Translate("There was an error reading the ACL data.") | html %]"
+};
+
+Core.Agent.Admin.ACL.InitACLEdit();
+//]]></script>
+[% END %]

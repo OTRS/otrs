@@ -1,0 +1,27 @@
+# --
+# Notify.tt - provides HTML Notify for AgentNotify.pm
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<!-- start Notify -->
+<div class="MessageBox [% Data.BoxClass %]">
+    <p>
+[% RenderBlockStart("LinkStart") %]
+        <a href="[% Data.LinkStart %]" class="[% Data.LinkClass | html %]">
+[% RenderBlockEnd("LinkStart") %]
+[% RenderBlockStart("Text") %]
+            [% Translate(Data.Info) | html %]
+[% RenderBlockEnd("Text") %]
+[% RenderBlockStart("Data") %]
+            [% Data.Data %]
+[% RenderBlockEnd("Data") %]
+[% RenderBlockStart("LinkStop") %]
+        </a>
+[% RenderBlockEnd("LinkStop") %]
+    </p>
+#    <a class="Close" title="[% Translate("Close this message") | html %]" href="">[% Translate("Close this message") | html %]</a>
+</div>
+<!-- end Notify -->

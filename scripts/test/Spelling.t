@@ -1,6 +1,6 @@
 # --
 # Spelling.t - Authentication tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -102,6 +102,7 @@ my @Tests = (
 
 );
 
+TEST:
 for my $Test (@Tests) {
 
     # configure spell checker bin
@@ -145,7 +146,7 @@ for my $Test (@Tests) {
             "$Test->{Name} - Spelling -Seems like language file was not found," .
                 " you must install the English dictionary for the spell checker!",
         );
-        next;
+        next TEST;
     }
 
     if ( $Test->{Replace} ) {

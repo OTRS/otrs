@@ -1,6 +1,6 @@
 # --
 # Main.t - Main tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -649,11 +649,12 @@ $Self->Is(
 
 my %Values;
 my $Seen = 0;
+COUNTER:
 for my $Counter ( 1 .. 100_000 ) {
     my $Random = $Self->{MainObject}->GenerateRandomString( Length => 16 );
     if ( $Values{$Random}++ ) {
         $Seen = 1;
-        last;
+        last COUNTER;
     }
 }
 

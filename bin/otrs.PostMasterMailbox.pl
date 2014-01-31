@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.PostMasterMailbox.pl - the global eMail handle for email2db
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -45,7 +45,7 @@ my %Opts = ();
 getopt( 'upshdftb', \%Opts );
 if ( $Opts{h} ) {
     print "PostMasterMailbox.pl - Fetch mail accounts for OTRS\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print "usage: PostMasterMailbox.pl -t <TYPE> (POP3|POP3S|IMAP|IMAPS) -s <SERVER> -u <USER> ";
     print "-p <PASSWORD> [-d 1-2] [-b <BACKGROUND_INTERVAL_IN_MIN>] [-f force]\n";
     exit 1;

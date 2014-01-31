@@ -1,0 +1,48 @@
+# --
+# Customer.tt - provides Customer HTML for the AgentTicketProcess.pm
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% InsertTemplate("AgentCustomerSearch.tt") %]
+
+[% RenderBlockStart("rw:Customer") %]
+<input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="[% Data.SelectedCustomerUser | html %]"/>
+<label for="CustomerAutoComplete" class="[% Data.MandatoryClass | html %]">
+[% RenderBlockStart("LabelSpanCustomerUser") %]
+    <span class="Marker">*</span>
+[% RenderBlockEnd("LabelSpanCustomerUser") %]
+    [% Data.LabelCustomerUser | html %]:
+</label>
+<div class="Field">
+    <input id="CustomerAutoComplete" type="text" name="CustomerUserID" value="[% Data.CustomerUserID | html %]" class="W75pc Validate_Required [% Data.CustomerUserIDServerError | html %]" autocomplete="off" />
+    <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+    <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+</div>
+<div class="Clear"></div>
+
+<label for="CustomerID" class="[% Data.MandatoryClass %]">
+[% RenderBlockStart("LabelSpanCustomerID") %]
+    <span class="Marker">*</span>
+[% RenderBlockEnd("LabelSpanCustomerID") %]
+    [% Data.LabelCustomerID | html %]:
+</label>
+<div class="Field">
+    <input type="text" id="CustomerID" name="CustomerID" value="[% Data.CustomerID | html %]" class="W50pc Validate_Required [% Data.CustomerIDServerError | html %]"/>
+    <div id="CustomerIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+    <div id="CustomerIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+[% RenderBlockStart("rw:Customer:DescriptionShort") %]
+    <div class="FieldExplanation">[% Data.DescriptionShort %]</div>
+[% RenderBlockEnd("rw:Customer:DescriptionShort") %]
+</div>
+<div class="Clear"></div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Config.Set('ProcessManagement.UpdatableFields', [% Data.FieldsToUpdate %]);
+   //]]></script>
+[% END %]
+
+[% RenderBlockEnd("rw:Customer") %]

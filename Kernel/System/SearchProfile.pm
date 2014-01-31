@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SearchProfile.pm - module to manage search profiles
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -252,6 +252,7 @@ sub SearchProfileDelete {
 
     # delete cache
     my $CacheKey = $Login . '::' . $Param{Name};
+    $Self->{CacheInternalObject}->Delete( Key => $Login );
     $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
     return 1;
 }

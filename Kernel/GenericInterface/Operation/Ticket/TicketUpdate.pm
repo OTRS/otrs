@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Operation/Ticket/TicketUpdate.pm - GenericInterface Ticket TicketUpdate operation backend
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -249,6 +249,10 @@ sub Run {
             ErrorCode    => 'TicketUpdate.AuthFail',
             ErrorMessage => "TicketUpdate: User could not be authenticated!",
         );
+    }
+
+    if ( $UserType eq 'Customer' ) {
+        $UserID = $Self->{ConfigObject}->Get('CustomerPanelUserID')
     }
 
     # check TicketID
@@ -937,7 +941,7 @@ sub _CheckArticle {
     # check Article->TimeUnit
     # TimeUnit could be required or not depending on sysconfig option
     if (
-        !$Article->{TimeUnit}
+        !defined $Article->{TimeUnit}
         && $Self->{ConfigObject}->{'Ticket::Frontend::AccountTime'}
         && $Self->{ConfigObject}->{'Ticket::Frontend::NeedAccountedTime'}
         )
@@ -1404,7 +1408,7 @@ sub _TicketUpdate {
     my %TicketData = $Self->{TicketObject}->TicketGet(
         TicketID      => $TicketID,
         DynamicFields => 0,
-        UserID        => $Param{UserId},
+        UserID        => $Param{UserID},
     );
 
     # update ticket parameters

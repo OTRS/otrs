@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Notification.pm - lib for notifications
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -186,10 +186,11 @@ sub NotificationList {
 
     # get possible notification types
     my %Types;
+    TYPE:
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
         # do not use customer notifications this way anymore (done by notification event now)
-        next if $Data[1] =~ /Customer::(Owner|Queue|State)Update/;
+        next TYPE if $Data[1] =~ /Customer::(Owner|Queue|State)Update/;
         $Types{ $Data[1] } = 1;
     }
     for (qw(NewTicket FollowUp LockTimeout OwnerUpdate AddNote Move PendingReminder Escalation)) {
@@ -211,10 +212,11 @@ sub NotificationList {
             . ' notification_language FROM notifications',
     );
 
+    TYPE:
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
         # do not use customer notifications this way anymore (done by notification event now)
-        next if $Data[1] =~ /Customer::(Owner|Queue|State)Update/;
+        next TYPE if $Data[1] =~ /Customer::(Owner|Queue|State)Update/;
 
         # remember list
         $List{ $Data[3] . '::' . $Data[1] } = $Data[3] . '::' . $Data[1];

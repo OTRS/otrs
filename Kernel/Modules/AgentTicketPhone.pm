@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -219,7 +219,9 @@ sub Run {
             my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
             $Output .= $Self->{LayoutObject}->Notify(
                 Info => 'Ticket "%s" created!", "' . $Ticket{TicketNumber},
-                Link => '$Env{"Baselink"}Action=AgentTicketZoom;TicketID=' . $Ticket{TicketID},
+                Link => $Self->{LayoutObject}->{Baselink}
+                    . 'Action=AgentTicketZoom;TicketID='
+                    . $Ticket{TicketID},
             );
         }
 
@@ -279,10 +281,10 @@ sub Run {
 
             # if To is present and is no a queue
             # set To as article from
-            my $FromQueueID;
             if ( IsStringWithData( $Article{To} ) ) {
-                $FromQueueID = $Self->{QueueObject}->QueueLookup( Queue => $Article{To} );
-                if ( !defined $FromQueueID ) {
+                my %Queues      = $Self->{QueueObject}->QueueList();
+                my %QueueLookup = reverse %Queues;
+                if ( !defined $QueueLookup{ $Article{To} } ) {
                     $ArticleFrom = $Article{To};
                 }
             }
@@ -1220,6 +1222,7 @@ sub Run {
 
             # remove unused inline images
             my @NewAttachmentData;
+            ATTACHMENT:
             for my $Attachment (@AttachmentData) {
                 my $ContentID = $Attachment->{ContentID};
                 if ($ContentID) {
@@ -1232,7 +1235,8 @@ sub Run {
                     $GetParam{Body} =~ s/(ContentID=)$ContentIDLinkEncode/$1$ContentID/g;
 
                     # ignore attachment if not linked in body
-                    next if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
+                    next ATTACHMENT
+                        if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
                 }
 
                 # remember inline images and normal attachments
@@ -1244,6 +1248,12 @@ sub Run {
             $GetParam{Body} = $Self->{LayoutObject}->RichTextDocumentComplete(
                 String => $GetParam{Body},
             );
+        }
+
+        my $PlainBody = $GetParam{Body};
+
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+            $PlainBody = $Self->{LayoutObject}->RichText2Ascii( String => $GetParam{Body} );
         }
 
         # check if new owner is given (then send no agent notify)
@@ -1272,7 +1282,7 @@ sub Run {
                 From    => $GetParam{From},
                 To      => $GetParam{To},
                 Subject => $GetParam{Subject},
-                Body    => $Self->{LayoutObject}->RichText2Ascii( String => $GetParam{Body} ),
+                Body    => $PlainBody,
 
             },
             Queue => $Self->{QueueObject}->QueueLookup( QueueID => $NewQueueID ),
@@ -1572,7 +1582,7 @@ sub Run {
             if ( !$RemoveSuccess ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Form attachments coud not be deleted!",
+                    Message  => "Form attachments could not be deleted!",
                 );
             }
 
@@ -1961,11 +1971,12 @@ sub _GetTos {
         );
 
         # build selection string
+        QUEUEID:
         for my $QueueID ( sort keys %Tos ) {
             my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
 
             # permission check, can we create new tickets in queue
-            next if !$UserGroups{ $QueueData{GroupID} };
+            next QUEUEID if !$UserGroups{ $QueueData{GroupID} };
 
             my $String = $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionString')
                 || '<Realname> <<Email>> - Queue: <Queue>';
@@ -2448,8 +2459,9 @@ sub _MaskPhoneNew {
     }
 
     # show attachments
+    ATTACHMENT:
     for my $Attachment ( @{ $Param{Attachments} } ) {
-        next if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
+        next ATTACHMENT if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster/Filter/MatchDBSource.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,8 +65,9 @@ sub Run {
         }
 
         # match 'Match => ???' stuff
-        my $Matched    = '';
-        my $MatchedNot = 0;
+        my $Matched       = '';
+        my $MatchedNot    = 0;
+        my $MatchedResult = '';
         for ( sort keys %Match ) {
 
             # match only email addresses
@@ -76,12 +77,15 @@ sub Run {
                     Line => $Param{GetParam}->{$_},
                 );
                 my $LocalMatched;
-                RECIPIENTS:
+                RECIPIENT:
                 for my $Recipients (@EmailAddresses) {
                     my $Email = $Self->{ParserObject}->GetEmailAddress( Email => $Recipients );
-                    next if !$Email;
+                    next RECIPIENT if !$Email;
                     if ( $Email =~ /^$SearchEmail$/i ) {
-                        $LocalMatched = $SearchEmail || 1;
+                        $LocalMatched = 1;
+                        if ($SearchEmail) {
+                            $MatchedResult = $SearchEmail;
+                        }
                         if ( $Self->{Debug} > 1 ) {
                             $Self->{LogObject}->Log(
                                 Priority => 'debug',
@@ -89,14 +93,14 @@ sub Run {
                                     "$Prefix'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched!",
                             );
                         }
-                        last RECIPIENTS;
+                        last RECIPIENT;
                     }
                 }
                 if ( !$LocalMatched ) {
                     $MatchedNot = 1;
                 }
                 else {
-                    $Matched = $LocalMatched;
+                    $Matched = 1;
                 }
 
                 # switch MatchedNot and $Matched
@@ -119,11 +123,9 @@ sub Run {
 
                 # don't lose older match values if more than one header is
                 # used for matching.
+                $Matched = 1;
                 if ($1) {
-                    $Matched = $1;
-                }
-                else {
-                    $Matched = $Matched || '1';
+                    $MatchedResult = $1;
                 }
 
                 if ( $Self->{Debug} > 1 ) {
@@ -150,7 +152,7 @@ sub Run {
         # should I ignore the incoming mail?
         if ( $Matched && !$MatchedNot ) {
             for ( sort keys %Set ) {
-                $Set{$_} =~ s/\[\*\*\*\]/$Matched/;
+                $Set{$_} =~ s/\[\*\*\*\]/$MatchedResult/;
                 $Param{GetParam}->{$_} = $Set{$_};
                 $Self->{LogObject}->Log(
                     Priority => 'notice',

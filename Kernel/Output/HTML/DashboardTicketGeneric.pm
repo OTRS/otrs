@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -294,20 +294,10 @@ sub Preferences {
         && IsHashRefWithData( $Self->{Config}->{DefaultColumns} )
         )
     {
-        @ColumnsAvailable = grep { $Self->{Config}->{DefaultColumns}->{$_} ne '0' }
+        @ColumnsAvailable = grep { $Self->{Config}->{DefaultColumns}->{$_} }
             keys %{ $Self->{Config}->{DefaultColumns} };
         @ColumnsEnabled = grep { $Self->{Config}->{DefaultColumns}->{$_} eq '2' }
             keys %{ $Self->{Config}->{DefaultColumns} };
-    }
-
-    # get dynamic fields
-    my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldList(
-        ObjectType => 'Ticket',
-        ResultType => 'HASH',
-    );
-
-    for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
-        push @ColumnsAvailable, 'DynamicField_' . $DynamicFieldList->{$DynamicFieldID};
     }
 
     # check if the user has filter preferences for this widget
@@ -388,8 +378,7 @@ sub Config {
     return (
         %{ $Self->{Config} },
 
-        # remember, do not allow to use page cache
-        # (it's not working because of internal filter)
+        # Don't cache this globally as it contains JS that is not inside of the HTML.
         CacheTTL => undef,
         CacheKey => undef,
     );
@@ -516,6 +505,13 @@ sub Run {
 
     if ( !$TicketIDs ) {
 
+        # quote all CustomerIDs
+        if ( $TicketSearch{CustomerID} ) {
+            $TicketSearch{CustomerID} = $Self->{DBObject}->QueryStringEscape(
+                QueryString => $TicketSearch{CustomerID},
+            );
+        }
+
         # add sort by parameter to the search
         if (
             !defined $TicketSearch{SortBy}
@@ -554,8 +550,9 @@ sub Run {
 
     # if no cache or new list result, do count lookup
     if ( !$Summary || !$CacheUsed ) {
+        TYPE:
         for my $Type ( sort keys %TicketSearchSummary ) {
-            next if !$TicketSearchSummary{$Type};
+            next TYPE if !$TicketSearchSummary{$Type};
 
             # copy original column filter
             my %ColumnFilter = %{ $Self->{ColumnFilter} };
@@ -1186,9 +1183,10 @@ sub Run {
 
     # show tickets
     my $Count = 0;
+    TICKETID:
     for my $TicketID ( @{$TicketIDs} ) {
         $Count++;
-        next if $Count < $Self->{StartHit};
+        next TICKETID if $Count < $Self->{StartHit};
         my %Ticket = $Self->{TicketObject}->TicketGet(
             TicketID      => $TicketID,
             UserID        => $Self->{UserID},
@@ -1830,8 +1828,9 @@ sub _SearchParamsGet {
         }
     }
 
+    STRING:
     for my $String (@Params) {
-        next if !$String;
+        next STRING if !$String;
         my ( $Key, $Value ) = split /=/, $String;
 
         # push ARRAYREF attributes directly in an ARRAYREF

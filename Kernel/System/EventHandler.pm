@@ -1,6 +1,6 @@
 # --
 # Kernel/System/EventHandler.pm - global object events
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -233,10 +233,10 @@ sub EventHandler {
                 #   we are processing a queued event in transaction mode. Only execute
                 #   this if the transaction settings of event and listener are the same.
 
-                # next if we are not in transaction mode, but module is in transaction
+                # skip if we are not in transaction mode, but module is in transaction
                 next MODULE if !$Param{Transaction} && $Modules->{$Module}->{Transaction};
 
-                # next if we are in transaction mode, but module is not in transaction
+                # skip if we are in transaction mode, but module is not in transaction
                 next MODULE if $Param{Transaction} && !$Modules->{$Module}->{Transaction};
             }
 

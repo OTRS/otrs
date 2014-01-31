@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentLinkObject.pm - to link objects
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -195,9 +195,10 @@ sub Run {
                 # output an error notification
                 $Output .= $Self->{LayoutObject}->Notify(
                     Priority => 'Error',
-                    Data     => '$Text{"Can not delete link with %s!", "'
-                        . $TargetObjectDescription{Normal}
-                        . '"}',
+                    Data     => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                        "Can not delete link with %s!",
+                        $TargetObjectDescription{Normal},
+                    ),
                 );
             }
         }
@@ -346,11 +347,14 @@ sub Run {
                         # output an error notification
                         $Output .= $Self->{LayoutObject}->Notify(
                             Priority => 'Error',
-                            Data     => '$Text{"Can not create link with %s!", "'
-                                . $TargetObjectDescription{Normal}
-                                . '"} $Text{"Object already linked as %s.", "'
-                                . $TypeName
-                                . '"}',
+                            Data     => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                                "Can not create link with %s!",
+                                $TargetObjectDescription{Normal},
+                                )
+                                . $Self->{LayoutObject}->{LanguageObject}->Translate(
+                                "Object already linked as %s.",
+                                $TypeName,
+                                ),
                         );
 
                         next TARGETKEYORG;
@@ -415,9 +419,10 @@ sub Run {
                     # output an error notification
                     $Output .= $Self->{LayoutObject}->Notify(
                         Priority => 'Error',
-                        Data     => '$Text{"Can not create link with %s!", "'
-                            . $TargetObjectDescription{Normal}
-                            . '"}',
+                        Data     => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                            "Can not create link with %s!",
+                            $TargetObjectDescription{Normal}
+                        ),
                     );
                 }
             }

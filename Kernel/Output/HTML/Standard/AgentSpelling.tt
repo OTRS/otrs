@@ -1,0 +1,72 @@
+# --
+# AgentSpelling.tt - provides HTML form for AgentSpelling
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("SpellCheckerExtern") %]
+<div class="LayoutPopup">
+    <div class="Content">
+        <h1>[% Translate("Spell Checker") | html %]</h1>
+        <h2>[% Data.SpellCounter | html %] [% Translate("spelling error(s)") | html %]</h2>
+        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="spelling">
+            <input type="hidden" name="Action" value="AgentSpelling"/>
+            <input type="hidden" name="Field" id="Field" value="[% Data.Field | html %]"/>
+            <fieldset>
+                [% Translate("Language") | html %]: [% Data.SpellLanguageString %]
+            </fieldset>
+            <table id="SpellCheck" class="DataTable">
+                <thead>
+                    <tr>
+                        <th>[% Translate("Line") | html %]</th>
+                        <th>[% Translate("Word") | html %]</th>
+                        <th colspan="2">[% Translate("replace with") | html %]</th>
+                        <th>[% Translate("Change") | html %]</th>
+                        <th>[% Translate("Ignore") | html %]</th>
+                    </tr>
+                </thead>
+                <tbody>
+[% RenderBlockStart("Row") %]
+                    <tr id="Row[% Data.Count | html %]">
+                        <td align="center">[% Data.Line | html %]</td>
+                        <td>
+                            <strong>[% Data.Word | html %]</strong>
+                            <input type="hidden" name="SpellCheckOld::[% Data.Count | html %]" value="[% Data.Word | html %]"/>
+                        </td>
+                        <td>[% Data.OptionList %]</td>
+                        <td>
+                            [% Translate("or") | html %]
+                            <input type="text" name="SpellCheckOrReplace::[% Data.Count | html %]" value="" size="20" />
+                        </td>
+                        <td class="Center">
+                            <input type="radio" id="ChangeWord[% Data.Count | html %]" name="SpellCheck::Replace::[% Data.Count | html %]" value="[% Data.Word | html %]" />
+                        </td>
+                        <td class="Center">
+                            <input type="radio" id="IgnoreWord[% Data.Count | html %]" name="SpellCheck::Replace::[% Data.Count | html %]" value="" checked="checked" />
+                        </td>
+                    </tr>
+[% RenderBlockEnd("Row") %]
+                </tbody>
+            </table>
+            <fieldset class="SpacingTop">
+                <button type="submit" value="[% Translate("Apply these changes") | html %]">[% Translate("Apply these changes") | html %]</button>
+            </fieldset>
+            <fieldset class="SpacingTop">
+                <textarea id="Body" name="Body" rows="22" cols="78">[% Data.Body | html %]</textarea>
+            </fieldset>
+            <fieldset class="SpacingTop">
+                <button type="button" id="Apply" value="[% Translate("Done") | html %]">[% Translate("Done") | html %]</button>
+                <button type="button" id="Cancel" value="[% Translate("Cancel") | html %]">[% Translate("Cancel") | html %]</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.TicketAction.InitSpellCheck();
+//]]></script>
+[% END %]
+[% RenderBlockEnd("SpellCheckerExtern") %]

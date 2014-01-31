@@ -1,6 +1,6 @@
 # --
 # scripts/test/Layout/Blocks.t - layout testscript
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,11 +50,13 @@ my @Tests = (
 
     # test 1
     {
-        Input => '<!-- dtl:block:ConfigElementBlock -->
+        Input => '
+[% RenderBlockStart("ConfigElementBlock") -%]
 <b>test</b>
-<!-- dtl:block:ConfigElementBlock -->',
+[% RenderBlockEnd("ConfigElementBlock") -%]',
         Result => '
-<b>test</b>',
+<b>test</b>
+',
         Block => [
             {
                 Name => 'ConfigElementBlock',
@@ -66,12 +68,14 @@ my @Tests = (
 
     # test 2
     {
-        Input => '<!-- dtl:block:ConfigElementBlock -->
-<b>$QData{"Name"}</b>
-<!-- dtl:block:ConfigElementBlock -->',
+        Input => '
+[% RenderBlockStart("ConfigElementBlock") -%]
+<b>[% Data.Name | html %]</b>
+[% RenderBlockEnd("ConfigElementBlock") -%]',
         Result => '
 <b>test123</b>
-<b>test1234</b>',
+<b>test1234</b>
+',
         Block => [
             {
                 Name => 'ConfigElementBlock',
@@ -88,26 +92,23 @@ my @Tests = (
     # test 3
     {
         Input => '
-<!-- dtl:block:Block1 -->
-<b>$QData{"Name"}</b>
-<!-- dtl:block:Block11 -->
-    <b>$QData{"Name"}</b>
-<!-- dtl:block:Block11 -->
-<!-- dtl:block:Block1 -->
-<!-- dtl:block:Block2 -->
-<b>$QData{"Name"}</b>
-<!-- dtl:block:Block2 -->
+[% RenderBlockStart("Block1") -%]
+<b>[% Data.Name | html %]</b>
+[% RenderBlockStart("Block11") -%]
+    <b>[% Data.Name | html %]</b>
+[% RenderBlockEnd("Block11") -%]
+[% RenderBlockEnd("Block1") -%]
+[% RenderBlockStart("Block2") -%]
+<b>[% Data.Name | html %]</b>
+[% RenderBlockEnd("Block2") -%]
 ',
         Result => '
-
 <b>Block1_1</b>
-
     <b>Block11_1</b>
     <b>Block11_2</b>
 <b>Block1_2</b>
-
-
-<b>Block2_1</b>',
+<b>Block2_1</b>
+',
         Block => [
             {
                 Name => 'Block1',
@@ -135,17 +136,18 @@ my @Tests = (
 
     # test 4
     {
-        Input => '<!-- dtl:block:ConfigElementBlock1 -->
-<b>$QData{"Name1"}</b>
-<!-- dtl:block:ConfigElementBlock2 -->
-<b>$QData{"Name2"}</b>
-<!-- dtl:block:ConfigElementBlock2 -->
-<!-- dtl:block:ConfigElementBlock1 -->',
+        Input => '
+[% RenderBlockStart("ConfigElementBlock1") -%]
+<b>[% Data.Name1 | html %]</b>
+[% RenderBlockStart("ConfigElementBlock2") -%]
+<b>[% Data.Name2 | html %]</b>
+[% RenderBlockEnd("ConfigElementBlock2") -%]
+[% RenderBlockEnd("ConfigElementBlock1") -%]',
 
         Result => '
 <b>test123</b>
-
-<b>test1234</b>',
+<b>test1234</b>
+',
         Block => [
             {
                 Name => 'ConfigElementBlock1',
@@ -161,26 +163,25 @@ my @Tests = (
 
     # test 5
     {
-        Input => '<!-- dtl:block:ConfigElementBlock1 -->
-<b>$QData{"Name1"}</b>
-<!-- dtl:block:ConfigElementBlock1A -->
-<b>$QData{"Name1A"}</b>
-<!-- dtl:block:ConfigElementBlock1A -->
-<!-- dtl:block:ConfigElementBlock1 -->
-<!-- dtl:block:ConfigElementBlock2 -->
-<b>$QData{"Name2"}</b>
-<!-- dtl:block:ConfigElementBlock2 -->',
+        Input => '
+[% RenderBlockStart("ConfigElementBlock1") -%]
+<b>[% Data.Name1 | html %]</b>
+[% RenderBlockStart("ConfigElementBlock1A") -%]
+<b>[% Data.Name1A | html %]</b>
+[% RenderBlockEnd("ConfigElementBlock1A") -%]
+[% RenderBlockEnd("ConfigElementBlock1") -%]
+[% RenderBlockStart("ConfigElementBlock2") -%]
+<b>[% Data.Name2 | html %]</b>
+[% RenderBlockEnd("ConfigElementBlock2") -%]',
 
         Result => '
 <b>AAA</b>
-
 <b>BBB1</b>
 <b>BBB2</b>
 <b>XXX</b>
-
 <b>YYY</b>
-
-<b>CCC</b>',
+<b>CCC</b>
+',
         Block => [
             {
                 Name => 'ConfigElementBlock1',
@@ -212,26 +213,25 @@ my @Tests = (
 
     # test 6
     {
-        Input => '<!-- dtl:block:ConfigElementBlock2 -->
-<b>$QData{"Name2"}</b>
-<!-- dtl:block:ConfigElementBlock2 -->
-<!-- dtl:block:ConfigElementBlock1 -->
-<b>$QData{"Name1"}</b>
-<!-- dtl:block:ConfigElementBlock1A -->
-<b>$QData{"Name1A"}</b>
-<!-- dtl:block:ConfigElementBlock1A -->
-<!-- dtl:block:ConfigElementBlock1 -->',
+        Input => '
+[% RenderBlockStart("ConfigElementBlock2") -%]
+<b>[% Data.Name2 | html %]</b>
+[% RenderBlockEnd("ConfigElementBlock2") -%]
+[% RenderBlockStart("ConfigElementBlock1") -%]
+<b>[% Data.Name1 | html %]</b>
+[% RenderBlockStart("ConfigElementBlock1A") -%]
+<b>[% Data.Name1A | html %]</b>
+[% RenderBlockEnd("ConfigElementBlock1A") -%]
+[% RenderBlockEnd("ConfigElementBlock1") -%]',
 
         Result => '
 <b>CCC</b>
-
 <b>AAA</b>
-
 <b>BBB1</b>
 <b>BBB2</b>
 <b>XXX</b>
-
-<b>YYY</b>',
+<b>YYY</b>
+',
         Block => [
             {
                 Name => 'ConfigElementBlock1',

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentStats.pm - stats module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -421,7 +421,8 @@ sub Run {
                             for (@Sorted) {
                                 my $Value = $ValueHash{$_};
                                 if ( $ObjectAttribute->{Translation} ) {
-                                    $Value = "\$Text{\"$ValueHash{$_}\"}";
+                                    $Value = $Self->{LayoutObject}->{LanguageObject}
+                                        ->Translate( $ValueHash{$_} );
                                 }
                                 $Self->{LayoutObject}->Block(
                                     Name => 'Fixed',
@@ -1022,11 +1023,15 @@ sub Run {
             my $Stat = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
             my $Index = 0;
             $Data{StatType} = $Stat->{StatType};
+
+            OBJECTATTRIBUTE:
             for my $ObjectAttribute ( @{ $Stat->{UseAsValueSeries} } ) {
-                next
-                    if !$Self->{ParamObject}->GetParam(
-                    Param => "Select$ObjectAttribute->{Element}"
-                    );
+                if (
+                    !$Self->{ParamObject}->GetParam( Param => "Select$ObjectAttribute->{Element}" )
+                    )
+                {
+                    next OBJECTATTRIBUTE;
+                }
 
                 my @Array = $Self->{ParamObject}->GetArray( Param => $ObjectAttribute->{Element} );
                 $Data{UseAsValueSeries}[$Index]{SelectedValues} = \@Array;
@@ -1565,8 +1570,13 @@ sub Run {
                 );
 
                 if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
+                    my $TreeSelectionMessage
+                        = $Param{LayoutObject}->{LanguageObject}->Get("Show Tree Selection");
                     $BlockData{SelectField}
-                        .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+                        .= ' <a href="#" title="'
+                        . $TreeSelectionMessage
+                        . '" class="ShowTreeSelection">'
+                        . $TreeSelectionMessage . '</a>';
                 }
             }
 
@@ -1664,8 +1674,13 @@ sub Run {
                 );
 
                 if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
+                    my $TreeSelectionMessage
+                        = $Param{LayoutObject}->{LanguageObject}->Get("Show Tree Selection");
                     $BlockData{SelectField}
-                        .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+                        .= ' <a href="#" title="'
+                        . $TreeSelectionMessage
+                        . '" class="ShowTreeSelection">'
+                        . $TreeSelectionMessage . '</a>';
                 }
             }
 
@@ -1796,8 +1811,13 @@ sub Run {
                 );
 
                 if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
+                    my $TreeSelectionMessage
+                        = $Param{LayoutObject}->{LanguageObject}->Get("Show Tree Selection");
                     $BlockData{SelectField}
-                        .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+                        .= ' <a href="#" title="'
+                        . $TreeSelectionMessage
+                        . '" class="ShowTreeSelection">'
+                        . $TreeSelectionMessage . '</a>';
                 }
             }
 
@@ -2226,7 +2246,7 @@ sub Run {
             if ( $Self->{PDFObject} ) {
                 my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
                 my $Page      = $Self->{LayoutObject}->{LanguageObject}->Get('Page');
-                my $Time      = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
+                my $Time      = $Self->{LayoutObject}->{Time};
                 my $Url       = ' ';
                 if ( $ENV{REQUEST_URI} ) {
                     $Url

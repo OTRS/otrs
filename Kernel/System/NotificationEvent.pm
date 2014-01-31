@@ -1,6 +1,6 @@
 # --
 # Kernel/System/NotificationEvent.pm - notification system module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -269,9 +269,11 @@ sub NotificationAdd {
     return if !$ID;
 
     for my $Key ( sort keys %{ $Param{Data} } ) {
+
+        ITEM:
         for my $Item ( @{ $Param{Data}->{$Key} } ) {
-            next if !defined $Item;
-            next if $Item eq '';
+            next ITEM if !defined $Item;
+            next ITEM if $Item eq '';
             $Self->{DBObject}->Do(
                 SQL => 'INSERT INTO notification_event_item '
                     . '(notification_id, event_key, event_value) VALUES (?, ?, ?)',
@@ -335,10 +337,13 @@ sub NotificationUpdate {
         SQL  => 'DELETE FROM notification_event_item WHERE notification_id = ?',
         Bind => [ \$Param{ID} ],
     );
+
     for my $Key ( sort keys %{ $Param{Data} } ) {
+
+        ITEM:
         for my $Item ( @{ $Param{Data}->{$Key} } ) {
-            next if !defined $Item;
-            next if $Item eq '';
+            next ITEM if !defined $Item;
+            next ITEM if $Item eq '';
             $Self->{DBObject}->Do(
                 SQL => 'INSERT INTO notification_event_item '
                     . '(notification_id, event_key, event_value) VALUES (?, ?, ?)',

@@ -1,0 +1,133 @@
+# --
+# AdminProcessManagementPath.tt - provides HTML for AdminProcessManagementPath
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="LayoutPopup ARIARoleMain">
+    <div class="Header">
+        <h1>[% Translate(Data.Title) | html %]</h1>
+[% RenderBlockStart("ClosePopup") %]
+        <p>
+            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ClosePopup" class="ClosePopup">[% Translate("Cancel & close window") | html %]</a>
+        </p>
+[% RenderBlockEnd("ClosePopup") %]
+[% RenderBlockStart("GoBack") %]
+        <p>
+            <a class="GoBack" href="[% Env("Baselink") %]Action=[% Data.Action | uri %];Subaction=[% Data.Subaction | uri %];ID=[% Data.ID | uri %];EntityID=[% Data.EntityID | uri %]">[% Translate("Go Back") | html %]</a>
+        </p>
+[% RenderBlockEnd("GoBack") %]
+    </div>
+    <div class="Content">
+        <div class="ContentColumn">
+            <form id="PathForm" action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                <input type="hidden" name="Subaction" value="Path[% Data.Action | html %]Action"/>
+                <input type="hidden" name="ProcessEntityID" value="[% Data.ProcessEntityID %]" id="ProcessEntityID"/>
+                <input type="hidden" name="TransitionEntityID" value="[% Data.TransitionEntityID %]" id="TransitionEntityID"/>
+                <input type="hidden" name="StartActivityID" value="[% Data.StartActivityID %]" id="StartActivityID"/>
+                <input type="hidden" name="ProcessData" value="" id="ProcessData"/>
+                <input type="hidden" name="TransitionInfo" value="" id="TransitionInfo"/>
+                <input type="hidden" name="PopupRedirect" value="" id="PopupRedirect"/>
+                <input type="hidden" name="PopupRedirectAction" value="" id="PopupRedirectAction"/>
+                <input type="hidden" name="PopupRedirectSubaction" value="" id="PopupRedirectSubaction"/>
+                <input type="hidden" name="PopupRedirectID" value="" id="PopupRedirectID"/>
+                <input type="hidden" name="PopupRedirectEntityID" value="" id="PopupRedirectEntityID"/>
+                <input type="hidden" name="PopupRedirectStartActivityID" value="" id="PopupRedirectStartActivityID"/>
+
+                <div class="WidgetSimple Expanded">
+                    <div class="Header">
+                        <div class="WidgetAction Toggle">
+                            <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                        </div>
+                        <h2>[% Translate("Path") | html %]</h2>
+                    </div>
+                    <div class="Content">
+                        <ul class="Path">
+                            <li id="StartActivity" class="StartActivity"></li>
+                            <li class="Transition">
+                                [% Data.Transition %]
+                                <span></span>
+                            </li>
+                            <li id="EndActivity" class="EndActivity"></li>
+                        </ul>
+                        <div id="EditPath"><a href="#" data-action="AdminProcessManagementTransition" data-subaction="TransitionEdit" class="AsPopup_Redirect Edit_Confirm PopupType_Transition">[% Translate("Edit this transition") | html %]</a></div>
+                    </div>
+                </div>
+
+                <div class="WidgetSimple Expanded">
+                    <div class="Header">
+                        <div class="WidgetAction Toggle">
+                            <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                        </div>
+                        <h2>[% Translate("Transition Actions") | html %]</h2>
+                    </div>
+                    <div class="Content LayoutGrid">
+                        <div class="Size1of1 SpacingBottom">
+                            <p>
+                                [% Translate("You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.") | html %]
+                                [% Translate("Ordering the elements within the list is also possible by drag 'n' drop.") | html %]
+                            </p>
+                        </div>
+                        <div class="Size1of2">
+                            <input type="text" id="FilterAvailableTransitionActions" class="W75pc" name="FilterAvailableTransitionActions" value="" title="[% Translate("Filter available Transition Actions") | html %]" placeholder="[% Translate("Filter available Transition Actions") | html %]..." />
+                            <ul class="Tablelike W90pc SpacingTop">
+                                <li class="Header">
+                                    [% Translate("Available Transition Actions") | html %]
+                                </li>
+                            </ul>
+                            <ul class="AllocationList Tablelike W90pc" id="AvailableTransitionActions">
+[% RenderBlockStart("AvailableTransitionActionRow") %]
+                                <li data-id="[% Data.ID | html %]" id="[% Data.EntityID | html %]" title="Name: [% Data.Name | html %] EntityID: [% Data.EntityID | html %]">
+                                    [% Data.Name | html %] ([% Data.EntityID | html %])
+                                    <span class="Functions">
+                                        <a href="#" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]" data-action="AdminProcessManagementTransitionAction" data-subaction="TransitionActionEdit" class="AsPopup_Redirect Edit_Confirm PopupType_TransitionAction Icon Icon_Edit" title="[% Translate("Edit") | html %]"></a>
+                                    </span>
+                                </li>
+[% RenderBlockEnd("AvailableTransitionActionRow") %]
+                            </ul>
+                            <div class="SpacingTop">
+                                <a href="#" data-entity="" data-id="" data-action="AdminProcessManagementTransitionAction" data-subaction="TransitionActionNew" class="CallForAction AsPopup_Redirect Edit_Confirm"><span>[% Translate("Create New Transition Action") | html %]</span></a>
+                            </div>
+                        </div>
+                        <div class="Size1of2">
+                            <ul class="Tablelike W90pc">
+                                <li class="Header">
+                                    [% Translate("Assigned Transition Actions") | html %]
+                                </li>
+                            </ul>
+                            <ul class="AllocationList Tablelike W90pc" id="AssignedTransitionActions">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+<!-- Invisible submit button to allow form submit on pressing enter/return without javascript -->
+                <input type="image" width="0" height="0" style="display: none;" />
+            </form>
+        </div>
+    </div>
+    <div class="Footer">
+        <button class="Primary" id="Submit" title="[% Translate("Submit") | html %]" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
+    </div>
+</div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Config.Set('Config.TransitionEntityID', "[% Data.TransitionEntityID %]" );
+    Core.Config.Set('Config.ProcessEntityID', "[% Data.ProcessEntityID %]" );
+    Core.Config.Set('Config.StartActivityID', "[% Data.StartActivityID %]" );
+//]]></script>
+[% END %]
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Agent.Admin.ProcessManagement.InitPathEdit();
+
+// Localizations
+Core.Agent.Admin.ProcessManagement.Localization = {
+    EditConfirm: "[% Translate("As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?") | html %]"
+};
+//]]></script>
+[% END %]

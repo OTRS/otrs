@@ -246,6 +246,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::StorageModule::CheckAllBackends" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Specifies whether all storage backends should be checked when looking for attachements. This is only required for installations where some attachements are in the file system, and others in the database.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="ArticleDir" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Specifies the directory to store the data in, if "FS" was selected for TicketStorageModule.</Description>
         <Group>Ticket</Group>
@@ -605,7 +616,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{1,6}$">86400</String>
+            <String Regex="^\d+$">86400</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MaxQueueLevel" Required="1" Valid="1">
@@ -892,6 +903,17 @@
             <Option SelectedID="">
                 <Item Key="">No</Item>
                 <Item Key="Sortable">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerDisableCompanyTicketAccess" Required="1" Valid="1">
+        <Description Translatable="1">This option will deny the access to customer company tickets, which are not created by the customer user.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1730,7 +1752,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
         <Setting>
-            <String Regex="">$Text{"Note"}</String>
+            <String Regex="">[% Translate("Note") | html %]</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###Body" Required="0" Valid="1">
@@ -1870,7 +1892,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
         <Setting>
-            <String Regex="">$Text{"Phone call"}!</String>
+            <String Regex="">[% Translate("Phone call") | html %]!</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###Body" Required="1" Valid="1">
@@ -1959,7 +1981,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneInbound</SubGroup>
         <Setting>
-            <String Regex="">$Text{"Phone call"}!</String>
+            <String Regex="">[% Translate("Phone call") | html %]!</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneInbound###Body" Required="1" Valid="1">
@@ -2477,7 +2499,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
         <Setting>
-            <String Regex="">$Text{"Close"}</String>
+            <String Regex="">[% Translate("Close") | html %]</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Body" Required="0" Valid="1">
@@ -2747,7 +2769,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
-            <String Regex="">$Text{"Note"}</String>
+            <String Regex="">[% Translate("Note") | html %]</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketNote###Body" Required="0" Valid="1">
@@ -3016,7 +3038,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
         <Setting>
-            <String Regex="">$Text{"Owner Update"}!</String>
+            <String Regex="">[% Translate("Owner Update") | html %]!</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###Body" Required="0" Valid="1">
@@ -3283,7 +3305,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
-            <String Regex="">$Text{"Pending"}!</String>
+            <String Regex="">[% Translate("Pending") | html %]!</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPending###Body" Required="0" Valid="1">
@@ -3552,7 +3574,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
         <Setting>
-            <String Regex="">$Text{"Priority Update"}!</String>
+            <String Regex="">[% Translate("Priority Update") | html %]!</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###Body" Required="0" Valid="1">
@@ -3821,7 +3843,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
         <Setting>
-            <String Regex="">$Text{"Responsible Update"}!</String>
+            <String Regex="">[% Translate("Responsible Update") | html %]!</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###Body" Required="0" Valid="1">
@@ -4082,6 +4104,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketMove###NoteMandatory" Required="0" Valid="1">
+        <Description Translatable="1">Sets if note must be filled in by the agent.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketBounce###Permission" Required="1" Valid="1">
         <Description Translatable="1">Required permissions to use the ticket bounce screen in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -4183,16 +4216,16 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ResponseFormat" Required="1" Valid="1">
-        <Description Translatable="1">Defines the format of responses in the ticket compose screen of the agent interface ($QData{"OrigFrom"} is From 1:1, $QData{"OrigFromName"} is only realname of From).</Description>
+        <Description Translatable="1">Defines the format of responses in the ticket compose screen of the agent interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | html %] is only realname of From).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
-            <TextArea>$QData{"Salutation"}
-$QData{"StdResponse"}
-$QData{"Signature"}
+            <TextArea>[% Data.Salutation | html %]
+[% Data.StdResponse | html %]
+[% Data.Signature | html %]
 
-$TimeShort{"$QData{"Created"}"} - $QData{"OrigFromName"} $Text{"wrote"}:
-$QData{"Body"}
+[% Data.Created | Localize("TimeShort") %] - [% Data.OrigFromName | html %] [% Translate("wrote") | html %]:
+[% Data.Body | html %]
 </TextArea>
         </Setting>
     </ConfigItem>
@@ -4460,14 +4493,14 @@ $QData{"Body"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerDBLink" Required="1" Valid="1">
-        <Description Translatable="1">Defines an external link to the database of the customer (e.g. 'http://yourhost/customer.php?CID=$Data{"CustomerID"}' or '').</Description>
+        <Description Translatable="1">Defines an external link to the database of the customer (e.g. 'http://yourhost/customer.php?CID=[% Data.CustomerID %]' or '').</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <!--
-            <String Regex="">$Env{"CGIHandle"}?Action=AgentTicketCustomer;TicketID=$QData{"TicketID"}</String>
+            <String Regex="">[% Env("CGIHandle") %]?Action=AgentTicketCustomer;TicketID=[% Data.TicketID | html %]</String>
             -->
-            <String Regex="">$Env{"CGIHandle"}?Action=AgentCustomerInformationCenter;CustomerID=$QData{"CustomerID"}</String>
+            <String Regex="">[% Env("CGIHandle") %]?Action=AgentCustomerInformationCenter;CustomerID=[% Data.CustomerID | html %]</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerDBLinkTarget" Required="1" Valid="1">
@@ -4901,7 +4934,7 @@ $QData{"Body"}
                 <Item Key="Name">Back</Item>
                 <Item Key="Description" Translatable="1">Back</Item>
                 <Item Key="Action"></Item>
-                <Item Key="Link">$Env{"LastScreenOverview"};TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">[% Env("LastScreenOverview") %];TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
             </Hash>
@@ -4930,7 +4963,7 @@ $QData{"Body"}
                 <Item Key="Name">History</Item>
                 <Item Key="Description" Translatable="1">Show the ticket history</Item>
                 <Item Key="Action">AgentTicketHistory</Item>
-                <Item Key="Link">Action=AgentTicketHistory;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketHistory;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketHistory</Item>
             </Hash>
@@ -4946,7 +4979,7 @@ $QData{"Body"}
                 <Item Key="Name">Print</Item>
                 <Item Key="Description" Translatable="1">Print this ticket</Item>
                 <Item Key="Action">AgentTicketPrint</Item>
-                <Item Key="Link">Action=AgentTicketPrint;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketPrint;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="LinkParam">target="print"</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
@@ -4963,7 +4996,7 @@ $QData{"Body"}
                 <Item Key="Name">Priority</Item>
                 <Item Key="Description" Translatable="1">Change the ticket priority</Item>
                 <Item Key="Action">AgentTicketPriority</Item>
-                <Item Key="Link">Action=AgentTicketPriority;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketPriority;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
             </Hash>
@@ -4979,7 +5012,7 @@ $QData{"Body"}
                 <Item Key="Name">Free Fields</Item>
                 <Item Key="Description" Translatable="1">Change the free fields for this ticket</Item>
                 <Item Key="Action">AgentTicketFreeText</Item>
-                <Item Key="Link">Action=AgentTicketFreeText;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketFreeText;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
             </Hash>
@@ -4995,7 +5028,7 @@ $QData{"Body"}
                 <Item Key="Name">Link</Item>
                 <Item Key="Description" Translatable="1">Link this ticket to other objects</Item>
                 <Item Key="Action">AgentLinkObject</Item>
-                <Item Key="Link">Action=AgentLinkObject;SourceObject=Ticket;SourceKey=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentLinkObject;SourceObject=Ticket;SourceKey=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
             </Hash>
@@ -5011,7 +5044,7 @@ $QData{"Body"}
                 <Item Key="Name">Owner</Item>
                 <Item Key="Description" Translatable="1">Change the owner for this ticket</Item>
                 <Item Key="Action">AgentTicketOwner</Item>
-                <Item Key="Link">Action=AgentTicketOwner;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketOwner;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
             </Hash>
@@ -5027,7 +5060,7 @@ $QData{"Body"}
                 <Item Key="Name">Responsible</Item>
                 <Item Key="Description" Translatable="1">Change the responsible person for this ticket</Item>
                 <Item Key="Action">AgentTicketResponsible</Item>
-                <Item Key="Link">Action=AgentTicketResponsible;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketResponsible;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
             </Hash>
@@ -5043,7 +5076,7 @@ $QData{"Body"}
                 <Item Key="Name">Customer</Item>
                 <Item Key="Description" Translatable="1">Change the customer for this ticket</Item>
                 <Item Key="Action">AgentTicketCustomer</Item>
-                <Item Key="Link">Action=AgentTicketCustomer;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketCustomer;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
             </Hash>
@@ -5059,7 +5092,7 @@ $QData{"Body"}
                 <Item Key="Name">Note</Item>
                 <Item Key="Description" Translatable="1">Add a note to this ticket</Item>
                 <Item Key="Action">AgentTicketNote</Item>
-                <Item Key="Link">Action=AgentTicketNote;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketNote;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
             </Hash>
@@ -5075,7 +5108,7 @@ $QData{"Body"}
                 <Item Key="Name">Phone Call Outbound</Item>
                 <Item Key="Description" Translatable="1">Phone Call Outbound</Item>
                 <Item Key="Action">AgentTicketPhoneOutbound</Item>
-                <Item Key="Link">Action=AgentTicketPhoneOutbound;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketPhoneOutbound;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
             </Hash>
@@ -5091,7 +5124,7 @@ $QData{"Body"}
                 <Item Key="Name">Phone Call Inbound</Item>
                 <Item Key="Description" Translatable="1">Phone Call Inbound</Item>
                 <Item Key="Action">AgentTicketPhoneInbound</Item>
-                <Item Key="Link">Action=AgentTicketPhoneInbound;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketPhoneInbound;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
             </Hash>
@@ -5107,7 +5140,7 @@ $QData{"Body"}
                 <Item Key="Name">Merge</Item>
                 <Item Key="Description" Translatable="1">Merge into a different ticket</Item>
                 <Item Key="Action">AgentTicketMerge</Item>
-                <Item Key="Link">Action=AgentTicketMerge;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketMerge;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
             </Hash>
@@ -5123,7 +5156,7 @@ $QData{"Body"}
                 <Item Key="Name">Pending</Item>
                 <Item Key="Description" Translatable="1">Set this ticket to pending</Item>
                 <Item Key="Action">AgentTicketPending</Item>
-                <Item Key="Link">Action=AgentTicketPending;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketPending;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
             </Hash>
@@ -5152,7 +5185,7 @@ $QData{"Body"}
                 <Item Key="Name">Close</Item>
                 <Item Key="Description" Translatable="1">Close this ticket</Item>
                 <Item Key="Action">AgentTicketClose</Item>
-                <Item Key="Link">Action=AgentTicketClose;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketClose;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
             </Hash>
@@ -5168,7 +5201,7 @@ $QData{"Body"}
                 <Item Key="Name">Delete</Item>
                 <Item Key="Action">AgentTicketMove</Item>
                 <Item Key="Description" Translatable="1">Delete this ticket</Item>
-                <Item Key="Link">Action=AgentTicketMove;TicketID=$Data{"TicketID"};DestQueue=Delete</Item>
+                <Item Key="Link">Action=AgentTicketMove;TicketID=[% Data.TicketID %];DestQueue=Delete</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
             </Hash>
@@ -5184,7 +5217,7 @@ $QData{"Body"}
                 <Item Key="Name">Spam</Item>
                 <Item Key="Action">AgentTicketMove</Item>
                 <Item Key="Description" Translatable="1">Mark as Spam!</Item>
-                <Item Key="Link">Action=AgentTicketMove;TicketID=$Data{"TicketID"};DestQueue=Delete</Item>
+                <Item Key="Link">Action=AgentTicketMove;TicketID=[% Data.TicketID %];DestQueue=Delete</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
             </Hash>
@@ -5235,7 +5268,7 @@ $QData{"Body"}
                 <Item Key="Name">Zoom</Item>
                 <Item Key="Action">AgentTicketZoom</Item>
                 <Item Key="Description" Translatable="1">Look into a ticket!</Item>
-                <Item Key="Link">Action=AgentTicketZoom;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketZoom;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
             </Hash>
@@ -5251,7 +5284,7 @@ $QData{"Body"}
                 <Item Key="Name">History</Item>
                 <Item Key="Action">AgentTicketHistory</Item>
                 <Item Key="Description" Translatable="1">Show the ticket history</Item>
-                <Item Key="Link">Action=AgentTicketHistory;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketHistory;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketHistory</Item>
             </Hash>
@@ -5267,7 +5300,7 @@ $QData{"Body"}
                 <Item Key="Name">Priority</Item>
                 <Item Key="Action">AgentTicketPriority</Item>
                 <Item Key="Description" Translatable="1">Change the priority for this ticket</Item>
-                <Item Key="Link">Action=AgentTicketPriority;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketPriority;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
             </Hash>
@@ -5283,7 +5316,7 @@ $QData{"Body"}
                 <Item Key="Name">Note</Item>
                 <Item Key="Action">AgentTicketNote</Item>
                 <Item Key="Description" Translatable="1">Add a note to this ticket</Item>
-                <Item Key="Link">Action=AgentTicketNote;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketNote;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
             </Hash>
@@ -5299,7 +5332,7 @@ $QData{"Body"}
                 <Item Key="Name">Close</Item>
                 <Item Key="Action">AgentTicketClose</Item>
                 <Item Key="Description" Translatable="1">Close this ticket</Item>
-                <Item Key="Link">Action=AgentTicketClose;TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketClose;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
             </Hash>
@@ -5328,7 +5361,7 @@ $QData{"Body"}
                 <Item Key="Name">Delete</Item>
                 <Item Key="Action">AgentTicketMove</Item>
                 <Item Key="Description" Translatable="1">Delete this ticket</Item>
-                <Item Key="Link">Action=AgentTicketMove;TicketID=$Data{"TicketID"};DestQueue=Delete</Item>
+                <Item Key="Link">Action=AgentTicketMove;TicketID=[% Data.TicketID %];DestQueue=Delete</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
             </Hash>
@@ -5344,7 +5377,7 @@ $QData{"Body"}
                 <Item Key="Name">Spam</Item>
                 <Item Key="Action">AgentTicketMove</Item>
                 <Item Key="Description" Translatable="1">Mark as Spam!</Item>
-                <Item Key="Link">Action=AgentTicketMove;TicketID=$Data{"TicketID"};DestQueue=Delete</Item>
+                <Item Key="Link">Action=AgentTicketMove;TicketID=[% Data.TicketID %];DestQueue=Delete</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType"></Item>
             </Hash>
@@ -5668,7 +5701,7 @@ $QData{"Body"}
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
-                <Item Key="CacheTTL">30</Item>
+                <Item Key="CacheTTLLocal">30</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -7359,7 +7392,7 @@ $QData{"Body"}
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
         <Setting>
-            <String Regex="">$Text{"Change Queue"}</String>
+            <String Regex="">[% Translate("Change Queue") | html %]</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketMove###Body" Required="0" Valid="1">
@@ -8197,6 +8230,7 @@ $QData{"Body"}
                 <Item Key="Action">Action</Item>
                 <Item Key="ActivityDialog">ActivityDialog</Item>
                 <Item Key="Form">Form</Item>
+                <Item Key="Process">Process</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -8207,9 +8241,9 @@ $QData{"Body"}
         <Setting>
             <Hash>
                 <Item Key="Ticket">Ticket</Item>
-                <Item Key="Action">Action</Item>
                 <Item Key="ActivityDialog">ActivityDialog</Item>
                 <Item Key="Form">Form</Item>
+                <Item Key="Process">Process</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -9397,7 +9431,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element1" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9409,7 +9443,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element2" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9421,7 +9455,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element3" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9433,7 +9467,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element4" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9445,7 +9479,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element5" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9457,7 +9491,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element6" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9469,7 +9503,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element7" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9481,7 +9515,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element8" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9493,7 +9527,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element9" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9505,7 +9539,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element10" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9517,7 +9551,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element11" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9529,7 +9563,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element12" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9541,7 +9575,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element13" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9553,7 +9587,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element14" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9565,7 +9599,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element15" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>
@@ -9577,7 +9611,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::TicketDynamicFieldDefault###Element16" Required="0" Valid="0">
-        <Description Translatable="1">Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
+        <Description Translatable="1">Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
         <Setting>

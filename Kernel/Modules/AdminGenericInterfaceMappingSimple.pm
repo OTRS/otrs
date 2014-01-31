@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -599,8 +599,9 @@ sub _GetParams {
 
     # get params for keys
     my $KeyIndex = 0;
+    KEYCOUNTER:
     for my $KeyCounter ( 1 .. $GetParam->{KeyCounter} ) {
-        next if !$Self->{ParamObject}->GetParam( Param => 'KeyIndex' . $KeyCounter );
+        next KEYCOUNTER if !$Self->{ParamObject}->GetParam( Param => 'KeyIndex' . $KeyCounter );
         $KeyIndex++;
         KEY_ITEM:
         for my $KeyItem (qw(KeyMapTypeStrg KeyName KeyMapNew ValueCounter)) {
@@ -616,11 +617,16 @@ sub _GetParams {
 
         # get params for values
         my $ValueIndex = 0;
+        COUNTER:
         for my $ValueCounter ( 1 .. $GetParam->{ 'ValueCounter' . $KeyIndex } ) {
             my $Suffix = $KeyCounter . '_' . $ValueCounter;
-            next
-                if $Self->{ParamObject}->GetParam( Param => 'ValueName' . $Suffix ) eq
-                $Self->{DeletedString};
+            if (
+                $Self->{ParamObject}->GetParam( Param => 'ValueName' . $Suffix ) eq
+                $Self->{DeletedString}
+                )
+            {
+                next COUNTER;
+            }
             $ValueIndex++;
             for my $ValueItem (qw(ValueMapTypeStrg ValueName ValueMapNew)) {
                 my $ValAux = $Self->{ParamObject}->GetParam( Param => $ValueItem . $Suffix ) || '';

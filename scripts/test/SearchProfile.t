@@ -1,6 +1,6 @@
 # --
 # SearchProfile.t - SearchProfile tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -202,6 +202,7 @@ my @Tests = (
 );
 
 my @SearchProfileNames;
+TEST:
 for my $Test (@Tests) {
 
     # Add SearchProfile
@@ -214,7 +215,7 @@ for my $Test (@Tests) {
             $SuccessAdd,
             "$Test->{Name} - SearchProfileAdd()",
         );
-        next;
+        next TEST;
     }
     else {
         $Self->True(
@@ -296,6 +297,15 @@ for my $SearchProfileName (@SearchProfileNames) {
     $Self->False(
         $SuccessGet,
         "SearchProfileGet() - Deleted entry",
+    );
+
+    # check deleting from SearchProfileList
+    my %SearchProfileList
+        = $SearchProfileObject->SearchProfileList( Base => $Base, UserLogin => $UserID );
+
+    $Self->False(
+        $SearchProfileList{$SearchProfileName},
+        "SearchProfileList() - Deleted entry $SearchProfileName",
     );
 }
 

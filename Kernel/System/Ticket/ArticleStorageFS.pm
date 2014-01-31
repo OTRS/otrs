@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -405,6 +405,9 @@ sub ArticlePlain {
         return ${$Data};
     }
 
+    # return if we only need to check one backend
+    return unless $Self->{CheckAllBackends};
+
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};
 
@@ -538,6 +541,9 @@ sub ArticleAttachmentIndexRaw {
 
     # return if index exists
     return %Index if %Index;
+
+    # return if we only need to check one backend
+    return unless $Self->{CheckAllBackends};
 
     # return if only delete in my backend
     return %Index if $Param{OnlyMyBackend};
@@ -689,6 +695,9 @@ sub ArticleAttachment {
             }
         }
     }
+
+    # return if we only need to check one backend
+    return unless $Self->{CheckAllBackends};
 
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};

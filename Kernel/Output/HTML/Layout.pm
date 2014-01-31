@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -352,12 +352,14 @@ sub new {
     # force a theme based on host name
     my $DefaultThemeHostBased = $Self->{ConfigObject}->Get('DefaultTheme::HostBased');
     if ( $DefaultThemeHostBased && $ENV{HTTP_HOST} ) {
+
+        THEME:
         for my $RegExp ( sort keys %{$DefaultThemeHostBased} ) {
 
             # do not use empty regexp or theme directories
-            next if !$RegExp;
-            next if $RegExp eq '';
-            next if !$DefaultThemeHostBased->{$RegExp};
+            next THEME if !$RegExp;
+            next THEME if $RegExp eq '';
+            next THEME if !$DefaultThemeHostBased->{$RegExp};
 
             # check if regexp is matching
             if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
@@ -456,430 +458,6 @@ sub Block {
     push @{ $Self->{BlockData} }, { Name => $Param{Name}, Data => $Param{Data} };
 }
 
-=item Output()
-
-generates HTML output based on a template file.
-
-Using a template file:
-
-    my $HTML = $LayoutObject->Output(
-        TemplateFile => 'AdminLog',
-        Data         => \%Param,
-    );
-
-Using a template string:
-
-    my $HTML = $LayoutObject->Output(
-        Template => '<b>$QData{"SomeKey"}</b>',
-        Data     => \%Param,
-    );
-
-Additional parameters:
-
-KeepScriptTags - this causes <!-- dtl:js_on_document_complete --> blocks NOT
-to be replaced. This is important to be able to generate snippets which can be cached.
-
-    my $HTML = $LayoutObject->Output(
-        TemplateFile   => 'AdminLog',
-        Data           => \%Param,
-        KeepScriptTags => 1,
-    );
-
-=cut
-
-sub Output {
-    my ( $Self, %Param ) = @_;
-
-    $Param{Data} ||= {};
-
-    # get and check param Data
-    if ( ref $Param{Data} ne 'HASH' ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Need HashRef in Param Data! Got: '" . ref $Param{Data} . "'!",
-        );
-        $Self->FatalError();
-    }
-
-    # fill init Env
-    if ( !$Self->{EnvRef} ) {
-        %{ $Self->{EnvRef} } = %ENV;
-
-        # all $Self->{*}
-        for ( sort keys %{$Self} ) {
-            if ( defined $Self->{$_} && !ref $Self->{$_} ) {
-                $Self->{EnvRef}->{$_} = $Self->{$_};
-            }
-        }
-    }
-
-    # add new env
-    if ( $Self->{EnvNewRef} ) {
-        for ( %{ $Self->{EnvNewRef} } ) {
-            $Self->{EnvRef}->{$_} = $Self->{EnvNewRef}->{$_};
-        }
-        undef $Self->{EnvNewRef};
-    }
-
-    # if we use the HTML5 input type 'email' jQuery Validate will always validate
-    # we do not want that if CheckEmailAddresses is set to 'no' in SysConfig
-    $Self->{EnvRef}->{EmailFieldType}
-        = $Self->{ConfigObject}->Get('CheckEmailAddresses') ? 'email' : 'text';
-
-    # read template from filesystem
-    my $TemplateString = '';
-    if ( $Param{TemplateFile} ) {
-        my $File = '';
-        if ( -f "$Self->{CustomTemplateDir}/$Param{TemplateFile}.dtl" ) {
-            $File = "$Self->{CustomTemplateDir}/$Param{TemplateFile}.dtl";
-        }
-        elsif ( -f "$Self->{CustomTemplateDir}/../Standard/$Param{TemplateFile}.dtl" ) {
-            $File = "$Self->{CustomTemplateDir}/../Standard/$Param{TemplateFile}.dtl";
-        }
-        elsif ( -f "$Self->{TemplateDir}/$Param{TemplateFile}.dtl" ) {
-            $File = "$Self->{TemplateDir}/$Param{TemplateFile}.dtl";
-        }
-        else {
-            $File = "$Self->{TemplateDir}/../Standard/$Param{TemplateFile}.dtl";
-        }
-        my $ResultRef = $Self->{MainObject}->FileRead(
-            Location => $File,
-            Mode     => 'utf8',
-        );
-        if ( ref $ResultRef ) {
-            $TemplateString = ${$ResultRef};
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Can't read $File: $!",
-            );
-        }
-    }
-
-    # take templates from string/array
-    elsif ( defined $Param{Template} && ref $Param{Template} eq 'ARRAY' ) {
-        for ( @{ $Param{Template} } ) {
-            $TemplateString .= $_;
-        }
-    }
-    elsif ( defined $Param{Template} ) {
-        $TemplateString = $Param{Template};
-    }
-    else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Need Template or TemplateFile Param!',
-        );
-        $Self->FatalError();
-    }
-
-    # run output element pre filters
-    if ( $Self->{FilterElementPre} && ref $Self->{FilterElementPre} eq 'HASH' ) {
-
-        # extract filter list
-        my %FilterList = %{ $Self->{FilterElementPre} };
-
-        FILTER:
-        for my $Filter ( sort keys %FilterList ) {
-
-            # extract filter config
-            my $FilterConfig = $FilterList{$Filter};
-
-            next FILTER if !$FilterConfig;
-            next FILTER if ref $FilterConfig ne 'HASH';
-
-            # extract template list
-            my $TemplateList = $FilterConfig->{Templates};
-
-            # check template list
-            if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
-
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message =>
-                        "Please add a template list to output filter $FilterConfig->{Module} "
-                        . "to improve performance. Use ALL if OutputFilter should modify all "
-                        . "templates of the system (deprecated).",
-                );
-            }
-
-            # check template list
-            if ( $Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL} ) {
-                next FILTER if !$TemplateList->{ $Param{TemplateFile} };
-            }
-
-            next FILTER
-                if !$Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL};
-
-            next FILTER if !$Self->{MainObject}->Require( $FilterConfig->{Module} );
-
-            # create new instance
-            my $Object = $FilterConfig->{Module}->new(
-                %{$Self},
-                LayoutObject => $Self,
-            );
-
-            next FILTER if !$Object;
-
-            # run output filter
-            $Object->Run(
-                %{$FilterConfig},
-                Data => \$TemplateString,
-                TemplateFile => $Param{TemplateFile} || '',
-            );
-        }
-    }
-
-    # filtering of comment lines
-    $TemplateString =~ s/^#.*\n//gm;
-
-    my $Output = $Self->_Output(
-        Template     => $TemplateString,
-        Data         => $Param{Data},
-        BlockReplace => 1,
-        TemplateFile => $Param{TemplateFile} || '',
-    );
-
-    # Improve dtl performance of large pages, see also bug#7267.
-    # Thanks to Stelios Gikas <stelios.gikas@noris.net>!
-    my @OutputLines = split /\n/, $Output;
-    for my $Output (@OutputLines) {
-
-        # do time translation (with seconds)
-        $Output =~ s{
-        \$TimeLong{"(.*?)"}
-    }
-    {
-        $Self->{LanguageObject}->FormatTimeString($1);
-    }egx;
-
-        # do time translation (without seconds)
-        $Output =~ s{
-        \$TimeShort{"(.*?)"}
-    }
-    {
-        $Self->{LanguageObject}->FormatTimeString($1, undef, 'NoSeconds');
-    }egx;
-
-        # do date translation
-        $Output =~ s{
-        \$Date{"(.*?)"}
-    }
-    {
-        $Self->{LanguageObject}->FormatTimeString($1, 'DateFormatShort');
-    }egx;
-
-        # do translation
-        $Output =~ s{
-        \$Text{"(.*?)"}
-    }
-    {
-        $Self->Ascii2Html(
-            Text => $Self->{LanguageObject}->Get($1),
-        );
-    }egx;
-
-        $Output =~ s{
-        \$JSText{"(.*?)"}
-    }
-    {
-        $Self->Ascii2Html(
-            Text => $Self->{LanguageObject}->Get($1),
-            Type => 'JSText',
-        );
-    }egx;
-
-        # do html quote
-        $Output =~ s{
-        \$Quote{"(.*?)"}
-    }
-    {
-        my $Text = $1;
-        if ( !defined $Text || $Text =~ /^",\s*"(.+)$/ ) {
-            '';
-        }
-        elsif ($Text =~ /^(.+?)",\s*"(.+)$/) {
-            $Self->Ascii2Html(Text => $1, Max => $2);
-        }
-        else {
-            $Self->Ascii2Html(Text => $Text);
-        }
-    }egx;
-
-    }
-    $Output = join "\n", @OutputLines;
-
-    # rewrite forms, add challenge token : <form action="index.pl" method="get">
-    if ( $Self->{SessionID} && $Self->{UserChallengeToken} ) {
-        my $UserChallengeToken = $Self->Ascii2Html( Text => $Self->{UserChallengeToken} );
-        $Output =~ s{
-            (<form.+?action=".+?".+?>)
-        }
-        {
-            my $Form = $1;
-            if ( lc $Form =~ m{^http s? :}smx ) {
-                $Form;
-            }
-            else {
-                $Form . "<input type=\"hidden\" name=\"ChallengeToken\" value=\"$UserChallengeToken\"/>";
-            }
-        }iegx;
-    }
-
-    # Check if the browser sends the session id cookie!
-    # If not, add the session id to the links and forms!
-    if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-
-        # rewrite a hrefs
-        $Output =~ s{
-            (<a.+?href=")(.+?)(\#.+?|)(".+?>)
-        }
-        {
-            my $AHref   = $1;
-            my $Target  = $2;
-            my $End     = $3;
-            my $RealEnd = $4;
-            if ( lc $Target =~ /^(http:|https:|#|ftp:)/ ||
-                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
-                $Target =~ /(\?|&)\Q$Self->{SessionName}\E=/) {
-                $AHref.$Target.$End.$RealEnd;
-            }
-            else {
-                $AHref.$Target.';'.$Self->{SessionName}.'='.$Self->{SessionID}.$End.$RealEnd;
-            }
-        }iegxs;
-
-        # rewrite img and iframe src
-        $Output =~ s{
-            (<(?:img|iframe).+?src=")(.+?)(".+?>)
-        }
-        {
-            my $AHref = $1;
-            my $Target = $2;
-            my $End = $3;
-            if (lc $Target =~ m{^http s? :}smx || !$Self->{SessionID} ||
-                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
-                $Target =~ /\Q$Self->{SessionName}\E=/) {
-                $AHref.$Target.$End;
-            }
-            else {
-                $AHref.$Target.'&'.$Self->{SessionName}.'='.$Self->{SessionID}.$End;
-            }
-        }iegxs;
-
-        # rewrite forms: <form action="index.pl" method="get">
-        my $SessionID = $Self->Ascii2Html( Text => $Self->{SessionID} );
-        $Output =~ s{
-            (<form.+?action=".+?".+?>)
-        }
-        {
-            my $Form = $1;
-            if ( lc $Form =~ m{^http s? :}smx ) {
-                $Form;
-            }
-            else {
-                $Form . "<input type=\"hidden\" name=\"$Self->{SessionName}\" value=\"$SessionID\"/>";
-            }
-        }iegx;
-    }
-
-    # run output element post filters
-    if ( $Self->{FilterElementPost} && ref $Self->{FilterElementPost} eq 'HASH' ) {
-
-        # extract filter list
-        my %FilterList = %{ $Self->{FilterElementPost} };
-
-        FILTER:
-        for my $Filter ( sort keys %FilterList ) {
-
-            # extract filter config
-            my $FilterConfig = $FilterList{$Filter};
-
-            next FILTER if !$FilterConfig;
-            next FILTER if ref $FilterConfig ne 'HASH';
-
-            # extract template list
-            my $TemplateList = $FilterConfig->{Templates};
-
-            # check template list
-            if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
-
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message =>
-                        "Please add a template list to output filter $FilterConfig->{Module} "
-                        . "to improve performance. Use ALL if OutputFilter should modify all "
-                        . "templates of the system (deprecated).",
-                );
-            }
-
-            # check template list
-            if ( $Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL} ) {
-                next FILTER if !$TemplateList->{ $Param{TemplateFile} };
-            }
-
-            next FILTER
-                if !$Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL};
-
-            next FILTER if !$Self->{MainObject}->Require( $FilterConfig->{Module} );
-
-            # create new instance
-            my $Object = $FilterConfig->{Module}->new(
-                %{$Self},
-                LayoutObject => $Self,
-            );
-
-            next FILTER if !$Object;
-
-            # run output filter
-            $Object->Run(
-                %{$FilterConfig},
-                Data => \$Output,
-                TemplateFile => $Param{TemplateFile} || '',
-            );
-        }
-    }
-
-    # Cut out all dtl:js_on_document_complete tags. These will be inserted to the
-    #   place with the js_on_document_complete_placeholder in the page footer if
-    #   it is present.
-    # This must be done after the post output filters, so that they can also inject
-    #   and mofiy existing script tags.
-
-    if ( !$Param{KeepScriptTags} ) {
-
-        # find document ready
-        $Output =~ s{
-                <!--[ ]?dtl:js_on_document_complete[ ]?-->(.+?)<!--[ ]?dtl:js_on_document_complete[ ]?-->
-        }
-        {
-                if (!$Self->{JSOnDocumentComplete}->{$1}) {
-                    $Self->{JSOnDocumentComplete}->{$1} = 1;
-                    $Self->{EnvRef}->{JSOnDocumentComplete} .= $Self->_RemoveScriptTags(Code => $1);
-                }
-                "";
-        }segxm;
-
-        # replace document ready placeholder (only if it's not included via $Include{""})
-        if ( !$Param{Include} ) {
-            $Output =~ s{
-                <!--[ ]?dtl:js_on_document_complete_placeholder[ ]?-->
-            }
-            {
-                if ( $Self->{EnvRef}->{JSOnDocumentComplete} ) {
-                    $Self->{EnvRef}->{JSOnDocumentComplete};
-                }
-                else {
-                    "";
-                }
-            }segxm;
-        }
-    }
-
-    return $Output;
-}
-
 =item JSONEncode()
 
 Encode perl data structure to JSON string
@@ -895,7 +473,7 @@ sub JSONEncode {
     my ( $Self, %Param ) = @_;
 
     # check for needed data
-    return if !$Param{Data};
+    return if !defined $Param{Data};
 
     # get JSON encoded data
     my $JSON = $Self->{JSONObject}->Encode(
@@ -1136,27 +714,38 @@ sub ChallengeTokenCheck {
 
     # check ChallengeToken of all own sessions
     my @Sessions = $Self->{SessionObject}->GetAllSessionIDs();
+
+    SESSION:
     for my $SessionID (@Sessions) {
         my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $SessionID );
-        next if !$Data{UserID};
-        next if $Data{UserID} ne $Self->{UserID};
-        next if !$Data{UserChallengeToken};
+        next SESSION if !$Data{UserID};
+        next SESSION if $Data{UserID} ne $Self->{UserID};
+        next SESSION if !$Data{UserChallengeToken};
 
         # check ChallengeToken
         return 1 if $ChallengeToken eq $Data{UserChallengeToken};
     }
 
     # no valid token found
-    $Self->FatalError(
-        Message => 'Invalid Challenge Token!',
-    );
+    if ( $Param{Type} && lc $Param{Type} eq 'customer' ) {
+        $Self->CustomerFatalError(
+            Message => 'Invalid Challenge Token!',
+        );
+    }
+    else {
+        $Self->FatalError(
+            Message => 'Invalid Challenge Token!',
+        );
+    }
 
-    # ChallengeToken ok
     return;
 }
 
 sub FatalError {
     my ( $Self, %Param ) = @_;
+
+    # Prevent endless recursion in case of problems with Template engine.
+    return if ( $Self->{InFatalError}++ );
 
     if ( $Param{Message} ) {
         $Self->{LogObject}->Log(
@@ -1295,7 +884,7 @@ create notify lines
 
     my $Output = $LayoutObject->Notify(
         Priority  => 'Warning',
-        Data      => '$Text{"Some DTL Stuff"}',
+        Data      => 'Template content',
         Link      => 'http://example.com/',
         LinkClass => 'some_CSS_class',              # optional
     );
@@ -1493,15 +1082,17 @@ sub Header {
     my $HeaderMetaModule = $Self->{ConfigObject}->Get('Frontend::HeaderMetaModule');
     if ( ref $HeaderMetaModule eq 'HASH' ) {
         my %Jobs = %{$HeaderMetaModule};
+
+        MODULE:
         for my $Job ( sort keys %Jobs ) {
 
             # load and run module
-            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            next MODULE if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-            next if !$Object;
+            next MODULE if !$Object;
             $Object->Run( %Param, Config => $Jobs{$Job} );
         }
     }
@@ -1512,22 +1103,25 @@ sub Header {
         if ( $Param{ShowToolbarItems} && ref $ToolBarModule eq 'HASH' ) {
             my %Modules;
             my %Jobs = %{$ToolBarModule};
+
+            MODULE:
             for my $Job ( sort keys %Jobs ) {
 
                 # load and run module
-                next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+                next MODULE if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
                 my $Object = $Jobs{$Job}->{Module}->new(
                     %{$Self},
                     LayoutObject => $Self,
                 );
-                next if !$Object;
+                next MODULE if !$Object;
                 %Modules = ( $Object->Run( %Param, Config => $Jobs{$Job} ), %Modules );
             }
 
             # show tool bar items
             my $ToolBarShown = 0;
+            MODULE:
             for my $Key ( sort keys %Modules ) {
-                next if !%{ $Modules{$Key} };
+                next MODULE if !%{ $Modules{$Key} };
 
                 # show tool bar wrapper
                 if ( !$ToolBarShown ) {
@@ -2413,78 +2007,46 @@ sub Permission {
     return $Access;
 }
 
-sub CheckCharset {
-    my ( $Self, %Param ) = @_;
-
-    my $Output = '';
-    if ( !$Param{Action} ) {
-        $Param{Action} = '$Env{"Action"}';
-    }
-
-    # with utf-8 can everything be shown
-    if ( $Self->{UserCharset} !~ /^utf-8$/i ) {
-
-        # replace ' or "
-        $Param{Charset} && $Param{Charset} =~ s/'|"//gi;
-
-        # if the content charset is different to the user charset
-        if ( $Param{Charset} && $Self->{UserCharset} !~ /^$Param{Charset}$/i ) {
-
-            # if the content charset is us-ascii it is always shown correctly
-            if ( $Param{Charset} !~ /us-ascii/i ) {
-                $Output = '<p><i class="small">'
-                    . '$Text{"This message was written in a character set other than your own."}'
-                    . '$Text{"If it is not displayed correctly,"} '
-                    . '<a href="'
-                    . $Self->{Baselink}
-                    . "Action=$Param{Action};TicketID=$Param{TicketID}"
-                    . ";ArticleID=$Param{ArticleID};Subaction=ShowHTMLeMail\" target=\"HTMLeMail\" "
-                    . 'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'
-                    . '$Text{"click here"}</a> $Text{"to open it in a new window."}</i></p>';
-            }
-        }
-    }
-
-    # return note string
-    return $Output;
-}
-
 sub CheckMimeType {
     my ( $Self, %Param ) = @_;
 
     my $Output = '';
     if ( !$Param{Action} ) {
-        $Param{Action} = '$Env{"Action"}';
+        $Param{Action} = '[% Env("Action") %]';
     }
 
     # check if it is a text/plain email
     if ( $Param{MimeType} && $Param{MimeType} !~ /text\/plain/i ) {
-        $Output = '<p><i class="small">$Text{"This is a"} '
-            . $Param{MimeType}
-            . ' $Text{"email"}, '
-            . '<a href="'
+        $Output = '<p><i class="small">'
+            . $Self->{LanguageObject}->Translate("This is a")
+            . " $Param{MimeType} "
+            . $Self->{LanguageObject}->Translate("email")
+            . ', <a href="'
             . $Self->{Baselink}
             . "Action=$Param{Action};TicketID="
             . "$Param{TicketID};ArticleID=$Param{ArticleID};Subaction=ShowHTMLeMail\" "
-            . 'target="HTMLeMail" '
-            . 'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'
-            . '$Text{"click here"}</a> '
-            . '$Text{"to open it in a new window."}</i></p>';
+            . 'target="HTMLeMail">'
+            . $Self->{LanguageObject}->Translate("click here")
+            . '</a> '
+            . $Self->{LanguageObject}->Translate("to open it in a new window.")
+            . '</i></p>';
     }
 
     # just to be compat
     elsif ( $Param{Body} =~ /^<.DOCTYPE\s+html|^<HTML>/i ) {
-        $Output = '<p><i class="small">$Text{"This is a"} '
-            . $Param{MimeType}
-            . ' $Text{"email"}, '
-            . '<a href="'
+        $Output = '<p><i class="small">'
+            . $Self->{LanguageObject}->Translate("This is a")
+            . " $Param{MimeType} "
+            . $Self->{LanguageObject}->Translate("email")
+            . ', <a href="'
             . $Self->{Baselink}
-            . 'Action=$Env{"Action"};TicketID='
+            . 'Action=$Param{Action};TicketID='
             . "$Param{TicketID};ArticleID=$Param{ArticleID};Subaction=ShowHTMLeMail\" "
-            . 'target="HTMLeMail" '
-            . 'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'
-            . '$Text{"click here"}</a> '
-            . '$Text{"to open it in a new window."}</i></p>';
+            . 'target="HTMLeMail">'
+            . $Self->{LanguageObject}->Translate("click here")
+            . '</a> '
+            . $Self->{LanguageObject}->Translate("to open it in a new window.")
+            . '</i></p>';
     }
 
     # return note string
@@ -2551,7 +2113,7 @@ sub Attachment {
 
         # detect if IE6 workaround is used (solution for IE problem with multi byte filename)
         # to solve this kind of problems use the following in dtl for attachment downloads:
-        # <a href="$Env{"CGIHandle"}/$LQData{"Filename"}?Action=...">xxx</a>
+        # <a href="[% Env("CGIHandle") %]/[% Data.Filename | uri %]?Action=...">xxx</a>
         my $FilenameInHeader = 1;
 
         # check if browser is broken
@@ -2779,7 +2341,8 @@ sub PageNavBar {
 
     # only show total amount of pages if there is more than one
     if ( $Pages > 1 ) {
-        $Param{NavBarLong} = "- \$Text{\"Page\"}: $Param{SearchNavBar}";
+        $Param{NavBarLong}
+            = "- " . $Self->{LanguageObject}->Translate("Page") . ": $Param{SearchNavBar}";
     }
     else {
         $Param{SearchNavBar} = '';
@@ -2787,9 +2350,11 @@ sub PageNavBar {
 
     # return data
     return (
-        TotalHits      => $Param{TotalHits},
-        Result         => $Param{Results},
-        ResultLong     => "$Param{Results} \$Text{\"of\"} $Param{TotalHits}",
+        TotalHits  => $Param{TotalHits},
+        Result     => $Param{Results},
+        ResultLong => "$Param{Results} "
+            . $Self->{LanguageObject}->Translate("of")
+            . " $Param{TotalHits}",
         SiteNavBar     => $Param{SearchNavBar},
         SiteNavBarLong => $Param{NavBarLong},
         Link           => $Param{Link},
@@ -2807,14 +2372,17 @@ sub NavigationBar {
     my %NavBar;
     my $FrontendModuleConfig = $Self->{ConfigObject}->Get('Frontend::Module');
 
+    MODULE:
     for my $Module ( sort keys %{$FrontendModuleConfig} ) {
         my %Hash = %{ $FrontendModuleConfig->{$Module} };
-        next if !$Hash{NavBar};
-        next if ref $Hash{NavBar} ne 'ARRAY';
+        next MODULE if !$Hash{NavBar};
+        next MODULE if ref $Hash{NavBar} ne 'ARRAY';
 
         my @Items = @{ $Hash{NavBar} };
+
+        ITEM:
         for my $Item (@Items) {
-            next if !$Item->{NavBar};
+            next ITEM if !$Item->{NavBar};
             $Item->{CSS} = '';
 
             # highlight active area link
@@ -2867,7 +2435,7 @@ sub NavigationBar {
                     last PERMISSION;
                 }
             }
-            next if !$Shown;
+            next ITEM if !$Shown;
 
             # set prio of item
             my $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
@@ -2894,15 +2462,17 @@ sub NavigationBar {
     # run menu item modules
     if ( ref $Self->{ConfigObject}->Get('Frontend::NavBarModule') eq 'HASH' ) {
         my %Jobs = %{ $Self->{ConfigObject}->Get('Frontend::NavBarModule') };
+
+        MENUMODULE:
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            next MENUMODULE if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-            next if !$Object;
+            next MENUMODULE if !$Object;
 
             # run module
             %NavBar = ( %NavBar, $Object->Run( %Param, Config => $Jobs{$Job} ) );
@@ -2910,9 +2480,10 @@ sub NavigationBar {
     }
 
     # show nav bar
+    ITEM:
     for my $Key ( sort keys %NavBar ) {
-        next if $Key eq 'Sub';
-        next if !%{ $NavBar{$Key} };
+        next ITEM if $Key eq 'Sub';
+        next ITEM if !%{ $NavBar{$Key} };
         my $Item = $NavBar{$Key};
         $Item->{NameForID} = $Item->{Name};
         $Item->{NameForID} =~ s/[ &;]//ig;
@@ -2927,7 +2498,7 @@ sub NavigationBar {
         );
 
         # show sub menu
-        next if !$Sub;
+        next ITEM if !$Sub;
         $Self->Block(
             Name => 'ItemAreaSub',
             Data => $Item,
@@ -2961,15 +2532,17 @@ sub NavigationBar {
     my $NavBarOutputModuleConfig = $Self->{ConfigObject}->Get('Frontend::NavBarOutputModule');
     if ( ref $NavBarOutputModuleConfig eq 'HASH' ) {
         my %Jobs = %{$NavBarOutputModuleConfig};
+
+        OUTPUTMODULE:
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            next OUTPUTMODULE if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-            next if !$Object;
+            next OUTPUTMODULE if !$Object;
 
             # run module
             $Output .= $Object->Run( %Param, Config => $Jobs{$Job} );
@@ -2980,15 +2553,17 @@ sub NavigationBar {
     my $FrontendNotifyModuleConfig = $Self->{ConfigObject}->Get('Frontend::NotifyModule');
     if ( ref $FrontendNotifyModuleConfig eq 'HASH' ) {
         my %Jobs = %{$FrontendNotifyModuleConfig};
+
+        NOTIFICATIONMODULE:
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            next NOTIFICATIONMODULE if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-            next if !$Object;
+            next NOTIFICATIONMODULE if !$Object;
 
             # run module
             $Output .= $Object->Run( %Param, Config => $Jobs{$Job} );
@@ -3002,12 +2577,18 @@ sub NavigationBar {
         my %Jobs = %{ $Self->{ModuleReg}->{NavBarModule} };
 
         # load module
-        next if !$Self->{MainObject}->Require( $Jobs{Module} );
+        if ( !$Self->{MainObject}->Require( $Jobs{Module} ) ) {
+            return $Output;
+        }
+
         my $Object = $Jobs{Module}->new(
             %{$Self},
             LayoutObject => $Self,
         );
-        next if !$Object;
+
+        if ( !$Object ) {
+            return $Output;
+        }
 
         # run module
         $Output .= $Object->Run( %Param, Config => \%Jobs );
@@ -3070,7 +2651,10 @@ sub BuildDateSelection {
     my ( $s, $m, $h, $D, $M, $Y ) = $Self->{UserTimeObject}->SystemTime2Date(
         SystemTime => $Self->{UserTimeObject}->SystemTime() + $DiffTime,
     );
-    my $DatepickerHTML = '';
+
+    my ( $Cs, $Cm, $Ch, $CD, $CM, $CY ) = $Self->{UserTimeObject}->SystemTime2Date(
+        SystemTime => $Self->{UserTimeObject}->SystemTime(),
+    );
 
     # time zone translation
     if (
@@ -3114,6 +2698,15 @@ sub BuildDateSelection {
                 $Year{$_} = $_;
             }
         }
+
+       # Check if the DiffTime is in a future year. In this case, we add the missing years between
+       # $CY (current year) and $Y (year) to allow the user to manually set back the year if needed.
+        if ( $Y > $CY ) {
+            for ( $CY .. $Y ) {
+                $Year{$_} = $_;
+            }
+        }
+
         $Param{Year} = $Self->BuildSelection(
             Name        => $Prefix . 'Year',
             Data        => \%Year,
@@ -3254,20 +2847,6 @@ sub BuildDateSelection {
         $WeekDayStart = 1;
     }
 
-    # Datepicker
-    $DatepickerHTML = '<!--dtl:js_on_document_complete--><script type="text/javascript">//<![CDATA[
-        Core.UI.Datepicker.Init({
-            Day: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Day"),
-            Month: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Month"),
-            Year: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Year"),
-            Hour: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Hour"),
-            Minute: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Minute"),
-            DateInFuture: ' . ( $ValidateDateInFuture ? 'true' : 'false' ) . ',
-            WeekDayStart: ' . $WeekDayStart . '
-        });
-    //]]></script>
-    <!--dtl:js_on_document_complete-->';
-
     my $Output;
 
     # optional checkbox
@@ -3298,11 +2877,19 @@ sub BuildDateSelection {
         %Param,
     );
 
-    # add Datepicker HTML to output
-    $Output .= $DatepickerHTML;
-
-    # set global var to true to add a block to the footer later
-    $Self->{HasDatepicker} = 1;
+    # Add Datepicker JS to output.
+    my $DatepickerJS = '
+    Core.UI.Datepicker.Init({
+        Day: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Day"),
+        Month: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Month"),
+        Year: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Year"),
+        Hour: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Hour"),
+        Minute: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Minute"),
+        DateInFuture: ' . ( $ValidateDateInFuture ? 'true' : 'false' ) . ',
+        WeekDayStart: ' . $WeekDayStart . '
+    });';
+    $Self->AddJSOnDocumentComplete( Code => $DatepickerJS );
+    $Self->{HasDatepicker} = 1;    # Call some Datepicker init code.
 
     return $Output;
 }
@@ -3473,12 +3060,14 @@ sub CustomerHeader {
     my $HeaderMetaModule = $Self->{ConfigObject}->Get( $Frontend . 'Frontend::HeaderMetaModule' );
     if ( ref $HeaderMetaModule eq 'HASH' ) {
         my %Jobs = %{$HeaderMetaModule};
+
+        MODULE:
         for my $Job ( sort keys %Jobs ) {
 
             # load and run module
-            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            next MODULE if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, LayoutObject => $Self );
-            next if !$Object;
+            next MODULE if !$Object;
             $Object->Run( %Param, Config => $Jobs{$Job} );
         }
     }
@@ -3598,6 +3187,9 @@ sub CustomerFooter {
 sub CustomerFatalError {
     my ( $Self, %Param ) = @_;
 
+    # Prevent endless recursion in case of problems with Template engine.
+    return if ( $Self->{InFatalError}++ );
+
     if ( $Param{Message} ) {
         $Self->{LogObject}->Log(
             Caller   => 1,
@@ -3619,14 +3211,17 @@ sub CustomerNavigationBar {
     my %NavBarModule;
     my $FrontendModuleConfig = $Self->{ConfigObject}->Get('CustomerFrontend::Module');
 
+    MODULE:
     for my $Module ( sort keys %{$FrontendModuleConfig} ) {
         my %Hash = %{ $FrontendModuleConfig->{$Module} };
-        next if !$Hash{NavBar};
-        next if ref $Hash{NavBar} ne 'ARRAY';
+        next MODULE if !$Hash{NavBar};
+        next MODULE if ref $Hash{NavBar} ne 'ARRAY';
 
         my @Items = @{ $Hash{NavBar} };
+
+        ITEM:
         for my $Item (@Items) {
-            next if !$Item;
+            next ITEM if !$Item;
 
             # check permissions
             my $Shown = 0;
@@ -3671,7 +3266,7 @@ sub CustomerNavigationBar {
                     last PERMISSION;
                 }
             }
-            next if !$Shown;
+            next ITEM if !$Shown;
 
             # set prio of item
             my $Key = sprintf( "%07d", $Item->{Prio} );
@@ -3732,9 +3327,11 @@ sub CustomerNavigationBar {
     #   with the same Action and Subaction, it cannot be determined which one was used.
     #   Therefore we just highlight the first one.
     my $SelectedFlag;
+
+    ITEM:
     for my $Item ( sort keys %NavBarModule ) {
-        next if !%{ $NavBarModule{$Item} };
-        next if $Item eq 'Sub';
+        next ITEM if !%{ $NavBarModule{$Item} };
+        next ITEM if $Item eq 'Sub';
         $Counter++;
         my $Sub;
         if ( $NavBarModule{$Item}->{NavBar} ) {
@@ -3763,7 +3360,7 @@ sub CustomerNavigationBar {
         );
 
         # show sub menu
-        next if !$Sub;
+        next ITEM if !$Sub;
         $Self->Block(
             Name => 'ItemAreaSub',
             Data => $Item,
@@ -3802,15 +3399,17 @@ sub CustomerNavigationBar {
     my $FrontendNotifyModuleConfig = $Self->{ConfigObject}->Get('CustomerFrontend::NotifyModule');
     if ( ref $FrontendNotifyModuleConfig eq 'HASH' ) {
         my %Jobs = %{$FrontendNotifyModuleConfig};
+
+        NOTIFICATIONMODULE:
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            next NOTIFICATIONMODULE if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-            next if !$Object;
+            next NOTIFICATIONMODULE if !$Object;
 
             # run module
             $Param{Notification} .= $Object->Run( %Param, Config => $Jobs{$Job} );
@@ -4241,8 +3840,9 @@ sub RichTextDocumentServe {
     # http://www.ietf.org/rfc/rfc2557.txt
 
     # find matching attachment and replace it with runtlime url to image
+    ATTACHMENT:
     for my $AttachmentID ( sort keys %{ $Param{Attachments} } ) {
-        next if !$Param{Attachments}->{$AttachmentID}->{ContentID};
+        next ATTACHMENT if !$Param{Attachments}->{$AttachmentID}->{ContentID};
 
         # content id cleanup
         $Param{Attachments}->{$AttachmentID}->{ContentID} =~ s/^<//;
@@ -4300,339 +3900,6 @@ sub RichTextDocumentCleanup {
 =begin Internal:
 
 =cut
-
-sub _BlocksByLayer {
-    my ( $Self, %Param ) = @_;
-
-    my %TagsOpen;
-    my $LastLayerCount = 0;
-    my $Layer          = -1;
-    my @Layer;
-    my $LastLayer    = '';
-    my $CurrentLayer = '';
-    my %UsedNames;
-    my $TemplateFile = $Param{TemplateFile} || '';
-    if ( !defined $Param{Template} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Template!' );
-        return;
-    }
-
-    if ( $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} ) {
-        return $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile};
-    }
-
-    $Param{Template} =~ s{
-        <!--[ ]?dtl:block:(.+?)[ ]?-->
-    }
-    {
-        my $BlockName = $1;
-        if (!$TagsOpen{$BlockName}) {
-            $Layer++;
-            $TagsOpen{$BlockName} = 1;
-            my $CL = '';
-            if ($Layer == 0) {
-                $LastLayer = '';
-                $CurrentLayer = $BlockName;
-            }
-            elsif ($LastLayerCount == $Layer) {
-                $CurrentLayer = $LastLayer.'::'.$BlockName;
-            }
-            else {
-                $LastLayer = $CurrentLayer;
-                $CurrentLayer = $CurrentLayer.'::'.$BlockName;
-            }
-            $LastLayerCount = $Layer;
-            if (!$UsedNames{$BlockName}) {
-                push @{ $Layer[$Layer] }, $BlockName;
-                $UsedNames{$BlockName} = 1;
-            }
-        }
-        else {
-            $TagsOpen{$BlockName} = 0;
-            $Layer--;
-        }
-    }segxm;
-
-    # check open (invalid) tags
-    for ( sort keys %TagsOpen ) {
-        if ( $TagsOpen{$_} ) {
-            my $Message = "'dtl:block:$_' isn't closed!";
-            if ($TemplateFile) {
-                $Message .= " ($TemplateFile.dtl)";
-            }
-            $Self->{LogObject}->Log( Priority => 'error', Message => $Message );
-            $Self->FatalError();
-        }
-    }
-
-    # remember block data
-    if ($TemplateFile) {
-        $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} = \@Layer;
-    }
-
-    return \@Layer;
-}
-
-sub _BlockTemplatesReplace {
-    my ( $Self, %Param ) = @_;
-
-    if ( !$Param{Template} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Template!' );
-        return;
-    }
-    my $TemplateString = $Param{Template};
-
-    # get availabe template block preferences
-    my $BlocksByLayer = $Self->_BlocksByLayer(
-        Template => $$TemplateString,
-        TemplateFile => $Param{TemplateFile} || '',
-    );
-    my %BlockLayer;
-    my %BlockTemplates;
-
-    for ( my $Layer = $#$BlocksByLayer; $Layer >= 0; $Layer-- ) {
-        my $Blocks = $BlocksByLayer->[$Layer];
-        my $Names = join '|', map { quotemeta $_ } @$Blocks;
-        $$TemplateString =~ s{
-            <!--[ ]?dtl:block:($Names)[ ]?-->(.+?)<!--[ ]?dtl:block:\1[ ]?-->
-        }
-        {
-            $BlockTemplates{$1} = $2;
-            "<!-- dtl:place_block:$1 -->";
-        }segxm;
-        for my $Name (@$Blocks) {
-            $BlockLayer{$Name} = $Layer + 1;
-        }
-    }
-    undef $BlocksByLayer;
-
-    # create block template string
-    my @BR;
-    if ( $Self->{BlockData} && %BlockTemplates ) {
-        my @NotUsedBlockData;
-        for my $Block ( @{ $Self->{BlockData} } ) {
-            if ( $BlockTemplates{ $Block->{Name} } ) {
-                push(
-                    @BR,
-                    {
-                        Layer => $BlockLayer{ $Block->{Name} },
-                        Name  => $Block->{Name},
-                        Data  => $Self->_Output(
-                            Template => $BlockTemplates{ $Block->{Name} },
-                            Data     => $Block->{Data},
-                        ),
-                    }
-                );
-            }
-            else {
-                push @NotUsedBlockData, { %{$Block} };
-            }
-        }
-
-        # remember not use block data
-        $Self->{BlockData} = \@NotUsedBlockData;
-    }
-
-    return @BR;
-}
-
-sub _Output {
-    my ( $Self, %Param ) = @_;
-
-    # deep recursion protection
-    $Self->{OutputCount}++;
-    if ( $Self->{OutputCount} > 20 ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Loop detection!',
-        );
-        $Self->FatalDie();
-    }
-
-    # create refs
-    my $GlobalRef = {
-        Env    => $Self->{EnvRef},
-        Data   => $Param{Data},
-        Config => $Self->{ConfigObject},
-    };
-
-    my $TemplateString = $Param{Template};
-
-    # parse/get text blocks
-    my @BR = $Self->_BlockTemplatesReplace(
-        Template => \$TemplateString,
-        TemplateFile => $Param{TemplateFile} || '',
-    );
-
-    # check if a block structure exists
-    if ( scalar @BR ) {
-
-        # process structure
-        my $BlockStructure;
-        my $LastLayer = $BR[-1]->{Layer};
-        for my $Block (
-            reverse
-            {
-                Data  => $TemplateString,
-                Layer => 0,
-                Name  => 'TemplateString',
-            },
-            @BR
-            )
-        {
-
-            # process and remove substructure (if exists)
-            if (
-                $Block->{Layer} < $LastLayer
-                && ref $BlockStructure->{ $Block->{Layer} + 1 } eq 'HASH'
-                )
-            {
-                for my $SubLayer ( sort keys %{ $BlockStructure->{ $Block->{Layer} + 1 } } ) {
-                    my $SubLayerString = join '',
-                        @{ $BlockStructure->{ $Block->{Layer} + 1 }->{$SubLayer} };
-                    $Block->{Data}
-                        =~ s{ <!-- [ ] dtl:place_block: $SubLayer [ ] --> }{$SubLayerString}xms;
-                }
-                undef $BlockStructure->{ $Block->{Layer} + 1 };
-            }
-
-            # for safety - clean up old same-level structures
-            elsif ( $Block->{Layer} > $LastLayer ) {
-                undef $BlockStructure->{ $Block->{Layer} };
-            }
-
-            # add to structure
-            unshift @{ $BlockStructure->{ $Block->{Layer} }->{ $Block->{Name} } }, $Block->{Data};
-            $LastLayer = $Block->{Layer};
-        }
-
-        # assign result
-        $TemplateString = $BlockStructure->{0}->{TemplateString}->[0];
-
-    }
-
-    # remove empty blocks and block preferences
-    if ( $Param{BlockReplace} ) {
-        my @TemplateBlocks = split '<!-- dtl:place_block:', $TemplateString;
-        $TemplateString = shift @TemplateBlocks || '';
-        for my $TemplateBlock (@TemplateBlocks) {
-            $TemplateBlock =~ s{ \A .+? [ ] --> }{}xms;
-            $TemplateString .= $TemplateBlock;
-        }
-    }
-
-    # process template
-    $TemplateString ||= '';
-    my $Output = '';
-    for my $Line ( split( /\n/, $TemplateString ) ) {
-
-        #        # add missing new line (striped from split)
-        #        $Line .= "\n";
-
-        # variable & env & config replacement
-        my $Regexp = 1;
-        while ($Regexp) {
-            $Regexp = $Line =~ s{
-                \$((?:|Q|LQ|)Data|(?:|Q)Env|Config|Include){"(.+?)"}
-            }
-            {
-                if ($1 eq 'Data' || $1 eq 'Env') {
-                    if ( defined $GlobalRef->{$1}->{$2} ) {
-                        $GlobalRef->{$1}->{$2};
-                    }
-                    else {
-                        # output replace with nothing!
-                        '';
-                    }
-                }
-                elsif ($1 eq 'QEnv') {
-                    my $Text = $2;
-                    if ( !defined $Text || $Text =~ /^",\s*"(.+)$/ ) {
-                        '';
-                    }
-                    elsif ($Text =~ /^(.+?)",\s*"(.+)$/) {
-                        if ( defined $GlobalRef->{Env}->{$1} ) {
-                            $Self->Ascii2Html(Text => $GlobalRef->{Env}->{$1}, Max => $2);
-                        }
-                        else {
-                            # output replace with nothing!
-                            '';
-                        }
-                    }
-                    else {
-                        if ( defined $GlobalRef->{Env}->{$Text} ) {
-                            $Self->Ascii2Html(Text => $GlobalRef->{Env}->{$Text});
-                        }
-                        else {
-                            # output replace with nothing!
-                            '';
-                        }
-                    }
-                }
-                elsif ($1 eq 'QData') {
-                    my $Text = $2;
-                    if ( !defined $Text || $Text =~ /^",\s*"(.+)$/ ) {
-                        '';
-                    }
-                    elsif ($Text =~ /^(.+?)",\s*"(.+)$/) {
-                        if ( defined $GlobalRef->{Data}->{$1} ) {
-                            $Self->Ascii2Html(Text => $GlobalRef->{Data}->{$1}, Max => $2);
-                        }
-                        else {
-                            # output replace with nothing!
-                            '';
-                        }
-                    }
-                    else {
-                        if ( defined $GlobalRef->{Data}->{$Text} ) {
-                            $Self->Ascii2Html(Text => $GlobalRef->{Data}->{$Text});
-                        }
-                        else {
-                            # output replace with nothing!
-                            '';
-                        }
-                    }
-                }
-                # link encode
-                elsif ($1 eq 'LQData') {
-                    if ( defined $GlobalRef->{Data}->{$2} ) {
-                        $Self->LinkEncode($GlobalRef->{Data}->{$2});
-                    }
-                    else {
-                        # output replace with nothing!
-                        '';
-                    }
-                }
-                # replace with
-                elsif ($1 eq 'Config') {
-                    if ( defined $Self->{ConfigObject}->Get($2) ) {
-                        $Self->{ConfigObject}->Get($2);
-                    }
-                    else {
-                        # output replace with nothing!
-                        '';
-                    }
-                }
-                # include dtl files
-                elsif ($1 eq 'Include') {
-                    $Self->Output(
-                        %Param,
-                        Include => 1,
-                        TemplateFile => $2,
-                    );
-                }
-            }egx;
-        }
-
-        # add this line to output
-        $Output .= $Line . "\n";
-    }
-    chomp $Output;
-
-    $Self->{OutputCount} = 0;
-
-    return $Output;
-}
 
 =item _BuildSelectionOptionRefCreate()
 
@@ -5238,8 +4505,12 @@ sub _BuildSelectionOutput {
         $String .= '</select>';
 
         if ( $Param{TreeView} ) {
+            my $TreeSelectionMessage = $Self->{LanguageObject}->Get("Show Tree Selection");
             $String
-                .= ' <a href="#" title="$Text{"Show Tree Selection"}" class="ShowTreeSelection">$Text{"Show Tree Selection"}</a>';
+                .= ' <a href="#" title="'
+                . $TreeSelectionMessage
+                . '" class="ShowTreeSelection">'
+                . $TreeSelectionMessage . '</a>';
         }
 
     }

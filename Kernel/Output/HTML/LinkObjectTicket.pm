@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module for link object 'Ticket'.
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -185,10 +185,12 @@ sub TableCreateComplex {
 
         my @ItemColumns = (
             {
-                Type     => 'Link',
-                Key      => $TicketID,
-                Content  => $Ticket->{TicketNumber},
-                Link     => '$Env{"Baselink"}Action=AgentTicketZoom;TicketID=' . $TicketID,
+                Type    => 'Link',
+                Key     => $TicketID,
+                Content => $Ticket->{TicketNumber},
+                Link    => $Self->{LayoutObject}->{Baselink}
+                    . 'Action=AgentTicketZoom;TicketID='
+                    . $TicketID,
                 CssClass => $CssClass,
             },
             {
@@ -322,10 +324,12 @@ sub TableCreateSimple {
 
                 # define item data
                 my %Item = (
-                    Type     => 'Link',
-                    Content  => 'T:' . $Ticket->{TicketNumber},
-                    Title    => "$TicketHook$Ticket->{TicketNumber}: $Ticket->{Title}",
-                    Link     => '$Env{"Baselink"}Action=AgentTicketZoom;TicketID=' . $TicketID,
+                    Type    => 'Link',
+                    Content => 'T:' . $Ticket->{TicketNumber},
+                    Title   => "$TicketHook$Ticket->{TicketNumber}: $Ticket->{Title}",
+                    Link    => $Self->{LayoutObject}->{Baselink}
+                        . 'Action=AgentTicketZoom;TicketID='
+                        . $TicketID,
                     CssClass => $CssClass,
                 );
 

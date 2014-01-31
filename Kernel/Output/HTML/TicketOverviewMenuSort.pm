@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketOverviewMenuSort.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -143,9 +143,7 @@ sub Run {
         }
     }
 
-    $ReturnData{HTML} .= <<"JS";
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
+    $Self->{LayoutObject}->AddJSOnDocumentComplete( Code => <<"JS" );
 \$("#SortBy").change(function(){
     var Selection = \$(this).val().split('|');
     if ( Selection.length === 2 ) {
@@ -154,8 +152,6 @@ sub Run {
         });
     }
 });
-//]]></script>
-<!-- dtl:js_on_document_complete -->
 JS
 
     $ReturnData{HTML} = '<li class="AlwaysPresent SortBy">'

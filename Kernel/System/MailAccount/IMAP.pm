@@ -1,6 +1,6 @@
 # --
 # Kernel/System/MailAccount/IMAP.pm - lib for imap accounts
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -73,9 +73,10 @@ sub Fetch {
     my ( $Self, %Param ) = @_;
 
     # fetch again if still messages on the account
+    COUNT:
     for ( 1 .. 200 ) {
         return if !$Self->_Fetch(%Param);
-        last   if !$Self->{Reconnect};
+        last COUNT if !$Self->{Reconnect};
     }
     return 1;
 }

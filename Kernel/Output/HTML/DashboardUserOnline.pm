@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardUserOnline.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -306,6 +306,23 @@ sub Run {
     if ( !%OnlineUser ) {
         $Self->{LayoutObject}->Block(
             Name => 'ContentSmallUserOnlineNone',
+        );
+    }
+
+    # check for refresh time
+    my $Refresh = '';
+    if ( $Self->{UserRefreshTime} ) {
+        $Refresh = 60 * $Self->{UserRefreshTime};
+        my $NameHTML = $Self->{Name};
+        $NameHTML =~ s{-}{_}xmsg;
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentSmallUserOnlineRefresh',
+            Data => {
+                %{ $Self->{Config} },
+                Name        => $Self->{Name},
+                NameHTML    => $NameHTML,
+                RefreshTime => $Refresh,
+            },
         );
     }
 

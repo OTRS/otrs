@@ -1,0 +1,75 @@
+# --
+# AgentBook.tt - provides HTML form for AgentBook
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% InsertTemplate("AgentCustomerSearch.tt") %]
+<!-- start addressbook form -->
+<div class="LayoutPopup">
+    <div class="Content">
+        <h1>[% Translate("Address Book") | html %]</h1>
+        <form id="AddressBook" action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
+            <fieldset class="SpacingTop">
+                <input type="text" name="Search" id="Search" value="" class="W75pc" title="[% Translate("Search for a customer") | html %]"/>
+                <button type="submit" value="[% Translate("Search") | html %]" >[% Translate("Search") | html %]</button>
+            </fieldset>
+[% RenderBlockStart("SearchResult") %]
+            <table id="SearchResult" class="DataTable SpacingTop">
+                <thead>
+                    <tr>
+                        <th>[% Translate("Name") | html %]</th>
+                        <th>[% Translate("To") | html %]</th>
+                        <th>[% Translate("Cc") | html %]</th>
+                        <th>[% Translate("Bcc") | html %]</th>
+                    </tr>
+                </thead>
+                <tbody>
+[% RenderBlockStart("Row") %]
+                    <tr id="Row[% Data.Count | html %]">
+                        <td>[% Data.Name | html %]</td>
+                        <td><a href="" rel="ToCustomer" title="[% Translate("Add email address %s to the To field", Data.Email) | html %]">[% Translate("To") | html %]</a></td>
+                        <td><a href="" rel="CcCustomer" title="[% Translate("Add email address %s to the Cc field", Data.Email) | html %]">[% Translate("Cc") | html %]</a></td>
+                        <td><a href="" rel="BccCustomer" title="[% Translate("Add email address %s to the Bcc field", Data.Email) | html %]">[% Translate("Bcc") | html %]</a></td>
+                    </tr>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Data.Set($('#Row[% Data.Count | html %]'), 'Email', "[% Data.Email | html %]");
+//]]></script>
+[% END %]
+[% RenderBlockEnd("Row") %]
+                </tbody>
+            </table>
+[% RenderBlockEnd("SearchResult") %]
+            <input type="hidden" name="Action" value="AgentBook" />
+            <fieldset class="TableLike FixedLabel SpacingTop">
+                <label for="To">[% Translate("To") | html %]:</label>
+                <div class="Field">
+                    <input type="text" name="ToCustomer" id="ToCustomer" value="[% Data.ToCustomer | html %]" class="W75pc CustomerAutoComplete" />
+                </div>
+                <div class="Clear"></div>
+                <label for="Cc">[% Translate("Cc") | html %]:</label>
+                <div class="Field">
+                    <input type="text" name="CcCustomer" id="CcCustomer" value="[% Data.CcCustomer | html %]" class="W75pc CustomerAutoComplete" />
+                </div>
+                <div class="Clear"></div>
+                <label for="Bcc">[% Translate("Bcc") | html %]:</label>
+                <div class="Field">
+                    <input type="text" name="BccCustomer" id="BccCustomer" value="[% Data.BccCustomer | html %]" class="W75pc CustomerAutoComplete" />
+                </div>
+            </fieldset>
+        </form>
+        <div class="Center SpacingTop">
+            <button type="button" id="Apply" value="[% Translate("Apply") | html %]">[% Translate("Apply") | html %]</button>
+            <button type="button" id="Cancel" value="[% Translate("Cancel") | html %]">[% Translate("Cancel") | html %]</button>
+        </div>
+    </div>
+</div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.TicketAction.InitAddressBook();
+//]]></script>
+[% END %]

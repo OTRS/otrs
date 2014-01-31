@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -48,7 +48,7 @@ my %Opts = ();
 getopt( 'fcdlb', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.GenericAgent.pl - OTRS generic agent\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] ";
     print "[-l <limit>] [-f force]\n";
     print "usage: otrs.GenericAgent.pl [-c db] [-d 1] [-l <limit>] ";
@@ -131,6 +131,7 @@ elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => $JobName ) ) {
 }
 
 # while to run several times if -b is used
+LOOP:
 while (1) {
 
     # set new PID
@@ -150,7 +151,7 @@ while (1) {
     }
 
     # return if no interval is set
-    last if !$Opts{b};
+    last LOOP if !$Opts{b};
 
     # sleep till next interval
     print "NOTICE: Waiting for next interval ($Opts{b} min)...\n";
@@ -182,6 +183,7 @@ sub ExecuteDBJobs {
     # process all jobs
 
     my %DBJobs = $CommonObject{GenericAgentObject}->JobList();
+    DBJOB:
     for my $DBJob ( sort keys %DBJobs ) {
 
         # get job
@@ -194,10 +196,9 @@ sub ExecuteDBJobs {
                 $Schedule = 1;
             }
         }
-        next if !$Schedule;
+        next DBJOB if !$Schedule;
 
-        # next if jobs is invalid
-        next if !$DBJobRaw{Valid};
+        next DBJOB if !$DBJobRaw{Valid};
 
         # get time params to check last and current run
         my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
@@ -216,7 +217,7 @@ sub ExecuteDBJobs {
                     $Match = 1;
                 }
             }
-            next if !$Match;
+            next DBJOB if !$Match;
         }
 
         # check ScheduleMinutes
@@ -227,7 +228,7 @@ sub ExecuteDBJobs {
                     $Match = 1;
                 }
             }
-            next if !$Match;
+            next DBJOB if !$Match;
         }
 
         # check ScheduleHours
@@ -238,7 +239,7 @@ sub ExecuteDBJobs {
                     $Match = 1;
                 }
             }
-            next if !$Match;
+            next DBJOB if !$Match;
         }
 
         # check if job already was running less than 10 minutes (+- 5 secs) ago
@@ -250,7 +251,7 @@ sub ExecuteDBJobs {
         {
             my $SecsAgo = $CurrentTime - $DBJobRaw{ScheduleLastRunUnixTime};
             print "Job '$DBJob' last finished $SecsAgo seconds ago. Skipping for now.\n";
-            next;
+            next DBJOB;
         }
 
         # log event

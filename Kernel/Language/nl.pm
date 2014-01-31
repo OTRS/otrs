@@ -6,7 +6,7 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,6 +17,7 @@ package Kernel::Language::nl;
 
 use strict;
 use warnings;
+use utf8;
 
 sub Data {
     my $Self = shift;
@@ -1987,6 +1988,9 @@ sub Data {
         'Add private key' => 'Private sleutel toevoegen',
         'Filter for certificates' => 'Filter op certificaten',
         'Filter for SMIME certs' => 'Filter op SMIME certificaten',
+        'To show certificate details click on a certificate icon.' => '',
+        'To manage private certificate relations click on a private key icon.' =>
+            '',
         'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
             'Hier kunt u koppelingen naar uw private sleutels toevoegen. Deze worden ingesloten in SMIME handtekeningen iedere keer als u dit certificaat gebruikt om een e-mail te ondertekenen.',
         'See also' => 'Zie voor meer informatie',
@@ -2254,6 +2258,8 @@ sub Data {
         # Template: AgentDashboardStats
         'The content of this statistic is being prepared for you, please be patient.' =>
             'De inhoud van deze rapportage wordt voor u aangemaakt, even geduld.',
+        'Grouped' => '',
+        'Stacked' => '',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Mijn vergrendelde tickets',
@@ -3094,7 +3100,7 @@ sub Data {
         'Configure Processes.' => 'Beheer processen',
         'Configure and manage ACLs.' => 'Beheer ACLs.',
         'Configure your own log text for PGP.' => '',
-        'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3190,6 +3196,8 @@ sub Data {
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
+            '',
+        'Defines a list of groups which should have the permission to see stats dashboards (e.g. group1;group2;group3).' =>
             '',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
             '',
@@ -4805,6 +4813,8 @@ sub Data {
         'This option defines the process tickets default priority.' => '',
         'This option defines the process tickets default queue.' => '',
         'This option defines the process tickets default state.' => '',
+        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
         'Ticket Queue Overview' => 'Ticketwachtrij overzicht',

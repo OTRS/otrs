@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/Installer.pm - provides the DB installer
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -616,6 +616,12 @@ sub Run {
         # execute database statements
         for my $Statement (@Statements) {
             my @Description = split( ' ', $Statement );
+
+            # prevent unitilialized variables
+            for my $Index ( 0 .. 2 ) {
+                $Description[$Index] //= '';
+            }
+
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
                 Data => { Item => "$Description[0] $Description[1] $Description[2]" },
@@ -1103,7 +1109,7 @@ sub ReConfigure {
 
     # write new config file
     ## no critic
-    open( my $Out, '>', $ConfigFile )
+    open( my $Out, '>:utf8', $ConfigFile )
         || return "Can't open $ConfigFile: $!";
     print $Out $Config;
     ## use critic

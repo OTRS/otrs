@@ -1,6 +1,6 @@
 # --
 # Kernel/System/ProcessManagement/Process.pm - all ticket functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -588,9 +588,16 @@ sub ProcessTransition {
         return;
     }
 
-    # if we don't have Actions on that transition,
+    # if we don't have Transition Actions on that transition,
     # return 1 for successful transition
-    if ( !$Transitions{$TransitionEntityID}{TransitionAction} ) {
+    if (
+        !$Transitions{$TransitionEntityID}{TransitionAction}
+        || (
+            ref $Transitions{$TransitionEntityID}{TransitionAction} eq 'ARRAY'
+            && !@{ $Transitions{$TransitionEntityID}{TransitionAction} }
+        )
+        )
+    {
         return 1;
     }
 
@@ -598,7 +605,7 @@ sub ProcessTransition {
     if ( !IsArrayRefWithData( $Transitions{$TransitionEntityID}{TransitionAction} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Defective Process configuration: 'Action' must be an array in "
+            Message  => "Defective Process configuration: 'TrasitionAction' must be an array in "
                 . "Process: $Param{ProcessEntityID} -> Path -> "
                 . "ActivityEntityID: $Param{ActivityEntityID} -> Transition: $TransitionEntityID!",
         );

@@ -1,6 +1,6 @@
 # --
 # Attachment.t - email attachments tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -150,6 +150,7 @@ my @Tests = (
 my $Count = 0;
 
 # Testing loop
+TEST:
 for my $Test (@Tests) {
 
     $Count++;
@@ -194,7 +195,7 @@ for my $Test (@Tests) {
     }
 
     # No need test below is constant PARSE set to 0
-    next if ( !$PARSE );
+    next TEST if ( !$PARSE );
 
     # parse email
     my $ParserObject = Kernel::System::EmailParser->new(

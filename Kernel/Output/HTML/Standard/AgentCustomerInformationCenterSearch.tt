@@ -1,0 +1,27 @@
+# --
+# AgentCustomerInformationCenterSearch.tt - provides HTML form for AgentCustomerInformationCenterSearch
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="InnerContent">
+    <form action="[% Env("CGIHandle") %]" method="post" id="AgentCustomerInformationCenterSearchForm">
+        <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+        <input type="hidden" name="Subaction" value="Redirect"/>
+        <fieldset class="TableLike">
+            <label>[% Translate("Customer ID") | html %]:</label>
+            <div class="Field">
+                <input type="text" id="AgentCustomerInformationCenterSearchCustomerID" class="W90pc" />
+            </div>
+            <div class="Clear"></div>
+            <label>[% Translate("Customer User") | html %]:</label>
+            <div class="Field">
+                <input type="text" id="AgentCustomerInformationCenterSearchCustomerUser" class="W90pc" />
+            </div>
+            <div class="Clear"></div>
+        </fieldset>
+    </form>
+</div>

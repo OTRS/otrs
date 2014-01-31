@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,7 +44,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'Update' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $Self->{LayoutObject}->ChallengeTokenCheck( Type => 'Customer' );
 
         # check group param
         my $Group = $Self->{ParamObject}->GetParam( Param => 'Group' ) || '';
@@ -202,12 +202,13 @@ sub CustomerPreferencesForm {
         }
 
         # show each preferences setting
+        PRIO:
         for my $Prio ( sort keys %Data ) {
             my $Group = $Data{$Prio};
-            next if !$Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group};
+            next PRIO if !$Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group};
 
             my %Preference = %{ $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group} };
-            next if !$Preference{Active};
+            next PRIO if !$Preference{Active};
 
             # load module
             my $Module = $Preference{Module} || 'Kernel::Output::HTML::CustomerPreferencesGeneric';
@@ -220,7 +221,7 @@ sub CustomerPreferencesForm {
                 Debug      => $Self->{Debug},
             );
             my @Params = $Object->Param( UserData => $Param{UserData} );
-            next if !@Params;
+            next PRIO if !@Params;
 
             # show item
             $Self->{LayoutObject}->Block(

@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # xml2html.pl - a "_simple_" xml2html viewer
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -95,9 +95,10 @@ for my $Tag (@XMLARRAY) {
         $HTML .= " <font size=\"-2\">";
         my $AttrList = '';
 
+        TAG:
         for ( sort keys %{$Tag} ) {
             if ( $_ =~ /^(Tag|TagType|Content)$/ ) {
-                next;
+                next TAG;
             }
             if ($AttrList) {
                 $AttrList .= ", ";

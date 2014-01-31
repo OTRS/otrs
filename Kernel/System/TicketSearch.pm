@@ -1,6 +1,6 @@
 # --
 # Kernel/System/TicketSearch.pm - all ticket search functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -944,10 +944,11 @@ sub TicketSearch {
         CustomerID        => 'st.customer_id',
         CustomerUserLogin => 'st.customer_user_id',
     );
+
+    ATTRIBUTE:
     for my $Key ( sort keys %FieldSQLMap ) {
 
-        # next if attribute is not used
-        next if !defined $Param{$Key};
+        next ATTRIBUTE if !defined $Param{$Key};
 
         # if it's no ref, put it to array ref
         if ( ref $Param{$Key} eq '' ) {
@@ -956,16 +957,17 @@ sub TicketSearch {
 
         # proccess array ref
         my $Used = 0;
+
+        VALUE:
         for my $Value ( @{ $Param{$Key} } ) {
 
-            # next if no search attribute is given
-            next if !$Value;
+            next VALUE if !$Value;
 
             # replace wild card search
             $Value =~ s/\*/%/gi;
 
             # check search attribute, we do not need to search for *
-            next if $Value =~ /^\%{1,3}$/;
+            next VALUE if $Value =~ /^\%{1,3}$/;
 
             if ( !$Used ) {
                 $SQLExt .= ' AND (';
@@ -1032,13 +1034,13 @@ sub TicketSearch {
                 $Text =~ s/\*/%/gi;
 
                 # check search attribute, we do not need to search for *
-                next if $Text =~ /^\%{1,3}$/;
+                next TEXT if $Text =~ /^\%{1,3}$/;
 
                 # validate data type
                 my $ValidateSuccess = $Self->{DynamicFieldBackendObject}->ValueValidate(
                     DynamicFieldConfig => $DynamicField,
                     Value              => $Text,
-                    UserID             => $Param{UserID},
+                    UserID             => $Param{UserID} || 1,
                 );
                 if ( !$ValidateSuccess ) {
                     $Self->{LogObject}->Log(

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/Driver/BaseText.pm - Dynamic field Driver functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -166,11 +166,14 @@ EOF
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'Error';
 
+        my $FieldRequiredMessage
+            = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+
         # for client side validation
         $HTMLString .= <<"EOF";
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"This field is required."}
+        $FieldRequiredMessage
     </p>
 </div>
 EOF
@@ -179,13 +182,14 @@ EOF
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
+        $ErrorMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
         my $DivID = $FieldName . 'ServerError';
 
         # for server side validation
         $HTMLString .= <<"EOF";
 <div id="$DivID" class="TooltipErrorMessage">
     <p>
-        \$Text{"$ErrorMessage"}
+        $ErrorMessage
     </p>
 </div>
 EOF
@@ -193,9 +197,9 @@ EOF
 
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
-        Mandatory          => $Param{Mandatory} || '0',
-        FieldName          => $FieldName,
+        %Param,
+        Mandatory => $Param{Mandatory} || '0',
+        FieldName => $FieldName,
     );
 
     my $Data = {
@@ -350,9 +354,9 @@ EOF
 
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
-        DynamicFieldConfig => $Param{DynamicFieldConfig},
-        FieldName          => $FieldName,
-        AdditionalText     => $AdditionalText,
+        %Param,
+        FieldName      => $FieldName,
+        AdditionalText => $AdditionalText,
     );
 
     my $Data = {

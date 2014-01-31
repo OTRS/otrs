@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Email.pm - the global email send module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -115,6 +115,8 @@ To send an email without already created header:
     my $Sent = $SendObject->Send(
         From        => 'me@example.com',
         To          => 'friend@example.com',
+        Cc          => 'Some Customer B <customer-b@example.com>',   # not required
+        ReplyTo     => 'Some Customer B <customer-b@example.com>',   # not required, is possible to use 'Reply-To' instead
         Subject     => 'Some words!',
         Charset     => 'iso-8859-15',
         MimeType    => 'text/plain', # "text/plain" or "text/html"
@@ -186,6 +188,11 @@ sub Send {
         $Param{Body} =~ s{\Q<br/>\E}{<br />}xmsgi;
     }
 
+    # map ReplyTo into Reply-To if present
+    if ( $Param{ReplyTo} ) {
+        $Param{'Reply-To'} = $Param{ReplyTo};
+    }
+
     # get sign options for inline
     if ( $Param{Sign} && $Param{Sign}->{SubType} && $Param{Sign}->{SubType} eq 'Inline' ) {
         my $CryptObject = Kernel::System::Crypt->new(
@@ -240,9 +247,10 @@ sub Send {
 
     # build header
     my %Header;
-    for (qw(From To Cc Subject Charset Reply-To)) {
-        next if !$Param{$_};
-        $Header{$_} = $Param{$_};
+    ATTRIBUTE:
+    for my $Attribute (qw(From To Cc Subject Charset Reply-To)) {
+        next ATTRIBUTE if !$Param{$Attribute};
+        $Header{$Attribute} = $Param{$Attribute};
     }
 
     # loop
@@ -253,11 +261,12 @@ sub Send {
     }
 
     # do some encode
-    for (qw(From To Cc Subject)) {
-        next if !$Header{$_};
-        $Header{$_} = $Self->_EncodeMIMEWords(
-            Field   => $_,
-            Line    => $Header{$_},
+    ATTRIBUTE:
+    for my $Attribute (qw(From To Cc Subject)) {
+        next ATTRIBUTE if !$Header{$Attribute};
+        $Header{$Attribute} = $Self->_EncodeMIMEWords(
+            Field   => $Attribute,
+            Line    => $Header{$Attribute},
             Charset => $Param{Charset},
         );
     }
@@ -344,8 +353,9 @@ sub Send {
     if ( $Param{InReplyTo} ) {
         $Param{'In-Reply-To'} = $Param{InReplyTo};
     }
+    KEY:
     for my $Key ( 'In-Reply-To', 'References' ) {
-        next if !$Param{$Key};
+        next KEY if !$Param{$Key};
         my $Value = $Param{$Key};
 
         # Split up '<msgid><msgid>' to allow line folding (see bug#9345).
@@ -683,9 +693,11 @@ sub Send {
     # get recipients
     my @ToArray;
     my $To = '';
-    for (qw(To Cc Bcc)) {
-        next if !$Param{$_};
-        for my $Email ( Mail::Address->parse( $Param{$_} ) ) {
+
+    RECIPIENT:
+    for my $Recipient (qw(To Cc Bcc)) {
+        next RECIPIENT if !$Param{$Recipient};
+        for my $Email ( Mail::Address->parse( $Param{$Recipient} ) ) {
             push( @ToArray, $Email->address() );
             if ($To) {
                 $To .= ', ';

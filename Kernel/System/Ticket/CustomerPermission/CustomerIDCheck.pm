@@ -1,7 +1,7 @@
 # --
 # Kernel/System/Ticket/CustomerPermission/CustomerIDCheck.pm - the sub
 # module of the global ticket handle
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,6 +25,10 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
+    # disable output of customer company tickets
+    $Self->{DisableCompanyTickets}
+        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
+
     return $Self;
 }
 
@@ -38,6 +42,9 @@ sub Run {
             return;
         }
     }
+
+    # disable output of customer company tickets if configured
+    return if $Self->{DisableCompanyTickets};
 
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(

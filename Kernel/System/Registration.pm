@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Registration.pm - All Registration functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -118,7 +118,7 @@ sub new {
 
     $Self->{RegistrationURL} = 'https://cloud.otrs.com/otrs/public.pl';
 
-    $Self->{APIVersion} = 1;
+    $Self->{APIVersion} = 2;
 
     return $Self;
 }
@@ -308,6 +308,7 @@ sub Register {
             APIVersion  => $Self->{APIVersion},
             State       => 'active',
             OldUniqueID => $OldRegistration{UniqueID} || '',
+            OldAPIKey   => $OldRegistration{APIKey} || '',
             Token       => $Param{Token},
             OTRSID      => $Param{OTRSID},
             Type        => $Param{Type},

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CustomerCompany.pm - All customer company related functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -87,10 +87,10 @@ sub new {
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     # load customer company backend modules
+    SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        # next if backend is not used
-        next if !$Self->{ConfigObject}->Get("CustomerCompany$Count");
+        next SOURCE if !$Self->{ConfigObject}->Get("CustomerCompany$Count");
 
         my $GenericModule = $Self->{ConfigObject}->Get("CustomerCompany$Count")->{Module}
             || 'Kernel::System::CustomerCompany::DB';
@@ -208,14 +208,13 @@ sub CustomerCompanyGet {
         return;
     }
 
+    SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        # next if backend is not used
-        next if !$Self->{"CustomerCompany$Count"};
+        next SOURCE if !$Self->{"CustomerCompany$Count"};
 
-        # next if no company got found
         my %Company = $Self->{"CustomerCompany$Count"}->CustomerCompanyGet( %Param, );
-        next if !%Company;
+        next SOURCE if !%Company;
 
         # return company data
         return (
@@ -302,7 +301,6 @@ sub CustomerCompanySourceList {
     SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        # next if backend is not used
         next SOURCE if !$Self->{ConfigObject}->Get("CustomerCompany$Count");
         if ( defined $Param{ReadOnly} ) {
             my $BackendConfig = $Self->{ConfigObject}->Get("CustomerCompany$Count");
@@ -346,10 +344,10 @@ sub CustomerCompanyList {
     my ( $Self, %Param ) = @_;
 
     my %Data;
+    SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
-        # next if backend is not used
-        next if !$Self->{"CustomerCompany$Count"};
+        next SOURCE if !$Self->{"CustomerCompany$Count"};
 
         # get comppany list result of backend and merge it
         my %SubData = $Self->{"CustomerCompany$Count"}->CustomerCompanyList(%Param);

@@ -1,0 +1,21 @@
+# --
+# DynamicField.tt - provides DynamicField HTML for the AgentTicketProcess.pm
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("rw:DynamicField") %]
+<div class="Row Row_DynamicField_[% Data.Name %]">
+    [% Data.Label %]
+    <div class="Field">
+        [% Data.Content %]
+[% RenderBlockStart("rw:DynamicField:DescriptionShort") %]
+        <div class="FieldExplanation">[% Data.DescriptionShort %]</div>
+[% RenderBlockEnd("rw:DynamicField:DescriptionShort") %]
+    </div>
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("rw:DynamicField") %]

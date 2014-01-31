@@ -1,6 +1,6 @@
 # --
 # Safety.t - HTMLUtils tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -599,6 +599,66 @@ EOF
             Replace => 1,
         },
         Name => 'Safety - meta refresh tag removed'
+    },
+    {
+        Input => <<EOF,
+<img/onerror="alert(\'XSS1\')"src=a>
+EOF
+        Result => {
+            Output => <<EOF,
+<img>
+EOF
+            Replace => 1,
+        },
+        Name => 'Safety - / as attribute delimiter'
+    },
+    {
+        Input => <<EOF,
+<iframe src=javasc&#x72ipt:alert(\'XSS2\') >
+EOF
+        Result => {
+            Output => <<EOF,
+<iframe src="" >
+EOF
+            Replace => 1,
+        },
+        Name => 'Safety - entity encoding in javascript attribute'
+    },
+    {
+        Input => <<EOF,
+<iframe/src=javasc&#x72ipt:alert(\'XSS2\') >
+EOF
+        Result => {
+            Output => <<EOF,
+<iframe/src="" >
+EOF
+            Replace => 1,
+        },
+        Name => 'Safety - entity encoding in javascript attribute with / separator'
+    },
+    {
+        Input => <<EOF,
+<img src="http://example.com/image.png"/>
+EOF
+        Result => {
+            Output => <<EOF,
+
+EOF
+            Replace => 1,
+        },
+        Name => 'Safety - external image'
+    },
+    {
+        Input => <<EOF,
+<img/src="http://example.com/image.png"/>
+EOF
+        Result => {
+            Output => <<EOF,
+
+EOF
+            Replace => 1,
+        },
+        Name => 'Safety - external image with / separator'
     },
 );
 

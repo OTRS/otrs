@@ -1,0 +1,371 @@
+# --
+# CustomerTicketZoom.tt - provides HTML TicketZoom for CustomerTicketZoom.pm
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div id="MainBox" class="TicketZoom ARIARoleMain">
+[% RenderBlockStart("Back") %]
+    <div class="ActionRow">
+        <ul class="Tabs">
+            <li><a href="[% Env("Baselink") %][% Env("LastScreenOverview") %]">&larr; [% Translate("Back") | html %]</a></li>
+        </ul>
+        <div class="Clear"></div>
+    </div>
+[% RenderBlockEnd("Back") %]
+    <div class="Content">
+        <div class="TicketHeader">
+            <h2 title="[% Data.Title | html %]">
+[% RenderBlockStart("PriorityFlag") %]
+                <div class="Flag" title="[% Translate(Data.Priority) | html %]"><span class="PriorityID-[% Data.PriorityID | html %]">[% Translate(Data.Priority) | html %]</span></div>
+[% RenderBlockEnd("PriorityFlag") %]
+                [% Data.Title | html %]
+            </h2>
+            <ul id="TicketOptions">
+
+[% RenderBlockStart("Print") %]
+                <li><a href="[% Env("Baselink") %]Action=CustomerTicketPrint;TicketID=[% Data.TicketID | uri %]" class="Print AsPopup" title="[% Translate("Print") | html %]">[% Translate("Print") | html %]</a></li>
+[% RenderBlockEnd("Print") %]
+
+[% RenderBlockStart("Expand") %]
+                <li>
+                    <a href="[% Env("Baselink") %]Action=CustomerTicketZoom;TicketID=[% Data.TicketID | uri %];ZoomExpand=[% Data.ZoomExpand | uri %]" class="ZoomExpand[% Data.ExpandOption %]"} title="[% Translate(Data.ExpandText) | html %]">[% Translate(Data.ExpandText) | html %]</a>
+                    <input type="hidden" name="ZoomExpand" id="ZoomExpand" value="[% Data.ZoomExpand | html %]" />
+                </li>
+[% RenderBlockEnd("Expand") %]
+            </ul>
+            <div class="Clear"></div>
+        </div>
+        <form action="[% Env("CGIHandle") %]#FollowUp" method="post" enctype="multipart/form-data" name="compose" id="ReplyCustomerTicket" class="Validate PreventMultipleSubmits">
+            <input type="hidden" name="Action" value="CustomerTicketZoom" />
+            <input type="hidden" name="Subaction" value="Store" />
+            <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]" />
+            <input type="hidden" name="ArticleID" value="[% Data.ArticleID | html %]" />
+            <input type="hidden" name="FormID" value="[% Data.FormID | html %]" />
+            <ul id="Messages">
+[% RenderBlockStart("Article") %]
+                <li class="[% Data.SenderType | html %]-[% Data.ArticleType | html %] [% Data.Class | html %]">
+                    <div class="MessageHeader">
+
+[% RenderBlockStart("ArticleContracted") %]
+                        <h3><a href="[% Env("Baselink") %]Action=[% Env("Action") %];TicketNumber=[% Data.TicketNumber | uri %];ArticleID=[% Data.ArticleID | uri %]">[% Data.FromRealname | html %] &ndash; <span title="[% Translate("Expand article") | html %]...">[% Data.Subject | html %]</span></a></h3>
+[% RenderBlockEnd("ArticleContracted") %]
+
+[% RenderBlockStart("ArticleExpanded") %]
+                        <h3><a href="[% Env("Baselink") %]Action=[% Env("Action") %];TicketNumber=[% Data.TicketNumber | uri %];ArticleID=[% Data.ArticleID | uri %]">[% Data.FromRealname | html %] &ndash; <span title="[% Data.Subject | html %]">[% Data.Subject | html %]</span></a></h3>
+[% RenderBlockEnd("ArticleExpanded") %]
+
+                        <span class="Age" title="[% Data.Created | Localize("TimeLong") %]">[% Data.Age %]</span>
+                        <div class="Clear"></div>
+                    </div>
+                    <input type="hidden" name="ArticleState" value="untouched" />
+                    <div class="MessageBody">
+                        <div class="Details SeperatorRow">
+[% RenderBlockStart("ArticleRow") %]
+                            <div>
+                                <div class="Label">[% Translate(Data.Key) | html %]:</div> <span title="[% Data.Value | html %]">[% Data.Realname | html %]</span>
+                                <div class="Clear"></div>
+                            </div>
+[% RenderBlockEnd("ArticleRow") %]
+                            <div>
+                                <div class="Label">[% Translate("Subject") | html %]:</div> <span title="[% Data.Subject | html %]">[% Data.Subject | html %]</span>
+                                <div class="Clear"></div>
+                            </div>
+
+# show article dynamic fields
+[% RenderBlockStart("ArticleDynamicField") %]
+                            <div>
+                                <div class="Label" title="[% Data.Label | html %]">[% Translate(Data.Label) | html %]:</div>
+                                <span title="[% Data.Title | html %]">[% Data.Value %]</span>
+                                <div class="Clear"></div>
+                            </div>
+[% RenderBlockEnd("ArticleDynamicField") %]
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#[% RenderBlockStart("ArticleDynamicField_Field1") %]
+#                            <div>
+#                                <div class="Label" title="[% Data.Label | html %]">[% Translate(Data.Label) | html %]:</div>
+#                                <span title="[% Data.Title | html %]">[% Data.Value %]</span>
+#                                <div class="Clear"></div>
+#                            </div>
+#[% RenderBlockEnd("ArticleDynamicField_Field1") %]
+#[% RenderBlockStart("ArticleDynamicField_Field2") %]
+#                            <div>
+#                                <div class="Label" title="[% Data.Label | html %]">[% Translate(Data.Label) | html %]:</div>
+#                                <span title="[% Data.Title | html %]">[% Data.Value %]</span>
+#                                <div class="Clear"></div>
+#                            </div>
+#[% RenderBlockEnd("ArticleDynamicField_Field2") %]
+
+[% RenderBlockStart("ArticleAttachment") %]
+                            <div class="Attachments">
+                                <div class="Label">[% Translate(Data.Key) | html %]:</div>
+                                <div>
+[% RenderBlockStart("ArticleAttachmentRow") %]
+                                    <span class="DownloadAttachment" title="[% Data.Filename | html %] - [% Data.Filesize | html %]">
+[% RenderBlockStart("ArticleAttachmentRowLink") %]
+                                        <a href="[% Data.Link %]" [% Data.Target %] title="[% Translate(Data.Action) | html %]">[% Data.Filename | html %]</a>, [% Data.Filesize | html %]
+[% RenderBlockEnd("ArticleAttachmentRowLink") %]
+[% RenderBlockStart("ArticleAttachmentRowNoLink") %]
+                                        [% Data.Filename | html %], [% Data.Filesize | html %]
+[% RenderBlockEnd("ArticleAttachmentRowNoLink") %]
+                                    </span>
+[% RenderBlockEnd("ArticleAttachmentRow") %]
+                                </div>
+                                <div class="Clear"></div>
+                            </div>
+[% RenderBlockEnd("ArticleAttachment") %]
+                        </div>
+                        <div class="MessageContent">
+[% RenderBlockStart("BodyPlain") %]
+                            [% Data.BodyNote %]
+                            <div class="ArticleBody">
+                                [% Data.Body %]
+                            </div>
+[% RenderBlockEnd("BodyPlain") %]
+[% RenderBlockStart("BodyHTMLLoad") %]
+# Use the HTML5 sandbox attribute to prevent plugins and scripts from being executed in the browser.
+# Use IE's (non-standard) security attribute to achieve something similar in older IE browsers. Append session info to URL because IE will not send cookies.
+# Set 'allow-popups' to allow IE10+ to open links. ref: http://www.w3.org/html/wg/wiki/ChangeProposals/sandbox_allow_popups
+                            <iframe sandbox="allow-same-origin allow-popups" [% Data.MSSecurityRestricted %] title="about:blank" frameborder="0" id="VisibleFrame" class="VisibleFrame" src="[% Env("Baselink") %]Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=[% Data.ArticleID | html %];FileID=[% Data.AttachmentIDOfHTMLBody | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]"></iframe>
+[% RenderBlockEnd("BodyHTMLLoad") %]
+[% RenderBlockStart("BodyHTMLPlaceholder") %]
+#                           <!-- Here we need to append the session info if cookies are disabled, because the layout object cannot automatically do that here, like in the other iframe (only for src attribute). -->
+                            <iframe sandbox="allow-same-origin" [% Data.MSSecurityRestricted %] src="about:blank" frameborder="0" title="[% Env("Baselink") %]Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=[% Data.ArticleID | html %];FileID=[% Data.AttachmentIDOfHTMLBody | html %];[% Data.SessionInformation | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]"></iframe>
+[% RenderBlockEnd("BodyHTMLPlaceholder") %]
+                        </div>
+                    </div>
+                </li>
+[% RenderBlockEnd("Article") %]
+            </ul> <!-- /Messages -->
+[% RenderBlockStart("NoArticles") %]
+            <ul id="NoArticles">
+                <li>
+                    [% Translate("This item has no articles yet.") | html %]
+                </li>
+            </ul>
+[% RenderBlockEnd("NoArticles") %]
+            <div id="ZoomSidebar">
+                <ul id="Metadata">
+                    <li class="Header">
+                        <div class="MessageHeader">
+                            <h3>[% Translate("Information") | html %]</h3>
+                            <div class="Clear"></div>
+                        </div>
+                    </li>
+                    <li><span class="Key">[% Config("Ticket::Hook") %]:</span> <span>[% Data.TicketNumber | html %]</span></li>
+
+[% RenderBlockStart("Type") %]
+                    <li><span class="Key">[% Translate("Type") | html %]:</span> <span title="[% Data.Type | html %]">[% Data.Type | html %]</span></li>
+[% RenderBlockEnd("Type") %]
+[% RenderBlockStart("Service") %]
+                    <li><span class="Key">[% Translate("Service") | html %]:</span> <span title="[% Translate(Data.Service) | html %]">[% Translate(Data.Service) | html %]</span></li>
+[% RenderBlockEnd("Service") %]
+[% RenderBlockStart("SLA") %]
+                    <li><span class="Key">[% Translate("SLA") | html %]:</span> <span title="[% Translate(Data.SLA) | html %]">[% Translate(Data.SLA) | html %]</span></li>
+[% RenderBlockEnd("SLA") %]
+[% RenderBlockStart("State") %]
+                    <li><span class="Key">[% Translate("State") | html %]:</span> <span title="[% Translate(Data.State) | html %]">[% Translate(Data.State) | html %]</span></li>
+[% RenderBlockEnd("State") %]
+[% RenderBlockStart("Priority") %]
+                    <li><span class="Key">[% Translate("Priority") | html %]:</span> <span title="[% Translate(Data.Priority) | html %]">[% Translate(Data.Priority) | html %]</span></li>
+[% RenderBlockEnd("Priority") %]
+[% RenderBlockStart("Queue") %]
+                    <li><span class="Key">[% Translate("Queue") | html %]:</span> <span title="[% Data.Queue | html %]">[% Data.Queue | html %]</span></li>
+[% RenderBlockEnd("Queue") %]
+[% RenderBlockStart("Owner") %]
+                    <li><span class="Key">[% Translate("Owner") | html %]:</span> [% Data.OwnerName | html %]</li>
+[% RenderBlockEnd("Owner") %]
+[% RenderBlockStart("Responsible") %]
+                    <li><span class="Key">[% Translate("Responsible") | html %]:</span> [% Data.ResponsibleName | html %]</li>
+[% RenderBlockEnd("Responsible") %]
+[% RenderBlockStart("ProcessData") %]
+                    <li><span class="Key">[% Translate("Process") | html %]:</span> <span title="[% Data.Process | html %]">[% Data.Process | html %]</span></li>
+                    <li><span class="Key">[% Translate("Activity") | html %]:</span> <span title="[% Data.Activity | html %]">[% Data.Activity | html %]</span></li>
+[% RenderBlockEnd("ProcessData") %]
+
+# show ticket dynamic fields
+[% RenderBlockStart("TicketDynamicField") %]
+                    <li>
+                        <span class="Key">[% Translate(Data.Label) | html %]:</span>
+                        <span title="[% Data.Title | html %]">[% Data.Value %]</span>
+                    </li>
+[% RenderBlockEnd("TicketDynamicField") %]
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#[% RenderBlockStart("TicketDynamicField_Field1") %]
+#                    <li>
+#                        <span class="Key">[% Translate(Data.Label) | html %]:</span>
+#                        <span title="[% Data.Title1 | html %]">[% Data.Value %]</span>
+#                    </li>
+#[% RenderBlockEnd("TicketDynamicField_Field1") %]
+#[% RenderBlockStart("TicketDynamicField_Field2") %]
+#                    <li>
+#                        <span class="Key">[% Translate(Data.Label) | html %]:</span>
+#                        <span title="[% Data.Title2 | html %]">[% Data.Value %]</span>
+#                    </li>
+#[% RenderBlockEnd("TicketDynamicField_Field2") %]
+
+                </ul>
+[% RenderBlockStart("NextActivities") %]
+                <ul id="Activities">
+                    <li class="Header">
+                        <div class="MessageHeader">
+                            <h3>[% Translate("Next Steps") | html %]</h3>
+                            <div class="Clear"></div>
+                        </div>
+                    </li>
+[% RenderBlockStart("ActivityDialog") %]
+                    <li><a title="[% Data.Name | html %]" class="AsPopup PopupType_TicketAction" href="[% Env("Baselink") %]Action=CustomerTicketProcess;Subaction=DisplayActivityDialog;TicketID=[% Data.TicketID | uri %];ProcessEntityID=[% Data.ProcessEntityID | uri %];ActivityDialogEntityID=[% Data.ActivityDialogEntityID | uri %]">[% Data.Name | html %]</a></li>
+[% RenderBlockEnd("ActivityDialog") %]
+[% RenderBlockStart("NoActivityDialog") %]
+                    <li>[% Translate("There are no dialogs available at this point in the process.") | html %]</li>
+[% RenderBlockEnd("NoActivityDialog") %]
+                </ul>
+[% RenderBlockEnd("NextActivities") %]
+            </div>
+[% RenderBlockStart("FollowUp") %]
+            <div id="FollowUp" class="[% Data.FollowUpVisible | html %]">
+                <div id="Messenger">
+                    <fieldset class="DontPrint">
+                        <div>
+                            <label for="Subject">
+                                [% Translate("Subject") | html %]:
+                            </label>
+                            <input class="DontPrint" type="text" name="Subject" id="Subject" title="[% Translate("Subject") | html %]" value="[% Data.Subject | html %]" />
+                            <div class="Clear"></div>
+                        </div>
+                        <div>
+                            <label for="RichText" class="Mandatory">
+                                <span class="Marker">*</span>
+                                [% Translate("Text") | html %]:
+                            </label>
+[% RenderBlockStart("RichText") %]
+                            [% InsertTemplate("CustomerRichTextEditor.tt") %]
+[% RenderBlockEnd("RichText") %]
+                            <textarea title="[% Translate("Reply") | html %]" id="RichText" class="RichText DontPrint Validate_RequiredRichText [% Data.RichTextInvalid | html %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
+                            <div id="RichTextError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="RichTextServerError" class="TooltipErrorMessage NoJavaScriptMessage[% Data.RichTextInvalid | html %]">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="DontPrint">
+                        <div id="AttachmentHolder">
+                            <label for="Attachment">[% Translate("Attachment") | html %]:</label>
+                            <input name="file_upload" title="Attachment" id="Attachment" type="file" size="30" />
+                            <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#Attachment').bind('change', function (Event) {
+        var $Form = $('#Attachment').closest('form');
+        Core.Form.Validate.DisableValidation($Form);
+        $Form.find('#AttachmentUpload').val('1').end().submit();
+    });
+//]]></script>
+[% END %]
+
+[% RenderBlockStart("FollowUpAttachment") %]
+                            <div class="Attachment" title="[% Data.Filename | html %] - [% Data.Filesize | html %]">
+                                [% Data.Filename | html %] ([% Data.Filesize | html %])
+                                <button type="button" id="AttachmentDeleteButton[% Data.FileID | html %]" name="AttachmentDeleteButton[% Data.FileID | html %]" value="[% Translate("Delete") | html %]">[% Translate("Delete") | html %]</button>
+                                <input type="hidden" id="AttachmentDelete[% Data.FileID | html %]" name="AttachmentDelete[% Data.FileID | html %]" />
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#AttachmentDeleteButton[% Data.FileID | html %]').bind('click', function () {
+        var $Form = $('#AttachmentDeleteButton[% Data.FileID | html %]').closest('form');
+        $('#AttachmentDelete[% Data.FileID | html %]').val(1);
+        Core.Form.Validate.DisableValidation($Form);
+        $Form.trigger('submit');
+    });
+//]]></script>
+[% END %]
+                            </div>
+[% RenderBlockEnd("FollowUpAttachment") %]
+
+                        </div>
+[% RenderBlockStart("FollowUpState") %]
+                        <div>
+                            <label for="StateID">[% Translate("Next state") | html %]:</label> [% Data.NextStatesStrg %]
+                        </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#StateID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'StateID', [ 'PriorityID', 'TicketID' [% Data.DynamicFieldNamesStrg %] ]);
+    });
+//]]></script>
+[% END %]
+[% RenderBlockEnd("FollowUpState") %]
+[% RenderBlockStart("FollowUpPriority") %]
+                        <div>
+                            <label for="PriorityID">[% Translate("Priority") | html %]:</label> [% Data.PriorityStrg %]
+                        </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#PriorityID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'PriorityID', [ 'StateID', 'TicketID' [% Data.DynamicFieldNamesStrg %] ]);
+    });
+//]]></script>
+[% END %]
+[% RenderBlockEnd("FollowUpPriority") %]
+
+[% RenderBlockStart("FollowUpDynamicField") %]
+                        <div class="Row Row_DynamicField_[% Data.Name | html %]">
+                            [% Data.Label %]
+                            <div class="Field">
+                                [% Data.Field %]
+                            </div>
+                            <div class="Clear"></div>
+                        </div>
+[% RenderBlockEnd("FollowUpDynamicField") %]
+
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#[% RenderBlockStart("FollowUpDynamicField_Field1") %]
+#                <div class="Row Row_DynamicField_[% Data.Name | html %]">
+#                    [% Data.Label %]
+#                    <div class="Field">
+#                        [% Data.Field %]
+#                    </div>
+#                    <div class="Clear"></div>
+#                </div>
+#[% RenderBlockEnd("FollowUpDynamicField_Field1") %]
+#[% RenderBlockStart("FollowUpDynamicField_Field2") %]
+#                <div class="Row Row_DynamicField_[% Data.Name | html %]">
+#                    [% Data.Label %]
+#                    <div class="Field">
+#                        [% Data.Field %]
+#                    </div>
+#                    <div class="Clear"></div>
+#                </div>
+#[% RenderBlockEnd("FollowUpDynamicField_Field2") %]
+
+                    </fieldset>
+                    <div class="ActionRow">
+                        <button type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button> [% Translate("or") | html %] <a id="CloseButton" href="">[% Translate("Cancel") | html %]</a>
+                    </div>
+                </div>
+                <a id="ReplyButton" class="DontPrint" href="">[% Translate("Reply") | html %]</a>
+            </div>
+[% RenderBlockEnd("FollowUp") %]
+            <div class="Clear"></div>
+        </form>
+
+    </div>
+</div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">
+    Core.Customer.TicketZoom.Init();
+    $('a.AsPopup').bind('click', function (Event) {
+        Core.UI.Popup.OpenPopup($(this).attr('href'), 'TicketAction');
+        return false;
+    });
+</script>
+[% END %]

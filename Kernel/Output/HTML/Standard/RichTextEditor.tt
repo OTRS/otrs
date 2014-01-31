@@ -1,0 +1,63 @@
+# --
+# RichTextEditor.tt - provides Rich Text Editor
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<script src="[% Config("Frontend::RichTextPath") %]ckeditor.js" type="text/javascript"></script>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+
+    // check if height/width has already been set in the current screen
+    var ScreenRichTextHeight = parseInt("[% Data.RichTextHeight | html %]", 10),
+        ScreenRichTextWidth  = parseInt("[% Data.RichTextWidth | html %]", 10);
+
+    Core.Config.Set('RichText.Height', '[% Config("Frontend::RichTextHeight") %]');
+    if (ScreenRichTextHeight > 0) {
+        Core.Config.Set('RichText.Height', ScreenRichTextHeight);
+    }
+
+    Core.Config.Set('RichText.Width', '[% Config("Frontend::RichTextWidth") %]');
+    if (ScreenRichTextWidth > 0) {
+        Core.Config.Set('RichText.Width', ScreenRichTextWidth);
+    }
+
+    Core.Config.Set('RichText.TextDir', '[% Env("TextDirection") %]');
+    Core.Config.Set('RichText.SpellChecker', '[% Env("BrowserSpellCheckerInline") %]');
+    Core.Config.Set('RichText.EditingAreaCSS', 'body.cke_editable { [% Config("Frontend::RichText::DefaultCSS") %] }');
+
+    // decide if we need to use the enhanced mode (with tables)
+    if ( '[% Config("Frontend::RichText::EnhancedMode") %]' === '1' ) {
+        Core.Config.Set('RichText.Toolbar', [
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'NumberedList', 'BulletedList', 'Table', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', 'Undo', 'Redo', 'SelectAll' ],
+            '/',
+            ['Image', 'HorizontalRule', 'PasteText', 'PasteFromWord', '-', '-', 'Find', 'Replace', 'SpellCheck', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'ShowBlocks', 'Source', 'SpecialChar', '-', 'Maximize'],
+            ['Format', 'Font', 'FontSize' ]
+        ]);
+        Core.Config.Set('RichText.ToolbarWithoutImage', [
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'NumberedList', 'BulletedList', 'Table', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', 'Undo', 'Redo', 'SelectAll' ],
+            '/',
+            ['HorizontalRule', 'PasteText', 'PasteFromWord', '-', '-', 'Find', 'Replace', 'SpellCheck', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'ShowBlocks', 'Source', 'SpecialChar', '-', 'Maximize'],
+            ['Format', 'Font', 'FontSize' ]
+        ]);
+    }
+    else {
+        Core.Config.Set('RichText.Toolbar', [
+            ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'Image', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
+            '/',
+            ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'Source', 'SpecialChar', '-', 'Maximize']
+        ]);
+        Core.Config.Set('RichText.ToolbarWithoutImage', [
+            ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
+            '/',
+            ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'Source', 'SpecialChar', '-', 'Maximize']
+        ]);
+    }
+    Core.Config.Set('RichText.PictureUploadAction', "[% Data.RichTextPictureUploadAction | html %]");
+
+    Core.UI.RichTextEditor.InitAll();
+//]]></script>
+[% END %]

@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
-# Copyright (C) 2013 Michael Shi
+# Copyright (C) 2013 Michael Shi <micshi at 163.com>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,6 +17,7 @@ package Kernel::Language::zh_CN;
 
 use strict;
 use warnings;
+use utf8;
 
 sub Data {
     my $Self = shift;
@@ -113,10 +114,10 @@ sub Data {
         '15 minutes' => '15 分钟',
         'Mr.' => '先生',
         'Mrs.' => '女士',
-        'Next' => '往前',
-        'Back' => '往后',
-        'Next...' => '往前...',
-        '...Back' => '...往后',
+        'Next' => '下一步',
+        'Back' => '上一步',
+        'Next...' => '下一步...',
+        '...Back' => '...上一步',
         '-none-' => '-无-',
         'none' => '无',
         'none!' => '无!',
@@ -148,10 +149,10 @@ sub Data {
         'Salutations' => '回复抬头',
         'Signature' => '回复签名',
         'Signatures' => '回复签名',
-        'Customer' => '用户',
+        'Customer' => '用户单位',
         'CustomerID' => '单位编号',
         'CustomerIDs' => '单位编号',
-        'customer' => '用户',
+        'customer' => '用户单位',
         'agent' => '服务人员',
         'system' => '系统',
         'Customer Info' => '用户信息',
@@ -190,9 +191,9 @@ sub Data {
         'Changed by' => '修改人',
         'Search' => '搜索',
         'and' => '',
-        'between' => '之间',
-        'before/after' => '之前/之后',
-        'Fulltext Search' => '全文搜索',
+        'between' => '绝对',
+        'before/after' => '相对',
+        'Fulltext Search' => '',
         'Data' => '日期',
         'Options' => '选项',
         'Title' => '标题',
@@ -238,8 +239,8 @@ sub Data {
             '登录失败！用户名或密码错误。',
         'There is no acount with that user name.' => '没有此用户。',
         'Please contact your administrator' => '请联系管理员',
-        'Logout' => '注销',
-        'Logout successful. Thank you for using %s!' => '成功注销，谢谢使用!',
+        'Logout' => '退出',
+        'Logout successful. Thank you for using %s!' => '成功退出，谢谢使用!',
         'Feature not active!' => '该特性尚未激活!',
         'Agent updated!' => '服务人员已更新！',
         'Database Selection' => '数据库选择',
@@ -485,7 +486,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => '统计',
         'Sum' => '总和',
-        'No (not supported)' => '',
+        'No (not supported)' => '不支持',
         'Please fill out the required fields!' => '请填写必填字段',
         'Please select a file!' => '请选择一个文件！',
         'Please select an object!' => '请选择一个对象！',
@@ -907,7 +908,7 @@ sub Data {
         'Stop after match' => '匹配后停止',
         'Edit ACL structure' => '编辑ACL结构',
         'Save' => '保存',
-        'or' => '或者',
+        'or' => '',
         'Save and finish' => '保存并完成',
         'Do you really want to delete this ACL?' => '你确定要删除这个ACL吗？',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
@@ -1001,7 +1002,7 @@ sub Data {
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '如果没有选择，就不具备该组的任何权限 (用户不能创建或读取工单)。',
         'Search Results' => '搜索结果',
-        'Customers' => '用户',
+        'Customers' => '用户单位',
         'Groups' => '组',
         'No matches found.' => '没有找到相匹配的.',
         'Change Group Relations for Customer' => '此用户属于哪些组',
@@ -1133,6 +1134,7 @@ sub Data {
         'Run this task' => '执行这个任务',
         'Job Settings' => '任务设置',
         'Job name' => '任务名称',
+        'The name you entered already exists.' => '你输入的名称已经存在。',
         'Toggle this widget' => '收起/展开Widget',
         'Automatic execution (multiple tickets)' => '自动执行(针对多个工单)',
         'Execution Schedule' => '按计划执行',
@@ -1169,33 +1171,33 @@ sub Data {
         'Ticket lock' => '工单锁定',
         'Create times' => '创建时间',
         'No create time settings.' => '没有创建时间。',
-        'Ticket created' => '工单创建于',
-        'Ticket created between' => '工单创建自',
+        'Ticket created' => '工单创建时间(相对)',
+        'Ticket created between' => '工单创建时间(绝对)',
         'Change times' => '修改时间',
         'No change time settings.' => '没有修改时间',
-        'Ticket changed' => '修改工单于',
-        'Ticket changed between' => '工单修改自',
+        'Ticket changed' => '修改工单时间(相对)',
+        'Ticket changed between' => '工单修改时间(绝对)',
         'Close times' => '关闭时间',
         'No close time settings.' => '没有关闭时间',
-        'Ticket closed' => '工单关闭于',
-        'Ticket closed between' => '工单关闭自',
+        'Ticket closed' => '工单关闭时间(相对)',
+        'Ticket closed between' => '工单关闭时间(绝对)',
         'Pending times' => '挂起时间',
         'No pending time settings.' => '没有挂起时间',
-        'Ticket pending time reached' => '工单挂起时间已过',
-        'Ticket pending time reached between' => '工单挂起时间自',
+        'Ticket pending time reached' => '工单挂起时间(相对)',
+        'Ticket pending time reached between' => '工单挂起时间(绝对)',
         'Escalation times' => '升级时间',
         'No escalation time settings.' => '没有升级时间',
-        'Ticket escalation time reached' => '工单升级时间已过',
-        'Ticket escalation time reached between' => '工单升级时间自',
+        'Ticket escalation time reached' => '工单升级时间(相对)',
+        'Ticket escalation time reached between' => '工单升级时间(绝对)',
         'Escalation - first response time' => '升级 - 第一响应时间',
-        'Ticket first response time reached' => '工单升级 - 第一响应时间于',
-        'Ticket first response time reached between' => '工单升级 - 第一响应时间自',
+        'Ticket first response time reached' => '工单升级 - 第一响应时间(相对)',
+        'Ticket first response time reached between' => '工单升级 - 第一响应时间(绝对)',
         'Escalation - update time' => '升级 - 更新时间',
-        'Ticket update time reached' => '工单升级 - 更新时间于',
-        'Ticket update time reached between' => '工单升级 - 更新时间自',
+        'Ticket update time reached' => '工单升级 - 更新时间(相对)',
+        'Ticket update time reached between' => '工单升级 - 更新时间(绝对)',
         'Escalation - solution time' => '升级 - 解决时间',
-        'Ticket solution time reached' => '工单升级 - 解决时间于',
-        'Ticket solution time reached between' => '工单升级 - 解决时间自',
+        'Ticket solution time reached' => '工单升级 - 解决时间(相对)',
+        'Ticket solution time reached between' => '工单升级 - 解决时间(绝对)',
         'Archive search option' => '归档查询选项',
         'Ticket Action' => '工单处理',
         'Set new service' => '设置新服务',
@@ -1215,7 +1217,7 @@ sub Data {
         'New Dynamic Field Values' => '新的动态字段值',
         'Archive selected tickets' => '归档选中的工单',
         'Add Note' => '添加备注',
-        'Time units' => '时间单元',
+        'Time units' => '时间',
         '(work units)' => '',
         'Ticket Commands' => '工单命令',
         'Send agent/customer notifications on changes' => '给服务人员/用户发送通知',
@@ -1270,7 +1272,6 @@ sub Data {
         'The name is typically used to call up an operation of a remote web service.' =>
             '这个名字通常用于调用远程web服务的一个操作',
         'Please provide a unique name for this web service invoker.' => '请为这个Web服务调用程序提供一个唯一的名称。',
-        'The name you entered already exists.' => '你输入的名称已经存在。',
         'Invoker backend' => '调用程序后端',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             '这个OTRS调用程序后端模块被调用后，负责准备需要发送给远程系统的数据，并处理它的响应数据。',
@@ -1883,7 +1884,7 @@ sub Data {
             '系统注册是OTRS集团的一项服务，它为您提供了很多好处!',
         'Read more' => '阅读全部',
         'You need to log in with your OTRS-ID to register your system.' =>
-            '',
+            '为了注册系统，需要你先使用OTRS-ID进行登陆。',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             'OTRS-ID是你的一个邮件地址，用于在OTRS.com网页进行注册和登陆。',
         'What are the advantages of system registration?' => '系统注册有什么好处?',
@@ -1987,6 +1988,9 @@ sub Data {
         'Add private key' => '添加私匙',
         'Filter for certificates' => '过滤证书',
         'Filter for SMIME certs' => '过滤SMIME证书',
+        'To show certificate details click on a certificate icon.' => '',
+        'To manage private certificate relations click on a private key icon.' =>
+            '',
         'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
             '在这里，你可以添加你的私人证书的关系，当你使用这个证书签署一份电子邮件时，它们将嵌入到SMIME签名中。',
         'See also' => '参见',
@@ -2065,7 +2069,7 @@ sub Data {
         'Add signature' => '添加回复签名',
         'Add Signature' => '添加回复签名',
         'Edit Signature' => '编辑回复签名',
-        'Example signature' => '',
+        'Example signature' => '签名范例',
 
         # Template: AdminState
         'State Management' => '工单状态管理',
@@ -2253,7 +2257,9 @@ sub Data {
 
         # Template: AgentDashboardStats
         'The content of this statistic is being prepared for you, please be patient.' =>
-            '',
+            '正在为你处理统计数据，请耐心等待。',
+        'Grouped' => '',
+        'Stacked' => '',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '我锁定的工单',
@@ -2322,10 +2328,10 @@ sub Data {
         'Fixed' => '固定',
         'Please select only one element or turn off the button \'Fixed\'.' =>
             '请只选择一个元素或使“固定”复选框未被选中。',
-        'Absolute Period' => '绝对时间范围',
+        'Absolute Period' => '绝对时间',
         'Between' => '',
-        'Relative Period' => '相对时间范围',
-        'The last' => '过去的某个时间至现在',
+        'Relative Period' => '相对时间',
+        'The last' => '过去的',
         'Finish' => '完成',
 
         # Template: AgentStatsEditSpecification
@@ -2343,15 +2349,15 @@ sub Data {
         'Use cache' => '使用缓存',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             '大多数的统计资料可以缓存，这将提高统计报表的计算速度。',
-        'Show as dashboard widget' => '',
+        'Show as dashboard widget' => '作为仪表板显示部件',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
-            '',
-        'Please note' => '',
+            '将该统计作为部件显示在仪表板中.',
+        'Please note' => '请注意',
         'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
-            '',
+            '启用仪表板中的统计部件将激活统计缓存',
         'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
-            '',
-        'IE8 doesn\'t support statistics dashboard widgets.' => '',
+            '对于仪表板统计部件你只能设置相对时间',
+        'IE8 doesn\'t support statistics dashboard widgets.' => 'IE8不能显示仪表板统计部件',
         'If set to invalid end users can not generate the stat.' => '如果设置为无效，将无法生成统计。',
 
         # Template: AgentStatsEditValueSeries
@@ -2369,7 +2375,7 @@ sub Data {
         # Template: AgentStatsEditXaxis
         'Here you can define the x-axis. You can select one element via the radio button.' =>
             '在这里可以定义X轴。可以通过单选按钮选择要素。',
-        'maximal period' => '最大时间范围',
+        'maximal period' => '时间范围',
         'minimal scale' => '时间刻度',
 
         # Template: AgentStatsImport
@@ -2568,16 +2574,16 @@ sub Data {
         'Created in Queue' => '队列中创建',
         'Lock state' => '锁定状态',
         'Watcher' => '订阅人',
-        'Article Create Time (before/after)' => '信件创建时间 (之前/之后)',
-        'Article Create Time (between)' => '信件创建时间 (之间)',
-        'Ticket Create Time (before/after)' => '工单创建时间 (之前/之后)',
-        'Ticket Create Time (between)' => '工单创建时间 (之间)',
-        'Ticket Change Time (before/after)' => '工单更新时间 (之前/之后)',
-        'Ticket Change Time (between)' => '工单更新时间 (之间)',
-        'Ticket Close Time (before/after)' => '工单关闭时间 (之前/之后)',
-        'Ticket Close Time (between)' => '工单关闭时间 (之间)',
-        'Ticket Escalation Time (before/after)' => '工单升级时间 (之前/之后)',
-        'Ticket Escalation Time (between)' => '工单升级时间 (之间)',
+        'Article Create Time (before/after)' => '信件创建时间(相对)',
+        'Article Create Time (between)' => '信件创建时间(绝对)',
+        'Ticket Create Time (before/after)' => '工单创建时间(相对)',
+        'Ticket Create Time (between)' => '工单创建时间(绝对)',
+        'Ticket Change Time (before/after)' => '工单更新时间(相对)',
+        'Ticket Change Time (between)' => '工单更新时间(绝对)',
+        'Ticket Close Time (before/after)' => '工单关闭时间(相对)',
+        'Ticket Close Time (between)' => '工单关闭时间(绝对)',
+        'Ticket Escalation Time (before/after)' => '工单升级时间(相对)',
+        'Ticket Escalation Time (between)' => '工单升级时间(绝对)',
         'Archive Search' => '归档搜索',
         'Run search' => '搜索',
 
@@ -2669,7 +2675,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => '编辑个人设置',
-        'Logout %s' => '',
+        'Logout %s' => '退出 %s',
 
         # Template: CustomerPreferences
 
@@ -2702,9 +2708,9 @@ sub Data {
         'Only tickets created' => '工单创建于',
         'Only tickets created between' => '工单创建自',
         'Ticket archive system' => '',
-        'Save search as template?' => '',
+        'Save search as template?' => '将搜索保存为模板？',
         'Save as Template?' => '保存为模板',
-        'Save as Template' => '',
+        'Save as Template' => '保存为模板',
         'Template Name' => '模板名称',
         'Pick a profile name' => '',
         'Output to' => '输出为',
@@ -2727,6 +2733,7 @@ sub Data {
         # Template: CustomerWarning
 
         # Template: DashboardEventsTicketCalendar
+        'All-day' => '',
         'Sunday' => '星期天',
         'Monday' => '星期一',
         'Tuesday' => '星期二',
@@ -2747,7 +2754,7 @@ sub Data {
 
         # Template: Datepicker
         'Invalid date (need a future date)!' => '无效的日期（需使用未来的日期）！',
-        'Previous' => '往前',
+        'Previous' => '上一步',
         'Open date selection' => '打开日历',
 
         # Template: Error
@@ -2877,7 +2884,7 @@ sub Data {
         'Webfrontend' => 'Web 前端',
         'Default language' => '默认语言',
         'Default language.' => '默认语言',
-        'CheckMXRecord' => '检查 MX 记录',
+        'CheckMXRecord' => '检查MX记录',
         'Email addresses that are manually entered are checked against the MX records found in DNS. Don\'t use this option if your DNS is slow or does not resolve public addresses.' =>
             '手动输入的电子邮件地址将通过DNS服务器验证MX记录。如果DNS服务器响应慢或无法提供公网解析，请不要使用此选项。',
 
@@ -3083,7 +3090,7 @@ sub Data {
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
         'Closed tickets of customer' => '',
-        'Column ticket filters for Ticket Overviews type "Small".' => '',
+        'Column ticket filters for Ticket Overviews type "Small".' => '工单概览“小”模式列表字段过滤器',
         'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => '',
@@ -3094,7 +3101,7 @@ sub Data {
         'Configure Processes.' => '配置流程',
         'Configure and manage ACLs.' => '配置和管理ACLs',
         'Configure your own log text for PGP.' => '',
-        'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3104,13 +3111,13 @@ sub Data {
             '',
         'Converts HTML mails into text messages.' => '将HTML邮件转换为文本信息.',
         'Create New process ticket' => '创建流程工单',
-        'Create and manage Service Level Agreements (SLAs).' => '创建和管理服务品质协议 (SLA)',
+        'Create and manage Service Level Agreements (SLAs).' => '创建和管理服务品质协议(SLA)',
         'Create and manage agents.' => '创建和管理服务人员.',
         'Create and manage attachments.' => '创建和管理附件.',
         'Create and manage customer users.' => '创建和管理用户',
         'Create and manage customers.' => '创建和管理用户单位',
         'Create and manage dynamic fields.' => '创建和管理动态字段',
-        'Create and manage event based notifications.' => '创建和管理通知（事件）',
+        'Create and manage event based notifications.' => '创建和管理通知(事件)',
         'Create and manage groups.' => '创建和管理组.',
         'Create and manage queues.' => '创建和管理队列.',
         'Create and manage responses that are automatically sent.' => '创建和管理自动回复.',
@@ -3190,6 +3197,8 @@ sub Data {
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
+            '',
+        'Defines a list of groups which should have the permission to see stats dashboards (e.g. group1;group2;group3).' =>
             '',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
             '',
@@ -3389,6 +3398,8 @@ sub Data {
             '',
         'Defines the default ticket attribute for ticket sorting of the ticket search result of the agent interface.' =>
             '',
+        'Defines the default ticket attribute for ticket sorting of the ticket search result of this operation.' =>
+            '',
         'Defines the default ticket bounced notification for customer/sender in the ticket bounce screen of the agent interface.' =>
             '',
         'Defines the default ticket next state after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -3404,6 +3415,8 @@ sub Data {
         'Defines the default ticket order in the ticket locked view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             '',
         'Defines the default ticket order in the ticket search result of the agent interface. Up: oldest on top. Down: latest on top.' =>
+            '',
+        'Defines the default ticket order in the ticket search result of the this operation. Up: oldest on top. Down: latest on top.' =>
             '',
         'Defines the default ticket order in the watch view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             '',
@@ -3778,13 +3791,13 @@ sub Data {
         'Dynamic Fields Drop-down Backend GUI' => '',
         'Dynamic Fields GUI' => '',
         'Dynamic Fields Multiselect Backend GUI' => '',
-        'Dynamic Fields Overview Limit' => '',
+        'Dynamic Fields Overview Limit' => '动态字段概览限制',
         'Dynamic Fields Text Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
-        'Dynamic fields limit per page for Dynamic Fields Overview' => '',
+        'Dynamic fields limit per page for Dynamic Fields Overview' => '动态字段的个数',
         'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
@@ -3846,7 +3859,7 @@ sub Data {
         'Edit customer company' => '',
         'Email Addresses' => '邮件发送地址',
         'Enable keep-alive connection header for SOAP responses.' => '',
-        'Enabled filters.' => '',
+        'Enabled filters.' => '启用过滤器',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
             '',
         'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
@@ -3882,7 +3895,7 @@ sub Data {
             '',
         'Event module that updates tickets after an update of the Customer User.' =>
             '',
-        'Execute SQL statements.' => '执行 SQL 命令',
+        'Execute SQL statements.' => '执行SQL命令',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '',
         'Executes follow up mail attachments checks in  mails that don\'t have a ticket number in the subject.' =>
@@ -3921,7 +3934,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '介面风格',
         'Fulltext index regex filters to remove parts of the text.' => '',
-        'General ticket data shown in the dashboard widgets. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
+        'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => '计划任务',
         'GenericInterface Debugger GUI' => '',
@@ -4140,6 +4153,8 @@ sub Data {
             '',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
             '',
+        'Maximum number of tickets to be displayed in the result of this operation.' =>
+            '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -4183,7 +4198,7 @@ sub Data {
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
-        'Notifications (Event)' => '通知（事件）',
+        'Notifications (Event)' => '通知(事件)',
         'Number of displayed tickets' => '显示工单个数',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '',
@@ -4805,6 +4820,8 @@ sub Data {
         'This option defines the process tickets default priority.' => '',
         'This option defines the process tickets default queue.' => '',
         'This option defines the process tickets default state.' => '',
+        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
         'Ticket Queue Overview' => '工单队列',
@@ -4851,8 +4868,8 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => '(分钟)',
-        '(before/after)' => '之前/之后',
-        '(between)' => '(之间)',
+        '(before/after)' => '(相对)',
+        '(between)' => '(绝对)',
         'Add Customer Company' => '添加用户单位',
         'Add Response' => '添加回复',
         'Add customer company' => '添加用户单位',
@@ -4863,6 +4880,8 @@ sub Data {
         'Attachments <-> Responses' => '附件 <-> 回复',
         'BuildDate' => '创建日期',
         'BuildHost' => '创建主机',
+        'CIC search for CustomerID' => '用户ID搜索',
+        'CIC search for CustomerUser' => '用户搜索',
         'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!' =>
             '无法更改密码，密码至少需要2个小写和2个大写字符！',
         'Change Attachment Relations for Response' => '为回复指定附件',
@@ -4904,6 +4923,7 @@ sub Data {
         'Framework' => '架构',
         'From customer' => '来自用户',
         'Fulltext search' => '全文搜索',
+        'Fulltext-Search' => '全文搜索',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             '如果您的数据库有设置 root 密码, 请在这里输入, 否则, 请保留空白. 出于安全考虑, 我们建议您为 root 设置一个密码, 更多信息请参考数据库帮助文档.',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>
@@ -4915,7 +4935,7 @@ sub Data {
         'Link customers to services.' => '链接用户到服务.',
         'Link responses to queues.' => '链接回复模板到队列',
         'Log file location is only needed for File-LogModule!' => '只需要为File-LogModule指定日志文件位置!',
-        'Logout successful. Thank you for using OTRS!' => '成功注销，谢谢使用!',
+        'Logout successful. Thank you for using OTRS!' => '成功退出，谢谢使用!',
         'Manage Response-Queue Relations' => '管理回复与队列的对应关系',
         'Manage Responses' => '管理回复',
         'Manage Responses <-> Attachments Relations' => '管理回复与附件的对应关系',
@@ -4952,6 +4972,8 @@ sub Data {
         'Spam' => '垃圾',
         'Start Scheduler' => '运行调度程序',
         'State Type' => '状态类型',
+        'StateAction' => '工单状态变化',
+        'Statistic: widget' => '统计：仪表板显示部件',
         'The following ACLs have been updated successfully:' => '以下ACLs配置已成功更新。',
         'There where errors adding/updating the following ACLs:' => '添加/更新以下ACLs时出现错误：',
         'URL' => '网址',

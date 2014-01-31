@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.CheckSum.pl - a tool to compare changes in an installation
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -44,7 +44,7 @@ my %Opts;
 getopt( 'habd', \%Opts );
 if ( exists $Opts{h} || !keys %Opts ) {
     print "otrs.CheckSum.pl - OTRS check sum\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.CheckSum.pl -a create|compare [-b /path/to/ARCHIVE] [-d /path/to/framework]\n";
     exit 1;
@@ -129,7 +129,6 @@ sub R {
         next FILE if $File =~ /js-cache/;
         next FILE if $File =~ /css-cache/;
 
-        # next if not readable
         # print "File: $File\n";
         open( my $In, '<', $OrigFile ) || die "ERROR: $!";    ## no critic
 
@@ -145,14 +144,17 @@ sub R {
             if ( !$Compare{$File} ) {
                 print "Notice: New $File\n";
             }
-            elsif ( $Compare{$File} ne $Digest ) {
+            elsif ( $Compare{$File} ne $Digest && !-e "$File.save" ) {    ## ignore files with .save
                 print "Notice: Dif $File\n";
+            }
+            elsif ( -e "$File.save" )
+            {    ## report .save files as modified by the OTRS Package Manager
+                print "Notice: OPM Changed $File\n"
             }
             if ( defined $Compare{$File} ) {
                 delete $Compare{$File};
             }
         }
     }
-
     return 1;
 }

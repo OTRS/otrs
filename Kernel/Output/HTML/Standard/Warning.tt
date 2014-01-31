@@ -1,0 +1,54 @@
+# --
+# Warning.tt - provides HTML warning screen
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain SpacingTopLarge">
+
+    <div class="W33pc CenterBox SpacingBottomLarge">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Warning") | html %]</h2>
+            </div>
+            <div class="Content">
+                <h4>
+                    [% Translate("Message") | html %]: <span class="Error">[% Data.Message | html %]</span>
+                </h4>
+
+                <p class="SpacingTop">
+                    [% Data.Comment | html %]
+                </p>
+
+                <p class="SpacingTop">
+                    <a href="#" id="GoBack">[% Translate("Go back to the previous page") | html %]</a>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#GoBack').bind('click', function (Event) {
+    // check if an older history entry is available
+    if (history.length > 1) {
+        history.back();
+        return false;
+    }
+
+    // if we're in a popup window, close it
+    if (window.opener !== null) {
+        window.close();
+        return false;
+    }
+
+    // normal window, no history: no action possible
+    return false;
+});
+//]]></script>
+[% END %]
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+</div>

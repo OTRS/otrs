@@ -1,0 +1,150 @@
+# --
+# AdminNavigationBar.tt - provides global HTML NavigationBar
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+[% RenderBlockStart("AdminNavBar") %]
+<div class="MainBox ARIARoleMain Admin">
+    <h1>[% Translate("Admin") | html %]</h1>
+    <div id="Row1" class="LayoutGrid ColumnsWithSpacing">
+        <div class="Size1of3">
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("Agent Management") | html %]</h2>
+                </div>
+                <div class="Content">
+                    <ul class="LayoutGrid ColumnsWithSpacing">
+[% RenderBlockStart("Agent") %]
+                        <li class="Size1of2">
+                            <h4><span>[% Translate(Data.Name) | html %]</span>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.item("Frontend::Module") | uri %]">[% Translate(Data.Name) | html %]</a></h4>
+                                <p class="FieldExplanation">[% Translate(Data.Description) | html %]</p>
+                            </li>
+[% RenderBlockStart("AgentClear") %]
+                            <li class="Clear"></li>
+[% RenderBlockEnd("AgentClear") %]
+[% RenderBlockEnd("Agent") %]
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            <div class="Size1of3">
+                <div class="WidgetSimple">
+                    <div class="Header">
+                        <h2>[% Translate("Customer Management") | html %]</h2>
+                    </div>
+                    <div class="Content">
+
+                        <ul class="LayoutGrid ColumnsWithSpacing">
+[% RenderBlockStart("Customer") %]
+                            <li class="Size1of2">
+                                <h4><span>[% Translate(Data.Name) | html %]</span> <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.item("Frontend::Module") | uri %]">[% Translate(Data.Name) | html %]</a></h4>
+                                <p class="FieldExplanation">[% Translate(Data.Description) | html %]</p>
+                            </li>
+[% RenderBlockStart("CustomerClear") %]
+                            <li class="Clear"></li>
+[% RenderBlockEnd("CustomerClear") %]
+[% RenderBlockEnd("Customer") %]
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            <div class="Size1of3">
+                <div class="WidgetSimple">
+                    <div class="Header">
+                        <h2>[% Translate("Email Settings") | html %]</h2>
+                    </div>
+                    <div class="Content">
+
+                        <ul class="LayoutGrid ColumnsWithSpacing">
+[% RenderBlockStart("Email") %]
+                            <li class="Size1of2">
+                                <h4><span>[% Translate(Data.Name) | html %]</span> <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.item("Frontend::Module") | uri %]">[% Translate(Data.Name) | html %]</a></h4>
+                                <p class="FieldExplanation">[% Translate(Data.Description) | html %]</p>
+                            </li>
+[% RenderBlockStart("EmailClear") %]
+                            <li class="Clear"></li>
+[% RenderBlockEnd("EmailClear") %]
+[% RenderBlockEnd("Email") %]
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            <div class="Clear"></div>
+        </div>
+        <div id="Row2" class="LayoutGrid ColumnsWithSpacing">
+            <div class="Size1of3">
+                <div class="WidgetSimple">
+                    <div class="Header">
+                        <h2>[% Translate("Queue Settings") | html %]</h2>
+                    </div>
+                    <div class="Content">
+
+                        <ul class="LayoutGrid ColumnsWithSpacing">
+[% RenderBlockStart("Queue") %]
+                            <li class="Size1of2">
+                                <h4><span>[% Translate(Data.Name) | html %]</span> <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.item("Frontend::Module") | uri %]">[% Translate(Data.Name) | html %]</a></h4>
+                                <p class="FieldExplanation">[% Translate(Data.Description) | html %]</p>
+                            </li>
+[% RenderBlockStart("QueueClear") %]
+                            <li class="Clear"></li>
+[% RenderBlockEnd("QueueClear") %]
+[% RenderBlockEnd("Queue") %]
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            <div class="Size1of3">
+                <div class="WidgetSimple">
+                    <div class="Header">
+                        <h2>[% Translate("Ticket Settings") | html %]</h2>
+                    </div>
+                    <div class="Content">
+
+                        <ul class="LayoutGrid ColumnsWithSpacing">
+[% RenderBlockStart("Ticket") %]
+                            <li class="Size1of2">
+                                <h4><span>[% Translate(Data.Name) | html %]</span> <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.item("Frontend::Module") | uri %]">[% Translate(Data.Name) | html %]</a></h4>
+                                <p class="FieldExplanation">[% Translate(Data.Description) | html %]</p>
+                            </li>
+[% RenderBlockStart("TicketClear") %]
+                            <li class="Clear"></li>
+[% RenderBlockEnd("TicketClear") %]
+[% RenderBlockEnd("Ticket") %]
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            <div class="Size1of3">
+                <div class="WidgetSimple">
+                    <div class="Header">
+                        <h2>[% Translate("System Administration") | html %]</h2>
+                    </div>
+                    <div class="Content">
+                        <ul class="LayoutGrid ColumnsWithSpacing">
+[% RenderBlockStart("System") %]
+                            <li class="Size1of2">
+                                <h4><span>[% Translate(Data.Name) | html %]</span> <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.item("Frontend::Module") | uri %]">[% Translate(Data.Name) | html %]</a></h4>
+                                <p class="FieldExplanation">[% Translate(Data.Description) | html %]</p>
+                            </li>
+[% RenderBlockStart("SystemClear") %]
+                            <li class="Clear"></li>
+[% RenderBlockEnd("SystemClear") %]
+[% RenderBlockEnd("System") %]
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            <div class="Clear"></div>
+        </div>
+    </div>
+[% RenderBlockEnd("AdminNavBar") %]

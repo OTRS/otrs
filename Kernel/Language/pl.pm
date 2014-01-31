@@ -13,6 +13,7 @@ package Kernel::Language::pl;
 
 use strict;
 use warnings;
+use utf8;
 
 sub Data {
     my $Self = shift;
@@ -373,8 +374,8 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'Informacje zarządzania procesami z bazy danych nie są zsynchronizowane z konfiguracją systemu, zsynchronizuj wszystkie procesy.',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
-            '',
-        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
+            'Pakiet nie został zweryfikowany przez Grupę OTRS! Jest zalecane nieużywanie tego pakietu.',
+        '<br>W wypadku kontynuowania instalacji pakietu mogą wystąpić następujące problemy.<br><br>&nbsp;-problemy bezpieczeństwa<br>&nbsp;-problemy ze stabilnością<br>&nbsp;-problemy z wydajnością<br><br>Proszę zwrócić uwagę, iż problemy wynikające z użytkowania pakietu nie podlegają pod umowy dotyczące korzystania z usługi OTRS!<br><br>' =>
             '',
         'Mark' => '',
         'Unmark' => '',
@@ -735,7 +736,7 @@ sub Data {
         'Mark as Spam!' => 'Oznacz jako spam!',
         'My Queues' => 'Moje kolejki',
         'Shown Tickets' => 'Wyświetlane zgłoszenia',
-        'Shown Columns' => '',
+        'Shown Columns' => 'Wyświetlane kolumny',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
             'Twoje zgłoszenie o numerze "<OTRS_TICKET>" zostało scalone z "<OTRS_MERGE_TO_TICKET>".',
         'Ticket %s: first response time is over (%s)!' => 'Zgłoszenie %s: czas pierwszej odpowiedzi przekroczony (%s)!',
@@ -960,17 +961,17 @@ sub Data {
         'Edit Customer' => 'Edytuj Klienta',
 
         # Template: AdminCustomerUser
-        'Customer User Management' => '',
+        'Customer User Management' => 'Zarządzanie kontami klienta',
         'Back to search results' => 'Wstecz do wyników szukania',
-        'Add customer user' => '',
+        'Add customer user' => 'Dodaj konto klienta',
         'Hint' => 'Podpowiedź',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             '',
         'Last Login' => 'Ostatnie logowanie',
         'Login as' => 'Zaloguj jako',
         'Switch to customer' => 'Przełącz na klienta',
-        'Add Customer User' => '',
-        'Edit Customer User' => '',
+        'Add Customer User' => 'Dodaj konto klienta',
+        'Edit Customer User' => 'Edytuj konto klienta',
         'This field is required and needs to be a valid email address.' =>
             'To pole jest wymagane i musi być poprawnym adresem e-mail.',
         'This email address is not allowed due to the system configuration.' =>
@@ -996,7 +997,7 @@ sub Data {
         'Select the customer:group permissions.' => 'Wybierz uprawnienia klient:grupa',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Jeśli nic nie zostało zaznaczone, wtedy nie ma uprawnień w tej grupie (zgłoszenia nie będą dostępne dla klienta).',
-        'Search Results' => '',
+        'Search Results' => 'Wyniki wyszukiwania',
         'Customers' => 'Klienci',
         'Groups' => 'Grupy',
         'No matches found.' => 'Nie odnaleziono dopasowań.',
@@ -1983,6 +1984,9 @@ sub Data {
         'Add private key' => 'Dodaj klucz prywatny',
         'Filter for certificates' => 'Filtruj certyfikaty',
         'Filter for SMIME certs' => 'Filtruj certyfikaty SMIME',
+        'To show certificate details click on a certificate icon.' => '',
+        'To manage private certificate relations click on a private key icon.' =>
+            '',
         'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
             'Tutaj możesz dodać do twojego prywatnego certyfikatu relacje, które zostaną osadzone w sygnaturze SMIME za każdym razem, gdy użyjesz tego certyfikatu przy podpisywaniu e-maila. ',
         'See also' => 'Zobacz także',
@@ -2118,7 +2122,7 @@ sub Data {
         'Invalid year' => 'Niewłaściwy rok',
         'Invalid month' => 'Niewłaściwy miesiąc',
         'Invalid day' => 'Niewłaściwy dzień',
-        'Show more' => '',
+        'Show more' => 'Pokaż więcej',
 
         # Template: AdminSystemAddress
         'System Email Addresses Management' => 'Konfiguracja adresów e-mail Systemu',
@@ -2133,16 +2137,16 @@ sub Data {
             'Wyświetlana nazwa oraz adres e-mail będą umieszczane w wysyłanej poczcie.',
 
         # Template: AdminTemplate
-        'Manage Templates' => '',
-        'Add template' => '',
+        'Manage Templates' => 'Zarządzanie szablonami',
+        'Add template' => 'Dodaj szablon',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '',
         'Don\'t forget to add new templates to queues.' => '',
-        'Add Template' => '',
-        'Edit Template' => '',
-        'Template' => '',
+        'Add Template' => 'Dodaj szablon',
+        'Edit Template' => 'Edytuj szablon',
+        'Template' => 'Szablon',
         'Create type templates only supports this smart tags' => '',
-        'Example template' => '',
+        'Example template' => 'Przykładowy szablon',
         'The current ticket state is' => 'Aktualny status zgłoszenia to',
         'Your email address is' => 'Twój adres e-mail to',
 
@@ -2250,6 +2254,8 @@ sub Data {
         # Template: AgentDashboardStats
         'The content of this statistic is being prepared for you, please be patient.' =>
             '',
+        'Grouped' => '',
+        'Stacked' => '',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Zablokowane',
@@ -3090,7 +3096,7 @@ sub Data {
         'Configure Processes.' => 'Konfiguracja procesów.',
         'Configure and manage ACLs.' => '',
         'Configure your own log text for PGP.' => 'Skonfiguruj swój własny tekst-log dla PGP.',
-        'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             '',
@@ -3186,6 +3192,8 @@ sub Data {
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
+            '',
+        'Defines a list of groups which should have the permission to see stats dashboards (e.g. group1;group2;group3).' =>
             '',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
             '',
@@ -4801,9 +4809,11 @@ sub Data {
         'This option defines the process tickets default priority.' => '',
         'This option defines the process tickets default queue.' => '',
         'This option defines the process tickets default state.' => '',
+        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
-        'Ticket Queue Overview' => '',
+        'Ticket Queue Overview' => 'Przegląd zgłoszeń na kolejkach',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket overview' => 'Lista zgłoszeń',

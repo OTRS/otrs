@@ -1,0 +1,21 @@
+# --
+# AgentCustomerSearch.tt - provides autocomplete feature for customer search
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("CustomerSearchAutoComplete") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Config.Set('CustomerSearch.ShowCustomerTickets', "[% Config("Ticket::Frontend::ShowCustomerTickets") %]");
+    Core.Config.Set('Duplicated.TitleText', [% Translate("Duplicated entry") | JSON %]);
+    Core.Config.Set('Duplicated.ContentText', [% Translate("This address already exists on the address list.") | JSON %]);
+    Core.Config.Set('Duplicated.RemoveText', [% Translate("It is going to be deleted from the field, please try again.") | JSON %]);
+    Core.Config.Set('Ticket::Frontend::AgentTicketPhone::AllowMultipleFrom', "[% Config("Ticket::Frontend::AgentTicketPhone::AllowMultipleFrom") %]");
+    Core.Agent.CustomerSearch.Init($("#CustomerAutoComplete, .CustomerAutoComplete"));
+//]]></script>
+[% END %]
+[% RenderBlockEnd("CustomerSearchAutoComplete") %]

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -501,15 +501,6 @@ sub Run {
             $Error{'DestQueueIDInvalid'} = 'ServerError';
         }
 
-        # Body and Subject must both be filled in or both be empty
-        if ( $GetParam{Subject} eq '' && $GetParam{Body} ne '' ) {
-            $Error{'SubjectInvalid'} = 'ServerError';
-        }
-
-        if ( $GetParam{Subject} ne '' && $GetParam{Body} eq '' ) {
-            $Error{'BodyInvalid'} = 'ServerError';
-        }
-
         # check time units
         if (
             $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
@@ -546,6 +537,21 @@ sub Run {
                     )
                 {
                     $Error{'DateInvalid'} = 'ServerError';
+                }
+            }
+        }
+
+        if ( !$IsUpload ) {
+            if ( $Self->{Config}->{Note} && $Self->{Config}->{NoteMandatory} ) {
+
+                # check subject
+                if ( !$GetParam{Subject} ) {
+                    $Error{'SubjectInvalid'} = 'ServerError';
+                }
+
+                # check body
+                if ( !$GetParam{Body} ) {
+                    $Error{'BodyInvalid'} = 'ServerError';
                 }
             }
         }
@@ -863,7 +869,7 @@ sub Run {
     # add note (send no notification)
     my $ArticleID;
 
-    if ( $GetParam{Body} ) {
+    if ( $GetParam{Body} || $GetParam{Subject} ) {
 
         # get pre-loaded attachments
         my @AttachmentData = $Self->{UploadCacheObject}->FormIDGetAllFilesData(
@@ -884,13 +890,15 @@ sub Run {
 
             # remove unused inline images
             my @NewAttachmentData;
+            ATTACHMENT:
             for my $Attachment (@AttachmentData) {
                 my $ContentID = $Attachment->{ContentID};
                 if ($ContentID) {
                     my $ContentIDHTMLQuote = $Self->{LayoutObject}->Ascii2Html(
                         Text => $ContentID,
                     );
-                    next if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
+                    next ATTACHMENT
+                        if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
                 }
 
                 # remember inline images and normal attachments
@@ -1029,8 +1037,9 @@ sub AgentMove {
     my %UserHash;
     if ( $Param{OldUser} ) {
         my $Counter = 1;
+        USER:
         for my $User ( reverse @{ $Param{OldUser} } ) {
-            next if $UserHash{ $User->{UserID} };
+            next USER if $UserHash{ $User->{UserID} };
             $UserHash{ $User->{UserID} } = "$Counter: $User->{UserLastname} "
                 . "$User->{UserFirstname} ($User->{UserLogin})";
             $Counter++;
@@ -1101,7 +1110,7 @@ sub AgentMove {
 
     STATE_ID:
     for my $StateID ( sort keys %{ $Param{NextStates} } ) {
-        next if !$StateID;
+        next STATE_ID if !$StateID;
         my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $StateID );
         if ( $StateData{TypeName} =~ /pending/i ) {
             $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
@@ -1184,8 +1193,9 @@ sub AgentMove {
     }
 
     # show attachments
+    ATTACHMENT:
     for my $Attachment ( @{ $Param{Attachments} } ) {
-        next if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
+        next ATTACHMENT if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,
@@ -1240,6 +1250,11 @@ sub AgentMove {
         );
     }
 
+    if ( $Self->{Config}->{NoteMandatory} ) {
+        $Param{SubjectRequired} = 'Validate_Required';
+        $Param{BodyRequired}    = 'Validate_Required';
+    }
+
     # add rich text editor
     if ( $Self->{LayoutObject}->{BrowserRichText} ) {
 
@@ -1250,6 +1265,23 @@ sub AgentMove {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,
+        );
+    }
+
+    if ( $Self->{Config}->{NoteMandatory} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'SubjectLabelMandatory',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'RichTextLabelMandatory',
+        );
+    }
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'SubjectLabel',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'RichTextLabel',
         );
     }
 
@@ -1322,8 +1354,9 @@ sub _GetOldOwners {
     my %UserHash;
     if (@OldUserInfo) {
         my $Counter = 1;
+        USER:
         for my $User ( reverse @OldUserInfo ) {
-            next if $UserHash{ $User->{UserID} };
+            next USER if $UserHash{ $User->{UserID} };
             $UserHash{ $User->{UserID} } = "$Counter: $User->{UserLastname} "
                 . "$User->{UserFirstname} ($User->{UserLogin})";
             $Counter++;

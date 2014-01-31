@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/ObjectType/Article.pm - Article object handler for DynamicField
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -64,13 +64,6 @@ sub new {
         Scalar::Util::weaken( $Self->{TicketObject} );
     }
 
-    # otherwise create it
-    else {
-
-        # Here we must not call weaken(), because this is the only reference
-        $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
-    }
-
     return $Self;
 }
 
@@ -117,6 +110,13 @@ sub PostValueSet {
             );
             return;
         }
+    }
+
+    # check for TicketObject
+    if ( !$Self->{TicketObject} ) {
+
+        # create it on demand
+        $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
     }
 
     my %Article = $Self->{TicketObject}->ArticleGet(

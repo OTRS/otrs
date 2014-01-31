@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -147,11 +147,13 @@ sub FormIDGetAllFilesData {
 
     my $Counter = 0;
     my @Data;
+
+    FILE:
     for my $File (@List) {
 
         # ignore meta files
-        next if $File =~ /\.ContentType$/;
-        next if $File =~ /\.ContentID$/;
+        next FILE if $File =~ /\.ContentType$/;
+        next FILE if $File =~ /\.ContentID$/;
 
         $Counter++;
         my $FileSize = -s $File;
@@ -177,19 +179,19 @@ sub FormIDGetAllFilesData {
             Location => $File,
             Mode     => 'binmode',    # optional - binmode|utf8
         );
-        next if !$Content;
+        next FILE if !$Content;
 
         my $ContentType = $Self->{MainObject}->FileRead(
             Location => "$File.ContentType",
             Mode     => 'binmode',             # optional - binmode|utf8
         );
-        next if !$ContentType;
+        next FILE if !$ContentType;
 
         my $ContentID = $Self->{MainObject}->FileRead(
             Location => "$File.ContentID",
             Mode     => 'binmode',             # optional - binmode|utf8
         );
-        next if !$ContentID;
+        next FILE if !$ContentID;
 
         # verify if content id is empty, set to undef
         if ( !${$ContentID} ) {
@@ -229,11 +231,13 @@ sub FormIDGetAllFilesMeta {
 
     my $Counter = 0;
     my @Data;
+
+    FILE:
     for my $File (@List) {
 
         # ignore meta files
-        next if $File =~ /\.ContentType$/;
-        next if $File =~ /\.ContentID$/;
+        next FILE if $File =~ /\.ContentType$/;
+        next FILE if $File =~ /\.ContentID$/;
 
         $Counter++;
         my $FileSize = -s $File;
@@ -260,13 +264,13 @@ sub FormIDGetAllFilesMeta {
             Location => "$File.ContentType",
             Mode     => 'binmode',             # optional - binmode|utf8
         );
-        next if !$ContentType;
+        next FILE if !$ContentType;
 
         my $ContentID = $Self->{MainObject}->FileRead(
             Location => "$File.ContentID",
             Mode     => 'binmode',             # optional - binmode|utf8
         );
-        next if !$ContentID;
+        next FILE if !$ContentID;
 
         # verify if content id is empty, set to undef
         if ( !${$ContentID} ) {

@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketMenuLock.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -79,7 +79,7 @@ sub Run {
             Name        => 'Unlock',
             Description => 'Unlock to give it back to the queue',
             Link =>
-                'Action=AgentTicketLock;Subaction=Unlock;TicketID=$QData{"TicketID"};$QEnv{"ChallengeTokenParam"}',
+                'Action=AgentTicketLock;Subaction=Unlock;TicketID=[% Data.TicketID | uri %];[% Env("ChallengeTokenParam") | html %]',
         };
     }
 
@@ -91,7 +91,7 @@ sub Run {
         Name        => 'Lock',
         Description => 'Lock it to work on it',
         Link =>
-            'Action=AgentTicketLock;Subaction=Lock;TicketID=$QData{"TicketID"};$QEnv{"ChallengeTokenParam"}',
+            'Action=AgentTicketLock;Subaction=Lock;TicketID=[% Data.TicketID | uri %];[% Env("ChallengeTokenParam") | html %]',
     };
 }
 

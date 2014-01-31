@@ -14,28 +14,39 @@
 /opt/otrs/.procmailrc.dist
 /opt/otrs/.fetchmailrc.dist
 /opt/otrs/.mailfilter.dist
+
 %dir /opt/otrs/Custom/
 /opt/otrs/Custom/README
+
 %dir /opt/otrs/Kernel/
+
 %dir /opt/otrs/Kernel/Config/
 /opt/otrs/Kernel/Config.pm.dist
 /opt/otrs/Kernel/Config/Files/
 /opt/otrs/Kernel/Config/GenericAgent.pm.dist
 /opt/otrs/Kernel/Config/GenericAgent.pm.examples
 /opt/otrs/Kernel/Config/Defaults.pm
+
 /opt/otrs/Kernel/GenericInterface*
+
 /opt/otrs/Kernel/Language.pm
+%dir /opt/otrs/Kernel/Language/
 /opt/otrs/Kernel/Language/*.pm
+
 /opt/otrs/Kernel/Modules*
+
 %dir /opt/otrs/Kernel/Output/
 %dir /opt/otrs/Kernel/Output/HTML/
 /opt/otrs/Kernel/Output/HTML/Standard/
 /opt/otrs/Kernel/Output/HTML/*.pm
+
 /opt/otrs/Kernel/Scheduler*
 /opt/otrs/Kernel/System*
 /opt/otrs/bin*
 /opt/otrs/scripts*
+
 %dir /opt/otrs/var/
+%dir /opt/otrs/var/packages/
 /opt/otrs/var/packages/*.opm
 %dir /opt/otrs/var/article/
 /opt/otrs/var/fonts/

@@ -11,6 +11,7 @@ package Kernel::Language::es_CO;
 
 use strict;
 use warnings;
+use utf8;
 
 sub Data {
     my $Self = shift;
@@ -1981,6 +1982,9 @@ sub Data {
         'Add private key' => 'A√±adir llave privada',
         'Filter for certificates' => '',
         'Filter for SMIME certs' => '',
+        'To show certificate details click on a certificate icon.' => '',
+        'To manage private certificate relations click on a private key icon.' =>
+            '',
         'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
             '',
         'See also' => 'Vea tambi√©n',
@@ -2248,6 +2252,8 @@ sub Data {
         # Template: AgentDashboardStats
         'The content of this statistic is being prepared for you, please be patient.' =>
             '',
+        'Grouped' => '',
+        'Stacked' => '',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Mis tickets bloqueados',
@@ -3088,7 +3094,7 @@ sub Data {
         'Configure Processes.' => '',
         'Configure and manage ACLs.' => '',
         'Configure your own log text for PGP.' => '',
-        'Configures a default TicketDynmicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             'Define es posible que los clientes ordenen sus tickets.',
@@ -3185,6 +3191,8 @@ sub Data {
             'Define un filtro para salida html para a√±adir v√≠nculos a los n√∫meros bugtraq. El elemento Imagen permite dos tipos de entrada: un nombre de imagen (por ejemplo: faq.png). En este caso, se usa la ruta de im√°genes de OTRS. La otra posibilidad es insertar el v√≠nculo a la imagen.',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Define un filtro para procesar el texto de los art√≠culos, con la finalidad de resaltar las palabras llave predefinidas.',
+        'Defines a list of groups which should have the permission to see stats dashboards (e.g. group1;group2;group3).' =>
+            '',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
             'Define una expresi√≥n regular que excluye algunas direcciones de la verificaci√≥n de sintaxis (si se seleccion√≥ "S√≠" en "CheckEmailAddresses"). Por favor, introduzca una expresi√≥n regular en este campo para direcciones de correo electr√≥nico que, sint√°cticamente son inv√°lidas, pero son necesarias para el sistema (por ejemplo: "root@localhost").',
         'Defines a regular expression that filters all email addresses that should not be used in the application.' =>
@@ -4799,6 +4807,8 @@ sub Data {
         'This option defines the process tickets default priority.' => '',
         'This option defines the process tickets default queue.' => '',
         'This option defines the process tickets default state.' => '',
+        'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
+            '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
         'Ticket Queue Overview' => '',

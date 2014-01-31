@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -511,8 +511,9 @@ sub Run {
         }
 
         # check some values
+        LINE:
         for my $Line (qw(To Cc Bcc)) {
-            next if !$GetParam{$Line};
+            next LINE if !$GetParam{$Line};
             for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
                     if ( $IsUpload == 0 ) {
@@ -754,6 +755,7 @@ sub Run {
 
             # remove unused inline images
             my @NewAttachmentData;
+            ATTACHMENT:
             for my $Attachment (@AttachmentData) {
                 my $ContentID = $Attachment->{ContentID};
                 if ($ContentID) {
@@ -766,7 +768,8 @@ sub Run {
                     $GetParam{Body} =~ s/(ContentID=)$ContentIDLinkEncode/$1$ContentID/g;
 
                     # ignore attachment if not linked in body
-                    next if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
+                    next ATTACHMENT
+                        if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
                 }
 
                 # remember inline images and normal attachments
@@ -902,10 +905,11 @@ sub Run {
             $GetParam{QueueID} = $Ticket{QueueID};
 
             my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
+            JOB:
             for my $Job ( sort keys %Jobs ) {
 
                 # load module
-                next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+                next JOB if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
 
                 my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
 
@@ -1232,7 +1236,7 @@ sub Run {
         # use customer database email
         # do not add customer email to cc, if article type is email-internal
         my $DataArticleType
-            = $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $Data{ArticleTypeID} );
+            = $Self->{TicketObject}->ArticleTypeLookup( ArticleTypeID => $Data{ArticleTypeID} );
         if (
             $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeAddCustomerAddress')
             && $DataArticleType !~ m{internal}
@@ -1332,13 +1336,12 @@ sub Run {
         );
 
         my $ResponseFormat = $Self->{ConfigObject}->Get('Ticket::Frontend::ResponseFormat')
-            || '$QData{"Salutation"}
-$QData{"OrigFrom"} $Text{"wrote"}:
-$QData{"Body"}
+            || '[% Data.Salutation | html %]
+[% Data.StdResponse | html %]
+[% Data.Signature | html %]
 
-$QData{"StdResponse"}
-
-$QData{"Signature"}
+[% Data.Created | Localize("TimeShort") %] - [% Data.OrigFromName | html %] [% Translate("wrote") | html %]:
+[% Data.Body | html %]
 ';
 
         # make sure body is rich text
@@ -1360,12 +1363,13 @@ $QData{"Signature"}
             $ResponseFormat =~ s/&quot;/"/gi;
 
             # quote all non html content to have it correct in edit area
+            KEY:
             for my $Key ( sort keys %DataHTML ) {
-                next if !$DataHTML{$Key};
-                next if $Key eq 'Salutation';
-                next if $Key eq 'Body';
-                next if $Key eq 'StdResponse';
-                next if $Key eq 'Signature';
+                next KEY if !$DataHTML{$Key};
+                next KEY if $Key eq 'Salutation';
+                next KEY if $Key eq 'Body';
+                next KEY if $Key eq 'StdResponse';
+                next KEY if $Key eq 'Signature';
                 $DataHTML{$Key} = $Self->{LayoutObject}->Ascii2RichText(
                     String => $DataHTML{$Key},
                 );
@@ -1380,8 +1384,9 @@ $QData{"Signature"}
 
         # check some values
         my %Error;
+        LINE:
         for my $Line (qw(To Cc Bcc)) {
-            next if !$Data{$Line};
+            next LINE if !$Data{$Line};
             for my $Email ( Mail::Address->parse( $Data{$Line} ) ) {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
                     $Error{ $Line . "Invalid" } = " ServerError"
@@ -1564,7 +1569,7 @@ sub _Mask {
         $State{SelectedID} = $Param{GetParam}->{StateID};
     }
     else {
-        $State{SelectedValue} = $Param{NextState} || $Self->{Config}->{StateDefault};
+        $State{SelectedValue} = $Self->{Config}->{StateDefault};
     }
     $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
         Data         => $Param{NextStates},
@@ -1583,10 +1588,11 @@ sub _Mask {
     }
 
     my $ArticleTypeIDSelected = $Param{ArticleTypeID};
-    if ( $Self->{GetParam}->{ArticleTypeID} ) {
+    if ( $Param{GetParam}->{ArticleTypeID} ) {
 
         # set param ArticleType
-        $ArticleTypeIDSelected = $Self->{GetParam}->{ArticleTypeID};
+        $ArticleTypeIDSelected = $Param{GetParam}->{ArticleTypeID};
+
     }
 
     $Param{ArticleTypesStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -1892,8 +1898,9 @@ sub _Mask {
     }
 
     # show attachments
+    ATTACHMENT:
     for my $Attachment ( @{ $Param{Attachments} } ) {
-        next if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
+        next ATTACHMENT if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,

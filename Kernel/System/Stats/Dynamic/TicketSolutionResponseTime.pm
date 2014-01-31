@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm - stats about ticket solution and response time
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -930,6 +930,7 @@ sub _ReportingValues {
     my %Response;
     my %ResponseWorkingTime;
 
+    TICKET:
     for my $TicketID (@TicketIDs) {
         $CounterAllOver++;
         my %Ticket = $Self->{TicketObject}->TicketGet(
@@ -945,7 +946,7 @@ sub _ReportingValues {
 
         $SolutionAllOver{$TicketID} = $SolutionTime - $Ticket{CreateTimeUnix};
 
-        next if !defined $Ticket{SolutionInMin};
+        next TICKET if !defined $Ticket{SolutionInMin};
 
         # now collect only data of tickets which are affected by a escalation config
 

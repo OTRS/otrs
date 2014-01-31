@@ -1,0 +1,65 @@
+# --
+# AdminLog.tt - provides HTML form for AdminLog
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("System Log") | html %]</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("Here you will find log information about your system.") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    <a id="HideHint" href="#" class="CallForAction"><span>[% Translate("Hide this message") | html %]</span></a>
+                </p>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#HideHint').bind('click', function(){
+   $(this).parents('.SidebarColumn').hide();
+});
+//]]></script>
+[% END %]
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Recent Log Entries") | html %]</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th class="W25pc">[% Translate("Time") | html %]</th>
+                            <th>[% Translate("Priority") | html %]</th>
+                            <th class="W20pc">[% Translate("Facility") | html %]</th>
+                            <th class="W75pc">[% Translate("Message") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("Row") %]
+                        <tr class="[% Data.ErrorClass | html %]">
+                            <td>[% Data.Time | html %]</td>
+                            <td>[% Data.Priority | html %]</td>
+                            <td>[% Data.Facility | html %]</td>
+                            <td>[% Data.Message | html %]</td>
+                        </tr>
+[% RenderBlockEnd("Row") %]
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>

@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # DBUpdate-to-3.4.pl - update script to migrate OTRS 3.3.x to 3.4.x
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -49,7 +49,7 @@ use Kernel::System::VariableCheck qw(:all);
     if ( exists $Opts{h} ) {
         print <<"EOF";
 
-DBUpdate-to-3.3.pl - Upgrade scripts for OTRS 3.3.x to 3.4.x migration.
+DBUpdate-to-3.4.pl - Upgrade scripts for OTRS 3.3.x to 3.4.x migration.
 Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 
 Usage: $0 [-h]
@@ -68,6 +68,9 @@ Please run it as the 'otrs' user or with the help of su:
     su -c \"$0\" -s /bin/bash otrs
 ";
     }
+
+    # enable autoflushing of STDOUT
+    $| = 1;
 
     print "\nMigration started...\n\n";
 
@@ -112,7 +115,7 @@ sub _CommonObjectsBase {
     my %CommonObject;
     $CommonObject{ConfigObject} = Kernel::Config->new();
     $CommonObject{LogObject}    = Kernel::System::Log->new(
-        LogPrefix => 'OTRS-DBUpdate-to-3.3',
+        LogPrefix => 'OTRS-DBUpdate-to-3.4',
         %CommonObject,
     );
     $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);

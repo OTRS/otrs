@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -132,6 +132,13 @@ sub Run {
         if ( $Param{SessionIDCookie} ) {
             $Param{SessionID} = $Param{SessionIDCookie};
         }
+    }
+
+    my $CookieSecureAttribute;
+    if ( $Self->{ConfigObject}->Get('HttpType') eq 'https' ) {
+
+        # Restrict Cookie to HTTPS if it is used.
+        $CookieSecureAttribute = 1;
     }
 
     # check common objects
@@ -330,13 +337,6 @@ sub Run {
             $Expires = '';
         }
 
-        my $SecureAttribute;
-        if ( $Self->{ConfigObject}->Get('HttpType') eq 'https' ) {
-
-            # Restrict Cookie to HTTPS if it is used.
-            $SecureAttribute = 1;
-        }
-
         $LayoutObject = Kernel::Output::HTML::Layout->new(
             SetCookies => {
                 SessionIDCookie => $Self->{ParamObject}->SetCookie(
@@ -344,7 +344,7 @@ sub Run {
                     Value    => $NewSessionID,
                     Expires  => $Expires,
                     Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
-                    Secure   => scalar $SecureAttribute,
+                    Secure   => scalar $CookieSecureAttribute,
                     HTTPOnly => 1,
                 ),
             },
@@ -398,8 +398,12 @@ sub Run {
         my $LayoutObject = Kernel::Output::HTML::Layout->new(
             SetCookies => {
                 SessionIDCookie => $Self->{ParamObject}->SetCookie(
-                    Key   => $Param{SessionName},
-                    Value => '',
+                    Key      => $Param{SessionName},
+                    Value    => '',
+                    Expires  => '-1y',
+                    Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
+                    Secure   => scalar $CookieSecureAttribute,
+                    HTTPOnly => 1,
                 ),
             },
             %{$Self},
@@ -422,10 +426,15 @@ sub Run {
         }
 
         # show logout screen
+        my $LogoutMessage = $LayoutObject->{LanguageObject}->Translate(
+            'Logout successful. Thank you for using %s!',
+            $Self->{ConfigObject}->Get("ProductName"),
+        );
+
         $LayoutObject->Print(
             Output => \$LayoutObject->CustomerLogin(
                 Title   => 'Logout',
-                Message => 'Logout successful. Thank you for using %s!", "$Config{"ProductName"}',
+                Message => $LogoutMessage,
                 %Param,
             ),
         );
@@ -786,8 +795,12 @@ sub Run {
             my $LayoutObject = Kernel::Output::HTML::Layout->new(
                 SetCookies => {
                     SessionIDCookie => $Self->{ParamObject}->SetCookie(
-                        Key   => $Param{SessionName},
-                        Value => '',
+                        Key      => $Param{SessionName},
+                        Value    => '',
+                        Expires  => '-1y',
+                        Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
+                        Secure   => scalar $CookieSecureAttribute,
+                        HTTPOnly => 1,
                     ),
                 },
                 %{$Self},
@@ -866,11 +879,12 @@ sub Run {
             $Param{AccessRw} = 1;
         }
         else {
+            PERMISSION:
             for my $Permission (qw(GroupRo Group)) {
                 my $AccessOk = 0;
                 my $Group    = $ModuleReg->{$Permission};
                 my $Key      = "UserIs$Permission";
-                next if !$Group;
+                next PERMISSION if !$Group;
                 if ( ref $Group eq 'ARRAY' ) {
                     GROUP:
                     for ( @{$Group} ) {
@@ -895,7 +909,7 @@ sub Run {
                     $Param{AccessRo} = 1;
                 }
             }
-            if ( !$Param{AccessRo} && !$Param{AccessRw} || !$Param{AccessRo} && $Param{AccessRw} ) {
+            if ( !$Param{AccessRo} ) {
 
                 # new layout object
                 my $LayoutObject = Kernel::Output::HTML::Layout->new(
@@ -936,10 +950,12 @@ sub Run {
             else {
                 $PreModuleList{Init} = $PreModule;
             }
+
+            MODULE:
             for my $PreModuleKey ( sort keys %PreModuleList ) {
                 my $PreModule = $PreModuleList{$PreModuleKey};
-                next if !$PreModule;
-                next if !$Self->{MainObject}->Require($PreModule);
+                next MODULE if !$PreModule;
+                next MODULE if !$Self->{MainObject}->Require($PreModule);
 
                 # debug info
                 if ( $Self->{Debug} ) {

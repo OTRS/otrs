@@ -1,6 +1,6 @@
 # --
 # Kernel/System/VariableCheck.pm - helpers to check variables
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -464,7 +464,7 @@ sub DataIsDifferent {
         for my $Count ( 0 .. $#A ) {
 
             # do nothing, it's ok
-            next if !defined $A[$Count] && !defined $B[$Count];
+            next COUNT if !defined $A[$Count] && !defined $B[$Count];
 
             # return diff, because its different
             return 1 if !defined $A[$Count] || !defined $B[$Count];

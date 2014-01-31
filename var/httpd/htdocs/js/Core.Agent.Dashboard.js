@@ -445,7 +445,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
                 // nv d3 does not work correcly with non numeric values
                 ResultLine.values.push({
-                    x: HeadingElement,
+                    x: HeadingElement + ' ',
                     y: Value
                 });
             });
@@ -458,7 +458,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
         nv.addGraph(function() {
 
-            var Chart = nv.models.multiBarChart();
+            var Chart = nv.models.OTRSmultiBarChart();
 
             // don't let nv/d3 exceptions block the rest of OTRS JavaScript
             try {
@@ -470,7 +470,13 @@ Core.Agent.Dashboard = (function (TargetNS) {
                     left: 50
                 });
 
-                Chart.xAxis.axisLabel(Headings[0]);
+                Chart.staggerLabels(true);
+
+                Chart.controlsData({
+                    groupedName: Core.Config.Get('Grouped') || 'Grouped',
+                    stackedName: Core.Config.Get('Stacked') || 'Stacked'
+                });
+
                 Chart.yAxis.axisLabel("Values").tickFormat(d3.format(ValueFormat));
 
                 d3.select(SVGElement)
