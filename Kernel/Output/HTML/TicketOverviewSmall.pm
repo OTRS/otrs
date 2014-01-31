@@ -84,16 +84,6 @@ sub new {
             sort _DefaultColumnSort keys %{ $Self->{Config}->{DefaultColumns} };
     }
 
-    # get dynamic fields
-    my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldList(
-        ObjectType => 'Ticket',
-        ResultType => 'HASH',
-    );
-
-    for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
-        push @ColumnsAvailable, 'DynamicField_' . $DynamicFieldList->{$DynamicFieldID};
-    }
-
     # if preference settings are available, take them
     if ( $Preferences{ $Self->{PrefKeyColumns} } ) {
 
