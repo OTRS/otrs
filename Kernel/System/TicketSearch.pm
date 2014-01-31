@@ -1031,7 +1031,7 @@ sub TicketSearch {
                 my $ValidateSuccess = $Self->{DynamicFieldBackendObject}->ValueValidate(
                     DynamicFieldConfig => $DynamicField,
                     Value              => $Text,
-                    UserID             => $Param{UserID},
+                    UserID             => $Param{UserID} || 1,
                 );
                 if ( !$ValidateSuccess ) {
                     $Self->{LogObject}->Log(
