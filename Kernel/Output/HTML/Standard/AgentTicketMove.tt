@@ -102,9 +102,15 @@
                     </div>
                     <div class="Clear"></div>
 
+[% RenderBlockStart("SubjectLabel") %]
                     <label for="Subject">[% Translate("Subject") | html %]:</label>
+[% RenderBlockEnd("SubjectLabel") %]
+[% RenderBlockStart("SubjectLabelMandatory") %]
+                    <label class="Mandatory" for="Subject"><span class="Marker">*</span>[% Translate("Subject") | html %]:</label>
+[% RenderBlockEnd("SubjectLabelMandatory") %]
+
                     <div class="Field">
-                        <input type="text" id="Subject" name="Subject" value="[% Data.Subject | html %]" class="Validate_DependingRequiredAND Validate_Depending_Body [% Data.SubjectInvalid %] W75pc"/>
+                        <input type="text" id="Subject" name="Subject" value="[% Data.Subject | html %]" class="[% Data.SubjectRequired %] [% Data.SubjectInvalid %] W75pc"/>
                         <div id="SubjectError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                         <div id="SubjectServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                     </div>
@@ -128,14 +134,19 @@
 
 <!-- OutputFilterHook_NoTicketOptionsFallback -->
 
+[% RenderBlockStart("RichTextLabel") %]
                     <label for="Body">[% Translate("Text") | html %]:</label>
+[% RenderBlockEnd("RichTextLabel") %]
+[% RenderBlockStart("RichTextLabelMandatory") %]
+                    <label class="Mandatory" for="Body"><span class="Marker">*</span>[% Translate("Text") | html %]:</label>
+[% RenderBlockEnd("RichTextLabelMandatory") %]
 
 [% RenderBlockStart("RichText") %]
 [% InsertTemplate("RichTextEditor.tt") %]
 [% RenderBlockEnd("RichText") %]
 
                     <div class="RichTextField">
-                        <textarea id="Body" class="RichText Validate_DependingRequiredAND Validate_Depending_Subject [% Data.BodyInvalid %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
+                        <textarea id="Body" class="RichText [% Data.BodyRequired %] [% Data.BodyInvalid %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
                         <div id="BodyError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                         <div id="BodyServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                     </div>
