@@ -294,20 +294,10 @@ sub Preferences {
         && IsHashRefWithData( $Self->{Config}->{DefaultColumns} )
         )
     {
-        @ColumnsAvailable = grep { $Self->{Config}->{DefaultColumns}->{$_} ne '0' }
+        @ColumnsAvailable = grep { $Self->{Config}->{DefaultColumns}->{$_} }
             keys %{ $Self->{Config}->{DefaultColumns} };
         @ColumnsEnabled = grep { $Self->{Config}->{DefaultColumns}->{$_} eq '2' }
             keys %{ $Self->{Config}->{DefaultColumns} };
-    }
-
-    # get dynamic fields
-    my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldList(
-        ObjectType => 'Ticket',
-        ResultType => 'HASH',
-    );
-
-    for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
-        push @ColumnsAvailable, 'DynamicField_' . $DynamicFieldList->{$DynamicFieldID};
     }
 
     # check if the user has filter preferences for this widget
