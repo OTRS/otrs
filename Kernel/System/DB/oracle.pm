@@ -59,7 +59,7 @@ sub LoadPreferences {
         = "SET DEFINE OFF;\nSET SQLBLANKLINES ON";    # must be on separate lines!
 
     # init sql setting on db connect
-    #$Self->{'DB::Connect'} = '';
+    $Self->{'DB::Connect'} = "ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS'";
 
     return 1;
 }
