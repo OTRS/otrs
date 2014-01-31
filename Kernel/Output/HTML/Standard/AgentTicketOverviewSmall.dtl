@@ -410,13 +410,13 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
 <!-- dtl:block:RecordLastCustomerSubject -->
                     <td>
                         <div title="$QData{"From"}">$QData{"FromRealname","30"}</div>
-                        <div title="$QData{"Subject"}">$QData{"Subject","30"}</div>
+                        <div title="$QData{"Subject"}">$QData{"Subject"}</div>
                     </td>
 <!-- dtl:block:RecordLastCustomerSubject -->
 <!-- dtl:block:RecordTicketTitle -->
                     <td>
                         <div title="$QData{"From"}">$QData{"FromRealname","30"}</div>
-                        <div title="$QData{"Title"}">$QData{"Title","30"}</div>
+                        <div title="$QData{"Title"}">$QData{"Title"}</div>
                     </td>
 <!-- dtl:block:RecordTicketTitle -->
 <!-- dtl:block:RecordTicketColumn -->
