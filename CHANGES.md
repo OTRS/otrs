@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-01-31 Fixed bug#[6802](http://bugs.otrs.org/show_bug.cgi?id=6802) - Navigation broken if many modules installed.
  - 2014-01-31 Fixed bug#[4512](http://bugs.otrs.org/show_bug.cgi?id=4512) - HTMLUtils ToAscii forces line breake on fixed line-length 78.
  - 2014-01-31 Fixed bug#[6671](http://bugs.otrs.org/show_bug.cgi?id=6671) - GenericAgent - Ticket-Action should be renamed to Ticket-Attribute.
  - 2014-01-31 Fixed bug#[6742](http://bugs.otrs.org/show_bug.cgi?id=6742) - Move mask in new window: Note is not required.
