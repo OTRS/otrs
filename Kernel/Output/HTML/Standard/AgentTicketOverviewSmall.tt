@@ -404,13 +404,13 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
 [% RenderBlockStart("RecordLastCustomerSubject") %]
                     <td>
                         <div title="[% Data.From | html %]">[% Data.FromRealname | truncate(30) | html %]</div>
-                        <div title="[% Data.Subject | html %]">[% Data.Subject | truncate(30) | html %]</div>
+                        <div title="[% Data.Subject | html %]">[% Data.Subject | html %]</div>
                     </td>
 [% RenderBlockEnd("RecordLastCustomerSubject") %]
 [% RenderBlockStart("RecordTicketTitle") %]
                     <td>
                         <div title="[% Data.From | html %]">[% Data.FromRealname | truncate(30) | html %]</div>
-                        <div title="[% Data.Title | html %]">[% Data.Title | truncate(30) | html %]</div>
+                        <div title="[% Data.Title | html %]">[% Data.Title | html %]</div>
                     </td>
 [% RenderBlockEnd("RecordTicketTitle") %]
 [% RenderBlockStart("RecordTicketColumn") %]
