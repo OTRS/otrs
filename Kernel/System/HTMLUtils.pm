@@ -89,6 +89,9 @@ sub ToAscii {
         }
     }
 
+    # get length of line for forcing line breakes
+    my $LineLength = $Self->{'Ticket::Frontend::TextAreaNote'} || 78;
+
     # find <a href=....> and replace it with [x]
     my $LinkList = '';
     my $Counter  = 0;
@@ -113,8 +116,8 @@ sub ToAscii {
             String => $2,
         );
         # force line breaking
-        if ( length $Ascii > 78 ) {
-            $Ascii =~ s/(.{4,78})(?:\s|\z)/$1\n/gm;
+        if ( length $Ascii > $LineLength ) {
+            $Ascii =~ s/(.{4,$LineLength})(?:\s|\z)/$1\n/gm;
         }
         $Ascii =~ s/^(.*?)$/> $1/gm;
         $Counter++;
@@ -130,8 +133,8 @@ sub ToAscii {
             String => $1,
         );
         # force line breaking
-        if ( length $Ascii > 78 ) {
-            $Ascii =~ s/(.{4,78})(?:\s|\z)/$1\n/gm;
+        if ( length $Ascii > $LineLength ) {
+            $Ascii =~ s/(.{4,$LineLength})(?:\s|\z)/$1\n/gm;
         }
         $Ascii =~ s/^(.*?)$/> $1/gm;
         $Counter++;
@@ -529,8 +532,8 @@ sub ToAscii {
     $Param{String} =~ s/^\s*\n\s*\n/\n/mg;
 
     # force line breaking
-    if ( length $Param{String} > 78 ) {
-        $Param{String} =~ s/(.{4,78})(?:\s|\z)/$1\n/gm;
+    if ( length $Param{String} > $LineLength ) {
+        $Param{String} =~ s/(.{4,$LineLength})(?:\s|\z)/$1\n/gm;
     }
 
     # remember <blockquote> and <div style=\"cite\"
