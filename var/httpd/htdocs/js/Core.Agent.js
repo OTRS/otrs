@@ -49,7 +49,8 @@ Core.Agent = (function (TargetNS) {
          */
         var NavigationTimer = {},
             NavigationDuration = 500,
-            InitialNavigationContainerHeight = $('#NavigationContainer').css('height');
+            InitialNavigationContainerHeight = $('#NavigationContainer').css('height'),
+            NavigationResizeTimeout;
 
         /**
          * @function
@@ -158,48 +159,60 @@ Core.Agent = (function (TargetNS) {
             return false;
         });
 
+        TargetNS.ResizeNavigationBar();
+        $(window).resize(function() {
+            window.clearTimeout(NavigationResizeTimeout);
+            NavigationResizeTimeout = window.setTimeout(function () {
+                TargetNS.ResizeNavigationBar();
+            }, 400);
+        });
     }
 
     function NavigationBarShowSlideButton(Direction, Difference) {
 
         var Opposites = (Direction === 'Right') ? 'Left' : 'Right';
 
-        $('#NavigationContainer')
-            .append('<a href="#" class="Hidden NavigationBarNavigate' + Direction + '"><i class="icon-chevron-' + Direction.toLowerCase() + '"></i></a>')
-            .find('.NavigationBarNavigate' + Direction)
-            .delay(500)
-            .fadeIn()
-            .bind('click', function() {
-                if (Direction === 'Right') {
-                    $('#Navigation')
-                        .css('left', 'auto')
-                        .animate({
-                            'right': '0px'
-                        }, 'fast', function() {
-                            $('#NavigationContainer')
-                                .find('.NavigationBarNavigate' + Direction)
-                                .fadeOut('300', function() {
-                                    $(this).remove();
-                                });
-                            NavigationBarShowSlideButton(Opposites, Difference);
-                        });
-                }
-                else {
-                    $('#Navigation')
-                        .animate({
-                            'right': Difference
-                        }, 'fast', function() {
-                            $('#NavigationContainer')
-                                .find('.NavigationBarNavigate' + Direction)
-                                .fadeOut('300', function() {
-                                    $(this).remove();
-                                });
-                            NavigationBarShowSlideButton(Opposites, Difference);
-                        });
-                }
+        if (!$('#NavigationContainer').find('.NavigationBarNavigate' + Direction).length) {
 
-                return false;
-            });
+            $('#NavigationContainer')
+                .append('<a href="#" class="Hidden NavigationBarNavigate' + Direction + '"><i class="icon-chevron-' + Direction.toLowerCase() + '"></i></a>')
+                .find('.NavigationBarNavigate' + Direction)
+                .delay(500)
+                .fadeIn()
+                .bind('click', function() {
+                    if (Direction === 'Right') {
+                        $('#Navigation')
+                            .css('left', 'auto')
+                            .animate({
+                                'right': '0px'
+                            }, 'fast', function() {
+                                $('#NavigationContainer')
+                                    .find('.NavigationBarNavigate' + Direction)
+                                    .fadeOut('300', function() {
+                                        $(this).remove();
+                                    });
+                                NavigationBarShowSlideButton(Opposites, Difference);
+                            });
+                    }
+                    else {
+                        $('#Navigation')
+                            .animate({
+                                'left': '0px'
+                            }, 'fast', function() {
+                                $(this).css('right', 'auto');
+                                $('#NavigationContainer')
+                                    .find('.NavigationBarNavigate' + Direction)
+                                    .fadeOut('300', function() {
+                                        $(this).remove();
+                                    });
+                                NavigationBarShowSlideButton(Opposites, Difference);
+                            });
+                    }
+
+                    return false;
+                });
+        }
+
     }
 
     /**
@@ -209,7 +222,7 @@ Core.Agent = (function (TargetNS) {
      *      with slider navigation buttons. This can only happen if there are too many
      *      navigation icons.
      */
-    function ResizeNavigationBar() {
+    TargetNS.ResizeNavigationBar = function () {
 
         var NavigationBarWidth = 0,
             Difference;
@@ -223,7 +236,10 @@ Core.Agent = (function (TargetNS) {
         if (NavigationBarWidth > $('#NavigationContainer').outerWidth()) {
             NavigationBarShowSlideButton('Right', parseInt($('#NavigationContainer').outerWidth() - NavigationBarWidth, 10));
         }
-    }
+        else if (NavigationBarWidth < $('#NavigationContainer').outerWidth()) {
+            $('.NavigationBarNavigateRight, NavigationBarNavigateLeft').remove();
+        }
+    };
 
 
     /**
@@ -233,7 +249,6 @@ Core.Agent = (function (TargetNS) {
      */
     TargetNS.Init = function () {
         InitNavigation();
-        ResizeNavigationBar();
         Core.Exception.Init();
         Core.UI.Table.InitCSSPseudoClasses();
         Core.UI.InitWidgetActionToggle();
