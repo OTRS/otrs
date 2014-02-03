@@ -1,4 +1,5 @@
 #3.3.5 2014-??-??
+ - 2014-02-03 Fixed bug#[10177](http://bugs.otrs.org/show_bug.cgi?id=10177) - Missing sources in tarball.
  - 2014-02-03 Fixed bug#[9616](http://bugs.otrs.org/show_bug.cgi?id=9616) - Too long activities and transitions are not displayed correctly.
  - 2014-02-03 Fixed bug#[7440](http://bugs.otrs.org/show_bug.cgi?id=7440) - Ticket overviews don't show column headers for priority and unread articles in small mode.
  - 2014-02-03 Fixed bug#[7531](http://bugs.otrs.org/show_bug.cgi?id=7531) - Queue and Service delimiter '::' should be replaced in the output by ': :' to allow browsers a line break.
