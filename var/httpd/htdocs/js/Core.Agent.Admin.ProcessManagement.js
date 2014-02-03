@@ -1162,8 +1162,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // set current start and end activity (just for information purposes, not changeable)
         $.each(PathInfo, function(Activity, Transition) {
             if (Activity === StartActivityID && typeof Transition[CurrentTransitionEntityID] !== 'undefined') {
-                $('#StartActivity').text(ActivityInfo[Activity].Name);
-                $('#EndActivity').text(ActivityInfo[Transition[CurrentTransitionEntityID].ActivityEntityID].Name);
+                $('#StartActivity').attr('title', ActivityInfo[Activity].Name).text(ActivityInfo[Activity].Name);
+                $('#EndActivity').attr('title', ActivityInfo[Transition[CurrentTransitionEntityID].ActivityEntityID].Name).text(ActivityInfo[Transition[CurrentTransitionEntityID].ActivityEntityID].Name);
 
                 StartActivityEntityID     = Activity;
                 EndActivityEntityID       = Transition[CurrentTransitionEntityID].ActivityEntityID;
