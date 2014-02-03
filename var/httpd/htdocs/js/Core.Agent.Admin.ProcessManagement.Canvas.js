@@ -602,7 +602,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             reattach: true,
             overlays: [
                 [ "Diamond", { location: 18, width: 15, length: 25, paintStyle: { fillStyle: '#FFF', outlineWidth: 1, outlineColor: '#000'} } ],
-                [ "Label", { label: EscapeHTML(TransitionName), location: 0.5, cssClass: 'TransitionLabel', id: 'label', events: {
+                [ "Label", { label: '<span title="' + EscapeHTML(TransitionName) + '">' + EscapeHTML(TransitionName) + '</span>', location: 0.5, cssClass: 'TransitionLabel', id: 'label', events: {
                     mouseenter: function(labelOverlay, originalEvent) {
                         TargetNS.LastTransitionDetails = {
                             LabelOverlay: labelOverlay,
