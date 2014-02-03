@@ -168,11 +168,6 @@ sub MinifyFiles {
         $FileString .= "$Location:$FileMTime:";
     }
 
-    # also include the config timestamp in the caching to reload the data on config changes
-    my $ConfigTimestamp = $Self->{ConfigObject}->ConfigChecksum();
-
-    $FileString .= $ConfigTimestamp;
-
     my $Filename = $TargetFilenamePrefix . $Self->{MainObject}->MD5sum(
         String => \$FileString,
     );
