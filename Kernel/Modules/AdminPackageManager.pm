@@ -204,7 +204,7 @@ sub Run {
 
         # translate description
         if ( $Self->{LayoutObject}->{LanguageObject} ) {
-            $VerifyInfo{Description} = $Self->{LayoutObject}->{LanguageObject}->Get(
+            $VerifyInfo{Description} = $Self->{LayoutObject}->{LanguageObject}->Translate(
                 $VerifyInfo{Description}
             );
         }
@@ -1543,7 +1543,7 @@ sub _InstallHandling {
 
     # translate description
     if ( $Self->{LayoutObject}->{LanguageObject} ) {
-        $VerifyInfo{Description} = $Self->{LayoutObject}->{LanguageObject}->Get(
+        $VerifyInfo{Description} = $Self->{LayoutObject}->{LanguageObject}->Translate(
             $VerifyInfo{Description}
         );
     }

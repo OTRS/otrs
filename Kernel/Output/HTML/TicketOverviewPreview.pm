@@ -147,7 +147,7 @@ sub ActionRow {
                     Name => $Item->{Block},
                     Data => {
                         ID   => $Item->{ID},
-                        Name => $Self->{LayoutObject}->{LanguageObject}->Get( $Item->{Name} ),
+                        Name => $Self->{LayoutObject}->{LanguageObject}->Translate( $Item->{Name} ),
                         Link => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
                         Description => $Item->{Description},
                         Block       => $Item->{Block},
@@ -353,7 +353,7 @@ sub _Show {
     if ( !%Article ) {
         %Article = %Ticket;
         if ( !$Article{Title} ) {
-            $Article{Title} = $Self->{LayoutObject}->{LanguageObject}->Get(
+            $Article{Title} = $Self->{LayoutObject}->{LanguageObject}->Translate(
                 'This ticket has no title or subject'
             );
         }
@@ -460,7 +460,7 @@ sub _Show {
             push @ActionItems, {
                 HTML        => $Output,
                 ID          => $Item->{ID},
-                Name        => $Self->{LayoutObject}->{LanguageObject}->Get( $Item->{Name} ),
+                Name        => $Self->{LayoutObject}->{LanguageObject}->Translate( $Item->{Name} ),
                 Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
                 Target      => $Item->{Target},
                 PopupType   => $Item->{PopupType},
@@ -1057,7 +1057,7 @@ sub _Show {
 
                     # get StandardResponsesStrg
                     $StandardResponses{0}
-                        = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply') . ' -';
+                        = '- ' . $Self->{LayoutObject}->{LanguageObject}->Translate('Reply') . ' -';
 
                     # build html string
                     my $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
@@ -1111,7 +1111,8 @@ sub _Show {
                         # get StandardResponsesStrg
                         $StandardResponses{0}
                             = '- '
-                            . $Self->{LayoutObject}->{LanguageObject}->Get('Reply All') . ' -';
+                            . $Self->{LayoutObject}->{LanguageObject}->Translate('Reply All')
+                            . ' -';
                         $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
                             Name => 'ResponseID',
                             ID   => 'ResponseIDAll' . $ArticleItem->{ArticleID},

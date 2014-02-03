@@ -156,12 +156,12 @@ sub Run {
     }
 
     # print intro form
-    my $Title = $Self->{LayoutObject}->{LanguageObject}->Get('Install OTRS');
+    my $Title = $Self->{LayoutObject}->{LanguageObject}->Translate('Install OTRS');
     if ( $Self->{Subaction} eq 'Intro' ) {
         my $Output =
             $Self->{LayoutObject}->Header(
             Title => "$Title - "
-                . $Self->{LayoutObject}->{LanguageObject}->Get('Intro')
+                . $Self->{LayoutObject}->{LanguageObject}->Translate('Intro')
             );
         $Self->{LayoutObject}->Block(
             Name => 'Intro',
@@ -180,7 +180,7 @@ sub Run {
         my $Output =
             $Self->{LayoutObject}->Header(
             Title => "$Title - "
-                . $Self->{LayoutObject}->{LanguageObject}->Get('License')
+                . $Self->{LayoutObject}->{LanguageObject}->Translate('License')
             );
         $Self->{LayoutObject}->Block(
             Name => 'License',
@@ -207,7 +207,7 @@ sub Run {
             my $Output =
                 $Self->{LayoutObject}->Header(
                 Title => "$Title - "
-                    . $Self->{LayoutObject}->{LanguageObject}->Get('Error')
+                    . $Self->{LayoutObject}->{LanguageObject}->Translate('Error')
                 );
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => "Kernel/Config.pm isn't writable!",
@@ -241,7 +241,7 @@ sub Run {
         my $Output =
             $Self->{LayoutObject}->Header(
             Title => "$Title - "
-                . $Self->{LayoutObject}->{LanguageObject}->Get('Database Selection')
+                . $Self->{LayoutObject}->{LanguageObject}->Translate('Database Selection')
             );
         $Self->{LayoutObject}->Block(
             Name => 'DatabaseStart',
@@ -316,15 +316,15 @@ sub Run {
         if ( $DBType eq 'mysql' ) {
             my $PasswordExplanation
                 = $DBInstallType eq 'CreateDB'
-                ? $Self->{LayoutObject}->{LanguageObject}->Get(
-                'If you have set a root password for your database, it must be entered here. If not, leave this field empty.'
+                ? $Self->{LayoutObject}->{LanguageObject}->Translate(
+                'If you have set a root password for your database, it must be entered here. If not, leave this field empty.',
                 )
                 : $Self->{LayoutObject}->{LanguageObject}
-                ->Get('Enter the password for the database user.');
+                ->Translate('Enter the password for the database user.');
             my $Output =
                 $Self->{LayoutObject}->Header(
                 Title => "$Title - "
-                    . $Self->{LayoutObject}->{LanguageObject}->Get('Database') . ' MySQL'
+                    . $Self->{LayoutObject}->{LanguageObject}->Translate('Database') . ' MySQL'
                 );
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseMySQL',
@@ -370,7 +370,7 @@ sub Run {
             my $Output =
                 $Self->{LayoutObject}->Header(
                 Title => "$Title - "
-                    . $Self->{LayoutObject}->{LanguageObject}->Get('Database')
+                    . $Self->{LayoutObject}->{LanguageObject}->Translate('Database')
                     . ' Microsoft SQL Server'
                 );
             $Self->{LayoutObject}->Block(
@@ -418,7 +418,7 @@ sub Run {
             my $Output =
                 $Self->{LayoutObject}->Header(
                 Title => "$Title - "
-                    . $Self->{LayoutObject}->{LanguageObject}->Get('Database') . ' PostgreSQL'
+                    . $Self->{LayoutObject}->{LanguageObject}->Translate('Database') . ' PostgreSQL'
                 );
             $Self->{LayoutObject}->Block(
                 Name => 'DatabasePostgreSQL',
@@ -458,7 +458,7 @@ sub Run {
             my $Output =
                 $Self->{LayoutObject}->Header(
                 Title => "$Title - "
-                    . $Self->{LayoutObject}->{LanguageObject}->Get('Database') . ' Oracle'
+                    . $Self->{LayoutObject}->{LanguageObject}->Translate('Database') . ' Oracle'
                 );
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseOracle',
@@ -517,7 +517,7 @@ sub Run {
 
         my $Output = $Self->{LayoutObject}->Header(
             Title => $Title . '-'
-                . $Self->{LayoutObject}->{LanguageObject}->Get(
+                . $Self->{LayoutObject}->{LanguageObject}->Translate(
                 'Create Database'
                 )
         );
@@ -821,7 +821,7 @@ sub Run {
         my $Output =
             $Self->{LayoutObject}->Header(
             Title => "$Title - "
-                . $Self->{LayoutObject}->{LanguageObject}->Get('System Settings')
+                . $Self->{LayoutObject}->{LanguageObject}->Translate('System Settings')
             );
 
         $Self->{LayoutObject}->Block(
@@ -921,7 +921,7 @@ sub Run {
         my $Output =
             $Self->{LayoutObject}->Header(
             Title => "$Title - "
-                . $Self->{LayoutObject}->{LanguageObject}->Get('Configure Mail')
+                . $Self->{LayoutObject}->{LanguageObject}->Translate('Configure Mail')
             );
         $Self->{LayoutObject}->Block(
             Name => 'ConfigureMail',
@@ -1022,7 +1022,7 @@ sub Run {
         my $Output =
             $Self->{LayoutObject}->Header(
             Title => "$Title - "
-                . $Self->{LayoutObject}->{LanguageObject}->Get('Finished')
+                . $Self->{LayoutObject}->{LanguageObject}->Translate('Finished')
             );
         $Self->{LayoutObject}->Block(
             Name => 'Finish',

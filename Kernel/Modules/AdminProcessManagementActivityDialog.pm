@@ -692,7 +692,7 @@ sub _ShowEdit {
         # sort by translated field names
         my %AvailableFieldsTranslated;
         for my $Field ( sort keys %AvailableFields ) {
-            my $Translation = $Self->{LayoutObject}->{LanguageObject}->Get($Field);
+            my $Translation = $Self->{LayoutObject}->{LanguageObject}->Translate($Field);
             $AvailableFieldsTranslated{$Field} = $Translation;
         }
 
@@ -753,7 +753,7 @@ sub _ShowEdit {
         # sort by translated field names
         my %AvailableFieldsTranslated;
         for my $Field ( sort keys %AvailableFields ) {
-            my $Translation = $Self->{LayoutObject}->{LanguageObject}->Get($Field);
+            my $Translation = $Self->{LayoutObject}->{LanguageObject}->Translate($Field);
             $AvailableFieldsTranslated{$Field} = $Translation;
         }
 

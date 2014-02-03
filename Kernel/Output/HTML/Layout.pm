@@ -1074,7 +1074,7 @@ sub Header {
     }
     for my $Word (qw(Value Title Area)) {
         if ( $Param{$Word} ) {
-            $Param{TitleArea} .= $Self->{LanguageObject}->Get( $Param{$Word} ) . ' - ';
+            $Param{TitleArea} .= $Self->{LanguageObject}->Translate( $Param{$Word} ) . ' - ';
         }
     }
 
@@ -1218,7 +1218,8 @@ sub Footer {
 
     for my $ConfigElement ( sort keys %{$AutocompleteConfig} ) {
         $AutocompleteConfig->{$ConfigElement}->{ButtonText}
-            = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}->{ButtonText} );
+            = $Self->{LanguageObject}
+            ->Translate( $AutocompleteConfig->{$ConfigElement}->{ButtonText} );
     }
 
     my $AutocompleteConfigJSON = $Self->JSONEncode(
@@ -1332,7 +1333,7 @@ sub PrintHeader {
     }
     for my $Word (qw(Area Title Value)) {
         if ( $Param{$Word} ) {
-            $Param{TitleArea} .= ' - ' . $Self->{LanguageObject}->Get( $Param{$Word} );
+            $Param{TitleArea} .= ' - ' . $Self->{LanguageObject}->Translate( $Param{$Word} );
         }
     }
 
@@ -1706,14 +1707,14 @@ sub CustomerAgeInHours {
     # get hours
     if ( $Age >= 3600 ) {
         $AgeStrg .= int( ( $Age / 3600 ) ) . ' ';
-        $AgeStrg .= $Self->{LanguageObject}->Get($HourDsc);
+        $AgeStrg .= $Self->{LanguageObject}->Translate($HourDsc);
         $AgeStrg .= $Space;
     }
 
     # get minutes (just if age < 1 day)
     if ( $Age <= 3600 || int( ( $Age / 60 ) % 60 ) ) {
         $AgeStrg .= int( ( $Age / 60 ) % 60 ) . ' ';
-        $AgeStrg .= $Self->{LanguageObject}->Get($MinuteDsc);
+        $AgeStrg .= $Self->{LanguageObject}->Translate($MinuteDsc);
     }
     return $AgeStrg;
 }
@@ -1740,21 +1741,21 @@ sub CustomerAge {
     # get days
     if ( $Age >= 86400 ) {
         $AgeStrg .= int( ( $Age / 3600 ) / 24 ) . ' ';
-        $AgeStrg .= $Self->{LanguageObject}->Get($DayDsc);
+        $AgeStrg .= $Self->{LanguageObject}->Translate($DayDsc);
         $AgeStrg .= $Space;
     }
 
     # get hours
     if ( $Age >= 3600 ) {
         $AgeStrg .= int( ( $Age / 3600 ) % 24 ) . ' ';
-        $AgeStrg .= $Self->{LanguageObject}->Get($HourDsc);
+        $AgeStrg .= $Self->{LanguageObject}->Translate($HourDsc);
         $AgeStrg .= $Space;
     }
 
     # get minutes (just if age < 1 day)
     if ( $Self->{ConfigObject}->Get('TimeShowAlwaysLong') || $Age < 86400 ) {
         $AgeStrg .= int( ( $Age / 60 ) % 60 ) . ' ';
-        $AgeStrg .= $Self->{LanguageObject}->Get($MinuteDsc);
+        $AgeStrg .= $Self->{LanguageObject}->Translate($MinuteDsc);
     }
     return $AgeStrg;
 }
@@ -1902,11 +1903,12 @@ sub NoPermission {
 
     my $WithHeader = $Param{WithHeader} || 'yes';
 
-    my $TranslatableMessage = $Self->{LanguageObject}->Get(
-        "We are sorry, you do not have permissions anymore to access this ticket in its'current state. "
+    my $TranslatableMessage = $Self->{LanguageObject}->Translate(
+        "We are sorry, you do not have permissions anymore to access this ticket in its current state."
     );
     $TranslatableMessage .= '<br/>';
-    $TranslatableMessage .= $Self->{LanguageObject}->Get(" You can take one of the next actions:");
+    $TranslatableMessage
+        .= $Self->{LanguageObject}->Translate(" You can take one of the next actions:");
     $Param{Message} = $TranslatableMessage if ( !$Param{Message} );
 
     # get config option for possible next actions
@@ -2713,7 +2715,7 @@ sub BuildDateSelection {
             SelectedID  => int( $Param{ $Prefix . 'Year' } || $Y ),
             Translation => 0,
             Class       => $Validate ? 'Validate_DateYear' : '',
-            Title       => $Self->{LanguageObject}->Get('Year'),
+            Title       => $Self->{LanguageObject}->Translate('Year'),
         );
     }
     else {
@@ -2721,7 +2723,7 @@ sub BuildDateSelection {
             . ( $Validate ? "class=\"Validate_DateYear $Class\" " : "class=\"$Class\" " )
             . "name=\"${Prefix}Year\" id=\"${Prefix}Year\" size=\"4\" maxlength=\"4\" "
             . "title=\""
-            . $Self->{LanguageObject}->Get('Year')
+            . $Self->{LanguageObject}->Translate('Year')
             . "\" value=\""
             . sprintf( "%02d", ( $Param{ $Prefix . 'Year' } || $Y ) ) . "\"/>";
     }
@@ -2735,7 +2737,7 @@ sub BuildDateSelection {
             SelectedID  => int( $Param{ $Prefix . 'Month' } || $M ),
             Translation => 0,
             Class       => $Validate ? 'Validate_DateMonth' : '',
-            Title       => $Self->{LanguageObject}->Get('Month'),
+            Title       => $Self->{LanguageObject}->Translate('Month'),
         );
     }
     else {
@@ -2744,7 +2746,7 @@ sub BuildDateSelection {
             . ( $Validate ? "class=\"Validate_DateMonth $Class\" " : "class=\"$Class\" " )
             . "name=\"${Prefix}Month\" id=\"${Prefix}Month\" size=\"2\" maxlength=\"2\" "
             . "title=\""
-            . $Self->{LanguageObject}->Get('Month')
+            . $Self->{LanguageObject}->Translate('Month')
             . "\" value=\""
             . sprintf( "%02d", ( $Param{ $Prefix . 'Month' } || $M ) ) . "\"/>";
     }
@@ -2767,7 +2769,7 @@ sub BuildDateSelection {
             SelectedID  => int( $Param{ $Prefix . 'Day' } || $D ),
             Translation => 0,
             Class       => "$DateValidateClasses $Class",
-            Title       => $Self->{LanguageObject}->Get('Day'),
+            Title       => $Self->{LanguageObject}->Translate('Day'),
         );
     }
     else {
@@ -2775,7 +2777,7 @@ sub BuildDateSelection {
             . "class=\"$DateValidateClasses $Class\" "
             . "name=\"${Prefix}Day\" id=\"${Prefix}Day\" size=\"2\" maxlength=\"2\" "
             . "title=\""
-            . $Self->{LanguageObject}->Get('Day')
+            . $Self->{LanguageObject}->Translate('Day')
             . "\" value=\""
             . sprintf( "%02d", ( $Param{ $Prefix . 'Day' } || $D ) ) . "\"/>";
     }
@@ -2792,7 +2794,7 @@ sub BuildDateSelection {
                 : int($h),
                 Translation => 0,
                 Class       => $Validate ? ( 'Validate_DateHour ' . $Class ) : $Class,
-                Title       => $Self->{LanguageObject}->Get('Hours'),
+                Title       => $Self->{LanguageObject}->Translate('Hours'),
             );
         }
         else {
@@ -2800,7 +2802,7 @@ sub BuildDateSelection {
                 . ( $Validate ? "class=\"Validate_DateHour $Class\" " : "class=\"$Class\" " )
                 . "name=\"${Prefix}Hour\" id=\"${Prefix}Hour\" size=\"2\" maxlength=\"2\" "
                 . "title=\""
-                . $Self->{LanguageObject}->Get('Hours')
+                . $Self->{LanguageObject}->Translate('Hours')
                 . "\" value=\""
                 . sprintf(
                 "%02d",
@@ -2820,7 +2822,7 @@ sub BuildDateSelection {
                 : int($m),
                 Translation => 0,
                 Class       => $Validate ? ( 'Validate_DateMinute ' . $Class ) : $Class,
-                Title       => $Self->{LanguageObject}->Get('Minutes'),
+                Title       => $Self->{LanguageObject}->Translate('Minutes'),
             );
         }
         else {
@@ -2828,7 +2830,7 @@ sub BuildDateSelection {
                 . ( $Validate ? "class=\"Validate_DateMinute $Class\" " : "class=\"$Class\" " )
                 . "name=\"${Prefix}Minute\" id=\"${Prefix}Minute\" size=\"2\" maxlength=\"2\" "
                 . "title=\""
-                . $Self->{LanguageObject}->Get('Minutes')
+                . $Self->{LanguageObject}->Translate('Minutes')
                 . "\" value=\""
                 . sprintf(
                 "%02d",
@@ -2865,7 +2867,7 @@ sub BuildDateSelection {
             . $Checked
             . $ValidateClass
             . " title=\""
-            . $Self->{LanguageObject}->Get('Check to activate this date')
+            . $Self->{LanguageObject}->Translate('Check to activate this date')
             . "\" />&nbsp;";
     }
 
@@ -2898,7 +2900,7 @@ sub CustomerLogin {
     my ( $Self, %Param ) = @_;
 
     my $Output = '';
-    $Param{TitleArea} = $Self->{LanguageObject}->Get('Login') . ' - ';
+    $Param{TitleArea} = $Self->{LanguageObject}->Translate('Login') . ' - ';
 
     # set Action parameter for the loader
     $Self->{Action} = 'CustomerLogin';
@@ -3044,7 +3046,7 @@ sub CustomerHeader {
     }
     for my $Word (qw(Value Title Area)) {
         if ( $Param{$Word} ) {
-            $Param{TitleArea} .= $Self->{LanguageObject}->Get( $Param{$Word} ) . ' - ';
+            $Param{TitleArea} .= $Self->{LanguageObject}->Translate( $Param{$Word} ) . ' - ';
         }
     }
 
@@ -3166,7 +3168,8 @@ sub CustomerFooter {
 
     for my $ConfigElement ( sort keys %{$AutocompleteConfig} ) {
         $AutocompleteConfig->{$ConfigElement}->{ButtonText}
-            = $Self->{LanguageObject}->Get( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
+            = $Self->{LanguageObject}
+            ->Translate( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
     }
 
     my $AutocompleteConfigJSON = $Self->JSONEncode(
@@ -3977,7 +3980,7 @@ sub _BuildSelectionOptionRefCreate {
     {
         my %SelectedValueNew;
         for my $OriginalKey ( sort keys %{ $OptionRef->{SelectedValue} } ) {
-            my $TranslatedKey = $Self->{LanguageObject}->Get($OriginalKey);
+            my $TranslatedKey = $Self->{LanguageObject}->Translate($OriginalKey);
             $SelectedValueNew{$TranslatedKey} = 1;
         }
         $OptionRef->{SelectedValue} = \%SelectedValueNew;
@@ -4163,7 +4166,7 @@ sub _BuildSelectionDataRefCreate {
         # translate value
         if ( $OptionRef->{Translation} ) {
             for my $Row ( sort keys %{$DataLocal} ) {
-                $DataLocal->{$Row} = $Self->{LanguageObject}->Get( $DataLocal->{$Row} );
+                $DataLocal->{$Row} = $Self->{LanguageObject}->Translate( $DataLocal->{$Row} );
             }
         }
 
@@ -4227,7 +4230,7 @@ sub _BuildSelectionDataRefCreate {
                 # translate value
                 if ( $OptionRef->{Translation} ) {
                     $DataRef->[$Counter]->{Value}
-                        = $Self->{LanguageObject}->Get( $DataRef->[$Counter]->{Value} );
+                        = $Self->{LanguageObject}->Translate( $DataRef->[$Counter]->{Value} );
                 }
 
                 # set Selected and Disabled options
@@ -4294,7 +4297,7 @@ sub _BuildSelectionDataRefCreate {
         if ( $OptionRef->{Translation} ) {
             my @TranslateArray;
             for my $Row ( @{$DataLocal} ) {
-                my $TranslateString = $Self->{LanguageObject}->Get($Row);
+                my $TranslateString = $Self->{LanguageObject}->Translate($Row);
                 push @TranslateArray, $TranslateString;
                 $ReverseHash{$TranslateString} = $Row;
             }
@@ -4505,7 +4508,7 @@ sub _BuildSelectionOutput {
         $String .= '</select>';
 
         if ( $Param{TreeView} ) {
-            my $TreeSelectionMessage = $Self->{LanguageObject}->Get("Show Tree Selection");
+            my $TreeSelectionMessage = $Self->{LanguageObject}->Translate("Show Tree Selection");
             $String
                 .= ' <a href="#" title="'
                 . $TreeSelectionMessage

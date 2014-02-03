@@ -1247,7 +1247,7 @@ sub ConfigItemSearch {
                             if (
                                 ( $Description =~ /\Q$Param{Search}\E/i )
                                 || (
-                                    $Self->{LanguageObject}->Get($Description)
+                                    $Self->{LanguageObject}->Translate($Description)
                                     =~ /\Q$Param{Search}\E/i
                                 )
                                 )

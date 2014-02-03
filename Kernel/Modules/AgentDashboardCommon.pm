@@ -131,7 +131,8 @@ sub Run {
 
                 my $Title = $Self->{LayoutObject}->{LanguageObject}
                     ->Get( $StatsHash->{$StatID}->{Title} );
-                $Title = $Self->{LayoutObject}->{LanguageObject}->Get('Statistic') . ': ' . $Title;
+                $Title = $Self->{LayoutObject}->{LanguageObject}->Translate('Statistic') . ': '
+                    . $Title;
 
                 $Config->{ ( $StatID + 1000 ) . '-Stats' } = {
                     'Block'       => 'ContentLarge',

@@ -517,7 +517,7 @@ sub _MaskQueueView {
     my %UsedQueue;
     my @ListedQueues;
     my $Level       = 0;
-    my $CustomQueue = $Self->{LayoutObject}->{LanguageObject}->Get( $Self->{CustomQueue} );
+    my $CustomQueue = $Self->{LayoutObject}->{LanguageObject}->Translate( $Self->{CustomQueue} );
     $Self->{HighlightAge1} = $Self->{Config}->{HighlightAge1};
     $Self->{HighlightAge2} = $Self->{Config}->{HighlightAge2};
     $Self->{Blink}         = $Self->{Config}->{Blink};

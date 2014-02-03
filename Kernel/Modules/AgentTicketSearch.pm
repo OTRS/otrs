@@ -625,7 +625,7 @@ sub Run {
                 );
 
                 for my $Key (qw(State Lock)) {
-                    $Data{$Key} = $Self->{LayoutObject}->{LanguageObject}->Get( $Data{$Key} );
+                    $Data{$Key} = $Self->{LayoutObject}->{LanguageObject}->Translate( $Data{$Key} );
                 }
 
                 $Data{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
@@ -721,7 +721,7 @@ sub Run {
             );
 
             my @CSVHeadTranslated
-                = map { $Self->{LayoutObject}->{LanguageObject}->Get( $HeaderMap{$_} || $_ ); }
+                = map { $Self->{LayoutObject}->{LanguageObject}->Translate( $HeaderMap{$_} || $_ ); }
                 @CSVHead;
 
             my $CSV = $Self->{CSVObject}->Array2CSV(
@@ -836,10 +836,10 @@ sub Run {
 
             # PDF Output
             if ( $Self->{PDFObject} ) {
-                my $Title = $Self->{LayoutObject}->{LanguageObject}->Get('Ticket') . ' '
-                    . $Self->{LayoutObject}->{LanguageObject}->Get('Search');
-                my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
-                my $Page      = $Self->{LayoutObject}->{LanguageObject}->Get('Page');
+                my $Title = $Self->{LayoutObject}->{LanguageObject}->Translate('Ticket') . ' '
+                    . $Self->{LayoutObject}->{LanguageObject}->Translate('Search');
+                my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Translate('printed by');
+                my $Page      = $Self->{LayoutObject}->{LanguageObject}->Translate('Page');
                 my $Time      = $Self->{LayoutObject}->{Time};
                 my $Url       = '';
                 if ( $ENV{REQUEST_URI} ) {
@@ -864,25 +864,25 @@ sub Run {
                     $CellData->[0]->[0]->{Content} = $Self->{ConfigObject}->Get('Ticket::Hook');
                     $CellData->[0]->[0]->{Font}    = 'ProportionalBold';
                     $CellData->[0]->[1]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('Created');
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('Created');
                     $CellData->[0]->[1]->{Font} = 'ProportionalBold';
                     $CellData->[0]->[2]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('From');
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('From');
                     $CellData->[0]->[2]->{Font} = 'ProportionalBold';
                     $CellData->[0]->[3]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('Subject');
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('Subject');
                     $CellData->[0]->[3]->{Font} = 'ProportionalBold';
                     $CellData->[0]->[4]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('State');
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('State');
                     $CellData->[0]->[4]->{Font} = 'ProportionalBold';
                     $CellData->[0]->[5]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('Queue');
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('Queue');
                     $CellData->[0]->[5]->{Font} = 'ProportionalBold';
                     $CellData->[0]->[6]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('Owner');
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('Owner');
                     $CellData->[0]->[6]->{Font} = 'ProportionalBold';
                     $CellData->[0]->[7]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID');
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('CustomerID');
                     $CellData->[0]->[7]->{Font} = 'ProportionalBold';
 
                     # create the content array
@@ -900,7 +900,8 @@ sub Run {
                 # otherwise, show 'No ticket data found' message
                 else {
                     $CellData->[0]->[0]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('No ticket data found.');
+                        = $Self->{LayoutObject}->{LanguageObject}
+                        ->Translate('No ticket data found.');
                 }
 
                 # page params
@@ -1272,7 +1273,7 @@ sub Run {
             next DYNAMICFIELD if !IsArrayRefWithData($SearchFieldPreferences);
 
             # translate the dynamic field label
-            my $TranslatedDynamicFieldLabel = $Self->{LayoutObject}->{LanguageObject}->Get(
+            my $TranslatedDynamicFieldLabel = $Self->{LayoutObject}->{LanguageObject}->Translate(
                 $DynamicFieldConfig->{Label},
             );
 
@@ -1280,7 +1281,7 @@ sub Run {
             for my $Preference ( @{$SearchFieldPreferences} ) {
 
                 # translate the suffix
-                my $TranslatedSuffix = $Self->{LayoutObject}->{LanguageObject}->Get(
+                my $TranslatedSuffix = $Self->{LayoutObject}->{LanguageObject}->Translate(
                     $Preference->{LabelSuffix},
                 ) || '';
 

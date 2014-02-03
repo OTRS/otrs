@@ -38,7 +38,7 @@ sub AgentCustomerViewTable {
         $Self->FatalError( Message => 'Need Hash ref in Data param' );
     }
     elsif ( ref $Param{Data} eq 'HASH' && !%{ $Param{Data} } ) {
-        return $Self->{LanguageObject}->Get('none');
+        return $Self->{LanguageObject}->Translate('none');
     }
 
     # add ticket params if given
@@ -404,7 +404,7 @@ sub AgentQueueListOption {
 
     if ( $Param{TreeView} ) {
         my $TreeSelectionMessage
-            = $Self->{LanguageObject}->Get("Show Tree Selection");
+            = $Self->{LanguageObject}->Translate("Show Tree Selection");
         $Param{MoveQueuesStrg}
             .= ' <a href="#" title="'
             . $TreeSelectionMessage

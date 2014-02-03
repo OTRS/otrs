@@ -1135,13 +1135,13 @@ sub Run {
                     $Data{Body} = "<br/>" . $Data{Body};
 
                     if ( $Data{Created} ) {
-                        $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get('Date') .
+                        $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Translate('Date') .
                             ": $Data{Created}<br/>" . $Data{Body};
                     }
 
                     for (qw(Subject ReplyTo Reply-To Cc To From)) {
                         if ( $Data{$_} ) {
-                            $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get($_) .
+                            $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Translate($_) .
                                 ": $Data{$_}<br/>" . $Data{Body};
                         }
                     }
@@ -1150,8 +1150,10 @@ sub Run {
                         String => $Data{From},
                     );
 
-                    my $MessageFrom = $Self->{LayoutObject}->{LanguageObject}->Get('Message from');
-                    my $EndMessage  = $Self->{LayoutObject}->{LanguageObject}->Get('End message');
+                    my $MessageFrom
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('Message from');
+                    my $EndMessage
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('End message');
 
                     $Data{Body} = "<br/>---- $MessageFrom $From ---<br/><br/>" . $Data{Body};
                     $Data{Body} .= "<br/>---- $EndMessage ---<br/>";
@@ -1172,19 +1174,21 @@ sub Run {
                 else {
                     $Data{Body} = "\n" . $Data{Body};
                     if ( $Data{Created} ) {
-                        $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get('Date') .
+                        $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Translate('Date') .
                             ": $Data{Created}\n" . $Data{Body};
                     }
 
                     for (qw(Subject ReplyTo Reply-To Cc To From)) {
                         if ( $Data{$_} ) {
-                            $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get($_) .
+                            $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Translate($_) .
                                 ": $Data{$_}\n" . $Data{Body};
                         }
                     }
 
-                    my $MessageFrom = $Self->{LayoutObject}->{LanguageObject}->Get('Message from');
-                    my $EndMessage  = $Self->{LayoutObject}->{LanguageObject}->Get('End message');
+                    my $MessageFrom
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('Message from');
+                    my $EndMessage
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('End message');
 
                     $Data{Body} = "\n---- $MessageFrom $Data{From} ---\n\n" . $Data{Body};
                     $Data{Body} .= "\n---- $EndMessage ---\n";
@@ -1249,9 +1253,9 @@ sub Run {
                 # replace To with customers database address
                 if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeReplaceSenderAddress') ) {
                     $Output .= $Self->{LayoutObject}->Notify(
-                        Data => $Self->{LayoutObject}->{LanguageObject}->Get(
-                            'Address %s replaced with registered customer address.", "'
-                                . $Data{ToEmail}
+                        Data => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                            'Address %s replaced with registered customer address.',
+                            $Data{ToEmail},
                         ),
 
                     );

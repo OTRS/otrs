@@ -80,7 +80,7 @@ sub Run {
         );
 
         $CustomerCompany{ValidID}
-            = $Self->{LayoutObject}->{LanguageObject}->Get( $CustomerCompany{ValidID} );
+            = $Self->{LayoutObject}->{LanguageObject}->Translate( $CustomerCompany{ValidID} );
     }
 
     ENTRY:

@@ -531,7 +531,7 @@ sub _MaskUpdate {
         Multiple    => 0,
         SelectedID  => $JobData{NewPendingTimeType},
         Translation => 1,
-        Title       => $Self->{LayoutObject}->{LanguageObject}->Get('Time unit'),
+        Title       => $Self->{LayoutObject}->{LanguageObject}->Translate('Time unit'),
     );
     $JobData{QueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
         Data               => { $Self->{QueueObject}->GetAllQueues(), },
@@ -1060,7 +1060,7 @@ sub _MaskUpdate {
             Sort => 'AlphanumericValue',
             PossibleNone => 0,
             Class        => 'EventList GenericInterfaceSpacing ' . $EventListHidden,
-            Title        => $Self->{LayoutObject}->{LanguageObject}->Get('Event'),
+            Title        => $Self->{LayoutObject}->{LanguageObject}->Translate('Event'),
         );
 
         $Self->{LayoutObject}->Block(
@@ -1081,7 +1081,7 @@ sub _MaskUpdate {
         SelectedValue => $SelectedEventType,
         PossibleNone  => 0,
         Class         => '',
-        Title         => $Self->{LayoutObject}->{LanguageObject}->Get('Type'),
+        Title         => $Self->{LayoutObject}->{LanguageObject}->Translate('Type'),
     );
     $Self->{LayoutObject}->Block(
         Name => 'EventTypeStrg',

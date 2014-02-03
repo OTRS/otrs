@@ -710,7 +710,7 @@ sub Run {
                     $GetParam{Subject} = $Subject;
                 }
                 $GetParam{Subject} = $GetParam{Subject}
-                    || $Self->{LayoutObject}->{LanguageObject}->Get('No subject');
+                    || $Self->{LayoutObject}->{LanguageObject}->Translate('No subject');
             }
 
             # if there is no ArticleTypeID, use the default value

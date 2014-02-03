@@ -292,12 +292,12 @@ sub Form {
         # prepare body, subject, ReplyTo ...
         $Data{Body} = '<br/>' . $Data{Body};
         if ( $Data{Created} ) {
-            $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get('Date') .
+            $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Translate('Date') .
                 ": $Data{Created}<br/>" . $Data{Body};
         }
         for my $Key (qw( Subject ReplyTo Reply-To Cc To From )) {
             if ( $Data{$Key} ) {
-                my $KeyText = $Self->{LayoutObject}->{LanguageObject}->Get($Key);
+                my $KeyText = $Self->{LayoutObject}->{LanguageObject}->Translate($Key);
 
                 my $Value = $Self->{LayoutObject}->Ascii2RichText(
                     String => $Data{$Key},
@@ -327,9 +327,9 @@ sub Form {
         );
 
         my $ForwardedMessageFrom
-            = $Self->{LayoutObject}->{LanguageObject}->Get('Forwarded message from');
+            = $Self->{LayoutObject}->{LanguageObject}->Translate('Forwarded message from');
         my $EndForwardedMessage
-            = $Self->{LayoutObject}->{LanguageObject}->Get('End forwarded message');
+            = $Self->{LayoutObject}->{LanguageObject}->Translate('End forwarded message');
 
         $Data{Body} = "<br/>---- $ForwardedMessageFrom $From ---<br/><br/>" . $Data{Body};
         $Data{Body} .= "<br/>---- $EndForwardedMessage ---<br/>";
@@ -354,20 +354,20 @@ sub Form {
             $Data{Body} = "\n" . $Data{Body};
         }
         if ( $Data{Created} ) {
-            $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get('Date') .
+            $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Translate('Date') .
                 ": $Data{Created}\n" . $Data{Body};
         }
         for (qw(Subject ReplyTo Reply-To Cc To From)) {
             if ( $Data{$_} ) {
-                $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get($_) .
+                $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Translate($_) .
                     ": $Data{$_}\n" . $Data{Body};
             }
         }
 
         my $ForwardedMessageFrom
-            = $Self->{LayoutObject}->{LanguageObject}->Get('Forwarded message from');
+            = $Self->{LayoutObject}->{LanguageObject}->Translate('Forwarded message from');
         my $EndForwardedMessage
-            = $Self->{LayoutObject}->{LanguageObject}->Get('End forwarded message');
+            = $Self->{LayoutObject}->{LanguageObject}->Translate('End forwarded message');
 
         $Data{Body} = "\n---- $ForwardedMessageFrom $Data{From} ---\n\n" . $Data{Body};
         $Data{Body} .= "\n---- $EndForwardedMessage ---\n";

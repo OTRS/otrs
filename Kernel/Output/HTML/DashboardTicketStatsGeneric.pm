@@ -97,7 +97,10 @@ sub Run {
 
         unshift(
             @TicketWeekdays,
-            [ 6 - $Key, $Self->{LayoutObject}->{LanguageObject}->Get( $Axis{'7Day'}->{$WeekDay} ) ]
+            [
+                6 - $Key,
+                $Self->{LayoutObject}->{LanguageObject}->Translate( $Axis{'7Day'}->{$WeekDay} )
+            ]
         );
 
         my $CountCreated = $Self->{TicketObject}->TicketSearch(
@@ -173,8 +176,8 @@ sub Run {
             push @TicketYAxis, $i
         }
     }
-    my $ClosedText  = $Self->{LayoutObject}->{LanguageObject}->Get('Closed');
-    my $CreatedText = $Self->{LayoutObject}->{LanguageObject}->Get('Created');
+    my $ClosedText  = $Self->{LayoutObject}->{LanguageObject}->Translate('Closed');
+    my $CreatedText = $Self->{LayoutObject}->{LanguageObject}->Translate('Created');
 
     my @ChartData = (
         {

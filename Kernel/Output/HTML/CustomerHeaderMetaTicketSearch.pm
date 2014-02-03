@@ -36,7 +36,7 @@ sub Run {
             . $Self->{LayoutObject}->{SessionID};
     }
     my $Title = $Self->{ConfigObject}->Get('ProductName');
-    $Title .= ' - ' . $Self->{LayoutObject}->{LanguageObject}->Get('Customer');
+    $Title .= ' - ' . $Self->{LayoutObject}->{LanguageObject}->Translate('Customer');
     $Title .= ' (' . $Self->{ConfigObject}->Get('Ticket::Hook') . ')';
     $Self->{LayoutObject}->Block(
         Name => 'MetaLink',

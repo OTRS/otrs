@@ -122,7 +122,8 @@ sub Run {
                 Message => $Self->{LayoutObject}->{LanguageObject}
                     ->Get('Sorry, you need to be the ticket owner to perform this action.'),
                 Comment =>
-                    $Self->{LayoutObject}->{LanguageObject}->Get('Please change the owner first.'),
+                    $Self->{LayoutObject}->{LanguageObject}
+                    ->Translate('Please change the owner first.'),
             );
 
             # show back link

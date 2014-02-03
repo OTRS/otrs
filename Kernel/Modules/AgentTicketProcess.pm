@@ -333,7 +333,8 @@ sub Run {
 
         # translate the error message (as it will be injected in the HTML)
         my $ErrorMessage
-            = $Self->{LayoutObject}->{LanguageObject}->Get("The selected process is invalid!");
+            = $Self->{LayoutObject}->{LanguageObject}
+            ->Translate("The selected process is invalid!");
 
         # return a predefined HTML sctructure as the AJAX call is expecting and HTML response
         return $Self->{LayoutObject}->Attachment(
@@ -1296,7 +1297,8 @@ sub _OutputActivityDialog {
         $Self->{LayoutObject}->Block(
             Name => 'Header',
             Data => {
-                Name => $Self->{LayoutObject}->{LanguageObject}->Get( $ActivityDialog->{Name} )
+                Name =>
+                    $Self->{LayoutObject}->{LanguageObject}->Translate( $ActivityDialog->{Name} )
                     || '',
                 }
         );
@@ -1369,7 +1371,7 @@ sub _OutputActivityDialog {
             Name => 'DescriptionShort',
             Data => {
                 DescriptionShort
-                    => $Self->{LayoutObject}->{LanguageObject}->Get(
+                    => $Self->{LayoutObject}->{LanguageObject}->Translate(
                     $ActivityDialog->{DescriptionShort},
                     ),
             },
@@ -1380,7 +1382,7 @@ sub _OutputActivityDialog {
             Name => 'DescriptionLong',
             Data => {
                 DescriptionLong
-                    => $Self->{LayoutObject}->{LanguageObject}->Get(
+                    => $Self->{LayoutObject}->{LanguageObject}->Translate(
                     $ActivityDialog->{DescriptionLong},
                     ),
             },
@@ -2065,8 +2067,9 @@ sub _RenderPendingTime {
 
     my %Data = (
         Label => (
-            $Self->{LayoutObject}->{LanguageObject}->Get('Pending Date')
-                . ' (' . $Self->{LayoutObject}->{LanguageObject}->Get('for pending* states') . ')'
+            $Self->{LayoutObject}->{LanguageObject}->Translate('Pending Date')
+                . ' ('
+                . $Self->{LayoutObject}->{LanguageObject}->Translate('for pending* states') . ')'
         ),
         FieldID => 'ResponsibleID',
         FormID  => $Param{FormID},
@@ -2076,12 +2079,12 @@ sub _RenderPendingTime {
     if ( IsHashRefWithData( $Param{Error} ) ) {
         if ( $Param{Error}->{'PendingtTimeDay'} ) {
             $Data{PendingtTimeDayError}
-                = $Self->{LayoutObject}->{LanguageObject}->Get("Date invalid!");
+                = $Self->{LayoutObject}->{LanguageObject}->Translate("Date invalid!");
             $Error = $Param{Error}->{'PendingtTimeDay'};
         }
         if ( $Param{Error}->{'PendingtTimeHour'} ) {
             $Data{PendingtTimeHourError}
-                = $Self->{LayoutObject}->{LanguageObject}->Get("Date invalid!");
+                = $Self->{LayoutObject}->{LanguageObject}->Translate("Date invalid!");
             $Error = $Param{Error}->{'PendingtTimeDay'};
         }
     }
@@ -2253,7 +2256,7 @@ sub _RenderTitle {
     }
 
     my %Data = (
-        Label            => $Self->{LayoutObject}->{LanguageObject}->Get("Title"),
+        Label            => $Self->{LayoutObject}->{LanguageObject}->Translate("Title"),
         FieldID          => 'Title',
         FormID           => $Param{FormID},
         Value            => $Param{GetParam}{Title},
@@ -2328,9 +2331,9 @@ sub _RenderArticle {
         Subject          => $Param{GetParam}{Subject},
         Body             => $Param{GetParam}{Body},
         LabelSubject     => $Param{ActivityDialogField}->{Config}->{LabelSubject}
-            || $Self->{LayoutObject}->{LanguageObject}->Get("Subject"),
+            || $Self->{LayoutObject}->{LanguageObject}->Translate("Subject"),
         LabelBody => $Param{ActivityDialogField}->{Config}->{LabelBody}
-            || $Self->{LayoutObject}->{LanguageObject}->Get("Text"),
+            || $Self->{LayoutObject}->{LanguageObject}->Translate("Text"),
     );
 
     # If field is required put in the necessary variables for
@@ -2463,8 +2466,8 @@ sub _RenderCustomer {
     my $SubmittedCustomerUserID = $Param{GetParam}{CustomerUserID};
 
     my %Data = (
-        LabelCustomerUser => $Self->{LayoutObject}->{LanguageObject}->Get("Customer user"),
-        LabelCustomerID   => $Self->{LayoutObject}->{LanguageObject}->Get("CustomerID"),
+        LabelCustomerUser => $Self->{LayoutObject}->{LanguageObject}->Translate("Customer user"),
+        LabelCustomerID   => $Self->{LayoutObject}->{LanguageObject}->Translate("CustomerID"),
         FormID            => $Param{FormID},
         MandatoryClass    => '',
         ValidateRequired  => '',
@@ -2570,7 +2573,7 @@ sub _RenderResponsible {
     my $Responsibles = $Self->_GetResponsibles( %{ $Param{GetParam} } );
 
     my %Data = (
-        Label            => $Self->{LayoutObject}->{LanguageObject}->Get("Responsible"),
+        Label            => $Self->{LayoutObject}->{LanguageObject}->Translate("Responsible"),
         FieldID          => 'ResponsibleID',
         FormID           => $Param{FormID},
         ResponsibleAll   => $Param{GetParam}{ResponsibleAll},
@@ -2726,7 +2729,7 @@ sub _RenderOwner {
     my $Owners = $Self->_GetOwners( %{ $Param{GetParam} } );
 
     my %Data = (
-        Label            => $Self->{LayoutObject}->{LanguageObject}->Get("Owner"),
+        Label            => $Self->{LayoutObject}->{LanguageObject}->Translate("Owner"),
         FieldID          => 'OwnerID',
         FormID           => $Param{FormID},
         OwnerAll         => $Param{GetParam}{OwnerAll},
@@ -2891,7 +2894,7 @@ sub _RenderSLA {
     );
 
     my %Data = (
-        Label            => $Self->{LayoutObject}->{LanguageObject}->Get("SLA"),
+        Label            => $Self->{LayoutObject}->{LanguageObject}->Translate("SLA"),
         FieldID          => 'SLAID',
         FormID           => $Param{FormID},
         MandatoryClass   => '',
@@ -3035,7 +3038,7 @@ sub _RenderService {
     );
 
     my %Data = (
-        Label            => $Self->{LayoutObject}->{LanguageObject}->Get("Service"),
+        Label            => $Self->{LayoutObject}->{LanguageObject}->Translate("Service"),
         FieldID          => 'ServiceID',
         FormID           => $Param{FormID},
         MandatoryClass   => '',
@@ -3182,7 +3185,7 @@ sub _RenderLock {
     );
 
     my %Data = (
-        Label            => $Self->{LayoutObject}->{LanguageObject}->Get("Lock state"),
+        Label            => $Self->{LayoutObject}->{LanguageObject}->Translate("Lock state"),
         FieldID          => 'LockID',
         FormID           => $Param{FormID},
         MandatoryClass   => '',
@@ -3299,7 +3302,7 @@ sub _RenderPriority {
     );
 
     my %Data = (
-        Label            => $Self->{LayoutObject}->{LanguageObject}->Get("Priority"),
+        Label            => $Self->{LayoutObject}->{LanguageObject}->Translate("Priority"),
         FieldID          => 'PriorityID',
         FormID           => $Param{FormID},
         MandatoryClass   => '',
@@ -3420,7 +3423,7 @@ sub _RenderQueue {
     );
 
     my %Data = (
-        Label            => $Self->{LayoutObject}->{LanguageObject}->Get("To queue"),
+        Label            => $Self->{LayoutObject}->{LanguageObject}->Translate("To queue"),
         FieldID          => 'QueueID',
         FormID           => $Param{FormID},
         MandatoryClass   => '',
@@ -3547,7 +3550,7 @@ sub _RenderState {
     my $States = $Self->_GetStates( %{ $Param{Ticket} } );
 
     my %Data = (
-        Label            => $Self->{LayoutObject}->{LanguageObject}->Get("Next ticket state"),
+        Label            => $Self->{LayoutObject}->{LanguageObject}->Translate("Next ticket state"),
         FieldID          => 'StateID',
         FormID           => $Param{FormID},
         MandatoryClass   => '',
@@ -3665,7 +3668,7 @@ sub _RenderType {
     );
 
     my %Data = (
-        Label            => $Self->{LayoutObject}->{LanguageObject}->Get("Type"),
+        Label            => $Self->{LayoutObject}->{LanguageObject}->Translate("Type"),
         FieldID          => 'TypeID',
         FormID           => $Param{FormID},
         MandatoryClass   => '',

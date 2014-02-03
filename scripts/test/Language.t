@@ -73,17 +73,16 @@ for my $OriginalString ( sort keys %Test ) {
 
     # build the parameter string, it looks strange but is correct:
     # History::NewTicket", "2011031110000023", "Postmaster", "3 normal", "open", "9
-    my @Parameters      = @{ $Test{$OriginalString}->{Parameters} };
-    my $ParameterString = '';
-    for my $Parameter (@Parameters) {
-        $ParameterString .= '", "' . $Parameter;
-    }
+    my @Parameters = @{ $Test{$OriginalString}->{Parameters} };
 
     # add translation string to language object
     $LanguageObject->{Translation}->{$OriginalString} = $Test{$OriginalString}->{TranslationString};
 
     # get the translation
-    my $TranslatedString = $LanguageObject->Get( $OriginalString . $ParameterString );
+    my $TranslatedString = $LanguageObject->Translate(
+        $OriginalString,
+        @Parameters,
+    );
 
     # compare with expected translation
     $Self->Is(

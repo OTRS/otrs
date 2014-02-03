@@ -216,7 +216,7 @@ sub EditFieldRender {
 
     if ( $FieldConfig->{TreeView} ) {
         my $TreeSelectionMessage
-            = $Param{LayoutObject}->{LanguageObject}->Get("Show Tree Selection");
+            = $Param{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
         $HTMLString
             .= ' <a href="#" title="'
             . $TreeSelectionMessage
@@ -401,7 +401,7 @@ sub DisplayValueRender {
     if ( $Param{DynamicFieldConfig}->{Config}->{TranslatableValues} ) {
 
         # translate value
-        $Value = $Param{LayoutObject}->{LanguageObject}->Get($Value);
+        $Value = $Param{LayoutObject}->{LanguageObject}->Translate($Value);
     }
 
     # set title as value after update and before limit
@@ -528,7 +528,7 @@ sub SearchFieldRender {
 
     if ( $FieldConfig->{TreeView} ) {
         my $TreeSelectionMessage
-            = $Param{LayoutObject}->{LanguageObject}->Get("Show Tree Selection");
+            = $Param{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
         $HTMLString
             .= ' <a href="#" title="'
             . $TreeSelectionMessage
@@ -609,7 +609,7 @@ sub SearchFieldParameterBuild {
                     && defined $Param{LayoutObject}
                     )
                 {
-                    $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Get($DisplayItem);
+                    $DisplayItem = $Param{LayoutObject}->{LanguageObject}->Translate($DisplayItem);
                 }
 
                 push @DisplayItemList, $DisplayItem;
@@ -629,7 +629,7 @@ sub SearchFieldParameterBuild {
                 && defined $Param{LayoutObject}
                 )
             {
-                $DisplayValue = $Param{LayoutObject}->{LanguageObject}->Get($DisplayValue);
+                $DisplayValue = $Param{LayoutObject}->{LanguageObject}->Translate($DisplayValue);
             }
         }
     }
@@ -810,7 +810,7 @@ sub ValueLookup {
             {
 
                 # translate value
-                $Value = $Param{LanguageObject}->Get($Value);
+                $Value = $Param{LanguageObject}->Translate($Value);
             }
         }
     }
@@ -982,7 +982,7 @@ sub ColumnFilterValuesGet {
 
             my $OriginalValueName = $ColumnFilterValues->{$ValueKey};
             $ColumnFilterValues->{$ValueKey}
-                = $Param{LayoutObject}->{LanguageObject}->Get($OriginalValueName);
+                = $Param{LayoutObject}->{LanguageObject}->Translate($OriginalValueName);
         }
     }
 

@@ -532,7 +532,7 @@ sub Run {
                     if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhone} ) {
                         $URL
                             .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote;\$QEnv{\"ChallengeTokenParam\"}\">"
-                            . $Self->{LayoutObject}->{LanguageObject}->Get('New phone ticket')
+                            . $Self->{LayoutObject}->{LanguageObject}->Translate('New phone ticket')
                             . "</a>";
                     }
                     if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketEmail} ) {
@@ -541,14 +541,15 @@ sub Run {
                         }
                         $URL
                             .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote;\$QEnv{\"ChallengeTokenParam\"}\">"
-                            . $Self->{LayoutObject}->{LanguageObject}->Get('New email ticket')
+                            . $Self->{LayoutObject}->{LanguageObject}->Translate('New email ticket')
                             . "</a>";
                     }
                     if ($URL) {
                         $Output
                             .= $Self->{LayoutObject}->Notify(
-                            Data => $Self->{LayoutObject}->{LanguageObject}->Get(
-                                'Customer %s added", "' . $UserQuote
+                            Data => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                                'Customer %s added',
+                                $UserQuote,
                                 )
                                 . " ( $URL )!",
                             );
@@ -556,8 +557,9 @@ sub Run {
                     else {
                         $Output
                             .= $Self->{LayoutObject}->Notify(
-                            Data => $Self->{LayoutObject}->{LanguageObject}->Get(
-                                'Customer %s added", "' . $UserQuote
+                            Data => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                                'Customer %s added',
+                                $UserQuote,
                                 )
                                 . "!",
                             );

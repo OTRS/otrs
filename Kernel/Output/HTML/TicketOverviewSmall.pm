@@ -389,7 +389,7 @@ sub Run {
                     DynamicFields => 0,
                 );
                 if ( !$Article{Title} ) {
-                    $Article{Title} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                    $Article{Title} = $Self->{LayoutObject}->{LanguageObject}->Translate(
                         'This ticket has no title or subject'
                     );
                 }
@@ -568,7 +568,7 @@ sub Run {
 
                 # set title description
                 my $TitleDesc = $OrderBy eq 'Down' ? 'sorted descending' : 'sorted ascending';
-                $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($TitleDesc);
+                $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Translate($TitleDesc);
                 $Title .= ', ' . $TitleDesc;
             }
 
@@ -634,7 +634,7 @@ sub Run {
 
                     # add title description
                     my $TitleDesc = $OrderBy eq 'Down' ? 'sorted ascending' : 'sorted descending';
-                    $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($TitleDesc);
+                    $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Translate($TitleDesc);
                     $Title .= ', ' . $TitleDesc;
                 }
 
@@ -644,17 +644,19 @@ sub Run {
                 if ( $Column eq 'Title' ) {
 
                     $TranslatedWord
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('From') . ' / ';
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('From') . ' / ';
 
                     if ( $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject' ) {
-                        $TranslatedWord .= $Self->{LayoutObject}->{LanguageObject}->Get('Subject');
+                        $TranslatedWord
+                            .= $Self->{LayoutObject}->{LanguageObject}->Translate('Subject');
                     }
                     elsif ( $Self->{SmallViewColumnHeader} eq 'TicketTitle' ) {
-                        $TranslatedWord .= $Self->{LayoutObject}->{LanguageObject}->Get('Title');
+                        $TranslatedWord
+                            .= $Self->{LayoutObject}->{LanguageObject}->Translate('Title');
                     }
                 }
                 else {
-                    $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get($Column);
+                    $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Translate($Column);
                 }
 
                 my $FilterTitle     = $Column;
@@ -670,7 +672,8 @@ sub Run {
                     $CSS .= ' FilterActive';
                     $FilterTitleDesc = 'filter active';
                 }
-                $FilterTitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($FilterTitleDesc);
+                $FilterTitleDesc
+                    = $Self->{LayoutObject}->{LanguageObject}->Translate($FilterTitleDesc);
                 $FilterTitle .= ', ' . $FilterTitleDesc;
 
                 $Self->{LayoutObject}->Block(
@@ -816,30 +819,34 @@ sub Run {
 
                     # add title description
                     my $TitleDesc = $OrderBy eq 'Down' ? 'sorted ascending' : 'sorted descending';
-                    $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($TitleDesc);
+                    $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Translate($TitleDesc);
                     $Title .= ', ' . $TitleDesc;
                 }
 
                 # translate the column name to write it in the current language
                 my $TranslatedWord;
                 if ( $Column eq 'EscalationTime' ) {
-                    $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('Service Time');
+                    $TranslatedWord
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('Service Time');
                 }
                 elsif ( $Column eq 'EscalationResponseTime' ) {
                     $TranslatedWord
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('First Response Time');
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('First Response Time');
                 }
                 elsif ( $Column eq 'EscalationSolutionTime' ) {
-                    $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('Solution Time');
+                    $TranslatedWord
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('Solution Time');
                 }
                 elsif ( $Column eq 'EscalationUpdateTime' ) {
-                    $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('Update Time');
+                    $TranslatedWord
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('Update Time');
                 }
                 elsif ( $Column eq 'PendingTime' ) {
-                    $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('Pending till');
+                    $TranslatedWord
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('Pending till');
                 }
                 else {
-                    $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get($Column);
+                    $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Translate($Column);
                 }
 
                 my $FilterTitle     = $Column;
@@ -848,7 +855,8 @@ sub Run {
                     $CSS .= ' FilterActive';
                     $FilterTitleDesc = 'filter active';
                 }
-                $FilterTitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($FilterTitleDesc);
+                $FilterTitleDesc
+                    = $Self->{LayoutObject}->{LanguageObject}->Translate($FilterTitleDesc);
                 $FilterTitle .= ', ' . $FilterTitleDesc;
 
                 $Self->{LayoutObject}->Block(
@@ -1026,7 +1034,7 @@ sub Run {
                         # add title description
                         my $TitleDesc
                             = $OrderBy eq 'Down' ? 'sorted ascending' : 'sorted descending';
-                        $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($TitleDesc);
+                        $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Translate($TitleDesc);
                         $Title .= ', ' . $TitleDesc;
                     }
 
@@ -1036,7 +1044,7 @@ sub Run {
                         $FilterTitleDesc = 'filter active';
                     }
                     $FilterTitleDesc
-                        = $Self->{LayoutObject}->{LanguageObject}->Get($FilterTitleDesc);
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate($FilterTitleDesc);
                     $FilterTitle .= ', ' . $FilterTitleDesc;
 
                     $Self->{LayoutObject}->Block(
@@ -1670,7 +1678,7 @@ sub _InitialColumnFilter {
     return if !$Self->{ValidFilterableColumns}->{ $Param{ColumnName} };
 
     my $Label = $Param{Label} || $Param{ColumnName};
-    $Label = $Self->{LayoutObject}->{LanguageObject}->Get($Label);
+    $Label = $Self->{LayoutObject}->{LanguageObject}->Translate($Label);
 
     # set fixed values
     my $Data = [
@@ -1804,7 +1812,7 @@ sub _ColumnFilterJSON {
 
     my $Label = $Param{Label};
     $Label =~ s{ \A DynamicField_ }{}gxms;
-    $Label = $Self->{LayoutObject}->{LanguageObject}->Get($Label);
+    $Label = $Self->{LayoutObject}->{LanguageObject}->Translate($Label);
 
     # set fixed values
     my $Data = [

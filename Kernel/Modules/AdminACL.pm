@@ -566,7 +566,7 @@ sub Run {
         my $ACLName =
             $ACLData->{Name}
             . ' ('
-            . $Self->{LayoutObject}->{LanguageObject}->Get('Copy')
+            . $Self->{LayoutObject}->{LanguageObject}->Translate('Copy')
             . ')';
 
         # otherwise save configuration and return to overview screen

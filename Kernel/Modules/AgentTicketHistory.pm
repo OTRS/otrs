@@ -91,21 +91,11 @@ sub Run {
 
         # replace text
         if ( $Data->{Name} && $Data->{Name} =~ m/^%%/x ) {
-            my %Info = ();
             $Data->{Name} =~ s/^%%//xg;
             my @Values = split( /%%/x, $Data->{Name} );
-            $Data->{Name} = '';
-            for my $Value (@Values) {
-                if ( $Data->{Name} ) {
-                    $Data->{Name} .= "\", ";
-                }
-                $Data->{Name} .= "\"$Value";
-            }
-            if ( !$Data->{Name} ) {
-                $Data->{Name} = '" ';
-            }
-            $Data->{Name} = $Self->{LayoutObject}->{LanguageObject}->Get(
-                'History::' . $Data->{HistoryType} . '", ' . $Data->{Name}
+            $Data->{Name} = $Self->{LayoutObject}->{LanguageObject}->Translate(
+                'History::' . $Data->{HistoryType},
+                @Values,
             );
 
             # remove not needed place holder

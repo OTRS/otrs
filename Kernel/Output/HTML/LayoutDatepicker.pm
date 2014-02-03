@@ -45,16 +45,17 @@ sub DatepickerGetVacationDays {
     for my $Month ( sort keys %{$TimeVacationDays} ) {
         for my $Day ( sort keys %{ $TimeVacationDays->{$Month} } ) {
             $TimeVacationDays->{$Month}->{$Day}
-                = $Self->{LanguageObject}->Get( $TimeVacationDays->{$Month}->{$Day} );
+                = $Self->{LanguageObject}->Translate( $TimeVacationDays->{$Month}->{$Day} );
         }
     }
 
     for my $Year ( sort keys %{$TimeVacationDaysOneTime} ) {
         for my $Month ( sort keys %{ $TimeVacationDaysOneTime->{$Year} } ) {
             for my $Day ( sort keys %{ $TimeVacationDaysOneTime->{$Year}->{$Month} } ) {
-                $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day} = $Self->{LanguageObject}->Get(
+                $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day}
+                    = $Self->{LanguageObject}->Translate(
                     $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day}
-                );
+                    );
             }
         }
     }

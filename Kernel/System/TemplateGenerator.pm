@@ -1058,7 +1058,7 @@ sub _Replace {
             UserLanguage => $Param{Language},
         );
         for my $Field (qw(Type State StateType Lock Priority)) {
-            $Ticket{$Field} = $LanguageObject->Get( $Ticket{$Field} );
+            $Ticket{$Field} = $LanguageObject->Translate( $Ticket{$Field} );
         }
     }
 

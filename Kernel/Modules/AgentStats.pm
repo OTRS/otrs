@@ -1571,7 +1571,7 @@ sub Run {
 
                 if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
                     my $TreeSelectionMessage
-                        = $Param{LayoutObject}->{LanguageObject}->Get("Show Tree Selection");
+                        = $Param{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
                     $BlockData{SelectField}
                         .= ' <a href="#" title="'
                         . $TreeSelectionMessage
@@ -1675,7 +1675,7 @@ sub Run {
 
                 if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
                     my $TreeSelectionMessage
-                        = $Param{LayoutObject}->{LanguageObject}->Get("Show Tree Selection");
+                        = $Param{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
                     $BlockData{SelectField}
                         .= ' <a href="#" title="'
                         . $TreeSelectionMessage
@@ -1812,7 +1812,7 @@ sub Run {
 
                 if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
                     my $TreeSelectionMessage
-                        = $Param{LayoutObject}->{LanguageObject}->Get("Show Tree Selection");
+                        = $Param{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
                     $BlockData{SelectField}
                         .= ' <a href="#" title="'
                         . $TreeSelectionMessage
@@ -2244,8 +2244,8 @@ sub Run {
 
             # PDF Output
             if ( $Self->{PDFObject} ) {
-                my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
-                my $Page      = $Self->{LayoutObject}->{LanguageObject}->Get('Page');
+                my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Translate('printed by');
+                my $Page      = $Self->{LayoutObject}->{LanguageObject}->Translate('Page');
                 my $Time      = $Self->{LayoutObject}->{Time};
                 my $Url       = ' ';
                 if ( $ENV{REQUEST_URI} ) {
@@ -2287,7 +2287,7 @@ sub Run {
                 # output 'No matches found', if no content was given
                 if ( !$CellData->[0]->[0] ) {
                     $CellData->[0]->[0]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('No matches found.');
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate('No matches found.');
                 }
 
                 # page params
@@ -2742,12 +2742,12 @@ sub _ColumnAndRowTranslation {
     }
 
     # translate the headline
-    $Param{HeadArrayRef}->[0] = $Self->{LanguageObject}->Get( $Param{HeadArrayRef}->[0] );
+    $Param{HeadArrayRef}->[0] = $Self->{LanguageObject}->Translate( $Param{HeadArrayRef}->[0] );
 
     if ( $Translation{UseAsXvalue} && $Translation{UseAsXvalue} eq 'Time' ) {
         for my $Word ( @{ $Param{HeadArrayRef} } ) {
             if ( $Word =~ m{ ^ (\w+?) ( \s \d+ ) $ }smx ) {
-                my $TranslatedWord = $Self->{LanguageObject}->Get($1);
+                my $TranslatedWord = $Self->{LanguageObject}->Translate($1);
                 $Word =~ s{ ^ ( \w+? ) ( \s \d+ ) $ }{$TranslatedWord$2}smx;
             }
         }
@@ -2755,7 +2755,7 @@ sub _ColumnAndRowTranslation {
 
     elsif ( $Translation{UseAsXvalue} ) {
         for my $Word ( @{ $Param{HeadArrayRef} } ) {
-            $Word = $Self->{LanguageObject}->Get($Word);
+            $Word = $Self->{LanguageObject}->Translate($Word);
         }
     }
 
@@ -2810,7 +2810,7 @@ sub _ColumnAndRowTranslation {
     if ( $Translation{UseAsValueSeries} && $Translation{UseAsValueSeries} eq 'Time' ) {
         for my $Word ( @{ $Param{StatArrayRef} } ) {
             if ( $Word->[0] =~ m{ ^ (\w+?) ( \s \d+ ) $ }smx ) {
-                my $TranslatedWord = $Self->{LanguageObject}->Get($1);
+                my $TranslatedWord = $Self->{LanguageObject}->Translate($1);
                 $Word->[0] =~ s{ ^ ( \w+? ) ( \s \d+ ) $ }{$TranslatedWord$2}smx;
             }
         }
@@ -2819,7 +2819,7 @@ sub _ColumnAndRowTranslation {
 
         # translate
         for my $Word ( @{ $Param{StatArrayRef} } ) {
-            $Word->[0] = $Self->{LanguageObject}->Get( $Word->[0] );
+            $Word->[0] = $Self->{LanguageObject}->Translate( $Word->[0] );
         }
     }
 

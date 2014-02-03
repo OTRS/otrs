@@ -315,7 +315,7 @@ sub EditFieldRender {
 
     if ( $FieldConfig->{TreeView} ) {
         my $TreeSelectionMessage
-            = $Param{LayoutObject}->{LanguageObject}->Get("Show Tree Selection");
+            = $Param{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
         $HTMLString
             .= ' <a href="#" title="'
             . $TreeSelectionMessage

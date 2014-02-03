@@ -611,7 +611,7 @@ sub Run {
         my $ProcessName =
             $ProcessData->{Name}
             . ' ('
-            . $Self->{LayoutObject}->{LanguageObject}->Get('Copy')
+            . $Self->{LayoutObject}->{LanguageObject}->Translate('Copy')
             . ')';
 
         # generate entity ID

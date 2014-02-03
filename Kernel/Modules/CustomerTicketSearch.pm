@@ -565,13 +565,13 @@ sub Run {
                     );
                     %Data = %Ticket;
                     $Data{Subject} = $Ticket{Title} || 'Untitled';
-                    $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                    $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Translate(
                         'This item has no articles yet.'
                     );
                 }
 
                 for my $Key (qw(State Lock)) {
-                    $Data{$Key} = $Self->{LayoutObject}->{LanguageObject}->Get( $Data{$Key} );
+                    $Data{$Key} = $Self->{LayoutObject}->{LanguageObject}->Translate( $Data{$Key} );
                 }
 
                 $Data{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
@@ -666,7 +666,7 @@ sub Run {
             );
 
             my @CSVHeadTranslated
-                = map { $Self->{LayoutObject}->{LanguageObject}->Get( $HeaderMap{$_} || $_ ); }
+                = map { $Self->{LayoutObject}->{LanguageObject}->Translate( $HeaderMap{$_} || $_ ); }
                 @CSVHead;
 
             my $CSV = $Self->{CSVObject}->Array2CSV(
@@ -709,7 +709,7 @@ sub Run {
                     );
                     %Article = %Ticket;
                     $Article{Subject} = $Ticket{Title} || 'Untitled';
-                    $Article{Body} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                    $Article{Body} = $Self->{LayoutObject}->{LanguageObject}->Translate(
                         'This item has no articles yet.'
                     );
                 }
@@ -886,7 +886,7 @@ sub Run {
                     if ( !%Article ) {
                         %Article = %Ticket;
                         $Article{Subject} = $Ticket{Title} || 'Untitled';
-                        $Article{Body} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                        $Article{Body} = $Self->{LayoutObject}->{LanguageObject}->Translate(
                             'This item has no articles yet.'
                         );
                     }
@@ -1041,7 +1041,7 @@ sub Run {
                     if ( $Self->{$Object} ) {
                         $Item = $Self->{$Object}->$Method( $MethodKey => $Item );
                         if ($Translation) {
-                            $Item = $Self->{LayoutObject}->{LanguageObject}->Get($Item);
+                            $Item = $Self->{LayoutObject}->{LanguageObject}->Translate($Item);
                         }
                     }
                     $Value .= $Item;
@@ -1052,7 +1052,7 @@ sub Run {
                 if ( $Self->{$Object} ) {
                     $Item = $Self->{$Object}->$Method( $MethodKey => $Item );
                     if ($Translation) {
-                        $Item = $Self->{LayoutObject}->{LanguageObject}->Get($Item);
+                        $Item = $Self->{LayoutObject}->{LanguageObject}->Translate($Item);
                     }
                 }
                 $Value = $Item;
@@ -1078,7 +1078,7 @@ sub Run {
                     $Attribute = 'Created between';
                     $Value
                         = $StartDate . ' '
-                        . $Self->{LayoutObject}->{LanguageObject}->Get('and') . ' '
+                        . $Self->{LayoutObject}->{LanguageObject}->Translate('and') . ' '
                         . $StopDate;
                 }
                 else {

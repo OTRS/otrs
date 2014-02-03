@@ -321,7 +321,7 @@ sub _ShowEdit {
         Data        => \@TransitionList,
         Name        => "Transition",
         ID          => "Transition",
-        Title       => $Self->{LayoutObject}->{LanguageObject}->Get("Transition"),
+        Title       => $Self->{LayoutObject}->{LanguageObject}->Translate("Transition"),
         Translation => 1,
         Class       => 'W50pc',
     );

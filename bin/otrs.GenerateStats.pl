@@ -231,8 +231,8 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
     my %User =
         $CommonObject{UserObject}->GetUserData( UserID => $CommonObject{UserID} );
 
-    my $PrintedBy  = $CommonObject{LanguageObject}->Get('printed by');
-    my $Page       = $CommonObject{LanguageObject}->Get('Page');
+    my $PrintedBy  = $CommonObject{LanguageObject}->Translate('printed by');
+    my $Page       = $CommonObject{LanguageObject}->Translate('Page');
     my $SystemTime = $CommonObject{TimeObject}->SystemTime();
     my $TimeStamp =
         $CommonObject{TimeObject}->SystemTime2TimeStamp(
@@ -265,7 +265,7 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
     }
     if ( !$CellData->[0]->[0] ) {
         $CellData->[0]->[0]->{Content} =
-            $CommonObject{LanguageObject}->Get('No Result!');
+            $CommonObject{LanguageObject}->Translate('No Result!');
     }
 
     # page params
@@ -430,7 +430,7 @@ for my $Recipient ( @{ $Opts{r} } ) {
         From       => $Opts{s},
         To         => $Recipient,
         Subject    => "[Stats - $CountStatArray Records] $Title; Created: $Time",
-        Body       => $CommonObject{LanguageObject}->Get( $Opts{m} ),
+        Body       => $CommonObject{LanguageObject}->Translate( $Opts{m} ),
         Charset    => 'utf-8',
         Attachment => [ {%Attachment}, ],
     );

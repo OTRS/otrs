@@ -122,7 +122,7 @@ sub Run {
 
     # generate pdf output
     if ( $Self->{PDFObject} ) {
-        my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
+        my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Translate('printed by');
         my $Time      = $Self->{LayoutObject}->{Time};
         my %Page;
 
@@ -152,7 +152,7 @@ sub Run {
             . $Self->{UserEmail} . ') '
             . $Time;
         $Page{FooterLeft} = '';
-        $Page{PageText}   = $Self->{LayoutObject}->{LanguageObject}->Get('Page');
+        $Page{PageText}   = $Self->{LayoutObject}->{LanguageObject}->Translate('Page');
         $Page{PageCount}  = 1;
 
         # create new pdf document
@@ -170,8 +170,8 @@ sub Run {
         # type of print tag
         my $PrintTag = '';
 
-        $PrintTag = ( $Self->{LayoutObject}->{LanguageObject}->Get('Ticket') ) . ' ' .
-            ( $Self->{LayoutObject}->{LanguageObject}->Get('Print') );
+        $PrintTag = ( $Self->{LayoutObject}->{LanguageObject}->Translate('Ticket') ) . ' ' .
+            ( $Self->{LayoutObject}->{LanguageObject}->Translate('Print') );
 
         # output headline
         $Self->{PDFObject}->Text(
@@ -284,8 +284,8 @@ sub _PDFOutputTicketInfos {
     for my $Attribute (qw(State Priority Queue Owner)) {
         if ( $Self->{Config}->{AttributesView}->{$Attribute} ) {
             my $Row = {
-                Key   => $Self->{LayoutObject}->{LanguageObject}->Get($Attribute) . ':',
-                Value => $Self->{LayoutObject}->{LanguageObject}->Get( $Ticket{$Attribute} )
+                Key   => $Self->{LayoutObject}->{LanguageObject}->Translate($Attribute) . ':',
+                Value => $Self->{LayoutObject}->{LanguageObject}->Translate( $Ticket{$Attribute} )
                     || $Ticket{$Attribute},
             };
             push( @{$TableLeft}, $Row );
@@ -300,7 +300,7 @@ sub _PDFOutputTicketInfos {
         )
     {
         my $Row = {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Responsible') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Translate('Responsible') . ':',
             Value => $Ticket{Responsible},
         };
         push( @{$TableLeft}, $Row );
@@ -309,7 +309,7 @@ sub _PDFOutputTicketInfos {
     # add type row, if feature is enabled
     if ( $Self->{ConfigObject}->Get('Ticket::Type') && $Self->{Config}->{AttributesView}->{Type} ) {
         my $Row = {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Type') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Translate('Type') . ':',
             Value => $Ticket{Type},
         };
         push( @{$TableLeft}, $Row );
@@ -322,7 +322,7 @@ sub _PDFOutputTicketInfos {
         )
     {
         my $RowService = {
-            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Service') . ':',
+            Key => $Self->{LayoutObject}->{LanguageObject}->Translate('Service') . ':',
             Value => $Ticket{Service} || '-',
         };
         push( @{$TableLeft}, $RowService );
@@ -332,7 +332,7 @@ sub _PDFOutputTicketInfos {
     if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Self->{Config}->{AttributesView}->{SLA} )
     {
         my $RowSLA = {
-            Key => $Self->{LayoutObject}->{LanguageObject}->Get('SLA') . ':',
+            Key => $Self->{LayoutObject}->{LanguageObject}->Translate('SLA') . ':',
             Value => $Ticket{SLA} || '-',
         };
         push( @{$TableLeft}, $RowSLA );
@@ -341,15 +341,15 @@ sub _PDFOutputTicketInfos {
     # create right table
     my $TableRight = [
         {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Translate('CustomerID') . ':',
             Value => $Ticket{CustomerID},
         },
         {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Age') . ':',
-            Value => $Self->{LayoutObject}->{LanguageObject}->Get( $Ticket{Age} ),
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Translate('Age') . ':',
+            Value => $Self->{LayoutObject}->{LanguageObject}->Translate( $Ticket{Age} ),
         },
         {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Created') . ':',
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Translate('Created') . ':',
             Value => $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
                 $Ticket{Created},
                 'DateFormat',
@@ -464,7 +464,8 @@ sub _PDFOutputTicketDynamicFields {
             LayoutObject       => $Self->{LayoutObject},
         );
         $TableParam{CellData}[$Row][0]{Content}
-            = $Self->{LayoutObject}->{LanguageObject}->Get( $DynamicFieldConfig->{Label} ) . ':';
+            = $Self->{LayoutObject}->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} )
+            . ':';
         $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
         $TableParam{CellData}[$Row][1]{Content} = $ValueStrg->{Value};
 
@@ -486,7 +487,7 @@ sub _PDFOutputTicketDynamicFields {
 
         # output headline
         $Self->{PDFObject}->Text(
-            Text     => $Self->{LayoutObject}->{LanguageObject}->Get('Ticket Dynamic Fields'),
+            Text     => $Self->{LayoutObject}->{LanguageObject}->Translate('Ticket Dynamic Fields'),
             Height   => 7,
             Type     => 'Cut',
             Font     => 'ProportionalBoldItalic',
@@ -558,7 +559,7 @@ sub _PDFOutputCustomerInfos {
     for my $Field ( @{$Map} ) {
         if ( ${$Field}[3] && $CustomerData{ ${$Field}[0] } ) {
             $TableParam{CellData}[$Row][0]{Content}
-                = $Self->{LayoutObject}->{LanguageObject}->Get( ${$Field}[1] ) . ':';
+                = $Self->{LayoutObject}->{LanguageObject}->Translate( ${$Field}[1] ) . ':';
             $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
             $TableParam{CellData}[$Row][1]{Content} = $CustomerData{ ${$Field}[0] };
 
@@ -579,7 +580,7 @@ sub _PDFOutputCustomerInfos {
 
         # output headline
         $Self->{PDFObject}->Text(
-            Text     => $Self->{LayoutObject}->{LanguageObject}->Get('Customer Information'),
+            Text     => $Self->{LayoutObject}->{LanguageObject}->Translate('Customer Information'),
             Height   => 7,
             Type     => 'Cut',
             Font     => 'ProportionalBoldItalic',
@@ -646,7 +647,7 @@ sub _PDFOutputArticles {
 
             # output headline
             $Self->{PDFObject}->Text(
-                Text     => $Self->{LayoutObject}->{LanguageObject}->Get('Articles'),
+                Text     => $Self->{LayoutObject}->{LanguageObject}->Translate('Articles'),
                 Height   => 7,
                 Type     => 'Cut',
                 Font     => 'ProportionalBoldItalic',
@@ -699,14 +700,14 @@ sub _PDFOutputArticles {
         for my $Parameter (qw(From To Cc Subject)) {
             if ( $Article{$Parameter} ) {
                 $TableParam1{CellData}[$Row][0]{Content}
-                    = $Self->{LayoutObject}->{LanguageObject}->Get($Parameter) . ':';
+                    = $Self->{LayoutObject}->{LanguageObject}->Translate($Parameter) . ':';
                 $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
                 $TableParam1{CellData}[$Row][1]{Content} = $Article{$Parameter};
                 $Row++;
             }
         }
         $TableParam1{CellData}[$Row][0]{Content}
-            = $Self->{LayoutObject}->{LanguageObject}->Get('Created') . ':';
+            = $Self->{LayoutObject}->{LanguageObject}->Translate('Created') . ':';
         $TableParam1{CellData}[$Row][0]{Font} = 'ProportionalBold';
         $TableParam1{CellData}[$Row][1]{Content}
             = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
@@ -714,9 +715,9 @@ sub _PDFOutputArticles {
             'DateFormat',
             ),
             $TableParam1{CellData}[$Row][1]{Content}
-            .= ' ' . $Self->{LayoutObject}->{LanguageObject}->Get('by');
+            .= ' ' . $Self->{LayoutObject}->{LanguageObject}->Translate('by');
         $TableParam1{CellData}[$Row][1]{Content}
-            .= ' ' . $Self->{LayoutObject}->{LanguageObject}->Get( $Article{SenderType} );
+            .= ' ' . $Self->{LayoutObject}->{LanguageObject}->Translate( $Article{SenderType} );
         $Row++;
 
         # get the dynamic fields for ticket object
@@ -755,7 +756,7 @@ sub _PDFOutputArticles {
                 LayoutObject       => $Self->{LayoutObject},
             );
             $TableParam1{CellData}[$Row][0]{Content}
-                = $Self->{LayoutObject}->{LanguageObject}->Get( $DynamicFieldConfig->{Label} )
+                = $Self->{LayoutObject}->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} )
                 . ':';
             $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
             $TableParam1{CellData}[$Row][1]{Content} = $ValueStrg->{Value};
@@ -763,15 +764,15 @@ sub _PDFOutputArticles {
         }
 
         $TableParam1{CellData}[$Row][0]{Content}
-            = $Self->{LayoutObject}->{LanguageObject}->Get('Type') . ':';
+            = $Self->{LayoutObject}->{LanguageObject}->Translate('Type') . ':';
         $TableParam1{CellData}[$Row][0]{Font} = 'ProportionalBold';
         $TableParam1{CellData}[$Row][1]{Content}
-            = $Self->{LayoutObject}->{LanguageObject}->Get( $Article{ArticleType} );
+            = $Self->{LayoutObject}->{LanguageObject}->Translate( $Article{ArticleType} );
         $Row++;
 
         if ($Attachments) {
             $TableParam1{CellData}[$Row][0]{Content}
-                = $Self->{LayoutObject}->{LanguageObject}->Get('Attachment') . ':';
+                = $Self->{LayoutObject}->{LanguageObject}->Translate('Attachment') . ':';
             $TableParam1{CellData}[$Row][0]{Font} = 'ProportionalBold';
             chomp($Attachments);
             $TableParam1{CellData}[$Row][1]{Content} = $Attachments;

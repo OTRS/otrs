@@ -652,7 +652,7 @@ sub ShowTicketStatus {
         $Article{CustomerAge}
             = $Self->{LayoutObject}->CustomerAge( Age => $Ticket{Age}, Space => ' ' ) || 0;
         $Article{Body}
-            = $Self->{LayoutObject}->{LanguageObject}->Get('This item has no articles yet.');
+            = $Self->{LayoutObject}->{LanguageObject}->Translate('This item has no articles yet.');
     }
 
     # otherwise return article information

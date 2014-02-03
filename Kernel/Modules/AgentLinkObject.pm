@@ -342,7 +342,7 @@ sub Run {
                         }
 
                         # translate the type name
-                        $TypeName = $Self->{LayoutObject}->{LanguageObject}->Get($TypeName);
+                        $TypeName = $Self->{LayoutObject}->{LanguageObject}->Translate($TypeName);
 
                         # output an error notification
                         $Output .= $Self->{LayoutObject}->Notify(

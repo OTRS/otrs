@@ -75,9 +75,9 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
                     UserLanguage => $Language,
                 );
 
-                $Selenium->text_is( "//h1", $LanguageObject->Get('Edit your preferences') );
+                $Selenium->text_is( "//h1", $LanguageObject->Translate('Edit your preferences') );
                 $Selenium->is_text_present_ok(
-                    $LanguageObject->Get('Preferences updated successfully!')
+                    $LanguageObject->Translate('Preferences updated successfully!')
                 );
             }
             return 1;

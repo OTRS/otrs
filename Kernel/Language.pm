@@ -220,7 +220,32 @@ sub new {
     return $Self;
 }
 
+=item Translate()
+
+translate a text with placeholders.
+
+        my $Text = $LanguageObject->Translate('Hello %s!', 'world');
+
+=cut
+
+sub Translate {
+    my ( $Self, $Text, @Parameters ) = @_;
+
+    $Text = $Self->{Translation}->{$Text} || $Text;
+
+    return $Text if !@Parameters;
+
+    for ( 0 .. $#Parameters ) {
+        return $Text if !defined $Parameters[$_];
+        $Text =~ s/\%(s|d)/$Parameters[$_]/;
+    }
+
+    return $Text;
+}
+
 =item Get()
+
+WARNING: THIS METHOD IS DEPRECATED AND WILL BE REMOVED IN FUTURE VERSION OF OTRS! USE Translate() INSTEAD.
 
 Translate a string.
 
@@ -230,7 +255,7 @@ Translate a string.
 
     my $String = 'History::NewTicket", "2011031110000023", "Postmaster", "3 normal", "open", "9';
 
-    my $TranslatedString = $LanguageObject->Get( $String );
+    my $TranslatedString = $LanguageObject->Translate( $String );
 
 =cut
 
@@ -316,29 +341,6 @@ sub Get {
     }
 
     return $What;
-}
-
-=item Translate()
-
-translate a text with placeholders.
-
-        my $Text = $LanguageObject->Translate('Hello %s!', 'world');
-
-=cut
-
-sub Translate {
-    my ( $Self, $Text, @Parameters ) = @_;
-
-    $Text = $Self->{Translation}->{$Text} || $Text;
-
-    return $Text if !@Parameters;
-
-    for ( 0 .. $#Parameters ) {
-        return $Text if !defined $Parameters[$_];
-        $Text =~ s/\%(s|d)/$Parameters[$_]/;
-    }
-
-    return $Text;
 }
 
 =item FormatTimeString()

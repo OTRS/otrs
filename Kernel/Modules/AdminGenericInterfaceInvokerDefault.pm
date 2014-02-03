@@ -653,7 +653,7 @@ sub _ShowScreen {
             Name         => $Type . 'Event',
             Sort         => 'AlphanumericValue',
             PossibleNone => 0,
-            Title        => $Self->{LayoutObject}->{LanguageObject}->Get('Event'),
+            Title        => $Self->{LayoutObject}->{LanguageObject}->Translate('Event'),
             Class        => 'EventList GenericInterfaceSpacing ' . $EventListHidden,
         );
 

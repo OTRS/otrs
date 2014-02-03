@@ -498,7 +498,7 @@ sub _ShowScreen {
 
     # show the names of the other fields to ease ordering
     my %OrderNamesList;
-    my $CurrentlyText = $Self->{LayoutObject}->{LanguageObject}->Get('Currently') . ': ';
+    my $CurrentlyText = $Self->{LayoutObject}->{LanguageObject}->Translate('Currently') . ': ';
     for my $OrderNumber ( sort @DynamicfieldOrderList ) {
         $OrderNamesList{$OrderNumber} = $OrderNumber;
         if ( $DynamicfieldNamesList{$OrderNumber} && $OrderNumber ne $Param{FieldOrder} ) {

@@ -48,7 +48,7 @@ sub Run {
         },
     );
 
-    my $Fulltext = $Self->{LayoutObject}->{LanguageObject}->Get('Fulltext');
+    my $Fulltext = $Self->{LayoutObject}->{LanguageObject}->Translate('Fulltext');
     $Title = $Self->{ConfigObject}->Get('ProductName');
     $Title .= ' (' . $Fulltext . ')';
     $Self->{LayoutObject}->Block(
