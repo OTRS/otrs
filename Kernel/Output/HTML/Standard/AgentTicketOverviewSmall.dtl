@@ -58,10 +58,14 @@
 <!-- dtl:block:OverviewNavBarPageFlag -->
                     <th class="$QData{"CSS"}">
 <!-- dtl:block:OverviewNavBarPageFlagLink -->
-                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=$LQData{"Name"};OrderBy=$LQData{"OrderBy"}" title="$Text{"$Data{"Title"}"}"></a>
+                        <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"};$Data{"LinkSort"};SortBy=$LQData{"Name"};OrderBy=$LQData{"OrderBy"}" title="$Text{"$Data{"Title"}"}">
+                            <em class="PrintOnly">$Data{"Title"}</em>
+                        </a>
 <!-- dtl:block:OverviewNavBarPageFlagLink -->
 <!-- dtl:block:OverviewNavBarPageFlagEmpty -->
-                        <span title="$Text{"$Data{"Name"}"}"></span>
+                        <span title="$Text{"$Data{"Name"}"}">
+                            <em class="PrintOnly">$Data{"Name"}</em>
+                        </span>
 <!-- dtl:block:OverviewNavBarPageFlagEmpty -->
                     </th>
 <!-- dtl:block:OverviewNavBarPageFlag -->
@@ -79,7 +83,7 @@
                         <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
                             <i class="icon-filter"></i>
                         </a>
-                        <div class="ColumnSettingsContainer">
+                        <div class="ColumnSettingsContainer DontPrint">
                             <div class="ColumnSettingsBox">
                                 $Data{"ColumnFilterStrg"}
 
@@ -104,7 +108,7 @@ Core.Agent.TableFilters.InitCustomerUserAutocomplete( $(".CustomerUserAutoComple
                         <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
                             <i class="icon-filter"></i>
                         </a>
-                        <div class="ColumnSettingsContainer">
+                        <div class="ColumnSettingsContainer DontPrint">
                             <div class="ColumnSettingsBox">
                                 $Data{"ColumnFilterStrg"}
 
@@ -161,7 +165,7 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
                         <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
                             <i class="icon-filter"></i>
                         </a>
-                        <div class="ColumnSettingsContainer">
+                        <div class="ColumnSettingsContainer DontPrint">
                             <div class="ColumnSettingsBox">
                                 $Data{"ColumnFilterStrg"}
                             </div>
@@ -173,7 +177,7 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
                         <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
                             <i class="icon-filter"></i>
                         </a>
-                        <div class="ColumnSettingsContainer">
+                        <div class="ColumnSettingsContainer DontPrint">
                             <div class="ColumnSettingsBox">
                                 $Data{"ColumnFilterStrg"}
                             </div>
@@ -201,7 +205,7 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
 #                            <i class="icon-filter"></i>
 #                        </a>
-#                        <div class="ColumnSettingsContainer">
+#                        <div class="ColumnSettingsContainer DontPrint">
 #                            <div class="ColumnSettingsBox">
 #                                $Data{"ColumnFilterStrg"}
 #                            </div>
@@ -212,7 +216,7 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
 #                            <i class="icon-filter"></i>
 #                        </a>
-#                        <div class="ColumnSettingsContainer">
+#                        <div class="ColumnSettingsContainer DontPrint">
 #                            <div class="ColumnSettingsBox">
 #                                $Data{"ColumnFilterStrg"}
 #                            </div>
@@ -233,7 +237,7 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
 #                            <i class="icon-filter"></i>
 #                        </a>
-#                        <div class="ColumnSettingsContainer">
+#                        <div class="ColumnSettingsContainer DontPrint">
 #                            <div class="ColumnSettingsBox">
 #                                $Data{"ColumnFilterStrg"}
 #                            </div>
@@ -244,7 +248,7 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #                        <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
 #                            <i class="icon-filter"></i>
 #                        </a>
-#                        <div class="ColumnSettingsContainer">
+#                        <div class="ColumnSettingsContainer DontPrint">
 #                            <div class="ColumnSettingsBox">
 #                                $Data{"ColumnFilterStrg"}
 #                            </div>
