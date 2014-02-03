@@ -59,7 +59,12 @@ sub Run {
         $Param{Message} .= "$Online{$_}";
     }
     if ( $Param{Message} ) {
-        return $Self->{LayoutObject}->Notify( Info => 'Online Customer: %s", "' . $Param{Message} );
+        return $Self->{LayoutObject}->Notify(
+            Info => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                'Online Customer: %s',
+                $Param{Message},
+            ),
+        );
     }
     else {
         return '';
