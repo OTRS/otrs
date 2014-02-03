@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-02-03 Fixed bug#[7440](http://bugs.otrs.org/show_bug.cgi?id=7440) - Ticket overviews don't show column headers for priority and unread articles in small mode.
  - 2014-02-03 Added process management canvas label spacer to avoid overlapping transition labels.
  - 2014-01-31 Fixed bug#[6802](http://bugs.otrs.org/show_bug.cgi?id=6802) - Navigation broken if many modules installed.
  - 2014-01-31 Fixed bug#[4512](http://bugs.otrs.org/show_bug.cgi?id=4512) - HTMLUtils ToAscii forces line breake on fixed line-length 78.
