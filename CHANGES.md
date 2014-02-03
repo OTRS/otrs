@@ -1,4 +1,5 @@
 #3.3.5 2014-??-??
+ - 2014-02-03 Added process management canvas label spacer to avoid overlapping transition labels.
  - 2014-01-31 Fixed bug#[10212](http://bugs.otrs.org/show_bug.cgi?id=10212) - My tickets & Company tickets in 3.3.4.
  - 2014-01-31 Fixed bug#[10211](http://bugs.otrs.org/show_bug.cgi?id=10211) - Dashbord: Widget DefaultColumns is not working.
  - 2014-01-31 Fixed bug#[10163](http://bugs.otrs.org/show_bug.cgi?id=10163) - subject shows only 30 characters.

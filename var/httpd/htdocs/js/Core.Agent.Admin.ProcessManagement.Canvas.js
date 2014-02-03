@@ -545,20 +545,12 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             // We don't create the Endpoints here, because every Activity
             // creates its own Endpoint on CreateActivity()
             jsPlumb.connect({
-                connector: [ 'Flowchart', { curviness: 0, margin: -1, showLoopback:false } ],
-                paintStyle: { strokeStyle: "#000", lineWidth: 2 },
                 source: 'StartEvent',
                 target: EntityID,
                 anchor: 'Continuous',
                 endpoint: 'Blank',
                 detachable: true,
                 reattach: true,
-                overlays: [
-                    [ "PlainArrow", { location: -15, width: 20, length: 15 } ]
-                ],
-                parameters: {
-                    'ID': 'StartTransition'
-                }
             });
         }
     };
@@ -598,9 +590,6 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         PopupPath = Core.Config.Get('Config.PopupPathPath') + "ProcessEntityID=" + ProcessEntityID + ";TransitionEntityID=" + EntityID + ";StartActivityID=" + StartElement;
 
         Connection = jsPlumb.connect({
-            connector: [ 'Flowchart', { curviness: 0, margin: -1, showLoopback:false } ],
-            paintStyle: { strokeStyle: "#000", lineWidth: 2 },
-            hoverPaintStyle: { strokeStyle: "#FF9922", lineWidth: 2 },
             source: StartActivity,
             target: EndActivity,
             anchor: 'Continuous',
@@ -613,8 +602,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             reattach: true,
             overlays: [
                 [ "Diamond", { location: 18, width: 15, length: 25, paintStyle: { fillStyle: '#FFF', outlineWidth: 1, outlineColor: '#000'} } ],
-                [ "PlainArrow", { location: -15, width: 20, length: 15 } ],
-                [ "Label", { label: EscapeHTML(TransitionName), location: 0.5, cssClass: 'TransitionLabel', id: EntityID, events: {
+                [ "Label", { label: EscapeHTML(TransitionName), location: 0.5, cssClass: 'TransitionLabel', id: 'label', events: {
                     mouseenter: function(labelOverlay, originalEvent) {
                         TargetNS.LastTransitionDetails = {
                             LabelOverlay: labelOverlay,
@@ -633,32 +621,26 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 }}]
             ],
             parameters: {
-                "TransitionID": EntityID
+                TransitionID: EntityID
             }
         });
 
         Connection.bind('mouseenter', function (ActiveConnection) {
-            var Overlays = Connection.getOverlays();
-            $.each(Overlays, function (Id, Overlay) {
-                if (Overlay.type !== 'Label') {
-                    return;
-                }
+            var Overlay = Connection.getOverlay('label');
 
-                // add class to label
+            // add class to label
+            if (Overlay) {
                 $(Overlay.canvas).addClass('Hovered');
-            });
+            }
         });
 
         Connection.bind('mouseexit', function (ActiveConnection) {
-            var Overlays = Connection.getOverlays();
-            $.each(Overlays, function (Id, Overlay) {
-                if (Overlay.type !== 'Label') {
-                    return;
-                }
+            var Overlay = Connection.getOverlay('label');
 
-                // remove hover class from label
+            // remove hover class from label
+            if (Overlay) {
                 $(Overlay.canvas).removeClass('Hovered');
-            });
+            }
         });
 
         Connection.bind('dblclick', function(Connection, Event) {
@@ -680,7 +662,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
             ProcessEntityID = $('#ProcessEntityID').val(),
             Path = Config.Process[ProcessEntityID].Path,
-            TransitionEntityID = Connection.id,
+            TransitionEntityID = Connection.component.getParameter('TransitionID'),
             StartActivityID = Connection.component.sourceId,
             PopupPath = Core.Config.Get('Config.PopupPathPath') + "ProcessEntityID=" + ProcessEntityID + ";TransitionEntityID=" + TransitionEntityID + ";StartActivityID=" + StartActivityID,
             Transition;
@@ -756,9 +738,14 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             StartActivity = Config.Process[ProcessEntityID].StartActivity;
 
         // Set some jsPlumb defaults
-        jsPlumb.Defaults.Connector  = [ 'Flowchart', { curviness: 0, margin: -1, showLoopback:false } ];
-        jsPlumb.Defaults.PaintStyle = { strokeStyle: "#000", lineWidth: 2 };
-        jsPlumb.Defaults.Anchor     = 'Continuous';
+        jsPlumb.importDefaults({
+            Connector: [ 'Flowchart', { curviness: 0, margin: -1, showLoopback:false } ],
+            PaintStyle: { strokeStyle: "#000", lineWidth: 2 },
+            HoverPaintStyle: { strokeStyle: "#FF9922", lineWidth: 2 },
+            ConnectionOverlays: [
+                [ "PlainArrow", { location: -15, width: 20, length: 15 } ]
+            ]
+        });
 
         // Always start with drawing the start event element
         TargetNS.CreateStartEvent();
@@ -866,6 +853,9 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // reset, because at this point (initial draw or redraw), there cannot be a saved connection
         TargetNS.LatestConnectionTransitionID = undefined;
 
+        // init label spacer
+        var CanvasLabelSpacer = new LabelSpacer();
+
         // init binding to connection changes
         jsPlumb.bind('connection', function(Data, OriginalEvent) {
             var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
@@ -876,13 +866,8 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             // check if we need to register a new StartActivity
             if (Data.sourceId === 'StartEvent') {
                 Config.Process[ProcessEntityID].StartActivity = Data.targetId;
-
-                // Correct transition arrows
-                Data.connection.setPaintStyle({ strokeStyle: "#000", lineWidth: 2 });
-                Data.connection.setHoverPaintStyle({ strokeStyle: "#FF9922", lineWidth: 2 });
-                Data.connection.addOverlay([ "PlainArrow", { location: -15, width: 20, length: 15 } ]);
-
             }
+
             // in case the target is the dummy, its a whole new transition
             // and we need to mark it as "to be connected", so the user will
             // see that there is something to do with it
@@ -923,25 +908,9 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                     Path[Data.sourceId][TransitionID].ActivityEntityID = Data.targetId;
                 }
 
-                // Correcting connection: setting parameters and overlays
-                Data.connection.setParameter('TransitionID', TransitionID);
+                // set connection style to blackagain (if it was red before)
                 Data.connection.setPaintStyle({ strokeStyle: "#000", lineWidth: 2 });
-                Data.connection.setHoverPaintStyle({ strokeStyle: "#FF9922", lineWidth: 2 });
-                Data.connection.addOverlay([ "Diamond", { location: 18, width: 15, length: 25, paintStyle: { fillStyle: '#FFF', outlineWidth: 1, outlineColor: '#000'} } ]);
-                Data.connection.addOverlay([ "PlainArrow", { location: -15, width: 20, length: 15 } ]);
-                Data.connection.addOverlay([ "Label", { label: EscapeHTML(TransitionName), location: 0.5, cssClass: 'TransitionLabel', id: TransitionID, events: {
-                    mouseenter: function(labelOverlay, originalEvent) {
-                        TargetNS.LastTransitionDetails = {
-                            LabelOverlay: labelOverlay,
-                            StartElement: Data.sourceId,
-                            EndElement: Data.targetId
-                        };
-                        TargetNS.HighlightTransitionLabel(labelOverlay, Data.sourceId, Data.targetId);
-                    },
-                    mouseexit: function(labelOverlay, originalEvent) {
-                        TargetNS.UnHighlightTransitionLabel(labelOverlay);
-                    }
-                } } ]);
+                Data.targetEndpoint.setPaintStyle({ fillStyle: "#000" });
             }
         });
 
@@ -956,7 +925,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
     TargetNS.ShowEntityIDs = function () {
 
-        var ActivityEntityID, TransitionEntityID, Connections, Overlays;
+        var ActivityEntityID, TransitionEntityID, Connections, Overlay;
 
         // show EntityIDs of Activities
         $('.Activity').each(function() {
@@ -968,12 +937,10 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         Connections = jsPlumb.getConnections();
         $(Connections).each(function() {
             TransitionEntityID = this.getParameter('TransitionID');
-            Overlays = this.getOverlays();
-            $(Overlays).each(function() {
-                if (this.type === 'Label') {
-                   $(this.canvas).append('<em class="EntityID">' + TransitionEntityID + '</em>');
-                }
-            });
+            Overlay = this.getOverlay('label');
+            if (Overlay) {
+                $(Overlay.canvas).append('<em class="EntityID">' + TransitionEntityID + '</em>');
+            }
         });
 
     };

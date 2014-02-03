@@ -14,6 +14,8 @@
                     <CSS>Core.Agent.Admin.ProcessManagement.css</CSS>
                     <CSS>Core.AllocationList.css</CSS>
                     <JavaScript>thirdparty/jsplumb-1.5.5/jsplumb.js</JavaScript>
+                    <JavaScript>thirdparty/farahey-0.1/farahey.js</JavaScript>
+                    <JavaScript>thirdparty/jsplumb-labelspacer/label-spacer.js</JavaScript>
                     <JavaScript>Core.Agent.Admin.ProcessManagement.js</JavaScript>
                     <JavaScript>Core.Agent.Admin.ProcessManagement.Canvas.js</JavaScript>
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
