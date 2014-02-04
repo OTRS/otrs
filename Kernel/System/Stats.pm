@@ -618,7 +618,9 @@ sub StatsDelete {
 
 fetches all statistics that the current user may see
 
-    my $StatsRef = $StatsObject->StatsListGet();
+    my $StatsRef = $StatsObject->StatsListGet(
+        AccessRw => 1, # Optional, indicates that user may see all statistics
+    );
 
     Returns
 
@@ -680,8 +682,9 @@ sub StatsListGet {
             StatID             => $StatID,
             NoObjectAttributes => 1,
         );
+
         my $UserPermission = 0;
-        if ( $Self->{AccessRw} || $Self->{UserID} == 1 ) {
+        if ( $Param{AccessRw} || $Self->{UserID} == 1 ) {
             $UserPermission = 1;
         }
 
@@ -712,6 +715,7 @@ sub StatsListGet {
 lists all stats id's
 
     my $ArrayRef = $StatsObject->GetStatsList(
+        AccessRw  => 1, # Optional, indicates that user may see all statistics
         OrderBy   => 'ID' || 'Title' || 'Object', # optional
         Direction => 'ASC' || 'DESC',             # optional
     );
@@ -724,14 +728,7 @@ sub GetStatsList {
     $Param{OrderBy}   ||= 'ID';
     $Param{Direction} ||= 'ASC';
 
-    my $CacheKey = "GetStatsList::OrderBy::$Param{OrderBy}::Direction::$Param{Direction}";
-    my $Cache    = $Self->{CacheObject}->Get(
-        Type => 'Stats',
-        Key  => $CacheKey,
-    );
-    return $Cache if ref $Cache eq 'ARRAY';
-
-    my %ResultHash = %{ $Self->StatsListGet() || {} };
+    my %ResultHash = %{ $Self->StatsListGet(%Param) || {} };
 
     my @SortArray;
 
@@ -746,13 +743,6 @@ sub GetStatsList {
     if ( $Param{Direction} eq 'DESC' ) {
         @SortArray = reverse @SortArray;
     }
-
-    $Self->{CacheObject}->Set(
-        Type  => 'Stats',
-        Key   => $CacheKey,
-        Value => \@SortArray,
-        TTL   => 24 * 60 * 60,
-    );
 
     return \@SortArray;
 }
