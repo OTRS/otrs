@@ -265,6 +265,13 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 // (which is hidden but is still used for the action)
                 $SelectObj.val(SelectedNodes);
             }
+
+            // if the node has really been selected (not initially by the code, but by using keyboard or mouse)
+            // we need to check if we can now select the submit button
+            if ((data.rslt.e && data.rslt.e.type !== undefined) && !InDialog && !Multiple) {
+                $TreeObj.next('#SubmitTree').focus();
+            }
+
         })
         .bind("deselect_node.jstree", function (event, data) {
 
