@@ -88,6 +88,7 @@ sub Run {
 
         # get all Stats from the db
         my $Result = $Self->{StatsObject}->GetStatsList(
+            AccessRw  => $Self->{AccessRw},
             OrderBy   => $Param{OrderBy},
             Direction => $Param{Direction},
         );
