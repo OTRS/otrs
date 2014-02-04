@@ -698,10 +698,6 @@ sub MaskAgentZoom {
     # age design
     $Ticket{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Ticket{Age}, Space => ' ' );
 
-    # queue and service design (allow line breaks)
-    $Ticket{Queue} =~ s{::}{ :: }xmsg if $Ticket{Queue};
-    $Ticket{Service} =~ s{::}{ :: }xmsg if $Ticket{Service};
-
     # number of articles
     $Param{ArticleCount} = scalar @ArticleBox;
 
