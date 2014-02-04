@@ -1261,7 +1261,7 @@ CREATE TABLE dynamic_field_value (
     value_int BIGINT NULL,
     PRIMARY KEY(id)
 );
-CREATE INDEX dynamic_field_value_field_values ON dynamic_field_value (object_id);
+CREATE INDEX dynamic_field_value_field_values ON dynamic_field_value (object_id, field_id);
 CREATE INDEX dynamic_field_value_search_date ON dynamic_field_value (field_id, value_date);
 CREATE INDEX dynamic_field_value_search_int ON dynamic_field_value (field_id, value_int);
 -- ----------------------------------------------------------

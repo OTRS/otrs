@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <database Name="otrs">
 
+<TableAlter Name="dynamic_field_value">
+
+    <!-- improve index -->
+    <IndexDrop Name="dynamic_field_value_field_values"/>
+    <IndexCreate Name="dynamic_field_value_field_values">
+        <IndexColumn Name="object_id"/>
+        <IndexColumn Name="field_id"/>
+    </IndexCreate>
+
+</TableAlter>
+
+
 </database>

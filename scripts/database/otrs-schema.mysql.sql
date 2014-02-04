@@ -1258,7 +1258,7 @@ CREATE TABLE dynamic_field_value (
     value_date DATETIME NULL,
     value_int BIGINT NULL,
     PRIMARY KEY(id),
-    INDEX dynamic_field_value_field_values (object_id),
+    INDEX dynamic_field_value_field_values (object_id, field_id),
     INDEX dynamic_field_value_search_date (field_id, value_date),
     INDEX dynamic_field_value_search_int (field_id, value_int)
 );

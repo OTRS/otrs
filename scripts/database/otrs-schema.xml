@@ -1910,8 +1910,10 @@
         <IndexColumn Name="field_id"/>
         <IndexColumn Name="value_int"/>
     </Index>
+    <!-- Allow queries for all fields of an object, or for specific fields and objects e.g. search. -->
     <Index Name="dynamic_field_value_field_values">
         <IndexColumn Name="object_id"/>
+        <IndexColumn Name="field_id"/>
     </Index>
     <ForeignKey ForeignTable="dynamic_field">
         <Reference Local="field_id" Foreign="id"/>
