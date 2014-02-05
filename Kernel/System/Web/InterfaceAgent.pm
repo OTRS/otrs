@@ -141,7 +141,6 @@ sub Run {
         $CookieSecureAttribute = 1;
     }
 
-
     # check common objects
     $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
     if ( !$Self->{DBObject} || $Self->{ParamObject}->Error() ) {
