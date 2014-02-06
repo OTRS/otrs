@@ -22,12 +22,6 @@ X-OTRS-Login: [% Env("Baselink") %]
 [% InsertTemplate("Copyright.tt") %]
 <head>
     <meta http-equiv="Content-type" content="text/html;charset=utf-8" />
-#    IE(8,9) renders pages differently, depending on the source of the page. If the page comes from the intranet,
-#    it renders it in IE7 mode, if the page is loaded from the internet, it will be rendered in IE8 mode by default.
-#    To avoid that, we set "IE=edge", which means, that IE renders the page always in the best render mode it can.
-#    "chrome=1" means, that the Google Chrome rendering engine is used in IE, if the Google Chrome Frame plug-in
-#    is present.
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <link rel="shortcut icon" href="[% Config("Frontend::ImagePath") %]icons/product.ico" type="image/ico" />
 
 [% RenderBlockStart("CommonCSS") %]
