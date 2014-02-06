@@ -22,12 +22,7 @@ CREATE TABLE acl (
     CONSTRAINT acl_name UNIQUE (name)
 );
 ALTER TABLE acl ADD CONSTRAINT PK_acl PRIMARY KEY (id);
-IF EXISTS(SE_acl) THEN
-BEGIN
-    DROP SEQUENCE SE_acl;
-END;
-;
-CREATE SEQUENCE SE_acl
+CREATE OR REPLACE SEQUENCE SE_acl
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -71,12 +66,7 @@ CREATE TABLE valid (
     CONSTRAINT valid_name UNIQUE (name)
 );
 ALTER TABLE valid ADD CONSTRAINT PK_valid PRIMARY KEY (id);
-IF EXISTS(SE_valid) THEN
-BEGIN
-    DROP SEQUENCE SE_valid;
-END;
-;
-CREATE SEQUENCE SE_valid
+CREATE OR REPLACE SEQUENCE SE_valid
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -115,12 +105,7 @@ CREATE TABLE users (
     CONSTRAINT users_login UNIQUE (login)
 );
 ALTER TABLE users ADD CONSTRAINT PK_users PRIMARY KEY (id);
-IF EXISTS(SE_users) THEN
-BEGIN
-    DROP SEQUENCE SE_users;
-END;
-;
-CREATE SEQUENCE SE_users
+CREATE OR REPLACE SEQUENCE SE_users
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -166,12 +151,7 @@ CREATE TABLE groups (
     CONSTRAINT groups_name UNIQUE (name)
 );
 ALTER TABLE groups ADD CONSTRAINT PK_groups PRIMARY KEY (id);
-IF EXISTS(SE_groups) THEN
-BEGIN
-    DROP SEQUENCE SE_groups;
-END;
-;
-CREATE SEQUENCE SE_groups
+CREATE OR REPLACE SEQUENCE SE_groups
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -259,12 +239,7 @@ CREATE TABLE roles (
     CONSTRAINT roles_name UNIQUE (name)
 );
 ALTER TABLE roles ADD CONSTRAINT PK_roles PRIMARY KEY (id);
-IF EXISTS(SE_roles) THEN
-BEGIN
-    DROP SEQUENCE SE_roles;
-END;
-;
-CREATE SEQUENCE SE_roles
+CREATE OR REPLACE SEQUENCE SE_roles
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -327,12 +302,7 @@ CREATE TABLE salutation (
     CONSTRAINT salutation_name UNIQUE (name)
 );
 ALTER TABLE salutation ADD CONSTRAINT PK_salutation PRIMARY KEY (id);
-IF EXISTS(SE_salutation) THEN
-BEGIN
-    DROP SEQUENCE SE_salutation;
-END;
-;
-CREATE SEQUENCE SE_salutation
+CREATE OR REPLACE SEQUENCE SE_salutation
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -371,12 +341,7 @@ CREATE TABLE signature (
     CONSTRAINT signature_name UNIQUE (name)
 );
 ALTER TABLE signature ADD CONSTRAINT PK_signature PRIMARY KEY (id);
-IF EXISTS(SE_signature) THEN
-BEGIN
-    DROP SEQUENCE SE_signature;
-END;
-;
-CREATE SEQUENCE SE_signature
+CREATE OR REPLACE SEQUENCE SE_signature
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -416,12 +381,7 @@ CREATE TABLE system_address (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE system_address ADD CONSTRAINT PK_system_address PRIMARY KEY (id);
-IF EXISTS(SE_system_address) THEN
-BEGIN
-    DROP SEQUENCE SE_system_address;
-END;
-;
-CREATE SEQUENCE SE_system_address
+CREATE OR REPLACE SEQUENCE SE_system_address
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -458,12 +418,7 @@ CREATE TABLE follow_up_possible (
     CONSTRAINT follow_up_possible_name UNIQUE (name)
 );
 ALTER TABLE follow_up_possible ADD CONSTRAINT PK_follow_up_possible PRIMARY KEY (id);
-IF EXISTS(SE_follow_up_possible) THEN
-BEGIN
-    DROP SEQUENCE SE_follow_up_possible;
-END;
-;
-CREATE SEQUENCE SE_follow_up_possible
+CREATE OR REPLACE SEQUENCE SE_follow_up_possible
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -515,12 +470,7 @@ CREATE TABLE queue (
     CONSTRAINT queue_name UNIQUE (name)
 );
 ALTER TABLE queue ADD CONSTRAINT PK_queue PRIMARY KEY (id);
-IF EXISTS(SE_queue) THEN
-BEGIN
-    DROP SEQUENCE SE_queue;
-END;
-;
-CREATE SEQUENCE SE_queue
+CREATE OR REPLACE SEQUENCE SE_queue
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -570,12 +520,7 @@ CREATE TABLE ticket_priority (
     CONSTRAINT ticket_priority_name UNIQUE (name)
 );
 ALTER TABLE ticket_priority ADD CONSTRAINT PK_ticket_priority PRIMARY KEY (id);
-IF EXISTS(SE_ticket_priority) THEN
-BEGIN
-    DROP SEQUENCE SE_ticket_priority;
-END;
-;
-CREATE SEQUENCE SE_ticket_priority
+CREATE OR REPLACE SEQUENCE SE_ticket_priority
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -610,12 +555,7 @@ CREATE TABLE ticket_type (
     CONSTRAINT ticket_type_name UNIQUE (name)
 );
 ALTER TABLE ticket_type ADD CONSTRAINT PK_ticket_type PRIMARY KEY (id);
-IF EXISTS(SE_ticket_type) THEN
-BEGIN
-    DROP SEQUENCE SE_ticket_type;
-END;
-;
-CREATE SEQUENCE SE_ticket_type
+CREATE OR REPLACE SEQUENCE SE_ticket_type
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -651,12 +591,7 @@ CREATE TABLE ticket_lock_type (
     CONSTRAINT ticket_lock_type_name UNIQUE (name)
 );
 ALTER TABLE ticket_lock_type ADD CONSTRAINT PK_ticket_lock_type PRIMARY KEY (id);
-IF EXISTS(SE_ticket_lock_type) THEN
-BEGIN
-    DROP SEQUENCE SE_ticket_lock_type;
-END;
-;
-CREATE SEQUENCE SE_ticket_lock_type
+CREATE OR REPLACE SEQUENCE SE_ticket_lock_type
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -694,12 +629,7 @@ CREATE TABLE ticket_state (
     CONSTRAINT ticket_state_name UNIQUE (name)
 );
 ALTER TABLE ticket_state ADD CONSTRAINT PK_ticket_state PRIMARY KEY (id);
-IF EXISTS(SE_ticket_state) THEN
-BEGIN
-    DROP SEQUENCE SE_ticket_state;
-END;
-;
-CREATE SEQUENCE SE_ticket_state
+CREATE OR REPLACE SEQUENCE SE_ticket_state
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -736,12 +666,7 @@ CREATE TABLE ticket_state_type (
     CONSTRAINT ticket_state_type_name UNIQUE (name)
 );
 ALTER TABLE ticket_state_type ADD CONSTRAINT PK_ticket_state_type PRIMARY KEY (id);
-IF EXISTS(SE_ticket_state_type) THEN
-BEGIN
-    DROP SEQUENCE SE_ticket_state_type;
-END;
-;
-CREATE SEQUENCE SE_ticket_state_type
+CREATE OR REPLACE SEQUENCE SE_ticket_state_type
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -796,12 +721,7 @@ CREATE TABLE ticket (
     CONSTRAINT ticket_tn UNIQUE (tn)
 );
 ALTER TABLE ticket ADD CONSTRAINT PK_ticket PRIMARY KEY (id);
-IF EXISTS(SE_ticket) THEN
-BEGIN
-    DROP SEQUENCE SE_ticket;
-END;
-;
-CREATE SEQUENCE SE_ticket
+CREATE OR REPLACE SEQUENCE SE_ticket
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -881,12 +801,7 @@ CREATE TABLE ticket_history (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE ticket_history ADD CONSTRAINT PK_ticket_history PRIMARY KEY (id);
-IF EXISTS(SE_ticket_history) THEN
-BEGIN
-    DROP SEQUENCE SE_ticket_history;
-END;
-;
-CREATE SEQUENCE SE_ticket_history
+CREATE OR REPLACE SEQUENCE SE_ticket_history
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -932,12 +847,7 @@ CREATE TABLE ticket_history_type (
     CONSTRAINT ticket_history_type_name UNIQUE (name)
 );
 ALTER TABLE ticket_history_type ADD CONSTRAINT PK_ticket_history_type PRIMARY KEY (id);
-IF EXISTS(SE_ticket_history_type) THEN
-BEGIN
-    DROP SEQUENCE SE_ticket_history_type;
-END;
-;
-CREATE SEQUENCE SE_ticket_history_type
+CREATE OR REPLACE SEQUENCE SE_ticket_history_type
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1020,12 +930,7 @@ CREATE TABLE article_type (
     CONSTRAINT article_type_name UNIQUE (name)
 );
 ALTER TABLE article_type ADD CONSTRAINT PK_article_type PRIMARY KEY (id);
-IF EXISTS(SE_article_type) THEN
-BEGIN
-    DROP SEQUENCE SE_article_type;
-END;
-;
-CREATE SEQUENCE SE_article_type
+CREATE OR REPLACE SEQUENCE SE_article_type
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1062,12 +967,7 @@ CREATE TABLE article_sender_type (
     CONSTRAINT article_sender_type_name UNIQUE (name)
 );
 ALTER TABLE article_sender_type ADD CONSTRAINT PK_article_sender_type PRIMARY KEY (id);
-IF EXISTS(SE_article_sender_type) THEN
-BEGIN
-    DROP SEQUENCE SE_article_sender_type;
-END;
-;
-CREATE SEQUENCE SE_article_sender_type
+CREATE OR REPLACE SEQUENCE SE_article_sender_type
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1130,12 +1030,7 @@ CREATE TABLE article (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE article ADD CONSTRAINT PK_article PRIMARY KEY (id);
-IF EXISTS(SE_article) THEN
-BEGIN
-    DROP SEQUENCE SE_article;
-END;
-;
-CREATE SEQUENCE SE_article
+CREATE OR REPLACE SEQUENCE SE_article
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1193,12 +1088,7 @@ CREATE TABLE article_plain (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE article_plain ADD CONSTRAINT PK_article_plain PRIMARY KEY (id);
-IF EXISTS(SE_article_plain) THEN
-BEGIN
-    DROP SEQUENCE SE_article_plain;
-END;
-;
-CREATE SEQUENCE SE_article_plain
+CREATE OR REPLACE SEQUENCE SE_article_plain
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1238,12 +1128,7 @@ CREATE TABLE article_attachment (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE article_attachment ADD CONSTRAINT PK_article_attachment PRIMARY KEY (id);
-IF EXISTS(SE_article_attachment) THEN
-BEGIN
-    DROP SEQUENCE SE_article_attachment;
-END;
-;
-CREATE SEQUENCE SE_article_attachment
+CREATE OR REPLACE SEQUENCE SE_article_attachment
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1279,12 +1164,7 @@ CREATE TABLE time_accounting (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE time_accounting ADD CONSTRAINT PK_time_accounting PRIMARY KEY (id);
-IF EXISTS(SE_time_accounting) THEN
-BEGIN
-    DROP SEQUENCE SE_time_accounting;
-END;
-;
-CREATE SEQUENCE SE_time_accounting
+CREATE OR REPLACE SEQUENCE SE_time_accounting
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1325,12 +1205,7 @@ CREATE TABLE standard_template (
     CONSTRAINT standard_template_name UNIQUE (name)
 );
 ALTER TABLE standard_template ADD CONSTRAINT PK_standard_template PRIMARY KEY (id);
-IF EXISTS(SE_standard_template) THEN
-BEGIN
-    DROP SEQUENCE SE_standard_template;
-END;
-;
-CREATE SEQUENCE SE_standard_template
+CREATE OR REPLACE SEQUENCE SE_standard_template
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1385,12 +1260,7 @@ CREATE TABLE standard_attachment (
     CONSTRAINT standard_attachment_name UNIQUE (name)
 );
 ALTER TABLE standard_attachment ADD CONSTRAINT PK_standard_attachment PRIMARY KEY (id);
-IF EXISTS(SE_standard_attachment) THEN
-BEGIN
-    DROP SEQUENCE SE_standard_attachment;
-END;
-;
-CREATE SEQUENCE SE_standard_attachment
+CREATE OR REPLACE SEQUENCE SE_standard_attachment
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1425,12 +1295,7 @@ CREATE TABLE standard_template_attachment (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE standard_template_attachment ADD CONSTRAINT PK_standard_template_attachmb7 PRIMARY KEY (id);
-IF EXISTS(SE_standard_template_attacc3) THEN
-BEGIN
-    DROP SEQUENCE SE_standard_template_attacc3;
-END;
-;
-CREATE SEQUENCE SE_standard_template_attacc3
+CREATE OR REPLACE SEQUENCE SE_standard_template_attacc3
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1468,12 +1333,7 @@ CREATE TABLE auto_response_type (
     CONSTRAINT auto_response_type_name UNIQUE (name)
 );
 ALTER TABLE auto_response_type ADD CONSTRAINT PK_auto_response_type PRIMARY KEY (id);
-IF EXISTS(SE_auto_response_type) THEN
-BEGIN
-    DROP SEQUENCE SE_auto_response_type;
-END;
-;
-CREATE SEQUENCE SE_auto_response_type
+CREATE OR REPLACE SEQUENCE SE_auto_response_type
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1517,12 +1377,7 @@ CREATE TABLE auto_response (
     CONSTRAINT auto_response_name UNIQUE (name)
 );
 ALTER TABLE auto_response ADD CONSTRAINT PK_auto_response PRIMARY KEY (id);
-IF EXISTS(SE_auto_response) THEN
-BEGIN
-    DROP SEQUENCE SE_auto_response;
-END;
-;
-CREATE SEQUENCE SE_auto_response
+CREATE OR REPLACE SEQUENCE SE_auto_response
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1559,12 +1414,7 @@ CREATE TABLE queue_auto_response (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE queue_auto_response ADD CONSTRAINT PK_queue_auto_response PRIMARY KEY (id);
-IF EXISTS(SE_queue_auto_response) THEN
-BEGIN
-    DROP SEQUENCE SE_queue_auto_response;
-END;
-;
-CREATE SEQUENCE SE_queue_auto_response
+CREATE OR REPLACE SEQUENCE SE_queue_auto_response
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1602,12 +1452,7 @@ CREATE TABLE service (
     CONSTRAINT service_name UNIQUE (name)
 );
 ALTER TABLE service ADD CONSTRAINT PK_service PRIMARY KEY (id);
-IF EXISTS(SE_service) THEN
-BEGIN
-    DROP SEQUENCE SE_service;
-END;
-;
-CREATE SEQUENCE SE_service
+CREATE OR REPLACE SEQUENCE SE_service
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1671,12 +1516,7 @@ CREATE TABLE sla (
     CONSTRAINT sla_name UNIQUE (name)
 );
 ALTER TABLE sla ADD CONSTRAINT PK_sla PRIMARY KEY (id);
-IF EXISTS(SE_sla) THEN
-BEGIN
-    DROP SEQUENCE SE_sla;
-END;
-;
-CREATE SEQUENCE SE_sla
+CREATE OR REPLACE SEQUENCE SE_sla
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1727,12 +1567,7 @@ CREATE TABLE sessions (
     serialized NUMBER (5, 0) NOT NULL
 );
 ALTER TABLE sessions ADD CONSTRAINT PK_sessions PRIMARY KEY (id);
-IF EXISTS(SE_sessions) THEN
-BEGIN
-    DROP SEQUENCE SE_sessions;
-END;
-;
-CREATE SEQUENCE SE_sessions
+CREATE OR REPLACE SEQUENCE SE_sessions
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1781,12 +1616,7 @@ CREATE TABLE customer_user (
     CONSTRAINT customer_user_login UNIQUE (login)
 );
 ALTER TABLE customer_user ADD CONSTRAINT PK_customer_user PRIMARY KEY (id);
-IF EXISTS(SE_customer_user) THEN
-BEGIN
-    DROP SEQUENCE SE_customer_user;
-END;
-;
-CREATE SEQUENCE SE_customer_user
+CREATE OR REPLACE SEQUENCE SE_customer_user
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1857,12 +1687,7 @@ CREATE TABLE mail_account (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE mail_account ADD CONSTRAINT PK_mail_account PRIMARY KEY (id);
-IF EXISTS(SE_mail_account) THEN
-BEGIN
-    DROP SEQUENCE SE_mail_account;
-END;
-;
-CREATE SEQUENCE SE_mail_account
+CREATE OR REPLACE SEQUENCE SE_mail_account
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -1956,12 +1781,7 @@ CREATE TABLE notifications (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE notifications ADD CONSTRAINT PK_notifications PRIMARY KEY (id);
-IF EXISTS(SE_notifications) THEN
-BEGIN
-    DROP SEQUENCE SE_notifications;
-END;
-;
-CREATE SEQUENCE SE_notifications
+CREATE OR REPLACE SEQUENCE SE_notifications
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2001,12 +1821,7 @@ CREATE TABLE notification_event (
     CONSTRAINT notification_event_name UNIQUE (name)
 );
 ALTER TABLE notification_event ADD CONSTRAINT PK_notification_event PRIMARY KEY (id);
-IF EXISTS(SE_notification_event) THEN
-BEGIN
-    DROP SEQUENCE SE_notification_event;
-END;
-;
-CREATE SEQUENCE SE_notification_event
+CREATE OR REPLACE SEQUENCE SE_notification_event
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2053,12 +1868,7 @@ CREATE TABLE link_type (
     CONSTRAINT link_type_name UNIQUE (name)
 );
 ALTER TABLE link_type ADD CONSTRAINT PK_link_type PRIMARY KEY (id);
-IF EXISTS(SE_link_type) THEN
-BEGIN
-    DROP SEQUENCE SE_link_type;
-END;
-;
-CREATE SEQUENCE SE_link_type
+CREATE OR REPLACE SEQUENCE SE_link_type
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2094,12 +1904,7 @@ CREATE TABLE link_state (
     CONSTRAINT link_state_name UNIQUE (name)
 );
 ALTER TABLE link_state ADD CONSTRAINT PK_link_state PRIMARY KEY (id);
-IF EXISTS(SE_link_state) THEN
-BEGIN
-    DROP SEQUENCE SE_link_state;
-END;
-;
-CREATE SEQUENCE SE_link_state
+CREATE OR REPLACE SEQUENCE SE_link_state
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2130,12 +1935,7 @@ CREATE TABLE link_object (
     CONSTRAINT link_object_name UNIQUE (name)
 );
 ALTER TABLE link_object ADD CONSTRAINT PK_link_object PRIMARY KEY (id);
-IF EXISTS(SE_link_object) THEN
-BEGIN
-    DROP SEQUENCE SE_link_object;
-END;
-;
-CREATE SEQUENCE SE_link_object
+CREATE OR REPLACE SEQUENCE SE_link_object
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2209,12 +2009,7 @@ CREATE TABLE virtual_fs (
     create_time DATE NOT NULL
 );
 ALTER TABLE virtual_fs ADD CONSTRAINT PK_virtual_fs PRIMARY KEY (id);
-IF EXISTS(SE_virtual_fs) THEN
-BEGIN
-    DROP SEQUENCE SE_virtual_fs;
-END;
-;
-CREATE SEQUENCE SE_virtual_fs
+CREATE OR REPLACE SEQUENCE SE_virtual_fs
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2255,12 +2050,7 @@ CREATE TABLE virtual_fs_db (
     create_time DATE NOT NULL
 );
 ALTER TABLE virtual_fs_db ADD CONSTRAINT PK_virtual_fs_db PRIMARY KEY (id);
-IF EXISTS(SE_virtual_fs_db) THEN
-BEGIN
-    DROP SEQUENCE SE_virtual_fs_db;
-END;
-;
-CREATE SEQUENCE SE_virtual_fs_db
+CREATE OR REPLACE SEQUENCE SE_virtual_fs_db
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2299,12 +2089,7 @@ CREATE TABLE package_repository (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE package_repository ADD CONSTRAINT PK_package_repository PRIMARY KEY (id);
-IF EXISTS(SE_package_repository) THEN
-BEGIN
-    DROP SEQUENCE SE_package_repository;
-END;
-;
-CREATE SEQUENCE SE_package_repository
+CREATE OR REPLACE SEQUENCE SE_package_repository
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2342,12 +2127,7 @@ CREATE TABLE gi_webservice_config (
     CONSTRAINT gi_webservice_config_name UNIQUE (name)
 );
 ALTER TABLE gi_webservice_config ADD CONSTRAINT PK_gi_webservice_config PRIMARY KEY (id);
-IF EXISTS(SE_gi_webservice_config) THEN
-BEGIN
-    DROP SEQUENCE SE_gi_webservice_config;
-END;
-;
-CREATE SEQUENCE SE_gi_webservice_config
+CREATE OR REPLACE SEQUENCE SE_gi_webservice_config
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2384,12 +2164,7 @@ CREATE TABLE gi_webservice_config_history (
     CONSTRAINT gi_webservice_config_history8b UNIQUE (config_md5)
 );
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT PK_gi_webservice_config_hist06 PRIMARY KEY (id);
-IF EXISTS(SE_gi_webservice_config_hi2f) THEN
-BEGIN
-    DROP SEQUENCE SE_gi_webservice_config_hi2f;
-END;
-;
-CREATE SEQUENCE SE_gi_webservice_config_hi2f
+CREATE OR REPLACE SEQUENCE SE_gi_webservice_config_hi2f
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2424,12 +2199,7 @@ CREATE TABLE scheduler_task_list (
     CONSTRAINT scheduler_task_list_task_dat81 UNIQUE (task_data_md5)
 );
 ALTER TABLE scheduler_task_list ADD CONSTRAINT PK_scheduler_task_list PRIMARY KEY (id);
-IF EXISTS(SE_scheduler_task_list) THEN
-BEGIN
-    DROP SEQUENCE SE_scheduler_task_list;
-END;
-;
-CREATE SEQUENCE SE_scheduler_task_list
+CREATE OR REPLACE SEQUENCE SE_scheduler_task_list
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2461,12 +2231,7 @@ CREATE TABLE gi_debugger_entry (
     CONSTRAINT gi_debugger_entry_communicat94 UNIQUE (communication_id)
 );
 ALTER TABLE gi_debugger_entry ADD CONSTRAINT PK_gi_debugger_entry PRIMARY KEY (id);
-IF EXISTS(SE_gi_debugger_entry) THEN
-BEGIN
-    DROP SEQUENCE SE_gi_debugger_entry;
-END;
-;
-CREATE SEQUENCE SE_gi_debugger_entry
+CREATE OR REPLACE SEQUENCE SE_gi_debugger_entry
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2499,12 +2264,7 @@ CREATE TABLE gi_debugger_entry_content (
     create_time DATE NOT NULL
 );
 ALTER TABLE gi_debugger_entry_content ADD CONSTRAINT PK_gi_debugger_entry_content PRIMARY KEY (id);
-IF EXISTS(SE_gi_debugger_entry_content) THEN
-BEGIN
-    DROP SEQUENCE SE_gi_debugger_entry_content;
-END;
-;
-CREATE SEQUENCE SE_gi_debugger_entry_content
+CREATE OR REPLACE SEQUENCE SE_gi_debugger_entry_content
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2556,12 +2316,7 @@ CREATE TABLE smime_signer_cert_relations (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT PK_smime_signer_cert_relations PRIMARY KEY (id);
-IF EXISTS(SE_smime_signer_cert_relatef) THEN
-BEGIN
-    DROP SEQUENCE SE_smime_signer_cert_relatef;
-END;
-;
-CREATE SEQUENCE SE_smime_signer_cert_relatef
+CREATE OR REPLACE SEQUENCE SE_smime_signer_cert_relatef
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2594,12 +2349,7 @@ CREATE TABLE dynamic_field_value (
     value_int NUMBER (20, 0) NULL
 );
 ALTER TABLE dynamic_field_value ADD CONSTRAINT PK_dynamic_field_value PRIMARY KEY (id);
-IF EXISTS(SE_dynamic_field_value) THEN
-BEGIN
-    DROP SEQUENCE SE_dynamic_field_value;
-END;
-;
-CREATE SEQUENCE SE_dynamic_field_value
+CREATE OR REPLACE SEQUENCE SE_dynamic_field_value
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2642,12 +2392,7 @@ CREATE TABLE dynamic_field (
     CONSTRAINT dynamic_field_name UNIQUE (name)
 );
 ALTER TABLE dynamic_field ADD CONSTRAINT PK_dynamic_field PRIMARY KEY (id);
-IF EXISTS(SE_dynamic_field) THEN
-BEGIN
-    DROP SEQUENCE SE_dynamic_field;
-END;
-;
-CREATE SEQUENCE SE_dynamic_field
+CREATE OR REPLACE SEQUENCE SE_dynamic_field
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2686,12 +2431,7 @@ CREATE TABLE pm_process (
     CONSTRAINT pm_process_entity_id UNIQUE (entity_id)
 );
 ALTER TABLE pm_process ADD CONSTRAINT PK_pm_process PRIMARY KEY (id);
-IF EXISTS(SE_pm_process) THEN
-BEGIN
-    DROP SEQUENCE SE_pm_process;
-END;
-;
-CREATE SEQUENCE SE_pm_process
+CREATE OR REPLACE SEQUENCE SE_pm_process
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2727,12 +2467,7 @@ CREATE TABLE pm_activity (
     CONSTRAINT pm_activity_entity_id UNIQUE (entity_id)
 );
 ALTER TABLE pm_activity ADD CONSTRAINT PK_pm_activity PRIMARY KEY (id);
-IF EXISTS(SE_pm_activity) THEN
-BEGIN
-    DROP SEQUENCE SE_pm_activity;
-END;
-;
-CREATE SEQUENCE SE_pm_activity
+CREATE OR REPLACE SEQUENCE SE_pm_activity
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2768,12 +2503,7 @@ CREATE TABLE pm_activity_dialog (
     CONSTRAINT pm_activity_dialog_entity_id UNIQUE (entity_id)
 );
 ALTER TABLE pm_activity_dialog ADD CONSTRAINT PK_pm_activity_dialog PRIMARY KEY (id);
-IF EXISTS(SE_pm_activity_dialog) THEN
-BEGIN
-    DROP SEQUENCE SE_pm_activity_dialog;
-END;
-;
-CREATE SEQUENCE SE_pm_activity_dialog
+CREATE OR REPLACE SEQUENCE SE_pm_activity_dialog
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2809,12 +2539,7 @@ CREATE TABLE pm_transition (
     CONSTRAINT pm_transition_entity_id UNIQUE (entity_id)
 );
 ALTER TABLE pm_transition ADD CONSTRAINT PK_pm_transition PRIMARY KEY (id);
-IF EXISTS(SE_pm_transition) THEN
-BEGIN
-    DROP SEQUENCE SE_pm_transition;
-END;
-;
-CREATE SEQUENCE SE_pm_transition
+CREATE OR REPLACE SEQUENCE SE_pm_transition
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
@@ -2850,12 +2575,7 @@ CREATE TABLE pm_transition_action (
     CONSTRAINT pm_transition_action_entity_id UNIQUE (entity_id)
 );
 ALTER TABLE pm_transition_action ADD CONSTRAINT PK_pm_transition_action PRIMARY KEY (id);
-IF EXISTS(SE_pm_transition_action) THEN
-BEGIN
-    DROP SEQUENCE SE_pm_transition_action;
-END;
-;
-CREATE SEQUENCE SE_pm_transition_action
+CREATE OR REPLACE SEQUENCE SE_pm_transition_action
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
