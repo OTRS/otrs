@@ -18,6 +18,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.5 2014-??-??
+ - 2014-02-06 Fixed bug#[9970](http://bugs.otrs.org/show_bug.cgi?id=9970) - Problem with DBUpgrade-to-3.3.pl on Oracle databases.
  - 2014-02-04 Fixed bug#[10220](http://bugs.otrs.org/show_bug.cgi?id=10220) - Invalid Statistics not displayed in overview.
  - 2014-02-04 Fixed bug#[10218](http://bugs.otrs.org/show_bug.cgi?id=10218) - Header X-UA-Compatible in HeaderSmall.tt/HeaderSmall.dtl not set.
  - 2014-01-31 Fixed bug#[10212](http://bugs.otrs.org/show_bug.cgi?id=10212) - My tickets & Company tickets in 3.3.4.

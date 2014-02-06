@@ -247,15 +247,7 @@ sub TableCreate {
 
             push(
                 @Return2,
-                "IF EXISTS($Sequence) THEN\n"
-                    . "BEGIN\n"
-                    . "    DROP SEQUENCE $Sequence;\n"
-                    . "END;\n",
-            );
-
-            push(
-                @Return2,
-                "CREATE SEQUENCE $Sequence\n"
+                "CREATE OR REPLACE SEQUENCE $Sequence\n"
                     . "INCREMENT BY 1\n"
                     . "START WITH 1\n"
                     . "NOMAXVALUE\n"
