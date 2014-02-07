@@ -876,7 +876,7 @@ sub _CheckArticle {
     # check Article->TimeUnit
     # TimeUnit could be required or not depending on sysconfig option
     if (
-        !defined $Article->{TimeUnit}
+        ( !defined $Article->{TimeUnit} || !IsStringWithData( $Article->{TimeUnit} ) )
         && $Self->{ConfigObject}->{'Ticket::Frontend::AccountTime'}
         && $Self->{ConfigObject}->{'Ticket::Frontend::NeedAccountedTime'}
         )
