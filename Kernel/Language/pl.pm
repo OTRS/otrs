@@ -838,7 +838,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Ustawiony czas przypomnienia: %s',
         'History::StateUpdate' => 'Aktualizacja statusu. Stary: "%s" nowy: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Aktualizacja pola dynamicznego: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Aktualizacja pola dynamicznego: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Żądanie klienta przez www.',
         'History::TicketLinkAdd' => 'Dodano łącze do zgłoszenia "%s".',
         'History::TicketLinkDelete' => 'Usunięto łacze ze zgłoszenia "%s".',

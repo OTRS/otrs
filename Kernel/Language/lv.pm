@@ -835,7 +835,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Neizlemts līdz: %s',
         'History::StateUpdate' => 'Vecais: "%s" Jaunais: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Labots: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Labots: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Klienta pieprasījums no pārlūkprogrammas.',
         'History::TicketLinkAdd' => 'Pievienota saite uz problēmas ziņojumu "%s".',
         'History::TicketLinkDelete' => 'Dzēsta saite uz problēmas ziņojumu "%s".',

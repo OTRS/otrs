@@ -844,7 +844,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Aggiornato: %s',
         'History::StateUpdate' => 'Vecchio: "%s" Nuovo: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Aggiornato: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Aggiornato: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Richiesta del cliente via web.',
         'History::TicketLinkAdd' => 'Aggiunto link alla richiesta "%s".',
         'History::TicketLinkDelete' => 'Eliminato link alla richiesta "%s".',

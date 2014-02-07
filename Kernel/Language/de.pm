@@ -836,7 +836,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Aktualisiert: %s',
         'History::StateUpdate' => 'Alt: "%s" Neu: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Aktualisiert: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Aktualisiert: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Kunde stellte Anfrage über Web.',
         'History::TicketLinkAdd' => 'Verknüpfung zu "%s" hergestellt.',
         'History::TicketLinkDelete' => 'Verknüpfung zu "%s" gelöscht.',

@@ -837,7 +837,7 @@ sub Data {
         'History::Misc' => 'Diverse %s',
         'History::SetPendingTime' => 'Sag afventer til %s',
         'History::StateUpdate' => 'Gammel status var "%s", ny status er "%s".',
-        'History::TicketDynamicFieldUpdate' => 'Opdateret: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Opdateret: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Kundeanmodning via web.',
         'History::TicketLinkAdd' => 'Tilføjet link til sag %s.',
         'History::TicketLinkDelete' => 'Slettet link til sag %s.',

@@ -835,7 +835,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'dikemaskini: %s',
         'History::StateUpdate' => 'Lama: "%s" Baru: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Dikemaskini: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Dikemaskini: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Permintaan pelanggan yang dikemukakan melalui laman web.',
         'History::TicketLinkAdd' => 'Jalan pintas untuk "%s" dihasilkan.',
         'History::TicketLinkDelete' => 'Jalan pintas untuk "%s" dipadam.',

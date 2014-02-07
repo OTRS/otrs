@@ -841,7 +841,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Atualizado: %s',
         'History::StateUpdate' => 'Ant.: "%s" Novo: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Atualizado: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Atualizado: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Requisição do cliente via web.',
         'History::TicketLinkAdd' => 'Adicionadas associações ao chamado "%s".',
         'History::TicketLinkDelete' => 'Associações do chamado excluídas "%s".',

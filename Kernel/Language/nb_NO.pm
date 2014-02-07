@@ -844,7 +844,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Sett på vent til: %s',
         'History::StateUpdate' => 'Gammel: «%s» Ny: «%s»',
-        'History::TicketDynamicFieldUpdate' => 'Stikkord oppdatert: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Stikkord oppdatert: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Kundeforespørsel via web.',
         'History::TicketLinkAdd' => 'La til link til sak «%s».',
         'History::TicketLinkDelete' => 'Slettet link til sak «%s».',

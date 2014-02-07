@@ -836,7 +836,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Ažurirano: %s',
         'History::StateUpdate' => 'Staro: "%s" Novo: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Ažurirano: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Ažurirano: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Korisnički "Web" zahtev.',
         'History::TicketLinkAdd' => 'Veza na "%s" postavljena.',
         'History::TicketLinkDelete' => 'Veza na "%s" obrisana.',

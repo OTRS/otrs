@@ -124,13 +124,8 @@ sub PostValueSet {
         DynamicFields => 0,
     );
 
-    my $HistoryValue;
-    if ( !defined $Param{Value} ) {
-        $HistoryValue = '',
-    }
-    else {
-        $HistoryValue = $Param{Value};
-    }
+    my $HistoryValue    = defined $Param{Value}    ? $Param{Value}    : '';
+    my $HistoryOldValue = defined $Param{OldValue} ? $Param{OldValue} : '';
 
     # get value for storing
     my $ValueStrg = $Self->{TicketObject}->{DynamicFieldBackendObject}->ReadableValueRender(
@@ -139,13 +134,20 @@ sub PostValueSet {
     );
     $HistoryValue = $ValueStrg->{Value};
 
+    my $OldValueStrg = $Self->{TicketObject}->{DynamicFieldBackendObject}->ReadableValueRender(
+        DynamicFieldConfig => $Param{DynamicFieldConfig},
+        Value              => $HistoryOldValue,
+    );
+    $HistoryOldValue = $OldValueStrg->{Value};
+
     # history insert
     $Self->{TicketObject}->HistoryAdd(
         TicketID    => $Param{ObjectID},
         QueueID     => $Ticket{QueueID},
         HistoryType => 'TicketDynamicFieldUpdate',
         Name =>
-            "\%\%FieldName\%\%$Param{DynamicFieldConfig}->{Name}\%\%Value\%\%$HistoryValue",
+            "\%\%FieldName\%\%$Param{DynamicFieldConfig}->{Name}"
+            . "\%\%Value\%\%$HistoryValue\%\%OldValue\%\%$HistoryOldValue",
         CreateUserID => $Param{UserID},
     );
 
@@ -158,6 +160,7 @@ sub PostValueSet {
         Data  => {
             FieldName => $Param{DynamicFieldConfig}->{Name},
             Value     => $Param{Value},
+            OldValue  => $Param{OldValue},
             TicketID  => $Param{ObjectID},
             UserID    => $Param{UserID},
         },

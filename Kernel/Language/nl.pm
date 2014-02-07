@@ -842,7 +842,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Bijgewerkt: %s',
         'History::StateUpdate' => 'Oud: "%s" Nieuw: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Bijgewerkt: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Bijgewerkt: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Klant stelt vraag via web.',
         'History::TicketLinkAdd' => 'Koppeling naar "%s" toegevoegd.',
         'History::TicketLinkDelete' => 'Koppeling naar "%s" verwijderd.',

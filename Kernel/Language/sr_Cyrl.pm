@@ -836,7 +836,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Ажурирано: %s',
         'History::StateUpdate' => 'Старо: "%s" Ново: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Ажурирано: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Ажурирано: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Кориснички "Web" захтев.',
         'History::TicketLinkAdd' => 'Веза на "%s" постављена.',
         'History::TicketLinkDelete' => 'Веза на "%s" обрисана.',

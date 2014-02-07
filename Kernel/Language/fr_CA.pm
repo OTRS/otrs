@@ -843,7 +843,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Mise à jour: %s',
         'History::StateUpdate' => 'État Avant: "%s" Après: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Mise à jour: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Mise à jour: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Requête du client par le web.',
         'History::TicketLinkAdd' => 'Ajout d\'un lien vers la demande "%s".',
         'History::TicketLinkDelete' => 'Suppression du lien vers la demande "%s".',

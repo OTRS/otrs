@@ -836,7 +836,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Actualitzat: %s',
         'History::StateUpdate' => 'Antic: "%s" Nou: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Actualitzat: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Actualitzat: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Sol·licitud de client per web.',
         'History::TicketLinkAdd' => 'Afegit enllaç al tiquet "%s".',
         'History::TicketLinkDelete' => 'Eliminat enllaç al tiquet "%s".',

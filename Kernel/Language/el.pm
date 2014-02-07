@@ -838,7 +838,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Ενημερώθηκε: %s',
         'History::StateUpdate' => 'Παλαιό: "%s" Νέο: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Ενημερώθηκε: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Ενημερώθηκε: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Αίτημα πελάτη μέσω web.',
         'History::TicketLinkAdd' => 'Προσθήκη συνδέσμου στο δελτίο "%s".',
         'History::TicketLinkDelete' => 'Διαγραφή συνδέσμού απο το δελτίο "%s".',

@@ -842,7 +842,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Aktualizováno: %s',
         'History::StateUpdate' => 'Starý: "%s" Nový: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Aktualizováno: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Aktualizováno: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Webový požadavek Zákazníka.',
         'History::TicketLinkAdd' => 'Spárováno s Tiketem "%s".',
         'History::TicketLinkDelete' => 'Párování s tiketem "%s" zrušeno.',

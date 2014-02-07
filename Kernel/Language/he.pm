@@ -841,7 +841,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'עודכן: %s',
         'History::StateUpdate' => 'ישן: "%s" חדש: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'עודכן: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'עודכן: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'לקוח שהשיבו לפניה זו באתר.',
         'History::TicketLinkAdd' => 'נוצר קישור עבור "%s".',
         'History::TicketLinkDelete' => 'נמחק קישור עבור "%s".',

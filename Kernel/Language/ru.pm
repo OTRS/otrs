@@ -847,7 +847,7 @@ sub Data {
         'History::Misc' => 'Прочее %s',
         'History::SetPendingTime' => 'Обновлено: %s',
         'History::StateUpdate' => 'Прежнее состояние: %s, новое состояние: %s',
-        'History::TicketDynamicFieldUpdate' => 'Обновлено: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Обновлено: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Веб-запрос пользователя.',
         'History::TicketLinkAdd' => 'К заявке «%s» добавлена связь.',
         'History::TicketLinkDelete' => 'Связь с заявкой «%s» удалена.',

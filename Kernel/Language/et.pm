@@ -836,7 +836,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Uuendati: %s',
         'History::StateUpdate' => 'Vana: "%s" Uus: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Uuendatud: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Uuendatud: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Klient ühendus veebiliidesest.',
         'History::TicketLinkAdd' => 'Lisatud viide intsidendile "%s".',
         'History::TicketLinkDelete' => 'Eemaldatud viide intsidendile "%s".',

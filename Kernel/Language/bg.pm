@@ -837,7 +837,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Актуализирано: %s',
         'History::StateUpdate' => 'Стар: "%s" Нов: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Актуализирано: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Актуализирано: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Клиентска заявка по web.',
         'History::TicketLinkAdd' => 'Добавена връзка към билет "%s".',
         'History::TicketLinkDelete' => 'Изтрита връзка към билет "%s".',

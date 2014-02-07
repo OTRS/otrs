@@ -836,7 +836,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Güncellendi: %s',
         'History::StateUpdate' => 'Eski: "%s" Yeni: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Güncellendi: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Güncellendi: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Web üzerinden Müşteri İsteği.',
         'History::TicketLinkAdd' => '"%s" biletine köprü eklendi.',
         'History::TicketLinkDelete' => '"%s" biletine köprü silinde.',

@@ -838,7 +838,7 @@ sub Data {
         'History::Misc' => 'विविध %s।',
         'History::SetPendingTime' => 'विचाराधीन निर्धारित समय: %s।',
         'History::StateUpdate' => 'पुराना: "%s". नया: "%s"।',
-        'History::TicketDynamicFieldUpdate' => 'टिकट पाठ्य अद्यतन: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'टिकट पाठ्य अद्यतन: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'ग्राहक वेब अनुरोध।',
         'History::TicketLinkAdd' => 'टिकट के लिए लिंक जोड़ा गया "%s"।',
         'History::TicketLinkDelete' => 'टिकट के लिए लिंक हटाया "%s"।',
