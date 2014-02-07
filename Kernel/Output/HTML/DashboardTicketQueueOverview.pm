@@ -77,7 +77,7 @@ sub Run {
     # get configured states, get their state ID and test if they exist while we do it
     my %States;
     my $StateIDURL;
-    for my $StateOrder ( sort keys %{ $Self->{Config}->{States} } ) {
+    for my $StateOrder ( sort { $a <=> $b } keys %{ $Self->{Config}->{States} } ) {
         my $State = ${ $Self->{Config}->{States} }{$StateOrder};
 
         # check if state is found, to record StateID
@@ -141,7 +141,7 @@ sub Run {
     my %Results;
     for my $QueueID ( sort keys %Queues ) {
         my @Results;
-        for my $StateOrderID ( sort keys %{ $Self->{Config}->{States} } ) {
+        for my $StateOrderID ( sort { $a <=> $b } keys %{ $Self->{Config}->{States} } ) {
             my $QueueTotal = $Self->{TicketObject}->TicketSearch(
                 UserID => $Self->{UserID},
                 Result => 'COUNT',
@@ -156,7 +156,7 @@ sub Run {
 
     # build header
     my @Headers = ( 'Queue', );
-    for my $StateOrder ( sort keys %{ $Self->{Config}->{States} } ) {
+    for my $StateOrder ( sort { $a <=> $b } keys %{ $Self->{Config}->{States} } ) {
         push @Headers, ${ $Self->{Config}->{States} }{$StateOrder};
     }
 
@@ -191,7 +191,7 @@ sub Run {
         # iterate over states
         my $Counter = 0;
         my $RowTotal;
-        for my $StateOrderID ( sort keys %{ $Self->{Config}->{States} } ) {
+        for my $StateOrderID ( sort { $a <=> $b } keys %{ $Self->{Config}->{States} } ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ContentLargeTicketQueueOverviewQueueResults',
                 Data => {
@@ -225,7 +225,7 @@ sub Run {
             Name => 'ContentLargeTicketQueueOverviewStatusTotalRow',
         );
 
-        for my $StateOrderID ( sort keys %{ $Self->{Config}->{States} } ) {
+        for my $StateOrderID ( sort { $a <=> $b } keys %{ $Self->{Config}->{States} } ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ContentLargeTicketQueueOverviewStatusTotal',
                 Data => {
