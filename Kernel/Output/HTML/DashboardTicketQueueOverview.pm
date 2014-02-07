@@ -33,12 +33,8 @@ sub new {
     }
 
     $Self->{StateObject} = Kernel::System::State->new(%Param);
-
-    $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';
-
-    $Self->{CacheKey}
-        = $Self->{Name} . '-'
-        . $Self->{UserID};
+    $Self->{PrefKey}     = 'UserDashboardPref' . $Self->{Name} . '-Shown';
+    $Self->{CacheKey}    = $Self->{Name} . '-' . $Self->{UserID};
 
     return $Self;
 }
@@ -77,8 +73,9 @@ sub Run {
     # get configured states, get their state ID and test if they exist while we do it
     my %States;
     my $StateIDURL;
-    for my $StateOrder ( sort { $a <=> $b } keys %{ $Self->{Config}->{States} } ) {
-        my $State = ${ $Self->{Config}->{States} }{$StateOrder};
+    my %ConfiguredStates = %{ $Self->{Config}->{States} };
+    for my $StateOrder ( sort { $a <=> $b } keys %ConfiguredStates ) {
+        my $State = $ConfiguredStates{$StateOrder};
 
         # check if state is found, to record StateID
         my $StateID = $Self->{StateObject}->StateLookup(
@@ -93,7 +90,7 @@ sub Run {
         else {
 
             # state does not exist, skipping
-            delete ${ $Self->{Config}->{States} }{$StateOrder};
+            delete $ConfiguredStates{$StateOrder};
         }
     }
 
@@ -141,12 +138,12 @@ sub Run {
     my %Results;
     for my $QueueID ( sort keys %Queues ) {
         my @Results;
-        for my $StateOrderID ( sort { $a <=> $b } keys %{ $Self->{Config}->{States} } ) {
+        for my $StateOrderID ( sort { $a <=> $b } keys %ConfiguredStates ) {
             my $QueueTotal = $Self->{TicketObject}->TicketSearch(
                 UserID => $Self->{UserID},
                 Result => 'COUNT',
                 Queues => [ $Queues{$QueueID} ],
-                States => [ ${ $Self->{Config}->{States} }{$StateOrderID} ],
+                States => [ $ConfiguredStates{$StateOrderID} ],
             );
             push @Results, $QueueTotal;
         }
@@ -156,8 +153,8 @@ sub Run {
 
     # build header
     my @Headers = ( 'Queue', );
-    for my $StateOrder ( sort { $a <=> $b } keys %{ $Self->{Config}->{States} } ) {
-        push @Headers, ${ $Self->{Config}->{States} }{$StateOrder};
+    for my $StateOrder ( sort { $a <=> $b } keys %ConfiguredStates ) {
+        push @Headers, $ConfiguredStates{$StateOrder};
     }
 
     for my $HeaderItem (@Headers) {
@@ -191,19 +188,19 @@ sub Run {
         # iterate over states
         my $Counter = 0;
         my $RowTotal;
-        for my $StateOrderID ( sort { $a <=> $b } keys %{ $Self->{Config}->{States} } ) {
+        for my $StateOrderID ( sort { $a <=> $b } keys %ConfiguredStates ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ContentLargeTicketQueueOverviewQueueResults',
                 Data => {
-                    Number  => $Results{$Queue}[$Counter],
+                    Number  => $Results{$Queue}->[$Counter],
                     QueueID => $QueueToID{$Queue},
-                    StateID => $States{ ${ $Self->{Config}->{States} }{$StateOrderID} },
-                    State   => ${ $Self->{Config}->{States} }{$StateOrderID},
+                    StateID => $States{ $ConfiguredStates{$StateOrderID} },
+                    State   => $ConfiguredStates{$StateOrderID},
                     Sort    => $Sort,
                 },
             );
-            $RowTotal += $Results{$Queue}[$Counter] || 0;
-            $StatusTotal[$StateOrderID] += $Results{$Queue}[$Counter] || 0;
+            $RowTotal += $Results{$Queue}->[$Counter] || 0;
+            $StatusTotal[$StateOrderID] += $Results{$Queue}->[$Counter] || 0;
             $Counter++;
         }
 
@@ -225,13 +222,13 @@ sub Run {
             Name => 'ContentLargeTicketQueueOverviewStatusTotalRow',
         );
 
-        for my $StateOrderID ( sort { $a <=> $b } keys %{ $Self->{Config}->{States} } ) {
+        for my $StateOrderID ( sort { $a <=> $b } keys %ConfiguredStates ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ContentLargeTicketQueueOverviewStatusTotal',
                 Data => {
                     Number   => $StatusTotal[$StateOrderID],
                     QueueIDs => $QueueIDURL,
-                    StateID  => $States{ ${ $Self->{Config}->{States} }{$StateOrderID} },
+                    StateID  => $States{ $ConfiguredStates{$StateOrderID} },
                     Sort     => $Sort,
                 },
             );
@@ -241,7 +238,7 @@ sub Run {
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketQueueOverviewNone',
             Data => {
-                ColumnCount => ( scalar keys %{ $Self->{Config}->{States} } ) + 2,
+                ColumnCount => ( scalar keys %ConfiguredStates ) + 2,
                 }
         );
     }
