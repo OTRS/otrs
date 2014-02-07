@@ -22,20 +22,38 @@ CREATE TABLE acl (
     CONSTRAINT acl_name UNIQUE (name)
 );
 ALTER TABLE acl ADD CONSTRAINT PK_acl PRIMARY KEY (id);
-DROP SEQUENCE SE_acl;
-CREATE SEQUENCE SE_acl
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_ACL';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ACL';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_ACL
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_acl_t
+CREATE OR REPLACE TRIGGER SE_ACL_t
 before insert on acl
 for each row
 begin
   if :new.id IS NULL then
-    select SE_acl.nextval
+    select SE_ACL.nextval
     into :new.id
     from dual;
   end if;
@@ -67,20 +85,38 @@ CREATE TABLE valid (
     CONSTRAINT valid_name UNIQUE (name)
 );
 ALTER TABLE valid ADD CONSTRAINT PK_valid PRIMARY KEY (id);
-DROP SEQUENCE SE_valid;
-CREATE SEQUENCE SE_valid
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_VALID';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_VALID';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_VALID
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_valid_t
+CREATE OR REPLACE TRIGGER SE_VALID_t
 before insert on valid
 for each row
 begin
   if :new.id IS NULL then
-    select SE_valid.nextval
+    select SE_VALID.nextval
     into :new.id
     from dual;
   end if;
@@ -107,20 +143,38 @@ CREATE TABLE users (
     CONSTRAINT users_login UNIQUE (login)
 );
 ALTER TABLE users ADD CONSTRAINT PK_users PRIMARY KEY (id);
-DROP SEQUENCE SE_users;
-CREATE SEQUENCE SE_users
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_USERS';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_USERS';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_USERS
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_users_t
+CREATE OR REPLACE TRIGGER SE_USERS_t
 before insert on users
 for each row
 begin
   if :new.id IS NULL then
-    select SE_users.nextval
+    select SE_USERS.nextval
     into :new.id
     from dual;
   end if;
@@ -154,20 +208,38 @@ CREATE TABLE groups (
     CONSTRAINT groups_name UNIQUE (name)
 );
 ALTER TABLE groups ADD CONSTRAINT PK_groups PRIMARY KEY (id);
-DROP SEQUENCE SE_groups;
-CREATE SEQUENCE SE_groups
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_GROUPS';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_GROUPS';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_GROUPS
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_groups_t
+CREATE OR REPLACE TRIGGER SE_GROUPS_t
 before insert on groups
 for each row
 begin
   if :new.id IS NULL then
-    select SE_groups.nextval
+    select SE_GROUPS.nextval
     into :new.id
     from dual;
   end if;
@@ -243,20 +315,38 @@ CREATE TABLE roles (
     CONSTRAINT roles_name UNIQUE (name)
 );
 ALTER TABLE roles ADD CONSTRAINT PK_roles PRIMARY KEY (id);
-DROP SEQUENCE SE_roles;
-CREATE SEQUENCE SE_roles
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_ROLES';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ROLES';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_ROLES
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_roles_t
+CREATE OR REPLACE TRIGGER SE_ROLES_t
 before insert on roles
 for each row
 begin
   if :new.id IS NULL then
-    select SE_roles.nextval
+    select SE_ROLES.nextval
     into :new.id
     from dual;
   end if;
@@ -307,20 +397,38 @@ CREATE TABLE salutation (
     CONSTRAINT salutation_name UNIQUE (name)
 );
 ALTER TABLE salutation ADD CONSTRAINT PK_salutation PRIMARY KEY (id);
-DROP SEQUENCE SE_salutation;
-CREATE SEQUENCE SE_salutation
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_SALUTATION';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SALUTATION';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_SALUTATION
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_salutation_t
+CREATE OR REPLACE TRIGGER SE_SALUTATION_t
 before insert on salutation
 for each row
 begin
   if :new.id IS NULL then
-    select SE_salutation.nextval
+    select SE_SALUTATION.nextval
     into :new.id
     from dual;
   end if;
@@ -347,20 +455,38 @@ CREATE TABLE signature (
     CONSTRAINT signature_name UNIQUE (name)
 );
 ALTER TABLE signature ADD CONSTRAINT PK_signature PRIMARY KEY (id);
-DROP SEQUENCE SE_signature;
-CREATE SEQUENCE SE_signature
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_SIGNATURE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SIGNATURE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_SIGNATURE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_signature_t
+CREATE OR REPLACE TRIGGER SE_SIGNATURE_t
 before insert on signature
 for each row
 begin
   if :new.id IS NULL then
-    select SE_signature.nextval
+    select SE_SIGNATURE.nextval
     into :new.id
     from dual;
   end if;
@@ -388,20 +514,38 @@ CREATE TABLE system_address (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE system_address ADD CONSTRAINT PK_system_address PRIMARY KEY (id);
-DROP SEQUENCE SE_system_address;
-CREATE SEQUENCE SE_system_address
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_SYSTEM_ADDRESS';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SYSTEM_ADDRESS';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_SYSTEM_ADDRESS
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_system_address_t
+CREATE OR REPLACE TRIGGER SE_SYSTEM_ADDRESS_t
 before insert on system_address
 for each row
 begin
   if :new.id IS NULL then
-    select SE_system_address.nextval
+    select SE_SYSTEM_ADDRESS.nextval
     into :new.id
     from dual;
   end if;
@@ -426,20 +570,38 @@ CREATE TABLE follow_up_possible (
     CONSTRAINT follow_up_possible_name UNIQUE (name)
 );
 ALTER TABLE follow_up_possible ADD CONSTRAINT PK_follow_up_possible PRIMARY KEY (id);
-DROP SEQUENCE SE_follow_up_possible;
-CREATE SEQUENCE SE_follow_up_possible
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_FOLLOW_UP_POSSIBLE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_FOLLOW_UP_POSSIBLE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_FOLLOW_UP_POSSIBLE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_follow_up_possible_t
+CREATE OR REPLACE TRIGGER SE_FOLLOW_UP_POSSIBLE_t
 before insert on follow_up_possible
 for each row
 begin
   if :new.id IS NULL then
-    select SE_follow_up_possible.nextval
+    select SE_FOLLOW_UP_POSSIBLE.nextval
     into :new.id
     from dual;
   end if;
@@ -479,20 +641,38 @@ CREATE TABLE queue (
     CONSTRAINT queue_name UNIQUE (name)
 );
 ALTER TABLE queue ADD CONSTRAINT PK_queue PRIMARY KEY (id);
-DROP SEQUENCE SE_queue;
-CREATE SEQUENCE SE_queue
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_QUEUE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_QUEUE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_QUEUE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_queue_t
+CREATE OR REPLACE TRIGGER SE_QUEUE_t
 before insert on queue
 for each row
 begin
   if :new.id IS NULL then
-    select SE_queue.nextval
+    select SE_QUEUE.nextval
     into :new.id
     from dual;
   end if;
@@ -530,20 +710,38 @@ CREATE TABLE ticket_priority (
     CONSTRAINT ticket_priority_name UNIQUE (name)
 );
 ALTER TABLE ticket_priority ADD CONSTRAINT PK_ticket_priority PRIMARY KEY (id);
-DROP SEQUENCE SE_ticket_priority;
-CREATE SEQUENCE SE_ticket_priority
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_TICKET_PRIORITY';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_PRIORITY';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_TICKET_PRIORITY
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_ticket_priority_t
+CREATE OR REPLACE TRIGGER SE_TICKET_PRIORITY_t
 before insert on ticket_priority
 for each row
 begin
   if :new.id IS NULL then
-    select SE_ticket_priority.nextval
+    select SE_TICKET_PRIORITY.nextval
     into :new.id
     from dual;
   end if;
@@ -566,20 +764,38 @@ CREATE TABLE ticket_type (
     CONSTRAINT ticket_type_name UNIQUE (name)
 );
 ALTER TABLE ticket_type ADD CONSTRAINT PK_ticket_type PRIMARY KEY (id);
-DROP SEQUENCE SE_ticket_type;
-CREATE SEQUENCE SE_ticket_type
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_TICKET_TYPE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_TYPE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_TICKET_TYPE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_ticket_type_t
+CREATE OR REPLACE TRIGGER SE_TICKET_TYPE_t
 before insert on ticket_type
 for each row
 begin
   if :new.id IS NULL then
-    select SE_ticket_type.nextval
+    select SE_TICKET_TYPE.nextval
     into :new.id
     from dual;
   end if;
@@ -603,20 +819,38 @@ CREATE TABLE ticket_lock_type (
     CONSTRAINT ticket_lock_type_name UNIQUE (name)
 );
 ALTER TABLE ticket_lock_type ADD CONSTRAINT PK_ticket_lock_type PRIMARY KEY (id);
-DROP SEQUENCE SE_ticket_lock_type;
-CREATE SEQUENCE SE_ticket_lock_type
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_TICKET_LOCK_TYPE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_LOCK_TYPE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_TICKET_LOCK_TYPE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_ticket_lock_type_t
+CREATE OR REPLACE TRIGGER SE_TICKET_LOCK_TYPE_t
 before insert on ticket_lock_type
 for each row
 begin
   if :new.id IS NULL then
-    select SE_ticket_lock_type.nextval
+    select SE_TICKET_LOCK_TYPE.nextval
     into :new.id
     from dual;
   end if;
@@ -642,20 +876,38 @@ CREATE TABLE ticket_state (
     CONSTRAINT ticket_state_name UNIQUE (name)
 );
 ALTER TABLE ticket_state ADD CONSTRAINT PK_ticket_state PRIMARY KEY (id);
-DROP SEQUENCE SE_ticket_state;
-CREATE SEQUENCE SE_ticket_state
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_TICKET_STATE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_STATE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_TICKET_STATE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_ticket_state_t
+CREATE OR REPLACE TRIGGER SE_TICKET_STATE_t
 before insert on ticket_state
 for each row
 begin
   if :new.id IS NULL then
-    select SE_ticket_state.nextval
+    select SE_TICKET_STATE.nextval
     into :new.id
     from dual;
   end if;
@@ -680,20 +932,38 @@ CREATE TABLE ticket_state_type (
     CONSTRAINT ticket_state_type_name UNIQUE (name)
 );
 ALTER TABLE ticket_state_type ADD CONSTRAINT PK_ticket_state_type PRIMARY KEY (id);
-DROP SEQUENCE SE_ticket_state_type;
-CREATE SEQUENCE SE_ticket_state_type
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_TICKET_STATE_TYPE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_STATE_TYPE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_TICKET_STATE_TYPE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_ticket_state_type_t
+CREATE OR REPLACE TRIGGER SE_TICKET_STATE_TYPE_t
 before insert on ticket_state_type
 for each row
 begin
   if :new.id IS NULL then
-    select SE_ticket_state_type.nextval
+    select SE_TICKET_STATE_TYPE.nextval
     into :new.id
     from dual;
   end if;
@@ -736,20 +1006,38 @@ CREATE TABLE ticket (
     CONSTRAINT ticket_tn UNIQUE (tn)
 );
 ALTER TABLE ticket ADD CONSTRAINT PK_ticket PRIMARY KEY (id);
-DROP SEQUENCE SE_ticket;
-CREATE SEQUENCE SE_ticket
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_TICKET';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_TICKET
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_ticket_t
+CREATE OR REPLACE TRIGGER SE_TICKET_t
 before insert on ticket
 for each row
 begin
   if :new.id IS NULL then
-    select SE_ticket.nextval
+    select SE_TICKET.nextval
     into :new.id
     from dual;
   end if;
@@ -817,20 +1105,38 @@ CREATE TABLE ticket_history (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE ticket_history ADD CONSTRAINT PK_ticket_history PRIMARY KEY (id);
-DROP SEQUENCE SE_ticket_history;
-CREATE SEQUENCE SE_ticket_history
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_TICKET_HISTORY';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_HISTORY';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_TICKET_HISTORY
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_ticket_history_t
+CREATE OR REPLACE TRIGGER SE_TICKET_HISTORY_t
 before insert on ticket_history
 for each row
 begin
   if :new.id IS NULL then
-    select SE_ticket_history.nextval
+    select SE_TICKET_HISTORY.nextval
     into :new.id
     from dual;
   end if;
@@ -864,20 +1170,38 @@ CREATE TABLE ticket_history_type (
     CONSTRAINT ticket_history_type_name UNIQUE (name)
 );
 ALTER TABLE ticket_history_type ADD CONSTRAINT PK_ticket_history_type PRIMARY KEY (id);
-DROP SEQUENCE SE_ticket_history_type;
-CREATE SEQUENCE SE_ticket_history_type
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_TICKET_HISTORY_TYPE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_HISTORY_TYPE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_TICKET_HISTORY_TYPE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_ticket_history_type_t
+CREATE OR REPLACE TRIGGER SE_TICKET_HISTORY_TYPE_t
 before insert on ticket_history_type
 for each row
 begin
   if :new.id IS NULL then
-    select SE_ticket_history_type.nextval
+    select SE_TICKET_HISTORY_TYPE.nextval
     into :new.id
     from dual;
   end if;
@@ -948,20 +1272,38 @@ CREATE TABLE article_type (
     CONSTRAINT article_type_name UNIQUE (name)
 );
 ALTER TABLE article_type ADD CONSTRAINT PK_article_type PRIMARY KEY (id);
-DROP SEQUENCE SE_article_type;
-CREATE SEQUENCE SE_article_type
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_ARTICLE_TYPE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ARTICLE_TYPE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_ARTICLE_TYPE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_article_type_t
+CREATE OR REPLACE TRIGGER SE_ARTICLE_TYPE_t
 before insert on article_type
 for each row
 begin
   if :new.id IS NULL then
-    select SE_article_type.nextval
+    select SE_ARTICLE_TYPE.nextval
     into :new.id
     from dual;
   end if;
@@ -986,20 +1328,38 @@ CREATE TABLE article_sender_type (
     CONSTRAINT article_sender_type_name UNIQUE (name)
 );
 ALTER TABLE article_sender_type ADD CONSTRAINT PK_article_sender_type PRIMARY KEY (id);
-DROP SEQUENCE SE_article_sender_type;
-CREATE SEQUENCE SE_article_sender_type
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_ARTICLE_SENDER_TYPE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ARTICLE_SENDER_TYPE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_ARTICLE_SENDER_TYPE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_article_sender_type_t
+CREATE OR REPLACE TRIGGER SE_ARTICLE_SENDER_TYPE_t
 before insert on article_sender_type
 for each row
 begin
   if :new.id IS NULL then
-    select SE_article_sender_type.nextval
+    select SE_ARTICLE_SENDER_TYPE.nextval
     into :new.id
     from dual;
   end if;
@@ -1050,20 +1410,38 @@ CREATE TABLE article (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE article ADD CONSTRAINT PK_article PRIMARY KEY (id);
-DROP SEQUENCE SE_article;
-CREATE SEQUENCE SE_article
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_ARTICLE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ARTICLE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_ARTICLE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_article_t
+CREATE OR REPLACE TRIGGER SE_ARTICLE_t
 before insert on article
 for each row
 begin
   if :new.id IS NULL then
-    select SE_article.nextval
+    select SE_ARTICLE.nextval
     into :new.id
     from dual;
   end if;
@@ -1109,20 +1487,38 @@ CREATE TABLE article_plain (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE article_plain ADD CONSTRAINT PK_article_plain PRIMARY KEY (id);
-DROP SEQUENCE SE_article_plain;
-CREATE SEQUENCE SE_article_plain
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_ARTICLE_PLAIN';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ARTICLE_PLAIN';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_ARTICLE_PLAIN
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_article_plain_t
+CREATE OR REPLACE TRIGGER SE_ARTICLE_PLAIN_t
 before insert on article_plain
 for each row
 begin
   if :new.id IS NULL then
-    select SE_article_plain.nextval
+    select SE_ARTICLE_PLAIN.nextval
     into :new.id
     from dual;
   end if;
@@ -1150,20 +1546,38 @@ CREATE TABLE article_attachment (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE article_attachment ADD CONSTRAINT PK_article_attachment PRIMARY KEY (id);
-DROP SEQUENCE SE_article_attachment;
-CREATE SEQUENCE SE_article_attachment
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_ARTICLE_ATTACHMENT';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ARTICLE_ATTACHMENT';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_ARTICLE_ATTACHMENT
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_article_attachment_t
+CREATE OR REPLACE TRIGGER SE_ARTICLE_ATTACHMENT_t
 before insert on article_attachment
 for each row
 begin
   if :new.id IS NULL then
-    select SE_article_attachment.nextval
+    select SE_ARTICLE_ATTACHMENT.nextval
     into :new.id
     from dual;
   end if;
@@ -1187,20 +1601,38 @@ CREATE TABLE time_accounting (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE time_accounting ADD CONSTRAINT PK_time_accounting PRIMARY KEY (id);
-DROP SEQUENCE SE_time_accounting;
-CREATE SEQUENCE SE_time_accounting
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_TIME_ACCOUNTING';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TIME_ACCOUNTING';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_TIME_ACCOUNTING
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_time_accounting_t
+CREATE OR REPLACE TRIGGER SE_TIME_ACCOUNTING_t
 before insert on time_accounting
 for each row
 begin
   if :new.id IS NULL then
-    select SE_time_accounting.nextval
+    select SE_TIME_ACCOUNTING.nextval
     into :new.id
     from dual;
   end if;
@@ -1229,20 +1661,38 @@ CREATE TABLE standard_template (
     CONSTRAINT standard_template_name UNIQUE (name)
 );
 ALTER TABLE standard_template ADD CONSTRAINT PK_standard_template PRIMARY KEY (id);
-DROP SEQUENCE SE_standard_template;
-CREATE SEQUENCE SE_standard_template
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_STANDARD_TEMPLATE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_STANDARD_TEMPLATE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_STANDARD_TEMPLATE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_standard_template_t
+CREATE OR REPLACE TRIGGER SE_STANDARD_TEMPLATE_t
 before insert on standard_template
 for each row
 begin
   if :new.id IS NULL then
-    select SE_standard_template.nextval
+    select SE_STANDARD_TEMPLATE.nextval
     into :new.id
     from dual;
   end if;
@@ -1285,20 +1735,38 @@ CREATE TABLE standard_attachment (
     CONSTRAINT standard_attachment_name UNIQUE (name)
 );
 ALTER TABLE standard_attachment ADD CONSTRAINT PK_standard_attachment PRIMARY KEY (id);
-DROP SEQUENCE SE_standard_attachment;
-CREATE SEQUENCE SE_standard_attachment
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_STANDARD_ATTACHMENT';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_STANDARD_ATTACHMENT';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_STANDARD_ATTACHMENT
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_standard_attachment_t
+CREATE OR REPLACE TRIGGER SE_STANDARD_ATTACHMENT_t
 before insert on standard_attachment
 for each row
 begin
   if :new.id IS NULL then
-    select SE_standard_attachment.nextval
+    select SE_STANDARD_ATTACHMENT.nextval
     into :new.id
     from dual;
   end if;
@@ -1321,20 +1789,38 @@ CREATE TABLE standard_template_attachment (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE standard_template_attachment ADD CONSTRAINT PK_standard_template_attachmb7 PRIMARY KEY (id);
-DROP SEQUENCE SE_standard_template_attacc3;
-CREATE SEQUENCE SE_standard_template_attacc3
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_STANDARD_TEMPLATE_ATTACC3';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_STANDARD_TEMPLATE_ATTACC3';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_STANDARD_TEMPLATE_ATTACC3
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_standard_template_attacc3_t
+CREATE OR REPLACE TRIGGER SE_STANDARD_TEMPLATE_ATTACC3_t
 before insert on standard_template_attachment
 for each row
 begin
   if :new.id IS NULL then
-    select SE_standard_template_attacc3.nextval
+    select SE_STANDARD_TEMPLATE_ATTACC3.nextval
     into :new.id
     from dual;
   end if;
@@ -1360,20 +1846,38 @@ CREATE TABLE auto_response_type (
     CONSTRAINT auto_response_type_name UNIQUE (name)
 );
 ALTER TABLE auto_response_type ADD CONSTRAINT PK_auto_response_type PRIMARY KEY (id);
-DROP SEQUENCE SE_auto_response_type;
-CREATE SEQUENCE SE_auto_response_type
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_AUTO_RESPONSE_TYPE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_AUTO_RESPONSE_TYPE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_AUTO_RESPONSE_TYPE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_auto_response_type_t
+CREATE OR REPLACE TRIGGER SE_AUTO_RESPONSE_TYPE_t
 before insert on auto_response_type
 for each row
 begin
   if :new.id IS NULL then
-    select SE_auto_response_type.nextval
+    select SE_AUTO_RESPONSE_TYPE.nextval
     into :new.id
     from dual;
   end if;
@@ -1405,20 +1909,38 @@ CREATE TABLE auto_response (
     CONSTRAINT auto_response_name UNIQUE (name)
 );
 ALTER TABLE auto_response ADD CONSTRAINT PK_auto_response PRIMARY KEY (id);
-DROP SEQUENCE SE_auto_response;
-CREATE SEQUENCE SE_auto_response
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_AUTO_RESPONSE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_AUTO_RESPONSE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_AUTO_RESPONSE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_auto_response_t
+CREATE OR REPLACE TRIGGER SE_AUTO_RESPONSE_t
 before insert on auto_response
 for each row
 begin
   if :new.id IS NULL then
-    select SE_auto_response.nextval
+    select SE_AUTO_RESPONSE.nextval
     into :new.id
     from dual;
   end if;
@@ -1443,20 +1965,38 @@ CREATE TABLE queue_auto_response (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE queue_auto_response ADD CONSTRAINT PK_queue_auto_response PRIMARY KEY (id);
-DROP SEQUENCE SE_queue_auto_response;
-CREATE SEQUENCE SE_queue_auto_response
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_QUEUE_AUTO_RESPONSE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_QUEUE_AUTO_RESPONSE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_QUEUE_AUTO_RESPONSE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_queue_auto_response_t
+CREATE OR REPLACE TRIGGER SE_QUEUE_AUTO_RESPONSE_t
 before insert on queue_auto_response
 for each row
 begin
   if :new.id IS NULL then
-    select SE_queue_auto_response.nextval
+    select SE_QUEUE_AUTO_RESPONSE.nextval
     into :new.id
     from dual;
   end if;
@@ -1482,20 +2022,38 @@ CREATE TABLE service (
     CONSTRAINT service_name UNIQUE (name)
 );
 ALTER TABLE service ADD CONSTRAINT PK_service PRIMARY KEY (id);
-DROP SEQUENCE SE_service;
-CREATE SEQUENCE SE_service
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_SERVICE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SERVICE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_SERVICE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_service_t
+CREATE OR REPLACE TRIGGER SE_SERVICE_t
 before insert on service
 for each row
 begin
   if :new.id IS NULL then
-    select SE_service.nextval
+    select SE_SERVICE.nextval
     into :new.id
     from dual;
   end if;
@@ -1547,20 +2105,38 @@ CREATE TABLE sla (
     CONSTRAINT sla_name UNIQUE (name)
 );
 ALTER TABLE sla ADD CONSTRAINT PK_sla PRIMARY KEY (id);
-DROP SEQUENCE SE_sla;
-CREATE SEQUENCE SE_sla
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_SLA';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SLA';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_SLA
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_sla_t
+CREATE OR REPLACE TRIGGER SE_SLA_t
 before insert on sla
 for each row
 begin
   if :new.id IS NULL then
-    select SE_sla.nextval
+    select SE_SLA.nextval
     into :new.id
     from dual;
   end if;
@@ -1599,20 +2175,38 @@ CREATE TABLE sessions (
     serialized NUMBER (5, 0) NOT NULL
 );
 ALTER TABLE sessions ADD CONSTRAINT PK_sessions PRIMARY KEY (id);
-DROP SEQUENCE SE_sessions;
-CREATE SEQUENCE SE_sessions
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_SESSIONS';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SESSIONS';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_SESSIONS
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_sessions_t
+CREATE OR REPLACE TRIGGER SE_SESSIONS_t
 before insert on sessions
 for each row
 begin
   if :new.id IS NULL then
-    select SE_sessions.nextval
+    select SE_SESSIONS.nextval
     into :new.id
     from dual;
   end if;
@@ -1649,20 +2243,38 @@ CREATE TABLE customer_user (
     CONSTRAINT customer_user_login UNIQUE (login)
 );
 ALTER TABLE customer_user ADD CONSTRAINT PK_customer_user PRIMARY KEY (id);
-DROP SEQUENCE SE_customer_user;
-CREATE SEQUENCE SE_customer_user
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_CUSTOMER_USER';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_CUSTOMER_USER';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_CUSTOMER_USER
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_customer_user_t
+CREATE OR REPLACE TRIGGER SE_CUSTOMER_USER_t
 before insert on customer_user
 for each row
 begin
   if :new.id IS NULL then
-    select SE_customer_user.nextval
+    select SE_CUSTOMER_USER.nextval
     into :new.id
     from dual;
   end if;
@@ -1721,20 +2333,38 @@ CREATE TABLE mail_account (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE mail_account ADD CONSTRAINT PK_mail_account PRIMARY KEY (id);
-DROP SEQUENCE SE_mail_account;
-CREATE SEQUENCE SE_mail_account
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_MAIL_ACCOUNT';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_MAIL_ACCOUNT';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_MAIL_ACCOUNT
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_mail_account_t
+CREATE OR REPLACE TRIGGER SE_MAIL_ACCOUNT_t
 before insert on mail_account
 for each row
 begin
   if :new.id IS NULL then
-    select SE_mail_account.nextval
+    select SE_MAIL_ACCOUNT.nextval
     into :new.id
     from dual;
   end if;
@@ -1816,20 +2446,38 @@ CREATE TABLE notifications (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE notifications ADD CONSTRAINT PK_notifications PRIMARY KEY (id);
-DROP SEQUENCE SE_notifications;
-CREATE SEQUENCE SE_notifications
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_NOTIFICATIONS';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_NOTIFICATIONS';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_NOTIFICATIONS
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_notifications_t
+CREATE OR REPLACE TRIGGER SE_NOTIFICATIONS_t
 before insert on notifications
 for each row
 begin
   if :new.id IS NULL then
-    select SE_notifications.nextval
+    select SE_NOTIFICATIONS.nextval
     into :new.id
     from dual;
   end if;
@@ -1857,20 +2505,38 @@ CREATE TABLE notification_event (
     CONSTRAINT notification_event_name UNIQUE (name)
 );
 ALTER TABLE notification_event ADD CONSTRAINT PK_notification_event PRIMARY KEY (id);
-DROP SEQUENCE SE_notification_event;
-CREATE SEQUENCE SE_notification_event
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_NOTIFICATION_EVENT';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_NOTIFICATION_EVENT';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_NOTIFICATION_EVENT
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_notification_event_t
+CREATE OR REPLACE TRIGGER SE_NOTIFICATION_EVENT_t
 before insert on notification_event
 for each row
 begin
   if :new.id IS NULL then
-    select SE_notification_event.nextval
+    select SE_NOTIFICATION_EVENT.nextval
     into :new.id
     from dual;
   end if;
@@ -1905,20 +2571,38 @@ CREATE TABLE link_type (
     CONSTRAINT link_type_name UNIQUE (name)
 );
 ALTER TABLE link_type ADD CONSTRAINT PK_link_type PRIMARY KEY (id);
-DROP SEQUENCE SE_link_type;
-CREATE SEQUENCE SE_link_type
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_LINK_TYPE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_LINK_TYPE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_LINK_TYPE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_link_type_t
+CREATE OR REPLACE TRIGGER SE_LINK_TYPE_t
 before insert on link_type
 for each row
 begin
   if :new.id IS NULL then
-    select SE_link_type.nextval
+    select SE_LINK_TYPE.nextval
     into :new.id
     from dual;
   end if;
@@ -1942,20 +2626,38 @@ CREATE TABLE link_state (
     CONSTRAINT link_state_name UNIQUE (name)
 );
 ALTER TABLE link_state ADD CONSTRAINT PK_link_state PRIMARY KEY (id);
-DROP SEQUENCE SE_link_state;
-CREATE SEQUENCE SE_link_state
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_LINK_STATE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_LINK_STATE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_LINK_STATE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_link_state_t
+CREATE OR REPLACE TRIGGER SE_LINK_STATE_t
 before insert on link_state
 for each row
 begin
   if :new.id IS NULL then
-    select SE_link_state.nextval
+    select SE_LINK_STATE.nextval
     into :new.id
     from dual;
   end if;
@@ -1974,20 +2676,38 @@ CREATE TABLE link_object (
     CONSTRAINT link_object_name UNIQUE (name)
 );
 ALTER TABLE link_object ADD CONSTRAINT PK_link_object PRIMARY KEY (id);
-DROP SEQUENCE SE_link_object;
-CREATE SEQUENCE SE_link_object
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_LINK_OBJECT';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_LINK_OBJECT';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_LINK_OBJECT
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_link_object_t
+CREATE OR REPLACE TRIGGER SE_LINK_OBJECT_t
 before insert on link_object
 for each row
 begin
   if :new.id IS NULL then
-    select SE_link_object.nextval
+    select SE_LINK_OBJECT.nextval
     into :new.id
     from dual;
   end if;
@@ -2049,20 +2769,38 @@ CREATE TABLE virtual_fs (
     create_time DATE NOT NULL
 );
 ALTER TABLE virtual_fs ADD CONSTRAINT PK_virtual_fs PRIMARY KEY (id);
-DROP SEQUENCE SE_virtual_fs;
-CREATE SEQUENCE SE_virtual_fs
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_VIRTUAL_FS';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_VIRTUAL_FS';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_VIRTUAL_FS
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_virtual_fs_t
+CREATE OR REPLACE TRIGGER SE_VIRTUAL_FS_t
 before insert on virtual_fs
 for each row
 begin
   if :new.id IS NULL then
-    select SE_virtual_fs.nextval
+    select SE_VIRTUAL_FS.nextval
     into :new.id
     from dual;
   end if;
@@ -2091,20 +2829,38 @@ CREATE TABLE virtual_fs_db (
     create_time DATE NOT NULL
 );
 ALTER TABLE virtual_fs_db ADD CONSTRAINT PK_virtual_fs_db PRIMARY KEY (id);
-DROP SEQUENCE SE_virtual_fs_db;
-CREATE SEQUENCE SE_virtual_fs_db
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_VIRTUAL_FS_DB';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_VIRTUAL_FS_DB';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_VIRTUAL_FS_DB
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_virtual_fs_db_t
+CREATE OR REPLACE TRIGGER SE_VIRTUAL_FS_DB_t
 before insert on virtual_fs_db
 for each row
 begin
   if :new.id IS NULL then
-    select SE_virtual_fs_db.nextval
+    select SE_VIRTUAL_FS_DB.nextval
     into :new.id
     from dual;
   end if;
@@ -2131,20 +2887,38 @@ CREATE TABLE package_repository (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE package_repository ADD CONSTRAINT PK_package_repository PRIMARY KEY (id);
-DROP SEQUENCE SE_package_repository;
-CREATE SEQUENCE SE_package_repository
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_PACKAGE_REPOSITORY';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PACKAGE_REPOSITORY';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_PACKAGE_REPOSITORY
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_package_repository_t
+CREATE OR REPLACE TRIGGER SE_PACKAGE_REPOSITORY_t
 before insert on package_repository
 for each row
 begin
   if :new.id IS NULL then
-    select SE_package_repository.nextval
+    select SE_PACKAGE_REPOSITORY.nextval
     into :new.id
     from dual;
   end if;
@@ -2170,20 +2944,38 @@ CREATE TABLE gi_webservice_config (
     CONSTRAINT gi_webservice_config_name UNIQUE (name)
 );
 ALTER TABLE gi_webservice_config ADD CONSTRAINT PK_gi_webservice_config PRIMARY KEY (id);
-DROP SEQUENCE SE_gi_webservice_config;
-CREATE SEQUENCE SE_gi_webservice_config
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_GI_WEBSERVICE_CONFIG';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_GI_WEBSERVICE_CONFIG';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_GI_WEBSERVICE_CONFIG
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_gi_webservice_config_t
+CREATE OR REPLACE TRIGGER SE_GI_WEBSERVICE_CONFIG_t
 before insert on gi_webservice_config
 for each row
 begin
   if :new.id IS NULL then
-    select SE_gi_webservice_config.nextval
+    select SE_GI_WEBSERVICE_CONFIG.nextval
     into :new.id
     from dual;
   end if;
@@ -2208,20 +3000,38 @@ CREATE TABLE gi_webservice_config_history (
     CONSTRAINT gi_webservice_config_history8b UNIQUE (config_md5)
 );
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT PK_gi_webservice_config_hist06 PRIMARY KEY (id);
-DROP SEQUENCE SE_gi_webservice_config_hi2f;
-CREATE SEQUENCE SE_gi_webservice_config_hi2f
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_GI_WEBSERVICE_CONFIG_HI2F';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_GI_WEBSERVICE_CONFIG_HI2F';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_GI_WEBSERVICE_CONFIG_HI2F
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_gi_webservice_config_hi2f_t
+CREATE OR REPLACE TRIGGER SE_GI_WEBSERVICE_CONFIG_HI2F_t
 before insert on gi_webservice_config_history
 for each row
 begin
   if :new.id IS NULL then
-    select SE_gi_webservice_config_hi2f.nextval
+    select SE_GI_WEBSERVICE_CONFIG_HI2F.nextval
     into :new.id
     from dual;
   end if;
@@ -2244,20 +3054,38 @@ CREATE TABLE scheduler_task_list (
     CONSTRAINT scheduler_task_list_task_dat81 UNIQUE (task_data_md5)
 );
 ALTER TABLE scheduler_task_list ADD CONSTRAINT PK_scheduler_task_list PRIMARY KEY (id);
-DROP SEQUENCE SE_scheduler_task_list;
-CREATE SEQUENCE SE_scheduler_task_list
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_SCHEDULER_TASK_LIST';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SCHEDULER_TASK_LIST';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_SCHEDULER_TASK_LIST
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_scheduler_task_list_t
+CREATE OR REPLACE TRIGGER SE_SCHEDULER_TASK_LIST_t
 before insert on scheduler_task_list
 for each row
 begin
   if :new.id IS NULL then
-    select SE_scheduler_task_list.nextval
+    select SE_SCHEDULER_TASK_LIST.nextval
     into :new.id
     from dual;
   end if;
@@ -2277,20 +3105,38 @@ CREATE TABLE gi_debugger_entry (
     CONSTRAINT gi_debugger_entry_communicat94 UNIQUE (communication_id)
 );
 ALTER TABLE gi_debugger_entry ADD CONSTRAINT PK_gi_debugger_entry PRIMARY KEY (id);
-DROP SEQUENCE SE_gi_debugger_entry;
-CREATE SEQUENCE SE_gi_debugger_entry
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_GI_DEBUGGER_ENTRY';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_GI_DEBUGGER_ENTRY';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_GI_DEBUGGER_ENTRY
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_gi_debugger_entry_t
+CREATE OR REPLACE TRIGGER SE_GI_DEBUGGER_ENTRY_t
 before insert on gi_debugger_entry
 for each row
 begin
   if :new.id IS NULL then
-    select SE_gi_debugger_entry.nextval
+    select SE_GI_DEBUGGER_ENTRY.nextval
     into :new.id
     from dual;
   end if;
@@ -2311,20 +3157,38 @@ CREATE TABLE gi_debugger_entry_content (
     create_time DATE NOT NULL
 );
 ALTER TABLE gi_debugger_entry_content ADD CONSTRAINT PK_gi_debugger_entry_content PRIMARY KEY (id);
-DROP SEQUENCE SE_gi_debugger_entry_content;
-CREATE SEQUENCE SE_gi_debugger_entry_content
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_GI_DEBUGGER_ENTRY_CONTENT';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_GI_DEBUGGER_ENTRY_CONTENT';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_GI_DEBUGGER_ENTRY_CONTENT
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_gi_debugger_entry_content_t
+CREATE OR REPLACE TRIGGER SE_GI_DEBUGGER_ENTRY_CONTENT_t
 before insert on gi_debugger_entry_content
 for each row
 begin
   if :new.id IS NULL then
-    select SE_gi_debugger_entry_content.nextval
+    select SE_GI_DEBUGGER_ENTRY_CONTENT.nextval
     into :new.id
     from dual;
   end if;
@@ -2364,20 +3228,38 @@ CREATE TABLE smime_signer_cert_relations (
     change_by NUMBER (12, 0) NOT NULL
 );
 ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT PK_smime_signer_cert_relations PRIMARY KEY (id);
-DROP SEQUENCE SE_smime_signer_cert_relatef;
-CREATE SEQUENCE SE_smime_signer_cert_relatef
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_SMIME_SIGNER_CERT_RELATEF';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SMIME_SIGNER_CERT_RELATEF';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_SMIME_SIGNER_CERT_RELATEF
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_smime_signer_cert_relatef_t
+CREATE OR REPLACE TRIGGER SE_SMIME_SIGNER_CERT_RELATEF_t
 before insert on smime_signer_cert_relations
 for each row
 begin
   if :new.id IS NULL then
-    select SE_smime_signer_cert_relatef.nextval
+    select SE_SMIME_SIGNER_CERT_RELATEF.nextval
     into :new.id
     from dual;
   end if;
@@ -2398,20 +3280,38 @@ CREATE TABLE dynamic_field_value (
     value_int NUMBER (20, 0) NULL
 );
 ALTER TABLE dynamic_field_value ADD CONSTRAINT PK_dynamic_field_value PRIMARY KEY (id);
-DROP SEQUENCE SE_dynamic_field_value;
-CREATE SEQUENCE SE_dynamic_field_value
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_DYNAMIC_FIELD_VALUE';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_DYNAMIC_FIELD_VALUE';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_DYNAMIC_FIELD_VALUE
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_dynamic_field_value_t
+CREATE OR REPLACE TRIGGER SE_DYNAMIC_FIELD_VALUE_t
 before insert on dynamic_field_value
 for each row
 begin
   if :new.id IS NULL then
-    select SE_dynamic_field_value.nextval
+    select SE_DYNAMIC_FIELD_VALUE.nextval
     into :new.id
     from dual;
   end if;
@@ -2442,20 +3342,38 @@ CREATE TABLE dynamic_field (
     CONSTRAINT dynamic_field_name UNIQUE (name)
 );
 ALTER TABLE dynamic_field ADD CONSTRAINT PK_dynamic_field PRIMARY KEY (id);
-DROP SEQUENCE SE_dynamic_field;
-CREATE SEQUENCE SE_dynamic_field
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_DYNAMIC_FIELD';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_DYNAMIC_FIELD';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_DYNAMIC_FIELD
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_dynamic_field_t
+CREATE OR REPLACE TRIGGER SE_DYNAMIC_FIELD_t
 before insert on dynamic_field
 for each row
 begin
   if :new.id IS NULL then
-    select SE_dynamic_field.nextval
+    select SE_DYNAMIC_FIELD.nextval
     into :new.id
     from dual;
   end if;
@@ -2482,20 +3400,38 @@ CREATE TABLE pm_process (
     CONSTRAINT pm_process_entity_id UNIQUE (entity_id)
 );
 ALTER TABLE pm_process ADD CONSTRAINT PK_pm_process PRIMARY KEY (id);
-DROP SEQUENCE SE_pm_process;
-CREATE SEQUENCE SE_pm_process
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_PM_PROCESS';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PM_PROCESS';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_PM_PROCESS
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_pm_process_t
+CREATE OR REPLACE TRIGGER SE_PM_PROCESS_t
 before insert on pm_process
 for each row
 begin
   if :new.id IS NULL then
-    select SE_pm_process.nextval
+    select SE_PM_PROCESS.nextval
     into :new.id
     from dual;
   end if;
@@ -2519,20 +3455,38 @@ CREATE TABLE pm_activity (
     CONSTRAINT pm_activity_entity_id UNIQUE (entity_id)
 );
 ALTER TABLE pm_activity ADD CONSTRAINT PK_pm_activity PRIMARY KEY (id);
-DROP SEQUENCE SE_pm_activity;
-CREATE SEQUENCE SE_pm_activity
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_PM_ACTIVITY';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PM_ACTIVITY';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_PM_ACTIVITY
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_pm_activity_t
+CREATE OR REPLACE TRIGGER SE_PM_ACTIVITY_t
 before insert on pm_activity
 for each row
 begin
   if :new.id IS NULL then
-    select SE_pm_activity.nextval
+    select SE_PM_ACTIVITY.nextval
     into :new.id
     from dual;
   end if;
@@ -2556,20 +3510,38 @@ CREATE TABLE pm_activity_dialog (
     CONSTRAINT pm_activity_dialog_entity_id UNIQUE (entity_id)
 );
 ALTER TABLE pm_activity_dialog ADD CONSTRAINT PK_pm_activity_dialog PRIMARY KEY (id);
-DROP SEQUENCE SE_pm_activity_dialog;
-CREATE SEQUENCE SE_pm_activity_dialog
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_PM_ACTIVITY_DIALOG';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PM_ACTIVITY_DIALOG';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_PM_ACTIVITY_DIALOG
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_pm_activity_dialog_t
+CREATE OR REPLACE TRIGGER SE_PM_ACTIVITY_DIALOG_t
 before insert on pm_activity_dialog
 for each row
 begin
   if :new.id IS NULL then
-    select SE_pm_activity_dialog.nextval
+    select SE_PM_ACTIVITY_DIALOG.nextval
     into :new.id
     from dual;
   end if;
@@ -2593,20 +3565,38 @@ CREATE TABLE pm_transition (
     CONSTRAINT pm_transition_entity_id UNIQUE (entity_id)
 );
 ALTER TABLE pm_transition ADD CONSTRAINT PK_pm_transition PRIMARY KEY (id);
-DROP SEQUENCE SE_pm_transition;
-CREATE SEQUENCE SE_pm_transition
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_PM_TRANSITION';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PM_TRANSITION';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_PM_TRANSITION
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_pm_transition_t
+CREATE OR REPLACE TRIGGER SE_PM_TRANSITION_t
 before insert on pm_transition
 for each row
 begin
   if :new.id IS NULL then
-    select SE_pm_transition.nextval
+    select SE_PM_TRANSITION.nextval
     into :new.id
     from dual;
   end if;
@@ -2630,20 +3620,38 @@ CREATE TABLE pm_transition_action (
     CONSTRAINT pm_transition_action_entity_id UNIQUE (entity_id)
 );
 ALTER TABLE pm_transition_action ADD CONSTRAINT PK_pm_transition_action PRIMARY KEY (id);
-DROP SEQUENCE SE_pm_transition_action;
-CREATE SEQUENCE SE_pm_transition_action
+DECLARE
+    v_seq NUMBER;
+
+BEGIN
+    SELECT 1
+    INTO v_seq
+    FROM user_sequences
+    WHERE sequence_name = 'SE_PM_TRANSITION_ACTION';
+
+    IF v_seq = 1 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PM_TRANSITION_ACTION';
+    END IF;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            NULL;
+
+END;
+;
+CREATE SEQUENCE SE_PM_TRANSITION_ACTION
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_pm_transition_action_t
+CREATE OR REPLACE TRIGGER SE_PM_TRANSITION_ACTION_t
 before insert on pm_transition_action
 for each row
 begin
   if :new.id IS NULL then
-    select SE_pm_transition_action.nextval
+    select SE_PM_TRANSITION_ACTION.nextval
     into :new.id
     from dual;
   end if;
