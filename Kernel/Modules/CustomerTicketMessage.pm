@@ -143,6 +143,12 @@ sub Run {
                 );
                 return;
             }
+        } elsif ( $GetParam{Dest} ) {
+            my ( $QueueIDParam, $QueueParam ) = split( /\|\|/, $GetParam{Dest} );
+            my $QueueIDLookup = $Self->{QueueObject}->QueueLookup( Queue => $QueueParam );
+            if ($QueueIDLookup && $QueueIDLookup eq $QueueIDParam) {
+                $Param{ToSelected} = $GetParam{Dest};
+            }
         }
 
         # create html strings for all dynamic fields
