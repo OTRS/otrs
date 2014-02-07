@@ -2112,7 +2112,7 @@ sub _ArticleItem {
                             Name        => 'Forward',
                             Class       => 'AsPopup PopupType_TicketAction',
                             Link =>
-                                'Action=AgentTicketForward;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
+                                "Action=AgentTicketForward;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID}"
                         },
                     );
                 }
@@ -2161,7 +2161,7 @@ sub _ArticleItem {
                         Name        => 'Bounce',
                         Class       => 'AsPopup PopupType_TicketAction',
                         Link =>
-                            'Action=AgentTicketBounce;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
+                            "Action=AgentTicketBounce;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID}"
                     },
                 );
                 $Self->{LayoutObject}->Block(
@@ -2185,7 +2185,7 @@ sub _ArticleItem {
                 Description => 'Split this article',
                 Name        => 'Split',
                 Link =>
-                    'Action=AgentTicketPhone;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"};LinkTicketID=$Data{"TicketID"}'
+                    "Action=AgentTicketPhone;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID};LinkTicketID=$Ticket{TicketID}"
             },
         );
     }
@@ -2211,7 +2211,7 @@ sub _ArticleItem {
                     Name        => 'Print',
                     Class       => 'AsPopup PopupType_TicketAction',
                     Link =>
-                        'Action=AgentTicketPrint;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}'
+                        "Action=AgentTicketPrint;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID}"
                 },
             );
         }
@@ -2233,7 +2233,7 @@ sub _ArticleItem {
         );
         if ($OK) {
             my $Link
-                = 'Action=AgentTicketPlain;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}';
+                = "Action=AgentTicketPlain;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID}";
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleMenu',
                 Data => {
@@ -2266,7 +2266,7 @@ sub _ArticleItem {
         my $ArticleIsImportant = $ArticleFlags{Important};
 
         my $Link
-            = 'Action=AgentTicketZoom;Subaction=MarkAsImportant;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}';
+            = "Action=AgentTicketZoom;Subaction=MarkAsImportant;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID}";
         my $Description = 'Mark';
         if ($ArticleIsImportant) {
             $Description = 'Unmark';
