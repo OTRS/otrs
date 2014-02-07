@@ -3788,9 +3788,10 @@ sub TicketArchiveFlagSet {
 to set a ticket state
 
     my $Success = $TicketObject->TicketStateSet(
-        State    => 'open',
-        TicketID => 123,
-        UserID   => 123,
+        State     => 'open',
+        TicketID  => 123,
+        ArticleID => 123, #optional, for history
+        UserID    => 123,
     );
 
     my $Success = $TicketObject->TicketStateSet(

@@ -570,6 +570,42 @@ sub Run {
             );
         }
 
+        # set state
+        my $NextState = $Self->{Config}->{StateDefault} || 'open';
+        if ( $GetParam{StateID} && $Self->{Config}->{State} ) {
+            my %NextStateData = $Self->{StateObject}->StateGet( ID => $GetParam{StateID} );
+            $NextState = $NextStateData{Name};
+        }
+
+        # change state if
+        # customer set another state
+        # or the ticket is not new
+        if ( $Ticket{StateType} !~ /^new/ || $GetParam{StateID} ) {
+            $Self->{TicketObject}->StateSet(
+                TicketID => $Self->{TicketID},
+                State    => $NextState,
+                UserID   => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+            );
+
+            # set unlock on close state
+            if ( $NextState =~ /^close/i ) {
+                $Self->{TicketObject}->TicketLockSet(
+                    TicketID => $Self->{TicketID},
+                    Lock     => 'unlock',
+                    UserID   => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                );
+            }
+        }
+
+        # set priority
+        if ( $Self->{Config}->{Priority} && $GetParam{PriorityID} ) {
+            $Self->{TicketObject}->TicketPrioritySet(
+                TicketID   => $Self->{TicketID},
+                PriorityID => $GetParam{PriorityID},
+                UserID     => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+            );
+        }
+
         my $ArticleID = $Self->{TicketObject}->ArticleCreate(
             TicketID    => $Self->{TicketID},
             ArticleType => $Self->{Config}->{ArticleType},
@@ -595,43 +631,6 @@ sub Run {
             $Output .= $Self->{LayoutObject}->CustomerError();
             $Output .= $Self->{LayoutObject}->CustomerFooter();
             return $Output;
-        }
-
-        # set state
-        my $NextState = $Self->{Config}->{StateDefault} || 'open';
-        if ( $GetParam{StateID} && $Self->{Config}->{State} ) {
-            my %NextStateData = $Self->{StateObject}->StateGet( ID => $GetParam{StateID} );
-            $NextState = $NextStateData{Name};
-        }
-
-        # change state if
-        # customer set another state
-        # or the ticket is not new
-        if ( $Ticket{StateType} !~ /^new/ || $GetParam{StateID} ) {
-            $Self->{TicketObject}->StateSet(
-                TicketID  => $Self->{TicketID},
-                ArticleID => $ArticleID,
-                State     => $NextState,
-                UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-            );
-
-            # set unlock on close state
-            if ( $NextState =~ /^close/i ) {
-                $Self->{TicketObject}->TicketLockSet(
-                    TicketID => $Self->{TicketID},
-                    Lock     => 'unlock',
-                    UserID   => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-                );
-            }
-        }
-
-        # set priority
-        if ( $Self->{Config}->{Priority} && $GetParam{PriorityID} ) {
-            $Self->{TicketObject}->TicketPrioritySet(
-                TicketID   => $Self->{TicketID},
-                PriorityID => $GetParam{PriorityID},
-                UserID     => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-            );
         }
 
         # get pre loaded attachment
