@@ -1,4 +1,5 @@
 #3.3.5 2014-??-??
+ - 2014-02-07 Fixed bug#[10194](http://bugs.otrs.org/show_bug.cgi?id=10194) - CustomerTicketMessage parsing feild Dest in URI.
  - 2014-02-04 Follow-up fix for bug#[10110](http://bugs.otrs.org/show_bug.cgi?id=10110) - Stats list may show too few or too many stats.
  - 2014-02-04 Fixed bug#[10220](http://bugs.otrs.org/show_bug.cgi?id=10220) - Invalid Statistics not displayed in overview.
  - 2014-02-04 Fixed bug#[10218](http://bugs.otrs.org/show_bug.cgi?id=10218) - Header X-UA-Compatible in HeaderSmall.tt/HeaderSmall.dtl not set.
