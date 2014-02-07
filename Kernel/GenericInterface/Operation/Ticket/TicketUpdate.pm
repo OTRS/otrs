@@ -461,9 +461,9 @@ sub Run {
         for my $DynamicFieldItem (@DynamicFieldList) {
             if ( !IsHashRefWithData($DynamicFieldItem) ) {
                 return {
-                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    ErrorCode => 'TicketUpdate.InvalidParameter',
                     ErrorMessage =>
-                        "TicketCreate: Ticket->DynamicField parameter is invalid!",
+                        "TicketUpdate: Ticket->DynamicField parameter is invalid!",
                 };
             }
 
@@ -1043,7 +1043,7 @@ sub _CheckDynamicField {
 
     # check DynamicField item internally
     for my $Needed (qw(Name Value)) {
-        if ( !$DynamicField->{$Needed} ) {
+        if ( !defined $DynamicField->{$Needed} || !IsStringWithData( $DynamicField->{$Needed} ) ) {
             return {
                 ErrorCode    => 'TicketUpdate.MissingParameter',
                 ErrorMessage => "TicketUpdate: DynamicField->$Needed  parameter is missing!",

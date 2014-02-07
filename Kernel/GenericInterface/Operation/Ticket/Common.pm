@@ -1199,7 +1199,7 @@ sub ValidateDynamicFieldValue {
 
     # check needed stuff
     return if !IsHashRefWithData( $Self->{DynamicFieldLookup} );
-    return if !$Param{Value};
+    return if !IsStringWithData( $Param{Value} );
 
     # get dynamic field config
     my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Param{Name} };
@@ -1279,7 +1279,7 @@ sub SetDynamicFieldValue {
 
     # check needed stuff
     for my $Needed (qw(Value Name UserID)) {
-        if ( !$Param{$Needed} ) {
+        if ( !IsStringWithData( $Param{$Needed} ) ) {
             return {
                 Success      => 0,
                 ErrorMessage => "SetDynamicFieldValue() Got no $Needed!"

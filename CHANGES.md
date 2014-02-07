@@ -1,4 +1,5 @@
 #3.2.15 2014-??-??
+ - 2014-02-07 Fixed bug#[10214](http://bugs.otrs.org/show_bug.cgi?id=10214) - Value "0" for DynamicsFields prevents TicketCreation.
  - 2014-02-03 Fixed bug#[9616](http://bugs.otrs.org/show_bug.cgi?id=9616) - Too long activities and transitions are not displayed correctly.
  - 2014-01-31 Fixed bug#[10212](http://bugs.otrs.org/show_bug.cgi?id=10212) - My tickets & Company tickets in 3.3.4.
  - 2014-01-28 Fixed bug#[10205](http://bugs.otrs.org/show_bug.cgi?id=10205) - GenericInterface: Mandatory TimeUnits can't be 0.
