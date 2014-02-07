@@ -199,13 +199,6 @@ sub AgentCustomerViewTable {
     return $Self->Output( TemplateFile => 'AgentCustomerTableView', Data => \%Param );
 }
 
-# AgentQueueListOption()
-#
-# !! DONT USE THIS FUNCTION !! Use BuildSelection() instead.
-#
-# Due to compatibility reason this function is still in use and will be removed
-# in a future release.
-
 sub AgentQueueListOption {
     my ( $Self, %Param ) = @_;
 
