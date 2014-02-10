@@ -4,7 +4,6 @@
  - 2014-02-07 Fixed bug#[10195](http://bugs.otrs.org/show_bug.cgi?id=10195) - Folluw up notification shows old prio after prio change.
  - 2014-02-07 Fixed bug#[9303](http://bugs.otrs.org/show_bug.cgi?id=9303) - Body of new e-mail/phone ticket not inserting when creating new ticket from customer creation.
  - 2014-02-07 Fixed bug#[10194](http://bugs.otrs.org/show_bug.cgi?id=10194) - CustomerTicketMessage parsing feild Dest in URI.
- - 2014-02-06 Fixed bug#[9970](http://bugs.otrs.org/show_bug.cgi?id=9970) - Problem with DBUpgrade-to-3.3.pl on Oracle databases.
  - 2014-02-04 Follow-up fix for bug#[10110](http://bugs.otrs.org/show_bug.cgi?id=10110) - Stats list may show too few or too many stats.
  - 2014-02-04 Fixed bug#[10220](http://bugs.otrs.org/show_bug.cgi?id=10220) - Invalid Statistics not displayed in overview.
  - 2014-02-04 Fixed bug#[10218](http://bugs.otrs.org/show_bug.cgi?id=10218) - Header X-UA-Compatible in HeaderSmall.tt/HeaderSmall.dtl not set.
