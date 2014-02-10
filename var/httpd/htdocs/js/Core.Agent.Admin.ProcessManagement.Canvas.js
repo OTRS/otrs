@@ -7,7 +7,7 @@
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 // --
 
-/*global jsPlumb */
+/*global jsPlumb, LabelSpacer */
 
 "use strict";
 
@@ -550,7 +550,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 anchor: 'Continuous',
                 endpoint: 'Blank',
                 detachable: true,
-                reattach: true,
+                reattach: true
             });
         }
     };
@@ -844,7 +844,8 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
     TargetNS.Init = function () {
         var CanvasSize = GetCanvasSize($('#Canvas')),
             CanvasWidth = CanvasSize.Width,
-            CanvasHeight = CanvasSize.Height;
+            CanvasHeight = CanvasSize.Height,
+            CanvasLabelSpacer;
 
         // set the width and height of the drawing canvas,
         // based on the saved layout information (if available)
@@ -854,7 +855,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         TargetNS.LatestConnectionTransitionID = undefined;
 
         // init label spacer
-        var CanvasLabelSpacer = new LabelSpacer();
+        CanvasLabelSpacer = new LabelSpacer();
 
         // init binding to connection changes
         jsPlumb.bind('connection', function(Data, OriginalEvent) {
