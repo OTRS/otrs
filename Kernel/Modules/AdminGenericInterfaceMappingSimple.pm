@@ -621,7 +621,10 @@ sub _GetParams {
                 $Self->{DeletedString};
             $ValueIndex++;
             for my $ValueItem (qw(ValueMapTypeStrg ValueName ValueMapNew)) {
-                my $ValAux = $Self->{ParamObject}->GetParam( Param => $ValueItem . $Suffix ) || '';
+                my $ValAux
+                    = defined $Self->{ParamObject}->GetParam( Param => $ValueItem . $Suffix )
+                    ? $Self->{ParamObject}->GetParam( Param => $ValueItem . $Suffix )
+                    : '';
                 $GetParam->{ $ValueItem . $KeyIndex . '_' . $ValueIndex } = $ValAux;
                 $GetParam->{Error}->{ $ValueItem . $KeyIndex . '_' . $ValueIndex } = 'ServerError'
                     if $ValAux eq '';
