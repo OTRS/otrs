@@ -60,6 +60,7 @@ sub Run {
     if ( $Param{Config}->{Group} ) {
         my @Items = split /;/, $Param{Config}->{Group};
         my $AccessOk;
+        GROUP:
         for my $Item (@Items) {
             my ( $Permission, $Name ) = split /:/, $Item;
             if ( !$Permission || !$Name ) {
@@ -74,18 +75,17 @@ sub Run {
                 Type   => $Permission,
                 Result => 'Name',
             );
-            next if !@Groups;
+            next GROUP if !@Groups;
 
             for my $Group (@Groups) {
                 if ( $Group eq $Name ) {
                     $AccessOk = 1;
-                    last;
+                    last GROUP;
                 }
             }
         }
         return if !$AccessOk;
     }
-
 
     # check acl
     return
