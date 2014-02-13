@@ -41,4 +41,40 @@ Core.Config.Set('Stacked', '$JSText{"Stacked"}');
 }());
 //]]></script>
 <!-- dtl:js_on_document_complete -->
+
+<!-- dtl:block:StatsDataLink -->
+<div class="WidgetAction" id="GraphWidgetLink$QData{"Name"}">
+    <a href="#" class="TriggerTooltip" title="$Text{"Download"}">
+        <i class="icon-download-alt"></i>
+    </a>
+    <span class="Hidden WidgetTooltip">
+<!-- dtl:block:StatsDataLinkCSV -->
+        <a href="$Env{"Baselink"}Action=AgentStats;Subaction=Run;Cached=1;StatID=$LQData{"StatID"};Format=CSV;Name=$LQData{"Name"}" title="$Text{"Download"}: $Text{"CSV"}">
+            $Text{"Download"}: $Text{"CSV"}
+        </a>
+<!-- dtl:block:StatsDataLinkCSV -->
+<!-- dtl:block:StatsDataLinkPDF -->
+        <a href="$Env{"Baselink"}Action=AgentStats;Subaction=Run;Cached=1;StatID=$LQData{"StatID"};Format=Print;Name=$LQData{"Name"}" title="$Text{"Download"}: $Text{"PDF"}">
+            $Text{"Download"}: $Text{"PDF"}
+        </a>
+<!-- dtl:block:StatsDataLinkPDF -->
+    </span>
+</div>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+$('#GraphWidgetLink$QData{"Name"}').prependTo( $('#GraphWidget$QData{"Name"}').closest('.WidgetSimple').find('.ActionMenu') );
+$('#GraphWidgetLink$QData{"Name"}').find('a.TriggerTooltip').bind('click', function(){
+    $(this).next('span').toggleClass('Hidden');
+    return false;
+});
+$('#GraphWidgetLink$QData{"Name"}').find('.WidgetTooltip').find('a').bind('click', function(){
+    $(this).parent().addClass('Hidden');
+});
+$('#GraphWidgetLink$QData{"Name"}').closest('.Header').bind('mouseleave.WidgetTooltip', function(){
+    $('#GraphWidgetLink$QData{"Name"}').find('span').addClass('Hidden');
+});
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+<!-- dtl:block:StatsDataLink -->
+
 <!-- dtl:block:StatsData -->

@@ -337,7 +337,8 @@ ul.Tablelike li.Header + li {
 }
 
 .WidgetAction a {
-    height: 18px;
+    font-size: 14px;
+    height: 20px;
     display: block;
 }
 
@@ -402,6 +403,21 @@ ul.Tablelike li.Header + li {
 
 .WidgetAction:hover i {
     color: #000;
+}
+
+.WidgetTooltip {
+    background-color: #fff;
+    position: absolute;
+    width: 125px;
+    top: 20px;
+    right: 0px;
+}
+
+.WidgetTooltip a {
+    background-color: #fff;
+    padding: 0px;
+    line-height: 150%;
+    font-size: 11px;
 }
 
 /**
