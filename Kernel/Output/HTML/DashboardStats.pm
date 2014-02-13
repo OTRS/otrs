@@ -15,6 +15,8 @@ use warnings;
 use Kernel::System::Stats;
 use Kernel::System::JSON;
 
+use Kernel::System::VariableCheck qw(:all);
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -590,6 +592,39 @@ sub Run {
                 StatsData => $JSON,
             },
         );
+
+        my $Stat = $Self->{StatsObject}->StatsGet( StatID => $StatID );
+        my $StatFormat = $Stat->{Format};
+        if (
+            IsArrayRefWithData($StatFormat)
+            && grep { $_ eq 'Print' || $_ eq 'CSV' } @{$StatFormat}
+            )
+        {
+            $Self->{LayoutObject}->Block(
+                Name => 'StatsDataLink',
+                Data => {
+                    Name => $Self->{Name},
+                },
+            );
+            if ( grep { $_ eq 'CSV' } @{$StatFormat} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'StatsDataLinkCSV',
+                    Data => {
+                        Name   => $Self->{Name},
+                        StatID => $StatID,
+                    },
+                );
+            }
+            if ( grep { $_ eq 'Print' } @{$StatFormat} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'StatsDataLinkPDF',
+                    Data => {
+                        Name   => $Self->{Name},
+                        StatID => $StatID,
+                    },
+                );
+            }
+        }
     }
     else {
         $Self->{LayoutObject}->Block(

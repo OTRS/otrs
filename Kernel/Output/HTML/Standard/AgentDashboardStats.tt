@@ -41,4 +41,40 @@ Core.Config.Set('Stacked', [% Translate("Stacked") | JSON %]);
 }());
 //]]></script>
 [% END %]
+
+[% RenderBlockStart("StatsDataLink") %]
+<div class="WidgetAction" id="GraphWidgetLink[% Data.Name | html %]">
+    <a href="#" class="TriggerTooltip" title="[% Translate("Download") | html %]">
+        <i class="icon-download-alt"></i>
+    </a>
+    <span class="Hidden WidgetTooltip">
+[% RenderBlockStart("StatsDataLinkCSV") %]
+        <a href="[% Env("Baselink") %]Action=AgentStats;Subaction=Run;Cached=1;StatID=[% Data.StatID | uri %];Format=CSV;Name=[% Data.Name | uri %]" title="[% Translate("Download") | html %]: [% Translate("CSV") | html %]">
+            [% Translate("Download") | html %]: [% Translate("CSV") | html %]
+        </a>
+[% RenderBlockEnd("StatsDataLinkCSV") %]
+[% RenderBlockStart("StatsDataLinkPDF") %]
+        <a href="[% Env("Baselink") %]Action=AgentStats;Subaction=Run;Cached=1;StatID=[% Data.StatID | uri %];Format=Print;Name=[% Data.Name | uri %]" title="[% Translate("Download") | html %]: [% Translate("PDF") | html %]">
+            [% Translate("Download") | html %]: [% Translate("PDF") | html %]
+        </a>
+[% RenderBlockEnd("StatsDataLinkPDF") %]
+    </span>
+</div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#GraphWidgetLink[% Data.Name | html %]').prependTo( $('#GraphWidget[% Data.Name | html %]').closest('.WidgetSimple').find('.ActionMenu') );
+$('#GraphWidgetLink[% Data.Name | html %]').find('a.TriggerTooltip').bind('click', function(){
+    $(this).next('span').toggleClass('Hidden');
+    return false;
+});
+$('#GraphWidgetLink[% Data.Name | html %]').find('.WidgetTooltip').find('a').bind('click', function(){
+    $(this).parent().addClass('Hidden');
+});
+$('#GraphWidgetLink[% Data.Name | html %]').closest('.Header').bind('mouseleave.WidgetTooltip', function(){
+    $('#GraphWidgetLink[% Data.Name | html %]').find('span').addClass('Hidden');
+});
+//]]></script>
+[% END %]
+[% RenderBlockEnd("StatsDataLink") %]
+
 [% RenderBlockEnd("StatsData") %]
