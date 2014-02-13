@@ -34,7 +34,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="https://portal.otrs.com/otrs/customer.pl?Action=CustomerRegisteredSystems" target="_blank" class="CallForAction">
+                        <a href="https://portal.otrs.com/otrs/customer.pl?Action=CustomerOTRSSystems" target="_blank" class="CallForAction">
                             <span>$Text{"Overview of registered systems"}</span>
                         </a>
                     </li>
