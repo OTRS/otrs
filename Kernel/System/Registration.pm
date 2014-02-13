@@ -182,7 +182,6 @@ sub TokenGet {
         URL  => $Self->{RegistrationURL},
         Data => {
             Action     => 'PublicRegistration',
-            Subaction  => 'GetToken',
             Subaction  => 'TokenGet',
             APIVersion => $Self->{APIVersion},
             OTRSID     => $Param{OTRSID},
