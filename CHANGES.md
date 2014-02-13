@@ -1,4 +1,5 @@
 #3.3.5 2014-??-??
+ - 2014-02-13 Fixed bug#[9673](http://bugs.otrs.org/show_bug.cgi?id=9673) - CustomerTicketMessage does not show loading icon for dynamic fields.
  - 2014-02-13 Fixed bug#[10249](http://bugs.otrs.org/show_bug.cgi?id=10249) - Restore.pl bugs on Postgresql restore failed on DB.
  - 2014-02-13 Fixed bug#[7818](http://bugs.otrs.org/show_bug.cgi?id=7818) - Menu simplification is not working for item "responsible".
  - 2014-02-11 Added new option "bin/otrs.LoaderCache.pl -o generate" to generate the loader cache for all frontend modules. This can be useful in cluster setups.
