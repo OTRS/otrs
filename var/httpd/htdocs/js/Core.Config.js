@@ -164,6 +164,11 @@ Core.Config = (function (TargetNS) {
                 alert('Please turn off Compatibility Mode in Internet Explorer.');
             }
 
+            // IE10 in Compatibility Mode will claim to be IE7.
+            if (detected && navigator && navigator.userAgent && navigator.userAgent.match(/Trident\/6.0/)) {
+                alert('Please turn off Compatibility Mode in Internet Explorer.');
+            }
+
             return detected;
         },
         'Konqueror (without WebKit engine)': function () {
@@ -207,6 +212,11 @@ Core.Config = (function (TargetNS) {
 
             // IE9 in Compatibility Mode will claim to be IE7.
             if (detected && navigator && navigator.userAgent && navigator.userAgent.match(/Trident\/5.0/)) {
+                alert('Please turn off Compatibility Mode in Internet Explorer.');
+            }
+
+            // IE10 in Compatibility Mode will claim to be IE7.
+            if (detected && navigator && navigator.userAgent && navigator.userAgent.match(/Trident\/6.0/)) {
                 alert('Please turn off Compatibility Mode in Internet Explorer.');
             }
 

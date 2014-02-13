@@ -1,4 +1,5 @@
 #3.3.5 2014-??-??
+ - 2014-02-13 Added browser check for IE10 in compatibility mode.
  - 2014-02-13 Followup for bug#[9011](http://bugs.otrs.org/show_bug.cgi?id=9011) - New value after value mapping can't be 0.
  - 2014-02-13 Fixed bug#[9673](http://bugs.otrs.org/show_bug.cgi?id=9673) - CustomerTicketMessage does not show loading icon for dynamic fields.
  - 2014-02-13 Fixed bug#[10249](http://bugs.otrs.org/show_bug.cgi?id=10249) - Restore.pl bugs on Postgresql restore failed on DB.
