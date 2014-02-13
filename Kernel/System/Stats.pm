@@ -939,7 +939,7 @@ sub GenerateGraph {
         textclr     => $Self->{ConfigObject}->Get('Stats::Graph::textclr')     || 'black',
         dclrs       => $Self->{ConfigObject}->Get('Stats::Graph::dclrs')
             || [
-            qw(red green blue yellow black purple orange pink marine cyan lgray lblue lyellow lgreen lred lpurple lorange lbrown)
+            qw(red green blue yellow purple orange pink marine cyan lgray lblue lyellow lgreen lred lpurple lorange lbrown)
             ],
         x_tick_offset       => 0,
         x_label_position    => 1 / 2,
