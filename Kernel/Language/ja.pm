@@ -3,6 +3,7 @@
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # Copyright (C) 2010-2011 Kaz Kamimura <kamypus at yahoo.co.jp>
 # Copyright (C) 2011/12/08 Kaoru Hayama TIS Inc.
+# Copyright (C) 2014 Norihiro Tanaka NTT Data Intellilink Corp.
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -46,15 +47,15 @@ sub Data {
         'Done' => '完了',
         'Cancel' => '取消',
         'Reset' => 'リセット',
-        'more than ... ago' => '',
-        'in more than ...' => '',
-        'within the last ...' => '',
-        'within the next ...' => '',
-        'Created within the last' => '',
-        'Created more than ... ago' => '',
-        'Today' => '今日',
-        'Tomorrow' => '明日',
-        'Next week' => '',
+        'more than ... ago' => '以前',
+        'in more than ...' => '以後',
+        'within the last ...' => '以内(前)',
+        'within the next ...' => '以内(後)',
+        'Created within the last' => '以内に作成された',
+        'Created more than ... ago' => '以前に作成された',
+        'Today' => '本日',
+        'Tomorrow' => '翌日',
+        'Next week' => '翌週',
         'day' => '日',
         'days' => '日',
         'day(s)' => '日',
@@ -80,9 +81,9 @@ sub Data {
         'second(s)' => '秒',
         'seconds' => '秒',
         'second' => '秒',
-        's' => '',
-        'Time unit' => '',
-        'wrote' => '',
+        's' => '秒',
+        'Time unit' => '時間の単位',
+        'wrote' => 'wrote',
         'Message' => 'メッセージ',
         'Error' => 'エラー',
         'Bug Report' => 'バグ報告',
@@ -99,7 +100,7 @@ sub Data {
         'valid' => '有効',
         'Valid' => '有効',
         'invalid' => '無効',
-        'Invalid' => '',
+        'Invalid' => '無効',
         '* invalid' => '* は無効です',
         'invalid-temporarily' => '無効-暫定',
         ' 2 minutes' => ' 2 分',
@@ -115,9 +116,9 @@ sub Data {
         '...Back' => '...戻る',
         '-none-' => '-なし-',
         'none' => 'なし',
-        'none!' => 'ありません！',
+        'none!' => 'ありません。',
         'none - answered' => 'なし - 回答済',
-        'please do not edit!' => '編集しないでください！',
+        'please do not edit!' => '編集しないでください。',
         'Need Action' => '操作が必要',
         'AddLink' => '連結を追加',
         'Link' => '連結',
@@ -163,7 +164,7 @@ sub Data {
         'update!' => '更新！',
         'update' => '更新',
         'Update' => '更新',
-        'Updated!' => '更新しました！',
+        'Updated!' => '更新しました。',
         'submit!' => '送信！',
         'submit' => '送信',
         'Submit' => '送信',
@@ -172,9 +173,9 @@ sub Data {
         'change' => '変更',
         'click here' => 'ここをクリック',
         'Comment' => 'コメント',
-        'Invalid Option!' => '無効なオプションです！',
-        'Invalid time!' => '無効な時間です！',
-        'Invalid date!' => '無効な日付です！',
+        'Invalid Option!' => '無効なオプションです。',
+        'Invalid time!' => '無効な時間です。',
+        'Invalid date!' => '無効な日付です。',
         'Name' => '名前',
         'Group' => 'グループ',
         'Description' => '説明',
@@ -185,9 +186,9 @@ sub Data {
         'Changed' => '変更日',
         'Changed by' => '変更者',
         'Search' => '検索',
-        'and' => '?',
-        'between' => 'この間',
-        'before/after' => '',
+        'and' => '-',
+        'between' => '期間中',
+        'before/after' => '前／後',
         'Fulltext Search' => '全文検索',
         'Data' => 'データ',
         'Options' => 'オプション',
@@ -204,7 +205,7 @@ sub Data {
         'Up' => '昇順',
         'Down' => '降順',
         'Add' => '追加',
-        'Added!' => '追加しました！',
+        'Added!' => '追加しました。',
         'Category' => '区分',
         'Viewer' => '閲覧者',
         'Expand' => '展開',
@@ -213,18 +214,18 @@ sub Data {
         'Large' => '大',
         'Date picker' => '日付抽出',
         'Show Tree Selection' => '',
-        'The field content is too long!' => '',
-        'Maximum size is %s characters.' => '',
-        'This field is required or' => '',
+        'The field content is too long!' => 'その領域の内容が長すぎます。',
+        'Maximum size is %s characters.' => '最大サイズは%s文字です。',
+        'This field is required or' => 'この領域は必須です。または、',
         'New message' => '新規メッセージ',
         'New message!' => '新規メッセージ！',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
-            '通常のキュー画面に戻るにはこのチケットに回答してください！',
-        'You have %s new message(s)!' => '%s件の新規メッセージがあります！',
+            '通常のキュー画面に戻るにはこのチケットに回答してください。',
+        'You have %s new message(s)!' => '%s件の新規メッセージがあります。',
         'You have %s reminder ticket(s)!' => '%s件の保留期限チケットがあります',
         'The recommended charset for your language is %s!' => '選択した言語の文字コードは %s を推奨します',
         'Change your password.' => 'パスワードを変更',
-        'Please activate %s first!' => '最初に %s を有効にしてください！',
+        'Please activate %s first!' => '最初に %s を有効にしてください。',
         'No suggestions' => '候補なし',
         'Word' => '単語',
         'Ignore' => '無視',
@@ -235,27 +236,27 @@ sub Data {
         'There is no acount with that user name.' => '該当ユーザー名のアカウントはありません。',
         'Please contact your administrator' => '管理者に連絡してください',
         'Logout' => 'ログアウト',
-        'Logout successful. Thank you for using %s!' => '',
-        'Feature not active!' => '機能が有効になっていません！',
-        'Agent updated!' => '担当者更新！',
-        'Database Selection' => '',
+        'Logout successful. Thank you for using %s!' => 'ログアウトしました。%s をご利用いただきありがとうございました。',
+        'Feature not active!' => '機能が有効になっていません。',
+        'Agent updated!' => '担当者が更新されました。',
+        'Database Selection' => 'データベース選択',
         'Create Database' => 'データベース作成',
         'System Settings' => 'システム設定',
         'Mail Configuration' => 'メール設定',
         'Finished' => '終了しました',
-        'Install OTRS' => '',
+        'Install OTRS' => 'OTRSをインストール',
         'Intro' => '',
         'License' => 'ライセンス',
         'Database' => 'データベース',
-        'Configure Mail' => '',
-        'Database deleted.' => '',
-        'Enter the password for the administrative database user.' => '',
-        'Enter the password for the database user.' => '',
+        'Configure Mail' => 'メール設定',
+        'Database deleted.' => 'データベースを削除しました。',
+        'Enter the password for the administrative database user.' => '管理権限を持つデータベースユーザーのパスワードを入力してください。',
+        'Enter the password for the database user.' => 'データベースユーザーのパスワードを入力してください。',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            '',
-        'Database already contains data - it should be empty!' => '',
-        'Login is needed!' => 'ログインしてください！',
-        'Password is needed!' => 'パスワードを入力してください！',
+            'データベースのrootパスワードを設定した場合、この領域を入力しなければなりません。そうでない場合は、この領域を空のままにしてください。',
+        'Database already contains data - it should be empty!' => '既にデータベースにデータが含まれている場合、空にしなければなりません。',
+        'Login is needed!' => 'ログインしてください。',
+        'Password is needed!' => 'パスワードを入力してください。',
         'Take this Customer' => 'この顧客を選択',
         'Take this User' => 'このユーザーを選択',
         'possible' => '可能',
@@ -265,45 +266,45 @@ sub Data {
         'Time Zone' => 'タイムゾーン（時間帯）',
         'Pending till' => '保留時間',
         'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
-            '',
+            'OTRSで作業するときにスーパーユーザを使用しないでください。代わりに新しい担当者を作成し、これらのアカウントで作業してください。',
         'Dispatching by email To: field.' => 'メールの宛先で振り分け',
         'Dispatching by selected Queue.' => '選択したキューで振り分け',
-        'No entry found!' => '登録がありません！',
-        'Session invalid. Please log in again.' => '',
-        'Session has timed out. Please log in again.' => '接続が時間切れです。再ログインしてください。',
-        'Session limit reached! Please try again later.' => '',
-        'No Permission!' => '権限がありません！',
+        'No entry found!' => '登録がありません。',
+        'Session invalid. Please log in again.' => 'セッションが無効です。再ログインしてください。',
+        'Session has timed out. Please log in again.' => 'セッションがタイムアウトしました。再ログインしてください。',
+        'Session limit reached! Please try again later.' => 'セッション数が上限に達しました。後で再ログインを試みてください。',
+        'No Permission!' => '権限がありません。',
         '(Click here to add)' => '(クリックして追加)',
         'Preview' => 'プレビュー',
         'Package not correctly deployed! Please reinstall the package.' =>
-            '',
+            'パッケージが正しくデプロイされません。再インストールしてください。',
         '%s is not writable!' => '',
-        'Cannot create %s!' => '%s が作成できません！',
-        'Check to activate this date' => '',
+        'Cannot create %s!' => '%s を作成できません',
+        'Check to activate this date' => 'この日付を活性化する場合はチェック',
         'You have Out of Office enabled, would you like to disable it?' =>
-            '',
+            '外出中が有効になっています。無効にしますか？',
         'Customer %s added' => '顧客 %s を追加しました',
-        'Role added!' => '役割を追加しました！',
-        'Role updated!' => '役割を更新しました！',
-        'Attachment added!' => '添付ファイルを追加しました！',
-        'Attachment updated!' => '添付ファイルを更新しました！',
-        'Response added!' => '返答を追加しました！',
-        'Response updated!' => '返答を更新しました！',
-        'Group updated!' => 'グループを更新しました！',
-        'Queue added!' => 'キューを追加しました！',
-        'Queue updated!' => 'キューを更新しました！',
-        'State added!' => '状態を追加しました！',
-        'State updated!' => '状態を更新しました！',
-        'Type added!' => 'タイプを追加しました！',
-        'Type updated!' => 'タイプを更新しました！',
-        'Customer updated!' => '顧客を更新しました！',
-        'Customer company added!' => '',
-        'Customer company updated!' => '',
+        'Role added!' => 'ロールを追加しました。',
+        'Role updated!' => 'ロールを更新しました。',
+        'Attachment added!' => '添付ファイルを追加しました。',
+        'Attachment updated!' => '添付ファイルを更新しました。',
+        'Response added!' => '返答を追加しました。',
+        'Response updated!' => '返答を更新しました。',
+        'Group updated!' => 'グループを更新しました。',
+        'Queue added!' => 'キューを追加しました。',
+        'Queue updated!' => 'キューを更新しました。',
+        'State added!' => '状態を追加しました。',
+        'State updated!' => '状態を更新しました。',
+        'Type added!' => 'タイプを追加しました。',
+        'Type updated!' => 'タイプを更新しました。',
+        'Customer updated!' => '顧客を更新しました。',
+        'Customer company added!' => '顧客企業を追加しました。',
+        'Customer company updated!' => '顧客企業を更新しました。',
         'Note: Company is invalid!' => '',
-        'Mail account added!' => '',
-        'Mail account updated!' => '',
-        'System e-mail address added!' => '',
-        'System e-mail address updated!' => '',
+        'Mail account added!' => 'メールアカウントを追加しました。',
+        'Mail account updated!' => 'メールアカウントを更新しました。',
+        'System e-mail address added!' => 'システムメールアドレスを追加しました。',
+        'System e-mail address updated!' => 'システムメールアドレスを更新しました。',
         'Contract' => '契約',
         'Online Customer: %s' => 'オンラインの顧客: %s',
         'Online Agent: %s' => 'オンラインの担当者: %s',
@@ -328,7 +329,7 @@ sub Data {
         'Phone' => '電話',
         'Fax' => 'Fax',
         'Mobile' => '携帯電話',
-        'Zip' => '〒',
+        'Zip' => '郵便番号',
         'City' => '住所',
         'Street' => '建物名',
         'Country' => '国',
@@ -336,15 +337,15 @@ sub Data {
         'installed' => 'インストール済',
         'uninstalled' => '未インストール',
         'Security Note: You should activate %s because application is already running!' =>
-            'セキュリティメモ： %sを有効にしてください！アプリケーションが既に実行中です！',
+            'セキュリティメモ： %sを有効にしてください。アプリケーションが既に実行中です。',
         'Unable to parse repository index document.' => '',
         'No packages for your framework version found in this repository, it only contains packages for other framework versions.' =>
-            '',
+            'このリポジトリ中でご利用のフレームワークのバージョンに対するパッケージが見つかりません。他のフレームワークのバージョンに対するパッケージのみ含まれます。',
         'No packages, or no new packages, found in selected repository.' =>
-            '',
+            '選択されたリポジトリ中で新しいパッケージが見つかりません。',
         'Edit the system configuration settings.' => 'システム設定の編集',
         'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
-            '',
+            'データベースから取得したACLの情報はシステム設定と同期していません。全てのACLをデプロイしてください。',
         'printed at' => '印刷する',
         'Loading...' => '読み込み中...',
         'Dear Mr. %s,' => '%s 様',
@@ -356,7 +357,7 @@ sub Data {
         'New account created. Sent login information to %s. Please check your email.' =>
             '新規アカウントを作成しました。ログイン情報を %s に送信しました。メールを確認してください。',
         'Please press Back and try again.' => '[戻る]ボタンを押してやり直してください。',
-        'Sent password reset instructions. Please check your email.' => '',
+        'Sent password reset instructions. Please check your email.' => 'パスワードを初期化する手順を送信しました。メールを確認してください。',
         'Sent new password to %s. Please check your email.' => '新しいパスワードを %s に送信しました。メールを確認してください。',
         'Upcoming Events' => '直近のイベント',
         'Event' => 'イベント',
@@ -365,19 +366,19 @@ sub Data {
         'more' => '続き',
         'Collapse' => '',
         'Shown' => '表示',
-        'Shown customer users' => '',
+        'Shown customer users' => '顧客ユーザーを表示',
         'News' => 'ニュース',
         'Product News' => '製品ニュース',
         'OTRS News' => 'OTRSニュース',
         '7 Day Stats' => '週間統計',
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
-            '',
+            'データベースから取得したプロセス管理情報はシステム設定と同期していません。全てのプロセスを同期させてください。',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
-            '',
+            'パッケージはOTRSグループによって検証されていません。このパッケージの利用を推奨しません。',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
-            '',
-        'Mark' => '',
-        'Unmark' => '',
+            'このパッケージのインストールを継続すると、以下の問題が発生するかもしれません。<br><br>&nbsp;-セキュリティ上の問題<br>&nbsp;-安定性の問題<br>&nbsp;-パフォーマンス問題<br><br>このパッケージを動作させることによって引き起こされた問題はOTRSサービス契約の対象外ですのでご注意ください。<br><br>',
+        'Mark' => 'マーク',
+        'Unmark' => 'マーク解除',
         'Bold' => '太字',
         'Italic' => '斜体',
         'Underline' => '下線',
@@ -396,18 +397,18 @@ sub Data {
         'Create an Ordered List' => '番号付きリストの作成',
         'HTML Link' => 'HTMLリンク',
         'Insert Image' => '画像の挿入',
-        'CTRL' => '',
-        'SHIFT' => '',
+        'CTRL' => 'CTRL',
+        'SHIFT' => 'SHIFT',
         'Undo' => '元に戻す',
         'Redo' => 'やり直し',
-        'Scheduler process is registered but might not be running.' => '',
-        'Scheduler is not running.' => '',
-        'Can\'t contact registration server. Please try again later.' => '',
+        'Scheduler process is registered but might not be running.' => 'スケジューラプロセスは登録されているものの起動していないかもしれません。',
+        'Scheduler is not running.' => 'スケジューラが起動していません。',
+        'Can\'t contact registration server. Please try again later.' => '登録サーバに接続できません。しばらくしてから再試行してください。',
         'No content received from registration server. Please try again later.' =>
-            '',
-        'Problems processing server result. Please try again later.' => '',
-        'Username and password do not match. Please try again.' => '',
-        'The selected process is invalid!' => '',
+            '登録サーバから受信した内容がありません。しばらくしてから再試行してください。',
+        'Problems processing server result. Please try again later.' => 'サーバから受信した内容を処理しているときに問題が発生しました。再試行してください。',
+        'Username and password do not match. Please try again.' => 'ユーザー名とパスワードが一致しません。再試行してください。',
+        'The selected process is invalid!' => '選択されたプロセスは正しくありません。',
 
         # Template: AAACalendar
         'New Year\'s Day' => '',
@@ -418,10 +419,10 @@ sub Data {
         'New Year\'s Eve' => '',
 
         # Template: AAAGenericInterface
-        'OTRS as requester' => '',
-        'OTRS as provider' => '',
-        'Webservice "%s" created!' => '',
-        'Webservice "%s" updated!' => '',
+        'OTRS as requester' => 'リクエスターとしてのOTRS',
+        'OTRS as provider' => 'プロバイダーとしてのOTRS',
+        'Webservice "%s" created!' => 'Webサービス "%s" を作成しました。',
+        'Webservice "%s" updated!' => 'Webサービス "%s" を更新しました。',
 
         # Template: AAAMonth
         'Jan' => '1月',
@@ -455,58 +456,58 @@ sub Data {
         'Email Settings' => 'メール設定',
         'Other Settings' => 'その他の設定',
         'Change Password' => 'パスワード変更',
-        'Current password' => '',
-        'New password' => '新規パスワード',
-        'Verify password' => '確認パスワード',
+        'Current password' => '現在のパスワード',
+        'New password' => '新しいパスワード',
+        'Verify password' => '新しいパスワード(確認用)',
         'Spelling Dictionary' => 'スペルチェック辞書',
         'Default spelling dictionary' => '既定のスペルチェック辞書',
         'Max. shown Tickets a page in Overview.' => '一覧時のチケット表示最大数',
-        'The current password is not correct. Please try again!' => 'パスワードが正しくありません。再入力してください！',
+        'The current password is not correct. Please try again!' => 'パスワードが正しくありません。再入力してください。',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
-            'パスワードが更新できませんでした。新しいパスワードが一致しません。再入力してください！',
-        'Can\'t update password, it contains invalid characters!' => 'パスワードが更新できませんでした。無効な文字が含まれています！',
+            'パスワードを更新できません。新しいパスワードが一致しません。再度入力してください。',
+        'Can\'t update password, it contains invalid characters!' => 'パスワードを更新できません。無効な文字が含まれています。',
         'Can\'t update password, it must be at least %s characters long!' =>
-            'パスワードが更新できませんでした。%s は長すぎます！',
+            'パスワードを更新できません。%s は長すぎます。',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'パスワードが更新できませんでした。英語の大文字小文字が2文字ずつ以上必要です！',
-        'Can\'t update password, it must contain at least 1 digit!' => 'パスワードが更新できませんでした。数字が1文字以上必要です！',
+            'パスワードを更新できません。英語の大文字小文字が2文字ずつ以上必要です。',
+        'Can\'t update password, it must contain at least 1 digit!' => 'パスワードを更新できません。数字が1文字以上必要です。',
         'Can\'t update password, it must contain at least 2 characters!' =>
-            'パスワードが更新できませんでした。2文字以上必要です！',
+            'パスワードを更新できません。2文字以上必要です。',
         'Can\'t update password, this password has already been used. Please choose a new one!' =>
-            'パスワードが更新できませんでした。このパスワードは既に使用されています。新しいものを入力してください！',
+            'パスワードを更新できません。このパスワードは既に使用されています。新しいものを入力してください。',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
             'CSVファイル（統計と検索）で使用される区切り文字を選択します。ここで区切り文字を選択しない場合、あなたの言語のデフォルトの区切り文字が使用されます。',
         'CSV Separator' => 'CSV区切り文字',
 
         # Template: AAAStats
-        'Stat' => '状態',
-        'Sum' => '',
+        'Stat' => '統計',
+        'Sum' => '合計',
         'No (not supported)' => '',
-        'Please fill out the required fields!' => '必須項目を入力してください！',
-        'Please select a file!' => 'ファイルを選択してください！',
-        'Please select an object!' => '対象を選択してください！',
-        'Please select a graph size!' => 'グラフサイズを選択してください！',
-        'Please select one element for the X-axis!' => 'X軸の要素を一つ選択してください！',
+        'Please fill out the required fields!' => '必須項目を入力してください。',
+        'Please select a file!' => 'ファイルを選択してください。',
+        'Please select an object!' => '対象を選択してください。',
+        'Please select a graph size!' => 'グラフサイズを選択してください。',
+        'Please select one element for the X-axis!' => 'X軸の要素を一つ選択してください。',
         'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' =>
-            '要素を一つだけ選択するかオフにしてください！',
+            '要素を一つだけ選択するかオフにしてください。',
         'If you use a checkbox you have to select some attributes of the select field!' =>
-            'チェックボックスの要素を選択してください！',
+            'チェックボックスの要素を選択してください。',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' =>
-            '選択項目に値が入力されていません！',
-        'The selected end time is before the start time!' => '開始時間を終了時間より前にしてください！',
+            '選択項目に値が入力されていません。',
+        'The selected end time is before the start time!' => '開始時間を終了時間より前にしてください。',
         'You have to select one or more attributes from the select field!' =>
-            '項目を1つ以上を選択してください！',
+            '項目を1つ以上を選択してください。',
         'The selected Date isn\'t valid!' => '選択された日時が無効です',
-        'Please select only one or two elements via the checkbox!' => '1つまたは2つのチェックボックスを選択してください！',
+        'Please select only one or two elements via the checkbox!' => '1つまたは2つのチェックボックスを選択してください。',
         'If you use a time scale element you can only select one element!' =>
-            'タイムスケールは1つだけ選択してください！',
-        'You have an error in your time selection!' => 'その時間の選択はエラーです！',
+            'タイムスケールは1つだけ選択してください。',
+        'You have an error in your time selection!' => 'その時間の選択はエラーです。',
         'Your reporting time interval is too small, please use a larger time scale!' =>
-            'レポートする感覚が小さすぎます。間隔をあけてください！',
-        'The selected start time is before the allowed start time!' => '選択された開始時刻は許可されている時間の前です！',
-        'The selected end time is after the allowed end time!' => '選択された終了時間は許可されている時間の後です！',
+            'レポートする感覚が小さすぎます。間隔をあけてください。',
+        'The selected start time is before the allowed start time!' => '選択された開始時刻は許可されている時間の前です。',
+        'The selected end time is after the allowed end time!' => '選択された終了時間は許可されている時間の後です。',
         'The selected time period is larger than the allowed time period!' =>
-            '選択された期間は許可されている周期よりも大きいです！',
+            '選択された期間は許可されている周期よりも大きいです。',
         'Common Specification' => '共通仕様',
         'X-axis' => 'X軸',
         'Value Series' => '値系列',
@@ -572,10 +573,10 @@ sub Data {
         'Priority' => '優先度',
         'Priorities' => '優先度',
         'Priority Update' => '優先度更新',
-        'Priority added!' => '',
-        'Priority updated!' => '',
-        'Signature added!' => '',
-        'Signature updated!' => '',
+        'Priority added!' => '優先度を追加しました。',
+        'Priority updated!' => '優先度を更新しました。',
+        'Signature added!' => '署名を追加しました。',
+        'Signature updated!' => '署名を更新しました。',
         'SLA' => 'SLA',
         'Service Level Agreement' => 'サービスレベル契約（SLA）',
         'Service Level Agreements' => 'サービスレベル契約（SLA）',
@@ -591,8 +592,8 @@ sub Data {
         'Pending' => '保留',
         'Owner' => '所有者',
         'Owner Update' => '所有者更新',
-        'Responsible' => '応答',
-        'Responsible Update' => '応答更新',
+        'Responsible' => '責任者',
+        'Responsible Update' => '責任者更新',
         'Sender' => '送信者',
         'Article' => '記事',
         'Ticket' => 'チケット',
@@ -618,29 +619,29 @@ sub Data {
         'Locked Tickets Total' => 'ロック済チケット合計',
         'Locked Tickets Reminder Reached' => 'ロック済チケット時間切れ',
         'Locked Tickets New' => 'ロック済チケット新規',
-        'Responsible Tickets Total' => '応答チケット合計',
-        'Responsible Tickets New' => '応答チケット新規',
-        'Responsible Tickets Reminder Reached' => '応答チケット時間切れ',
+        'Responsible Tickets Total' => '責任者チケット合計',
+        'Responsible Tickets New' => '責任者チケット新規',
+        'Responsible Tickets Reminder Reached' => '責任者チケット時間切れ',
         'Watched Tickets Total' => '監視チケット合計',
         'Watched Tickets New' => '監視チケット新規',
         'Watched Tickets Reminder Reached' => '監視チケット時間切れ',
         'All tickets' => '全てのチケット',
-        'Available tickets' => '',
+        'Available tickets' => '利用可能チケット',
         'Escalation' => 'エスカレーション',
-        'last-search' => '',
+        'last-search' => '最終検索',
         'QueueView' => 'キュー一覧',
         'Ticket Escalation View' => 'チケットエスカレーション一覧',
-        'Message from' => '',
-        'End message' => '',
-        'Forwarded message from' => '',
-        'End forwarded message' => '',
+        'Message from' => 'Message from',
+        'End message' => 'End message',
+        'Forwarded message from' => 'Forwarded message from',
+        'End forwarded message' => 'End forwarded message',
         'new' => '新規',
         'open' => '対応中',
         'Open' => '対応中',
-        'Open tickets' => '',
+        'Open tickets' => '対応中チケット',
         'closed' => '完了',
         'Closed' => '完了',
-        'Closed tickets' => '',
+        'Closed tickets' => '完了チケット',
         'removed' => '削除',
         'pending reminder' => '保留 (期限付)',
         'pending auto' => '保留 (自動)',
@@ -648,9 +649,9 @@ sub Data {
         'pending auto close-' => '保留 (自動完了－)',
         'email-external' => 'メール-外部',
         'email-internal' => 'メール-内部',
-        'note-external' => '注釈-外部',
-        'note-internal' => '注釈-内部',
-        'note-report' => '注釈-報告',
+        'note-external' => 'メモ-外部',
+        'note-internal' => 'メモ-内部',
+        'note-report' => 'メモ-報告',
         'phone' => '電話',
         'sms' => 'SMS',
         'webrequest' => 'WEB要求',
@@ -672,19 +673,19 @@ sub Data {
         'auto reply' => '自動返答',
         'auto reply/new ticket' => '自動返答/新規チケット',
         'Create' => '作成',
-        'Answer' => '',
+        'Answer' => '回答',
         'Phone call' => '電話応答',
-        'Ticket "%s" created!' => 'チケット "%s" を作成しました！',
+        'Ticket "%s" created!' => 'チケット "%s" を作成しました。',
         'Ticket Number' => 'チケット番号',
         'Ticket Object' => 'チケット対象',
-        'No such Ticket Number "%s"! Can\'t link it!' => 'チケット番号 "%s" がありません！連結できませんでした！',
-        'You don\'t have write access to this ticket.' => '',
+        'No such Ticket Number "%s"! Can\'t link it!' => 'チケット番号 "%s" がありません。連結できません。',
+        'You don\'t have write access to this ticket.' => 'このチケットに対する書き込み権限がありません。',
         'Sorry, you need to be the ticket owner to perform this action.' =>
-            '',
-        'Please change the owner first.' => '',
-        'Ticket selected.' => '',
-        'Ticket is locked by another agent.' => '',
-        'Ticket locked.' => '',
+            'この操作を行うには担当者または責任者になる必要があります。',
+        'Please change the owner first.' => '最初に担当者を変更してください。',
+        'Ticket selected.' => 'チケットが選択されました。',
+        'Ticket is locked by another agent.' => 'チケットは他の担当者によってロックされています。',
+        'Ticket locked.' => 'チケットがロックされました。',
         'Don\'t show closed Tickets' => '完了チケットを非表示',
         'Show closed Tickets' => '完了チケットを表示',
         'New Article' => '新規項目',
@@ -702,70 +703,70 @@ sub Data {
         'Send Email and create a new Ticket' => 'メール送信と新規チケット作成',
         'Create new Email Ticket and send this out (Outbound)' => '新規メールチケットを作成し送信（外部）',
         'Create new Phone Ticket (Inbound)' => '新規電話チケット作成（受信）',
-        'Address %s replaced with registered customer address.' => '',
-        'Customer user automatically added in Cc.' => '',
+        'Address %s replaced with registered customer address.' => 'アドレス %s は登録された顧客のアドレスに置換されました。',
+        'Customer user automatically added in Cc.' => '顧客ユーザーが自動的にCcに追加されました。',
         'Overview of all open Tickets' => '全対応中チケット一覧',
         'Locked Tickets' => 'ロック済チケット',
         'My Locked Tickets' => '担当のロック済チケット',
         'My Watched Tickets' => '担当の監視チケット',
-        'My Responsible Tickets' => '担当の応答チケット',
+        'My Responsible Tickets' => '担当の責任者チケット',
         'Watched Tickets' => '監視チケット',
         'Watched' => '監視中',
         'Watch' => '監視',
         'Unwatch' => '監視解除',
-        'Lock it to work on it' => '',
-        'Unlock to give it back to the queue' => '',
-        'Show the ticket history' => '',
-        'Print this ticket' => '',
-        'Print this article' => '',
-        'Split' => '',
-        'Split this article' => '',
-        'Forward article via mail' => '',
-        'Change the ticket priority' => '',
-        'Change the ticket free fields!' => 'チケットの自由入力領域を変更する',
-        'Link this ticket to other objects' => '',
-        'Change the owner for this ticket' => '',
-        'Change the  customer for this ticket' => '',
-        'Add a note to this ticket' => '',
-        'Merge into a different ticket' => '',
-        'Set this ticket to pending' => '',
-        'Close this ticket' => '',
+        'Lock it to work on it' => '作業するためチケットをロック',
+        'Unlock to give it back to the queue' => 'キューに戻すためチケットをロック解除',
+        'Show the ticket history' => 'チケットの履歴を表示',
+        'Print this ticket' => 'このチケットを印刷',
+        'Print this article' => 'この記事を印刷',
+        'Split' => '分割',
+        'Split this article' => 'この記事を分割',
+        'Forward article via mail' => 'メール経由で記事を転送',
+        'Change the ticket priority' => 'チケットの優先度を変更',
+        'Change the ticket free fields!' => 'チケットの自由領域を変更！',
+        'Link this ticket to other objects' => 'このチケットを他のオブジェクトへリンク',
+        'Change the owner for this ticket' => 'このチケットの所有者を変更',
+        'Change the  customer for this ticket' => 'このチケットの顧客を変更',
+        'Add a note to this ticket' => 'このチケットにメモを追加',
+        'Merge into a different ticket' => '別のチケットに結合',
+        'Set this ticket to pending' => 'このチケットを保留に設定',
+        'Close this ticket' => 'このチケットを完了',
         'Look into a ticket!' => 'チケットを閲覧する',
-        'Delete this ticket' => '',
+        'Delete this ticket' => 'このチケットを削除',
         'Mark as Spam!' => '迷惑メールにする',
         'My Queues' => '担当キュー',
         'Shown Tickets' => 'チケットを表示',
-        'Shown Columns' => '',
+        'Shown Columns' => '列を表示',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
-            'メールのチケット番号 "<OTRS_TICKET>" を "<OTRS_MERGE_TO_TICKET>" と結合しました！',
-        'Ticket %s: first response time is over (%s)!' => 'チケット %s: 初回応答期限切れです(%s)！',
-        'Ticket %s: first response time will be over in %s!' => 'チケット %s: 初回応答期限を超えそうです %s！',
-        'Ticket %s: update time is over (%s)!' => 'チケット %s: 更新期限切れです (%s)！',
-        'Ticket %s: update time will be over in %s!' => 'チケット %s: 更新期限を超えそうです %s！',
-        'Ticket %s: solution time is over (%s)!' => 'チケット %s: 解決期限切れです (%s)！',
-        'Ticket %s: solution time will be over in %s!' => 'チケット %s: 解決期限を超えそうです %s！',
-        'There are more escalated tickets!' => '更にエスカレーションされたチケットがあります！',
+            'メールのチケット番号 "<OTRS_TICKET>" を "<OTRS_MERGE_TO_TICKET>" と結合しました。',
+        'Ticket %s: first response time is over (%s)!' => 'チケット %s: 初回応答期限切れです(%s)。',
+        'Ticket %s: first response time will be over in %s!' => 'チケット %s: 初回応答期限を超えそうです %s。',
+        'Ticket %s: update time is over (%s)!' => 'チケット %s: 更新期限切れです (%s)。',
+        'Ticket %s: update time will be over in %s!' => 'チケット %s: 更新期限を超えそうです %s。',
+        'Ticket %s: solution time is over (%s)!' => 'チケット %s: 解決期限切れです (%s)。',
+        'Ticket %s: solution time will be over in %s!' => 'チケット %s: 解決期限を超えそうです %s。',
+        'There are more escalated tickets!' => '更にエスカレーションされたチケットがあります。',
         'Plain Format' => '書式なし',
         'Reply All' => '全員に返信',
         'Direction' => '方向',
-        'Agent (All with write permissions)' => '',
-        'Agent (Owner)' => '',
-        'Agent (Responsible)' => '',
+        'Agent (All with write permissions)' => '担当者 (write権限を持つすべてのユーザー)',
+        'Agent (Owner)' => '担当者 (担当者)',
+        'Agent (Responsible)' => '担当者 (責任者)',
         'New ticket notification' => '新規チケット通知',
         'Send me a notification if there is a new ticket in "My Queues".' =>
             '新規チケットが担当キューに入ったら通知を送信',
         'Send new ticket notifications' => '新規チケット通知を送信',
-        'Ticket follow up notification' => '追跡チケット通知',
+        'Ticket follow up notification' => 'コールバックチケット通知',
         'Ticket lock timeout notification' => 'ロック期限切れチケット通知',
         'Send me a notification if a ticket is unlocked by the system.' =>
             'チケットがシステムにロック解除されたら通知を送信',
         'Send ticket lock timeout notifications' => 'ロック期限切れ通知を送信',
         'Ticket move notification' => '移転チケット通知',
         'Send me a notification if a ticket is moved into one of "My Queues".' =>
-            '移転チケットが担当キューに入ったら通知を送信',
+            '移転されたチケットが担当キューに入ったら通知を送信',
         'Send ticket move notifications' => '移転チケット通知を送信',
         'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' =>
-            'お気に入りのキューを選択。有効にした場合、これらのキューについてメール通知を受信します',
+            'お気に入りのキューを選択。有効にした場合、これらのキューについてメールで通知を受信します',
         'Custom Queue' => 'カスタムキュー',
         'QueueView refresh time' => 'キュー一覧自動更新間隔',
         'If enabled, the QueueView will automatically refresh after the specified time.' =>
@@ -775,7 +776,7 @@ sub Data {
         'Show this screen after I created a new ticket' => '新規チケット作成後に表示する画面',
         'Closed Tickets' => '完了チケット',
         'Show closed tickets.' => '完了チケットを見る',
-        'Max. shown Tickets a page in QueueView.' => '',
+        'Max. shown Tickets a page in QueueView.' => 'キュー一覧での1ページ毎のチケット数',
         'Ticket Overview "Small" Limit' => 'チケット一覧(S)の表示数',
         'Ticket limit per page for Ticket Overview "Small"' => 'チケット一覧(S)での1ページ毎のチケット数',
         'Ticket Overview "Medium" Limit' => 'チケット一覧(M)の表示数',
@@ -792,7 +793,7 @@ sub Data {
         'Customer called' => '顧客が電話をかけてきた',
         'phone call' => '電話応答',
         'Phone Call Outbound' => '電話応答発信',
-        'Phone Call Inbound' => '',
+        'Phone Call Inbound' => '電話応答着信',
         'Reminder Reached' => '保留期限切れ',
         'Reminder Tickets' => '保留期限切れチケット',
         'Escalated Tickets' => 'エスカレーションチケット',
@@ -804,9 +805,9 @@ sub Data {
         'All escalated tickets' => '全エスカレーションチケット',
         'All tickets with a reminder set where the reminder date has been reached' =>
             '全保留チケット中、期限切れのもの',
-        'Archived tickets' => '',
-        'Unarchived tickets' => '',
-        'Ticket Information' => '',
+        'Archived tickets' => 'アーカイブされたチケット',
+        'Unarchived tickets' => 'アーカイブされていないチケット',
+        'Ticket Information' => 'チケット情報',
         'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
         'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
@@ -858,38 +859,38 @@ sub Data {
         'Sat' => '土',
 
         # Template: AdminACL
-        'ACL Management' => '',
-        'Filter for ACLs' => '',
+        'ACL Management' => 'ACL管理',
+        'Filter for ACLs' => 'ACLでフィルタ',
         'Filter' => 'フィルタ',
-        'ACL Name' => '',
+        'ACL Name' => 'ACL名',
         'Actions' => '操作',
-        'Create New ACL' => '',
-        'Deploy ACLs' => '',
-        'Export ACLs' => '',
-        'Configuration import' => '',
+        'Create New ACL' => '新しいACLを作成',
+        'Deploy ACLs' => 'ACLをデプロイ',
+        'Export ACLs' => 'ACLをエクスポート',
+        'Configuration import' => '設定のインポート',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            '',
-        'This field is required.' => 'この領域は必須です',
-        'Overwrite existing ACLs?' => '',
-        'Upload ACL configuration' => '',
-        'Import ACL configuration(s)' => '',
+            'ここにACLをインポートするための設定ファイルをアップロードできます。ファイルはACLエディタモジュールによってエクスポートされるような.ymlフォーマットである必要があります。',
+        'This field is required.' => 'この領域は必須です。',
+        'Overwrite existing ACLs?' => '既存のACLを上書きしますか？',
+        'Upload ACL configuration' => 'ACL設定を更新',
+        'Import ACL configuration(s)' => 'ACL設定をインポート',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
             '',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             '',
-        'ACLs' => '',
+        'ACLs' => 'ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
-        'ACL name' => '',
-        'Validity' => '',
-        'Copy' => '',
+        'ACL name' => 'ACL名',
+        'Validity' => 'チケット情報',
+        'Copy' => 'コピー',
         'No data found.' => 'データがありません',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => '',
-        'Go to overview' => '一覧へ移動',
-        'Delete ACL' => '',
-        'Delete Invalid ACL' => '',
+        'Edit ACL %s' => 'ACLの %s を編集',
+        'Go to overview' => '一覧に戻る',
+        'Delete ACL' => 'ACLを削除',
+        'Delete Invalid ACL' => '無効なACLを削除',
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
@@ -899,17 +900,17 @@ sub Data {
         'Check the official' => '',
         'documentation' => '',
         'Show or hide the content' => '内容の表示・非表示',
-        'Edit ACL information' => '',
+        'Edit ACL information' => 'ACLの情報を編集',
         'Stop after match' => '一致後に停止',
-        'Edit ACL structure' => '',
+        'Edit ACL structure' => 'ACLの構造を編集',
         'Save' => '保存',
         'or' => 'または',
-        'Save and finish' => '',
-        'Do you really want to delete this ACL?' => '',
+        'Save and finish' => '保存して終了',
+        'Do you really want to delete this ACL?' => 'このACLを本当に削除しますか？',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
             '',
-        'An item with this name is already present.' => '',
-        'Add all' => '',
+        'An item with this name is already present.' => 'この名前の項目は既に存在します。',
+        'Add all' => '全てを追加',
         'There was an error reading the ACL data.' => '',
 
         # Template: AdminACLNew
@@ -941,12 +942,12 @@ sub Data {
         ' e. g.' => '例',
         'Options of the current customer user data' => '現在の顧客ユーザーデータのオプション',
         'Ticket owner options' => 'チケット所有者オプション',
-        'Ticket responsible options' => 'チケット応答オプション',
+        'Ticket responsible options' => 'チケット責任者オプション',
         'Options of the current user who requested this action' => '操作を要求された現在のユーザーのオプション',
         'Options of the ticket data' => 'チケットデータのオプション',
-        'Options of ticket dynamic fields internal key values' => '',
+        'Options of ticket dynamic fields internal key values' => 'チケットの動的領域の内部キー値のオプション',
         'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
-            '',
+            'チケットの動的領域の表示値のオプション。ドロップダウンまたは複数選択領域で利用可能',
         'Config options' => '設定オプション',
         'Example response' => '応答例',
 
@@ -960,39 +961,39 @@ sub Data {
         'Edit Customer' => '顧客を編集',
 
         # Template: AdminCustomerUser
-        'Customer User Management' => '',
-        'Back to search results' => '',
-        'Add customer user' => '',
+        'Customer User Management' => '顧客ユーザー管理',
+        'Back to search results' => '検索結果に戻る',
+        'Add customer user' => '顧客ユーザーを追加',
         'Hint' => 'ヒント',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
-            '',
+            '顧客ユーザーは顧客履歴の使用と顧客パネルからログインするために必要です。',
         'Last Login' => '最終ログイン',
         'Login as' => 'このアドレスとしてログイン',
-        'Switch to customer' => '',
-        'Add Customer User' => '',
-        'Edit Customer User' => '',
+        'Switch to customer' => '顧客に切り替え',
+        'Add Customer User' => '顧客ユーザーを追加',
+        'Edit Customer User' => '顧客ユーザーを編集',
         'This field is required and needs to be a valid email address.' =>
             'ここは必須領域で、有効なメールアドレスである必要があります。',
         'This email address is not allowed due to the system configuration.' =>
             'このメールアドレスはシステム設定により許可されていません。',
         'This email address failed MX check.' => 'このメールアドレスのMXレコード検査に失敗しました',
         'DNS problem, please check your configuration and the error log.' =>
-            '',
+            'DNS上の問題が発生しました。設定とエラーログを確認してください。',
         'The syntax of this email address is incorrect.' => 'このメールアドレスは正しい形式ではありません',
 
         # Template: AdminCustomerUserGroup
-        'Manage Customer-Group Relations' => '顧客－グループ関連性管理',
+        'Manage Customer-Group Relations' => '顧客-グループ関連性管理',
         'Notice' => '通知',
-        'This feature is disabled!' => 'この機能は無効にされています！',
+        'This feature is disabled!' => 'この機能は無効にされています。',
         'Just use this feature if you want to define group permissions for customers.' =>
             '顧客のグループ権限を設定する場合のみこの機能を使用できます。',
         'Enable it here!' => '有効にする',
-        'Search for customers.' => '',
+        'Search for customers.' => '顧客に対する検索',
         'Edit Customer Default Groups' => '顧客の規定グループの編集',
         'These groups are automatically assigned to all customers.' => 'このグループは自動的にすべての顧客に割り当てられます。',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             '',
-        'Filter for Groups' => 'フィルタのグループ',
+        'Filter for Groups' => 'グループでフィルタ',
         'Select the customer:group permissions.' => '顧客：グループ権限を選択',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '何も選択しない場合、このグループは権限がありません (チケットは顧客が使用できません)',
@@ -1000,8 +1001,8 @@ sub Data {
         'Customers' => '顧客',
         'Groups' => 'グループ',
         'No matches found.' => '一致しませんでした。',
-        'Change Group Relations for Customer' => '顧客とグループの関連性を変更',
-        'Change Customer Relations for Group' => 'グループと顧客の関連性を変更',
+        'Change Group Relations for Customer' => '顧客に対するグループの関連性を変更',
+        'Change Customer Relations for Group' => 'グループに対する顧客の関連性を変更',
         'Toggle %s Permission for all' => '%s の全権限を切り替え',
         'Toggle %s permission for %s' => '%s の %s 権限を切り替え',
         'Customer Default Groups:' => '顧客の規定グループ:',
@@ -1013,9 +1014,9 @@ sub Data {
             'このグループ／キューのチケットに読み書きを含めた全権限を付与します。',
 
         # Template: AdminCustomerUserService
-        'Manage Customer-Services Relations' => '顧客－サービス関連性管理',
+        'Manage Customer-Services Relations' => '顧客-サービス関連性管理',
         'Edit default services' => '既定のサービス編集',
-        'Filter for Services' => 'サービスのフィルタ',
+        'Filter for Services' => 'サービスでフィルタ',
         'Allocate Services to Customer' => 'サービスを顧客に割り当て',
         'Allocate Customers to Service' => '顧客をサービスに割り当て',
         'Toggle active state for all' => 'すべての有効な状態を切り替え',
@@ -1023,88 +1024,88 @@ sub Data {
         'Toggle active state for %s' => '有効な状態 %s を切り替え',
 
         # Template: AdminDynamicField
-        'Dynamic Fields Management' => '',
-        'Add new field for object' => '',
+        'Dynamic Fields Management' => '動的領域管理',
+        'Add new field for object' => 'オブジェクトに新規領域を追加',
         'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
             '',
-        'Dynamic Fields List' => '',
-        'Dynamic fields per page' => '',
-        'Label' => '',
+        'Dynamic Fields List' => '動的領域一覧',
+        'Dynamic fields per page' => 'ページ毎の動的領域',
+        'Label' => 'ラベル',
         'Order' => '順序',
         'Object' => '対象',
-        'Delete this field' => '',
+        'Delete this field' => 'この領域を削除',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
-            '',
-        'Delete field' => '',
+            'この動的領域を本当に削除しますか？全てのデータが失われます。',
+        'Delete field' => '動的領域',
 
         # Template: AdminDynamicFieldCheckbox
-        'Dynamic Fields' => '',
-        'Field' => '',
-        'Go back to overview' => '',
+        'Dynamic Fields' => '動的領域',
+        'Field' => '領域',
+        'Go back to overview' => '一覧に戻る',
         'General' => '',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
-            '',
+            'この領域は必須であり、値はアルファベットと数値のみでなければなりません。',
         'Must be unique and only accept alphabetic and numeric characters.' =>
-            '',
+            '一意でなければならず、アルファベットと数値のみ受け付けます。',
         'Changing this value will require manual changes in the system.' =>
-            '',
+            'この値の変更はシステム内で手動で行う必要があります。',
         'This is the name to be shown on the screens where the field is active.' =>
             '',
-        'Field order' => '',
-        'This field is required and must be numeric.' => '',
+        'Field order' => '領域の順序',
+        'This field is required and must be numeric.' => 'この領域は必須かつ数値でなければなりません。',
         'This is the order in which this field will be shown on the screens where is active.' =>
             '',
-        'Field type' => '',
-        'Object type' => '',
-        'Internal field' => '',
-        'This field is protected and can\'t be deleted.' => '',
-        'Field Settings' => '',
-        'Default value' => '規定値',
-        'This is the default value for this field.' => '',
+        'Field type' => '領域タイプ',
+        'Object type' => 'オブジェクトタイプ',
+        'Internal field' => '内部領域',
+        'This field is protected and can\'t be deleted.' => 'この領域は保護されており、削除できません。',
+        'Field Settings' => '領域設定',
+        'Default value' => 'デフォルト値',
+        'This is the default value for this field.' => 'これはこの領域に対するデフォルト値です。',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => '',
-        'This field must be numeric.' => '',
+        'This field must be numeric.' => 'この領域は数値でなければなりません。',
         'The difference from NOW (in seconds) to calculate the field default value (e.g. 3600 or -60).' =>
             '',
         'Define years period' => '',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
             '',
-        'Years in the past' => '',
-        'Years in the past to display (default: 5 years).' => '',
-        'Years in the future' => '',
-        'Years in the future to display (default: 5 years).' => '',
+        'Years in the past' => '過去の年数',
+        'Years in the past to display (default: 5 years).' => '表示する過去の年数(デフォルト:5年)。',
+        'Years in the future' => '未来の年数',
+        'Years in the future to display (default: 5 years).' => '表示する未来の年数(デフォルト:5年)。',
         'Show link' => '',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
 
         # Template: AdminDynamicFieldDropdown
-        'Possible values' => '',
+        'Possible values' => '選択肢',
         'Key' => '鍵',
         'Value' => '値',
-        'Remove value' => '',
-        'Add value' => '',
-        'Add Value' => '',
-        'Add empty value' => '',
+        'Remove value' => '値を削除',
+        'Add value' => '値を追加',
+        'Add Value' => '値を追加',
+        'Add empty value' => '空の値の追加',
         'Activate this option to create an empty selectable value.' => '',
-        'Tree View' => '',
+        'Tree View' => 'ツリー表示',
         'Activate this option to display values as a tree.' => '',
         'Translatable values' => '',
         'If you activate this option the values will be translated to the user defined language.' =>
             '',
-        'Note' => '注釈',
+        'Note' => 'メモ',
         'You need to add the translations manually into the language translation files.' =>
             '',
 
         # Template: AdminDynamicFieldMultiselect
 
         # Template: AdminDynamicFieldText
-        'Number of rows' => '',
+        'Number of rows' => '行数',
         'Specify the height (in lines) for this field in the edit mode.' =>
-            '',
-        'Number of cols' => '',
+            '編集画面におけるこの領域の高さ(列数)を指定します。',
+        'Number of cols' => '列数',
         'Specify the width (in characters) for this field in the edit mode.' =>
-            '',
+            '編集画面におけるこの領域の幅(文字数)を指定します。',
 
         # Template: AdminEmail
         'Admin Notification' => '管理者通知',
@@ -1115,7 +1116,7 @@ sub Data {
         'Send message to users' => 'ユーザーにメッセージを送信',
         'Send message to group members' => 'グループのメンバーにメッセージを送信',
         'Group members need to have permission' => 'グループのメンバーは権限を持っている必要があります',
-        'Send message to role members' => '役割のメンバーにメッセージを送信',
+        'Send message to role members' => 'ロールのメンバーにメッセージを送信',
         'Also send to customers in groups' => 'さらにグループの顧客にも送信',
         'Body' => '本文',
         'Send' => '送信',
@@ -1140,15 +1141,15 @@ sub Data {
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             '自動実行を有効にするには、分、時間、日から少なくとも1つの値を選択して下さい。',
         'Event based execution (single ticket)' => '',
-        'Event Triggers' => '',
+        'Event Triggers' => 'イベントトリガー',
         'List of all configured events' => '',
-        'Delete this event' => '',
+        'Delete this event' => 'このイベントを削除',
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
             '',
         'If a ticket event is fired, the ticket filter will be applied to check if the ticket matches. Only then the job is run on that ticket.' =>
             '',
-        'Do you really want to delete this event trigger?' => '',
-        'Add Event Trigger' => '',
+        'Do you really want to delete this event trigger?' => 'このイベントトリガーを本当に削除しますか？',
+        'Add Event Trigger' => 'イベントトリガーを追加',
         'To add a new event select the event object and event name and click on the "+" button' =>
             '',
         'Duplicate event.' => '',
@@ -1167,7 +1168,7 @@ sub Data {
         'No create time settings.' => '作成時間を設定しない',
         'Ticket created' => 'チケットを作成したのが',
         'Ticket created between' => 'チケットを作成したのがこの期間内',
-        'Change times' => '',
+        'Change times' => '変更時間',
         'No change time settings.' => '変更時間設定がありません。',
         'Ticket changed' => 'チケットを変更しました',
         'Ticket changed between' => 'チケットの変更がこの期間の間',
@@ -1194,25 +1195,25 @@ sub Data {
         'Ticket solution time reached between' => 'チケット解決期限がこの期間内',
         'Archive search option' => '書庫検索オプション',
         'Ticket Action' => 'チケットの操作',
-        'Set new service' => '新規サービスを設定',
-        'Set new Service Level Agreement' => '新規のサービスレベル契約（SLA）を設定',
-        'Set new priority' => '新規優先度を設定',
-        'Set new queue' => '新規キューを設定',
-        'Set new state' => '新規に状態を設定',
+        'Set new service' => '新しいサービスを設定',
+        'Set new Service Level Agreement' => '新しいサービスレベル契約（SLA）を設定',
+        'Set new priority' => '新しい優先度を設定',
+        'Set new queue' => '新しいキューを設定',
+        'Set new state' => '新しい状態を設定',
         'Pending date' => '保留日時',
-        'Set new agent' => '新規担当者を設定',
-        'new owner' => '新規所有者',
-        'new responsible' => '',
-        'Set new ticket lock' => '新規チケットロックを設定',
-        'New customer' => '新規顧客',
-        'New customer ID' => '新規顧客ID',
-        'New title' => '新規タイトル',
-        'New type' => '新規タイプ',
-        'New Dynamic Field Values' => '',
+        'Set new agent' => '新しい担当者を設定',
+        'new owner' => '新しい所有者',
+        'new responsible' => '新しい責任者',
+        'Set new ticket lock' => '新しいチケットロックを設定',
+        'New customer' => '新しい顧客',
+        'New customer ID' => '新しい顧客ID',
+        'New title' => '新しいタイトル',
+        'New type' => '新しいタイプ',
+        'New Dynamic Field Values' => '動的領域の値を設定',
         'Archive selected tickets' => '書庫の選択済みチケット',
-        'Add Note' => '新規注釈',
-        'Time units' => '時間単位',
-        '(work units)' => '',
+        'Add Note' => 'メモを追加',
+        'Time units' => '時間の単位',
+        '(work units)' => '(作業単位)',
         'Ticket Commands' => 'チケットコマンド',
         'Send agent/customer notifications on changes' => '変更を担当者／顧客に通知する',
         'CMD' => 'コマンド',
@@ -1220,7 +1221,7 @@ sub Data {
             'このコマンドが実行されます。チケット番号は ARG[0] 、チケットIDは ARG[1] です。',
         'Delete tickets' => 'チケット削除',
         'Warning: All affected tickets will be removed from the database and cannot be restored!' =>
-            '警告: 影響を受ける全てのつけっとがデータベースから削除されます。復元することはできません！',
+            '警告: 影響を受ける全てのチケットがデータベースから削除されます。復元することはできません。',
         'Execute Custom Module' => 'カスタムモジュールを実行',
         'Param %s key' => 'パラメータキー %s',
         'Param %s value' => 'パラメータ値 %s',
@@ -1228,32 +1229,32 @@ sub Data {
         'Results' => '検索結果',
         '%s Tickets affected! What do you want to do?' => '%s チケットは影響を受けます。どうしますか？',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
-            '警告: 削除オプションを使用します。削除された全てのチケットは消失します！',
+            '警告: 削除オプションを使用します。削除された全てのチケットは消失します。',
         'Edit job' => 'ジョブ編集',
         'Run job' => 'ジョブ実行',
         'Affected Tickets' => '影響を受けるチケット',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => '',
-        'Web Services' => '',
-        'Debugger' => '',
-        'Go back to web service' => '',
+        'Web Services' => 'Webサービス',
+        'Debugger' => 'デバッガー',
+        'Go back to web service' => 'Webサービスに戻る',
         'Clear' => '',
         'Do you really want to clear the debug log of this web service?' =>
             '',
         'Request List' => '',
         'Time' => '時間',
-        'Remote IP' => '',
+        'Remote IP' => 'リモートIP',
         'Loading' => '読み込み中...',
         'Select a single request to see its details.' => '',
-        'Filter by type' => '',
+        'Filter by type' => 'タイプでフィルタ',
         'Filter from' => '',
         'Filter to' => '',
-        'Filter by remote IP' => '',
+        'Filter by remote IP' => 'リモートIPでフィルタ',
         'Refresh' => '自動更新',
         'Request Details' => '',
         'An error occurred during communication.' => '',
-        'Clear debug log' => '',
+        'Clear debug log' => 'デバッグログを削除',
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add new Invoker to Web Service %s' => '',
@@ -1497,7 +1498,7 @@ sub Data {
         # Template: AdminNotification
         'Notification Management' => '通知管理',
         'Select a different language' => '別の言語を選択',
-        'Filter for Notification' => '通知フィルタ',
+        'Filter for Notification' => '通知でフィルタ',
         'Notifications are sent to an agent or a customer.' => '通知は担当者、顧客に送信されます。',
         'Notification' => '通知',
         'Edit Notification' => '通知の編集',
@@ -1518,7 +1519,7 @@ sub Data {
         'Recipient' => '宛先',
         'Recipient groups' => '受信グループ',
         'Recipient agents' => '受信担当者',
-        'Recipient roles' => '受信役割',
+        'Recipient roles' => '受信ロール',
         'Recipient email addresses' => '受信 メールアドレス',
         'Notification article type' => '記事タイプの通知',
         'Only for notifications to specified email addresses' => '指定メールアドレスへの通知のみ',
@@ -1579,7 +1580,7 @@ sub Data {
         'List of Files' => '領域のリスト',
         'Permission' => '権限',
         'Download' => 'ダウンロード',
-        'Download file from package!' => 'パッケージからファイルをダウンロードしてください！',
+        'Download file from package!' => 'パッケージからファイルをダウンロードしてください。',
         'Required' => '必要項目',
         'PrimaryKey' => 'プライマリキー',
         'AutoIncrement' => '自動増加',
@@ -1588,11 +1589,11 @@ sub Data {
 
         # Template: AdminPerformanceLog
         'Performance Log' => 'パフォーマンスログ',
-        'This feature is enabled!' => 'この機能を有効にする！',
+        'This feature is enabled!' => 'この機能を有効にする。',
         'Just use this feature if you want to log each request.' => 'この機能は各要求をログに記録したい場合のみ利用してください。',
         'Activating this feature might affect your system performance!' =>
             'この機能を有効にするとシステムのパフォーマンスに影響が出る可能性があります。',
-        'Disable it here!' => '無効にする！',
+        'Disable it here!' => '無効にする。',
         'Logfile too large!' => 'ログファイルが大きすぎます',
         'The logfile is too large, you need to reset it' => 'ログファイルが大きすぎます。初期化してください。',
         'Overview' => '一覧',
@@ -1636,41 +1637,41 @@ sub Data {
         'Edit Priority' => '優先度を編集',
 
         # Template: AdminProcessManagement
-        'Process Management' => '',
-        'Filter for Processes' => '',
-        'Process Name' => '',
-        'Create New Process' => '',
-        'Synchronize All Processes' => '',
+        'Process Management' => 'プロセス管理',
+        'Filter for Processes' => 'プロセスでフィルタ',
+        'Process Name' => 'プロセス名',
+        'Create New Process' => '新しいプロセスを追加',
+        'Synchronize All Processes' => '全てのプロセスを同期',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Upload process configuration' => '',
-        'Import process configuration' => '',
+        'Upload process configuration' => 'プロセスの設定を更新',
+        'Import process configuration' => 'プロセスの設定をインポート',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             '',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             '',
-        'Processes' => '',
-        'Process name' => '',
+        'Processes' => 'プロセス',
+        'Process name' => 'プロセス名',
         'Print' => '印刷',
-        'Export Process Configuration' => '',
-        'Copy Process' => '',
+        'Export Process Configuration' => 'プロセスの設定をエクスポート',
+        'Copy Process' => 'プロセスをコピー',
 
         # Template: AdminProcessManagementActivity
         'Cancel & close window' => '取り消してウィンドウを閉じる',
         'Go Back' => '',
         'Please note, that changing this activity will affect the following processes' =>
             '',
-        'Activity' => '',
-        'Activity Name' => '',
-        'Activity Dialogs' => '',
+        'Activity' => 'アクティビティ',
+        'Activity Name' => 'アクティビティ名',
+        'Activity Dialogs' => 'アクティビティダイアログ',
         'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
             '',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
             '',
-        'Filter available Activity Dialogs' => '',
-        'Available Activity Dialogs' => '',
-        'Create New Activity Dialog' => '',
-        'Assigned Activity Dialogs' => '',
+        'Filter available Activity Dialogs' => '利用可能なアクティビティダイアログをフィルタ',
+        'Available Activity Dialogs' => '利用可能なアクティビティダイアログ',
+        'Create New Activity Dialog' => '新規アクティビティダイアログを作成',
+        'Assigned Activity Dialogs' => '割り当てられたアクティビティダイアログ',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
             '',
 
@@ -1679,8 +1680,8 @@ sub Data {
             '',
         'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
             '',
-        'Activity Dialog' => '',
-        'Activity dialog Name' => '',
+        'Activity Dialog' => 'アクティビティダイアログ',
+        'Activity dialog Name' => 'アクティビティダイアログ名',
         'Available in' => '',
         'Description (short)' => '',
         'Description (long)' => '',
@@ -1689,46 +1690,46 @@ sub Data {
         'The selected required lock does not exist.' => '',
         'Submit Advice Text' => '',
         'Submit Button Text' => '',
-        'Fields' => '',
+        'Fields' => '領域',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
             '',
-        'Filter available fields' => '',
-        'Available Fields' => '',
-        'Assigned Fields' => '',
+        'Filter available fields' => '利用可能な領域をフィルタ',
+        'Available Fields' => '利用可能な領域',
+        'Assigned Fields' => '割り当てられた領域',
         'Edit Details for Field' => '',
-        'ArticleType' => '',
-        'Display' => '',
-        'Edit Field Details' => '',
+        'ArticleType' => '記事タイプ',
+        'Display' => '表示',
+        'Edit Field Details' => '領域の詳細を編集',
         'Customer interface does not support internal article types.' => '',
 
         # Template: AdminProcessManagementPath
-        'Path' => '',
-        'Edit this transition' => '',
+        'Path' => 'パス',
+        'Edit this transition' => 'この遷移を編集',
         'Transition Actions' => '',
         'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
             '',
-        'Filter available Transition Actions' => '',
-        'Available Transition Actions' => '',
-        'Create New Transition Action' => '',
-        'Assigned Transition Actions' => '',
+        'Filter available Transition Actions' => '利用可能な遷移動作をフィルタ',
+        'Available Transition Actions' => '利用可能な遷移動作',
+        'Create New Transition Action' => '新規遷移動作を作成',
+        'Assigned Transition Actions' => '割り当てられた遷移動作',
 
         # Template: AdminProcessManagementPopupResponse
 
         # Template: AdminProcessManagementProcessAccordion
-        'Activities' => '',
+        'Activities' => 'アクティビティ',
         'Filter Activities...' => '',
-        'Create New Activity' => '',
+        'Create New Activity' => '新しいアクティビティを作成',
         'Filter Activity Dialogs...' => '',
-        'Transitions' => '',
+        'Transitions' => '遷移',
         'Filter Transitions...' => '',
-        'Create New Transition' => '',
+        'Create New Transition' => '新しい遷移を作成',
         'Filter Transition Actions...' => '',
 
         # Template: AdminProcessManagementProcessEdit
-        'Edit Process' => '',
-        'Print process information' => '',
-        'Delete Process' => '',
-        'Delete Inactive Process' => '',
+        'Edit Process' => 'プロセスを編集',
+        'Print process information' => 'プロセス情報を印刷',
+        'Delete Process' => 'プロセスを削除',
+        'Delete Inactive Process' => '非アクティブなプロセスを削除',
         'Available Process Elements' => '',
         'The Elements listed above in this sidebar can be moved to the canvas area on the right by using drag\'n\'drop.' =>
             '',
@@ -1740,37 +1741,37 @@ sub Data {
             '',
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             '',
-        'Edit Process Information' => '',
-        'The selected state does not exist.' => '',
-        'Add and Edit Activities, Activity Dialogs and Transitions' => '',
-        'Show EntityIDs' => '',
-        'Extend the width of the Canvas' => '',
-        'Extend the height of the Canvas' => '',
-        'Remove the Activity from this Process' => '',
-        'Edit this Activity' => '',
-        'Save settings' => '',
-        'Save Activities, Activity Dialogs and Transitions' => '',
-        'Do you really want to delete this Process?' => '',
-        'Do you really want to delete this Activity?' => '',
-        'Do you really want to delete this Activity Dialog?' => '',
-        'Do you really want to delete this Transition?' => '',
-        'Do you really want to delete this Transition Action?' => '',
+        'Edit Process Information' => 'プロセスの情報を編集',
+        'The selected state does not exist.' => '選択された状態は存在しません。',
+        'Add and Edit Activities, Activity Dialogs and Transitions' => 'アクティビティ、アクティビティダイアログ、遷移を追加、編集',
+        'Show EntityIDs' => 'エンティティIDを表示',
+        'Extend the width of the Canvas' => 'キャンバスの幅を広げる',
+        'Extend the height of the Canvas' => 'キャンバスの高さを拡大する',
+        'Remove the Activity from this Process' => 'このプロセスからアクティビティを削除',
+        'Edit this Activity' => 'このアクティビティを編集',
+        'Save settings' => '設定を保存',
+        'Save Activities, Activity Dialogs and Transitions' => 'クティビティ、アクティビティダイアログ、遷移を保存',
+        'Do you really want to delete this Process?' => 'このプロセスを本当に削除しますか？',
+        'Do you really want to delete this Activity?' => 'このアクティビティを本当に削除しますか？',
+        'Do you really want to delete this Activity Dialog?' => 'このアクティビティダイアログを本当に削除しますか？',
+        'Do you really want to delete this Transition?' => 'この遷移を本当に削除しますか？',
+        'Do you really want to delete this Transition Action?' => 'この遷移動作を本当に削除しますか？',
         'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
             '',
         'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
             '',
-        'Hide EntityIDs' => '',
-        'Delete Entity' => '',
-        'Remove Entity from canvas' => '',
+        'Hide EntityIDs' => 'エンティティIDを隠す',
+        'Delete Entity' => 'エンティティを削除',
+        'Remove Entity from canvas' => 'キャンバスからエンティティを削除',
         'This Activity is already used in the Process. You cannot add it twice!' =>
-            '',
+            'このアクティビティは既にプロセスで使用されています。2度追加できません。',
         'This Activity cannot be deleted because it is the Start Activity.' =>
-            '',
+            'このアクティビティは開始アクティビティであるため削除できません。',
         'This Transition is already used for this Activity. You cannot use it twice!' =>
-            '',
+            'この遷移は既にこのアクティビティに対して使用されています。2度使用できません。',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
-            '',
-        'Remove the Transition from this Process' => '',
+            'の遷移動作は既にこのパスで使用されています。2度使用できません。',
+        'Remove the Transition from this Process' => 'このプロセスから遷移を削除',
         'No TransitionActions assigned.' => '',
         'The Start Event cannot loose the Start Transition!' => '',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
@@ -1783,41 +1784,41 @@ sub Data {
             '',
 
         # Template: AdminProcessManagementProcessPrint
-        'Start Activity' => '',
+        'Start Activity' => 'アクティビティを開始',
         'Contains %s dialog(s)' => '',
-        'Assigned dialogs' => '',
-        'Activities are not being used in this process.' => '',
-        'Assigned fields' => '',
-        'Activity dialogs are not being used in this process.' => '',
-        'Condition linking' => '',
-        'Conditions' => '',
-        'Condition' => '',
-        'Transitions are not being used in this process.' => '',
-        'Module name' => '',
-        'Configuration' => '',
-        'Transition actions are not being used in this process.' => '',
+        'Assigned dialogs' => '割り当てられたダイアログ',
+        'Activities are not being used in this process.' => 'アクティビティはこのプロセスで使用されていません。',
+        'Assigned fields' => '割り当てられた領域',
+        'Activity dialogs are not being used in this process.' => 'アクティビティダイアログはこのプロセスで使用されていません。',
+        'Condition linking' => '条件リンク',
+        'Conditions' => '条件',
+        'Condition' => '条件',
+        'Transitions are not being used in this process.' => '遷移はこのプロセスで使用されていません。',
+        'Module name' => 'モジュール名',
+        'Configuration' => '設定',
+        'Transition actions are not being used in this process.' => '遷移アクションはこのプロセスで使用されていません。',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
             '',
-        'Transition' => '',
-        'Transition Name' => '',
-        'Type of Linking between Conditions' => '',
-        'Remove this Condition' => '',
-        'Type of Linking' => '',
-        'Remove this Field' => '',
-        'Add a new Field' => '',
-        'Add New Condition' => '',
+        'Transition' => '遷移',
+        'Transition Name' => '遷移名',
+        'Type of Linking between Conditions' => '条件間のリンクのタイプ',
+        'Remove this Condition' => 'この条件を削除',
+        'Type of Linking' => 'リンクのタイプ',
+        'Remove this Field' => 'この領域を削除',
+        'Add a new Field' => '新しい領域を追加',
+        'Add New Condition' => '新しい条件を追加',
 
         # Template: AdminProcessManagementTransitionAction
         'Please note that changing this transition action will affect the following processes' =>
             '',
-        'Transition Action' => '',
-        'Transition Action Name' => '',
-        'Transition Action Module' => '',
+        'Transition Action' => '遷移動作',
+        'Transition Action Name' => '遷移動作名',
+        'Transition Action Module' => '遷移動作モジュール',
         'Config Parameters' => '',
-        'Remove this Parameter' => '',
-        'Add a new Parameter' => '',
+        'Remove this Parameter' => 'このパラメータを削除',
+        'Add a new Parameter' => '新規パラメータを追加',
 
         # Template: AdminQueue
         'Manage Queues' => 'キュー管理',
@@ -1835,15 +1836,15 @@ sub Data {
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
             'ここで定義された時間の前に、新規チケットに顧客連絡先が追加されていないか、メール送信、電話などの連絡を取っていない場合、チケットがエスカレーションされます。',
         'If there is an article added, such as a follow-up via email or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' =>
-            'メールでの追跡やカスタマーポータルに追加された記事があれば、エスカレーション更新期限はリセットされます。ここで定義された時間内に顧客からの外部メールや電話の記録が追加されない場合、チケットがエスカレーションされます。',
+            'メールでのコールバックやカスタマーポータルに追加された記事があれば、エスカレーション更新期限はリセットされます。ここで定義された時間内に顧客からの外部メールや電話の記録が追加されない場合、チケットがエスカレーションされます。',
         'If the ticket is not set to closed before the time defined here expires, the ticket is escalated.' =>
             'ここで定義された時間の前にチケットが完了しない場合、チケットがエスカレーションされます。',
-        'Follow up Option' => '追跡オプション',
+        'Follow up Option' => 'コールバックオプション',
         'Specifies if follow up to closed tickets would re-open the ticket, be rejected or lead to a new ticket.' =>
-            '完了したチケットを追跡したい場合、チケットを再度対応中にするか、拒否して新規チケットにするかを指定します。',
-        'Ticket lock after a follow up' => 'チケットロック後に追跡',
+            '完了したチケットにコールバックしたい場合、チケットを再度対応中にするか、拒否して新規チケットにするかを指定します。',
+        'Ticket lock after a follow up' => 'コールバック後にチケットをロック',
         'If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner.' =>
-            'チケットが完了後に顧客がチケットを追跡する場合、旧所有者にロックされます。',
+            'チケットが完了した後に顧客がチケットにコールバックする場合、旧所有者にロックされます。',
         'System address' => 'システムアドレス',
         'Will be the sender address of this queue for email answers.' => 'このキューでのメール回答はこの送信者アドレスになります。',
         'Default sign key' => '既定のサインキー',
@@ -1851,18 +1852,18 @@ sub Data {
         'The signature for email answers.' => 'メール回答の署名',
 
         # Template: AdminQueueAutoResponse
-        'Manage Queue-Auto Response Relations' => 'キュー - 自動応答の関連性の管理',
-        'Filter for Queues' => 'キューフィルタ',
-        'Filter for Auto Responses' => '自動応答フィルタ',
+        'Manage Queue-Auto Response Relations' => 'キュー-自動応答の関連性の管理',
+        'Filter for Queues' => 'キューでフィルタ',
+        'Filter for Auto Responses' => '自動応答でフィルタ',
         'Auto Responses' => '自動応答',
-        'Change Auto Response Relations for Queue' => 'キューと自動応答の関連性を変更',
+        'Change Auto Response Relations for Queue' => 'キューに対する自動応答の関連性を変更',
 
         # Template: AdminQueueTemplates
-        'Manage Template-Queue Relations' => '',
-        'Filter for Templates' => '',
-        'Templates' => '',
-        'Change Queue Relations for Template' => '',
-        'Change Template Relations for Queue' => '',
+        'Manage Template-Queue Relations' => 'テンプレート-キューの関連性の管理',
+        'Filter for Templates' => 'テンプレートでフィルタ',
+        'Templates' => 'テンプレート',
+        'Change Queue Relations for Template' => 'テンプレートに対するキューの関連性を変更',
+        'Change Template Relations for Queue' => 'キューに対するテンプレートの関連性を変更',
 
         # Template: AdminRegistration
         'System Registration Management' => '',
@@ -1936,24 +1937,24 @@ sub Data {
         'You can modify the system type and description here.' => '',
 
         # Template: AdminRole
-        'Role Management' => '役割管理',
-        'Add role' => '役割を追加',
+        'Role Management' => 'ロール管理',
+        'Add role' => 'ロールを追加',
         'Create a role and put groups in it. Then add the role to the users.' =>
-            '役割を作成してグループを追加後、ユーザーに役割を追加してください。',
+            'ロールを作成してグループを追加後、ユーザーにロールを追加してください。',
         'There are no roles defined. Please use the \'Add\' button to create a new role.' =>
-            '未定義の役割があります。新しい役割を作成し、追加ボタンを押してください。',
-        'Add Role' => '役割を追加',
-        'Edit Role' => '役割を編集',
+            '未定義のロールがあります。新しいロールを作成し、追加ボタンを押してください。',
+        'Add Role' => 'ロールを追加',
+        'Edit Role' => 'ロールを編集',
 
         # Template: AdminRoleGroup
-        'Manage Role-Group Relations' => '役割 - グループの関連性管理',
-        'Filter for Roles' => '役割のフィルタ',
-        'Roles' => '役割',
-        'Select the role:group permissions.' => '役割：グループ権限を選択。',
+        'Manage Role-Group Relations' => 'ロール-グループの関連性管理',
+        'Filter for Roles' => 'ロールでフィルタ',
+        'Roles' => 'ロール',
+        'Select the role:group permissions.' => 'ロール：グループ権限を選択。',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
-            '何も選択しなかった場合は、そのグループへ付与される許可はありません（役割に関してチケットは利用できません）',
-        'Change Role Relations for Group' => 'グループと役割の関連性を変更',
-        'Change Group Relations for Role' => '役割とグループの関連性を変更',
+            '何も選択しなかった場合は、そのグループへ付与される許可はありません（ロールに関してチケットは利用できません）',
+        'Change Role Relations for Group' => 'グループに対するロールの関連性を変更',
+        'Change Group Relations for Role' => 'ロールに対するグループの関連性を変更',
         'Toggle %s permission for all' => '全ての %s の権限を切り替え',
         'move_into' => '移動',
         'Permissions to move tickets into this group/queue.' => 'このグループ／キューにチケットの移転権限を付与',
@@ -1964,25 +1965,25 @@ sub Data {
             'このグループ／キューにチケットの優先度変更権限を付与',
 
         # Template: AdminRoleUser
-        'Manage Agent-Role Relations' => '担当者 - 役割の関連性管理',
-        'Filter for Agents' => '担当者名フィルタリング(担当者名を入力してください)',
+        'Manage Agent-Role Relations' => '担当者-ロールの関連性管理',
+        'Filter for Agents' => '担当者でフィルタ',
         'Agents' => '担当者',
-        'Manage Role-Agent Relations' => '役割 - 担当者の関連性管理',
-        'Change Role Relations for Agent' => '担当者と役割の関連性を変更',
-        'Change Agent Relations for Role' => '役割用と担当者の関連性を変更',
+        'Manage Role-Agent Relations' => 'ロール-担当者の関連性管理',
+        'Change Role Relations for Agent' => '担当者に対するロールの関連性を変更',
+        'Change Agent Relations for Role' => 'ロールに対する担当者の関連性を変更',
 
         # Template: AdminSLA
         'SLA Management' => 'SLA管理',
         'Add SLA' => 'SLAを追加',
         'Edit SLA' => 'SLAを編集',
-        'Please write only numbers!' => '数値しか入力できません！',
+        'Please write only numbers!' => '数値しか入力できません。',
 
         # Template: AdminSMIME
         'S/MIME Management' => 'S/MIME管理',
         'Add certificate' => '証明書の追加',
         'Add private key' => '秘密鍵の追加',
-        'Filter for certificates' => '',
-        'Filter for SMIME certs' => '',
+        'Filter for certificates' => '証明書でフィルタ',
+        'Filter for SMIME certs' => 'SMIME証明書でフィルタ',
         'To show certificate details click on a certificate icon.' => '',
         'To manage private certificate relations click on a private key icon.' =>
             '',
@@ -2022,7 +2023,7 @@ sub Data {
             '',
 
         # Template: AdminSecureMode
-        'Secure mode needs to be enabled!' => 'セキュアモードを有効にしてください！',
+        'Secure mode needs to be enabled!' => 'セキュアモードを有効にしてください。',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             '初回インストール完了後、セキュアモード (通常) に設定されます',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
@@ -2090,7 +2091,7 @@ sub Data {
         # Template: AdminSysConfigEdit
         'Edit Config Settings' => '設定を編集',
         'This config item is only available in a higher config level!' =>
-            'この項目は高設定レベルで設定できます！',
+            'この項目は高設定レベルで設定できます。',
         'Reset this setting' => 'この設定をリセット',
         'Error: this file could not be found.' => 'エラー: ファイルが見つかりませんでした。',
         'Error: this directory could not be found.' => 'エラー: ディレクトリが見つかりませんでした。',
@@ -2136,26 +2137,26 @@ sub Data {
             '表示名、メールアドレスは送信メールに表示されます。',
 
         # Template: AdminTemplate
-        'Manage Templates' => '',
-        'Add template' => '',
+        'Manage Templates' => 'テンプレート管理',
+        'Add template' => 'テンプレートを追加',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '',
-        'Don\'t forget to add new templates to queues.' => '',
-        'Add Template' => '',
-        'Edit Template' => '',
-        'Template' => '',
+        'Don\'t forget to add new templates to queues.' => '新しいテンプレートにキューを追加してください。',
+        'Add Template' => 'テンプレートを追加',
+        'Edit Template' => 'テンプレートを編集',
+        'Template' => 'テンプレート',
         'Create type templates only supports this smart tags' => '',
         'Example template' => '',
         'The current ticket state is' => '現在のチケットの状態は',
         'Your email address is' => 'あなたのメールアドレスは',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates <-> Attachments Relations' => '',
-        'Filter for Attachments' => '添付ファイルフィルタ',
-        'Change Template Relations for Attachment' => '',
-        'Change Attachment Relations for Template' => '',
+        'Manage Templates <-> Attachments Relations' => 'テンプレート <-> 添付ファイルの関連性管理',
+        'Filter for Attachments' => '添付ファイルでフィルタ',
+        'Change Template Relations for Attachment' => '添付ファイルに対するテンプレートの関連性を変更',
+        'Change Attachment Relations for Template' => 'テンプレートに対する添付ファイルの関連性を変更',
         'Toggle active for all' => '全てを有効に切り替え',
-        'Link %s to selected %s' => '%s と %s を連結',
+        'Link %s to selected %s' => '%s を選択された %s へ連結',
 
         # Template: AdminType
         'Type Management' => 'タイプ管理',
@@ -2166,24 +2167,24 @@ sub Data {
         # Template: AdminUser
         'Add agent' => '担当者の追加',
         'Agents will be needed to handle tickets.' => '担当者はチケットを処理するために必要です。',
-        'Don\'t forget to add a new agent to groups and/or roles!' => '新規担当者をグループまたは役割に追加してください！',
+        'Don\'t forget to add a new agent to groups and/or roles!' => '新規担当者をグループまたはロールに追加してください。',
         'Please enter a search term to look for agents.' => '担当者検索の用語を入力してください。',
         'Last login' => '最終ログイン',
         'Switch to agent' => '担当者を切り替え',
         'Add Agent' => '担当者の追加',
         'Edit Agent' => '担当者の編集',
-        'Firstname' => '名',
-        'Lastname' => '姓',
+        'Firstname' => '姓',
+        'Lastname' => '名',
         'Will be auto-generated if left empty.' => '',
         'Start' => '開始',
         'End' => '終了',
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => '担当者 - グループの関連性の管理',
-        'Change Group Relations for Agent' => '担当者とグループの関連性を変更',
-        'Change Agent Relations for Group' => 'グループと担当者の関連性を変更',
-        'note' => '注釈',
-        'Permissions to add notes to tickets in this group/queue.' => 'このグループ／キューにチケットへ注釈追加権限を付与',
+        'Change Group Relations for Agent' => '担当者に対するグループの関連性を変更',
+        'Change Agent Relations for Group' => 'グループに対する担当者の関連性を変更',
+        'note' => 'メモ',
+        'Permissions to add notes to tickets in this group/queue.' => 'このグループ／キューにチケットへメモ追加権限を付与',
         'owner' => '所有者',
         'Permissions to change the owner of tickets in this group/queue.' =>
             'このグループ／キューにチケットへ所有者変更権限を付与',
@@ -2197,7 +2198,7 @@ sub Data {
         'Apply' => '適用',
 
         # Template: AgentCustomerInformationCenter
-        'Customer Information Center' => '',
+        'Customer Information Center' => '顧客情報センター',
 
         # Template: AgentCustomerInformationCenterBlank
 
@@ -2211,7 +2212,7 @@ sub Data {
         'It is going to be deleted from the field, please try again.' => '',
 
         # Template: AgentCustomerTableView
-        'Note: Customer is invalid!' => '',
+        'Note: Customer is invalid!' => 'Note: 顧客が無効です。',
 
         # Template: AgentDashboard
         'Dashboard' => 'ダッシュボード',
@@ -2220,29 +2221,29 @@ sub Data {
         'in' => '＞',
 
         # Template: AgentDashboardCommon
-        'Available Columns' => '',
-        'Visible Columns (order by drag & drop)' => '',
+        'Available Columns' => '利用可能な列',
+        'Visible Columns (order by drag & drop)' => '表示する列 (ドラッグ&ドロップで並び替えできます)',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
         # Template: AgentDashboardCustomerIDStatus
-        'Escalated tickets' => '',
+        'Escalated tickets' => 'エスカレーション済チケット',
 
         # Template: AgentDashboardCustomerUserList
-        'Customer information' => '',
-        'Phone ticket' => '',
-        'Email ticket' => '',
+        'Customer information' => '顧客情報',
+        'Phone ticket' => '電話チケット',
+        'Email ticket' => 'メールチケット',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
-        'New phone ticket from %s' => '',
-        'New email ticket to %s' => '',
+        'New phone ticket from %s' => '%sからの新規電話チケット',
+        'New email ticket to %s' => '%s宛の新規メールチケット',
 
         # Template: AgentDashboardIFrame
 
         # Template: AgentDashboardImage
 
         # Template: AgentDashboardProductNotify
-        '%s %s is available!' => '%s %s が利用できます！',
+        '%s %s is available!' => '%s %s が利用できます。',
         'Please update now.' => '更新してください',
         'Release Note' => 'リリースノート',
         'Level' => 'レベル',
@@ -2257,15 +2258,15 @@ sub Data {
         'Stacked' => '',
 
         # Template: AgentDashboardTicketGeneric
-        'My locked tickets' => '',
-        'My watched tickets' => '',
-        'My responsibilities' => '',
-        'Tickets in My Queues' => '',
+        'My locked tickets' => 'ロックチケット',
+        'My watched tickets' => '監視チケット',
+        'My responsibilities' => '責任チケット',
+        'Tickets in My Queues' => '担当キュー内チケット',
         'Service Time' => 'サービス時間',
-        'Remove active filters for this widget.' => '',
+        'Remove active filters for this widget.' => 'このウィジットに対するアクティブ・フィルターを除去',
 
         # Template: AgentDashboardTicketQueueOverview
-        'Totals' => '',
+        'Totals' => '合計',
 
         # Template: AgentDashboardTicketStats
 
@@ -2407,22 +2408,22 @@ sub Data {
         'Change Free Text of Ticket' => 'チケットの自由入力を変更',
         'Change Owner of Ticket' => 'チケットの所有者を変更',
         'Close Ticket' => 'チケットを閉じる',
-        'Add Note to Ticket' => 'チケットに注釈を追加',
+        'Add Note to Ticket' => 'チケットにメモを追加',
         'Set Pending' => '保留に設定',
         'Change Priority of Ticket' => 'チケットの優先度を変更',
-        'Change Responsible of Ticket' => 'チケットの応答者を変更',
-        'All fields marked with an asterisk (*) are mandatory.' => '',
+        'Change Responsible of Ticket' => 'チケットの責任者を変更',
+        'All fields marked with an asterisk (*) are mandatory.' => 'アスタリスク（*）が付いている全ての領域は必須入力で>す。',
         'Service invalid.' => '無効なサービスです',
         'New Owner' => '新規所有者',
-        'Please set a new owner!' => '新規所有者を設定してください！',
+        'Please set a new owner!' => '新規所有者を設定してください。',
         'Previous Owner' => '以前の所有者',
         'Inform Agent' => '担当者に知らせる',
         'Optional' => 'オプション',
         'Inform involved Agents' => '関係担当者に知らせる',
         'Spell check' => 'スペルチェック',
-        'Note type' => '注釈タイプ',
+        'Note type' => 'メモタイプ',
         'Next state' => '次の状態',
-        'Date invalid!' => '日時が無効です！',
+        'Date invalid!' => '日時が無効です。',
 
         # Template: AgentTicketActionPopupClose
 
@@ -2440,10 +2441,10 @@ sub Data {
         'Ticket Bulk Action' => 'チケット一括処理',
         'Send Email' => '',
         'Merge to' => 'これと結合',
-        'Invalid ticket identifier!' => '無効なチケット識別子です！',
+        'Invalid ticket identifier!' => '無効なチケット識別子です。',
         'Merge to oldest' => '古いものへ結合',
         'Link together' => '一緒に連結',
-        'Link to parent' => '親と連結',
+        'Link to parent' => '親へ連結',
         'Unlock tickets' => 'チケットのロック解除',
 
         # Template: AgentTicketClose
@@ -2453,13 +2454,13 @@ sub Data {
         'Please include at least one recipient' => '',
         'Remove Ticket Customer' => '',
         'Please remove this entry and enter a new one with the correct value.' =>
-            '',
-        'Remove Cc' => '',
-        'Remove Bcc' => '',
+            'このエントリーを削除し、正しい値で新しいエントリーを追加してください。',
+        'Remove Cc' => 'Ccを削除',
+        'Remove Bcc' => 'Bccを削除',
         'Address book' => 'アドレス帳',
         'Pending Date' => '保留期間',
         'for pending* states' => '状態:保留にする',
-        'Date Invalid!' => '日時が無効です！',
+        'Date Invalid!' => '日時が無効です。',
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'チケットの顧客を変更',
@@ -2468,7 +2469,7 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => '新規メールチケットの作成',
         'From queue' => 'キューから',
-        'To customer user' => '',
+        'To customer user' => '宛先顧客ユーザー',
         'Please include at least one customer user for the ticket.' => '',
         'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
@@ -2544,8 +2545,8 @@ sub Data {
         # Template: AgentTicketPriority
 
         # Template: AgentTicketProcess
-        'Create New Process Ticket' => '',
-        'Process' => '',
+        'Create New Process Ticket' => '新しいプロセスチケットを作成',
+        'Process' => 'プロセス',
 
         # Template: AgentTicketProcessNavigationBar
 
@@ -2577,10 +2578,10 @@ sub Data {
         'Ticket Change Time (between)' => 'チケット変更時間 (期間中)',
         'Ticket Close Time (before/after)' => 'チケット完了時間 (前／後)',
         'Ticket Close Time (between)' => 'チケット完了時間 (期間中)',
-        'Ticket Escalation Time (before/after)' => '',
-        'Ticket Escalation Time (between)' => '',
+        'Ticket Escalation Time (before/after)' => 'チケットエスカレーション時間 (前／後)',
+        'Ticket Escalation Time (between)' => 'チケットエスカレーション時間 (期間中)',
         'Archive Search' => '書庫検索',
-        'Run search' => '',
+        'Run search' => '検索を実行',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
 
@@ -2591,17 +2592,17 @@ sub Data {
         # Template: AgentTicketZoom
         'Article filter' => '記事フィルタ',
         'Article Type' => '記事タイプ',
-        'Sender Type' => '',
+        'Sender Type' => '送信者タイプ',
         'Save filter settings as default' => '既定のフィルタ設定を保存',
-        'Archive' => '',
-        'This ticket is archived.' => '',
+        'Archive' => 'アーカイブ',
+        'This ticket is archived.' => 'このチケットはアーカイブされています。',
         'Locked' => 'ロック状態',
         'Linked Objects' => '連結済対象',
         'Article(s)' => '記事',
         'Change Queue' => 'キュー変更',
         'There are no dialogs available at this point in the process.' =>
             '',
-        'This item has no articles yet.' => '',
+        'This item has no articles yet.' => 'このチケットにはまだ記事がありません。',
         'Add Filter' => 'フィルタ追加',
         'Set' => '設定',
         'Reset Filter' => 'フィルタをリセット',
@@ -2609,8 +2610,8 @@ sub Data {
         'Show all articles' => '全ての記事を閲覧',
         'Unread articles' => '未読記事',
         'No.' => '番号',
-        'Important' => '',
-        'Unread Article!' => '未読記事があります！',
+        'Important' => '重要',
+        'Unread Article!' => '未読記事があります。',
         'Incoming message' => '受信メッセージ',
         'Outgoing message' => '送信メッセージ',
         'Internal message' => '内部メッセージ',
@@ -2680,13 +2681,13 @@ sub Data {
         'Service level agreement' => 'サービスレベル契約 (SLA)',
 
         # Template: CustomerTicketOverview
-        'Welcome!' => '',
-        'Please click the button below to create your first ticket.' => '',
-        'Create your first ticket' => '',
+        'Welcome!' => 'ようこそ！',
+        'Please click the button below to create your first ticket.' => 'チケットを作成するために下のボタンをクリックしてください。',
+        'Create your first ticket' => 'チケット作成',
 
         # Template: CustomerTicketPrint
         'Ticket Print' => '',
-        'Ticket Dynamic Fields' => '',
+        'Ticket Dynamic Fields' => 'チケット動的領域',
 
         # Template: CustomerTicketProcess
 
@@ -2705,9 +2706,9 @@ sub Data {
         'Ticket archive system' => '',
         'Save search as template?' => '',
         'Save as Template?' => 'テンプレートを保存しますか？',
-        'Save as Template' => '',
+        'Save as Template' => 'テンプレートとして保存',
         'Template Name' => 'テンプレート名',
-        'Pick a profile name' => '',
+        'Pick a profile name' => 'テンプレート名',
         'Output to' => '出力: ',
 
         # Template: CustomerTicketSearchOpenSearchDescription
@@ -2747,12 +2748,12 @@ sub Data {
         'Dynamic fields' => '',
 
         # Template: Datepicker
-        'Invalid date (need a future date)!' => '無効な日付です！ (未来の日付が必要)',
+        'Invalid date (need a future date)!' => '無効な日付です。 (未来の日付が必要)',
         'Previous' => '過去',
         'Open date selection' => '対応開始日を選択',
 
         # Template: Error
-        'Oops! An Error occurred.' => 'エラーが発生しました！',
+        'Oops! An Error occurred.' => 'エラーが発生しました。',
         'Error Message' => 'エラーメッセージ',
         'You can' => '次のことができます: ',
         'Send a bugreport' => 'バグ報告を送信',
@@ -2822,7 +2823,7 @@ sub Data {
         'Database setup successful!' => '',
 
         # Template: InstallerDBStart
-        'Install Type' => '',
+        'Install Type' => 'インストールタイプ',
         'Create a new database for OTRS' => '',
         'Use an existing database for OTRS' => '',
 
@@ -2843,8 +2844,8 @@ sub Data {
         'Passwords do not match' => '',
 
         # Template: InstallerDBoracle
-        'SID' => '',
-        'Port' => '',
+        'SID' => 'SID',
+        'Port' => 'Port',
 
         # Template: InstallerDBpostgresql
 
@@ -2916,7 +2917,7 @@ sub Data {
         # Template: PrintFooter
 
         # Template: PrintHeader
-        'printed by' => '',
+        'printed by' => 'printed by',
 
         # Template: PublicDefault
 
@@ -2939,7 +2940,7 @@ sub Data {
         '(UserLogin) Lastname, Firstname' => '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '親チケットについて、その全ての子チケットがすでにクローズされている場合にのみ、クローズすることを許可するACLモジュールです（“State”は、全ての子チケットがクローズされるまで、親チケットにどの状態が適用不可であるかを示しています）。',
-        'Access Control Lists (ACL)' => '',
+        'Access Control Lists (ACL)' => 'アクセス制御リスト (ACL)',
         'AccountedTime' => '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             '最も古いチケットを含むキューの、点滅メカニズムを有効にします。',
@@ -2986,22 +2987,22 @@ sub Data {
         'Agent interface notification module to see the number of watched tickets.' =>
             '監視されているチケットの数を見るための、担当者インタフェース通知モジュールです。',
         'Agents <-> Groups' => '担当者 <-> グループ',
-        'Agents <-> Roles' => '担当者 <-> 役割',
+        'Agents <-> Roles' => '担当者 <-> ロール',
         'All customer users of a CustomerID' => '',
         'Allows adding notes in the close ticket screen of the agent interface.' =>
-            '担当者インタフェースのクローズ・チケット画面で、ノートの追加を許可します。',
+            '担当者インタフェースのクローズ・チケット画面で、メモの追加を許可します。',
         'Allows adding notes in the ticket free text screen of the agent interface.' =>
-            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、ノート追加を許可します。',
+            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、メモの追加を許可します。',
         'Allows adding notes in the ticket note screen of the agent interface.' =>
-            '担当者インタフェースのチケット・ノート画面で、ノートの追加を許可します。',
+            '担当者インタフェースのチケット・メモ画面で、メモの追加を許可します。',
         'Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット所有者画面で、ノートの追加を許可します。',
+            '担当者インタフェースのズームされたチケットのチケット所有者画面で、メモの追加を許可します。',
         'Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット所有者画面で、注釈の追加を許可します。',
+            '担当者インタフェースのズームされたチケットのチケット所有者画面で、メモの追加を許可します。',
         'Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット優先度画面で、ノートの追加を許可します。',
+            '担当者インタフェースのズームされたチケットのチケット優先度画面で、メモの追加を許可します。',
         'Allows adding notes in the ticket responsible screen of the agent interface.' =>
-            '担当者インタフェースのチケット責任者画面で、ノートの追加を許可します。',
+            '担当者インタフェースのチケット責任者画面で、メモの追加を許可します。',
         'Allows agents to exchange the axis of a stat if they generate one.' =>
             '',
         'Allows agents to generate individual-related stats.' => '担当者が、個別に関連する（individual-related）統計を生成できるようにします。',
@@ -3042,7 +3043,7 @@ sub Data {
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             '担当者インタフェースの移動チケット画面で、新しいチケット状態を設定することを許可します。',
         'ArticleTree' => '',
-        'Attachments <-> Templates' => '',
+        'Attachments <-> Templates' => '添付ファイル <-> テンプレート',
         'Auto Responses <-> Queues' => '自動応答 <-> キュー',
         'Automated line break in text messages after x number of chars.' =>
             'X個の文字型の後の、テキスト・メッセージにおける自動化されたライン・ブレイク。',
@@ -3074,10 +3075,10 @@ sub Data {
         'Cache time in seconds for the web service config backend.' => '',
         'Change password' => 'パスワード変更',
         'Change queue!' => '',
-        'Change the customer for this ticket' => '',
-        'Change the free fields for this ticket' => '',
-        'Change the priority for this ticket' => '',
-        'Change the responsible person for this ticket' => '',
+        'Change the customer for this ticket' => 'このチケットの顧客を変更',
+        'Change the free fields for this ticket' => 'このチケットの自由領域を変更',
+        'Change the priority for this ticket' => 'このチケットの優先度を変更',
+        'Change the responsible person for this ticket' => 'このチケットの責任者を変更',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '全員に対して、チケット所有者の変更を行います（ASPにおいて便利です）。通常は、チケットのキューにおいてrw許可を持つ担当者のみが、表示されます。',
         'Checkbox' => '',
@@ -3092,8 +3093,8 @@ sub Data {
         'Company Tickets' => '企業チケット',
         'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
-        'Configure Processes.' => '',
-        'Configure and manage ACLs.' => '',
+        'Configure Processes.' => 'プロセスの構成',
+        'Configure and manage ACLs.' => 'ACLの設定と管理',
         'Configure your own log text for PGP.' => 'PGPのための利用者独自のログテキストを設定します。',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
@@ -3108,38 +3109,38 @@ sub Data {
         'Create and manage Service Level Agreements (SLAs).' => 'サービスレベル契約 (SLA) の作成と管理',
         'Create and manage agents.' => '担当者の作成と管理',
         'Create and manage attachments.' => '添付ファイルの作成と管理',
-        'Create and manage customer users.' => '',
+        'Create and manage customer users.' => '顧客ユーザーの作成と管理',
         'Create and manage customers.' => '顧客の作成と管理',
-        'Create and manage dynamic fields.' => '',
+        'Create and manage dynamic fields.' => '動的領域の作成と管理',
         'Create and manage event based notifications.' => 'イベント経由通知の作成と管理',
         'Create and manage groups.' => 'グループの作成と管理',
         'Create and manage queues.' => 'キューの作成と管理',
         'Create and manage responses that are automatically sent.' => '自動送信する応答の作成と管理',
-        'Create and manage roles.' => '役割の作成と管理',
+        'Create and manage roles.' => 'ロールの作成と管理',
         'Create and manage salutations.' => '挨拶文の作成と管理',
         'Create and manage services.' => 'サービスの作成と管理',
         'Create and manage signatures.' => '署名の作成と管理',
-        'Create and manage templates.' => '',
+        'Create and manage templates.' => 'テンプレートの作成と管理',
         'Create and manage ticket priorities.' => 'チケット優先度の作成と管理',
         'Create and manage ticket states.' => 'チケット状態の作成と管理',
         'Create and manage ticket types.' => 'チケットタイプの作成と管理',
-        'Create and manage web services.' => '',
+        'Create and manage web services.' => 'Webサービスの作成と管理',
         'Create new email ticket and send this out (outbound)' => '新規メールチケットと外部送信の作成',
         'Create new phone ticket (inbound)' => '新規受信電話チケットの作成',
-        'Create new process ticket' => '',
+        'Create new process ticket' => '新規プロセスチケットの作成',
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '顧客に対して表示されるチケットがまだ無いページのための、カスタム・テキストです。',
-        'Customer Company Administration' => '',
-        'Customer Company Information' => '',
-        'Customer User <-> Groups' => '',
-        'Customer User <-> Services' => '',
-        'Customer User Administration' => '',
+        'Customer Company Administration' => '顧客企業管理',
+        'Customer Company Information' => '顧客企業情報',
+        'Customer User <-> Groups' => '顧客ユーザー <-> グループ',
+        'Customer User <-> Services' => '顧客ユーザー <-> サービス',
+        'Customer User Administration' => '顧客ユーザー管理',
         'Customer Users' => '顧客ユーザー',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
-        'CustomerName' => '',
+        'CustomerName' => '顧客名',
         'Customers <-> Groups' => '顧客 <-> グループ',
         'Data used to export the search result in CSV format.' => '検索結果をCSVフォーマットでエクスポートするために使用されるデータです。',
         'Date / Time' => '',
@@ -3235,7 +3236,7 @@ sub Data {
         'Defines if a ticket lock is required in the ticket merge screen of a zoomed ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '',
         'Defines if a ticket lock is required in the ticket note screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
-            '担当者インタフェースのチケット・ノート画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。',
+            '担当者インタフェースのチケット・メモ画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。',
         'Defines if a ticket lock is required in the ticket owner screen of a zoomed ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '担当者インタフェースのズームされたチケットのチケット所有者画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。',
         'Defines if a ticket lock is required in the ticket pending screen of a zoomed ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -3303,7 +3304,7 @@ sub Data {
         'Defines the default auto response type of the article for this operation.' =>
             '',
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
-            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、ノートのデフォルトの本文を定義します。',
+            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、メモのデフォルトの本文を定義します。',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
             '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
@@ -3316,21 +3317,21 @@ sub Data {
         'Defines the default next state for a ticket after customer follow up in the customer interface.' =>
             '顧客インタフェースで、顧客フォロー・アップの後のチケットに関してデフォルトの次の状態を定義します。',
         'Defines the default next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
-            '担当者インタフェースのクローズ・チケット画面で、チケットのノートを追加した後の、デフォルトの次の状態を定義します。',
+            '担当者インタフェースのクローズ・チケット画面で、チケットのメモを追加した後の、デフォルトの次の状態を定義します。',
         'Defines the default next state of a ticket after adding a note, in the ticket bulk screen of the agent interface.' =>
-            '担当者インタフェースのチケット・バルク画面で、チケットのノートを追加した後の、デフォルトの次の状態を定義します。',
+            '担当者インタフェースのチケット・バルク画面で、チケットのメモを追加した後の、デフォルトの次の状態を定義します。',
         'Defines the default next state of a ticket after adding a note, in the ticket free text screen of the agent interface.' =>
-            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、ノートを追加した後の、デフォルトのチケットの次の状態を定義します。',
+            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、メモを追加した後の、デフォルトのチケットの次の状態を定義します。',
         'Defines the default next state of a ticket after adding a note, in the ticket note screen of the agent interface.' =>
-            '担当者インタフェースのチケット・ノート画面で、ノートを追加した後の、デフォルトのチケットの次の状態を定義します。',
+            '担当者インタフェースのチケット・メモ画面で、メモを追加した後の、デフォルトのチケットの次の状態を定義します。',
         'Defines the default next state of a ticket after adding a note, in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット所有者画面で、ノートを追加した後の、デフォルトのチケットの次の状態を定義します。',
+            '担当者インタフェースのズームされたチケットのチケット所有者画面で、メモを追加した後の、デフォルトのチケットの次の状態を定義します。',
         'Defines the default next state of a ticket after adding a note, in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット保留画面で、注釈を追加した後の、デフォルトのチケットの次の状態を定義します。',
+            '担当者インタフェースのズームされたチケットのチケット保留画面で、メモを追加した後の、デフォルトのチケットの次の状態を定義します。',
         'Defines the default next state of a ticket after adding a note, in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット優先度画面で、ノートを追加した後の、デフォルトのチケットの次の状態を定義します。',
+            '担当者インタフェースのズームされたチケットのチケット優先度画面で、メモを追加した後の、デフォルトのチケットの次の状態を定義します。',
         'Defines the default next state of a ticket after adding a note, in the ticket responsible screen of the agent interface.' =>
-            '担当者インタフェースのチケット責任者画面で、ノートを追加した後の、デフォルトのチケットの次の状態を定義します。',
+            '担当者インタフェースのチケット責任者画面で、メモを追加した後の、デフォルトのチケットの次の状態を定義します。',
         'Defines the default next state of a ticket after being bounced, in the ticket bounce screen of the agent interface.' =>
             '担当者インタフェースのチケット・バウンス画面で、チケットがバウンスされた後の、デフォルトの次の状態を定義します。',
         'Defines the default next state of a ticket after being forwarded, in the ticket forward screen of the agent interface.' =>
@@ -3340,7 +3341,7 @@ sub Data {
         'Defines the default note body text for phone tickets in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Defines the default note body text for phone tickets in the ticket phone outbound screen of the agent interface.' =>
-            '担当者インタフェースのチケット電話アウトバウンド画面で、電話チケットのためのデフォルトのノート本文テキストを定義します。',
+            '担当者インタフェースのチケット電話アウトバウンド画面で、電話チケットのためのデフォルトのメモ本文テキストを定義します。',
         'Defines the default priority of follow up customer tickets in the ticket zoom screen in the customer interface.' =>
             '顧客インタフェースのチケット・ズーム画面で、フォロー・アップ顧客チケットの優先度を定義します。',
         'Defines the default priority of new customer tickets in the customer interface.' =>
@@ -3377,7 +3378,7 @@ sub Data {
         'Defines the default subject for phone tickets in the ticket phone outbound screen of the agent interface.' =>
             '担当者インタフェースのチケット電話アウトバウンド画面で、電話チケットのためのデフォルトの件名を定義します。',
         'Defines the default subject of a note in the ticket free text screen of the agent interface.' =>
-            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、ノートのデフォルトの件名を定義します。',
+            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、メモのデフォルトの件名を定義します。',
         'Defines the default ticket attribute for ticket sorting in a ticket search of the customer interface.' =>
             '顧客インタフェースのチケット検索で、チケット・ソートのためのデフォルトのチケット属性を定義します。',
         'Defines the default ticket attribute for ticket sorting in the escalation view of the agent interface.' =>
@@ -3397,7 +3398,7 @@ sub Data {
         'Defines the default ticket next state after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Defines the default ticket next state after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
-            '担当者インタフェースのチケット電話アウトバウンド画面で、電話ノートを追加した後のチケットのデフォルトの次の状態を定義してください。',
+            '担当者インタフェースのチケット電話アウトバウンド画面で、電話メモを追加した後のチケットのデフォルトの次の状態を定義してください。',
         'Defines the default ticket order (after priority sort) in the escalation view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             '担当者インタフェースのエスカレーション・ビューで、デフォルトのチケット順番（優先度ソート後）を定義します。Up:一番古いものをトップに. Down:最新のものをトップに。',
         'Defines the default ticket order (after priority sort) in the status view of the agent interface. Up: oldest on top. Down: latest on top.' =>
@@ -3419,7 +3420,7 @@ sub Data {
         'Defines the default ticket priority in the ticket free text screen of the agent interface.' =>
             '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、デフォルトのチケット優先度を定義します。',
         'Defines the default ticket priority in the ticket note screen of the agent interface.' =>
-            '担当者インタフェースのチケット・ノート画面で、デフォルトのチケット優先度を定義します。',
+            '担当者インタフェースのチケット・メモ画面で、デフォルトのチケット優先度を定義します。',
         'Defines the default ticket priority in the ticket owner screen of a zoomed ticket in the agent interface.' =>
             '担当者インタフェースのズームされたチケットのチケット所有者画面で、デフォルトのチケット優先度を定義します。',
         'Defines the default ticket priority in the ticket pending screen of a zoomed ticket in the agent interface.' =>
@@ -3436,27 +3437,27 @@ sub Data {
             '担当者インタフェースのチケット転送画面で、転送されたメッセージのデフォルトのタイプを定義します。',
         'Defines the default type of the article for this operation.' => '',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
-            '担当者インタフェースのクローズ・チケット画面で、ノートのデフォルトのタイプを定義します。',
+            '担当者インタフェースのクローズ・チケット画面で、メモのデフォルトのタイプを定義します。',
         'Defines the default type of the note in the ticket bulk screen of the agent interface.' =>
-            '担当者インタフェースのチケット・バルク画面で、デフォルトのノートのタイプを定義します。',
+            '担当者インタフェースのチケット・バルク画面で、デフォルトのメモのタイプを定義します。',
         'Defines the default type of the note in the ticket free text screen of the agent interface.' =>
-            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、ノートのデフォルトのタイプを定義します。',
+            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、メモのデフォルトのタイプを定義します。',
         'Defines the default type of the note in the ticket note screen of the agent interface.' =>
-            '担当者インタフェースのチケット・ノート画面で、ノートのデフォルトのタイプを決定します。',
+            '担当者インタフェースのチケット・メモ画面で、メモのデフォルトのタイプを決定します。',
         'Defines the default type of the note in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット所有者画面で、デフォルトの注釈のタイプを定義します。',
+            '担当者インタフェースのズームされたチケットのチケット所有者画面で、デフォルトのメモのタイプを定義します。',
         'Defines the default type of the note in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット保留画面で、デフォルトの注釈のタイプを定義します。',
+            '担当者インタフェースのズームされたチケットのチケット保留画面で、デフォルトのメモのタイプを定義します。',
         'Defines the default type of the note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Defines the default type of the note in the ticket phone outbound screen of the agent interface.' =>
-            '担当者インタフェースのチケット電話アウトバウンド画面で、デフォルトのノートのタイプを定義します。',
+            '担当者インタフェースのチケット電話アウトバウンド画面で、デフォルトのメモのタイプを定義します。',
         'Defines the default type of the note in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット優先度画面で、デフォルトのノートのタイプを定義します。',
+            '担当者インタフェースのズームされたチケットのチケット優先度画面で、デフォルトのメモのタイプを定義します。',
         'Defines the default type of the note in the ticket responsible screen of the agent interface.' =>
-            '担当者インタフェースのチケット責任者画面で、デフォルトのノートのタイプを定義します。',
+            '担当者インタフェースのチケット責任者画面で、デフォルトのメモのタイプを定義します。',
         'Defines the default type of the note in the ticket zoom screen of the customer interface.' =>
-            '顧客インタフェースのチケット・ズーム画面の、デフォルトのノートのタイプを定義します。',
+            '顧客インタフェースのチケット・ズーム画面の、デフォルトのメモのタイプを定義します。',
         'Defines the default used Frontend-Module if no Action parameter given in the url on the agent interface.' =>
             '担当者インタフェースにおいてURLにActionパラメータが与えられない場合、デフォルトで使用されるFrontend-Moduleを定義します。',
         'Defines the default used Frontend-Module if no Action parameter given in the url on the customer interface.' =>
@@ -3489,7 +3490,7 @@ sub Data {
         'Defines the history comment for the ticket free text screen action, which gets used for ticket history.' =>
             'チケット履歴で使用される、チケット・フリー・テキスト画面のアクションに関する履歴コメントを定義します。',
         'Defines the history comment for the ticket note screen action, which gets used for ticket history in the agent interface.' =>
-            '担当者インタフェースのチケット履歴で使用される、チケット・ノート画面アクションに関する履歴コメントを定義します。',
+            '担当者インタフェースのチケット履歴で使用される、チケット・メモ画面アクションに関する履歴コメントを定義します。',
         'Defines the history comment for the ticket owner screen action, which gets used for ticket history in the agent interface.' =>
             '担当者インタフェースでチケット履歴のためにしようされる、チケット所有者画面のアクションのための履歴コメントを定義します。',
         'Defines the history comment for the ticket pending screen action, which gets used for ticket history in the agent interface.' =>
@@ -3515,7 +3516,7 @@ sub Data {
         'Defines the history type for the ticket free text screen action, which gets used for ticket history.' =>
             'チケット履歴で使用される。、チケット・フリー・テキスト画面のアクションに関して履歴タイプを定義します。',
         'Defines the history type for the ticket note screen action, which gets used for ticket history in the agent interface.' =>
-            '担当者インタフェースのチケット履歴で使用される、チケット・ノート画面アクションについて、履歴タイプを定義します。',
+            '担当者インタフェースのチケット履歴で使用される、チケット・メモ画面アクションについて、履歴タイプを定義します。',
         'Defines the history type for the ticket owner screen action, which gets used for ticket history in the agent interface.' =>
             '担当者インタフェースでチケット履歴のために使用される、チケット所有者画面のアクションのための履歴タイプを定義します。',
         'Defines the history type for the ticket pending screen action, which gets used for ticket history in the agent interface.' =>
@@ -3606,21 +3607,21 @@ sub Data {
         'Defines the next possible states for customer tickets in the customer interface.' =>
             '顧客インタフェースで顧客チケットに関する、次の可能性ある状態を定義します。',
         'Defines the next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
-            '担当者インタフェースのクローズ・チケット画面で、チケットのノートを追加した後の次の状態を定義します。',
+            '担当者インタフェースのクローズ・チケット画面で、チケットのメモを追加した後の次の状態を定義します。',
         'Defines the next state of a ticket after adding a note, in the ticket bulk screen of the agent interface.' =>
-            '担当者インタフェースのチケット・バルク画面で、チケットのノートを追加した後の次の状態を定義します。',
+            '担当者インタフェースのチケット・バルク画面で、チケットのメモを追加した後の次の状態を定義します。',
         'Defines the next state of a ticket after adding a note, in the ticket free text screen of the agent interface.' =>
-            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、ノートを追加した後のチケットの次の状態を定義します。',
+            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、メモを追加した後のチケットの次の状態を定義します。',
         'Defines the next state of a ticket after adding a note, in the ticket note screen of the agent interface.' =>
-            '担当者インタフェースのチケット・ノート画面で、ノートを追加した後のチケットの次の状態を定義します。',
+            '担当者インタフェースのチケット・メモ画面で、メモを追加した後のチケットの次の状態を定義します。',
         'Defines the next state of a ticket after adding a note, in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット所有者画面で、ノートを追加した後のチケットの次の状態を定義します。',
+            '担当者インタフェースのズームされたチケットのチケット所有者画面で、メモを追加した後のチケットの次の状態を定義します。',
         'Defines the next state of a ticket after adding a note, in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット保留画面で、注釈を追加した後のチケットの次の状態を定義します。',
+            '担当者インタフェースのズームされたチケットのチケット保留画面で、メモを追加した後のチケットの次の状態を定義します。',
         'Defines the next state of a ticket after adding a note, in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット優先度画面で、ノートを追加した後のチケットの次の状態を定義します。',
+            '担当者インタフェースのズームされたチケットのチケット優先度画面で、メモを追加した後のチケットの次の状態を定義します。',
         'Defines the next state of a ticket after adding a note, in the ticket responsible screen of the agent interface.' =>
-            '担当者インタフェースのチケット責任者画面で、ノートを追加した後のチケットの次の状態を定義します。',
+            '担当者インタフェースのチケット責任者画面で、メモを追加した後のチケットの次の状態を定義します。',
         'Defines the next state of a ticket after being bounced, in the ticket bounce screen of the agent interface.' =>
             '担当者インタフェースのチケット・バウンス画面で、チケットのバウンスされた後の次の状態を定義します。',
         'Defines the next state of a ticket after being moved to another queue, in the move ticket screen of the agent interface.' =>
@@ -3739,7 +3740,7 @@ sub Data {
             'もしセッションIDが、無効なリモートIPアドレスと共に使用されている場合、セッションを削除します。',
         'Deletes requested sessions if they have timed out.' => 'リクエストされたセッションがタイムアウトしている場合に削除します。',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
-            'チケットへ移動していくであろう、可能性あるキューのリストが、担当者インタフェースにドロップ・ダウン・リストまたは新規ウィンドウとして表示されるべきかどうかを定義します。"New Window"を設定した場合、チケットに移動ノートを追加することができます。',
+            'チケットへ移動していくであろう、可能性あるキューのリストが、担当者インタフェースにドロップ・ダウン・リストまたは新規ウィンドウとして表示されるべきかどうかを定義します。"New Window"を設定した場合、チケットに移動メモを追加することができます。',
         'Determines if the statistics module may generate ticket lists.' =>
             '',
         'Determines the next possible ticket states, after the creation of a new email ticket in the agent interface.' =>
@@ -3861,7 +3862,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Enables file upload in the package manager frontend.' => 'パッケージ・マネジャー・フロントエンドでの、ファイル・アップロードを有効にします。',
         'Enables or disable the debug mode over frontend interface.' => 'フロントエンド・インタフェース上でのデバッグを、有効または無効にします。',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
-            '所有者または責任者になること無くチケットの追跡を続けるため、チケット監視機能を有効または無効にします。',
+            '所有者または責任者になること無くチケットのコールバックを続けるため、チケット監視機能を有効または無効にします。',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>
             'パフォーマンス・ログを有効にします（ページ・レスポンス・タイムのログを取ります）。システム・パフォーマンスに影響が出ます。Frontend::Module###AdminPerformanceLogを有効とする必要があります。',
         'Enables spell checker support.' => 'スペル・チェッカー・サポートを有効にします。',
@@ -3872,7 +3873,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Enables ticket bulk action feature only for the listed groups.' =>
             'リストされたグループに対してのみ、チケット・バルク・アクション機能を有効にします。',
         'Enables ticket responsible feature, to keep track of a specific ticket.' =>
-            '特定のチケットを追跡するため、チケット責任者機能を有効にします。',
+            '特定のチケットにコールバックするため、チケット責任者機能を有効にします。',
         'Enables ticket watcher feature only for the listed groups.' => 'リストされたグループためにのみ、チケット監視機能を有効にします。',
         'Escalation view' => 'エスカレーション一覧',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
@@ -4013,21 +4014,21 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             'もしログ・モジュールに関して"File"が選択されていた場合、ログ・ファイルが必ず特定されます。もしファイルが存在しなければ、システムにより作成されます。',
         'If a note is added by an agent, sets the state of a ticket in the close ticket screen of the agent interface.' =>
-            '担当者インタフェースのクローズ・チケット画面で、チケットのノートを追加した後の次の状態を定義します。',
+            '担当者インタフェースのクローズ・チケット画面で、チケットのメモを追加した後の次の状態を定義します。',
         'If a note is added by an agent, sets the state of a ticket in the ticket bulk screen of the agent interface.' =>
-            '担当者インタフェースのチケット・バルク画面で、担当者によってノートが追加された場合にチケットの状態を設定します。',
+            '担当者インタフェースのチケット・バルク画面で、担当者によってメモが追加された場合にチケットの状態を設定します。',
         'If a note is added by an agent, sets the state of a ticket in the ticket free text screen of the agent interface.' =>
-            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、ノートが担当者によって追加された場合、チケットの状態を設定します。',
+            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、メモが担当者によって追加された場合、チケットの状態を設定します。',
         'If a note is added by an agent, sets the state of a ticket in the ticket note screen of the agent interface.' =>
-            'ノートが担当者によって追加された場合、担当者インタフェースのチケット・ノート画面でチケットの状態を設定します。',
+            'メモが担当者によって追加された場合、担当者インタフェースのチケット・メモ画面でチケットの状態を設定します。',
         'If a note is added by an agent, sets the state of a ticket in the ticket responsible screen of the agent interface.' =>
-            'ノートが担当者によって追加された場合、担当者インタフェースのチケット責任者画面でチケットの状態を設定します。',
+            'メモが担当者によって追加された場合、担当者インタフェースのチケット責任者画面でチケットの状態を設定します。',
         'If a note is added by an agent, sets the state of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット所有者画面で、ノートが担当者によって追加された場合、チケットの状態を設定します。',
+            '担当者インタフェースのズームされたチケットのチケット所有者画面で、メモが担当者によって追加された場合、チケットの状態を設定します。',
         'If a note is added by an agent, sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット保留画面で、注釈が担当者によって追加された場合、チケットの状態を設定します。',
+            '担当者インタフェースのズームされたチケットのチケット保留画面で、メモが担当者によって追加された場合、チケットの状態を設定します。',
         'If a note is added by an agent, sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット優先度画面で、ノートが担当者によって追加された場合、チケットの状態を設定します。',
+            '担当者インタフェースのズームされたチケットのチケット優先度画面で、メモが担当者によって追加された場合、チケットの状態を設定します。',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, a password must be specified.' =>
             '"SMTP"構造のいずれかがSendmailモジュールとして選択され、かつメール・サーバへの認証が必要な場合、パスワードを特定する必要があります。',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, an username must be specified.' =>
@@ -4045,7 +4046,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
-            '',
+            '有効にした場合、ダッシュボード、ロック済チケット一覧、キュー一覧は自動で指定時間後に更新されます。',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             '有効にした場合、メイン・メニューの1つめのレベルのものが、マウスを乗せるだけで開きます（1回クリックの代わりに）。',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
@@ -4082,13 +4083,13 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Lastname, Firstname' => '',
         'Lastname, Firstname (UserLogin)' => '',
         'Link agents to groups.' => '担当者をグループへ連結',
-        'Link agents to roles.' => '担当者を役割へ連結',
-        'Link attachments to templates.' => '',
-        'Link customer user to groups.' => '',
-        'Link customer user to services.' => '',
+        'Link agents to roles.' => '担当者をロールへ連結',
+        'Link attachments to templates.' => '添付ファイルをテンプレートへ連結',
+        'Link customer user to groups.' => '顧客ユーザーをグループへ連結',
+        'Link customer user to services.' => '顧客ユーザーをサービスへ連結',
         'Link queues to auto responses.' => 'キューを自動応答へ連結',
-        'Link roles to groups.' => '役割をグループへ連結',
-        'Link templates to queues.' => '',
+        'Link roles to groups.' => 'ロールをグループへ連結',
+        'Link templates to queues.' => 'テンプレートをキューへ連結',
         'Links 2 tickets with a "Normal" type link.' => '“ノーマル”タイプのリンクを持つチケットへのリンクです。.',
         'Links 2 tickets with a "ParentChild" type link.' => '“親子”タイプのリンクを持つチケットへのリンクです。',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -4123,9 +4124,9 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Manage POP3 or IMAP accounts to fetch email from.' => 'メール受信用POP3/IMAPアカウント管理',
         'Manage S/MIME certificates for email encryption.' => 'メール暗号用のS/MIME証明書管理',
         'Manage existing sessions.' => '既存セッション管理',
-        'Manage notifications that are sent to agents.' => '',
-        'Manage system registration.' => '',
-        'Manage tasks triggered by event or time based execution.' => '',
+        'Manage notifications that are sent to agents.' => '担当者に送信する通知の管理',
+        'Manage system registration.' => 'システム登録の管理',
+        'Manage tasks triggered by event or time based execution.' => 'イベントトリガーまたは時間ベースで実行されるタスクの管理',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4188,7 +4189,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
-            '担当者インタフェースのチケット電話アウトバウンド画面で、電話ノートを追加した後の次の可能性あるチケットの状態です。',
+            '担当者インタフェースのチケット電話アウトバウンド画面で、電話メモを追加した後の次の可能性あるチケットの状態です。',
         'Notifications (Event)' => '通知 (イベント)',
         'Number of displayed tickets' => '表示チケット数',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
@@ -4201,7 +4202,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Kernel::System::Ticketに既に存在している機能を多重定義（再定義）します。簡単にカスタマイズを追加したい場合に使用されます。',
         'Overview Escalated Tickets' => 'エスカレーション済チケット一覧',
-        'Overview Refresh Time' => '',
+        'Overview Refresh Time' => '一覧自動更新間隔',
         'Overview of all open Tickets.' => '全対応中チケット一覧',
         'PGP Key Management' => '',
         'PGP Key Upload' => 'PGP鍵アップロード',
@@ -4266,7 +4267,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Performs the configured action for each event (as an Invoker) for each configured Webservice.' =>
             '',
         'Permitted width for compose email windows.' => 'Eメール・ウィンドウを構成するために許容される幅です。',
-        'Permitted width for compose note windows.' => 'ノート・ウィンドウを構成するために許容される幅です。',
+        'Permitted width for compose note windows.' => 'メモ・ウィンドウを構成するために許容される幅です。',
         'Picture-Upload' => '',
         'PostMaster Filters' => 'ポストマスター・フィルタ',
         'PostMaster Mail Accounts' => 'メールアカウント',
@@ -4304,7 +4305,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Required permissions to use the ticket merge screen of a zoomed ticket in the agent interface.' =>
             '担当者インタフェースで、ズームされたチケットのチケット結合画面を使用するための必要な許可です。',
         'Required permissions to use the ticket note screen in the agent interface.' =>
-            '担当者インタフェースのチケット・ノート画面を使用するための必要な許可です。',
+            '担当者インタフェースのチケット・メモ画面を使用するための必要な許可です。',
         'Required permissions to use the ticket owner screen of a zoomed ticket in the agent interface.' =>
             '担当者インタフェースで、ズームされたチケットのチケット所有者画面を使用するための必要な許可です。',
         'Required permissions to use the ticket pending screen of a zoomed ticket in the agent interface.' =>
@@ -4321,7 +4322,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             'チケットの所有者を、チケットが移動された、または別のキューに移動した場合、リセットおよびアンロックします。',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
             'チケットをアーカイブから救出します（ただし、イベントが状態変更の場合であり、クローズの状態から利用可能ななんらかのオープンの状態に変更された場合とします）。',
-        'Roles <-> Groups' => '役割 <-> グループ',
+        'Roles <-> Groups' => 'ロール <-> グループ',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             'AdminCustomerUserモジュールにアクセスした時に、存在する顧客ユーザに関して最初のワイルド・カード検索を実行します。',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
@@ -4340,9 +4341,9 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             'チケット番号を生成するモジュールを選択します。"AutoIncrement"は、チケット番号をインクリメントし、システムIDおよびカウンターはシステムIDカウンター・フォーマット（例：1010138, 1010139)と共に使用されます。“Date”によって、チケット番号は、現在の日付、システムID、カウンターによって生成されることとなります。フォーマットは、Year.Month.Day.SystemID.counterのようなものです(例：200206231010138, 200206231010139)。"DateChecksum"により、カウンターが、日付およびシステムIDのストリング（文字列）に対するチェックサムとして追加されます。チェックサムは、日ごとに実施されます。フォーマットはYear.Month.Day.SystemID.Counter.CheckSumのようになります(例： 2002070110101520, 2002070110101535)。"Random"は、チケット番号をランダムに生成するもので、フォーマットは"SystemID.Random" (例：100057866352, 103745394596)などとなります。',
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
-            '顧客が追跡し、かつ自分がチケット所有者になるか、チケットがロック解除されて自分が購読中のキューのいずれかになった場合通知を送信',
-        'Send notifications to users.' => 'ユーザーに通知を送信',
-        'Send ticket follow up notifications' => 'チケット追跡通知の送信',
+            '自分が所有者であるか、自分の担当キューに存在しロック解除されているチケットに対して顧客がコールバックした場合に通知を送信',
+        'Send notifications to users.' => 'ユーザーに通知の送信',
+        'Send ticket follow up notifications' => 'チケットコールバック通知の送信',
         'Sender type for new tickets from the customer inteface.' => '顧客インタフェースからの新規チケットのための送信者タイプです。',
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             'チケットがアンロックされた際に、所有者にのみ担当者フォロー・アップ通知を送信します（デフォルト設定では、全ての担当者に通知を送ります）。',
@@ -4382,19 +4383,19 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Sets the default article type for new phone tickets in the agent interface.' =>
             '担当者インタフェースで、新規電話チケットのための、デフォルトの項目タイプを設定します。',
         'Sets the default body text for notes added in the close ticket screen of the agent interface.' =>
-            '担当者インタフェースのクローズ・チケット画面で、追加されたノートに関するデフォルトの本文テキストを設定します。',
+            '担当者インタフェースのクローズ・チケット画面で、追加されたメモに関するデフォルトの本文テキストを設定します。',
         'Sets the default body text for notes added in the ticket move screen of the agent interface.' =>
-            '担当者インタフェースの移動チケット画面で、追加されるノートのデフォルトの本文テキストを設定します。',
+            '担当者インタフェースの移動チケット画面で、追加されるメモのデフォルトの本文テキストを設定します。',
         'Sets the default body text for notes added in the ticket note screen of the agent interface.' =>
-            '担当者インタフェースのチケット・ノート画面で、追加されたノートのデフォルトの本文テキストを設定します。',
+            '担当者インタフェースのチケット・メモ画面で、追加されたメモのデフォルトの本文テキストを設定します。',
         'Sets the default body text for notes added in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット所有者画面で、追加されたノートのデフォルトの本文テキストを設定します。',
+            '担当者インタフェースのズームされたチケットのチケット所有者画面で、追加されたメモのデフォルトの本文テキストを設定します。',
         'Sets the default body text for notes added in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット保留画面で、追加された注釈のデフォルトの本文テキストを設定します。',
+            '担当者インタフェースのズームされたチケットのチケット保留画面で、追加されたメモのデフォルトの本文テキストを設定します。',
         'Sets the default body text for notes added in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット優先度画面で、追加されたノートのデフォルトの本文テキストを設定します。',
+            '担当者インタフェースのズームされたチケットのチケット優先度画面で、追加されたメモのデフォルトの本文テキストを設定します。',
         'Sets the default body text for notes added in the ticket responsible screen of the agent interface.' =>
-            '担当者インタフェースのチケット責任者画面で、追加されたノートのデフォルトの本文テキストを設定します。',
+            '担当者インタフェースのチケット責任者画面で、追加されたメモのデフォルトの本文テキストを設定します。',
         'Sets the default link type of splitted tickets in the agent interface.' =>
             '担当者インタフェースで、分割されたチケットのデフォルトのリンク・タイプを設定します。',
         'Sets the default next state for new phone tickets in the agent interface.' =>
@@ -4402,7 +4403,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Sets the default next ticket state, after the creation of an email ticket in the agent interface.' =>
             '担当者インタフェースで、Eメール・チケットを作成した後の、デフォルトの次のチケット状態を設定します。',
         'Sets the default note text for new telephone tickets. E.g \'New ticket via call\' in the agent interface.' =>
-            '担当者インタフェースで、新規電話チケットのためのデフォルトのノートのテキストを設定します（例：\'New ticket via call\'）。',
+            '担当者インタフェースで、新規電話チケットのためのデフォルトのメモのテキストを設定します（例：\'New ticket via call\'）。',
         'Sets the default priority for new email tickets in the agent interface.' =>
             '担当者インタフェースで、新規Eメール・チケットに関してデフォルトの優先度を設定します。',
         'Sets the default priority for new phone tickets in the agent interface.' =>
@@ -4416,19 +4417,19 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Sets the default subject for new phone tickets (e.g. \'Phone call\') in the agent interface.' =>
             '担当者インタフェースで、新規電話チケットのためのデフォルトの件名を設定します。（例：\'Phone call\'）',
         'Sets the default subject for notes added in the close ticket screen of the agent interface.' =>
-            '担当者インタフェースのクローズ・チケット画面で、追加されたノートに関するデフォルトの件名を設定します。',
+            '担当者インタフェースのクローズ・チケット画面で、追加されたメモに関するデフォルトの件名を設定します。',
         'Sets the default subject for notes added in the ticket move screen of the agent interface.' =>
-            '担当者インタフェースの移動チケット画面で、追加されるノートのデフォルトの件名を設定します。',
+            '担当者インタフェースの移動チケット画面で、追加されるメモのデフォルトの件名を設定します。',
         'Sets the default subject for notes added in the ticket note screen of the agent interface.' =>
-            '担当者インタフェースのチケット・ノート画面で、追加されたノートのデフォルトの件名を設定します。',
+            '担当者インタフェースのチケット・メモ画面で、追加されたメモのデフォルトの件名を設定します。',
         'Sets the default subject for notes added in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット所有者画面で、追加されたノートのデフォルトの件名を設定します。',
+            '担当者インタフェースのズームされたチケットのチケット所有者画面で、追加されたメモのデフォルトの件名を設定します。',
         'Sets the default subject for notes added in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット保留画面で、追加された注釈のデフォルトの件名を設定します。',
+            '担当者インタフェースのズームされたチケットのチケット保留画面で、追加されたメモのデフォルトの件名を設定します。',
         'Sets the default subject for notes added in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット優先度画面で、追加されたノートのデフォルトの件名を設定します。',
+            '担当者インタフェースのズームされたチケットのチケット優先度画面で、追加されたメモのデフォルトの件名を設定します。',
         'Sets the default subject for notes added in the ticket responsible screen of the agent interface.' =>
-            '担当者インタフェースのチケット責任者画面で、追加されたノートのデフォルトの件名を設定します。',
+            '担当者インタフェースのチケット責任者画面で、追加されたメモのデフォルトの件名を設定します。',
         'Sets the default text for new email tickets in the agent interface.' =>
             '担当者インタフェースで、新規Eメール・チケットに関してデフォルトのテキストを設定します。',
         'Sets the display order of the different items in the preferences view.' =>
@@ -4472,7 +4473,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Sets the responsible agent of the ticket in the ticket free text screen of the agent interface.' =>
             '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、チケットに関して責任を有する担当者を設定します。',
         'Sets the responsible agent of the ticket in the ticket note screen of the agent interface.' =>
-            '担当者インタフェースのチケット・ノート画面で、チケットの責任を持つ担当者を設定します。',
+            '担当者インタフェースのチケット・メモ画面で、チケットの責任を持つ担当者を設定します。',
         'Sets the responsible agent of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.' =>
             '担当者インタフェースのズームされたチケットのチケット所有者画面で、チケットの責任を有する担当者を設定します。',
         'Sets the responsible agent of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
@@ -4486,7 +4487,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Sets the service in the ticket free text screen of the agent interface (Ticket::Service needs to be activated).' =>
             '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、サービスを設定します(Ticket::Serviceを有効とする必要があります)。',
         'Sets the service in the ticket note screen of the agent interface (Ticket::Service needs to be activated).' =>
-            '担当者インタフェースのチケット・ノート画面で、サービスを設定します(Ticket::Serviceを有効とする必要があります)。',
+            '担当者インタフェースのチケット・メモ画面で、サービスを設定します(Ticket::Serviceを有効とする必要があります)。',
         'Sets the service in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).' =>
             '担当者インタフェースのズームされたチケットのチケット所有者画面で、サービスを設定します（Ticket::Serviceを有効とする必要があります)。',
         'Sets the service in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).' =>
@@ -4506,7 +4507,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Sets the ticket owner in the ticket free text screen of the agent interface.' =>
             '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、チケット所有者を設定します。',
         'Sets the ticket owner in the ticket note screen of the agent interface.' =>
-            '担当者インタフェースのチケット・ノート画面で、チケット所有者を設定します。',
+            '担当者インタフェースのチケット・メモ画面で、チケット所有者を設定します。',
         'Sets the ticket owner in the ticket owner screen of a zoomed ticket in the agent interface.' =>
             '担当者インタフェースのズームされたチケットのチケット所有者画面で、チケット所有者を設定します。',
         'Sets the ticket owner in the ticket pending screen of a zoomed ticket in the agent interface.' =>
@@ -4522,7 +4523,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Sets the ticket type in the ticket free text screen of the agent interface (Ticket::Type needs to be activated).' =>
             '担当者インタフェースのチケット・フリー・テキスト画面で、チケットのタイプを設定します。Ticket::Typeが有効となっている必要があります。',
         'Sets the ticket type in the ticket note screen of the agent interface (Ticket::Type needs to be activated).' =>
-            '担当者インタフェースのチケット・ノート画面で、チケット・タイプを設定します（Ticket::Typeを有効とする必要があります)。',
+            '担当者インタフェースのチケット・メモ画面で、チケット・タイプを設定します（Ticket::Typeを有効とする必要があります)。',
         'Sets the ticket type in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).' =>
             '担当者インタフェースのズームされたチケットのチケット所有者画面で、チケット・タイプを設定します（Ticket::Typeを有効とする必要があります）。',
         'Sets the ticket type in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).' =>
@@ -4559,9 +4560,9 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Shows a link in the menu to add a free text field in the ticket zoom view of the agent interface.' =>
             '担当者インタフェースのチケット・ズーム・ビューで、チケットにフリー・テキスト・フィールドを追加するためのリンクをメニューに表示します。',
         'Shows a link in the menu to add a note in the ticket zoom view of the agent interface.' =>
-            '担当者インタフェースのチケット・ズーム・ビューで、チケットにノートを追加するためのリンクをメニューに表示します。',
+            '担当者インタフェースのチケット・ズーム・ビューで、チケットにメモを追加するためのリンクをメニューに表示します。',
         'Shows a link in the menu to add a note to a ticket in every ticket overview of the agent interface.' =>
-            '担当者インタフェースの全チケット一覧で、チケットにノートを追加するためのリンクをメニューに表示します。',
+            '担当者インタフェースの全チケット一覧で、チケットにメモを追加するためのリンクをメニューに表示します。',
         'Shows a link in the menu to close a ticket in every ticket overview of the agent interface.' =>
             '担当者インタフェースの全チケット一覧で、チケットをクローズするためのリンクをメニューに表示します。',
         'Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface.' =>
@@ -4610,7 +4611,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Shows a list of all the involved agents on this ticket, in the ticket free text screen of the agent interface.' =>
             '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、そのチケットに関与する全ての担当者のリストを表示します。',
         'Shows a list of all the involved agents on this ticket, in the ticket note screen of the agent interface.' =>
-            '担当者インタフェースのチケット・ノート画面で、そのチケットに関与する全担当者のリストです。',
+            '担当者インタフェースのチケット・メモ画面で、そのチケットに関与する全担当者のリストです。',
         'Shows a list of all the involved agents on this ticket, in the ticket owner screen of a zoomed ticket in the agent interface.' =>
             '担当者インタフェースのズームされたチケットのチケット所有者画面で、そのチケットに関与する全ての担当者のリストを表示します。',
         'Shows a list of all the involved agents on this ticket, in the ticket pending screen of a zoomed ticket in the agent interface.' =>
@@ -4620,21 +4621,21 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Shows a list of all the involved agents on this ticket, in the ticket responsible screen of the agent interface.' =>
             '担当者インタフェースのチケット責任者画面で、そのチケットに関与する全ての担当者のリストを表示します。',
         'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the close ticket screen of the agent interface.' =>
-            '担当者インタフェースのクローズ・チケット画面で、可能性ある担当者（キュー/チケットに対してノートの許可を有する全ての担当者）のリストを表示し、そのノートについて誰に通知するべきか決定します。',
+            '担当者インタフェースのクローズ・チケット画面で、可能性ある担当者（キュー/チケットに対してメモの許可を有する全ての担当者）のリストを表示し、そのメモについて誰に通知するべきか決定します。',
         'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket free text screen of the agent interface.' =>
-            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、可能性ある全ての担当者（キュー/チケットに関してノート許可を有する全ての担当者）を表示し、そのノートに関して誰に通知するべきかを決定します。',
+            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、可能性ある全ての担当者（キュー/チケットに関してメモ許可を有する全ての担当者）を表示し、そのメモに関して誰に通知するべきかを決定します。',
         'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket note screen of the agent interface.' =>
-            '担当者インタフェースのチケット・ノート画面で、可能性ある担当者（キュー/チケットに対してノート許可を持つ全担当者）を表示し、そのノートについて誰に通知するか決定しまう。',
+            '担当者インタフェースのチケット・メモ画面で、可能性ある担当者（キュー/チケットに対してメモ許可を持つ全担当者）を表示し、そのメモについて誰に通知するか決定しまう。',
         'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット所有者画面で、全ての可能性ある担当者（キュー/チケットにノート許可を有する全ての担当者）のリストを表示し、その注釈について誰に通知するべきかを決定します。',
+            '担当者インタフェースのズームされたチケットのチケット所有者画面で、全ての可能性ある担当者（キュー/チケットにメモ許可を有する全ての担当者）のリストを表示し、そのメモについて誰に通知するべきかを決定します。',
         'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット保留画面で、全ての可能性ある担当者（キュー/チケットに注釈許可を有する全ての担当者）のリストを表示し、その注釈について誰に通知するべきかを決定します。',
+            '担当者インタフェースのズームされたチケットのチケット保留画面で、全ての可能性ある担当者（キュー/チケットにメモ許可を有する全ての担当者）のリストを表示し、そのメモについて誰に通知するべきかを決定します。',
         'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '担当者インタフェースのズームされたチケットのチケット優先度画面で、全ての可能性ある担当者（キュー/チケットにノート許可を有する全ての担当者）のリストを表示し、そのノートについて誰に通知するべきかを決定します。',
+            '担当者インタフェースのズームされたチケットのチケット優先度画面で、全ての可能性ある担当者（キュー/チケットにメモ許可を有する全ての担当者）のリストを表示し、そのメモについて誰に通知するべきかを決定します。',
         'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket responsible screen of the agent interface.' =>
-            '担当者インタフェースのチケット責任者画面で、全ての可能性ある担当者（キュー/チケットにノート許可を有する全ての担当者）のリストを表示し、そのノートについて誰に通知するべきかを決定します。',
+            '担当者インタフェースのチケット責任者画面で、全ての可能性ある担当者（キュー/チケットにメモ許可を有する全ての担当者）のリストを表示し、そのメモについて誰に通知するべきかを決定します。',
         'Shows a preview of the ticket overview (CustomerInfo => 1 - shows also Customer-Info, CustomerInfoMaxSize max. size in characters of Customer-Info).' =>
-            'チケット一覧のプレビューを表示します(CustomerInfo => 1 - 顧客情報も表示しますCustomerInfoMaxSize max – 顧客情報の文字サイズです)。',
+            'チケット一覧のプレビューを表示します(CustomerInfo => 1 - 顧客情報も表示しますCustomerInfoMaxSize max ? 顧客情報の文字サイズです)。',
         'Shows a select of ticket attributes to order the queue view ticket list. The possible selections can be configured via \'TicketOverviewMenuSort###SortAttributes\'.' =>
             '',
         'Shows all both ro and rw queues in the queue view.' => 'キュー・ビューで、roとrwの両方全てのキューを表示します。',
@@ -4678,7 +4679,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Shows the ticket priority options in the ticket free text screen of the agent interface.' =>
             '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、チケット優先度のオプションを表示します。',
         'Shows the ticket priority options in the ticket note screen of the agent interface.' =>
-            '担当者インタフェースのチケット・ノート画面で、チケット優先度のオプションを表示します。',
+            '担当者インタフェースのチケット・メモ画面で、チケット優先度のオプションを表示します。',
         'Shows the ticket priority options in the ticket owner screen of a zoomed ticket in the agent interface.' =>
             '担当者インタフェースのズームされたチケットのチケット所有者画面で、チケット優先度のオプションを表示します。',
         'Shows the ticket priority options in the ticket pending screen of a zoomed ticket in the agent interface.' =>
@@ -4692,7 +4693,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Shows the title fields in the ticket free text screen of the agent interface.' =>
             '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、タイトルのフィールドを表示します。',
         'Shows the title fields in the ticket note screen of the agent interface.' =>
-            '担当者インタフェースのチケット・ノート画面で、タイトルのフィールドを表示します。',
+            '担当者インタフェースのチケット・メモ画面で、タイトルのフィールドを表示します。',
         'Shows the title fields in the ticket owner screen of a zoomed ticket in the agent interface.' =>
             '担当者インタフェースのズームされたチケットのチケット所有者画面で、タイトルのフィールドを表示します。',
         'Shows the title fields in the ticket pending screen of a zoomed ticket in the agent interface.' =>
@@ -4726,7 +4727,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Specifies the different article types that will be used in the system.' =>
             'システムで使用される異なる項目のタイプを特定します。',
         'Specifies the different note types that will be used in the system.' =>
-            'システムで使用される、異なるノートのタイプを特定します。',
+            'システムで使用される、異なるメモのタイプを特定します。',
         'Specifies the directory to store the data in, if "FS" was selected for TicketStorageModule.' =>
             'TicketStorageModuleに関して“FS”が選ばれている場合、データを保存するためにディレクトリを保存してください。',
         'Specifies the directory where SSL certificates are stored.' => 'SSL認証が格納されるディレクトリを特定します。',
@@ -4772,7 +4773,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => 'ブラウザが閉じられた後に、クッキーを格納します。',
         'Strips empty lines on the ticket preview in the queue view.' => 'キュー・ビューで、チケット・プレビューの空の行を削除します。',
-        'Templates <-> Queues' => '',
+        'Templates <-> Queues' => 'テンプレート <-> キュー',
         'Textarea' => '',
         'The "bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.' =>
             '"bin/PostMasterMailAccount.pl"が、特定された数のメッセージの後に、POP3/POP3S/IMAP/IMAPSホストに接続します。',
@@ -4815,7 +4816,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
-        'Ticket Queue Overview' => '',
+        'Ticket Queue Overview' => 'チケットキュー一覧',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket overview' => 'チケット一覧',
@@ -4853,7 +4854,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '担当者インタフェースでズームされたチケットのチケット結合画面で、チケット・ロックが必要かどうかを定義します。（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            '',
+            'お気に入りのキューを選択。有効にした場合、それらのキューについてメールで通知を受信します。',
 
         #
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
@@ -4868,10 +4869,10 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
             '担当者インタフェースのチケット検索で、検索条件の拡張を許可します。この機能により、利用者はw. g.を次のような条件で検索できます"(key1&&key2)" または "(key1||key2)"。',
         'Attachments <-> Responses' => '添付ファイル <-> 応答',
-        'Change Attachment Relations for Response' => '応答と添付ファイルの関連性を変更',
-        'Change Queue Relations for Response' => '応答とキューの関連性を変更',
-        'Change Response Relations for Attachment' => '添付ファイルと応答の関連性を変更',
-        'Change Response Relations for Queue' => 'キューと応答の関連性を変更',
+        'Change Attachment Relations for Response' => '応答に対する添付ファイルの関連性を変更',
+        'Change Queue Relations for Response' => '応答に対するキューの関連性を変更',
+        'Change Response Relations for Attachment' => '添付ファイルに対する応答の関連性を変更',
+        'Change Response Relations for Queue' => 'キューに対する応答の関連性を変更',
         'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             'フル・テキストのインデックスを設定します。新しいインデックスを作成するには、"bin/otrs.RebuildFulltextIndex.pl"を実行してください。',
         'Create and manage companies.' => '企業の作成と管理',
@@ -4907,7 +4908,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Experimental "Slim" skin which tries to save screen space for power users.' =>
             'パワーユーザ用に画面スペースを省くための、実験的な“スリム”スキンです。',
         'False' => '失敗',
-        'Filter for Responses' => '応答フィルタ',
+        'Filter for Responses' => '応答でフィルタ',
         'Filter name' => 'フィルタ名',
         'For more info see:' => '詳細情報：',
         'From customer' => '顧客メールアドレス',
@@ -4924,7 +4925,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'List of IE7-specific CSS files to always be loaded for the customer interface.' =>
             '顧客インタフェースに対して、常にロードされるIE7特有のCSSファイルのリストです。',
         'Log file location is only needed for File-LogModule!' => 'File-LogModuleのためにログファイルの場所が必要です。',
-        'Logout successful. Thank you for using OTRS!' => 'ログアウトしました。OTRSのご利用ありがとうございます！',
+        'Logout successful. Thank you for using OTRS!' => 'ログアウトしました。OTRSのご利用ありがとうございます。',
         'Manage Response-Queue Relations' => '応答 - キューの関連性の管理',
         'Manage Responses' => '応答管理',
         'Manage Responses <-> Attachments Relations' => '添付ファイル <-> 応答の関連性の管理',
@@ -4934,8 +4935,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Package verification failed!' => 'パッケージの検証に失敗しました',
         'Please enter a search term to look for customer companies.' => '顧客企業の検索文字を入力してください',
         'Please supply a' => '入力してください: ',
-        'Please supply a first name' => '名前を入力してください',
-        'Please supply a last name' => '名字を入力してください。',
+        'Please supply a first name' => '姓を入力してください',
+        'Please supply a last name' => '名を入力してください。',
         'Responses' => '応答',
         'Responses <-> Queues' => '応答 <-> キュー',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>

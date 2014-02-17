@@ -20,6 +20,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.5 2014-??-??
+ - 2014-02-17 Updated Japanese translation, thanks to Norihiro Tanaka!
  - 2014-02-17 Updated Brazilian Portugese translation, thanks to Murilo Moreira de Oliveira!
  - 2014-02-17 Updated Polish translation, thanks to Wojciech Myrda.
  - 2014-02-13 Added feature to download report data shown in dashboard stats as CSV and PDF.
