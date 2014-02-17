@@ -472,11 +472,11 @@ sub Run {
     my %TicketSearch        = %{ $SearchParams{TicketSearch} };
     my %TicketSearchSummary = %{ $SearchParams{TicketSearchSummary} };
 
-    my $CacheKey = $Self->{Name} . '-'
-        . $Self->{Action} . '-'
-        . $Self->{PageShown} . '-'
-        . $Self->{StartHit} . '-'
-        . $Self->{UserID};
+    my $CacheKey = join '-', $Self->{Name},
+        $Self->{Action},
+        $Self->{PageShown},
+        $Self->{StartHit},
+        $Self->{UserID};
     my $CacheColumns = join(
         ',',
         map {

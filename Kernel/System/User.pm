@@ -171,20 +171,18 @@ sub GetUserData {
 
     my $CacheKey;
     if ( $Param{User} ) {
-        $CacheKey
-            = 'GetUserData::User::'
-            . $Param{User} . '::'
-            . $Param{Valid} . '::'
-            . $FirstnameLastNameOrder . '::'
-            . $Param{NoOutOfOffice};
+        $CacheKey = join '::', 'GetUserData', 'User',
+            $Param{User},
+            $Param{Valid},
+            $FirstnameLastNameOrder,
+            $Param{NoOutOfOffice};
     }
     else {
-        $CacheKey
-            = 'GetUserData::UserID::'
-            . $Param{UserID} . '::'
-            . $Param{Valid} . '::'
-            . $FirstnameLastNameOrder . '::'
-            . $Param{NoOutOfOffice};
+        $CacheKey = join '::', 'GetUserData', 'UserID',
+            $Param{UserID},
+            $Param{Valid},
+            $FirstnameLastNameOrder,
+            $Param{NoOutOfOffice};
     }
 
     # check cache
@@ -945,8 +943,7 @@ sub UserList {
     my $FirstnameLastNameOrder = $Self->{ConfigObject}->Get('FirstnameLastnameOrder') || 0;
 
     # check cache
-    my $CacheKey = 'UserList::' . $Type . '::' . $Valid
-        . '::' . $FirstnameLastNameOrder;
+    my $CacheKey = join '::', 'UserList', $Type, $Valid, $FirstnameLastNameOrder;
     my $Cache = $Self->{CacheInternalObject}->Get(
         Key => $CacheKey,
     );

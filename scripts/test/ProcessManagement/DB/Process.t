@@ -569,20 +569,20 @@ for my $Test (@Tests) {
         # check cache
         my $CacheKey;
         if ( $Test->{Config}->{ID} ) {
-            $CacheKey = 'ProcessGet::ID::' . $Test->{Config}->{ID} . '::ActivityNames::'
-                . $ActivityNames
-                . '::TransitionNames::'
-                . $TransitionNames
-                . '::TransitionActionNames::'
-                . $TransitionActionNames;
+            $CacheKey = join '::', 'ProcessGet::ID', $Test->{Config}->{ID}, 'ActivityNames',
+                $ActivityNames,
+                'TransitionNames',
+                $TransitionNames,
+                'TransitionActionNames',
+                $TransitionActionNames;
         }
         else {
-            $CacheKey = 'ProcessGet::EntityID::' . $Test->{Config}->{EntityID} . '::ActivityNames::'
-                . $ActivityNames
-                . '::TransitionNames::'
-                . $TransitionNames
-                . '::TransitionActionNames::'
-                . $TransitionActionNames;
+            $CacheKey = join '::', 'ProcessGet::EntityID', $Test->{Config}->{EntityID}, 'ActivityNames',
+                $ActivityNames,
+                'TransitionNames',
+                $TransitionNames,
+                'TransitionActionNames',
+                $TransitionActionNames;
         }
 
         my $Cache = $ProcessObject->{CacheObject}->Get(
