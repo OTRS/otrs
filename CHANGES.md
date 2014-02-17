@@ -1,4 +1,5 @@
 #3.3.5 2014-??-??
+ - 2014-02-13 Updated Polish translation, thanks to Wojciech Myrda.
  - 2014-02-13 Fixed bug#[6323](http://bugs.otrs.org/show_bug.cgi?id=6323) - Graph/Chart generation selects slice/background color identical to text color.
  - 2014-02-13 Added feature to download report data shown in dashboard stats as CSV and PDF.
  - 2014-02-13 Fixed bug#[10248](http://bugs.otrs.org/show_bug.cgi?id=10248) - OTRS Portal - Overview of registered systems.
