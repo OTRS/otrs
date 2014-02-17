@@ -47,6 +47,6 @@ Core.UI.TreeSelection.InitTreeSelection();
 
 [% RenderBlockStart("FooterJS") %]
 <script type="text/javascript">
-    [% Data.Bindings %]
+[% PROCESS JSOnDocumentCompleteInsert %]
 </script>
 [% RenderBlockEnd("FooterJS") %]

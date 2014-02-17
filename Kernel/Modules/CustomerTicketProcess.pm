@@ -1670,9 +1670,7 @@ sub _OutputActivityDialog {
         # CustomerTicketProcess.dtl
         $Self->{LayoutObject}->Block(
             Name => 'FooterJS',
-            Data => {
-                Bindings => $Self->{LayoutObject}->{EnvRef}->{JSOnDocumentComplete},
-            },
+            Data => {},
         );
 
         $FooterCSSClass = 'Centered';
