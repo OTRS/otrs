@@ -40,7 +40,7 @@
 #ToolBar {
     top: 30px;
     left: auto;
-    right: 45px;
+    right: 14px;
 }
 
 #ToolBar a {
@@ -49,7 +49,7 @@
 
 .RTL #ToolBar {
     right: auto;
-    left: 45px;
+    left: 14px;
 }
 
 /**

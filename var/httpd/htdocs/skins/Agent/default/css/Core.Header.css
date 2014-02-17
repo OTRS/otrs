@@ -143,11 +143,6 @@
     width: 24px;
 }
 
-.RTL #ToolBar a span.Counter {
-    right: auto;
-    left: -5px;
-}
-
 /**
  * @subsection  UserInfo
  */

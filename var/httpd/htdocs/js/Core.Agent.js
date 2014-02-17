@@ -215,6 +215,34 @@ Core.Agent = (function (TargetNS) {
 
     }
 
+    function ToolBarIsAside() {
+
+        var ToolbarIsAside = false;
+
+        // the following needs to be the case if the Toolbar is next to the
+        // navigation bar instead of on top of it:
+        // (1) 'left' is > than 'right' (RTL = opposite)
+        //      Note: IE8 will show NaN instead of a number for 'auto'
+        // (2) 'top' of #NavigationContainer is smaller than the height of the #ToolBar
+        //      which would typically mean there is not enough space on top of #NavigationContainer
+        //      to display the ToolBar.
+        if ( (
+                !$('body').hasClass('RTL')
+                && ( parseInt($('#ToolBar').css('left'), 10) > parseInt($('#ToolBar').css('right'), 10) || isNaN(parseInt($('#ToolBar').css('left'), 10)) )
+                && parseInt($('#NavigationContainer').css('top'), 10) < parseInt($('#ToolBar').height(), 10)
+            )
+             ||
+            (
+                $('body').hasClass('RTL')
+                && ( parseInt($('#ToolBar').css('left'), 10) < parseInt($('#ToolBar').css('right'), 10) || isNaN(parseInt($('#ToolBar').css('right'), 10)) )
+                && parseInt($('#NavigationContainer').css('top'), 10) < parseInt($('#ToolBar').height(), 10)
+            ) )
+        {
+            ToolbarIsAside = true;
+        }
+        return ToolbarIsAside;
+    }
+
     /**
      * @function
      * @return nothing
@@ -225,13 +253,21 @@ Core.Agent = (function (TargetNS) {
     TargetNS.ResizeNavigationBar = function (RealResizeEvent) {
 
         var NavigationBarWidth = 0,
-            Difference;
+            Difference,
+            NewContainerWidth;
 
-        // use some dirty detection to check wether or not we're using a slim skin
-        if ( $('#NavigationContainer').css('top') === '21px' && (!$('#NavigationContainer').hasClass('IsResized') || RealResizeEvent) ) {
+        // when we have the toolbar being displayed next to the navigation, we need to leave some space for it
+        if ( ToolBarIsAside() && ( !$('#NavigationContainer').hasClass('IsResized') || RealResizeEvent ) ) {
+
+            // reset back to original width to avoid making it smaller and smaller
+            $('#NavigationContainer').css('width', '98%');
+
+            NewContainerWidth = $('#NavigationContainer').width() - $('#ToolBar').width() - parseInt($('#ToolBar').css('right'), 10);
+            if ($('body').hasClass('RTL')) {
+                NewContainerWidth = $('#NavigationContainer').width() - $('#ToolBar').width() - parseInt($('#ToolBar').css('left'), 10);
+            }
             $('#NavigationContainer')
-                .css('width', '98%')
-                .css('width', $('#NavigationContainer').width() - $('#ToolBar').width() - parseInt($('#ToolBar').css('right'), 10))
+                .css('width', NewContainerWidth)
                 .addClass('IsResized');
         }
 
@@ -246,10 +282,19 @@ Core.Agent = (function (TargetNS) {
         }
         else if (NavigationBarWidth < $('#NavigationContainer').outerWidth()) {
             $('.NavigationBarNavigateRight, .NavigationBarNavigateLeft').remove();
-            $('#Navigation').css({
-                'left': '0px',
-                'right': 'auto'
-            });
+
+            if ($('body').hasClass('RTL')) {
+                $('#Navigation').css({
+                    'left': 'auto',
+                    'right': '0px'
+                });
+            }
+            else {
+                $('#Navigation').css({
+                    'left': '0px',
+                    'right': 'auto'
+                });
+            }
         }
     };
 
