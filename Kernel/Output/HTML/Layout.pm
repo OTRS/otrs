@@ -17,6 +17,7 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::JSON;
 use Kernel::System::VariableCheck qw(:all);
 
+use Storable;
 use URI::Escape qw();
 
 =head1 NAME
@@ -4111,9 +4112,6 @@ sub _BuildSelectionDataRefCreate {
 
     # dclone $Param{Data} because the subroutine unfortunately modifies
     # the original data ref
-    if ( !$Self->{MainObject}->Require("Storable") ) {
-        $Self->FatalError();
-    }
     my $DataLocal = Storable::dclone( $Param{Data} );
 
     # if HashRef was given
