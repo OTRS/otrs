@@ -1,4 +1,5 @@
 #3.3.5 2014-??-??
+ - 2014-02-17 Updated Japanese translation, thanks to Norihiro Tanaka!
  - 2014-02-17 Updated Brazilian Portugese translation, thanks to Murilo Moreira de Oliveira!
  - 2014-02-17 Updated Polish translation, thanks to Wojciech Myrda.
  - 2014-02-13 Fixed bug#[6323](http://bugs.otrs.org/show_bug.cgi?id=6323) - Graph/Chart generation selects slice/background color identical to text color.
