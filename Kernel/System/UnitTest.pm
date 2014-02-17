@@ -553,7 +553,7 @@ they are different, undef otherwise.
 Data parameters need to be passed by reference and can be SCALAR,
 ARRAY or HASH.
 
-    my $DataIsDifferent = $SysConfigObject->_DataDiff(
+    my $DataIsDifferent = $UnitTestObject->_DataDiff(
         Data1 => \$Data1,
         Data2 => \$Data2,
     );
