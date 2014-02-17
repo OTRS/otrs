@@ -43,13 +43,13 @@ use Kernel::System::JSON;
 
 # get options
 my %Opts;
-getopt( 'h', \%Opts );
+getopt( 'hn', \%Opts );
 if ( $Opts{h} ) {
     print <<EOF;
 $0 - generate caches for dashboard stats widgets
 Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
 
-Usage: $0 [-f force] [-d debug]
+Usage: $0 [-n number] [-f force] [-d debug]
 EOF
     exit 1;
 }
@@ -75,16 +75,20 @@ sub Run {
         TTL   => 60 * 60 * 24 * 3,
     );
 
-    # Get the list of stats that can be used in agent dashboards
+    # get the list of stats that can be used in agent dashboards
     my $Stats = $CommonObject{StatsObject}->StatsListGet();
+
     STATID:
     for my $StatID ( sort keys %{ $Stats || {} } ) {
+
         my %Stat = %{ $Stats->{$StatID} || {} };
+
+        next STATID if $Opts{n} && $Opts{n} ne $Stat{StatNumber};
         next STATID if !$Stat{ShowAsDashboardWidget};
 
-        print "Stat: $Stat{Title}\n";
+        print "Stat $Stat{StatNumber}: $Stat{Title}\n";
 
-        # Now find out all users which have this statistic enabled in their dashboard
+        # now find out all users which have this statistic enabled in their dashboard
         my $DashboardActiveSetting = 'UserDashboard' . ( 1000 + $StatID ) . "-Stats";
         my %UsersWithActivatedWidget = $CommonObject{UserObject}->SearchPreferences(
             Key   => $DashboardActiveSetting,
@@ -99,13 +103,14 @@ sub Run {
         USERID:
         for my $UserID ( sort keys %UsersWithActivatedWidget ) {
 
-            # Ignore invalid users
+            # ignore invalid users
             my %UserData = $CommonObject{UserObject}->GetUserData(
                 UserID        => $UserID,
                 Valid         => 1,
                 NoOutOfOffice => 1,
             );
-            next USERID if ( !%UserData );
+
+            next USERID if !%UserData;
 
             print "    User: $UserData{UserLogin} ($UserID)\n";
 
@@ -116,7 +121,7 @@ sub Run {
                 );
             }
 
-            # Use an own object for the user to handle permissions correctly
+            # use an own object for the user to handle permissions correctly
             my $UserStatsObject = Kernel::System::Stats->new(
                 %CommonObject,
                 UserID => $UserID,
@@ -127,7 +132,7 @@ sub Run {
                 print STDERR $CommonObject{MainObject}->Dump($UserGetParam);
             }
 
-            # Now run the stat to fill the cache with the current parameters
+            # now run the stat to fill the cache with the current parameters
             my $Result = $UserStatsObject->StatsResultCacheCompute(
                 StatID       => $StatID,
                 UserGetParam => $UserGetParam,
