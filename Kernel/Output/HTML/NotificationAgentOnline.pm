@@ -60,7 +60,12 @@ sub Run {
         $Param{Message} .= "$Online{$_}";
     }
     if ( $Param{Message} ) {
-        return $Self->{LayoutObject}->Notify( Info => 'Online Agent: %s", "' . $Param{Message} );
+        return $Self->{LayoutObject}->Notify(
+            Info => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                'Online Agent: %s',
+                $Param{Message},
+            ),
+        );
     }
     else {
         return '';
