@@ -2075,40 +2075,6 @@ sub Data {
         'Edit State' => 'Edytuj status',
         'State type' => 'Typ statusu',
 
-        # Template: AdminSupport
-        'Support Assessment' => '',
-        'Start support' => '',
-        'SQL benchmark' => '',
-        'For quick help please submit your system information and create a support ticket at the vendor\'s site.' =>
-            '',
-        'For more info please check' => '',
-        'Admin Support Info' => '',
-        'Confidential information' => '',
-        'Accept license' => 'Akceptuję licencję',
-        'Don\'t accept license' => 'Nie akceptuję licencji',
-        'Vendor Support' => '',
-        'Bugzilla ID' => '',
-        'If you\'ve already added a Bugzilla report at bugs.otrs.org, please add your Bugzilla ID here.' =>
-            '',
-        'Service Contract' => '',
-        'Please recommend me a Service Contract to optimize my OTRS' => '',
-        'Can\'t create support package, because you work currently with the system user root@localhost and your admin email address is not yet configured. Please define the admin email setting in the SysConfig module and don\'t use the user root@localhost for working with OTRS.' =>
-            '',
-        'Please confirm the confidential information to continue.' => '',
-        'Looks fine!' => '',
-        'Ok' => '',
-        'Should not take more than' => '',
-        'on an average system' => '',
-        'Benchmark' => '',
-        'Execute a SQL benchmark test on your database to find out how fast your database is (done on dedicated benchmark table).' =>
-            '',
-        'This should not be done on production systems!' => '',
-        'Multiplier' => '',
-        'Please select a multiplier and press start button.' => '',
-        'Start' => 'Start',
-
-        # Template: AdminSupportLicenseText
-
         # Template: AdminSysConfig
         'SysConfig' => 'Konfiguracja systemu',
         'Navigate by searching in %s settings' => 'Nawiguj poprzez szukanie w %s ustawieniach',
@@ -2210,6 +2176,7 @@ sub Data {
         'Firstname' => 'Imię',
         'Lastname' => 'Nazwisko',
         'Will be auto-generated if left empty.' => 'Zostanie wygenerowane automatycznie jeśli pozostawione puste.',
+        'Start' => 'Start',
         'End' => 'Koniec',
 
         # Template: AdminUserGroup
@@ -2788,39 +2755,6 @@ sub Data {
         'Previous' => 'Poprzednie',
         'Open date selection' => 'Otwórz wybór daty',
 
-        # Template: DevelFredBenchmark
-
-        # Template: DevelFredCommonCSS
-
-        # Template: DevelFredConfigLog
-
-        # Template: DevelFredConsole
-
-        # Template: DevelFredContainer
-
-        # Template: DevelFredCover
-
-        # Template: DevelFredEnvDump
-
-        # Template: DevelFredHTMLCheck
-
-        # Template: DevelFredJSLint
-
-        # Template: DevelFredNYTProf
-
-        # Template: DevelFredSQLLog
-
-        # Template: DevelFredSTDERRLog
-
-        # Template: DevelFredSessionDump
-
-        # Template: DevelFredSetting
-        'Config' => '',
-        'Attention: You can\'t use Devel::NYTProf and Devel::Cover at the same time!' =>
-            '',
-
-        # Template: DevelFredTranslationDebug
-
         # Template: Error
         'Oops! An Error occurred.' => 'Ups! Pojawił się błąd.',
         'Error Message' => 'Komunikat błędu',
@@ -2927,6 +2861,8 @@ sub Data {
         'Your OTRS Team' => 'Twój Zespół OTRS',
 
         # Template: InstallerLicense
+        'Accept license' => 'Akceptuję licencję',
+        'Don\'t accept license' => 'Nie akceptuję licencji',
 
         # Template: InstallerLicenseText
 
@@ -3036,7 +2972,6 @@ sub Data {
             '',
         'Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             '',
-        'Admin-Support Overview.' => '',
         'Agent Notifications' => 'Powiadomienie dla agentów',
         'Agent interface article notification module to check PGP.' => 'Interfejs agenta w module powiadomień PGP',
         'Agent interface article notification module to check S/MIME.' =>
@@ -3149,7 +3084,6 @@ sub Data {
         'Change the responsible person for this ticket' => 'Zmień osobę odpowiedzialną zgłoszenia',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             'Zmienia właściciela zgłoszeń dla wszyscy (użyteczne dla ASP). Zwykle widoczny będzie tylko agent z prawami rw do kolejki.',
-        'Check only the following packages in SmallProf.' => '',
         'Checkbox' => 'Pole wyboru',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
@@ -3157,7 +3091,6 @@ sub Data {
         'Column ticket filters for Ticket Overviews type "Small".' => 'Kolumna filtrów zgłoszeń dla "małego" Podglądu Zgłoszeń.',
         'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
-        'Command for generating a HTML view.' => '',
         'Comment for new history entries in the customer interface.' => 'Komenntarz dla nowych wspisów historii w interfejsie klienta.',
         'Company Status' => 'Status firmy',
         'Company Tickets' => 'Zgłoszenia firmowe',
@@ -3212,8 +3145,6 @@ sub Data {
             '',
         'CustomerName' => 'Nazwa klienta',
         'Customers <-> Groups' => 'Klienci <-> Grupy',
-        'Customizable system name. If empty, config item \'Home\' is being used for display.' =>
-            '',
         'Data used to export the search result in CSV format.' => 'Dane używane przy eksporcie wyników wyszukiwania do formatu CSV.',
         'Date / Time' => 'Data / Czas',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
@@ -3700,8 +3631,6 @@ sub Data {
             'Definiuje kolejny status zgłoszenia po jego odbiciu w oknie odbitych interfejsu agenta.',
         'Defines the next state of a ticket after being moved to another queue, in the move ticket screen of the agent interface.' =>
             'Definiuje kolejny status zgłoszenia po przeniesieniu do innegj kolejki w oknie przeniesionych zgłoszeń interfejsu agenta.',
-        'Defines the opacity of the Fred console, e.g. 0.9 for 10% transparency.' =>
-            '',
         'Defines the parameters for the customer preferences table.' => 'Definiuje parametry dla tabeli preferencji klienta.',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
             '',
@@ -3799,7 +3728,6 @@ sub Data {
             '',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             '',
-        'Defines the width of the Fred console in percent.' => '',
         'Defines the width of the legend.' => 'Definiuje szerokość legendy.',
         'Defines which article sender types should be shown in the preview of a ticket.' =>
             'Definiuje które typy wysyłających artykuły powinny być widoczne w podglądzie zgłoszenia.',
@@ -3813,17 +3741,6 @@ sub Data {
             'Definiuje które stany powinny zostać ustawione automatycznie (treść), po osiągnięciu czasu oczekiwania (klucz).',
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             '',
-        'Definition of the Cron checks.' => '',
-        'Definition of the OTRS checks.' => '',
-        'Definition of the Operating System checks.' => '',
-        'Definition of the database checks for the MSSQL database.' => '',
-        'Definition of the database checks for the MySQL database.' => '',
-        'Definition of the database checks for the Oracle database.' => '',
-        'Definition of the database checks for the PostgreSQL database.' =>
-            '',
-        'Definition of the webserver checks for the Apache webserver.' =>
-            '',
-        'Definition of the webserver checks for the IIS webserver.' => '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             'Usuwa sesje jeśli id sesji jest użyte wraz z nieprawidłowym adresem IP.',
         'Deletes requested sessions if they have timed out.' => 'Usuwa podane wygasnięte sesje.',
@@ -3864,8 +3781,6 @@ sub Data {
         'Display settings to override defaults for Process Tickets.' => 'Wyświetl ustawienia nadpisujące domyślne dla złoszeń procesowych.',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Wyświetla zliczony czas artykułu w widoku przybliżonym zgłoszenia.',
-        'Don\'t check the following packages in DProf.' => '',
-        'Don\'t check the following perl files or path in SmallProf.' => '',
         'Dropdown' => 'Lista rozwijana',
         'Dynamic Fields Checkbox Backend GUI' => 'Interfejs pól dynamicznych okna wyboru',
         'Dynamic Fields Date Time Backend GUI' => 'Interfejs pól dynamicznych daty i czasu',
@@ -4011,13 +3926,8 @@ sub Data {
             'Widok modułu interfejsu (wyłącz okno procesów jeśli żadne procesy nie są dostepne) dla klienta.',
         'Frontend module registration (disable ticket processes screen if no process available).' =>
             'Widok modułu interfejsu (wyłącz okno procesów jeśli żadne procesy nie są dostepne).',
-        'Frontend module registration for the AdminSystemStatus object in the admin area.' =>
-            '',
         'Frontend module registration for the agent interface.' => 'Widok modułu interfejsu dla interfejsu agenta.',
         'Frontend module registration for the customer interface.' => 'Widok modułu interfejsu dla interfejsu klienta.',
-        'Frontend module registration for the devel fred object in the admin area.' =>
-            '',
-        'Frontend module registration for the public interface.' => '',
         'Frontend theme' => 'Schemat graficzny',
         'Fulltext index regex filters to remove parts of the text.' => 'Indeks filtrów pełnotekstowych do usuwania części tekstu.',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
@@ -4042,9 +3952,6 @@ sub Data {
             '',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.RebuildFulltextIndex.pl".' =>
             '',
-        'Here you can insert the number of shown profiling functions (max 40).' =>
-            '',
-        'Here you can insert the number of shown profiling lines.' => '',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             'Jeśli zaznaczono "DB" dla Customer::AuthModule można wybrać sterownik bazy danych (zwykle używana jest autodetekcja).',
         'If "DB" was selected for Customer::AuthModule, a password to connect to the customer table can be specified.' =>
@@ -4296,8 +4203,6 @@ sub Data {
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Open tickets of customer' => 'Otwarte zgłoszenia klienta',
-        'Output filter to show the name of the current system in the system header.' =>
-            '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => 'Przegląd eskalowanych zgłoszeń',
@@ -4646,7 +4551,6 @@ sub Data {
             '',
         'Show the current owner in the customer interface.' => 'Pokazuje obecnego właściciela w interfejsie klienta.',
         'Show the current queue in the customer interface.' => 'Pokazuje obecną kolejkę w interfejsie klienta.',
-        'Show the function tree.' => '',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' =>
             'Pokazuje licznik ikon w przybliżeniu zgłoszenia, jeśli artykuł zawiera załączniki.',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface.' =>
@@ -4873,7 +4777,6 @@ sub Data {
         'Stop words for fulltext index. These words will be removed.' => 'Słowa wstrzymane dla indeksowania pełnotekstowego. Te słowa zostaną usunięte.',
         'Stores cookies after the browser has been closed.' => 'Przechowuje ciasteczka po zakmnięciu przeglądarki.',
         'Strips empty lines on the ticket preview in the queue view.' => 'Usuwa puste linie z podglądu zgłoszenia w widoku kolejki.',
-        'Subscribe the output filter at the system.' => '',
         'Templates <-> Queues' => 'Szablony <-> Kolejki',
         'Textarea' => 'Obszar tekstu',
         'The "bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.' =>
@@ -4901,12 +4804,9 @@ sub Data {
             'Tekst na początku tematu w odpowiedziach e-mail np. RE lub Odp.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Tekst na początku tematu w e-mailach przesłanch dalej np. FW lub Fwd.',
-        'The used sender mail address.' => '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
-            '',
-        'This option defines the background color for the sytem name box.' =>
             '',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             'Ta opcja definiuje pole dynamiczne w którym aktywność id Procesu Zarządzania jest zapisana.',
@@ -4931,23 +4831,6 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'Przęłacza widok ukazanych dodatków w Menadzeże Pakietów.',
         'Toolbar Item for a shortcut.' => 'Pozycja paska narzędziowego dla skrótu.',
-        'Turn on if you want a JavaScript code quality checker. Only works in CVS Head / OTRS 3 with jQuery.' =>
-            '',
-        'Turn on if you want an realtime HTML-checker.' => '',
-        'Turn on if you want an realtime SQL statement log function.' => '',
-        'Turn on if you want the translation debugger.' => '',
-        'Turn on if you want to see the STDERRLog.' => '',
-        'Turn on if you want to see the code executed for the last request.' =>
-            '',
-        'Turn on if you want to see the data in the environment of the layout object.' =>
-            '',
-        'Turn on if you want to see the data in the serverside session object.' =>
-            '',
-        'Turn on if you want to use the NYTProf profiling function.' => '',
-        'Turn on if you want to use the config log mechanism.' => '',
-        'Turn on if you want to use the fred benchmark tool (only for experts!).' =>
-            '',
-        'Turn on if you want to use the fred console.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             'Włącza animacje używane w Interfejsie. Jesli masz problemy z tymi animacjami (np. wydajnościowe) to możesz je tu wyłączyć.',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
@@ -4974,8 +4857,6 @@ sub Data {
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
-        'Which order should the config log data have?' => '',
-        'Which order should the profiling data have?' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Twój wybór ulubionych kolejek. Będziesz również informowany e-mailami o tych kolejkach jeśli włączysz powiadamianie.',
 
