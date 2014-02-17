@@ -135,7 +135,8 @@ textarea.Focus  {
 .DataTable tbody tr:hover td,
 .TableSmall tbody tr:hover td,
 .DataTable tbody tr:hover td,
-.TableSmall tbody tr:hover td {
+.TableSmall tbody tr:hover td,
+#NavigationContainer > a {
     background: #c0f7ff;
     background: -moz-linear-gradient(top,  #c0f7ff 0%, #93e9f6 20%, #78cedb 51%, #63b9c6 51%, #54aab7 95%, #489eab 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c0f7ff), color-stop(20%,#93e9f6), color-stop(51%,#78cedb), color-stop(51%,#63b9c6), color-stop(95%,#54aab7), color-stop(100%,#489eab));
@@ -192,7 +193,7 @@ textarea.Focus  {
     top: 2px;
 }
 
-#Navigation {
+#NavigationContainer {
     top: 21px;
 }
 

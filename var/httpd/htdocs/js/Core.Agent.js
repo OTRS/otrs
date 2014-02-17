@@ -163,7 +163,7 @@ Core.Agent = (function (TargetNS) {
         $(window).resize(function() {
             window.clearTimeout(NavigationResizeTimeout);
             NavigationResizeTimeout = window.setTimeout(function () {
-                TargetNS.ResizeNavigationBar();
+                TargetNS.ResizeNavigationBar(true);
             }, 400);
         });
     }
@@ -222,10 +222,18 @@ Core.Agent = (function (TargetNS) {
      *      with slider navigation buttons. This can only happen if there are too many
      *      navigation icons.
      */
-    TargetNS.ResizeNavigationBar = function () {
+    TargetNS.ResizeNavigationBar = function (RealResizeEvent) {
 
         var NavigationBarWidth = 0,
             Difference;
+
+        // use some dirty detection to check wether or not we're using a slim skin
+        if ( $('#NavigationContainer').css('top') === '21px' && (!$('#NavigationContainer').hasClass('IsResized') || RealResizeEvent) ) {
+            $('#NavigationContainer')
+                .css('width', '98%')
+                .css('width', $('#NavigationContainer').width() - $('#ToolBar').width() - parseInt($('#ToolBar').css('right'), 10))
+                .addClass('IsResized');
+        }
 
         $('#Navigation li').each(function() {
             NavigationBarWidth += parseInt($(this).outerWidth(), 10);
@@ -237,7 +245,11 @@ Core.Agent = (function (TargetNS) {
             NavigationBarShowSlideButton('Right', parseInt($('#NavigationContainer').outerWidth() - NavigationBarWidth, 10));
         }
         else if (NavigationBarWidth < $('#NavigationContainer').outerWidth()) {
-            $('.NavigationBarNavigateRight, NavigationBarNavigateLeft').remove();
+            $('.NavigationBarNavigateRight, .NavigationBarNavigateLeft').remove();
+            $('#Navigation').css({
+                'left': '0px',
+                'right': 'auto'
+            });
         }
     };
 
