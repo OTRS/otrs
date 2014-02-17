@@ -217,8 +217,6 @@ Core.Agent = (function (TargetNS) {
 
     function ToolBarIsAside() {
 
-        var ToolbarIsAside = false;
-
         // the following needs to be the case if the Toolbar is next to the
         // navigation bar instead of on top of it:
         // (1) 'left' is > than 'right' (RTL = opposite)
@@ -238,9 +236,9 @@ Core.Agent = (function (TargetNS) {
                 && parseInt($('#NavigationContainer').css('top'), 10) < parseInt($('#ToolBar').height(), 10)
             ) )
         {
-            ToolbarIsAside = true;
+            return true;
         }
-        return ToolbarIsAside;
+        return false;
     }
 
     /**
