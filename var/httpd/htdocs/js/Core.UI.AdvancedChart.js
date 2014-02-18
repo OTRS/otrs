@@ -400,7 +400,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
 
         nv.addGraph(function() {
 
-            var Chart = nv.models.stackedAreaChart();
+            var Chart = nv.models.OTRSstackedAreaChart();
 
             // don't let nv/d3 exceptions block the rest of OTRS JavaScript
             try {

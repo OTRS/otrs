@@ -4011,6 +4011,7 @@ via the Preferences button after logging in.
                     <JavaScript>thirdparty/d3js/d3.v3.min.js</JavaScript>
                     <JavaScript>thirdparty/d3js/nv.d3.min.js</JavaScript>
                     <JavaScript>thirdparty/d3js/models/OTRSmultiBarChart.js</JavaScript>
+                    <JavaScript>thirdparty/d3js/models/OTRSstackedAreaChart.js</JavaScript>
                     <JavaScript>Core.UI.Chart.js</JavaScript>
                     <JavaScript>Core.UI.AdvancedChart.js</JavaScript>
                     <JavaScript>Core.UI.DnD.js</JavaScript>
