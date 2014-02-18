@@ -2253,6 +2253,8 @@ sub Data {
             'Der Inhalt dieser Statistik wird vorbereitet. Bitte haben Sie etwas Geduld.',
         'Grouped' => 'Gruppiert',
         'Stacked' => 'Gestapelt',
+        'Stream' => 'Fließend',
+        'Expanded' => 'Ausgedehnt',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Meine gesperrten Tickets',

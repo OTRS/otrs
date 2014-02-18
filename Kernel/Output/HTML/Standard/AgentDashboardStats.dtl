@@ -22,6 +22,8 @@
 // add translations
 Core.Config.Set('Grouped', '$JSText{"Grouped"}');
 Core.Config.Set('Stacked', '$JSText{"Stacked"}');
+Core.Config.Set('Expanded', '$JSText{"Expanded"}');
+Core.Config.Set('Stream', '$JSText{"Stream"}');
 
 // get settings for widget from preferences
 Core.Config.Set('Pref-GraphWidget$QData{"Name"}', $Data{"Preferences"});
