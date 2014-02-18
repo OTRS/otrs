@@ -121,6 +121,7 @@ sub Run {
             # show the error screen
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => $ProcessImport{Message},
+                Comment => $ProcessImport{Comment} || '',
             );
         }
         else {
