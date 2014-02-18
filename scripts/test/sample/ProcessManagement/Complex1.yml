@@ -1,0 +1,264 @@
+---
+Activities:
+  A12:
+    ActivityDialogs:
+    - AD32
+    ChangeTime: 2014-01-17 01:35:28
+    Config:
+      ActivityDialog:
+        '1': AD32
+    CreateTime: 2014-01-17 01:34:14
+    EntityID: A12
+    ID: 55
+    Name: Testing Activity 1
+  A13:
+    ActivityDialogs:
+    - AD33
+    - AD34
+    ChangeTime: 2014-01-17 01:38:59
+    Config:
+      ActivityDialog:
+        '1': AD33
+        '2': AD34
+    CreateTime: 2014-01-17 01:36:02
+    EntityID: A13
+    ID: 56
+    Name: Testing Activity 2
+  A14:
+    ActivityDialogs:
+    - AD32
+    - AD33
+    - AD34
+    ChangeTime: 2014-01-17 07:08:07
+    Config:
+      ActivityDialog:
+        '1': AD32
+        '2': AD33
+        '3': AD34
+    CreateTime: 2014-01-17 07:07:19
+    EntityID: A14
+    ID: 57
+    Name: Testing Activity 3
+  A15:
+    ActivityDialogs: []
+    ChangeTime: 2014-01-17 07:08:40
+    Config: {}
+    CreateTime: 2014-01-17 07:08:40
+    EntityID: A15
+    ID: 58
+    Name: Testing Activity 4
+ActivityDialogs:
+  AD32:
+    ChangeTime: 2014-01-17 01:35:04
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Testing
+      FieldOrder:
+      - Article
+      - CustomerID
+      - Service
+      - SLA
+      Fields:
+        Article:
+          Config:
+            ArticleType: note-internal
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        CustomerID:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        SLA:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        Service:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: '0'
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2014-01-17 01:35:04
+    EntityID: AD32
+    ID: 80
+    Name: Testing Activity Dialog 1
+  AD33:
+    ChangeTime: 2014-01-17 01:37:13
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Testing
+      FieldOrder:
+      - Type
+      - Queue
+      - Priority
+      Fields:
+        Priority:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        Queue:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        Type:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: '0'
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2014-01-17 01:37:13
+    EntityID: AD33
+    ID: 81
+    Name: Testing Activity Dialog 2
+  AD34:
+    ChangeTime: 2014-01-17 01:38:44
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Testing
+      FieldOrder: []
+      Fields: {}
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: '0'
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2014-01-17 01:38:08
+    EntityID: AD34
+    ID: 82
+    Name: Testing Activity Dialog 3
+Process:
+  Activities:
+  - A12
+  - A13
+  - A14
+  - A15
+  ChangeTime: 2014-01-17 07:14:28
+  Config:
+    Description: Just for testing
+    Path:
+      A12:
+        T6:
+          ActivityEntityID: A13
+      A13:
+        T7:
+          ActivityEntityID: A14
+          TransitionAction:
+          - TA6
+      A14:
+        T6:
+          ActivityEntityID: A15
+        T7:
+          ActivityEntityID: A12
+          TransitionAction:
+          - TA6
+          - TA7
+      A15: {}
+    StartActivity: A12
+    StartActivityDialog: AD32
+  CreateTime: 2014-01-17 01:33:36
+  EntityID: P11
+  ID: 35
+  Layout:
+    A12:
+      left: '159'
+      top: '134'
+    A13:
+      left: '657'
+      top: '90'
+    A14:
+      left: '378'
+      top: '362'
+    A15:
+      left: '66'
+      top: '405'
+  Name: Complex 1
+  State: Active
+  StateEntityID: S1
+  TransitionActions:
+  - TA6
+  - TA6
+  - TA7
+  Transitions:
+  - T6
+  - T7
+  - T6
+  - T7
+TransitionActions:
+  TA6:
+    ChangeTime: 2014-01-17 07:10:55
+    Config:
+      Config:
+        Test: '1'
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate
+    CreateTime: 2014-01-17 07:10:55
+    EntityID: TA6
+    ID: 22
+    Name: Testing Transition Action 1
+  TA7:
+    ChangeTime: 2014-01-17 07:12:05
+    Config:
+      Config:
+        '': ''
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketLockSet
+    CreateTime: 2014-01-17 07:12:05
+    EntityID: TA7
+    ID: 23
+    Name: Testing Transition Action 2
+Transitions:
+  T6:
+    ChangeTime: 2014-01-17 01:40:14
+    Config:
+      Condition:
+        '1':
+          Fields:
+            Queue:
+              Match: .+
+              Type: Regexp
+            Type:
+              Match: .+
+              Type: Regexp
+          Type: and
+        '2':
+          Fields:
+            Title:
+              Match: Hi
+              Type: String
+          Type: or
+      ConditionLinking: and
+    CreateTime: 2014-01-17 01:40:14
+    EntityID: T6
+    ID: 23
+    Name: Testing Transition 1
+  T7:
+    ChangeTime: 2014-01-17 07:10:02
+    Config:
+      Condition:
+        '1':
+          Fields:
+            Queue:
+              Match: Raw
+              Type: Module
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2014-01-17 07:10:02
+    EntityID: T7
+    ID: 24
+    Name: Testing Transition 2

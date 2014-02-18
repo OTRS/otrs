@@ -1,4 +1,5 @@
 #3.3.5 2014-??-??
+ - 2014-02-18 Re-implemented Process Management ProcessImport().
  - 2014-02-18 Fixed bug#[10258](http://bugs.otrs.org/show_bug.cgi?id=10258) - yellow color for UnreadArticles.
  - 2014-02-17 Updated Japanese translation, thanks to Norihiro Tanaka!
  - 2014-02-17 Updated Brazilian Portugese translation, thanks to Murilo Moreira de Oliveira!

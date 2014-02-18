@@ -1407,6 +1407,7 @@ Returns:
 
     %ProcessImport = (
         Message => 'The Mesage to show.', # error or success message
+        Comment => 'Any comment',         # optional
         Success => 1,                     # 1 if success or undef otherwise
     );
 
@@ -1466,8 +1467,8 @@ sub ProcessImport {
     if ( $#MissingDynamicFieldNames > -1 ) {
         my $MissingDynamicFields = join( ', ', @MissingDynamicFieldNames );
         return (
-            Message =>
-                "The following dynamic fields are missing: $MissingDynamicFields. Import has been stopped.",
+            Message => "The following dynamic fields are missing: $MissingDynamicFields. "
+                . "Import has been stopped.",
         );
     }
 
@@ -1515,400 +1516,291 @@ sub ProcessImport {
         }
     }
 
-    # add activity dialogs
-    my %ActivityDialogMapping;
-    for my $ActivityDialogEntityID ( sort keys %{ $ProcessData->{ActivityDialogs} } ) {
-
-        my @ExistingADs = @{
-            $Self->{ActivityDialogObject}
-                ->ActivityDialogListGet( UserID => $Param{UserID} ) || []
-        };
-        @ExistingADs = grep {
-            $_->{EntityID} eq
-                $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{EntityID}
-        } @ExistingADs;
-        if ( $Param{OverwriteExistingEntities} && $ExistingADs[0] ) {
-            my $Success = $Self->{ActivityDialogObject}->ActivityDialogUpdate(
-                %{ $ExistingADs[0] },
-                Name   => $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{Name},
-                Config => $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{Config},
-                UserID => $Param{UserID},
-            );
-
-            if ( !$Success ) {
-                return (
-                    Message =>
-                        "ActivityDialog '$ActivityDialogEntityID' could not be updated. Stopping import.",
-                );
-            }
-        }
-        else {
-
-            # get next EntityID
-            my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
-                EntityType => 'ActivityDialog',
-                UserID     => $Param{UserID},
-            );
-
-            my $ID = $Self->{ActivityDialogObject}->ActivityDialogAdd(
-                EntityID => $EntityID,
-                Name     => $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{Name},
-                Config   => $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{Config},
-                UserID   => $Param{UserID},
-            );
-
-            if ( !$ID ) {
-                return (
-                    Message => "ActivityDialog '"
-                        . $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{Name}
-                        . "' could not be added. Stopping import.",
-                );
-            }
-
-       # add the new EntityID to our mapping so we can later replace occurrences of the old EntityID
-            $ActivityDialogMapping{$ActivityDialogEntityID} = $EntityID;
-        }
-    }
-
-    # add transition actions
-    my %TransitionActionMapping;
-    for my $TransitionActionEntityID ( sort keys %{ $ProcessData->{TransitionActions} } ) {
-
-        my @ExistingTAs = @{
-            $Self->{TransitionActionObject}
-                ->TransitionActionListGet( UserID => $Param{UserID} ) || []
-        };
-        @ExistingTAs = grep {
-            $_->{EntityID} eq
-                $ProcessData->{TransitionActions}->{$TransitionActionEntityID}->{EntityID}
-        } @ExistingTAs;
-        if ( $Param{OverwriteExistingEntities} && $ExistingTAs[0] ) {
-            my $Success = $Self->{TransitionActionObject}->TransitionActionUpdate(
-                %{ $ExistingTAs[0] },
-                Name => $ProcessData->{TransitionActions}->{$TransitionActionEntityID}->{Name},
-                Config =>
-                    $ProcessData->{TransitionActions}->{$TransitionActionEntityID}->{Config},
-                UserID => $Param{UserID},
-            );
-
-            if ( !$Success ) {
-                return (
-                    Message =>
-                        "TransitionAction '$TransitionActionEntityID' could not be updated. Stopping import.",
-                );
-            }
-
-        }
-        else {
-
-            # get next EntityID
-            my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
-                EntityType => 'TransitionAction',
-                UserID     => $Param{UserID},
-            );
-
-            my $ID = $Self->{TransitionActionObject}->TransitionActionAdd(
-                EntityID => $EntityID,
-                Name     => $ProcessData->{TransitionActions}->{$TransitionActionEntityID}->{Name},
-                Config =>
-                    $ProcessData->{TransitionActions}->{$TransitionActionEntityID}->{Config},
-                UserID => $Param{UserID},
-            );
-
-            if ( !$ID ) {
-                return (
-                    Message => "TransitionAction '"
-                        . $ProcessData->{TransitionActions}->{$TransitionActionEntityID}->{Name}
-                        . "' could not be added. Stopping import.",
-                );
-            }
-
-       # add the new EntityID to our mapping so we can later replace occurrences of the old EntityID
-            $TransitionActionMapping{$TransitionActionEntityID} = $EntityID;
-        }
-    }
-
-    # add transitions
-    my %TransitionMapping;
-    for my $TransitionEntityID ( sort keys %{ $ProcessData->{Transitions} } ) {
-
-        my @ExistingTs
-            = @{
-            $Self->{TransitionObject}->TransitionListGet( UserID => $Param{UserID} )
-                || []
-            };
-        @ExistingTs = grep {
-            $_->{EntityID} eq $ProcessData->{Transitions}->{$TransitionEntityID}->{EntityID}
-        } @ExistingTs;
-        if ( $Param{OverwriteExistingEntities} && $ExistingTs[0] ) {
-            my $Success = $Self->{TransitionObject}->TransitionUpdate(
-                %{ $ExistingTs[0] },
-                Name   => $ProcessData->{Transitions}->{$TransitionEntityID}->{Name},
-                Config => $ProcessData->{Transitions}->{$TransitionEntityID}->{Config},
-                UserID => $Param{UserID},
-            );
-
-            if ( !$Success ) {
-                return (
-                    Message =>
-                        "Transition '$TransitionEntityID' could not be updated. Stopping import.",
-                );
-            }
-        }
-        else {
-
-            # get next EntityID
-            my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
-                EntityType => 'Transition',
-                UserID     => $Param{UserID},
-            );
-
-            my $ID = $Self->{TransitionObject}->TransitionAdd(
-                EntityID => $EntityID,
-                Name     => $ProcessData->{Transitions}->{$TransitionEntityID}->{Name},
-                Config   => $ProcessData->{Transitions}->{$TransitionEntityID}->{Config},
-                UserID   => $Param{UserID},
-            );
-
-            if ( !$ID ) {
-                return (
-                    Message => "Transition '"
-                        . $ProcessData->{Transitions}->{$TransitionEntityID}->{Name}
-                        . "' could not be added. Stopping import.",
-                );
-            }
-
-       # add the new EntityID to our mapping so we can later replace occurrences of the old EntityID
-            $TransitionMapping{$TransitionEntityID} = $EntityID;
-        }
-    }
-
-    # add activities
-    my %ActivityMapping;
-    for my $ActivityEntityID ( sort keys %{ $ProcessData->{Activities} } ) {
-
-        # search and replace ocurrences of old ActivityDialog ids by the new ones
-        my $Config = $Self->{YAMLObject}->Dump(
-            Data => $ProcessData->{Activities}->{$ActivityEntityID}->{Config}
-        );
-        for my $OldEntityID ( sort keys %ActivityDialogMapping ) {
-            $Config =~ s{\Q$OldEntityID\E}{$ActivityDialogMapping{$OldEntityID}}xmsg;
-        }
-        $Config = $Self->{YAMLObject}->Load( Data => $Config );
-
-        my @ExistingAs
-            = @{ $Self->{ActivityObject}->ActivityListGet( UserID => $Param{UserID} ) || [] };
-        @ExistingAs = grep {
-            $_->{EntityID} eq $ProcessData->{Activities}->{$ActivityEntityID}->{EntityID}
-        } @ExistingAs;
-        if ( $Param{OverwriteExistingEntities} && $ExistingAs[0] ) {
-            my $Success = $Self->{ActivityObject}->ActivityUpdate(
-                %{ $ExistingAs[0] },
-                Name   => $ProcessData->{Activities}->{$ActivityEntityID}->{Name},
-                Config => $Config,
-                UserID => $Param{UserID},
-            );
-
-            if ( !$Success ) {
-                return (
-                    Message =>
-                        "Activity '$ActivityEntityID' could not be updated. Stopping import.",
-                );
-            }
-        }
-        else {
-
-            # get next EntityID
-            my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
-                EntityType => 'Activity',
-                UserID     => $Param{UserID},
-            );
-
-            my $ID = $Self->{ActivityObject}->ActivityAdd(
-                EntityID => $EntityID,
-                Name     => $ProcessData->{Activities}->{$ActivityEntityID}->{Name},
-                Config   => $Config,
-                UserID   => $Param{UserID},
-            );
-
-            if ( !$ID ) {
-                return (
-                    Message => "Activity '"
-                        . $ProcessData->{Activities}->{$ActivityEntityID}->{Name}
-                        . "' could not be added. Stopping import.",
-                );
-            }
-
-       # add the new EntityID to our mapping so we can later replace occurrences of the old EntityID
-            $ActivityMapping{$ActivityEntityID} = $EntityID;
-        }
-    }
-
-    # Try to find Entities correctly in YAML
-    my $DelimiterBefore = '(^|\s|\'|"|:)';
-    my $DelimiterAfter  = '($|\s|\'|"|:)';
-
-    # layout: search and replace ocurrences of old Activity ids by the new ones
-    my $Layout = $Self->{YAMLObject}->Dump( Data => $ProcessData->{Process}->{Layout} );
-
-    # Process all mapping entries at once with one big regex. Otherwise there might be errors
-    #   with duplicated keys like ( A4 => A6, A6 => A11). In this case, A4 would also incorrectly
-    #   be converted to A11.
-    if (%ActivityMapping) {
-        my $OldEntityIDs
-            = '(' . join( '|', map { quotemeta($_) } sort keys %ActivityMapping ) . ')';
-        $Layout =~ s{
-            $DelimiterBefore
-            $OldEntityIDs
-            $DelimiterAfter
-        }{$1$ActivityMapping{$2}$3}xmsg;
-    }
-    $Layout = $Self->{YAMLObject}->Load( Data => $Layout );
-
-    # config: search and replace ocurrences of old object ids by the new ones
-    my $Config = $Self->{YAMLObject}->Dump( Data => $ProcessData->{Process}->{Config} );
-
-    # Process all mappings at once: see comment above.
-    my %Mapping = (
-        %ActivityMapping,   %ActivityDialogMapping,
-        %TransitionMapping, %TransitionActionMapping
+    my %EntityMapping;
+    my %PartNameMap = (
+        Activity         => 'Activities',
+        ActivityDialog   => 'ActivityDialogs',
+        Transition       => 'Transitions',
+        TransitionAction => 'TransitionActions'
     );
-    if (%Mapping) {
-        my $OldEntityIDs = '(' . join( '|', map { quotemeta($_) } sort keys %Mapping ) . ')';
-        $Config =~ s{
-            $DelimiterBefore
-            $OldEntityIDs
-            $DelimiterAfter
-        }{$1$Mapping{$2}$3}xmsg;
+
+    # if OverwriteExistingEntities no new entities must be added to the DB unless the entity does
+    #    not not exists
+    if ( $Param{OverwriteExistingEntities} ) {
+
+        # keep entities
+        $EntityMapping{Process}->{ $ProcessData->{Process}->{EntityID} }
+            = $ProcessData->{Process}->{EntityID};
+
+        for my $PartName (qw(Activity ActivityDialog Transition TransitionAction)) {
+            for my $PartEntityID ( sort keys %{ $ProcessData->{ $PartNameMap{$PartName} } } ) {
+                $EntityMapping{ $PartNameMap{$PartName} }->{$PartEntityID} = $PartEntityID;
+            }
+
+            # make sure that all entity mapping parts are defined as hash references
+            $EntityMapping{ $PartNameMap{$PartName} } //= {}
+        }
     }
-    $Config = $Self->{YAMLObject}->Load( Data => $Config );
+    else {
+        my $TempPrefix = 'Tmp';
 
-    my $ID;
-    my @ExistingProcesses
-        = @{ $Self->ProcessListGet( UserID => $Param{UserID} ) || [] };
-    @ExistingProcesses
-        = grep { $_->{EntityID} eq $ProcessData->{Process}->{EntityID} } @ExistingProcesses;
+        # create entity mappings with temporary entities (those will be replaced later with the
+        #     definitive ones when they are actually generated)
+        $EntityMapping{Process}->{ $ProcessData->{Process}->{EntityID} } = $TempPrefix . 'P1';
 
-    if ( $Param{OverwriteExistingEntities} && $ExistingProcesses[0] ) {
-        $Self->ProcessUpdate(
-            %{ $ExistingProcesses[0] },
-            Layout => $Layout,
-            Config => $Config,
+        my %PartPrefixMap = (
+            Activity         => 'A',
+            ActivityDialog   => 'AD',
+            Transition       => 'T',
+            TransitionAction => 'TA',
+        );
+        for my $PartName (qw(Activity ActivityDialog Transition TransitionAction)) {
+
+            my $Counter = 1;
+            for my $PartEntityID ( sort keys %{ $ProcessData->{ $PartNameMap{$PartName} } } ) {
+                $EntityMapping{ $PartNameMap{$PartName} }->{$PartEntityID}
+                    = $TempPrefix . $PartPrefixMap{$PartName} . $Counter;
+                $Counter++;
+            }
+
+            # make sure that all entity mapping parts are defined as hash references
+            $EntityMapping{ $PartNameMap{$PartName} } //= {}
+        }
+
+        # set tempory EntityIDs
+        my $UpdateResult = $Self->_ImportedEntitiesUpdate(
+            ProcessData   => $ProcessData,
+            EntityMapping => \%EntityMapping,
+        );
+
+        if ( !$UpdateResult->{Success} ) {
+            return %{$UpdateResult};
+        }
+
+        # overwrite procees data with the temporary entities
+        $ProcessData = $UpdateResult->{ProcessData};
+    }
+
+    # invert the entity mappings, this is needed as we need to check if the new entities exists:
+    #    for non overwriting processes they must not exists and new records must be generated,
+    #    for overwritting processes it might happens that one record does not exists and it needs
+    #    to be created before it is updated
+    # if new entities are to be created they will be using minimal data and updated with real data
+    #    later, this way overwritting and non overwritting processes will share the same logic
+    %{ $EntityMapping{Process} }           = reverse %{ $EntityMapping{Process} };
+    %{ $EntityMapping{Activities} }        = reverse %{ $EntityMapping{Activities} };
+    %{ $EntityMapping{ActivityDialogs} }   = reverse %{ $EntityMapping{ActivityDialogs} };
+    %{ $EntityMapping{Transitions} }       = reverse %{ $EntityMapping{Transitions} };
+    %{ $EntityMapping{TransitionActions} } = reverse %{ $EntityMapping{TransitionActions} };
+
+    my %AddedEntityIDs;
+
+    # get all processes
+    my $ProcessList = $Self->ProcessList(
+        UseEntities => 1,
+        UserID      => $Param{UserID},
+    );
+
+    # check if processes exists otherwise create them
+    for my $ProcessEntityID ( sort keys %{ $EntityMapping{Process} } ) {
+        if ( !$ProcessList->{$ProcessEntityID} ) {
+
+            # get next EntityID
+            my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
+                EntityType => 'Process',
+                UserID     => $Param{UserID},
+            );
+            if ( !$EntityID ) {
+                return $Self->_ProcessImportRollBack(
+                    AddedEntityIDs => \%AddedEntityIDs,
+                    UserID         => $Param{UserID},
+                    Message =>
+                        'New process EntityID could not be generated. Stoping import!',
+                );
+            }
+
+            # update entity mappings
+            $EntityMapping{Process}->{$ProcessEntityID} = $EntityID;
+
+            # create an empty process
+            my $ProcessID = $Self->ProcessAdd(
+                EntityID      => $EntityID,
+                Name          => 'NewProcess',
+                StateEntityID => 'S1',
+                Layout        => {},
+                Config        => {
+                    Path        => {},
+                    Description => 'NewProcess',
+                },
+                UserID => $Param{UserID},
+            );
+            if ( !$ProcessID ) {
+                return $Self->_ProcessImportRollBack(
+                    AddedEntityIDs => \%AddedEntityIDs,
+                    UserID         => $Param{UserID},
+                    Message        => 'Process '
+                        . $ProcessData->{Process}->{Name}
+                        . ' could not be added. Stopping import!',
+                );
+            }
+
+            # remember added entity
+            $AddedEntityIDs{Process}->{$EntityID} = $ProcessID;
+        }
+    }
+
+    my %PartConfigMap = (
+        Activity       => {},
+        ActivityDialog => {
+            DescriptionShort => 'NewActivityDialog',
+            Fields           => {},
+            FieldOrder       => [],
+        },
+        Transition => {
+            Condition => {},
+        },
+        TransitionAction => {
+            Module => 'NewTransitionAction',
+            Config => {},
+        },
+    );
+
+    # create missing process parts
+    for my $PartName (qw(Activity ActivityDialog Transition TransitionAction)) {
+
+        my $PartListFunction = $PartName . 'List';
+        my $PartAddFunction  = $PartName . 'Add';
+        my $PartObject       = $PartName . 'Object';
+
+        # get all part items
+        my $PartsList = $Self->{$PartObject}->$PartListFunction(
+            UseEntities => 1,
+            UserID      => $Param{UserID},
+        );
+
+        # check if part exists otherwise create them
+        for my $PartEntityID ( sort keys %{ $EntityMapping{ $PartNameMap{$PartName} } } ) {
+            if ( !$PartsList->{$PartEntityID} ) {
+
+                # get next EntityID
+                my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
+                    EntityType => $PartName,
+                    UserID     => $Param{UserID},
+                );
+                if ( !$EntityID ) {
+                    return $Self->_ProcessImportRollBack(
+                        AddedEntityIDs => \%AddedEntityIDs,
+                        UserID         => $Param{UserID},
+                        Message =>
+                            "New $PartName EntityID could not be generated. Stoping import!",
+                    );
+                }
+
+                # update entity mappings
+                $EntityMapping{ $PartNameMap{$PartName} }->{$PartEntityID} = $EntityID;
+
+                # create an empty part
+                my $PartID = $Self->{$PartObject}->$PartAddFunction(
+                    EntityID => $EntityID,
+                    Name     => "New$PartName",
+                    Config   => $PartConfigMap{$PartName},
+                    UserID   => $Param{UserID},
+                );
+                if ( !$PartID ) {
+                    return $Self->_ProcessImportRollBack(
+                        AddedEntityIDs => \%AddedEntityIDs,
+                        UserID         => $Param{UserID},
+                        Message        => "$PartName "
+                            . $ProcessData->{ $PartNameMap{$PartName} }->{$PartEntityID}->{Name}
+                            . ' could not be added. Stopping import!',
+                    );
+                }
+
+                # remember added entity
+                $AddedEntityIDs{ $PartNameMap{$PartName} }->{$EntityID} = $PartID;
+            }
+        }
+    }
+
+    # set definitive EntityIDs (now EntityMapping has the real entities)
+    my $UpdateResult = $Self->_ImportedEntitiesUpdate(
+        ProcessData   => $ProcessData,
+        EntityMapping => \%EntityMapping,
+    );
+
+    if ( !$UpdateResult->{Success} ) {
+        return $Self->_ProcessImportRollBack(
+            AddedEntityIDs => \%AddedEntityIDs,
+            UserID         => $Param{UserID},
+            Message        => $UpdateResult->{Message},
+        );
+    }
+
+    $ProcessData = $UpdateResult->{ProcessData};
+
+    # invert the entity mappings again for easy lookup as keys:
+    %{ $EntityMapping{Process} }           = reverse %{ $EntityMapping{Process} };
+    %{ $EntityMapping{Activities} }        = reverse %{ $EntityMapping{Activities} };
+    %{ $EntityMapping{ActivityDialogs} }   = reverse %{ $EntityMapping{ActivityDialogs} };
+    %{ $EntityMapping{Transitions} }       = reverse %{ $EntityMapping{Transitions} };
+    %{ $EntityMapping{TransitionActions} } = reverse %{ $EntityMapping{TransitionActions} };
+
+    # update all entities with real data
+    # update process
+    for my $ProcessEntityID ( sort keys %{ $EntityMapping{Process} } ) {
+        my $Process = $Self->ProcessGet(
+            EntityID => $ProcessEntityID,
+            UserID   => $Param{UserID},
+        );
+        my $Success = $Self->ProcessUpdate(
+            %{ $ProcessData->{Process} },
+            ID     => $Process->{ID},
             UserID => $Param{UserID},
         );
-
-        $ID = $ExistingProcesses[0]->{ID};
-    }
-    else {
-
-        # generate EntityID for the process itself
-        my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
-            EntityType => 'Process',
-            UserID     => $Param{UserID},
-        );
-
-        # now add the process
-        $ID = $Self->ProcessAdd(
-            EntityID      => $EntityID,
-            Name          => $ProcessData->{Process}->{Name},
-            StateEntityID => $ProcessData->{Process}->{StateEntityID},
-            Layout        => $Layout,
-            Config        => $Config,
-            UserID        => $Param{UserID},
-        );
-    }
-
-    if ( !$ID ) {
-
-        # roll back all changes
-        for my $ActivityDialogEntityID ( values %ActivityDialogMapping ) {
-
-            my $ActivityDialogData = $Self->{ActivityDialogObject}->ActivityDialogGet(
-                EntityID => $ActivityDialogEntityID,
-                UserID   => $Param{UserID},
+        if ( !$Success ) {
+            return $Self->_ProcessImportRollBack(
+                AddedEntityIDs => \%AddedEntityIDs,
+                UserID         => $Param{UserID},
+                Message        => "Process: $ProcessEntityID could not be updated. "
+                    . "Stoping import!",
             );
-            my $Success = $Self->{ActivityDialogObject}->ActivityDialogDelete(
-                ID     => $ActivityDialogData->{ID},
+        }
+    }
+
+    # update all other process parts
+    for my $PartName (qw(Activity ActivityDialog Transition TransitionAction)) {
+
+        my $PartGetFunction    = $PartName . 'Get';
+        my $PartUpdateFunction = $PartName . 'Update';
+        my $PartObject         = $PartName . 'Object';
+
+        for my $PartEntityID ( sort keys %{ $EntityMapping{ $PartNameMap{$PartName} } } ) {
+            my $Part = $Self->{$PartObject}->$PartGetFunction(
+                EntityID => $PartEntityID,
+                UserID   => $Param{UserID}
+            );
+            my $Success = $Self->{$PartObject}->$PartUpdateFunction(
+                %{ $ProcessData->{ $PartNameMap{$PartName} }->{$PartEntityID} },
+                ID     => $Part->{ID},
                 UserID => $Param{UserID},
             );
             if ( !$Success ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "ActivityDialog '"
-                        . $ActivityDialogData->{Name}
-                        . "' could not be deleted.",
+                return $Self->_ProcessImportRollBack(
+                    AddedEntityIDs => \%AddedEntityIDs,
+                    UserID         => $Param{UserID},
+                    Message        => "$PartName: $PartEntityID could not be updated. "
+                        . " Stoping import!",
                 );
             }
         }
-        for my $TransitionActionEntityID ( values %TransitionActionMapping ) {
-
-            my $TransitionActionData = $Self->{TransitionActionObject}->TransitionActionGet(
-                EntityID => $TransitionActionEntityID,
-                UserID   => $Param{UserID},
-            );
-            my $Success = $Self->{TransitionActionObject}->TransitionActionDelete(
-                ID     => $TransitionActionData->{ID},
-                UserID => $Param{UserID},
-            );
-            if ( !$Success ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "TransitionAction '"
-                        . $TransitionActionData->{Name}
-                        . "' could not be deleted.",
-                );
-            }
-        }
-        for my $TransitionEntityID ( values %TransitionMapping ) {
-
-            my $TransitionData = $Self->{TransitionObject}->TransitionGet(
-                EntityID => $TransitionEntityID,
-                UserID   => $Param{UserID},
-            );
-            my $Success = $Self->{TransitionObject}->TransitionDelete(
-                ID     => $TransitionData->{ID},
-                UserID => $Param{UserID},
-            );
-            if ( !$Success ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Transition '"
-                        . $TransitionData->{Name}
-                        . "' could not be deleted.",
-                );
-            }
-        }
-        for my $ActivityEntityID ( values %ActivityMapping ) {
-
-            my $ActivityData = $Self->{ActivityObject}->ActivityGet(
-                EntityID => $ActivityEntityID,
-                UserID   => $Param{UserID},
-            );
-            my $Success = $Self->{ActivityObject}->ActivityDelete(
-                ID     => $ActivityData->{ID},
-                UserID => $Param{UserID},
-            );
-            if ( !$Success ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Activity '" . $ActivityData->{Name} . "' could not be deleted.",
-                );
-            }
-        }
-
-        return (
-            Message => "Process could not be imported. All changes have been rolled back.",
-        );
     }
-    else {
 
-        return (
-            Message => 'Process '
-                . $ProcessData->{Process}->{Name}
-                . ' and all its data has been imported sucessfully.',
-            Success => 1,
-        );
-    }
+    return (
+        Message => 'Process '
+            . $ProcessData->{Process}->{Name}
+            . ' and all its data has been imported sucessfully.',
+        Success => 1,
+    );
 }
 
 # TODO Add POD
@@ -1924,6 +1816,342 @@ sub _ProcessItemOutput {
 
     return $Output . "\n";
 }
+
+sub _ImportedEntitiesUpdate {
+    my ( $Self, %Param ) = @_;
+
+    my %EntityMapping = %{ $Param{EntityMapping} };
+
+    # re-write process with entity mapping information
+    my $Process = $Param{ProcessData}->{Process};
+    my $NewProcess;
+
+    # set non changing root attributes
+    for my $Attribute (qw(Name StateEntityID)) {
+        $NewProcess->{$Attribute} = $Process->{$Attribute};
+    }
+
+    # set new process main entity
+    my $NewProcessEntityID = $EntityMapping{Process}->{ $Process->{EntityID} };
+    if ( !$NewProcessEntityID ) {
+        my $Message = "Could not find a entity mapping for Process: $Process->{EntityID}";
+        $Self->{LogObject}->Log(
+            Priority => 'Error',
+            Message  => $Message,
+        );
+        return {
+            Success => 0,
+            Message => $Message,
+        };
+    }
+
+    $NewProcess->{EntityID} = $NewProcessEntityID;
+
+    # set the process layout
+    $NewProcess->{Layout} = {};
+    for my $ActivityEntityID ( sort keys %{ $Process->{Layout} } ) {
+        my $NewActivityEntityID = $EntityMapping{Activities}->{$ActivityEntityID};
+        if ( !$NewActivityEntityID ) {
+            my $Message = "Could not find a entity mapping for Activity: $ActivityEntityID";
+            $Self->{LogObject}->Log(
+                Priority => 'Error',
+                Message  => $Message,
+            );
+            return {
+                Success => 0,
+                Message => $Message,
+            };
+        }
+        $NewProcess->{Layout}->{$NewActivityEntityID} = $Process->{Layout}->{$ActivityEntityID};
+    }
+
+    # set process config non changing attributes
+    $NewProcess->{Config}->{Description} = $Process->{Config}->{Description};
+
+    # set process config start activity and start activity dialog EntityID
+    my %AttributeMap = (
+        Activity       => 'Activities',
+        ActivityDialog => 'ActivityDialogs',
+    );
+
+    ATTRIBUTE:
+    for my $Attribute (qw(Activity ActivityDialog)) {
+        $NewProcess->{Config}->{"Start$Attribute"} = '';
+
+        next ATTRIBUTE if !$Process->{Config}->{"Start$Attribute"};
+        my $NewAttributeEntityID = $EntityMapping{ $AttributeMap{$Attribute} }
+            ->{ $Process->{Config}->{"Start$Attribute"} };
+        if ( !$NewAttributeEntityID ) {
+            my $Message = "Could not find a entity mapping for $Attribute: "
+                . "$Process->{Config}->{Start$Attribute}";
+            $Self->{LogObject}->Log(
+                Priority => 'Error',
+                Message  => $Message,
+            );
+            return {
+                Success => 0,
+                Message => $Message,
+            };
+        }
+        $NewProcess->{Config}->{"Start$Attribute"} = $NewAttributeEntityID;
+    }
+
+    # set process path
+    $NewProcess->{Config}->{Path} = {};
+    for my $ActivityEntityID ( sort keys %{ $Process->{Config}->{Path} } ) {
+
+        # set new activity EntityID in process path
+        my $NewActivityEntityID = $EntityMapping{Activities}->{$ActivityEntityID};
+        if ( !$NewActivityEntityID ) {
+            my $Message = "Could not find a entity mapping for Activity: $ActivityEntityID";
+            $Self->{LogObject}->Log(
+                Priority => 'Error',
+                Message  => $Message,
+            );
+            return {
+                Success => 0,
+                Message => $Message,
+            };
+        }
+        $NewProcess->{Config}->{Path}->{$NewActivityEntityID} = {};
+
+        # check if original action has configuration (e.g. last activity might be empty)
+        my $Activity = $Process->{Config}->{Path}->{$ActivityEntityID};
+        if ( IsHashRefWithData($Activity) ) {
+            for my $TransitionEntityID ( sort keys %{$Activity} ) {
+                my $Transition = $Activity->{$TransitionEntityID};
+                my $NewTransition;
+                for my $TransitionActionEntityID ( @{ $Transition->{TransitionAction} } ) {
+
+                    # set new transition action EntityID from process path aticivity transition
+                    my $NewTransitionActionEntityID
+                        = $EntityMapping{TransitionActions}->{$TransitionActionEntityID};
+                    if ( !$NewTransitionActionEntityID ) {
+                        my $Message = "Could not find a entity mapping for Transition Action: "
+                            . "$TransitionActionEntityID";
+                        $Self->{LogObject}->Log(
+                            Priority => 'Error',
+                            Message  => $Message,
+                        );
+                        return {
+                            Success => 0,
+                            Message => $Message,
+                        };
+                    }
+                    push @{ $NewTransition->{TransitionAction} }, $NewTransitionActionEntityID;
+                }
+
+                # set new activity EntityID stored in the transition
+                my $NewDestinationActivityEntityID
+                    = $EntityMapping{Activities}->{ $Transition->{ActivityEntityID} };
+                if ( !$NewDestinationActivityEntityID ) {
+                    my $Message = "Could not find a entity mapping for Activity: "
+                        . "$Transition->{ActivityEntityID}";
+                    $Self->{LogObject}->Log(
+                        Priority => 'Error',
+                        Message  => $Message,
+                    );
+                    return {
+                        Success => 0,
+                        Message => $Message,
+                    };
+                }
+                $NewTransition->{ActivityEntityID} = $NewDestinationActivityEntityID;
+
+                # set new transition EntityID
+                my $NewTransitionEntityID = $EntityMapping{Transitions}->{$TransitionEntityID};
+                if ( !$NewTransitionEntityID ) {
+                    my $Message
+                        = "Could not find a entity mapping for Transition: $TransitionEntityID";
+                    $Self->{LogObject}->Log(
+                        Priority => 'Error',
+                        Message  => $Message,
+                    );
+                    return {
+                        Success => 0,
+                        Message => $Message,
+                    };
+                }
+
+                # set new transition to its entity hash key
+                $NewProcess->{Config}->{Path}->{$NewActivityEntityID}->{$NewTransitionEntityID}
+                    = $NewTransition;
+            }
+        }
+    }
+
+    # re-write activities with entity mapping information
+    my $Activities = $Param{ProcessData}->{Activities};
+    my $NewActivities;
+    for my $ActivityEntityID ( sort keys %{$Activities} ) {
+
+        # get current old activity
+        my $CurrentActivity = $Activities->{$ActivityEntityID};
+
+        # set new activity EntityID
+        my $NewActivityEntityID = $EntityMapping{Activities}->{$ActivityEntityID};
+        if ( !$NewActivityEntityID ) {
+            my $Message = "Could not find a entity mapping for Activity: $ActivityEntityID";
+            $Self->{LogObject}->Log(
+                Priority => 'Error',
+                Message  => $Message,
+            );
+            return {
+                Success => 0,
+                Message => $Message,
+            };
+        }
+        $NewActivities->{$NewActivityEntityID}->{EntityID} = $NewActivityEntityID;
+
+        # set non changing attributes
+        $NewActivities->{$NewActivityEntityID}->{Name} = $CurrentActivity->{Name};
+
+        # set an empty configuration
+        $NewActivities->{$NewActivityEntityID}->{Config}->{ActivityDialog} = {};
+
+        # set new entities for the configured activity dialogs
+        my $CurrentActivityDialogs = $CurrentActivity->{Config}->{ActivityDialog};
+        for my $OrderKey ( sort keys %{$CurrentActivityDialogs} ) {
+
+            # get old activity dialog EntityID
+            my $ActivityDialogEntityID = $CurrentActivityDialogs->{$OrderKey};
+
+            # set new actvity dialog EntityID
+            my $NewActivityDialogEntityID
+                = $EntityMapping{ActivityDialogs}->{$ActivityDialogEntityID};
+            if ( !$NewActivityDialogEntityID ) {
+                my $Message = "Could not find a entity mapping for Activity Dialog: "
+                    . "$ActivityDialogEntityID";
+                $Self->{LogObject}->Log(
+                    Priority => 'Error',
+                    Message  => $Message,
+                );
+                return {
+                    Success => 0,
+                    Message => $Message,
+                };
+            }
+            $NewActivities->{$NewActivityEntityID}->{Config}->{ActivityDialog}->{$OrderKey}
+                = $NewActivityDialogEntityID;
+        }
+    }
+
+    # re-write all other parts
+    my %PartNameMap = (
+        ActivityDialog   => 'ActivityDialogs',
+        Transition       => 'Transitions',
+        TransitionAction => 'TransitionActions'
+    );
+
+    my %NewParts;
+
+    for my $PartName (qw(ActivityDialog Transition TransitionAction)) {
+        my $CurrentParts = $Param{ProcessData}->{ $PartNameMap{$PartName} };
+
+        for my $CurrentEntityID ( sort keys %{$CurrentParts} ) {
+
+            # get current old process part
+            my $CurrentPart = $CurrentParts->{$CurrentEntityID};
+
+            # set new part EntityID
+            my $NewEntityID = $EntityMapping{ $PartNameMap{$PartName} }->{$CurrentEntityID};
+            if ( !$NewEntityID ) {
+                my $Message
+                    = "Could not find a entity mapping for $PartName: $CurrentEntityID";
+                $Self->{LogObject}->Log(
+                    Priority => 'Error',
+                    Message  => $Message,
+                );
+                return {
+                    Success => 0,
+                    Message => $Message,
+                };
+            }
+
+            $NewParts{ $PartNameMap{$PartName} }->{$NewEntityID}->{EntityID} = $NewEntityID;
+
+            # set non changing attributes
+            for my $Attribute (qw(Name Config)) {
+                $NewParts{ $PartNameMap{$PartName} }->{$NewEntityID}->{$Attribute}
+                    = $CurrentPart->{$Attribute};
+            }
+        }
+    }
+
+    return {
+        Success     => 1,
+        ProcessData => {
+            %NewParts,
+            Process    => $NewProcess,
+            Activities => $NewActivities,
+        },
+    };
+}
+
+sub _ProcessImportRollBack {
+    my ( $Self, %Param ) = @_;
+
+    my %AddedEntityIDs = %{ $Param{AddedEntityIDs} };
+
+    my $Error;
+
+    # delete added processes
+    for my $ProcessEntityID ( sort keys %{ $AddedEntityIDs{Process} } ) {
+        my $ProcessID = $AddedEntityIDs{Process}->{$ProcessEntityID};
+        my $Success   = $Self->ProcessDelete(
+            ID     => $ProcessID,
+            UserID => $Param{UserID},
+        );
+        if ( !$Success ) {
+            $Error = 1;
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Process: $ProcessEntityID could not be deleted",
+            );
+        }
+    }
+
+    my %PartNameMap = (
+        Activity         => 'Activities',
+        ActivityDialog   => 'ActivityDialogs',
+        Transition       => 'Transitions',
+        TransitionAction => 'TransitionActions'
+    );
+
+    # delete added process parts
+    for my $Part (qw(Actvity ActivityDialog Transition TransitionAction)) {
+        for my $PartEntityID ( sort keys %{ $AddedEntityIDs{ $PartNameMap{$Part} } } ) {
+            my $PartID         = $AddedEntityIDs{ $PartNameMap{$Part} }->{$PartEntityID};
+            my $DeleteFunction = $Part . 'Delete';
+            my $Object         = $Part . 'Object';
+            my $Success        = $Self->{$Object}->$DeleteFunction(
+                ID     => $PartID,
+                UserID => $Param{UserID},
+            );
+            if ( !$Success ) {
+                $Error = 1;
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "$Part: $PartEntityID could not be deleted",
+                );
+            }
+        }
+    }
+
+    my $Comment = 'Process could not be imported. All changes have been rolled back.';
+
+    if ($Error) {
+        $Comment = ' There was an error rolling back the partially imported process, please'
+            . ' check the error log for details.';
+    }
+
+    return (
+        Success => 0,
+        Message => $Param{Message},
+        Comment => $Comment,
+    );
+}
+
 1;
 
 =back

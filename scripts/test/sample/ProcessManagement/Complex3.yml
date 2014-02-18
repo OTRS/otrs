@@ -1,0 +1,286 @@
+---
+Activities:
+  A1:
+    ActivityDialogs:
+    - AD2
+    - AD1
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      ActivityDialog:
+        '1': AD2
+        '2': AD1
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: A1
+    ID: '1'
+    Name: Waiting on defect unit from customer
+  A2:
+    ActivityDialogs:
+    - AD1
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      ActivityDialog:
+        '1': AD1
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: A2
+    ID: '2'
+    Name: Submit RMA details
+  A3:
+    ActivityDialogs:
+    - AD3
+    - AD1
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      ActivityDialog:
+        '1': AD3
+        '2': AD1
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: A3
+    ID: '3'
+    Name: Ship defect unit to vendor
+  A4:
+    ActivityDialogs:
+    - AD1
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      ActivityDialog:
+        '1': AD1
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: A4
+    ID: '4'
+    Name: Waiting on replacement unit from vendor
+  A5:
+    ActivityDialogs: []
+    ChangeTime: 2013-10-22 14:12:51
+    Config: {}
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: A5
+    ID: '5'
+    Name: Ship replacement unit to customer
+  A6:
+    ActivityDialogs: []
+    ChangeTime: 2013-10-22 14:12:51
+    Config: {}
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: A6
+    ID: '6'
+    Name: Update SN on Intranet
+ActivityDialogs:
+  AD1:
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Submit RMA details
+      FieldOrder:
+      - Title
+      - CustomerID
+      - DynamicField_VendorTicket
+      - DynamicField_RMANumber
+      - DynamicField_TicketFreeText1
+      - DynamicField_RMAReplacementSN
+      - DynamicField_RMAContactPerson
+      - DynamicField_RMAShippingAdress
+      Fields:
+        CustomerID:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_RMAContactPerson:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_RMANumber:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_RMAReplacementSN:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_RMAShippingAdress:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_TicketFreeText1:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_VendorTicket:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        Title:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: '0'
+      SubmitAdviceText: Don't forget to link this RMA ticket to the original customer
+        ticket
+      SubmitButtonText: ''
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: AD1
+    ID: '1'
+    Name: Submit RMA details
+  AD2:
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Defect unit received from customer
+      FieldOrder:
+      - DynamicField_RMADefectReceived
+      Fields:
+        DynamicField_RMADefectReceived:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: Vul de datum in waarop de defecte unit ontvangen is door
+            ons
+          Display: '1'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: AD2
+    ID: '2'
+    Name: Defect unit received from customer
+  AD3:
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Defect unit shipped to vendor
+      FieldOrder:
+      - DynamicField_RMADefectShipped
+      Fields:
+        DynamicField_RMADefectShipped:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: Vul de datum in waarop de defecte unit naar de vendor
+            verstuurd is
+          Display: '1'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: AD3
+    ID: '3'
+    Name: Defect unit shipped to vendor
+Process:
+  Activities:
+  - A1
+  - A2
+  - A3
+  - A4
+  - A5
+  - A6
+  ChangeTime: 2013-10-22 14:12:51
+  Config:
+    Description: Best effort/Return To Factory hardware replacements. Klant dient
+      defecte unit aan ons op te sturen, wij sturen die terug aan vendor, we krijgen
+      van vendor een replacement unit terug die weer doorgestuurd moet worden aan
+      de klant. Geen Advance Replacement!
+    Path:
+      A1:
+        T2:
+          ActivityEntityID: A3
+      A2:
+        T1:
+          ActivityEntityID: A1
+      A3:
+        T3:
+          ActivityEntityID: A4
+      A4: {}
+      A5: {}
+      A6: {}
+    StartActivity: A2
+    StartActivityDialog: ''
+  CreateTime: 2013-10-22 14:12:51
+  EntityID: P1
+  ID: '1'
+  Layout:
+    A1:
+      left: '331'
+      top: '58'
+    A2:
+      left: '157'
+      top: '6'
+    A3:
+      left: '499'
+      top: '121'
+    A4:
+      left: '677'
+      top: '184'
+    A5:
+      left: '876'
+      top: '259'
+    A6:
+      left: '1075'
+      top: '344'
+  Name: RMA - Best effort/RTF
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - T2
+  - T1
+  - T3
+Transitions:
+  T1:
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_TicketFreeText1:
+              Match: .*
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: T1
+    ID: '1'
+    Name: RMA details submitted
+  T2:
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_RMADefectReceived:
+              Match: .*
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: T2
+    ID: '2'
+    Name: Defect received
+  T3:
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_RMADefectShipped:
+              Match: .*
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: T3
+    ID: '3'
+    Name: Defect shipped to vendor
