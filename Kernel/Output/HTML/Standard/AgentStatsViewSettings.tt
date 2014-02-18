@@ -111,6 +111,20 @@
     </fieldset>
 [% RenderBlockEnd("Dynamic") %]
 
+[% RenderBlockStart("ChartTypeSelection") %]
+    <h2>[% Translate("Select Chart Type") | html %]</h2>
+    <fieldset class="TableLike">
+        <label>[% Translate("Chart Type") | html %]:</label>
+        <div class="Value">
+            <select id="ChartType" name="ChartType" data-selected="[% Data.ChartType %]">
+                <option value="Bar">[% Translate("Multi Bar Chart") | html %]</option>
+                <option value="Line">[% Translate("Multi Line Chart") | html %]</option>
+                <option value="StackedArea">[% Translate("Stacked Area Chart") | html %]</option>
+            </select>
+        </div>
+    </fieldset>
+[% RenderBlockEnd("ChartTypeSelection") %]
+
 [% RenderBlockStart("WidgetSettingsEnd") %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[

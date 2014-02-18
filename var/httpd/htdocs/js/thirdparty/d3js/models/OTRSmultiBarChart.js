@@ -27,7 +27,7 @@ nv.models.OTRSmultiBarChart = function() {
     , tooltips = true
     , tooltip = function(key, x, y, e, graph) {
         return '<h3>' + key + '</h3>' +
-               '<p>' +  x + ': ' + y + '</p>'
+               '<p>' +  y + ' on ' + x + '</p>'
       }
     , x //can be accessed via chart.xScale()
     , y //can be accessed via chart.yScale()
@@ -36,7 +36,7 @@ nv.models.OTRSmultiBarChart = function() {
     , noData = "No Data Available."
     , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState')
     , controlWidth = function() { return showControls ? 180 : 0 }
-    , controlsData = [{key: 'Grouped', disabled: multibar.stacked()},{key: 'Stacked', disabled: !multibar.stacked()}]
+    , transitionDuration = 250
     ;
 
   multibar
@@ -85,7 +85,7 @@ nv.models.OTRSmultiBarChart = function() {
           availableHeight = (height || parseInt(container.style('height')) || 400)
                              - margin.top - margin.bottom;
 
-      chart.update = function() { container.transition().call(chart) };
+      chart.update = function() { container.transition().duration(transitionDuration).call(chart) };
       chart.container = this;
 
       //set state.disabled
@@ -182,6 +182,17 @@ nv.models.OTRSmultiBarChart = function() {
       // Controls
 
       if (showControls) {
+        var controlsData = [
+// ---
+// OTRS
+// ---
+//         { key: 'Grouped', disabled: multibar.stacked() },
+//         { key: 'Stacked', disabled: !multibar.stacked() }
+          { key: Core.Config.Get('Grouped') || 'Grouped', disabled: multibar.stacked() },
+          { key: Core.Config.Get('Stacked') || 'Stacked', disabled: !multibar.stacked() }
+// ---
+        ];
+
         controls.width(controlWidth()).color(['#444', '#444', '#444']);
         g.select('.nv-controlsWrap')
             .datum(controlsData)
@@ -214,7 +225,7 @@ nv.models.OTRSmultiBarChart = function() {
       var barsWrap = g.select('.nv-barsWrap')
           .datum(data.filter(function(d) { return !d.disabled }))
 
-      d3.transition(barsWrap).call(multibar);
+      barsWrap.transition().call(multibar);
 
       //------------------------------------------------------------
 
@@ -230,7 +241,7 @@ nv.models.OTRSmultiBarChart = function() {
 
           g.select('.nv-x.nv-axis')
               .attr('transform', 'translate(0,' + y.range()[0] + ')');
-          d3.transition(g.select('.nv-x.nv-axis'))
+          g.select('.nv-x.nv-axis').transition()
               .call(xAxis);
 
           var xTicks = g.select('.nv-x.nv-axis > g').selectAll('g');
@@ -269,9 +280,9 @@ nv.models.OTRSmultiBarChart = function() {
 
           if(rotateLabels)
             xTicks
-              .selectAll('text')
+              .selectAll('.tick text')
               .attr('transform', 'rotate(' + rotateLabels + ' 0,0)')
-              .attr('text-anchor', rotateLabels > 0 ? 'start' : 'end');
+              .style('text-anchor', rotateLabels > 0 ? 'start' : 'end');
           
           g.select('.nv-x.nv-axis').selectAll('g.nv-axisMaxMin text')
               .style('opacity', 1);
@@ -284,9 +295,10 @@ nv.models.OTRSmultiBarChart = function() {
             .ticks( availableHeight / 36 )
             .tickSize( -availableWidth, 0);
 
-          d3.transition(g.select('.nv-y.nv-axis'))
+          g.select('.nv-y.nv-axis').transition()
               .call(yAxis);
       }
+
 
       //------------------------------------------------------------
 
@@ -296,7 +308,7 @@ nv.models.OTRSmultiBarChart = function() {
       // Event Handling/Dispatching (in chart's scope)
       //------------------------------------------------------------
 
-      legend.dispatch.on('stateChange', function(newState) { 
+      legend.dispatch.on('stateChange', function(newState) {
         state = newState;
         dispatch.stateChange(state);
         chart.update();
@@ -311,17 +323,26 @@ nv.models.OTRSmultiBarChart = function() {
         d.disabled = false;
 
         switch (d.key) {
-          case controlsData[0].key:
+// ---
+// OTRS
+// ---
+//         case 'Grouped':
+          case Core.Config.Get('Grouped') || 'Grouped':
+// ---
             multibar.stacked(false);
             break;
-          case controlsData[1].key:
+// ---
+// OTRS
+// ---
+//         case 'Stacked':
+          case Core.Config.Get('Stacked') || 'Stacked':
+// ---            
             multibar.stacked(true);
             break;
         }
 
         state.stacked = multibar.stacked();
         dispatch.stateChange(state);
-
         chart.update();
       });
 
@@ -387,8 +408,11 @@ nv.models.OTRSmultiBarChart = function() {
   chart.xAxis = xAxis;
   chart.yAxis = yAxis;
 
-  d3.rebind(chart, multibar, 'x', 'y', 'xDomain', 'yDomain', 'xRange', 'yRange', 'forceX', 'forceY', 'clipEdge', 'id', 'stacked', 'delay', 'barColor');
+  d3.rebind(chart, multibar, 'x', 'y', 'xDomain', 'yDomain', 'xRange', 'yRange', 'forceX', 'forceY', 'clipEdge',
+   'id', 'stacked', 'stackOffset', 'delay', 'barColor','groupSpacing');
 
+  chart.options = nv.utils.optionsFunc.bind(chart);
+  
   chart.margin = function(_) {
     if (!arguments.length) return margin;
     margin.top    = typeof _.top    != 'undefined' ? _.top    : margin.top;
@@ -420,13 +444,6 @@ nv.models.OTRSmultiBarChart = function() {
   chart.showControls = function(_) {
     if (!arguments.length) return showControls;
     showControls = _;
-    return chart;
-  };
-
-  chart.controlsData = function(_) {
-    if (!arguments.length) return controlsData;
-    controlsData[0].key = typeof _.groupedName === 'string' ? _.groupedName : controlsData[0].key;
-    controlsData[1].key = typeof _.stackedName === 'string' ? _.stackedName : controlsData[1].key;
     return chart;
   };
 
@@ -510,10 +527,8 @@ nv.models.OTRSmultiBarChart = function() {
   };
 
   chart.transitionDuration = function(_) {
-    if (!arguments.length) return multibar.transitionDuration();
-    multibar.transitionDuration(_);
-    xAxis.transitionDuration(_);
-    yAxis.transitionDuration(_);
+    if (!arguments.length) return transitionDuration;
+    transitionDuration = _;
     return chart;
   };
 
