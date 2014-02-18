@@ -6,6 +6,8 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+# nofilter(TidyAll::Plugin::OTRS::DTL::Select)
+
 
 <!--dtl:block:WidgetSettingsStart -->
 <input type="hidden" name="$QData{"JSONFieldName"}" class="StatsSettingsJSON" />
