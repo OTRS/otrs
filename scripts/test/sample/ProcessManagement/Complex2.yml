@@ -63,21 +63,21 @@ ActivityDialogs:
       DescriptionLong: ''
       DescriptionShort: Recording the demand Customer
       FieldOrder:
-      - DynamicField_Author
-      - DynamicField_ISBN
-      - DynamicField_Title
+      - DynamicField_Author1
+      - DynamicField_ISBN1
+      - DynamicField_Title1
       Fields:
-        DynamicField_Author:
+        DynamicField_Author1:
           DefaultValue: ''
           DescriptionLong: ''
           DescriptionShort: ''
           Display: '1'
-        DynamicField_ISBN:
+        DynamicField_ISBN1:
           DefaultValue: ''
           DescriptionLong: ''
           DescriptionShort: ''
           Display: '1'
-        DynamicField_Title:
+        DynamicField_Title1:
           DefaultValue: ''
           DescriptionLong: ''
           DescriptionShort: ''
@@ -99,7 +99,7 @@ ActivityDialogs:
       DescriptionShort: Approval denied
       FieldOrder:
       - Article
-      - DynamicField_Status
+      - DynamicField_Status1
       Fields:
         Article:
           Config:
@@ -108,7 +108,7 @@ ActivityDialogs:
           DescriptionLong: ''
           DescriptionShort: ''
           Display: 1
-        DynamicField_Status:
+        DynamicField_Status1:
           DefaultValue: ''
           DescriptionLong: ''
           DescriptionShort: ''
@@ -129,9 +129,9 @@ ActivityDialogs:
       DescriptionLong: ''
       DescriptionShort: Approved
       FieldOrder:
-      - DynamicField_Status
+      - DynamicField_Status1
       Fields:
-        DynamicField_Status:
+        DynamicField_Status1:
           DefaultValue: ''
           DescriptionLong: ''
           DescriptionShort: ''
@@ -153,7 +153,7 @@ ActivityDialogs:
       DescriptionShort: Order rejected
       FieldOrder:
       - Article
-      - DynamicField_Status
+      - DynamicField_Status1
       Fields:
         Article:
           Config:
@@ -162,7 +162,7 @@ ActivityDialogs:
           DescriptionLong: ''
           DescriptionShort: ''
           Display: 1
-        DynamicField_Status:
+        DynamicField_Status1:
           DefaultValue: ''
           DescriptionLong: ''
           DescriptionShort: ''
@@ -183,27 +183,27 @@ ActivityDialogs:
       DescriptionLong: ''
       DescriptionShort: Order placed
       FieldOrder:
-      - DynamicField_DeliveryDate
-      - DynamicField_Price
-      - DynamicField_Supplier
-      - DynamicField_Status
+      - DynamicField_DeliveryDate1
+      - DynamicField_Price1
+      - DynamicField_Supplier1
+      - DynamicField_Status1
       Fields:
-        DynamicField_DeliveryDate:
+        DynamicField_DeliveryDate1:
           DefaultValue: ''
           DescriptionLong: ''
           DescriptionShort: ''
           Display: 1
-        DynamicField_Price:
+        DynamicField_Price1:
           DefaultValue: ''
           DescriptionLong: ''
           DescriptionShort: ''
           Display: 1
-        DynamicField_Status:
+        DynamicField_Status1:
           DefaultValue: ''
           DescriptionLong: ''
           DescriptionShort: ''
           Display: 1
-        DynamicField_Supplier:
+        DynamicField_Supplier1:
           DefaultValue: ''
           DescriptionLong: ''
           DescriptionShort: ''
@@ -224,15 +224,15 @@ ActivityDialogs:
       DescriptionLong: ''
       DescriptionShort: Shipment received
       FieldOrder:
-      - DynamicField_DateOfReceipt
-      - DynamicField_Status
+      - DynamicField_DateOfReceipt1
+      - DynamicField_Status1
       Fields:
-        DynamicField_DateOfReceipt:
+        DynamicField_DateOfReceipt1:
           DefaultValue: ''
           DescriptionLong: ''
           DescriptionShort: ''
           Display: 1
-        DynamicField_Status:
+        DynamicField_Status1:
           DefaultValue: ''
           DescriptionLong: ''
           DescriptionShort: ''
@@ -427,7 +427,7 @@ Transitions:
       Condition:
         '1':
           Fields:
-            DynamicField_Status:
+            DynamicField_Status1:
               Match: Approval
               Type: String
           Type: and
@@ -442,7 +442,7 @@ Transitions:
       Condition:
         '1':
           Fields:
-            DynamicField_Status:
+            DynamicField_Status1:
               Match: Approval denied
               Type: String
           Type: and
@@ -457,7 +457,7 @@ Transitions:
       Condition:
         '1':
           Fields:
-            DynamicField_Status:
+            DynamicField_Status1:
               Match: Approved
               Type: String
           Type: and
@@ -472,7 +472,7 @@ Transitions:
       Condition:
         '1':
           Fields:
-            DynamicField_Status:
+            DynamicField_Status1:
               Match: Order denied
               Type: String
           Type: and
@@ -502,7 +502,7 @@ Transitions:
       Condition:
         '1':
           Fields:
-            DynamicField_Status:
+            DynamicField_Status1:
               Match: Shipment received
               Type: String
           Type: and
