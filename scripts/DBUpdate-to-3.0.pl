@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # DBUpdate-to-3.0.pl - update script to migrate OTRS 2.4.x to 3.0.x
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: DBUpdate-to-3.0.pl,v 1.5.2.1 2011-12-05 11:09:17 ub Exp $
 # --
@@ -292,7 +292,7 @@ sub CreateVirtualFSTables {
                 <Column Name="backend_key" Required="true" Size="160" Type="VARCHAR"/>
                 <Column Name="create_time" Required="true" Type="DATE"/>
                 <Index Name="virtual_fs_filename">
-                    <IndexColumn Name="filename" Size="350"/>
+                    <IndexColumn Name="filename" Size="255"/>
                 </Index>
                 <Index Name="virtual_fs_backend">
                     <IndexColumn Name="backend" Size="60"/>
@@ -321,7 +321,7 @@ sub CreateVirtualFSTables {
                 <Column Name="content" Required="true" Type="LONGBLOB"/>
                 <Column Name="create_time" Required="true" Type="DATE"/>
                 <Index Name="virtual_fs_db_filename">
-                    <IndexColumn Name="filename" Size="350"/>
+                    <IndexColumn Name="filename" Size="255"/>
                 </Index>
             </TableCreate>
         ',

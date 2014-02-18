@@ -10,6 +10,7 @@
 # --
 
 3.0.23 2013-??-??
+ - 2014-02-18 Fixed bug#9536 - Wrong index size in DBUpdate script for OTRS 3.0.
  - 2013-07-22 Fixed bug#9541 - Package manager cannot use https proxy.
  - 2013-07-10 Backport of bugfix#7518 - Escalation Notify by not working properly (follow-up fix).
 
