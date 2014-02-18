@@ -525,6 +525,13 @@ sub Preferences {
     }
 
     $Self->{LayoutObject}->Block(
+        Name => 'ChartTypeSelection',
+        Data => {
+            ChartType => $StatsSettings->{ChartType} // 'Bar',
+        },
+    );
+
+    $Self->{LayoutObject}->Block(
         Name => 'WidgetSettingsEnd',
         Data => {
             NamePref => $Self->{Name},
@@ -586,6 +593,8 @@ sub Run {
             Data => {
                 Name      => $Self->{Name},
                 StatsData => $JSON,
+                ChartType => $StatsSettings->{ChartType} // 'Bar',
+                Preferences => $Preferences{ 'GraphWidget' . $Self->{Name} } || '{}',
             },
         );
 
@@ -631,7 +640,7 @@ sub Run {
     my $Content = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentDashboardStats',
         Data         => {
-            Name => $Self->{Name},
+            Name        => $Self->{Name},
         },
         KeepScriptTags => $Param{AJAX},
     );

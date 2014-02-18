@@ -4007,15 +4007,16 @@ via the Preferences button after logging in.
                     <CSS>thirdparty/d3js/nv.d3.css</CSS>
                     <JavaScript>thirdparty/flot-0.8.1/excanvas.js</JavaScript>
                     <JavaScript>thirdparty/flot-0.8.1/jquery.flot.js</JavaScript>
-                    <JavaScript>Core.UI.Chart.js</JavaScript>
-                    <JavaScript>Core.UI.DnD.js</JavaScript>
-                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
-                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
-                    <JavaScript>Core.Agent.Dashboard.js</JavaScript>
                     <JavaScript>thirdparty/fullcalendar-1.6.1/fullcalendar.min.js</JavaScript>
                     <JavaScript>thirdparty/d3js/d3.v3.min.js</JavaScript>
                     <JavaScript>thirdparty/d3js/nv.d3.min.js</JavaScript>
                     <JavaScript>thirdparty/d3js/models/OTRSmultiBarChart.js</JavaScript>
+                    <JavaScript>Core.UI.Chart.js</JavaScript>
+                    <JavaScript>Core.UI.AdvancedChart.js</JavaScript>
+                    <JavaScript>Core.UI.DnD.js</JavaScript>
+                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
+                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
+                    <JavaScript>Core.Agent.Dashboard.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
