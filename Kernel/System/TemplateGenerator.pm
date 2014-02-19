@@ -1097,7 +1097,7 @@ sub _Replace {
         ATTRIBUTE:
         for my $Attribute ( sort keys %Recipient ) {
             next ATTRIBUTE if !defined $Recipient{$Attribute};
-            $Param{Text} =~ s/$Tag$_$End/$Recipient{$Attribute}/gi;
+            $Param{Text} =~ s/$Tag$Attribute$End/$Recipient{$Attribute}/gi;
         }
     }
 
