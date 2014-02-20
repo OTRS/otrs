@@ -21,7 +21,8 @@
  - 2013-12-13 Fixed bug#[10090](http://bugs.otrs.org/show_bug.cgi?id=10090) - Problems with special characters in Kernel/System/WebUserAgent.pm.
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
-#3.3.5 2014-??-??
+#3.3.5 2014-02-25
+ - 2014-02-20 Improved HTML filter.
  - 2014-02-19 Followup fix for bug#[10116](http://bugs.otrs.org/show_bug.cgi?id=10116) - Random ordering of columns in "Small" ticket lists.
  - 2014-02-17 Updated Japanese translation, thanks to Norihiro Tanaka!
  - 2014-02-17 Updated Brazilian Portugese translation, thanks to Murilo Moreira de Oliveira!
