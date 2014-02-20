@@ -1,4 +1,5 @@
-#3.3.5 2014-??-??
+#3.3.5 2014-02-25
+ - 2014-02-20 Improved HTML filter.
  - 2014-02-19 Followup fix for bug#[10116](http://bugs.otrs.org/show_bug.cgi?id=10116) - Random ordering of columns in "Small" ticket lists.
  - 2014-02-18 Re-implemented Process Management ProcessImport().
  - 2014-02-18 Fixed bug#[10258](http://bugs.otrs.org/show_bug.cgi?id=10258) - yellow color for UnreadArticles.
