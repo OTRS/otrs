@@ -702,6 +702,15 @@ sub Run {
         my $ArticleID = '';
         my $ReturnURL;
 
+        # set priority
+        if ( $Self->{Config}->{Priority} && $GetParam{NewPriorityID} ) {
+            $Self->{TicketObject}->TicketPrioritySet(
+                TicketID   => $Self->{TicketID},
+                PriorityID => $GetParam{NewPriorityID},
+                UserID     => $Self->{UserID},
+            );
+        }
+
         # set state
         if ( $Self->{Config}->{State} && $GetParam{NewStateID} ) {
             $Self->{TicketObject}->TicketStateSet(
@@ -766,15 +775,6 @@ sub Run {
                 # verify html document
                 $GetParam{Body} = $Self->{LayoutObject}->RichTextDocumentComplete(
                     String => $GetParam{Body},
-                );
-            }
-
-            # set priority
-            if ( $Self->{Config}->{Priority} && $GetParam{NewPriorityID} ) {
-                $Self->{TicketObject}->TicketPrioritySet(
-                    TicketID   => $Self->{TicketID},
-                    PriorityID => $GetParam{NewPriorityID},
-                    UserID     => $Self->{UserID},
                 );
             }
 
