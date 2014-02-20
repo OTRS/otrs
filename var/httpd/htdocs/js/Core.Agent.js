@@ -170,41 +170,63 @@ Core.Agent = (function (TargetNS) {
 
     function NavigationBarShowSlideButton(Direction, Difference) {
 
-        var Opposites = (Direction === 'Right') ? 'Left' : 'Right';
+        var Opposites = (Direction === 'Right') ? 'Left' : 'Right',
+            NewPosition,
+            HideButton = false,
+            Delay = 150;
 
         if (!$('#NavigationContainer').find('.NavigationBarNavigate' + Direction).length) {
 
             $('#NavigationContainer')
                 .append('<a href="#" class="Hidden NavigationBarNavigate' + Direction + '"><i class="icon-chevron-' + Direction.toLowerCase() + '"></i></a>')
                 .find('.NavigationBarNavigate' + Direction)
-                .delay(500)
+                .delay(Delay)
                 .fadeIn()
                 .bind('click', function() {
                     if (Direction === 'Right') {
+
+                        // calculate new scroll position
+                        NewPosition = (parseInt($('#Navigation').css('left'), 10) * -1) + parseInt($('#NavigationContainer').width(), 10);
+                        if (NewPosition >= (parseInt($('#Navigation').width(), 10) - parseInt($('#NavigationContainer').width(), 10))) {
+                            NewPosition = parseInt($('#Navigation').width(), 10) - parseInt($('#NavigationContainer').width(), 10);
+                            HideButton = true;
+                        }
+
                         $('#Navigation')
-                            .css('left', 'auto')
                             .animate({
-                                'right': '0px'
+                                'left': NewPosition * -1
                             }, 'fast', function() {
-                                $('#NavigationContainer')
-                                    .find('.NavigationBarNavigate' + Direction)
-                                    .fadeOut('300', function() {
-                                        $(this).remove();
-                                    });
+
+                                if (HideButton) {
+                                    $('#NavigationContainer')
+                                        .find('.NavigationBarNavigate' + Direction)
+                                        .fadeOut(Delay, function() {
+                                            $(this).remove();
+                                        });
+                                }
                                 NavigationBarShowSlideButton(Opposites, Difference);
                             });
                     }
                     else {
+
+                        // calculate new scroll position
+                        NewPosition = (parseInt($('#Navigation').css('left'), 10) * -1) - parseInt($('#NavigationContainer').width(), 10);
+                        if (NewPosition <= 0) {
+                            NewPosition = 0;
+                            HideButton = true;
+                        }
+
                         $('#Navigation')
                             .animate({
-                                'left': '0px'
+                                'left': NewPosition * -1
                             }, 'fast', function() {
-                                $(this).css('right', 'auto');
-                                $('#NavigationContainer')
-                                    .find('.NavigationBarNavigate' + Direction)
-                                    .fadeOut('300', function() {
-                                        $(this).remove();
-                                    });
+                                if (HideButton) {
+                                    $('#NavigationContainer')
+                                        .find('.NavigationBarNavigate' + Direction)
+                                        .fadeOut(Delay, function() {
+                                            $(this).remove();
+                                        });
+                                }
                                 NavigationBarShowSlideButton(Opposites, Difference);
                             });
                     }
@@ -224,18 +246,12 @@ Core.Agent = (function (TargetNS) {
         // (2) 'top' of #NavigationContainer is smaller than the height of the #ToolBar
         //      which would typically mean there is not enough space on top of #NavigationContainer
         //      to display the ToolBar.
-        if ( (
-                !$('body').hasClass('RTL')
-                && ( parseInt($('#ToolBar').css('left'), 10) > parseInt($('#ToolBar').css('right'), 10) || isNaN(parseInt($('#ToolBar').css('left'), 10)) )
-                && parseInt($('#NavigationContainer').css('top'), 10) < parseInt($('#ToolBar').height(), 10)
-            )
-             ||
-            (
-                $('body').hasClass('RTL')
-                && ( parseInt($('#ToolBar').css('left'), 10) < parseInt($('#ToolBar').css('right'), 10) || isNaN(parseInt($('#ToolBar').css('right'), 10)) )
-                && parseInt($('#NavigationContainer').css('top'), 10) < parseInt($('#ToolBar').height(), 10)
-            ) )
-        {
+        if ( ( !$('body').hasClass('RTL') &&
+            ( parseInt($('#ToolBar').css('left'), 10) > parseInt($('#ToolBar').css('right'), 10) || isNaN(parseInt($('#ToolBar').css('left'), 10)) ) &&
+            parseInt($('#NavigationContainer').css('top'), 10) < parseInt($('#ToolBar').height(), 10) ) ||
+            ($('body').hasClass('RTL') &&
+            ( parseInt($('#ToolBar').css('left'), 10) < parseInt($('#ToolBar').css('right'), 10) || isNaN(parseInt($('#ToolBar').css('right'), 10)) ) &&
+            parseInt($('#NavigationContainer').css('top'), 10) < parseInt($('#ToolBar').height(), 10) ) ) {
             return true;
         }
         return false;
@@ -254,11 +270,21 @@ Core.Agent = (function (TargetNS) {
             Difference,
             NewContainerWidth;
 
+        // set the original width (from css) of #NavigationContainer to have it available later
+        if (!$('#NavigationContainer').attr('data-original-width')) {
+            $('#NavigationContainer').attr('data-original-width', parseInt(parseInt($('#NavigationContainer').css('width'), 10) / $('body').width() * 100, 10) + '%');
+        }
+
+        // on resizing we set the position back to left to be sure
+        // to have everything displayed correctly
+        $('#Navigation').css('left', '0px');
+        $('.NavigationBarNavigateLeft').remove();
+
         // when we have the toolbar being displayed next to the navigation, we need to leave some space for it
         if ( ToolBarIsAside() && ( !$('#NavigationContainer').hasClass('IsResized') || RealResizeEvent ) ) {
 
             // reset back to original width to avoid making it smaller and smaller
-            $('#NavigationContainer').css('width', '98%');
+            $('#NavigationContainer').css('width', $('#NavigationContainer').attr('data-original-width'));
 
             NewContainerWidth = $('#NavigationContainer').width() - $('#ToolBar').width() - parseInt($('#ToolBar').css('right'), 10);
             if ($('body').hasClass('RTL')) {
@@ -269,16 +295,15 @@ Core.Agent = (function (TargetNS) {
                 .addClass('IsResized');
         }
 
-        $('#Navigation li').each(function() {
-            NavigationBarWidth += parseInt($(this).outerWidth(), 10);
+        $('#Navigation > li').each(function() {
+            NavigationBarWidth += parseInt($(this).outerWidth(true), 10);
         });
-        NavigationBarWidth = NavigationBarWidth + 1;
         $('#Navigation').css('width', NavigationBarWidth + 'px');
 
         if (NavigationBarWidth > $('#NavigationContainer').outerWidth()) {
-            NavigationBarShowSlideButton('Right', parseInt($('#NavigationContainer').outerWidth() - NavigationBarWidth, 10));
+            NavigationBarShowSlideButton('Right', parseInt($('#NavigationContainer').outerWidth(true) - NavigationBarWidth, 10));
         }
-        else if (NavigationBarWidth < $('#NavigationContainer').outerWidth()) {
+        else if (NavigationBarWidth < $('#NavigationContainer').outerWidth(true)) {
             $('.NavigationBarNavigateRight, .NavigationBarNavigateLeft').remove();
 
             if ($('body').hasClass('RTL')) {
