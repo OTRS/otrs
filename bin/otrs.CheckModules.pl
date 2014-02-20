@@ -599,11 +599,17 @@ sub _Check {
             }
         }
         else {
+            my $OutputVersion = $Version;
+
+            if ( $OutputVersion =~ m{ [0-9.] }xms ) {
+                $OutputVersion = 'v' . $OutputVersion;
+            }
+
             if ($NoColors) {
-                print "ok (v$Version)\n";
+                print "ok ($OutputVersion)\n";
             }
             else {
-                print color('green') . 'ok' . color('reset') . " (v$Version)\n";
+                print color('green') . 'ok' . color('reset') . " ($OutputVersion)\n";
             }
         }
     }
