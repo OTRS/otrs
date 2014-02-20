@@ -17,6 +17,7 @@ use HTTP::Request::Common;
 
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport;
+use Kernel::System::UnitTest::Helper;
 
 # helper object
 # skip SSL certiciate verification
