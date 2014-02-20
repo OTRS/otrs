@@ -707,6 +707,7 @@ sub _VersionClean {
     my (%Param) = @_;
 
     return 0 if !$Param{Version};
+    return 0 if $Param{Version} eq 'undef';
 
     # replace all special characters with an dot
     $Param{Version} =~ s{ [_-] }{.}xmsg;
