@@ -1894,6 +1894,23 @@ sub _DefaultColumnSort {
         Priority               => 193,
     );
 
+    # dynamic fields can not be on the DefaultColumns sorting hash
+    # when comparing 2 dynamic fields sorting must be alphabetical
+    if ( !$DefaultColumns{$a} && !$DefaultColumns{$b} ) {
+        return $a cmp $b;
+    }
+
+    # when a dynamic field is compared to a ticket attribute it must be higher
+    elsif ( !$DefaultColumns{$a} ) {
+        return 1;
+    }
+
+    # when a ticket attribute is compared to a dynamic field it must be lower
+    elsif ( !$DefaultColumns{$b} ) {
+        return -1;
+    }
+
+    # otherwise do a numerical comparison with the ticket attributes
     return $DefaultColumns{$a} <=> $DefaultColumns{$b};
 }
 
