@@ -486,7 +486,7 @@ sub HistoricalValueGet {
     }
 
     # check cache
-    my $CacheKey = 'HistoricalValueGet::FieldID::' . $Param{FieldID} . '::ValueType::' . $ValueType;
+    my $CacheKey = join '::', 'HistoricalValueGet::FieldID', $Param{FieldID}, 'ValueType', $ValueType;
 
     my $Cache = $Self->{CacheObject}->Get(
         Type => 'DynamicFieldValue',
