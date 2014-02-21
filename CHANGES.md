@@ -22,6 +22,9 @@
  - 2013-12-13 Fixed bug#[10090](http://bugs.otrs.org/show_bug.cgi?id=10090) - Problems with special characters in Kernel/System/WebUserAgent.pm.
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
+#3.3.6 2014-??-??
+ - 2014-02-20 Fixed bug#[10259](http://bugs.otrs.org/show_bug.cgi?id=10259) - GenericInterface: mapping key can't map from / to 0.
+
 #3.3.5 2014-02-25
  - 2014-02-20 Improved HTML filter.
  - 2014-02-19 Followup fix for bug#[10116](http://bugs.otrs.org/show_bug.cgi?id=10116) - Random ordering of columns in "Small" ticket lists.
