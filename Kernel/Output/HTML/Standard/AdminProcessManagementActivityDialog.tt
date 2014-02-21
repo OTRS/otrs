@@ -43,7 +43,11 @@
 [% RenderBlockEnd("EditWarning") %]
 
                 <div class="WidgetSimple Expanded WidgetNotice">
-                    <div class="Content">[% Translate("Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.") | html %]</div>
+
+                    <div class="Content">
+                        [% Translate("Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.") | html %]
+                        [% Translate("The Queue field can only be used by customers when creating a new ticket.") | html %]
+                    </div>
                 </div>
 
                 <div class="WidgetSimple Expanded">
