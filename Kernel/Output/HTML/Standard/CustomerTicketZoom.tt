@@ -156,7 +156,7 @@
                             <div class="Clear"></div>
                         </div>
                     </li>
-                    <li><span class="Key">[% Config("Ticket::Hook") %]:</span> <span>[% Data.TicketNumber | html %]</span></li>
+                    <li><span class="Key">[% Data.Hook | html %]:</span> <span>[% Data.TicketNumber | html %]</span></li>
 
 [% RenderBlockStart("Type") %]
                     <li><span class="Key">[% Translate("Type") | html %]:</span> <span title="[% Data.Type | html %]">[% Data.Type | html %]</span></li>
