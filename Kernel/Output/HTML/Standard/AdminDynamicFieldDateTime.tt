@@ -161,6 +161,15 @@
                             </p>
                         </div>
                         <div class="Clear"></div>
+
+                        <label for="DateRestriction">[% Translate("Restrict entering of dates") | html %]:</label>
+                        <div class="Field">
+                            [% Data.DateRestrictionStrg %]
+                            <p class="FieldExplanation">
+                                [% Translate("Here you can restrict the entering of dates of tickets.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
                     </fieldset>
                 </div>
             </div>

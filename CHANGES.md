@@ -1,4 +1,6 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-02-21 Added new options to check dynamic fields of type text on patterns relating to error messages (translated), if they do not match.
+ - 2014-02-21 Added new options to restrict dynamic fields of type date/datetime on future or past dates.
  - 2014-02-20 Fixed bug#[10093](http://bugs.otrs.org/show_bug.cgi?id=10093) - Dyn Field not used in auto-reply subject
  - 2014-02-18 Fixed bug#[10258](http://bugs.otrs.org/show_bug.cgi?id=10258) - yellow color for UnreadArticles.
  - 2014-02-18 Re-implemented Process Management ProcessImport().

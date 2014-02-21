@@ -181,6 +181,9 @@ Core.UI.Datepicker = (function (TargetNS) {
             if (Element.DateInFuture) {
                 ErrorMessage = Core.Config.Get('Datepicker.ErrorMessageDateInFuture');
             }
+            else if (Element.DateNotInFuture) {
+                ErrorMessage = Core.Config.Get('Datepicker.ErrorMessageDateNotInFuture');
+            }
             else {
                 ErrorMessage = Core.Config.Get('Datepicker.ErrorMessage');
             }

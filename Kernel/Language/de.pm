@@ -1076,6 +1076,11 @@ sub Data {
         'Show link' => 'Link anzeigen',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Hier können Sie einen optionalen link für die Felddarstellung in Übersichten und Ansichtsseiten angeben.',
+        'Restrict entering of dates' => 'Eingabe von Daten einschränken',
+        'Here you can restrict the entering of dates of tickets.' =>
+            'Hier können Sie die Eingabe von Daten in dieses Feld einschränken.',
+        'Prevent entry of dates in the future' => 'Eingabe von zukünftigen Daten verhindern',
+        'Prevent entry of dates in the past' => 'Eingabe vergangenen Daten verhindern',
 
         # Template: AdminDynamicFieldDropdown
         'Possible values' => 'Mögliche Werte',
@@ -1104,6 +1109,14 @@ sub Data {
         'Number of cols' => 'Anzahl der Spalten',
         'Specify the width (in characters) for this field in the edit mode.' =>
             'Gibt die Breite in Zeichen für dieses Feld im Bearbeitungsmodus an.',
+        'Check RegEx' => 'Auf RegEx prüfen',
+        'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
+            'Hier können Sie einen regulären Ausdruck definieren um den Wert zu prüfen. Der RegEx wird mit den Modifikatoren xms ausgeführt.',
+        'RegEx' => '',
+        'Invalid RegEx' => '',
+        'Error Message' => 'Fehlermeldung',
+        'Remove RegEx' => 'RegEx entfernen',
+        'Add RegEx' => 'RegEx hinzufügen',
 
         # Template: AdminEmail
         'Admin Notification' => 'Admin-Benachrichtigung',
@@ -2750,6 +2763,7 @@ sub Data {
 
         # Template: Datepicker
         'Invalid date (need a future date)!' => 'Ungültiges Datum (benötige Datum in der Zukunft)!',
+        'Invalid date (need a past date)!'   => 'Ungültiges Datum (benötige Datum in der Vergangenheit)!',
         'Previous' => 'Zurück',
         'Open date selection' => 'Datumsauswahl öffnen',
 

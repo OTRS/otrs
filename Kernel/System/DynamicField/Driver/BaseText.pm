@@ -73,6 +73,30 @@ sub ValueValidate {
         UserID => $Param{UserID}
     );
 
+    if (
+        IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
+        && IsStringWithData( $Param{Value} )
+        )
+    {
+        # check regular expressions
+        my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
+
+        REGEXENTRY:
+        for my $RegEx (@RegExList) {
+
+            if ( $Param{Value} !~ $RegEx->{Value} ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "The value '$Param{Value}' is not matching /"
+                        . $RegEx->{Value} . "/ ("
+                        . $RegEx->{ErrorMessage} . ")!",
+                );
+                $Success = undef;
+                last REGEXENTRY;
+            }
+        }
+    }
+
     return $Success;
 }
 
@@ -259,6 +283,25 @@ sub EditFieldValueValidate {
     # perform necessary validations
     if ( $Param{Mandatory} && $Value eq '' ) {
         $ServerError = 1;
+    }
+    elsif (
+        IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
+        && ( $Param{Mandatory} || ( !$Param{Mandatory} && $Value ne '' ) )
+        )
+    {
+
+        # check regular expressions
+        my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
+
+        REGEXENTRY:
+        for my $RegEx (@RegExList) {
+
+            if ( $Value !~ $RegEx->{Value} ) {
+                $ServerError  = 1;
+                $ErrorMessage = $RegEx->{ErrorMessage};
+                last REGEXENTRY;
+            }
+        }
     }
 
     # create resulting structure

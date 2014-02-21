@@ -11,6 +11,7 @@
 Core.Config.Set('Datepicker.VacationDays', [% Data.VacationDays %]);
 Core.Config.Set('Datepicker.ErrorMessage', [% Translate("Invalid date!") | JSON %]);
 Core.Config.Set('Datepicker.ErrorMessageDateInFuture', [% Translate("Invalid date (need a future date)!") | JSON %]);
+Core.Config.Set('Datepicker.ErrorMessageDateNotInFuture', [% Translate("Invalid date (need a past date)!") | JSON %]);
 Core.Config.Set('Datepicker.Localization', {
 PrevText: [% Translate("Previous") | JSON %],
 NextText: [% Translate("Next") | JSON %],

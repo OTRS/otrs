@@ -173,7 +173,7 @@ sub _AddAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod ValidID Link)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod DateRestriction ValidID Link)
         )
     {
         $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
@@ -198,11 +198,12 @@ sub _AddAction {
 
     # set specific config
     my $FieldConfig = {
-        DefaultValue  => $GetParam{DefaultValue},
-        YearsPeriod   => $GetParam{YearsPeriod},
-        YearsInFuture => $GetParam{YearsInFuture},
-        YearsInPast   => $GetParam{YearsInPast},
-        Link          => $GetParam{Link},
+        DefaultValue    => $GetParam{DefaultValue},
+        YearsPeriod     => $GetParam{YearsPeriod},
+        DateRestriction => $GetParam{DateRestriction},
+        YearsInFuture   => $GetParam{YearsInFuture},
+        YearsInPast     => $GetParam{YearsInPast},
+        Link            => $GetParam{Link},
     };
 
     # create a new field
@@ -401,7 +402,7 @@ sub _ChangeAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod ValidID Link)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod DateRestriction ValidID Link)
         )
     {
         $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
@@ -427,11 +428,12 @@ sub _ChangeAction {
 
     # set specific config
     my $FieldConfig = {
-        DefaultValue  => $GetParam{DefaultValue},
-        YearsPeriod   => $GetParam{YearsPeriod},
-        YearsInFuture => $GetParam{YearsInFuture},
-        YearsInPast   => $GetParam{YearsInPast},
-        Link          => $GetParam{Link},
+        DefaultValue    => $GetParam{DefaultValue},
+        YearsPeriod     => $GetParam{YearsPeriod},
+        DateRestriction => $GetParam{DateRestriction},
+        YearsInFuture   => $GetParam{YearsInFuture},
+        YearsInPast     => $GetParam{YearsInPast},
+        Link            => $GetParam{Link},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -532,9 +534,10 @@ sub _ShowScreen {
     );
 
     # define config field specific settings
-    my $DefaultValue = $Param{DefaultValue} || 0;
-    my $YearsPeriod  = $Param{YearsPeriod}  || 0;
-    my $Link         = $Param{Link}         || '';
+    my $DefaultValue    = $Param{DefaultValue}    || 0;
+    my $YearsPeriod     = $Param{YearsPeriod}     || 0;
+    my $DateRestriction = $Param{DateRestriction} || 0;
+    my $Link            = $Param{Link}            || '';
 
     my $YearsInFuture = 5;
     if ( defined $Param{YearsInFuture} ) {
@@ -554,6 +557,29 @@ sub _ShowScreen {
         },
         Name         => 'YearsPeriod',
         SelectedID   => $YearsPeriod,
+        PossibleNone => 0,
+        Translation  => 1,
+        Class        => 'W50pc'
+    );
+
+    # create the Default for
+    my $DateRestrictionStrg = $Self->{LayoutObject}->BuildSelection(
+        Data => [
+            {
+                Key   => '',
+                Value => 'No',
+            },
+            {
+                Key   => 'DisableFutureDates',
+                Value => 'Prevent entry of dates in the future',
+            },
+            {
+                Key   => 'DisablePastDates',
+                Value => 'Prevent entry of dates in the past',
+            },
+        ],
+        Name         => 'DateRestriction',
+        SelectedID   => $DateRestriction,
         PossibleNone => 0,
         Translation  => 1,
         Class        => 'W50pc'
@@ -584,6 +610,7 @@ sub _ShowScreen {
             ValidityStrg          => $ValidityStrg,
             DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
             YearsPeriodStrg       => $YearsPeriodStrg,
+            DateRestrictionStrg   => $DateRestrictionStrg,
             ClassYearsPeriod      => $ClassYearsPeriod,
             DefaultValue          => $DefaultValue,
             YearsInFuture         => $YearsInFuture,

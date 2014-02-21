@@ -8977,6 +8977,7 @@ Thanks for your help!
                 <Title Translatable="1">Dynamic Fields Text Backend GUI</Title>
                 <Loader>
                     <JavaScript>Core.Agent.Admin.DynamicField.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.DynamicFieldText.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>

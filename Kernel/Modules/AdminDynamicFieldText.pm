@@ -166,6 +166,13 @@ sub _AddAction {
         $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
     }
 
+    $GetParam{RegExCounter} = $Self->{ParamObject}->GetParam( Param => 'RegExCounter' ) || 0;
+
+    my @RegExList = $Self->GetParamRegexList(
+        GetParam => \%GetParam,
+        Errors   => \%Errors,
+    );
+
     # uncorrectable errors
     if ( !$GetParam{ValidID} ) {
         return $Self->{LayoutObject}->ErrorScreen(
@@ -186,6 +193,7 @@ sub _AddAction {
     # set specific config
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
+        RegExList    => \@RegExList,
     };
 
     if ( $GetParam{FieldType} eq 'Text' ) {
@@ -373,6 +381,13 @@ sub _ChangeAction {
         $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
     }
 
+    $GetParam{RegExCounter} = $Self->{ParamObject}->GetParam( Param => 'RegExCounter' ) || 0;
+
+    my @RegExList = $Self->GetParamRegexList(
+        GetParam => \%GetParam,
+        Errors   => \%Errors,
+    );
+
     # uncorrectable errors
     if ( !$GetParam{ValidID} ) {
         return $Self->{LayoutObject}->ErrorScreen(
@@ -418,6 +433,7 @@ sub _ChangeAction {
     # set specific config
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
+        RegExList    => \@RegExList,
     };
 
     if ( $GetParam{FieldType} eq 'Text' ) {
@@ -577,11 +593,69 @@ sub _ShowScreen {
         $ReadonlyInternalField = 'readonly="readonly"';
     }
 
+    my $FieldID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+    my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldGet(
+        ID => $FieldID,
+    );
+
+    my $FieldConfig = $DynamicField->{Config};
+
+    if ( !$Param{RegExCounter} ) {
+
+        my $RegExCounter = 0;
+        for my $RegEx ( @{ $FieldConfig->{RegExList} } ) {
+
+            $RegExCounter++;
+            $Param{ 'RegEx_' . $RegExCounter }                     = $RegEx->{Value};
+            $Param{ 'CustomerRegExErrorMessage_' . $RegExCounter } = $RegEx->{ErrorMessage};
+        }
+
+        $Param{RegExCounter} = $RegExCounter;
+    }
+
+    if ( $Param{RegExCounter} ) {
+
+        REGEXENTRY:
+        for my $CurrentRegExEntryID ( 1 .. $Param{RegExCounter} ) {
+
+            # check existing regex
+            next REGEXENTRY if !$Param{ 'RegEx_' . $CurrentRegExEntryID };
+
+            $Self->{LayoutObject}->Block(
+                Name => 'RegExRow',
+                Data => {
+                    EntryCounter     => $CurrentRegExEntryID,
+                    RegEx            => $Param{ 'RegEx_' . $CurrentRegExEntryID },
+                    RegExServerError => $Param{ 'RegEx_' . $CurrentRegExEntryID . 'ServerError' }
+                        || '',
+                    RegExServerErrorMessage =>
+                        $Param{ 'RegEx_' . $CurrentRegExEntryID . 'ServerErrorMessage' } || '',
+                    CustomerRegExErrorMessage =>
+                        $Param{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID },
+                    CustomerRegExErrorMessageServerError =>
+                        $Param{
+                        'CustomerRegExErrorMessage_'
+                            . $CurrentRegExEntryID
+                            . 'ServerError'
+                        }
+                        || '',
+                    CustomerRegExErrorMessageServerErrorMessage =>
+                        $Param{
+                        'CustomerRegExErrorMessage_' . $CurrentRegExEntryID . 'ServerErrorMessage'
+                        }
+                        || '',
+                    }
+            );
+        }
+    }
+
+
     # generate output
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminDynamicFieldText',
         Data         => {
             %Param,
+            RegExCounter          => $Param{RegExCounter},
             ValidityStrg          => $ValidityStrg,
             DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
             DefaultValue          => $DefaultValue,
@@ -594,4 +668,79 @@ sub _ShowScreen {
 
     return $Output;
 }
+
+sub GetParamRegexList {
+    my ( $Self, %Param ) = @_;
+
+    my $GetParam = $Param{GetParam};
+    my $Errors   = $Param{Errors};
+    my @RegExList;
+
+    # Check regex list
+    if ( $GetParam->{RegExCounter} && $GetParam->{RegExCounter} =~ m{\A\d+\z}xms ) {
+
+        REGEXENTRY:
+        for my $CurrentRegExEntryID ( 1 .. $GetParam->{RegExCounter} ) {
+
+            # check existing regex
+            $GetParam->{ 'RegEx_' . $CurrentRegExEntryID }
+                = $Self->{ParamObject}->GetParam( Param => 'RegEx_' . $CurrentRegExEntryID );
+
+            next REGEXENTRY if !$GetParam->{ 'RegEx_' . $CurrentRegExEntryID };
+
+            $GetParam->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID }
+                = $Self->{ParamObject}
+                ->GetParam( Param => 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID );
+
+            my $RegEx = $GetParam->{ 'RegEx_' . $CurrentRegExEntryID };
+            my $CustomerRegExErrorMessage
+                = $GetParam->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID };
+
+            # is the regex valid?
+            my $RegExCheck = eval {
+                qr{$RegEx}xms
+            };
+
+            my $CurrentEntryErrors = 0;
+            if ($@) {
+                $Errors->{ 'RegEx_' . $CurrentRegExEntryID . 'ServerError' } = 'ServerError';
+
+                # cut last part of regex error
+                # 'Invalid regular expression (Unmatched [ in regex; marked by
+                # <-- HERE in m/aaa[ <-- HERE / at
+                # /opt/otrs/bin/cgi-bin/../../Kernel/Modules/AdminDynamicFieldText.pm line 452..
+                my $ServerErrorMessage = $@;
+                $ServerErrorMessage =~ s{ (in \s regex); .*$ }{ $1 }xms;
+                $Errors->{ 'RegEx_' . $CurrentRegExEntryID . 'ServerErrorMessage' }
+                    = $ServerErrorMessage;
+
+                $CurrentEntryErrors = 1;
+            }
+
+            # check required error message for regex
+            if ( !$CustomerRegExErrorMessage ) {
+                $Errors->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID . 'ServerError' }
+                    = 'ServerError';
+                $Errors->{
+                    'CustomerRegExErrorMessage_'
+                        . $CurrentRegExEntryID
+                        . 'ServerErrorMessage'
+                    }
+                    = 'This field is required.';
+
+                $CurrentEntryErrors = 1;
+            }
+
+            next REGEXENTRY if $CurrentEntryErrors;
+
+            push @RegExList, {
+                'Value'        => $RegEx,
+                'ErrorMessage' => $CustomerRegExErrorMessage,
+            };
+        }
+    }
+
+    return @RegExList;
+}
+
 1;

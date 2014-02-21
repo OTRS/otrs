@@ -66,12 +66,40 @@ sub ValueSet {
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
+    my $Prefix          = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
+    my $DateRestriction = $Param{DynamicFieldConfig}->{Config}->{DateRestriction};
+
     my $Success = $Self->{DynamicFieldValueObject}->ValueValidate(
         Value => {
             ValueDateTime => $Param{Value},
         },
         UserID => $Param{UserID}
     );
+
+    if ($DateRestriction) {
+
+        my $ValueSystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{Value},
+        );
+        my $SystemTime = $Self->{TimeObject}->SystemTime();
+
+        if ( $DateRestriction eq 'DisableFutureDates' && $ValueSystemTime > $SystemTime ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "The value for the field Date is in the future! The date needs to be in the past!",
+            );
+            return;
+        }
+        elsif ( $DateRestriction eq 'DisablePastDates' && $ValueSystemTime < $SystemTime ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "The value for the field Date is in the past! The date needs to be in the future!",
+            );
+            return;
+        }
+    }
 
     return $Success;
 }
@@ -189,6 +217,16 @@ sub EditFieldRender {
             YearPeriodPast   => $FieldConfig->{YearsInPast}   || 0,
             YearPeriodFuture => $FieldConfig->{YearsInFuture} || 0,
         );
+    }
+
+    # date restrictions
+    if ( $FieldConfig->{DateRestriction} ) {
+        if ( $FieldConfig->{DateRestriction} eq 'DisablePastDates' ) {
+            $FieldConfig->{ValidateDateInFuture} = 1;
+        }
+        elsif ( $FieldConfig->{DateRestriction} eq 'DisableFutureDates' ) {
+            $FieldConfig->{ValidateDateNotInFuture} = 1;
+        }
     }
 
     my $HTMLString = $Param{LayoutObject}->BuildDateSelection(
@@ -365,9 +403,40 @@ sub EditFieldValueValidate {
     # set the date time prefix as field name
     my $Prefix = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
+    # date restriction
+    my $DateRestriction = $Param{DynamicFieldConfig}->{Config}->{DateRestriction};
+
     # perform necessary validations
     if ( $Param{Mandatory} && !$Value->{ $Prefix . 'Used' } ) {
         $ServerError = 1;
+    }
+
+    if ( $Value->{ $Prefix . 'Used' } && $DateRestriction ) {
+
+        my $Year   = $Value->{ $Prefix . 'Year' }   || '0000';
+        my $Month  = $Value->{ $Prefix . 'Month' }  || '00';
+        my $Day    = $Value->{ $Prefix . 'Day' }    || '00';
+        my $Hour   = $Value->{ $Prefix . 'Hour' }   || '00';
+        my $Minute = $Value->{ $Prefix . 'Minute' } || '00';
+        my $Second = $Value->{ $Prefix . 'Second' } || '00';
+
+        my $ManualTimeStamp =
+            $Year . '-' . $Month . '-' . $Day . ' '
+            . $Hour . ':' . $Minute . ':' . $Second;
+
+        my $ValueSystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $ManualTimeStamp,
+        );
+        my $SystemTime = $Self->{TimeObject}->SystemTime();
+
+        if ( $DateRestriction eq 'DisableFutureDates' && $ValueSystemTime > $SystemTime ) {
+            $ServerError  = 1;
+            $ErrorMessage = "Invalid date (need a past date)!";
+        }
+        elsif ( $DateRestriction eq 'DisablePastDates' && $ValueSystemTime < $SystemTime ) {
+            $ServerError  = 1;
+            $ErrorMessage = "Invalid date (need a future date)!";
+        }
     }
 
     # create resulting structure
