@@ -23,6 +23,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.6 2014-??-??
+ - 2014-02-21 Fixed bug#[10222](http://bugs.otrs.org/show_bug.cgi?id=10222) - Customer search during ticket creation - OTRS shows details also if no customer match the search.
  - 2014-02-20 Fixed bug#[10259](http://bugs.otrs.org/show_bug.cgi?id=10259) - GenericInterface: mapping key can't map from / to 0.
 
 #3.3.5 2014-02-25
