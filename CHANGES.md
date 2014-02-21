@@ -1,4 +1,5 @@
 #3.3.6 2014-??-??
+ - 2014-02-21 Fixed bug#[10285](http://bugs.otrs.org/show_bug.cgi?id=10285) - No use Ticket::Hook in CustomerTicketZoom.
  - 2014-02-21 Fixed bug#[9787](http://bugs.otrs.org/show_bug.cgi?id=9787) - Queue field doesn't appear in ProcessMgmt.
  - 2014-02-21 Fixed bug#[10222](http://bugs.otrs.org/show_bug.cgi?id=10222) - Customer search during ticket creation - OTRS shows details also if no customer match the search.
  - 2014-02-20 Fixed bug#[10259](http://bugs.otrs.org/show_bug.cgi?id=10259) - GenericInterface: mapping key can't map from / to 0.
