@@ -1,3 +1,6 @@
+#3.2.16 2014-??-??
+ - 2014-02-20 Fixed bug#[10259](http://bugs.otrs.org/show_bug.cgi?id=10259) - GenericInterface: mapping key can't map from / to 0.
+
 #3.2.15 2014-02-25
  - 2014-02-20 Improved HTML filter.
  - 2014-02-18 Fixed bug#[10207](http://bugs.otrs.org/show_bug.cgi?id=10207) - DynamicField Search-Function in CustomerFrontend is not working.

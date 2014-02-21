@@ -602,7 +602,10 @@ sub _GetParams {
         next if !$Self->{ParamObject}->GetParam( Param => 'KeyIndex' . $KeyCounter );
         $KeyIndex++;
         for my $KeyItem (qw(KeyMapTypeStrg KeyName KeyMapNew ValueCounter)) {
-            my $KeyAux = $Self->{ParamObject}->GetParam( Param => $KeyItem . $KeyCounter ) || '';
+            my $KeyAux
+                = defined $Self->{ParamObject}->GetParam( Param => $KeyItem . $KeyCounter )
+                ? $Self->{ParamObject}->GetParam( Param => $KeyItem . $KeyCounter )
+                : '';
             $GetParam->{ $KeyItem . $KeyIndex } = $KeyAux;
             if ( $KeyItem eq 'ValueCounter' && $KeyAux eq '' ) {
                 $GetParam->{ $KeyItem . $KeyIndex } = 0;
