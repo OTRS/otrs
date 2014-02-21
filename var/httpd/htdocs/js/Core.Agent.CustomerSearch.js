@@ -37,7 +37,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         var Data = {
             Action: 'AgentCustomerSearch',
             Subaction: 'CustomerInfo',
-            CustomerUserID: CustomerUserID || 1
+            CustomerUserID: CustomerUserID
         };
         Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, function (Response) {
             // set CustomerID
