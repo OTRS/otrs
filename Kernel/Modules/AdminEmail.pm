@@ -218,7 +218,7 @@ sub Run {
         );
     }
 
-    $Reference = @{ $GetParam{UserIDs} } ? \@{ $GetParam{UserIDs} } : '';
+    $Reference = @{ $GetParam{UserIDs} || [] } ? \@{ $GetParam{UserIDs} } : '';
     $Param{UserOption} = $Self->{LayoutObject}->BuildSelection(
         Data => { $Self->{UserObject}->UserList( Valid => 1 ) },
         Name => 'UserIDs',
@@ -229,7 +229,7 @@ sub Run {
         Class       => $Errors{BccInvalid} || '',
     );
 
-    $Reference = @{ $GetParam{GroupIDs} } ? \@{ $GetParam{GroupIDs} } : '';
+    $Reference = @{ $GetParam{GroupIDs} || [] } ? \@{ $GetParam{GroupIDs} } : '';
     $Param{GroupOption} = $Self->{LayoutObject}->BuildSelection(
         Data => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
         Size => 6,
@@ -241,7 +241,7 @@ sub Run {
     );
 
     my %RoleList = $Self->{GroupObject}->RoleList( Valid => 1 );
-    $Reference = @{ $GetParam{RoleIDs} } ? \@{ $GetParam{RoleIDs} } : '';
+    $Reference = @{ $GetParam{RoleIDs} || [] } ? \@{ $GetParam{RoleIDs} } : '';
     $Param{RoleOption} = $Self->{LayoutObject}->BuildSelection(
         Data        => \%RoleList,
         Size        => 6,
