@@ -43,7 +43,10 @@
 <!-- dtl:block:EditWarning -->
 
                 <div class="WidgetSimple Expanded WidgetNotice">
-                    <div class="Content">$Text{"Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID."}</div>
+                    <div class="Content">
+                        $Text{"Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID."}
+                        $Text{"The Queue field can only be used by customers when creating a new ticket."}
+                    </div>
                 </div>
 
                 <div class="WidgetSimple Expanded">
