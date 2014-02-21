@@ -94,17 +94,20 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # get keys
-    my $KeyString = $Self->{MainObject}->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/Crypt/",
-        Filename  => "PGPPrivateKey-$Count.asc",
-    );
-    my $Message = $CryptObject->KeyAdd(
-        Key => ${$KeyString},
-    );
-    $Self->True(
-        $Message || '',
-        "#$Count KeyAdd()",
-    );
+    for my $Privacy ( 'Private', 'Public' ) {
+        my $KeyString = $Self->{MainObject}->FileRead(
+            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/Crypt/",
+            Filename  => "PGP${Privacy}Key-$Count.asc",
+        );
+        my $Message = $CryptObject->KeyAdd(
+            Key => ${$KeyString},
+        );
+
+        $Self->True(
+            $Message || '',
+            "#$Count KeyAdd() ($Privacy)",
+        );
+    }
 
     @Keys = $CryptObject->KeySearch(
         Search => $Search{$Count},
