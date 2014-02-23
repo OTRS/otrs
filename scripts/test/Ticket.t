@@ -264,6 +264,36 @@ $Self->True(
     'ArticleGet()',
 );
 
+# test for ArticleUpdate
+for my $Key (qw( Body Subject From To ReplyTo )) {
+    my $Success = $TicketObject->ArticleUpdate(
+        ArticleID => $ArticleID,
+        Key       => $Key,
+        Value     => "New $Key",
+        UserID    => 1,
+        TicketID  => $TicketID,
+    );
+    $Self->True(
+        $Success,
+        'ArticleUpdate()',
+    );
+    my %Article2 = $TicketObject->ArticleGet( ArticleID => $ArticleID );
+    $Self->Is(
+        $Article2{$Key},
+        "New $Key",
+        'ArticleUpdate()',
+    );
+
+    # set old value
+    $Success = $TicketObject->ArticleUpdate(
+        ArticleID => $ArticleID,
+        Key       => $Key,
+        Value     => $Article{$Key},
+        UserID    => 1,
+        TicketID  => $TicketID,
+    );
+}
+
 # ticket watch tests
 my $Subscribe = $TicketObject->TicketWatchSubscribe(
     TicketID    => $TicketID,
