@@ -61,7 +61,7 @@ use MIME::Tools qw(tmpopen whine);
 @ISA = qw(MIME::Decoder::Base64);
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.504";
+$VERSION = "5.505";
 
 # How to compress stdin to stdout:
 $GZIP   = "gzip -c";

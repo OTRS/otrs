@@ -245,7 +245,7 @@ use MIME::Decoder;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.504";
+$VERSION = "5.505";
 
 ### Boundary counter:
 my $BCount = 0;
@@ -1700,7 +1700,7 @@ sub dump_skeleton {
 I<Instance method, override.>
 Print the entity to the given OUTSTREAM, or to the currently-selected
 filehandle if none given.  OUTSTREAM can be a filehandle, or any object
-that reponds to a print() message.
+that responds to a print() message.
 
 The entity is output as a valid MIME stream!  This means that the
 header is always output first, and the body data (if any) will be
@@ -1779,7 +1779,7 @@ sub print {
 I<Instance method, override.>
 Print the body of the entity to the given OUTSTREAM, or to the
 currently-selected filehandle if none given.  OUTSTREAM can be a
-filehandle, or any object that reponds to a print() message.
+filehandle, or any object that responds to a print() message.
 
 The body is output for inclusion in a valid MIME stream; this means
 that the body data will be encoded if the header says that it should be.

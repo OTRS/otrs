@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-02-24 Updated CPAN module MIME::Tools to version 5.505.
  - 2014-02-24 Updated CPAN module Locale::Codes to version 3.29.
  - 2014-02-24 Updated CPAN module JavaScript::Minifier to version 1.11.
  - 2014-02-24 Updated CPAN module JSON::PP to version 2.27203.

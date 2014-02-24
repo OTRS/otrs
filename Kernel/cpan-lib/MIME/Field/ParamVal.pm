@@ -80,7 +80,7 @@ use MIME::Tools qw(:config :msgs);
 #------------------------------
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.504";
+$VERSION = "5.505";
 
 
 #------------------------------
@@ -93,7 +93,7 @@ $VERSION = "5.504";
 my $PARAMNAME = '[^\x00-\x1f\x80-\xff :=]+';
 
 # Pattern to match the first value on the line:
-my $FIRST    = '[^\s\;\x00-\x1f\x80-\xff]+';
+my $FIRST    = '[^\s\;\x00-\x1f\x80-\xff]*';
 
 # Pattern to match an RFC 2045 token:
 #
@@ -209,7 +209,7 @@ sub rfc2231decode {
 }
 
 sub rfc2231percent {
-    # Do percent-subsitution
+    # Do percent-substitution
     my($str) = @_;
     local $1;
     $str =~ s/%([0-9a-fA-F]{2})/pack("C", hex($1))/ge;

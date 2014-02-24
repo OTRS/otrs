@@ -172,7 +172,7 @@ sub supported {
 
 I<Class method, constructor.>
 If \@HANDLERS is given, then @HANDLERS is passed to handler()
-to initiallize the internal map.
+to initialize the internal map.
 
 =cut
 

@@ -1,7 +1,7 @@
 package MIME::Tools;
 
 #------------------------------
-# Because the POD documenation is pretty extensive, it follows
+# Because the POD documentation is pretty extensive, it follows
 # the __END__ statement below...
 #------------------------------
 
@@ -28,7 +28,7 @@ $ME = "MIME-tools";
 Exporter::export_ok_tags('config', 'msgs', 'msgtypes', 'utils');
 
 # The TOOLKIT version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.504";
+$VERSION = "5.505";
 
 # Configuration (do NOT alter this directly)...
 # All legal CONFIG vars *must* be in here, even if only to be set to undef:
@@ -421,7 +421,7 @@ C<7bit>-compliant, but others might have very long lines and would need to be
 sent C<quoted-printable> for reliability.
 
 See the section on encoding/decoding for more details, as well as
-L<"A MIME PRIMER">.
+L<"A MIME PRIMER"> below.
 
 
 =head2 Sending email
@@ -438,7 +438,7 @@ email.  For example,
 
 The B<MIME::Decoder> class can be used to I<encode> as well; this is done
 when printing MIME entities.  All the standard encodings are supported
-(see L<"A MIME PRIMER"> for details):
+(see L<"A MIME PRIMER"> below for details):
 
     Encoding:        | Normally used when message contents are:
     -------------------------------------------------------------------
@@ -1035,5 +1035,12 @@ comments) have been invaluable in improving the whole:
 
 Please forgive me if I've accidentally left you out.
 Better yet, email me, and I'll put you in.
+
+=head1 LICENSE
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+See the COPYING file for more details.
 
 =cut

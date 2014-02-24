@@ -889,7 +889,7 @@ sub init_parse {
     ### Invoke inherited method first!
     $self->SUPER::init_parse;
 
-    ### Determine the subdirectory of ther base to use:
+    ### Determine the subdirectory of their base to use:
     my $subdir = (defined($self->{MPFU_DirName})
 		  ?       $self->{MPFU_DirName}
 		  :       ("msg-".scalar(time)."-$$-".$GSubdirNo++));

@@ -153,7 +153,7 @@ use MIME::Parser::Results;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.504";
+$VERSION = "5.505";
 
 ### How to catenate:
 $CAT = '/bin/cat';
@@ -1118,7 +1118,7 @@ sub parse_data {
         $io = IO::File->new($data, '<:');
     } elsif( ref $data eq 'ARRAY' ) {
 	# Passing arrays is deprecated now that we've nuked IO::ScalarArray
-	# but for backwards compatability we still support it by joining the
+	# but for backwards compatibility we still support it by joining the
 	# array lines to a scalar and doing scalar IO on it.
 	my $tmp_data = join('', @$data);
 	$io = IO::File->new(\$tmp_data, '<:');
@@ -1791,7 +1791,7 @@ Optimum settings:
 
 B<Native I/O is much faster than object-oriented I/O.>
 It's much faster to use E<lt>$fooE<gt> than $foo-E<gt>getline.
-For backwards compatibilty, this module must continue to use
+For backwards compatibility, this module must continue to use
 object-oriented I/O in most places, but if you use L<parse()|/parse>
 with a "real" filehandle (string, globref, or subclass of IO::File)
 then MIME::Parser is able to perform some crucial optimizations.
@@ -1903,11 +1903,11 @@ object; you'll never see it, and should never need to worry about it.
 
 Some folks have asked for the ability to bypass this temp-file
 mechanism, I suppose because they assume it would slow down their application.
-I considered accomodating this wish, but the temp-file
+I considered accommodating this wish, but the temp-file
 approach solves a lot of thorny problems in parsing, and it also
 protects against hidden bugs in user applications (what if you've
 directed the encoded part into a scalar, and someone unexpectedly
-sends you a 6 MB tar file?).  Finally, I'm just not conviced that
+sends you a 6 MB tar file?).  Finally, I'm just not convinced that
 the temp-file use adds significant overhead.
 
 

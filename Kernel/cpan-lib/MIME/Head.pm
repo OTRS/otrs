@@ -138,7 +138,7 @@ use MIME::Field::ContType;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.504";
+$VERSION = "5.505";
 
 ### Sanity (we put this test after our own version, for CPAN::):
 use Mail::Header 1.06 ();
@@ -216,7 +216,7 @@ sub from_file {
 =item read FILEHANDLE
 
 I<Instance (or class) method.>
-This initiallizes a header object by reading it in from a FILEHANDLE,
+This initializes a header object by reading it in from a FILEHANDLE,
 until the terminating blank line is encountered.
 A syntax error or end-of-stream will also halt processing.
 
@@ -268,19 +268,19 @@ documentation around for convenience.
 =item add TAG,TEXT,[INDEX]
 
 I<Instance method, inherited.>
-Add a new occurence of the field named TAG, given by TEXT:
+Add a new occurrence of the field named TAG, given by TEXT:
 
     ### Add the trace information:
     $head->add('Received',
                'from eryq.pr.mcs.net by gonzo.net with smtp');
 
-Normally, the new occurence will be I<appended> to the existing
-occurences.  However, if the optional INDEX argument is 0, then the
-new occurence will be I<prepended>.  If you want to be I<explicit>
+Normally, the new occurrence will be I<appended> to the existing
+occurrences.  However, if the optional INDEX argument is 0, then the
+new occurrence will be I<prepended>.  If you want to be I<explicit>
 about appending, specify an INDEX of -1.
 
-B<Warning>: this method always adds new occurences; it doesn't overwrite
-any existing occurences... so if you just want to I<change> the value
+B<Warning>: this method always adds new occurrences; it doesn't overwrite
+any existing occurrences... so if you just want to I<change> the value
 of a field (creating it if necessary), then you probably B<don't> want to use
 this method: consider using C<replace()> instead.
 
@@ -305,7 +305,7 @@ sub copy {
 =item count TAG
 
 I<Instance method, inherited.>
-Returns the number of occurences of a field; in a boolean context, this
+Returns the number of occurrences of a field; in a boolean context, this
 tells you whether a given field exists:
 
     ### Was a "Subject:" field given?
@@ -408,7 +408,7 @@ sub decode {
 =item delete TAG,[INDEX]
 
 I<Instance method, inherited.>
-Delete all occurences of the field named TAG.
+Delete all occurrences of the field named TAG.
 
     ### Remove some MIME information:
     $head->delete('MIME-Version');
@@ -444,7 +444,7 @@ sub fields {
 I<Instance method, inherited.>
 Get the contents of field TAG.
 
-If a B<numeric INDEX> is given, returns the occurence at that index,
+If a B<numeric INDEX> is given, returns the occurrence at that index,
 or undef if not present:
 
     ### Print the first and last 'Received:' entries (explicitly):
@@ -458,7 +458,7 @@ INDEX simply defaults to 0:
     my $most_recent = $head->get('received');
 
 If B<no INDEX> is given, and invoked in an B<array> context, then
-I<all> occurences of the field are returned:
+I<all> occurrences of the field are returned:
 
     ### Get all 'Received:' entries:
     my @all_received = $head->get('received');
@@ -476,21 +476,21 @@ want this, then B<chomp> the return value.
 =item get_all FIELD
 
 I<Instance method.>
-Returns the list of I<all> occurences of the field, or the
+Returns the list of I<all> occurrences of the field, or the
 empty list if the field is not present:
 
     ### How did it get here?
     @history = $head->get_all('Received');
 
 B<Note:> I had originally experimented with having C<get()> return all
-occurences when invoked in an array context... but that causes a lot of
+occurrences when invoked in an array context... but that causes a lot of
 accidents when you get careless and do stuff like this:
 
     print "\u$field: ", $head->get($field);
 
 It also made the intuitive behaviour unclear if the INDEX argument
 was given in an array context.  So I opted for an explicit approach
-to asking for all occurences.
+to asking for all occurrences.
 
 =cut
 
@@ -540,7 +540,7 @@ sub print {
 # set TAG,TEXT
 #
 # Instance method, DEPRECATED.
-# Set the field named TAG to [the single occurence given by the TEXT.
+# Set the field named TAG to [the single occurrence given by the TEXT.
 #
 sub set {
     my $self = shift;
@@ -569,7 +569,7 @@ sub as_string { shift->stringify(@_) }
 =item unfold [FIELD]
 
 I<Instance method, inherited.>
-Unfold (remove newlines in) the text of all occurences of the given FIELD.
+Unfold (remove newlines in) the text of all occurrences of the given FIELD.
 If the FIELD is omitted, I<all> fields are unfolded.
 Returns the "self" object.
 
@@ -859,7 +859,7 @@ what Achim suggests... so you could say:
 
 We could even make it a superclass of MIME::Head: that way, MIME::Head
 would have to implement its interface, I<and> allow itself to be
-initiallized from a MIME::Attrs object.
+initialized from a MIME::Attrs object.
 
 However, when you read RFC 2045, you begin to see how much MIME information
 is organized by its presence in particular fields.  I imagine that we'd
@@ -868,7 +868,7 @@ a degree that this might not give us a tremendous gain over just
 having MIME::Head.
 
 
-=item Why all this "occurence" and "index" jazz?  Isn't every field unique?
+=item Why all this "occurrence" and "index" jazz?  Isn't every field unique?
 
 Aaaaaaaaaahh....no.
 
@@ -876,7 +876,7 @@ Looking at a typical mail message header, it is sooooooo tempting to just
 store the fields as a hash of strings, one string per hash entry.
 Unfortunately, there's the little matter of the C<Received:> field,
 which (unlike C<From:>, C<To:>, etc.) will often have multiple
-occurences; e.g.:
+occurrences; e.g.:
 
     Received: from gsfc.nasa.gov by eryq.pr.mcs.net  with smtp
         (Linux Smail3.1.28.1 #5) id m0tStZ7-0007X4C;
@@ -899,9 +899,9 @@ didn't want to inconvenience anyone who actually wanted to get at that
 information.
 
 I also didn't want to make this a special case; after all, who
-knows what other fields could have multiple occurences in the
+knows what other fields could have multiple occurrences in the
 future?  So, clearly, multiple entries had to somehow be stored
-multiple times... and the different occurences had to be retrievable.
+multiple times... and the different occurrences had to be retrievable.
 
 =back
 

@@ -141,7 +141,7 @@ use Carp;
 use IO::File;
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.504";
+$VERSION = "5.505";
 
 
 #------------------------------
@@ -218,7 +218,7 @@ sub as_string {
     close($fh);
     return $str;
 }
-*data = \&as_string;         ### silenty invoke preferred usage
+*data = \&as_string;         ### silently invoke preferred usage
 
 
 #------------------------------
