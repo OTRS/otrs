@@ -3,64 +3,58 @@ package JavaScript::Minifier;
 use strict;
 use warnings;
 
+our $VERSION = '1.11'; # VERSION
+
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(minify);
-
-our $VERSION = '1.05';
-
-# -----------------------------------------------------------------------------
+our @EXPORT = qw(minify);
 
 #return true if the character is allowed in identifier.
 sub isAlphanum {
-  my $x = shift;
-  return ($x =~ /[\w\$\\]/ || ord($x) > 126);
-}
-
-sub isSpace {
-  my $x = shift;
-  return ($x eq ' ' || $x eq "\t");
+  return ($_[0] =~ /[\w\$\\]/ || ord($_[0]) > 126);
 }
 
 sub isEndspace {
-  my $x = shift;
-  return ($x eq "\n" || $x eq "\r" || $x eq "\f");
+  return ($_[0] eq "\n" || $_[0] eq "\r" || $_[0] eq "\f");
 }
 
 sub isWhitespace {
-  my $x = shift;
-  return (isSpace($x) || isEndspace($x));
+    return ($_[0] eq ' ' || $_[0] eq "\t" || $_[0] eq "\n"
+        || $_[0] eq "\r" || $_[0] eq "\f");
 }
 
 # New line characters before or after these characters can be removed.
 # Not + - / in this list because they require special care.
 sub isInfix {
-  my $x = shift;
-  $x =~ /[,;:=&%*<>\?\|\n]/;
+  $_[0] =~ /[,;:=&%*<>\?\|\n]/;
 }
 
 # New line characters after these characters can be removed.
 sub isPrefix {
-  my $x = shift;
-  return ($x =~ /[\{\(\[!]/ || isInfix($x));
+  return ($_[0] =~ /[\{\(\[!]/ || isInfix($_[0]));
 }
 
 # New line characters before these characters can removed.
 sub isPostfix {
-  my $x = shift;
-  return ($x =~ /[\}\)\]]/ || isInfix($x));
+  return ($_[0] =~ /[\}\)\]]/ || isInfix($_[0]));
 }
 
 # -----------------------------------------------------------------------------
 
 sub _get {
   my $s = shift;
+
   if ($s->{inputType} eq 'file') {
-    return getc($s->{input});
+    my $char = getc($s->{input});
+    $s->{last_read_char} = $char
+      if defined $char;
+
+    return $char;
   }
   elsif ($s->{inputType} eq 'string') {
     if ($s->{'inputPos'} < length($s->{input})) {
-      return substr($s->{input}, $s->{inputPos}++, 1);
+      return $s->{last_read_char}
+        = substr($s->{input}, $s->{inputPos}++, 1);
     }
     else { # Simulate getc() when off the end of the input string.
       return undef;
@@ -95,7 +89,7 @@ sub _put {
 sub action1 {
   my $s = shift;
   if (!isWhitespace($s->{a})) {
-    $s->{lastnws} = $s->{a};    
+    $s->{lastnws} = $s->{a};
   }
   $s->{last} = $s->{a};
   action2($s);
@@ -142,8 +136,8 @@ sub putLiteral {
   action1($s);
   do {
     while (defined($s->{a}) && $s->{a} eq '\\') { # escape character only escapes only the next one character
-      action1($s);       
-      action1($s);       
+      action1($s);
+      action1($s);
     }
     action1($s);
   } until ($s->{last} eq $delimiter || !defined($s->{a}));
@@ -238,11 +232,11 @@ sub minify {
   my $ccFlag; # marks if a comment is an Internet Explorer conditional comment and should be printed to output
 
   while (defined($s->{a})) { # on this line $s->{a} should always be a non-whitespace character or undef (i.e. end of file)
-    
+
     if (isWhitespace($s->{a})) { # check that this program is running correctly
       die 'minifier bug: minify while loop starting with whitespace, stopped';
     }
-    
+
     # Each branch handles trailing whitespace and ensures $s->{a} is on non-whitespace or undef when branch finishes
     if ($s->{a} eq '/') { # a division, comment, or regexp literal
       if (defined($s->{b}) && $s->{b} eq '/') { # slash-slash comment
@@ -259,7 +253,7 @@ sub minify {
             preserveEndspace($s);
           }
           else {
-            skipWhitespace($s);            
+            skipWhitespace($s);
           }
         }
       }
@@ -279,7 +273,7 @@ sub minify {
             action3($s); # the *
             $s->{a} = ' ';  # the /
             collapseWhitespace($s);
-            if (defined($s->{last}) && defined($s->{b}) && 
+            if (defined($s->{last}) && defined($s->{b}) &&
                 ((isAlphanum($s->{last}) && (isAlphanum($s->{b})||$s->{b} eq '.')) ||
                  ($s->{last} eq '+' && $s->{b} eq '+') || ($s->{last} eq '-' && $s->{b} eq '-'))) { # for a situation like 5-/**/-2 or a/**/a
               # When entering this block $s->{a} is whitespace.
@@ -347,23 +341,27 @@ sub minify {
       skipWhitespace($s);
     }
   }
-  
+
+  if ( $s->{last_read_char} =~ /\n/ ) {
+    _put($s, "\n");
+  }
+
   if (!defined($s->{outfile})) {
     return $s->{output};
   }
-  
-} # minify()
 
-# -----------------------------------------------------------------------------
+} # minify()
 
 1;
 __END__
 
+=encoding utf8
+
+=for stopwords Crockford ECMAScript JSMin stripDebug
 
 =head1 NAME
 
 JavaScript::Minifier - Perl extension for minifying JavaScript code
-
 
 =head1 SYNOPSIS
 
@@ -379,7 +377,7 @@ To minify a JavaScript file and have the output written directly to another file
 To minify a JavaScript string literal. Note that by omitting the outfile parameter a the minified code is returned as a string.
 
   my minifiedJavaScript = minify(input => 'var x = 2;');
-  
+
 To include a copyright comment at the top of the minified code.
 
   minify(input => 'var x = 2;', copyright => 'BSD License');
@@ -388,8 +386,7 @@ To treat ';;;' as '//' so that debugging code can be removed. This is a common J
 
   minify(input => 'var x = 2;', stripDebug => 1);
 
-The "input" parameter is manditory. The "output", "copyright", and "stripDebug" parameters are optional and can be used in any combination.
-
+The "input" parameter is mandatory. The "output", "copyright", and "stripDebug" parameters are optional and can be used in any combination.
 
 =head1 DESCRIPTION
 
@@ -399,30 +396,32 @@ The ECMAScript specifications allow for many different whitespace characters: sp
 
 For static JavaScript files, it is recommended that you minify during the build stage of web deployment. If you minify on-the-fly then it might be a good idea to cache the minified file. Minifying static files on-the-fly repeatedly is wasteful.
 
-
 =head2 EXPORT
 
-None by default.
-
-Exportable on demand: minifiy()
-
+Exported by default: C<minifiy()>
 
 =head1 SEE ALSO
 
-This project is developed using an SVN repository. To check out the repository
-svn co http://dev.michaux.ca/svn/random/JavaScript-Minifier
-
 This module is inspired by Douglas Crockford's JSMin:
-http://www.crockford.com/javascript/jsmin.html
+L<http://www.crockford.com/javascript/jsmin.html>
 
-You may also be interested in the CSS::Minifier module also available on CPAN.
+You may also be interested in the L<CSS::Minifier> module also
+available on CPAN.
 
+=head1 REPOSITORY
+
+You can obtain the latest source code and submit bug reports
+on the github repository for this module:
+L<https://github.com/zoffixznet/JavaScript-Minifier>
+
+=head1 MAINTAINER
+
+Zoffix Znet C<< <zoffix@cpan.org> >> L<https://metacpan.org/author/ZOFFIX>
 
 =head1 AUTHORS
 
 Peter Michaux, E<lt>petermichaux@gmail.comE<gt>
 Eric Herrera, E<lt>herrera@10east.comE<gt>
-
 
 =head1 COPYRIGHT AND LICENSE
 
@@ -431,3 +430,4 @@ Copyright (C) 2007 by Peter Michaux
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.6 or,
 at your option, any later version of Perl 5 you may have available.
+
