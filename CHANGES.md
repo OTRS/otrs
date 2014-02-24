@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-02-24 Updated CPAN module CGI to version 3.65.
  - 2014-02-24 Updated CPAN module SOAP::Lite to version 1.11.
  - 2014-02-24 Updated CPAN module XML::Parser::Lite to version 0.719.
  - 2014-02-24 Removed CPAN module Apache2::Reload from Kernel/cpan-lib/ because this module is included in mod_perl 2.0.5 and later.
