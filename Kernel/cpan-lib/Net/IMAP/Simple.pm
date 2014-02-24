@@ -9,7 +9,7 @@ use IO::Socket;
 use IO::Select;
 use Net::IMAP::Simple::PipeSocket;
 
-our $VERSION = "1.2201";
+our $VERSION = "1.2204";
 
 BEGIN {
     # I'd really rather the pause/cpan indexers miss this "package"
@@ -480,6 +480,7 @@ sub noop {
 
 sub top {
     my ( $self, $number ) = @_;
+    my $messages = $number || '1:' . $self->_last;
 
     my @lines;
 
@@ -496,12 +497,13 @@ sub top {
     ## rfc2822 ##    sections 3 and 4 of this standard.
 
     return $self->_process_cmd(
-        cmd   => [ FETCH => qq[$number RFC822.HEADER] ],
+        cmd   => [ FETCH => qq[$messages RFC822.HEADER] ],
         final => sub {
-            $lines[-1] =~ s/\)\x0d\x0a\z//; # sometimes we get this and I don't think we should
+            $lines[-1] =~ s/\)\x0d\x0a\z//  # sometimes we get this and I don't think we should
                                             # I really hoping I'm not breaking someting by doing this.
+                if @lines;
 
-            \@lines
+            return wantarray ? @lines : \@lines
         },
         process => sub {
             return if $_[0] =~ m/\*\s+\d+\s+FETCH/i; # should this really be case insensitive?
@@ -1001,22 +1003,18 @@ sub expunge_mailbox {
     # S: * 8 EXPUNGE
     # S: A202 OK EXPUNGE completed
 
-    $self->{_waserr} = 1;
-
     my @expunged;
     return $self->_process_cmd(
         cmd   => ['EXPUNGE'],
         final => sub {
             $self->_clear_cache;
-            return if $self->{_waserr};
-            return @expunged if wantarray;
+            return @expunged if wantarray; # don't return 0E0 if want array and we're empty
             return "0E0" unless @expunged;
             return @expunged;
         },
         process => sub {
             if( $_[0] =~ m/^\s*\*\s+(\d+)\s+EXPUNGE[\r\n]*$/i ) {
                 push @expunged, $1;
-                delete $self->{_waserr};
             }
         },
     );
@@ -1153,7 +1151,7 @@ sub _cmd_ok {
 }
 
 sub _read_multiline {
-    my ( $self, $sock, $count ) = @_;
+    my ( $self, $sock, $list, $count ) = @_;
 
     my @lines;
     my $read_so_far = 0;
@@ -1169,9 +1167,29 @@ sub _read_multiline {
         }
     }
 
+    if( $list and $lines[-1] !~ m/\)[\x0d\x0a\s]*$/ ) {
+        $self->_debug( caller, __LINE__, '_read_multiline', "Looking for ending parenthsis match..." );
+
+        my $unmatched = 1;
+        while( $unmatched ) {
+
+            if( defined( my $line = $sock->getline ) ) {
+                push @lines, $line;
+                $unmatched = 0 if $line =~ m/\)[\x0d\x0a\s]*$/;
+
+            } else {
+                $self->_seterrstr( "error reading $count bytes from socket" );
+                last;
+            }
+
+        }
+    }
+
     if ( $self->{debug} ) {
+        my $count=0;
         for ( my $i = 0 ; $i < @lines ; $i++ ) {
-            $self->_debug( caller, __LINE__, '_read_multiline', "[$i] $lines[$i]" );
+            $count += length($lines[$i]);
+            $self->_debug( caller, __LINE__, '_read_multiline', "[$i] ($count) $lines[$i]" );
         }
     }
 
@@ -1193,8 +1211,13 @@ sub _process_cmd {
         $self->_debug( caller, __LINE__, '_process_cmd', $res ) if $self->{debug};
 
         if ( $res =~ /^\*.*\{(\d+)\}[\r\n]*$/ ) {
+            my $count = $1;
+            my $list;
+
+            $list = 1 if($res =~ /\(/);
+
             $args{process}->($res);
-            foreach( $self->_read_multiline( $sock, $1 ) ) {
+            foreach( $self->_read_multiline( $sock, $list, $count ) ) {
                 $cb->($_) if $cb;
                 $args{process}->($_)
             }
@@ -1225,6 +1248,15 @@ sub _seterrstr {
     return;
 }
 
+sub debug {
+    my $this = shift;
+    if( @_ ) {
+        $this->{debug} = shift;
+    }
+
+    return $this->{debug};
+}
+
 sub _debug {
     my ( $self, $package, $filename, $line, $dline, $routine, $str ) = @_;
 
@@ -1240,19 +1272,23 @@ sub _debug {
 
     $line = "[$short_fname line $line in sub $routine] $str\n";
 
-    if ( ref( $self->{debug} ) eq 'GLOB' ) {
-        print { $self->{debug} } $line;
+    if( exists $self->{debug} and defined $self->{debug} ) {
 
-    } elsif( $self->{debug} eq "warn" ) {
-        warn $line;
+        if ( ref( $self->{debug} ) eq 'GLOB' ) {
+            print { $self->{debug} } $line;
 
-    } elsif( $self->{debug} =~ m/^file:(.+)/ ) {
-        open my $out, ">>",  $1 or warn "[log io fail: $@] $line";
-        print $out $line;
-        CORE::close($out);
+        } elsif( $self->{debug} eq "warn" ) {
+            warn $line;
 
-    } else {
-        print STDOUT $line;
+        } elsif( $self->{debug} =~ m/^file:(.+)/ ) {
+            open my $out, ">>",  $1 or warn "[log io fail: $@] $line";
+            print $out $line;
+            CORE::close($out);
+
+        } else {
+            print STDOUT $line;
+        }
+
     }
 
     return;

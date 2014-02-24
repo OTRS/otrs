@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-02-24 Updated CPAN module Net::IMAP::Simple to version 1.2204.
  - 2014-02-24 Updated CPAN module Mozilla::CA to version 20130114.
  - 2014-02-24 Updated CPAN module MailTools to version 2.13.
  - 2014-02-24 Updated CPAN module MIME::Tools to version 5.505.
