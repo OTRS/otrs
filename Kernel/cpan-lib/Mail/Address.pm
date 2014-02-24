@@ -1,10 +1,10 @@
-# Copyrights 1995-2012 by [Mark Overmeer <perl@overmeer.net>].
+# Copyrights 1995-2014 by [Mark Overmeer <perl@overmeer.net>].
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
-# Pod stripped from pm file by OODoc 2.00.
+# Pod stripped from pm file by OODoc 2.01.
 package Mail::Address;
 use vars '$VERSION';
-$VERSION = '2.12';
+$VERSION = '2.13';
 
 use strict;
 
@@ -158,7 +158,7 @@ sub parse(@)
         elsif($_ eq '<')    { $depth++ }
         elsif($_ eq '>')    { $depth-- if $depth }
         elsif($_ eq ',' || $_ eq ';')
-        {   warn "Unmatched '<>' in $line" if($depth);
+        {   warn "Unmatched '<>' in $line" if $depth;
             my $o = $class->_complete(\@phrase, \@address, \@comment);
             push @objs, $o if defined $o;
             $depth = 0;

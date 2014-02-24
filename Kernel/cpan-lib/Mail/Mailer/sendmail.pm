@@ -1,12 +1,12 @@
-# Copyrights 1995-2012 by [Mark Overmeer <perl@overmeer.net>].
+# Copyrights 1995-2014 by [Mark Overmeer <perl@overmeer.net>].
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
-# Pod stripped from pm file by OODoc 2.00.
+# Pod stripped from pm file by OODoc 2.01.
 use strict;
 
 package Mail::Mailer::sendmail;
 use vars '$VERSION';
-$VERSION = '2.12';
+$VERSION = '2.13';
 
 use base 'Mail::Mailer::rfc822';
 
@@ -18,7 +18,7 @@ sub exec($$$$)
     #  Rumor: some sendmails may ignore or break with -t (AIX?)
     # Chopped out the @$to arguments, because -t means
     # they are sent in the body, and postfix complains if they
-    # are also given on comand line.
+    # are also given on command line.
 
     exec( $exe, '-t', @$args );
 }

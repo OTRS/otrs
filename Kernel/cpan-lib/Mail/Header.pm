@@ -1,10 +1,10 @@
-# Copyrights 1995-2012 by [Mark Overmeer <perl@overmeer.net>].
+# Copyrights 1995-2014 by [Mark Overmeer <perl@overmeer.net>].
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
-# Pod stripped from pm file by OODoc 2.00.
+# Pod stripped from pm file by OODoc 2.01.
 package Mail::Header;
 use vars '$VERSION';
-$VERSION = '2.12';
+$VERSION = '2.13';
 
 
 use strict;
@@ -117,11 +117,11 @@ sub _fold_line
     $_[0] =~ s/\A(\S+)\n\s*(?=\S)/$1 /so; 
 }
 
-# Tags are case-insensitive, but there is a (slightly) prefered construction
+# Tags are case-insensitive, but there is a (slightly) preferred construction
 # being all characters are lowercase except the first of each word. Also
 # if the word is an `acronym' then all characters are uppercase. We decide
 # a word is an acronym if it does not contain a vowel.
-# In general, this change of capitization is a bad idea, but it is in
+# In general, this change of capitalization is a bad idea, but it is in
 # the code for ages, and therefore probably crucial for existing
 # applications.
 

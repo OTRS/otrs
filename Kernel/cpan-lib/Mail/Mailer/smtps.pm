@@ -1,14 +1,14 @@
-# Copyrights 1995-2012 by [Mark Overmeer <perl@overmeer.net>].
+# Copyrights 1995-2014 by [Mark Overmeer <perl@overmeer.net>].
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
-# Pod stripped from pm file by OODoc 2.00.
+# Pod stripped from pm file by OODoc 2.01.
 # Based on smtp.pm, adapted by Maciej Żenczykowski
 
 use strict;
 
 package Mail::Mailer::smtps;
 use vars '$VERSION';
-$VERSION = '2.12';
+$VERSION = '2.13';
 
 use base 'Mail::Mailer::rfc822';
 
@@ -90,7 +90,7 @@ sub close(@)
 
 package Mail::Mailer::smtps::pipe;
 use vars '$VERSION';
-$VERSION = '2.12';
+$VERSION = '2.13';
 
 
 sub TIEHANDLE

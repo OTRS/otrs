@@ -1,10 +1,10 @@
-# Copyrights 1995-2012 by [Mark Overmeer <perl@overmeer.net>].
+# Copyrights 1995-2014 by [Mark Overmeer <perl@overmeer.net>].
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
-# Pod stripped from pm file by OODoc 2.00.
+# Pod stripped from pm file by OODoc 2.01.
 package Mail::Internet;
 use vars '$VERSION';
-$VERSION = '2.12';
+$VERSION = '2.13';
 
 use strict;
 # use warnings?  probably breaking too much code
@@ -339,8 +339,11 @@ sub reply(@)
 
     if(defined $mid)
     {    $inreply  = $mid;
-         $inreply .= ' from ' . $name if defined $name;
-         $inreply .= ' on '   . $date if defined $date;
+         my @comment;
+         push @comment, "from $name" if defined $name;
+         push @comment, "on $date"   if defined $date;
+         local $"  = ' ';
+         $inreply .= " (@comment)"   if @comment;
     }
     elsif(defined $name)
     {    $inreply  = $name    . "'s message";
