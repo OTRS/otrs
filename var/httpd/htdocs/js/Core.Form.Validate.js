@@ -337,10 +337,18 @@ Core.Form.Validate = (function (TargetNS) {
     }, "");
 
     $.validator.addMethod("Validate_DateInFuture", function (Value, Element) {
+        // don't do this check for unused dynamic fields
+        if ($(Element).parent().find('input[type=checkbox].DateSelection').prop("checked") === false) {
+            return true;
+        }
         return DateValidator(Value, Element, { DateInFuture: true });
     }, "");
 
     $.validator.addMethod("Validate_DateNotInFuture", function (Value, Element) {
+        // don't do this check for unused dynamic fields
+        if ($(Element).parent().find('input[type=checkbox].DateSelection').prop("checked") === false) {
+            return true;
+        }
         return DateValidator(Value, Element, { DateNotInFuture: true });
     }, "");
 
