@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-02-24 Updated CPAN module JSON::PP to version 2.27203.
  - 2014-02-24 Updated CPAN module JSON to version 2.90.
  - 2014-02-24 Updated CPAN module Email::Valid to version 1.192.
  - 2014-02-24 Updated CPAN module Crypt::PasswdMD5 to version 1.40.
