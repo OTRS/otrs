@@ -13,7 +13,7 @@ use B ();
 #use Devel::Peek;
 
 use vars qw($VERSION);
-$VERSION = '2.27202';
+$VERSION = '2.27204';
 
 @JSON::PP::EXPORT = qw(encode_json decode_json from_json to_json);
 
@@ -1394,8 +1394,22 @@ BEGIN {
 
 # shamelessly copied and modified from JSON::XS code.
 
-$JSON::PP::true  = do { bless \(my $dummy = 1), "JSON::backportPP::Boolean" };
-$JSON::PP::false = do { bless \(my $dummy = 0), "JSON::backportPP::Boolean" };
+unless ( $INC{'JSON/PP.pm'} ) {
+    eval q|
+        package
+            JSON::PP::Boolean;
+
+        use overload (
+            "0+"     => sub { ${$_[0]} },
+            "++"     => sub { $_[0] = ${$_[0]} + 1 },
+            "--"     => sub { $_[0] = ${$_[0]} - 1 },
+            fallback => 1,
+        );
+    |;
+}
+
+$JSON::PP::true  = do { bless \(my $dummy = 1), "JSON::PP::Boolean" };
+$JSON::PP::false = do { bless \(my $dummy = 0), "JSON::PP::Boolean" };
 
 sub is_bool { defined $_[0] and UNIVERSAL::isa($_[0], "JSON::PP::Boolean"); }
 
@@ -1404,17 +1418,6 @@ sub false { $JSON::PP::false }
 sub null  { undef; }
 
 ###############################
-
-package JSON::backportPP::Boolean;
-
-@JSON::backportPP::Boolean::ISA = ('JSON::PP::Boolean');
-use overload (
-   "0+"     => sub { ${$_[0]} },
-   "++"     => sub { $_[0] = ${$_[0]} + 1 },
-   "--"     => sub { $_[0] = ${$_[0]} - 1 },
-   fallback => 1,
-);
-
 
 ###############################
 
@@ -1570,7 +1573,7 @@ sub _incr_parse {
     $self->{incr_text} = substr( $self->{incr_text}, $p );
     $self->{incr_p} = 0;
 
-    return $obj or '';
+    return $obj || '';
 }
 
 
