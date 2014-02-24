@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-02-24 Updated CPAN module Crypt::PasswdMD5 to version 1.40.
  - 2014-02-24 Updated CPAN module CGI to version 3.65.
  - 2014-02-24 Updated CPAN module SOAP::Lite to version 1.11.
  - 2014-02-24 Updated CPAN module XML::Parser::Lite to version 0.719.
