@@ -1,6 +1,7 @@
 #3.4.0.beta1 20??-??-??
  - 2014-02-24 Updated CPAN module SOAP::Lite to version 1.11.
  - 2014-02-24 Updated CPAN module XML::Parser::Lite to version 0.719.
+ - 2014-02-24 Removed CPAN module Apache2::Reload from Kernel/cpan-lib/ because this module is included in mod_perl 2.0.5 and later.
  - 2014-02-24 Fixed bug#[10295](http://bugs.otrs.org/show_bug.cgi?id=10295) - DateInFuture / DateNotInFuture validation.
  - 2014-02-21 Added new options to check dynamic fields of type text on patterns relating to error messages (translated), if they do not match.
  - 2014-02-21 Added new options to restrict dynamic fields of type date/datetime on future or past dates.

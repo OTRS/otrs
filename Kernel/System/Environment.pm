@@ -299,7 +299,6 @@ sub PerlInfoGet {
             parent
             Algorithm::Diff
             Apache::DBI
-            Apache2::Reload
             Authen::SASL
             CGI
             Class::Inspector

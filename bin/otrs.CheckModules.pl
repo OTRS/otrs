@@ -144,6 +144,16 @@ if ( $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
 # config
 my @NeededModules = (
     {
+        Module    => 'Apache2::Reload',
+        Required  => 1,
+        Comment   => 'Required to use mod_perl.',
+        InstTypes => {
+            aptget => 'libapache2-mod-perl2',
+            ppm    => 'mod_perl-2.0',
+            zypper => 'apache2-mod_perl',
+        },
+    },
+    {
         Module    => 'Crypt::Eksblowfish::Bcrypt',
         Required  => 0,
         Comment   => 'For strong password hashing.',
