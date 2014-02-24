@@ -1,5 +1,5 @@
 package Net::SSLGlue;
-our $VERSION = '1.04';
+our $VERSION = '1.052';
 
 =head1 NAME
 
@@ -21,11 +21,17 @@ available:
 
 =item Net::POP3 - add SSL from beginning or using STLS
 
+=item Net::FTP  - add SSL and IPv6 support to Net::FTP
+
 =item Net::LDAP - add proper certificate checking
 
 =item LWP - add proper certificate checking
 
 =back
+
+There is also a Net::SSLGlue::Socket package which combines ssl and non-ssl
+and ipv6 capabilities to make it easier to enhance modules based on
+IO::Socket::INET.
 
 =head1 COPYRIGHT
 
