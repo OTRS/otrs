@@ -1,14 +1,13 @@
 package YAML::Types;
+$YAML::Types::VERSION = '0.90';
 use YAML::Mo;
-
-our $VERSION = '0.84';
-
 use YAML::Node;
 
 # XXX These classes and their APIs could still use some refactoring,
 # but at least they work for now.
 #-------------------------------------------------------------------------------
 package YAML::Type::blessed;
+$YAML::Type::blessed::VERSION = '0.90';
 use YAML::Mo; # XXX
 
 sub yaml_dump {
@@ -34,7 +33,7 @@ sub yaml_dump {
 
 #-------------------------------------------------------------------------------
 package YAML::Type::undef;
-
+$YAML::Type::undef::VERSION = '0.90';
 sub yaml_dump {
     my $self = shift;
 }
@@ -45,7 +44,7 @@ sub yaml_load {
 
 #-------------------------------------------------------------------------------
 package YAML::Type::glob;
-
+$YAML::Type::glob::VERSION = '0.90';
 sub yaml_dump {
     my $self = shift;
     my $ynode = YAML::Node->new({}, '!perl/glob:');
@@ -64,7 +63,7 @@ sub yaml_dump {
                     $value->{tell} = tell(*{$_[0]});
                 }
             }
-            $ynode->{$type} = $value; 
+            $ynode->{$type} = $value;
         }
     }
     return $ynode;
@@ -113,8 +112,8 @@ sub yaml_load {
 
 #-------------------------------------------------------------------------------
 package YAML::Type::code;
-
-my $dummy_warned = 0; 
+$YAML::Type::code::VERSION = '0.90';
+my $dummy_warned = 0;
 my $default = '{ "DUMMY" }';
 
 sub yaml_dump {
@@ -146,7 +145,7 @@ sub yaml_dump {
     }
     $_[2] = $code;
     YAML::Node->new($_[2], $tag);
-}    
+}
 
 sub yaml_load {
     my $self = shift;
@@ -170,7 +169,7 @@ sub yaml_load {
 
 #-------------------------------------------------------------------------------
 package YAML::Type::ref;
-
+$YAML::Type::ref::VERSION = '0.90';
 sub yaml_dump {
     my $self = shift;
     YAML::Node->new({(&YAML::VALUE, ${$_[0]})}, '!perl/ref')
@@ -186,7 +185,7 @@ sub yaml_load {
 
 #-------------------------------------------------------------------------------
 package YAML::Type::regexp;
-
+$YAML::Type::regexp::VERSION = '0.90';
 # XXX Be sure to handle blessed regexps (if possible)
 sub yaml_dump {
     die "YAML::Type::regexp::yaml_dump not currently implemented";
@@ -226,7 +225,7 @@ sub yaml_load {
 
 1;
 
-__END__
+=encoding UTF-8
 
 =head1 NAME
 
@@ -251,7 +250,7 @@ Ingy döt Net <ingy@cpan.org>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2006, 2011-2012. Ingy döt Net. All rights reserved.
+Copyright (c) 2006, 2011-2014. Ingy döt Net. All rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

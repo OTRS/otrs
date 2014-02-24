@@ -1,9 +1,6 @@
-use strict;
-use warnings;
+use strict; use warnings;
 package YAML::Node;
-
-our $VERSION = '0.84';
-
+$YAML::Node::VERSION = '0.90';
 use YAML::Tag;
 require YAML::Mo;
 
@@ -42,7 +39,7 @@ sub new {
 	yaml_scalar->new($self, $_[1]);
 	return \ $_[1];
     }
-    my $package = "yaml_" . $self->{KIND};    
+    my $package = "yaml_" . $self->{KIND};
     $package->new($self)
 }
 
@@ -71,7 +68,7 @@ sub keys {
 
 #==============================================================================
 package yaml_scalar;
-
+$yaml_scalar::VERSION = '0.90';
 @yaml_scalar::ISA = qw(YAML::Node);
 
 sub new {
@@ -97,7 +94,7 @@ sub STORE {
 
 #==============================================================================
 package yaml_sequence;
-
+$yaml_sequence::VERSION = '0.90';
 @yaml_sequence::ISA = qw(YAML::Node);
 
 sub new {
@@ -131,18 +128,19 @@ sub undone {
     die "Not implemented yet"; # XXX
 }
 
-*STORESIZE = *POP = *PUSH = *SHIFT = *UNSHIFT = *SPLICE = *DELETE = *EXISTS = 
-*STORESIZE = *POP = *PUSH = *SHIFT = *UNSHIFT = *SPLICE = *DELETE = *EXISTS = 
+*STORESIZE = *POP = *PUSH = *SHIFT = *UNSHIFT = *SPLICE = *DELETE = *EXISTS =
+*STORESIZE = *POP = *PUSH = *SHIFT = *UNSHIFT = *SPLICE = *DELETE = *EXISTS =
 *undone; # XXX Must implement before release
 
 #==============================================================================
 package yaml_mapping;
+$yaml_mapping::VERSION = '0.90';
 
 @yaml_mapping::ISA = qw(YAML::Node);
 
 sub new {
     my ($class, $self) = @_;
-    @{$self->{KEYS}} = sort keys %{$self->{NODE}}; 
+    @{$self->{KEYS}} = sort keys %{$self->{NODE}};
     my $new;
     tie %$new, $class, $self;
     $new
@@ -156,7 +154,7 @@ sub TIEHASH {
 sub FETCH {
     my ($self, $key) = @_;
     if (exists $self->{NODE}{$key}) {
-	return (grep {$_ eq $key} @{$self->{KEYS}}) 
+	return (grep {$_ eq $key} @{$self->{KEYS}})
 	       ? $self->{NODE}{$key} : undef;
     }
     return $self->{HASH}{$key};
@@ -220,7 +218,7 @@ sub EXISTS {
 
 1;
 
-__END__
+=encoding UTF-8
 
 =head1 NAME
 
@@ -230,7 +228,7 @@ YAML::Node - A generic data node that encapsulates YAML information
 
     use YAML;
     use YAML::Node;
-    
+
     my $ynode = YAML::Node->new({}, 'ingerson.com/fruit');
     %$ynode = qw(orange orange apple red grape green);
     print Dump $ynode;
@@ -271,7 +269,7 @@ keys() works like this:
 
     use YAML;
     use YAML::Node;
-    
+
     %$node = qw(orange orange apple red grape green);
     $ynode = YAML::Node->new($node);
     ynode($ynode)->keys(['grape', 'apple']);
@@ -297,7 +295,7 @@ Ingy döt Net <ingy@cpan.org>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2006, 2011-2012. Ingy döt Net. All rights reserved.
+Copyright (c) 2006, 2011-2014. Ingy döt Net. All rights reserved.
 
 Copyright (c) 2002. Brian Ingerson. All rights reserved.
 

@@ -1,8 +1,7 @@
 package YAML::Dumper;
+$YAML::Dumper::VERSION = '0.90';
 use YAML::Mo;
 extends 'YAML::Dumper::Base';
-
-our $VERSION = '0.84';
 
 use YAML::Dumper::Base;
 use YAML::Node;
@@ -16,10 +15,10 @@ use constant VALUE     => "\x07YAML\x07VALUE\x07";
 
 # Common YAML character sets
 my $ESCAPE_CHAR = '[\\x00-\\x08\\x0b-\\x0d\\x0e-\\x1f]';
-my $LIT_CHAR    = '|';    
+my $LIT_CHAR    = '|';
 
 #==============================================================================
-# OO version of Dump. YAML->new->dump($foo); 
+# OO version of Dump. YAML->new->dump($foo);
 sub dump {
     my $self = shift;
     $self->stream('');
@@ -44,7 +43,7 @@ sub dump {
 sub _emit_header {
     my $self = shift;
     my ($node) = @_;
-    if (not $self->use_header and 
+    if (not $self->use_header and
         $self->document == 1
        ) {
         $self->die('YAML_DUMP_ERR_NO_HEADER')
@@ -81,7 +80,7 @@ sub _prewalk {
     }
 
     # Handle regexps
-    if (ref($_[0]) eq 'Regexp') {  
+    if (ref($_[0]) eq 'Regexp') {
         return;
     }
 
@@ -113,10 +112,10 @@ sub _prewalk {
         $self->transferred->{$node_id} = 'placeholder';
         YAML::Type::code->yaml_dump(
             $self->dump_code,
-            $_[0], 
+            $_[0],
             $self->transferred->{$node_id}
         );
-        ($class, $type, $node_id) = 
+        ($class, $type, $node_id) =
           $self->node_info(\ $self->transferred->{$node_id}, $stringify);
         $self->{id_refcnt}{$node_id}++;
         return;
@@ -144,6 +143,7 @@ sub _prewalk {
     }
 
     # Handle YAML Blessed things
+    require YAML;
     if (defined YAML->global_object()->{blessed_map}{$node_id}) {
         $value = YAML->global_object()->{blessed_map}{$node_id};
         $self->transferred->{$node_id} = $value;
@@ -164,7 +164,7 @@ sub _prewalk {
         my $ref_ynode = $self->transferred->{$node_id} =
           YAML::Type::ref->yaml_dump($value);
 
-        my $glob_ynode = $ref_ynode->{&VALUE} = 
+        my $glob_ynode = $ref_ynode->{&VALUE} =
           YAML::Type::glob->yaml_dump($$value);
 
         (undef, undef, $node_id) = $self->node_info($glob_ynode, $stringify);
@@ -237,7 +237,7 @@ sub _emit_node {
             $ynode = ynode($self->transferred->{$node_id});
             $tag = defined $ynode ? $ynode->tag->short : '';
             $type = 'SCALAR';
-            (undef, undef, $node_id) = 
+            (undef, undef, $node_id) =
               $self->node_info(
                   \ $self->transferred->{$node_id},
                   $self->stringify
@@ -275,7 +275,7 @@ sub _emit_node {
     return $self->_emit_str("$value");
 }
 
-# A YAML mapping is akin to a Perl hash. 
+# A YAML mapping is akin to a Perl hash.
 sub _emit_mapping {
     my $self = shift;
     my ($value, $tag, $node_id, $context) = @_;
@@ -356,7 +356,7 @@ sub _emit_sequence {
     $self->{stream} .= " !$tag" if $tag;
 
     return ($self->{stream} .= " []\n") if @$value == 0;
-        
+
     $self->{stream} .= "\n"
       unless $self->headless && not($self->headless(0));
 
@@ -428,7 +428,7 @@ sub _emit_str {
     while (1) {
         $self->_emit($sf),
         $self->_emit_plain($_[0]),
-        $self->_emit($ef), last 
+        $self->_emit($ef), last
           if not defined $_[0];
         $self->_emit($sf, '=', $ef), last
           if $_[0] eq VALUE;
@@ -555,7 +555,7 @@ sub escape {
 
 1;
 
-__END__
+=encoding UTF-8
 
 =head1 NAME
 
@@ -579,7 +579,7 @@ Ingy döt Net <ingy@cpan.org>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2006, 2011-2012. Ingy döt Net. All rights reserved.
+Copyright (c) 2006, 2011-2014. Ingy döt Net. All rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

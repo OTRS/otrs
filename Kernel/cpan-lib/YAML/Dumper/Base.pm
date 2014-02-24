@@ -1,7 +1,6 @@
 package YAML::Dumper::Base;
+$YAML::Dumper::Base::VERSION = '0.90';
 use YAML::Mo;
-
-our $VERSION = '0.84';
 
 use YAML::Node;
 
@@ -80,7 +79,7 @@ sub blessed {
     my (undef, undef, $node_id) = YAML::Mo::Object->node_info($ref);
     $self->{blessed_map}->{$node_id};
 }
-    
+
 sub bless {
     my $self = shift;
     my ($ref, $blessing) = @_;
@@ -108,7 +107,7 @@ sub bless {
 
 1;
 
-__END__
+=encoding UTF-8
 
 =head1 NAME
 
@@ -129,7 +128,7 @@ Ingy döt Net <ingy@cpan.org>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2006, 2011-2012. Ingy döt Net. All rights reserved.
+Copyright (c) 2006, 2011-2014. Ingy döt Net. All rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

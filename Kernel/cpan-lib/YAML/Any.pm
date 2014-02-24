@@ -1,7 +1,5 @@
 package YAML::Any;
-
-our $VERSION = '0.84';
-
+$YAML::Any::VERSION = '0.90';
 use strict;
 use Exporter ();
 
@@ -118,6 +116,8 @@ sub croak {
 
 1;
 
+=encoding UTF-8
+
 =head1 NAME
 
 YAML::Any - Pick a YAML implementation and use it.
@@ -192,7 +192,7 @@ Ingy döt Net <ingy@cpan.org>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2008. Ingy döt Net.
+Copyright (c) 2008, 2014. Ingy döt Net.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
