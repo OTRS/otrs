@@ -362,6 +362,12 @@ encodings supported by Encode.pm. On Perl 5.6.x and before with
 Jcode.pm, you can use C<Shift_JIS>, C<EUC-JP>, C<ISO-2022-JP> and
 C<UTF-8>. The default value is C<UTF-8> which is recommended encoding.
 
+=head2 empty_element_tag_end
+
+    $tpp->set( empty_element_tag_end => '>' );
+
+Set characters which close empty tag. The default value is ' />'.
+
 =head1 OPTIONS FOR BOTH
 
 =head2 utf8_flag
@@ -434,7 +440,7 @@ use Carp;
 use Symbol;
 
 use vars qw( $VERSION );
-$VERSION = '0.41';
+$VERSION = '0.42';
 
 my $XML_ENCODING      = 'UTF-8';
 my $INTERNAL_ENCODING = 'UTF-8';
@@ -443,6 +449,8 @@ my $ATTR_PREFIX       = '-';
 my $TEXT_NODE_KEY     = '#text';
 my $USE_ENCODE_PM     = ( $] >= 5.008 );
 my $ALLOW_UTF8_FLAG   = ( $] >= 5.008001 );
+
+my $EMPTY_ELEMENT_TAG_END = ' />';
 
 sub new {
     my $package = shift;
@@ -646,7 +654,7 @@ sub parsehttp_lwp {
     if ( defined $body && ! $ct ) {
         $req->header( 'Content-Type' => 'application/x-www-form-urlencoded' );
     }
-    $req->content($body) if defined $body;
+    $req->add_content_utf8($body) if defined $body;
     my $res = $ua->request($req);
     my $code = $res->code();
     my $text;
@@ -988,6 +996,7 @@ sub hash_to_xml {
     my $prelen = $self->{__attr_prefix_len};
     my $pregex = $self->{__attr_prefix_rex};
     my $textnk = $self->{text_node_key};
+    my $tagend = $self->{empty_element_tag_end} || $EMPTY_ELEMENT_TAG_END;
 
     foreach my $keys ( $firstkeys, $allkeys, $lastkeys ) {
         next unless ref $keys;
@@ -998,7 +1007,7 @@ sub hash_to_xml {
             my $val = $hash->{$key};
             if ( !defined $val ) {
                 next if ($key eq $textnk);
-                push( @$out, "<$key />" );
+                push( @$out, "<$key$tagend" );
             }
             elsif ( UNIVERSAL::isa( $val, 'HASH' ) ) {
                 my $child = $self->hash_to_xml( $key, $val );
@@ -1042,7 +1051,7 @@ sub hash_to_xml {
             $text = "<$name$jattr>$text</$name>\n";
         }
         else {
-            $text = "<$name$jattr />\n";
+            $text = "<$name$jattr$tagend\n";
         }
     }
     $text;
@@ -1053,9 +1062,11 @@ sub array_to_xml {
     my $name  = shift;
     my $array = shift;
     my $out   = [];
+    my $tagend = $self->{empty_element_tag_end} || $EMPTY_ELEMENT_TAG_END;
+
     foreach my $val (@$array) {
         if ( !defined $val ) {
-            push( @$out, "<$name />\n" );
+            push( @$out, "<$name$tagend\n" );
         }
         elsif ( UNIVERSAL::isa( $val, 'HASH' ) ) {
             my $child = $self->hash_to_xml( $name, $val );

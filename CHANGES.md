@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-02-24 Updated CPAN module XML::TreePP to version 0.42.
  - 2014-02-24 Updated CPAN module Net::SSLGlue to version 1.052.
  - 2014-02-24 Updated CPAN module Net::IMAP::Simple to version 1.2204.
  - 2014-02-24 Updated CPAN module Mozilla::CA to version 20130114.
