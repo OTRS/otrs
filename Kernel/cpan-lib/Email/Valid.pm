@@ -1,10 +1,16 @@
-package Email::Valid;
 require 5.006;
 use strict;
 use warnings;
-use vars qw( $VERSION $RFC822PAT %AUTOLOAD $AUTOLOAD $NSLOOKUP_PAT
-             @NSLOOKUP_PATHS $Details $Resolver $Nslookup_Path
-             $DNS_Method $TLD $Debug );
+package Email::Valid;
+{
+  $Email::Valid::VERSION = '1.192';
+}
+# ABSTRACT: Check validity of Internet email addresses
+our (
+  $RFC822PAT,
+  $Details, $Resolver, $Nslookup_Path,
+  $Debug,
+);
 
 use Carp;
 use IO::File;
@@ -12,11 +18,7 @@ use Mail::Address;
 use File::Spec;
 use Scalar::Util 'blessed';
 
-use bytes;
-
-$VERSION = '0.190';
-
-%AUTOLOAD = (
+our %AUTOLOAD = (
   fqdn     => 1,
   fudge    => 1,
   mxcheck  => 1,
@@ -25,11 +27,11 @@ $VERSION = '0.190';
   localpart => 1,
 );
 
-$NSLOOKUP_PAT = 'preference|serial|expire|mail\s+exchanger';
-@NSLOOKUP_PATHS = File::Spec->path();
+our $NSLOOKUP_PAT = 'preference|serial|expire|mail\s+exchanger';
+our @NSLOOKUP_PATHS = File::Spec->path();
 
 # initialize if already loaded, better in prefork mod_perl environment
-$DNS_Method = defined $Net::DNS::VERSION ? 'Net::DNS' : '';
+our $DNS_Method = defined $Net::DNS::VERSION ? 'Net::DNS' : '';
 unless ($DNS_Method) {
     __PACKAGE__->_select_dns_method;
 }
@@ -143,10 +145,17 @@ sub _net_dns_query {
 
   $Resolver = Net::DNS::Resolver->new unless defined $Resolver;
 
-  my $packet = $Resolver->send($host, 'A') or croak $Resolver->errorstring;
-  return 1 if $packet->header->ancount;
+  my $packet = $Resolver->send($host, 'MX') or croak $Resolver->errorstring;
+  if ($packet->header->ancount) {
+    my $mx = ($packet->answer)[0]->exchange;
+    if ($mx eq '.' or $mx eq '') {
+      return $self->details('mx'); # Null MX
+    } else {
+      return 1;
+    }
+  }
 
-  $packet = $Resolver->send($host, 'MX') or croak $Resolver->errorstring;
+  $packet = $Resolver->send($host, 'A') or croak $Resolver->errorstring;
   return 1 if $packet->header->ancount;
 
   return $self->details('mx');
@@ -374,7 +383,7 @@ sub address {
 sub AUTOLOAD {
   my $self = shift;
   my $type = ref($self) || die "$self is not an object";
-  my $name = $AUTOLOAD;
+  my $name = our $AUTOLOAD;
 
   $name =~ s/.*://;
   return if $name eq 'DESTROY';
@@ -490,14 +499,21 @@ $RFC822PAT =~ s/\n//g;
 
 __END__
 
+=pod
+
 =head1 NAME
 
 Email::Valid - Check validity of Internet email addresses
 
+=head1 VERSION
+
+version 1.192
+
 =head1 SYNOPSIS
 
   use Email::Valid;
-  print (Email::Valid->address('maurice@hevanet.com') ? 'yes' : 'no');
+  my $address = Email::Valid->address('maurice@hevanet.com');
+  print ($address ? 'yes' : 'no');
 
 =head1 DESCRIPTION
 
@@ -676,20 +692,6 @@ wrapping the call in an eval block:
   };
   warn "an error was encountered: $@" if $@;
 
-=head1 BUGS
-
-Email::Valid should work with Perl for Win32.  In my experience,
-however, Net::DNS queries seem to take an extremely long time when
-a record cannot be found.
-
-=head1 AUTHOR
-
-Copyright 1998-2003, Maurice Aubrey E<lt>maurice@hevanet.comE<gt>.
-All rights reserved.
-
-This module is free software; you may redistribute it and/or
-modify it under the same terms as Perl itself.
-
 =head1 CREDITS
 
 Significant portions of this module are based on the ckaddr program
@@ -711,5 +713,16 @@ bug fixes:
 =head1 SEE ALSO
 
 Mail::Address, Net::DNS, Net::Domain::TLD, perlfaq9
+
+=head1 AUTHOR
+
+Maurice Aubrey <maurice@hevanet.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 1998 by Maurice Aubrey.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
