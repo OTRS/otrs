@@ -44,8 +44,8 @@ sub Run {
                 return (
                     %{ $Param{File} },
                     Action => 'Viewer',
-                    Link =>
-                        "\$Env{\"Baselink\"}Action=AgentTicketAttachment;ArticleID=$Param{Article}->{ArticleID};FileID=$Param{File}->{FileID};Viewer=1",
+                    Link => $Self->{LayoutObject}->{Baselink} .
+                        "Action=AgentTicketAttachment;ArticleID=$Param{Article}->{ArticleID};FileID=$Param{File}->{FileID};Viewer=1",
                     Target => 'target="attachment"',
                     Class  => 'ViewAttachment',
                 );

@@ -49,8 +49,8 @@ sub Run {
     return (
         %{ $Param{File} },
         Action => 'Download',
-        Link =>
-            "\$Env{\"Baselink\"}Action=AgentTicketAttachment;ArticleID=$Param{Article}->{ArticleID};FileID=$Param{File}->{FileID}",
+        Link => $Self->{LayoutObject}->{Baselink} .
+            "Action=AgentTicketAttachment;ArticleID=$Param{Article}->{ArticleID};FileID=$Param{File}->{FileID}",
         Image  => 'disk-s.png',
         Target => $Target,
     );

@@ -531,7 +531,7 @@ sub Run {
                     my $UserQuote     = $Self->{LayoutObject}->Ascii2Html( Text => $User );
                     if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhone} ) {
                         $URL
-                            .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote;\$QEnv{\"ChallengeTokenParam\"}\">"
+                            .= "<a href=\"$Self->{LayoutObject}->{Baselink}Action=AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote;$Self->{LayoutObject}->{ChallengeTokenParam}\">"
                             . $Self->{LayoutObject}->{LanguageObject}->Translate('New phone ticket')
                             . "</a>";
                     }
@@ -540,7 +540,7 @@ sub Run {
                             $URL .= " - ";
                         }
                         $URL
-                            .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote;\$QEnv{\"ChallengeTokenParam\"}\">"
+                            .= "<a href=\"$Self->{LayoutObject}->{Baselink}Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$UserHTMLQuote;$Self->{LayoutObject}->{ChallengeTokenParam}\">"
                             . $Self->{LayoutObject}->{LanguageObject}->Translate('New email ticket')
                             . "</a>";
                     }
