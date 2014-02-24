@@ -10,7 +10,7 @@ package SOAP::Transport::HTTP;
 
 use strict;
 
-our $VERSION = 1.06;
+our $VERSION = 1.11;
 
 use SOAP::Lite;
 use SOAP::Packager;
@@ -51,8 +51,9 @@ sub patch {
                 && $_[2]->header('Connection') eq 'Keep-Alive' ) {
                 my $data = $_[3]->();
                 my $next =
-                  SOAP::Utils::bytelength($$data) ==
-                  $_[2]->header('Content-Length')
+                  $_[2]->header('Content-Length') &&
+                    SOAP::Utils::bytelength($$data) ==
+                        $_[2]->header('Content-Length')
                   ? sub { my $str = ''; \$str; }
                   : $_[3];
                 my $done = 0;
@@ -477,7 +478,7 @@ sub make_response {
 # this next line does not look like a good test to see if something is multipart
 # perhaps a /content-type:.*multipart\//gi is a better regex?
     my ($is_multipart) =
-      ( $response =~ /content-type:.* boundary="([^\"]*)"/im );
+      ( $response =~ /^content-type:.* boundary="([^\"]*)"/im );
 
     $self->response(
         HTTP::Response->new(

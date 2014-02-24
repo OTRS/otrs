@@ -17,7 +17,7 @@ package SOAP::Lite;
 use strict;
 use warnings;
 
-our $VERSION = '1.06';
+our $VERSION = '1.11';
 
 package SOAP::XMLSchemaApacheSOAP::Deserializer;
 
@@ -114,7 +114,7 @@ sub as_base64 {
     # Fixes #30271 for 5.8 and above.
     # Won't fix for 5.6 and below - perl can't handle unicode before
     # 5.8, and applying pack() to everything is just a slowdown.
-    if (eval "require Encode; 1") {
+    if ($SOAP::Constants::HAS_ENCODE) {
         if (Encode::is_utf8($value)) {
             if (Encode->can('_utf8_off')) { # the quick way, but it may change in future Perl versions.
                 Encode::_utf8_off($value);
@@ -190,7 +190,7 @@ sub as_undef { $_[1] ? '1' : '0' }
 sub as_boolean {
     my $self = shift;
     my($value, $name, $type, $attr) = @_;
-    # fix [ 1.06279 ] Boolean serialization error
+    # fix [ 1.05279 ] Boolean serialization error
     return [
         $name,
         {'xsi:type' => 'xsd:boolean', %$attr},
@@ -296,7 +296,7 @@ sub as_base64Binary {
 
 sub as_boolean {
     my ($self, $value, $name, $type, $attr) = @_;
-    # fix [ 1.06279 ] Boolean serialization error
+    # fix [ 1.05279 ] Boolean serialization error
     return [
         $name,
         {
@@ -2122,8 +2122,7 @@ sub decode_parts {
             : ['mimepart', {}, $data];
         # This below looks like unnecessary bloat!!!
         # I should probably dereference the mimepart, provide a callback to get the string data
-        $id =~ s/^<([^>]*)>$/$1/; # string any leading and trailing brackets
-        $self->ids->{$id} = $part if $id;
+        $self->ids->{$1} = $part if ($id && $id =~ m/^<([^>]+)>$/); # strip any leading and trailing brackets
         $self->ids->{$location} = $part if $location;
     }
     return $body;
@@ -2961,7 +2960,7 @@ sub defaultlog {
 
 sub import {
     no strict 'refs';
-    local $^W;
+    no warnings qw{ redefine }; # suppress warnings about redefining
     my $pack = shift;
     my(@notrace, @symbols);
     for (@_) {
@@ -2978,7 +2977,6 @@ sub import {
             $minus ? push(@notrace, $all ? @list : $_) : push(@symbols, $all ? @list : $_);
         }
     }
-    no warnings qw{ redefine };
     foreach (@symbols) { *$_ = \&defaultlog }
     foreach (@notrace) { *$_ = sub {} }
 }
@@ -3262,7 +3260,8 @@ sub parse {
     my $self = shift;
     my $s = $self->deserializer->deserialize($self->access)->root;
     # here should be something that defines what schema description we want to use
-    $self->services({SOAP::Schema::WSDL->base($self->schema_url)->parse($s, @_)});
+    $self->services({SOAP::Schema::WSDL->base($self->schema_url)->useragent($self->useragent)->parse($s, @_)});
+
 }
 
 sub refresh_cache {
@@ -3897,7 +3896,7 @@ client and server side.
 
 =head1 PERL VERSION WARNING
 
-As of version SOAP::Lite version 1.06, no perl versions before 5.8 will be supported.
+As of version SOAP::Lite version 1.05, no perl versions before 5.8 will be supported.
 
 SOAP::Lite 0.71 will be the last version of SOAP::Lite running on perl 5.005
 

@@ -10,7 +10,7 @@ package SOAP::Constants;
 use strict;
 use SOAP::Lite;
 
-our $VERSION = 1.06;
+our $VERSION = 1.11;
 
 use constant    URI_1999_SCHEMA_XSD    => "http://www.w3.org/1999/XMLSchema";
 use constant    URI_1999_SCHEMA_XSI    => "http://www.w3.org/1999/XMLSchema-instance";
@@ -46,6 +46,7 @@ use vars qw($NEXT_ACTOR $NS_ENV $NS_ENC $NS_APS
     @SUPPORTED_ENCODING_STYLES $OBJS_BY_REF_KEEPALIVE
     $DEFAULT_CACHE_TTL
     %XML_SCHEMA_OF
+    $HAS_ENCODE
 );
 
 $FAULT_CLIENT           = 'Client';
@@ -124,6 +125,8 @@ $OBJS_BY_REF_KEEPALIVE = 600; # seconds
 # TODO - use default packager constant somewhere
 $DEFAULT_PACKAGER = "SOAP::Packager::MIME";
 $DEFAULT_CACHE_TTL = 0;
+
+$HAS_ENCODE = eval "require Encode; 1";
 
 1;
 
