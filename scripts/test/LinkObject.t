@@ -14,6 +14,7 @@ use utf8;
 
 use vars qw($Self);
 
+use Data::Dumper;
 use Kernel::System::Ticket;
 use Kernel::System::LinkObject;
 use Kernel::System::User;
@@ -2833,6 +2834,16 @@ for my $Test ( @{$LinkData} ) {
         UserID => $ReferenceData->{LinkList}->{UserID},
     );
 
+    # turn off all pretty print
+    $Data::Dumper::Indent = 0;
+
+    # dump the results from LinkList()
+    my $LinksString = Data::Dumper::Dumper($Links);    ## no critic
+
+    # dump the reference data
+    my $LinksReferenceString
+        = Data::Dumper::Dumper( $ReferenceData->{LinkListReference} );    ## no critic
+
     # get objects lists
     my @ReferenceObjects = sort keys %{ $ReferenceData->{LinkListReference} };
     my @LinkObjects      = sort keys %{$Links};
@@ -2887,10 +2898,10 @@ for my $Test ( @{$LinkData} ) {
     }
     else {
 
-        # check attributes
-        $Self->IsDeeply(
-            $Links,
-            $ReferenceData->{LinkListReference},
+        # attributes are different
+        $Self->Is(
+            $LinksString,
+            $LinksReferenceString,
             "Test $TestCount: LinkList()- check number of objects",
         );
     }

@@ -39,6 +39,14 @@ my $EmailParserObject = Kernel::System::EmailParser->new(
 
 my @Attachments = $EmailParserObject->GetAttachments();
 
+#use MIME::Parser;
+#my $parser = new MIME::Parser;
+#$parser->output_under("/tmp");
+#my $entity = $parser->parse_open("$Home/scripts/test/sample/EmailParser/Win7SnippingTool.box");
+#
+#use Data::Dumper;
+#print STDERR "Dump: " . Dumper(\@Attachments) . "\n";
+
 $Self->Is(
     scalar @Attachments,
     2,

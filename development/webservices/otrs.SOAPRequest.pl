@@ -99,13 +99,8 @@ else {
     # remove all the headers and other not needed parts of the SOAP message
     my $Body = $Deserialized->body();
 
-    # turn off all pretty print in Data::Dumper
-    local $Data::Dumper::Indent   = 0;
-    local $Data::Dumper::Useqq    = 1;
-    local $Data::Dumper::Sortkeys = 1;
-
     # just output relevant data and no the operation name key (like TicketCreateResponse)
     for my $ResponseKey ( sort keys %{$Body} ) {
-        print Data::Dumper::Dumper( $Body->{$ResponseKey} );    ## no critic
+        print Dumper( $Body->{$ResponseKey} );    ## no critic
     }
 }
