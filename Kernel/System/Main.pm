@@ -784,11 +784,10 @@ sub Dump {
         return;
     }
 
-    # mild pretty print
-    $Data::Dumper::Indent = 1;
-
-    # sort hash keys
-    $Data::Dumper::Sortkeys = 1;
+    # turn off all pretty print in Data::Dumper
+    local $Data::Dumper::Indent   = 0;
+    local $Data::Dumper::Useqq    = 1;
+    local $Data::Dumper::Sortkeys = 1;
 
     # This Dump() is using Data::Dumper with a utf8 workarounds to handle
     # the bug [rt.cpan.org #28607] Data::Dumper::Dumper is dumping utf8

@@ -494,9 +494,6 @@ for my $Test (@TestVariations) {
 
     my @CheckResult = $CheckObject->Check( Article => \%Article );
 
-    #use Data::Dumper;
-    #print STDERR "Dump: " . Dumper(\@CheckResult) . "\n";
-
     if ( $Test->{VerifySignature} ) {
         my $SignatureVerified =
             grep {

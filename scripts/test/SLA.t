@@ -14,7 +14,6 @@ use utf8;
 
 use vars qw($Self);
 
-use Data::Dumper;
 use Kernel::System::Service;
 use Kernel::System::SLA;
 use Kernel::System::User;
@@ -648,28 +647,13 @@ for my $Item ( @{$ItemData} ) {
             Cache  => 1,
         );
 
-        # turn off all pretty print
-        $Data::Dumper::Indent = 0;
-
         # check sla data after creation of the sla
         for my $SLAAttribute ( sort keys %{ $Item->{AddGet} } ) {
 
-            # dump the given attribute
-            if ( ref $SLAGet{$SLAAttribute} ) {
-                $SLAGet{$SLAAttribute}
-                    = Data::Dumper::Dumper( $SLAGet{$SLAAttribute} );    ## no critic
-            }
-
-            # dump the reference string
-            if ( ref $Item->{AddGet}->{$SLAAttribute} ) {
-                $Item->{AddGet}->{$SLAAttribute} = Data::Dumper::Dumper(    ## no critic
-                    $Item->{AddGet}->{$SLAAttribute},
-                );
-            }
-
-            $Self->Is(
-                $SLAGet{$SLAAttribute} || '',
-                $Item->{AddGet}->{$SLAAttribute} || '',
+            # check attributes
+            $Self->IsDeeply(
+                $SLAGet{$SLAAttribute},
+                $Item->{AddGet}->{$SLAAttribute},
                 "Test $TestCount: SLAGet() - $SLAAttribute",
             );
         }
@@ -714,22 +698,10 @@ for my $Item ( @{$ItemData} ) {
         # check sla data after update
         for my $SLAAttribute ( sort keys %{ $Item->{UpdateGet} } ) {
 
-            # dump the given attribute
-            if ( ref $SLAGet2{$SLAAttribute} ) {
-                $SLAGet2{$SLAAttribute}
-                    = Data::Dumper::Dumper( $SLAGet2{$SLAAttribute} );    ## no critic
-            }
-
-            # dump the reference string
-            if ( ref $Item->{UpdateGet}->{$SLAAttribute} ) {
-                $Item->{UpdateGet}->{$SLAAttribute} = Data::Dumper::Dumper(    ## no critic
-                    $Item->{UpdateGet}->{$SLAAttribute},
-                );
-            }
-
-            $Self->Is(
-                $SLAGet2{$SLAAttribute} || '',
-                $Item->{UpdateGet}->{$SLAAttribute} || '',
+            # check attributes
+            $Self->IsDeeply(
+                $SLAGet2{$SLAAttribute},
+                $Item->{UpdateGet}->{$SLAAttribute},
                 "Test $TestCount: SLAGet() - $SLAAttribute",
             );
         }

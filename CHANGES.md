@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-02-25 Improved handling of Data::Dumper to fix problems with hash sorting on perl 5.18.
  - 2014-02-24 Updated CPAN module parent to version 0.228.
  - 2014-02-24 Updated CPAN module YAML to version 0.90.
  - 2014-02-24 Updated CPAN module XML::TreePP to version 0.42.
