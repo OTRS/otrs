@@ -8,11 +8,13 @@
 # --
 
 package Kernel::System::UnitTest;
+## nofilter(TidyAll::Plugin::OTRS::Perl::Dumper)
 
 use strict;
 use warnings;
 
 use if $^O eq 'MSWin32', "Win32::Console::ANSI";
+use Data::Dumper;
 use Term::ANSIColor;
 
 use Kernel::System::Environment;
@@ -171,8 +173,9 @@ sub Run {
                     $Use = 1;
                 }
             }
-
-            next FILE if !$Use;
+            if ( !$Use ) {
+                next FILE;
+            }
         }
         $Self->{TestCount} = 0;
         my $UnitTestFile = $Self->{MainObject}->FileRead( Location => $File );
@@ -570,110 +573,16 @@ sub _DataDiff {
         }
     }
 
-    # ''
-    if ( ref $Param{Data1} eq '' && ref $Param{Data2} eq '' ) {
+    # turn off all pretty print in Data::Dumper
+    local $Data::Dumper::Indent   = 0;
+    local $Data::Dumper::Useqq    = 1;
+    local $Data::Dumper::Sortkeys = 1;
 
-        # do nothing, it's ok
-        return if !defined $Param{Data1} && !defined $Param{Data2};
+    # dump the data
+    my $Dump1 = Data::Dumper::Dumper( $Param{Data1} ); ## no critic
+    my $Dump2 = Data::Dumper::Dumper( $Param{Data2} ); ## no critic
 
-        # return diff, because its different
-        return 1 if !defined $Param{Data1} || !defined $Param{Data2};
-
-        # return diff, because its different
-        return 1 if $Param{Data1} ne $Param{Data2};
-
-        # return, because its not different
-        return;
-    }
-
-    # SCALAR
-    if ( ref $Param{Data1} eq 'SCALAR' && ref $Param{Data2} eq 'SCALAR' ) {
-
-        # do nothing, it's ok
-        return if !defined ${ $Param{Data1} } && !defined ${ $Param{Data2} };
-
-        # return diff, because its different
-        return 1 if !defined ${ $Param{Data1} } || !defined ${ $Param{Data2} };
-
-        # return diff, because its different
-        return 1 if ${ $Param{Data1} } ne ${ $Param{Data2} };
-
-        # return, because its not different
-        return;
-    }
-
-    # ARRAY
-    if ( ref $Param{Data1} eq 'ARRAY' && ref $Param{Data2} eq 'ARRAY' ) {
-        my @A = @{ $Param{Data1} };
-        my @B = @{ $Param{Data2} };
-
-        # check if the count is different
-        return 1 if $#A ne $#B;
-
-        # compare array
-        for my $Count ( 0 .. $#A ) {
-
-            # do nothing, it's ok
-            next if !defined $A[$Count] && !defined $B[$Count];
-
-            # return diff, because its different
-            return 1 if !defined $A[$Count] || !defined $B[$Count];
-
-            if ( $A[$Count] ne $B[$Count] ) {
-                if ( ref $A[$Count] eq 'ARRAY' || ref $A[$Count] eq 'HASH' ) {
-                    return 1 if $Self->_DataDiff( Data1 => $A[$Count], Data2 => $B[$Count] );
-                    next;
-                }
-                return 1;
-            }
-        }
-        return;
-    }
-
-    # HASH
-    if ( ref $Param{Data1} eq 'HASH' && ref $Param{Data2} eq 'HASH' ) {
-        my %A = %{ $Param{Data1} };
-        my %B = %{ $Param{Data2} };
-
-        # compare %A with %B and remove it if checked
-        for my $Key ( sort keys %A ) {
-
-            # Check if both are undefined
-            if ( !defined $A{$Key} && !defined $B{$Key} ) {
-                delete $A{$Key};
-                delete $B{$Key};
-                next;
-            }
-
-            # return diff, because its different
-            return 1 if !defined $A{$Key} || !defined $B{$Key};
-
-            if ( $A{$Key} eq $B{$Key} ) {
-                delete $A{$Key};
-                delete $B{$Key};
-                next;
-            }
-
-            # return if values are different
-            if ( ref $A{$Key} eq 'ARRAY' || ref $A{$Key} eq 'HASH' ) {
-                return 1 if $Self->_DataDiff( Data1 => $A{$Key}, Data2 => $B{$Key} );
-                delete $A{$Key};
-                delete $B{$Key};
-                next;
-            }
-            return 1;
-        }
-
-        # check rest
-        return 1 if %B;
-        return;
-    }
-
-    if ( ref $Param{Data1} eq 'REF' && ref $Param{Data2} eq 'REF' ) {
-        return 1 if $Self->_DataDiff( Data1 => ${ $Param{Data1} }, Data2 => ${ $Param{Data2} } );
-        return;
-    }
-
+    return if $Dump1 ne $Dump2;
     return 1;
 }
 
