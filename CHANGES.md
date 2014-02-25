@@ -1,4 +1,5 @@
 #3.2.16 2014-??-??
+ - 2014-02-25 Updated CPAN module Text::CSV to version 1.32 to fix utf-8 problems.
  - 2014-02-20 Fixed bug#[10259](http://bugs.otrs.org/show_bug.cgi?id=10259) - GenericInterface: mapping key can't map from / to 0.
 
 #3.2.15 2014-02-25
