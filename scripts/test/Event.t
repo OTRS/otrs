@@ -64,7 +64,4 @@ $Self->Is(
     "EventListTicket() Article"
 );
 
-#use Data::Dumper;
-#print STDERR Dumper(\%EventList);
-
 1;

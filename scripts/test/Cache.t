@@ -13,8 +13,6 @@ use utf8;
 
 use vars qw($Self);
 
-use Data::Dumper;
-
 use Kernel::System::Cache;
 use Kernel::System::UnitTest::Helper;
 
@@ -559,23 +557,10 @@ for my $ModuleFile (@BackendModuleFiles) {
                         )
                     {
 
-                        $Self->True(
-                            ref $CacheGet eq ref $CacheItem,
-                            "CacheGet$Count() - Reference Test",
-                        );
-
-                        # turn off all pretty print
-                        $Data::Dumper::Indent = 0;
-
-                        # dump the cached value
-                        my $CachedValue = Data::Dumper::Dumper($CacheGet);    ## no critic
-
-                        # dump the reference attribute
-                        my $OriginValue = Data::Dumper::Dumper($CacheItem);    ## no critic
-
-                        # Don't use Is(), produces too much output.
-                        $Self->True(
-                            $CachedValue eq $OriginValue,
+                        # check attributes
+                        $Self->IsDeeply(
+                            $CacheGet,
+                            $CacheItem,
                             "#8 - $Module - $SubdirLevels - CacheGet$Count() - Content Test",
                         );
                     }
