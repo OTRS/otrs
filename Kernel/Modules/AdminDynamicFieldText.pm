@@ -649,7 +649,6 @@ sub _ShowScreen {
         }
     }
 
-
     # generate output
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminDynamicFieldText',

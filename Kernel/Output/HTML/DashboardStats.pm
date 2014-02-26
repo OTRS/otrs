@@ -644,7 +644,7 @@ sub Run {
     my $Content = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentDashboardStats',
         Data         => {
-            Name        => $Self->{Name},
+            Name => $Self->{Name},
         },
         KeepScriptTags => $Param{AJAX},
     );

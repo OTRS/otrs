@@ -577,7 +577,8 @@ for my $Test (@Tests) {
                 $TransitionActionNames;
         }
         else {
-            $CacheKey = join '::', 'ProcessGet::EntityID', $Test->{Config}->{EntityID}, 'ActivityNames',
+            $CacheKey = join '::', 'ProcessGet::EntityID', $Test->{Config}->{EntityID},
+                'ActivityNames',
                 $ActivityNames,
                 'TransitionNames',
                 $TransitionNames,

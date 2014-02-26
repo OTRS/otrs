@@ -189,7 +189,7 @@ my @Tests = (
         Result   => 'Test otrs',
     },
     {
-        Name => 'otrs responsible firstname',         # <OTRS_RESPONSIBLE_UserFirstname>
+        Name => 'otrs responsible firstname',                     # <OTRS_RESPONSIBLE_UserFirstname>
         Data => {
             From => 'test@home.com',
         },
@@ -198,7 +198,7 @@ my @Tests = (
         Result   => 'Test Admin',
     },
     {
-        Name => 'otrs owner firstname',               # <OTRS_OWNER_*>
+        Name => 'otrs owner firstname',                           # <OTRS_OWNER_*>
         Data => {
             From => 'test@home.com',
         },
@@ -207,7 +207,7 @@ my @Tests = (
         Result   => 'Test Admin',
     },
     {
-        Name => 'otrs current firstname',             # <OTRS_CURRENT_*>
+        Name => 'otrs current firstname',                         # <OTRS_CURRENT_*>
         Data => {
             From => 'test@home.com',
         },
@@ -216,7 +216,7 @@ my @Tests = (
         Result   => 'Test Admin',
     },
     {
-        Name => 'otrs ticket ticketid',               # <OTRS_TICKET_*>
+        Name => 'otrs ticket ticketid',                           # <OTRS_TICKET_*>
         Data => {
             From => 'test@home.com',
         },
@@ -225,7 +225,7 @@ my @Tests = (
         Result   => 'Test ' . $TicketID,
     },
     {
-        Name => 'otrs dynamic field',                 # <OTRS_TICKET_DynamicField_*>
+        Name => 'otrs dynamic field',                             # <OTRS_TICKET_DynamicField_*>
         Data => {
             From => 'test@home.com',
         },
@@ -234,7 +234,7 @@ my @Tests = (
         Result   => 'Test otrs',
     },
     {
-        Name => 'otrs dynamic field value',           # <OTRS_TICKET_DynamicField_*_Value>
+        Name => 'otrs dynamic field value',    # <OTRS_TICKET_DynamicField_*_Value>
         Data => {
             From => 'test@home.com',
         },
@@ -243,7 +243,7 @@ my @Tests = (
         Result   => 'Test otrs',
     },
     {
-        Name => 'otrs config value',                  # <OTRS_CONFIG_*>
+        Name => 'otrs config value',           # <OTRS_CONFIG_*>
         Data => {
             From => 'test@home.com',
         },
