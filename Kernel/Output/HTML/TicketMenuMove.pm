@@ -86,7 +86,6 @@ sub Run {
         return if !$AccessOk;
     }
 
-
     # check acl
     return
         if defined $Param{ACL}->{ $Param{Config}->{Action} }
