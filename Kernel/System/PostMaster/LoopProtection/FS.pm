@@ -101,7 +101,7 @@ sub Check {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message =>
-                "LoopProtection!!! Send no more emails to '$To'! Max. count of $Self->{PostmasterMaxEmails} has been reached!",
+                "LoopProtection: send no more emails to '$To'! Max. count of $Self->{PostmasterMaxEmails} has been reached!",
         );
         return;
     }
