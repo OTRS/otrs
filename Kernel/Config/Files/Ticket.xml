@@ -4146,7 +4146,7 @@ $QData{"Body"}
             <!--
             <String Regex="">$Env{"CGIHandle"}?Action=AgentTicketCustomer;TicketID=$QData{"TicketID"}</String>
             -->
-            <String Regex="">$Env{"CGIHandle"}?Action=AgentCustomerInformationCenter;CustomerID=$QData{"CustomerID"}</String>
+            <String Regex="">$Env{"CGIHandle"}?Action=AgentCustomerInformationCenter;CustomerID=$LQData{"CustomerID"}</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerDBLinkTarget" Required="1" Valid="1">
