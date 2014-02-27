@@ -8482,6 +8482,7 @@ $QData{"Body"}
                 <Item>Errors-To</Item>
                 <Item>References</Item>
                 <Item>In-Reply-To</Item>
+                <Item>Auto-Submitted</Item>
                 <Item>X-Loop</Item>
                 <Item>X-Spam-Flag</Item>
                 <Item>X-Spam-Level</Item>

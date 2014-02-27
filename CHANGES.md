@@ -1,4 +1,5 @@
 #3.3.6 2014-??-??
+ - 2014-02-27 Fixed bug#[10309](http://bugs.otrs.org/show_bug.cgi?id=10309) - mails with an empty return-path header must not trigger auto responses in OTRS.
  - 2014-02-21 Fixed bug#[10245](http://bugs.otrs.org/show_bug.cgi?id=10245) - Use of uninitialized value $Param{"Value2"} in string.
  - 2014-02-21 Fixed bug#[10182](http://bugs.otrs.org/show_bug.cgi?id=10182) - Customer email suddenly treated by OTRS as 'email-internal'.
  - 2014-02-21 Fixed bug#[10285](http://bugs.otrs.org/show_bug.cgi?id=10285) - No use Ticket::Hook in CustomerTicketZoom.

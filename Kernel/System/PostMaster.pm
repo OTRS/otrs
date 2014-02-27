@@ -600,6 +600,10 @@ sub GetEmailParams {
         || $GetParam{'X-Loop'}
         || $GetParam{'X-No-Loop'}
         || $GetParam{'X-OTRS-Loop'}
+        || (
+            $GetParam{'Auto-Submitted'}
+            && substr($GetParam{'Auto-Submitted'}, 0, 5) eq 'auto-'
+        )
         )
     {
         $GetParam{'X-OTRS-Loop'} = 'yes';
