@@ -431,11 +431,13 @@ Return
 sub SearchOptionList {
     my ( $Self, %Param ) = @_;
 
+    my $ParamHook = $Self->{ConfigObject}->Get('Ticket::Hook') || 'Ticket#';
+
     # search option list
     my @SearchOptionList = (
         {
             Key  => 'TicketNumber',
-            Name => 'Ticket#',
+            Name => $ParamHook,
             Type => 'Text',
         },
         {
