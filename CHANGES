@@ -9,8 +9,10 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-3.1.20 2014-02-25
+3.1.21 2014-??-??
  - 2014-02-27 Fixed bug#10309 - mails with an empty return-path header must not trigger auto responses in OTRS.
+
+3.1.20 2014-02-25
  - 2014-02-21 Fixed bug#10287 - AdminEmail does not work / causes internal server error.
  - 2014-02-20 Improved HTML filter.
 
