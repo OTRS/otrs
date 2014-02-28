@@ -180,9 +180,9 @@ sub Data {
         'Description' => '説明',
         'description' => '説明',
         'Theme' => 'テーマ',
-        'Created' => '作成日',
+        'Created' => '作成日時',
         'Created by' => '作成者',
-        'Changed' => '変更日',
+        'Changed' => '変更日時',
         'Changed by' => '変更者',
         'Search' => '検索',
         'and' => '-',
@@ -463,15 +463,15 @@ sub Data {
         'Max. shown Tickets a page in Overview.' => '一覧時のチケット表示最大数',
         'The current password is not correct. Please try again!' => 'パスワードが正しくありません。再入力してください。',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
-            'パスワードを更新できません。新しいパスワードが一致しません。再度入力してください。',
+            'パスワードを更新できません。新しいパスワードが一致しません。再入力してください。',
         'Can\'t update password, it contains invalid characters!' => 'パスワードを更新できません。無効な文字が含まれています。',
         'Can\'t update password, it must be at least %s characters long!' =>
-            'パスワードを更新できません。%s は長すぎます。',
+            'パスワードを更新できません。%s文字以上必要です。',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
             'パスワードを更新できません。英語の大文字小文字が2文字ずつ以上必要です。',
         'Can\'t update password, it must contain at least 1 digit!' => 'パスワードを更新できません。数字が1文字以上必要です。',
         'Can\'t update password, it must contain at least 2 characters!' =>
-            'パスワードを更新できません。2文字以上必要です。',
+            'パスワードを更新できません。アルファベットが2文字以上必要です。',
         'Can\'t update password, this password has already been used. Please choose a new one!' =>
             'パスワードを更新できません。このパスワードは既に使用されています。新しいものを入力してください。',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
@@ -749,7 +749,7 @@ sub Data {
         'Reply All' => '全員に返信',
         'Direction' => '方向',
         'Agent (All with write permissions)' => '担当者 (write権限を持つすべてのユーザー)',
-        'Agent (Owner)' => '担当者 (担当者)',
+        'Agent (Owner)' => '担当者 (所有者)',
         'Agent (Responsible)' => '担当者 (責任者)',
         'New ticket notification' => '新規チケット通知',
         'Send me a notification if there is a new ticket in "My Queues".' =>
@@ -881,7 +881,7 @@ sub Data {
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
         'ACL name' => 'ACL名',
-        'Validity' => 'チケット情報',
+        'Validity' => '有効/無効',
         'Copy' => 'コピー',
         'No data found.' => 'データがありません',
 
@@ -1049,11 +1049,11 @@ sub Data {
         'Changing this value will require manual changes in the system.' =>
             'この値の変更はシステム内で手動で行う必要があります。',
         'This is the name to be shown on the screens where the field is active.' =>
-            '',
+            'これは領域がアクティブである画面で表示される名前です。',
         'Field order' => '領域の順序',
         'This field is required and must be numeric.' => 'この領域は必須かつ数値でなければなりません。',
         'This is the order in which this field will be shown on the screens where is active.' =>
-            '',
+            'これはこの領域がアクティブである画面で表示される順序です。',
         'Field type' => '領域タイプ',
         'Object type' => 'オブジェクトタイプ',
         'Internal field' => '内部領域',
@@ -1074,7 +1074,7 @@ sub Data {
         'Years in the past to display (default: 5 years).' => '表示する過去の年数(デフォルト:5年)。',
         'Years in the future' => '未来の年数',
         'Years in the future to display (default: 5 years).' => '表示する未来の年数(デフォルト:5年)。',
-        'Show link' => '',
+        'Show link' => 'リンクを表示',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
 
@@ -1091,10 +1091,10 @@ sub Data {
         'Activate this option to display values as a tree.' => '',
         'Translatable values' => '',
         'If you activate this option the values will be translated to the user defined language.' =>
-            '',
+            'このオプションを有効にすると、値がユーザーの定義した言語に翻訳されます。',
         'Note' => 'メモ',
         'You need to add the translations manually into the language translation files.' =>
-            '',
+            '翻訳を手動で言語翻訳ファイルに追加する必要があります。',
 
         # Template: AdminDynamicFieldMultiselect
 
@@ -1869,7 +1869,7 @@ sub Data {
         'Edit details' => '',
         'Overview of registered systems' => '',
         'Deregister system' => '',
-        'System Registration' => '',
+        'System Registration' => 'システム登録',
         'This system is registered with OTRS Group.' => '',
         'System type' => '',
         'Unique ID' => '',
@@ -2411,7 +2411,7 @@ sub Data {
         'Set Pending' => '保留に設定',
         'Change Priority of Ticket' => 'チケットの優先度を変更',
         'Change Responsible of Ticket' => 'チケットの責任者を変更',
-        'All fields marked with an asterisk (*) are mandatory.' => 'アスタリスク（*）が付いている全ての領域は必須入力で>す。',
+        'All fields marked with an asterisk (*) are mandatory.' => 'アスタリスク（*）が付いている全ての領域は必須入力です。',
         'Service invalid.' => '無効なサービスです',
         'New Owner' => '新規所有者',
         'Please set a new owner!' => '新規所有者を設定してください。',
@@ -2662,11 +2662,11 @@ sub Data {
         'Your User Name' => 'ユーザー名',
         'A new password will be sent to your email address.' => '登録されたメールアドレスに新しいパスワードを送信しました。',
         'Create Account' => 'アカウント作成',
-        'Please fill out this form to receive login credentials.' => '',
+        'Please fill out this form to receive login credentials.' => '下記のフォームにログイン時に必要となる事項を入力してください。',
         'How we should address you' => '',
         'Your First Name' => 'あなたの名前',
         'Your Last Name' => 'あなたの名字',
-        'Your email address (this will become your username)' => '',
+        'Your email address (this will become your username)' => 'あなたの電子メールアドレス (ユーザー名になります)',
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => '個人設定の編集',
@@ -4270,12 +4270,12 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Picture-Upload' => '',
         'PostMaster Filters' => 'ポストマスター・フィルタ',
         'PostMaster Mail Accounts' => 'メールアカウント',
-        'Process Information' => '',
-        'Process Management Activity Dialog GUI' => '',
-        'Process Management Activity GUI' => '',
-        'Process Management Path GUI' => '',
-        'Process Management Transition Action GUI' => '',
-        'Process Management Transition GUI' => '',
+        'Process Information' => 'プロセス情報',
+        'Process Management Activity Dialog GUI' => 'プロセス管理アクティビティダイアログGUI',
+        'Process Management Activity GUI' => 'プロセス管理アクテビティGUI',
+        'Process Management Path GUI' => 'プロセス管理パスGUI',
+        'Process Management Transition Action GUI' => 'プロセス管理遷移動作GUI',
+        'Process Management Transition GUI' => 'プロセス管理遷移GUI',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             'CSRF (Cross Site Request Forgery)攻撃に対するプロテクションです（さらに詳細はhttp://en.wikipedia.org/wiki/Cross-site_request_forgeryを参照ください）。',
         'Provides a matrix overview of the tickets per state per queue.' =>
@@ -4283,10 +4283,10 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Queue view' => 'キュー一覧',
         'Recognize if a ticket is a follow up to an existing ticket using an external ticket number.' =>
             '',
-        'Refresh Overviews after' => '',
+        'Refresh Overviews after' => '時間が経過後に一覧を更新',
         'Refresh interval' => '更新間隔',
         'Removes the ticket watcher information when a ticket is archived.' =>
-            '',
+            'チケットがアーカイブされるとき、チケット監視者の情報を削除する。',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '担当者インタフェースのチケット構成画面で、オリジナルの送信者を、コンポーズ・アンサー上の現在の顧客のEメール・アドレスに置換します。',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -4361,11 +4361,11 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
             'AgentTicketZoomで、インラインHTML項目の最大高さ（pixel）を設定します。',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             'ご利用の全公開/秘密PGP鍵について、信頼される署名によって認証されていなくても信頼する場合、これをyesに設定してください。',
-        'Sets if SLA must be selected by the agent.' => '',
-        'Sets if SLA must be selected by the customer.' => '',
-        'Sets if note must be filled in by the agent.' => '',
-        'Sets if service must be selected by the agent.' => '',
-        'Sets if service must be selected by the customer.' => '',
+        'Sets if SLA must be selected by the agent.' => 'SLAが担当者によって必ず選択される必要があるかどうかを設定します。',
+        'Sets if SLA must be selected by the customer.' => 'SLAが顧客によって必ず選択される必要があるかどうかを設定します。',
+        'Sets if note must be filled in by the agent.' => 'ノートが担当者によって必ず選択される必要があるかどうかを設定します。',
+        'Sets if service must be selected by the agent.' => 'サービスが担当者によって必ず選択される必要があるかどうかを設定します。',
+        'Sets if service must be selected by the customer.' => 'サービスが顧客によって必ず選択される必要があるかどうかを設定します。',
         'Sets if ticket owner must be selected by the agent.' => 'チケットの所有者が担当者によって必ず選択される必要があるかどうかを設定します。',
         'Sets the PendingTime of a ticket to 0 if the state is changed to a non-pending state.' =>
             '状態が非ペンディング状態に変更された場合、チケットのペンディング・タイムを0に設定します。',
@@ -4452,27 +4452,27 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Sets the prefix to the scripts folder on the server, as configured on the web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within the system.' =>
             'ウェブ・サーバ上に設定されるように、サーバ上のスクリプト・フォルダに対する接頭辞を設定します。この設定は、OTRS_CONFIG_ScriptAlias変数として設定され、これはアプリケーションによって使用されるメッセージングの全フォームに存在し、システム内のチケットへのリンクを作成するために使用されます。',
         'Sets the queue in the ticket close screen of a zoomed ticket in the agent interface.' =>
-            '',
+            '担当者インタフェースのズームされたチケットのチケット完了画面で、キューを設定します。',
         'Sets the queue in the ticket free text screen of a zoomed ticket in the agent interface.' =>
-            '',
+            '担当者インタフェースのズームされたチケットのチケット自由テキスト画面で、キューを設定します。',
         'Sets the queue in the ticket note screen of a zoomed ticket in the agent interface.' =>
-            '',
+            '担当者インタフェースのズームされたチケットのチケットノート画面で、キューを設定します。',
         'Sets the queue in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '',
+            '担当者インタフェースのズームされたチケットのチケットチケット所有者画面で、キューを設定します。',
         'Sets the queue in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '',
+            '担当者インタフェースのズームされたチケットのチケット保留画面で、キューを設定します。',
         'Sets the queue in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '',
+            '担当者インタフェースのズームされたチケットのチケット優先度画面で、キューを設定します。',
         'Sets the queue in the ticket responsible screen of a zoomed ticket in the agent interface.' =>
-            '',
+            '担当者インタフェースのズームされたチケットのチケット責任者画面で、キューを設定します。',
         'Sets the responsible agent of the ticket in the close ticket screen of the agent interface.' =>
-            '担当者インタフェースのクローズ・チケット画面で、チケットの責任を有する担当者を設定します。',
+            '担当者インタフェースのチケットチケット完了画面で、チケットの責任を有する担当者を設定します。',
         'Sets the responsible agent of the ticket in the ticket bulk screen of the agent interface.' =>
             '担当者インタフェースのチケット・バルク画面で、チケットの責任を有する担当者を設定します。',
         'Sets the responsible agent of the ticket in the ticket free text screen of the agent interface.' =>
-            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、チケットに関して責任を有する担当者を設定します。',
+            '担当者インタフェースのチケット自由テキスト画面で、チケットの責任を有する担当者を設定します。',
         'Sets the responsible agent of the ticket in the ticket note screen of the agent interface.' =>
-            '担当者インタフェースのチケット・メモ画面で、チケットの責任を持つ担当者を設定します。',
+            '担当者インタフェースのチケット・メモ画面で、チケットの責任を有する担当者を設定します。',
         'Sets the responsible agent of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.' =>
             '担当者インタフェースのズームされたチケットのチケット所有者画面で、チケットの責任を有する担当者を設定します。',
         'Sets the responsible agent of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
@@ -4482,9 +4482,9 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Sets the responsible agent of the ticket in the ticket responsible screen of the agent interface.' =>
             '担当者インタフェースのチケット責任者画面で、チケットの責任を持つ担当者を設定します。',
         'Sets the service in the close ticket screen of the agent interface (Ticket::Service needs to be activated).' =>
-            '担当者インタフェースのクローズ・チケット画面で、サービスを設定します(Ticket::Serviceを有効とする必要があります)。',
+            '担当者インタフェースのチケット完了画面で、サービスを設定します(Ticket::Serviceを有効とする必要があります)。',
         'Sets the service in the ticket free text screen of the agent interface (Ticket::Service needs to be activated).' =>
-            '担当者インタフェースのチケット・フリー・テキスト・スクリーンで、サービスを設定します(Ticket::Serviceを有効とする必要があります)。',
+            '担当者インタフェースのチケット自由テキスト画面で、サービスを設定します(Ticket::Serviceを有効とする必要があります)。',
         'Sets the service in the ticket note screen of the agent interface (Ticket::Service needs to be activated).' =>
             '担当者インタフェースのチケット・メモ画面で、サービスを設定します(Ticket::Serviceを有効とする必要があります)。',
         'Sets the service in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).' =>
@@ -4935,7 +4935,7 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Please enter a search term to look for customer companies.' => '顧客企業の検索文字を入力してください',
         'Please supply a' => '入力してください: ',
         'Please supply a first name' => '姓を入力してください',
-        'Please supply a last name' => '名を入力してください。',
+        'Please supply a last name' => '名を入力してください',
         'Responses' => '応答',
         'Responses <-> Queues' => '応答 <-> キュー',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
