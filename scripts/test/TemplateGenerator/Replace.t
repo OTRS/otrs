@@ -48,31 +48,74 @@ my $QueueObject = Kernel::System::Queue->new(
 );
 
 my $RandomID = $HelperObject->GetRandomID();
+$RandomID =~ s/\-//g;
 
-my $TicketDfId = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => 'ReplaceTest' . $RandomID,
-    Label      => 'a description',
-    FieldOrder => 123,
-    FieldType  => 'Text',
-    ObjectType => 'Ticket',
-    Config     => {
-        Name        => 'ReplaceTest' . $RandomID,
-        Description => 'Description for Dynamic Field.',
+my @DynamicFieldsToAdd = (
+    {
+        Name       => 'Replace1' . $RandomID,
+        Label      => 'a description',
+        FieldOrder => 9998,
+        FieldType  => 'Text',
+        ObjectType => 'Ticket',
+        Config     => {
+            Name        => 'Replace1' . $RandomID,
+            Description => 'Description for Dynamic Field.',
+        },
+        Reorder => 0,
+        ValidID => 1,
+        UserID  => 1,
     },
-    Reorder => 1,
-    ValidID => 1,
-    UserID  => 1,
+    {
+        Name       => 'Replace2' . $RandomID,
+        Label      => 'a description',
+        FieldOrder => 9999,
+        FieldType  => 'Dropdown',
+        ObjectType => 'Ticket',
+        Config     => {
+            Name           => 'Replace2' . $RandomID,
+            Description    => 'Description for Dynamic Field.',
+            PossibleValues => {
+                1 => 'A',
+                2 => 'B',
+                }
+        },
+        Reorder => 0,
+        ValidID => 1,
+        UserID  => 1,
+    },
 );
 
-my $TicketDf = $DynamicFieldObject->DynamicFieldGet(
-    Name => 'ReplaceTest' . $RandomID,
-);
+my %AddedDynamicFieldIds;
+my %DynamicFieldConfigs;
 
-$Self->True(
-    $TicketDfId,
-    'DynamicFieldAdd()',
-);
+for my $DynamicField (@DynamicFieldsToAdd) {
+    my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
+        %{$DynamicField},
+    );
+    $Self->IsNot(
+        $DynamicFieldID,
+        undef,
+        'DynamicFieldAdd()',
+    );
 
+    # remember added DynamicFields
+    $AddedDynamicFieldIds{$DynamicFieldID} = $DynamicField->{Name};
+
+    my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+        Name => $DynamicField->{Name},
+    );
+    $Self->Is(
+        ref $DynamicFieldConfig,
+        'HASH',
+        'DynamicFieldConfig must be a hash reference',
+    );
+
+    # remember the DF config
+    $DynamicFieldConfigs{ $DynamicField->{FieldType} } = $DynamicFieldConfig;
+}
+
+# create template generator after the dynamic field are created as it gathers all DF in the
+# constructor
 my $TemplateGeneratorObject = Kernel::System::TemplateGenerator->new(
     %{$Self},
     ConfigObject       => $ConfigObject,
@@ -93,21 +136,32 @@ my $TicketID = $TicketObject->TicketCreate(
     OwnerID      => 1,
     UserID       => 1,
 );
-$Self->True(
+$Self->IsNot(
     $TicketID,
-    'TicketCreate()',
+    undef,
+    'TicketCreate() TicketID',
 );
 
-my $TicketDfValueSet = $BackendObject->ValueSet(
-    DynamicFieldConfig => $TicketDf,
+my $Success = $BackendObject->ValueSet(
+    DynamicFieldConfig => $DynamicFieldConfigs{Text},
     ObjectID           => $TicketID,
     Value              => 'otrs',
     UserID             => 1,
 );
-
 $Self->True(
-    $TicketDfValueSet,
-    'ValueSet()',
+    $Success,
+    'DynamicField ValueSet() for Dynamic Field Text - with true',
+);
+
+$Success = $BackendObject->ValueSet(
+    DynamicFieldConfig => $DynamicFieldConfigs{Dropdown},
+    ObjectID           => $TicketID,
+    Value              => 1,
+    UserID             => 1,
+);
+$Self->True(
+    $Success,
+    'DynamicField ValueSet() Dynamic Field Dropdown - with true',
 );
 
 my $ArticleID = $TicketObject->ArticleCreate(
@@ -124,15 +178,15 @@ my $ArticleID = $TicketObject->ArticleCreate(
     UserID         => 1,
     NoAgentNotify => 1,    # if you don't want to send agent notifications
 );
-
-$Self->True(
+$Self->IsNot(
     $ArticleID,
-    'ArticleCreate()',
+    undef,
+    'ArticleCreate() ArticleID',
 );
 
 my @Tests = (
     {
-        Name => 'simple replace',
+        Name => 'Simple replace',
         Data => {
             From => 'test@home.com',
         },
@@ -141,7 +195,7 @@ my @Tests = (
         Result   => 'Test test@home.com',
     },
     {
-        Name => 'simple replace, case insensitive',
+        Name => 'Simple replace, case insensitive',
         Data => {
             From => 'test@home.com',
         },
@@ -159,7 +213,7 @@ my @Tests = (
         Result   => 'Test -',
     },
     {
-        Name => 'otrs customer subject',    # <OTRS_CUSTOMER_SUBJECT>
+        Name => 'OTRS customer subject',    # <OTRS_CUSTOMER_SUBJECT>
         Data => {
             From    => 'test@home.com',
             Subject => 'otrs',
@@ -169,7 +223,7 @@ my @Tests = (
         Result   => 'Test otrs',
     },
     {
-        Name => 'otrs customer subject 3 letters',    # <OTRS_CUSTOMER_SUBJECT[20]>
+        Name => 'OTRS customer subject 3 letters',    # <OTRS_CUSTOMER_SUBJECT[20]>
         Data => {
             From    => 'test@home.com',
             Subject => 'otrs',
@@ -179,7 +233,7 @@ my @Tests = (
         Result   => 'Test otr [...]',
     },
     {
-        Name => 'otrs customer subject 20 letters + garbarge',    # <OTRS_CUSTOMER_SUBJECT[20]>
+        Name => 'OTRS customer subject 20 letters + garbarge',    # <OTRS_CUSTOMER_SUBJECT[20]>
         Data => {
             From    => 'test@home.com',
             Subject => 'RE: otrs',
@@ -189,7 +243,7 @@ my @Tests = (
         Result   => 'Test otrs',
     },
     {
-        Name => 'otrs responsible firstname',                     # <OTRS_RESPONSIBLE_UserFirstname>
+        Name => 'OTRS responsible firstname',                     # <OTRS_RESPONSIBLE_UserFirstname>
         Data => {
             From => 'test@home.com',
         },
@@ -198,7 +252,7 @@ my @Tests = (
         Result   => 'Test Admin',
     },
     {
-        Name => 'otrs owner firstname',                           # <OTRS_OWNER_*>
+        Name => 'OTRS owner firstname',                           # <OTRS_OWNER_*>
         Data => {
             From => 'test@home.com',
         },
@@ -207,7 +261,7 @@ my @Tests = (
         Result   => 'Test Admin',
     },
     {
-        Name => 'otrs current firstname',                         # <OTRS_CURRENT_*>
+        Name => 'OTRS current firstname',                         # <OTRS_CURRENT_*>
         Data => {
             From => 'test@home.com',
         },
@@ -216,7 +270,7 @@ my @Tests = (
         Result   => 'Test Admin',
     },
     {
-        Name => 'otrs ticket ticketid',                           # <OTRS_TICKET_*>
+        Name => 'OTRS ticket ticketid',                           # <OTRS_TICKET_*>
         Data => {
             From => 'test@home.com',
         },
@@ -225,25 +279,43 @@ my @Tests = (
         Result   => 'Test ' . $TicketID,
     },
     {
-        Name => 'otrs dynamic field',                             # <OTRS_TICKET_DynamicField_*>
+        Name => 'OTRS dynamic field (text)',                      # <OTRS_TICKET_DynamicField_*>
         Data => {
             From => 'test@home.com',
         },
         RichText => 0,
-        Template => 'Test <OTRS_TICKET_DynamicField_ReplaceTest' . $RandomID . '>',
+        Template => 'Test <OTRS_TICKET_DynamicField_Replace1' . $RandomID . '>',
         Result   => 'Test otrs',
     },
     {
-        Name => 'otrs dynamic field value',    # <OTRS_TICKET_DynamicField_*_Value>
+        Name => 'OTRS dynamic field value (text)',    # <OTRS_TICKET_DynamicField_*_Value>
         Data => {
             From => 'test@home.com',
         },
         RichText => 0,
-        Template => 'Test <OTRS_TICKET_DynamicField_ReplaceTest' . $RandomID . '_Value>',
+        Template => 'Test <OTRS_TICKET_DynamicField_Replace1' . $RandomID . '_Value>',
         Result   => 'Test otrs',
     },
     {
-        Name => 'otrs config value',           # <OTRS_CONFIG_*>
+        Name => 'OTRS dynamic field (Dropdown)',      # <OTRS_TICKET_DynamicField_*>
+        Data => {
+            From => 'test@home.com',
+        },
+        RichText => 0,
+        Template => 'Test <OTRS_TICKET_DynamicField_Replace2' . $RandomID . '>',
+        Result   => 'Test 1',
+    },
+    {
+        Name => 'OTRS dynamic field value (Dropdown)',    # <OTRS_TICKET_DynamicField_*_Value>
+        Data => {
+            From => 'test@home.com',
+        },
+        RichText => 0,
+        Template => 'Test <OTRS_TICKET_DynamicField_Replace2' . $RandomID . '_Value>',
+        Result   => 'Test A',
+    },
+    {
+        Name => 'OTRS config value',                      # <OTRS_CONFIG_*>
         Data => {
             From => 'test@home.com',
         },
@@ -265,27 +337,35 @@ for my $Test (@Tests) {
     $Self->Is(
         $Result,
         $Test->{Result},
-        $Test->{Name},
+        "$Test->{Name} - _Replace()",
     );
 }
 
-$BackendObject->AllValuesDelete(
-    DynamicFieldConfig => {
-        ID         => $TicketDfId,
-        ObjectType => 'Ticket',
-        FieldType  => 'Text',
-    },
-    UserID => 1,
-);
-$DynamicFieldObject->DynamicFieldDelete(
-    ID     => $TicketDfId,
-    UserID => 1,
-);
+# cleanup the system
+for my $DynamicFieldID ( sort keys %AddedDynamicFieldIds ) {
+
+    my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+        Name => $AddedDynamicFieldIds{$DynamicFieldID},
+    );
+
+    my $Success = $BackendObject->AllValuesDelete(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        UserID             => 1,
+    );
+    $Self->True(
+        $Success,
+        "DynamicField AllValuesDelete() - for DynamicFieldID '$DynamicFieldID' with true",
+    );
+}
 
 # the ticket is no longer needed
-$TicketObject->TicketDelete(
+$Success = $TicketObject->TicketDelete(
     TicketID => $TicketID,
     UserID   => 1,
+);
+$Self->True(
+    $Success,
+    "TicketDelete() - fort TicketID '$TicketID' with true",
 );
 
 1;
