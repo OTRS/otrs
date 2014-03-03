@@ -1,4 +1,5 @@
 #3.3.6 2014-??-??
+ - 2014-03-03 Fixed bug#[10299](http://bugs.otrs.org/show_bug.cgi?id=10299) - "Ouf of Office" shows inactive agents.
  - 2014-03-03 Fixed bug#[10321](http://bugs.otrs.org/show_bug.cgi?id=10321) - Applying Filters to tickets in Status View or Queue View will log out session..
  - 2014-03-03 Fixed bug#[9600](http://bugs.otrs.org/show_bug.cgi?id=9600) - When a ticket is deleted by generic agent job,  No such TicketID error.
  - 2014-02-28 Fixed bug#[10057](http://bugs.otrs.org/show_bug.cgi?id=10057) - Advanced Search Window is Cramped and Confusing.

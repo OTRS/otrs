@@ -120,6 +120,7 @@ sub Run {
             my %Data = $Self->{UserObject}->GetUserData(
                 UserID        => $UserID,
                 NoOutOfOffice => 1,
+                Valid         => 1,
             );
 
             next USERID if !%Data;
