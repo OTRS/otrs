@@ -367,7 +367,21 @@ sub new {
     }
 
     # locate template files
-    $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . $Theme;
+    $Self->{TemplateDir}
+        = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . $Theme;
+    $Self->{StandardTemplateDir}
+        = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . 'Standard';
+
+    # Check if 'Standard' fallback exists
+    if ( !-e $Self->{StandardTemplateDir} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message =>
+                "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm",
+        );
+        $Self->FatalDie();
+    }
+
     if ( !-e $Self->{TemplateDir} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -376,21 +390,15 @@ sub new {
                 Default theme used instead.",
         );
 
-        # Set TemplateDir to 'Standard' as a fallback and check if it exists.
+        # Set TemplateDir to 'Standard' as a fallback.
         $Theme = 'Standard';
-        $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . $Theme;
-        if ( !-e $Self->{TemplateDir} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message =>
-                    "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm",
-            );
-            $Self->FatalDie();
-        }
+        $Self->{TemplateDir} = $Self->{StandardTemplateDir};
     }
 
     $Self->{CustomTemplateDir}
         = $Self->{ConfigObject}->Get('CustomTemplateDir') . '/HTML/' . $Theme;
+    $Self->{CustomStandardTemplateDir}
+        = $Self->{ConfigObject}->Get('CustomTemplateDir') . '/HTML/' . 'Standard';
 
     # load sub layout files
     my $Dir = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML';
@@ -533,14 +541,14 @@ sub Output {
         if ( -f "$Self->{CustomTemplateDir}/$Param{TemplateFile}.dtl" ) {
             $File = "$Self->{CustomTemplateDir}/$Param{TemplateFile}.dtl";
         }
-        elsif ( -f "$Self->{CustomTemplateDir}/../Standard/$Param{TemplateFile}.dtl" ) {
-            $File = "$Self->{CustomTemplateDir}/../Standard/$Param{TemplateFile}.dtl";
+        elsif ( -f "$Self->{CustomStandardTemplateDir}/$Param{TemplateFile}.dtl" ) {
+            $File = "$Self->{CustomStandardTemplateDir}/$Param{TemplateFile}.dtl";
         }
         elsif ( -f "$Self->{TemplateDir}/$Param{TemplateFile}.dtl" ) {
             $File = "$Self->{TemplateDir}/$Param{TemplateFile}.dtl";
         }
         else {
-            $File = "$Self->{TemplateDir}/../Standard/$Param{TemplateFile}.dtl";
+            $File = "$Self->{StandardTemplateDir}/$Param{TemplateFile}.dtl";
         }
         my $ResultRef = $Self->{MainObject}->FileRead(
             Location => $File,
