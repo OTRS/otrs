@@ -100,9 +100,9 @@ sub Output {
 
     my @TemplateFolders = (
         "$Self->{CustomTemplateDir}",
-        "$Self->{CustomTemplateDir}/../Standard",
+        "$Self->{CustomStandardTemplateDir}",
         "$Self->{TemplateDir}",
-        "$Self->{TemplateDir}/../Standard",
+        "$Self->{StandardTemplateDir}",
     );
 
     my $TemplateString;

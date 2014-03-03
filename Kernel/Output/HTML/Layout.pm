@@ -62,7 +62,8 @@ sub new {
         qw(DBObject ConfigObject LogObject TimeObject MainObject EncodeObject
         ParamObject SessionObject TicketObject GroupObject HTMLUtilsObject
         JSONObject)
-    ) {
+        )
+    {
         $Self->{$Object} //= $Kernel::OM->Get($Object);
     }
 
@@ -318,7 +319,21 @@ sub new {
     }
 
     # locate template files
-    $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . $Theme;
+    $Self->{TemplateDir}
+        = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . $Theme;
+    $Self->{StandardTemplateDir}
+        = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . 'Standard';
+
+    # Check if 'Standard' fallback exists
+    if ( !-e $Self->{StandardTemplateDir} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message =>
+                "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm",
+        );
+        $Self->FatalDie();
+    }
+
     if ( !-e $Self->{TemplateDir} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -327,21 +342,15 @@ sub new {
                 Default theme used instead.",
         );
 
-        # Set TemplateDir to 'Standard' as a fallback and check if it exists.
+        # Set TemplateDir to 'Standard' as a fallback.
         $Theme = 'Standard';
-        $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . $Theme;
-        if ( !-e $Self->{TemplateDir} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message =>
-                    "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm",
-            );
-            $Self->FatalDie();
-        }
+        $Self->{TemplateDir} = $Self->{StandardTemplateDir};
     }
 
     $Self->{CustomTemplateDir}
         = $Self->{ConfigObject}->Get('CustomTemplateDir') . '/HTML/' . $Theme;
+    $Self->{CustomStandardTemplateDir}
+        = $Self->{ConfigObject}->Get('CustomTemplateDir') . '/HTML/' . 'Standard';
 
     # load sub layout files
     my $Dir = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML';
