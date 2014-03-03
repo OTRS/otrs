@@ -275,22 +275,19 @@ for my $Test (@Tests) {
         my $SOAPResult = SOAP::Data->value( @{ $SOAPData->{Data} } );
         push @CallData, $SOAPResult;
         $ExpectedResult =
-            '<?xml version="1.0" encoding="UTF-8"?>' .
-            $SOAPTagIni . '<' . $Test->{Operation} . '>' .
+            '<soap:Body><' . $Test->{Operation} . '>' .
             $Test->{Data} .
-            '</' . $Test->{Operation} . '>' .
-            $SOAPTagEnd;
+            '</' . $Test->{Operation} . '></soap:Body>';
     }
     else {
         $ExpectedResult =
-            '<?xml version="1.0" encoding="UTF-8"?>' .
-            $SOAPTagIni .
-            '<Response xsi:nil="true" />' .
-            $SOAPTagEnd;
+            '<soap:Body><Response xsi:nil="true" /></soap:Body>';
     }
     my $Content = SOAP::Serializer
         ->autotype(0)
         ->envelope(@CallData);
+
+    $Content =~ s{.*(<soap:Body>.*</soap:Body>).*}{$1}xms;
 
     $Self->Is(
         $Content,

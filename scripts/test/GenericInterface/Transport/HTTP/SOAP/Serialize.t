@@ -345,16 +345,14 @@ for my $Test (@SoapTests) {
     # create an XML file to compare the expected results
     my $SOAPRawContent;
     if ( $Test->{XML} ) {
-        $SOAPRawContent = $SOAPHeader
-            . '<' . $Test->{Operation} . 'Response' . '>'
+        $SOAPRawContent =
+            '<soap:Body><' . $Test->{Operation} . 'Response' . '>'
             . $Test->{XML}
-            . '</' . $Test->{Operation} . 'Response' . '>'
-            . $SOAPFooter;
+            . '</' . $Test->{Operation} . 'Response' . '></soap:Body>';
     }
     else {
-        $SOAPRawContent = $SOAPHeader
-            . '<' . $Test->{Operation} . 'Response' . '/>'
-            . $SOAPFooter;
+        $SOAPRawContent =
+            '<soap:Body><' . $Test->{Operation} . 'Response' . '/></soap:Body>';
     }
 
     # convert soap XML back to perl structure for easy handling
@@ -470,8 +468,10 @@ for my $Test (@SoapTests) {
     );
 
     if ( $Test->{Success} ) {
+        my $SOAPBodyContent = $Content;
+        $SOAPBodyContent =~ s{.*(<soap:Body>.*</soap:Body>).*}{$1}xms;
         $Self->Is(
-            $Content,
+            $SOAPBodyContent,
             $SOAPRawContent,
             "Test $Test->{Name}: SOAP Response data raw as normal XML IsDeeply",
         );
