@@ -1,4 +1,5 @@
 #3.3.6 2014-??-??
+ - 2014-03-03 Fixed bug#[9600](http://bugs.otrs.org/show_bug.cgi?id=9600) - When a ticket is deleted by generic agent job,  No such TicketID error.
  - 2014-02-28 Fixed bug#[10057](http://bugs.otrs.org/show_bug.cgi?id=10057) - Advanced Search Window is Cramped and Confusing.
  - 2014-02-28 Fixed bug#[9675](http://bugs.otrs.org/show_bug.cgi?id=9675) - No use Ticket::Hook in AgentLinkObject.
  - 2014-02-28 Updated Japanese translation, thanks to Norihiro Tanaka!
