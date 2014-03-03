@@ -757,6 +757,16 @@ iframe.TextOption.Customer {
     max-height: 100px;
 }
 
+#SearchForm,
+#AgentCustomerInformationCenterSearchForm > legend{
+    color: #333333;
+    padding-left: 20px;
+}
+
+.LegendSeparator{
+    border-top: 1px solid #ccc;
+}
+
 /**
  * @subsection global message format
  */

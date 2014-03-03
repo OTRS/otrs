@@ -1,4 +1,5 @@
 #3.3.6 2014-??-??
+ - 2014-02-28 Fixed bug#[10057](http://bugs.otrs.org/show_bug.cgi?id=10057) - Advanced Search Window is Cramped and Confusing.
  - 2014-02-28 Fixed bug#[9675](http://bugs.otrs.org/show_bug.cgi?id=9675) - No use Ticket::Hook in AgentLinkObject.
  - 2014-02-28 Updated Japanese translation, thanks to Norihiro Tanaka!
  - 2014-02-27 Fixed bug#[10300](http://bugs.otrs.org/show_bug.cgi?id=10300) - Special character in customer id cuts off string..
