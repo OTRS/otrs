@@ -566,10 +566,14 @@ $('a.AsPopup').bind('click', function (Event) {
 });
 
 $('.ColumnFilter').bind('change', function (Event) {
-    var URL, ColumnFilter, NewColumnFilterStrg, MyRegEx;
+    var URL, ColumnFilter, NewColumnFilterStrg, MyRegEx, SessionInformation;
 
     // define variables
     URL = Core.Config.Get('Baselink') + 'Action=' + '$Env{"Action"}' + ';$Data{"LinkPage"}';
+    SessionInformation = Core.App.GetSessionInformation();
+    $.each(SessionInformation, function (Key, Value) {
+        URL += encodeURIComponent(Key) + '=' + encodeURIComponent(Value) + ';';
+    });
     ColumnFilter = $(this)[0].name;
     NewColumnFilterStrg = $(this)[0].name + '=' + $(this).val() + ';';
     MyRegEx = new  RegExp(ColumnFilter+"=[^;]*;");
@@ -585,7 +589,7 @@ $('.ColumnFilter').bind('change', function (Event) {
     }
 
     // redirect
-    window.location.href =  URL
+    window.location.href =  URL;
 });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
