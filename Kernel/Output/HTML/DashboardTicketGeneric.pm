@@ -1197,7 +1197,7 @@ sub Run {
             Silent        => 1
         );
 
-        next if !%Ticket;
+        next TICKETID if !%Ticket;
 
         # set a default title if ticket has no title
         if ( !$Ticket{Title} ) {
