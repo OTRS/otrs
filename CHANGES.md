@@ -1,5 +1,4 @@
 #3.4.0.beta1 20??-??-??
- - 2014-03-04 Fixed bug#[10264](http://bugs.otrs.org/show_bug.cgi?id=10264) - Description (espacially article description) in processes are shown on improper place.
  - 2014-03-04 Added a new central ObjectManager to simplify singleton object creation and usage. Thanks a lot to Moritz Lenz @ noris network.
  - 2014-03-04 Fixed bug#[10244](http://bugs.otrs.org/show_bug.cgi?id=10244) - No mouseover popup for fields in ActivityDialogs.
  - 2014-02-24 Updated CPAN module parent to version 0.228.
