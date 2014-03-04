@@ -31,6 +31,10 @@
 </div>
 <div class="Clear"></div>
 
+<!-- dtl:block:rw:Article:DescriptionShort -->
+<div class="Field FieldExplanation">$Data{"DescriptionShort"}</div>
+<!-- dtl:block:rw:Article:DescriptionShort -->
+
 <label class="$QData{"MandatoryClass"}" for="RichText">
 <!-- dtl:block:LabelSpanBody -->
     <span class="Marker">*</span>
@@ -83,9 +87,6 @@ $Include{"RichTextEditor"}
 //]]></script>
 <!--dtl:js_on_document_complete-->
 </div>
-<!-- dtl:block:rw:Article:DescriptionShort -->
-<div class="Field FieldExplanation">$Data{"DescriptionShort"}</div>
-<!-- dtl:block:rw:Article:DescriptionShort -->
 <div class="Clear"></div>
 <div class="FieldSeparator"></div>
 <!-- dtl:block:rw:Article -->

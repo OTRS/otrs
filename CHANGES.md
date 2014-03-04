@@ -1,4 +1,5 @@
 #3.3.6 2014-??-??
+ - 2014-03-04 Fixed bug#[10264](http://bugs.otrs.org/show_bug.cgi?id=10264) - Description (espacially article description) in processes are shown on improper place.
  - 2014-03-04 Fixed bug#[10244](http://bugs.otrs.org/show_bug.cgi?id=10244) - No mouseover popup for fields in ActivityDialogs.
  - 2014-03-03 Fixed bug#[10240](http://bugs.otrs.org/show_bug.cgi?id=10240) - Restricting process list by ACLs is only working with UserID.
  - 2014-03-03 Fixed bug#[10299](http://bugs.otrs.org/show_bug.cgi?id=10299) - "Ouf of Office" shows inactive agents.
