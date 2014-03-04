@@ -28,6 +28,9 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
+use Kernel::System::Environment;
+use Kernel::System::VariableCheck qw( IsHashRefWithData );
+
 # on Windows, we only have ANSI support if Win32::Console::ANSI is present
 # turn off colors if it is not available
 BEGIN {
@@ -45,9 +48,7 @@ use File::Path;
 use Getopt::Long;
 use Term::ANSIColor;
 
-use Kernel::System::Environment;
 
-use Kernel::System::VariableCheck qw(:all);
 
 our %InstTypeToCMD = (
 

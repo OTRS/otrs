@@ -28,24 +28,18 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Log;
-use Kernel::System::Time;
-use Kernel::System::Main;
-use Kernel::System::DB;
-use Kernel::System::CustomerUser;
+use Kernel::System::ObjectManager;
 
 # create common objects
-my %CommonObject;
-$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}
-    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'OTRS-otrs.AddCustomerUser.pl' );
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-$CommonObject{UserObject} = Kernel::System::CustomerUser->new(%CommonObject);
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-otrs.AddCustomerUser.pl',
+    },
+);
+my %CommonObject = $Kernel::OM->ObjectHash(
+    Objects => [qw(ConfigObject EncodeObject LogObject TimeObject
+                  MainObject DBObject CustomerUserObject)],
+);
 
 my %Options;
 use Getopt::Std;
@@ -74,7 +68,7 @@ $Param{UserLogin}      = $ARGV[0];
 $Param{UserPassword}   = $Options{p};
 $Param{UserEmail}      = $Options{e};
 
-if ( $Param{UID} = $CommonObject{UserObject}->CustomerUserAdd( %Param, ChangeUserID => 1 ) ) {
+if ( $Param{UID} = $CommonObject{CustomerUserObject}->CustomerUserAdd( %Param, ChangeUserID => 1 ) ) {
     print "Customer user added. Username is $Param{UID}\n";
 }
 

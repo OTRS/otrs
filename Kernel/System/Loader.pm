@@ -40,31 +40,9 @@ All valid functions.
 
 create an object
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Loader;
-    use Kernel::System::Main;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $LoaderObject = Kernel::System::Loader->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $LoaderObject = $Kernel::OM->Get('LoaderObject');
 
 =cut
 

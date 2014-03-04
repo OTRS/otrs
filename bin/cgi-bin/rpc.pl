@@ -29,13 +29,8 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
 
 use SOAP::Transport::HTTP;
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Log;
-use Kernel::System::DB;
-use Kernel::System::PID;
-use Kernel::System::Main;
-use Kernel::System::Time;
+use Kernel::System::ObjectManager;
+
 use Kernel::System::User;
 use Kernel::System::Group;
 use Kernel::System::Queue;
@@ -62,26 +57,18 @@ sub Dispatch {
 
     $User ||= '';
     $Pw   ||= '';
-
-    # common objects
-    my %CommonObject = ();
-    $CommonObject{ConfigObject} = Kernel::Config->new();
-    $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-    $CommonObject{LogObject}    = Kernel::System::Log->new(
-        LogPrefix => 'OTRS-RPC',
-        %CommonObject,
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
+        LogObject => {
+            LogPrefix => 'OTRS-RPC',
+        },
     );
-    $CommonObject{MainObject}            = Kernel::System::Main->new(%CommonObject);
-    $CommonObject{DBObject}              = Kernel::System::DB->new(%CommonObject);
-    $CommonObject{PIDObject}             = Kernel::System::PID->new(%CommonObject);
-    $CommonObject{TimeObject}            = Kernel::System::Time->new(%CommonObject);
-    $CommonObject{UserObject}            = Kernel::System::User->new(%CommonObject);
-    $CommonObject{GroupObject}           = Kernel::System::Group->new(%CommonObject);
-    $CommonObject{QueueObject}           = Kernel::System::Queue->new(%CommonObject);
-    $CommonObject{CustomerUserObject}    = Kernel::System::CustomerUser->new(%CommonObject);
-    $CommonObject{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%CommonObject);
-    $CommonObject{TicketObject}          = Kernel::System::Ticket->new(%CommonObject);
-    $CommonObject{LinkObject}            = Kernel::System::LinkObject->new(%CommonObject);
+
+    my %CommonObject = $Kernel::OM->ObjectHash(
+        Objects => [qw(ConfigObject EncodeObject LogObject MainObject DBObject
+                      PIDObject TimeObject UserObject GroupObject QueueObject
+                      CustomerUserObject CustomerCompanyObject TicketObject
+                      LinkObject)],
+    );
 
     my $RequiredUser     = $CommonObject{ConfigObject}->Get('SOAP::User');
     my $RequiredPassword = $CommonObject{ConfigObject}->Get('SOAP::Password');
@@ -138,24 +125,18 @@ sub DispatchMultipleTicketMethods {
     $Pw   ||= '';
 
     # common objects
-    my %CommonObject = ();
-    $CommonObject{ConfigObject} = Kernel::Config->new();
-    $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-    $CommonObject{LogObject}    = Kernel::System::Log->new(
-        LogPrefix => 'OTRS-RPC',
-        %CommonObject,
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
+        LogObject => {
+            LogPrefix => 'OTRS-RPC',
+        },
     );
-    $CommonObject{MainObject}            = Kernel::System::Main->new(%CommonObject);
-    $CommonObject{DBObject}              = Kernel::System::DB->new(%CommonObject);
-    $CommonObject{PIDObject}             = Kernel::System::PID->new(%CommonObject);
-    $CommonObject{TimeObject}            = Kernel::System::Time->new(%CommonObject);
-    $CommonObject{UserObject}            = Kernel::System::User->new(%CommonObject);
-    $CommonObject{GroupObject}           = Kernel::System::Group->new(%CommonObject);
-    $CommonObject{QueueObject}           = Kernel::System::Queue->new(%CommonObject);
-    $CommonObject{CustomerUserObject}    = Kernel::System::CustomerUser->new(%CommonObject);
-    $CommonObject{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%CommonObject);
-    $CommonObject{TicketObject}          = Kernel::System::Ticket->new(%CommonObject);
-    $CommonObject{LinkObject}            = Kernel::System::LinkObject->new(%CommonObject);
+
+    my %CommonObject = $Kernel::OM->ObjectHash(
+        Objects => [qw(ConfigObject EncodeObject LogObject MainObject DBObject
+                      PIDObject TimeObject UserObject GroupObject QueueObject
+                      CustomerUserObject CustomerCompanyObject TicketObject
+                      LinkObject)],
+    );
 
     my $RequiredUser     = $CommonObject{ConfigObject}->Get('SOAP::User');
     my $RequiredPassword = $CommonObject{ConfigObject}->Get('SOAP::Password');

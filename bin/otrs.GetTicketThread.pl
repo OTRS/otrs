@@ -30,13 +30,7 @@ use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Std;
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Time;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::DB;
-use Kernel::System::Ticket;
+use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
@@ -50,17 +44,14 @@ if ( $Opts{h} || !$Opts{t} ) {
 }
 
 # common objects
-my %CommonObject;
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.GetTicketThread.pl',
-    %CommonObject,
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-otrs.GetTicketThread.pl',
+    },
 );
-$CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
-$CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
+my %CommonObject = $Kernel::OM->ObjectHash(
+    Objects => [qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject TicketObject)],
+);
 
 # get ticket data
 my %Ticket = $CommonObject{TicketObject}->TicketGet(

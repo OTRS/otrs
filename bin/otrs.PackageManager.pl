@@ -31,26 +31,17 @@ use lib dirname($RealBin) . '/Custom';
 use File::Spec;
 use Getopt::Std;
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::DB;
-use Kernel::System::Time;
-use Kernel::System::Package;
+use Kernel::System::ObjectManager;
 
 # common objects
-my %CommonObject = ();
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.PackageManager.pl',
-    %CommonObject,
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-otrs.PackageManager.pl',
+    },
 );
-$CommonObject{MainObject}    = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject}    = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
-$CommonObject{PackageObject} = Kernel::System::Package->new(%CommonObject);
+my %CommonObject = $Kernel::OM->ObjectHash(
+    Objects => [qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject PackageObject)],
+);
 
 # get options
 my %Opts;

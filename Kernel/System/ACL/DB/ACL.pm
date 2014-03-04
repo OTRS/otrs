@@ -12,11 +12,7 @@ package Kernel::System::ACL::DB::ACL;
 use strict;
 use warnings;
 
-use Kernel::System::YAML;
-
-use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::User;
 
 =head1 NAME
 
@@ -34,46 +30,11 @@ ACL DB ACL backend
 
 =item new()
 
-create a ACL object
+create a ACL object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::Time;
-    use Kernel::System::DB;
-    use Kernel::System::ACL::DB::ACL;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $ACLObject = Kernel::System::ACL::DB::ACL->new(
-        ConfigObject        => $ConfigObject,
-        EncodeObject        => $EncodeObject,
-        LogObject           => $LogObject,
-        MainObject          => $MainObject,
-        DBObject            => $DBObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $ACLObject = $Kernel::OM->Get('ACLDBACLObject');
 
 =cut
 
@@ -81,20 +42,15 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw(ConfigObject EncodeObject LogObject TimeObject MainObject
+                    DBObject CacheObject YAMLObject UserObject)
+                ]
+        ),
+    };
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Needed (qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject)) {
-        die "Got no $Needed!" if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
-
-    # create additional objects
-    $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
-    $Self->{YAMLObject}  = Kernel::System::YAML->new( %{$Self} );
-    $Self->{UserObject}  = Kernel::System::User->new( %{$Self} );
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL}
@@ -912,7 +868,6 @@ sub ACLDump {
     my $CurrentTime = $Self->{TimeObject}->CurrentTimestamp();
 
     # get user data of the current user to use for the file comment
-    $Self->{UserObject} = Kernel::System::User->new( %{$Self} );
     my %User = $Self->{UserObject}->GetUserData(
         UserID => $Param{UserID},
     );

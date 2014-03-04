@@ -28,29 +28,17 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Log;
-use Kernel::System::Time;
-use Kernel::System::DB;
-use Kernel::System::Main;
-use Kernel::System::CustomerUser;
-use Kernel::System::CustomerGroup;
-
-my %CommonObject;
+use Kernel::System::ObjectManager;
 
 # create common objects
-$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.AddCustomer2Group',
-    %CommonObject,
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-otrs.AddCustomer2Group',
+    },
 );
-$CommonObject{TimeObject}          = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject}          = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}            = Kernel::System::DB->new(%CommonObject);
-$CommonObject{CustomerUserObject}  = Kernel::System::CustomerUser->new(%CommonObject);
-$CommonObject{CustomerGroupObject} = Kernel::System::CustomerGroup->new(%CommonObject);
+my %CommonObject = $Kernel::OM->ObjectHash(
+    Objects => [qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject CustomerUserObject CustomerGroupObject)],
+);
 
 my %Param;
 my %Opts;

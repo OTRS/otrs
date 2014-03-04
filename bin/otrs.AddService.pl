@@ -30,24 +30,19 @@ use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Std;
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Log;
-use Kernel::System::DB;
-use Kernel::System::Main;
-use Kernel::System::Service;
+use Kernel::System::ObjectManager;
 
 my %Param;
-my %CommonObject;
 
 # create common objects
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}
-    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'OTRS-otrs.AddService' );
-$CommonObject{MainObject}    = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
-$CommonObject{ServiceObject} = Kernel::System::Service->new(%CommonObject);
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-otrs.AddService',
+    },
+);
+my %CommonObject = $Kernel::OM->ObjectHash(
+    Objects => [qw(ConfigObject EncodeObject MainObject DBObject ServiceObject)],
+);
 
 my $NoOptions = $ARGV[0] ? 0 : 1;
 

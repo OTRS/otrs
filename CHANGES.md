@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-03-04 Added a new central ObjectManager to simplify singleton object creation and usage. Thanks a lot to Moritz Lenz @ noris network.
  - 2014-02-24 Updated CPAN module parent to version 0.228.
  - 2014-02-24 Updated CPAN module YAML to version 0.90.
  - 2014-02-24 Updated CPAN module XML::TreePP to version 0.42.

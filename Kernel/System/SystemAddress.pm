@@ -33,38 +33,9 @@ Global module to add/edit/update system addresses.
 
 create an object
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::SystemAddress;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $SystemAddressObject = Kernel::System::SystemAddress->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-        EncodeObject => $EncodeObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $SystemAddressObject = $Kernel::OM->Get('SystemAddressObject');
 
 =cut
 

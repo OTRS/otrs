@@ -31,42 +31,11 @@ All log functions.
 
 =item new()
 
-create a debug log object
+create a debug log object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::GenericInterface::DebugLog;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $DebugLogObject = Kernel::System::GenericInterface::DebugLog->new(
-        ConfigObject        => $ConfigObject,
-        EncodeObject        => $EncodeObject,
-        LogObject           => $LogObject,
-        MainObject          => $MainObject,
-        CacheInternalObject => $CacheInternalObject,
-        DBObject            => $DBObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $DebugLogObject = $Kernel::OM->Get('DebugLogObject');
 
 =cut
 

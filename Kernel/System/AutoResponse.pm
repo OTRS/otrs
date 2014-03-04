@@ -32,39 +32,9 @@ All auto response functions. E. g. to add auto response or other functions.
 
 create an object
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::AutoResponse;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $AutoResponseObject = Kernel::System::AutoResponse->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-        MainObject   => $MainObject,
-        EncodeObject => $EncodeObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $AutoResponseObject = $Kernel::OM->Get('AutoReponseObject');
 
 =cut
 
@@ -72,21 +42,12 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [qw(ConfigObject LogObject DBObject MainObject EncodeObject SystemAddressObject)],
+        ),
+    };
     bless( $Self, $Type );
-
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject MainObject EncodeObject)) {
-        if ( $Param{$_} ) {
-            $Self->{$_} = $Param{$_};
-        }
-        else {
-            die "Got no $_!";
-        }
-    }
-
-    $Self->{SystemAddressObject}
-        = $Param{SystemAddressObject} || Kernel::System::SystemAddress->new( %{$Self} );
 
     return $Self;
 }

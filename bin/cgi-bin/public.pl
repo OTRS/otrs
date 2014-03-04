@@ -31,6 +31,10 @@ use lib "$Bin/../../Custom";
 # 0=off;1=on;
 my $Debug = 0;
 
+# load object manager
+use Kernel::System::ObjectManager;
+local $Kernel::OM = Kernel::System::ObjectManager->new();
+
 # load agent web interface
 use Kernel::System::Web::InterfacePublic();
 

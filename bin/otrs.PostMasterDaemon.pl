@@ -30,13 +30,7 @@ use lib dirname($RealBin) . '/Custom';
 
 my $Debug = 1;
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Time;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::DB;
-use Kernel::System::PostMaster;
+use Kernel::System::ObjectManager;
 
 use IO::Socket;
 
@@ -126,16 +120,14 @@ sub PipeEmail {
     my (@Email) = @_;
 
     # create common objects
-    my %CommonObject = ();
-    $CommonObject{ConfigObject} = Kernel::Config->new();
-    $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-    $CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
-    $CommonObject{LogObject}    = Kernel::System::Log->new(
-        LogPrefix => 'OTRS-otrs.PostMasterDaemon.pl',
-        %CommonObject,
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
+        LogObject => {
+            LogPrefix => 'OTRS-otrs.PostMasterDaemon.pl',
+        },
     );
-    $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-    $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
+    my %CommonObject = $Kernel::OM->ObjectHash(
+        Objects => [qw(ConfigObject EncodeObject TimeObject LogObject MainObject DBObject)],
+    );
 
     # debug info
     if ($Debug) {
@@ -146,7 +138,6 @@ sub PipeEmail {
     }
 
     # ... common objects ...
-    $CommonObject{PostMaster} = Kernel::System::PostMaster->new( %CommonObject, Email => \@Email );
     my @Return = $CommonObject{PostMaster}->Run();
     if ( !$Return[0] ) {
         $CommonObject{LogObject}->Log(

@@ -32,38 +32,20 @@ use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Std;
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::DB;
-use Kernel::System::Time;
-use Kernel::System::Stats;
-use Kernel::System::Group;
-use Kernel::System::User;
-use Kernel::System::Package;
-use Kernel::System::CSV;
+use Kernel::System::ObjectManager;
 
 # get file version
 use vars qw($Debug);
 
 # common objects
-my %CommonObject = ();
-$CommonObject{UserID}       = 1;
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.ExportStatsToOPM.pl',
-    %CommonObject,
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-otrs.ExportStatsToOPM.pl',
+    },
 );
-$CommonObject{MainObject}    = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject}    = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
-$CommonObject{UserObject}    = Kernel::System::User->new(%CommonObject);
-$CommonObject{GroupObject}   = Kernel::System::Group->new(%CommonObject);
-$CommonObject{CSVObject}     = Kernel::System::CSV->new(%CommonObject);
-$CommonObject{StatsObject}   = Kernel::System::Stats->new(%CommonObject);
-$CommonObject{PackageObject} = Kernel::System::Package->new(%CommonObject);
+my %CommonObject = $Kernel::OM->ObjectHash(
+    Objects => [qw(UserID ConfigObject EncodeObject LogObject MainObject TimeObject DBObject UserObject GroupObject CSVObject StatsObject PackageObject)],
+);
 
 # ---------------------------------------------------------- #
 # get options and params

@@ -29,27 +29,17 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Std;
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Time;
-use Kernel::System::DB;
-use Kernel::System::Log;
-use Kernel::System::Queue;
-use Kernel::System::StandardTemplate;
-use Kernel::System::Main;
+use Kernel::System::ObjectManager;
 
 # create common objects
-my %CommonObject;
-$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.AddQueue2StdTemplate.pl',
-    %CommonObject,
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-otrs.AddQueue2StdTemplate.pl',
+    },
 );
-$CommonObject{MainObject}             = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}               = Kernel::System::DB->new(%CommonObject);
-$CommonObject{QueueObject}            = Kernel::System::Queue->new(%CommonObject);
-$CommonObject{StandardTemplateObject} = Kernel::System::StandardTemplate->new(%CommonObject);
+my %CommonObject = $Kernel::OM->ObjectHash(
+    Objects => [qw(ConfigObject EncodeObject LogObject MainObject DBObject QueueObject StandardTemplateObject)],
+);
 
 # get options
 my %Opts;

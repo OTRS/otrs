@@ -30,27 +30,11 @@ Functions for YAML serialization / deserialization.
 
 =item new()
 
-create a YAML object
+create a YAML object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::YAML;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-
-    my $YAMLObject = Kernel::System::YAML->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $YAMLObject = $Kernel::OM->Get('YAMLObject');
 
 =cut
 

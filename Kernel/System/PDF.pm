@@ -26,38 +26,11 @@ Functions for generating PDF files.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::Time;
-    use Kernel::System::PDF;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $PDFObject = Kernel::System::PDF->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        TimeObject   => $TimeObject,
-        MainObject   => $MainObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $PDFObject = $Kernel::OM->Get('PDFObject');
 
 C<undef> will be returned when the config option C<PDF> is not set,
 or when the L<PDF::API2> is not installed or has an unsupported version.

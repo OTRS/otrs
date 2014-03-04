@@ -12,17 +12,6 @@ package Kernel::System::Web::InterfacePublic;
 use strict;
 use warnings;
 
-# all framework needed  modules
-use Kernel::Config;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::Encode;
-use Kernel::System::Time;
-use Kernel::System::Web::Request;
-use Kernel::System::DB;
-use Kernel::System::CustomerUser;
-use Kernel::Output::HTML::Layout;
-
 =head1 NAME
 
 Kernel::System::Web::InterfacePublic - the public web interface
@@ -65,18 +54,20 @@ sub new {
     $Self->{PerformanceLogStart} = time();
 
     # create common framework objects 1/3
-    $Self->{ConfigObject} = Kernel::Config->new();
-    $Self->{LogObject}    = Kernel::System::Log->new(
-        LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix'),
-        %{$Self},
+    $Self->{ConfigObject} = $Kernel::OM->Get('ConfigObject');
+
+    $Kernel::OM->ObjectParamAdd(
+        LogObject => {
+            LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix'),
+        },
+        ParamObject => {
+            WebRequest => $Param{WebRequest} || 0,
+        },
     );
-    $Self->{EncodeObject} = Kernel::System::Encode->new( %{$Self} );
-    $Self->{MainObject}   = Kernel::System::Main->new( %{$Self} );
-    $Self->{TimeObject}   = Kernel::System::Time->new( %{$Self} );
-    $Self->{ParamObject}  = Kernel::System::Web::Request->new(
-        %{$Self},
-        WebRequest => $Param{WebRequest} || 0,
-    );
+
+    for my $Needed ( qw(LogObject EncodeObject MainObject TimeObject ParamObject) ) {
+        $Self->{ $Needed } = $Kernel::OM->Get( $Needed );
+    }
 
     # debug info
     if ( $Self->{Debug} ) {
@@ -146,16 +137,19 @@ sub Run {
     # security check Action Param (replace non-word chars)
     $Param{Action} =~ s/\W//g;
 
-    # create common framework objects 2/3
-    $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
-        %Param,
-        SessionIDCookie => 1,
-        %{$Self},
-        Lang => $Param{Lang},
+    $Kernel::OM->ObjectParamAdd(
+        LayoutObject => {
+            %Param,
+            SessionIDCookie => 1,
+            Debug           => $Self->{Debug},
+        },
     );
 
+    # create common framework objects 2/3
+    $Self->{LayoutObject} = $Kernel::OM->Get( 'LayoutObject' );
+
     # check common objects
-    $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
+    $Self->{DBObject}     = $Kernel::OM->Get( 'DBObject' );
     if ( !$Self->{DBObject} ) {
         $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your administrator' );
     }
@@ -167,7 +161,7 @@ sub Run {
     }
 
     # create common framework objects 3/3
-    $Self->{UserObject} = Kernel::System::CustomerUser->new( %{$Self} );
+    $Self->{UserObject} = $Kernel::OM->Get( 'CustomerUserObject' );
 
     # application and add-on application common objects
     my %CommonObject = %{ $Self->{ConfigObject}->Get('PublicFrontend::CommonObject') };

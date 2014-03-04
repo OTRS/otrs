@@ -30,12 +30,7 @@ use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Std;
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Time;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::DB;
+use Kernel::System::ObjectManager;
 use Kernel::System::GenericInterface::DebugLog;
 
 sub PrintHelp {
@@ -65,16 +60,14 @@ if ( $Opts{h} ) {
 }
 
 # create common objects
-my %CommonObject;
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.GenericInterfaceDebugRead.pl',
-    %CommonObject,
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-otrs.GenericInterfaceDebugRead.pl',
+    },
 );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
+my %CommonObject = $Kernel::OM->ObjectHash(
+    Objects => [qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject)],
+);
 
 # create needed objects
 my $DebugLogObject = Kernel::System::GenericInterface::DebugLog->new(%CommonObject);

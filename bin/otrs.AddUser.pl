@@ -30,28 +30,17 @@ use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Long;
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Log;
-use Kernel::System::Time;
-use Kernel::System::Main;
-use Kernel::System::DB;
-use Kernel::System::User;
-use Kernel::System::Group;
+use Kernel::System::ObjectManager;
 
 # create common objects
-my %CommonObject;
-$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.AddUser',
-    %CommonObject,
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-otrs.AddUser',
+    },
 );
-$CommonObject{TimeObject}  = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
-$CommonObject{UserObject}  = Kernel::System::User->new(%CommonObject);
-$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
+my %CommonObject = $Kernel::OM->ObjectHash(
+    Objects => [qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject UserObject GroupObject)],
+);
 
 my %Options;
 GetOptions(

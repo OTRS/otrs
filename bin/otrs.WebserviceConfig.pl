@@ -29,15 +29,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Std;
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::Time;
-use Kernel::System::DB;
-use Kernel::System::GenericInterface::Webservice;
-
-use Kernel::System::YAML;
+use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
@@ -59,21 +51,14 @@ if ( $Opts{h} ) {
 }
 
 # create common objects
-my %CommonObject;
-
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.WebserviceConfig.pl',
-    %CommonObject,
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-otrs.WebserviceConfig.pl',
+    },
 );
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-
-# create needed objects
-$CommonObject{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new(%CommonObject);
-$CommonObject{YAMLObject}       = Kernel::System::YAML->new(%CommonObject);
+my %CommonObject = $Kernel::OM->ObjectHash(
+    Objects => [qw(WebserviceObject MainObject YAMLObject)],
+);
 
 # validate -a param
 if ( !$Opts{a} ) {

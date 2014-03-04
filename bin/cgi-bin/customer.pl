@@ -33,6 +33,9 @@ my $Debug = 0;
 
 # load agent web interface
 use Kernel::System::Web::InterfaceCustomer();
+use Kernel::System::ObjectManager;
+
+local $Kernel::OM = Kernel::System::ObjectManager->new();
 
 # create new object
 my $Interface = Kernel::System::Web::InterfaceCustomer->new( Debug => $Debug );

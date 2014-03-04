@@ -30,13 +30,7 @@ use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Long;
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Time;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::DB;
-use Kernel::System::Cache;
+use Kernel::System::ObjectManager;
 
 # get options
 Getopt::Long::Configure('no_ignore_case');
@@ -69,17 +63,14 @@ if ( $Opts{t} ) {
 # ---
 # common objects
 # ---
-my %CommonObject;
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.DeleteCache.pl',
-    %CommonObject,
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-otrs.DeleteCache.pl',
+    },
 );
-$CommonObject{TimeObject}  = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
-$CommonObject{CacheObject} = Kernel::System::Cache->new(%CommonObject);
+my %CommonObject = $Kernel::OM->ObjectHash(
+    Objects => [qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject CacheObject)],
+);
 
 # ---
 # cleanup

@@ -33,12 +33,7 @@ use lib dirname($RealBin) . '/Custom';
 use Getopt::Std;
 use Plack::Runner;
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::Time;
-use Kernel::System::DB;
+use Kernel::System::ObjectManager;
 
 # to store service name
 my $Service = 'OTRSWebServer';
@@ -86,7 +81,10 @@ if ( $Opts{h} ) {
 if ( $Opts{a} && $Opts{a} eq "stop" ) {
 
     # create common objects
-    my %CommonObject = _CommonObjects();
+    local $Kernel::OM = _OM();
+    my %CommonObject = $Kernel::OM->ObjectHash(
+        Objects => [qw(ConfObject EncodeObject LogObject MainObject TimeObject DBObject)],
+    );
 
     # stop the Web Server Service (same as "stop"" in service control manger)
     # cant use Win32::Daemon because is called from outside
@@ -119,7 +117,10 @@ elsif ( $Opts{a} && $Opts{a} eq "status" ) {
 elsif ( $Opts{a} && $Opts{a} eq "reload" ) {
 
     # create common objects
-    my %CommonObject = _CommonObjects();
+    local $Kernel::OM = _OM();
+    my %CommonObject = $Kernel::OM->ObjectHash(
+        Objects => [qw(ConfObject EncodeObject LogObject MainObject TimeObject DBObject)],
+    );
 
     # log daemon reload request
     $CommonObject{LogObject}->Log(
@@ -146,7 +147,10 @@ elsif ( $Opts{a} && $Opts{a} eq "reload" ) {
 elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
     # create common objects
-    my %CommonObject = _CommonObjects();
+    local $Kernel::OM = _OM();
+    my %CommonObject = $Kernel::OM->ObjectHash(
+        Objects => [qw(ConfObject EncodeObject LogObject MainObject TimeObject DBObject)],
+    );
 
     # get current service status
     # can't use Win32::Daemon because it is called from outside
@@ -187,8 +191,10 @@ sub _Help {
 sub _Start {
 
     # create common objects
-
-    my %CommonObject = _CommonObjects();
+    local $Kernel::OM = _OM();
+    my %CommonObject = $Kernel::OM->ObjectHash(
+        Objects => [qw(ConfObject EncodeObject LogObject MainObject TimeObject DBObject)],
+    );
 
     # get default log path from configuration
     my $LogPath = $CommonObject{ConfigObject}->Get('Home') . '/var/log';
@@ -372,8 +378,10 @@ sub _Start {
 sub _Stop {
 
     # create common objects
-
-    my %CommonObject = _CommonObjects();
+    local $Kernel::OM = _OM();
+    my %CommonObject = $Kernel::OM->ObjectHash(
+        Objects => [qw(ConfObject EncodeObject LogObject MainObject TimeObject DBObject)],
+    );
 
     # stop the service (this can be called because is part of the main loop)
     Win32::Daemon::StopService();
@@ -398,7 +406,10 @@ sub _Status {
     # 1 => 'The service is not running.',
 
     # create common objects
-    my %CommonObject = _CommonObjects();
+    local $Kernel::OM = _OM();
+    my %CommonObject = $Kernel::OM->ObjectHash(
+        Objects => [qw(ConfObject EncodeObject LogObject MainObject TimeObject DBObject)],
+    );
 
     # log daemon stop
     $CommonObject{LogObject}->Log(
@@ -428,25 +439,22 @@ sub _Status {
     exit 0;
 }
 
-sub _CommonObjects {
-    my %CommonObject;
-    $CommonObject{ConfigObject} = Kernel::Config->new();
-    $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-    $CommonObject{LogObject}    = Kernel::System::Log->new(
-        LogPrefix => 'OTRS-otrs.WebServer',
-        %CommonObject,
+sub _OM {
+    return Kernel::System::ObjectManager->new(
+        LogObject => {
+            LogPrefix => 'OTRS-otrs.WebServer',
+        }
     );
-    $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-    $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-    $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-    return %CommonObject;
 }
 
 sub _AutoRestart {
     my (%Param) = @_;
 
     # create common objects
-    my %CommonObject = _CommonObjects();
+    local $Kernel::OM = _OM();
+    my %CommonObject = $Kernel::OM->ObjectHash(
+        Objects => [qw(ConfObject EncodeObject LogObject MainObject TimeObject DBObject)],
+    );
 
     # Log daemon start-up
     $CommonObject{LogObject}->Log(
@@ -492,7 +500,10 @@ sub _AutoStop {
     my (%Param) = @_;
 
     # create common objects
-    my %CommonObject = _CommonObjects();
+    local $Kernel::OM = _OM();
+    my %CommonObject = $Kernel::OM->ObjectHash(
+        Objects => [qw(ConfObject EncodeObject LogObject MainObject TimeObject DBObject)],
+    );
 
     if ( $Param{Message} ) {
 

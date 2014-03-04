@@ -41,45 +41,9 @@ All functions to manage application packages/modules.
 
 create an object
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::Time;
-    use Kernel::System::Package;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $PackageObject = Kernel::System::Package->new(
-        LogObject    => $LogObject,
-        ConfigObject => $ConfigObject,
-        TimeObject   => $TimeObject,
-        DBObject     => $DBObject,
-        EncodeObject => $EncodeObject,
-        MainObject   => $MainObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $PackageObject = $Kernel::OM->Get('PackageObject');
 
 =cut
 

@@ -12,19 +12,6 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 use warnings;
 
-use Kernel::Config;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::Encode;
-use Kernel::System::Time;
-use Kernel::System::Web::Request;
-use Kernel::System::DB;
-use Kernel::System::AuthSession;
-use Kernel::System::CustomerAuth;
-use Kernel::System::CustomerUser;
-use Kernel::System::CustomerGroup;
-use Kernel::Output::HTML::Layout;
-
 =head1 NAME
 
 Kernel::System::Web::InterfaceCustomer - the customer web interface
@@ -67,18 +54,20 @@ sub new {
     $Self->{PerformanceLogStart} = time();
 
     # create common framework objects 1/2
-    $Self->{ConfigObject} = Kernel::Config->new();
-    $Self->{LogObject}    = Kernel::System::Log->new(
-        LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix'),
-        %{$Self},
+    $Self->{ConfigObject} = $Kernel::OM->Get('ConfigObject');
+    $Kernel::OM->ObjectParamAdd(
+        LogObject => {
+            LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix'),
+        },
+        ParamObject => {
+            WebRequest => $Param{WebRequest} || 0,
+        },
+
     );
-    $Self->{EncodeObject} = Kernel::System::Encode->new( %{$Self} );
-    $Self->{MainObject}   = Kernel::System::Main->new( %{$Self} );
-    $Self->{TimeObject}   = Kernel::System::Time->new( %{$Self} );
-    $Self->{ParamObject}  = Kernel::System::Web::Request->new(
-        %{$Self},
-        WebRequest => $Param{WebRequest} || 0,
-    );
+
+    for my $Needed (qw( EncodeObject LogObject MainObject TimeObject ParamObject )) {
+        $Self->{$Needed} = $Kernel::OM->Get($Needed);
+    }
 
     # debug info
     if ( $Self->{Debug} ) {
@@ -141,10 +130,19 @@ sub Run {
         $CookieSecureAttribute = 1;
     }
 
+    $Kernel::OM->ObjectParamAdd(
+        LayoutObject => {
+            Lang => $Param{Lang},
+        },
+        LanguageObject => {
+            UserLanguage => $Param{Lang},
+        },
+    );
+
     # check common objects
-    $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
+    $Self->{DBObject} = $Kernel::OM->Get('DBObject');
     if ( !$Self->{DBObject} || $Self->{ParamObject}->Error() ) {
-        my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang} );
+        my $LayoutObject = $Kernel::OM->Get('LayoutObject');
         if ( !$Self->{DBObject} ) {
             $LayoutObject->CustomerFatalError(
                 Comment => 'Please contact your administrator',
@@ -161,9 +159,10 @@ sub Run {
     }
 
     # create common framework objects 2/2
-    $Self->{UserObject}    = Kernel::System::CustomerUser->new( %{$Self} );
-    $Self->{GroupObject}   = Kernel::System::CustomerGroup->new( %{$Self} );
-    $Self->{SessionObject} = Kernel::System::AuthSession->new( %{$Self} );
+    $Self->{UserObject} = $Kernel::OM->Get('CustomerUserObject');
+    for my $Needed (qw(GroupObject SessionObject)) {
+        $Self->{$Needed} = $Kernel::OM->Get($Needed);
+    }
 
     # application and add on application common objects
     my %CommonObject = %{ $Self->{ConfigObject}->Get('CustomerFrontend::CommonObject') };
@@ -201,7 +200,7 @@ sub Run {
         my $PostPw = $Self->{ParamObject}->GetParam( Param => 'Password', Raw => 1 ) || '';
 
         # create AuthObject
-        my $AuthObject = Kernel::System::CustomerAuth->new( %{$Self} );
+        my $AuthObject = $Kernel::OM->Get('CustomerAuthObject');
 
         # check submitted data
         my $User = $AuthObject->Auth( User => $PostUser, Pw => $PostPw );
@@ -754,7 +753,7 @@ sub Run {
         my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang} );
 
         # create AuthObject
-        my $AuthObject = Kernel::System::CustomerAuth->new( %{$Self} );
+        my $AuthObject = $Kernel::OM->Get('CustomerAuthObject');
         if ( $AuthObject->GetOption( What => 'PreAuth' ) ) {
 
             # automatic login

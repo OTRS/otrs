@@ -30,11 +30,7 @@ use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Std;
 
-use Kernel::Config;
-use Kernel::System::Loader;
-use Kernel::System::Encode;
-use Kernel::System::Log;
-use Kernel::System::Main;
+use Kernel::System::ObjectManager;
 
 sub PrintHelp {
     print <<"EOF";
@@ -56,22 +52,18 @@ if ( $Opts{h} ) {
 }
 
 # create common objects
-my %CommonObject = ();
 
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.Test',
-    %CommonObject,
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-otrs.Test',
+    },
 );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 
 # create needed objects
-$CommonObject{LoaderObject} = Kernel::System::Loader->new(%CommonObject);
 
 if ( $Opts{o} && lc( $Opts{o} ) eq 'delete' ) {
     print "Deleting all Loader cache files...\n";
-    my @DeletedFiles = $CommonObject{LoaderObject}->CacheDelete();
+    my @DeletedFiles = $Kernel::OM->Get('LoaderObject')->CacheDelete();
     if (@DeletedFiles) {
         print "The following files were deleted:\n\t";
         print join "\n\t", @DeletedFiles;
@@ -86,15 +78,15 @@ if ( $Opts{o} && lc( $Opts{o} ) eq 'generate' ) {
     print "Generating loader cache files...\n";
 
     # Force loader also on development systems where it might be turned off.
-    $CommonObject{ConfigObject}->Set(
+    $Kernel::OM->Get('ConfigObject')->Set(
         Key   => 'Loader::Enabled::JS',
         Value => 1,
     );
-    $CommonObject{ConfigObject}->Set(
+    $Kernel::OM->Get('ConfigObject')->Set(
         Key   => 'Loader::Enabled::CSS',
         Value => 1,
     );
-    my @FrontendModules = $CommonObject{LoaderObject}->CacheGenerate();
+    my @FrontendModules = $Kernel::OM->Get('LoaderObject')->CacheGenerate();
     for my $FrontendModule (@FrontendModules) {
         print "    $FrontendModule\n";
 

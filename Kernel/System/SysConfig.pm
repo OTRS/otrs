@@ -35,54 +35,11 @@ All functions to manage sys config settings.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::Time;
-    use Kernel::System::DB;
-    use Kernel::System::SysConfig;
-    use Kernel::Language;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $LanguageObject = Kernel::Language->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $SysConfigObject = Kernel::System::SysConfig->new(
-        ConfigObject   => $ConfigObject,
-        EncodeObject   => $EncodeObject,
-        LogObject      => $LogObject,
-        DBObject       => $DBObject,
-        MainObject     => $MainObject,
-        TimeObject     => $TimeObject,
-        LanguageObject => $LanugageObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $SysConfigObject = $Kernel::OM->Get('SysConfigObject');
 
 =cut
 

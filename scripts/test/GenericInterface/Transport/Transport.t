@@ -15,6 +15,7 @@ use vars (qw($Self));
 use CGI;
 use HTTP::Request::Common;
 
+use Kernel::System::UnitTest::Helper;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport;
 use Kernel::System::UnitTest::Helper;

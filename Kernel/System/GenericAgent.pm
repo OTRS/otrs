@@ -34,60 +34,11 @@ All functions to manage the generic agent and the generic agent jobs.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::Time;
-    use Kernel::System::Queue;
-    use Kernel::System::Ticket;
-    use Kernel::System::GenericAgent;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $QueueObject = Kernel::System::Queue->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $TicketObject = Kernel::System::Ticket->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-    );
-    my $GenericAgentObject = Kernel::System::GenericAgent->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        TimeObject   => $TimeObject,
-        TicketObject => $TicketObject,
-        QueueObject  => $QueueObject,
-        DBObject     => $DBObject,
-        MainObject   => $MainObject,
-        EncodeObject => $EncodeObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $GenericAgentObject = $Kernel::OM->Get('GenericAgentObject');
 
 =cut
 

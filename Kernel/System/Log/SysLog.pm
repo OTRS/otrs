@@ -22,17 +22,11 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for my $Needed (qw(ConfigObject EncodeObject)) {
-        if ( $Param{$Needed} ) {
-            $Self->{$Needed} = $Param{$Needed};
-        }
-        else {
-            die "Got no $Needed!";
-        }
-    }
+    $Self->{ConfigObject} = $Kernel::OM->Get('ConfigObject');
+    $Self->{EncodeObject} = $Kernel::OM->Get('EncodeObject');
 
     # set syslog facility
-    $Self->{SysLogFacility} = $Param{ConfigObject}->Get('LogModule::SysLog::Facility') || 'user';
+    $Self->{SysLogFacility} = $Self->{ConfigObject}->Get('LogModule::SysLog::Facility') || 'user';
 
     return $Self;
 }

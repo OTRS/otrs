@@ -34,13 +34,7 @@ use lib dirname($RealBin) . '/Custom';
 umask 007;
 
 use Getopt::Std;
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Main;
-use Kernel::System::Time;
-use Kernel::System::DB;
-use Kernel::System::Log;
-use Kernel::System::PostMaster;
+use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
@@ -63,15 +57,14 @@ if ( !$Opts{q} ) {
 }
 
 # create common objects
-my %CommonObject;
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.PostMaster.pl',
-    %CommonObject,
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-otrs.PostMaster.pl',
+    },
 );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new( %CommonObject, );
+my %CommonObject = $Kernel::OM->ObjectHash(
+    Objects => [qw(ConfigObject EncodeObject LogObject MainObject TimeObject)],
+);
 
 # Wrap the majority of the script in an "eval" block so that any
 # unexpected (but probably transient) fatal errors (such as the
@@ -80,7 +73,6 @@ $CommonObject{TimeObject} = Kernel::System::Time->new( %CommonObject, );
 eval {
 
     # create needed objects
-    $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 
     # debug info
     if ( $Opts{d} ) {
@@ -100,14 +92,14 @@ eval {
         exit 1;
     }
 
-    # common objects
-    $CommonObject{PostMaster} = Kernel::System::PostMaster->new(
-        %CommonObject,
-        Email   => \@Email,
-        Trusted => $Opts{'t'},
-        Debug   => $Opts{'d'},
+    $Kernel::OM->ObjectParamAdd(
+        PostMasterObject => {
+            Email   => \@Email,
+            Trusted => $Opts{'t'},
+            Debug   => $Opts{'d'},
+        },
     );
-    my @Return = $CommonObject{PostMaster}->Run( Queue => $Opts{'q'} );
+    my @Return = $Kernel::OM->Get('PostMasterObject')->Run( Queue => $Opts{'q'} );
     if ( !$Return[0] ) {
         die "Can't process mail, see log sub system!";
     }

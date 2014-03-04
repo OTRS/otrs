@@ -32,10 +32,7 @@ use Getopt::Std;
 use Win32;
 use Win32::Daemon;
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Log;
-use Kernel::System::Main;
+use Kernel::System::ObjectManager;
 
 # get options
 my %Opts = ();

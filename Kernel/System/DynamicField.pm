@@ -34,41 +34,11 @@ DynamicFields backend
 
 =item new()
 
-create a DynamicField object
+create a DynamicField object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::DynamicField;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $DynamicFieldObject = Kernel::System::DynamicField->new(
-        ConfigObject        => $ConfigObject,
-        EncodeObject        => $EncodeObject,
-        LogObject           => $LogObject,
-        MainObject          => $MainObject,
-        DBObject            => $DBObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $DynamicFieldObject = $Kernel::OM->Get('DynamicFieldObject');
 
 =cut
 

@@ -30,26 +30,15 @@ use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Long;
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Log;
-use Kernel::System::DB;
-use Kernel::System::CustomerUser;
-use Kernel::System::User;
-use Kernel::System::Main;
-use Kernel::System::Time;
+use Kernel::System::ObjectManager;
 
 # create common objects
-my %CommonObject = ();
-$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    %CommonObject,
-    LogPrefix => 'OTRS-otrs.SetPassword.pl',
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-otrs.SetPassword.pl',
+    },
 );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
+my $AccountObject;
 
 my %Options;
 GetOptions(
@@ -72,14 +61,14 @@ my %AccountList;
 # define which object we need to operate on, default to UserObject
 # search if login exists
 if ( $Type eq 'customer' ) {
-    $CommonObject{AccountObject} = Kernel::System::CustomerUser->new(%CommonObject);
-    %AccountList = $CommonObject{AccountObject}->CustomerSearch(
+    $AccountObject = $Kernel::OM->Get('CustomerUserObject');
+    %AccountList = $AccountObject->CustomerSearch(
         UserLogin => $Login,
     );
 }
 else {
-    $CommonObject{AccountObject} = Kernel::System::User->new(%CommonObject);
-    %AccountList = $CommonObject{AccountObject}->UserSearch(
+    $AccountObject = $Kernel::OM->Get('UserObject');
+    %AccountList = $AccountObject->UserSearch(
         UserLogin => $Login,
     );
 }
@@ -92,11 +81,11 @@ if ( !scalar %AccountList ) {
 
 # if no password has been provided, generate one
 if ( !$Pw ) {
-    $Pw = $CommonObject{AccountObject}->GenerateRandomPassword( Size => 12 );
+    $Pw = $AccountObject->GenerateRandomPassword( Size => 12 );
     print "Generated password '$Pw'\n";
 }
 
-my $Result = $CommonObject{AccountObject}->SetPassword(
+my $Result = $AccountObject->SetPassword(
     UserLogin => $Login,
     PW        => $Pw,
 );

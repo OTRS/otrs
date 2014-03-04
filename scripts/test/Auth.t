@@ -12,12 +12,8 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-use Kernel::System::Auth;
-use Kernel::System::User;
-use Kernel::System::Group;
-
 # use local Config object because it will be modified
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 # configure auth backend to db
 $ConfigObject->Set(
@@ -111,22 +107,8 @@ for my $CryptType (qw(plain crypt md5 sha1 sha2 bcrypt)) {
         Value => $CryptType
     );
 
-    my $UserObject = Kernel::System::User->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
-
-    my $GroupObject = Kernel::System::Group->new(
-        %{$Self},
-        ConfigObject => $ConfigObject
-    );
-
-    my $AuthObject = Kernel::System::Auth->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-        UserObject   => $UserObject,
-        GroupObject  => $GroupObject,
-    );
+    my $UserObject = $Kernel::OM->Get('UserObject');
+    my $AuthObject = $Kernel::OM->Get('AuthObject');
 
     TEST:
     for my $Test (@Tests) {

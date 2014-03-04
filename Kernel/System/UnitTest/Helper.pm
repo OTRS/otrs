@@ -31,23 +31,14 @@ Kernel::System::UnitTest::Helper - unit test helper functions
 
 construct a helper object.
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::UnitTest::Helper;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
+        UnitTestHelperObject => {
+            RestoreSystemConfiguration => 1,        # optional, save ZZZAuto.pm
+                                                    # and restore it in the destructor
+        },
     );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $Helper = Kernel::System::UnitTest::Helper->new(
-        %{$Self},
-        RestoreSystemConfiguration => 1,        # optional, save ZZZAuto.pm and restore it in the destructor
-    );
+    my $Helper = $Kernel::OM->Get('UnitTestHelperObject');
 
 =cut
 

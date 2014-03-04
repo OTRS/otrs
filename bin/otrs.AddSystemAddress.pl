@@ -28,29 +28,18 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Log;
-use Kernel::System::DB;
-use Kernel::System::Group;
-use Kernel::System::Main;
-use Kernel::System::Queue;
-use Kernel::System::SystemAddress;
+use Kernel::System::ObjectManager;
 
-my %CommonObject;
 
 # create common objects
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.AddSystemAddress.pl',
-    %CommonObject,
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-otrs.AddSystemAddress.pl',
+    },
 );
-$CommonObject{MainObject}          = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}            = Kernel::System::DB->new(%CommonObject);
-$CommonObject{GroupObject}         = Kernel::System::Group->new(%CommonObject);
-$CommonObject{QueueObject}         = Kernel::System::Queue->new(%CommonObject);
-$CommonObject{SystemAddressObject} = Kernel::System::SystemAddress->new(%CommonObject);
+my %CommonObject = $Kernel::OM->ObjectHash(
+    Objects => [qw(ConfigObject EncodeObject LogObject MainObject DBObject GroupObject QueueObject SystemAddressObject)],
+);
 
 my %Param;
 my %Options;

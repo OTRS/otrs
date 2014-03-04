@@ -34,47 +34,11 @@ functions to define test cases.
 
 =item new()
 
-create unit test object
+create unit test object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::Time;
-    use Kernel::System::UnitTest;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $UnitTestObject = Kernel::System::UnitTest->new(
-        EncodeObject => $EncodeObject,
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-        DBObject     => $DBObject,
-        TimeObject   => $TimeObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $UnitTestObject = $Kernel::OM->Get('UnitTestObject');
 
 =cut
 
@@ -88,17 +52,9 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed objects
-    for (qw(ConfigObject DBObject LogObject TimeObject MainObject EncodeObject)) {
-        if ( $Param{$_} ) {
-            $Self->{$_} = $Param{$_};
-        }
-        else {
-            die "Got no $_!";
-        }
+    for (qw(ConfigObject DBObject LogObject TimeObject MainObject EncodeObject              EnvironmentObject)) {
+        $Self->{$_} = $Kernel::OM->Get($_);
     }
-
-    # create additional objects
-    $Self->{EnvironmentObject} = Kernel::System::Environment->new( %{$Self} );
 
     $Self->{Output} = $Param{Output} || 'ASCII';
 

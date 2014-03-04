@@ -37,47 +37,11 @@ Webservice configuration backend.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::GenericInterface::Webservice;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new(
-        ConfigObject   => $ConfigObject,
-        LogObject      => $LogObject,
-        DBObject       => $DBObject,
-        MainObject     => $MainObject,
-        TimeObject     => $TimeObject,
-        EncodeObject   => $EncodeObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $WebserviceObject = $Kernel::OM->Get('WebserviceObject');
 
 =cut
 

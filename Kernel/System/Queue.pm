@@ -36,43 +36,11 @@ All queue functions. E. g. to add queue or other functions.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::Queue;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $QueueObject = Kernel::System::Queue->new(
-        ConfigObject        => $ConfigObject,
-        LogObject           => $LogObject,
-        DBObject            => $DBObject,
-        MainObject          => $MainObject,
-        EncodeObject        => $EncodeObject,
-        GroupObject         => $GroupObject, # if given
-        CustomerGroupObject => $CustomerGroupObject, # if given
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $QueueObject = $Kernel::OM->Get('QueueObject');
 
 =cut
 

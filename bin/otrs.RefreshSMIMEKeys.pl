@@ -31,12 +31,7 @@ use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Std;
 
-use Kernel::Config;
-use Kernel::System::DB;
-use Kernel::System::Encode;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::Crypt;
+use Kernel::System::ObjectManager;
 
 # get options
 my %Opts = ();
@@ -60,15 +55,17 @@ if ( $Opts{d} && lc $Opts{d} eq 'short' ) {
 # ---
 # common objects
 # ---
-my %CommonObject;
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.RefreshSMIMEKeys.pl',
-    %CommonObject,
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-otrs.RefreshSMIMEKeys.pl',
+    },
+    CryptObject => {
+        CryptType => 'SMIME',
+    },
 );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
+my %CommonObject = $Kernel::OM->ObjectHash(
+    Objects => [qw(ConfigObject EncodeObject LogObject MainObject DBObject CryptObject)],
+);
 
 # check for force option to activate SMIME support in SysConfig during the execution of this script
 if ( exists $Opts{f} ) {
@@ -77,11 +74,6 @@ if ( exists $Opts{f} ) {
         Value => 1,
     );
 }
-
-$CommonObject{CryptObject} = Kernel::System::Crypt->new(
-    %CommonObject,
-    CryptType => 'SMIME',
-);
 
 if ( !$CommonObject{CryptObject} ) {
     print "NOTICE: No SMIME support!\n";

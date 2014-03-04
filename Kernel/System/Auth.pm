@@ -12,8 +12,6 @@ package Kernel::System::Auth;
 use strict;
 use warnings;
 
-use Kernel::System::Valid;
-
 =head1 NAME
 
 Kernel::System::Auth - agent authentication module.
@@ -30,64 +28,11 @@ The authentication module for the agent interface.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::Time;
-    use Kernel::System::User;
-    use Kernel::System::Group;
-    use Kernel::System::Auth;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $UserObject = Kernel::System::User->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-        TimeObject   => $TimeObject,
-        DBObject     => $DBObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $GroupObject = Kernel::System::Group->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-    );
-    my $AuthObject = Kernel::System::Auth->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        UserObject   => $UserObject,
-        GroupObject  => $GroupObject,
-        DBObject     => $DBObject,
-        MainObject   => $MainObject,
-        TimeObject   => $TimeObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $AuthObject = $Kernel::OM->Get('AuthObject');
 
 =cut
 
@@ -95,18 +40,15 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw(LogObject ConfigObject DBObject UserObject GroupObject
+                    MainObject EncodeObject TimeObject ValidObject)
+            ],
+        ),
+    };
     bless( $Self, $Type );
-
-    # check needed objects
-    for (
-        qw(LogObject ConfigObject DBObject UserObject GroupObject MainObject EncodeObject TimeObject)
-        )
-    {
-        $Self->{$_} = $Param{$_} || die "No $_!";
-    }
-
-    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     # load auth modules
     COUNT:

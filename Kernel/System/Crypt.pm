@@ -35,42 +35,15 @@ Kernel::System::Crypt::SMIME.
 
 =item new()
 
-create new object
+create new object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::Crypt;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
+        CryptObject => {
+            CryptType   => 'PGP',   # PGP or SMIME
+        },
     );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $CryptObject = Kernel::System::Crypt->new(
-        DBObject     => $DBObject,
-        MainObject   => $MainObject,
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        EncodeObject => $EncodeObject,
-        CryptType    => 'PGP',   # PGP or SMIME
-    );
+    my $CryptObject = $Kernel::OM->Get('CryptObject');
 
 =cut
 

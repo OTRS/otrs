@@ -19,8 +19,6 @@ use File::stat;
 use Unicode::Normalize;
 use List::Util qw();
 
-use Kernel::System::Encode;
-
 =head1 NAME
 
 Kernel::System::Main - main object
@@ -37,26 +35,11 @@ All main functions to load modules, die, and handle files.
 
 =item new()
 
-create new object
+create new object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $MainObject = $Kernel::OM->Get('MainObject');
 
 =cut
 
@@ -67,14 +50,10 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for my $Object (qw(ConfigObject LogObject)) {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
+    # fetch needed objects
+    for my $Object (qw(ConfigObject LogObject EncodeObject)) {
+        $Self->{$Object} = $Kernel::OM->Get($Object);
     }
-
-    # get or create encode object
-    $Self->{EncodeObject} = $Param{EncodeObject};
-    $Self->{EncodeObject} ||= Kernel::System::Encode->new( %{$Self} );
 
     # set debug mode
     $Self->{Debug} = $Param{Debug} || 0;

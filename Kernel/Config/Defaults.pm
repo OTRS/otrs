@@ -14,6 +14,7 @@
 #   -->> All changes of this file will be lost after an update! <<--
 #
 # --
+## nofilter(TidyAll::Plugin::OTRS::Perl::LayoutObject)
 
 package Kernel::Config::Defaults;
 
@@ -1676,7 +1677,225 @@ via the Preferences button after logging in.
             ],
         },
     };
+
     # --------------------------------------------------- #
+    # object names and dependencies
+    # ----------------------------------------------------#
+
+    my @DefaultDependencies = (
+        'ConfigObject',
+        'LogObject',
+        'EncodeObject',
+        'MainObject',
+        'TimeObject',
+        'DBObject',
+    );
+
+    $Self->{ObjectManager}{DefaultDependencies} = \@DefaultDependencies;
+
+    $Self->{Objects} = {
+        ConfigObject  => {
+            ClassName       => 'Kernel::Config',
+            Dependencies    => [],
+            OmAware         => 1,
+        },
+        LogObject     => {
+            ClassName       => 'Kernel::System::Log',
+            Dependencies    => ['ConfigObject', 'EncodeObject'],
+            OmAware         => 1,
+        },
+        EncodeObject  => {
+            ClassName       => 'Kernel::System::Encode',
+            Dependencies    => [],
+            OmAware         => 1,
+        },
+        MainObject    => {
+            ClassName       => 'Kernel::System::Main',
+            Dependencies    => ['ConfigObject', 'LogObject', 'EncodeObject'],
+            OmAware         => 1,
+        },
+        TimeObject    => {
+            ClassName       => 'Kernel::System::Time',
+            Dependencies    => ['ConfigObject', 'LogObject', 'EncodeObject', 'MainObject'],
+        },
+        DBObject    => {
+            ClassName       => 'Kernel::System::DB',
+            Dependencies    => ['ConfigObject', 'LogObject', 'EncodeObject', 'MainObject', 'TimeObject'],
+            OmAware         => 1,
+        },
+        UserObject    => {
+            ClassName       => 'Kernel::System::User',
+        },
+        CustomerUserObject    => {
+            ClassName       => 'Kernel::System::CustomerUser',
+        },
+        CustomerCompanyObject => {
+            ClassName       => 'Kernel::System::CustomerCompany',
+        },
+        CustomerGroupObject   => {
+            ClassName       => 'Kernel::System::CustomerGroup',
+        },
+        GroupObject   => {
+            ClassName       => 'Kernel::System::Group',
+        },
+        TicketObject  => {
+            ClassName       => 'Kernel::System::Ticket',
+            Dependencies    => [@DefaultDependencies, 'GroupObject', 'QueueObject', 'CustomerUserObject' ],
+        },
+        QueueObject  => {
+            ClassName       => 'Kernel::System::Queue',
+            Dependencies    => [@DefaultDependencies, 'DBObject', 'GroupObject', 'CustomerUserObject', 'CustomerGroupObject' ],
+        },
+        LayoutObject  => {
+            ClassName       => 'Kernel::Output::HTML::Layout',
+            Dependencies    => [@DefaultDependencies, 'ParamObject'],
+        },
+        PackageObject => {
+            ClassName       => 'Kernel::System::Package',
+        },
+        ParamObject   => {
+            ClassName       => 'Kernel::System::Web::Request',
+        },
+        InterfaceAgentObject => {
+            ClassName     => 'Kernel::System::Web::InterfaceAgent',
+            Dependencies  => [],
+        },
+        AuthObject        => {
+            ClassName       => 'Kernel::System::Auth',
+            Dependencies    => [@DefaultDependencies, qw(UserObject GroupObject ValidObject)],
+            OmAware         => 1,
+        },
+        CustomerAuthObject => {
+            ClassName       => 'Kernel::System::CustomerAuth',
+        },
+        SessionObject     => {
+            ClassName       => 'Kernel::System::AuthSession',
+        },
+        ValidObject       => {
+            ClassName       => 'Kernel::System::Valid',
+        },
+        UnitTestObject    => {
+            ClassName       => 'Kernel::System::UnitTest',
+            OmAware         => 1,
+        },
+        UnitTestHelperObject    => {
+            ClassName       => 'Kernel::System::UnitTest::Helper',
+        },
+        PostMasterObject  => {
+            ClassName       => 'Kernel::System::PostMaster',
+        },
+        EnvironmentObject => {
+            ClassName       => 'Kernel::System::Environment',
+        },
+        DynamicFieldObject => {
+            ClassName       => 'Kernel::System::DynamicField',
+        },
+        DynamicFieldBackendObject => {
+            ClassName       => 'Kernel::System::DynamicField::Backend',
+        },
+        LinkObject => {
+            ClassName       => 'Kernel::System::LinkObject',
+        },
+        XMLObject => {
+            ClassName       => 'Kernel::System::XML',
+        },
+        YAMLObject => {
+            ClassName       => 'Kernel::System::YAML',
+            Dependencies    => [qw(ConfigObject LogObject EncodeObject MainObject)],
+        },
+        WebserviceObject => {
+            ClassName       => 'Kernel::System::GenericInterface::Webservice',
+        },
+        JSONObject  => {
+            ClassName       => 'Kernel::System::JSON',
+        },
+        StatsObject => {
+            ClassName       => 'Kernel::System::Stats',
+            Dependencies    => [@DefaultDependencies, qw(GroupObject UserObject)],
+        },
+        CSVObject => {
+            ClassName       => 'Kernel::System::CSV',
+            Dependencies    => [qw(ConfigObject LogObject EncodeObject)],
+        },
+        CheckItemObject => {
+            ClassName       => 'Kernel::System::CheckItem',
+            Dependencies    => [qw(ConfigObject LogObject EncodeObject MainObject)],
+        },
+        EmailObject => {
+            ClassName       => 'Kernel::System::Email',
+        },
+        PDFObject => {
+            ClassName       => 'Kernel::System::PDF',
+            Dependencies    => [qw(ConfigObject LogObject EncodeObject MainObject)],
+        },
+        PIDObject => {
+            ClassName       => 'Kernel::System::PID',
+        },
+        GenericAgentObject => {
+            ClassName       => 'Kernel::System::GenericAgent',
+            Dependencies    => [@DefaultDependencies, qw(TicketObject QueueObject)],
+        },
+        CryptObject => {
+            ClassName       => 'Kernel::System::Crypt',
+        },
+        FileTempObject => {
+            ClassName       => 'Kernel::System::FileTemp',
+            Dependencies    => [qw(ConfigObject)],
+        },
+        DebugLogObject => {
+            ClassName       => 'Kernel::System::GenericInterface::DebugLog',
+        },
+        TaskManagerObject => {
+            ClassName       => 'Kernel::System::Scheduler::TaskManager',
+        },
+        SysConfigObject => {
+            ClassName       => 'Kernel::System::SysConfig',
+            Dependencies    => [@DefaultDependencies, qw(LanguageObject)],
+
+        },
+        LanguageObject => {
+            ClassName       => 'Kernel::Language',
+            Dependencies    => [qw(ConfigObject LogObject MainObject EncodeObject)],
+
+        },
+        StandardTemplateObject => {
+            ClassName       => 'Kernel::System::StandardTemplate',
+        },
+        SystemAddressObject    => {
+            ClassName       => 'Kernel::System::SystemAddress',
+        },
+        ServiceObject           => {
+            ClassName       => 'Kernel::System::Service',
+        },
+        TypeObject           => {
+            ClassName       => 'Kernel::System::Type',
+        },
+        CacheObject          => {
+            ClassName       => 'Kernel::System::Cache',
+            Dependencies    => [qw(ConfigObject LogObject MainObject EncodeObject)],
+        },
+        ACLDBACLObject      => {
+            ClassName       => 'Kernel::System::ACL::DB::ACL',
+            Dependencies    => [@DefaultDependencies, qw(CacheObject YAMLObject UserObject)],
+            OMAware         => 1,
+        },
+        StateObject          => {
+            ClassName       => 'Kernel::System::State',
+        },
+        LockObject          => {
+            ClassName       => 'Kernel::System::Lock',
+        },
+        LoaderObject         => {
+            ClassName       => 'Kernel::System::Loader',
+            Dependencies    => [qw(ConfigObject LogObject MainObject EncodeObject)],
+        },
+        AutoReponseObject   => {
+            ClassName       => 'Kernel::System::AutoResponse',
+            Dependencies    => [@DefaultDependencies, qw(SystemAddressObject)],
+            OmAware         => 1,
+        },
+    };
+
     return;
 }
 

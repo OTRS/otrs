@@ -30,63 +30,43 @@ use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Std;
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Time;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::DB;
-use Kernel::System::User;
-use Kernel::System::CustomerUser;
-use Kernel::System::Group;
-use Kernel::System::Queue;
-use Kernel::System::Ticket;
+use Kernel::System::ObjectManager;
 use Kernel::System::PostMaster;
-use Kernel::System::LinkObject;
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
-sub _CommonObjects {
-    my %Objects;
-    $Objects{ConfigObject} = Kernel::Config->new();
+
+sub _OM {
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
+        ConfigObject => {
+            LogPrefix => 'OTRS-otrs.FillDB.pl',
+        },
+    );
 
     # set dummy sendmail module
-    $Objects{ConfigObject}->Set(
+    $Kernel::OM->Get('ConfigObject')->Set(
         Key   => 'SendmailModule',
         Value => 'Kernel::System::Email::DoNotSendEmail',
     );
 
     # set env config
-    $Objects{ConfigObject}->Set(
+    $Kernel::OM->Get('ConfigObject')->Set(
         Key   => 'CheckEmailInvalidAddress',
         Value => 0,
     );
 
-    $Objects{EncodeObject} = Kernel::System::Encode->new(%Objects);
-    $Objects{LogObject}    = Kernel::System::Log->new(
-        LogPrefix => 'OTRS-otrs.FillDB.pl',
-        %Objects,
-    );
-    $Objects{TimeObject}         = Kernel::System::Time->new(%Objects);
-    $Objects{MainObject}         = Kernel::System::Main->new(%Objects);
-    $Objects{DBObject}           = Kernel::System::DB->new(%Objects);
-    $Objects{UserObject}         = Kernel::System::User->new(%Objects);
-    $Objects{CustomerUserObject} = Kernel::System::CustomerUser->new(%Objects);
-    $Objects{GroupObject}        = Kernel::System::Group->new(%Objects);
-    $Objects{QueueObject}        = Kernel::System::Queue->new(%Objects);
-    $Objects{TicketObject}       = Kernel::System::Ticket->new(%Objects);
-    $Objects{LinkObject}         = Kernel::System::LinkObject->new(%Objects);
-    $Objects{DynamicFieldObject} = Kernel::System::DynamicField->new(%Objects);
-    $Objects{DynamicFieldBackendObject}
-        = Kernel::System::DynamicField::Backend->new(%Objects);
+    # eagerly construct the objects
+    for my $Object (qw(Config Time Log Main DB User CustomerUser Group
+            Queue Ticket Link DynamicField DynamicFieldBackend)) {
+        $Kernel::OM->Get($Object . 'Object');
+    }
 
-    return \%Objects;
+    return $Kernel::OM;
 }
 
 sub Run {
 
-    my $CommonObjects = _CommonObjects();
+    local $Kernel::OM = _OM();
+    my $CommonObjects = { $Kernel::OM->ObjectHash() };
 
     # Refresh common objects after a certain number of loop iterations.
     #   This will call event handlers and clean up caches to avoid excessive mem usage.
@@ -299,7 +279,8 @@ EOF
             push( @TicketIDs, $TicketID );
 
             if ( $Counter++ % $CommonObjectRefresh == 0 ) {
-                $CommonObjects = _CommonObjects();
+                $Kernel::OM = _OM();
+                $CommonObjects = { $Kernel::OM->ObjectHash() };
             }
         }
     }
@@ -422,7 +403,8 @@ EOF
 =cut
 
             if ( $Counter++ % $CommonObjectRefresh == 0 ) {
-                $CommonObjects = _CommonObjects();
+                $Kernel::OM = _OM();
+                $CommonObjects = { $Kernel::OM->ObjectHash() };
             }
         }
     }
