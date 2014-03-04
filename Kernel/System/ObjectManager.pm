@@ -393,6 +393,8 @@ sub ObjectsDiscard {
 
 sub DESTROY {
     my ($Self) = @_;
+    # Make sure $Kernel::OM is still available in the destructor
+    local $Kernel::OM = $Self;
     $Self->ObjectsDiscard();
 }
 
