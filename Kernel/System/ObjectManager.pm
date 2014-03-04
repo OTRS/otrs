@@ -384,6 +384,20 @@ sub ObjectsDiscard {
             delete $Self->{Objects}{$Object};
         }
     }
+
+    # if an object requests an already destroyed object
+    # in its DESTROY method, we might hold it again, and must try again
+    # (but not infinitely)
+    if ( !$Param{Objects} && keys %{ $Self->{Objects } } ) {
+        if ( $Self->{DestroyAttempts} && $Self->{DestroyAttempts} > 3 ) {
+            Carp::confess("Loop while destroying objects!");
+        }
+
+        $Self->{DestroyAttempts}++;
+        $Self->ObjectsDiscard();
+        $Self->{DestroyAttempts}--;
+    }
+
     return 1;
 }
 
