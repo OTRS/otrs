@@ -38,6 +38,7 @@
 </div>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
+
     $('#ProcessEntityID').bind('change', function() {
 
         // remove/destroy CKEditor instances
@@ -102,6 +103,16 @@
 
                     // Register event for tree selection dialog
                     Core.UI.TreeSelection.InitTreeSelection();
+
+                    // move help triggers into field rows for dynamic fields
+                    $('.Row > .FieldHelpContainer').each(function() {
+                        if (!$(this).next('label').find('.Marker').length) {
+                            $(this).prependTo($(this).next('label'));
+                        }
+                        else {
+                            $(this).insertAfter($(this).next('label').find('.Marker'));
+                        }
+                    });
 
                     // Initially display dynamic fields with TreeMode = 1 correctly
                     Core.UI.TreeSelection.InitDynamicFieldTreeViewRestore();
