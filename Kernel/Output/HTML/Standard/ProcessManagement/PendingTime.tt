@@ -14,7 +14,7 @@
         <span>[% Data.DescriptionLong | html %]</span>
     </span>
 [% RenderBlockEnd("rw:PendingTime:DescriptionLong") %]
-	[% Data.Label | html %]:
+    [% Data.Label | html %]:
 </label>
 <div class="Field">
     [% Data.Content %]
