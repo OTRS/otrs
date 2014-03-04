@@ -31,9 +31,9 @@ use lib "$Bin/../../Custom";
 # Imports the library; required line
 use CGI::Fast;
 
-# load agent web interface
+# load customer web interface
 use Kernel::System::Web::InterfaceCustomer();
-use Kernel::System::ObjectManager ();
+use Kernel::System::ObjectManager;
 
 # 0=off;1=on;
 my $Debug = 0;
@@ -43,13 +43,10 @@ my $Debug = 0;
 # Response loop
 while ( my $WebRequest = new CGI::Fast ) {
 
-    # create new object
     local $Kernel::OM = Kernel::System::ObjectManager->new();
 
     my $Interface
         = Kernel::System::Web::InterfaceCustomer->new( Debug => $Debug, WebRequest => $WebRequest );
-
-    # execute object
     $Interface->Run();
 
     #    $Cnt++;

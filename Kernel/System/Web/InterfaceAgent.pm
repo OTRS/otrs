@@ -84,23 +84,6 @@ sub new {
     return $Self;
 }
 
-# static method!
-sub BuildOM {
-    my ( $Type, %Param ) = @_;
-
-    # create common framework objects 1/2
-    my $OM = Kernel::System::ObjectManager->new(
-        ParamObject => {
-            WebRequest => $Param{WebRequest} || 0,
-        },
-    );
-    $OM->ObjectParamAdd(
-        LogPrefix => $OM->Get('ConfigObject')->Get('CGILogPrefix'),
-    );
-
-    return $OM;
-}
-
 =item Run()
 
 execute the object

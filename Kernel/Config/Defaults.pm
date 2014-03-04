@@ -1756,10 +1756,6 @@ via the Preferences button after logging in.
         ParamObject   => {
             ClassName       => 'Kernel::System::Web::Request',
         },
-        InterfaceAgentObject => {
-            ClassName     => 'Kernel::System::Web::InterfaceAgent',
-            Dependencies  => [],
-        },
         AuthObject        => {
             ClassName       => 'Kernel::System::Auth',
             Dependencies    => [@DefaultDependencies, qw(UserObject GroupObject ValidObject)],

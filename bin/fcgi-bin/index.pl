@@ -32,8 +32,8 @@ use lib "$Bin/../../Custom";
 use CGI::Fast;
 
 # load agent web interface
-use Kernel::System::ObjectManager();
 use Kernel::System::Web::InterfaceAgent();
+use Kernel::System::ObjectManager;
 
 # 0=off;1=on;
 my $Debug = 0;
@@ -43,15 +43,9 @@ my $Debug = 0;
 # Response loop
 while ( my $WebRequest = new CGI::Fast ) {
 
-
-    # create object manager
-    local $Kernel::OM
-        = Kernel::System::Web::InterfaceAgent->BuildOM( Debug => $Debug, WebRequest => $WebRequest );
-
-    # create new object
-    my $Interface = $Kernel::OM->Get('InterfaceAgent');
-
-    # execute object
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $Interface
+        = Kernel::System::Web::InterfaceCustomer->new( Debug => $Debug, WebRequest => $WebRequest );
     $Interface->Run();
 
     #    $Cnt++;
