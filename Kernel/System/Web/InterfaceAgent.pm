@@ -129,7 +129,8 @@ sub Run {
 
     $Kernel::OM->ObjectParamAdd(
         LayoutObject => {
-            Lang => $Param{Lang}
+            Lang         => $Param{Lang},
+            UserLanguage => $Param{Lang},
         },
         LanguageObject => {
             UserLanguage => $Param{Lang}
@@ -146,7 +147,7 @@ sub Run {
     # check common objects
     $Self->{DBObject} = $Kernel::OM->Get('DBObject');
     if ( !$Self->{DBObject} || $Self->{ParamObject}->Error() ) {
-        my $LayoutObject = $Self->{LayoutObject};
+        my $LayoutObject = $Kernel::OM->Get('LayoutObject');
         if ( !$Self->{DBObject} ) {
             $LayoutObject->FatalError(
                 Comment => 'Please contact your administrator',
@@ -175,8 +176,8 @@ sub Run {
         else {
 
             # print error
-            my $LayoutObject = $Self->{LayoutObject};
-            $LayoutObject->FatalError( Comment => 'Please contact your administrator' );
+            $Kernel::OM->Get('LayoutObject')
+                ->FatalError( Comment => 'Please contact your administrator' );
             return;
         }
     }
@@ -189,8 +190,6 @@ sub Run {
 
     # security check Action Param (replace non word chars)
     $Param{Action} =~ s/\W//g;
-
-    my $LayoutObject = $Kernel::OM->Get('LayoutObject');
 
     # check request type
     if ( $Param{Action} eq 'Login' ) {
@@ -207,6 +206,8 @@ sub Run {
 
         # login is invalid
         if ( !$User ) {
+
+            my $LayoutObject = $Kernel::OM->Get('LayoutObject');
 
             # redirect to alternate login
             if ( $Self->{ConfigObject}->Get('LoginURL') ) {
@@ -243,11 +244,13 @@ sub Run {
 
             # redirect to alternate login
             if ( $Self->{ConfigObject}->Get('LoginURL') ) {
-                print $LayoutObject->Redirect(
+                print $Kernel::OM->Get('LayoutObject')->Redirect(
                     ExtURL => $Self->{ConfigObject}->Get('LoginURL') . '?Reason=SystemError',
                 );
                 return;
             }
+
+            my $LayoutObject = $Kernel::OM->Get('LayoutObject');
 
             # show need user data error message
             $LayoutObject->Print(
@@ -292,6 +295,7 @@ sub Run {
             my $Error = $Self->{SessionObject}->SessionIDErrorMessage() || '';
 
             # output error message
+            my $LayoutObject = $Kernel::OM->Get('LayoutObject');
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
                     Title   => 'Login',
@@ -306,7 +310,7 @@ sub Run {
         if (
             $Self->{ConfigObject}->Get('TimeZoneUser')
             && $Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset')
-            && $LayoutObject->{BrowserJavaScriptSupport}
+            && $Kernel::OM->Get('LayoutObject')->{BrowserJavaScriptSupport}
             )
         {
             my $TimeOffset = $Self->{ParamObject}->GetParam( Param => 'TimeOffset' ) || 0;
@@ -342,20 +346,23 @@ sub Run {
             $SecureAttribute = 1;
         }
 
-        $LayoutObject->AddParam(
-            SetCookies => {
-                SessionIDCookie => $Self->{ParamObject}->SetCookie(
-                    Key      => $Param{SessionName},
-                    Value    => $NewSessionID,
-                    Expires  => $Expires,
-                    Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
-                    Secure   => scalar $CookieSecureAttribute,
-                    HTTPOnly => 1,
-                ),
+        $Kernel::OM->ObjectParamAdd(
+            LayoutObject => {
+                SetCookies => {
+                    SessionIDCookie => $Self->{ParamObject}->SetCookie(
+                        Key      => $Param{SessionName},
+                        Value    => $NewSessionID,
+                        Expires  => $Expires,
+                        Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
+                        Secure   => scalar $CookieSecureAttribute,
+                        HTTPOnly => 1,
+                    ),
+                },
+                SessionID   => $NewSessionID,
+                SessionName => $Param{SessionName},
             },
-            SessionID   => $NewSessionID,
-            SessionName => $Param{SessionName},
         );
+        $Kernel::OM->ObjectsDiscard( Objects => ['LayoutObject'] );
 
         # redirect with new session id and old params
         # prepare old redirect URL -- do not redirect to Login or Logout (loop)!
@@ -364,12 +371,14 @@ sub Run {
         }
 
         # redirect with new session id
-        print $LayoutObject->Redirect( OP => $Param{RequestedURL} );
+        print $Kernel::OM->Get('LayoutObject')->Redirect( OP => $Param{RequestedURL} );
         return 1;
     }
 
     # logout
     elsif ( $Param{Action} eq 'Logout' ) {
+
+        my $LayoutObject = $Kernel::OM->Get('LayoutObject');
 
         # check session id
         if ( !$Self->{SessionObject}->CheckSessionID( SessionID => $Param{SessionID} ) ) {
@@ -400,20 +409,24 @@ sub Run {
             SessionID => $Param{SessionID},
         );
 
-        # put '%UserData' into the LayoutObject
-        $LayoutObject->AddParam(
-            SetCookies => {
-                SessionIDCookie => $Self->{ParamObject}->SetCookie(
-                    Key      => $Param{SessionName},
-                    Value    => '',
-                    Expires  => '-1y',
-                    Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
-                    Secure   => scalar $CookieSecureAttribute,
-                    HTTPOnly => 1,
-                ),
+        # create a new LayoutObject with %UserData
+        $Kernel::OM->ObjectParamAdd(
+            LayoutObject => {
+                SetCookies => {
+                    SessionIDCookie => $Self->{ParamObject}->SetCookie(
+                        Key      => $Param{SessionName},
+                        Value    => '',
+                        Expires  => '-1y',
+                        Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
+                        Secure   => scalar $CookieSecureAttribute,
+                        HTTPOnly => 1,
+                    ),
+                },
+                %UserData,
             },
-            %UserData,
         );
+        $Kernel::OM->ObjectsDiscard( Objects => ['LayoutObject'] );
+        $LayoutObject = $Kernel::OM->Get('LayoutObject');
 
         # Prevent CSRF attacks
         $LayoutObject->ChallengeTokenCheck();
@@ -453,6 +466,8 @@ sub Run {
 
     # user lost password
     elsif ( $Param{Action} eq 'LostPassword' ) {
+
+        my $LayoutObject = $Kernel::OM->Get('LayoutObject');
 
         # check feature
         if ( !$Self->{ConfigObject}->Get('LostPassword') ) {
@@ -610,7 +625,8 @@ sub Run {
     elsif ( !$Param{SessionID} ) {
 
         # create AuthObject
-        my $AuthObject = $Kernel::OM->Get('AuthObject');
+        my $AuthObject   = $Kernel::OM->Get('AuthObject');
+        my $LayoutObject = $Kernel::OM->Get('LayoutObject');
         if ( $AuthObject->GetOption( What => 'PreAuth' ) ) {
 
             # automatic login
@@ -648,19 +664,24 @@ sub Run {
         if ( !$Self->{SessionObject}->CheckSessionID( SessionID => $Param{SessionID} ) ) {
 
             # put '%Param' into LayoutObject
-            $LayoutObject->AddParam(
-                SetCookies => {
-                    SessionIDCookie => $Self->{ParamObject}->SetCookie(
-                        Key      => $Param{SessionName},
-                        Value    => '',
-                        Expires  => '-1y',
-                        Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
-                        Secure   => scalar $CookieSecureAttribute,
-                        HTTPOnly => 1,
-                    ),
-                },
-                %Param,
+            $Kernel::OM->ObjectParamAdd(
+                LayoutObject => {
+                    SetCookies => {
+                        SessionIDCookie => $Self->{ParamObject}->SetCookie(
+                            Key      => $Param{SessionName},
+                            Value    => '',
+                            Expires  => '-1y',
+                            Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
+                            Secure   => scalar $CookieSecureAttribute,
+                            HTTPOnly => 1,
+                        ),
+                        %Param,
+                    },
+                    }
             );
+
+            $Kernel::OM->ObjectsDiscard( Objects => ['LayoutObject'] );
+            my $LayoutObject = $Kernel::OM->Get('LayoutObject');
 
             # create AuthObject
             my $AuthObject = $Kernel::OM->Get('AuthObject');
@@ -703,6 +724,8 @@ sub Run {
         # check needed data
         if ( !$UserData{UserID} || !$UserData{UserLogin} || $UserData{UserType} ne 'User' ) {
 
+            my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+
             # redirect to alternate login
             if ( $Self->{ConfigObject}->Get('LoginURL') ) {
                 print $LayoutObject->Redirect(
@@ -731,7 +754,8 @@ sub Run {
                 Message =>
                     "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
             );
-            $LayoutObject->FatalError( Comment => 'Please contact your administrator' );
+            $Kernel::OM->Get('LayoutObject')
+                ->FatalError( Comment => 'Please contact your administrator' );
             return;
         }
 
@@ -773,7 +797,7 @@ sub Run {
             }
             if ( !$Param{AccessRo} && !$Param{AccessRw} || !$Param{AccessRo} && $Param{AccessRw} ) {
 
-                print $LayoutObject->NoPermission(
+                print $Kenel::OM->Get('LayoutObject')->NoPermission(
                     Message => 'No Permission to use this frontend module!'
                 );
                 return;
@@ -781,11 +805,14 @@ sub Run {
         }
 
         # put '%Param' and '%UserData' into LayoutObject
-        $LayoutObject->AddParam(
-            %Param,
-            %UserData,
-            ModuleReg => $ModuleReg,
+        $Kernel::OM->ObjectParamAdd(
+            LayoutObject => {
+                %Param,
+                %UserData,
+                ModuleReg => $ModuleReg,
+            },
         );
+        $Kernel::OM->ObjectsDiscard( Objects => ['LayoutObject'] );
 
         # updated last request time
         $Self->{SessionObject}->UpdateSessionID(
@@ -819,6 +846,8 @@ sub Run {
                     );
                 }
 
+                my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+
                 # use module
                 my $PreModuleObject = $PreModule->new(
                     $Kernel::OM->ObjectHash(),
@@ -850,7 +879,7 @@ sub Run {
             $Kernel::OM->ObjectHash(),
             %Param,
             %UserData,
-            LayoutObject => $LayoutObject,
+            LayoutObject => $Kernel::OM->Get('LayoutObject'),
             ModuleReg    => $ModuleReg,
         );
 
@@ -863,7 +892,7 @@ sub Run {
         }
 
         # ->Run $Action with $GenericObject
-        $LayoutObject->Print( Output => \$GenericObject->Run() );
+        $Kernel::OM->Get('LayoutObject')->Print( Output => \$GenericObject->Run() );
 
         # log request time
         if ( $Self->{ConfigObject}->Get('PerformanceLog') ) {
@@ -899,11 +928,13 @@ sub Run {
 
     # print an error screen
     my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $Param{SessionID}, );
-    $LayoutObject->AddParam(
-        %Param,
-        %Data,
+    $Kernel::OM->ObjectParamAdd(
+        LayoutObject => {
+            %Param,
+            %Data,
+        },
     );
-    $LayoutObject->FatalError( Comment => 'Please contact your administrator' );
+    $Kernel::OM->Get('LayoutObject')->FatalError( Comment => 'Please contact your administrator' );
     return;
 }
 
