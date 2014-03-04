@@ -56,9 +56,18 @@ sub new {
     # get debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
+    $Self->{ConfigObject} = $Kernel::OM->Get('ConfigObject');
+    $Kernel::OM->ObjectParamAdd(
+        LogObject => {
+            LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix'),
+        },
+        ParamObject => {
+            WebRequest => $Param{WebRequest} || 0,
+        },
+    );
+
     for my $Object (
-        qw( ConfigObject LogObject EncodeObject SessionObject
-        MainObject TimeObject ParamObject UserObject GroupObject )
+        qw( LogObject EncodeObject SessionObject MainObject TimeObject ParamObject UserObject GroupObject )
         )
     {
         $Self->{$Object} = $Kernel::OM->Get($Object);
