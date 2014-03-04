@@ -31,6 +31,10 @@
 </div>
 <div class="Clear"></div>
 
+[% RenderBlockStart("rw:Article:DescriptionShort") %]
+<div class="Field FieldExplanation">[% Data.DescriptionShort %]</div>
+[% RenderBlockEnd("rw:Article:DescriptionShort") %]
+
 <label class="[% Data.MandatoryClass | html %]" for="RichText">
 [% RenderBlockStart("LabelSpanBody") %]
     <span class="Marker">*</span>
@@ -83,9 +87,6 @@
 //]]></script>
 [% END %]
 </div>
-[% RenderBlockStart("rw:Article:DescriptionShort") %]
-<div class="Field FieldExplanation">[% Data.DescriptionShort %]</div>
-[% RenderBlockEnd("rw:Article:DescriptionShort") %]
 <div class="Clear"></div>
 <div class="FieldSeparator"></div>
 [% RenderBlockEnd("rw:Article") %]
