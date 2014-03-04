@@ -12,6 +12,12 @@
 [% RenderBlockStart("LabelSpan") %]
     <span class="Marker">*</span>
 [% RenderBlockEnd("LabelSpan") %]
+[% RenderBlockStart("rw:Responsible:DescriptionLong") %]
+    <span class="FieldHelpContainer">
+        <i class="icon-question-sign FieldHelpTrigger"></i>
+        <span>[% Data.DescriptionLong | html %]</span>
+    </span>
+[% RenderBlockEnd("rw:Responsible:DescriptionLong") %]
     [% Data.Label | html %]:
 </label>
 <div class="Field">

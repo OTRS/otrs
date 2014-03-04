@@ -1467,6 +1467,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $DynamicFieldName,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1506,6 +1507,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1541,6 +1543,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1576,6 +1579,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1611,6 +1615,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1646,6 +1651,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1681,6 +1687,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1716,6 +1723,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1751,6 +1759,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1786,6 +1795,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1839,6 +1849,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1872,6 +1883,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1908,6 +1920,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1946,6 +1959,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -2119,6 +2133,15 @@ sub _RenderPendingTime {
         );
     }
 
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:PendingTime:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
+            },
+        );
+    }
+
     return {
         Success => 1,
         HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/PendingTime' ),
@@ -2228,6 +2251,15 @@ sub _RenderDynamicField {
         );
     }
 
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:DynamicField:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
+            },
+        );
+    }
+
     return {
         Success => 1,
         HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/DynamicField' ),
@@ -2295,6 +2327,15 @@ sub _RenderTitle {
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Title:DescriptionShort',
             Data => {
                 DescriptionShort => $Param{DescriptionShort},
+            },
+        );
+    }
+
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Title:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
             },
         );
     }
@@ -2386,6 +2427,15 @@ sub _RenderArticle {
             Name => 'rw:Article:DescriptionShort',
             Data => {
                 DescriptionShort => $Param{DescriptionShort},
+            },
+        );
+    }
+
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:Article:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
             },
         );
     }
@@ -2546,6 +2596,15 @@ sub _RenderCustomer {
         );
     }
 
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:Customer:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
+            },
+        );
+    }
+
     return {
         Success => 1,
         HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Customer' ),
@@ -2697,6 +2756,15 @@ sub _RenderResponsible {
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Responsible:DescriptionShort',
             Data => {
                 DescriptionShort => $Param{DescriptionShort},
+            },
+        );
+    }
+
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:Responsible:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
             },
         );
     }
@@ -2861,6 +2929,15 @@ sub _RenderOwner {
         );
     }
 
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:Owner:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
+            },
+        );
+    }
+
     return {
         Success => 1,
         HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Owner' ),
@@ -2996,6 +3073,15 @@ sub _RenderSLA {
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:SLA:DescriptionShort',
             Data => {
                 DescriptionShort => $Param{DescriptionShort},
+            },
+        );
+    }
+
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:SLA:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
             },
         );
     }
@@ -3152,6 +3238,15 @@ sub _RenderService {
         );
     }
 
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:Service:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
+            },
+        );
+    }
+
     return {
         Success => 1,
         HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Service' ),
@@ -3273,6 +3368,15 @@ sub _RenderLock {
         );
     }
 
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:Lock:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
+            },
+        );
+    }
+
     return {
         Success => 1,
         HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Lock' ),
@@ -3390,6 +3494,15 @@ sub _RenderPriority {
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Priority:DescriptionShort',
             Data => {
                 DescriptionShort => $Param{DescriptionShort},
+            },
+        );
+    }
+
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:Priority:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
             },
         );
     }
@@ -3523,6 +3636,15 @@ sub _RenderQueue {
         );
     }
 
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:Queue:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
+            },
+        );
+    }
+
     return {
         Success => 1,
         HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Queue' ),
@@ -3635,6 +3757,15 @@ sub _RenderState {
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:State:DescriptionShort',
             Data => {
                 DescriptionShort => $Param{DescriptionShort},
+            },
+        );
+    }
+
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:State:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
             },
         );
     }
@@ -3771,6 +3902,15 @@ sub _RenderType {
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Type:DescriptionShort',
             Data => {
                 DescriptionShort => $Param{DescriptionShort},
+            },
+        );
+    }
+
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:Type:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
             },
         );
     }
