@@ -174,7 +174,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             SelectedID     = $SelectObj.val(),
             Multiple       = ($SelectObj.attr('multiple') !== '' && $SelectObj.attr('multiple') !== undefined) ? true : false,
             ElementCount   = $SelectObj.find('option').length,
-            DialogTitle    = $SelectObj.parent().prev('label').text(),
+            DialogTitle    = $SelectObj.parent().prev('label').clone().children().remove().end().text(),
             Elements       = {},
             InDialog       = false,
             StyleSheetURL,
