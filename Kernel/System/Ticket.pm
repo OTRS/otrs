@@ -7379,7 +7379,13 @@ sub TicketAcl {
 
         # build new Process data hash (ProcessManagement)
         # for Step{Possible}
-        if ( IsArrayRefWithData( $Step{Possible}{'Process'} ) )
+        if (
+            ( %Checks || %ChecksDatabase )
+            && $Match
+            && $MatchTry
+            && $Step{Possible}{'Process'}
+            && IsArrayRefWithData( $Step{Possible}{'Process'} )
+            )
         {
             $HadPossibleProcesses = 1;
             if ( !%PossibleProcesses ) {
@@ -7402,7 +7408,13 @@ sub TicketAcl {
         }
 
         # for Step{PossibleNot}
-        if ( IsArrayRefWithData( $Step{PossibleNot}{'Process'} ) )
+        if (
+            ( %Checks || %ChecksDatabase )
+            && $Match
+            && $MatchTry
+            && $Step{PossibleNot}{'Process'}
+            && IsArrayRefWithData( $Step{PossibleNot}{'Process'} )
+            )
         {
 
             if ( !%PossibleNotProcesses ) {
