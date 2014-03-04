@@ -62,7 +62,7 @@ sub new {
     # create additional objects
     $Self->{JSONObject}   = Kernel::System::JSON->new( %{$Self} );
     $Self->{XMLObject}    = Kernel::System::XML->new( %{$Self} );
-    $Self->{CacheObject}  = Kernel::System::Cache->new( %{$Self} );
+    $Self->{CacheObject}  = $Kernel::OM->Get('CacheObject');
     $Self->{LoaderObject} = Kernel::System::Loader->new( %{$Self} );
 
     $Self->{PackageMap} = {

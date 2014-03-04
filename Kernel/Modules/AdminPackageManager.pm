@@ -35,7 +35,7 @@ sub new {
 
     $Self->{PackageObject}     = Kernel::System::Package->new(%Param);
     $Self->{UploadCacheObject} = Kernel::System::Web::UploadCache->new(%Param);
-    $Self->{CacheObject}       = Kernel::System::Cache->new(%Param);
+    $Self->{CacheObject}       = $Kernel::OM->Get('CacheObject');
 
     return $Self;
 }

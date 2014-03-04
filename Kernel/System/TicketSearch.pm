@@ -1778,7 +1778,7 @@ sub TicketSearch {
     # check cache
     my $CacheObject;
     if ( ( $ArticleIndexSQLExt && $Param{FullTextIndex} ) || $Param{CacheTTL} ) {
-        $CacheObject = Kernel::System::Cache->new( %{$Self} );
+        $CacheObject = $Kernel::OM->Get('CacheObject');
         my $CacheData = $CacheObject->Get(
             Type => 'TicketSearch',
             Key  => $SQLSelect . $SQLFrom . $SQLExt . $Result . $Limit,

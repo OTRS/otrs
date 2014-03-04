@@ -58,7 +58,7 @@ sub new {
     }
 
     # create additional objects
-    $Self->{CacheObject}    = Kernel::System::Cache->new( %{$Self} );
+    $Self->{CacheObject}    = $Kernel::OM->Get('CacheObject');
     $Self->{ValidObject}    = Kernel::System::Valid->new( %{$Self} );
     $Self->{DebugLogObject} = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
     $Self->{WebserviceHistoryObject}

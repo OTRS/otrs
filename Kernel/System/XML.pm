@@ -53,7 +53,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
+    $Self->{CacheObject} = $Kernel::OM->Get('CacheObject');
 
     return $Self;
 }

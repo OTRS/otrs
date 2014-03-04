@@ -68,7 +68,7 @@ sub OTRSInit {
     Scalar::Util::weaken( $Self->{LayoutObject} );
 
     # CacheObject is needed for caching of the compiled templates.
-    $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
+    $Self->{CacheObject} = $Kernel::OM->Get('CacheObject');
     $Self->{CacheType}   = 'TemplateProvider';
 
     #

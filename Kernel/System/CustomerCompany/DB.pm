@@ -51,7 +51,7 @@ sub new {
 
     # create cache object, but only if CacheTTL is set in customer config
     if ( $Self->{CustomerCompanyMap}->{CacheTTL} ) {
-        $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
+        $Self->{CacheObject} = $Kernel::OM->Get('CacheObject');
         $Self->{CacheType}   = 'CustomerCompany' . $Param{Count};
         $Self->{CacheTTL}    = $Self->{CustomerCompanyMap}->{CacheTTL} || 0;
     }

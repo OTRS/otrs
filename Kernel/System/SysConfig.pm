@@ -65,7 +65,7 @@ sub new {
     $Self->{FileMode} = ':utf8';
 
     $Self->{XMLObject}           = Kernel::System::XML->new( %{$Self} );
-    $Self->{CacheObject}         = Kernel::System::Cache->new( %{$Self} );
+    $Self->{CacheObject}         = $Kernel::OM->Get('CacheObject');
     $Self->{ConfigDefaultObject} = Kernel::Config->new( %{$Self}, Level => 'Default' );
     $Self->{ConfigObject}        = Kernel::Config->new( %{$Self}, Level => 'First' );
     $Self->{ConfigClearObject}   = Kernel::Config->new( %{$Self}, Level => 'Clear' );

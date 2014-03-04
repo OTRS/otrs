@@ -58,7 +58,7 @@ sub new {
     }
 
     # create additional objects
-    $Self->{CacheObject}        = Kernel::System::Cache->new( %{$Self} );
+    $Self->{CacheObject}        = $Kernel::OM->Get('CacheObject');
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new( %{$Self} );
     $Self->{StateObject}        = Kernel::System::State->new( %{$Self} );

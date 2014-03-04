@@ -145,7 +145,7 @@ sub new {
 
     # create cache object, but only if CacheTTL is set in customer config
     if ( $Self->{CustomerUserMap}->{CacheTTL} ) {
-        $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
+        $Self->{CacheObject} = $Kernel::OM->Get('CacheObject');
     }
 
     # get valid filter if used

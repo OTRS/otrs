@@ -40,7 +40,7 @@ sub new {
     }
 
     # create additional objects
-    $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
+    $Self->{CacheObject} = $Kernel::OM->Get('CacheObject');
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL}

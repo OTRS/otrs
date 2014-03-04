@@ -69,7 +69,7 @@ sub new {
 
     # create supplementary objects
     $Self->{XMLObject}   = Kernel::System::XML->new( %{$Self} );
-    $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
+    $Self->{CacheObject} = $Kernel::OM->Get('CacheObject');
 
     # temporary directory
     $Self->{StatsTempDir} = $Self->{ConfigObject}->Get('Home') . '/var/stats/';

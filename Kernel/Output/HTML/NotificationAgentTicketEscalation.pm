@@ -30,7 +30,7 @@ sub new {
 
     $Self->{LockObject}  = Kernel::System::Lock->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
-    $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
+    $Self->{CacheObject} = $Kernel::OM->Get('CacheObject');
 
     return $Self;
 }
