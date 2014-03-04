@@ -3292,8 +3292,9 @@ write an article attachment to storage
         Content            => $ContentAsString,
         ContentType        => 'text/html; charset="iso-8859-15"',
         Filename           => 'lala.html',
-        ContentID          => 'cid-1234', # optional
-        ContentAlternative => 0,          # optional, alternative content to shown as body
+        ContentID          => 'cid-1234',   # optional
+        ContentAlternative => 0,            # optional, alternative content to shown as body
+        Disposition        => 'attachment', # or 'inline'
         ArticleID          => 123,
         UserID             => 123,
     );
@@ -3320,6 +3321,7 @@ returns:
         Filename           => "StdAttachment-Test1.pdf",
         Filesize           => "4.6 KBytes",
         FilesizeRaw        => 4722,
+        Disposition        => 'attachment',
     );
 
 =item ArticleAttachmentIndex()
@@ -3367,20 +3369,22 @@ returns:
 
     my %Index = {
         '1' => {
-            'ContentAlternative' => '',
-            'ContentID' => '',
-            'Filesize' => '4.6 KBytes',
-            'ContentType' => 'application/pdf',
-            'Filename' => 'StdAttachment-Test1.pdf',
-            'FilesizeRaw' => 4722
+            ContentAlternative => '',
+            ContentID          => '',
+            Filesize           => '4.6 KBytes',
+            ContentType        => 'application/pdf',
+            Filename           => 'StdAttachment-Test1.pdf',
+            FilesizeRaw        => 4722,
+            Disposition        => attachment,
         },
         '2' => {
-            'ContentAlternative' => '',
-            'ContentID' => '',
-            'Filesize' => '183 Bytes',
-            'ContentType' => 'text/html; charset="utf-8"',
-            'Filename' => 'file-2',
-            'FilesizeRaw' => 183
+            ContentAlternative => '',
+            ContentID          => '',
+            Filesize           => '183 Bytes',
+            ContentType        => 'text/html; charset="utf-8"',
+            Filename           => 'file-2',
+            FilesizeRaw        => 183,
+            Disposition        => attachment,
         },
     };
 
@@ -3455,7 +3459,12 @@ sub ArticleAttachmentIndex {
                     # content id cleanup
                     $File{ContentID} =~ s/^<//;
                     $File{ContentID} =~ s/>$//;
-                    if ( $File{ContentID} && $Attachment{Content} =~ /\Q$File{ContentID}\E/i ) {
+                    if (
+                        $File{ContentID}
+                        && $Attachment{Content} =~ /\Q$File{ContentID}\E/i
+                        && $File{Disposition} eq 'inline'
+                        )
+                    {
                         delete $Attachments{$AttachmentID};
                     }
                 }

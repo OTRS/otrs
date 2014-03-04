@@ -12,5 +12,12 @@
 
 </TableAlter>
 
+<TableAlter Name="web_upload_cache">
+    <ColumnAdd Name="disposition" Required="false" Size="15" Type="VARCHAR"/>
+</TableAlter>
+
+<TableAlter Name="article_attachment">
+    <ColumnAdd Name="disposition" Required="false" Size="15" Type="VARCHAR"/>
+</TableAlter>
 
 </database>

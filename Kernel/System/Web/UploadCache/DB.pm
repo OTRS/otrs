@@ -49,7 +49,9 @@ sub FormIDRemove {
         }
     }
     return if !$Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM web_upload_cache WHERE form_id = ?',
+        SQL => '
+            DELETE FROM web_upload_cache
+            WHERE form_id = ?',
         Bind => [ \$Param{FormID} ],
     );
     return 1;
@@ -86,13 +88,13 @@ sub FormIDAddFile {
     # write attachment to db
     my $Time = time();
     return if !$Self->{DBObject}->Do(
-        SQL => 'INSERT INTO web_upload_cache '
-            . ' (form_id, filename, content_type, content_size, content, create_time_unix,'
-            . ' content_id)'
-            . ' VALUES  (?, ?, ?, ?, ?, ?, ?)',
+        SQL => '
+            INSERT INTO web_upload_cache (form_id, filename, content_type, content_size, content,
+                create_time_unix, content_id, disposition)
+            VALUES  (?, ?, ?, ?, ?, ?, ?, ?)',
         Bind => [
             \$Param{FormID}, \$Param{Filename}, \$Param{ContentType}, \$Param{Filesize},
-            \$Param{Content}, \$Time, \$ContentID
+            \$Param{Content}, \$Time, \$ContentID, \$Param{Disposition}
         ],
     );
     return 1;
@@ -112,7 +114,10 @@ sub FormIDRemoveFile {
     $Param{Filename} = $Index[$ID]->{Filename};
 
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM web_upload_cache WHERE form_id = ? AND filename = ?',
+        SQL => '
+            DELETE FROM web_upload_cache
+            WHERE form_id = ?
+                AND filename = ?',
         Bind => [ \$Param{FormID}, \$Param{Filename} ],
     );
     return 1;
@@ -130,11 +135,13 @@ sub FormIDGetAllFilesData {
         }
     }
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT filename, content_type, content_size, content, content_id'
-            . ' FROM web_upload_cache '
-            . ' WHERE form_id = ? ORDER BY create_time_unix',
+        SQL => '
+            SELECT filename, content_type, content_size, content, content_id, disposition
+            FROM web_upload_cache
+            WHERE form_id = ?
+            ORDER BY create_time_unix',
         Bind => [ \$Param{FormID} ],
-        Encode => [ 1, 1, 1, 0, 1 ],
+        Encode => [ 1, 1, 1, 0, 1, 1 ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Counter++;
@@ -166,6 +173,7 @@ sub FormIDGetAllFilesData {
                 ContentType => $Row[1],
                 Filename    => $Row[0],
                 Filesize    => $Row[2],
+                Disposition => $Row[5],
                 FileID      => $Counter,
             }
         );
@@ -185,9 +193,11 @@ sub FormIDGetAllFilesMeta {
         }
     }
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT filename, content_type, content_size, content_id'
-            . ' FROM web_upload_cache '
-            . ' WHERE form_id = ? ORDER BY create_time_unix',
+        SQL => '
+            SELECT filename, content_type, content_size, content_id, disposition
+            FROM web_upload_cache
+            WHERE form_id = ?
+            ORDER BY create_time_unix',
         Bind => [ \$Param{FormID} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -214,6 +224,7 @@ sub FormIDGetAllFilesMeta {
                 ContentType => $Row[1],
                 Filename    => $Row[0],
                 Filesize    => $Row[2],
+                Disposition => $Row[4],
                 FileID      => $Counter,
             }
         );
@@ -226,7 +237,9 @@ sub FormIDCleanUp {
 
     my $CurrentTile = time() - ( 60 * 60 * 24 * 1 );
     return if !$Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM web_upload_cache WHERE create_time_unix < ?',
+        SQL => '
+            DELETE FROM web_upload_cache
+            WHERE create_time_unix < ?',
         Bind => [ \$CurrentTile ],
     );
     return 1;

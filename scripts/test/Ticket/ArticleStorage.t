@@ -252,7 +252,8 @@ for my $Backend (qw(DB FS)) {
             'ContentType'        => 'image/png',
             'Filename'           => "$TargetFilename.pdf",
             'Filesize'           => '3 Bytes',
-            'FilesizeRaw'        => '3'
+            'FilesizeRaw'        => '3',
+            'Disposition'        => 'attachment',
         },
         "$Backend ArticleAttachmentIndex - collision check entry 1",
     );
@@ -265,7 +266,8 @@ for my $Backend (qw(DB FS)) {
             'ContentType'        => 'image/png',
             'Filename'           => "$TargetFilename-1.pdf",
             'Filesize'           => '3 Bytes',
-            'FilesizeRaw'        => '3'
+            'FilesizeRaw'        => '3',
+            'Disposition'        => 'attachment',
         },
         "$Backend ArticleAttachmentIndex - collision check entry 2",
     );
@@ -288,7 +290,7 @@ for my $Backend (qw(DB FS)) {
     $Self->IsDeeply(
         \%AttachmentIndex,
         {},
-        "$Backend ArticleAttachmentIndex() after delete"
+        "$Backend ArticleAttachmentIndex() after delete",
     );
 }
 

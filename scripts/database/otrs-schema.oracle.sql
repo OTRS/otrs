@@ -1539,6 +1539,7 @@ CREATE TABLE article_attachment (
     content_type VARCHAR2 (450) NULL,
     content_id VARCHAR2 (250) NULL,
     content_alternative VARCHAR2 (50) NULL,
+    disposition VARCHAR2 (15) NULL,
     content CLOB NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -2426,6 +2427,7 @@ CREATE TABLE web_upload_cache (
     content_id VARCHAR2 (250) NULL,
     content_size VARCHAR2 (30) NULL,
     content_type VARCHAR2 (250) NULL,
+    disposition VARCHAR2 (15) NULL,
     content CLOB NOT NULL,
     create_time_unix NUMBER (20, 0) NOT NULL
 );

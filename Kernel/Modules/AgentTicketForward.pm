@@ -383,7 +383,8 @@ sub Form {
         for ( sort keys %AllStdAttachments ) {
             my %AttachmentsData = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $_ );
             $Self->{UploadCacheObject}->FormIDAddFile(
-                FormID => $GetParam{FormID},
+                FormID      => $GetParam{FormID},
+                Disposition => 'attachment',
                 %AttachmentsData,
             );
         }
@@ -833,7 +834,8 @@ sub SendEmail {
             Param => 'FileUpload',
         );
         $Self->{UploadCacheObject}->FormIDAddFile(
-            FormID => $GetParam{FormID},
+            FormID      => $GetParam{FormID},
+            Disposition => 'attachment',
             %UploadStuff,
         );
     }
@@ -901,7 +903,12 @@ sub SendEmail {
         ATTACHMENT:
         for my $Attachment (@AttachmentData) {
             my $ContentID = $Attachment->{ContentID};
-            if ( $ContentID && ( $Attachment->{ContentType} =~ /image/i ) ) {
+            if (
+                $ContentID
+                && ( $Attachment->{ContentType} =~ /image/i )
+                && ( $Attachment->{Disposition} eq 'inline' )
+                )
+            {
                 my $ContentIDHTMLQuote = $Self->{LayoutObject}->Ascii2Html(
                     Text => $ContentID,
                 );
@@ -1506,11 +1513,11 @@ sub _Mask {
             $Attachment->{ContentID}
             && $Self->{LayoutObject}->{BrowserRichText}
             && ( $Attachment->{ContentType} =~ /image/i )
+            && ( $Attachment->{Disposition} eq 'inline' )
             )
         {
             next ATTACHMENT;
         }
-
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,

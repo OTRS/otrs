@@ -643,6 +643,7 @@ sub ArticleQuote {
                 $Param{UploadCacheObject}->FormIDAddFile(
                     FormID => $Param{FormID},
                     %Attachment,
+                    Disposition => 'attachment',
                 );
             }
         }
@@ -688,6 +689,7 @@ sub ArticleQuote {
             $Param{UploadCacheObject}->FormIDAddFile(
                 FormID => $Param{FormID},
                 %Attachment,
+                Disposition => 'attachment',
             );
         }
     }

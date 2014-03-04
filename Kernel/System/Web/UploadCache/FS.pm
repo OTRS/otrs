@@ -102,6 +102,13 @@ sub FormIDAddFile {
         Mode       => 'binmode',
         Permission => '640',
     );
+    return if !$Self->{MainObject}->FileWrite(
+        Directory  => $Self->{TempDir},
+        Filename   => "$Param{FormID}.$Param{Filename}.Disposition",
+        Content    => \$Disposition,
+        Mode       => 'binmode',
+        Permission => '644',
+    );
     return 1;
 }
 
@@ -129,6 +136,10 @@ sub FormIDRemoveFile {
         Directory => $Self->{TempDir},
         Filename  => "$Param{FormID}.$File{Filename}.ContentID",
     );
+    $Self->{MainObject}->FileDelete(
+        Directory => $Self->{TempDir},
+        Filename  => "$Param{FormID}.$File{Filename}.Disposition",
+    );
     return 1;
 }
 
@@ -154,6 +165,7 @@ sub FormIDGetAllFilesData {
         # ignore meta files
         next FILE if $File =~ /\.ContentType$/;
         next FILE if $File =~ /\.ContentID$/;
+        next FILE if $File =~ /\.Disposition$/;
 
         $Counter++;
         my $FileSize = -s $File;
@@ -198,6 +210,11 @@ sub FormIDGetAllFilesData {
             ${$ContentID} = undef;
         }
 
+        my $Disposition = $Self->{MainObject}->FileRead(
+            Location => "$File.Disposition",
+            Mode     => 'binmode',             # optional - binmode|utf8
+        );
+
         # strip filename
         $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
         push(
@@ -209,6 +226,7 @@ sub FormIDGetAllFilesData {
                 Filename    => $File,
                 Filesize    => $FileSize,
                 FileID      => $Counter,
+                Disposition => ${$Disposition},
             },
         );
     }
@@ -238,6 +256,7 @@ sub FormIDGetAllFilesMeta {
         # ignore meta files
         next FILE if $File =~ /\.ContentType$/;
         next FILE if $File =~ /\.ContentID$/;
+        next FILE if $File =~ /\.Disposition$/;
 
         $Counter++;
         my $FileSize = -s $File;
@@ -277,6 +296,11 @@ sub FormIDGetAllFilesMeta {
             ${$ContentID} = undef;
         }
 
+        my $Disposition = $Self->{MainObject}->FileRead(
+            Location => "$File.Disposition",
+            Mode     => 'binmode',             # optional - binmode|utf8
+        );
+
         # strip filename
         $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
         push(
@@ -287,6 +311,7 @@ sub FormIDGetAllFilesMeta {
                 Filename    => $File,
                 Filesize    => $FileSize,
                 FileID      => $Counter,
+                Disposition => ${$Disposition},
             },
         );
     }

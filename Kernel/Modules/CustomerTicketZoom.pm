@@ -395,7 +395,8 @@ sub Run {
                 Param => "file_upload",
             );
             $Self->{UploadCacheObject}->FormIDAddFile(
-                FormID => $Self->{FormID},
+                FormID      => $Self->{FormID},
+                Disposition => 'attachment',
                 %UploadStuff,
             );
             $IsUpload = 1;
@@ -650,10 +651,28 @@ sub Run {
         ATTACHMENT:
         for my $Attachment (@AttachmentData) {
 
-            # skip deleted inline images
-            next ATTACHMENT if $Attachment->{ContentID}
-                && $Attachment->{ContentID} =~ /^inline/
-                && $GetParam{Body} !~ /$Attachment->{ContentID}/;
+            my $ContentID = $Attachment->{ContentID};
+            if (
+                $ContentID
+                && ( $Attachment->{ContentType} =~ /image/i )
+                && ( $Attachment->{Disposition} eq 'inline' )
+                )
+            {
+                my $ContentIDHTMLQuote = $Self->{LayoutObject}->Ascii2Html(
+                    Text => $ContentID,
+                );
+
+                # workaround for link encode of rich text editor, see bug#5053
+                my $ContentIDLinkEncode = $Self->{LayoutObject}->LinkEncode($ContentID);
+                $GetParam{Body} =~ s/(ContentID=)$ContentIDLinkEncode/$1$ContentID/g;
+
+                # ignore attachment if not linked in body
+                if ( $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i ) {
+                    next ATTACHMENT;
+                }
+            }
+
+            # write existing file to backend
             $Self->{TicketObject}->ArticleWriteAttachment(
                 %{$Attachment},
                 ArticleID => $ArticleID,
@@ -1651,7 +1670,15 @@ sub _Mask {
 
         ATTACHMENT:
         for my $Attachment (@Attachments) {
-            next ATTACHMENT if $Attachment->{ContentID} && $Self->{LayoutObject}->{BrowserRichText};
+            if (
+                $Attachment->{ContentID}
+                && $Self->{LayoutObject}->{BrowserRichText}
+                && ( $Attachment->{ContentType} =~ /image/i )
+                && ( $Attachment->{Disposition} eq 'inline' )
+                )
+            {
+                next ATTACHMENT;
+            }
             $Self->{LayoutObject}->Block(
                 Name => 'FollowUpAttachment',
                 Data => $Attachment,

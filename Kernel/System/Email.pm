@@ -365,7 +365,16 @@ sub Send {
                         && $Upload->{Content} eq $Param{HTMLBody};
 
                     # skip, but remember all attachments except inline images
-                    if ( !defined $Upload->{ContentID} ) {
+                    if (
+                        ( !defined $Upload->{ContentID} )
+                        || ( !defined $Upload->{ContentType} || $Upload->{ContentType} !~ /image/i )
+                        || (
+                            !defined $Upload->{Disposition}
+                            || $Upload->{Disposition} eq 'inline'
+                        )
+                        )
+                    {
+
                         push @NewAttachments, \%{$Upload};
                         next ATTACHMENT;
                     }

@@ -619,6 +619,7 @@ CREATE TABLE article_attachment (
     content_type TEXT NULL,
     content_id VARCHAR (250) NULL,
     content_alternative VARCHAR (50) NULL,
+    disposition VARCHAR (15) NULL,
     content LONGBLOB NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -968,6 +969,7 @@ CREATE TABLE web_upload_cache (
     content_id VARCHAR (250) NULL,
     content_size VARCHAR (30) NULL,
     content_type VARCHAR (250) NULL,
+    disposition VARCHAR (15) NULL,
     content LONGBLOB NOT NULL,
     create_time_unix BIGINT NOT NULL
 );

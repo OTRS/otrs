@@ -78,12 +78,13 @@ for my $Backend (qw(DB FS)) {
     $Self->IsDeeply(
         $Attachments{1},
         {
-            'ContentAlternative' => '',
-            'ContentID'          => '',
-            'Filesize'           => '132 Bytes',
-            'ContentType'        => 'application/pdf; name="=?UTF-8?Q?Documentacio=CC=81n=2Epdf?="',
-            'Filename'           => 'Documentación.pdf',
-            'FilesizeRaw'        => '132',
+            ContentAlternative => '',
+            ContentID          => '',
+            Filesize           => '132 Bytes',
+            ContentType        => 'application/pdf; name="=?UTF-8?Q?Documentacio=CC=81n=2Epdf?="',
+            Filename           => 'Documentación.pdf',
+            FilesizeRaw        => '132',
+            Disposition        => 'attachment'
         },
         "$Backend - Attachment filename",
     );

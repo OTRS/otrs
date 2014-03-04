@@ -1172,6 +1172,7 @@ sub EmbeddedImagesExtract {
             ContentType => $ContentType,
             ContentID   => $ContentID,
             Filename    => $FileName,
+            Disposition => 'inline',
         };
         push @{$Param{AttachmentsRef}}, $AttachmentData;
 

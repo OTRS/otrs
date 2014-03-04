@@ -101,6 +101,7 @@ sub Run {
             ContentType        => $Attachment->{ContentType},
             ContentID          => $Attachment->{ContentID},
             ContentAlternative => $Attachment->{ContentAlternative},
+            Disposition        => $Attachment->{Disposition},
             ArticleID          => $ArticleID,
             UserID             => $Param{InmailUserID},
         );

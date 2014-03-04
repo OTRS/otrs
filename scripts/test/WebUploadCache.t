@@ -112,6 +112,10 @@ for my $Module (qw(DB FS)) {
                 $MD5    || '',
                 "#$Module - md5 check",
             );
+            $Self->True(
+                $File{Disposition} eq $Disposition,
+                "#$Module - FormIDGetAllFilesData() - Disposition ." . $File,
+            );
         }
         @Data = $UploadCacheObject->FormIDGetAllFilesMeta( FormID => $FormID );
         if (@Data) {
@@ -126,6 +130,10 @@ for my $Module (qw(DB FS)) {
                 $File{Filename},
                 $Filename,
                 "#$Module - FormIDGetAllFilesMeta() - Filename ." . $File,
+            );
+            $Self->True(
+                $File{Disposition} eq $Disposition,
+                "#$Module - FormIDGetAllFilesMeta() - Disposition ." . $File,
             );
         }
         my $Delete = $UploadCacheObject->FormIDRemoveFile(
@@ -196,6 +204,11 @@ for my $Module (qw(DB FS)) {
                 $MD5    || '',
                 "#$Module - md5 check",
             );
+            $Self->Is(
+                $File{Disposition},
+                $Disposition,
+                "#$Module - FormIDGetAllFilesData() - Disposition ." . $File,
+            );
         }
         @Data = $UploadCacheObject->FormIDGetAllFilesMeta( FormID => $FormID );
         if (@Data) {
@@ -204,6 +217,10 @@ for my $Module (qw(DB FS)) {
                 $File{Filename},
                 $Filename,
                 "#$Module - FormIDGetAllFilesMeta() - Filename ." . $File,
+            );
+            $Self->True(
+                $File{Disposition} eq $Disposition,
+                "#$Module - FormIDGetAllFilesMeta() - Disposition ." . $File,
             );
         }
         my $Delete = $UploadCacheObject->FormIDRemoveFile(

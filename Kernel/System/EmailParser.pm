@@ -773,9 +773,10 @@ sub PartsAttachments {
         $PartData{Filename} = "file-$Self->{NoFilenamePartCounter}";
     }
 
-    # parse/get Content-Id and Content-Location for html email attachments
+    # parse/get Content-Id, Content-Location and Disposition for html email attachments
     $PartData{ContentID}       = $Part->head()->get('Content-Id');
     $PartData{ContentLocation} = $Part->head()->get('Content-Location');
+    $PartData{Disposition}     = $Part->head()->get('Content-Disposition');
 
     if ( $PartData{ContentID} ) {
         chomp $PartData{ContentID};
@@ -783,6 +784,10 @@ sub PartsAttachments {
     elsif ( $PartData{ContentLocation} ) {
         chomp $PartData{ContentLocation};
         $PartData{ContentID} = $PartData{ContentLocation};
+    }
+    if ( $PartData{Disposition} ) {
+        chomp $PartData{Disposition};
+        $PartData{Disposition} = lc $PartData{Disposition}
     }
 
     # get attachment size
