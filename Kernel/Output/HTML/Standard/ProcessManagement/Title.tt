@@ -13,9 +13,9 @@
 [% RenderBlockEnd("LabelSpan") %]
 [% RenderBlockStart("rw:Title:DescriptionLong") %]
     <span class="FieldHelpContainer">
-    	<i class="icon-question-sign FieldHelpTrigger"></i>
-    	<span>[% Data.DescriptionLong | html %]</span>
-	</span>
+        <i class="icon-question-sign FieldHelpTrigger"></i>
+        <span>[% Data.DescriptionLong | html %]</span>
+    </span>
 [% RenderBlockEnd("rw:Title:DescriptionLong") %]
     [% Data.Label | html %]:
 </label>
