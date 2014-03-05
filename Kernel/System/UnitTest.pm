@@ -52,7 +52,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed objects
-    for (qw(ConfigObject DBObject LogObject TimeObject MainObject EncodeObject              EnvironmentObject)) {
+    for (qw(ConfigObject DBObject LogObject TimeObject MainObject EncodeObject EnvironmentObject)) {
         $Self->{$_} = $Kernel::OM->Get($_);
     }
 
