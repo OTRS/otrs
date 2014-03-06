@@ -60,20 +60,11 @@ sub new {
 
     for my $Object (
         qw(DBObject ConfigObject LogObject TimeObject MainObject EncodeObject
-        ParamObject SessionObject TicketObject GroupObject)
+        ParamObject SessionObject TicketObject GroupObject HTMLUtilsObject
+        JSONObject)
     ) {
-        if ( !$Self->{$Object} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Got no $Object!",
-            );
-            $Self->FatalError();
-        }
+        $Self->{$Object} //= $Kernel::OM->Get($Object);
     }
-
-    # create additional objects
-    $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new( %{$Self} );
-    $Self->{JSONObject}      = Kernel::System::JSON->new( %{$Self} );
 
     # reset block data
     delete $Self->{BlockData};

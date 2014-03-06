@@ -1748,7 +1748,20 @@ via the Preferences button after logging in.
         },
         LayoutObject  => {
             ClassName       => 'Kernel::Output::HTML::Layout',
-            Dependencies    => [@DefaultDependencies, 'ParamObject', 'SessionObject', 'TicketObject', 'GroupObject'],
+            OMAware         => 1,
+            Dependencies    => [
+                @DefaultDependencies,
+                'ParamObject',
+                'SessionObject',
+                'TicketObject',
+                'GroupObject',
+                'HTMLUtilsObject',
+                'JSONObject'
+            ],
+        },
+        HTMLUtilsObject => {
+            ClassName => 'Kernel::System::HTMLUtils',
+            OmAware   => 1,
         },
         PackageObject => {
             ClassName       => 'Kernel::System::Package',

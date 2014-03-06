@@ -63,8 +63,8 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed objects
-    for (qw(LogObject ConfigObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    for my $Object (qw(LogObject ConfigObject)) {
+        $Self->{$Object} = $Kernel::OM->Get($Object);
     }
 
     return $Self;
