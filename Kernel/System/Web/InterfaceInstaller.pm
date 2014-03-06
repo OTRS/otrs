@@ -81,7 +81,7 @@ sub new {
         },
     );
 
-    for my $Needed ( qw( LogObject EncodeObject MainObject TimeObject ParamObject LayoutObject) ) {
+    for my $Needed ( qw( LogObject EncodeObject MainObject TimeObject ParamObject ) ) {
         $Self->{ $Needed } = $Kernel::OM->Get( $Needed );
     }
 
@@ -114,6 +114,14 @@ sub Run {
     $Param{Subaction}  = $Self->{ParamObject}->GetParam( Param => 'Subaction' )  || '';
     $Param{NextScreen} = $Self->{ParamObject}->GetParam( Param => 'NextScreen' ) || '';
 
+    $Kernel::OM->ObjectParamAdd(
+        LayoutObject => {
+            %Param,
+        },
+    );
+
+    $Self->{LayoutObject} = $Kernel::OM->Get('LayoutObject');
+
     # check secure mode
     if ( $Self->{ConfigObject}->Get('SecureMode') ) {
         print $Self->{LayoutObject}->Header();
@@ -127,8 +135,6 @@ sub Run {
 
     # run modules if a version value exists
     elsif ( $Self->{MainObject}->Require("Kernel::Modules::$Param{Action}") ) {
-        $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new( %{$Self}, %Param, );
-
         # proof of concept! - create $GenericObject
         my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
             %{$Self},
