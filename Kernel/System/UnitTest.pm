@@ -16,6 +16,7 @@ use if $^O eq 'MSWin32', "Win32::Console::ANSI";
 use Term::ANSIColor;
 
 use Kernel::System::Environment;
+use Kernel::System::ObjectManager;
 
 =head1 NAME
 
@@ -142,6 +143,12 @@ sub Run {
 
             # create a new scope to be sure to destroy local object of the test files
             {
+                # Make sure every UT uses its own clean environment.
+                local $Kernel::OM = Kernel::System::ObjectManager->new(
+                    LogObject => {
+                        LogPrefix => 'OTRS-otrs.UnitTest',
+                    },
+                );
 
                 # HERE the actual tests are run!!!
                 if ( !eval ${$UnitTestFile} ) {    ## no critic
