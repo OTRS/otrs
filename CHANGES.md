@@ -47,6 +47,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.6 2014-??-??
+ - 2014-03-06 Fixed bug#[10328](http://bugs.otrs.org/show_bug.cgi?id=10328) - Error in AdminPostMasterFilter if the name of DynamicField changed.
  - 2014-03-04 Fixed bug#[10264](http://bugs.otrs.org/show_bug.cgi?id=10264) - Description (espacially article description) in processes are shown on improper place.
  - 2014-03-03 Fixed bug#[10240](http://bugs.otrs.org/show_bug.cgi?id=10240) - Restricting process list by ACLs is only working with UserID.
  - 2014-03-03 Fixed bug#[10299](http://bugs.otrs.org/show_bug.cgi?id=10299) - "Ouf of Office" shows inactive agents.
