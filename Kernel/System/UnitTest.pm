@@ -53,8 +53,10 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed objects
-    for (qw(ConfigObject DBObject LogObject TimeObject MainObject EncodeObject EnvironmentObject)) {
-        $Self->{$_} = $Kernel::OM->Get($_);
+    for my $Needed (
+        qw(ConfigObject DBObject LogObject TimeObject MainObject EncodeObject EnvironmentObject))
+    {
+        $Self->{$Needed} = $Kernel::OM->Get($Needed);
     }
 
     $Self->{Output} = $Param{Output} || 'ASCII';

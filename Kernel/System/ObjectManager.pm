@@ -261,7 +261,9 @@ sub ObjectHash {
     my ( $Self, %Param ) = @_;
 
     if ( $Param{Objects} ) {
-        $Self->Get($_) for @{ $Param{Objects} };
+        for my $Object ( @{ $Param{Objects} } ) {
+            $Self->Get($Object);
+        }
     }
 
     return %{ $Self->{Objects} };
@@ -350,15 +352,21 @@ sub ObjectsDiscard {
     $Traverser = sub {
         my ($Obj) = @_;
         return if $Seen{$Obj}++;
-        $Traverser->($_) for sort keys %{ $ReverseDeps{$Obj} };
+        for my $Object (sort keys %{ $ReverseDeps{$Obj} } ) {
+            $Traverser->($Object);
+        }
         push @OrderedObjects, $Obj;
     };
 
     if ( $Param{Objects} ) {
-        $Traverser->($_) for @{ $Param{Objects} };
+        for my $Object ( @{ $Param{Objects} } ) {
+            $Traverser->($Object);
+        }
     }
     else {
-        $Traverser->($_) for @AllObjects;
+        for my $Object ( @AllObjects ) {
+            $Traverser->($Object);
+        }
     }
     undef $Traverser;
 
