@@ -2152,14 +2152,14 @@ sub new {
         die;
     }
     if ( open( my $Product, '<', "$Self->{Home}/RELEASE" ) ) { ## no critic
-        while (<$Product>) {
+        while (my $Line = <$Product>) {
 
             # filtering of comment lines
-            if ( $_ !~ /^#/ ) {
-                if ( $_ =~ /^PRODUCT\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
+            if ( $Line !~ /^#/ ) {
+                if ( $Line =~ /^PRODUCT\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
                     $Self->{Product} = $1;
                 }
-                elsif ( $_ =~ /^VERSION\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
+                elsif ( $Line =~ /^VERSION\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
                     $Self->{Version} = $1;
                 }
             }
