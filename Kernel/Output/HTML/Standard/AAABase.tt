@@ -133,7 +133,6 @@
 [% Translate("system") | html %]
 [% Translate("Customer Info") | html %]
 [% Translate("Customer Information") | html %]
-[% Translate("Customer Company") | html %]
 [% Translate("Customer Companies") | html %]
 [% Translate("Company") | html %]
 [% Translate("go!") | html %]

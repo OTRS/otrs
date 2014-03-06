@@ -136,7 +136,7 @@ for my $Key ( 1 .. 1, 'ä', 'カス' ) {
         $Self->Is(
             $CustomerData{UserCustomerID},
             'new' . $CompanyData{CustomerID},
-            "After Customer Company update - $CustomerLogin has updated CustomerID",
+            "After Customer update - $CustomerLogin has updated CustomerID",
         );
     }
 }

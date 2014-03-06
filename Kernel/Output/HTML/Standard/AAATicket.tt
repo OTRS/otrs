@@ -167,7 +167,7 @@
 [% Translate("Search Tickets") | html %]
 [% Translate("Customer") | html %]
 [% Translate("Edit Customer Users") | html %]
-[% Translate("Edit Customer Company") | html %]
+[% Translate("Edit Customer") | html %]
 [% Translate("Bulk Action") | html %]
 [% Translate("Bulk Actions on Tickets") | html %]
 [% Translate("Send Email and create a new Ticket") | html %]

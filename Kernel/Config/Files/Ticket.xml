@@ -398,7 +398,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerCompany::EventModulePost###110-UpdateTickets" Required="0" Valid="1">
-        <Description Translatable="1">Event module that updates tickets after an update of the Customer Company.</Description>
+        <Description Translatable="1">Event module that updates tickets after an update of the Customer.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::CustomerCompany</SubGroup>
         <Setting>
