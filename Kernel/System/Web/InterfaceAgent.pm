@@ -795,7 +795,7 @@ sub Run {
             }
             if ( !$Param{AccessRo} && !$Param{AccessRw} || !$Param{AccessRo} && $Param{AccessRw} ) {
 
-                print $Kenel::OM->Get('LayoutObject')->NoPermission(
+                print $Kernel::OM->Get('LayoutObject')->NoPermission(
                     Message => 'No Permission to use this frontend module!'
                 );
                 return;
