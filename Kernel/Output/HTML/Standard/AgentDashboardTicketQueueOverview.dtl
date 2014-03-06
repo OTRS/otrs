@@ -19,7 +19,7 @@
     <tbody>
 <!-- dtl:block:ContentLargeTicketQueueOverviewQueueName -->
         <tr class="Row">
-            <td>$Text{"$Data{"QueueName"}"}</td>
+            <td>$QData{"QueueName"}</td>
 <!-- dtl:block:ContentLargeTicketQueueOverviewQueueResults -->
             <td><a class="AsBlock" href="$Env{"Baselink"}Action=AgentTicketSearch;Subaction=Search;$QEnv{"ChallengeTokenParam"};StateIDs=$LQData{"StateID"};QueueIDs=$LQData{"QueueID"};$QData{"Sort"}">$Text{"$Data{"Number"}"}</a></td>
 <!-- dtl:block:ContentLargeTicketQueueOverviewQueueResults -->
