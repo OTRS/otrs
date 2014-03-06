@@ -307,7 +307,6 @@ sub Run {
         if (
             $Self->{ConfigObject}->Get('TimeZoneUser')
             && $Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset')
-            && $LayoutObject->{BrowserJavaScriptSupport}
             )
         {
             my $TimeOffset = $Self->{ParamObject}->GetParam( Param => 'TimeOffset' ) || 0;

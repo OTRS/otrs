@@ -310,7 +310,6 @@ sub Run {
         if (
             $Self->{ConfigObject}->Get('TimeZoneUser')
             && $Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset')
-            && $Kernel::OM->Get('LayoutObject')->{BrowserJavaScriptSupport}
             )
         {
             my $TimeOffset = $Self->{ParamObject}->GetParam( Param => 'TimeOffset' ) || 0;
@@ -362,7 +361,6 @@ sub Run {
                 SessionName => $Param{SessionName},
             },
         );
-        $Kernel::OM->ObjectsDiscard( Objects => ['LayoutObject'] );
 
         # redirect with new session id and old params
         # prepare old redirect URL -- do not redirect to Login or Logout (loop)!

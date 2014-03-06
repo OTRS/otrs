@@ -46,16 +46,6 @@ create a new object. Do not use it directly, instead use:
     );
     my $LayoutObject = $Kernel::OM->Get('LayoutObject');
 
-    in addition for NavigationBar() you need
-        DBObject
-        SessionObject
-        UserID
-        TicketObject
-        GroupObject
-
-    in addition for AgentCustomerViewTable() you need
-        DBObject
-
 =cut
 
 sub new {
@@ -68,9 +58,10 @@ sub new {
     # set debug
     $Self->{Debug} = 0;
 
-    # check needed objects
-    # Attention: NavigationBar() needs also SessionObject and some other objects
-    for my $Object (qw(ConfigObject LogObject TimeObject MainObject EncodeObject ParamObject)) {
+    for my $Object (
+        qw(DBObject ConfigObject LogObject TimeObject MainObject EncodeObject
+        ParamObject SessionObject TicketObject GroupObject)
+    ) {
         if ( !$Self->{$Object} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -126,15 +117,14 @@ sub new {
 
     # create language object
     if ( !$Self->{LanguageObject} ) {
-        $Self->{LanguageObject} = Kernel::Language->new(
-            UserTimeZone => $Self->{UserTimeZone},
-            UserLanguage => $Self->{UserLanguage},
-            LogObject    => $Self->{LogObject},
-            ConfigObject => $Self->{ConfigObject},
-            EncodeObject => $Self->{EncodeObject},
-            MainObject   => $Self->{MainObject},
-            Action       => $Self->{Action},
+        $Kernel::OM->ObjectParamAdd(
+            LanguageObject => {
+                UserTimeZone => $Self->{UserTimeZone},
+                UserLanguage => $Self->{UserLanguage},
+                Action       => $Self->{Action},
+            },
         );
+        $Self->{LanguageObject} = $Kernel::OM->Get('LanguageObject');
     }
 
     # set charset if there is no charset given

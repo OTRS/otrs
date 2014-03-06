@@ -1748,7 +1748,7 @@ via the Preferences button after logging in.
         },
         LayoutObject  => {
             ClassName       => 'Kernel::Output::HTML::Layout',
-            Dependencies    => [@DefaultDependencies, 'ParamObject'],
+            Dependencies    => [@DefaultDependencies, 'ParamObject', 'SessionObject', 'TicketObject', 'GroupObject'],
         },
         PackageObject => {
             ClassName       => 'Kernel::System::Package',
@@ -1852,7 +1852,6 @@ via the Preferences button after logging in.
         LanguageObject => {
             ClassName       => 'Kernel::Language',
             Dependencies    => [qw(ConfigObject LogObject MainObject EncodeObject)],
-
         },
         StandardTemplateObject => {
             ClassName       => 'Kernel::System::StandardTemplate',
