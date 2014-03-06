@@ -203,12 +203,12 @@
 [% RenderBlockEnd("EmptyDefaultButton") %]
 [% RenderBlockEnd("EmptyDefault") %]
 [% RenderBlockStart("EmptyCustom") %]
-        <h2>[% Data.Title | html %]</h2>
+        <h2>[% Translate(Data.Title) | html %]</h2>
         <p>
-            [% Data.Text | html %]
+            [% Translate(Data.Text) | html %]
         </p>
 [% RenderBlockStart("EmptyCustomButton") %]
-        <a class="Button" href="[% Env("Baselink") %]Action=CustomerTicketMessage">[% Data.Button | html %]</a>
+        <a class="Button" href="[% Env("Baselink") %]Action=CustomerTicketMessage">[% Translate(Data.Button) | html %]</a>
 [% RenderBlockEnd("EmptyCustomButton") %]
 [% RenderBlockEnd("EmptyCustom") %]
     </div>

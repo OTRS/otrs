@@ -918,7 +918,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketOverviewCustomEmptyText" Required="0" Valid="0">
-        <Description Translatable="1">Custom text for the page shown to customers that have no tickets yet.</Description>
+        <Description Translatable="1">Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
