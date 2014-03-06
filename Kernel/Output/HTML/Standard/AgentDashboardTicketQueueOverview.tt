@@ -19,7 +19,7 @@
     <tbody>
 [% RenderBlockStart("ContentLargeTicketQueueOverviewQueueName") %]
         <tr class="Row">
-            <td>[% Translate(Data.QueueName) | html %]</td>
+            <td>[% Data.QueueName | html %]</td>
 [% RenderBlockStart("ContentLargeTicketQueueOverviewQueueResults") %]
             <td><a class="AsBlock" href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;[% Env("ChallengeTokenParam") | html %];StateIDs=[% Data.StateID | uri %];QueueIDs=[% Data.QueueID | uri %];[% Data.Sort | html %]">[% Translate(Data.Number) | html %]</a></td>
 [% RenderBlockEnd("ContentLargeTicketQueueOverviewQueueResults") %]
