@@ -2577,10 +2577,22 @@ sub Attachment {
             }
         }
 
+        my $URLEncodedFilename = URI::Escape::uri_escape_utf8( $Param{Filename} );
+
         # only deliver filename if needed
         if ($FilenameInHeader) {
-            $Output .= " filename=\"$Param{Filename}\"";
+
+            # Special handling for old IE (nonstandard).
+            if ( $Self->{Browser} eq 'MSIE' && $Self->{BrowserMajorVersion} <= 8 ) {
+                $Output .= " filename=\"$URLEncodedFilename\"";
+            }
+
+            # Use RFC5987 for modern browsers.
+            else {
+                $Output .= " filename=\"$Param{Filename}\"; filename*=utf-8''$URLEncodedFilename";
+            }
         }
+
     }
     $Output .= "\n";
 
