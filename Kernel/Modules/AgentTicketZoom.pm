@@ -25,6 +25,7 @@ use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::SystemAddress;
 
 use Kernel::System::VariableCheck qw(:all);
+use POSIX qw/ceil/;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -482,16 +483,54 @@ sub MaskAgentZoom {
 
     # generate shown articles
 
+    my $Page  = $Self->{ParamObject}->GetParam( Param => 'ArticlePage' ) || 1;
+    my $Limit = $Self->{ConfigObject}->Get( 'Ticket::Frontend::MaxArticlesPerPage' );
+
+    # We need to find out whether pagination is actually necessary.
+    # The easiest way would be count the articles, but that would slow
+    # down the most common case (fewer articles than $Limit in the ticket).
+    # So instead we use the following trick:
+    # 1) if the $Page > 1, we need pagination
+    # 2) if not, request $Limit + 1 articles. If $Limit + 1 are actually
+    #    returned, pagination is necessary
+    my $Extra          = $Page > 1 ? 0 : 1;
+    my $NeedPagination;
+    my $ArticleCount;
+
     # get content
     my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
         TicketID                   => $Self->{TicketID},
         StripPlainBodyAsAttachment => $Self->{StripPlainBodyAsAttachment},
         UserID                     => $Self->{UserID},
+        Page                       => $Page,
+        Limit                      => $Limit + $Extra,
         DynamicFields => 0,    # fetch later only for the article(s) to display
     );
+    if ( $Page == 1 && @ArticleBox > $Limit ) {
+        pop @ArticleBox;
+        $NeedPagination = 1;
+        $ArticleCount = $Self->{TicketObject}->ArticleCount(
+            TicketID    => $Self->{TicketID},
+        );
+    }
+    elsif ( $Page == 1 ) {
+        $ArticleCount = @ArticleBox;
+        $NeedPagination = 0;
+    }
+    else {
+        $NeedPagination = 1;
+        $ArticleCount = $Self->{TicketObject}->ArticleCount(
+            TicketID    => $Ticket{TicketID},
+        );
+    }
+
+    my $Pages;
+    if ( $NeedPagination ) {
+        $Pages = ceil( $ArticleCount / $Limit );
+    }
 
     # add counter
-    my $Count = 0;
+    my $Count = ($Page - 1) * $Limit;
     for my $Article (@ArticleBox) {
         $Count++;
         $Article->{Count} = $Count;
@@ -603,7 +642,8 @@ sub MaskAgentZoom {
 
     # check if expand view is usable (only for less then 400 article)
     # if you have more articles is going to be slow and not usable
-    my $ArticleMaxLimit = 400;
+    my $ArticleMaxLimit = $Self->{ConfigObject}->Get('Ticket::Frontend::MaxArticlesZoomExpand')
+        // 400;
     if ( $Self->{ZoomExpand} && $#ArticleBox > $ArticleMaxLimit ) {
         $Self->{ZoomExpand} = 0;
     }
@@ -646,6 +686,16 @@ sub MaskAgentZoom {
     # only show article tree if articles are present
     if (@ArticleBox) {
 
+        my $Pagination;
+
+        if ( $NeedPagination) {
+            $Pagination = {
+                Pages       => $Pages,
+                CurrentPage => $Page,
+                TicketID    => $Ticket{TicketID},
+            };
+        }
+
         # show article tree
         $Param{ArticleTree} = $Self->_ArticleTree(
             Ticket          => \%Ticket,
@@ -653,6 +703,8 @@ sub MaskAgentZoom {
             ArticleID       => $ArticleID,
             ArticleMaxLimit => $ArticleMaxLimit,
             ArticleBox      => \@ArticleBox,
+            Pagination      => $Pagination,
+            Page            => $Page,
         );
     }
 
@@ -1543,7 +1595,15 @@ sub _ArticleTree {
         },
     );
 
-    # check if expand/collapse view is usable (only for less then 300 articles)
+    if ( $Param{Pagination} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ArticlePages',
+            Data => $Param{Pagination},
+        );
+    }
+
+    # check if expand/collapse view is usable (not available for too many
+    # articles)
     if ( $#ArticleBox < $ArticleMaxLimit ) {
         if ( $Self->{ZoomExpand} ) {
             $Self->{LayoutObject}->Block(
@@ -1553,6 +1613,7 @@ sub _ArticleTree {
                     ArticleID      => $ArticleID,
                     ZoomExpand     => $Self->{ZoomExpand},
                     ZoomExpandSort => $Self->{ZoomExpandSort},
+                    Page           => $Param{Page},
                 },
             );
         }
@@ -1564,6 +1625,7 @@ sub _ArticleTree {
                     ArticleID      => $ArticleID,
                     ZoomExpand     => $Self->{ZoomExpand},
                     ZoomExpandSort => $Self->{ZoomExpandSort},
+                    Page           => $Param{Page},
                 },
             );
         }

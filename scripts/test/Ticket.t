@@ -252,6 +252,12 @@ $Self->True(
     'ArticleCreate()',
 );
 
+$Self->Is(
+    $TicketObject->ArticleCount( TicketID => $TicketID ),
+    1,
+    'ArticleCount',
+);
+
 my %Article = $TicketObject->ArticleGet( ArticleID => $ArticleID );
 $Self->Is(
     $Article{Title},

@@ -504,6 +504,17 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
 [% RenderBlockStart("Tree") %]
 <div class="TicketList">
     <div class="ControlRow">
+[% RenderBlockStart("ArticlePages") %]
+        <div class="ArticlePages">
+            <h3>[% Translate('Pages:') | html %]</h3>
+            <ul>
+                [% FOREACH page IN [1 .. Data.Pages]; %]
+                    <li [% IF page == Data.CurrentPage %]class="Active"[% END %]>
+                        <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticlePage=[% page %]" title="[% Translate('Page') %] [% page %]" data-page="[% page %]">[% page %]</a><li>
+                [% END; %]
+            </ul>
+        </div>
+[% RenderBlockEnd("ArticlePages") %]
 [% RenderBlockStart("ArticleFilterDialogLink") %]
         <div class="ArticleFilter Icons">
             <span class="InvisibleText">[% Translate("Article Filter") | html %]:</span>
@@ -519,8 +530,8 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
         <div class="ArticleView Icons">
             <span class="InvisibleText">[% Translate("Article") | html %] [% Translate("View") | html %]:</span>
 [% RenderBlockStart("Expand") %]
-            <a class="OneArticle Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0" title="[% Translate("Show one article") | html %]"><i class="icon-minus"></i><span>[% Translate("Show one article") | html %]</span></a>
-            <a class="AllArticles" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=1" title="[% Translate("Show all articles") | html %]"><i class="icon-reorder"></i><span>[% Translate("Show all articles") | html %]</span></a>
+            <a class="OneArticle Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0;ArticlePage=[% Data.Page | uri %]" title="[% Translate("Show one article") | html %]"><i class="icon-minus"></i><span>[% Translate("Show one article") | html %]</span></a>
+            <a class="AllArticles" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=1;ArticlePage=[% Data.Page | uri %]" title="[% Translate("Show all articles") | html %]"><i class="icon-reorder"></i><span>[% Translate("Show all articles") | html %]</span></a>
 [% RenderBlockEnd("Expand") %]
 [% RenderBlockStart("Collapse") %]
             <a class="OneArticle" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0" title="[% Translate("Show one article") | html %]"><i class="icon-minus"></i><span>[% Translate("Show one article") | html %]</span></a>

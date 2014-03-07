@@ -8904,6 +8904,24 @@ Thanks for your help!
             <String Regex="^[0-9]{1,5}$">2500</String>
         </Setting>
     </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::MaxArticlesZoomExpand" Required="1" Valid="1">
+        <Description Translatable="1">The maximal number of articles expanded on a single page in AgentTicketZoom.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]{1,5}$">400</String>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::MaxArticlesPerPage" Required="1" Valid="1">
+        <Description Translatable="1">The maximal number of articles shown on a single page in AgentTicketZoom.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]{1,5}$">1000</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ZoomRichTextForce" Required="1" Valid="1">
         <Description Translatable="1">Show article as rich text even if rich text writing is disabled.</Description>
         <Group>Ticket</Group>
