@@ -22,6 +22,7 @@ The following persons contributed to OTRS:
 * Elva Novoa <elva.novoa@otrs.com>
 * Enrique Matías Sánchez (Quique) <cronopios@gmail.com>
 * Felix Niklas <felix.niklas@otrs.com>
+* Friedrich Delgado <friedel@nomaden.org>
 * Gerald Young <gerald.young@noynim.com>
 * Henning Oschwald <henning.oschwald@otrs.com>
 * IB Development Team <dev@ib.pl>
@@ -41,6 +42,7 @@ The following persons contributed to OTRS:
 * Martin Gross <martin@pc-coholic.de>
 * Martin Gruner <martin.gruner@otrs.com>
 * Mathias Bräunling <mathias.braeunling@otrs.com>
+* Michael Tänzer <neo@nhng.de>
 * Michiel Beijen <michiel.beijen@otrs.com>
 * Moritz Lenz <mlenz@noris.net>
 * NeverMin <never.min@gmail.com>
