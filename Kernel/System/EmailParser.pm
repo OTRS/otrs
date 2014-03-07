@@ -202,6 +202,15 @@ sub GetParam {
     chomp($Line);
     my $ReturnLine = '';
     my %Remember;
+
+    # Since email headers are supposed to be ASCII (but sometimes
+    # aren't), decoding with something like UTF-7 is wrong in the
+    # general case, and turns '+autoreply' into '櫫梭'.
+    # So only do that for encodings that are a superset of ASCII:
+    my $HeaderEncoding = $Self->{EncodeObject}->FindAsciiSupersetEncoding(
+        Encodings => [ $Self->GetCharset() ],
+    );
+
     for my $Array ( $Self->_DecodeMimewords( String => $Line ) ) {
         for ( @{$Array} ) {
 
@@ -223,9 +232,10 @@ sub GetParam {
                         $Remember{ $Array->[0] } = 1;
                     }
                 }
+
                 $ReturnLine .= $Self->{EncodeObject}->Convert2CharsetInternal(
                     Text  => $Array->[0],
-                    From  => $Array->[1] || $Self->GetCharset() || 'us-ascii',
+                    From  => $Array->[1] || $HeaderEncoding,
                     Check => 1,
                 );
             }
