@@ -878,4 +878,23 @@ $Self->Is(
     'Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
     "#21 GetParam(WHAT => 'Subject' Multiline encode quote printable)",
 );
+
+@Array = ();
+open( $IN, "<", "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic
+while (<$IN>) {
+    push( @Array, $_ );
+}
+close($IN);
+
+$EmailParserObject = Kernel::System::EmailParser->new(
+    %{$Self},
+    Email => \@Array,
+);
+
+$Self->Is(
+    $EmailParserObject->GetParam( WHAT => 'To' ),
+    'wop+autoreply=no@ticket.noris.net',
+    "#22 GetParam(WHAT => 'To') UTF-7 not decoded",
+);
+
 1;
