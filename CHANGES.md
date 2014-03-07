@@ -48,6 +48,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.6 2014-??-??
+ - 2014-03-07 Fixed bug#[9951](http://bugs.otrs.org/show_bug.cgi?id=9951) - Line breaks at the end of salutation templates are not saved.
  - 2014-03-07 Fixed bug#[10275](http://bugs.otrs.org/show_bug.cgi?id=10275) - Problem with encoding in attachment.
  - 2014-03-07 Fixed bug#[10085](http://bugs.otrs.org/show_bug.cgi?id=10085) - Postmaster incorrectly decodes headers, causes garbage in the database.
  - 2014-03-06 Fixed bug#[10336](http://bugs.otrs.org/show_bug.cgi?id=10336) - Problem with symlinked theme directories.
