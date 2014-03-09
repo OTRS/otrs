@@ -113,7 +113,7 @@ sub DynamicFieldAdd {
     }
 
     # check needed structure for some fields
-    if ( $Param{Name} !~ m{ \A [a-z|A-Z|\d]+ \z }xms ) {
+    if ( $Param{Name} !~ m{ \A [a-zA-Z\d]+ \z }xms ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Not valid letters on Name:$Param{Name}!"
@@ -348,7 +348,7 @@ sub DynamicFieldUpdate {
     utf8::upgrade($Config);
 
     # check needed structure for some fields
-    if ( $Param{Name} !~ m{ \A [a-z|A-Z|\d]+ \z }xms ) {
+    if ( $Param{Name} !~ m{ \A [a-zA-Z\d]+ \z }xms ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Not valid letters on Name:$Param{Name} or ObjectType:$Param{ObjectType}!",

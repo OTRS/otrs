@@ -543,7 +543,7 @@ sub ArticleAttachmentIndexRaw {
             }
 
             # converted article body should be inline
-            elsif ( $Filename =~ m{file-[1|2]} ) {
+            elsif ( $Filename =~ m{file-[12]} ) {
                 $Disposition = 'inline'
             }
 
@@ -626,7 +626,7 @@ sub ArticleAttachmentIndexRaw {
             }
 
             # converted article body should be inline
-            elsif ( $Row[0] =~ m{file-[1|2]} ) {
+            elsif ( $Row[0] =~ m{file-[12]} ) {
                 $Disposition = 'inline'
             }
 
@@ -750,7 +750,7 @@ sub ArticleAttachment {
                     }
 
                     # converted article body should be inline
-                    elsif ( $Filename =~ m{file-[1|2]} ) {
+                    elsif ( $Filename =~ m{file-[12]} ) {
                         $Data{Disposition} = 'inline'
                     }
 
@@ -832,7 +832,7 @@ sub ArticleAttachment {
         }
 
         # converted article body should be inline
-        elsif ( $Data{Filename} =~ m{file-[1|2]} ) {
+        elsif ( $Data{Filename} =~ m{file-[12]} ) {
             $Data{Disposition} = 'inline'
         }
 
