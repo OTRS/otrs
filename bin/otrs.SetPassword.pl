@@ -62,13 +62,13 @@ my %AccountList;
 # search if login exists
 if ( $Type eq 'customer' ) {
     $AccountObject = $Kernel::OM->Get('CustomerUserObject');
-    %AccountList = $AccountObject->CustomerSearch(
+    %AccountList   = $AccountObject->CustomerSearch(
         UserLogin => $Login,
     );
 }
 else {
     $AccountObject = $Kernel::OM->Get('UserObject');
-    %AccountList = $AccountObject->UserSearch(
+    %AccountList   = $AccountObject->UserSearch(
         UserLogin => $Login,
     );
 }

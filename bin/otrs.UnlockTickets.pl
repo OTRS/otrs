@@ -39,7 +39,9 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject TicketObject UserObject StateObject LockObject)],
+    Objects => [
+        qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject TicketObject UserObject StateObject LockObject)
+    ],
 );
 
 my @UnlockStateIDs = $CommonObject{StateObject}->StateGetStatesByType(

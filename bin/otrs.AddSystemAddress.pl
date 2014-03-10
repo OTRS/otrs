@@ -30,7 +30,6 @@ use lib dirname($RealBin) . '/Custom';
 
 use Kernel::System::ObjectManager;
 
-
 # create common objects
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     LogObject => {
@@ -38,7 +37,9 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject MainObject DBObject GroupObject QueueObject SystemAddressObject)],
+    Objects => [
+        qw(ConfigObject EncodeObject LogObject MainObject DBObject GroupObject QueueObject SystemAddressObject)
+    ],
 );
 
 my %Param;

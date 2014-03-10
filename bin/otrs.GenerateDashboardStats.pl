@@ -55,7 +55,9 @@ sub Run {
     );
 
     my %CommonObject = $Kernel::OM->ObjectHash(
-        Objects => [qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject PIDObject UserObject GroupObject StatsObject JSONObject)],
+        Objects => [
+            qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject PIDObject UserObject GroupObject StatsObject JSONObject)
+        ],
     );
 
     # create pid lock

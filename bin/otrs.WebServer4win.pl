@@ -443,7 +443,7 @@ sub _OM {
     return Kernel::System::ObjectManager->new(
         LogObject => {
             LogPrefix => 'OTRS-otrs.WebServer',
-        }
+            }
     );
 }
 

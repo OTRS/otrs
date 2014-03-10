@@ -85,7 +85,7 @@ for my $DatabaseType (@DatabaseType) {
         LogObject => {
             LogPrefix => 'OTRS-otrs.xml2sql.pl',
         },
-        DBObject  => {
+        DBObject => {
             AutoConnectNo => 1,    # don't try with foreign drivers
         },
     );

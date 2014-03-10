@@ -30,7 +30,6 @@ use lib dirname($RealBin) . '/Custom';
 
 use Kernel::System::ObjectManager;
 
-
 # create common objects
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     LogObject => {
@@ -38,7 +37,9 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject UserObject GroupObject)],
+    Objects => [
+        qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject UserObject GroupObject)
+    ],
 );
 
 my %Param;
@@ -63,19 +64,17 @@ $Param{Permission}->{ $Opts{p} } = 1;
 $Param{UserLogin}                = $Opts{u};
 $Param{Group}                    = $Opts{g};
 
-unless (
-    $Param{UID}
-    =
-    $CommonObject{UserObject}->UserLookup( UserLogin => $Param{UserLogin} )
-    )
+$Param{UID} = $CommonObject{UserObject}->UserLookup( UserLogin => $Param{UserLogin} );
+if ( !$Param{UID} )
 {
     print STDERR "ERROR: Failed to get User ID. Perhaps non-existent user..\n";
     exit 1;
 }
 
-unless ( $Param{GID} = $CommonObject{GroupObject}->GroupLookup(%Param) ) {
-    print STDERR
-        "ERROR: Failed to get Group ID. Perhaps non-existent group..\n";
+$Param{GID} = $CommonObject{GroupObject}->GroupLookup(%Param);
+
+if ( !$Param{GID} ) {
+    print STDERR "ERROR: Failed to get Group ID. Perhaps non-existent group..\n";
     exit;
 }
 

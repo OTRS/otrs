@@ -73,7 +73,9 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject MainObject DBObject PIDObject TimeObject TicketObject QueueObject GenericAgentObject)],
+    Objects => [
+        qw(ConfigObject EncodeObject LogObject MainObject DBObject PIDObject TimeObject TicketObject QueueObject GenericAgentObject)
+    ],
 );
 
 # get generic agent config (job file)

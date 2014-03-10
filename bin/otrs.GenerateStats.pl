@@ -38,11 +38,13 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.GenerateStats.pl',
     },
     StatsObject => {
-        UserID  => 1,
+        UserID => 1,
     },
 );
 my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject CSVObject TimeObject MainObject DBObject GroupObject UserObject StatsObject CheckItemObject EmailObject PDFObject)],
+    Objects => [
+        qw(ConfigObject EncodeObject LogObject CSVObject TimeObject MainObject DBObject GroupObject UserObject StatsObject CheckItemObject EmailObject PDFObject)
+    ],
 );
 
 # get options

@@ -37,14 +37,16 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject TimeObject
-                  MainObject DBObject CustomerUserObject)],
+    Objects => [
+        qw(ConfigObject EncodeObject LogObject TimeObject
+            MainObject DBObject CustomerUserObject)
+    ],
 );
 
 my %Options;
 use Getopt::Std;
 getopt( 'flpgec', \%Options );
-unless ( $ARGV[0] ) {
+if ( !$ARGV[0] ) {
     print
         "$FindBin::Script [-f firstname] [-l lastname] [-p password] [-g groupname] [-e email] [-c CustomerID] username\n";
     print "\tif you define -g with a valid group name then the user will be added that group\n";
@@ -68,7 +70,8 @@ $Param{UserLogin}      = $ARGV[0];
 $Param{UserPassword}   = $Options{p};
 $Param{UserEmail}      = $Options{e};
 
-if ( $Param{UID} = $CommonObject{CustomerUserObject}->CustomerUserAdd( %Param, ChangeUserID => 1 ) ) {
+if ( $Param{UID} = $CommonObject{CustomerUserObject}->CustomerUserAdd( %Param, ChangeUserID => 1 ) )
+{
     print "Customer user added. Username is $Param{UID}\n";
 }
 

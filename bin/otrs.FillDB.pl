@@ -34,7 +34,6 @@ use Kernel::System::ObjectManager;
 use Kernel::System::PostMaster;
 use Kernel::System::VariableCheck qw(:all);
 
-
 sub _OM {
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         ConfigObject => {
@@ -55,9 +54,12 @@ sub _OM {
     );
 
     # eagerly construct the objects
-    for my $Object (qw(Config Time Log Main DB User CustomerUser Group
-            Queue Ticket Link DynamicField DynamicFieldBackend)) {
-        $Kernel::OM->Get($Object . 'Object');
+    for my $Object (
+        qw(Config Time Log Main DB User CustomerUser Group
+        Queue Ticket Link DynamicField DynamicFieldBackend)
+        )
+    {
+        $Kernel::OM->Get( $Object . 'Object' );
     }
 
     return $Kernel::OM;
@@ -279,7 +281,7 @@ EOF
             push( @TicketIDs, $TicketID );
 
             if ( $Counter++ % $CommonObjectRefresh == 0 ) {
-                $Kernel::OM = _OM();
+                $Kernel::OM    = _OM();
                 $CommonObjects = { $Kernel::OM->ObjectHash() };
             }
         }
@@ -403,7 +405,7 @@ EOF
 =cut
 
             if ( $Counter++ % $CommonObjectRefresh == 0 ) {
-                $Kernel::OM = _OM();
+                $Kernel::OM    = _OM();
                 $CommonObjects = { $Kernel::OM->ObjectHash() };
             }
         }

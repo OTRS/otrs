@@ -35,7 +35,7 @@ use Kernel::System::ObjectManager;
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     LogObject => {
         LogPrefix => 'OTRS-otrs.CleanupTicketMetadata.pl',
-    }
+        }
 );
 
 sub _CommonObjects {

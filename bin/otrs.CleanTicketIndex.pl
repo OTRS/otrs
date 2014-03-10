@@ -29,7 +29,6 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 use Kernel::System::ObjectManager;
 
-
 # common objects
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     LogObject => {

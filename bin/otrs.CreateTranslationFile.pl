@@ -76,7 +76,8 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject SysConfigObject)],
+    Objects =>
+        [qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject SysConfigObject)],
 );
 
 my $Home = $CommonObject{ConfigObject}->Get('Home');

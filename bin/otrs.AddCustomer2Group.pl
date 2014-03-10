@@ -37,7 +37,9 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject CustomerUserObject CustomerGroupObject)],
+    Objects => [
+        qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject CustomerUserObject CustomerGroupObject)
+    ],
 );
 
 my %Param;
@@ -70,7 +72,9 @@ if ( !$CustomerName ) {
     exit 1;
 }
 
-unless ( $Param{GID} = $CommonObject{CustomerGroupObject}->GroupLookup(%Param) ) {
+$Param{GID} = $CommonObject{CustomerGroupObject}->GroupLookup(%Param);
+
+if ( !$Param{GID} ) {
     print STDERR
         "ERROR: Failed to get Group ID. The group '$Param{Group}' does not exist.\n";
     exit;

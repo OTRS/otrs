@@ -606,7 +606,7 @@ sub _Status {
 sub _CommonObjects {
     $Kernel::OM->ObjectsDiscard();
     my %CommonObject = $Kernel::OM->ObjectHash(
-        Objects => ['LogObject', 'ConfigObject', 'PIDObject'],
+        Objects => [ 'LogObject', 'ConfigObject', 'PIDObject' ],
     );
     return %CommonObject;
 }

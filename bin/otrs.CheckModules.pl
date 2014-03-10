@@ -48,8 +48,6 @@ use File::Path;
 use Getopt::Long;
 use Term::ANSIColor;
 
-
-
 our %InstTypeToCMD = (
 
     # [InstType] => {

@@ -524,11 +524,11 @@ sub _Help {
 
 sub _CommonObjects {
     my %CommonObject = $Kernel::OM->ObjectHash(
-        Objects => ['ConfigObject', 'EncodeObject', 'LogObject', 'MainObject', 'TimeObject' ],
+        Objects => [ 'ConfigObject', 'EncodeObject', 'LogObject', 'MainObject', 'TimeObject' ],
     );
 
-    $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-    $CommonObject{PIDObject}  = Kernel::System::PID->new(%CommonObject);
+    $CommonObject{DBObject}  = Kernel::System::DB->new(%CommonObject);
+    $CommonObject{PIDObject} = Kernel::System::PID->new(%CommonObject);
     return %CommonObject;
 }
 
