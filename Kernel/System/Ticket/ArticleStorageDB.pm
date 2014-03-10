@@ -377,10 +377,6 @@ sub ArticleAttachmentIndexRaw {
         return;
     }
 
-    # get ContentPath if not given
-    if ( !$Param{ContentPath} ) {
-        $Param{ContentPath} = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} ) || '';
-    }
     my %Index;
     my $Counter = 0;
 
@@ -451,6 +447,11 @@ sub ArticleAttachmentIndexRaw {
 
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};
+
+    # get ContentPath if not given
+    if ( !$Param{ContentPath} ) {
+        $Param{ContentPath} = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} ) || '';
+    }
 
     # try fs (if there is no index in fs)
     my @List = $Self->{MainObject}->DirectoryRead(
