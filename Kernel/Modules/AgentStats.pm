@@ -1815,7 +1815,7 @@ sub Run {
 
                 if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
                     my $TreeSelectionMessage
-                        = $Param{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
                     $BlockData{SelectField}
                         .= ' <a href="#" title="'
                         . $TreeSelectionMessage
