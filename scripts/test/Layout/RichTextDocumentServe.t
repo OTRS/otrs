@@ -324,6 +324,24 @@ EOF
             ContentType => 'text/html; charset="utf-8"',
         },
     },
+    {
+        Name => 'Empty Content-ID',
+        Data => {
+            Content     => 'Link <a href="http://test.example">http://test.example</a>',
+            ContentType => 'text/html; charset="iso-8859-1"',
+        },
+        URL         => 'Action=SomeAction;FileID=',
+        Attachments => {
+            0 => {
+                ContentID => '<>',
+            },
+        },
+        LoadExternalImages => 1,
+        Result             => {
+            Content     => 'Link <a href="http://test.example" target="_blank">http://test.example</a>',
+            ContentType => 'text/html; charset="utf-8"',
+        },
+    },
 );
 
 for my $Test (@Tests) {

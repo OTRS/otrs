@@ -3828,6 +3828,8 @@ sub RichTextDocumentServe {
         $Param{Attachments}->{$AttachmentID}->{ContentID} =~ s/^<//;
         $Param{Attachments}->{$AttachmentID}->{ContentID} =~ s/>$//;
 
+        next ATTACHMENT if !$Param{Attachments}->{$AttachmentID}->{ContentID};
+
         $Param{Data}->{Content} =~ s{
         (=|"|')(\Q$Param{Attachments}->{$AttachmentID}->{ContentID}\E)("|'|>|\/>|\s)
     }
