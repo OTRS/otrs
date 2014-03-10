@@ -224,13 +224,12 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             text,
             position = { x: 0, y: 0},
             Transition = Core.Agent.Admin.ProcessManagement.ProcessData.Transition,
-            ElementID = Connection.id,
+            ElementID = $TitleElement.find('span').attr('id'),
             CurrentProcessEntityID = $('#ProcessEntityID').val(),
             PathInfo = Core.Agent.Admin.ProcessManagement.ProcessData.Process[CurrentProcessEntityID].Path,
             AssignedTransitionActions = [],
             CanvasWidth, CanvasHeight,
             TooltipWidth, TooltipHeight;
-
 
         $TitleElement.find('a').remove();
         text = '<h4>' + EscapeHTML($TitleElement.text()) + '</h4>';
@@ -602,7 +601,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             reattach: true,
             overlays: [
                 [ "Diamond", { location: 18, width: 15, length: 25, paintStyle: { fillStyle: '#FFF', outlineWidth: 1, outlineColor: '#000'} } ],
-                [ "Label", { label: '<span title="' + EscapeHTML(TransitionName) + '">' + EscapeHTML(TransitionName) + '</span>', location: 0.5, cssClass: 'TransitionLabel', id: 'label', events: {
+                [ "Label", { label: '<span id="' + EntityID + '" title="' + EscapeHTML(TransitionName) + '">' + EscapeHTML(TransitionName) + '</span>', location: 0.5, cssClass: 'TransitionLabel', id: 'label', events: {
                     mouseenter: function(labelOverlay, originalEvent) {
                         TargetNS.LastTransitionDetails = {
                             LabelOverlay: labelOverlay,
@@ -799,10 +798,10 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         TargetNS.MakeDraggable();
 
         $('div.TransitionLabel')
-            .delegate('a.Delete', 'mouseenter', function () {
+            .delegate('a.Delete, a.Edit, span', 'mouseenter', function () {
                 TargetNS.HighlightTransitionLabel(TargetNS.LastTransitionDetails.LabelOverlay, TargetNS.LastTransitionDetails.StartElement, TargetNS.LastTransitionDetails.EndElement);
             })
-            .delegate('a.Delete', 'mouseleave', function () {
+            .delegate('a.Delete, a.Edit, span', 'mouseleave', function () {
                 TargetNS.UnHighlightTransitionLabel(TargetNS.LastTransitionDetails.LabelOverlay);
             });
     };
