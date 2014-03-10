@@ -391,7 +391,7 @@ sub FindAsciiSupersetEncoding {
     }
     ENCODING:
     for my $Encoding ( @{ $Param{Encodings} } ) {
-        next ENCODING unless $Encoding;
+        next ENCODING if !$Encoding;
         if ( $Self->EncodingIsAsciiSuperset( Encoding => $Encoding ) ) {
             return $Encoding;
         }
