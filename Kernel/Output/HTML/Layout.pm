@@ -4276,6 +4276,7 @@ sub RichTextDocumentServe {
     # http://www.ietf.org/rfc/rfc2557.txt
 
     # find matching attachment and replace it with runtlime url to image
+    ATTACHMENTID:
     for my $AttachmentID ( sort keys %{ $Param{Attachments} } ) {
         next if !$Param{Attachments}->{$AttachmentID}->{ContentID};
 
@@ -4283,7 +4284,7 @@ sub RichTextDocumentServe {
         $Param{Attachments}->{$AttachmentID}->{ContentID} =~ s/^<//;
         $Param{Attachments}->{$AttachmentID}->{ContentID} =~ s/>$//;
 
-        next ATTACHMENT if !$Param{Attachments}->{$AttachmentID}->{ContentID};
+        next ATTACHMENTID if !$Param{Attachments}->{$AttachmentID}->{ContentID};
 
         $Param{Data}->{Content} =~ s{
         (=|"|')(\Q$Param{Attachments}->{$AttachmentID}->{ContentID}\E)("|'|>|\/>|\s)
