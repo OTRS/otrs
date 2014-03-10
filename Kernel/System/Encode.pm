@@ -363,9 +363,9 @@ sub EncodingIsAsciiSuperset {
         print STDERR "Need Encoding!\n";
         return;
     }
-    my $Test = join '', map chr, 0..127;
-    return Encode::encode($Param{Encoding}, $Test)
-           eq Encode::encode('ASCII', $Test);
+    my $Test = join '', map chr, 0 .. 127;
+    return Encode::encode( $Param{Encoding}, $Test )
+        eq Encode::encode( 'ASCII',          $Test );
 }
 
 =item FindAsciiSupersetEncoding()
@@ -385,15 +385,14 @@ sub FindAsciiSupersetEncoding {
         print STDERR "Need Encodings!\n";
         return;
     }
-    for my $Encoding (@{ $Param{Encodings} }) {
-        next unless $Encoding;
-        if ( $Self->EncodingIsAsciiSuperset(Encoding => $Encoding) ) {
+    for my $Encoding ( @{ $Param{Encodings} } ) {
+        next if !$Encoding;
+        if ( $Self->EncodingIsAsciiSuperset( Encoding => $Encoding ) ) {
             return $Encoding;
         }
     }
     return 'ASCII';
 }
-
 
 #
 # DEPRECATED METHODS
