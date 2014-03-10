@@ -1,4 +1,5 @@
 #3.3.6 2014-??-??
+ - 2014-03-10 Fixed bug#[10241](http://bugs.otrs.org/show_bug.cgi?id=10241) - ACL-Editor Bug..
  - 2014-03-10 Fixed bug#[10338](http://bugs.otrs.org/show_bug.cgi?id=10338) - Empty Content-ID causes strange result -> HTML-tags are "corrupted".
  - 2014-03-07 Fixed bug#[9951](http://bugs.otrs.org/show_bug.cgi?id=9951) - Line breaks at the end of salutation templates are not saved.
  - 2014-03-07 Fixed bug#[10275](http://bugs.otrs.org/show_bug.cgi?id=10275) - Problem with encoding in attachment.
