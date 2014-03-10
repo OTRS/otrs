@@ -21,6 +21,8 @@ Core.Agent.Admin = Core.Agent.Admin || {};
  */
 Core.Agent.Admin.ACL = (function (TargetNS) {
 
+    var KeysWithoutSubkeys = [ 'ActivityDialog', 'Process' ];
+
     function ShowDeleteACLConfirmationDialog($Element) {
         var DialogElement = $Element.data('dialog-element'),
             DialogTitle = $Element.data('dialog-title'),
@@ -119,7 +121,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
 
                         if (Data[Level1Key].hasOwnProperty(Level2Key)) {
 
-                            if (Level2Key === 'ActivityDialog') {
+                            if ($.inArray(Level2Key, KeysWithoutSubkeys) !== -1) {
                                 $ItemObjLevel2 = $('#TemplateLevel2Last > li').clone();
                             }
                             else {
@@ -151,7 +153,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                                     .attr('data-level', 3);
                             }
 
-                            if (Level2Key === 'ActivityDialog') {
+                            if ($.inArray(Level2Key, KeysWithoutSubkeys) !== -1) {
 
                                 $ItemObjLevel2.find('ul').addClass('LastLevel');
 
@@ -301,7 +303,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
 
             if (!AlreadyAdded) {
 
-                if (Value === 'ActivityDialog') {
+                if ($.inArray(Value, KeysWithoutSubkeys) !== -1) {
                     $LevelObj = $('#TemplateLevel2Last > li').clone();
                     $TriggerObj = $LevelObj.find('.Add');
                 }
@@ -335,7 +337,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                 }
                 $Target.before($LevelObj);
 
-                if (Value === 'ActivityDialog') {
+                if ($.inArray(Value, KeysWithoutSubkeys) !== -1) {
                     $TriggerObj.click();
                 }
             }
