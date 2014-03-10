@@ -155,7 +155,7 @@ for my $Test (@Tests) {
     }
 
     my $Result = $LayoutObject->Output(
-        TemplateFile => 'OutputFilters.tt',
+        TemplateFile => 'OutputFilters',
         Data => $Test->{Data} // {},
     );
 

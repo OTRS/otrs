@@ -108,11 +108,7 @@ sub Output {
     my $TemplateString;
 
     if ( $Param{TemplateFile} ) {
-
-        # Append .tt file extension if needed
-        if ( substr( $Param{TemplateFile}, -3 ) ne '.tt' ) {
-            $Param{TemplateFile} .= '.tt';
-        }
+        $Param{TemplateFileTT} .= "$Param{TemplateFile}.tt";
     }
 
     # take templates from string/array
@@ -188,7 +184,7 @@ sub Output {
 
     my $Output;
     my $Success = $Self->{TemplateObject}->process(
-        $Param{TemplateFile} // \$TemplateString,
+        $Param{TemplateFileTT} // \$TemplateString,
         {
             Data => $Param{Data} // {},
             global => {
