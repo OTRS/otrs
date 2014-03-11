@@ -73,7 +73,7 @@ sub _InstallOTRSExtensions {
             my ( %_tt_args, $_tt_params );
             $_tt_args{'BlockName'} = shift;
             $_tt_params = shift;
-            $_tt_params = {} unless ref($_tt_params) eq 'HASH';
+            $_tt_params = {} if ref $_tt_params ne 'HASH';
             $_tt_params = { %_tt_args, %$_tt_params };
 
             my $stash = $Context->localise($_tt_params);
@@ -82,13 +82,8 @@ sub _InstallOTRSExtensions {
                 my $BlockName = $stash->get('BlockName');
                 my $ParentBlock = $stash->get('ParentBlock') || $stash->{_BlockTree};
 
-                if (
-                    !exists $ParentBlock->{Children}
-                    || !exists $ParentBlock->{Children}->{$BlockName}
-                    )
-                {
-                    return;
-                }
+                return if !exists $ParentBlock->{Children};
+                return if !exists $ParentBlock->{Children}->{$BlockName};
 
                 for my $TargetBlock ( @{ $ParentBlock->{Children}->{$BlockName} } ) {
                     $output .= $Context->process(
@@ -103,6 +98,7 @@ sub _InstallOTRSExtensions {
 
             };
             $stash = $Context->delocalise();
+
             die $@ if $@;
             return $output;
             }
@@ -136,7 +132,7 @@ sub _InstallOTRSExtensions {
         };
         if ($@) {
             $_tt_error = $context->catch( $@, \$output );
-            die $_tt_error unless $_tt_error->type() eq 'return';
+            die $_tt_error if $_tt_error->type() ne 'return';
         }
 
         return $output;
@@ -164,7 +160,7 @@ sub _InstallOTRSExtensions {
 
         if ($@) {
             $_tt_error = $context->catch( $@, \$output );
-            die $_tt_error unless $_tt_error->type() eq 'return';
+            die $_tt_error if $_tt_error->type() ne 'return';
         }
 
         return $output;
@@ -189,9 +185,8 @@ sub _PrecalculateBlockStructure {
     my $Defblocks = $Self->{_DEFBLOCKS} || {};
 
     my $BlockData = $Context->stash()->get( [ 'global', 0, 'BlockData', 0 ] ) || [];
-    if ( !@{$BlockData} ) {
-        return;
-    }
+
+    return if !@{$BlockData};
 
     my $BlockParents = {};
     my $BlockPaths   = {};
@@ -241,7 +236,8 @@ sub _PrecalculateBlockStructure {
 
         $Block->{Path} = $BlockPaths->{$BlockName};
 
-# Ok, the parent block pointer was apparently set correctly. Now append the data of our current block.
+        # Ok, the parent block pointer was apparently set correctly.
+        # Now append the data of our current block.
         push @{ $BlockPointer->{Children}->{$BlockName} }, $Block;
 
         # Remove block data

@@ -420,7 +420,7 @@ sub ArticlePlain {
     }
 
     # return if we only need to check one backend
-    return unless $Self->{CheckAllBackends};
+    return if !$Self->{CheckAllBackends};
 
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};

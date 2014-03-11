@@ -60,7 +60,7 @@ Kernel::System::ObjectManager - object and dependency manager
 
     # now you can retrieve any configured object:
 
-    unless ($Kernel::OM->Get('DBObject')->Prepare('SELECT 1')) {
+    if ( !$Kernel::OM->Get('DBObject')->Prepare('SELECT 1') ) {
         die "Houston, we have a problem!";
     }
 
@@ -119,8 +119,7 @@ sub Get {
     # OK, not so easy
     my ( $Self, $ObjectName ) = @_;
 
-    die "Error: Missing parameter (object name)\n"
-        unless $ObjectName;
+    die "Error: Missing parameter (object name)\n" if !$ObjectName;
 
     # record the object we are about to retrieve to potentially
     # build better error messages
@@ -155,7 +154,8 @@ sub _ObjectBuild {
     }
 
     my $NewObject = $ClassName->new(%Args);
-    unless ( defined $NewObject ) {
+
+    if ( !defined $NewObject ) {
         if ( $CurrentObject && $CurrentObject ne $Param{Object} ) {
             confess "$CurrentObject depends on $Param{Object}, but the"
                 . " constructor of $Param{Object} (class $ClassName) returned undef.";
@@ -164,7 +164,9 @@ sub _ObjectBuild {
             confess "The contrustructor of $Param{Object} (class $ClassName) returned undef.";
         }
     }
+
     $Self->{Objects}{ $Param{Object} } = $NewObject;
+
     return $NewObject;
 }
 
@@ -194,7 +196,7 @@ sub ObjectConfigGet {
     my $ObjConfig = $Self->{Config}{$ObjectName};
     $ObjConfig ||= $Self->Get('ConfigObject')->Get('Objects')->{$ObjectName};
 
-    unless ($ObjConfig) {
+    if (!$ObjConfig) {
         if ( $CurrentObject && $CurrentObject ne $ObjectName ) {
             confess "$CurrentObject depends on $ObjectName, but $ObjectName is not configured";
         }
@@ -202,8 +204,10 @@ sub ObjectConfigGet {
             confess "Object '$ObjectName' is not configured\n";
         }
     }
+
     $ObjConfig->{Dependencies}
         ||= $Self->Get('ConfigObject')->Get('ObjectManager')->{DefaultDependencies};
+
     return $ObjConfig;
 }
 
@@ -226,7 +230,7 @@ sub ObjectRegister {
     my ( $Self, %Param ) = @_;
 
     for my $Param ( 'Name', 'ClassName' ) {
-        die "Missing parameter $Param" unless $Param{$Param};
+        die "Missing parameter $Param" if !$Param{$Param};
     }
 
     my $Object = delete $Param{Object};
