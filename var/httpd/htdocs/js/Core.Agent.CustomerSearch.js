@@ -426,6 +426,16 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward') && $('#CryptKeyID').length) {
             Core.AJAX.FormUpdate( $('#' + Field).closest('form'), 'AJAXUpdate', '', ['CryptKeyID']);
         }
+
+        // now that we know that at least one customer has been added,
+        // we can remove eventual errors from the customer field
+        $('#FromCustomer, #ToCustomer')
+            .removeClass('Error ServerError')
+            .closest('.Field')
+            .prev('label')
+            .removeClass('LabelError');
+        Core.Form.ErrorTooltips.HideTooltip();
+
         return false;
     };
 
