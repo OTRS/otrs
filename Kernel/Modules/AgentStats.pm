@@ -37,7 +37,7 @@ sub new {
         )
     {
         if ( !$Param{$NeededData} ) {
-            $Param{LayoutObject}->FatalError( Message => "Got no $NeededData!" );
+            $Self->{LayoutObject}->FatalError( Message => "Got no $NeededData!" );
         }
         $Self->{$NeededData} = $Param{$NeededData};
     }
@@ -1574,7 +1574,7 @@ sub Run {
 
                 if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
                     my $TreeSelectionMessage
-                        = $Param{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
                     $BlockData{SelectField}
                         .= ' <a href="#" title="'
                         . $TreeSelectionMessage
@@ -1678,7 +1678,7 @@ sub Run {
 
                 if ( $ObjectAttribute->{ShowAsTree} && $ObjectAttribute->{IsDynamicField} ) {
                     my $TreeSelectionMessage
-                        = $Param{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
+                        = $Self->{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
                     $BlockData{SelectField}
                         .= ' <a href="#" title="'
                         . $TreeSelectionMessage
