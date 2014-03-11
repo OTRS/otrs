@@ -1159,7 +1159,7 @@ sub EmbeddedImagesExtract {
     }
 
     my $FQDN = $Self->{ConfigObject}->Get('FQDN');
-    ${ $Param{DocumentRef} } =~ s{(src=")(data:image/)(png|gif|jpg|bmp)(;base64,)(.+?)(")}{
+    ${ $Param{DocumentRef} } =~ s{(src=")(data:image/)(png|gif|jpg|jpeg|bmp)(;base64,)(.+?)(")}{
 
         my $Base64String = $5;
 
