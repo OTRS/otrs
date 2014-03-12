@@ -120,8 +120,10 @@ $Kernel::OM->ObjectsDiscard();
 $Self->True( !$Dummy,  'ObjectsDiscard without arguments deleted Dummy' );
 $Self->True( !$Dummy2, 'ObjectsDiscard without arguments deleted Dummy2' );
 
-$Self->True( !$Kernel::OM->{Objects}{Dummy2Object},
-    'ObjecstDiscard also discarded newly autovivified objects' );
+$Self->True(
+    !$Kernel::OM->{Objects}{Dummy2Object},
+    'ObjecstDiscard also discarded newly autovivified objects'
+);
 
 $Dummy = $Kernel::OM->Get('DummyObject');
 weaken($Dummy);
