@@ -104,7 +104,7 @@ sub Run {
         for my $Number ( 1 .. 12 ) {
             if ( $GetParam{"MatchHeader$Number"} && $GetParam{"MatchValue$Number"} ) {
                 $Match{ $GetParam{"MatchHeader$Number"} } = $GetParam{"MatchValue$Number"};
-                $Not{ $GetParam{"MatchHeader$Number"} } = $GetParam{"MatchNot$Number"};
+                $Not{ $GetParam{"MatchHeader$Number"} }   = $GetParam{"MatchNot$Number"};
             }
 
             if ( $GetParam{"SetHeader$Number"} && $GetParam{"SetValue$Number"} ) {

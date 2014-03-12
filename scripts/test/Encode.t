@@ -112,7 +112,7 @@ $Self->False(
 
 $Self->Is(
     $EncodeObject->FindAsciiSupersetEncoding(
-        Encodings => ['UTF-7', 'UTF-16-LE', 'ISO-8859-1'],
+        Encodings => [ 'UTF-7', 'UTF-16-LE', 'ISO-8859-1' ],
     ),
     'ISO-8859-1',
     'FindAsciiSupersetEncoding',

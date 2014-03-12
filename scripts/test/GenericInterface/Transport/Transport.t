@@ -108,7 +108,7 @@ for my $Fail ( 0 .. 1 ) {
             Name      => "TransportObject (Fail $Fail) RequesterPerformRequest() UTF-8 data",
             Operation => 'test_operation',
             Data      => {
-                A           => 'A',
+                A                    => 'A',
                 '使用下列语言' => 'معلومات',
             },
             ResultData =>
@@ -228,7 +228,8 @@ for my $Fail ( 0 .. 1 ) {
             local $ENV{CONTENT_TYPE}
                 = 'application/x-www-form-urlencoded; charset=utf-8;';
 
-            $Self->{EncodeObject}->EncodeOutput(\$TestEntry->{RequestContent});
+            $Self->{EncodeObject}->EncodeOutput( \$TestEntry->{RequestContent} );
+
             # redirect STDIN from String so that the transport layer will use this data
             local *STDIN;
             open STDIN, '<:utf8', \$TestEntry->{RequestContent};    ## no critic
@@ -290,7 +291,8 @@ for my $Fail ( 0 .. 1 ) {
                 A                    => 'A',
                 '使用下列语言' => 'معلومات',
             },
-            ResultData => '%E4%BD%BF%E7%94%A8%E4%B8%8B%E5%88%97%E8%AF%AD%E8%A8%80=%D9%85%D8%B9%D9%84%D9%88%D9%85%D8%A7%D8%AA&A=A',
+            ResultData =>
+                '%E4%BD%BF%E7%94%A8%E4%B8%8B%E5%88%97%E8%AF%AD%E8%A8%80=%D9%85%D8%B9%D9%84%D9%88%D9%85%D8%A7%D8%AA&A=A',
             ResultSuccess => 1,
         },
         {
@@ -342,7 +344,7 @@ for my $Fail ( 0 .. 1 ) {
 
                     for my $QueryStringPart ( split m{&}, $TestEntry->{ResultData} ) {
                         $Self->True(
-                            index($ResultData, $QueryStringPart) > -1,
+                            index( $ResultData, $QueryStringPart ) > -1,
                             "$TestEntry->{Name} result",
                         );
                     }
