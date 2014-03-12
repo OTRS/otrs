@@ -573,7 +573,7 @@ sub GetEmailParams {
         || $GetParam{'X-OTRS-Loop'}
         || (
             $GetParam{'Auto-Submitted'}
-            && substr($GetParam{'Auto-Submitted'}, 0, 5) eq 'auto-'
+            && substr( $GetParam{'Auto-Submitted'}, 0, 5 ) eq 'auto-'
         )
         )
     {

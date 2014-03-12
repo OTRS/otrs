@@ -65,8 +65,8 @@ sub new {
         },
     );
 
-    for my $Needed ( qw(LogObject EncodeObject MainObject TimeObject ParamObject) ) {
-        $Self->{ $Needed } = $Kernel::OM->Get( $Needed );
+    for my $Needed (qw(LogObject EncodeObject MainObject TimeObject ParamObject)) {
+        $Self->{$Needed} = $Kernel::OM->Get($Needed);
     }
 
     # debug info
@@ -146,10 +146,10 @@ sub Run {
     );
 
     # create common framework objects 2/3
-    $Self->{LayoutObject} = $Kernel::OM->Get( 'LayoutObject' );
+    $Self->{LayoutObject} = $Kernel::OM->Get('LayoutObject');
 
     # check common objects
-    $Self->{DBObject}     = $Kernel::OM->Get( 'DBObject' );
+    $Self->{DBObject} = $Kernel::OM->Get('DBObject');
     if ( !$Self->{DBObject} ) {
         $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your administrator' );
     }
@@ -161,7 +161,7 @@ sub Run {
     }
 
     # create common framework objects 3/3
-    $Self->{UserObject} = $Kernel::OM->Get( 'CustomerUserObject' );
+    $Self->{UserObject} = $Kernel::OM->Get('CustomerUserObject');
 
     # application and add-on application common objects
     my %CommonObject = %{ $Self->{ConfigObject}->Get('PublicFrontend::CommonObject') };

@@ -20,7 +20,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 
 $Self->True( $Kernel::OM, 'Could build object manager' );
 
-
 # test that all configured objects can be created and then destroyed;
 # that way we know there are no cyclic references in the constructors
 
@@ -28,35 +27,35 @@ my @Objects = sort keys %{ $Kernel::OM->Get('ConfigObject')->Get('Objects') };
 
 # some objects need extra data/configuration; exlcude them
 my %Exclude = (
-    CryptObject          => 1, # needs CryptType
-    PostMasterObject     => 1, # needs Email
-    StatsObject          => 1, # needs UserID
-    UnitTestHelperObject => 1, # needs UnitTestObject
+    CryptObject          => 1,    # needs CryptType
+    PostMasterObject     => 1,    # needs Email
+    StatsObject          => 1,    # needs UserID
+    UnitTestHelperObject => 1,    # needs UnitTestObject
 );
-@Objects = grep { !$Exclude{ $_ } } @Objects;
+@Objects = grep { !$Exclude{$_} } @Objects;
 
 my %AllObjects = $Kernel::OM->ObjectHash(
     Objects => \@Objects,
 );
 
 for my $ObjectName ( sort keys %AllObjects ) {
-    weaken( $AllObjects{ $ObjectName } );
+    weaken( $AllObjects{$ObjectName} );
 }
 
 $Kernel::OM->ObjectsDiscard();
 
 for my $ObjectName ( sort keys %AllObjects ) {
     $Self->True(
-        !defined($AllObjects{ $ObjectName }),
+        !defined( $AllObjects{$ObjectName} ),
         "ObjectsDiscard got rid of $ObjectName",
     );
 }
 
 my %SomeObjects = $Kernel::OM->ObjectHash(
-    Objects => ['ConfigObject', 'TicketObject', 'DBObject'],
+    Objects => [ 'ConfigObject', 'TicketObject', 'DBObject' ],
 );
 for my $ObjectName ( sort keys %SomeObjects ) {
-    weaken( $SomeObjects{ $ObjectName } );
+    weaken( $SomeObjects{$ObjectName} );
 }
 
 $Kernel::OM->ObjectsDiscard(
@@ -75,7 +74,6 @@ $Self->True(
     $SomeObjects{ConfigObject},
     'ObjectDiscard did not discard ConfigObject',
 );
-
 
 # test custom configured objects
 # note that DummyObject creates a Dummy2Object in its destructor,
@@ -97,15 +95,14 @@ $Kernel::OM->ObjectRegister(
     Dependencies => [],
     Param        => {
         Data => 'Test payload',
-    }
+        }
 );
 
 $Dummy = $Kernel::OM->Get('DummyObject');
 my $Dummy2 = $Kernel::OM->Get('Dummy2Object');
 
-$Self->True( $Dummy, 'Can get Dummy object after registration' );
+$Self->True( $Dummy,  'Can get Dummy object after registration' );
 $Self->True( $Dummy2, 'Can get Dummy2 object after registration' );
-
 
 $Self->Is(
     $Dummy->Data(),
@@ -123,7 +120,8 @@ $Kernel::OM->ObjectsDiscard();
 $Self->True( !$Dummy,  'ObjectsDiscard without arguments deleted Dummy' );
 $Self->True( !$Dummy2, 'ObjectsDiscard without arguments deleted Dummy2' );
 
-$Self->True( ! $Kernel::OM->{Objects}{Dummy2Object}, 'ObjecstDiscard also discarded newly autovivified objects');
+$Self->True( !$Kernel::OM->{Objects}{Dummy2Object},
+    'ObjecstDiscard also discarded newly autovivified objects' );
 
 $Dummy = $Kernel::OM->Get('DummyObject');
 weaken($Dummy);

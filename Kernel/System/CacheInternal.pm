@@ -82,7 +82,7 @@ sub new {
     }
 
     # create additional objects
-    $Self->{CacheObject} = $Kernel::OM->Get( 'CacheObject' );
+    $Self->{CacheObject} = $Kernel::OM->Get('CacheObject');
 
     # Enforce cache type restriction to make sure it works properly on all file systems.
     if ( $Param{Type} !~ m{ \A [a-zA-Z0-9_]+ \z}smx ) {

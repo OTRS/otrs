@@ -483,8 +483,8 @@ sub MaskAgentZoom {
 
     # generate shown articles
 
-    my $Page  = $Self->{ParamObject}->GetParam( Param => 'ArticlePage' ) || 1;
-    my $Limit = $Self->{ConfigObject}->Get( 'Ticket::Frontend::MaxArticlesPerPage' );
+    my $Page = $Self->{ParamObject}->GetParam( Param => 'ArticlePage' ) || 1;
+    my $Limit = $Self->{ConfigObject}->Get('Ticket::Frontend::MaxArticlesPerPage');
 
     # We need to find out whether pagination is actually necessary.
     # The easiest way would be count the articles, but that would slow
@@ -493,7 +493,7 @@ sub MaskAgentZoom {
     # 1) if the $Page > 1, we need pagination
     # 2) if not, request $Limit + 1 articles. If $Limit + 1 are actually
     #    returned, pagination is necessary
-    my $Extra          = $Page > 1 ? 0 : 1;
+    my $Extra = $Page > 1 ? 0 : 1;
     my $NeedPagination;
     my $ArticleCount;
 
@@ -509,28 +509,28 @@ sub MaskAgentZoom {
     if ( $Page == 1 && @ArticleBox > $Limit ) {
         pop @ArticleBox;
         $NeedPagination = 1;
-        $ArticleCount = $Self->{TicketObject}->ArticleCount(
-            TicketID    => $Self->{TicketID},
+        $ArticleCount   = $Self->{TicketObject}->ArticleCount(
+            TicketID => $Self->{TicketID},
         );
     }
     elsif ( $Page == 1 ) {
-        $ArticleCount = @ArticleBox;
+        $ArticleCount   = @ArticleBox;
         $NeedPagination = 0;
     }
     else {
         $NeedPagination = 1;
-        $ArticleCount = $Self->{TicketObject}->ArticleCount(
-            TicketID    => $Ticket{TicketID},
+        $ArticleCount   = $Self->{TicketObject}->ArticleCount(
+            TicketID => $Ticket{TicketID},
         );
     }
 
     my $Pages;
-    if ( $NeedPagination ) {
+    if ($NeedPagination) {
         $Pages = ceil( $ArticleCount / $Limit );
     }
 
     # add counter
-    my $Count = ($Page - 1) * $Limit;
+    my $Count = ( $Page - 1 ) * $Limit;
     for my $Article (@ArticleBox) {
         $Count++;
         $Article->{Count} = $Count;
@@ -688,7 +688,7 @@ sub MaskAgentZoom {
 
         my $Pagination;
 
-        if ( $NeedPagination) {
+        if ($NeedPagination) {
             $Pagination = {
                 Pages       => $Pages,
                 CurrentPage => $Page,

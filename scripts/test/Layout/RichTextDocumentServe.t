@@ -338,7 +338,7 @@ EOF
         },
         LoadExternalImages => 1,
         Result             => {
-            Content     => 'Link <a href="http://test.example" target="_blank">http://test.example</a>',
+            Content => 'Link <a href="http://test.example" target="_blank">http://test.example</a>',
             ContentType => 'text/html; charset="utf-8"',
         },
     },

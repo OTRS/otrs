@@ -196,7 +196,7 @@ sub ObjectConfigGet {
     my $ObjConfig = $Self->{Config}{$ObjectName};
     $ObjConfig ||= $Self->Get('ConfigObject')->Get('Objects')->{$ObjectName};
 
-    if (!$ObjConfig) {
+    if ( !$ObjConfig ) {
         if ( $CurrentObject && $CurrentObject ne $ObjectName ) {
             confess "$CurrentObject depends on $ObjectName, but $ObjectName is not configured";
         }
@@ -356,7 +356,7 @@ sub ObjectsDiscard {
     $Traverser = sub {
         my ($Obj) = @_;
         return if $Seen{$Obj}++;
-        for my $Object (sort keys %{ $ReverseDeps{$Obj} } ) {
+        for my $Object ( sort keys %{ $ReverseDeps{$Obj} } ) {
             $Traverser->($Object);
         }
         push @OrderedObjects, $Obj;
@@ -368,7 +368,7 @@ sub ObjectsDiscard {
         }
     }
     else {
-        for my $Object ( @AllObjects ) {
+        for my $Object (@AllObjects) {
             $Traverser->($Object);
         }
     }
@@ -376,7 +376,7 @@ sub ObjectsDiscard {
 
     # third step: destruction
     if ( $Self->{Debug} ) {
-        for my $Object ( @OrderedObjects ) {
+        for my $Object (@OrderedObjects) {
             my $Checker = $Self->{Objects}{$Object};
             weaken($Checker);
             delete $Self->{Objects}{$Object};
@@ -392,7 +392,7 @@ sub ObjectsDiscard {
         }
     }
     else {
-        for my $Object ( @OrderedObjects ) {
+        for my $Object (@OrderedObjects) {
             delete $Self->{Objects}{$Object};
         }
     }
@@ -400,7 +400,7 @@ sub ObjectsDiscard {
     # if an object requests an already destroyed object
     # in its DESTROY method, we might hold it again, and must try again
     # (but not infinitely)
-    if ( !$Param{Objects} && keys %{ $Self->{Objects } } ) {
+    if ( !$Param{Objects} && keys %{ $Self->{Objects} } ) {
         if ( $Self->{DestroyAttempts} && $Self->{DestroyAttempts} > 3 ) {
             Carp::confess("Loop while destroying objects!");
         }
@@ -419,6 +419,7 @@ sub ObjectsDiscard {
 
 sub DESTROY {
     my ($Self) = @_;
+
     # Make sure $Kernel::OM is still available in the destructor
     local $Kernel::OM = $Self;
     $Self->ObjectsDiscard();

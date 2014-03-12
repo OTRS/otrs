@@ -81,8 +81,8 @@ sub new {
         },
     );
 
-    for my $Needed ( qw( LogObject EncodeObject MainObject TimeObject ParamObject ) ) {
-        $Self->{ $Needed } = $Kernel::OM->Get( $Needed );
+    for my $Needed (qw( LogObject EncodeObject MainObject TimeObject ParamObject )) {
+        $Self->{$Needed} = $Kernel::OM->Get($Needed);
     }
 
     # debug info
@@ -135,6 +135,7 @@ sub Run {
 
     # run modules if a version value exists
     elsif ( $Self->{MainObject}->Require("Kernel::Modules::$Param{Action}") ) {
+
         # proof of concept! - create $GenericObject
         my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
             %{$Self},

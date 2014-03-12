@@ -54,7 +54,8 @@ sub new {
 
     # check needed objects
     for my $Needed (
-        qw(ConfigObject DBObject LogObject TimeObject MainObject EncodeObject EnvironmentObject))
+        qw(ConfigObject DBObject LogObject TimeObject MainObject EncodeObject EnvironmentObject)
+        )
     {
         $Self->{$Needed} = $Kernel::OM->Get($Needed);
     }

@@ -20,11 +20,9 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-
     # get needed objects
     $Self->{ConfigObject} = $Kernel::OM->Get('ConfigObject');
     $Self->{EncodeObject} = $Kernel::OM->Get('EncodeObject');
-
 
     # get logfile location
     $Self->{LogFile} = $Self->{ConfigObject}->Get('LogModule::LogFile')

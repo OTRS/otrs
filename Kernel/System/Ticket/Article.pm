@@ -1524,7 +1524,9 @@ sub ArticleGet {
         $Start = $Param{Limit} * ( $Param{Page} - 1 );
     }
 
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind, Limit => $Param{Limit}, Start => $Start );
+    return
+        if !$Self->{DBObject}
+        ->Prepare( SQL => $SQL, Bind => \@Bind, Limit => $Param{Limit}, Start => $Start );
     my %Ticket;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Data;
