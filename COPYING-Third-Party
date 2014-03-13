@@ -221,6 +221,11 @@ o Name:    CPAN Email::Valid
            # and/or modify it under the same terms as Perl itself.
   Note:    # Copyright 1998-2003, Maurice Aubrey <maurice@hevanet.com>. All rights reserved.
 
+o Name:    CPAN Selenium::Remote::Driver
+  Web:     http://code.google.com/p/selenium/
+  License: Apache License v2 - http://www.apache.org/licenses/LICENSE-2.0
+  Note:    # Copyright (c) 2010-2011 Aditya Ivaturi, Gordon Child
+
 # --
 # JavaScript
 # --

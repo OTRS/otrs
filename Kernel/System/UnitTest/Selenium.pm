@@ -12,7 +12,10 @@ package Kernel::System::UnitTest::Selenium;
 
 use strict;
 use warnings;
-use base qw(WWW::Selenium);
+
+use base qw(Selenium::Remote::Driver);
+use MIME::Base64();
+use File::Temp();
 
 use Kernel::Config;
 use Kernel::System::User;
@@ -21,152 +24,166 @@ use Kernel::System::User;
 
 Kernel::System::UnitTest::Selenium - run frontend tests
 
+This class inherits from Selenium::Remote::Driver. You can use
+its full API (see
+L<http://search.cpan.org/~aivaturi/Selenium-Remote-Driver-0.15/lib/Selenium/Remote/Driver.pm>).
+
+Every successful Selenium command will be logged as a successful unit test.
+In case of an error, an exception will be thrown that you can catch in your
+unit test file and handle with C<HandleError()> in this class. It will output
+a failing test result and generate a screenshot for analysis.
+
 =over 4
 
 =cut
 
-# TODO: fix no critic
-## no critic
+=item new()
+
+create a selenium object to run fontend tests.
+
+To do this, you need a running selenium or phantomjs server.
+
+Specify the connection details in Config.pm, like this:
+
+    $Self->{'SeleniumTestsConfig'} = {
+        remote_server_addr  => 'localhost',
+        port                => '4444',
+        browser_name        => 'phantomjs',
+        platform            => 'MAC',
+    };
+
+Then you can use the full API of Selenium::Remote::Driver on this object.
+
+=cut
 
 sub new {
     my ( $Class, %Param ) = @_;
 
-    # check needed objects
-    for my $Needed (qw(UnitTestObject ID host port browser browser_url)) {
+    for my $Needed (qw(UnitTestObject)) {
         if ( !$Param{$Needed} ) {
             die "Got no $Needed!";
         }
     }
 
-    $Param{UnitTestObject}->True( 1, "Starting up Selenium scenario '$Param{ID}'..." );
+    $Param{UnitTestObject}->True( 1, "Starting up Selenium scenario..." );
 
-    # selenium stuff
-    my $DefaultNames = defined $Param{default_names}
-        ?
-        delete $Param{default_names}
-        : 1;
+    my %SeleniumTestsConfig
+        = %{ $Param{UnitTestObject}->{ConfigObject}->Get('SeleniumTestsConfig') // {} };
 
-    my $Self = $Class->SUPER::new(%Param);
-    $Self->{default_names} = $DefaultNames;
-    $Self->start;
+    if ( !%SeleniumTestsConfig ) {
+        my $Self = bless {}, $Class;
+        $Self->{UnitTestObject} = $Param{UnitTestObject};
+        return $Self;
+    }
+
+    for my $Needed (qw(remote_server_addr port browser_name platform)) {
+        if ( !$SeleniumTestsConfig{$Needed} ) {
+            die "SeleniumTestsConfig must provide $Needed!";
+        }
+    }
+
+    my $Self = $Class->SUPER::new(%SeleniumTestsConfig);
+    $Self->{UnitTestObject}      = $Param{UnitTestObject};
+    $Self->{SeleniumTestsActive} = 1;
+
+    #$Self->debug_on();
+    $Self->set_window_size( 1024, 768 );
+
+    # get remote host with some precautions for certain unit test systems
+    my $FQDN = $Self->{UnitTestObject}->{ConfigObject}->Get('FQDN');
+
+    # try to resolve fqdn host
+    if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
+        $Self->{BaseURL} = $FQDN;
+    }
+
+    # try to resolve localhost instead
+    if ( !$Self->{BaseURL} && gethostbyname('localhost') ) {
+        $Self->{BaseURL} = 'localhost';
+    }
+
+    # use hardcoded localhost ip address
+    if ( !$Self->{BaseURL} ) {
+        $Self->{BaseURL} = '127.0.0.1';
+    }
+
+    $Self->{BaseURL}
+        = $Self->{UnitTestObject}->{ConfigObject}->Get('HttpType') . '://' . $Self->{BaseURL};
 
     return $Self;
 }
 
-our $AUTOLOAD;
+=item RunTest()
 
-my %comparator = (
-    is     => 'Is',
-    isnt   => 'IsNot',
-    like   => 'Like',
-    unlike => 'Unlike',
-);
+runs a selenium test if Selenium testing is configured and performs proper
+error handling (calls C<HandleError()> if needed).
 
-# These commands don't require a locator
-# grep item lib/WWW/Selenium.pm | grep sel | grep \(\) | grep get
-my %no_locator = map { $_ => 1 }
-    qw(alert confirmation prompt absolute_location location
-    title body_text all_buttons all_links all_fields);
+    $SeleniumObject->RunTest( sub { ... } );
 
-sub AUTOLOAD {
-    my $Self = $_[0];
+=cut
 
-    my $Name = $AUTOLOAD;
+sub RunTest {
+    my ( $Self, $Test ) = @_;
 
-    if ( $Self->{Verbose} ) {
-        print STDERR "Called AUTOLOAD for $AUTOLOAD...\n";
+    if ( !$Self->{SeleniumTestsActive} ) {
+        $Self->{UnitTestObject}->True( 1, 'Selenium testing is not active, skipping tests.' );
+        return 1;
     }
 
-    $Name =~ s/.*:://;
-    return if $Name eq 'DESTROY';
+    eval {
+        $Test->();
+    };
+    $Self->HandleError($@) if $@;
 
-    my $sub;
-    if ( $Name =~ /(\w+)_(is|isnt|like|unlike)$/i ) {
-        my $getter     = "get_$1";
-        my $comparator = $comparator{ lc $2 };
+    return 1;
+}
 
-        # make a subroutine that will call Test::Builder's test methods
-        # with selenium data from the getter
-        if ( $no_locator{$1} ) {
-            $sub = sub {
-                my ( $Self, $str, $Name ) = @_;
+=item _execute_command()
 
-                #
-                # diag
-                #
-                print STDERR "Test::WWW::Selenium running $getter (@_[1..$#_])\n"
-                    if $Self->{Verbose};
-                $Name = "$getter, '$str'"
-                    if $Self->{default_names} and !defined $Name;
-                no strict 'refs';
-                return $Self->{UnitTestObject}->$comparator( $Self->$getter, $str, $Name );
-            };
+Override internal command of base class.
+
+We use it to output successful command runs to the UnitTest object.
+Errors will cause an exeption and be caught elsewhere.
+
+=cut
+
+sub _execute_command {    ## no critic
+    my ( $Self, $Res, $Params ) = @_;
+
+    my $Result = $Self->SUPER::_execute_command( $Res, $Params );
+
+    my $TestName = 'Selenium command success: ';
+    $TestName .= $Self->{UnitTestObject}->{MainObject}->Dump(
+        {
+            %{ $Res    || {} },
+            %{ $Params || {} },
         }
-        else {
-            $sub = sub {
-                my ( $Self, $locator, $str, $Name ) = @_;
+    );
 
-                #
-                # diag
-                #
-                print STDERR "Test::WWW::Selenium running $getter (@_[1..$#_])\n"
-                    if $Self->{Verbose};
-                $Name = "$getter, $locator, '$str'"
-                    if $Self->{default_names} and !defined $Name;
-                no strict 'refs';
-                return $Self->{UnitTestObject}
-                    ->$comparator( $Self->$getter($locator), $str, $Name );
-            };
-        }
-    }
-    elsif ( $Name =~ /(\w+?)_?ok$/i ) {
-        my $cmd = $1;
+    $Self->{UnitTestObject}->True(
+        1,
+        $TestName
+    );
 
-        # make a subroutine for ok() around the selenium command
-        $sub = sub {
-            my ( $Self, $arg1, $arg2, $Name ) = @_;
-            if ( $Self->{default_names} and !defined $Name ) {
-                $Name = $cmd;
-                $Name .= ", $arg1" if defined $arg1;
-                $Name .= ", $arg2" if defined $arg2;
-            }
+    return $Result;
+}
 
-            #
-            # diag
-            #
-            print STDERR "Test::WWW::Selenium running $cmd (@_[1..$#_])\n"
-                if $Self->{Verbose};
+=item get()
 
-            my $rc = '';
-            eval { $rc = $Self->$cmd( $arg1, $arg2 ) };
-            die $@ if $@ and $@ =~ /Can't locate object method/;
+Override get method of base class to prepend the correct base URL.
 
-            #
-            # diag
-            #
-            print STDERR ($@) if $@;
+=cut
 
-            return $Self->{UnitTestObject}->True( $rc, $Name );
-        };
+sub get {    ## no critic
+    my ( $Self, $URL ) = @_;
+
+    if ( $URL !~ m{http[s]?://}smx ) {
+        $URL = "$Self->{BaseURL}/$URL";
     }
 
-    # jump directly to the new subroutine, avoiding an extra frame stack
-    if ($sub) {
-        no strict 'refs';
-        *{$AUTOLOAD} = $sub;
-        goto &$AUTOLOAD;
-    }
-    else {
+    $Self->SUPER::get($URL);
 
-        # try to pass through to WWW::Selenium
-        my $sel = 'WWW::Selenium';
-        my $sub = "${sel}::${Name}";
-        goto &$sub if exists &$sub;
-        my ( $package, $filename, $line ) = caller;
-        die qq(Can't locate object method "$Name" via package ")
-            . __PACKAGE__
-            . qq(" (also tried "$sel") at $filename line $line\n);
-    }
+    return;
 }
 
 =item Login()
@@ -194,44 +211,108 @@ sub Login {
 
     $Self->{UnitTestObject}->True( 1, 'Initiating login...' );
 
-    my $ScriptAlias = $Self->{UnitTestObject}->{ConfigObject}->Get('ScriptAlias');
+    eval {
+        $Self->delete_all_cookies();
 
-    if ( $Param{Type} eq 'Agent' ) {
-        $ScriptAlias .= 'index.pl';
+        my $ScriptAlias = $Self->{UnitTestObject}->{ConfigObject}->Get('ScriptAlias');
+
+        if ( $Param{Type} eq 'Agent' ) {
+            $ScriptAlias .= 'index.pl';
+        }
+        else {
+            $ScriptAlias .= 'customer.pl';
+        }
+
+        # First load the page so we can delete any pre-existing cookies
+        $Self->get("${ScriptAlias}");
+        $Self->delete_all_cookies();
+
+        # Now load it again to login
+        $Self->get("${ScriptAlias}");
+
+        my $Element = $Self->find_element( 'input#User', 'css' );
+        $Element->is_displayed();
+        $Element->is_enabled();
+        $Element->send_keys( $Param{User} );
+
+        $Element = $Self->find_element( 'input#Password', 'css' );
+        $Element->is_displayed();
+        $Element->is_enabled();
+        $Element->send_keys( $Param{Password} );
+
+        # login
+        $Element->submit();
+
+        # login succressful?
+        $Element = $Self->find_element( 'a#LogoutButton', 'css' );
+
+        $Self->{UnitTestObject}->True( 1, 'Login sequence ended...' );
+    };
+    if ($@) {
+        $Self->HandleError($@);
+        die "Login failed!";
     }
-    else {
-        $ScriptAlias .= 'customer.pl';
-    }
-    $Self->open_ok("${ScriptAlias}?Action=Logout");
-
-    $Self->is_editable_ok("User");
-    $Self->type_ok( "User", $Param{User} );
-    $Self->is_editable_ok("Password");
-    $Self->type_ok( "Password", $Param{Password} );
-    $Self->is_visible_ok("//button[\@id='LoginButton']");
-
-    if ( !$Self->click_ok("//button[\@id='LoginButton']") ) {
-        $Self->{UnitTestObject}->False( 1, "Could not submit login form" );
-        return;
-    }
-    $Self->wait_for_page_to_load_ok("30000");
-
-    if ( !$Self->is_element_present_ok("css=a#LogoutButton") ) {
-        $Self->{UnitTestObject}->False( 1, "Login was not successful" );
-        return;
-    }
-
-    $Self->{UnitTestObject}->True( 1, 'Login sequence ended...' );
 
     return 1;
 }
 
+=item HandleError()
+
+use this method to handle any Selenium exceptions.
+
+    $SeleniumObject->HandleError($@);
+
+It will create a failing test result and store a screenshot of the page
+for analysis.
+
+=cut
+
+sub HandleError {
+    my ( $Self, $Error ) = @_;
+
+    $Self->{UnitTestObject}->False( 1, "Exception in Selenium': $Error" );
+
+    #eval {
+    my $Data = $Self->screenshot();
+    return if !$Data;
+    $Data = MIME::Base64::decode_base64($Data);
+
+    my ( $FH, $Filename ) = File::Temp::tempfile(
+        DIR    => $Self->{UnitTestObject}->{ConfigObject}->Get('TempDir'),
+        SUFFIX => '.png',
+        UNLINK => 0,
+    );
+    close $FH;
+    $Self->{UnitTestObject}->{MainObject}->FileWrite(
+        Location => $Filename,
+        Content  => \$Data,
+    );
+
+    $Self->{UnitTestObject}->False(
+        1,
+        "Saved screenshot in file://$Filename",
+    );
+
+    #}
+}
+
+=item DESTROY()
+
+cleanup. Adds a unit test result to indicate the shutdown.
+
+=cut
+
 sub DESTROY {
     my $Self = shift;
 
-    $Self->{UnitTestObject}->True( 1, "Shutting down Selenium scenario" );
+    # Could be missing on early die.
+    if ( $Self->{UnitTestObject} ) {
+        $Self->{UnitTestObject}->True( 1, "Shutting down Selenium scenario." );
+    }
 
-    $Self->SUPER::DESTROY();
+    if ( $Self->{SeleniumTestsActive} ) {
+        $Self->SUPER::DESTROY();
+    }
 }
 
 1;
