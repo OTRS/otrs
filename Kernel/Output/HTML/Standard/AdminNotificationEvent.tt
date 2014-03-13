@@ -374,7 +374,12 @@
                             [% Translate("Text") | html %]:
                         </label>
                         <div class="RichTextField">
-                            <textarea rows="12" cols="75" name="Body" id="Body" class="Validate_Required [% Data.BodyServerError %]">[% Data.Body | html %]</textarea>
+
+[% RenderBlockStart("RichText") %]
+[% InsertTemplate("RichTextEditor.tt") %]
+[% RenderBlockEnd("RichText") %]
+
+                            <textarea id="RichText" class="RichText Validate_Required [% Data.RichTextInvalid | html %]" name="Body" title="Message body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
                             <div id="BodyError" class="TooltipErrorMessage">
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>

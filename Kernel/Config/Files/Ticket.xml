@@ -8042,6 +8042,22 @@
             </Array>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Admin::AdminNotificationEvent###RichTextWidth" Required="0" Valid="1">
+        <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Admin::AdminNotificationEvent</SubGroup>
+        <Setting>
+            <String Regex="^\d+%?$">620</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Admin::AdminNotificationEvent###RichTextHeight" Required="0" Valid="1">
+        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Admin::AdminNotificationEvent</SubGroup>
+        <Setting>
+            <String Regex="^\d+%?$">320</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketOverview" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Group>Ticket</Group>

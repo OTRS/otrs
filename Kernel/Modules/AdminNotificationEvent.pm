@@ -51,6 +51,8 @@ sub new {
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
+    $Self->{Config} = $Self->{ConfigObject}->Get("Frontend::Admin::$Self->{Action}");
+
     # get the dynamic fields for this screen
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid      => 1,
@@ -67,6 +69,12 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    # set type for notifications
+    my $NotificationType = 'text/plain';
+    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+        $NotificationType = 'text/html';
+    }
 
     # ------------------------------------------------------------ #
     # change
@@ -155,7 +163,7 @@ sub Run {
         my $Ok = $Self->{NotificationEventObject}->NotificationUpdate(
             %GetParam,
             Charset => $Self->{LayoutObject}->{UserCharset},
-            Type    => 'text/plain',
+            Type    => $NotificationType,
             UserID  => $Self->{UserID},
         );
         if ($Ok) {
@@ -279,7 +287,7 @@ sub Run {
         my $ID = $Self->{NotificationEventObject}->NotificationAdd(
             %GetParam,
             Charset => $Self->{LayoutObject}->{UserCharset},
-            Type    => 'text/plain',
+            Type    => $NotificationType,
             UserID  => $Self->{UserID},
         );
 
@@ -609,6 +617,36 @@ sub _Edit {
                 Field => $DynamicFieldHTML->{Field},
             },
         );
+    }
+
+    # add rich text editor
+    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+
+        # make sure body is rich text (if body is based on config)
+        if ( $Param{Type} && $Param{Type} =~ m{text\/plain}xmsi ) {
+            $Param{Body} = $Self->{LayoutObject}->Ascii2RichText(
+                String => $Param{Body},
+            );
+        }
+
+        # use height/width defined for this screen
+        $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
+        $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
+
+        $Self->{LayoutObject}->Block(
+            Name => 'RichText',
+            Data => \%Param,
+        );
+    }
+    else {
+
+        # reformat from html to plain
+        if ( $Param{Type} && $Param{Type} =~ m{text\/html}xmsi && $Param{Body} ) {
+
+            $Param{Body} = $Self->{LayoutObject}->RichText2Ascii(
+                String => $Param{Body},
+            );
+        }
     }
 
     $Param{ArticleTypesStrg} = $Self->{LayoutObject}->BuildSelection(

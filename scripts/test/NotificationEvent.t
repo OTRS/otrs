@@ -299,6 +299,39 @@ my @Tests = (
             ValidID => 1,
         },
     },
+    {
+        Name          => 'TestHTML ' . $TestNumber++,
+        SuccessAdd    => 1,
+        SuccessUpdate => 1,
+        Add           => {
+            Name => 'NotificationHTMLNameSuccess-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ' . $RandomID,
+            Subject => 'Notification subject-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Body    => 'Body for notification-<br>äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Type    => 'text/html',
+            Charset => 'iso-8895-1',
+            Comment => 'Just something for test-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Data    => {
+                Events => [ 'TicketQueueUpdate', ],
+                Queue  => [ 'SomeQueue-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ', ],
+            },
+            ValidID => 2,
+        },
+
+        Update => {
+            Name => 'NotificationHTML-äüßÄÖÜ€исáéíúúÁÉÍÚñÑNameModifiedSuccess'
+                . $RandomID,
+            Subject => 'Notification-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ subject modified',
+            Body    => 'Body for notification-<br>äüßÄÖÜ€исáéíúúÁÉÍÚñÑ modified',
+            Type    => 'text/html',
+            Charset => 'utf-8',
+            Comment => 'Just something modified for test-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Data    => {
+                Events => [ 'AnEventForThisTest' . $RandomID, ],
+                Queue  => [ 'ADifferentQueue-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ', ],
+            },
+            ValidID => 1,
+        },
+    },
 );
 
 my %NotificationIDs;

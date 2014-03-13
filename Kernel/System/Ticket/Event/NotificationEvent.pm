@@ -12,6 +12,7 @@ package Kernel::System::Ticket::Event::NotificationEvent;
 use strict;
 use warnings;
 
+use Kernel::System::HTMLUtils;
 use Kernel::System::NotificationEvent;
 use Kernel::System::SystemAddress;
 use Kernel::System::DynamicField;
@@ -38,6 +39,7 @@ sub new {
 
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new( %{$Self} );
+    $Self->{HTMLUtilsObject}        = Kernel::System::HTMLUtils->new( %{$Self} );
 
     # get dynamic fields
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -545,11 +547,33 @@ sub _SendNotification {
     # get recipient data
     my %Recipient = %{ $Param{Recipient} };
 
+    # convert values to html to get correct line breaks etc.
+    if ( $Notification{Type} =~ m{text\/html} ) {
+        KEY:
+        for my $Key ( sort keys %Recipient ) {
+            next KEY if !$Recipient{$Key};
+            $Recipient{$Key} = $Self->{HTMLUtilsObject}->ToHTML(
+                String => $Recipient{$Key},
+            );
+        }
+    }
+
     # get old article for quoting
     my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
         TicketID      => $Param{TicketID},
         DynamicFields => 1,
     );
+
+    # convert values to html to get correct line breaks etc.
+    if ( $Notification{Type} =~ m{text\/html} ) {
+        KEY:
+        for my $Key ( sort keys %Article ) {
+            next KEY if !$Article{$Key};
+            $Article{$Key} = $Self->{HTMLUtilsObject}->ToHTML(
+                String => $Article{$Key},
+            );
+        }
+    }
 
     # get notification texts
     KEY:
@@ -558,13 +582,20 @@ sub _SendNotification {
         $Notification{$_} = "No CustomerNotification $_ for $Param{Type} found!";
     }
 
-    # replace config options
-    $Notification{Body} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    my $Start = '<';
+    my $End   = '>';
+    if ( $Notification{Type} =~ m{text\/html} ) {
+        $Start = '&lt;';
+        $End   = '&gt;';
+    }
+
+    # replace config optionsf
+    $Notification{Body} =~ s{${Start}OTRS_CONFIG_(.+?)${End}}{$Self->{ConfigObject}->Get($1)}egx;
     $Notification{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_CONFIG_.+?>/-/gi;
-    $Notification{Body} =~ s/<OTRS_CONFIG_.+?>/-/gi;
+    $Notification{Body} =~ s/${Start}OTRS_CONFIG_.+?${End}/-/gi;
 
     # ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(
@@ -572,18 +603,29 @@ sub _SendNotification {
         DynamicFields => 1,
     );
 
+    # convert values to html to get correct line breaks etc.
+    if ( $Notification{Type} =~ m{text\/html} ) {
+        KEY:
+        for my $Key ( sort keys %Ticket ) {
+            next KEY if !$Ticket{$Key};
+            $Ticket{$Key} = $Self->{HTMLUtilsObject}->ToHTML(
+                String => $Ticket{$Key},
+            );
+        }
+    }
+
     # COMPAT
     # use Ticket information as a fallback (if ticket has no Articles)
     my $TicketNumber = $Article{TicketNumber} || $Ticket{TicketNumber};
-    $Notification{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/gi;
-    $Notification{Body} =~ s/<OTRS_TICKET_NUMBER>/$TicketNumber/gi;
+    $Notification{Body} =~ s/${Start}OTRS_TICKET_ID${End}/$Param{TicketID}/gi;
+    $Notification{Body} =~ s/${Start}OTRS_TICKET_NUMBER${End}/$TicketNumber/gi;
 
     # prepare customer realname
-    if ( $Notification{Body} =~ /<OTRS_CUSTOMER_REALNAME>/ ) {
+    if ( $Notification{Body} =~ /${Start}OTRS_CUSTOMER_REALNAME${End}/ ) {
         my $RealName = $Self->{CustomerUserObject}->CustomerName(
             UserLogin => $Ticket{CustomerUserID}
         ) || $Recipient{Realname};
-        $Notification{Body} =~ s/<OTRS_CUSTOMER_REALNAME>/$RealName/g;
+        $Notification{Body} =~ s/${Start}OTRS_CUSTOMER_REALNAME${End}/$RealName/g;
     }
 
     KEY:
@@ -625,33 +667,46 @@ sub _SendNotification {
             $DisplayKeyValue = $KeyValueStrg->{Value};
         }
 
-        $Notification{Body} =~ s/<OTRS_TICKET_$Key>/$DisplayKeyValue/gi;
+        $Notification{Body} =~ s/${Start}OTRS_TICKET_$Key${End}/$DisplayKeyValue/gi;
         $Notification{Subject} =~ s/<OTRS_TICKET_$Key>/$DisplayKeyValue/gi;
 
         my $Tag = '<OTRS_TICKET_' . $Key . '_Value>';
-        $Notification{Body} =~ s/$Tag/$DisplayValue/gi;
+        my $TagBody = '${Start}OTRS_TICKET_' . $Key . '_Value${End}';
+        $Notification{Body} =~ s/$TagBody/$DisplayValue/gi;
         $Notification{Subject} =~ s/$Tag/$DisplayValue/gi;
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_TICKET_.+?>/-/gi;
-    $Notification{Body} =~ s/<OTRS_TICKET_.+?>/-/gi;
+    $Notification{Body} =~ s/${Start}OTRS_TICKET_.+?${End}/-/gi;
 
     # get current user data
     my %CurrentPreferences = $Self->{UserObject}->GetUserData(
         UserID        => $Param{UserID},
         NoOutOfOffice => 1,
     );
+
+    # convert values to html to get correct line breaks etc.
+    if ( $Notification{Type} =~ m{text\/html} ) {
+        KEY:
+        for my $Key ( sort keys %CurrentPreferences ) {
+            next KEY if !$CurrentPreferences{$Key};
+            $CurrentPreferences{$Key} = $Self->{HTMLUtilsObject}->ToHTML(
+                String => $CurrentPreferences{$Key},
+            );
+        }
+    }
+
     KEY:
     for ( sort keys %CurrentPreferences ) {
         next KEY if !defined $CurrentPreferences{$_};
-        $Notification{Body} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
+        $Notification{Body} =~ s/${Start}OTRS_CURRENT_$_${End}/$CurrentPreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_CURRENT_.+?>/-/gi;
-    $Notification{Body} =~ s/<OTRS_CURRENT_.+?>/-/gi;
+    $Notification{Body} =~ s/${Start}OTRS_CURRENT_.+?${End}/-/gi;
 
     # get owner data
     my $OwnerID = $Article{OwnerID};
@@ -664,16 +719,28 @@ sub _SendNotification {
         UserID        => $OwnerID,
         NoOutOfOffice => 1,
     );
+
+    # convert values to html to get correct line breaks etc.
+    if ( $Notification{Type} =~ m{text\/html} ) {
+        KEY:
+        for my $Key ( sort keys %OwnerPreferences ) {
+            next KEY if !$OwnerPreferences{$Key};
+            $OwnerPreferences{$Key} = $Self->{HTMLUtilsObject}->ToHTML(
+                String => $OwnerPreferences{$Key},
+            );
+        }
+    }
+
     KEY:
     for ( sort keys %OwnerPreferences ) {
         next KEY if !$OwnerPreferences{$_};
-        $Notification{Body} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
+        $Notification{Body} =~ s/${Start}OTRS_OWNER_$_${End}/$OwnerPreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_OWNER_.+?>/-/gi;
-    $Notification{Body} =~ s/<OTRS_OWNER_.+?>/-/gi;
+    $Notification{Body} =~ s/${Start}OTRS_OWNER_.+?${End}/-/gi;
 
     # get responsible data
     my $ResponsibleID = $Article{ResponsibleID};
@@ -687,23 +754,47 @@ sub _SendNotification {
         UserID        => $ResponsibleID,
         NoOutOfOffice => 1,
     );
+
+    # convert values to html to get correct line breaks etc.
+    if ( $Notification{Type} =~ m{text\/html} ) {
+        KEY:
+        for my $Key ( sort keys %ResponsiblePreferences ) {
+            next KEY if !$ResponsiblePreferences{$Key};
+            $ResponsiblePreferences{$Key} = $Self->{HTMLUtilsObject}->ToHTML(
+                String => $ResponsiblePreferences{$Key},
+            );
+        }
+    }
+
     KEY:
     for ( sort keys %ResponsiblePreferences ) {
         next KEY if !$ResponsiblePreferences{$_};
-        $Notification{Body} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
+        $Notification{Body} =~ s/${Start}OTRS_RESPONSIBLE_$_${End}/$ResponsiblePreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
-    $Notification{Body} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
+    $Notification{Body} =~ s/${Start}OTRS_RESPONSIBLE_.+?${End}/-/gi;
 
     # get ref of email params
     my %GetParam = %{ $Param{CustomerMessageParams} };
+
+    # convert values to html to get correct line breaks etc.
+    if ( $Notification{Type} =~ m{text\/html} ) {
+        KEY:
+        for my $Key ( sort keys %GetParam ) {
+            next KEY if !$GetParam{$Key};
+            $GetParam{$Key} = $Self->{HTMLUtilsObject}->ToHTML(
+                String => $GetParam{$Key},
+            );
+        }
+    }
+
     KEY:
     for ( sort keys %GetParam ) {
         next KEY if !$GetParam{$_};
-        $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
+        $Notification{Body} =~ s/${Start}OTRS_CUSTOMER_DATA_$_${End}/$GetParam{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
     }
 
@@ -713,17 +804,28 @@ sub _SendNotification {
             User => $Article{CustomerUserID},
         );
 
+        # convert values to html to get correct line breaks etc.
+        if ( $Notification{Type} =~ m{text\/html} ) {
+            KEY:
+            for my $Key ( sort keys %CustomerUser ) {
+                next KEY if !$CustomerUser{$Key};
+                $CustomerUser{$Key} = $Self->{HTMLUtilsObject}->ToHTML(
+                    String => $CustomerUser{$Key},
+                );
+            }
+        }
+
         # replace customer stuff with tags
         KEY:
         for ( sort keys %CustomerUser ) {
             next KEY if !$CustomerUser{$_};
-            $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
+            $Notification{Body} =~ s/${Start}OTRS_CUSTOMER_DATA_$_${End}/$CustomerUser{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
         }
     }
 
     # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
-    $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
+    $Notification{Body} =~ s/${Start}OTRS_CUSTOMER_DATA_.+?${End}/-/gi;
     $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
 
     # latest customer and agent article
@@ -738,6 +840,17 @@ sub _SendNotification {
         next ARTICLE if $Article->{SenderType} ne 'agent';
         %ArticleAgent = %{$Article};
         last ARTICLE;
+    }
+
+    # convert values to html to get correct line breaks etc.
+    if ( $Notification{Type} =~ m{text\/html} ) {
+        KEY:
+        for my $Key ( sort keys %ArticleAgent ) {
+            next KEY if !$ArticleAgent{$Key};
+            $ArticleAgent{$Key} = $Self->{HTMLUtilsObject}->ToHTML(
+                String => $ArticleAgent{$Key},
+            );
+        }
     }
 
     my %ArticleContent = (
@@ -758,12 +871,11 @@ sub _SendNotification {
             }
 
             KEY:
-            for ( sort keys %Article ) {
+            for my $ArticleKey ( sort keys %Article ) {
+                next KEY if !$Article{$ArticleKey};
 
-                next KEY if !$Article{$_};
-
-                $Notification{Body} =~ s/<$ArticleItem$_>/$Article{$_}/gi;
-                $Notification{Subject} =~ s/<$ArticleItem$_>/$Article{$_}/gi;
+                $Notification{Body} =~ s/${Start}$ArticleItem$ArticleKey${End}/$Article{$ArticleKey}/gi;
+                $Notification{Subject} =~ s/<$ArticleItem$ArticleKey>/$Article{$ArticleKey}/gi;
             }
 
             # get accounted time
@@ -772,7 +884,7 @@ sub _SendNotification {
             );
 
             my $MatchString = $ArticleItem . 'TimeUnit';
-            $Notification{Body} =~ s/<$MatchString>/$AccountedTime/gi;
+            $Notification{Body} =~ s/${Start}$MatchString${End}/$AccountedTime/gi;
             $Notification{Subject} =~ s/<$MatchString>/$AccountedTime/gi;
 
             # prepare subject (insert old subject)
@@ -781,13 +893,17 @@ sub _SendNotification {
                 Subject => $Article{Subject} || '',
             );
 
-            for my $Type (qw(Subject Body)) {
-                if ( $Notification{$Type} =~ /<$ArticleItem(SUBJECT)\[(.+?)\]>/ ) {
-                    my $SubjectChar = $2;
-                    my $Subject     = $Article{Subject};
-                    $Subject =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
-                    $Notification{$Type} =~ s/<$ArticleItem(SUBJECT)\[.+?\]>/$Subject/g;
-                }
+            if ( $Notification{Body} =~ /${Start}$ArticleItem(SUBJECT)\[(.+?)\]${End}/ ) {
+                my $SubjectChar = $2;
+                my $Subject     = $Article{Subject};
+                $Subject =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+                $Notification{Body} =~ s/${Start}$ArticleItem(SUBJECT)\[.+?\]${End}/$Subject/g;
+            }
+            if ( $Notification{Subject} =~ /<$ArticleItem(SUBJECT)\[(.+?)\]>/ ) {
+                my $SubjectChar = $2;
+                my $Subject     = $Article{Subject};
+                $Subject =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+                $Notification{Subject} =~ s/<$ArticleItem(SUBJECT)\[.+?\]>/$Subject/g;
             }
 
             $Notification{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
@@ -797,7 +913,7 @@ sub _SendNotification {
             );
 
             # prepare body (insert old email)
-            if ( $Notification{Body} =~ /<$ArticleItem(EMAIL|NOTE|BODY)\[(.+?)\]>/g ) {
+            if ( $Notification{Body} =~ /${Start}$ArticleItem(EMAIL|NOTE|BODY)\[(.+?)\]${End}/g ) {
                 my $Line       = $2;
                 my @Body       = split( /\n/, $Article{Body} );
                 my $NewOldBody = '';
@@ -810,12 +926,12 @@ sub _SendNotification {
                     }
                 }
                 chomp $NewOldBody;
-                $Notification{Body} =~ s/<$ArticleItem(EMAIL|NOTE|BODY)\[.+?\]>/$NewOldBody/g;
+                $Notification{Body} =~ s/${Start}$ArticleItem(EMAIL|NOTE|BODY)\[.+?\]${End}/$NewOldBody/g;
             }
         }
 
         # cleanup all not needed <OTRS_CUSTOMER_ and <OTRS_AGENT_ tags
-        $Notification{Body} =~ s/<$ArticleItem.+?>/-/gi;
+        $Notification{Body} =~ s/${Start}$ArticleItem.+?${End}/-/gi;
         $Notification{Subject} =~ s/<$ArticleItem.+?>/-/gi;
     }
 
@@ -829,8 +945,8 @@ sub _SendNotification {
             From       => $From,
             To         => $Recipient{Email},
             Subject    => $Notification{Subject},
-            MimeType   => 'text/plain',
-            Type       => 'text/plain',
+            MimeType   => $Notification{Type},
+            Type       => $Notification{Type},
             Charset    => $Notification{Charset},
             Body       => $Notification{Body},
             Loop       => 1,
@@ -882,8 +998,8 @@ sub _SendNotification {
             To             => $Recipient{Email},
             Subject        => $Notification{Subject},
             Body           => $Notification{Body},
-            MimeType       => 'text/plain',
-            Type           => 'text/plain',
+            MimeType       => $Notification{Type},
+            Type           => $Notification{Type},
             Charset        => $Notification{Charset},
             UserID         => $Param{UserID},
             Loop           => 1,
