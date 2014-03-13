@@ -1,4 +1,5 @@
 #3.2.16 2014-??-??
+ - 2014-03-13 Fixed bug#[10361](http://bugs.otrs.org/show_bug.cgi?id=10361) - Incorrect handling of special characters in DynamicFields.
  - 2014-02-27 Fixed bug#[10300](http://bugs.otrs.org/show_bug.cgi?id=10300) - Special character in customer id cuts off string..
  - 2014-02-25 Updated CPAN module Text::CSV to version 1.32 to fix utf-8 problems.
  - 2014-02-27 Fixed bug#[10309](http://bugs.otrs.org/show_bug.cgi?id=10309) - mails with an empty return-path header must not trigger auto responses in OTRS.
