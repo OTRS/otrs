@@ -49,7 +49,7 @@ Specify the connection details in Config.pm, like this:
         remote_server_addr  => 'localhost',
         port                => '4444',
         browser_name        => 'phantomjs',
-        platform            => 'MAC',
+        platform            => 'ANY',
     };
 
 Then you can use the full API of Selenium::Remote::Driver on this object.
