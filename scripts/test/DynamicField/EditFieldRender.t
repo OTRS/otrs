@@ -53,7 +53,8 @@ my %DynamicFieldConfigs = (
         ID            => 123,
         InternalField => 0,
         Name          => 'TextField',
-        Label         => 'TextField',
+        Label         => 'TextField <special chars="äüø">',
+        LabelEscaped  => 'TextField &lt;special chars=&quot;äüø&quot;&gt;',
         FieldOrder    => 123,
         FieldType     => 'Text',
         ObjectType    => 'Ticket',
@@ -69,7 +70,8 @@ my %DynamicFieldConfigs = (
         ID            => 123,
         InternalField => 0,
         Name          => 'TextAreaField',
-        Label         => 'TextAreaField',
+        Label          => 'TextAreaField <special chars="äüø">',
+        LabelEscaped         => 'TextAreaField &lt;special chars=&quot;äüø&quot;&gt;',
         FieldOrder    => 123,
         FieldType     => 'TextArea',
         ObjectType    => 'Ticket',
@@ -86,7 +88,8 @@ my %DynamicFieldConfigs = (
         ID            => 123,
         InternalField => 0,
         Name          => 'CheckboxField',
-        Label         => 'CheckboxField',
+        Label          => 'CheckboxField <special chars="äüø">',
+        LabelEscaped   => 'CheckboxField &lt;special chars=&quot;äüø&quot;&gt;',
         FieldOrder    => 123,
         FieldType     => 'Checkbox',
         ObjectType    => 'Ticket',
@@ -101,7 +104,8 @@ my %DynamicFieldConfigs = (
         ID            => 123,
         InternalField => 0,
         Name          => 'DropdownField',
-        Label         => 'DropdownField',
+        Label          => 'DropdownField <special chars="äüø">',
+        LabelEscaped         => 'DropdownField &lt;special chars=&quot;äüø&quot;&gt;',
         FieldOrder    => 123,
         FieldType     => 'Dropdown',
         ObjectType    => 'Ticket',
@@ -123,7 +127,8 @@ my %DynamicFieldConfigs = (
         ID            => 123,
         InternalField => 0,
         Name          => 'MultiselectField',
-        Label         => 'MultiselectField',
+        Label          => 'MultiselectField <special chars="äüø">',
+        LabelEscaped         => 'MultiselectField &lt;special chars=&quot;äüø&quot;&gt;',
         FieldOrder    => 123,
         FieldType     => 'Multiselect',
         ObjectType    => 'Ticket',
@@ -144,7 +149,8 @@ my %DynamicFieldConfigs = (
         ID            => 123,
         InternalField => 0,
         Name          => 'DateTimeField',
-        Label         => 'DateTimeField',
+        Label          => 'DateTimeField <special chars="äüø">',
+        LabelEscaped         => 'DateTimeField &lt;special chars=&quot;äüø&quot;&gt;',
         FieldOrder    => 123,
         FieldType     => 'DateTime',
         ObjectType    => 'Ticket',
@@ -163,7 +169,8 @@ my %DynamicFieldConfigs = (
         ID            => 123,
         InternalField => 0,
         Name          => 'DateField',
-        Label         => 'DateField',
+        Label          => 'DateField <special chars="äüø">',
+        LabelEscaped         => 'DateField &lt;special chars=&quot;äüø&quot;&gt;',
         FieldOrder    => 123,
         FieldType     => 'Date',
         ObjectType    => 'Ticket',
@@ -231,11 +238,11 @@ my @Tests = (
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{Label}" value="" />
+<input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{LabelEscaped}" value="" />
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Text}->{Name}" for="DynamicField_$DynamicFieldConfigs{Text}->{Name}">
-$DynamicFieldConfigs{Text}->{Label}:
+$DynamicFieldConfigs{Text}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -251,11 +258,32 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{Label}" value="Default" />
+<input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{LabelEscaped}" value="Default" />
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Text}->{Name}" for="DynamicField_$DynamicFieldConfigs{Text}->{Name}">
-$DynamicFieldConfigs{Text}->{Label}:
+$DynamicFieldConfigs{Text}->{LabelEscaped}:
+</label>
+EOF
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Text: special chars',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{Text},
+            LayoutObject       => $LayoutObject,
+            ParamObject        => $ParamObject,
+            Value              => '<special chars="äüø">',
+            Class              => 'MyClass',
+        },
+        ExpectedResults => {
+            Field => <<"EOF",
+<input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{LabelEscaped}" value="&lt;special chars=&quot;äüø&quot;&gt;" />
+EOF
+            Label => <<"EOF",
+<label id="LabelDynamicField_$DynamicFieldConfigs{Text}->{Name}" for="DynamicField_$DynamicFieldConfigs{Text}->{Name}">
+$DynamicFieldConfigs{Text}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -273,11 +301,11 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{Label}" value="äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß" />
+<input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{LabelEscaped}" value="äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß" />
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Text}->{Name}" for="DynamicField_$DynamicFieldConfigs{Text}->{Name}">
-$DynamicFieldConfigs{Text}->{Label}:
+$DynamicFieldConfigs{Text}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -297,11 +325,11 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{Label}" value="äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß" />
+<input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{LabelEscaped}" value="äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß" />
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Text}->{Name}" for="DynamicField_$DynamicFieldConfigs{Text}->{Name}">
-$DynamicFieldConfigs{Text}->{Label}:
+$DynamicFieldConfigs{Text}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -321,11 +349,11 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{Label}" value="äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß" />
+<input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{LabelEscaped}" value="äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß" />
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Text}->{Name}" for="DynamicField_$DynamicFieldConfigs{Text}->{Name}">
-$DynamicFieldConfigs{Text}->{Label}:
+$DynamicFieldConfigs{Text}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -344,7 +372,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="text" class="DynamicFieldText W50pc MyClass Validate_Required" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{Label}" value="A Value" />
+<input type="text" class="DynamicFieldText W50pc MyClass Validate_Required" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{LabelEscaped}" value="A Value" />
 <div id="DynamicField_$DynamicFieldConfigs{Text}->{Name}Error" class="TooltipErrorMessage">
     <p>
         This field is required.
@@ -354,7 +382,7 @@ EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Text}->{Name}" for="DynamicField_$DynamicFieldConfigs{Text}->{Name}" class="Mandatory">
     <span class="Marker">*</span>
-$DynamicFieldConfigs{Text}->{Label}:
+$DynamicFieldConfigs{Text}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -374,7 +402,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<input type="text" class="DynamicFieldText W50pc MyClass ServerError" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{Label}" value="A Value" />
+<input type="text" class="DynamicFieldText W50pc MyClass ServerError" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{LabelEscaped}" value="A Value" />
 <div id="DynamicField_$DynamicFieldConfigs{Text}->{Name}ServerError" class="TooltipErrorMessage">
     <p>
         This is an error.
@@ -383,7 +411,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Text}->{Name}" for="DynamicField_$DynamicFieldConfigs{Text}->{Name}">
-$DynamicFieldConfigs{Text}->{Label}:
+$DynamicFieldConfigs{Text}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -402,7 +430,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{Label}" rows="7" cols="42" ></textarea>
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" ></textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         The field content is too long! Maximum size is 3800 characters.
@@ -411,7 +439,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{TextArea}->{Name}" for="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}">
-$DynamicFieldConfigs{TextArea}->{Label}:
+$DynamicFieldConfigs{TextArea}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -427,7 +455,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{Label}" rows="7" cols="42" >Multi
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >Multi
 Line</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
@@ -437,7 +465,33 @@ Line</textarea>
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{TextArea}->{Name}" for="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}">
-$DynamicFieldConfigs{TextArea}->{Label}:
+$DynamicFieldConfigs{TextArea}->{LabelEscaped}:
+</label>
+EOF
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'TextArea: special chars',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{TextArea},
+            LayoutObject       => $LayoutObject,
+            ParamObject        => $ParamObject,
+            Value              => '<special chars="äüø">',
+            Class              => 'MyClass',
+        },
+        ExpectedResults => {
+            Field => <<"EOF",
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >&lt;special chars=&quot;äüø&quot;&gt;</textarea>
+<div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
+    <p>
+        The field content is too long! Maximum size is 3800 characters.
+    </p>
+</div>
+EOF
+            Label => <<"EOF",
+<label id="LabelDynamicField_$DynamicFieldConfigs{TextArea}->{Name}" for="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}">
+$DynamicFieldConfigs{TextArea}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -455,7 +509,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{Label}" rows="7" cols="42" >äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         The field content is too long! Maximum size is 3800 characters.
@@ -464,7 +518,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{TextArea}->{Name}" for="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}">
-$DynamicFieldConfigs{TextArea}->{Label}:
+$DynamicFieldConfigs{TextArea}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -485,7 +539,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{Label}" rows="7" cols="42" >äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         The field content is too long! Maximum size is 3800 characters.
@@ -494,7 +548,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{TextArea}->{Name}" for="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}">
-$DynamicFieldConfigs{TextArea}->{Label}:
+$DynamicFieldConfigs{TextArea}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -515,7 +569,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{Label}" rows="7" cols="42" >äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         The field content is too long! Maximum size is 3800 characters.
@@ -524,7 +578,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{TextArea}->{Name}" for="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}">
-$DynamicFieldConfigs{TextArea}->{Label}:
+$DynamicFieldConfigs{TextArea}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -543,7 +597,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_Required Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{Label}" rows="7" cols="42" >A Value</textarea>
+<textarea class="DynamicFieldTextArea MyClass Validate_Required Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >A Value</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         This field is required or The field content is too long! Maximum size is 3800 characters.
@@ -553,7 +607,7 @@ EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{TextArea}->{Name}" for="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" class="Mandatory">
     <span class="Marker">*</span>
-$DynamicFieldConfigs{TextArea}->{Label}:
+$DynamicFieldConfigs{TextArea}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -573,7 +627,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<textarea class="DynamicFieldTextArea MyClass ServerError Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{Label}" rows="7" cols="42" >A Value</textarea>
+<textarea class="DynamicFieldTextArea MyClass ServerError Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >A Value</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         The field content is too long! Maximum size is 3800 characters.
@@ -587,7 +641,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{TextArea}->{Name}" for="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}">
-$DynamicFieldConfigs{TextArea}->{Label}:
+$DynamicFieldConfigs{TextArea}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -607,11 +661,11 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}"  value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}"  value="1" />
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-$DynamicFieldConfigs{Checkbox}->{Label}:
+$DynamicFieldConfigs{Checkbox}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -628,11 +682,11 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}" checked="checked" value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked="checked" value="1" />
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-$DynamicFieldConfigs{Checkbox}->{Label}:
+$DynamicFieldConfigs{Checkbox}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -651,11 +705,11 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}" checked="checked" value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked="checked" value="1" />
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-$DynamicFieldConfigs{Checkbox}->{Label}:
+$DynamicFieldConfigs{Checkbox}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -677,11 +731,11 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}" checked="checked" value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked="checked" value="1" />
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-$DynamicFieldConfigs{Checkbox}->{Label}:
+$DynamicFieldConfigs{Checkbox}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -703,11 +757,11 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}"  value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}"  value="1" />
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-$DynamicFieldConfigs{Checkbox}->{Label}:
+$DynamicFieldConfigs{Checkbox}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -729,11 +783,11 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}" checked="checked" value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked="checked" value="1" />
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-$DynamicFieldConfigs{Checkbox}->{Label}:
+$DynamicFieldConfigs{Checkbox}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -755,11 +809,11 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}"  value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}"  value="1" />
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-$DynamicFieldConfigs{Checkbox}->{Label}:
+$DynamicFieldConfigs{Checkbox}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -779,7 +833,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass Validate_Required" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}" checked="checked" value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass Validate_Required" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked="checked" value="1" />
 <div id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Error" class="TooltipErrorMessage">
     <p>
         This field is required.
@@ -789,7 +843,7 @@ EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" class="Mandatory">
     <span class="Marker">*</span>
-$DynamicFieldConfigs{Checkbox}->{Label}:
+$DynamicFieldConfigs{Checkbox}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -810,7 +864,7 @@ EOF
         ExpectedResults => {
             Field => <<"EOF",
 <input type="hidden" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1" />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass ServerError" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}" checked="checked" value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass ServerError" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked="checked" value="1" />
 <div id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}ServerError" class="TooltipErrorMessage">
     <p>
         This is an error.
@@ -819,7 +873,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-$DynamicFieldConfigs{Checkbox}->{Label}:
+$DynamicFieldConfigs{Checkbox}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -842,11 +896,11 @@ EOF
 Ignore this field.
 <div class="clear"></div>
 <input type="radio" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used1" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}Used" value="1"  />
-<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{Label}" checked="checked" value="1" />
+<input type="checkbox" class="DynamicFieldCheckbox MyClass" id="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" name="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" title="$DynamicFieldConfigs{Checkbox}->{LabelEscaped}" checked="checked" value="1" />
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Checkbox}->{Name}" for="DynamicField_$DynamicFieldConfigs{Checkbox}->{Name}">
-$DynamicFieldConfigs{Checkbox}->{Label}:
+$DynamicFieldConfigs{Checkbox}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -872,7 +926,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-$DynamicFieldConfigs{Dropdown}->{Label}:
+$DynamicFieldConfigs{Dropdown}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -895,7 +949,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-$DynamicFieldConfigs{Dropdown}->{Label}:
+$DynamicFieldConfigs{Dropdown}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -920,7 +974,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-$DynamicFieldConfigs{Dropdown}->{Label}:
+$DynamicFieldConfigs{Dropdown}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -947,7 +1001,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-$DynamicFieldConfigs{Dropdown}->{Label}:
+$DynamicFieldConfigs{Dropdown}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -974,7 +1028,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-$DynamicFieldConfigs{Dropdown}->{Label}:
+$DynamicFieldConfigs{Dropdown}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1007,7 +1061,7 @@ EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" class="Mandatory">
     <span class="Marker">*</span>
-$DynamicFieldConfigs{Dropdown}->{Label}:
+$DynamicFieldConfigs{Dropdown}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1040,7 +1094,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-$DynamicFieldConfigs{Dropdown}->{Label}:
+$DynamicFieldConfigs{Dropdown}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1066,7 +1120,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-$DynamicFieldConfigs{Dropdown}->{Label}:
+$DynamicFieldConfigs{Dropdown}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1091,7 +1145,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-$DynamicFieldConfigs{Dropdown}->{Label}:
+$DynamicFieldConfigs{Dropdown}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1117,7 +1171,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-$DynamicFieldConfigs{Dropdown}->{Label}:
+$DynamicFieldConfigs{Dropdown}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1145,7 +1199,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Dropdown}->{Name}" for="DynamicField_$DynamicFieldConfigs{Dropdown}->{Name}">
-$DynamicFieldConfigs{Dropdown}->{Label}:
+$DynamicFieldConfigs{Dropdown}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1171,7 +1225,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-$DynamicFieldConfigs{Multiselect}->{Label}:
+$DynamicFieldConfigs{Multiselect}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1194,7 +1248,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-$DynamicFieldConfigs{Multiselect}->{Label}:
+$DynamicFieldConfigs{Multiselect}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1219,7 +1273,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-$DynamicFieldConfigs{Multiselect}->{Label}:
+$DynamicFieldConfigs{Multiselect}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1244,7 +1298,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-$DynamicFieldConfigs{Multiselect}->{Label}:
+$DynamicFieldConfigs{Multiselect}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1271,7 +1325,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-$DynamicFieldConfigs{Multiselect}->{Label}:
+$DynamicFieldConfigs{Multiselect}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1298,7 +1352,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-$DynamicFieldConfigs{Multiselect}->{Label}:
+$DynamicFieldConfigs{Multiselect}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1325,7 +1379,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-$DynamicFieldConfigs{Multiselect}->{Label}:
+$DynamicFieldConfigs{Multiselect}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1352,7 +1406,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-$DynamicFieldConfigs{Multiselect}->{Label}:
+$DynamicFieldConfigs{Multiselect}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1385,7 +1439,7 @@ EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" class="Mandatory">
     <span class="Marker">*</span>
-$DynamicFieldConfigs{Multiselect}->{Label}:
+$DynamicFieldConfigs{Multiselect}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1418,7 +1472,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-$DynamicFieldConfigs{Multiselect}->{Label}:
+$DynamicFieldConfigs{Multiselect}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1444,7 +1498,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-$DynamicFieldConfigs{Multiselect}->{Label}:
+$DynamicFieldConfigs{Multiselect}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1469,7 +1523,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-$DynamicFieldConfigs{Multiselect}->{Label}:
+$DynamicFieldConfigs{Multiselect}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1497,7 +1551,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Multiselect}->{Name}" for="DynamicField_$DynamicFieldConfigs{Multiselect}->{Name}">
-$DynamicFieldConfigs{Multiselect}->{Label}:
+$DynamicFieldConfigs{Multiselect}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1663,7 +1717,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used">
-$DynamicFieldConfigs{DateTime}->{Label}:
+$DynamicFieldConfigs{DateTime}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -1828,7 +1882,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used">
-$DynamicFieldConfigs{DateTime}->{Label}:
+$DynamicFieldConfigs{DateTime}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -2000,7 +2054,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used">
-$DynamicFieldConfigs{DateTime}->{Label}:
+$DynamicFieldConfigs{DateTime}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -2172,7 +2226,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used">
-$DynamicFieldConfigs{DateTime}->{Label}:
+$DynamicFieldConfigs{DateTime}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -2344,7 +2398,7 @@ EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" class="Mandatory">
     <span class="Marker">*</span>
-$DynamicFieldConfigs{DateTime}->{Label}:
+$DynamicFieldConfigs{DateTime}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -2516,7 +2570,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{DateTime}->{Name}Used">
-$DynamicFieldConfigs{DateTime}->{Label}:
+$DynamicFieldConfigs{DateTime}->{LabelEscaped}:
 </label>
 EOF
 
@@ -2597,7 +2651,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used">
-$DynamicFieldConfigs{Date}->{Label}:
+$DynamicFieldConfigs{Date}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -2676,7 +2730,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used">
-$DynamicFieldConfigs{Date}->{Label}:
+$DynamicFieldConfigs{Date}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -2760,7 +2814,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used">
-$DynamicFieldConfigs{Date}->{Label}:
+$DynamicFieldConfigs{Date}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -2846,7 +2900,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used">
-$DynamicFieldConfigs{Date}->{Label}:
+$DynamicFieldConfigs{Date}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -2932,7 +2986,7 @@ EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used" class="Mandatory">
     <span class="Marker">*</span>
-$DynamicFieldConfigs{Date}->{Label}:
+$DynamicFieldConfigs{Date}->{LabelEscaped}:
 </label>
 EOF
         },
@@ -3018,7 +3072,7 @@ EOF
 EOF
             Label => <<"EOF",
 <label id="LabelDynamicField_$DynamicFieldConfigs{Date}->{Name}Used" for="DynamicField_$DynamicFieldConfigs{Date}->{Name}Used">
-$DynamicFieldConfigs{Date}->{Label}:
+$DynamicFieldConfigs{Date}->{LabelEscaped}:
 </label>
 EOF
 

@@ -153,10 +153,15 @@ EOF
     }
 
     # text
-    $HTMLString .= $Param{LayoutObject}->{LanguageObject}->Translate("$LabelText");
+    $HTMLString .= $Param{LayoutObject}->Ascii2Html(
+        Text => $Param{LayoutObject}->{LanguageObject}->Translate("$LabelText")
+    );
     if ( $Param{AdditionalText} ) {
-        $HTMLString .= " ("
-            . $Param{LayoutObject}->{LanguageObject}->Translate("$Param{AdditionalText}") . ")";
+        $HTMLString .= " (";
+        $HTMLString .= $Param{LayoutObject}->Ascii2Html(
+            Text => $Param{LayoutObject}->{LanguageObject}->Translate("$Param{AdditionalText}")
+        );
+        $HTMLString .= ")";
     }
     $HTMLString .= ":\n";
 

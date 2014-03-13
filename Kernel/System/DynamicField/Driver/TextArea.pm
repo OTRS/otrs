@@ -159,6 +159,14 @@ sub EditFieldRender {
     # set validation class for maximum characters
     $FieldClass .= ' Validate_MaxLength';
 
+    my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
+        Text => $Value,
+    );
+
+    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
+        Text => $FieldLabel,
+    );
+
  # create field HTML
  # the XHTML definition does not support maxlenght attribute for a textarea field, therefore
  # is needed to be set by JS code (otherwise wc3 validator will complain about it)
@@ -166,7 +174,7 @@ sub EditFieldRender {
  # validation framework might generate an error while the user is still capable to enter text in the
  # textarea. Otherwise the maxlenght property will prevent to enter more text than the maximum.
     my $HTMLString = <<"EOF";
-<textarea class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabel" rows="$RowsNumber" cols="$ColsNumber" >$Value</textarea>
+<textarea class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" rows="$RowsNumber" cols="$ColsNumber" >$ValueEscaped</textarea>
 EOF
 
     $Param{LayoutObject}->AddJSOnDocumentComplete( Code => <<"EOF");

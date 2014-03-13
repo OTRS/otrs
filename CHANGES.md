@@ -48,6 +48,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.6 2014-??-??
+ - 2014-03-13 Fixed bug#[10361](http://bugs.otrs.org/show_bug.cgi?id=10361) - Incorrect handling of special characters in DynamicFields.
  - 2014-03-11 Fixed bug#[10324](http://bugs.otrs.org/show_bug.cgi?id=10324) - Customer user field still marked as empty even after providing data.
  - 2014-03-11 Fixed bug#[10019](http://bugs.otrs.org/show_bug.cgi?id=10019) - Tickets via "In line action bar" cannot be moved.
  - 2014-03-10 Fixed bug#[10283](http://bugs.otrs.org/show_bug.cgi?id=10283) - MouseOver on the Transitions does not show transition actions.
