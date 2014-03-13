@@ -20,23 +20,12 @@ use Kernel::System::UnitTest::Selenium;
 
 use Time::HiRes qw(sleep);
 
-if ( !$Self->{ConfigObject}->Get('SeleniumTestsConfig') ) {
-    $Self->True( 1, 'Selenium testing is not active' );
-    return 1;
-}
-
-my $Helper = Kernel::System::UnitTest::Helper->new(
-    UnitTestObject => $Self,
-    %{$Self},
-    RestoreSystemConfiguration => 0,
-);
-
 my $Selenium = Kernel::System::UnitTest::Selenium->new(
     Verbose        => 1,
     UnitTestObject => $Self,
 );
 
-eval {
+$Selenium->RunTest( sub {
 
     my $WebPath = $Self->{ConfigObject}->Get('Frontend::WebPath');
 
@@ -81,10 +70,6 @@ eval {
             'Failed JavaScript unit test found (open js/test/JSUnitTest.html in your browser for details)'
         );
     }
-};
-
-$Selenium->HandleError($@) if $@;
-
-return 1;
+});
 
 1;
