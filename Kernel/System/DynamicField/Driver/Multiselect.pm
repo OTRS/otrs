@@ -420,6 +420,18 @@ sub EditFieldValueGet {
     {
         my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
 
+        # delete empty values (can happen if the user has selected the "-" entry)
+        my $Index = 0;
+        ITEM:
+        for my $Item ( sort @Data ) {
+
+            if (!$Item) {
+                splice(@Data, $Index, 1);
+                next ITEM;
+            }
+            $Index++;
+        }
+
         $Value = \@Data;
     }
 
