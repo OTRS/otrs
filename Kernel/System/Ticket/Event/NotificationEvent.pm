@@ -667,13 +667,11 @@ sub _SendNotification {
             $DisplayKeyValue = $KeyValueStrg->{Value};
         }
 
-        $Notification{Body} =~ s/${Start}OTRS_TICKET_$Key${End}/$DisplayKeyValue/gi;
-        $Notification{Subject} =~ s/<OTRS_TICKET_$Key>/$DisplayKeyValue/gi;
+        $Notification{Body} =~ s/${Start}OTRS_TICKET_${Key}${End}/$DisplayKeyValue/gi;
+        $Notification{Subject} =~ s/<OTRS_TICKET_${Key}>/$DisplayKeyValue/gi;
 
-        my $Tag = '<OTRS_TICKET_' . $Key . '_Value>';
-        my $TagBody = '${Start}OTRS_TICKET_' . $Key . '_Value${End}';
-        $Notification{Body} =~ s/$TagBody/$DisplayValue/gi;
-        $Notification{Subject} =~ s/$Tag/$DisplayValue/gi;
+        $Notification{Body} =~ s/${Start}OTRS_TICKET_${Key}_Value${End}/$DisplayValue/gi;
+        $Notification{Subject} =~ s/<OTRS_TICKET_${Key}_Value>/$DisplayValue/gi;
     }
 
     # cleanup
