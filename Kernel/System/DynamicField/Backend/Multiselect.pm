@@ -102,22 +102,33 @@ sub ValueSet {
         @Values = ( $Param{Value} );
     }
 
-    my @ValueText;
+    my $Success;
     if ( IsArrayRefWithData( \@Values ) ) {
+
+        # if there is at least one value to set, this means one or more values are selected,
+        #    set those values!
+        my @ValueText;
         for my $Item (@Values) {
             push @ValueText, { ValueText => $Item };
         }
+
+        $Success = $Self->{DynamicFieldValueObject}->ValueSet(
+            FieldID  => $Param{DynamicFieldConfig}->{ID},
+            ObjectID => $Param{ObjectID},
+            Value    => \@ValueText,
+            UserID   => $Param{UserID},
+        );
     }
     else {
-        push @ValueText, { ValueText => '' };
-    }
 
-    my $Success = $Self->{DynamicFieldValueObject}->ValueSet(
-        FieldID  => $Param{DynamicFieldConfig}->{ID},
-        ObjectID => $Param{ObjectID},
-        Value    => \@ValueText,
-        UserID   => $Param{UserID},
-    );
+        # otherwise no value was selected, then in fact this means that any value there should be
+        # deleted
+        $Success = $Self->{DynamicFieldValueObject}->ValueDelete(
+            FieldID  => $Param{DynamicFieldConfig}->{ID},
+            ObjectID => $Param{ObjectID},
+            UserID   => $Param{UserID},
+        );
+    }
 
     return $Success;
 }
@@ -389,6 +400,18 @@ sub EditFieldValueGet {
     # otherwise get dynamic field value form param
     else {
         my @Data = $Param{ParamObject}->GetArray( Param => $FieldName );
+
+        # delete empty values (can happen if the user has selected the "-" entry)
+        my $Index = 0;
+        ITEM:
+        for my $Item ( sort @Data ) {
+
+            if (!$Item) {
+                splice(@Data, $Index, 1);
+                next ITEM;
+            }
+            $Index++;
+        }
 
         $Value = \@Data;
     }
