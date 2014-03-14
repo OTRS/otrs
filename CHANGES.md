@@ -1,5 +1,6 @@
 #3.3.6 2014-??-??
  - 2014-03-14 Fixed bug#[10365](http://bugs.otrs.org/show_bug.cgi?id=10365) - Custom State types not working with "otrs.PendingJobs.pl" any more.
+ - 2014-03-14 Fixed bug#[10349](http://bugs.otrs.org/show_bug.cgi?id=10349) - System Email notification external not highlighted correctly.
  - 2014-03-13 Fixed bug#[10361](http://bugs.otrs.org/show_bug.cgi?id=10361) - Incorrect handling of special characters in DynamicFields.
  - 2014-03-11 Fixed bug#[10324](http://bugs.otrs.org/show_bug.cgi?id=10324) - Customer user field still marked as empty even after providing data.
  - 2014-03-11 Fixed bug#[10019](http://bugs.otrs.org/show_bug.cgi?id=10019) - Tickets via "In line action bar" cannot be moved.

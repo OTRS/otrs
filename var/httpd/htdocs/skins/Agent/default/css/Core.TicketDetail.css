@@ -308,7 +308,9 @@ div.Headline .Flag {
 .UseArticleColors .system-note-external > td,
 .UseArticleColors .system-note-report > td,
 .UseArticleColors .system-email-external > td,
-.UseArticleColors .system-email-internal > td {
+.UseArticleColors .system-email-internal > td,
+.UseArticleColors .system-email-notification-int > td,
+.UseArticleColors .system-email-notification-ext > td {
     background: #ffffd1 !important;
     background: -moz-linear-gradient(top,  #ffffd1 0%, #ffffc5 100%) !important;
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffd1), color-stop(100%,#ffffc5)) !important;
