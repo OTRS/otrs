@@ -1077,23 +1077,18 @@ sub Run {
             );
         }
 
+        # set OrigFrom for correct email quoting (xxxx wrote)
+        $Data{OrigFrom} = $Data{From};
+
         # check article type and replace To with From (in case)
         if ( $Data{SenderType} !~ /customer/ ) {
-            my $To   = $Data{To};
-            my $From = $Data{From};
-
-            # set OrigFrom for correct email quoting (xxxx wrote)
-            $Data{OrigFrom} = $Data{From};
 
             # replace From/To, To/From because sender is agent
-            $Data{From}    = $To;
+            my $To   = $Data{To};
             $Data{To}      = $Data{From};
-            $Data{ReplyTo} = '';
-        }
-        else {
+            $Data{From}    = $To;
 
-            # set OrigFrom for correct email quoting (xxxx wrote)
-            $Data{OrigFrom} = $Data{From};
+            $Data{ReplyTo} = '';
         }
 
         # build OrigFromName (to only use the realname)
