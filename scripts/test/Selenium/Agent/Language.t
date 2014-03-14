@@ -64,7 +64,7 @@ $Selenium->RunTest(
                 UserLanguage => $Language,
             );
 
-            $Element = $Selenium->find_element( 'h1', 'css' );
+            $Element = $Selenium->find_element( '.MainBox h1', 'css' );
             $Self->Is(
                 $Element->get_text(),
                 $LanguageObject->Get('Edit your preferences'),
