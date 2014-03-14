@@ -114,6 +114,21 @@ Body
         },
     },
     {
+        Name => 'Auto-Submitted: auto-replied',
+        Email =>
+            'From: test@home.com
+To: test@home.com
+Auto-Submitted: auto-replied
+Subject: Testmail
+
+Body
+',
+        EmailParams => {
+            From          => 'test@home.com',
+            'X-OTRS-Loop' => 'yes',
+        },
+    },
+    {
         Name => 'Auto-submitted: no',
         Email =>
             'From: test@home.com
