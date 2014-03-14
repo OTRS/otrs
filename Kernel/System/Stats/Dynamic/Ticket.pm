@@ -75,10 +75,17 @@ sub GetObjectBehaviours {
 sub GetObjectAttributes {
     my ( $Self, %Param ) = @_;
 
+    my $ValidAgent = 0;
+    if ( defined $Self->{ConfigObject}->Get('Stats::UseInvalidAgentInStats')
+        && ( $Self->{ConfigObject}->Get('Stats::UseInvalidAgentInStats') == 0 ) )
+    {
+        $ValidAgent = 1;
+    }
+
     # get user list
     my %UserList = $Self->{UserObject}->UserList(
         Type  => 'Long',
-        Valid => 0,
+        Valid => $ValidAgent,
     );
 
     # get state list

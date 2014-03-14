@@ -5327,6 +5327,17 @@ via the Preferences button after logging in.
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Stats::UseInvalidAgentInStats" Required="0" Valid="0">
+        <Description Translatable="1">Allows invalid agents to generate individual-related stats.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Stats</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Stats::CustomerIDAsMultiSelect" Required="0" Valid="1">
         <Description Translatable="1">Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).</Description>
         <Group>Framework</Group>
