@@ -1,4 +1,5 @@
 #3.3.6 2014-??-??
+ - 2014-03-14 Fixed bug#[10277](http://bugs.otrs.org/show_bug.cgi?id=10277) - Statistics per agent also shows invalid agents.
  - 2014-03-14 Fixed bug#[10365](http://bugs.otrs.org/show_bug.cgi?id=10365) - Custom State types not working with "otrs.PendingJobs.pl" any more.
  - 2014-03-14 Fixed bug#[10349](http://bugs.otrs.org/show_bug.cgi?id=10349) - System Email notification external not highlighted correctly.
  - 2014-03-13 Fixed bug#[10361](http://bugs.otrs.org/show_bug.cgi?id=10361) - Incorrect handling of special characters in DynamicFields.
