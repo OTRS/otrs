@@ -47,10 +47,15 @@ my $Command = shift || '--help';
 print "otrs.PendingJobs.pl - check pending tickets\n";
 print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
 
+my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
+     Type   => 'PendingAuto',
+     Result => 'ID',
+);
+
 # do ticket auto jobs
 my @TicketIDs = $CommonObject{TicketObject}->TicketSearch(
     Result    => 'ARRAY',
-    StateType => 'pending auto',
+    StateIDs => [@PendingAutoStateIDs],
     UserID    => 1,
 );
 
