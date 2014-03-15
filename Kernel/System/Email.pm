@@ -522,7 +522,7 @@ sub Send {
             # remove empty line after multi-part preable as it will be removed later by MIME::Parser
             #    otherwise signed content will be different than the actual mail and verify will
             #    fail
-            $T =~ s{(This is a multi-part message in MIME format...\r\n)\r\n}{$1};
+            $T =~ s{(This is a multi-part message in MIME format...\r\n)\r\n}{$1}g;
 
             my $Sign = $CryptObject->Sign(
                 Message  => $T,

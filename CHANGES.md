@@ -50,6 +50,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.6 2014-??-??
+ - 2014-03-14 Fixed bug#[10251](http://bugs.otrs.org/show_bug.cgi?id=10251) - SMIME signing fail on mails with attachements.
  - 2014-03-14 Fixed bug#[10277](http://bugs.otrs.org/show_bug.cgi?id=10277) - Statistics per agent also shows invalid agents.
  - 2014-03-14 Fixed bug#[10318](http://bugs.otrs.org/show_bug.cgi?id=10318) - Dynamic Field: Multi Select does not allow empty values.
  - 2014-03-14 Fixed bug#[10365](http://bugs.otrs.org/show_bug.cgi?id=10365) - Custom State types not working with "otrs.PendingJobs.pl" any more.
