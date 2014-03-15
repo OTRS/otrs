@@ -574,6 +574,41 @@ for my $Test (@TestVariations) {
         $TestBody,
         "$Test->{Name} - verified body content",
     );
+
+    if ( defined $Test->{ArticleData}->{Attachment} ) {
+        my $Found;
+        my %Index = $TicketObject->ArticleAttachmentIndex(
+            ArticleID                  => $ArticleID,
+            UserID                     => 1,
+            Article                    => \%FinalArticleData,
+            StripPlainBodyAsAttachment => 0,
+        );
+
+        TESTATTACHMENT:
+        for my $Attachment ( @{ $Test->{ArticleData}->{Attachment} } ) {
+
+            next TESTATTACHMENT if !$Attachment->{Filename};
+
+            ATTACHMENTINDEX:
+            for my $AttachmentIndex ( sort keys %Index ) {
+
+                if ( $Index{$AttachmentIndex}->{Filename} ne $Attachment->{Filename} ) {
+                    next ATTACHMENTINDEX;
+                }
+                $Self->Is(
+                    $Index{$AttachmentIndex}->{ContentID},
+                    '<' . $Attachment->{ContentID} . '>',
+                    "$Test->{Name} - Attachment '$Attachment->{Filename}' ContentID",
+                );
+                $Found = 1;
+                last ATTACHMENTINDEX;
+            }
+            $Self->True(
+                $Found,
+                "$Test->{Name} - Attachment '$Attachment->{Filename}' was found"
+            );
+        }
+    }
 }
 
 #

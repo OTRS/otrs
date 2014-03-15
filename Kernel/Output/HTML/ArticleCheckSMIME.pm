@@ -294,11 +294,9 @@ sub Check {
                     # write attachments to the storage
                     for my $Attachment ( $ParserObject->GetAttachments() ) {
                         $Self->{TicketObject}->ArticleWriteAttachment(
-                            Content     => $Attachment->{Content},
-                            Filename    => $Attachment->{Filename},
-                            ContentType => $Attachment->{ContentType},
-                            ArticleID   => $Self->{ArticleID},
-                            UserID      => $Self->{UserID},
+                            %{$Attachment},
+                            ArticleID => $Self->{ArticleID},
+                            UserID    => $Self->{UserID},
                         );
                     }
                 }
@@ -421,11 +419,9 @@ sub Check {
                     # write attachments to the storage
                     for my $Attachment ( $ParserObject->GetAttachments() ) {
                         $Self->{TicketObject}->ArticleWriteAttachment(
-                            Content     => $Attachment->{Content},
-                            Filename    => $Attachment->{Filename},
-                            ContentType => $Attachment->{ContentType},
-                            ArticleID   => $Self->{ArticleID},
-                            UserID      => $Self->{UserID},
+                            %{$Attachment},
+                            ArticleID => $Self->{ArticleID},
+                            UserID    => $Self->{UserID},
                         );
                     }
                 }
