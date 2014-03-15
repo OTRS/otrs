@@ -348,6 +348,7 @@ my @Tests = (
                     Content     => 'Any',
                     ContentType => 'image/png; name="ui-toolbar-bookmark.png"',
                     Filename    => 'ui-toolbar-bookmark.png',
+                    Disposition => 'inline',
                 },
             ],
         },
@@ -364,6 +365,7 @@ my @Tests = (
                     Content     => 'Any',
                     ContentType => 'image/png; name="ui-toolbar-bookmark.png"',
                     Filename    => 'ui-toolbar-bookmark.png',
+                    Disposition => 'attachment',
                 },
             ],
         },
@@ -595,9 +597,13 @@ for my $Test (@TestVariations) {
                 if ( $Index{$AttachmentIndex}->{Filename} ne $Attachment->{Filename} ) {
                     next ATTACHMENTINDEX;
                 }
+                my $ExpectedContentID = $Attachment->{ContentID};
+                if ( $Attachment->{ContentID} ) {
+                    $ExpectedContentID = '<' . $Attachment->{ContentID} . '>';
+                }
                 $Self->Is(
                     $Index{$AttachmentIndex}->{ContentID},
-                    '<' . $Attachment->{ContentID} . '>',
+                    $ExpectedContentID,
                     "$Test->{Name} - Attachment '$Attachment->{Filename}' ContentID",
                 );
                 $Found = 1;

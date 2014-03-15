@@ -431,6 +431,7 @@ Reply text
                     Content     => 'Any',
                     ContentType => 'image/png; name="ui-toolbar-bookmark.png"',
                     Filename    => 'ui-toolbar-bookmark.png',
+                    Disposition => 'inline',
                 },
             ],
         },
@@ -447,6 +448,7 @@ Reply text
                     Content     => 'Any',
                     ContentType => 'image/png; name="ui-toolbar-bookmark.png"',
                     Filename    => 'ui-toolbar-bookmark.png',
+                    Disposition => 'attachment',
                 },
             ],
         },
@@ -639,14 +641,9 @@ for my $Test (@TestVariations) {
                 #   changed to '<>', it is still empty, also if the mail is just signed but not
                 #   encrypted, the attachment is not rewritten so it keeps without the surrounding
                 #   '<>'
-                my $ExpectedContentID = '<' . $Attachment->{ContentID} . '>';
-                if (
-                    defined $Test->{ArticleData}->{Sign}
-                    && !defined $Test->{ArticleData}->{Crypt}
-                    && !$Attachment->{ContentID}
-                    )
-                {
-                    $ExpectedContentID = $Attachment->{ContentID};
+                my $ExpectedContentID = $Attachment->{ContentID};
+                if ( $Attachment->{ContentID} ) {
+                    $ExpectedContentID = '<' . $Attachment->{ContentID} . '>';
                 }
                 $Self->Is(
                     $Index{$AttachmentIndex}->{ContentID},

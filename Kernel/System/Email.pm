@@ -370,11 +370,10 @@ sub Send {
                         || ( !defined $Upload->{ContentType} || $Upload->{ContentType} !~ /image/i )
                         || (
                             !defined $Upload->{Disposition}
-                            || $Upload->{Disposition} eq 'inline'
+                            || $Upload->{Disposition} ne 'inline'
                         )
                         )
                     {
-
                         push @NewAttachments, \%{$Upload};
                         next ATTACHMENT;
                     }
