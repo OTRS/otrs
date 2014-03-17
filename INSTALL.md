@@ -118,7 +118,7 @@ them without the ".dist" filename extension.
     shell> cp Kernel/Config.pm.dist Kernel/Config.pm
     shell> cp Kernel/Config/GenericAgent.pm.dist Kernel/Config/GenericAgent.pm
 
-Or if you are installing OTRS an a Windows system:
+Or if you are installing OTRS on a Windows system:
 
     shell> copy Kernel/Config.pm.dist Kernel/Config.pm
     shell> copy Kernel/Config/GenericAgent.pm.dist Kernel/Config/GenericAgent.pm
