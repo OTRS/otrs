@@ -1768,6 +1768,7 @@ via the Preferences button after logging in.
         },
         ParamObject   => {
             ClassName       => 'Kernel::System::Web::Request',
+            Dependencies    => [qw(ConfigObject LogObject EncodeObject MainObject)],
         },
         AuthObject        => {
             ClassName       => 'Kernel::System::Auth',
@@ -1817,6 +1818,7 @@ via the Preferences button after logging in.
         },
         JSONObject  => {
             ClassName       => 'Kernel::System::JSON',
+            Dependencies    => [qw(ConfigObject EncodeObject LogObject)],
         },
         StatsObject => {
             ClassName       => 'Kernel::System::Stats',

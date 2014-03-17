@@ -76,6 +76,9 @@ sub new {
         LogObject => {
             LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix') || 'Installer',
         },
+        LayoutObject => {
+            InstallerOnly => 1,
+        },
         ParamObject => {
             WebRequest => $Param{WebRequest} || 0,
         },

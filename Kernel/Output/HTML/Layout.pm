@@ -46,6 +46,17 @@ create a new object. Do not use it directly, instead use:
     );
     my $LayoutObject = $Kernel::OM->Get('LayoutObject');
 
+From the web installer, a special Option C<InstallerOnly> is passed
+to indicate that a database connection is not yet available.
+
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
+        LayoutObject {
+            InstallerOnly => 1,
+        },
+    );
+    my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+
 =cut
 
 sub new {
@@ -59,12 +70,18 @@ sub new {
     $Self->{Debug} = 0;
 
     for my $Object (
-        qw(DBObject ConfigObject LogObject TimeObject MainObject EncodeObject
-        ParamObject SessionObject TicketObject UserObject GroupObject
-        HTMLUtilsObject JSONObject)
+        qw(ConfigObject LogObject TimeObject MainObject EncodeObject
+        ParamObject HTMLUtilsObject JSONObject)
         )
     {
         $Self->{$Object} //= $Kernel::OM->Get($Object);
+    }
+
+    # Some objects are not available if we are setting up the system (no DB connection)
+    if ( !$Param{InstallerOnly} ) {
+        for my $Object (qw(DBObject SessionObject TicketObject UserObject GroupObject)) {
+            $Self->{$Object} //= $Kernel::OM->Get($Object);
+        }
     }
 
     # reset block data
