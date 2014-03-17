@@ -419,53 +419,6 @@ sub Sender {
     return $Sender;
 }
 
-=item Response()
-
-DEPRECATED: This function will be removed in further versions of otrs.
-
-generate response
-
-    my %Response = $TemplateGeneratorObject->Response(
-        TicketID   => 123,
-        ArticleID  => 123,
-        ResponseID => 123
-        UserID     => 123,
-    );
-
-returns
-    StandardResponse
-    Salutation
-    Signature
-
-=cut
-
-sub Response {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(TicketID ResponseID Data UserID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    $Param{TemplateID} = $Param{ResponseID};
-
-    my $ResponseText = $Self->Template(%Param);
-
-    my $Salutation = $Self->Salutation(%Param);
-
-    my $Signature = $Self->Signature(%Param);
-
-    return (
-        StandardResponse => $ResponseText,
-        StdResponse      => $ResponseText,
-        Salutation       => $Salutation,
-        Signature        => $Signature,
-    );
-}
-
 =item Template()
 
 generate template

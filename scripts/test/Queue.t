@@ -257,13 +257,6 @@ $Self->True(
     "QueueStandardTemplateMemberList() for QueueID 1 is a Hash with data",
 );
 
-my %Responses = $QueueObject->GetStandardResponses( QueueID => 1 );
-$Self->IsDeeply(
-    \%Templates,
-    \%Responses,
-    "QueueStandardTemplateMemberList() and GetStandardResponse() for QueueID 1",
-);
-
 # check cache
 my $CacheKey = "StandardTemplates::1::0";
 my $Cache = $QueueObject->{CacheInternalObject}->Get( Key => $CacheKey );
@@ -282,16 +275,6 @@ my %TemplatesByType = $QueueObject->QueueStandardTemplateMemberList(
 $Self->True(
     IsHashRefWithData( \%TemplatesByType ),
     "QueueStandardTemplateMemberList() for QueueID 1 using TemplateTypes is a Hash with data",
-);
-
-my %ResponsesTemplateType = $QueueObject->GetStandardResponses(
-    QueueID       => 1,
-    TemplateTypes => 1,
-);
-$Self->IsDeeply(
-    \%TemplatesByType,
-    \%ResponsesTemplateType,
-    "QueueStandardTemplateMemberList() and GetStandardResponse() for QueueID 1 using TemplateType",
 );
 
 # check cache
