@@ -1748,7 +1748,7 @@ via the Preferences button after logging in.
         },
         LayoutObject  => {
             ClassName       => 'Kernel::Output::HTML::Layout',
-            OMAware         => 1,
+            OmAware         => 1,
             Dependencies    => [
                 @DefaultDependencies,
                 'ParamObject',
@@ -1885,7 +1885,7 @@ via the Preferences button after logging in.
         ACLDBACLObject      => {
             ClassName       => 'Kernel::System::ACL::DB::ACL',
             Dependencies    => [@DefaultDependencies, qw(CacheObject YAMLObject UserObject)],
-            OMAware         => 1,
+            OmAware         => 1,
         },
         StateObject          => {
             ClassName       => 'Kernel::System::State',
