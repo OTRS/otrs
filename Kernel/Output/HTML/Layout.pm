@@ -60,8 +60,8 @@ sub new {
 
     for my $Object (
         qw(DBObject ConfigObject LogObject TimeObject MainObject EncodeObject
-        ParamObject SessionObject TicketObject GroupObject HTMLUtilsObject
-        JSONObject)
+        ParamObject SessionObject TicketObject UserObject GroupObject
+        HTMLUtilsObject JSONObject)
         )
     {
         $Self->{$Object} //= $Kernel::OM->Get($Object);
