@@ -123,10 +123,18 @@ sub Require {
     if ( !$Result ) {
 
         if ( !$Param{Silent} ) {
+            my $Message = "Module $Module not found/could not be loaded";
+            if ( !-f $File ) {
+                $Message = "Module $Module not in \@INC (@INC)";
+            }
+            elsif ( !-r $File ) {
+                $Message = "Module could not be loaded (no read permissions on $File)";
+            }
+
             $Self->{LogObject}->Log(
                 Caller   => 1,
                 Priority => 'error',
-                Message  => "Module $Module not found/could not be loaded!",
+                Message  => $Message,
             );
         }
 
