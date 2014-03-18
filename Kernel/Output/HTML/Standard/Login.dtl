@@ -10,6 +10,7 @@
 # HTTP headers
 Content-Type: text/html; charset=utf-8;
 X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org)
+X-Frame-Options: SAMEORIGIN
 # With this X-Header, Core.AJAX can recognize that the AJAX request returned the login page (session timeout) and perform a redirect.
 X-OTRS-Login: $Env{"Baselink"}
 
