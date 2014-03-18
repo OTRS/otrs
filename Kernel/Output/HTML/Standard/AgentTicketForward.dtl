@@ -125,7 +125,7 @@ $Include{"AgentCustomerSearch"}
                 </div>
                 <div class="Clear"></div>
 
-                <div class="Field $QData{"CustomerHiddenContainer"}">
+                <div class="Field $QData{"CcCustomerHiddenContainer"}">
                     <div class="CustomerTicketTemplateCcCustomer SpacingTopSmall Hidden">
                         <input name="CcCustomerInitialValue" id="CcCustomerInitialValue" type="hidden" value="$QData{"Cc"}" />
                         <input name="CcCustomerKey" id="CcCustomerKey" class="CustomerKey" type="hidden" value=""/>
@@ -183,7 +183,7 @@ $Include{"AgentCustomerSearch"}
                 </div>
                 <div class="Clear"></div>
 
-                <div class="Field $QData{"CustomerHiddenContainer"}">
+                <div class="Field $QData{"BccCustomerHiddenContainer"}">
                     <div class="CustomerTicketTemplateBccCustomer SpacingTopSmall Hidden">
                         <input name="BccCustomerInitialValue" id="BccCustomerInitialValue" type="hidden" value="$QData{"Bcc"}" />
                         <input name="BccCustomerKey" id="BccCustomerKey" class="CustomerKey" type="hidden" value=""/>

@@ -1,4 +1,5 @@
 #3.3.6 2014-??-??
+ - 2014-03-18 Fixed bug#[10334](http://bugs.otrs.org/show_bug.cgi?id=10334) - Deleting the attachment deletes the  recepients too.
  - 2014-03-18 Fixed bug#[10374](http://bugs.otrs.org/show_bug.cgi?id=10374) - OTRS does not protect against clickjacking.
  - 2014-03-15 Fixed bug#[10364](http://bugs.otrs.org/show_bug.cgi?id=10364) - Inline images displayed as attachment in SMIME and PGP signed messages.
  - 2014-03-14 Fixed bug#[10251](http://bugs.otrs.org/show_bug.cgi?id=10251) - SMIME signing fail on mails with attachements.
