@@ -55,11 +55,15 @@ sub new {
     for my $Object (
         qw(ConfigObject LogObject MainObject DBObject UserObject EncodeObject
         QueueObject GroupObject ParamObject TimeObject LanguageObject
-        LayoutObject StateObject PriorityObject TypeObject)
+        StateObject PriorityObject TypeObject)
         )
     {
         $Self->{$Object} //= $Kernel::OM->Get($Object) || die "Got no $Object!";
     }
+
+    # We need our own LayoutObject instance to avoid blockdata collisions
+    #   with the main page.
+    $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new( %{$Self} );
 
     # define needed variables
     $Self->{ObjectData} = {
