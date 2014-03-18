@@ -47,17 +47,19 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
+    for my $Needed ( qw(UserLanguage UserID) )
+    {
+        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
+    }
+
     for my $Object (
         qw(ConfigObject LogObject MainObject DBObject UserObject EncodeObject
-        QueueObject GroupObject ParamObject TimeObject LanguageObject UserLanguage UserID)
+        QueueObject GroupObject ParamObject TimeObject LanguageObject
+        LayoutObject StateObject PriorityObject TypeObject)
         )
     {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
+        $Self->{$Object} //= $Kernel::OM->Get($Object) || die "Got no $Object!";
     }
-    $Self->{LayoutObject}   = Kernel::Output::HTML::Layout->new( %{$Self} );
-    $Self->{StateObject}    = Kernel::System::State->new( %{$Self} );
-    $Self->{PriorityObject} = Kernel::System::Priority->new( %{$Self} );
-    $Self->{TypeObject}     = Kernel::System::Type->new( %{$Self} );
 
     # define needed variables
     $Self->{ObjectData} = {

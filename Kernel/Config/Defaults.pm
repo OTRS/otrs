@@ -1892,6 +1892,9 @@ via the Preferences button after logging in.
         StateObject          => {
             ClassName       => 'Kernel::System::State',
         },
+        PriorityObject      => {
+            ClassName       => 'Kernel::System::Priority',
+        },
         LockObject          => {
             ClassName       => 'Kernel::System::Lock',
         },
