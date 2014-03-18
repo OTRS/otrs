@@ -2131,6 +2131,8 @@ sub Attachment {
         $Output .= "Pragma: no-cache\n";
     }
     $Output .= "Content-Length: $Param{Size}\n";
+    $Output .= "X-UA-Compatible: IE=edge,chrome=1\n";
+    $Output .= "X-Frame-Options: SAMEORIGIN\n";
 
     if ( $Param{Charset} ) {
         $Output .= "Content-Type: $Param{ContentType}; charset=$Param{Charset};\n\n";
