@@ -125,7 +125,7 @@
                 </div>
                 <div class="Clear"></div>
 
-                <div class="Field [% Data.CustomerHiddenContainer | html %]">
+                <div class="Field [% Data.CcCustomerHiddenContainer | html %]">
                     <div class="CustomerTicketTemplateCcCustomer SpacingTopSmall Hidden">
                         <input name="CcCustomerInitialValue" id="CcCustomerInitialValue" type="hidden" value="[% Data.Cc | html %]" />
                         <input name="CcCustomerKey" id="CcCustomerKey" class="CustomerKey" type="hidden" value=""/>
@@ -183,7 +183,7 @@
                 </div>
                 <div class="Clear"></div>
 
-                <div class="Field [% Data.CustomerHiddenContainer | html %]">
+                <div class="Field [% Data.BccCustomerHiddenContainer | html %]">
                     <div class="CustomerTicketTemplateBccCustomer SpacingTopSmall Hidden">
                         <input name="BccCustomerInitialValue" id="BccCustomerInitialValue" type="hidden" value="[% Data.Bcc | html %]" />
                         <input name="BccCustomerKey" id="BccCustomerKey" class="CustomerKey" type="hidden" value=""/>
