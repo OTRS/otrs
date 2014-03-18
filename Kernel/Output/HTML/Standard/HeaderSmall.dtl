@@ -12,6 +12,7 @@
 # http headers
 Content-Type: text/html; charset=$Env{"UserCharset"};
 X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org/)
+X-Frame-Options: SAMEORIGIN
 Expires: Tue, 1 Jan 1980 12:00:00 GMT
 Cache-Control: no-cache
 Pragma: no-cache

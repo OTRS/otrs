@@ -14,6 +14,7 @@ Content-Type: text/html; charset=$Env{"UserCharset"};
 Content-Disposition: $Data{"ContentDisposition"}
 X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org)
 Expires: Tue, 1 Jan 1980 12:00:00 GMT
+X-Frame-Options: SAMEORIGIN
 Cache-Control: no-cache
 Pragma: no-cache
 

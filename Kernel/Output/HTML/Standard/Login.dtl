@@ -12,6 +12,7 @@
 # http headers
 Content-Type: text/html; charset=$Env{"UserCharset"};
 X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org)
+X-Frame-Options: SAMEORIGIN
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
