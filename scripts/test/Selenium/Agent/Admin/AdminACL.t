@@ -139,7 +139,7 @@ JAVASCRIPT
 
         # after clicking an ItemAddLevel1 element, there should be now a new .ItemAdd element
         $Self->Is(
-            $Selenium->find_element(' #ACLMatch .ItemAdd', 'css')->is_displayed(),
+            $Selenium->find_element( '#ACLMatch .ItemAdd', 'css' )->is_displayed(),
             '1',
             'Check for .ItemAdd element',
         );
@@ -167,23 +167,23 @@ JAVASCRIPT
 
         # now there should be a new .DataItem element with an input element
         $Self->Is(
-            $Selenium->find_element(' #ACLMatch .DataItem .NewDataKey', 'css')->is_displayed(),
+            $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )->is_displayed(),
             '1',
             'Check for .NewDataKey element',
         );
 
         # type in some text & confirm by pressing 'enter'
-        $Selenium->find_element(' #ACLMatch .DataItem .NewDataKey', 'css')->send_keys('Test');
-        $Selenium->find_element(' #ACLMatch .DataItem .NewDataKey', 'css')->send_keys(KEYS->{'enter'});
+        $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )->send_keys('Test');
+        $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )->send_keys(KEYS->{'enter'});
 
         # now there should be a two new elements: .ItemPrefix and .ItemPrefix
         $Self->Is(
-            $Selenium->find_element(' #ACLMatch .DataItem .ItemPrefix', 'css')->is_displayed(),
+            $Selenium->find_element( '#ACLMatch .DataItem .ItemPrefix', 'css' )->is_displayed(),
             '1',
             'Check for .ItemPrefix element',
         );
         $Self->Is(
-            $Selenium->find_element(' #ACLMatch .DataItem .NewDataItem', 'css')->is_displayed(),
+            $Selenium->find_element( '#ACLMatch .DataItem .NewDataItem', 'css' )->is_displayed(),
             '1',
             'Check for .NewDataItem element',
         );
@@ -192,7 +192,7 @@ JAVASCRIPT
         # containing dynamic fields and an 'Add all' button
         $Selenium->find_element( "#ACLMatch .ItemAdd option[value='DynamicField']", 'css' )->click();
         $Self->Is(
-            $Selenium->find_element(' #ACLMatch .DataItem .NewDataKeyDropdown', 'css')->is_displayed(),
+            $Selenium->find_element( '#ACLMatch .DataItem .NewDataKeyDropdown', 'css' )->is_displayed(),
             '1',
             'Check for .NewDataKeyDropdown element',
         );
