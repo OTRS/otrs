@@ -53,6 +53,11 @@ sub new {
 
     $Self->{Config} = $Self->{ConfigObject}->Get("Frontend::Admin::$Self->{Action}");
 
+    $Self->{RichText} = $Self->{ConfigObject}->Get('Frontend::RichText');
+    if ( $Self->{RichText} && !$Self->{Config}->{RichText} ) {
+        $Self->{RichText} = 0;
+    }
+
     # get the dynamic fields for this screen
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid      => 1,
@@ -72,7 +77,7 @@ sub Run {
 
     # set type for notifications
     my $NotificationType = 'text/plain';
-    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+    if ( $Self->{RichText} ) {
         $NotificationType = 'text/html';
     }
 
@@ -620,7 +625,7 @@ sub _Edit {
     }
 
     # add rich text editor
-    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+    if ( $Self->{RichText} ) {
 
         # make sure body is rich text (if body is based on config)
         if ( $Param{Type} && $Param{Type} =~ m{text\/plain}xmsi ) {
