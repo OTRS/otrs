@@ -920,10 +920,40 @@ sub _SendNotification {
                     # 2002-06-14 patch of Pablo Ruiz Garcia
                     # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
                     if ( $#Body >= $i ) {
-                        $NewOldBody .= "> $Body[$i]\n";
+
+                        # add no quote char, do it later by using DocumentCleanup()
+                        if ( $Notification{Type} =~ m{text\/html} ) {
+                            $NewOldBody .= $Body[$i];
+                        }
+
+                        # add "> " as quote char
+                        else {
+                            $NewOldBody .= "> $Body[$i]";
+                        }
+
+                        # add new line
+                        if ( $i < ( $Line - 1 ) ) {
+                            $NewOldBody .= "\n";
+                        }
                     }
                 }
                 chomp $NewOldBody;
+
+                # html quoting of content
+                if ( $Notification{Type} =~ m{text\/html} && $NewOldBody ) {
+
+                    # remove trailing new lines
+                    for ( 1 .. 10 ) {
+                        $NewOldBody =~ s/(<br\/>)\s{0,20}$//gs;
+                    }
+
+                    # add quote
+                    $NewOldBody = "<blockquote type=\"cite\">$NewOldBody</blockquote>";
+                    $NewOldBody = $Self->{HTMLUtilsObject}->DocumentCleanup(
+                        String => $NewOldBody,
+                    );
+                }
+
                 $Notification{Body} =~ s/${Start}$ArticleItem(EMAIL|NOTE|BODY)\[.+?\]${End}/$NewOldBody/g;
             }
         }

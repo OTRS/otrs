@@ -159,12 +159,12 @@ $('#TypeID').bind('change', function (Event) {
                 <label for="NewQueueID">[% Translate("Queue") | html %]:</label>
                 <div class="Field">
                     [% Data.QueuesStrg %]
-                    <div id="QueueIDError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
-                    <div id="QueueIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                    <div id="NewQueueIDError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                    <div id="NewQueueIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#NewQueueID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'QueueID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %] ]);
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewQueueID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %] ]);
     });
 //]]></script>
 [% END %]

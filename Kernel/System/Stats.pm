@@ -2013,8 +2013,13 @@ sub StatsResultCacheCompute {
     my %GetParam = $Self->_StatsParamsGenerate(%Param);
     return if !%GetParam;
 
-    my $CacheKey = "StatsRunCached::$Self->{UserID}::$Param{StatID}::";
-    $CacheKey .= $Self->{MainObject}->Dump( \%GetParam );
+    my $DumpString = $Self->{MainObject}->Dump( \%GetParam );
+
+    my $MD5Sum = $Self->{MainObject}->MD5sum(
+        String => \$DumpString,
+    );
+
+    my $CacheKey = "StatsRunCached::$Self->{UserID}::$Param{StatID}::$MD5Sum";
 
     my $Result = $Self->StatsRun(
         StatID   => $Param{StatID},
@@ -2056,8 +2061,13 @@ sub StatsResultCacheGet {
     my %GetParam = $Self->_StatsParamsGenerate(%Param);
     return if !%GetParam;
 
-    my $CacheKey = "StatsRunCached::$Self->{UserID}::$Param{StatID}::";
-    $CacheKey .= $Self->{MainObject}->Dump( \%GetParam );
+    my $DumpString = $Self->{MainObject}->Dump( \%GetParam );
+
+    my $MD5Sum = $Self->{MainObject}->MD5sum(
+        String => \$DumpString,
+    );
+
+    my $CacheKey = "StatsRunCached::$Self->{UserID}::$Param{StatID}::$MD5Sum";
 
     return $Self->{CacheObject}->Get(
         Type => 'StatsRun',

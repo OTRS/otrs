@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-03-20 Fixed bug#[10385](http://bugs.otrs.org/show_bug.cgi?id=10385) - Wrong Queue ID for Errors and FormUpdate in AgentTicketActionCommon.
  - 2014-03-13 Fixed bug#[4224](http://bugs.otrs.org/show_bug.cgi?id=4224) - Unused variable $From, thanks to Bernhard Schmalhofer.
  - 2014-03-13 Fixed bug#[5114](http://bugs.otrs.org/show_bug.cgi?id=5114) - No Rich Text Editor on Notification (Event).
  - 2014-03-07 Added possibility to display tickets with thousands of articles, thanks to Moritz Lenz @ noris networks. GUI improvements pending.
@@ -50,6 +51,9 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.6 2014-??-??
+ - 2014-03-20 Fixed bug#[10379](http://bugs.otrs.org/show_bug.cgi?id=10379) - ACL Not Working.
+ - 2014-03-20 Fixed bug#[10369](http://bugs.otrs.org/show_bug.cgi?id=10369) - Ticket::Frontend::Quote does not work with RichText Editor.
+ - 2014-03-20 Improved handling of cachekeys in Stats.pm to prevent cacheing problems in the dashboard stats.
  - 2014-03-18 Fixed bug#[10334](http://bugs.otrs.org/show_bug.cgi?id=10334) - Deleting the attachment deletes the  recepients too.
  - 2014-03-18 Fixed bug#[10374](http://bugs.otrs.org/show_bug.cgi?id=10374) - OTRS does not protect against clickjacking.
  - 2014-03-15 Fixed bug#[10364](http://bugs.otrs.org/show_bug.cgi?id=10364) - Inline images displayed as attachment in SMIME and PGP signed messages.
