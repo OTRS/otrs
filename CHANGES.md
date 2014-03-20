@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-03-20 Fixed bug#[10385](http://bugs.otrs.org/show_bug.cgi?id=10385) - Wrong Queue ID for Errors and FormUpdate in AgentTicketActionCommon.
  - 2014-03-13 Fixed bug#[4224](http://bugs.otrs.org/show_bug.cgi?id=4224) - Unused variable $From, thanks to Bernhard Schmalhofer.
  - 2014-03-13 Fixed bug#[5114](http://bugs.otrs.org/show_bug.cgi?id=5114) - No Rich Text Editor on Notification (Event).
  - 2014-03-07 Added possibility to display tickets with thousands of articles, thanks to Moritz Lenz @ noris networks. GUI improvements pending.
