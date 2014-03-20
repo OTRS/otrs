@@ -240,13 +240,12 @@ sub TableCreate {
                 $Sequence .= substr $MD5, 0,  1;
                 $Sequence .= substr $MD5, 31, 1;
             }
-
             my $Shell = '';
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
                 $Shell = "/\n--";
             }
-
-            push (
+            push( @Return2, "DROP SEQUENCE $Sequence" );
+            push(
                 @Return2,
                 "CREATE SEQUENCE $Sequence\n"
                     . "INCREMENT BY 1\n"
@@ -256,7 +255,6 @@ sub TableCreate {
                     . "CACHE 20\n"
                     . "ORDER",
             );
-
             push(
                 @Return2,
                 "CREATE OR REPLACE TRIGGER $Sequence"
@@ -354,9 +352,7 @@ sub TableDrop {
                     . "----------------------------------------------------------\n";
             }
         }
-
         $SQL .= "DROP TABLE $Tag->{Name} CASCADE CONSTRAINTS";
-
         return ($SQL);
     }
     return ();
