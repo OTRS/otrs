@@ -8346,6 +8346,7 @@
                 <Item>AgentTicketPriority</Item>
                 <Item>AgentTicketResponsible</Item>
                 <Item>AgentTicketWatcher</Item>
+                <Item>AgentTicketZoom</Item>
                 <Item>AgentLinkObject</Item>
             </Array>
         </Setting>
