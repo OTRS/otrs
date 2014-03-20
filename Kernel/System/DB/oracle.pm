@@ -240,27 +240,11 @@ sub TableCreate {
                 $Sequence .= substr $MD5, 0,  1;
                 $Sequence .= substr $MD5, 31, 1;
             }
-            $Sequence = uc $Sequence;
 
             my $Shell = '';
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
                 $Shell = "/\n--";
             }
-
-            push (
-                @Return2,
-"DECLARE
-  C NUMBER;
-BEGIN
-  SELECT COUNT(*) INTO C
-  FROM user_sequence
-  WHERE sequence_name = upper('$Sequence');
-
-  IF (C > 0) THEN
-    EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';
-  END IF;
-END",
-            );
 
             push (
                 @Return2,
