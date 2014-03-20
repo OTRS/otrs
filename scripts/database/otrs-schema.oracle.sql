@@ -23,24 +23,16 @@ CREATE TABLE acl (
 );
 ALTER TABLE acl ADD CONSTRAINT PK_acl PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_ACL';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_ACL');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ACL';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ACL';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_ACL
 INCREMENT BY 1
 START WITH 1
@@ -86,24 +78,16 @@ CREATE TABLE valid (
 );
 ALTER TABLE valid ADD CONSTRAINT PK_valid PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_VALID';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_VALID');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_VALID';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_VALID';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_VALID
 INCREMENT BY 1
 START WITH 1
@@ -144,24 +128,16 @@ CREATE TABLE users (
 );
 ALTER TABLE users ADD CONSTRAINT PK_users PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_USERS';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_USERS');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_USERS';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_USERS';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_USERS
 INCREMENT BY 1
 START WITH 1
@@ -209,24 +185,16 @@ CREATE TABLE groups (
 );
 ALTER TABLE groups ADD CONSTRAINT PK_groups PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_GROUPS';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_GROUPS');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_GROUPS';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_GROUPS';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_GROUPS
 INCREMENT BY 1
 START WITH 1
@@ -316,24 +284,16 @@ CREATE TABLE roles (
 );
 ALTER TABLE roles ADD CONSTRAINT PK_roles PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_ROLES';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_ROLES');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ROLES';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ROLES';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_ROLES
 INCREMENT BY 1
 START WITH 1
@@ -398,24 +358,16 @@ CREATE TABLE salutation (
 );
 ALTER TABLE salutation ADD CONSTRAINT PK_salutation PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_SALUTATION';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_SALUTATION');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SALUTATION';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SALUTATION';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_SALUTATION
 INCREMENT BY 1
 START WITH 1
@@ -456,24 +408,16 @@ CREATE TABLE signature (
 );
 ALTER TABLE signature ADD CONSTRAINT PK_signature PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_SIGNATURE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_SIGNATURE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SIGNATURE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SIGNATURE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_SIGNATURE
 INCREMENT BY 1
 START WITH 1
@@ -515,24 +459,16 @@ CREATE TABLE system_address (
 );
 ALTER TABLE system_address ADD CONSTRAINT PK_system_address PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_SYSTEM_ADDRESS';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_SYSTEM_ADDRESS');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SYSTEM_ADDRESS';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SYSTEM_ADDRESS';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_SYSTEM_ADDRESS
 INCREMENT BY 1
 START WITH 1
@@ -571,24 +507,16 @@ CREATE TABLE follow_up_possible (
 );
 ALTER TABLE follow_up_possible ADD CONSTRAINT PK_follow_up_possible PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_FOLLOW_UP_POSSIBLE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_FOLLOW_UP_POSSIBLE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_FOLLOW_UP_POSSIBLE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_FOLLOW_UP_POSSIBLE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_FOLLOW_UP_POSSIBLE
 INCREMENT BY 1
 START WITH 1
@@ -642,24 +570,16 @@ CREATE TABLE queue (
 );
 ALTER TABLE queue ADD CONSTRAINT PK_queue PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_QUEUE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_QUEUE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_QUEUE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_QUEUE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_QUEUE
 INCREMENT BY 1
 START WITH 1
@@ -711,24 +631,16 @@ CREATE TABLE ticket_priority (
 );
 ALTER TABLE ticket_priority ADD CONSTRAINT PK_ticket_priority PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_TICKET_PRIORITY';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_TICKET_PRIORITY');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_PRIORITY';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_PRIORITY';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_TICKET_PRIORITY
 INCREMENT BY 1
 START WITH 1
@@ -765,24 +677,16 @@ CREATE TABLE ticket_type (
 );
 ALTER TABLE ticket_type ADD CONSTRAINT PK_ticket_type PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_TICKET_TYPE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_TICKET_TYPE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_TYPE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_TYPE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_TICKET_TYPE
 INCREMENT BY 1
 START WITH 1
@@ -820,24 +724,16 @@ CREATE TABLE ticket_lock_type (
 );
 ALTER TABLE ticket_lock_type ADD CONSTRAINT PK_ticket_lock_type PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_TICKET_LOCK_TYPE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_TICKET_LOCK_TYPE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_LOCK_TYPE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_LOCK_TYPE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_TICKET_LOCK_TYPE
 INCREMENT BY 1
 START WITH 1
@@ -877,24 +773,16 @@ CREATE TABLE ticket_state (
 );
 ALTER TABLE ticket_state ADD CONSTRAINT PK_ticket_state PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_TICKET_STATE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_TICKET_STATE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_STATE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_STATE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_TICKET_STATE
 INCREMENT BY 1
 START WITH 1
@@ -933,24 +821,16 @@ CREATE TABLE ticket_state_type (
 );
 ALTER TABLE ticket_state_type ADD CONSTRAINT PK_ticket_state_type PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_TICKET_STATE_TYPE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_TICKET_STATE_TYPE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_STATE_TYPE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_STATE_TYPE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_TICKET_STATE_TYPE
 INCREMENT BY 1
 START WITH 1
@@ -1007,24 +887,16 @@ CREATE TABLE ticket (
 );
 ALTER TABLE ticket ADD CONSTRAINT PK_ticket PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_TICKET';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_TICKET');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_TICKET
 INCREMENT BY 1
 START WITH 1
@@ -1106,24 +978,16 @@ CREATE TABLE ticket_history (
 );
 ALTER TABLE ticket_history ADD CONSTRAINT PK_ticket_history PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_TICKET_HISTORY';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_TICKET_HISTORY');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_HISTORY';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_HISTORY';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_TICKET_HISTORY
 INCREMENT BY 1
 START WITH 1
@@ -1171,24 +1035,16 @@ CREATE TABLE ticket_history_type (
 );
 ALTER TABLE ticket_history_type ADD CONSTRAINT PK_ticket_history_type PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_TICKET_HISTORY_TYPE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_TICKET_HISTORY_TYPE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_HISTORY_TYPE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TICKET_HISTORY_TYPE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_TICKET_HISTORY_TYPE
 INCREMENT BY 1
 START WITH 1
@@ -1273,24 +1129,16 @@ CREATE TABLE article_type (
 );
 ALTER TABLE article_type ADD CONSTRAINT PK_article_type PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_ARTICLE_TYPE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_ARTICLE_TYPE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ARTICLE_TYPE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ARTICLE_TYPE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_ARTICLE_TYPE
 INCREMENT BY 1
 START WITH 1
@@ -1329,24 +1177,16 @@ CREATE TABLE article_sender_type (
 );
 ALTER TABLE article_sender_type ADD CONSTRAINT PK_article_sender_type PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_ARTICLE_SENDER_TYPE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_ARTICLE_SENDER_TYPE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ARTICLE_SENDER_TYPE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ARTICLE_SENDER_TYPE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_ARTICLE_SENDER_TYPE
 INCREMENT BY 1
 START WITH 1
@@ -1411,24 +1251,16 @@ CREATE TABLE article (
 );
 ALTER TABLE article ADD CONSTRAINT PK_article PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_ARTICLE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_ARTICLE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ARTICLE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ARTICLE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_ARTICLE
 INCREMENT BY 1
 START WITH 1
@@ -1488,24 +1320,16 @@ CREATE TABLE article_plain (
 );
 ALTER TABLE article_plain ADD CONSTRAINT PK_article_plain PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_ARTICLE_PLAIN';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_ARTICLE_PLAIN');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ARTICLE_PLAIN';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ARTICLE_PLAIN';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_ARTICLE_PLAIN
 INCREMENT BY 1
 START WITH 1
@@ -1548,24 +1372,16 @@ CREATE TABLE article_attachment (
 );
 ALTER TABLE article_attachment ADD CONSTRAINT PK_article_attachment PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_ARTICLE_ATTACHMENT';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_ARTICLE_ATTACHMENT');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ARTICLE_ATTACHMENT';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ARTICLE_ATTACHMENT';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_ARTICLE_ATTACHMENT
 INCREMENT BY 1
 START WITH 1
@@ -1603,24 +1419,16 @@ CREATE TABLE time_accounting (
 );
 ALTER TABLE time_accounting ADD CONSTRAINT PK_time_accounting PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_TIME_ACCOUNTING';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_TIME_ACCOUNTING');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TIME_ACCOUNTING';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_TIME_ACCOUNTING';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_TIME_ACCOUNTING
 INCREMENT BY 1
 START WITH 1
@@ -1663,24 +1471,16 @@ CREATE TABLE standard_template (
 );
 ALTER TABLE standard_template ADD CONSTRAINT PK_standard_template PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_STANDARD_TEMPLATE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_STANDARD_TEMPLATE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_STANDARD_TEMPLATE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_STANDARD_TEMPLATE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_STANDARD_TEMPLATE
 INCREMENT BY 1
 START WITH 1
@@ -1737,24 +1537,16 @@ CREATE TABLE standard_attachment (
 );
 ALTER TABLE standard_attachment ADD CONSTRAINT PK_standard_attachment PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_STANDARD_ATTACHMENT';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_STANDARD_ATTACHMENT');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_STANDARD_ATTACHMENT';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_STANDARD_ATTACHMENT';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_STANDARD_ATTACHMENT
 INCREMENT BY 1
 START WITH 1
@@ -1791,24 +1583,16 @@ CREATE TABLE standard_template_attachment (
 );
 ALTER TABLE standard_template_attachment ADD CONSTRAINT PK_standard_template_attachmb7 PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_STANDARD_TEMPLATE_ATTACC3';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_STANDARD_TEMPLATE_ATTACC3');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_STANDARD_TEMPLATE_ATTACC3';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_STANDARD_TEMPLATE_ATTACC3';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_STANDARD_TEMPLATE_ATTACC3
 INCREMENT BY 1
 START WITH 1
@@ -1848,24 +1632,16 @@ CREATE TABLE auto_response_type (
 );
 ALTER TABLE auto_response_type ADD CONSTRAINT PK_auto_response_type PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_AUTO_RESPONSE_TYPE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_AUTO_RESPONSE_TYPE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_AUTO_RESPONSE_TYPE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_AUTO_RESPONSE_TYPE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_AUTO_RESPONSE_TYPE
 INCREMENT BY 1
 START WITH 1
@@ -1911,24 +1687,16 @@ CREATE TABLE auto_response (
 );
 ALTER TABLE auto_response ADD CONSTRAINT PK_auto_response PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_AUTO_RESPONSE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_AUTO_RESPONSE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_AUTO_RESPONSE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_AUTO_RESPONSE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_AUTO_RESPONSE
 INCREMENT BY 1
 START WITH 1
@@ -1967,24 +1735,16 @@ CREATE TABLE queue_auto_response (
 );
 ALTER TABLE queue_auto_response ADD CONSTRAINT PK_queue_auto_response PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_QUEUE_AUTO_RESPONSE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_QUEUE_AUTO_RESPONSE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_QUEUE_AUTO_RESPONSE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_QUEUE_AUTO_RESPONSE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_QUEUE_AUTO_RESPONSE
 INCREMENT BY 1
 START WITH 1
@@ -2024,24 +1784,16 @@ CREATE TABLE service (
 );
 ALTER TABLE service ADD CONSTRAINT PK_service PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_SERVICE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_SERVICE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SERVICE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SERVICE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_SERVICE
 INCREMENT BY 1
 START WITH 1
@@ -2107,24 +1859,16 @@ CREATE TABLE sla (
 );
 ALTER TABLE sla ADD CONSTRAINT PK_sla PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_SLA';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_SLA');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SLA';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SLA';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_SLA
 INCREMENT BY 1
 START WITH 1
@@ -2177,24 +1921,16 @@ CREATE TABLE sessions (
 );
 ALTER TABLE sessions ADD CONSTRAINT PK_sessions PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_SESSIONS';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_SESSIONS');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SESSIONS';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SESSIONS';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_SESSIONS
 INCREMENT BY 1
 START WITH 1
@@ -2245,24 +1981,16 @@ CREATE TABLE customer_user (
 );
 ALTER TABLE customer_user ADD CONSTRAINT PK_customer_user PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_CUSTOMER_USER';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_CUSTOMER_USER');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_CUSTOMER_USER';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_CUSTOMER_USER';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_CUSTOMER_USER
 INCREMENT BY 1
 START WITH 1
@@ -2335,24 +2063,16 @@ CREATE TABLE mail_account (
 );
 ALTER TABLE mail_account ADD CONSTRAINT PK_mail_account PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_MAIL_ACCOUNT';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_MAIL_ACCOUNT');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_MAIL_ACCOUNT';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_MAIL_ACCOUNT';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_MAIL_ACCOUNT
 INCREMENT BY 1
 START WITH 1
@@ -2449,24 +2169,16 @@ CREATE TABLE notifications (
 );
 ALTER TABLE notifications ADD CONSTRAINT PK_notifications PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_NOTIFICATIONS';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_NOTIFICATIONS');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_NOTIFICATIONS';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_NOTIFICATIONS';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_NOTIFICATIONS
 INCREMENT BY 1
 START WITH 1
@@ -2508,24 +2220,16 @@ CREATE TABLE notification_event (
 );
 ALTER TABLE notification_event ADD CONSTRAINT PK_notification_event PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_NOTIFICATION_EVENT';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_NOTIFICATION_EVENT');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_NOTIFICATION_EVENT';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_NOTIFICATION_EVENT';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_NOTIFICATION_EVENT
 INCREMENT BY 1
 START WITH 1
@@ -2574,24 +2278,16 @@ CREATE TABLE link_type (
 );
 ALTER TABLE link_type ADD CONSTRAINT PK_link_type PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_LINK_TYPE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_LINK_TYPE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_LINK_TYPE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_LINK_TYPE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_LINK_TYPE
 INCREMENT BY 1
 START WITH 1
@@ -2629,24 +2325,16 @@ CREATE TABLE link_state (
 );
 ALTER TABLE link_state ADD CONSTRAINT PK_link_state PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_LINK_STATE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_LINK_STATE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_LINK_STATE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_LINK_STATE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_LINK_STATE
 INCREMENT BY 1
 START WITH 1
@@ -2679,24 +2367,16 @@ CREATE TABLE link_object (
 );
 ALTER TABLE link_object ADD CONSTRAINT PK_link_object PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_LINK_OBJECT';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_LINK_OBJECT');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_LINK_OBJECT';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_LINK_OBJECT';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_LINK_OBJECT
 INCREMENT BY 1
 START WITH 1
@@ -2772,24 +2452,16 @@ CREATE TABLE virtual_fs (
 );
 ALTER TABLE virtual_fs ADD CONSTRAINT PK_virtual_fs PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_VIRTUAL_FS';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_VIRTUAL_FS');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_VIRTUAL_FS';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_VIRTUAL_FS';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_VIRTUAL_FS
 INCREMENT BY 1
 START WITH 1
@@ -2832,24 +2504,16 @@ CREATE TABLE virtual_fs_db (
 );
 ALTER TABLE virtual_fs_db ADD CONSTRAINT PK_virtual_fs_db PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_VIRTUAL_FS_DB';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_VIRTUAL_FS_DB');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_VIRTUAL_FS_DB';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_VIRTUAL_FS_DB';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_VIRTUAL_FS_DB
 INCREMENT BY 1
 START WITH 1
@@ -2890,24 +2554,16 @@ CREATE TABLE package_repository (
 );
 ALTER TABLE package_repository ADD CONSTRAINT PK_package_repository PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_PACKAGE_REPOSITORY';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_PACKAGE_REPOSITORY');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PACKAGE_REPOSITORY';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PACKAGE_REPOSITORY';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_PACKAGE_REPOSITORY
 INCREMENT BY 1
 START WITH 1
@@ -2947,24 +2603,16 @@ CREATE TABLE gi_webservice_config (
 );
 ALTER TABLE gi_webservice_config ADD CONSTRAINT PK_gi_webservice_config PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_GI_WEBSERVICE_CONFIG';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_GI_WEBSERVICE_CONFIG');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_GI_WEBSERVICE_CONFIG';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_GI_WEBSERVICE_CONFIG';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_GI_WEBSERVICE_CONFIG
 INCREMENT BY 1
 START WITH 1
@@ -3003,24 +2651,16 @@ CREATE TABLE gi_webservice_config_history (
 );
 ALTER TABLE gi_webservice_config_history ADD CONSTRAINT PK_gi_webservice_config_hist06 PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_GI_WEBSERVICE_CONFIG_HI2F';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_GI_WEBSERVICE_CONFIG_HI2F');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_GI_WEBSERVICE_CONFIG_HI2F';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_GI_WEBSERVICE_CONFIG_HI2F';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_GI_WEBSERVICE_CONFIG_HI2F
 INCREMENT BY 1
 START WITH 1
@@ -3057,24 +2697,16 @@ CREATE TABLE scheduler_task_list (
 );
 ALTER TABLE scheduler_task_list ADD CONSTRAINT PK_scheduler_task_list PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_SCHEDULER_TASK_LIST';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_SCHEDULER_TASK_LIST');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SCHEDULER_TASK_LIST';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SCHEDULER_TASK_LIST';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_SCHEDULER_TASK_LIST
 INCREMENT BY 1
 START WITH 1
@@ -3108,24 +2740,16 @@ CREATE TABLE gi_debugger_entry (
 );
 ALTER TABLE gi_debugger_entry ADD CONSTRAINT PK_gi_debugger_entry PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_GI_DEBUGGER_ENTRY';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_GI_DEBUGGER_ENTRY');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_GI_DEBUGGER_ENTRY';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_GI_DEBUGGER_ENTRY';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_GI_DEBUGGER_ENTRY
 INCREMENT BY 1
 START WITH 1
@@ -3160,24 +2784,16 @@ CREATE TABLE gi_debugger_entry_content (
 );
 ALTER TABLE gi_debugger_entry_content ADD CONSTRAINT PK_gi_debugger_entry_content PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_GI_DEBUGGER_ENTRY_CONTENT';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_GI_DEBUGGER_ENTRY_CONTENT');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_GI_DEBUGGER_ENTRY_CONTENT';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_GI_DEBUGGER_ENTRY_CONTENT';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_GI_DEBUGGER_ENTRY_CONTENT
 INCREMENT BY 1
 START WITH 1
@@ -3231,24 +2847,16 @@ CREATE TABLE smime_signer_cert_relations (
 );
 ALTER TABLE smime_signer_cert_relations ADD CONSTRAINT PK_smime_signer_cert_relations PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_SMIME_SIGNER_CERT_RELATEF';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_SMIME_SIGNER_CERT_RELATEF');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SMIME_SIGNER_CERT_RELATEF';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_SMIME_SIGNER_CERT_RELATEF';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_SMIME_SIGNER_CERT_RELATEF
 INCREMENT BY 1
 START WITH 1
@@ -3283,24 +2891,16 @@ CREATE TABLE dynamic_field_value (
 );
 ALTER TABLE dynamic_field_value ADD CONSTRAINT PK_dynamic_field_value PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_DYNAMIC_FIELD_VALUE';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_DYNAMIC_FIELD_VALUE');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_DYNAMIC_FIELD_VALUE';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_DYNAMIC_FIELD_VALUE';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_DYNAMIC_FIELD_VALUE
 INCREMENT BY 1
 START WITH 1
@@ -3345,24 +2945,16 @@ CREATE TABLE dynamic_field (
 );
 ALTER TABLE dynamic_field ADD CONSTRAINT PK_dynamic_field PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_DYNAMIC_FIELD';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_DYNAMIC_FIELD');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_DYNAMIC_FIELD';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_DYNAMIC_FIELD';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_DYNAMIC_FIELD
 INCREMENT BY 1
 START WITH 1
@@ -3403,24 +2995,16 @@ CREATE TABLE pm_process (
 );
 ALTER TABLE pm_process ADD CONSTRAINT PK_pm_process PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_PM_PROCESS';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_PM_PROCESS');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PM_PROCESS';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PM_PROCESS';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_PM_PROCESS
 INCREMENT BY 1
 START WITH 1
@@ -3458,24 +3042,16 @@ CREATE TABLE pm_activity (
 );
 ALTER TABLE pm_activity ADD CONSTRAINT PK_pm_activity PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_PM_ACTIVITY';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_PM_ACTIVITY');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PM_ACTIVITY';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PM_ACTIVITY';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_PM_ACTIVITY
 INCREMENT BY 1
 START WITH 1
@@ -3513,24 +3089,16 @@ CREATE TABLE pm_activity_dialog (
 );
 ALTER TABLE pm_activity_dialog ADD CONSTRAINT PK_pm_activity_dialog PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_PM_ACTIVITY_DIALOG';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_PM_ACTIVITY_DIALOG');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PM_ACTIVITY_DIALOG';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PM_ACTIVITY_DIALOG';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_PM_ACTIVITY_DIALOG
 INCREMENT BY 1
 START WITH 1
@@ -3568,24 +3136,16 @@ CREATE TABLE pm_transition (
 );
 ALTER TABLE pm_transition ADD CONSTRAINT PK_pm_transition PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_PM_TRANSITION';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_PM_TRANSITION');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PM_TRANSITION';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PM_TRANSITION';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_PM_TRANSITION
 INCREMENT BY 1
 START WITH 1
@@ -3623,24 +3183,16 @@ CREATE TABLE pm_transition_action (
 );
 ALTER TABLE pm_transition_action ADD CONSTRAINT PK_pm_transition_action PRIMARY KEY (id);
 DECLARE
-    v_seq NUMBER;
-
+  C NUMBER;
 BEGIN
-    SELECT 1
-    INTO v_seq
-    FROM user_sequences
-    WHERE sequence_name = 'SE_PM_TRANSITION_ACTION';
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('SE_PM_TRANSITION_ACTION');
 
-    IF v_seq = 1 THEN
-        EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PM_TRANSITION_ACTION';
-    END IF;
-
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            NULL;
-
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_PM_TRANSITION_ACTION';
+  END IF;
 END;
-;
 CREATE SEQUENCE SE_PM_TRANSITION_ACTION
 INCREMENT BY 1
 START WITH 1

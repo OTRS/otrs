@@ -247,29 +247,22 @@ sub TableCreate {
                 $Shell = "/\n--";
             }
 
-            push(
+            push (
                 @Return2,
-                "DECLARE\n"
-                    . "    v_seq NUMBER;\n"
-                    . "\n"
-                    . "BEGIN\n"
-                    . "    SELECT 1\n"
-                    . "    INTO v_seq\n"
-                    . "    FROM user_sequences\n"
-                    . "    WHERE sequence_name = '$Sequence';\n"
-                    . "\n"
-                    . "    IF v_seq = 1 THEN\n"
-                    . "        EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';\n"
-                    . "    END IF;\n"
-                    . "\n"
-                    . "    EXCEPTION\n"
-                    . "        WHEN NO_DATA_FOUND THEN\n"
-                    . "            NULL;\n"
-                    . "\n"
-                    . "END;\n",
+"DECLARE
+  C NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO C
+  FROM user_sequence
+  WHERE sequence_name = upper('$Sequence');
+
+  IF (C > 0) THEN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';
+  END IF;
+END",
             );
 
-            push(
+            push (
                 @Return2,
                 "CREATE SEQUENCE $Sequence\n"
                     . "INCREMENT BY 1\n"
@@ -378,46 +371,10 @@ sub TableDrop {
             }
         }
 
-        my $Sequence = 'SE_' . $Tag->{Name};
-        if ( length $Sequence > 28 ) {
-            my $MD5 = $Self->{MainObject}->MD5sum(
-                String => $Sequence,
-            );
-            $Sequence = substr $Sequence, 0, 26;
-            $Sequence .= substr $MD5, 0,  1;
-            $Sequence .= substr $MD5, 31, 1;
-        }
-        $Sequence = uc $Sequence;
-
         $SQL .= "DROP TABLE $Tag->{Name} CASCADE CONSTRAINTS";
 
-        my @Return = ($SQL);
-
-        push(
-            @Return,
-            "DECLARE\n"
-                . "    v_seq NUMBER;\n"
-                . "\n"
-                . "BEGIN\n"
-                . "    SELECT 1\n"
-                . "    INTO v_seq\n"
-                . "    FROM user_sequences\n"
-                . "    WHERE sequence_name = '$Sequence';\n"
-                . "\n"
-                . "    IF v_seq = 1 THEN\n"
-                . "        EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';\n"
-                . "    END IF;\n"
-                . "\n"
-                . "    EXCEPTION\n"
-                . "        WHEN NO_DATA_FOUND THEN\n"
-                . "            NULL;\n"
-                . "\n"
-                . "END;\n",
-        );
-
-        return @Return;
+        return ($SQL);
     }
-
     return ();
 }
 
@@ -821,9 +778,8 @@ sub Insert {
         if ( $Tag->{Tag} eq 'Data' && $Tag->{TagType} eq 'Start' ) {
 
             # do not use auto increment values
-            if ( $Tag->{Type} && $Tag->{Type} =~ /^AutoIncrement$/i ) {
-                next TAG;
-            }
+            next TAG if $Tag->{Type} && $Tag->{Type} =~ m{ ^AutoIncrement$ }xmsi;
+
             $Tag->{Key} = ${ $Self->Quote( \$Tag->{Key} ) };
             push @Keys, $Tag->{Key};
             my $Value;
