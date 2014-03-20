@@ -50,6 +50,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.6 2014-??-??
+ - 2014-03-20 Improved handling of cachekeys in Stats.pm to prevent cacheing problems in the dashboard stats.
  - 2014-03-18 Fixed bug#[10334](http://bugs.otrs.org/show_bug.cgi?id=10334) - Deleting the attachment deletes the  recepients too.
  - 2014-03-18 Fixed bug#[10374](http://bugs.otrs.org/show_bug.cgi?id=10374) - OTRS does not protect against clickjacking.
  - 2014-03-15 Fixed bug#[10364](http://bugs.otrs.org/show_bug.cgi?id=10364) - Inline images displayed as attachment in SMIME and PGP signed messages.
