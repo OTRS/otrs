@@ -244,7 +244,6 @@ sub TableCreate {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
                 $Shell = "/\n--";
             }
-            push( @Return2, "DROP SEQUENCE $Sequence" );
             push(
                 @Return2,
                 "CREATE SEQUENCE $Sequence\n"
