@@ -30,15 +30,17 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use Getopt::Std qw();
 use Kernel::Config;
-use Kernel::System::Log;
-use Kernel::System::Time;
-use Kernel::System::Encode;
-use Kernel::System::DB;
-use Kernel::System::Main;
+use Kernel::System::ObjectManager;
 use Kernel::System::SysConfig;
 use Kernel::System::Cache;
 use Kernel::System::Package;
 use Kernel::System::VariableCheck qw(:all);
+
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-DBUpdate-to-3.4.pl',
+    },
+);
 
 {
 
@@ -112,16 +114,10 @@ Please run it as the 'otrs' user or with the help of su:
 }
 
 sub _CommonObjectsBase {
-    my %CommonObject;
-    $CommonObject{ConfigObject} = Kernel::Config->new();
-    $CommonObject{LogObject}    = Kernel::System::Log->new(
-        LogPrefix => 'OTRS-DBUpdate-to-3.4',
-        %CommonObject,
+    my %CommonObject = $Kernel::OM->ObjectHash(
+        Objects =>
+            [qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject SysConfigObject)],
     );
-    $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-    $CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
-    $CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
-    $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
     return \%CommonObject;
 }
 
@@ -200,7 +196,7 @@ sub _CheckFrameworkVersion {
     if ( $ProductName ne 'OTRS' ) {
         die "Error: No OTRS system found"
     }
-    if ( $Version !~ /^3\.3(.*)$/ ) {
+    if ( $Version !~ /^3\.4(.*)$/ ) {
 
         die "Error: You are trying to run this script on the wrong framework version $Version!"
     }
