@@ -32,6 +32,8 @@ Core.App.Ready(function () {
         CustomerPanelSessionName: '[% Config("CustomerPanelSessionName") %]',
         Images: '[% Config("Frontend::ImagePath") %]',
         UserLanguage: '[% Env("UserLanguage") | html %]',
+        SpellChecker: '[% Config("SpellChecker") | html %]',
+        NeedSpellCheck: '[% Config("Ticket::Frontend::NeedSpellCheck") | html %]',
         CheckEmailAddresses: parseInt('[% Config("CheckEmailAddresses") %]', 10),
         AnimationEnabled: parseInt('[% Config("Frontend::AnimationEnabled") %]', 10),
         OpenMainMenuOnHover: parseInt('[% Config("OpenMainMenuOnHover") %]', 10),

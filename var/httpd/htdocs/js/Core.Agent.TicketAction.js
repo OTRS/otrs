@@ -144,6 +144,35 @@ Core.Agent.TicketAction = (function (TargetNS) {
             return false;
         });
 
+        // check if spell check is being used
+        if (Core.Config.Get('SpellChecker') && Core.Config.Get('NeedSpellCheck')) {
+
+            Core.Config.Set('TextIsSpellChecked', 0);
+            $('#RichTextField').on('click', '.cke_button__spellcheck', function() {
+                Core.Config.Set('TextIsSpellChecked', 1);
+            });
+            $('#OptionSpellCheck').bind('click', function() {
+                Core.Config.Set('TextIsSpellChecked', 1);
+            });
+
+            Core.Form.Validate.SetSubmitFunction($('form[name=compose]'), function(Form) {
+                if ( !$('#RichText').hasClass('ValidationIgnore') && !Core.Config.Get('TextIsSpellChecked') ) {
+                    Core.UI.Dialog.ShowContentDialog("<p>Please perform a spell check on the the text first.</p>", "Spell check required", '150px', 'Center', true, [
+                        {
+                            Label: '<span>' + Core.Config.Get('DialogCloseMsg') + '</span>',
+                            Function: function () {
+                                Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
+                                Core.Form.EnableForm($('#RichText').closest('form'));
+                            },
+                            Class: 'Primary CallForAction'
+                        }
+                    ]);
+                    return false;
+                }
+                $('#RichText').closest('form').get(0).submit();
+            });
+        }
+
         // Subscribe to the reloading of the CustomerInfo box to
         // specially mark the primary customer
         MarkPrimaryCustomer();
