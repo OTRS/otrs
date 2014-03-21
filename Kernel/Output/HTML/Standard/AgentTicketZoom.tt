@@ -196,13 +196,13 @@
 [% RenderBlockEnd("PendingUntil") %]
 [% RenderBlockStart("Owner") %]
                         <label>[% Translate("Owner") | html %]:</label>
-                        <p class="Value" title="[% Data.UserFirstname | html %] [% Data.UserLastname | html %] ([% Data.UserLogin | html %])">[% Data.UserFullname | html %]</p>
+                        <p class="Value" title="[% Data.UserFullname | html %] [% Data.OutOfOfficeMessage | html %] ([% Data.UserLogin | html %])">[% Data.UserFullname | html %] [% Data.OutOfOfficeMessage | html %]</p>
                         <div class="Clear"></div>
 
 [% RenderBlockEnd("Owner") %]
 [% RenderBlockStart("Responsible") %]
                         <label>[% Translate("Responsible") | html %]:</label>
-                        <p class="Value" title="[% Data.UserFirstname | html %] [% Data.UserLastname | html %] ([% Data.UserLogin | html %])">[% Data.UserFullname | html %]</p>
+                        <p class="Value" title="[% Data.UserFullname | html %] [% Data.OutOfOfficeMessage | html %] ([% Data.UserLogin | html %])">[% Data.UserFullname | html %] [% Data.OutOfOfficeMessage | html %]</p>
                         <div class="Clear"></div>
 
 [% RenderBlockEnd("Responsible") %]
