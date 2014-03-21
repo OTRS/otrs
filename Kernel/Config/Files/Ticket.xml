@@ -4208,7 +4208,7 @@ $QData{"Body"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Quote" Required="0" Valid="1">
-        <Description Translatable="1">Defines the used character for email quotes in the ticket compose screen of the agent interface (only relevant when richtext is disabled).</Description>
+        <Description Translatable="1">Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
