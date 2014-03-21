@@ -246,14 +246,6 @@ sub TableCreate {
             }
             push(
                 @Return2,
-                "BEGIN\n"
-                    . "  EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';\n"
-                    . "EXCEPTION\n"
-                    . "  WHEN OTHERS THEN NULL;\n"
-                    . "END",
-            );
-            push(
-                @Return2,
                 "CREATE SEQUENCE $Sequence\n"
                     . "INCREMENT BY 1\n"
                     . "START WITH 1\n"
