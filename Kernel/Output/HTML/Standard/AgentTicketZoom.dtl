@@ -196,13 +196,13 @@
 <!-- dtl:block:PendingUntil -->
 <!-- dtl:block:Owner -->
                         <label>$Text{"Owner"}:</label>
-                        <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFullname"}"}</p>
+                        <p class="Value" title="$QData{"UserFullname"} $QData{"OutOfOfficeMessage"} ($QData{"UserLogin"})">$QData{"UserFullname"} $QData{"OutOfOfficeMessage"}</p>
                         <div class="Clear"></div>
 
 <!-- dtl:block:Owner -->
 <!-- dtl:block:Responsible -->
                         <label>$Text{"Responsible"}:</label>
-                        <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFullname"}"}</p>
+                        <p class="Value" title="$QData{"UserFullname"} $QData{"OutOfOfficeMessage"} ($QData{"UserLogin"})">$QData{"UserFullname"} $QData{"OutOfOfficeMessage"}</p>
                         <div class="Clear"></div>
 
 <!-- dtl:block:Responsible -->

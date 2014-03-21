@@ -1,4 +1,5 @@
 #3.3.6 2014-??-??
+ - 2014-03-21 Fixed bug#[10384](http://bugs.otrs.org/show_bug.cgi?id=10384) - out-of-office information not displayed in Ticket Zoom.
  - 2014-03-20 Fixed bug#[10379](http://bugs.otrs.org/show_bug.cgi?id=10379) - ACL Not Working.
  - 2014-03-20 Fixed bug#[10385](http://bugs.otrs.org/show_bug.cgi?id=10385) - Wrong Queue ID for Errors and FormUpdate in AgentTicketActionCommon.
  - 2014-03-20 Fixed bug#[10369](http://bugs.otrs.org/show_bug.cgi?id=10369) - Ticket::Frontend::Quote does not work with RichText Editor.
