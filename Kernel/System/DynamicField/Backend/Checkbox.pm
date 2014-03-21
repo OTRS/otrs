@@ -263,8 +263,12 @@ Ignore this field.
 EOF
     }
 
+    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
+        Text => $FieldLabel,
+    );
+
     $HTMLString .= <<"EOF";
-<input type="checkbox" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabel" $FieldChecked value="1" />
+<input type="checkbox" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" $FieldChecked value="1" />
 EOF
 
     if ( $Param{Mandatory} ) {
