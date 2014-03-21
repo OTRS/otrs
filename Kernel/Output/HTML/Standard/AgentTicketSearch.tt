@@ -15,7 +15,7 @@
         <input type="hidden" name="EmptySearch" value="[% Data.EmptySearch | html %]" id="EmptySearch"/>
         <input type="hidden" name="ShownAttributes" value="" id="ShownAttributes">
         <fieldset class="TableLike">
-            <div class="Clear"></div>
+            <legend>[% Translate("Profiles") | html %]</legend>
             <label>[% Translate("Search template") | html %]:</label>
             <div class="Field">
                 [% Data.ProfilesStrg %]
@@ -35,9 +35,11 @@
                 <input type="checkbox" name="SaveProfile" id="SaveProfile" value="1"/>
             </div>
         </fieldset>
-        <fieldset class="TableLike" id="SearchInsert"></fieldset>
+        <fieldset class="TableLike" id="SearchInsert">
+            <legend>[% Translate("Filters in use") | html %]</legend>
+        </fieldset>
         <fieldset class="TableLike">
-            <div class="Clear"></div>
+            <legend>[% Translate("Aditional filters") | html %]</legend>
             <label>[% Translate("Add another attribute") | html %]:</label>
             <div class="Field">
                 [% Data.AttributesStrg %]
