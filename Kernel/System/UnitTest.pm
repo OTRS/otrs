@@ -153,6 +153,8 @@ sub Run {
                     },
                 );
 
+                push @{ $Self->{NotOkInfo} }, [ $File ];
+
                 # HERE the actual tests are run!!!
                 if ( !eval ${$UnitTestFile} ) {    ## no critic
                     $Self->True( 0, "ERROR: Syntax error in $File: $@" );
@@ -672,16 +674,27 @@ sub _PrintSummary {
     }
     elsif ( $Self->{Output} eq 'ASCII' ) {
         print "=====================================================================\n";
-        print " Product:   $ResultSummary{Product}\n";
-        print " Test Time: $ResultSummary{TimeTaken} s\n";
-        print " Time:      $ResultSummary{Time}\n";
-        print " Host:      $ResultSummary{Host}\n";
-        print " Perl:      $ResultSummary{Perl}\n";
-        print " OS:        $ResultSummary{OS}\n";
-        print " Vendor:    $ResultSummary{Vendor}\n";
-        print " Database:  $ResultSummary{Database}\n";
-        print " TestOk:    $ResultSummary{TestOk}\n";
-        print " TestNotOk: $ResultSummary{TestNotOk}\n";
+        print " Product:     $ResultSummary{Product}\n";
+        print " Test Time:   $ResultSummary{TimeTaken} s\n";
+        print " Time:        $ResultSummary{Time}\n";
+        print " Host:        $ResultSummary{Host}\n";
+        print " Perl:        $ResultSummary{Perl}\n";
+        print " OS:          $ResultSummary{OS}\n";
+        print " Vendor:      $ResultSummary{Vendor}\n";
+        print " Database:    $ResultSummary{Database}\n";
+        print " TestOk:      $ResultSummary{TestOk}\n";
+        print " TestNotOk:   $ResultSummary{TestNotOk}\n";
+
+        if ($ResultSummary{TestNotOk}) {
+            print " FailedTests:\n";
+            FAILEDFILE:
+            for my $FailedFile ( @{ $Self->{NotOkInfo} || [] } ) {
+                my ($File, @Tests) = @{ $FailedFile || [] };
+                next FAILEDFILE if !@Tests;
+                print sprintf "  %s #%s\n", $File, join ", ", @Tests;
+            }
+        }
+
         print "=====================================================================\n";
     }
     return 1;
@@ -767,6 +780,11 @@ sub _Print {
         }
         $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Result} = 'not ok';
         $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Name}   = $Name;
+
+        my $ShortName = $Name;
+        $ShortName =~ s{\(.+\)$}{};
+        push @{ $Self->{NotOkInfo}->[-1] }, sprintf "%s - %s", $Self->{TestCount}, $ShortName;
+
         return;
     }
 }
