@@ -1463,31 +1463,80 @@ sub Run {
             Multiple => 0,
         );
 
-        # get user of own groups
-        my %ShownUsers = $Self->{UserObject}->UserList(
+        # get all users of own groups
+        my %AllUsers = $Self->{UserObject}->UserList(
             Type  => 'Long',
-            Valid => 1,
+            Valid => 0,
         );
         if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
             my %Involved = $Self->{GroupObject}->GroupMemberInvolvedList(
                 UserID => $Self->{UserID},
                 Type   => 'ro',
             );
-            for my $UserID ( sort keys %ShownUsers ) {
+            for my $UserID ( sort keys %AllUsers ) {
                 if ( !$Involved{$UserID} ) {
-                    delete $ShownUsers{$UserID};
+                    delete $AllUsers{$UserID};
                 }
             }
         }
+
+        my @ShownUsers;
+        my %UsersInvalid;
+
+        # get valid users of own groups
+        my %ValidUsers = $Self->{UserObject}->UserList(
+            Type  => 'Long',
+            Valid => 1,
+        );
+
+        USERID:
+        for my $UserID (sort keys %AllUsers) {
+
+            if (!$ValidUsers{$UserID}) {
+                $UsersInvalid{$UserID} = $AllUsers{$UserID};
+                next USERID;
+            }
+
+            push @ShownUsers, {
+                Key   => $UserID,
+                Value => $AllUsers{$UserID},
+            };
+        }
+
+        # also show invalid agents (if any)
+        if (scalar %UsersInvalid) {
+            push @ShownUsers, {
+                Key      => '-',
+                Value    => '_____________________',
+                Disabled => 1,
+            };
+            push @ShownUsers, {
+                Key      => '-',
+                Value    => $Self->{LayoutObject}->{LanguageObject}->Translate('Invalid Users'),
+                Disabled => 1,
+            };
+            push @ShownUsers, {
+                Key      => '-',
+                Value    => '',
+                Disabled => 1,
+            };
+            for my $UserID (sort keys %UsersInvalid) {
+                push @ShownUsers, {
+                    Key   => $UserID,
+                    Value => $UsersInvalid{$UserID},
+                };
+            }
+        }
+
         $Param{UserStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data       => \%ShownUsers,
+            Data       => \@ShownUsers,
             Name       => 'OwnerIDs',
             Multiple   => 1,
             Size       => 5,
             SelectedID => $GetParam{OwnerIDs},
         );
         $Param{CreatedUserStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data       => \%ShownUsers,
+            Data       => \@ShownUsers,
             Name       => 'CreatedUserIDs',
             Multiple   => 1,
             Size       => 5,
@@ -1495,7 +1544,7 @@ sub Run {
         );
         if ( $Self->{ConfigObject}->Get('Ticket::Watcher') ) {
             $Param{WatchUserStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data       => \%ShownUsers,
+                Data       => \@ShownUsers,
                 Name       => 'WatchUserIDs',
                 Multiple   => 1,
                 Size       => 5,
@@ -1504,7 +1553,7 @@ sub Run {
         }
         if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
             $Param{ResponsibleStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data       => \%ShownUsers,
+                Data       => \@ShownUsers,
                 Name       => 'ResponsibleIDs',
                 Multiple   => 1,
                 Size       => 5,
