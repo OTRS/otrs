@@ -21,7 +21,7 @@
 [% RenderBlockStart("CustomerRow") %]
     <label>[% Translate(Data.Key) | html %]:</label>
     <p class="Value FixedValueSmall" title="[% Data.Value | html %]">
-        [% Data.LinkStart %][% Data.ValueShort %][% Data.LinkStop %]
+        [% Data.LinkStart | Interpolate %][% Data.ValueShort %][% Data.LinkStop %]
 [% RenderBlockStart("CustomerRowItem") %]
         <a href="[% Data.URL %]" target="[% Data.Target | html %]">
             <img src="[% Config("Frontend::ImagePath") %][% Data.Image | html %]" border="0" alt="[% Translate(Data.Action) | html %]" title="[% Translate(Data.Alt) | html %]" />
