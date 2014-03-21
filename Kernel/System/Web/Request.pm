@@ -12,6 +12,8 @@ package Kernel::System::Web::Request;
 use strict;
 use warnings;
 
+use CGI ();
+use CGI::Carp;
 use File::Path qw();
 
 use Kernel::System::CheckItem;
@@ -66,12 +68,6 @@ sub new {
     }
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
 
-    # Simple Common Gateway Interface Class
-    use CGI qw(:cgi);
-
-    # send errors to web server error log
-    use CGI::Carp;
-
     # max 5 MB posts
     $CGI::POST_MAX = $Self->{ConfigObject}->Get('WebMaxFileUpload') || 1024 * 1024 * 5; ## no critic
 
@@ -100,8 +96,10 @@ sub Error {
         return;
     }
 
-    return if !cgi_error();
-    return cgi_error() . ' - POST_MAX=' . ( $CGI::POST_MAX / 1024 ) . 'KB';    ## no critic
+    return if !$Self->{Query}->cgi_error();
+    ## no critic
+    return $Self->{Query}->cgi_error() . ' - POST_MAX=' . ( $CGI::POST_MAX / 1024 ) . 'KB';
+    ## use critic
 }
 
 =item GetParam()
