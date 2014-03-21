@@ -15,8 +15,7 @@
         <input type="hidden" name="EmptySearch" value="$QData{"EmptySearch"}" id="EmptySearch"/>
         <input type="hidden" name="ShownAttributes" value="" id="ShownAttributes">
         <fieldset class="TableLike">
-            <legend>$Text{"Profiles"}:</legend>
-            <div class="Clear LegendSeparator"></div>
+            <legend>$Text{"Profiles"}</legend>
             <label>$Text{"Search template"}:</label>
             <div class="Field">
                 $Data{"ProfilesStrg"}
@@ -37,12 +36,10 @@
             </div>
         </fieldset>
         <fieldset class="TableLike" id="SearchInsert">
-            <legend>$Text{"Filters in use"}:</legend>
-            <div class="Clear LegendSeparator"></div>
+            <legend>$Text{"Filters in use"}</legend>
         </fieldset>
         <fieldset class="TableLike">
-            <legend>$Text{"Aditional filters"}:</legend>
-            <div class="Clear LegendSeparator"></div>
+            <legend>$Text{"Aditional filters"}</legend>
             <label>$Text{"Add another attribute"}:</label>
             <div class="Field">
                 $Data{"AttributesStrg"}

@@ -763,8 +763,12 @@ iframe.TextOption.Customer {
     padding-left: 20px;
 }
 
-.LegendSeparator{
-    border-top: 1px solid #ccc;
+#SearchForm legend {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    display: block;
+    width: 100%;
 }
 
 /**
