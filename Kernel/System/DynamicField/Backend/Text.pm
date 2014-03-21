@@ -397,8 +397,16 @@ sub SearchFieldRender {
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldText';
 
+    my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
+        Text => $FieldLabel,
+    );
+
+    my $ValueEscaped = $Param{LayoutObject}->Ascii2Html(
+        Text => $Value,
+    );
+
     my $HTMLString = <<"EOF";
-<input type="text" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabel" value="$Value" />
+<input type="text" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" value="$ValueEscaped" />
 EOF
 
     my $AdditionalText;
