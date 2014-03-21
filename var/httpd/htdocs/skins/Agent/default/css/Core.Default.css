@@ -757,13 +757,8 @@ iframe.TextOption.Customer {
     max-height: 100px;
 }
 
-#SearchForm,
-#AgentCustomerInformationCenterSearchForm > legend{
-    color: #333333;
-    padding-left: 20px;
-}
-
 #SearchForm legend {
+    color: #333333;
     border-bottom: 1px solid #ccc;
     padding-bottom: 5px;
     margin-bottom: 5px;
