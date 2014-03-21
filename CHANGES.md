@@ -51,6 +51,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.6 2014-??-??
+ - 2014-03-21 Fixed bug#[10368](http://bugs.otrs.org/show_bug.cgi?id=10368) - Ticket title isn't shown.
  - 2014-03-21 Updated Japanese translation, thanks to Toshihiro Takehara..
  - 2014-03-21 Fixed bug#[10381](http://bugs.otrs.org/show_bug.cgi?id=10381) - AgentTicket*View has invalid SortBy options.
  - 2014-03-21 Fixed bug#[10383](http://bugs.otrs.org/show_bug.cgi?id=10383) - Missing 'DefaultColumns' SysConfig for AgentTicketSearch view.

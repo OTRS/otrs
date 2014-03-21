@@ -527,6 +527,7 @@ sub Form {
     $Output .= $Self->_Mask(
         TicketNumber => $Ticket{TicketNumber},
         TicketID     => $Self->{TicketID},
+        Title        => $Ticket{Title},
         QueueID      => $Ticket{QueueID},
         NextStates   => $Self->_GetNextStates(
             %GetParam,
@@ -646,9 +647,13 @@ sub SendEmail {
     }
 
     # prepare subject
-    my $TicketNumber = $Self->{TicketObject}->TicketNumberLookup( TicketID => $Self->{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Self->{TicketID},
+        DynamicFields => 1,
+    );
+
     $GetParam{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
-        TicketNumber => $TicketNumber,
+        TicketNumber => $Ticket{TicketNumber},
         Action       => 'Forward',
         Subject      => $GetParam{Subject} || '',
     );
@@ -850,12 +855,12 @@ sub SendEmail {
 
         my $QueueID = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
         my $Output = $Self->{LayoutObject}->Header(
-            Value     => $TicketNumber,
             Type      => 'Small',
             BodyClass => 'Popup',
         );
         $Output .= $Self->_Mask(
-            TicketNumber => $TicketNumber,
+            TicketNumber => $Ticket{TicketNumber},
+            Title        => $Ticket{Title},
             TicketID     => $Self->{TicketID},
             QueueID      => $QueueID,
             NextStates   => $Self->_GetNextStates(

@@ -603,6 +603,7 @@ sub Run {
             $Output .= $Self->_MaskPhone(
                 TicketID     => $Self->{TicketID},
                 TicketNumber => $Tn,
+                Title        => $Ticket{Title},
                 NextStates   => $Self->_GetNextStates(
                     %GetParam,
                 ),
