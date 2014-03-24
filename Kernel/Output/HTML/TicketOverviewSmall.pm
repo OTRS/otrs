@@ -63,26 +63,41 @@ sub new {
         $Self->{StoredFilters} = $StoredFilters;
     }
 
-    # configure columns
-    my @ColumnsEnabled;
-    my @ColumnsAvailable;
+    # get the configured dyanmic fields from the Small Overview setting as a basis
+    my %DefaultDynamicFields
+        = %{ $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewSmall")->{DynamicField} };
 
-    # take general settings if not defined for the screen
+    my %DefaultColumns;
+
+    # enabled dynamic fields should be converted to EnabledColumns format
+    DYNAMICFIELD:
+    for my $DynamicFieldName ( sort keys %DefaultDynamicFields ) {
+        if ( $DefaultDynamicFields{$DynamicFieldName} == 1 ) {
+            $DefaultColumns{ 'DynamicField_' . $DynamicFieldName } = 2;
+        }
+    }
+
+    # take general settings (Frontend::Agent) if not defined for the screen
     if ( !defined $Self->{Config}->{DefaultColumns} ) {
         $Self->{Config}->{DefaultColumns} = $Self->{ConfigObject}->Get('DefaultOverviewColumns');
     }
 
-    # check for default settings
+    # check for default settings specific for this screen, should overide the dynamic fields
     if (
         $Self->{Config}->{DefaultColumns}
         && IsHashRefWithData( $Self->{Config}->{DefaultColumns} )
         )
     {
-        @ColumnsAvailable = grep { $Self->{Config}->{DefaultColumns}->{$_} ne '0' }
-            sort keys %{ $Self->{Config}->{DefaultColumns} };
-        @ColumnsEnabled = grep { $Self->{Config}->{DefaultColumns}->{$_} eq '2' }
-            sort _DefaultColumnSort keys %{ $Self->{Config}->{DefaultColumns} };
+        %DefaultColumns = ( %DefaultColumns, %{ $Self->{Config}->{DefaultColumns} } )
     }
+
+    # configure columns
+    my @ColumnsEnabled;
+    my @ColumnsAvailable;
+
+    @ColumnsAvailable = grep { $DefaultColumns{$_} ne '0' } sort keys %DefaultColumns;
+    @ColumnsEnabled   = grep { $DefaultColumns{$_} eq '2' }
+        sort _DefaultColumnSort keys %DefaultColumns;
 
     # if preference settings are available, take them
     if ( $Preferences{ $Self->{PrefKeyColumns} } ) {
