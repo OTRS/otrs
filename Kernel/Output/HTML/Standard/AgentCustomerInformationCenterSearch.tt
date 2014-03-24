@@ -12,7 +12,7 @@
         <input type="hidden" name="Action" value="[% Env("Action") %]"/>
         <input type="hidden" name="Subaction" value="Redirect"/>
         <fieldset class="TableLike">
-            <label>[% Translate("Customer ID") | html %]:</label>
+            <label>[% Translate("Customer") | html %]:</label>
             <div class="Field">
                 <input type="text" id="AgentCustomerInformationCenterSearchCustomerID" class="W90pc" />
             </div>
