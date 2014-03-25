@@ -34,7 +34,7 @@
                 <h2>[% Config("Ticket::Hook") %]</h2>
                 <div>
                     <label for="TicketNumber">[% Config("Ticket::Hook") %]</label>
-                    <input title="[% Config("Ticket::Hook") %]" type="text" name="TicketNumber"id="TicketNumber" size="30" value="[% Data.TicketNumber | html %]"/>
+                    <input title="[% Config("Ticket::Hook") | html %]" type="text" name="TicketNumber"id="TicketNumber" size="30" value="[% Data.TicketNumber | html %]"/>
                     <p>[% Translate("e. g. 10*5155 or 105658*") | html %]</p>
                 </div>
                 <div>

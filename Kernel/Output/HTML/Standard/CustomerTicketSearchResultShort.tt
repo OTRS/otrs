@@ -82,7 +82,7 @@
                     <td class="Ticket"><a href="[% Env("Baselink") %]Action=CustomerTicketZoom;TicketNumber=[% Data.TicketNumber | uri %]" class="MasterActionLink">[% Data.TicketNumber | html %]</a></td>
                     <td class="Status">[% Translate(Data.State) | html %]</td>
                     <td class="Title"><div><h2>[% Data.Subject | truncate(60) | html %]</h2>&nbsp;-&nbsp; [% Data.Body | truncate(200) | html %]</div></td>
-                    <td class="Age" title="[% Data.Created | Localize("TimeShort") %]">[% Data.CustomerAge | truncate(20) | html %]</td>
+                    <td class="Age" title="[% Data.Created | Localize("TimeShort") | html %]">[% Data.CustomerAge | truncate(20) | html %]</td>
 [% RenderBlockStart("RecordDynamicField") %]
                     <td class="DynamicField" title="[% Data.Title | html %]">[% Data.Value %]</td>
 [% RenderBlockEnd("RecordDynamicField") %]

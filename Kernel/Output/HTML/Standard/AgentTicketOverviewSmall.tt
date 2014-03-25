@@ -73,14 +73,14 @@
 [% RenderBlockStart("OverviewNavBarPageTicketHeader") %]
 [% RenderBlockStart("OverviewNavBarPageTicketNumber") %]
                     <th class="TicketNumber [% Data.CSS | html %]">
-                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=TicketNumber;OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title %]">[% Config("Ticket::Hook") %]</a>
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=TicketNumber;OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title | html %]">[% Config("Ticket::Hook") %]</a>
                     </th>
 [% RenderBlockEnd("OverviewNavBarPageTicketNumber") %]
 [% RenderBlockStart("OverviewNavBarPageColumn") %]
                     <th class="OverviewHeader [% Data.HeaderColumnName | html %] [% Data.CSS | html %]">
 
 [% RenderBlockStart("OverviewNavBarPageColumnFilter") %]
-                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle %]">
+                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
                             <i class="icon-filter"></i>
                         </a>
                         <div class="ColumnSettingsContainer DontPrint">
@@ -101,11 +101,11 @@ Core.Agent.TableFilters.InitCustomerUserAutocomplete( $(".CustomerUserAutoComple
 
                             </div>
                         </div>
-                        <span class="Gray" title="[% Data.Title %]">[% Data.ColumnNameTranslated | html %]</span>
+                        <span class="Gray" title="[% Data.Title | html %]">[% Data.ColumnNameTranslated | html %]</span>
 [% RenderBlockEnd("OverviewNavBarPageColumnFilter") %]
 
 [% RenderBlockStart("OverviewNavBarPageColumnFilterLink") %]
-                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle %]">
+                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
                             <i class="icon-filter"></i>
                         </a>
                         <div class="ColumnSettingsContainer DontPrint">
@@ -137,15 +137,15 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 [% RenderBlockEnd("ContentLargeTicketGenericHeaderColumnFilterLinkUserSearch") %]
                             </div>
                         </div>
-                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=[% Data.ColumnName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title %]">[% Data.ColumnNameTranslated | html %]</a>
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=[% Data.ColumnName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title | html %]">[% Data.ColumnNameTranslated | html %]</a>
 [% RenderBlockEnd("OverviewNavBarPageColumnFilterLink") %]
 
 [% RenderBlockStart("OverviewNavBarPageColumnLink") %]
-                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=[% Data.ColumnName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title %]">[% Data.ColumnNameTranslated | html %]</a>
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=[% Data.ColumnName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title | html %]">[% Data.ColumnNameTranslated | html %]</a>
 [% RenderBlockEnd("OverviewNavBarPageColumnLink") %]
 
 [% RenderBlockStart("OverviewNavBarPageColumnEmpty") %]
-                        <span class="Gray" title="[% Data.Title %]">[% Data.ColumnNameTranslated | html %]</span>
+                        <span class="Gray" title="[% Data.Title | html %]">[% Data.ColumnNameTranslated | html %]</span>
 [% RenderBlockEnd("OverviewNavBarPageColumnEmpty") %]
 
                     </th>
@@ -155,14 +155,14 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 [% RenderBlockStart("OverviewNavBarPageDynamicField") %]
                     <th class="OverviewHeader [% Data.HeaderColumnName | html %] DynamicField Last [% Data.CSS | html %]">
 [% RenderBlockStart("OverviewNavBarPageDynamicFieldSortable") %]
-                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title %]">[% Translate(Data.Label) | html %]</a>
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title | html %]">[% Translate(Data.Label) | html %]</a>
 [% RenderBlockEnd("OverviewNavBarPageDynamicFieldSortable") %]
 [% RenderBlockStart("OverviewNavBarPageDynamicFieldNotSortable") %]
-                        <span class="Gray" title="[% Data.Title %]">[% Translate(Data.Label) | html %]</span>
+                        <span class="Gray" title="[% Data.Title | html %]">[% Translate(Data.Label) | html %]</span>
 [% RenderBlockEnd("OverviewNavBarPageDynamicFieldNotSortable") %]
 
 [% RenderBlockStart("OverviewNavBarPageDynamicFieldFiltrableSortable") %]
-                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle %]">
+                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
                             <i class="icon-filter"></i>
                         </a>
                         <div class="ColumnSettingsContainer DontPrint">
@@ -170,11 +170,11 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
                                 [% Data.ColumnFilterStrg %]
                             </div>
                         </div>
-                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title %]">[% Data.Label | html %]</a>
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title | html %]">[% Data.Label | html %]</a>
 [% RenderBlockEnd("OverviewNavBarPageDynamicFieldFiltrableSortable") %]
 
 [% RenderBlockStart("OverviewNavBarPageDynamicFieldFiltrableNotSortable") %]
-                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle %]">
+                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
                             <i class="icon-filter"></i>
                         </a>
                         <div class="ColumnSettingsContainer DontPrint">
@@ -182,7 +182,7 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
                                 [% Data.ColumnFilterStrg %]
                             </div>
                         </div>
-                        <span class="Gray" title="[% Data.Title %]">[% Data.Label | html %]</span>
+                        <span class="Gray" title="[% Data.Title | html %]">[% Data.Label | html %]</span>
 [% RenderBlockEnd("OverviewNavBarPageDynamicFieldFiltrableNotSortable") %]
 
                     </th>
@@ -199,10 +199,10 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]">[% Translate(Data.Label) | html %]</a>
 #[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field1_Sortable") %]
 #[% RenderBlockStart("OverviewNavBarPageDynamicField_Field1_NotSortable") %]
-#                        <span class="Gray" title="[% Data.Title %]">[% Translate(Data.Label) | html %]</span>
+#                        <span class="Gray" title="[% Data.Title | html %]">[% Translate(Data.Label) | html %]</span>
 #[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field1_NotSortable") %]
 #[% RenderBlockStart("OverviewNavBarPageDynamicField_Field1_FiltrableSortable") %]
-#                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle %]">
+#                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
 #                            <i class="icon-filter"></i>
 #                        </a>
 #                        <div class="ColumnSettingsContainer DontPrint">
@@ -210,10 +210,10 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #                                [% Data.ColumnFilterStrg %]
 #                            </div>
 #                        </div>
-#                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title %]">[% Data.Label | html %]</a>
+#                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title | html %]">[% Data.Label | html %]</a>
 #[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field1_FiltrableSortable") %]
 #[% RenderBlockStart("OverviewNavBarPageDynamicField_Field1_FiltrableNotSortable") %]
-#                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle %]">
+#                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
 #                            <i class="icon-filter"></i>
 #                        </a>
 #                        <div class="ColumnSettingsContainer DontPrint">
@@ -221,7 +221,7 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #                                [% Data.ColumnFilterStrg %]
 #                            </div>
 #                        </div>
-#                        <span class="Gray" title="[% Data.Title %]">[% Data.Label | html %]</span>
+#                        <span class="Gray" title="[% Data.Title | html %]">[% Data.Label | html %]</span>
 #[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field1_FiltrableNotSortable") %]
 #                    </th>
 #[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field1") %]
@@ -231,10 +231,10 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]">[% Translate(Data.Label) | html %]</a>
 #[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field2_Sortable") %]
 #[% RenderBlockStart("OverviewNavBarPageDynamicField_Field2_NotSortable") %]
-#                        <span class="Gray" title="[% Data.Title %]">[% Translate(Data.Label) | html %]</span>
+#                        <span class="Gray" title="[% Data.Title | html %]">[% Translate(Data.Label) | html %]</span>
 #[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field2_NotSortable") %]
 #[% RenderBlockStart("OverviewNavBarPageDynamicField_Field2_FiltrableSortable") %]
-#                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle %]">
+#                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
 #                            <i class="icon-filter"></i>
 #                        </a>
 #                        <div class="ColumnSettingsContainer DontPrint">
@@ -242,10 +242,10 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #                                [% Data.ColumnFilterStrg %]
 #                            </div>
 #                        </div>
-#                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title %]">[% Data.Label | html %]</a>
+#                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title | html %]">[% Data.Label | html %]</a>
 #[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field2_FiltrableSortable") %]
 #[% RenderBlockStart("OverviewNavBarPageDynamicField_Field2_FiltrableNotSortable") %]
-#                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle %]">
+#                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
 #                            <i class="icon-filter"></i>
 #                        </a>
 #                        <div class="ColumnSettingsContainer DontPrint">
@@ -253,7 +253,7 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #                                [% Data.ColumnFilterStrg %]
 #                            </div>
 #                        </div>
-#                        <span class="Gray" title="[% Data.Title %]">[% Data.Label | html %]</span>
+#                        <span class="Gray" title="[% Data.Title | html %]">[% Data.Label | html %]</span>
 #[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field2_FiltrableNotSortable") %]
 #[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field2") %]
 #                    </th>
@@ -429,7 +429,7 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
 [% RenderBlockEnd("RecordTicketColumnTranslatable") %]
 [% RenderBlockStart("RecordTicketColumnTime") %]
                     <td>
-                        <div title="[% Data.GenericValue | Localize("TimeShort") %]">[% Data.GenericValue | Localize("TimeShort") %]</div>
+                        <div title="[% Data.GenericValue | Localize("TimeShort") | html %]">[% Data.GenericValue | Localize("TimeShort") %]</div>
                     </td>
 [% RenderBlockEnd("RecordTicketColumnTime") %]
 [% RenderBlockStart("RecordTicketColumnEscalation") %]

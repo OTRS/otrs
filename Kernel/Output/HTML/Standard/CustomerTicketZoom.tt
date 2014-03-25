@@ -57,7 +57,7 @@
                         <h3><a href="[% Env("Baselink") %]Action=[% Env("Action") %];TicketNumber=[% Data.TicketNumber | uri %];ArticleID=[% Data.ArticleID | uri %]">[% Data.FromRealname | html %] &ndash; <span title="[% Data.Subject | html %]">[% Data.Subject | html %]</span></a></h3>
 [% RenderBlockEnd("ArticleExpanded") %]
 
-                        <span class="Age" title="[% Data.Created | Localize("TimeLong") %]">[% Data.Age %]</span>
+                        <span class="Age" title="[% Data.Created | Localize("TimeLong") | html %]">[% Data.Age %]</span>
                         <div class="Clear"></div>
                     </div>
                     <input type="hidden" name="ArticleState" value="untouched" />

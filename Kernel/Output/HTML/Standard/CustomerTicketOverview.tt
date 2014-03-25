@@ -112,7 +112,7 @@
                     <td class="Owner">[% Data.OwnerName | html %]</td>
 [% RenderBlockEnd("RecordOwner") %]
 [% RenderBlockStart("RecordQueue") %]
-                    <td class="Queue" title="[% Data.Queue %]">[% Data.Queue | truncate(20) | html %]</td>
+                    <td class="Queue" title="[% Data.Queue | html %]">[% Data.Queue | truncate(20) | html %]</td>
 [% RenderBlockEnd("RecordQueue") %]
 [% RenderBlockStart("RecordDynamicField") %]
                     <td>
@@ -153,7 +153,7 @@
 #                        </div>
 #                    </td>
 #[% RenderBlockEnd("RecordDynamicField_Field2") %]
-                    <td class="Age" title="[% Data.Created | Localize("TimeShort") %]">[% Data.CustomerAge | truncate(20) | html %]</td>
+                    <td class="Age" title="[% Data.Created | Localize("TimeShort") | html %]">[% Data.CustomerAge | truncate(20) | html %]</td>
                 </tr>
 [% RenderBlockEnd("Record") %]
 [% WRAPPER JSOnDocumentComplete %]
