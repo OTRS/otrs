@@ -326,7 +326,7 @@
                         <div class="Clear"></div>
 [% RenderBlockEnd("TextArea") %]
 [% RenderBlockStart("Option") %]
-                        <label for="[% Data.Name %]">[% Translate(Data.Label) | html %] [% Translate(Data.Key) | html %]:</label>
+                        <label for="[% Data.Name | html %]">[% Translate(Data.Label) | html %] [% Translate(Data.Key) | html %]:</label>
                         <div class="Field">
                             [% Data.Option %]
                             <p class="FieldExplanation">
