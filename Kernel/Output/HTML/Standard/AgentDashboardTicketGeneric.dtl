@@ -42,7 +42,7 @@
 <!-- dtl:block:ContentLargeTicketGenericHeaderMeta -->
                 <th class="DashboardHeader $QData{"CSS"}">
 <!-- dtl:block:ContentLargeTicketGenericHeaderMetaLink -->
-                    <a id="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" name="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" href="#" title="$Data{"Title"}" ></a>
+                    <a id="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" name="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" href="#" title="$QData{"Title"}" ></a>
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
@@ -87,7 +87,7 @@
 <!-- dtl:block:ContentLargeTicketGenericHeaderTicketHeader -->
 <!-- dtl:block:ContentLargeTicketGenericHeaderTicketNumberColumn -->
                 <th class="DashboardHeader TicketNumber $QData{"CSS"}" data-column="TicketNumber">
-                    <a id="TicketNumberOverviewControl$QData{"Name"}" name="TicketNumberOverviewControl$QData{"Name"}" href="#" title="$Data{"Title"}" >$Config{"Ticket::Hook"}</a>
+                    <a id="TicketNumberOverviewControl$QData{"Name"}" name="TicketNumberOverviewControl$QData{"Name"}" href="#" title="$QData{"Title"}" >$Config{"Ticket::Hook"}</a>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#TicketNumberOverviewControl$QData{"Name"}').unbind('click').bind('click', function (Event) {
@@ -126,7 +126,7 @@
                 <th class="DashboardHeader $QData{"HeaderColumnName"} $QData{"CSS"}" data-column="$QData{"HeaderColumnName"}">
 
 <!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLink -->
-                    <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
+                    <a href="#" class="ColumnSettingsTrigger" title="$QData{"FilterTitle"}">
                         <i class="icon-filter"></i>
                     </a>
                     <div class="ColumnSettingsContainer">
@@ -158,7 +158,7 @@ Core.Agent.Dashboard.InitUserAutocomplete( $(".UserAutoComplete") );
                         </div>
                     </div>
 
-                    <a id="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" name="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" href="#" title="$Data{"Title"}" >$QData{"HeaderNameTranslated"}</a>
+                    <a id="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" name="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" href="#" title="$QData{"Title"}" >$QData{"HeaderNameTranslated"}</a>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#ColumnFilter$QData{"HeaderColumnName"}$QData{"Name"}').unbind('change').bind('change', function(){
@@ -244,7 +244,7 @@ Core.Agent.Dashboard.InitUserAutocomplete( $(".UserAutoComplete") );
 <!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilterLink -->
 
 <!-- dtl:block:ContentLargeTicketGenericHeaderColumnLink -->
-                    <a id="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" name="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" href="#" title="$Data{"Title"}" >$QData{"HeaderNameTranslated"}</a>
+                    <a id="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" name="$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}" href="#" title="$QData{"Title"}" >$QData{"HeaderNameTranslated"}</a>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     $('#$QData{"HeaderColumnName"}OverviewControl$QData{"Name"}').unbind('click').bind('click', function (Event) {
@@ -292,7 +292,7 @@ Core.Agent.Dashboard.InitUserAutocomplete( $(".UserAutoComplete") );
 <!-- dtl:block:ContentLargeTicketGenericHeaderColumnLink -->
 
 <!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilter -->
-                    <a href="#" class="ColumnSettingsTrigger" title="$Data{"FilterTitle"}">
+                    <a href="#" class="ColumnSettingsTrigger" title="$QData{"FilterTitle"}">
                         <i class="icon-filter"></i>
                     </a>
                     <div class="ColumnSettingsContainer">
@@ -354,11 +354,11 @@ Core.Agent.Dashboard.InitCustomerUserAutocomplete( $(".CustomerUserAutoComplete"
     });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
-                    <span class="Gray" title="$Data{"Title"}" >$QData{"HeaderNameTranslated"}</span>
+                    <span class="Gray" title="$QData{"Title"}" >$QData{"HeaderNameTranslated"}</span>
 <!-- dtl:block:ContentLargeTicketGenericHeaderColumnFilter -->
 
 <!-- dtl:block:ContentLargeTicketGenericHeaderColumnEmpty -->
-                    <span class="Gray" title="$Data{"Title"}" >$Data{"HeaderNameTranslated"}</span>
+                    <span class="Gray" title="$QData{"Title"}" >$Data{"HeaderNameTranslated"}</span>
 <!-- dtl:block:ContentLargeTicketGenericHeaderColumnEmpty -->
                 </th>
 <!-- dtl:block:ContentLargeTicketGenericHeaderColumn -->
