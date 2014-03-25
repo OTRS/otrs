@@ -65,7 +65,7 @@ sub new {
 
     # get the configured dyanmic fields from the Small Overview setting as a basis
     my %DefaultDynamicFields
-        = %{ $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewSmall")->{DynamicField} };
+        = %{ $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewSmall")->{DynamicField} || {} };
 
     my %DefaultColumns;
 
@@ -73,31 +73,22 @@ sub new {
     DYNAMICFIELD:
     for my $DynamicFieldName ( sort keys %DefaultDynamicFields ) {
         if ( $DefaultDynamicFields{$DynamicFieldName} == 1 ) {
+
+            # set field as available and enabled by default
             $DefaultColumns{ 'DynamicField_' . $DynamicFieldName } = 2;
         }
     }
 
     # take general settings (Frontend::Agent) if not defined for the screen
-    if ( !defined $Self->{Config}->{DefaultColumns} ) {
-        $Self->{Config}->{DefaultColumns} = $Self->{ConfigObject}->Get('DefaultOverviewColumns');
-    }
+    $Self->{Config}->{DefaultColumns} //= $Self->{ConfigObject}->Get('DefaultOverviewColumns');
 
     # check for default settings specific for this screen, should overide the dynamic fields
-    if (
-        $Self->{Config}->{DefaultColumns}
-        && IsHashRefWithData( $Self->{Config}->{DefaultColumns} )
-        )
-    {
-        %DefaultColumns = ( %DefaultColumns, %{ $Self->{Config}->{DefaultColumns} } )
-    }
+    %DefaultColumns = ( %DefaultColumns, %{ $Self->{Config}->{DefaultColumns} || {} } );
 
     # configure columns
-    my @ColumnsEnabled;
-    my @ColumnsAvailable;
-
-    @ColumnsAvailable = grep { $DefaultColumns{$_} ne '0' } sort keys %DefaultColumns;
-    @ColumnsEnabled   = grep { $DefaultColumns{$_} eq '2' }
-        sort _DefaultColumnSort keys %DefaultColumns;
+    my @ColumnsAvailable = grep { $DefaultColumns{$_} ne '0' } sort keys %DefaultColumns;
+    my @ColumnsEnabled
+        = grep { $DefaultColumns{$_} eq '2' } sort _DefaultColumnSort keys %DefaultColumns;
 
     # if preference settings are available, take them
     if ( $Preferences{ $Self->{PrefKeyColumns} } ) {
