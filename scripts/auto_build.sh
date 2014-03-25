@@ -34,7 +34,6 @@ PACKAGE_TMP_SPEC="/tmp/$PACKAGE.spec"
 RPM_BUILD="rpmbuild"
 #RPM_BUILD="rpm"
 
-SUPPORT_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/Support-1.5.4.opm"
 #IPHONE_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/iPhoneHandle-1.1.1.opm"
 MANUAL_EN="http://ftp.otrs.org/pub/otrs/doc/doc-admin/3.3/en/pdf/otrs_admin_book.pdf"
 #MANUAL_DE="http://ftp.otrs.org/pub/otrs/doc/doc-admin/3.2/de/pdf/otrs_admin_book.pdf"
@@ -161,11 +160,6 @@ bin/otrs.CheckSum.pl -a create
 
 # add pre installed packages
 mkdir var/packages/
-
-if test $SUPPORT_PACKAGE; then
-    wget "$SUPPORT_PACKAGE" || exit 1;
-    mv Support*.opm var/packages/
-fi
 
 if test $IPHONE_PACKAGE; then
     wget "$IPHONE_PACKAGE" || exit 1;
