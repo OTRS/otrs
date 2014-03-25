@@ -333,6 +333,15 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
         $('#TreeSearch').find('input').bind('keyup', function() {
             $TreeObj.jstree("search", $(this).val());
+
+            // make sure subtrees of matches nodes are expandable
+            $('.jstree-search')
+                .parent()
+                .removeClass('jstree-open')
+                .addClass('jstree-closed')
+                .find('ins').click(function() {
+                    $(this).nextAll('ul').find('li').show();
+                });
         });
 
         $('#TreeSearch').find('span').bind('click', function() {
