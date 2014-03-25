@@ -145,18 +145,18 @@ Core.Agent.TicketAction = (function (TargetNS) {
         });
 
         // check if spell check is being used
-        if (Core.Config.Get('SpellChecker') && Core.Config.Get('NeedSpellCheck')) {
+        if (parseInt(Core.Config.Get('SpellChecker'), 10) === 1 && parseInt(Core.Config.Get('NeedSpellCheck'), 10) === 1) {
 
-            Core.Config.Set('TextIsSpellChecked', 0);
-            $('#RichTextField').on('click', '.cke_button__spellcheck', function() {
-                Core.Config.Set('TextIsSpellChecked', 1);
+            Core.Config.Set('TextIsSpellChecked', '0');
+            $('#RichTextField, .RichTextField').on('click', '.cke_button__spellcheck', function() {
+                Core.Config.Set('TextIsSpellChecked', '1');
             });
             $('#OptionSpellCheck').bind('click', function() {
-                Core.Config.Set('TextIsSpellChecked', 1);
+                Core.Config.Set('TextIsSpellChecked', '1');
             });
 
             Core.Form.Validate.SetSubmitFunction($('form[name=compose]'), function(Form) {
-                if ( !$('#RichText').hasClass('ValidationIgnore') && !Core.Config.Get('TextIsSpellChecked') ) {
+                if ( $('#RichText').val() && !$('#RichText').hasClass('ValidationIgnore') && parseInt(Core.Config.Get('TextIsSpellChecked'), 10) === 0 ) {
                     Core.UI.Dialog.ShowContentDialog("<p>Please perform a spell check on the the text first.</p>", "Spell check required", '150px', 'Center', true, [
                         {
                             Label: '<span>' + Core.Config.Get('DialogCloseMsg') + '</span>',
