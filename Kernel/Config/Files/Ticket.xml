@@ -4781,7 +4781,7 @@
                     <Item Key="CSSClassOpenTicket">OpenTicket</Item>
                     <Item Key="CSSClassNoOpenTicket">NoOpenTicket</Item>
                     <Item Key="Target">_blank</Item>
-                    <Item Key="Text" Translatable="1">Open tickets</Item>
+                    <Item Key="Text" Translatable="1">Open tickets (customer)</Item>
                     <Item Key="Action">AgentTicketSearch</Item>
                     <Item Key="Subaction">Search</Item>
                 </Hash>
@@ -4800,7 +4800,7 @@
                     <Item Key="CSSClassOpenTicket">OpenTicket</Item>
                     <Item Key="CSSClassNoOpenTicket">NoOpenTicket</Item>
                     <Item Key="Target">_blank</Item>
-                    <Item Key="Text" Translatable="1">Open tickets of customer</Item>
+                    <Item Key="Text" Translatable="1">Open tickets (customer user)</Item>
                     <Item Key="Action">AgentTicketSearch</Item>
                     <Item Key="Subaction">Search</Item>
                 </Hash>
@@ -4819,7 +4819,7 @@
                     <Item Key="CSSClassOpenTicket">OpenTicket</Item>
                     <Item Key="CSSClassNoOpenTicket">NoOpenTicket</Item>
                     <Item Key="Target">_blank</Item>
-                    <Item Key="Text" Translatable="1">Closed tickets</Item>
+                    <Item Key="Text" Translatable="1">Closed tickets (customer)</Item>
                     <Item Key="Action">AgentTicketSearch</Item>
                     <Item Key="Subaction">Search</Item>
                 </Hash>
@@ -4838,7 +4838,7 @@
                     <Item Key="CSSClassOpenTicket">OpenTicket</Item>
                     <Item Key="CSSClassNoOpenTicket">NoOpenTicket</Item>
                     <Item Key="Target">_blank</Item>
-                    <Item Key="Text" Translatable="1">Closed tickets of customer</Item>
+                    <Item Key="Text" Translatable="1">Closed tickets (customer user)</Item>
                     <Item Key="Action">AgentTicketSearch</Item>
                     <Item Key="Subaction">Search</Item>
                 </Hash>
