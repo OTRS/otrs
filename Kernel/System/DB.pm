@@ -153,41 +153,6 @@ sub new {
         }
     }
 
-    # Check for registered listener objects
-    $Self->{DBListeners} = [];
-
-    my $DBListeners = $Self->{ConfigObject}->Get('DB::DBListener');
-
-    if ( IsHashRefWithData($DBListeners) ) {
-
-        KEY:
-        for my $Key ( sort keys %{$DBListeners} ) {
-
-            if ( IsHashRefWithData( $DBListeners->{$Key} ) && $DBListeners->{$Key}->{Object} ) {
-                my $Object = $DBListeners->{$Key}->{Object};
-                if ( !$Self->{MainObject}->Require($Object) ) {
-                    $Self->{'LogObject'}->Log(
-                        'Priority' => 'error',
-                        'Message'  => "Could not load module $Object",
-                    );
-
-                    next KEY;
-                }
-                my $Instance = $Object->new( %{$Self} );
-                if ( ref $Instance ne $Object ) {
-                    $Self->{'LogObject'}->Log(
-                        'Priority' => 'error',
-                        'Message'  => "Could not instantiate module $Object",
-                    );
-
-                    next KEY;
-                }
-
-                push @{ $Self->{DBListeners} }, $Instance;
-            }
-        }
-    }
-
     # do database connect
     if ( !$Param{AutoConnectNo} ) {
         return if !$Self->Connect();
@@ -465,10 +430,6 @@ sub Do {
         );
     }
 
-    for my $DBListener ( @{ $Self->{DBListeners} } ) {
-        $DBListener->PreDo( SQL => $Param{SQL}, Bind => \@Array );
-    }
-
     # send sql to database
     if ( !$Self->{dbh}->do( $Param{SQL}, undef, @Array ) ) {
         $Self->{LogObject}->Log(
@@ -477,10 +438,6 @@ sub Do {
             Message  => "$DBI::errstr, SQL: '$Param{SQL}'",
         );
         return;
-    }
-
-    for my $DBListener ( @{ $Self->{DBListeners} } ) {
-        $DBListener->PostDo( SQL => $Param{SQL}, Bind => \@Array );
     }
 
     return 1;
@@ -596,10 +553,6 @@ sub Prepare {
         }
     }
 
-    for my $DBListener ( @{ $Self->{DBListeners} } ) {
-        $DBListener->PrePrepare( SQL => $SQL, Bind => \@Array );
-    }
-
     # do
     if ( !( $Self->{Cursor} = $Self->{dbh}->prepare($SQL) ) ) {
         $Self->{LogObject}->Log(
@@ -617,10 +570,6 @@ sub Prepare {
             Message  => "$DBI::errstr, SQL: '$SQL'",
         );
         return;
-    }
-
-    for my $DBListener ( @{ $Self->{DBListeners} } ) {
-        $DBListener->PostPrepare( SQL => $SQL, Bind => \@Array );
     }
 
     # slow log feature
