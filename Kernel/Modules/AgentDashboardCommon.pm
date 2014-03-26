@@ -671,7 +671,13 @@ sub Run {
     # add translations for the allocation lists for regular columns
     my $Columns = $Self->{ConfigObject}->Get('DefaultOverviewColumns') || {};
     if ( $Columns && IsHashRefWithData($Columns) ) {
+
+        COLUMN:
         for my $Column ( sort keys %{$Columns} ) {
+
+            # dynamic fields will be translated in the next block
+            next COLUMN if $Column =~ m{ \A DynamicField_ }xms;
+
             $Self->{LayoutObject}->Block(
                 Name => 'ColumnTranslation',
                 Data => {
