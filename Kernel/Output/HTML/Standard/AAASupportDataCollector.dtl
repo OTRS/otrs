@@ -1,0 +1,225 @@
+# --
+# AAASupportDataCollector.dtl - $Text variable file
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+# This file contains all translatable strings of the SupportDataCollector plugins.
+
+# PluginBase.pm Status codes
+$Text{"Unknown"}
+$Text{"Information"}
+$Text{"OK"}
+$Text{"Warning"}
+$Text{"Problem"}
+
+# Plugin display groups
+$Text{"Webserver"}
+$Text{"Database"}
+$Text{"Operating System"}
+$Text{"OTRS"}
+
+# Database/TablePresence.pm
+$Text{"Table Presence"}
+$Text{"Internal Error: Could not open file."}
+$Text{"Table Check"}
+$Text{"Internal Error: Could not read file."}
+$Text{"Tables found which are not present in the database."}
+
+# Database/mssql/Size.pm
+$Text{"Database Size"}
+$Text{"Could not determine database size."}
+
+# Database/mssql/Version.pm
+$Text{"Database Version"}
+$Text{"Could not determine database version."}
+
+# Database/mysql/Charset.pm
+$Text{"Client Connection Charset"}
+$Text{"Setting character_set_client needs to be utf8."}
+$Text{"Server Database Charset"}
+$Text{"Setting character_set_database needs to be UNICODE or UTF8."}
+$Text{"Table Charset"}
+$Text{"There were tables found which no not have utf8 as charset."}
+
+# Database/mysql/MaxAllowedPacket.pm
+$Text{"Maximum Query Size"}
+$Text{"The setting 'max_allowed_packet' must be higher than 20 MB."}
+
+# Database/mysq/Performance.pm
+$Text{"Query Cache Size"}
+$Text{"The setting 'query_cache_size' should be used (higher than 10 MB but not more than 512 MB)."}
+
+# Database/mysql/Size.pm
+
+# Database/mysql/StorageEngine.pm
+$Text{"Default Storage Engine"}
+$Text{"Tables with a different storage engine than the default engine were found."}
+
+# Database/mysql/TableStatus.pm
+$Text{"Table Status"}
+# add @Problems
+$Text{"Tables found which do not have a regular status."}
+
+# Database/mysql/Version.pm
+$Text{"MySQL 5.x or higher is required."}
+
+# Database/oracle/NLS.pm
+$Text{"NLS_LANG Setting"}
+$Text{"NLS_LANG must be set to utf8 (e.g. german_germany.utf8)."}
+$Text{"NLS_DATE_FORMAT Setting"}
+$Text{"NLS_DATE_FORMAT must be set to 'YYYY-MM-DD HH24:MI:SS'."}
+$Text{"NLS_DATE_FORMAT Setting SQL Check"}
+
+# Database/oracle/version.pm
+
+# Database/postgresql/Charset.pm
+$Text{"Setting client_encoding needs to be UNICODE or UTF8."}
+$Text{"Server Database Charset"}
+$Text{"Setting server_encoding needs to be UNICODE or UTF8."}
+
+# Database/postgresql/DateStyle.pm
+$Text{"Date Format"}
+$Text{"Setting DateStyle needs to be ISO."}
+
+# Database/postgresql/Size.pm
+
+# Database/postgresql/Version.pm
+$Text{"PostgreSQL 8.x or higher is required."}
+
+# OS/DiskPartitionOTRS
+$Text{"OTRS Disk Partition"}
+
+# OS/DiskSpace.pm
+#$Text{"Disk Usage"}
+#$Text{"The partition where OTRS is located is almost full."}
+#$Text{"The partition where OTRS is located has no disk space problems."}
+
+# OS/DiskSpacePartitions.pm
+$Text{"Disk Partitions Usage"}
+
+# OS/Distribution.pm
+$Text{"Distribution"}
+$Text{"Could not determine distribution."}
+
+# OS/KernelVersion.pm
+$Text{"Kernel Version"}
+$Text{"Could not determine kernel version."}
+
+# OS/Load.pm
+$Text{"Load"}
+$Text{"The load should be at maximum, the number of procesors the system have (e.g. a load of 8 or less on a 8 CPUs system is OK."}
+$Text{"Could not determine system load."}
+
+# OS/PerlModules.pm
+$Text{"Perl Modules"}
+$Text{"Not all required Perl modules are correctly installed."}
+
+# OS/PerlVersion.pm
+$Text{"Perl Version"}
+
+# OS/Swap.pm
+$Text{"Free Swap Space (%)"}
+$Text{"No Swap Enabled."}
+$Text{"Used Swap Space (MB)"}
+$Text{"There should be more than 60% free swap space."}
+$Text{"There should be no more than 200 MB swap space used."}
+
+# OTRS/ConfigSettings.pm
+$Text{"Config Settings"}
+$Text{"Could not determine value."}
+
+# OTRS/DatabaseRecords.pm
+$Text{"Database Records"}
+$Text{"Tickets"}
+$Text{"Ticket History Entries"}
+$Text{"Articles"}
+$Text{"Attachments (DB, Without HTML)"}
+$Text{"Customers With At Least One Ticket"}
+$Text{"Queues"}
+$Text{"Agents"}
+$Text{"Roles"}
+$Text{"Groups"}
+$Text{"Dynamic Fields"}
+$Text{"Dynamic Field Values"}
+$Text{"GenericInterface Webservices"}
+$Text{"Processes"}
+$Text{"Months Between First And Last Ticket"}
+$Text{"Tickets Per Month (avg)"}
+
+# OTRS/DefaultSoapUser.pm
+$Text{"Default SOAP Username and Password"}
+$Text{"Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it."}
+
+# OTRS/DefsultUser.pm
+$Text{"Default Admin Password"}
+$Text{"Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account."}
+
+# OTRS/ErrorLog.pm
+$Text{"Error Log"}
+$Text{"There are error reports in your system log."}
+
+# OTRS/FileSystemWritable.pm
+$Text{"File System Writable"}
+$Text{"The file system on your OTRS partition is not writable."}
+
+# OTRS/FQDN.pm
+$Text{"Domain Name"}
+$Text{"Your FQDN setting is invalid."}
+
+# OTRS/PackageDeployment.pm
+$Text{"Package installation status"}
+$Text{"Some packages are not correctly installed."}
+
+# OTRS/PackageList.pm
+$Text{"Package List"}
+
+# OTRS/SystemID.pm
+$Text{"SystemID"}
+$Text{"Your SystemID setting is invalid, it should only contain digits."}
+
+# OTRS/Version.pm
+$Text{"OTRS Version"}
+
+# OTRS/Ticket/IndexModule.pm
+$Text{"Ticket Index Module"}
+$Text{"You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information."}
+
+# OTRS/Ticket/OpenTickets.pm
+$Text{"Open Tickets"}
+$Text{"You should not have more than 8,000 open tickets in your system."}
+
+# OTRS/Ticket/SearchIndexModule.pm
+$Text{"Ticket Search Index module"}
+$Text{"You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information."}
+
+# OTRS/Ticket/StaticDBOrphanedRecords.pm
+$Text{"Orphaned Records In ticket_lock_index Table"}
+$Text{"Table ticket_lock_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."}
+$Text{"Orphaned Records In ticket_index Table"}
+$Text{"Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."}
+
+# Webserver/EnvironnmentVariables.pm
+$Text{"Environment Variables"}
+
+# Webserver/Version.pm
+$Text{"Webserver Version"}
+$Text{"Could not determine webserver version."}
+
+# Webserver/Apache/Performance.pm
+$Text{"CGI Accelerator Usage"}
+$Text{"You should use FastCGI or mod_perl to increase your performance."}
+$Text{"mod_deflate Usage"}
+$Text{"Please install mod_deflate to improve GUI speed."}
+$Text{"mod_headers Usage"}
+$Text{"Please install mod_headers to improve GUI speed."}
+$Text{"Apache::Reload Usage"}
+$Text{"Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules."}
+$Text{"Apache::DBI Usage"}
+$Text{"Apache::DBI should be used to get a better performance  with pre-established database connections."}
+
+# Webserver/IIS.pm
+$Text{"You should use PerlEx to increase your performance."}

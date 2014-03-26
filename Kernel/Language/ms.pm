@@ -548,6 +548,139 @@ sub Data {
         'Ticket Create Time' => 'Tiket Mencipta Masa',
         'Ticket Close Time' => 'Tiket Menutup Masa',
 
+        # Template: AAASupportDataCollector
+        'Unknown' => '',
+        'Information' => '',
+        'OK' => '',
+        'Problem' => '',
+        'Webserver' => '',
+        'Operating System' => '',
+        'OTRS' => '',
+        'Table Presence' => '',
+        'Internal Error: Could not open file.' => '',
+        'Table Check' => '',
+        'Internal Error: Could not read file.' => '',
+        'Tables found which are not present in the database.' => '',
+        'Database Size' => '',
+        'Could not determine database size.' => '',
+        'Database Version' => '',
+        'Could not determine database version.' => '',
+        'Client Connection Charset' => '',
+        'Setting character_set_client needs to be utf8.' => '',
+        'Server Database Charset' => '',
+        'Setting character_set_database needs to be UNICODE or UTF8.' => '',
+        'Table Charset' => '',
+        'There were tables found which no not have utf8 as charset.' => '',
+        'Maximum Query Size' => '',
+        'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
+            '',
+        'Query Cache Size' => '',
+        'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
+            '',
+        'Default Storage Engine' => '',
+        'Tables with a different storage engine than the default engine were found.' =>
+            '',
+        'Table Status' => '',
+        'Tables found which do not have a regular status.' => '',
+        'MySQL 5.x or higher is required.' => '',
+        'NLS_LANG Setting' => '',
+        'NLS_LANG must be set to utf8 (e.g. german_germany.utf8).' => '',
+        'NLS_DATE_FORMAT Setting' => '',
+        'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => '',
+        'NLS_DATE_FORMAT Setting SQL Check' => '',
+        'Setting client_encoding needs to be UNICODE or UTF8.' => '',
+        'Setting server_encoding needs to be UNICODE or UTF8.' => '',
+        'Date Format' => '',
+        'Setting DateStyle needs to be ISO.' => '',
+        'PostgreSQL 8.x or higher is required.' => '',
+        'OTRS Disk Partition' => '',
+        'Disk Partitions Usage' => '',
+        'Distribution' => '',
+        'Could not determine distribution.' => '',
+        'Kernel Version' => '',
+        'Could not determine kernel version.' => '',
+        'Load' => '',
+        'The load should be at maximum, the number of procesors the system have (e.g. a load of 8 or less on a 8 CPUs system is OK.' =>
+            '',
+        'Could not determine system load.' => '',
+        'Perl Modules' => '',
+        'Not all required Perl modules are correctly installed.' => '',
+        'Perl Version' => '',
+        'Free Swap Space (%)' => '',
+        'No Swap Enabled.' => '',
+        'Used Swap Space (MB)' => '',
+        'There should be more than 60% free swap space.' => '',
+        'There should be no more than 200 MB swap space used.' => '',
+        'Config Settings' => '',
+        'Could not determine value.' => '',
+        'Database Records' => '',
+        'Tickets' => 'Tiket',
+        'Ticket History Entries' => '',
+        'Articles' => '',
+        'Attachments (DB, Without HTML)' => '',
+        'Customers With At Least One Ticket' => '',
+        'Queues' => 'Barisan',
+        'Agents' => 'Ejen-ejen',
+        'Roles' => 'peranan',
+        'Groups' => 'Kumpulan',
+        'Dynamic Fields' => 'Perlengkapan dinamik',
+        'Dynamic Field Values' => '',
+        'GenericInterface Webservices' => '',
+        'Processes' => 'Proses',
+        'Months Between First And Last Ticket' => '',
+        'Tickets Per Month (avg)' => '',
+        'Default SOAP Username and Password' => '',
+        'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.' =>
+            '',
+        'Default Admin Password' => '',
+        'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.' =>
+            '',
+        'Error Log' => '',
+        'There are error reports in your system log.' => '',
+        'File System Writable' => '',
+        'The file system on your OTRS partition is not writable.' => '',
+        'Domain Name' => '',
+        'Your FQDN setting is invalid.' => '',
+        'Package installation status' => '',
+        'Some packages are not correctly installed.' => '',
+        'Package List' => '',
+        'SystemID' => 'IDSistem',
+        'Your SystemID setting is invalid, it should only contain digits.' =>
+            '',
+        'OTRS Version' => '',
+        'Ticket Index Module' => '',
+        'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
+            '',
+        'Open Tickets' => '',
+        'You should not have more than 8,000 open tickets in your system.' =>
+            '',
+        'Ticket Search Index module' => '',
+        'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
+            '',
+        'Orphaned Records In ticket_lock_index Table' => '',
+        'Table ticket_lock_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
+            '',
+        'Orphaned Records In ticket_index Table' => '',
+        'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
+            '',
+        'Environment Variables' => '',
+        'Webserver Version' => '',
+        'Could not determine webserver version.' => '',
+        'CGI Accelerator Usage' => '',
+        'You should use FastCGI or mod_perl to increase your performance.' =>
+            '',
+        'mod_deflate Usage' => '',
+        'Please install mod_deflate to improve GUI speed.' => '',
+        'mod_headers Usage' => '',
+        'Please install mod_headers to improve GUI speed.' => '',
+        'Apache::Reload Usage' => '',
+        'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.' =>
+            '',
+        'Apache::DBI Usage' => '',
+        'Apache::DBI should be used to get a better performance  with pre-established database connections.' =>
+            '',
+        'You should use PerlEx to increase your performance.' => '',
+
         # Template: AAATicket
         'Status View' => 'Lihat Status',
         'Bulk' => 'Pukal',
@@ -565,7 +698,6 @@ sub Data {
         'Subject' => 'Subjek',
         'Move' => 'Gerak',
         'Queue' => 'Barisan',
-        'Queues' => 'Barisan',
         'Priority' => 'Keutamaan',
         'Priorities' => 'Keutamaan',
         'Priority Update' => 'Kemaskini Keutamaan',
@@ -995,7 +1127,6 @@ sub Data {
             'Jika tiada apa yang dipilih, maka terdapat tiada kebenaran dalam kumpulan ini (tiket tidak akan disediakan untuk pelanggan).',
         'Search Results' => 'Search Results',
         'Customers' => 'Pelanggan',
-        'Groups' => 'Kumpulan',
         'No matches found.' => 'Tiada padanan ditemui.',
         'Change Group Relations for Customer' => 'Kumpulan tugasan untuk menguruskan pelanggan',
         'Change Customer Relations for Group' => 'Tukar Perhubungan Pelanggan untuk Kumpulan',
@@ -1035,7 +1166,6 @@ sub Data {
         'Delete field' => 'Padam bidang',
 
         # Template: AdminDynamicFieldCheckbox
-        'Dynamic Fields' => 'Perlengkapan dinamik',
         'Field' => 'Bidang',
         'Go back to overview' => 'Pergi kembali ke gambaran keseluruhan',
         'General' => 'Umum',
@@ -1646,7 +1776,6 @@ sub Data {
             'Untuk cipta Proses baru anda boleh sama ada import sebuah Proses yang telah diexport daripada sistem lain atau cipta proses yang baru.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Perubahan kepada Proses disini hanya akan memberi kesan kepada kelakuan sistem, jika anda menyamakan data Proses. Dengan menyamakan Proses, perubahan yang baru akan ditulis ke Konfigurasi.',
-        'Processes' => 'Proses',
         'Process name' => 'Nama Proses',
         'Print' => 'Cetak',
         'Export Process Configuration' => 'Export Konfigurasi Proses',
@@ -1675,6 +1804,8 @@ sub Data {
         'Please note that changing this activity dialog will affect the following activities' =>
             '',
         'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
+            '',
+        'The Queue field can only be used by customers when creating a new ticket.' =>
             '',
         'Activity Dialog' => '',
         'Activity dialog Name' => '',
@@ -1871,14 +2002,16 @@ sub Data {
         'System type' => '',
         'Unique ID' => '',
         'Last communication with registration server' => '',
+        'Send support data' => '',
         'OTRS-ID Login' => '',
-        'System registration is a service of OTRS group, which provides a lot of advantages!' =>
+        'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
         'You need to log in with your OTRS-ID to register your system.' =>
             '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
+        'Data Protection' => '',
         'What are the advantages of system registration?' => '',
         'You will receive updates about relevant security releases.' => '',
         'With your system registration we can improve our services for you, because we have all relevant information available.' =>
@@ -1908,6 +2041,46 @@ sub Data {
         'Please visit our' => '',
         'portal' => '',
         'and file a request.' => '',
+        'Here at OTRS Group we take the protection of your personal details very seriously and strictly adhere to data protection laws.' =>
+            '',
+        'All passwords are automatically made unrecognizable before the information is sent.' =>
+            '',
+        'Under no circumstances will any data we obtain be sold or passed on to unauthorized third parties.' =>
+            '',
+        'The following explanation provides you with an overview of how we guarantee this protection and which type of data is collected for which purpose.' =>
+            '',
+        'Data Handling with \'System Registration\'' => '',
+        'Information received through the \'Service Center\' is saved by OTRS Group.' =>
+            '',
+        'This only applies to data that OTRS Group requires to analyze the performance and function of the OTRS server or to establish contact.' =>
+            '',
+        'Safety of Personal Details' => '',
+        'OTRS Group protects your personal data from unauthorized access, use or publication.' =>
+            '',
+        'OTRS Group ensures that the personal information you store on the server is protected from unauthorized access and publication.' =>
+            '',
+        'Disclosure of Details' => '',
+        'OTRS Group will not pass on your details to third parties unless required for business transactions.' =>
+            '',
+        'OTRS Group will only pass on your details to entitled public institutions and authorities if required by law or court order.' =>
+            '',
+        'Amendment of Data Protection Policy' => '',
+        'OTRS Group reserves the right to amend this security and data protection policy if required by technical developments.' =>
+            '',
+        'In this case we will also adapt our information regarding data protection accordingly.' =>
+            '',
+        'Please regularly refer to the latest version of our Data Protection Policy.' =>
+            '',
+        'Right to Information' => '',
+        'You have the right to demand information concerning the data saved about you, its origin and recipients, as well as the purpose of the data processing at any time.' =>
+            '',
+        'You can request information about the saved data by sending an e-mail to info@otrs.com.' =>
+            '',
+        'Further Information' => '',
+        'Your trust is very important to us. We are willing to inform you about the processing of your personal details at any time.' =>
+            '',
+        'If you have any questions that have not been answered by this Data Protection Policy or if you require more detailed information about a specific topic, please contact info@otrs.com.' =>
+            '',
         'If you deregister your system, you will loose these benefits:' =>
             '',
         'You need to log in with your OTRS-ID to deregister your system.' =>
@@ -1921,16 +2094,19 @@ sub Data {
             '',
         'Attribute' => '',
         'FQDN' => '',
-        'OTRS Version' => '',
-        'Operating System' => '',
-        'Perl Version' => '',
         'Optional description of this system.' => '',
+        'This will allow the system to send additional support data information.' =>
+            '',
+        'Service Center' => '',
+        'Support Data Management' => '',
         'Register' => '',
         'Deregister System' => '',
         'Continuing with this step will deregister the system from OTRS Group.' =>
             '',
         'Deregister' => '',
-        'You can modify the system type and description here.' => '',
+        'You can modify registration settings here.' => '',
+        'This will allow the system to send additional support data information to OTRS Group.' =>
+            '',
 
         # Template: AdminRole
         'Role Management' => 'Pengurusan peranan',
@@ -1945,7 +2121,6 @@ sub Data {
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'Mengurus Perhubungan Kumpulan Peranan',
         'Filter for Roles' => 'Menapis Peranan',
-        'Roles' => 'peranan',
         'Select the role:group permissions.' => 'Pilih peranan: kebenaran kumpulan.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
             'Jika tiada apa yang dipilih, maka terdapat tiada kebenaran dalam kumpulan ini (tiket tidak akan disediakan untuk peranan).',
@@ -1963,7 +2138,6 @@ sub Data {
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Mengurus Perhubungan Ejen-Peranan',
         'Filter for Agents' => 'Tapis untuk Ejen',
-        'Agents' => 'Ejen-ejen',
         'Manage Role-Agent Relations' => 'Mengurus Perhubungan Peranan Agen',
         'Change Role Relations for Agent' => 'Perubahan Peranan Perhubungan untuk Agen',
         'Change Agent Relations for Role' => 'Tukar Perhubungan Agen untuk Peranan',
@@ -2042,6 +2216,24 @@ sub Data {
         'Add Service' => 'Tambah Perkhidmatan',
         'Edit Service' => 'Edit Perkhidmatan',
         'Sub-service of' => 'Sub-perkhidmatan',
+
+        # Template: AdminServiceCenterSupportDataCollector
+        'This data is sent to OTRS Group on a regular basis. To stop sending this data please update your system registration.' =>
+            '',
+        'You can manually trigger the Support Data sending by pressing this button:' =>
+            '',
+        'Send Update' => '',
+        'Sending Update...' => '',
+        'Support Data information was successfully sent.' => '',
+        'Was not possible to send Support Data information.' => '',
+        'Update Result' => '',
+        'Currently this data is only shown in this system.' => '',
+        'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
+            '',
+        'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+            '',
+        'Support Data' => '',
+        'Error: Support data could not be collected (%s).' => '',
 
         # Template: AdminSession
         'Session Management' => 'Pengurusan sesi',
@@ -2252,6 +2444,10 @@ sub Data {
             '',
         'Grouped' => '',
         'Stacked' => '',
+        'Expanded' => '',
+        'Stream' => '',
+        'CSV' => '',
+        'PDF' => '',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Tiket dikunci saya',
@@ -2399,6 +2595,11 @@ sub Data {
         'maximal period from' => 'tempoh maksimum daripada',
         'to' => 'kepada',
         'not changable for dashboard statistics' => '',
+        'Select Chart Type' => '',
+        'Chart Type' => '',
+        'Multi Bar Chart' => '',
+        'Multi Line Chart' => '',
+        'Stacked Area Chart' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Tukar Teks Percuma Tiket.',
@@ -2556,6 +2757,8 @@ sub Data {
         'Create New' => 'Buat baru',
         'Profile link' => 'Pautan profil.',
         'Save changes in template' => 'Simpan perubahan dalam templat.',
+        'Filters in use' => '',
+        'Additional filters' => '',
         'Add another attribute' => 'Tambah atribut lain',
         'Output' => 'Output',
         'Fulltext' => 'Teks penuh',
@@ -2718,7 +2921,6 @@ sub Data {
 
         # Template: CustomerTicketZoom
         'Expand article' => 'Kembangkan artikel',
-        'Information' => '',
         'Next Steps' => '',
         'Reply' => 'Balas',
 
@@ -2828,7 +3030,6 @@ sub Data {
         'Database name' => '',
         'Check database settings' => 'Semak tetapan database',
         'Result of database check' => 'Hasil semakan database',
-        'OK' => '',
         'Database check successful.' => 'Semakan database berjaya.',
         'Database User' => '',
         'New' => 'Baru',
@@ -2861,7 +3062,6 @@ sub Data {
         # Template: InstallerLicenseText
 
         # Template: InstallerSystem
-        'SystemID' => 'IDSistem',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'Pengecam sistem. Setiap nombor tiket dan setiap ID sesi HTTP, dan nombor.',
         'System FQDN' => 'Sistem FQDN',
@@ -3033,6 +3233,7 @@ sub Data {
             'Membolehkan mempunyai format tiket gambaran sederhana (CustomerInfo => 1 - juga menunjukkan maklumat pelanggan).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
+        'Allows invalid agents to generate individual-related stats.' => '',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             '',
         'Allows the administrators to login as other users, via the users administration panel.' =>
@@ -3083,19 +3284,19 @@ sub Data {
             'Menyemak IDSistem di dalam pengesanan nombor tiket untuk susulan (guna "Tidak" jika IDSistem telah diubah selepas menggunakan sistem).',
         'Closed tickets of customer' => 'Tiket customer yang tertutup',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            '',
+        'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Columns that can be filtered in the queue view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Columns that can be filtered in the responsible view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
-        'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
-            '',
-        'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
-            '',
-        'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Columns that can be filtered in the ticket search result view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            '',
+        'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => 'Komen untuk kemasukan sejarah baru di dalam interface pelanggan.',
         'Company Status' => '',
@@ -3202,8 +3403,6 @@ sub Data {
             'Mentakrifkan tapisan untuk output html untuk menambah pautan di belakang nombor bugtraq. Imej unsur membolehkan dua jenis input. Sekaligus nama satu imej (contoh faq.png). Dalam kes ini laluan imej OTRS akan digunakan. Kemungkinan yang kedua adalah memasukkan pautan pada imej.',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Mentakrifkan tapisan untuk memproses teks dalam artikel, dalam usaha untuk menyerlahkan kata kunci yang dipratentukan.',
-        'Defines a list of groups which should have the permission to see stats dashboards (e.g. group1;group2;group3).' =>
-            '',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
             'Mentakrifkan ungkapan biasa yang tidak termasuk sebarang alamat daripada menyemak syntax (jika "CheckEmailAddress" diset kepada "Ya"). Sila masukkan regex dalam bidang ini untuk alamat e-mel, yang tidak sah syntaxnya, tetapi diperlukan oleh sistem (contoh "root@localhost").',
         'Defines a regular expression that filters all email addresses that should not be used in the application.' =>
@@ -3722,8 +3921,8 @@ sub Data {
             'Mentakrifkan zon masa dari kalendar yang dinyatakan, dimana ia boleh ditetapkan kemudian kepada aturan yang tertentu.',
         'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             '',
-        'Defines the used character for email quotes in the ticket compose screen of the agent interface.' =>
-            'Mentakrifkan aksara yang digunakan untuk emel di dalam skrin karang tiket dari paparan ejen.',
+        'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
+            '',
         'Defines the user identifier for the customer panel.' => 'Mentakrifkan pengecam pengguna untuk panel pelanggan.',
         'Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).' =>
             'Mentakrifkan nama pengguna untuk akses SOAP handle (bin/cgi-bin/rpc.pl).',
@@ -4131,6 +4330,7 @@ sub Data {
         'Makes the picture transparent.' => 'Membuatkan gambar menjadi lutsinar.',
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             'Membuatkan pengurusan sesi menggunakan cookies html. Jika cookies html dimatikan atau browser klien matikan cookies html, sistem akan berjalan seperti biasa dan melampirkan id sesi kepada pautan.',
+        'Manage OTRS Group services.' => '',
         'Manage PGP keys for email encryption.' => 'Mengurus kunci PGP untuk enkripsi emel.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Mengurus akaun POP3 atau IMAP untuk mengambil emel dari.',
         'Manage S/MIME certificates for email encryption.' => 'Mengurus Perakuan S/MIME untuk enkripsi emel.',
@@ -4833,7 +5033,6 @@ sub Data {
             'Modul acara tiket yang mencetuskan lambungan hentian acara..',
         'Ticket overview' => 'Overview tiket',
         'TicketNumber' => '',
-        'Tickets' => 'Tiket',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             'Masa dalam saat yang dapat menambah ke masa sebenar jika menetapkan keadaan tertangguh (default: 86400 = 1 hari).',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
@@ -4928,6 +5127,8 @@ sub Data {
             'Mentakrifkan pengecam sistem. Setiap nomnor tiekt dan rangkaian sesi http mengandungi ID ini. Ini memastikan hanya tiket yang dimiliki sistem anda akan diproses sebagai susulan (berguna semasa komunikasi antara dua keadaan OTRS).',
         'Defines the type of protocol, used by ther web server, to serve the application. If https protocol will be used instead of plain http, it must be specified it here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             'Mentakrifkan jenis protokol, digunakan oleh web server, untuk berkhidmat kepada aplikasi. jika protokol https akan digunakan dan bukannya http kosong, ia perlu dinyatakan di sini. Memandangkan ini tidak memberi pengaruh kepada tetapan atau kelakuan web server,ia tidak akan mengubah kaedah akses untuk aplikasi dan, jika ia salah, ia tidak akan menghalang anda dari log masuk ke dalam aplikasi. Tetapan ini digunakan sebagai pembolehubah, OTRS_CONFIG HttpType dimana dijumpai dalam semua bentuk mesej digunakan oleh aplikasi, untuk membina pautan kepada tiket di dalam sistem anda.',
+        'Defines the used character for email quotes in the ticket compose screen of the agent interface.' =>
+            'Mentakrifkan aksara yang digunakan untuk emel di dalam skrin karang tiket dari paparan ejen.',
         'Defines which article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             'Mentakrifkan jenis artikel yang mana harus di kembangkan semasa memasuki overview. Jika tiada yang ditakrifkan, arikel yang terkini akan di kembangkan.',
         'Delay time between autocomplete queries in milliseconds.' => 'Menangguhkan masa antara aturan autolengkap dalam milisaat.',

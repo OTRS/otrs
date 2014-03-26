@@ -551,6 +551,139 @@ sub Data {
         'Ticket Create Time' => 'टिकट बनाने का समय',
         'Ticket Close Time' => 'टिकट बंद होने का समय',
 
+        # Template: AAASupportDataCollector
+        'Unknown' => '',
+        'Information' => '',
+        'OK' => '',
+        'Problem' => '',
+        'Webserver' => '',
+        'Operating System' => '',
+        'OTRS' => '',
+        'Table Presence' => '',
+        'Internal Error: Could not open file.' => '',
+        'Table Check' => '',
+        'Internal Error: Could not read file.' => '',
+        'Tables found which are not present in the database.' => '',
+        'Database Size' => '',
+        'Could not determine database size.' => '',
+        'Database Version' => '',
+        'Could not determine database version.' => '',
+        'Client Connection Charset' => '',
+        'Setting character_set_client needs to be utf8.' => '',
+        'Server Database Charset' => '',
+        'Setting character_set_database needs to be UNICODE or UTF8.' => '',
+        'Table Charset' => '',
+        'There were tables found which no not have utf8 as charset.' => '',
+        'Maximum Query Size' => '',
+        'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
+            '',
+        'Query Cache Size' => '',
+        'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
+            '',
+        'Default Storage Engine' => '',
+        'Tables with a different storage engine than the default engine were found.' =>
+            '',
+        'Table Status' => '',
+        'Tables found which do not have a regular status.' => '',
+        'MySQL 5.x or higher is required.' => '',
+        'NLS_LANG Setting' => '',
+        'NLS_LANG must be set to utf8 (e.g. german_germany.utf8).' => '',
+        'NLS_DATE_FORMAT Setting' => '',
+        'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => '',
+        'NLS_DATE_FORMAT Setting SQL Check' => '',
+        'Setting client_encoding needs to be UNICODE or UTF8.' => '',
+        'Setting server_encoding needs to be UNICODE or UTF8.' => '',
+        'Date Format' => '',
+        'Setting DateStyle needs to be ISO.' => '',
+        'PostgreSQL 8.x or higher is required.' => '',
+        'OTRS Disk Partition' => '',
+        'Disk Partitions Usage' => '',
+        'Distribution' => '',
+        'Could not determine distribution.' => '',
+        'Kernel Version' => '',
+        'Could not determine kernel version.' => '',
+        'Load' => '',
+        'The load should be at maximum, the number of procesors the system have (e.g. a load of 8 or less on a 8 CPUs system is OK.' =>
+            '',
+        'Could not determine system load.' => '',
+        'Perl Modules' => '',
+        'Not all required Perl modules are correctly installed.' => '',
+        'Perl Version' => '',
+        'Free Swap Space (%)' => '',
+        'No Swap Enabled.' => '',
+        'Used Swap Space (MB)' => '',
+        'There should be more than 60% free swap space.' => '',
+        'There should be no more than 200 MB swap space used.' => '',
+        'Config Settings' => '',
+        'Could not determine value.' => '',
+        'Database Records' => '',
+        'Tickets' => 'टिकटें',
+        'Ticket History Entries' => '',
+        'Articles' => '',
+        'Attachments (DB, Without HTML)' => '',
+        'Customers With At Least One Ticket' => '',
+        'Queues' => 'श्रेणीया',
+        'Agents' => 'प्रतिनिधियॊ',
+        'Roles' => 'भूमिकाएं',
+        'Groups' => 'समूहों',
+        'Dynamic Fields' => '',
+        'Dynamic Field Values' => '',
+        'GenericInterface Webservices' => '',
+        'Processes' => '',
+        'Months Between First And Last Ticket' => '',
+        'Tickets Per Month (avg)' => '',
+        'Default SOAP Username and Password' => '',
+        'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.' =>
+            '',
+        'Default Admin Password' => '',
+        'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.' =>
+            '',
+        'Error Log' => '',
+        'There are error reports in your system log.' => '',
+        'File System Writable' => '',
+        'The file system on your OTRS partition is not writable.' => '',
+        'Domain Name' => '',
+        'Your FQDN setting is invalid.' => '',
+        'Package installation status' => '',
+        'Some packages are not correctly installed.' => '',
+        'Package List' => '',
+        'SystemID' => 'सिस्टम ID',
+        'Your SystemID setting is invalid, it should only contain digits.' =>
+            '',
+        'OTRS Version' => '',
+        'Ticket Index Module' => '',
+        'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
+            '',
+        'Open Tickets' => '',
+        'You should not have more than 8,000 open tickets in your system.' =>
+            '',
+        'Ticket Search Index module' => '',
+        'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
+            '',
+        'Orphaned Records In ticket_lock_index Table' => '',
+        'Table ticket_lock_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
+            '',
+        'Orphaned Records In ticket_index Table' => '',
+        'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
+            '',
+        'Environment Variables' => '',
+        'Webserver Version' => '',
+        'Could not determine webserver version.' => '',
+        'CGI Accelerator Usage' => '',
+        'You should use FastCGI or mod_perl to increase your performance.' =>
+            '',
+        'mod_deflate Usage' => '',
+        'Please install mod_deflate to improve GUI speed.' => '',
+        'mod_headers Usage' => '',
+        'Please install mod_headers to improve GUI speed.' => '',
+        'Apache::Reload Usage' => '',
+        'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.' =>
+            '',
+        'Apache::DBI Usage' => '',
+        'Apache::DBI should be used to get a better performance  with pre-established database connections.' =>
+            '',
+        'You should use PerlEx to increase your performance.' => '',
+
         # Template: AAATicket
         'Status View' => 'स्तर दृश्य',
         'Bulk' => 'थोक',
@@ -568,7 +701,6 @@ sub Data {
         'Subject' => 'विषय',
         'Move' => 'स्थान-परिवर्तन',
         'Queue' => 'श्रेणी',
-        'Queues' => 'श्रेणीया',
         'Priority' => 'प्राथमिकता',
         'Priorities' => 'प्राथमिकताएं',
         'Priority Update' => 'प्राथमिकता अद्यतन',
@@ -998,7 +1130,6 @@ sub Data {
             'अगर कुछ भी नहीं चुना जाता है,तो फिर इस समूह में कोई अनुमतियाँ नहीं हैं(टिकट ग्राहकों के लिए उपलब्ध नहीं होगा)। ',
         'Search Results' => 'खोज परिणाम:',
         'Customers' => 'ग्राहकों',
-        'Groups' => 'समूहों',
         'No matches found.' => 'कोई मिलान नहीं मिले।',
         'Change Group Relations for Customer' => 'ग्राहक के लिए समूह संबंधों को बदलें',
         'Change Customer Relations for Group' => 'समूह के लिए ग्राहक संबंधों को बदलें',
@@ -1038,7 +1169,6 @@ sub Data {
         'Delete field' => '',
 
         # Template: AdminDynamicFieldCheckbox
-        'Dynamic Fields' => '',
         'Field' => '',
         'Go back to overview' => '',
         'General' => '',
@@ -1649,7 +1779,6 @@ sub Data {
             '',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             '',
-        'Processes' => '',
         'Process name' => '',
         'Print' => 'मुद्रित करें',
         'Export Process Configuration' => '',
@@ -1678,6 +1807,8 @@ sub Data {
         'Please note that changing this activity dialog will affect the following activities' =>
             '',
         'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
+            '',
+        'The Queue field can only be used by customers when creating a new ticket.' =>
             '',
         'Activity Dialog' => '',
         'Activity dialog Name' => '',
@@ -1874,14 +2005,16 @@ sub Data {
         'System type' => '',
         'Unique ID' => '',
         'Last communication with registration server' => '',
+        'Send support data' => '',
         'OTRS-ID Login' => '',
-        'System registration is a service of OTRS group, which provides a lot of advantages!' =>
+        'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '',
         'Read more' => '',
         'You need to log in with your OTRS-ID to register your system.' =>
             '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
+        'Data Protection' => '',
         'What are the advantages of system registration?' => '',
         'You will receive updates about relevant security releases.' => '',
         'With your system registration we can improve our services for you, because we have all relevant information available.' =>
@@ -1911,6 +2044,46 @@ sub Data {
         'Please visit our' => '',
         'portal' => '',
         'and file a request.' => '',
+        'Here at OTRS Group we take the protection of your personal details very seriously and strictly adhere to data protection laws.' =>
+            '',
+        'All passwords are automatically made unrecognizable before the information is sent.' =>
+            '',
+        'Under no circumstances will any data we obtain be sold or passed on to unauthorized third parties.' =>
+            '',
+        'The following explanation provides you with an overview of how we guarantee this protection and which type of data is collected for which purpose.' =>
+            '',
+        'Data Handling with \'System Registration\'' => '',
+        'Information received through the \'Service Center\' is saved by OTRS Group.' =>
+            '',
+        'This only applies to data that OTRS Group requires to analyze the performance and function of the OTRS server or to establish contact.' =>
+            '',
+        'Safety of Personal Details' => '',
+        'OTRS Group protects your personal data from unauthorized access, use or publication.' =>
+            '',
+        'OTRS Group ensures that the personal information you store on the server is protected from unauthorized access and publication.' =>
+            '',
+        'Disclosure of Details' => '',
+        'OTRS Group will not pass on your details to third parties unless required for business transactions.' =>
+            '',
+        'OTRS Group will only pass on your details to entitled public institutions and authorities if required by law or court order.' =>
+            '',
+        'Amendment of Data Protection Policy' => '',
+        'OTRS Group reserves the right to amend this security and data protection policy if required by technical developments.' =>
+            '',
+        'In this case we will also adapt our information regarding data protection accordingly.' =>
+            '',
+        'Please regularly refer to the latest version of our Data Protection Policy.' =>
+            '',
+        'Right to Information' => '',
+        'You have the right to demand information concerning the data saved about you, its origin and recipients, as well as the purpose of the data processing at any time.' =>
+            '',
+        'You can request information about the saved data by sending an e-mail to info@otrs.com.' =>
+            '',
+        'Further Information' => '',
+        'Your trust is very important to us. We are willing to inform you about the processing of your personal details at any time.' =>
+            '',
+        'If you have any questions that have not been answered by this Data Protection Policy or if you require more detailed information about a specific topic, please contact info@otrs.com.' =>
+            '',
         'If you deregister your system, you will loose these benefits:' =>
             '',
         'You need to log in with your OTRS-ID to deregister your system.' =>
@@ -1924,16 +2097,19 @@ sub Data {
             '',
         'Attribute' => '',
         'FQDN' => '',
-        'OTRS Version' => '',
-        'Operating System' => '',
-        'Perl Version' => '',
         'Optional description of this system.' => '',
+        'This will allow the system to send additional support data information.' =>
+            '',
+        'Service Center' => '',
+        'Support Data Management' => '',
         'Register' => '',
         'Deregister System' => '',
         'Continuing with this step will deregister the system from OTRS Group.' =>
             '',
         'Deregister' => '',
-        'You can modify the system type and description here.' => '',
+        'You can modify registration settings here.' => '',
+        'This will allow the system to send additional support data information to OTRS Group.' =>
+            '',
 
         # Template: AdminRole
         'Role Management' => 'भूमिका प्रबंधन',
@@ -1948,7 +2124,6 @@ sub Data {
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'भूमिका-समूह संबंधों का प्रबंधन करें',
         'Filter for Roles' => 'भूमिकाओं के लिए निस्पादक',
-        'Roles' => 'भूमिकाएं',
         'Select the role:group permissions.' => 'भूमिका:समूह अनुमतियों का चयन करें',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
             'अगर कुछ भी चयनित नहीं है,तो फिर इस समूह में कोई अनुमतियाँ नहीं हैं(टिकट भूमिका के लिए उपलब्ध नहीं होंगे)।',
@@ -1966,7 +2141,6 @@ sub Data {
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'प्रतिनिधि-भूमिका संबंधों का प्रबंधन करें',
         'Filter for Agents' => 'प्रतिनिधियॊ के लिए निस्पादक',
-        'Agents' => 'प्रतिनिधियॊ',
         'Manage Role-Agent Relations' => 'भूमिका-प्रतिनिधि संबंधों का प्रबंधन करें',
         'Change Role Relations for Agent' => 'प्रतिनिधि के लिए भूमिका संबंधों को बदलॆ',
         'Change Agent Relations for Role' => 'प्रतिनिधि संबंधों को भूमिका  के लिए बदलॆ',
@@ -2045,6 +2219,24 @@ sub Data {
         'Add Service' => 'सेवा जोड़ें ',
         'Edit Service' => 'सेवा संपादित करें',
         'Sub-service of' => 'की उप-सेवा',
+
+        # Template: AdminServiceCenterSupportDataCollector
+        'This data is sent to OTRS Group on a regular basis. To stop sending this data please update your system registration.' =>
+            '',
+        'You can manually trigger the Support Data sending by pressing this button:' =>
+            '',
+        'Send Update' => '',
+        'Sending Update...' => '',
+        'Support Data information was successfully sent.' => '',
+        'Was not possible to send Support Data information.' => '',
+        'Update Result' => '',
+        'Currently this data is only shown in this system.' => '',
+        'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
+            '',
+        'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+            '',
+        'Support Data' => '',
+        'Error: Support data could not be collected (%s).' => '',
 
         # Template: AdminSession
         'Session Management' => 'सत्र प्रबंधन',
@@ -2255,6 +2447,10 @@ sub Data {
             '',
         'Grouped' => '',
         'Stacked' => '',
+        'Expanded' => '',
+        'Stream' => '',
+        'CSV' => '',
+        'PDF' => '',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '',
@@ -2402,6 +2598,11 @@ sub Data {
         'maximal period from' => 'अधिकतम अवधि से',
         'to' => 'के लिए',
         'not changable for dashboard statistics' => '',
+        'Select Chart Type' => '',
+        'Chart Type' => '',
+        'Multi Bar Chart' => '',
+        'Multi Line Chart' => '',
+        'Stacked Area Chart' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'टिकट का मुक्त पाठ बदलें',
@@ -2559,6 +2760,8 @@ sub Data {
         'Create New' => 'नया बनाएँ',
         'Profile link' => '',
         'Save changes in template' => 'टेम्पलेट में बदलाव सुरक्षित करें',
+        'Filters in use' => '',
+        'Additional filters' => '',
         'Add another attribute' => 'एक और विशेषता जोड़ें',
         'Output' => 'आउटपुट',
         'Fulltext' => 'पूर्ण पाठ',
@@ -2721,7 +2924,6 @@ sub Data {
 
         # Template: CustomerTicketZoom
         'Expand article' => 'अनुच्छेद का विस्तार करें',
-        'Information' => '',
         'Next Steps' => '',
         'Reply' => 'जवाब देना',
 
@@ -2831,7 +3033,6 @@ sub Data {
         'Database name' => '',
         'Check database settings' => 'आंकड़ाकोष व्यवस्थाऒं की जाँच करें',
         'Result of database check' => 'आंकड़ाकोष की जाँच के नतीजे',
-        'OK' => '',
         'Database check successful.' => 'आंकड़ाकोष की जाँच सफल रही।',
         'Database User' => '',
         'New' => 'नया',
@@ -2864,7 +3065,6 @@ sub Data {
         # Template: InstallerLicenseText
 
         # Template: InstallerSystem
-        'SystemID' => 'सिस्टम ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'प्रणाली का पहचानकर्ता। प्रत्येक टिकट संख्या और प्रत्येक HTTP सत्र ID कॆ पास यह संख्या होती हैं।',
         'System FQDN' => 'प्रणाली FQDN',
@@ -3036,6 +3236,7 @@ sub Data {
             'एक मध्यम प्रारूप टिकट अवलोकन होने की अनुमति देता है(ग्राहक जानकारी =>1 - यह भी ग्राहकों की जानकारी दिखाता है)।',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'एक छोटे प्रारूप टिकट अवलोकन होने की अनुमति देता है(ग्राहक जानकारी =>1 - यह भी ग्राहकों की जानकारी दिखाता है)।',
+        'Allows invalid agents to generate individual-related stats.' => '',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             '',
         'Allows the administrators to login as other users, via the users administration panel.' =>
@@ -3086,19 +3287,19 @@ sub Data {
             'टिकट की अनुवर्ती संख्या का पता लगाने के लिए यह प्रणाली ID की जाँच करता है(प्रयोग "नहीं" अगर प्रणाली ID प्रणाली का उपयोग करने के बाद बदल दिया गया है)।',
         'Closed tickets of customer' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            '',
+        'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Columns that can be filtered in the queue view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Columns that can be filtered in the responsible view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
-        'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
-            '',
-        'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
-            '',
-        'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Columns that can be filtered in the ticket search result view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            '',
+        'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => 'ग्राहक अंतरफलक में इतिहास नई प्रविष्टियों के लिए टिप्पणी।',
         'Company Status' => '',
@@ -3205,8 +3406,6 @@ sub Data {
             'Html उत्पादन को परिभाषित बगटै्क संख्या के पीछे लिंक जोड़ने के लिए एक निस्पादक परिभाषित करें। तत्व छवि दो इनपुट प्रकार की अनुमति देता है। एक बार एक छवि के नाम से(उदा.faq.png)। ऐसी स्थिति में OTRS छवि के पथ का उपयोग किया जाएगा। दूसरी संभावना छवि को कड़ी सम्मिलित करने की है।',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'अनुच्छेद में एक पाठ प्रक्रिया निस्पादक परिभाषित करें,पूर्वनिर्धारित खोजशब्दों को उजागर करने के लिए। ',
-        'Defines a list of groups which should have the permission to see stats dashboards (e.g. group1;group2;group3).' =>
-            '',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
             'एक नियमित अभिव्यक्ति को परिभाषित करें जिसमें वाक्यविन्यास से कुछ पते शामिल नहीं है(यदि "ईमेल पतों की जाँच करें" "हाँ" पर स्थापित है)। ईमेल पते के लिए इस क्षेत्र में एक नियमित अभिव्यक्ति दर्ज करें,जो वाक्य रचना से वैध नहीं है,लेकिन सिस्टम के लिए आवश्यक हैं (अर्थात् "root@localhost")।',
         'Defines a regular expression that filters all email addresses that should not be used in the application.' =>
@@ -3725,8 +3924,8 @@ sub Data {
             '',
         'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             '',
-        'Defines the used character for email quotes in the ticket compose screen of the agent interface.' =>
-            'प्रतिनिधि अंतरफलक के टिकट रचना स्क्रीन में  ईमेल उद्धरण चिह्नों के लिए इस्तेमाल किया वर्ण को परिभाषित करता है।',
+        'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
+            '',
         'Defines the user identifier for the customer panel.' => 'ग्राहक पटल के लिए उपयोगकर्ता पहचानक को परिभाषित करता है।',
         'Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).' =>
             'SOAP(bin/cgi-bin/rpc.pl)हैंडल का उपयोग करने के लिए उपयोगकर्ता नाम को परिभाषित करता है।',
@@ -4134,6 +4333,7 @@ sub Data {
         'Makes the picture transparent.' => 'तस्वीर पारदर्शी बनाता है।',
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             'सत्र प्रबंधन html कुकीज़ का उपयोग करता है। यदि html कुकीज़ अक्षम हो जाते हैं या यदि ग्राहक ब्राउज़र html कुकीज़ को अक्षम कर देता हैं,तो प्रणाली सामान्य रूप से काम करेगी और लिंक करने के लिए आईडी सत्र संलग्न करें।',
+        'Manage OTRS Group services.' => '',
         'Manage PGP keys for email encryption.' => 'ईमेल कूटलेखन के लिए PGP कुंजी प्रबंधित का प्रबंधन करें।',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'ईमेल आनयन करने के लिए POP3 या IMAP खातों का प्रबंधन करें।',
         'Manage S/MIME certificates for email encryption.' => 'ईमेल कूटलेखन के लिए S/MIME प्रमाणपत्र कुंजी प्रबंधित का प्रबंधन करें।',
@@ -4836,7 +5036,6 @@ sub Data {
             '',
         'Ticket overview' => 'टिकट अवलोकन ',
         'TicketNumber' => '',
-        'Tickets' => 'टिकटें',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             'यदि विचाराधीन स्तिथि निर्धारित कर रहे हैं जो समय सेकंड में हैं वास्तविक समय में जुड जाएगा(तयशुदा:86400=1 दिन)।',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
@@ -4908,6 +5107,8 @@ sub Data {
             'प्रणाली पहचानक को परिभाषित करता है। हर टिकट संख्या और http सत्र स्ट्रिंग के पास यह ID होते हैं। यह सुनिश्चित करता है कि केवल टिकटों है जो आपके प्रणाली से संबंधित है उनकी अनुसरण कार्रवाई की जाएगी(उपयोगी है जब OTRS की दो मामलों के बीच संवाद होते हैं)।',
         'Defines the type of protocol, used by ther web server, to serve the application. If https protocol will be used instead of plain http, it must be specified it here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             'अनुप्रयोग की सेवा के लिए,वेब सर्वर द्वारा उपयोग किया है,प्रोटोकॉल के प्रकार को परिभाषित करता है। यदि https प्रोटोकॉल सादा http के बजाय प्रयोग किया जाएगा,इसे यहाँ निर्दिष्ट किया जाना चाहिए। चूंकि इससे वेब सर्वर व्यवस्थाओ या व्यवहार पर असर नहीं पड़ता है,इसे अनुप्रयोग का उपयोग करने के लिए विधि नहीं बदल जाएगा और,यदि यह गलत है,यह आपको अनुप्रयोग में प्रवेश करने से रोकगा नहीं। यह व्यवस्था किसी परिवर्तनीय के रूप में प्रयोग की जाती है,OTRS_CONFIG_HttpType जो अनुप्रयोग                 द्वारा रूपों में पाया जाता है,आपकी प्रणाली में टिकटों के लिए लिंक बनाने के लिए।',
+        'Defines the used character for email quotes in the ticket compose screen of the agent interface.' =>
+            'प्रतिनिधि अंतरफलक के टिकट रचना स्क्रीन में  ईमेल उद्धरण चिह्नों के लिए इस्तेमाल किया वर्ण को परिभाषित करता है।',
         'Determines if the search results container for the autocomplete feature should adjust its width dynamically.' =>
             'यदि खोज परिणामों के संग्राहक स्वत: पूर्ण सुविधा के लिए अपनी चौड़ाई गतिशील रूप से समायोजित करते है तो निर्धारित करता है।',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box (to avoid the use of destructive queries, such as DROP DATABASE, and also to steal user passwords).' =>

@@ -555,6 +555,139 @@ sub Data {
         'Ticket Create Time' => '工单创建时间',
         'Ticket Close Time' => '工单关闭时间',
 
+        # Template: AAASupportDataCollector
+        'Unknown' => '',
+        'Information' => '信息',
+        'OK' => '',
+        'Problem' => '',
+        'Webserver' => '',
+        'Operating System' => '操作系统',
+        'OTRS' => '',
+        'Table Presence' => '',
+        'Internal Error: Could not open file.' => '',
+        'Table Check' => '',
+        'Internal Error: Could not read file.' => '',
+        'Tables found which are not present in the database.' => '',
+        'Database Size' => '',
+        'Could not determine database size.' => '',
+        'Database Version' => '',
+        'Could not determine database version.' => '',
+        'Client Connection Charset' => '',
+        'Setting character_set_client needs to be utf8.' => '',
+        'Server Database Charset' => '',
+        'Setting character_set_database needs to be UNICODE or UTF8.' => '',
+        'Table Charset' => '',
+        'There were tables found which no not have utf8 as charset.' => '',
+        'Maximum Query Size' => '',
+        'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
+            '',
+        'Query Cache Size' => '',
+        'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
+            '',
+        'Default Storage Engine' => '',
+        'Tables with a different storage engine than the default engine were found.' =>
+            '',
+        'Table Status' => '',
+        'Tables found which do not have a regular status.' => '',
+        'MySQL 5.x or higher is required.' => '',
+        'NLS_LANG Setting' => '',
+        'NLS_LANG must be set to utf8 (e.g. german_germany.utf8).' => '',
+        'NLS_DATE_FORMAT Setting' => '',
+        'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => '',
+        'NLS_DATE_FORMAT Setting SQL Check' => '',
+        'Setting client_encoding needs to be UNICODE or UTF8.' => '',
+        'Setting server_encoding needs to be UNICODE or UTF8.' => '',
+        'Date Format' => '',
+        'Setting DateStyle needs to be ISO.' => '',
+        'PostgreSQL 8.x or higher is required.' => '',
+        'OTRS Disk Partition' => '',
+        'Disk Partitions Usage' => '',
+        'Distribution' => '',
+        'Could not determine distribution.' => '',
+        'Kernel Version' => '',
+        'Could not determine kernel version.' => '',
+        'Load' => '',
+        'The load should be at maximum, the number of procesors the system have (e.g. a load of 8 or less on a 8 CPUs system is OK.' =>
+            '',
+        'Could not determine system load.' => '',
+        'Perl Modules' => '',
+        'Not all required Perl modules are correctly installed.' => '',
+        'Perl Version' => 'Perl版本',
+        'Free Swap Space (%)' => '',
+        'No Swap Enabled.' => '',
+        'Used Swap Space (MB)' => '',
+        'There should be more than 60% free swap space.' => '',
+        'There should be no more than 200 MB swap space used.' => '',
+        'Config Settings' => '',
+        'Could not determine value.' => '',
+        'Database Records' => '',
+        'Tickets' => '工单',
+        'Ticket History Entries' => '',
+        'Articles' => '',
+        'Attachments (DB, Without HTML)' => '',
+        'Customers With At Least One Ticket' => '',
+        'Queues' => '队列',
+        'Agents' => '服务人员',
+        'Roles' => '角色',
+        'Groups' => '组',
+        'Dynamic Fields' => '动态字段',
+        'Dynamic Field Values' => '',
+        'GenericInterface Webservices' => '',
+        'Processes' => '流程',
+        'Months Between First And Last Ticket' => '',
+        'Tickets Per Month (avg)' => '',
+        'Default SOAP Username and Password' => '',
+        'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.' =>
+            '',
+        'Default Admin Password' => '',
+        'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.' =>
+            '',
+        'Error Log' => '',
+        'There are error reports in your system log.' => '',
+        'File System Writable' => '',
+        'The file system on your OTRS partition is not writable.' => '',
+        'Domain Name' => '',
+        'Your FQDN setting is invalid.' => '',
+        'Package installation status' => '',
+        'Some packages are not correctly installed.' => '',
+        'Package List' => '',
+        'SystemID' => '系统ID',
+        'Your SystemID setting is invalid, it should only contain digits.' =>
+            '',
+        'OTRS Version' => 'OTRS版本',
+        'Ticket Index Module' => '',
+        'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
+            '',
+        'Open Tickets' => '',
+        'You should not have more than 8,000 open tickets in your system.' =>
+            '',
+        'Ticket Search Index module' => '',
+        'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
+            '',
+        'Orphaned Records In ticket_lock_index Table' => '',
+        'Table ticket_lock_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
+            '',
+        'Orphaned Records In ticket_index Table' => '',
+        'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
+            '',
+        'Environment Variables' => '',
+        'Webserver Version' => '',
+        'Could not determine webserver version.' => '',
+        'CGI Accelerator Usage' => '',
+        'You should use FastCGI or mod_perl to increase your performance.' =>
+            '',
+        'mod_deflate Usage' => '',
+        'Please install mod_deflate to improve GUI speed.' => '',
+        'mod_headers Usage' => '',
+        'Please install mod_headers to improve GUI speed.' => '',
+        'Apache::Reload Usage' => '',
+        'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.' =>
+            '',
+        'Apache::DBI Usage' => '',
+        'Apache::DBI should be used to get a better performance  with pre-established database connections.' =>
+            '',
+        'You should use PerlEx to increase your performance.' => '',
+
         # Template: AAATicket
         'Status View' => '状态视图',
         'Bulk' => '批量',
@@ -572,7 +705,6 @@ sub Data {
         'Subject' => '主题',
         'Move' => '转移',
         'Queue' => '队列',
-        'Queues' => '队列',
         'Priority' => '优先级',
         'Priorities' => '优先级',
         'Priority Update' => '更新优先级',
@@ -1002,7 +1134,6 @@ sub Data {
             '如果没有选择，就不具备该组的任何权限 (用户不能创建或读取工单)。',
         'Search Results' => '搜索结果',
         'Customers' => '用户单位',
-        'Groups' => '组',
         'No matches found.' => '没有找到相匹配的.',
         'Change Group Relations for Customer' => '此用户属于哪些组',
         'Change Customer Relations for Group' => '哪些用户属于此组',
@@ -1042,7 +1173,6 @@ sub Data {
         'Delete field' => '删除字段',
 
         # Template: AdminDynamicFieldCheckbox
-        'Dynamic Fields' => '动态字段',
         'Field' => '字段',
         'Go back to overview' => '返回概况',
         'General' => '常规',
@@ -1653,7 +1783,6 @@ sub Data {
             '为了创建新的流程，你可以导入流程配置文件或从新创建它。',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             '对流程所做的一切修改仅保存在数据库中。只有执行同步操作后，才会生成或重新生成流程配置文件。',
-        'Processes' => '流程',
         'Process name' => '流程名称',
         'Print' => '打印',
         'Export Process Configuration' => '导出流程配置',
@@ -1683,6 +1812,8 @@ sub Data {
             '请注意，修改这个环节操作将影响以下环节',
         'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
             '请注意，用户并不能看到或对以下字段时行操作：Owner, Responsible, Lock, PendingTime and CustomerID.',
+        'The Queue field can only be used by customers when creating a new ticket.' =>
+            '',
         'Activity Dialog' => '环节操作',
         'Activity dialog Name' => '环节操作名称',
         'Available in' => '有效界面',
@@ -1878,14 +2009,16 @@ sub Data {
         'System type' => '系统类型',
         'Unique ID' => '唯一ID',
         'Last communication with registration server' => '与注册服务器上一次的通讯',
+        'Send support data' => '',
         'OTRS-ID Login' => 'OTRS-ID登陆',
-        'System registration is a service of OTRS group, which provides a lot of advantages!' =>
+        'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '系统注册是OTRS集团的一项服务，它为您提供了很多好处!',
         'Read more' => '阅读全部',
         'You need to log in with your OTRS-ID to register your system.' =>
             '为了注册系统，需要你先使用OTRS-ID进行登陆。',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             'OTRS-ID是你的一个邮件地址，用于在OTRS.com网页进行注册和登陆。',
+        'Data Protection' => '',
         'What are the advantages of system registration?' => '系统注册有什么好处?',
         'You will receive updates about relevant security releases.' => '你将及时收到有关安全版本的更新信息。',
         'With your system registration we can improve our services for you, because we have all relevant information available.' =>
@@ -1915,6 +2048,46 @@ sub Data {
         'Please visit our' => '请访问我们的',
         'portal' => '门户',
         'and file a request.' => '并提出请求。',
+        'Here at OTRS Group we take the protection of your personal details very seriously and strictly adhere to data protection laws.' =>
+            '',
+        'All passwords are automatically made unrecognizable before the information is sent.' =>
+            '',
+        'Under no circumstances will any data we obtain be sold or passed on to unauthorized third parties.' =>
+            '',
+        'The following explanation provides you with an overview of how we guarantee this protection and which type of data is collected for which purpose.' =>
+            '',
+        'Data Handling with \'System Registration\'' => '',
+        'Information received through the \'Service Center\' is saved by OTRS Group.' =>
+            '',
+        'This only applies to data that OTRS Group requires to analyze the performance and function of the OTRS server or to establish contact.' =>
+            '',
+        'Safety of Personal Details' => '',
+        'OTRS Group protects your personal data from unauthorized access, use or publication.' =>
+            '',
+        'OTRS Group ensures that the personal information you store on the server is protected from unauthorized access and publication.' =>
+            '',
+        'Disclosure of Details' => '',
+        'OTRS Group will not pass on your details to third parties unless required for business transactions.' =>
+            '',
+        'OTRS Group will only pass on your details to entitled public institutions and authorities if required by law or court order.' =>
+            '',
+        'Amendment of Data Protection Policy' => '',
+        'OTRS Group reserves the right to amend this security and data protection policy if required by technical developments.' =>
+            '',
+        'In this case we will also adapt our information regarding data protection accordingly.' =>
+            '',
+        'Please regularly refer to the latest version of our Data Protection Policy.' =>
+            '',
+        'Right to Information' => '',
+        'You have the right to demand information concerning the data saved about you, its origin and recipients, as well as the purpose of the data processing at any time.' =>
+            '',
+        'You can request information about the saved data by sending an e-mail to info@otrs.com.' =>
+            '',
+        'Further Information' => '',
+        'Your trust is very important to us. We are willing to inform you about the processing of your personal details at any time.' =>
+            '',
+        'If you have any questions that have not been answered by this Data Protection Policy or if you require more detailed information about a specific topic, please contact info@otrs.com.' =>
+            '',
         'If you deregister your system, you will loose these benefits:' =>
             '如果你取消系统注册，您将放弃这些好处:',
         'You need to log in with your OTRS-ID to deregister your system.' =>
@@ -1928,16 +2101,19 @@ sub Data {
             '注册本系统后，这个数据会经常传送给OTRS Group',
         'Attribute' => '属性',
         'FQDN' => '',
-        'OTRS Version' => 'OTRS版本',
-        'Operating System' => '操作系统',
-        'Perl Version' => 'Perl版本',
         'Optional description of this system.' => '这个系统可选的描述。',
+        'This will allow the system to send additional support data information.' =>
+            '',
+        'Service Center' => '',
+        'Support Data Management' => '',
         'Register' => '注册',
         'Deregister System' => '取消系统注册',
         'Continuing with this step will deregister the system from OTRS Group.' =>
             '',
         'Deregister' => '取消注册',
-        'You can modify the system type and description here.' => '',
+        'You can modify registration settings here.' => '',
+        'This will allow the system to send additional support data information to OTRS Group.' =>
+            '',
 
         # Template: AdminRole
         'Role Management' => '角色管理',
@@ -1952,7 +2128,6 @@ sub Data {
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => '管理角色的组权限',
         'Filter for Roles' => '过滤角色',
-        'Roles' => '角色',
         'Select the role:group permissions.' => '选择角色:组权限。',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
             '如果没有选择，就不会具有任何权限 (任何工单都看不见)',
@@ -1970,7 +2145,6 @@ sub Data {
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => '定义服务人员的角色',
         'Filter for Agents' => '查找服务人员',
-        'Agents' => '服务人员',
         'Manage Role-Agent Relations' => '管理服务人员的角色',
         'Change Role Relations for Agent' => '选择此服务人员的角色',
         'Change Agent Relations for Role' => '选择此角色的服务人员',
@@ -2049,6 +2223,24 @@ sub Data {
         'Add Service' => '添加服务',
         'Edit Service' => '编辑服务',
         'Sub-service of' => '子服务',
+
+        # Template: AdminServiceCenterSupportDataCollector
+        'This data is sent to OTRS Group on a regular basis. To stop sending this data please update your system registration.' =>
+            '',
+        'You can manually trigger the Support Data sending by pressing this button:' =>
+            '',
+        'Send Update' => '',
+        'Sending Update...' => '',
+        'Support Data information was successfully sent.' => '',
+        'Was not possible to send Support Data information.' => '',
+        'Update Result' => '',
+        'Currently this data is only shown in this system.' => '',
+        'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
+            '',
+        'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+            '',
+        'Support Data' => '',
+        'Error: Support data could not be collected (%s).' => '',
 
         # Template: AdminSession
         'Session Management' => '会话管理',
@@ -2259,6 +2451,10 @@ sub Data {
             '正在为你处理统计数据，请耐心等待。',
         'Grouped' => '',
         'Stacked' => '',
+        'Expanded' => '',
+        'Stream' => '',
+        'CSV' => '',
+        'PDF' => '',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => '我锁定的工单',
@@ -2406,6 +2602,11 @@ sub Data {
         'maximal period from' => '最大时间范围从',
         'to' => '至',
         'not changable for dashboard statistics' => '',
+        'Select Chart Type' => '',
+        'Chart Type' => '',
+        'Multi Bar Chart' => '',
+        'Multi Line Chart' => '',
+        'Stacked Area Chart' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => '修改工单自定义字段',
@@ -2563,6 +2764,8 @@ sub Data {
         'Create New' => '创建',
         'Profile link' => '按模板搜索',
         'Save changes in template' => '保存变更为模板',
+        'Filters in use' => '',
+        'Additional filters' => '',
         'Add another attribute' => '增加另一个搜索条件',
         'Output' => '搜索结果显示为',
         'Fulltext' => '全文',
@@ -2725,7 +2928,6 @@ sub Data {
 
         # Template: CustomerTicketZoom
         'Expand article' => '展开信件',
-        'Information' => '信息',
         'Next Steps' => '下一',
         'Reply' => '回复',
 
@@ -2835,7 +3037,6 @@ sub Data {
         'Database name' => '数据库名称',
         'Check database settings' => '测试数据库设置',
         'Result of database check' => '数据库检查结果',
-        'OK' => '',
         'Database check successful.' => '数据库检查完成.',
         'Database User' => '数据库用户',
         'New' => '新建',
@@ -2868,7 +3069,6 @@ sub Data {
         # Template: InstallerLicenseText
 
         # Template: InstallerSystem
-        'SystemID' => '系统ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             '每个工单和HTTP会话ID包含系统标识符。',
         'System FQDN' => '系统全称域名',
@@ -3040,6 +3240,7 @@ sub Data {
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
+        'Allows invalid agents to generate individual-related stats.' => '',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             '',
         'Allows the administrators to login as other users, via the users administration panel.' =>
@@ -3090,19 +3291,19 @@ sub Data {
             '',
         'Closed tickets of customer' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '工单概览“小”模式列表字段过滤器',
-        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            '',
+        'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Columns that can be filtered in the queue view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Columns that can be filtered in the responsible view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
-        'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
-            '',
-        'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
-            '',
-        'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Columns that can be filtered in the ticket search result view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            '',
+        'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => '',
         'Company Status' => '',
@@ -3208,8 +3409,6 @@ sub Data {
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
-            '',
-        'Defines a list of groups which should have the permission to see stats dashboards (e.g. group1;group2;group3).' =>
             '',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
             '',
@@ -3729,7 +3928,7 @@ sub Data {
             '',
         'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             '',
-        'Defines the used character for email quotes in the ticket compose screen of the agent interface.' =>
+        'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             '',
         'Defines the user identifier for the customer panel.' => '',
         'Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).' =>
@@ -4138,6 +4337,7 @@ sub Data {
         'Makes the picture transparent.' => '',
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             '',
+        'Manage OTRS Group services.' => '',
         'Manage PGP keys for email encryption.' => '管理邮件加密的PGP密钥.',
         'Manage POP3 or IMAP accounts to fetch email from.' => '管理收取邮件的POP3或IMAP帐号.',
         'Manage S/MIME certificates for email encryption.' => '管理邮件的S/MIME加密证书.',
@@ -4840,7 +5040,6 @@ sub Data {
             '',
         'Ticket overview' => '工单一览',
         'TicketNumber' => '工单编号',
-        'Tickets' => '工单',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>

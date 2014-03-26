@@ -1,0 +1,153 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @package     Skin "default"
+ * @section     General
+ */
+
+.AdminServiceCenter .CheckResults > li {
+    margin-bottom: 10px;
+}
+
+.AdminServiceCenter .CheckResults > li:last-child {
+    margin-bottom: 0px;
+}
+
+.AdminServiceCenter .CheckResults > li > p {
+    padding: 3px 5px;
+    margin: 2px 0px 2px 28px;
+    display: inline-block;
+}
+
+.AdminServiceCenter textarea.Value {
+    min-height: 150px;
+    width: 96%;
+    line-height: 140%;
+    margin: 5px 0px 5px 28px;
+}
+
+.DialogMessage {
+    padding: 10px;
+    width: 350px;
+    min-height: 150px;
+}
+
+.AdminServiceCenter .CheckResults > li h3.Heading {
+    position: relative;
+    padding-left: 28px;
+    line-height: 130%;
+    margin-bottom: 0px;
+}
+
+.AdminServiceCenter .CheckResults > li.CheckResultUnknown span.Value,
+.AdminServiceCenter .CheckResults > li.CheckResultOK span.Value,
+.AdminServiceCenter .CheckResults > li.CheckResultInformation span.Value {
+    color: #888;
+}
+
+.AdminServiceCenter .CheckResults > li.CheckResultOK > p {
+    color: #888;
+}
+
+.AdminServiceCenter .CheckResults > li > p:empty {
+    display: none;
+}
+
+.AdminServiceCenter .CheckResults > li.CheckResultOK:hover > p {
+    color: #000;
+}
+
+.AdminServiceCenter .CheckResultProblem p {
+    background-color: #EDD3D3;
+}
+
+.AdminServiceCenter .CheckResultWarning p {
+    background-color: #F4EBCD;
+}
+
+/**
+ * @subsection  SubGroup
+ */
+
+.AdminServiceCenter .CheckResults > li h3.SubHeading {
+    margin-top: 10px;
+}
+
+.AdminServiceCenter .CheckResults > li table {
+    margin: 10px 0px 10px 28px;
+    width: 96%;
+}
+
+.AdminServiceCenter .CheckResults > li table td:first-child {
+    width: 27px;
+    padding-right: 0px;
+}
+
+/**
+ * @subsection  Flag
+ */
+.AdminServiceCenter .Flag {
+    background: url(../img/flag_shadow.png) no-repeat;
+    height: 18px;
+    width: 24px;
+    position: absolute;
+    left: 0px;
+    top: 5px;
+}
+
+.AdminServiceCenter .DataTable .Flag {
+    position: static;
+    display: block;
+}
+
+.AdminServiceCenter .DataTable .Flag span {
+    width: 15px;
+}
+
+.AdminServiceCenter .Flag.Small {
+    width: 17px;
+    height: 10px;
+    background-position: bottom right;
+}
+
+.AdminServiceCenter .Flag span {
+    display: block;
+    height: 16px;
+    margin-right: 2px;
+    text-indent: -9999px;
+    cursor: pointer;
+    /* set a default color for priorities */
+    background-color: #EFEFEF;
+}
+
+.AdminServiceCenter .Flag.Small span {
+    height: 8px;
+}
+
+.AdminServiceCenter .Flag.Unknown span {
+    background-color: #555555;
+}
+
+.AdminServiceCenter .Flag.Information span {
+    background-color: #CDCDCD;
+}
+
+.AdminServiceCenter .Flag.OK span {
+    background-color: #008000;
+}
+
+.AdminServiceCenter .Flag.Warning span {
+    background-color: #ffa000;
+}
+
+.AdminServiceCenter .Flag.Problem span {
+    background-color: #ff0000;
+}
+
+} /* end @media */

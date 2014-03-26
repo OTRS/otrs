@@ -16,6 +16,7 @@ use Kernel::System::CacheInternal;
 use Kernel::System::Environment;
 use Kernel::System::JSON;
 use Kernel::System::Scheduler::TaskManager;
+use Kernel::System::SupportDataCollector;
 use Kernel::System::SystemData;
 use Kernel::System::WebUserAgent;
 
@@ -105,10 +106,11 @@ sub new {
     }
 
     # create additional objects
-    $Self->{EnvironmentObject} = Kernel::System::Environment->new( %{$Self} );
-    $Self->{JSONObject}        = Kernel::System::JSON->new( %{$Self} );
-    $Self->{SystemDataObject}  = Kernel::System::SystemData->new( %{$Self} );
-    $Self->{TaskObject}        = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
+    $Self->{EnvironmentObject}          = Kernel::System::Environment->new( %{$Self} );
+    $Self->{JSONObject}                 = Kernel::System::JSON->new( %{$Self} );
+    $Self->{SystemDataObject}           = Kernel::System::SystemData->new( %{$Self} );
+    $Self->{SupportDataCollectorObject} = Kernel::System::SupportDataCollector->new( %{$Self} );
+    $Self->{TaskObject}                 = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
 
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %{$Self},
@@ -362,11 +364,12 @@ sub Register {
     );
 
     my %RegistrationData = (
-        State          => 'registered',
-        UniqueID       => $ResponseData->{UniqueID},
-        APIKey         => $ResponseData->{APIKey},
-        LastUpdateID   => $ResponseData->{LastUpdateID},
-        LastUpdateTime => $Self->{TimeObject}->CurrentTimestamp(),
+        State              => 'registered',
+        UniqueID           => $ResponseData->{UniqueID},
+        APIKey             => $ResponseData->{APIKey},
+        LastUpdateID       => $ResponseData->{LastUpdateID},
+        LastUpdateTime     => $Self->{TimeObject}->CurrentTimestamp(),
+        SupportDataSending => $Param{SupportDataSending}
     );
 
     # only add keys if the system has never been registered before
@@ -375,7 +378,10 @@ sub Register {
 
     if ( !$OldRegistration{UniqueID} ) {
 
-        for my $Key (qw(State UniqueID APIKey LastUpdateID LastUpdateTime Description Type)) {
+        for my $Key (
+            qw(State UniqueID APIKey LastUpdateID LastUpdateTime Description SupportDataSending Type)
+            )
+        {
             $Self->{SystemDataObject}->SystemDataAdd(
                 Key    => 'Registration::' . $Key,
                 Value  => $RegistrationData{$Key} || '',
@@ -396,12 +402,26 @@ sub Register {
         }
 
         # update registration information
-        for my $Key (qw(State UniqueID APIKey LastUpdateID LastUpdateTime Description Type)) {
-            $Self->{SystemDataObject}->SystemDataUpdate(
-                Key    => 'Registration::' . $Key,
-                Value  => $RegistrationData{$Key} || '',
-                UserID => 1,
-            );
+        for my $Key (
+            qw(State UniqueID APIKey LastUpdateID LastUpdateTime Description SupportDataSending Type)
+            )
+        {
+            if ( defined $OldRegistration{$Key} ) {
+
+                $Self->{SystemDataObject}->SystemDataUpdate(
+                    Key    => 'Registration::' . $Key,
+                    Value  => $RegistrationData{$Key} || '',
+                    UserID => 1,
+                );
+            }
+            else {
+
+                $Self->{SystemDataObject}->SystemDataAdd(
+                    Key    => 'Registration::' . $Key,
+                    Value  => $RegistrationData{$Key},
+                    UserID => 1,
+                );
+            }
         }
     }
 
@@ -510,6 +530,30 @@ sub RegistrationUpdateSend {
         $System{$Key} = $Param{$Key};
     }
 
+    my $SupportDataSending
+        = $Param{SupportDataSending} || $RegistrationData{SupportDataSending} || 'No';
+
+    # send SupportData if sending is activated
+    if ( $SupportDataSending eq 'Yes' ) {
+
+        my %SupportData = eval {
+            $Self->{SupportDataCollectorObject}->Collect();
+        };
+        if ( !$SupportData{Success} ) {
+            my $ErrorMessage = $SupportData{ErrorMessage} || $@ || 'unknown error';
+            $Self->{LogObject}->Log(
+                Priority => "error",
+                Message  => "SupportData could not be collected ($ErrorMessage)"
+            );
+        }
+
+        my $JSON = $Self->{JSONObject}->Encode(
+            Data => $SupportData{Result},
+        );
+
+        $System{SupportData} = $JSON;
+    }
+
     # define result
     my %Result = (
         Success => 0,
@@ -589,10 +633,11 @@ sub RegistrationUpdateSend {
 
     # gather and update provided data in SystemData table
     my %UpdateData = (
-        LastUpdateID   => $ResponseData->{UpdateID},
-        LastUpdateTime => $Self->{TimeObject}->CurrentTimestamp(),
-        Type           => $ResponseData->{Type},
-        Description    => $ResponseData->{Description},
+        LastUpdateID       => $ResponseData->{UpdateID},
+        LastUpdateTime     => $Self->{TimeObject}->CurrentTimestamp(),
+        Type               => $ResponseData->{Type},
+        Description        => $ResponseData->{Description},
+        SupportDataSending => $ResponseData->{SupportDataSending} || $SupportDataSending,
     );
 
     # if the registration server provided a new UniqueID and API key, use those.
@@ -612,11 +657,20 @@ sub RegistrationUpdateSend {
 
     for my $Key ( sort keys %UpdateData ) {
 
-        $Self->{SystemDataObject}->SystemDataUpdate(
-            Key    => 'Registration::' . $Key,
-            Value  => $UpdateData{$Key},
-            UserID => 1,
-        );
+        if ( defined $RegistrationData{$Key} ) {
+            $Self->{SystemDataObject}->SystemDataUpdate(
+                Key    => 'Registration::' . $Key,
+                Value  => $UpdateData{$Key},
+                UserID => 1,
+            );
+        }
+        else {
+            $Self->{SystemDataObject}->SystemDataAdd(
+                Key    => 'Registration::' . $Key,
+                Value  => $UpdateData{$Key},
+                UserID => 1,
+            );
+        }
     }
 
     $Result{Success} = 1;
