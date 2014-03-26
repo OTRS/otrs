@@ -273,6 +273,108 @@ sub TaskList {
     return @List;
 }
 
+=item TaskUpdate()
+
+update an existring Task
+
+    my $Success = $TaskObject->TaskUpdate(
+        ID      => 123m
+        Type    => 'GenericInterface',     # optional, e. g. GenericInterface, Test
+        DueTime => '2006-01-19 23:59:59',  # optional
+        Data    => {                       # optional
+            ...
+        },
+    );
+
+=cut
+
+sub TaskUpdate {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Key (qw(ID)) {
+        if ( !$Param{$Key} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            return;
+        }
+    }
+
+    # check if task exists and get its data to use it as a basis
+    my %Task = $Self->TaskGet(
+        ID => $Param{ID},
+    );
+    if ( !%Task ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Task with ID:'$Param{ID}' is invalid",
+        );
+        return;
+    }
+
+    # convert Task Data to a YAML string
+    $Task{Data} = $Self->{YAMLObject}->Dump( Data => $Task{Data} );
+
+    # return success if there is nothing to do
+    if ( !$Param{Type} && !$Param{DueTime} && !$Param{Data} ) {
+        return 1;
+    }
+
+    # check if DueTime parameter is a valid date
+    if ( $Param{DueTime} ) {
+        my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{DueTime},
+        );
+        if ( !$SystemTime ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "DueTime is invalid",
+            );
+            return;
+        }
+    }
+
+    my $Data;
+    if ( $Param{Data} ) {
+
+        # dump data as string
+        $Data = $Self->{YAMLObject}->Dump( Data => $Param{Data} );
+
+        # check if Data fits in the database
+        my $MaxDataLength = $Self->{ConfigObject}->Get('Scheduler::TaskDataLength') || 8_000;
+
+        if ( length $Data > $MaxDataLength ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Task data is too large for the current Database.',
+            );
+            return;
+        }
+    }
+
+    # md5 of system time
+    my $MD5 = $Self->{MainObject}->MD5sum(
+        String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
+    );
+
+    # update task definition
+    $Task{Type}    = $Param{Type}    // $Task{Type};
+    $Task{DueTime} = $Param{DueTime} // $Task{DueTime};
+    $Task{Data}    = $Data           // $Task{Data};
+
+    # sql
+    return if !$Self->{DBObject}->Do(
+        SQL => '
+            UPDATE scheduler_task_list
+            SET  task_data = ?, task_data_md5 = ?, task_type = ?, due_time = ?
+            WHERE id = ?',
+        Bind => [
+            \$Task{Data}, \$MD5, \$Task{Type}, \$Task{DueTime}, \$Param{ID},
+        ],
+    );
+
+    return 1;
+}
+
 1;
 
 =back

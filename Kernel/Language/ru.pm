@@ -561,6 +561,139 @@ sub Data {
         'Ticket Create Time' => 'Время создания заявки',
         'Ticket Close Time' => 'Время закрытия заявки',
 
+        # Template: AAASupportDataCollector
+        'Unknown' => '',
+        'Information' => 'Сведения',
+        'OK' => '',
+        'Problem' => 'Проблема',
+        'Webserver' => '',
+        'Operating System' => 'Операционная система',
+        'OTRS' => '',
+        'Table Presence' => '',
+        'Internal Error: Could not open file.' => '',
+        'Table Check' => '',
+        'Internal Error: Could not read file.' => '',
+        'Tables found which are not present in the database.' => '',
+        'Database Size' => '',
+        'Could not determine database size.' => '',
+        'Database Version' => '',
+        'Could not determine database version.' => '',
+        'Client Connection Charset' => '',
+        'Setting character_set_client needs to be utf8.' => '',
+        'Server Database Charset' => '',
+        'Setting character_set_database needs to be UNICODE or UTF8.' => '',
+        'Table Charset' => '',
+        'There were tables found which no not have utf8 as charset.' => '',
+        'Maximum Query Size' => '',
+        'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
+            '',
+        'Query Cache Size' => '',
+        'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
+            '',
+        'Default Storage Engine' => '',
+        'Tables with a different storage engine than the default engine were found.' =>
+            '',
+        'Table Status' => '',
+        'Tables found which do not have a regular status.' => '',
+        'MySQL 5.x or higher is required.' => '',
+        'NLS_LANG Setting' => '',
+        'NLS_LANG must be set to utf8 (e.g. german_germany.utf8).' => '',
+        'NLS_DATE_FORMAT Setting' => '',
+        'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => '',
+        'NLS_DATE_FORMAT Setting SQL Check' => '',
+        'Setting client_encoding needs to be UNICODE or UTF8.' => '',
+        'Setting server_encoding needs to be UNICODE or UTF8.' => '',
+        'Date Format' => '',
+        'Setting DateStyle needs to be ISO.' => '',
+        'PostgreSQL 8.x or higher is required.' => '',
+        'OTRS Disk Partition' => '',
+        'Disk Partitions Usage' => '',
+        'Distribution' => '',
+        'Could not determine distribution.' => '',
+        'Kernel Version' => '',
+        'Could not determine kernel version.' => '',
+        'Load' => '',
+        'The load should be at maximum, the number of procesors the system have (e.g. a load of 8 or less on a 8 CPUs system is OK.' =>
+            '',
+        'Could not determine system load.' => '',
+        'Perl Modules' => '',
+        'Not all required Perl modules are correctly installed.' => '',
+        'Perl Version' => 'Версия Perl',
+        'Free Swap Space (%)' => '',
+        'No Swap Enabled.' => '',
+        'Used Swap Space (MB)' => '',
+        'There should be more than 60% free swap space.' => '',
+        'There should be no more than 200 MB swap space used.' => '',
+        'Config Settings' => '',
+        'Could not determine value.' => '',
+        'Database Records' => '',
+        'Tickets' => 'Заявки',
+        'Ticket History Entries' => '',
+        'Articles' => '',
+        'Attachments (DB, Without HTML)' => '',
+        'Customers With At Least One Ticket' => '',
+        'Queues' => 'Очереди',
+        'Agents' => 'Агенты',
+        'Roles' => 'Роли',
+        'Groups' => 'Группы',
+        'Dynamic Fields' => 'Динамические поля',
+        'Dynamic Field Values' => '',
+        'GenericInterface Webservices' => '',
+        'Processes' => 'Процессы',
+        'Months Between First And Last Ticket' => '',
+        'Tickets Per Month (avg)' => '',
+        'Default SOAP Username and Password' => '',
+        'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.' =>
+            '',
+        'Default Admin Password' => '',
+        'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.' =>
+            '',
+        'Error Log' => '',
+        'There are error reports in your system log.' => '',
+        'File System Writable' => '',
+        'The file system on your OTRS partition is not writable.' => '',
+        'Domain Name' => '',
+        'Your FQDN setting is invalid.' => '',
+        'Package installation status' => '',
+        'Some packages are not correctly installed.' => '',
+        'Package List' => '',
+        'SystemID' => 'Системный ID',
+        'Your SystemID setting is invalid, it should only contain digits.' =>
+            '',
+        'OTRS Version' => 'Версия OTRS',
+        'Ticket Index Module' => '',
+        'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
+            '',
+        'Open Tickets' => 'Открытые заявки',
+        'You should not have more than 8,000 open tickets in your system.' =>
+            '',
+        'Ticket Search Index module' => '',
+        'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
+            '',
+        'Orphaned Records In ticket_lock_index Table' => '',
+        'Table ticket_lock_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
+            '',
+        'Orphaned Records In ticket_index Table' => '',
+        'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
+            '',
+        'Environment Variables' => '',
+        'Webserver Version' => '',
+        'Could not determine webserver version.' => '',
+        'CGI Accelerator Usage' => '',
+        'You should use FastCGI or mod_perl to increase your performance.' =>
+            '',
+        'mod_deflate Usage' => '',
+        'Please install mod_deflate to improve GUI speed.' => '',
+        'mod_headers Usage' => '',
+        'Please install mod_headers to improve GUI speed.' => '',
+        'Apache::Reload Usage' => '',
+        'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.' =>
+            '',
+        'Apache::DBI Usage' => '',
+        'Apache::DBI should be used to get a better performance  with pre-established database connections.' =>
+            '',
+        'You should use PerlEx to increase your performance.' => '',
+
         # Template: AAATicket
         'Status View' => 'Просмотр статуса',
         'Bulk' => 'Массовое действие',
@@ -578,7 +711,6 @@ sub Data {
         'Subject' => 'Тема',
         'Move' => 'Переместить',
         'Queue' => 'Очередь',
-        'Queues' => 'Очереди',
         'Priority' => 'Приоритет',
         'Priorities' => 'Приоритеты',
         'Priority Update' => 'Изменение приоритета',
@@ -1008,7 +1140,6 @@ sub Data {
             'Если ничего не выбрано, тогда у этой группы не будет прав (заявки будут недоступны клиенту).',
         'Search Results' => 'Результаты поиска:',
         'Customers' => 'Клиенты',
-        'Groups' => 'Группы',
         'No matches found.' => 'Совпадений не найдено.',
         'Change Group Relations for Customer' => 'Изменить связи с группами для клиента',
         'Change Customer Relations for Group' => 'Изменить связь клиентов с группой',
@@ -1048,7 +1179,6 @@ sub Data {
         'Delete field' => 'Удалить поле',
 
         # Template: AdminDynamicFieldCheckbox
-        'Dynamic Fields' => 'Динамические поля',
         'Field' => 'Поле',
         'Go back to overview' => 'Обратно в обзор',
         'General' => 'Общие',
@@ -1659,7 +1789,6 @@ sub Data {
             'Для создания нового Процесса вы можете импортировать Процесс экспортированный из другой системы или создать полностью новый.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             'Изменения в Процессах сделанные здесь будут актуальны после синхронизации данных Процесса. При синхронизации, все вновь внесенные изменения будут записаны в конигурационные файлы системы.',
-        'Processes' => 'Процессы',
         'Process name' => 'Имя Процесса',
         'Print' => 'Печать',
         'Export Process Configuration' => 'Экспортировать конфигурацию Процесса',
@@ -1689,6 +1818,8 @@ sub Data {
             'Помните, что изменение этого Диалога Активности повлияет на следующие Активности',
         'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
             'Помните, что клиенты не смогут видеть или использовать следующие поля: Владелец, Ответственный, Блокировка, Время ожидания и CustomerID.',
+        'The Queue field can only be used by customers when creating a new ticket.' =>
+            '',
         'Activity Dialog' => 'Диалог Активности',
         'Activity dialog Name' => 'Имя Диалога Активности',
         'Available in' => 'Доступно в',
@@ -1884,14 +2015,16 @@ sub Data {
         'System type' => 'Тип системы',
         'Unique ID' => 'Уникальный индентификатор',
         'Last communication with registration server' => 'Последняя связь с регистрационным сервером',
+        'Send support data' => '',
         'OTRS-ID Login' => 'Уч. запись OTRS-ID',
-        'System registration is a service of OTRS group, which provides a lot of advantages!' =>
-            'Регистрация системы - это сервис от OTRS group, который предоставляет много преимуществ!',
+        'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
+            'Регистрация системы - это сервис от OTRS Group, который предоставляет много преимуществ!',
         'Read more' => 'Подробно',
         'You need to log in with your OTRS-ID to register your system.' =>
             'Вы должны войти в систему со своей уч. записью OTRS-ID, чтобы зарегистрировать Вашу систему.',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             'Ваша уч. запись OTRS-ID - это адрес электронной почты, Вы раньше регистрировались в системе на веб-странице OTRS.com.',
+        'Data Protection' => '',
         'What are the advantages of system registration?' => 'Каковы преимущества регистрации системы?',
         'You will receive updates about relevant security releases.' => 'Вы получите обновления о соответствующих выпусках безопасности.',
         'With your system registration we can improve our services for you, because we have all relevant information available.' =>
@@ -1914,13 +2047,53 @@ sub Data {
             'Описание и тип системы, который Вы определяете сами, это помогает Вам идентифицировать и управлять деталями своих зарегистрированных систем.',
         'How often does my OTRS system send updates?' => 'Как часто моя система OTRS отправляет обновления(отчеты)?',
         'Your system will send updates to the registration server at regular intervals.' =>
-            'Ваша система отправит обновления (отчет) на сервер OTRS group периодически.',
+            'Ваша система отправит обновления (отчет) на сервер OTRS Group периодически.',
         'Typically this would be around once every three days.' => 'Обычно это происходит один раз в три дня.',
         'In case you would have further questions we would be glad to answer them.' =>
             'В случае, если у Вас возникли вопросы, мы будем рады ответить на них.',
         'Please visit our' => 'Посетите наш',
         'portal' => 'портал',
         'and file a request.' => 'и задайте вопрос.',
+        'Here at OTRS Group we take the protection of your personal details very seriously and strictly adhere to data protection laws.' =>
+            '',
+        'All passwords are automatically made unrecognizable before the information is sent.' =>
+            '',
+        'Under no circumstances will any data we obtain be sold or passed on to unauthorized third parties.' =>
+            '',
+        'The following explanation provides you with an overview of how we guarantee this protection and which type of data is collected for which purpose.' =>
+            '',
+        'Data Handling with \'System Registration\'' => '',
+        'Information received through the \'Service Center\' is saved by OTRS Group.' =>
+            '',
+        'This only applies to data that OTRS Group requires to analyze the performance and function of the OTRS server or to establish contact.' =>
+            '',
+        'Safety of Personal Details' => '',
+        'OTRS Group protects your personal data from unauthorized access, use or publication.' =>
+            '',
+        'OTRS Group ensures that the personal information you store on the server is protected from unauthorized access and publication.' =>
+            '',
+        'Disclosure of Details' => '',
+        'OTRS Group will not pass on your details to third parties unless required for business transactions.' =>
+            '',
+        'OTRS Group will only pass on your details to entitled public institutions and authorities if required by law or court order.' =>
+            '',
+        'Amendment of Data Protection Policy' => '',
+        'OTRS Group reserves the right to amend this security and data protection policy if required by technical developments.' =>
+            '',
+        'In this case we will also adapt our information regarding data protection accordingly.' =>
+            '',
+        'Please regularly refer to the latest version of our Data Protection Policy.' =>
+            '',
+        'Right to Information' => '',
+        'You have the right to demand information concerning the data saved about you, its origin and recipients, as well as the purpose of the data processing at any time.' =>
+            '',
+        'You can request information about the saved data by sending an e-mail to info@otrs.com.' =>
+            '',
+        'Further Information' => '',
+        'Your trust is very important to us. We are willing to inform you about the processing of your personal details at any time.' =>
+            '',
+        'If you have any questions that have not been answered by this Data Protection Policy or if you require more detailed information about a specific topic, please contact info@otrs.com.' =>
+            '',
         'If you deregister your system, you will loose these benefits:' =>
             'Если Вы удалите зарегистрированую систему, то Вы потеряете следующие преимущества:',
         'You need to log in with your OTRS-ID to deregister your system.' =>
@@ -1934,16 +2107,19 @@ sub Data {
             'Эти данные будут часто передаваться OTRS Group, когда Вы зарегистрируете эту систему.',
         'Attribute' => 'Атрибут',
         'FQDN' => 'Полное имя домена',
-        'OTRS Version' => 'Версия OTRS',
-        'Operating System' => 'Операционная система',
-        'Perl Version' => 'Версия Perl',
         'Optional description of this system.' => 'Необязательное описание этой системы',
+        'This will allow the system to send additional support data information.' =>
+            '',
+        'Service Center' => '',
+        'Support Data Management' => '',
         'Register' => 'Регистрация',
         'Deregister System' => 'Удалить зарегистрированиую систему(отрегистрировать)',
         'Continuing with this step will deregister the system from OTRS Group.' =>
             'Продолжите этот шаг и вы удалите зарегистрированиую ситему из скписка OTRS Group.',
         'Deregister' => 'Удалить регистрацию',
-        'You can modify the system type and description here.' => 'Вы можете изменить тип системы и описание здесь.',
+        'You can modify registration settings here.' => '',
+        'This will allow the system to send additional support data information to OTRS Group.' =>
+            '',
 
         # Template: AdminRole
         'Role Management' => 'Управление ролями',
@@ -1958,7 +2134,6 @@ sub Data {
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'Связь ролей с группами',
         'Filter for Roles' => 'Фильтр для Ролей',
-        'Roles' => 'Роли',
         'Select the role:group permissions.' => 'Выберите разрешения роль:группа.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
             'Если ничего не выбрано, тогда в этой группе нет прав (для этой роли заявки не будут доступны).',
@@ -1976,7 +2151,6 @@ sub Data {
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Связь агентов с ролями',
         'Filter for Agents' => 'Фильтр для Агентов',
-        'Agents' => 'Агенты',
         'Manage Role-Agent Relations' => 'Связь ролей с агентами',
         'Change Role Relations for Agent' => 'Изменить связи с ролями для агента',
         'Change Agent Relations for Role' => 'Изменить связи с агентами для роли',
@@ -2055,6 +2229,24 @@ sub Data {
         'Add Service' => 'Добавить Сервис',
         'Edit Service' => 'Изменить Сервис',
         'Sub-service of' => 'Подсервис сервиса',
+
+        # Template: AdminServiceCenterSupportDataCollector
+        'This data is sent to OTRS Group on a regular basis. To stop sending this data please update your system registration.' =>
+            '',
+        'You can manually trigger the Support Data sending by pressing this button:' =>
+            '',
+        'Send Update' => '',
+        'Sending Update...' => '',
+        'Support Data information was successfully sent.' => '',
+        'Was not possible to send Support Data information.' => '',
+        'Update Result' => '',
+        'Currently this data is only shown in this system.' => '',
+        'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
+            '',
+        'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
+            '',
+        'Support Data' => '',
+        'Error: Support data could not be collected (%s).' => '',
 
         # Template: AdminSession
         'Session Management' => 'Управление сеансами',
@@ -2265,6 +2457,10 @@ sub Data {
             '',
         'Grouped' => '',
         'Stacked' => '',
+        'Expanded' => '',
+        'Stream' => '',
+        'CSV' => '',
+        'PDF' => '',
 
         # Template: AgentDashboardTicketGeneric
         'My locked tickets' => 'Мои заблокированные заявки',
@@ -2412,6 +2608,11 @@ sub Data {
         'maximal period from' => 'Максимальный период с',
         'to' => 'по',
         'not changable for dashboard statistics' => '',
+        'Select Chart Type' => '',
+        'Chart Type' => '',
+        'Multi Bar Chart' => '',
+        'Multi Line Chart' => '',
+        'Stacked Area Chart' => '',
 
         # Template: AgentTicketActionCommon
         'Change Free Text of Ticket' => 'Изменить свободный текст заявки',
@@ -2569,6 +2770,8 @@ sub Data {
         'Create New' => 'Создать новый',
         'Profile link' => 'Ссылка на шаблон',
         'Save changes in template' => 'Сохранить изменения в шаблоне',
+        'Filters in use' => '',
+        'Additional filters' => '',
         'Add another attribute' => 'Добавить атрибут поиска',
         'Output' => 'Вывод результатов',
         'Fulltext' => 'Полнотекстовый',
@@ -2731,7 +2934,6 @@ sub Data {
 
         # Template: CustomerTicketZoom
         'Expand article' => 'Развернуть сообщение',
-        'Information' => 'Сведения',
         'Next Steps' => 'Далее',
         'Reply' => 'Ответить',
 
@@ -2841,7 +3043,6 @@ sub Data {
         'Database name' => 'Имя базы данных',
         'Check database settings' => 'Проверить настройки БД',
         'Result of database check' => 'Результат проверки базы данных',
-        'OK' => '',
         'Database check successful.' => 'База данных проверена успешно.',
         'Database User' => 'Пользователь базы данных',
         'New' => 'Новое',
@@ -2874,7 +3075,6 @@ sub Data {
         # Template: InstallerLicenseText
 
         # Template: InstallerSystem
-        'SystemID' => 'Системный ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'Идентификатор системы. Каждый номер заявки и каждый идентификатор HTTP-сессии - содержат этот номер.',
         'System FQDN' => 'Системное FQDN',
@@ -3046,6 +3246,7 @@ sub Data {
             'Допускает использование medium режима просмотра заявок (CustomerInfo => 1 - показывает также информацию о клиенте).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Допускает использование small(краткий) режима просмотра заявок (CustomerInfo => 1 - показывает также информацию о клиенте).',
+        'Allows invalid agents to generate individual-related stats.' => '',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             'Дает возможность администратору войти в систему как клиенту, через панель управления учетными записями клиентов.',
         'Allows the administrators to login as other users, via the users administration panel.' =>
@@ -3096,19 +3297,19 @@ sub Data {
             'Проверяет SystemID в номере заявки при обнаружении ответа коиента(follow-ups)(Используйте "Нет" если SystemID был изменен до получения ответа).',
         'Closed tickets of customer' => 'Закрытые заявки клиента',
         'Column ticket filters for Ticket Overviews type "Small".' => 'Фильтры в столбцах для просмотра заявок в режиме "Small".',
-        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
-            'Столбцы в которых допускаются фильтры в просмотре статусов в интерфейсе агента. Допустимые значения: 0 = Выключено, 1 = Включено, 2 - Включено по умолчанию. Внимание: здесь нельзя добавлять колонки, дополнительные будут проигнорированы (можно только заменить существующие).',
+        'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            '',
+        'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            '',
         'Columns that can be filtered in the queue view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Columns that can be filtered in the responsible view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
-        'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
-            '',
-        'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
-            '',
-        'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
-            '',
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            'Столбцы в которых допускаются фильтры в просмотре статусов в интерфейсе агента. Допустимые значения: 0 = Выключено, 1 = Включено, 2 - Включено по умолчанию. Внимание: здесь нельзя добавлять колонки, дополнительные будут проигнорированы (можно только заменить существующие).',
         'Columns that can be filtered in the ticket search result view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+            '',
+        'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => 'Комметарий для новых записей истории в интерфейсе клиента.',
         'Company Status' => 'Информация по компании клиента',
@@ -3214,8 +3415,6 @@ sub Data {
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
-            '',
-        'Defines a list of groups which should have the permission to see stats dashboards (e.g. group1;group2;group3).' =>
             '',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
             'Задать регулярное выражение для исключения некоторых адресов из проверки правописания (если "CheckEmailAddresses" установлено в "Да"). Введите regex в это поле для почтовых адресов, которые синтаксически неверны, но необходимы в системе (напр. "root@localhost").',
@@ -3735,7 +3934,7 @@ sub Data {
             'Задает временную зону выбранног календаря, который позднее может быть назначен определенной очереди.',
         'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             'Задает тип протокола, используемого веб-сервером для системы. Если протокол https используется вместо простого http, он должен быть указан здесь. Этот параметр не влияет на настройки сервера/ов и не изменяет метода доступа к системе, и если указан неверно, не может закрыть возможность подключения к ней. Это значение используется лишь как переменная OTRS_CONFIG_HttpType используемая как тэг при построении сообщений/уведомлений, для построения ссылки на заявку.',
-        'Defines the used character for email quotes in the ticket compose screen of the agent interface.' =>
+        'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             '',
         'Defines the user identifier for the customer panel.' => 'Задает идентификатор пользователя для клиентской панели.',
         'Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).' =>
@@ -4144,6 +4343,7 @@ sub Data {
         'Makes the picture transparent.' => 'Прозрачная картинка',
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             '',
+        'Manage OTRS Group services.' => '',
         'Manage PGP keys for email encryption.' => 'Управления PGP ключами для шифрования почтовых сообщений.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Управление POP3 или IMAP учетными записями для получения почтовых сообщений.',
         'Manage S/MIME certificates for email encryption.' => 'Управление S/MIME сертификатами для шифрования почты',
@@ -4846,7 +5046,6 @@ sub Data {
             '',
         'Ticket overview' => 'Обзор заявок',
         'TicketNumber' => 'Заявка №',
-        'Tickets' => 'Заявки',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             'Время (в сек) добавляемое к текущему, если установлено состояние ожидания. (по умолчанию: 86400 = 1 день).',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
@@ -5259,7 +5458,6 @@ sub Data {
         'Of couse this feature will take some system performance it self!' =>
             'Данная функция использует системные ресурсы!',
         'Only for ArticleCreate Event.' => 'Только при создании сообщений',
-        'Open Tickets' => 'Открытые заявки',
         'Options ' => 'Данные',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' =>
             'Поля информации о клиенте (например, &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
@@ -5319,7 +5517,6 @@ sub Data {
         'Position' => 'Сфера деятельности',
         'Print this ticket!' => 'Печать заявки!',
         'Prio' => 'Приоритет',
-        'Problem' => 'Проблема',
         'Queue <-> Auto Responses Management' => 'Автоответы в очереди',
         'Queue ID' => 'ID очереди',
         'Queue Management' => 'Управление очередью',
@@ -5502,6 +5699,7 @@ sub Data {
         'Yes means, send no agent and customer notifications on changes.' =>
             '«Да» — не отправлять уведомления агентам и клиентам при изменениях.',
         'Yes, save it with name' => 'Да, сохранить с именем',
+        'You can modify the system type and description here.' => 'Вы можете изменить тип системы и описание здесь.',
         'You got new message!' => 'У вас новое сообщение!',
         'You have to select two or more attributes from the select field!' =>
             'Вам необходимо выбрать два или более пунктов из выбранного поля!',

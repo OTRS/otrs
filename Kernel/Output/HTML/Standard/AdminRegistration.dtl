@@ -1,0 +1,500 @@
+# --
+# AdminRegistration.dtl - provides HTML form for AdminRegistration
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- dtl:block:Overview -->
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"System Registration Management"}</h1>
+
+    <div class="SidebarColumn">
+
+<!-- dtl:block:ActionList -->
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Actions"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+<!-- dtl:block:ActionOverview -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="CallForAction">
+                            <span>$Text{"Go to overview"}</span>
+                        </a>
+                    </li>
+<!-- dtl:block:ActionOverview -->
+<!-- dtl:block:ActionUpdate -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Edit" class="CallForAction">
+                            <span>$Text{"Edit details"}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://portal.otrs.com/otrs/customer.pl?Action=CustomerOTRSSystems" target="_blank" class="CallForAction">
+                            <span>$Text{"Overview of registered systems"}</span>
+                        </a>
+                    </li>
+<!-- dtl:block:ActionUpdate -->
+<!-- dtl:block:ActionDeregister -->
+                    <li>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=OTRSIDValidate" class="CallForAction">
+                            <span>$Text{"Deregister system"}</span>
+                        </a>
+                    </li>
+<!-- dtl:block:ActionDeregister -->
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:ActionList -->
+
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+<!-- dtl:block:OverviewRegistered -->
+            <div class="Header">
+                <h2>$Text{"System Registration"}</h2>
+            </div>
+            <div class="Content">
+
+                <div class="ServiceDescription">
+                    $Text{"This system is registered with OTRS Group."}
+                </div>
+
+                <fieldset class="TableLike">
+
+                    <label>$Text{"System type"}:</label>
+                    <div class="Value">$QData{"Type"}</div>
+                    <div class="Clear"></div>
+
+                    <label>$Text{"Description"}:</label>
+                    <div class="Value">$QData{"Description"}</div>
+                    <div class="Clear"></div>
+
+                    <label>$Text{"Unique ID"}:</label>
+                    <div class="Value">$QData{"UniqueID"}</div>
+                    <div class="Clear"></div>
+
+                    <label>$Text{"Last communication with registration server"}:</label>
+                    <div class="Value">$TimeShort{"$Data{"LastUpdateTime"}"}</div>
+                    <div class="Clear"></div>
+
+                    <label>$Text{"Send support data"}:</label>
+                    <div class="Value">$Text{"$QData{"SupportDataSending"}"}</div>
+                    <div class="Clear"></div>
+
+                </fieldset>
+            </div>
+            <div class="Clear"></div>
+<!-- dtl:block:OverviewRegistered -->
+<!-- dtl:block:OTRSIDValidation -->
+            <div class="Header">
+                <h2>$Text{"OTRS-ID Login"}</h2>
+            </div>
+            <div class="Content">
+                <form id="FormRegistration" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="BaseLink" value="$Env{"CGIHandle"}" />
+                    <input type="hidden" name="Action" value="$Env{"Action"}" />
+                    <input type="hidden" name="Subaction" value="CheckOTRSID" />
+
+<!-- dtl:block:OTRSIDRegistration -->
+                    <div class="ServiceDescription">
+                        <p>
+                            $Text{"System registration is a service of OTRS Group, which provides a lot of advantages!"}
+                            <a href="#" id="RegistrationMoreInfo">$Text{"Read more"}</a>.
+                        </p>
+                        <p>
+                            $Text{"You need to log in with your OTRS-ID to register your system."}
+                            $Text{"Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage."}
+                            <a href="#" id="RegistrationDataProtection">$Text{"Data Protection"}</a>
+                        </p>
+                    </div>
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    $('#RegistrationMoreInfo').bind('click', function() {
+        Core.UI.Dialog.ShowDialog({
+            Modal: true,
+            Title: '$JSText{"System Registration"}',
+            HTML: $('#QADialog').html(),
+            PositionTop: '70px',
+            PositionLeft: 'Center',
+            CloseOnEscape: true,
+            CloseOnClickOutside: true
+        });
+        return false;
+    });
+    $('#RegistrationDataProtection').bind('click', function() {
+        Core.UI.Dialog.ShowDialog({
+            Modal: true,
+            Title: '$JSText{"Data Protection"}',
+            HTML: $('#DPDialog').html(),
+            PositionTop: '10px',
+            PositionLeft: 'Center',
+            CloseOnEscape: true,
+            CloseOnClickOutside: true
+        });
+        return false;
+    })
+//]]></script>
+<!-- dtl:js_on_document_complete -->
+                    <div id="QADialog" class="Hidden">
+                        <div class="QA">
+                            <h1>$Text{"What are the advantages of system registration?"}</h1>
+                            <ul>
+                                <li>
+                                    $Text{"You will receive updates about relevant security releases."}
+                                </li>
+                                <li>
+                                    $Text{"With your system registration we can improve our services for you, because we have all relevant information available."}
+                                </li>
+                            </ul>
+                            <p>
+                                $Text{"This is only the beginning!"}
+                                $Text{"We will inform you about our new services and offerings soon."}
+                            </p>
+
+                            <h1>$Text{"Can I use OTRS without being registered?"}</h1>
+                            <p>
+                                $Text{"System registration is optional."}
+                                $Text{"You can download and use OTRS without being registered."}
+                            </p>
+
+                            <h1>$Text{"Is it possible to deregister?"}</h1>
+                            <p>
+                                $Text{"You can deregister at any time."}
+                            </p>
+
+                            <h1>$Text{"Which data is transfered when registering?"}</h1>
+                            <p>
+                                $Text{"A registered system sends the following data to OTRS Group:"}
+                                $Text{"Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version."}
+                            </p>
+
+                            <h1>$Text{"Why do I have to provide a description for my system?"}</h1>
+                            <p>
+                                $Text{"The description of the system is optional."} $Text{"The description and system type you specify help you to identify and manage the details of your registered systems."}
+                            </p>
+
+                            <h1>$Text{"How often does my OTRS system send updates?"}</h1>
+                            <p>
+                                $Text{"Your system will send updates to the registration server at regular intervals."} $Text{"Typically this would be around once every three days."}
+                            </p>
+                            <p>
+                                $Text{"In case you would have further questions we would be glad to answer them."} $Text{"Please visit our"} <a href="https://portal.otrs.com/" target="_blank">$Text{"portal"}</a> $Text{"and file a request."}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div id="DPDialog" class="Hidden">
+                        <div class="QA DP">
+                            <p>
+                                $Text{"Here at OTRS Group we take the protection of your personal details very seriously and strictly adhere to data protection laws."}
+                                $Text{"All passwords are automatically made unrecognizable before the information is sent."}
+                                $Text{"Under no circumstances will any data we obtain be sold or passed on to unauthorized third parties."}
+                            </p>
+                            <p>
+                                $Text{"The following explanation provides you with an overview of how we guarantee this protection and which type of data is collected for which purpose."}
+                            </p>
+
+                            <h1>$Text{"Data Handling with 'System Registration'"}</h1>
+                            <p>
+                                $Text{"Information received through the 'Service Center' is saved by OTRS Group."}
+                                $Text{"This only applies to data that OTRS Group requires to analyze the performance and function of the OTRS server or to establish contact."}
+                            </p>
+
+                            <h1>$Text{"Safety of Personal Details"}</h1>
+                            <p>
+                                $Text{"OTRS Group protects your personal data from unauthorized access, use or publication."}
+                                $Text{"OTRS Group ensures that the personal information you store on the server is protected from unauthorized access and publication."}
+                                <p>
+
+                                    <h1>$Text{"Disclosure of Details"}</h1>
+                                    <p>
+                                        $Text{"OTRS Group will not pass on your details to third parties unless required for business transactions."}
+                                        $Text{"OTRS Group will only pass on your details to entitled public institutions and authorities if required by law or court order."}
+                                    </p>
+
+                                    <h1>$Text{"Amendment of Data Protection Policy"}</h1>
+                                    <p>
+                                        $Text{"OTRS Group reserves the right to amend this security and data protection policy if required by technical developments."}
+                                        $Text{"In this case we will also adapt our information regarding data protection accordingly."}
+                                        $Text{"Please regularly refer to the latest version of our Data Protection Policy."}
+                                    </p>
+
+                                    <h1>$Text{"Right to Information"}</h1>
+                                    <p>
+                                        $Text{"You have the right to demand information concerning the data saved about you, its origin and recipients, as well as the purpose of the data processing at any time."}
+                                        $Text{"You can request information about the saved data by sending an e-mail to info@otrs.com."}
+                                    </p>
+
+                                    <h1>$Text{"Further Information"}</h1>
+                                    <p>
+                                        $Text{"Your trust is very important to us. We are willing to inform you about the processing of your personal details at any time."}
+                                        $Text{"If you have any questions that have not been answered by this Data Protection Policy or if you require more detailed information about a specific topic, please contact info@otrs.com."}
+                                    </p>
+
+                                </div>
+                            </div>
+<!-- dtl:block:OTRSIDRegistration -->
+
+<!-- dtl:block:OTRSIDDeregistration -->
+                            <div class="ServiceDescription">
+                                <p>
+                                    $Text{"If you deregister your system, you will loose these benefits:"}
+                                </p>
+                                <ul>
+                                    <li>
+                                        $Text{"You will receive updates about relevant security releases."}
+                                    </li>
+                                    <li>
+                                        $Text{"With your system registration we can improve our services for you, because we have all relevant information available."}
+                                    </li>
+                                </ul>
+                                <p>$Text{"You need to log in with your OTRS-ID to deregister your system."}</p>
+                                <p>$Text{"Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage."}</p>
+                            </div>
+<!-- dtl:block:OTRSIDDeregistration -->
+                            <fieldset class="TableLike">
+                                <label class="Mandatory" for="OTRSID"><span class="Marker">*</span> $Text{"OTRS-ID"}:</label>
+                                <div class="Field">
+                                    <input type="email" name="OTRSID" id="OTRSID" value="$QData{"OTRSID"}" class="W50pc Validate_Required $QData{"EmailInvalid"}" maxlength="200"/>
+                                    <div id="OTRSIDError" class="TooltipErrorMessage">
+                                        <p>$Text{"This field is required."}</p>
+                                    </div>
+                                    <div id="OTRSIDServerError" class="TooltipErrorMessage">
+                                        <p>$Text{"This field is required."}</p>
+                                    </div>
+                                </div>
+                                <div class="Clear"></div>
+                                <label class="Mandatory" for="Password"><span class="Marker">*</span> $Text{"Password"}:</label>
+                                <div class="Field">
+                                    <input type="password" name="Password" id="Password" class="W50pc Validate_Required $QData{"PasswordInvalid"}" maxlength="200"/>
+                                    <div id="PasswordError" class="TooltipErrorMessage">
+                                        <p>$Text{"This field is required."}</p>
+                                    </div>
+                                    <div id="PasswordServerError" class="TooltipErrorMessage">
+                                        <p>$Text{"This field is required."}</p>
+                                    </div>
+                                    <p class="FieldExplanation">
+                                        $Text{"You don't have an OTRS-ID yet?"}
+                                        <a href="https://portal.otrs.com/otrs/customer.pl#Signup" target="_blank">
+                                            $Text{"Sign up now"}
+                                        </a>
+                                    </p>
+                                    <p class="FieldExplanation">
+                                        $Text{"Forgot your password?"}
+                                        <a href="https://portal.otrs.com/otrs/customer.pl#Reset" target="_blank">
+                                            $Text{"Retrieve a new one"}
+                                        </a>
+                                    </p>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <div class="Field SpacingTop">
+                                    <button class="Primary CallForAction" type="submit" id="Submit">
+                                        <span>$Text{"Next"} <i class="icon-caret-right"></i></span>
+                                    </button>
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
+
+                            <fieldset class="TableLike Hidden ErrorMsg">
+                                <div class="Field">
+                                    <p id="FormRegistrationResultMessage" class="Error"></p>
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
+                        </form>
+                    </div>
+<!-- dtl:block:OTRSIDValidation -->
+<!-- dtl:block:Registration -->
+                    <div class="Header">
+                        <h2>$Text{"System Registration"}</h2>
+                    </div>
+                    <div class="Content">
+                        <div class="ServiceDescription">
+                            $Text{"This data will be frequently transferred to OTRS Group when you register this system."}
+                        </div>
+                        <div id="SystemDataListContainer" class="ListContainer">
+                            <table class="DataTable SystemDataListContainer" id="SystemDataList">
+                                <thead>
+                                    <tr>
+                                        <th>$Text{"Attribute"}</th>
+                                        <th>$Text{"Value"}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>$Text{"FQDN"}</td>
+                                        <td>$QData{"FQDN"}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>$Text{"OTRS Version"}</td>
+                                        <td>$QData{"OTRSVersion"}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>$Text{"Database"}</td>
+                                        <td>$QData{"Version"}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>$Text{"Operating System"}</td>
+                                        <td>$QData{"OSName"}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>$Text{"Perl Version"}</td>
+                                        <td>$QData{"PerlVersion"}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <form action="$Env{"CGIHandle"}" method="post" id="FormRegistration" class="Validate PreventMultipleSubmits">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="AddAction"/>
+                            <input type="hidden" name="Token" value="$QData{"Token"}"/>
+                            <input type="hidden" name="OTRSID" value="$QData{"OTRSID"}"/>
+
+                            <fieldset class="TableLike Registration">
+
+                                <label class="Mandatory" for="Type"><span class="Marker">*</span> $Text{"System type"}:</label>
+                                <div class="Field">
+                                    $Data{"SystemTypeOption"}
+                                    <div id="TypeError" class="TooltipErrorMessage">
+                                        <p>$Text{"This field is required."}</p>
+                                    </div>
+                                    <div id="SystemTypeServerError" class="TooltipErrorMessage">
+                                        <p>$Text{"This field is required."}</p>
+                                    </div>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label for="Description">$Text{"Description"}:</label>
+                                <div class="Field">
+                                    <input type="text" name="Description" id="Description" value="$QData{"Description"}" class="W50pc" maxlength="250"/>
+                                    <p class="FieldExplanation">$Text{"Optional description of this system."}</p>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label for="SupportDataSending">$Text{"Send support data"}:</label>
+                                <div class="Field">
+                                    <input type="checkbox" name="SupportDataSending" id="SupportDataSending" value="Yes" />
+                                    <p class="FieldExplanation">
+                                        $Text{"This will allow the system to send additional support data information."} <br/>
+                                        <a href="$Env{"Baselink"}Action=AdminServiceCenter" target="_blank">
+                                            $Text{"Service Center"} &raquo; $Text{"Support Data Management"}
+                                        </a>
+                                    </p>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <div class="Field SpacingTop">
+                                    <button class="Primary CallForAction" type="submit" id="Submit" value="$Text{"Register"}">
+                                        <span>
+                                            <i class="icon-check"></i>
+                                            $Text{"Register"}
+                                        </span>
+                                    </button>
+                                    $Text{"or"}
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
+                        </form>
+                    </div>
+<!-- dtl:block:Registration -->
+<!-- dtl:block:Deregistration -->
+                    <div class="Header">
+                        <h2>$Text{"Deregister System"}</h2>
+                    </div>
+                    <div class="Content">
+
+                        <form action="$Env{"CGIHandle"}" method="post" id="FormRegistration" class="Validate PreventMultipleSubmits">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="DeregisterAction"/>
+                            <input type="hidden" name="Token" value="$QData{"Token"}"/>
+                            <input type="hidden" name="OTRSID" value="$QData{"OTRSID"}"/>
+
+                            <fieldset class="TableLike">
+                                <div class="ServiceDescription">
+                                    $Text{"Continuing with this step will deregister the system from OTRS Group."}
+                                </div>
+
+                                <div class="Field SpacingTop">
+                                    <button class="Primary CallForAction" type="submit" id="Submit" value="$Text{"Deregister"}">
+                                        <span>$Text{"Deregister"}</span>
+                                    </button>
+                                    $Text{"or"}
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
+                        </form>
+                    </div>
+<!-- dtl:block:Deregistration -->
+<!-- dtl:block:Edit -->
+                    <div class="Header">
+                        <h2>$Text{"System Registration"}</h2>
+                    </div>
+                    <div class="Content">
+                        <div class="ServiceDescription">
+                            $Text{"You can modify registration settings here."}
+                        </div>
+
+                        <form action="$Env{"CGIHandle"}" method="post" id="FormRegistration" class="Validate PreventMultipleSubmits">
+                            <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                            <input type="hidden" name="Subaction" value="EditAction"/>
+
+                            <fieldset class="TableLike Registration">
+
+                                <label class="Mandatory" for="Type"><span class="Marker">*</span> $Text{"System type"}:</label>
+                                <div class="Field">
+                                    $Data{"SystemTypeOption"}
+                                    <div id="TypeError" class="TooltipErrorMessage">
+                                        <p>$Text{"This field is required."}</p>
+                                    </div>
+                                    <div id="SystemTypeServerError" class="TooltipErrorMessage">
+                                        <p>$Text{"This field is required."}</p>
+                                    </div>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label for="Description">$Text{"Description"}:</label>
+                                <div class="Field">
+                                    <input type="text" name="Description" id="Description" value="$QData{"Description"}" class="W50pc" maxlength="250"/>
+                                    <p class="FieldExplanation">$Text{"Optional description of this system."}</p>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label for="SupportDataSending">$Text{"Send support data"}:</label>
+                                <div class="Field">
+                                    <input type="checkbox" name="SupportDataSending" id="SupportDataSending" value="Yes" $Data{"SupportDataSendingChecked"} />
+                                    <p class="FieldExplanation">
+                                        $Text{"This will allow the system to send additional support data information to OTRS Group."} <br/>
+                                        <a href="$Env{"Baselink"}Action=AdminServiceCenter" target="_blank">
+                                            $Text{"Service Center"} &raquo; $Text{"Support Data Management"}
+                                        </a>
+                                    </p>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <div class="Field SpacingTop">
+                                    <button class="Primary CallForAction" type="submit" id="Submit" value="$Text{"Update"}">
+                                        <span>$Text{"Update"}</span>
+                                    </button>
+                                    $Text{"or"}
+                                    <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Cancel"}</a>
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
+                        </form>
+                    </div>
+<!-- dtl:block:Edit -->
+                </div>
+            </div>
+            <div class="Clear"></div>
+        </div>
+<!-- dtl:block:Overview -->

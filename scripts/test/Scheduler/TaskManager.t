@@ -242,6 +242,166 @@ $Self->Is(
     "TaskList() size",
 );
 
+# basic update test
+sleep 1;
+my %OriginalTask = (
+    Data => {
+        Name => 'Just a Test',
+    },
+    Type    => 'Test',
+    DueTime => '2099-12-12 12:00:00',
+);
+my $TaskID = $TaskManagerObject->TaskAdd(%OriginalTask);
+$Self->IsNot(
+    $TaskID,
+    undef,
+    "TaskAdd() for TaskUpdate() should not be undefined",
+);
+push @TaskIDs, $TaskID;
+
+my %Task = $TaskManagerObject->TaskGet(
+    ID => $TaskID,
+);
+
+for my $Attribute (qw(Type DueTime)) {
+    $Self->Is(
+        $Task{$Attribute},
+        $OriginalTask{$Attribute},
+        "TaskGet() $Attribute before Update",
+    );
+}
+$Self->IsDeeply(
+    $Task{Data},
+    $OriginalTask{Data},
+    "TaskGet() Data before Update",
+);
+
+@Tests = (
+    {
+        Name    => 'Empty',
+        Config  => {},
+        Success => 0,
+    },
+    {
+        Name   => 'Wrong DueTime',
+        Config => {
+            ID      => $TaskID,
+            DueTime => '123',
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'Only ID',
+        Config => {
+            ID => $TaskID,
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Update Type',
+        Config => {
+            ID   => $TaskID,
+            Type => 'Any Type',
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Update DueTime',
+        Config => {
+            ID      => $TaskID,
+            DueTime => '2099-12-12 13:00:00',
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Update Data',
+        Config => {
+            ID   => $TaskID,
+            Data => {
+                Other => 'Other',
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Update All',
+        Config => {
+            ID      => $TaskID,
+            Type    => 'Ultimate',
+            DueTime => '2098-08-21 16:00:00',
+            Data    => {
+                Data => 'Data',
+            },
+        },
+        Success => 1,
+    },
+);
+
+for my $Test (@Tests) {
+    my $Success = $TaskManagerObject->TaskUpdate( %{ $Test->{Config} } );
+
+    %Task = $TaskManagerObject->TaskGet(
+        ID => $TaskID,
+    );
+
+    if ( !$Test->{Success} ) {
+        $Self->False(
+            $Success,
+            "$Test->{Name} TaskUpdate() - With False",
+        );
+
+        for my $Attribute (qw(Type DueTime)) {
+            $Self->Is(
+                $Task{$Attribute},
+                $OriginalTask{$Attribute},
+                "$Test->{Name} TaskGet() $Attribute after Update",
+            );
+        }
+        $Self->IsDeeply(
+            $Task{Data},
+            $OriginalTask{Data},
+            "$Test->{Name} TaskGet() Data after Update",
+        );
+    }
+    else {
+        $Self->True(
+            $Success,
+            "$Test->{Name} TaskUpdate() - With True",
+        );
+
+        for my $Attribute (qw(Type DueTime)) {
+            my $ExpectedAttribute = $OriginalTask{$Attribute};
+            if ( $Test->{Config}->{$Attribute} ) {
+                $ExpectedAttribute = $Test->{Config}->{$Attribute};
+            }
+            $Self->Is(
+                $Task{$Attribute},
+                $ExpectedAttribute,
+                "$Test->{Name} TaskGet() $Attribute after Update",
+            );
+        }
+        my $ExpectedData = $OriginalTask{Data};
+        if ( $Test->{Config}->{Data} ) {
+            $ExpectedData = $Test->{Config}->{Data};
+        }
+        $Self->IsDeeply(
+            $Task{Data},
+            $ExpectedData,
+            "$Test->{Name} TaskGet() Data after Update",
+        );
+    }
+
+    # restore task
+    $Success = $TaskManagerObject->TaskUpdate(
+        ID => $TaskID,
+        %OriginalTask,
+    );
+    $Self->True(
+        $Success,
+        "$Test->{Name} TaskUpdate() - for restore With True",
+    );
+}
+
 # delete config
 for my $TaskID (@TaskIDs) {
     my $Success = $TaskManagerObject->TaskDelete(

@@ -54,6 +54,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.6 2014-??-??
+ - 2014-03-25 Added support for Service Center and Support Data.
  - 2014-03-25 Fixed bug#[10405](http://bugs.otrs.org/show_bug.cgi?id=10405) - When using the search feature of the tree selection overlay, one is not able to expand subtrees of matching entries.
  - 2014-03-24 Fixed bug#[10340](http://bugs.otrs.org/show_bug.cgi?id=10340) - Dynamic field not visible in queue view screen (AgentTicketOverviewSmall.dtl).
  - 2014-03-24 Fixed bug#[10397](http://bugs.otrs.org/show_bug.cgi?id=10397) - DynamicField configuration in SysConfig 'DefaultOverviewColumns' causes JS error.

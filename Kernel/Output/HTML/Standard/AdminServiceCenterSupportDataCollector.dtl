@@ -1,0 +1,218 @@
+# --
+# AdminServiceCenterSupportDataCollector.dtl - provides HTML form for service center
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="MainBox ARIARoleMain AdminServiceCenter LayoutFixedSidebar SidebarFirst">
+    <h1>$Text{"Service Center"} » $Text{"Support Data Management"}</h1>
+
+    <div class="SidebarColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>$Text{"Note"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+<!-- dtl:block:NoteRegisteredSending -->
+                    <li class="Separated">
+                        <p class="FieldExplanation">$Text{"This data is sent to OTRS Group on a regular basis. To stop sending this data please update your system registration."}</p>
+                        <a href="$Env{"Baselink"}Action=AdminRegistration;Subaction=Edit" class="CallForAction">
+                            <span>$Text{"System Registration"}</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <p class="FieldExplanation">$Text{"You can manually trigger the Support Data sending by pressing this button:"}</p>
+                        <a class="CallForAction LittleSpacingTop" id="SendUpdate" name="SendUpdate" >
+                            <span>$Text{"Send Update"}</span>
+                        </a>
+                    </li>
+
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+
+    $('#SendUpdate').bind('click', function (Event) {
+        var TextClass = '';
+        Core.UI.Dialog.ShowContentDialog('<div class="Spacing Center"><span class="AJAXLoader W33pc" title="$JSText{"Sending Update..."}"></span></div>','$JSText{"Sending Update..."}', '10px', 'Center', true, undefined, true);
+
+        Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), 'Action=$Env{"Action"};Subaction=SendUpdate;', function (Response) {
+
+                // if the waiting dialog was cancelled,
+                // do not show the search dialog as well
+                if (!$('.Dialog:visible').length) {
+                    return;
+                }
+
+            var ResponseMessage = "$JSText{"Support Data information was successfully sent."}";
+
+            if ( Response === 0) {
+                ResponseMessage = "$JSText{"Was not possible to send Support Data information."}";
+                TextClass = 'Error';
+            }
+
+            Core.UI.Dialog.ShowContentDialog(
+                '<div class="Spacing Center SendUpdateResultDialog"><span class="W50pc ' + TextClass + '" title="' + ResponseMessage + '">' + ResponseMessage + '</span></div>', '$JSText{"Update Result"}',
+                '10px',
+                'Center',
+                true,
+                [
+                    {
+                        Label: '$JSText{"Close"}',
+                        Class: 'Primary',
+                        Function: function () {
+                            Core.UI.Dialog.CloseDialog($('.SendUpdateResultDialog'));
+                        }
+                    },
+                ],
+                true
+            );
+
+        });
+
+        Event.preventDefault();
+        Event.stopPropagation();
+        return false;
+    });
+
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:NoteRegisteredSending -->
+
+<!-- dtl:block:NoteNotRegisteredNotSending -->
+                    <li>
+                        <p class="FieldExplanation">
+                            $Text{"Currently this data is only shown in this system."}
+                            $Text{"It is highly recommended to send this data to OTRS Group in order to get better support."}
+                            <br/>
+                            $Text{"To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the 'send support data' option.)"}
+                        </p>
+                        <a href="$Env{"Baselink"}Action=AdminRegistration" class="CallForAction">
+                            <span>$Text{"System Registration"}</span>
+                        </a>
+                    </li>
+<!-- dtl:block:NoteNotRegisteredNotSending -->
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+<!-- dtl:block:SupportDataCollectionFailed -->
+    <div class="ContentColumn">
+        <h2>$Text{"Support Data"}</h2>
+        <div class="WidgetSimple">
+            <div class="Header">
+            </div>
+            <div class="Content">
+                <p>$Text{"Error: Support data could not be collected (%s).", "$Data{"ErrorMessage"}"}</p>
+            </div>
+        </div>
+    </div>
+<!-- dtl:block:SupportDataCollectionFailed -->
+
+<!-- dtl:block:SupportData -->
+    <div class="ContentColumn">
+<!-- dtl:block:SupportDataGroup -->
+        <div class="WidgetSimple">
+            <div class="Header">
+                <div class="WidgetAction Toggle">
+                    <a href="#" title="$Text{"Show or hide the content"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                </div>
+                <h2>$Text{"$Data{"Group"}"}</h2>
+            </div>
+            <div class="Content">
+                <ul class="CheckResults">
+<!-- dtl:block:SupportDataRow -->
+                    <li class="CheckResult$QData{"StatusName"}">
+<!-- dtl:block:SupportDataEntry -->
+                        <h3 class="Heading">
+                            <span title="$Text{"$QData{"StatusName"}"}" class="Flag Small $QData{"StatusName"}">
+                                <span>$QData{"StatusName"}</span>
+                            </span>
+                            $Text{"$QData{"Label"}"}
+<!-- dtl:block:SupportDataEntryValueSingleLine -->
+                            <span class="Value">($QData{"Value"})</span>
+<!-- dtl:block:SupportDataEntryValueSingleLine -->
+                        </h3>
+                        <p class="SpacingTopSmall">$Text{"$QData{"Message"}"}</p>
+<!-- dtl:block:SupportDataEntryValueMultiLine -->
+                        <textarea rows="5" cols="80" readonly="readonly" class="Value">$QData{"Value"}</textarea>
+<!-- dtl:block:SupportDataEntryValueMultiLine -->
+<!-- dtl:block:SupportDataEntry -->
+<!-- dtl:block:SupportDataSubGroup -->
+                        <h3 class="Heading">
+                            <span title="$Text{"$QData{"StatusName"}"}" class="Flag Small $QData{"StatusName"}">
+                                <span>$QData{"StatusName"}</span>
+                            </span>
+                            $Text{"$QData{"SubGroup"}"}
+                        </h3>
+                        <table class="DataTable">
+                            <tbody>
+<!-- dtl:block:SupportDataSubEntry -->
+                                <tr>
+                                    <td>
+                                        <span title="$Text{"$QData{"StatusName"}"}" class="Flag Small $QData{"StatusName"}">
+                                            <span>$QData{"StatusName"}</span>
+                                        </span>
+                                    </td>
+                                    <td class="ItemLabel">$Text{"$QData{"Label"}"}</td>
+                                    <td>$QData{"Value"}</td>
+                                    <td>
+<!-- dtl:block:SupportDataSubEntryMessage -->
+                                        <a href="#" class="ShowItemMessage"><i class="icon-info-sign"></i> $Text{"Details"}</a>
+                                        <div class="Hidden">
+                                            <p class="DialogMessage">$Text{"$QData{"Message"}"}</p>
+                                        </div>
+<!-- dtl:block:SupportDataSubEntryMessage -->
+                                    </td>
+                                </tr>
+<!-- dtl:block:SupportDataSubEntry -->
+                            </tbody>
+                        </table>
+<!-- dtl:block:SupportDataSubGroup -->
+                    </li>
+<!-- dtl:block:SupportDataRow -->
+                </ul>
+            </div>
+        </div>
+<!-- dtl:block:SupportDataGroup -->
+    </div>
+<!-- dtl:block:SupportData -->
+    <div class="Clear"></div>
+</div>
+
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('.ShowItemMessage').bind('click', function() {
+        Core.UI.Dialog.ShowContentDialog($(this).next('.Hidden').html(), $(this).closest('tr').find('.ItemLabel').text(), '200px', 'Center');
+        return false;
+    });
+
+    $('.DataTable').each(function() {
+        if ($(this).find('.Flag.Problem').length) {
+            $(this).prev('h3').find('.Flag').addClass('Problem');
+            return true;
+        }
+        if ($(this).find('.Flag.Warning').length) {
+            $(this).prev('h3').find('.Flag').addClass('Warning');
+            return true;
+        }
+        if ($(this).find('.Flag.OK').length) {
+            $(this).prev('h3').find('.Flag').addClass('OK');
+            return true;
+        }
+        if ($(this).find('.Flag.Information').length) {
+            $(this).prev('h3').find('.Flag').addClass('Information');
+            return true;
+        }
+        if ($(this).find('.Flag.Unknown').length) {
+            $(this).prev('h3').find('.Flag').addClass('Unknown');
+            return true;
+        }
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
