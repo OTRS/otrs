@@ -252,6 +252,18 @@ my %OriginalTask = (
     DueTime => '2099-12-12 12:00:00',
 );
 my $TaskID = $TaskManagerObject->TaskAdd(%OriginalTask);
+
+if ( !$TaskID ) {
+    my $Message = $Self->{LogObject}->GetLogEntry(
+        Type => 'error',
+        What => 'Message',
+    );
+    $Self->False(
+        1,
+        "TaskAdd() not added because: $Message",
+    );
+}
+
 $Self->IsNot(
     $TaskID,
     undef,
