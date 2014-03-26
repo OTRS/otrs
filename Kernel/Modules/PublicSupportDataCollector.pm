@@ -31,7 +31,7 @@ sub new {
         }
     }
 
-    $Self->{SystemDataObject} = Kernel::System::SystemData->new( %{$Self} );
+    $Self->{SystemDataObject}           = Kernel::System::SystemData->new( %{$Self} );
     $Self->{SupportDataCollectorObject} = Kernel::System::SupportDataCollector->new( %{$Self} );
 
     return $Self;
@@ -42,11 +42,12 @@ sub Run {
 
     # The request must be authenticated with the correct ChallengeToken
     my $ChallengeToken = $Self->{ParamObject}->GetParam( Param => 'ChallengeToken' );
-    my $StoredChallengeToken = $Self->{SystemDataObject}->SystemDataGet( Key => 'SupportDataCollector::ChallengeToken');
+    my $StoredChallengeToken
+        = $Self->{SystemDataObject}->SystemDataGet( Key => 'SupportDataCollector::ChallengeToken' );
 
     # Immediately discard the token (only useable once).
     $Self->{SystemDataObject}->SystemDataDelete(
-        Key => 'SupportDataCollector::ChallengeToken',
+        Key    => 'SupportDataCollector::ChallengeToken',
         UserID => 1,
     );
 
@@ -54,7 +55,7 @@ sub Run {
 
     if ( !$ChallengeToken || $ChallengeToken ne $StoredChallengeToken ) {
         %Result = (
-            Success => 0,
+            Success      => 0,
             ErrorMessage => 'Forbidden',
         );
     }
