@@ -1,0 +1,218 @@
+# --
+# AdminServiceCenterSupportDataCollector.tt - provides HTML form for service center
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="MainBox ARIARoleMain AdminServiceCenter LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Service Center") | html %] » [% Translate("Support Data Management") | html %]</h1>
+
+    <div class="SidebarColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Note") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+[% RenderBlockStart("NoteRegisteredSending") %]
+                    <li class="Separated">
+                        <p class="FieldExplanation">[% Translate("This data is sent to OTRS Group on a regular basis. To stop sending this data please update your system registration.") | html %]</p>
+                        <a href="[% Env("Baselink") %]Action=AdminRegistration;Subaction=Edit" class="CallForAction">
+                            <span>[% Translate("System Registration") | html %]</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <p class="FieldExplanation">[% Translate("You can manually trigger the Support Data sending by pressing this button:") | html %]</p>
+                        <a class="CallForAction LittleSpacingTop" id="SendUpdate" name="SendUpdate" >
+                            <span>[% Translate("Send Update") | html %]</span>
+                        </a>
+                    </li>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+
+    $('#SendUpdate').bind('click', function (Event) {
+        var TextClass = '';
+        Core.UI.Dialog.ShowContentDialog('<div class="Spacing Center"><span class="AJAXLoader W33pc" title=[% Translate("Sending Update...") | JSON %]></span></div>',[% Translate("Sending Update...") | JSON %], '10px', 'Center', true, undefined, true);
+
+        Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), 'Action=[% Env("Action") %];Subaction=SendUpdate;', function (Response) {
+
+                // if the waiting dialog was cancelled,
+                // do not show the search dialog as well
+                if (!$('.Dialog:visible').length) {
+                    return;
+                }
+
+            var ResponseMessage = [% Translate("Support Data information was successfully sent.") | JSON %];
+
+            if ( Response === 0) {
+                ResponseMessage = [% Translate("Was not possible to send Support Data information.") | JSON %];
+                TextClass = 'Error';
+            }
+
+            Core.UI.Dialog.ShowContentDialog(
+                '<div class="Spacing Center SendUpdateResultDialog"><span class="W50pc ' + TextClass + '" title="' + ResponseMessage + '">' + ResponseMessage + '</span></div>', [% Translate("Update Result") | JSON %],
+                '10px',
+                'Center',
+                true,
+                [
+                    {
+                        Label: [% Translate("Close") | JSON %],
+                        Class: 'Primary',
+                        Function: function () {
+                            Core.UI.Dialog.CloseDialog($('.SendUpdateResultDialog'));
+                        }
+                    },
+                ],
+                true
+            );
+
+        });
+
+        Event.preventDefault();
+        Event.stopPropagation();
+        return false;
+    });
+
+//]]></script>
+[% END %]
+[% RenderBlockEnd("NoteRegisteredSending") %]
+
+[% RenderBlockStart("NoteNotRegisteredNotSending") %]
+                    <li>
+                        <p class="FieldExplanation">
+                            [% Translate("Currently this data is only shown in this system.") | html %]
+                            [% Translate("It is highly recommended to send this data to OTRS Group in order to get better support.") | html %]
+                            <br/>
+                            [% Translate("To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the 'send support data' option.)") | html %]
+                        </p>
+                        <a href="[% Env("Baselink") %]Action=AdminRegistration" class="CallForAction">
+                            <span>[% Translate("System Registration") | html %]</span>
+                        </a>
+                    </li>
+[% RenderBlockEnd("NoteNotRegisteredNotSending") %]
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+[% RenderBlockStart("SupportDataCollectionFailed") %]
+    <div class="ContentColumn">
+        <h2>[% Translate("Support Data") | html %]</h2>
+        <div class="WidgetSimple">
+            <div class="Header">
+            </div>
+            <div class="Content">
+                <p>[% Translate("Error: Support data could not be collected (%s).", Data.ErrorMessage) | html %]</p>
+            </div>
+        </div>
+    </div>
+[% RenderBlockEnd("SupportDataCollectionFailed") %]
+
+[% RenderBlockStart("SupportData") %]
+    <div class="ContentColumn">
+[% RenderBlockStart("SupportDataGroup") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <div class="WidgetAction Toggle">
+                    <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                </div>
+                <h2>[% Translate(Data.Group) | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="CheckResults">
+[% RenderBlockStart("SupportDataRow") %]
+                    <li class="CheckResult[% Data.StatusName | html %]">
+[% RenderBlockStart("SupportDataEntry") %]
+                        <h3 class="Heading">
+                            <span title="[% Translate(Data.StatusName) | html %]" class="Flag Small [% Data.StatusName | html %]">
+                                <span>[% Data.StatusName | html %]</span>
+                            </span>
+                            [% Translate(Data.Label) | html %]
+[% RenderBlockStart("SupportDataEntryValueSingleLine") %]
+                            <span class="Value">([% Data.Value | html %])</span>
+[% RenderBlockEnd("SupportDataEntryValueSingleLine") %]
+                        </h3>
+                        <p class="SpacingTopSmall">[% Translate(Data.Message) | html %]</p>
+[% RenderBlockStart("SupportDataEntryValueMultiLine") %]
+                        <textarea rows="5" cols="80" readonly="readonly" class="Value">[% Data.Value | html %]</textarea>
+[% RenderBlockEnd("SupportDataEntryValueMultiLine") %]
+[% RenderBlockEnd("SupportDataEntry") %]
+[% RenderBlockStart("SupportDataSubGroup") %]
+                        <h3 class="Heading">
+                            <span title="[% Translate(Data.StatusName) | html %]" class="Flag Small [% Data.StatusName | html %]">
+                                <span>[% Data.StatusName | html %]</span>
+                            </span>
+                            [% Translate(Data.SubGroup) | html %]
+                        </h3>
+                        <table class="DataTable">
+                            <tbody>
+[% RenderBlockStart("SupportDataSubEntry") %]
+                                <tr>
+                                    <td>
+                                        <span title="[% Translate(Data.StatusName) | html %]" class="Flag Small [% Data.StatusName | html %]">
+                                            <span>[% Data.StatusName | html %]</span>
+                                        </span>
+                                    </td>
+                                    <td class="ItemLabel">[% Translate(Data.Label) | html %]</td>
+                                    <td>[% Data.Value | html %]</td>
+                                    <td>
+[% RenderBlockStart("SupportDataSubEntryMessage") %]
+                                        <a href="#" class="ShowItemMessage"><i class="icon-info-sign"></i> [% Translate("Details") | html %]</a>
+                                        <div class="Hidden">
+                                            <p class="DialogMessage">[% Translate(Data.Message) | html %]</p>
+                                        </div>
+[% RenderBlockEnd("SupportDataSubEntryMessage") %]
+                                    </td>
+                                </tr>
+[% RenderBlockEnd("SupportDataSubEntry") %]
+                            </tbody>
+                        </table>
+[% RenderBlockEnd("SupportDataSubGroup") %]
+                    </li>
+[% RenderBlockEnd("SupportDataRow") %]
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("SupportDataGroup") %]
+    </div>
+[% RenderBlockEnd("SupportData") %]
+    <div class="Clear"></div>
+</div>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('.ShowItemMessage').bind('click', function() {
+        Core.UI.Dialog.ShowContentDialog($(this).next('.Hidden').html(), $(this).closest('tr').find('.ItemLabel').text(), '200px', 'Center');
+        return false;
+    });
+
+    $('.DataTable').each(function() {
+        if ($(this).find('.Flag.Problem').length) {
+            $(this).prev('h3').find('.Flag').addClass('Problem');
+            return true;
+        }
+        if ($(this).find('.Flag.Warning').length) {
+            $(this).prev('h3').find('.Flag').addClass('Warning');
+            return true;
+        }
+        if ($(this).find('.Flag.OK').length) {
+            $(this).prev('h3').find('.Flag').addClass('OK');
+            return true;
+        }
+        if ($(this).find('.Flag.Information').length) {
+            $(this).prev('h3').find('.Flag').addClass('Information');
+            return true;
+        }
+        if ($(this).find('.Flag.Unknown').length) {
+            $(this).prev('h3').find('.Flag').addClass('Unknown');
+            return true;
+        }
+    });
+//]]></script>
+[% END %]
