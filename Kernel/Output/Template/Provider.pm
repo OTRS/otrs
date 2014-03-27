@@ -427,7 +427,12 @@ sub _PreProcessTemplateContent {
             }{
                 # Load the template via the provider.
                 # We'll use SUPER::load here because we don't need the preprocessing twice.
-                ($Self->SUPER::load($1))[0];
+                my $TemplateContent = ($Self->SUPER::load($1))[0];
+
+                # Remove commented lines already here because of problems when the InsertTemplate tag
+                #   is not on the beginning of the line.
+                $TemplateContent =~ s/^#.*\n//gm;
+                $TemplateContent;
             }esmxg;
 
     } until ( !$Replaced || ++$ReplaceCounter > 100 );
