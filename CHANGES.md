@@ -1,4 +1,4 @@
-#3.2.16 2014-??-??
+#3.2.16 2014-04-01
  - 2014-03-18 Fixed bug#[10334](http://bugs.otrs.org/show_bug.cgi?id=10334) - Deleting the attachment deletes the  recepients too.
  - 2014-03-18 Fixed bug#[10374](http://bugs.otrs.org/show_bug.cgi?id=10374) - OTRS does not protect against clickjacking.
  - 2014-03-14 Fixed bug#[10318](http://bugs.otrs.org/show_bug.cgi?id=10318) - Dynamic Field: Multi Select does not allow empty values.
