@@ -29,7 +29,7 @@ sub Run {
     my $Version = $Self->{DBObject}->Version();
 
     if ($Version) {
-        $Self->AddResultOk(
+        $Self->AddResultInformation(
             Label => 'Database Version',
             Value => $Version,
         );
