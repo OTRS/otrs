@@ -873,7 +873,7 @@ sub Data {
         'Mark as Spam!' => 'Marquer comme Spam !',
         'My Queues' => 'Mes files',
         'Shown Tickets' => 'Tickets affichés',
-        'Shown Columns' => '',
+        'Shown Columns' => 'Colonnes affcihées',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
             'Votre e-mail avec le numéro de ticket "<OTRS_TICKET>" a été fusionné avec le ticket numéro "<OTRS_MERGE_TO_TICKET>".',
         'Ticket %s: first response time is over (%s)!' => 'Ticket %s: le temps imparti pour la première réponse est dépassé (%s) !',
@@ -975,7 +975,7 @@ sub Data {
         'History::Misc' => '%s',
         'History::SetPendingTime' => 'Mise à jour: %s',
         'History::StateUpdate' => 'État Avant: "%s" Après: "%s"',
-        'History::TicketDynamicFieldUpdate' => 'Mise à jour: %s=%s;%s=%s;',
+        'History::TicketDynamicFieldUpdate' => 'Mise à jour: %s=%s;%s=%s;%s=%s;',
         'History::WebRequestCustomer' => 'Requête du client via le web.',
         'History::TicketLinkAdd' => 'Ajout d\'un lien vers le ticket "%s".',
         'History::TicketLinkDelete' => 'Suppression du lien vers le ticket "%s".',
@@ -2395,7 +2395,7 @@ sub Data {
         'Apply' => 'Appliquer',
 
         # Template: AgentCustomerInformationCenter
-        'Customer Information Center' => '',
+        'Customer Information Center' => 'Tableau de bord client',
 
         # Template: AgentCustomerInformationCenterBlank
 
@@ -2409,7 +2409,7 @@ sub Data {
         'It is going to be deleted from the field, please try again.' => 'Cela va être supprimé du champ. Veuillez ré-éssayer',
 
         # Template: AgentCustomerTableView
-        'Note: Customer is invalid!' => '',
+        'Note: Customer is invalid!' => 'Note : Le client est incorrect!',
 
         # Template: AgentDashboard
         'Dashboard' => 'Tableau de bord',
@@ -2418,8 +2418,8 @@ sub Data {
         'in' => 'dans',
 
         # Template: AgentDashboardCommon
-        'Available Columns' => '',
-        'Visible Columns (order by drag & drop)' => '',
+        'Available Columns' => 'Colonnes disponibles',
+        'Visible Columns (order by drag & drop)' => 'Colonnes visbles (glisser/déposer pour les ordonner)',
 
         # Template: AgentDashboardCustomerCompanyInformation
 
@@ -2451,8 +2451,8 @@ sub Data {
         # Template: AgentDashboardStats
         'The content of this statistic is being prepared for you, please be patient.' =>
             '',
-        'Grouped' => '',
-        'Stacked' => '',
+        'Grouped' => 'Groupé',
+        'Stacked' => 'Empilé',
         'Expanded' => '',
         'Stream' => '',
         'CSV' => '',
@@ -2464,7 +2464,7 @@ sub Data {
         'My responsibilities' => 'Mes responsabilités',
         'Tickets in My Queues' => 'Tickets dans mes Files',
         'Service Time' => 'Temps pour le service',
-        'Remove active filters for this widget.' => '',
+        'Remove active filters for this widget.' => 'Supprimer les filtres actifs pour ce widget',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => '',
@@ -2618,7 +2618,7 @@ sub Data {
         'Set Pending' => 'Définir la mise en attente',
         'Change Priority of Ticket' => 'Changer la priorité du Ticket',
         'Change Responsible of Ticket' => 'Changer le responsable du Ticket',
-        'All fields marked with an asterisk (*) are mandatory.' => '',
+        'All fields marked with an asterisk (*) are mandatory.' => 'Tous les champs marqués avec un astérisque (*) sont obligatoires.',
         'Service invalid.' => 'Service invalide',
         'New Owner' => 'Nouveau Propriétaire',
         'Please set a new owner!' => 'Merci de renseigner un propriétaire',
@@ -2675,7 +2675,7 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Créer un Nouveau Ticket par E-mail',
         'From queue' => 'De la file',
-        'To customer user' => '',
+        'To customer user' => 'Vers le client',
         'Please include at least one customer user for the ticket.' => '',
         'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
@@ -2717,7 +2717,7 @@ sub Data {
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Changer les options de recherche',
-        'Remove active filters for this screen.' => '',
+        'Remove active filters for this screen.' => 'Supprimer les filtres actifs sur cette page',
         'Tickets per page' => 'Tickets par page',
 
         # Template: AgentTicketOverviewPreview
@@ -2773,7 +2773,7 @@ sub Data {
         'Fulltext' => 'Texte Complet',
         'Remove' => 'Supprimer',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
-            '',
+            'Recherche dans les attributs De, Vers, Copie à, Sujet et corps du message, outrepassant les autres filtres sur ces attributs.',
         'Customer User Login' => 'Nom de connexion du client',
         'Created in Queue' => 'Créé dans la file',
         'Lock state' => 'État verrouillé',
@@ -3308,7 +3308,7 @@ sub Data {
         'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             '',
         'Comment for new history entries in the customer interface.' => '',
-        'Company Status' => '',
+        'Company Status' => 'Statut de l\'entreprise',
         'Company Tickets' => 'Tickets de l\'entreprise',
         'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
@@ -3349,20 +3349,20 @@ sub Data {
         'Create new process ticket' => '',
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
-        'Customer Company Administration' => '',
-        'Customer Company Information' => '',
-        'Customer User <-> Groups' => '',
-        'Customer User <-> Services' => '',
-        'Customer User Administration' => '',
+        'Customer Company Administration' => 'Administration des clients',
+        'Customer Company Information' => 'Information sur le client',
+        'Customer User <-> Groups' => 'Utilisateur client <-> Groupes',
+        'Customer User <-> Services' => 'Utilisateur client <-> Services',
+        'Customer User Administration' => 'Administration des utilisateurs clients',
         'Customer Users' => 'Clients',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
-        'CustomerName' => '',
+        'CustomerName' => 'Nom du client',
         'Customers <-> Groups' => 'Clients <-> Groupes',
         'Data used to export the search result in CSV format.' => 'Données utilisées pour exporter les résultats de recherche dans le format CSV.',
-        'Date / Time' => '',
+        'Date / Time' => 'Date / Heure',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
             '',
         'Default ACL values for ticket actions.' => 'ACL par défaut pour les actions du ticket.',
@@ -4326,6 +4326,7 @@ sub Data {
         'List of all CustomerCompany events to be displayed in the GUI.' =>
             '',
         'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all Package events to be displayed in the GUI.' => '',
         'List of all article events to be displayed in the GUI.' => '',
         'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
@@ -4427,6 +4428,8 @@ sub Data {
         'Overview of all open Tickets.' => 'Aperçu de tous les tickets ouverts',
         'PGP Key Management' => '',
         'PGP Key Upload' => '',
+        'Package event module file a scheduler task for update registration.' =>
+            '',
         'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
