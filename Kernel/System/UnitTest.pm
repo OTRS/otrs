@@ -153,11 +153,11 @@ sub Run {
                     },
                 );
 
-                push @{ $Self->{NotOkInfo} }, [ $File ];
+                push @{ $Self->{NotOkInfo} }, [$File];
 
                 # HERE the actual tests are run!!!
                 if ( !eval ${$UnitTestFile} ) {    ## no critic
-                    if ( $@ ) {
+                    if ($@) {
                         $Self->True( 0, "ERROR: Error in $File: $@" );
                         print STDERR "ERROR: Error in $File: $@\n";
                     }
@@ -691,11 +691,11 @@ sub _PrintSummary {
         print " TestOk:      $ResultSummary{TestOk}\n";
         print " TestNotOk:   $ResultSummary{TestNotOk}\n";
 
-        if ($ResultSummary{TestNotOk}) {
+        if ( $ResultSummary{TestNotOk} ) {
             print " FailedTests:\n";
             FAILEDFILE:
             for my $FailedFile ( @{ $Self->{NotOkInfo} || [] } ) {
-                my ($File, @Tests) = @{ $FailedFile || [] };
+                my ( $File, @Tests ) = @{ $FailedFile || [] };
                 next FAILEDFILE if !@Tests;
                 print sprintf "  %s #%s\n", $File, join ", ", @Tests;
             }

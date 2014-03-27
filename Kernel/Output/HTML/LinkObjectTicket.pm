@@ -47,7 +47,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed ( qw(UserLanguage UserID) )
+    for my $Needed (qw(UserLanguage UserID))
     {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }

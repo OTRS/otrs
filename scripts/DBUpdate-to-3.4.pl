@@ -116,7 +116,8 @@ Please run it as the 'otrs' user or with the help of su:
 sub _CommonObjectsBase {
     my %CommonObject = $Kernel::OM->ObjectHash(
         Objects =>
-            [qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject SysConfigObject)],
+            [
+            qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject SysConfigObject)],
     );
     return \%CommonObject;
 }

@@ -140,7 +140,7 @@ $Selenium->RunTest(
                 "Found entries in the autocomplete dropdown for input string $AutocompleteInput",
             );
         }
-    }
+        }
 );
 
 1;

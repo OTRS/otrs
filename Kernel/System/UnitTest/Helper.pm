@@ -188,7 +188,8 @@ sub TestUserCreate {
 
     # set user language
     my $UserLanguage = $Param{Language} || 'en';
-    $Self->{UserObject}->SetPreferences( UserID => $TestUserID, Key => 'UserLanguage', Value => $UserLanguage );
+    $Self->{UserObject}
+        ->SetPreferences( UserID => $TestUserID, Key => 'UserLanguage', Value => $UserLanguage );
     $Self->{UnitTestObject}->True( 1, "Set user UserLanguage to $UserLanguage" );
 
     return $TestUserLogin;
@@ -233,7 +234,8 @@ sub TestCustomerUserCreate {
 
     # set customer user language
     my $UserLanguage = $Param{Language} || 'en';
-    $Self->{CustomerUserObject}->SetPreferences( UserID => $TestUser, Key => 'UserLanguage', Value => $UserLanguage );
+    $Self->{CustomerUserObject}
+        ->SetPreferences( UserID => $TestUser, Key => 'UserLanguage', Value => $UserLanguage );
     $Self->{UnitTestObject}->True( 1, "Set customer user UserLanguage to $UserLanguage" );
 
     return $TestUser;

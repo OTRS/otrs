@@ -1490,9 +1490,9 @@ sub Run {
         );
 
         USERID:
-        for my $UserID (sort keys %AllUsers) {
+        for my $UserID ( sort keys %AllUsers ) {
 
-            if (!$ValidUsers{$UserID}) {
+            if ( !$ValidUsers{$UserID} ) {
                 $UsersInvalid{$UserID} = $AllUsers{$UserID};
                 next USERID;
             }
@@ -1504,7 +1504,7 @@ sub Run {
         }
 
         # also show invalid agents (if any)
-        if (scalar %UsersInvalid) {
+        if ( scalar %UsersInvalid ) {
             push @ShownUsers, {
                 Key      => '-',
                 Value    => '_____________________',
@@ -1520,7 +1520,7 @@ sub Run {
                 Value    => '',
                 Disabled => 1,
             };
-            for my $UserID (sort keys %UsersInvalid) {
+            for my $UserID ( sort keys %UsersInvalid ) {
                 push @ShownUsers, {
                     Key   => $UserID,
                     Value => $UsersInvalid{$UserID},

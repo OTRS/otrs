@@ -1084,9 +1084,9 @@ sub Run {
         if ( $Data{SenderType} !~ /customer/ ) {
 
             # replace From/To, To/From because sender is agent
-            my $To   = $Data{To};
-            $Data{To}      = $Data{From};
-            $Data{From}    = $To;
+            my $To = $Data{To};
+            $Data{To}   = $Data{From};
+            $Data{From} = $To;
 
             $Data{ReplyTo} = '';
         }

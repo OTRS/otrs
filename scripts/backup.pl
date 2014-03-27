@@ -88,7 +88,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     },
     DBObject => {
         AutoConnectNo => 1,
-    }
+        }
 );
 my %CommonObject = $Kernel::OM->ObjectHash(
     Objects => [qw(ConfigObject EncodeObject LogObject MainObject DBObject)],

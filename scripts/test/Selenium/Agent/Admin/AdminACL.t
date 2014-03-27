@@ -190,8 +190,8 @@ JAVASCRIPT
             'Check for .NewDataItem element',
         );
 
-        # now lets add the DynamicField element on level 2, which should create a new dropdown element
-        # containing dynamic fields and an 'Add all' button
+      # now lets add the DynamicField element on level 2, which should create a new dropdown element
+      # containing dynamic fields and an 'Add all' button
         $Selenium->find_element( "#ACLMatch .ItemAdd option[value='DynamicField']", 'css' )
             ->click();
         $Self->Is(

@@ -304,7 +304,8 @@ my @Tests = (
         SuccessAdd    => 1,
         SuccessUpdate => 1,
         Add           => {
-            Name => 'NotificationHTMLNameSuccess-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ' . $RandomID,
+            Name => 'NotificationHTMLNameSuccess-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ'
+                . $RandomID,
             Subject => 'Notification subject-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
             Body    => 'Body for notification-<br>äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
             Type    => 'text/html',
@@ -321,8 +322,8 @@ my @Tests = (
             Name => 'NotificationHTML-äüßÄÖÜ€исáéíúúÁÉÍÚñÑNameModifiedSuccess'
                 . $RandomID,
             Subject => 'Notification-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ subject modified',
-            Body    => 'Body for notification-<br>äüßÄÖÜ€исáéíúúÁÉÍÚñÑ modified',
-            Type    => 'text/html',
+            Body => 'Body for notification-<br>äüßÄÖÜ€исáéíúúÁÉÍÚñÑ modified',
+            Type => 'text/html',
             Charset => 'utf-8',
             Comment => 'Just something modified for test-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
             Data    => {

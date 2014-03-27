@@ -39,7 +39,7 @@ sub new {
 
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new( %{$Self} );
-    $Self->{HTMLUtilsObject}        = Kernel::System::HTMLUtils->new( %{$Self} );
+    $Self->{HTMLUtilsObject}    = Kernel::System::HTMLUtils->new( %{$Self} );
 
     # get dynamic fields
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -872,7 +872,8 @@ sub _SendNotification {
             for my $ArticleKey ( sort keys %Article ) {
                 next KEY if !$Article{$ArticleKey};
 
-                $Notification{Body} =~ s/${Start}$ArticleItem$ArticleKey${End}/$Article{$ArticleKey}/gi;
+                $Notification{Body}
+                    =~ s/${Start}$ArticleItem$ArticleKey${End}/$Article{$ArticleKey}/gi;
                 $Notification{Subject} =~ s/<$ArticleItem$ArticleKey>/$Article{$ArticleKey}/gi;
             }
 
@@ -954,7 +955,8 @@ sub _SendNotification {
                     );
                 }
 
-                $Notification{Body} =~ s/${Start}$ArticleItem(EMAIL|NOTE|BODY)\[.+?\]${End}/$NewOldBody/g;
+                $Notification{Body}
+                    =~ s/${Start}$ArticleItem(EMAIL|NOTE|BODY)\[.+?\]${End}/$NewOldBody/g;
             }
         }
 
