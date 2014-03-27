@@ -277,8 +277,9 @@ sub HandleError {
     return if !$Data;
     $Data = MIME::Base64::decode_base64($Data);
 
+    # This file should survive unit test scenario runs, so save it in a global directory.
     my ( $FH, $Filename ) = File::Temp::tempfile(
-        DIR    => $Self->{UnitTestObject}->{ConfigObject}->Get('TempDir'),
+        DIR    => '/tmp/',
         SUFFIX => '.png',
         UNLINK => 0,
     );
