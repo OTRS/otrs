@@ -141,7 +141,7 @@ $Selenium->RunTest(
             UserID   => 1,
         );
 
-    }
+        }
 );
 
 1;

@@ -25,51 +25,53 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new(
     UnitTestObject => $Self,
 );
 
-$Selenium->RunTest( sub {
+$Selenium->RunTest(
+    sub {
 
-    my $WebPath = $Self->{ConfigObject}->Get('Frontend::WebPath');
+        my $WebPath = $Self->{ConfigObject}->Get('Frontend::WebPath');
 
-    $Selenium->get("${WebPath}js/test/JSUnitTest.html");
+        $Selenium->get("${WebPath}js/test/JSUnitTest.html");
 
-    # wait for the javascript tests (including AJAX) to complete
-    WAIT:
-    for ( 1 .. 20 ) {
-        if ( eval { $Selenium->find_element( "p.result span.failed", 'css' ); } ) {
-            last WAIT;
+        # wait for the javascript tests (including AJAX) to complete
+        WAIT:
+        for ( 1 .. 20 ) {
+            if ( eval { $Selenium->find_element( "p.result span.failed", 'css' ); } ) {
+                last WAIT;
+            }
+            sleep(0.2);
         }
-        sleep(0.2);
-    }
 
-    $Selenium->find_element( "p.result span.failed", 'css' );
-    $Selenium->find_element( "p.result span.passed", 'css' );
-    $Selenium->find_element( "p.result span.total",  'css' );
+        $Selenium->find_element( "p.result span.failed", 'css' );
+        $Selenium->find_element( "p.result span.passed", 'css' );
+        $Selenium->find_element( "p.result span.total",  'css' );
 
-    my ( $Passed, $Failed, $Total );
-    $Passed = $Selenium->execute_script(
-        "return \$('p.result span.passed').text()"
-    );
-    $Failed = $Selenium->execute_script(
-        "return \$('p.result span.failed').text()"
-    );
-    $Total
-        = $Selenium->execute_script(
-        "return \$('p.result span.total').text()"
+        my ( $Passed, $Failed, $Total );
+        $Passed = $Selenium->execute_script(
+            "return \$('p.result span.passed').text()"
         );
-
-    $Self->True( $Passed, 'Found passed tests' );
-    $Self->Is( $Passed, $Total, 'Total number of tests' );
-    $Self->False( $Failed, 'Failed tests' );
-
-    for my $Test ( 1 .. $Passed ) {
-        $Self->True( 1, 'Successful JavaScript unit test found' );
-    }
-
-    for my $Test ( 1 .. $Failed ) {
-        $Self->True(
-            0,
-            'Failed JavaScript unit test found (open js/test/JSUnitTest.html in your browser for details)'
+        $Failed = $Selenium->execute_script(
+            "return \$('p.result span.failed').text()"
         );
+        $Total
+            = $Selenium->execute_script(
+            "return \$('p.result span.total').text()"
+            );
+
+        $Self->True( $Passed, 'Found passed tests' );
+        $Self->Is( $Passed, $Total, 'Total number of tests' );
+        $Self->False( $Failed, 'Failed tests' );
+
+        for my $Test ( 1 .. $Passed ) {
+            $Self->True( 1, 'Successful JavaScript unit test found' );
+        }
+
+        for my $Test ( 1 .. $Failed ) {
+            $Self->True(
+                0,
+                'Failed JavaScript unit test found (open js/test/JSUnitTest.html in your browser for details)'
+            );
+        }
     }
-});
+);
 
 1;
