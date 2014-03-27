@@ -249,7 +249,7 @@ my %OriginalTask = (
         Name => 'Just a Test',
     },
     Type    => 'Test',
-    DueTime => '2099-12-12 12:00:00',
+    DueTime => '2013-12-12 12:00:00',
 );
 my $TaskID = $TaskManagerObject->TaskAdd(%OriginalTask);
 
@@ -321,7 +321,7 @@ $Self->IsDeeply(
         Name   => 'Update DueTime',
         Config => {
             ID      => $TaskID,
-            DueTime => '2099-12-12 13:00:00',
+            DueTime => '2013-12-12 13:00:00',
         },
         Success => 1,
     },
@@ -340,7 +340,7 @@ $Self->IsDeeply(
         Config => {
             ID      => $TaskID,
             Type    => 'Ultimate',
-            DueTime => '2098-08-21 16:00:00',
+            DueTime => '2013-08-21 16:00:00',
             Data    => {
                 Data => 'Data',
             },
