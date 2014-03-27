@@ -2103,7 +2103,7 @@ sub Data {
         'Attribute' => '属性',
         'FQDN' => '',
         'Optional description of this system.' => '这个系统可选的描述。',
-        'This will allow the system to send additional support data information.' =>
+        'This will allow the system to send additional support data information to OTRS Group.' =>
             '',
         'Service Center' => '',
         'Support Data Management' => '',
@@ -2113,8 +2113,6 @@ sub Data {
             '',
         'Deregister' => '取消注册',
         'You can modify registration settings here.' => '',
-        'This will allow the system to send additional support data information to OTRS Group.' =>
-            '',
 
         # Template: AdminRole
         'Role Management' => '角色管理',
@@ -4325,6 +4323,7 @@ sub Data {
         'List of all CustomerCompany events to be displayed in the GUI.' =>
             '',
         'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all Package events to be displayed in the GUI.' => '',
         'List of all article events to be displayed in the GUI.' => '',
         'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
@@ -4426,6 +4425,8 @@ sub Data {
         'Overview of all open Tickets.' => '',
         'PGP Key Management' => 'PGP密钥管理',
         'PGP Key Upload' => '上传PGP密钥',
+        'Package event module file a scheduler task for update registration.' =>
+            '',
         'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',

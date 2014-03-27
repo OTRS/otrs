@@ -383,7 +383,7 @@
                                 <div class="Field">
                                     <input type="checkbox" name="SupportDataSending" id="SupportDataSending" value="Yes" />
                                     <p class="FieldExplanation">
-                                        [% Translate("This will allow the system to send additional support data information.") | html %] <br/>
+                                        [% Translate("This will allow the system to send additional support data information to OTRS Group.") | html %] <br/>
                                         <a href="[% Env("Baselink") %]Action=AdminServiceCenter" target="_blank">
                                             [% Translate("Service Center") | html %] &raquo; [% Translate("Support Data Management") | html %]
                                         </a>

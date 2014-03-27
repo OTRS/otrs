@@ -2105,7 +2105,7 @@ sub Data {
         'Attribute' => '',
         'FQDN' => '',
         'Optional description of this system.' => '',
-        'This will allow the system to send additional support data information.' =>
+        'This will allow the system to send additional support data information to OTRS Group.' =>
             '',
         'Service Center' => '',
         'Support Data Management' => '',
@@ -2115,8 +2115,6 @@ sub Data {
             '',
         'Deregister' => '',
         'You can modify registration settings here.' => '',
-        'This will allow the system to send additional support data information to OTRS Group.' =>
-            '',
 
         # Template: AdminRole
         'Role Management' => 'Gestion des Rôles',

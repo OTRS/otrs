@@ -2100,7 +2100,7 @@ sub Data {
         'Attribute' => 'Atrybut',
         'FQDN' => 'FQDN',
         'Optional description of this system.' => 'Opcjonalny opis systemu',
-        'This will allow the system to send additional support data information.' =>
+        'This will allow the system to send additional support data information to OTRS Group.' =>
             '',
         'Service Center' => '',
         'Support Data Management' => '',
@@ -2110,8 +2110,6 @@ sub Data {
             'Kontynuacja tego kroku spowoduje wyrejestrowanie systemu z Grupy OTRS',
         'Deregister' => 'Wyrejestrowanie',
         'You can modify registration settings here.' => '',
-        'This will allow the system to send additional support data information to OTRS Group.' =>
-            '',
 
         # Template: AdminRole
         'Role Management' => 'Zarządzanie rolami',
@@ -4322,6 +4320,7 @@ sub Data {
         'List of all CustomerCompany events to be displayed in the GUI.' =>
             'Lista wszystkich wydarzeń związanych z CustomerCompany do wyświetlenia w interfejsie uźytkownika.',
         'List of all CustomerUser events to be displayed in the GUI.' => 'Lista wszystkich wydarzeń związanych z CustomerUser do wyświetlenia w interfejsie uźytkownika.',
+        'List of all Package events to be displayed in the GUI.' => '',
         'List of all article events to be displayed in the GUI.' => 'Lista wszystkich wydarzeń związanych z artykułami do wyświetlenia w interfejsie uźytkownika.',
         'List of all ticket events to be displayed in the GUI.' => 'Lista wszystkich wydarzeń związanych ze zgłoszeniami do wyświetlenia w interfejsie uźytkownika.',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
@@ -4423,6 +4422,8 @@ sub Data {
         'Overview of all open Tickets.' => 'Przegląd wszystkich otwartych zgłoszeń.',
         'PGP Key Management' => 'Zarządzanie kluczami PGP',
         'PGP Key Upload' => 'Prześlij klucz PGP',
+        'Package event module file a scheduler task for update registration.' =>
+            '',
         'Parameters for .' => 'Parametry dla .',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             'Parametry dla objektu CreateNextMask w widoku właściwości interfejsu agenta.',
