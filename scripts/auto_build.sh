@@ -304,12 +304,9 @@ if which md5sum >> /dev/null; then
 else
     echo "No md5sum found in \$PATH!"
 fi
-echo "-----------------------------------------------------------------";
-echo "Note: You may have to tag your cvs tree:     cvs tag rel-2_x_x";
-echo "Note: You may have to branch your cvs tree:  cvs tag -b rel-2_x";
-echo "Note: To delete a tag:                       cvs tag -d rel-2_x_x";
-echo "Note: To check out by timestamp:             cvs co -r rel-2_x -D \"2008-10-02 17:00\" otrs";
-echo "-----------------------------------------------------------------";
+echo "--------------------------------------------------------------------------";
+echo "Note: You may have to tag your git tree: git tag rel-3_x_x -a -m \"3.x.x\"";
+echo "--------------------------------------------------------------------------";
 
 # --
 # cleanup
