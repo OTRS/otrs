@@ -267,6 +267,7 @@ fieldset.Columns .Column {
 
 fieldset.Columns .Column div {
     padding: 13px 8px 3px;
+    overflow: auto;
 }
 
 fieldset.Columns label,
