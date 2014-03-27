@@ -2499,7 +2499,7 @@ sub NavigationBar {
             $ItemSub->{NameForID} = $ItemSub->{Name};
             $ItemSub->{NameForID} =~ s/[ &;]//ig;
             $ItemSub->{NameTop} = $Item->{NameForID};
-            $ItemSub->{Description} = $ItemSub->{Description} || $ItemSub->{Name}; # use 'name' as fallback, this is shown as the link title
+            $ItemSub->{Description} ||= $ItemSub->{Name}; # use 'name' as fallback, this is shown as the link title
             $Self->Block(
                 Name => 'ItemAreaSubItem',    #$Item->{Block} || 'Item',
                 Data => {
