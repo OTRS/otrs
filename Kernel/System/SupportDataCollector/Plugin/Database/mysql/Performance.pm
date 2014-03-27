@@ -34,7 +34,7 @@ sub Run {
             || $Row[1] > 1024 * 1024 * 600
             )
         {
-            $Self->AddResultProblem(
+            $Self->AddResultWarning(
                 Identifier => 'QueryCacheSize',
                 Label      => 'Query Cache Size',
                 Value      => $Row[1],

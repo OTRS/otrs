@@ -47,7 +47,7 @@ sub Run {
 
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         if ( $Row[0] ) {
-            $Self->AddResultOk(
+            $Self->AddResultInformation(
                 Label => 'Database Size',
                 Value => "$Row[0] GB",
             );

@@ -264,7 +264,7 @@ sub CollectByWebRequest {
     # create webuseragent object
     my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
         %{$Self},
-        Timeout => 10,
+        Timeout => 20,
     );
 
     # define result

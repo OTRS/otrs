@@ -36,7 +36,7 @@ sub Run {
         # $Row[1] database_size
         # $Row[2] unallocated space
         if ( $Row[1] ) {
-            $Self->AddResultOk(
+            $Self->AddResultInformation(
                 Label => 'Database Size',
                 Value => $Row[1],
             );
