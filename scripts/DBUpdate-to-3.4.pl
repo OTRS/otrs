@@ -117,7 +117,8 @@ sub _CommonObjectsBase {
     my %CommonObject = $Kernel::OM->ObjectHash(
         Objects =>
             [
-            qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject SysConfigObject)],
+            qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject SysConfigObject)
+            ],
     );
     return \%CommonObject;
 }
