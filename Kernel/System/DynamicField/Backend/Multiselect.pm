@@ -406,8 +406,8 @@ sub EditFieldValueGet {
         ITEM:
         for my $Item ( sort @Data ) {
 
-            if (!$Item) {
-                splice(@Data, $Index, 1);
+            if ( !$Item ) {
+                splice( @Data, $Index, 1 );
                 next ITEM;
             }
             $Index++;
