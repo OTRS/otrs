@@ -2096,8 +2096,8 @@ sub Data {
         'Attribute' => 'Attribut',
         'FQDN' => 'FQDN',
         'Optional description of this system.' => 'Optionale Beschreibung für dieses System.',
-        'This will allow the system to send additional support data information.' =>
-            '',
+        'This will allow the system to send additional support data information to OTRS Group.' =>
+            'Diese Einstellung aktiviert das Senden zusätzlicher Support-Informationen an die OTRS Gruppe.',
         'Service Center' => 'Service-Zentrum',
         'Support Data Management' => 'Support-Daten-Verwaltung',
         'Register' => 'Registrieren',
@@ -2106,8 +2106,6 @@ sub Data {
             'Wenn Sie fortfahren, wird dieses System bei der OTRS Gruppe deregistriert.',
         'Deregister' => 'Deregistrieren',
         'You can modify registration settings here.' => 'Sie können ihre Registrierungseinstellungen hier bearbeiten.',
-        'This will allow the system to send additional support data information to OTRS Group.' =>
-            '',
 
         # Template: AdminRole
         'Role Management' => 'Rollen-Verwaltung',
@@ -4318,6 +4316,7 @@ sub Data {
         'List of all CustomerCompany events to be displayed in the GUI.' =>
             '',
         'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all Package events to be displayed in the GUI.' => '',
         'List of all article events to be displayed in the GUI.' => '',
         'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
@@ -4419,6 +4418,8 @@ sub Data {
         'Overview of all open Tickets.' => 'Übersicht über alle offenen Tickets.',
         'PGP Key Management' => 'PGP-Schlüssel-Verwaltung',
         'PGP Key Upload' => 'PGP Schlüssel hochladen',
+        'Package event module file a scheduler task for update registration.' =>
+            '',
         'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',

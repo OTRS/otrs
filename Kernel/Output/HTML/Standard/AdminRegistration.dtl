@@ -383,7 +383,7 @@
                                 <div class="Field">
                                     <input type="checkbox" name="SupportDataSending" id="SupportDataSending" value="Yes" />
                                     <p class="FieldExplanation">
-                                        $Text{"This will allow the system to send additional support data information."} <br/>
+                                        $Text{"This will allow the system to send additional support data information to OTRS Group."} <br/>
                                         <a href="$Env{"Baselink"}Action=AdminServiceCenter" target="_blank">
                                             $Text{"Service Center"} &raquo; $Text{"Support Data Management"}
                                         </a>

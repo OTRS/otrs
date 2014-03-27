@@ -2101,7 +2101,7 @@ sub Data {
         'Attribute' => 'Atributo',
         'FQDN' => 'Nombre de dominio totalmente calificado',
         'Optional description of this system.' => 'Descripción opcional de este sistema.',
-        'This will allow the system to send additional support data information.' =>
+        'This will allow the system to send additional support data information to OTRS Group.' =>
             '',
         'Service Center' => 'Centro de Servicios',
         'Support Data Management' => 'Gestión de Datos de Soporte',
@@ -2111,8 +2111,6 @@ sub Data {
             'Continuando con este paso se dará de baja el sistema para el grupo OTRS.',
         'Deregister' => 'Dar de baja',
         'You can modify registration settings here.' => '',
-        'This will allow the system to send additional support data information to OTRS Group.' =>
-            '',
 
         # Template: AdminRole
         'Role Management' => 'Gestión de Roles',
@@ -4323,6 +4321,7 @@ sub Data {
         'List of all CustomerCompany events to be displayed in the GUI.' =>
             '',
         'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all Package events to be displayed in the GUI.' => '',
         'List of all article events to be displayed in the GUI.' => '',
         'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
@@ -4424,6 +4423,8 @@ sub Data {
         'Overview of all open Tickets.' => 'Vista general de todos los tickets abiertos.',
         'PGP Key Management' => '',
         'PGP Key Upload' => '',
+        'Package event module file a scheduler task for update registration.' =>
+            '',
         'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',

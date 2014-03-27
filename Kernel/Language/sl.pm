@@ -2100,7 +2100,7 @@ sub Data {
         'Attribute' => '',
         'FQDN' => '',
         'Optional description of this system.' => '',
-        'This will allow the system to send additional support data information.' =>
+        'This will allow the system to send additional support data information to OTRS Group.' =>
             '',
         'Service Center' => '',
         'Support Data Management' => '',
@@ -2110,8 +2110,6 @@ sub Data {
             '',
         'Deregister' => '',
         'You can modify registration settings here.' => '',
-        'This will allow the system to send additional support data information to OTRS Group.' =>
-            '',
 
         # Template: AdminRole
         'Role Management' => 'Upravljanje z vlogami',
@@ -4322,6 +4320,7 @@ sub Data {
         'List of all CustomerCompany events to be displayed in the GUI.' =>
             '',
         'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all Package events to be displayed in the GUI.' => '',
         'List of all article events to be displayed in the GUI.' => '',
         'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
@@ -4423,6 +4422,8 @@ sub Data {
         'Overview of all open Tickets.' => 'Pregled vseh odprtih zahtevkov.',
         'PGP Key Management' => '',
         'PGP Key Upload' => 'Pošiljanje "PGP" ključa',
+        'Package event module file a scheduler task for update registration.' =>
+            '',
         'Parameters for .' => '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
