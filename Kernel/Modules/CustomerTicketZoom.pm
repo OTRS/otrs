@@ -1558,7 +1558,7 @@ sub _Mask {
 
         # check subject
         if ( !$Param{Subject} ) {
-            $Param{Subject} = "Re: $Param{Title}";
+            $Param{Subject} = "Re: " . ($Param{Title} // '');
         }
         $Self->{LayoutObject}->Block(
             Name => 'FollowUp',
