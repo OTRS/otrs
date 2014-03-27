@@ -47,7 +47,8 @@
 
 %dir /opt/otrs/var/
 %dir /opt/otrs/var/packages/
-/opt/otrs/var/packages/*.opm
+# TEMPROARILY DEACTIVATED. There are no packages to embed at present.
+#/opt/otrs/var/packages/*.opm
 %dir /opt/otrs/var/article/
 /opt/otrs/var/fonts/
 /opt/otrs/var/httpd/
