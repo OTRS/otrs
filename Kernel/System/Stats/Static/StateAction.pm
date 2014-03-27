@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Stats/StateAction.pm - stats module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: StateAction.pm,v 1.3 2010-07-19 12:36:37 ub Exp $
 # --

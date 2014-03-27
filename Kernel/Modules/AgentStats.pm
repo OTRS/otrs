@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentStats.pm - stats module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentStats.pm,v 1.113.2.1 2011-03-15 15:27:34 mb Exp $
 # --

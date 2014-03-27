@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/Test.pm - test event module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Test.pm,v 1.11 2010-05-19 07:08:18 mb Exp $
 # --

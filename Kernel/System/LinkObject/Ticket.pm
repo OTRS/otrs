@@ -1,6 +1,6 @@
 # --
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Ticket.pm,v 1.36 2009-10-07 13:19:33 martin Exp $
 # --

@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # scripts/tools/compress-mail.pl - compress email, zip attachments
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: compress-mail.pl,v 1.15 2010-02-03 14:57:25 bes Exp $
 # --

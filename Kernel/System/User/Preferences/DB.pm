@@ -1,6 +1,6 @@
 # --
 # Kernel/System/User/Preferences/DB.pm - some user functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: DB.pm,v 1.19 2009-10-07 17:34:09 martin Exp $
 # --

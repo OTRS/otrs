@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/QueuePreferencesGeneric.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: QueuePreferencesGeneric.pm,v 1.4 2009-03-04 10:22:03 tr Exp $
 # --

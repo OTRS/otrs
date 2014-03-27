@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.CheckSum.pl - a tool to compare changes in a installation
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.CheckSum.pl,v 1.9 2010-10-28 11:13:28 mg Exp $
 # --
@@ -45,7 +45,7 @@ my %Opts;
 getopt( 'habd', \%Opts );
 if ( exists $Opts{h} || !keys %Opts ) {
     print "otrs.CheckSum.pl <Revision $VERSION> - OTRS check sum\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.CheckSum.pl -a create|compare [-b /path/to/ARCHIVE] [-d /path/to/framework]\n";
     exit 1;

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Valid.pm - all valid functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Valid.pm,v 1.22 2010-06-17 21:39:40 cr Exp $
 # --

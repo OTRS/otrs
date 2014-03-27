@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/PreferencesLanguage.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: PreferencesLanguage.pm,v 1.13 2010-05-04 01:22:10 martin Exp $
 # --

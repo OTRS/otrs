@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.PendingJobs.pl - check pending tickets
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.PendingJobs.pl,v 1.5.2.1 2011-05-24 11:28:55 mb Exp $
 # --
@@ -62,7 +62,7 @@ $CommonObject{StateObject}  = Kernel::System::State->new(%CommonObject);
 # check args
 my $Command = shift || '--help';
 print "otrs.PendingJobs.pl <Revision $VERSION> - check pending tickets\n";
-print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
 
 # do ticket auto jobs
 my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(

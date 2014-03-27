@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketEscalationView.pm - status for all open tickets
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketEscalationView.pm,v 1.15 2010-04-12 21:41:57 martin Exp $
 # --

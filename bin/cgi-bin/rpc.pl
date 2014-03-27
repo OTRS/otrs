@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/cgi-bin/rpc.pl - soap handle
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: rpc.pl,v 1.14.6.4 2011-12-20 12:25:04 mb Exp $
 # --

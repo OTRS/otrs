@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminState.pm - to add/update/delete state
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminState.pm,v 1.40 2010-11-19 22:28:58 en Exp $
 # --

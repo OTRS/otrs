@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: LayoutTicket.pm,v 1.123.2.9 2011-12-14 19:02:25 mb Exp $
 # --

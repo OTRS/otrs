@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SysConfig/StateValidate.pm - all StateValidate functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: StateValidate.pm,v 1.3.2.1 2011-12-06 10:15:17 des Exp $
 # --

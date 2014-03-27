@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerTicketOverView.pm,v 1.67.2.2 2012-05-22 11:46:43 jp Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/AuthSession.pm - provides session check and session data
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AuthSession.pm,v 1.45 2010-06-17 21:39:40 cr Exp $
 # --

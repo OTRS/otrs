@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: NotificationAgentTicketEscalation.pm,v 1.32 2009-02-16 11:16:22 tr Exp $
 # --

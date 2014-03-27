@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.PackageManager.pl - otrs package manager cmd version
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.PackageManager.pl,v 1.10 2010-10-14 08:54:15 bes Exp $
 # --
@@ -84,7 +84,7 @@ if ( $Opts{a} && $Opts{a} eq 'index' ) {
 # check needed params
 if ( $Opts{h} ) {
     print "otrs.PackageManager.pl <Revision $VERSION> - OTRS Package Manager\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.PackageManager.pl -a list|install|upgrade|uninstall|reinstall|list-repository|file|build|index \n";
     print

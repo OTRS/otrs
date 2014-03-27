@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Cache/FileStorable.pm - all cache functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: FileStorable.pm,v 1.8 2010-12-06 14:36:59 martin Exp $
 # --

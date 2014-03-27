@@ -1,6 +1,6 @@
 # --
 # Attachment.t - email attachments tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Attachment.t,v 1.1.4.3 2012-06-20 12:48:00 alm Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: NotificationEvent.pm,v 1.23.2.3 2011-12-05 11:29:10 mg Exp $
 # --

@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.CheckModules.pl - to check needed cpan framework modules
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.CheckModules.pl,v 1.14.2.4 2012-12-11 16:04:25 mg Exp $
 # --

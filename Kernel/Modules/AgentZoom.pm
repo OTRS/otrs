@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentZoom.pm - to get a closer view
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentZoom.pm,v 1.97 2009-11-25 15:15:28 mg Exp $
 # --

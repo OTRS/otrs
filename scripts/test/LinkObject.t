@@ -1,6 +1,6 @@
 # --
 # LinkObject.t - link object module testscript
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: LinkObject.t,v 1.20 2010-10-29 07:58:22 mg Exp $
 # --

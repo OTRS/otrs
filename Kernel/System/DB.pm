@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DB.pm - the global database wrapper to support different databases
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: DB.pm,v 1.127.2.7 2012-08-06 14:47:32 mg Exp $
 # --

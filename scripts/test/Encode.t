@@ -1,6 +1,6 @@
 # --
 # Encode.t - Encode tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Encode.t,v 1.8 2010-10-29 08:58:02 mg Exp $
 # --

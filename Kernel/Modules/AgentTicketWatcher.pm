@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketWatcher.pm - a ticketwatcher module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketWatcher.pm,v 1.15.2.1 2012-01-20 10:26:39 jh Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket.pm - all ticket functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Ticket.pm,v 1.488.2.24 2012-10-16 12:35:49 mg Exp $
 # --

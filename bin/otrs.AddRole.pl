@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddRole.pl - add new system roles
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.AddRole.pl,v 1.3 2010-08-06 17:49:20 cr Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Loader.t - Loader backend tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Loader.t,v 1.8.2.2 2011-03-09 14:36:34 mb Exp $
 # --

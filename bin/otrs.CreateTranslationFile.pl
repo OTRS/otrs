@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.CreateTranslationFile.pl - create new translation file
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.CreateTranslationFile.pl,v 1.27 2011-01-24 19:51:23 ub Exp $
 # --
@@ -382,7 +382,7 @@ sub HandleLanguage {
         $NewOut = <<"EOF";
 $Separator
 # Kernel/Language/${Language}_$Module.pm - translation file
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 $Separator
 # \$Id\$
 $Separator

@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/cgi-bin/installer.pl - the global CGI handle for installer
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: installer.pl,v 1.33.2.1 2011-03-08 14:06:08 mb Exp $
 # --

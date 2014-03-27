@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketEmail.pm,v 1.165.2.5 2011-07-22 12:49:48 en Exp $
 # --

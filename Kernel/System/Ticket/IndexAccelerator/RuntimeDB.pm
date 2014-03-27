@@ -1,7 +1,7 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/RuntimeDB.pm - realtime database
 # queue ticket index module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: RuntimeDB.pm,v 1.74.4.2 2012-08-24 09:46:01 mg Exp $
 # --

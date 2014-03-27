@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.CryptPassword.pl - to crypt database password for Kernel/Config.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.CryptPassword.pl,v 1.5 2010-08-06 17:49:20 cr Exp $
 # --
@@ -53,7 +53,7 @@ $CommonObject{DBObject} = Kernel::System::DB->new( %CommonObject, AutoConnectNo 
 my $Password = shift;
 print
     "bin/otrs.CryptPassword.pl <Revision $VERSION> - to crypt database password for Kernel/Config.pm\n";
-print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
 
 if ( !$Password ) {
     print STDERR "Usage: bin/otrs.CryptPassword.pl NEWPW\n";

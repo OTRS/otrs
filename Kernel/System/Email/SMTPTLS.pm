@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Email/SMTPTLS.pm - the global email send module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: SMTPTLS.pm,v 1.3 2011-01-06 09:47:45 mb Exp $
 # --

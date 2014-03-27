@@ -1,6 +1,6 @@
 # --
 # Kernel/System/GenericAgent.pm - generic agent system module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: GenericAgent.pm,v 1.70.2.2 2012-02-15 22:45:18 cg Exp $
 # --

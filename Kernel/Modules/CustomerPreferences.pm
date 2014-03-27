@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerPreferences.pm,v 1.31 2010-07-14 22:18:25 dz Exp $
 # --

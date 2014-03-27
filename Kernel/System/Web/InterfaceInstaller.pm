@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Web/InterfaceInstaller.pm - the installer interface file
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: InterfaceInstaller.pm,v 1.6 2010-08-25 08:25:54 mb Exp $
 # --

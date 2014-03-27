@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketAttachment.pm,v 1.32 2010-08-18 13:36:15 mh Exp $
 # --

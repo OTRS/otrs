@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardUserOnline.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: DashboardUserOnline.pm,v 1.19 2010-11-04 14:48:31 martin Exp $
 # --

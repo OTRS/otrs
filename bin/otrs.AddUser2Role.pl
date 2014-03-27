@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddUser2Role.pl - Assign users to Roles from CLI
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.AddUser2Role.pl,v 1.4 2011-01-30 14:16:48 mb Exp $
 # --
@@ -48,7 +48,7 @@ my %Opts;
 getopt( 'ur', \%Opts );
 if ( !$Opts{r} || !$Opts{u} ) {
     print "otrs.AddUser2Role <Revision $VERSION> - assign Users to Roles\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print "usage: $FindBin::Script -u <USER> -r <ROLE> \n";
     exit 1;
 }

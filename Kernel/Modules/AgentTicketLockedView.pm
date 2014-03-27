@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketLockedView.pm - to view all locked tickets
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketLockedView.pm,v 1.15 2010-11-04 17:57:08 mb Exp $
 # --

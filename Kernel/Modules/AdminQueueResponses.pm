@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminQueueResponses.pm - to manage queue <-> responses assignments
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminQueueResponses.pm,v 1.41.2.3 2011-11-14 07:38:26 mb Exp $
 # --

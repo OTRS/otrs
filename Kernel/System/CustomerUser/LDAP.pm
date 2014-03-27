@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: LDAP.pm,v 1.62 2011-01-27 21:52:28 cg Exp $
 # --

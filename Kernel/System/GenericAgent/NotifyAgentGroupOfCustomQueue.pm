@@ -1,6 +1,6 @@
 # --
 # Kernel/System/GenericAgent/NotifyAgentGroupOfCustomQueue.pm - generic agent notifications
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.23.4.1 2012-09-27 16:21:30 jp Exp $
 # --

@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.CleanUp.pl - to cleanup, remove used tmp data of ipc, database or fs
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.CleanUp.pl,v 1.4 2010-08-06 17:49:20 cr Exp $
 # --
@@ -46,7 +46,7 @@ my %Opts = ();
 getopt( 'h', \%Opts );
 if ( $Opts{'h'} ) {
     print "otrs.CleanUp.pl <Revision $VERSION> - OTRS cleanup\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.CleanUp.pl \n";
     exit 1;
 }

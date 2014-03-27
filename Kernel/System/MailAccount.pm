@@ -1,6 +1,6 @@
 # --
 # Kernel/System/MailAccount.pm - lib for mail accounts
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: MailAccount.pm,v 1.16 2010-06-17 21:39:40 cr Exp $
 # --

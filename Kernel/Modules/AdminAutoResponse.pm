@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminAutoResponse.pm - provides admin std response module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminAutoResponse.pm,v 1.46 2010-11-19 22:28:58 en Exp $
 # --

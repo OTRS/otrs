@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminCustomerUserGroup.pm,v 1.37.2.1 2011-11-03 11:37:22 des Exp $
 # --

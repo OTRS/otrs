@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminSysConfig.pm,v 1.112.2.5 2011-11-23 20:15:42 mb Exp $
 # --

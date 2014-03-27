@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/fcgi-bin/public.pl - the global FastCGI handle file for OTRS
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: public.pl,v 1.3.2.1 2011-03-08 14:16:51 mb Exp $
 # --

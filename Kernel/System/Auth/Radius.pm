@@ -1,7 +1,7 @@
 # --
 # Kernel/System/Auth/Radius.pm - provides the radius authentication
 # based on Martin Edenhofer's Kernel::System::Auth::DB
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Radius.pm,v 1.12 2009-09-22 15:19:27 mb Exp $
 # --

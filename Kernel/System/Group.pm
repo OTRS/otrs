@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Group.pm - All Groups and Roles related functions should be here eventually
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Group.pm,v 1.91 2010-11-30 13:11:11 mg Exp $
 # --

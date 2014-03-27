@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SLA/PreferencesDB.pm - some user functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: PreferencesDB.pm,v 1.2 2009-02-16 11:47:34 tr Exp $
 # --

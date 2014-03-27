@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketMove.pm,v 1.78.2.7 2011-12-09 12:49:45 des Exp $
 # --

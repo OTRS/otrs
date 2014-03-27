@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Cache/FileRaw.pm - all cache functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: FileRaw.pm,v 1.4 2010-09-10 09:31:13 mg Exp $
 # --

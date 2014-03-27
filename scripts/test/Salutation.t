@@ -1,6 +1,6 @@
 # --
 # Salutation.t - Salutation tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Salutation.t,v 1.8 2010-10-29 22:16:59 en Exp $
 # --

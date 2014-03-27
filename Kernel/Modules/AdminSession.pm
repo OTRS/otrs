@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminSession.pm - to control all session ids
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminSession.pm,v 1.33 2010-06-23 17:31:38 dz Exp $
 # --

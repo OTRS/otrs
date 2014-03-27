@@ -1,6 +1,6 @@
 # --
 # SMIME.t - SMIME tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: SMIME.t,v 1.14.2.4 2012-05-08 13:33:00 mg Exp $
 # --

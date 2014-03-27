@@ -1,6 +1,6 @@
 # --
 # Ticket.t - ticket module testscript
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Ticket.t,v 1.68.2.6 2011-09-06 22:42:31 en Exp $
 # --

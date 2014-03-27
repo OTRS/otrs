@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Type.pm - All type related function should be here eventually
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Type.pm,v 1.24 2010-09-28 09:30:43 mg Exp $
 # --

@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.GetTicketThread.pl - to print the whole ticket thread to STDOUT
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.GetTicketThread.pl,v 1.4 2010-08-06 17:49:20 cr Exp $
 # --
@@ -59,7 +59,7 @@ if ( !$ARGV[0] ) {
     print "$0 <Revision $VERSION>\n";
     print "Prints out a ticket with all its articles.\n";
     print "Usage: $0 <TicketID>\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     exit 1;
 }
 

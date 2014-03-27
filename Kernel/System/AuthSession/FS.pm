@@ -1,6 +1,6 @@
 # --
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: FS.pm,v 1.43 2010-06-28 08:17:00 mg Exp $
 # --

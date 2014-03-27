@@ -1,7 +1,7 @@
 # --
 # Kernel/System/Ticket/Permission/ResponsibleCheck.pm - the sub
 # module of the global ticket handle
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: ResponsibleCheck.pm,v 1.8 2009-02-17 00:07:24 martin Exp $
 # --

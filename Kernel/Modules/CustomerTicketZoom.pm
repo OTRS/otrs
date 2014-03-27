@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerTicketZoom.pm,v 1.75.2.5 2011-11-02 09:19:39 mb Exp $
 # --

@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.xml2sql.pl - a xml 2 sql processor
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.xml2sql.pl,v 1.3 2010-08-06 17:49:20 cr Exp $
 # --
@@ -46,7 +46,7 @@ my %Opts = ();
 getopt( 'hton', \%Opts );
 if ( $Opts{'h'} ) {
     print "xml2sql.pl <Revision $VERSION> - xml2sql\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print "usage: xml2sql.pl -t <DATABASE_TYPE> (or 'all') ";
     print "[-o <OUTPUTDIR> -n <NAME> -s <SPLIT_FILES>]\n";
     exit 1;

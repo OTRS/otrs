@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketOverviewSmall.pm
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketOverviewSmall.pm,v 1.37.2.1 2011-10-28 16:06:06 en Exp $
 # --

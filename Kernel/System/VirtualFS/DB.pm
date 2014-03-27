@@ -1,6 +1,6 @@
 # --
 # Kernel/System/VirtualFS/DB.pm - all virtual fs functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: DB.pm,v 1.3 2010-03-25 14:44:11 martin Exp $
 # --

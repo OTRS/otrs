@@ -1,6 +1,6 @@
 # --
 # 100-Admin.t - frontend tests for admin area
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: 100-Admin.t,v 1.6.2.2 2011-02-09 15:45:46 mg Exp $
 # --

@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # syncuser_csv2otrs.pl - sync csv user list or otrs
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: syncuser_csv2otrs.pl,v 1.13 2009-10-01 09:10:12 mb Exp $
 # --

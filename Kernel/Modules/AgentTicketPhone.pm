@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketPhone.pm,v 1.178.2.7 2012-03-05 09:48:08 mg Exp $
 # --

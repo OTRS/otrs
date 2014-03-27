@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: DBUpdate-to-2.3.pl,v 1.26 2010-06-17 21:11:34 dz Exp $
 # --
@@ -49,7 +49,7 @@ my %Opts;
 getopt( 'h', \%Opts );
 if ( $Opts{'h'} ) {
     print STDOUT "DBUpdate-to-2.3.pl <Revision $VERSION> - Database migration script\n";
-    print STDOUT "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print STDOUT "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     exit 1;
 }
 

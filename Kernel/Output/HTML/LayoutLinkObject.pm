@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: LayoutLinkObject.pm,v 1.26 2010-11-04 14:18:40 ub Exp $
 # --

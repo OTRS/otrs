@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.GetConfig.pl - get OTRS config vars
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.GetConfig.pl,v 1.2 2010-08-06 17:44:32 cr Exp $
 # --

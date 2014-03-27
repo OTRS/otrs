@@ -1,6 +1,6 @@
 # --
 # Queue.t - Queue tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Queue.t,v 1.13 2010-10-29 22:16:59 en Exp $
 # --

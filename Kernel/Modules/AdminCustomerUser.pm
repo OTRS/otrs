@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminCustomerUser.pm,v 1.89.2.6 2011-04-06 16:37:27 en Exp $
 # --

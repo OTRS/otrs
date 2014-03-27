@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddSystemAddress.pl - add new system addresses
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.AddSystemAddress.pl,v 1.1 2011-01-31 12:33:03 mb Exp $
 # --

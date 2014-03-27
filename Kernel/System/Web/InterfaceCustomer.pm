@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: InterfaceCustomer.pm,v 1.56.2.7 2011-11-21 10:29:00 mg Exp $
 # --

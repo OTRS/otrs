@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/ForceUnlock.pm - unlock ticket
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: ForceUnlock.pm,v 1.11 2010-05-19 07:08:18 mb Exp $
 # --

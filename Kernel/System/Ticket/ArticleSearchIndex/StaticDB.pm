@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/ArticleSearchIndex/StaticDB.pm - article search index backend static
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: StaticDB.pm,v 1.18 2010-10-16 09:25:35 bes Exp $
 # --

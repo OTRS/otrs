@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # scripts/backup.pl - the backup script
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: backup.pl,v 1.25 2011-01-10 15:06:19 martin Exp $
 # --
@@ -52,7 +52,7 @@ my $DBDump      = '';
 getopt( 'hcrtd', \%Opts );
 if ( exists $Opts{h} ) {
     print "backup.pl <Revision $VERSION> - backup script\n";
-    print "Copyright (C) 2001-2013 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print
         "usage: backup.pl -d /data_backup_dir/ [-c gzip|bzip2] [-r 30] [-t fullbackup|nofullbackup]\n";
     exit 1;

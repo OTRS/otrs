@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/cgi-bin/customer.pl - the global CGI handle file (incl. auth) for OTRS
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: customer.pl,v 1.43.2.1 2011-03-08 14:06:08 mb Exp $
 # --

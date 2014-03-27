@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Article.pm,v 1.274.2.3 2011-09-07 22:42:19 en Exp $
 # --

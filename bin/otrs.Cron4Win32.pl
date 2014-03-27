@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.Cron4Win32.pl - a script to generate a full crontab file for OTRS
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.Cron4Win32.pl,v 1.3.2.4 2011-07-18 08:44:15 mb Exp $
 # --

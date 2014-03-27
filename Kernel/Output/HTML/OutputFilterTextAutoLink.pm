@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/OutputFilterTextAutoLink.pm - Auto article links filter
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: OutputFilterTextAutoLink.pm,v 1.5 2009-09-23 10:53:20 mg Exp $
 # --

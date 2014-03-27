@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/sk_SK.pm - provides Slovak language translation
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: sk_SK.pm,v 1.74.2.4 2012-03-09 07:37:02 mg Exp $
 # --

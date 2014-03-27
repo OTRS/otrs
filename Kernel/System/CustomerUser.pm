@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CustomerUser.pm - some customer user functions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerUser.pm,v 1.61.2.1 2011-03-24 17:39:52 en Exp $
 # --

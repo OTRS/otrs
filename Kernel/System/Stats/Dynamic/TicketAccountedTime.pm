@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Stats/Dynamic/TicketAccountedTime.pm - stats for accounted ticket time
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketAccountedTime.pm,v 1.9.4.1 2012-02-28 09:55:07 jp Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/UnitTest.pm - the global test wrapper
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: UnitTest.pm,v 1.45.2.8 2012-08-14 11:22:58 mh Exp $
 # --

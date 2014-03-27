@@ -1,6 +1,6 @@
 # --
 # Email.t - email parser tests
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # $Id: Email.t,v 1.7 2010-10-29 07:32:28 mg Exp $
 # --
