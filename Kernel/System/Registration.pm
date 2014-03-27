@@ -296,6 +296,29 @@ sub Register {
         DatabaseVersion => $Self->{DBObject}->Version(),
     );
 
+    my $SupportDataSending = $Param{SupportDataSending} || 'No';
+
+    # send SupportData if sending is activated
+    if ( $SupportDataSending eq 'Yes' ) {
+
+        my %SupportData = eval {
+            $Self->{SupportDataCollectorObject}->Collect();
+        };
+        if ( !$SupportData{Success} ) {
+            my $ErrorMessage = $SupportData{ErrorMessage} || $@ || 'unknown error';
+            $Self->{LogObject}->Log(
+                Priority => "error",
+                Message  => "SupportData could not be collected ($ErrorMessage)"
+            );
+        }
+
+        my $JSON = $Self->{JSONObject}->Encode(
+            Data => $SupportData{Result},
+        );
+
+        $System{SupportData} = $JSON;
+    }
+
     # load old registration data if we have this
     my %OldRegistration = $Self->RegistrationDataGet();
 
@@ -369,7 +392,9 @@ sub Register {
         APIKey             => $ResponseData->{APIKey},
         LastUpdateID       => $ResponseData->{LastUpdateID},
         LastUpdateTime     => $Self->{TimeObject}->CurrentTimestamp(),
-        SupportDataSending => $Param{SupportDataSending}
+        Type               => $ResponseData->{Type} || $Param{Type},
+        Description        => $ResponseData->{Description} || $Param{Description},
+        SupportDataSending => $ResponseData->{SupportDataSending} || $SupportDataSending,
     );
 
     # only add keys if the system has never been registered before
