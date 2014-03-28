@@ -245,7 +245,9 @@ Core.UI.Popup = (function (TargetNS) {
             NewWindow,
             WindowName,
             ConfirmClosePopup = true,
-            PopupFeatures;
+            PopupFeatures,
+            SessionData,
+            SessionStringURL = '';
 
         CheckOpenPopups();
         if (URL) {
@@ -276,6 +278,12 @@ Core.UI.Popup = (function (TargetNS) {
                 PopupFeatures += ',top=' + ((window.screen.top || 0) + PopupProfiles[PopupProfile].Top);
                 PopupFeatures += ',width=' + PopupProfiles[PopupProfile].Width;
                 PopupFeatures += ',height=' + PopupProfiles[PopupProfile].Height;
+
+                // append SessionID (if needed)
+                SessionData = Core.App.GetSessionInformation();
+                if ( !$.isEmptyObject(SessionData) && URL.indexOf(SessionData[Core.Config.Get('SessionName')]) === -1 ) {
+                    URL += ';' + encodeURIComponent(Core.Config.Get('SessionName')) + '=' + encodeURIComponent(SessionData[Core.Config.Get('SessionName')]);
+                }
 
                 NewWindow = window.open(URL, WindowName, PopupFeatures);
 
