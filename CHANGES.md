@@ -1,4 +1,5 @@
 #3.3.7 2014-??-??
+ - 2014-03-28 Enhanced DiskSpacePatitions SupportDataCollector plugin to deal correctly with multiple partitions with the same name.
  - 2014-03-27 Followup for bug#[10130](http://bugs.otrs.org/show_bug.cgi?id=10130) - Events Ticket Calendar not working.
 
 #3.3.6 2014-04-01

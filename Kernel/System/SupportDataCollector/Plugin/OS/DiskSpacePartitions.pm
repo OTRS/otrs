@@ -33,6 +33,8 @@ sub Run {
         $Commandline = "df -l";
     }
 
+    my %UsedIdentifiers;
+
     my $In;
     if ( open( $In, "-|", "$Commandline" ) ) {
 
@@ -41,8 +43,18 @@ sub Run {
         while (<$In>) {
             if ( $_ =~ /^(.+?)\s.*\s(\d+)%.+?$/ ) {
                 my ( $Partition, $UsedPercent ) = $_ =~ /^(.+?)\s.*?\s(\d+)%.+?$/;
+
+                my $Identifier = $Partition;
+                if ( defined $UsedIdentifiers{$Partition} ) {
+                    $Identifier .= '_' . $UsedIdentifiers{$Partition};
+                    $UsedIdentifiers{$Partition}++;
+                }
+                else {
+                    $UsedIdentifiers{$Partition} = 1;
+                }
+
                 push @Partitions, {
-                    Identifier => $Partition,
+                    Identifier => $Identifier,
                     Label      => $Partition,
                     Value      => $UsedPercent . '%',
                 };
