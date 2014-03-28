@@ -281,7 +281,7 @@ Core.UI.Popup = (function (TargetNS) {
 
                 // append SessionID (if needed)
                 SessionData = Core.App.GetSessionInformation();
-                if ( !$.isEmptyObject(SessionData) && URL.indexOf(SessionData[Core.Config.Get('SessionName')]) === -1 ) {
+                if ( !Core.Config.Get('SessionIDCookie') && URL.indexOf(SessionData[Core.Config.Get('SessionName')]) === -1 ) {
                     URL += ';' + encodeURIComponent(Core.Config.Get('SessionName')) + '=' + encodeURIComponent(SessionData[Core.Config.Get('SessionName')]);
                 }
 
