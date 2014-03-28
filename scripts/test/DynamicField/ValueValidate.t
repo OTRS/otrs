@@ -365,6 +365,51 @@ my @Tests = (
         Success => 0,
     },
     {
+        Name   => 'Correct Value Date Zero Hour',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{DateTime},
+            Value              => '1970-01-01 00:00:00',
+            UserID             => $UserID,
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct Value Date + Second',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{DateTime},
+            Value              => '1970-01-01 00:00:01',
+            UserID             => $UserID,
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct Value Date + Hour',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{DateTime},
+            Value              => '1970-01-01 01:00:00',
+            UserID             => $UserID,
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct Value Date - Second',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{DateTime},
+            Value              => '1969-12-31 23:59:59',
+            UserID             => $UserID,
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct Value Date - Hour',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{DateTime},
+            Value              => '1969-12-31 23:00:00',
+            UserID             => $UserID,
+        },
+        Success => 1,
+    },
+    {
         Name   => 'Text Value DateTime',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{DateTime},
@@ -410,6 +455,9 @@ my @Tests = (
         Success => 0,
     },
 );
+
+# UTC tests
+local $ENV{TZ} = 'UTC';
 
 # execute tests
 for my $Test (@Tests) {

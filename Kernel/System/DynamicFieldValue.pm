@@ -418,14 +418,14 @@ sub ValueValidate {
             String => $Value{ValueDateTime},
         );
 
-        return if !$SystemTime;
+        return if !defined $SystemTime;
 
         # convert back to time stamp to check errors
         my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
             SystemTime => $SystemTime,
         );
 
-        return if !$TimeStamp;
+        return if !defined $TimeStamp;
 
         # compare if the date is the same
         return if !( $Value{ValueDateTime} eq $TimeStamp )
