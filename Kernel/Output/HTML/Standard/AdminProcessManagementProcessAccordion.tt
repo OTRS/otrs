@@ -9,7 +9,7 @@
 
 <ul id="ProcessElements">
     <li class="AccordionElement Active">
-        <h2><a href="#" class="AsBlock">[% Translate("Activities") | html %]</a></h2>
+        <h2><a href="#" class="AsBlock"><span></span>[% Translate("Activities") | html %]</a></h2>
         <div class="Content">
             <input type="text" id="ActivityFilter" class="ProcessElementFilter W75pc" placeholder="[% Translate("Filter Activities...") | html %]" />
             <ul class="Tablelike" id="Activities">
@@ -32,7 +32,7 @@
         </div>
     </li>
     <li class="AccordionElement">
-        <h2><a href="#" class="AsBlock">[% Translate("Activity Dialogs") | html %]</a></h2>
+        <h2><a href="#" class="AsBlock"><span></span>[% Translate("Activity Dialogs") | html %]</a></h2>
         <div class="Content">
             <input type="text" id="ActivityDialogFilter" class="ProcessElementFilter W75pc" placeholder="[% Translate("Filter Activity Dialogs...") | html %]" />
             <ul class="Tablelike" id="ActivityDialogs">
@@ -56,7 +56,7 @@
         </div>
     </li>
     <li class="AccordionElement">
-        <h2><a href="#" class="AsBlock">[% Translate("Transitions") | html %]</a></h2>
+        <h2><a href="#" class="AsBlock"><span></span>[% Translate("Transitions") | html %]</a></h2>
         <div class="Content">
             <input type="text" id="TransitionFilter" class="ProcessElementFilter W75pc" placeholder="[% Translate("Filter Transitions...") | html %]" />
             <ul class="Tablelike" id="Transitions">
@@ -79,7 +79,7 @@
         </div>
     </li>
     <li class="AccordionElement">
-        <h2><a href="#" class="AsBlock">[% Translate("Transition Actions") | html %]</a></h2>
+        <h2><a href="#" class="AsBlock"><span></span>[% Translate("Transition Actions") | html %]</a></h2>
         <div class="Content">
             <input type="text" id="TransitionActionFilter" class="ProcessElementFilter W75pc" placeholder="[% Translate("Filter Transition Actions...") | html %]" />
             <ul class="Tablelike" id="TransitionActions">
