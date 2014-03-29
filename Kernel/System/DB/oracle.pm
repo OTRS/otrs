@@ -244,6 +244,17 @@ sub TableCreate {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
                 $Shell = "/\n--";
             }
+
+            push(
+                @Return2,
+                "BEGIN\n"
+                    . "  EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';\n"
+                    . "EXCEPTION\n"
+                    . "  WHEN OTHERS THEN NULL;\n"
+                    . "END;\n"
+                    . "$Shell",
+            );
+
             push(
                 @Return2,
                 "CREATE SEQUENCE $Sequence\n"
@@ -254,19 +265,20 @@ sub TableCreate {
                     . "CACHE 20\n"
                     . "ORDER",
             );
+
             push(
                 @Return2,
                 "CREATE OR REPLACE TRIGGER $Sequence"
                     . "_t\n"
-                    . "before insert on $TableName\n"
-                    . "for each row\n"
-                    . "begin\n"
-                    . "  if :new.$Tag->{Name} IS NULL then\n"
-                    . "    select $Sequence.nextval\n"
-                    . "    into :new.$Tag->{Name}\n"
-                    . "    from dual;\n"
-                    . "  end if;\n"
-                    . "end;\n"
+                    . "BEFORE INSERT ON $TableName\n"
+                    . "FOR EACH ROW\n"
+                    . "BEGIN\n"
+                    . "  IF :new.$Tag->{Name} IS NULL THEN\n"
+                    . "    SELECT $Sequence.nextval\n"
+                    . "    INTO :new.$Tag->{Name}\n"
+                    . "    FROM DUAL;\n"
+                    . "  END IF;\n"
+                    . "END;\n"
                     . "$Shell",
             );
         }
@@ -351,7 +363,30 @@ sub TableDrop {
                     . "----------------------------------------------------------\n";
             }
         }
+
+        my $Sequence = 'SE_' . $Tag->{Name};
+        if ( length $Sequence > 28 ) {
+            my $MD5 = $Self->{MainObject}->MD5sum(
+                String => $Sequence,
+            );
+            $Sequence = substr $Sequence, 0, 26;
+            $Sequence .= substr $MD5, 0,  1;
+            $Sequence .= substr $MD5, 31, 1;
+        }
+        my $Shell = '';
+        if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
+            $Shell = "/\n--";
+        }
+
+        $SQL .= "BEGIN\n"
+            . "  EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';\n"
+            . "EXCEPTION\n"
+            . "  WHEN OTHERS THEN NULL;\n"
+            . "END;\n"
+            . "/\n";
+
         $SQL .= "DROP TABLE $Tag->{Name} CASCADE CONSTRAINTS";
+
         return ($SQL);
     }
     return ();
@@ -579,14 +614,9 @@ sub IndexCreate {
             $SQL .= ', ';
         }
         $SQL .= $Array[$_]->{Name};
-        if ( $Array[$_]->{Size} ) {
-
-            #           $SQL .= "($Array[$_]->{Size})";
-        }
     }
     $SQL .= ')';
 
-    # return SQL
     return ($SQL);
 
 }
@@ -706,7 +736,6 @@ sub UniqueCreate {
     }
     $SQL .= ')';
 
-    # return SQL
     return ($SQL);
 
 }
