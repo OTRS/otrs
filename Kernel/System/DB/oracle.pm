@@ -240,21 +240,41 @@ sub TableCreate {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
                 $Shell = "/\n--";
             }
-            push( @Return2, "DROP SEQUENCE $Sequence" );
-            push( @Return2, "CREATE SEQUENCE $Sequence" );
+
+            push(
+                @Return2,
+                "BEGIN\n"
+                    . "  EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';\n"
+                    . "EXCEPTION\n"
+                    . "  WHEN OTHERS THEN NULL;\n"
+                    . "END;\n"
+                    . "$Shell",
+            );
+
+            push(
+                @Return2,
+                "CREATE SEQUENCE $Sequence\n"
+                    . "INCREMENT BY 1\n"
+                    . "START WITH 1\n"
+                    . "NOMAXVALUE\n"
+                    . "NOCYCLE\n"
+                    . "CACHE 20\n"
+                    . "ORDER",
+            );
+
             push(
                 @Return2,
                 "CREATE OR REPLACE TRIGGER $Sequence"
                     . "_t\n"
-                    . "before insert on $TableName\n"
-                    . "for each row\n"
-                    . "begin\n"
-                    . "  if :new.$Tag->{Name} IS NULL then\n"
-                    . "    select $Sequence.nextval\n"
-                    . "    into :new.$Tag->{Name}\n"
-                    . "    from dual;\n"
-                    . "  end if;\n"
-                    . "end;\n"
+                    . "BEFORE INSERT ON $TableName\n"
+                    . "FOR EACH ROW\n"
+                    . "BEGIN\n"
+                    . "  IF :new.$Tag->{Name} IS NULL THEN\n"
+                    . "    SELECT $Sequence.nextval\n"
+                    . "    INTO :new.$Tag->{Name}\n"
+                    . "    FROM DUAL;\n"
+                    . "  END IF;\n"
+                    . "END;\n"
                     . "$Shell",
             );
         }

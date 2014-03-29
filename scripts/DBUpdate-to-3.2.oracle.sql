@@ -1,7 +1,8 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2013-04-18 03:27:01
+--  driver: oracle, generated: 2014-03-29 16:35:45
 -- ----------------------------------------------------------
 SET DEFINE OFF;
+SET SQLBLANKLINES ON;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
@@ -46,18 +47,30 @@ CREATE TABLE pm_process (
     CONSTRAINT pm_process_entity_id UNIQUE (entity_id)
 );
 ALTER TABLE pm_process ADD CONSTRAINT PK_pm_process PRIMARY KEY (id);
-DROP SEQUENCE SE_pm_process;
-CREATE SEQUENCE SE_pm_process;
+BEGIN
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_pm_process';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--;
+CREATE SEQUENCE SE_pm_process
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER;
 CREATE OR REPLACE TRIGGER SE_pm_process_t
-before insert on pm_process
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_pm_process.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
+BEFORE INSERT ON pm_process
+FOR EACH ROW
+BEGIN
+  IF :new.id IS NULL THEN
+    SELECT SE_pm_process.nextval
+    INTO :new.id
+    FROM DUAL;
+  END IF;
+END;
 /
 --;
 CREATE INDEX FK_pm_process_change_by ON pm_process (change_by);
@@ -77,18 +90,30 @@ CREATE TABLE pm_activity (
     CONSTRAINT pm_activity_entity_id UNIQUE (entity_id)
 );
 ALTER TABLE pm_activity ADD CONSTRAINT PK_pm_activity PRIMARY KEY (id);
-DROP SEQUENCE SE_pm_activity;
-CREATE SEQUENCE SE_pm_activity;
+BEGIN
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_pm_activity';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--;
+CREATE SEQUENCE SE_pm_activity
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER;
 CREATE OR REPLACE TRIGGER SE_pm_activity_t
-before insert on pm_activity
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_pm_activity.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
+BEFORE INSERT ON pm_activity
+FOR EACH ROW
+BEGIN
+  IF :new.id IS NULL THEN
+    SELECT SE_pm_activity.nextval
+    INTO :new.id
+    FROM DUAL;
+  END IF;
+END;
 /
 --;
 CREATE INDEX FK_pm_activity_change_by ON pm_activity (change_by);
@@ -108,18 +133,30 @@ CREATE TABLE pm_activity_dialog (
     CONSTRAINT pm_activity_dialog_entity_id UNIQUE (entity_id)
 );
 ALTER TABLE pm_activity_dialog ADD CONSTRAINT PK_pm_activity_dialog PRIMARY KEY (id);
-DROP SEQUENCE SE_pm_activity_dialog;
-CREATE SEQUENCE SE_pm_activity_dialog;
+BEGIN
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_pm_activity_dialog';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--;
+CREATE SEQUENCE SE_pm_activity_dialog
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER;
 CREATE OR REPLACE TRIGGER SE_pm_activity_dialog_t
-before insert on pm_activity_dialog
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_pm_activity_dialog.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
+BEFORE INSERT ON pm_activity_dialog
+FOR EACH ROW
+BEGIN
+  IF :new.id IS NULL THEN
+    SELECT SE_pm_activity_dialog.nextval
+    INTO :new.id
+    FROM DUAL;
+  END IF;
+END;
 /
 --;
 CREATE INDEX FK_pm_activity_dialog_change65 ON pm_activity_dialog (change_by);
@@ -139,18 +176,30 @@ CREATE TABLE pm_transition (
     CONSTRAINT pm_transition_entity_id UNIQUE (entity_id)
 );
 ALTER TABLE pm_transition ADD CONSTRAINT PK_pm_transition PRIMARY KEY (id);
-DROP SEQUENCE SE_pm_transition;
-CREATE SEQUENCE SE_pm_transition;
+BEGIN
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_pm_transition';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--;
+CREATE SEQUENCE SE_pm_transition
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER;
 CREATE OR REPLACE TRIGGER SE_pm_transition_t
-before insert on pm_transition
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_pm_transition.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
+BEFORE INSERT ON pm_transition
+FOR EACH ROW
+BEGIN
+  IF :new.id IS NULL THEN
+    SELECT SE_pm_transition.nextval
+    INTO :new.id
+    FROM DUAL;
+  END IF;
+END;
 /
 --;
 CREATE INDEX FK_pm_transition_change_by ON pm_transition (change_by);
@@ -170,18 +219,30 @@ CREATE TABLE pm_transition_action (
     CONSTRAINT pm_transition_action_entity_id UNIQUE (entity_id)
 );
 ALTER TABLE pm_transition_action ADD CONSTRAINT PK_pm_transition_action PRIMARY KEY (id);
-DROP SEQUENCE SE_pm_transition_action;
-CREATE SEQUENCE SE_pm_transition_action;
+BEGIN
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_pm_transition_action';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--;
+CREATE SEQUENCE SE_pm_transition_action
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER;
 CREATE OR REPLACE TRIGGER SE_pm_transition_action_t
-before insert on pm_transition_action
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_pm_transition_action.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
+BEFORE INSERT ON pm_transition_action
+FOR EACH ROW
+BEGIN
+  IF :new.id IS NULL THEN
+    SELECT SE_pm_transition_action.nextval
+    INTO :new.id
+    FROM DUAL;
+  END IF;
+END;
 /
 --;
 CREATE INDEX FK_pm_transition_action_chan4f ON pm_transition_action (change_by);
@@ -234,23 +295,36 @@ CREATE TABLE sessions (
     serialized NUMBER (5, 0) NOT NULL
 );
 ALTER TABLE sessions ADD CONSTRAINT PK_sessions PRIMARY KEY (id);
-DROP SEQUENCE SE_sessions;
-CREATE SEQUENCE SE_sessions;
+BEGIN
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_sessions';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--;
+CREATE SEQUENCE SE_sessions
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER;
 CREATE OR REPLACE TRIGGER SE_sessions_t
-before insert on sessions
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_sessions.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
+BEFORE INSERT ON sessions
+FOR EACH ROW
+BEGIN
+  IF :new.id IS NULL THEN
+    SELECT SE_sessions.nextval
+    INTO :new.id
+    FROM DUAL;
+  END IF;
+END;
 /
 --;
 CREATE INDEX sessions_data_key ON sessions (data_key);
 CREATE INDEX sessions_session_id_data_key ON sessions (session_id, data_key);
 SET DEFINE OFF;
+SET SQLBLANKLINES ON;
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE pm_process ADD CONSTRAINT FK_pm_process_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE pm_activity ADD CONSTRAINT FK_pm_activity_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
