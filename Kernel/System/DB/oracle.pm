@@ -364,27 +364,6 @@ sub TableDrop {
             }
         }
 
-        my $Sequence = 'SE_' . $Tag->{Name};
-        if ( length $Sequence > 28 ) {
-            my $MD5 = $Self->{MainObject}->MD5sum(
-                String => $Sequence,
-            );
-            $Sequence = substr $Sequence, 0, 26;
-            $Sequence .= substr $MD5, 0,  1;
-            $Sequence .= substr $MD5, 31, 1;
-        }
-        my $Shell = '';
-        if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-            $Shell = "/\n--";
-        }
-
-        $SQL .= "BEGIN\n"
-            . "  EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';\n"
-            . "EXCEPTION\n"
-            . "  WHEN OTHERS THEN NULL;\n"
-            . "END;\n"
-            . "/\n";
-
         $SQL .= "DROP TABLE $Tag->{Name} CASCADE CONSTRAINTS";
 
         return ($SQL);
