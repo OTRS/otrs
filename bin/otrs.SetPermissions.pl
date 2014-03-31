@@ -227,6 +227,9 @@ for my $MailConfigFile (@MailConfigFiles) {
     if ( -e $MailConfigFile ) {
         print "Setting owner rw and group ro permissions on $MailConfigFile\n";
         MakeReadOnly($MailConfigFile);
+        if ( !$NotRoot ) {
+            SafeChown( $OtrsUserID, $AdminGroupID, $MailConfigFile );
+        }
     }
 }
 
