@@ -1745,17 +1745,17 @@ sub _GetFeatureAddonData {
     my ( $Self, %Param ) = @_;
 
     # Default URL
-    my $FeedURL = 'http://www.otrs.com/en/?type=104';
+    my $FeedURL = 'http://www.otrs.com/feed/?post_type=feature_add_ons&lang=en';
 
     my $Language = $Self->{LayoutObject}->{UserLanguage};
 
     # Check if URL for UserLanguage is available
     if ( $Language =~ m/^de/ ) {
-        $FeedURL = 'http://www.otrs.com/de/?type=104';
+        $FeedURL = 'http://www.otrs.com/feed/?post_type=feature_add_ons&lang=de';
     }
 
     if ( $Language =~ m/^es/ ) {
-        $FeedURL = 'http://www.otrs.com/es/?type=104';
+        $FeedURL = 'http://www.otrs.com/feed/?post_type=feature_add_ons&lang=es';
     }
 
     my $CacheKey  = "FeatureAddonData::$FeedURL";
@@ -1794,23 +1794,10 @@ sub _GetFeatureAddonData {
         $Count++;
         last ITEM if $Count > 100;
 
-        #        my $Time = $Item->pubDate();
-        #        my $Ago;
-        #        if ($Time) {
-        #            my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-        #                String => $Time,
-        #            );
-        #            $Ago = $Self->{TimeObject}->SystemTime() - $SystemTime;
-        #            $Ago = $Self->{LayoutObject}->CustomerAge(
-        #                Age   => $Ago,
-        #                Space => ' ',
-        #            );
-        #        }
-
         push @Result, {
             Title       => $Item->title(),
             Link        => $Item->link(),
-            Description => $Item->description(),
+            Description => $Item->get('content:encoded'),
         };
     }
 
