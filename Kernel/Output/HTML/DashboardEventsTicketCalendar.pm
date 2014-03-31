@@ -187,6 +187,11 @@ sub Run {
                 $Data{QueueName} =~ s/.*[\:]([^\:]+)$/$1/;
                 $Data{Description} = "";
 
+                # add 1 second to end date as workaround
+                # for a bug on fullcalendar when start and end
+                # dates are exactly the same (ESecond is 00 normally)
+                $Data{ESecond}++;
+
                 $Self->{LayoutObject}->Block(
                     Name => 'CalendarEvent',
                     Data => \%Data,
