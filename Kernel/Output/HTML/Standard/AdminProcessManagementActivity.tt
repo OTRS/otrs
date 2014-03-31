@@ -44,7 +44,7 @@
                 <div class="WidgetSimple Expanded">
                     <div class="Header">
                         <div class="WidgetAction Toggle">
-                            <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                            <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                         </div>
                         <h2>[% Translate("Activity") | html %]</h2>
                     </div>
@@ -68,7 +68,7 @@
                 <div class="WidgetSimple Expanded">
                     <div class="Header">
                         <div class="WidgetAction Toggle">
-                            <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                            <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                         </div>
                         <h2>[% Translate("Activity Dialogs") | html %]</h2>
                     </div>

@@ -81,7 +81,7 @@
 
 [% RenderBlockStart("OverviewNavBarPageColumnFilter") %]
                         <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
-                            <i class="icon-filter"></i>
+                            <i class="fa fa-filter"></i>
                         </a>
                         <div class="ColumnSettingsContainer DontPrint">
                             <div class="ColumnSettingsBox">
@@ -106,7 +106,7 @@ Core.Agent.TableFilters.InitCustomerUserAutocomplete( $(".CustomerUserAutoComple
 
 [% RenderBlockStart("OverviewNavBarPageColumnFilterLink") %]
                         <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
-                            <i class="icon-filter"></i>
+                            <i class="fa fa-filter"></i>
                         </a>
                         <div class="ColumnSettingsContainer DontPrint">
                             <div class="ColumnSettingsBox">
@@ -163,7 +163,7 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 
 [% RenderBlockStart("OverviewNavBarPageDynamicFieldFiltrableSortable") %]
                         <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
-                            <i class="icon-filter"></i>
+                            <i class="fa fa-filter"></i>
                         </a>
                         <div class="ColumnSettingsContainer DontPrint">
                             <div class="ColumnSettingsBox">
@@ -175,7 +175,7 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 
 [% RenderBlockStart("OverviewNavBarPageDynamicFieldFiltrableNotSortable") %]
                         <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
-                            <i class="icon-filter"></i>
+                            <i class="fa fa-filter"></i>
                         </a>
                         <div class="ColumnSettingsContainer DontPrint">
                             <div class="ColumnSettingsBox">
@@ -203,7 +203,7 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field1_NotSortable") %]
 #[% RenderBlockStart("OverviewNavBarPageDynamicField_Field1_FiltrableSortable") %]
 #                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
-#                            <i class="icon-filter"></i>
+#                            <i class="fa fa-filter"></i>
 #                        </a>
 #                        <div class="ColumnSettingsContainer DontPrint">
 #                            <div class="ColumnSettingsBox">
@@ -214,7 +214,7 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field1_FiltrableSortable") %]
 #[% RenderBlockStart("OverviewNavBarPageDynamicField_Field1_FiltrableNotSortable") %]
 #                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
-#                            <i class="icon-filter"></i>
+#                            <i class="fa fa-filter"></i>
 #                        </a>
 #                        <div class="ColumnSettingsContainer DontPrint">
 #                            <div class="ColumnSettingsBox">
@@ -235,7 +235,7 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field2_NotSortable") %]
 #[% RenderBlockStart("OverviewNavBarPageDynamicField_Field2_FiltrableSortable") %]
 #                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
-#                            <i class="icon-filter"></i>
+#                            <i class="fa fa-filter"></i>
 #                        </a>
 #                        <div class="ColumnSettingsContainer DontPrint">
 #                            <div class="ColumnSettingsBox">
@@ -246,7 +246,7 @@ Core.Agent.TableFilters.InitUserAutocomplete( $(".UserAutoComplete") );
 #[% RenderBlockEnd("OverviewNavBarPageDynamicField_Field2_FiltrableSortable") %]
 #[% RenderBlockStart("OverviewNavBarPageDynamicField_Field2_FiltrableNotSortable") %]
 #                        <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
-#                            <i class="icon-filter"></i>
+#                            <i class="fa fa-filter"></i>
 #                        </a>
 #                        <div class="ColumnSettingsContainer DontPrint">
 #                            <div class="ColumnSettingsBox">
@@ -372,8 +372,8 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
 [% RenderBlockStart("ContentLargeTicketGenericRowMetaImage") %]
                         <div class="[% Data.Class | html %] Small" title="[% Translate(Data.Title) | html %]">
                             <span class="[% Data.ClassSpan | html %]">
-                                <i class="icon-star"></i>
-                                <i class="icon-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
                                 <em>[% Translate(Data.Title) | html %]</em>
                             </span>
                         </div>

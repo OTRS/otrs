@@ -127,7 +127,7 @@
 
 [% RenderBlockStart("ContentLargeTicketGenericHeaderColumnFilterLink") %]
                     <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
-                        <i class="icon-filter"></i>
+                        <i class="fa fa-filter"></i>
                     </a>
                     <div class="ColumnSettingsContainer">
                         <div class="ColumnSettingsBox">
@@ -293,7 +293,7 @@ Core.Agent.Dashboard.InitUserAutocomplete( $(".UserAutoComplete") );
 
 [% RenderBlockStart("ContentLargeTicketGenericHeaderColumnFilter") %]
                     <a href="#" class="ColumnSettingsTrigger" title="[% Data.FilterTitle | html %]">
-                        <i class="icon-filter"></i>
+                        <i class="fa fa-filter"></i>
                     </a>
                     <div class="ColumnSettingsContainer">
                         <div class="ColumnSettingsBox">
@@ -471,8 +471,8 @@ $('.DashboardHeader').off('click').on('click', '.ColumnSettingsTrigger', functio
 [% RenderBlockStart("ContentLargeTicketGenericRowMetaImage") %]
                     <div class="[% Data.Class | html %] Small" title="[% Translate(Data.Title) | html %]">
                         <span class="[% Data.ClassSpan | html %]">
-                            <i class="icon-star"></i>
-                            <i class="icon-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
                             <em>[% Translate(Data.Title) | html %]</em>
                         </span>
                     </div>
@@ -596,7 +596,7 @@ if (Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]')) {
 if (!$('#Dashboard[% Data.Name | html %]-box').find('.ActionMenu').find('.RemoveFilters').length) {
     $('#Dashboard[% Data.Name | html %]-box')
         .find('.ActionMenu')
-        .prepend('<div class="WidgetAction RemoveFilters"><a href="#" id="Dashboard[% Data.Name | html %]-remove-filters" title="[% Translate("Remove active filters for this widget.") | html %]"><i class="icon-trash"></i></a></div>')
+        .prepend('<div class="WidgetAction RemoveFilters"><a href="#" id="Dashboard[% Data.Name | html %]-remove-filters" title="[% Translate("Remove active filters for this widget.") | html %]"><i class="fa fa-trash-o"></i></a></div>')
         .find('.RemoveFilters')
         .on('click', function() {
 

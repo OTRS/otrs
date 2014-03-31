@@ -11,7 +11,7 @@
     <div class="DontPrint WidgetSimple Collapsed Animate SettingsWidget">
         <div class="Header">
             <div class="WidgetAction Toggle">
-                <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
             </div>
             <h2>[% Translate("Settings") | html %]</h2>
         </div>
@@ -46,7 +46,7 @@
 [% RenderBlockStart("ContentSmallPreferences") %]
                 <div class="WidgetAction Settings">
                     <a href="#" id="Dashboard[% Data.Name | html %]-toggle" title="[% Translate("Settings") | html %]">
-                        <i class="icon-gear"></i>
+                        <i class="fa fa-cog"></i>
                     </a>
                 </div>
 [% WRAPPER JSOnDocumentComplete %]
@@ -57,7 +57,7 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard[% Data.Name | html %]-toggle'),
 [% RenderBlockEnd("ContentSmallPreferences") %]
                 <div class="WidgetAction Close">
                     <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateRemove;Name=[% Data.Name | uri %];CustomerID=[% Data.CustomerID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Close") | html %]">
-                        <i class="icon-remove"></i>
+                        <i class="fa fa-times"></i>
                     </a>
                 </div>
                 <div class="Clear"></div>
@@ -141,7 +141,7 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard[% Data.Name | html %]_cancel'),
 [% RenderBlockStart("ContentLargePreferences") %]
                 <div class="WidgetAction Settings">
                     <a href="#" id="Dashboard[% Data.Name | html %]-toggle" title="[% Translate("Settings") | html %]">
-                        <i class="icon-gear"></i>
+                        <i class="fa fa-cog"></i>
                     </a>
                 </div>
 [% WRAPPER JSOnDocumentComplete %]
@@ -152,7 +152,7 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard[% Data.Name | html %]-toggle'),
 [% RenderBlockEnd("ContentLargePreferences") %]
                 <div class="WidgetAction Close">
                     <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateRemove;Name=[% Data.Name | uri %];CustomerID=[% Data.CustomerID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Close") | html %]">
-                        <i class="icon-remove"></i>
+                        <i class="fa fa-times"></i>
                     </a>
                 </div>
                 <div class="Clear"></div>

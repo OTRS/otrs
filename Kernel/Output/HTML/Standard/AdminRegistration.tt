@@ -296,7 +296,7 @@
 
                                 <div class="Field SpacingTop">
                                     <button class="Primary CallForAction" type="submit" id="Submit">
-                                        <span>[% Translate("Next") | html %] <i class="icon-caret-right"></i></span>
+                                        <span>[% Translate("Next") | html %] <i class="fa fa-caret-right"></i></span>
                                     </button>
                                 </div>
                                 <div class="Clear"></div>
@@ -394,7 +394,7 @@
                                 <div class="Field SpacingTop">
                                     <button class="Primary CallForAction" type="submit" id="Submit" value="[% Translate("Register") | html %]">
                                         <span>
-                                            <i class="icon-check"></i>
+                                            <i class="fa fa-check"></i>
                                             [% Translate("Register") | html %]
                                         </span>
                                     </button>

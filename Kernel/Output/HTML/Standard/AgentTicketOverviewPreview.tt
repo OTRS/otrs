@@ -89,8 +89,8 @@
 [% RenderBlockStart("MetaIcon") %]
             <div class="[% Data.Class | html %]" title="[% Translate(Data.Title) | html %]">
                 <span class="[% Data.ClassSpan | html %]">
-                    <i class="icon-star"></i>
-                    <i class="icon-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
                     <em>[% Translate(Data.Title) | html %]</em>
                 </span>
             </div>

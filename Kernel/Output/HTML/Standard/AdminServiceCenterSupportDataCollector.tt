@@ -120,7 +120,7 @@
         <div class="WidgetSimple">
             <div class="Header">
                 <div class="WidgetAction Toggle">
-                    <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                    <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                 </div>
                 <h2>[% Translate(Data.Group) | html %]</h2>
             </div>
@@ -163,7 +163,7 @@
                                     <td>[% Data.Value | html %]</td>
                                     <td>
 [% RenderBlockStart("SupportDataSubEntryMessage") %]
-                                        <a href="#" class="ShowItemMessage"><i class="icon-info-sign"></i> [% Translate("Details") | html %]</a>
+                                        <a href="#" class="ShowItemMessage"><i class="fa fa-info-circle"></i> [% Translate("Details") | html %]</a>
                                         <div class="Hidden">
                                             <p class="DialogMessage">[% Translate(Data.Message) | html %]</p>
                                         </div>

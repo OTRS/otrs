@@ -131,7 +131,7 @@
             <div class="WidgetSimple SpacingTop">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
                     <h2>[% Translate("Events") | html %]</h2>
                 </div>
@@ -161,7 +161,7 @@
             <div class="WidgetSimple SpacingTop Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
                     <h2>[% Translate("Ticket Filter") | html %]</h2>
                 </div>
@@ -249,7 +249,7 @@
             <div class="WidgetSimple SpacingTop Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
                     <h2>[% Translate("Article Filter") | html %] <span class="FieldExplanation">([% Translate("Only for ArticleCreate event") | html %])</span></h2>
                 </div>
@@ -301,7 +301,7 @@
             <div class="WidgetSimple SpacingTop">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
                     <h2>[% Translate("Recipient") | html %]</h2>
                 </div>
@@ -346,7 +346,7 @@
             <div class="WidgetSimple SpacingTop">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
                     <h2>[% Translate("Notification") | html %]</h2>
                 </div>

@@ -126,7 +126,7 @@
             <div class="WidgetSimple Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
                     <h2>[% Translate("Automatic execution (multiple tickets)") | html %]</h2>
                 </div>
@@ -169,7 +169,7 @@
             <div class="WidgetSimple SpacingTop Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
                     <h2>[% Translate("Event based execution (single ticket)") | html %]</h2>
                 </div>
@@ -269,7 +269,7 @@ Core.Agent.Admin.GenericAgent.Init({
             <div class="WidgetSimple SpacingTop Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
                     <h2>[% Translate("Select Tickets") | html %]</h2>
                 </div>
@@ -584,7 +584,7 @@ Core.Agent.Admin.GenericAgent.Init({
             <div class="WidgetSimple SpacingTop Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
                     <h2>[% Translate("Update/Add Ticket Attributes") | html %]</h2>
                 </div>
@@ -696,7 +696,7 @@ Core.Agent.Admin.GenericAgent.Init({
             <div class="WidgetSimple SpacingTop Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
                     <h2>[% Translate("Add Note") | html %]</h2>
                 </div>
@@ -731,7 +731,7 @@ Core.Agent.Admin.GenericAgent.Init({
             <div class="WidgetSimple SpacingTop Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
                     <h2>[% Translate("Execute Ticket Commands") | html %]</h2>
                 </div>
@@ -767,7 +767,7 @@ Core.Agent.Admin.GenericAgent.Init({
             <div class="WidgetSimple SpacingTop Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
                     <h2>[% Translate("Execute Custom Module") | html %]</h2>
                 </div>

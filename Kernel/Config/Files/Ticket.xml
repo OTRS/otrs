@@ -4531,7 +4531,7 @@
                 <Item Key="Action">AgentTicketQueue</Item>
                 <Item Key="AccessKey">q</Item>
                 <Item Key="CssClass">QueueView</Item>
-                <Item Key="Icon">icon-folder-close</Item>
+                <Item Key="Icon">fa fa-folder</Item>
                 <Item Key="Priority">1010010</Item>
             </Hash>
         </Setting>
@@ -4548,7 +4548,7 @@
                 <Item Key="Action">AgentTicketStatusView</Item>
                 <Item Key="AccessKey">o</Item>
                 <Item Key="CssClass">StatusView</Item>
-                <Item Key="Icon">icon-list-ol</Item>
+                <Item Key="Icon">fa fa-list-ol</Item>
                 <Item Key="Priority">1010020</Item>
             </Hash>
         </Setting>
@@ -4565,7 +4565,7 @@
                 <Item Key="Action">AgentTicketEscalationView</Item>
                 <Item Key="AccessKey">w</Item>
                 <Item Key="CssClass">EscalationView</Item>
-                <Item Key="Icon">icon-exclamation</Item>
+                <Item Key="Icon">fa fa-exclamation</Item>
                 <Item Key="Priority">1010030</Item>
             </Hash>
         </Setting>
@@ -4582,7 +4582,7 @@
                 <Item Key="Action">AgentTicketPhone</Item>
                 <Item Key="AccessKey"></Item>
                 <Item Key="CssClass">PhoneTicket</Item>
-                <Item Key="Icon">icon-phone</Item>
+                <Item Key="Icon">fa fa-phone</Item>
                 <Item Key="Priority">1020010</Item>
             </Hash>
         </Setting>
@@ -4599,7 +4599,7 @@
                 <Item Key="Action">AgentTicketEmail</Item>
                 <Item Key="AccessKey"></Item>
                 <Item Key="CssClass">EmailTicket</Item>
-                <Item Key="Icon">icon-envelope</Item>
+                <Item Key="Icon">fa fa-envelope</Item>
                 <Item Key="Priority">1020020</Item>
             </Hash>
         </Setting>
@@ -4616,7 +4616,7 @@
                 <Item Key="Action">AgentTicketProcess</Item>
                 <Item Key="AccessKey">p</Item>
                 <Item Key="CssClass">ProcessTicket</Item>
-                <Item Key="Icon">icon-th-large</Item>
+                <Item Key="Icon">fa fa-th-large</Item>
                 <Item Key="Priority">1020030</Item>
             </Hash>
         </Setting>
@@ -4631,9 +4631,9 @@
                 <Item Key="CssClass">Responsible</Item>
                 <Item Key="CssClassNew">Responsible New</Item>
                 <Item Key="CssClassReached">Responsible Reached</Item>
-                <Item Key="Icon">icon-user</Item>
-                <Item Key="IconNew">icon-user</Item>
-                <Item Key="IconReached">icon-user</Item>
+                <Item Key="Icon">fa fa-user</Item>
+                <Item Key="IconNew">fa fa-user</Item>
+                <Item Key="IconReached">fa fa-user</Item>
                 <Item Key="AccessKey">r</Item>
                 <Item Key="AccessKeyNew"></Item>
                 <Item Key="AccessKeyReached"></Item>
@@ -4651,9 +4651,9 @@
                 <Item Key="CssClass">Watcher</Item>
                 <Item Key="CssClassNew">Watcher New</Item>
                 <Item Key="CssClassReached">Watcher Reached</Item>
-                <Item Key="Icon">icon-eye-open</Item>
-                <Item Key="IconNew">icon-eye-open</Item>
-                <Item Key="IconReached">icon-eye-open</Item>
+                <Item Key="Icon">fa fa-eye</Item>
+                <Item Key="IconNew">fa fa-eye</Item>
+                <Item Key="IconReached">fa fa-eye</Item>
                 <Item Key="AccessKey"></Item>
                 <Item Key="AccessKeyNew"></Item>
                 <Item Key="AccessKeyReached"></Item>
@@ -4671,9 +4671,9 @@
                 <Item Key="CssClass">Locked</Item>
                 <Item Key="CssClassNew">Locked New</Item>
                 <Item Key="CssClassReached">Locked Reached</Item>
-                <Item Key="Icon">icon-lock</Item>
-                <Item Key="IconNew">icon-lock</Item>
-                <Item Key="IconReached">icon-lock</Item>
+                <Item Key="Icon">fa fa-lock</Item>
+                <Item Key="IconNew">fa fa-lock</Item>
+                <Item Key="IconReached">fa fa-lock</Item>
                 <Item Key="AccessKey">k</Item>
                 <Item Key="AccessKeyNew"></Item>
                 <Item Key="AccessKeyReached"></Item>

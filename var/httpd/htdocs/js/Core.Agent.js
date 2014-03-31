@@ -178,7 +178,7 @@ Core.Agent = (function (TargetNS) {
         if (!$('#NavigationContainer').find('.NavigationBarNavigate' + Direction).length) {
 
             $('#NavigationContainer')
-                .append('<a href="#" class="Hidden NavigationBarNavigate' + Direction + '"><i class="icon-chevron-' + Direction.toLowerCase() + '"></i></a>')
+                .append('<a href="#" class="Hidden NavigationBarNavigate' + Direction + '"><i class="fa fa-chevron-' + Direction.toLowerCase() + '"></i></a>')
                 .find('.NavigationBarNavigate' + Direction)
                 .delay(Delay)
                 .fadeIn()

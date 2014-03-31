@@ -28,7 +28,7 @@ Pragma: no-cache
 [% RenderBlockStart("ToolBar") %]
         <ul id="ToolBar">
 [% RenderBlockStart("ToolBarItem") %]
-            <li class="[% Data.Class | html %]"><a href="[% Data.Link %]" accesskey="[% Data.AccessKey | html %]" title="[% Translate(Data.Description) | html %]: [% Data.Count | html %][% Data.AccessKeyReference | html %]">[% Translate(Data.Description) | html %] <i class="icon-small icon-time icon-show-reached"></i> <i class="icon-small icon-star icon-show-new"></i><i class="[% Data.Icon | html %]"></i> <span class="Counter">[% Data.Count | html %]</span> </a></li>
+            <li class="[% Data.Class | html %]"><a href="[% Data.Link %]" accesskey="[% Data.AccessKey | html %]" title="[% Translate(Data.Description) | html %]: [% Data.Count | html %][% Data.AccessKeyReference | html %]">[% Translate(Data.Description) | html %] <i class="icon-small fa fa-clock-o icon-show-reached"></i> <i class="icon-small fa fa-star icon-show-new"></i><i class="[% Data.Icon | html %]"></i> <span class="Counter">[% Data.Count | html %]</span> </a></li>
 [% RenderBlockEnd("ToolBarItem") %]
 [% RenderBlockStart("ToolBarSearchProfile") %]
             <li class="Extended SearchProfile">
@@ -99,7 +99,7 @@ Pragma: no-cache
 [% RenderBlockEnd("LoginWithoutLink") %]
 [% RenderBlockStart("Logout") %]
             <a class="LogoutButton" id="LogoutButton" href="[% Env("Baselink") %]Action=Logout;[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Logout") | html %]">
-                <i class="icon-off"></i>
+                <i class="fa fa-power-off"></i>
             </a>
 [% RenderBlockEnd("Logout") %]
         </div>

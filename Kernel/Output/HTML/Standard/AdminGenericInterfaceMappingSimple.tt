@@ -113,7 +113,7 @@
                         <div class="WidgetSimple Expanded WidgetKey [% Data.Classes | html %]">
                             <div class="Header">
                                 <div class="WidgetAction Toggle">
-                                    <a href="#" title=[% Translate("Show or hide the content") | JSON %]><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                                    <a href="#" title=[% Translate("Show or hide the content") | JSON %]><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                                 </div>
                                 <h3 class="Title">[% Translate("Mapping for Key ") | html %] [% Data.KeyMapNew | html %]</h3>
                                 <div class="AdditionalInformation SpacingTopMini">

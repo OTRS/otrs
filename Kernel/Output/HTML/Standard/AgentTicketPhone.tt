@@ -473,7 +473,7 @@
                     <div class="Clear"></div>
 [% RenderBlockEnd("TimeUnits") %]
                     <div class="Field SpacingTop">
-                        <button class="Primary CallForAction" id="submitRichText" accesskey="g" title="[% Translate("Create") | html %] (g)" type="submit" value="[% Translate("Create") | html %]"><span><i class="icon-check"></i> [% Translate("Create") | html %]</span></button>
+                        <button class="Primary CallForAction" id="submitRichText" accesskey="g" title="[% Translate("Create") | html %] (g)" type="submit" value="[% Translate("Create") | html %]"><span><i class="fa fa-check-square-o"></i> [% Translate("Create") | html %]</span></button>
                     </div>
                 </fieldset>
             </form>

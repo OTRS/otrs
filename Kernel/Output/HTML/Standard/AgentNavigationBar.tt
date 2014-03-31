@@ -26,7 +26,7 @@
 [% RenderBlockStart("SearchIcon") %]
         <li id="nav-search">
             <a class="Search ARIARoleSearch ARIAHasPopup" id="GlobalSearchNav" href="[% Env("Baselink") %]Action=AgentTicketSearch" title="[% Translate("Search") | html %]">
-                <i class="icon-search"></i>
+                <i class="fa fa-search"></i>
             </a>
         </li>
 [% RenderBlockEnd("SearchIcon") %]

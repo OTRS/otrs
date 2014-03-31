@@ -8,7 +8,7 @@
 # --
 
 [% RenderBlockStart("NoData") %]
-<i class="icon-signal" style="display: block; margin-bottom: 3px; font-size: 20px; text-align: center; color: #E77A34;"></i>
+<i class="fa fa-signal" style="display: block; margin-bottom: 3px; font-size: 20px; text-align: center; color: #E77A34;"></i>
 <p class="Center FieldExplanation">[% Translate("The content of this statistic is being prepared for you, please be patient.") | html %]</p>
 [% RenderBlockEnd("NoData") %]
 
@@ -51,7 +51,7 @@ Core.Config.Set('Pref-GraphWidget[% Data.Name | html %]', [% Data.Preferences %]
 [% RenderBlockStart("StatsDataLink") %]
 <div class="WidgetAction" id="GraphWidgetLink[% Data.Name | html %]">
     <a href="#" class="TriggerTooltip" title="[% Translate("Download") | html %]">
-        <i class="icon-download-alt"></i>
+        <i class="fa fa-download"></i>
     </a>
     <span class="Hidden WidgetTooltip">
 [% RenderBlockStart("StatsDataLinkCSV") %]

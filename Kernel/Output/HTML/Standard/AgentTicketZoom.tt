@@ -412,7 +412,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
 [% END %]
             <div class="WidgetBox SpacingTop Expanded" id="DynamicFieldsWidget">
                 <div class="LightRow Header">
-                    <div class="WidgetAction Toggle"><a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a></div>
+                    <div class="WidgetAction Toggle"><a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a></div>
                     <h2>[% Translate(Data.WidgetTitle) | html %]</h2>
                 </div>
 [% RenderBlockStart("NextActivityDialogs") %]
@@ -519,22 +519,22 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
             <span class="InvisibleText">[% Translate("Article Filter") | html %]:</span>
 # Only show one: Set or Reset.
 #[% RenderBlockStart("ArticleFilterSetLink") %]
-            <a href="#" id="SetArticleFilter" title="[% Translate("Add Filter") | html %]"><i class="icon-filter"></i><span>[% Translate("Set") | html %]</span></a>
+            <a href="#" id="SetArticleFilter" title="[% Translate("Add Filter") | html %]"><i class="fa fa-filter"></i><span>[% Translate("Set") | html %]</span></a>
 #[% RenderBlockEnd("ArticleFilterSetLink") %]
 [% RenderBlockStart("ArticleFilterResetLink") %]
-            <a href="#" id="ResetArticleFilter" title="[% Translate("Reset Filter") | html %]"><i class="icon-trash"></i><span>[% Translate("Reset") | html %]</span></a>
+            <a href="#" id="ResetArticleFilter" title="[% Translate("Reset Filter") | html %]"><i class="fa fa-trash-o"></i><span>[% Translate("Reset") | html %]</span></a>
 [% RenderBlockEnd("ArticleFilterResetLink") %]
         </div>
 [% RenderBlockEnd("ArticleFilterDialogLink") %]
         <div class="ArticleView Icons">
             <span class="InvisibleText">[% Translate("Article") | html %] [% Translate("View") | html %]:</span>
 [% RenderBlockStart("Expand") %]
-            <a class="OneArticle Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0;ArticlePage=[% Data.Page | uri %]" title="[% Translate("Show one article") | html %]"><i class="icon-minus"></i><span>[% Translate("Show one article") | html %]</span></a>
-            <a class="AllArticles" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=1;ArticlePage=[% Data.Page | uri %]" title="[% Translate("Show all articles") | html %]"><i class="icon-reorder"></i><span>[% Translate("Show all articles") | html %]</span></a>
+            <a class="OneArticle Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0;ArticlePage=[% Data.Page | uri %]" title="[% Translate("Show one article") | html %]"><i class="fa fa-minus"></i><span>[% Translate("Show one article") | html %]</span></a>
+            <a class="AllArticles" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=1;ArticlePage=[% Data.Page | uri %]" title="[% Translate("Show all articles") | html %]"><i class="fa fa-bars"></i><span>[% Translate("Show all articles") | html %]</span></a>
 [% RenderBlockEnd("Expand") %]
 [% RenderBlockStart("Collapse") %]
-            <a class="OneArticle" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0" title="[% Translate("Show one article") | html %]"><i class="icon-minus"></i><span>[% Translate("Show one article") | html %]</span></a>
-            <a class="AllArticles Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=1" title="[% Translate("Show all articles") | html %]"><i class="icon-reorder"></i><span>[% Translate("Show all articles") | html %]</span></a>
+            <a class="OneArticle" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0" title="[% Translate("Show one article") | html %]"><i class="fa fa-minus"></i><span>[% Translate("Show one article") | html %]</span></a>
+            <a class="AllArticles Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=1" title="[% Translate("Show all articles") | html %]"><i class="fa fa-bars"></i><span>[% Translate("Show all articles") | html %]</span></a>
 [% RenderBlockEnd("Collapse") %]
         </div>
         <div class="Clear"></div>
@@ -547,8 +547,8 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
                         <th class="UnreadArticles">
                             <a class="UnreadArticles" href="#" title="[% Translate("Unread articles") | html %]">
                                 <span class="UnreadArticles">
-                                    <i class="icon-star"></i>
-                                    <i class="icon-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
                                 </span>
                             </a>
                         </th>
@@ -560,7 +560,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
                         <th class="Created Sortable"><a href="#">[% Translate("Created") | html %]</a></th>
                         <th class="Attachments Last">
                             <a href="#" title="[% Translate("Attachments") | html %]">
-                                <i class="icon-paper-clip"></i>
+                                <i class="fa fa-paperclip"></i>
                             </a>
                         </th>
                     </tr>
@@ -571,14 +571,14 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
                         <td class="[% Data.Class | html %] UnreadArticles Fixed NonTextContent">
 [% RenderBlockStart("TreeItemImportantArticle") %]
                             <span class="ImportantArticles" title="[% Translate("Important") | html %]">
-                                <i class="icon-info-sign"></i>
+                                <i class="fa fa-info-circle"></i>
                                 <em>[% Translate("Important") | html %]</em>
                             </span>
 [% RenderBlockEnd("TreeItemImportantArticle") %]
 [% RenderBlockStart("TreeItemNewArticle") %]
                             <span class="[% Data.Class | html %]" title="[% Translate("Unread Article!") | html %]">
-                                <i class="icon-star"></i>
-                                <i class="icon-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
                             </span>
 [% RenderBlockEnd("TreeItemNewArticle") %]
 [% RenderBlockStart("TreeItemNoNewArticle") %]
@@ -628,13 +628,13 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
 [% RenderBlockStart("TreeItemAttachmentIconSingle") %]
 # show attachment preview data in tooltip
                             <a class="Attachment" title="[% Translate("Attachment") | html %] [% Data.Filename | html %] ([% Data.Filesize | html %])" rel="TicketAttachment[% Data.Count | html %]">
-                                <i class="icon-file-alt"></i>
+                                <i class="fa fa-file-o"></i>
                             </a>
 [% RenderBlockEnd("TreeItemAttachmentIconSingle") %]
 [% RenderBlockStart("TreeItemAttachmentIconMultiple") %]
 # no preview data in tooltip
                             <a class="Attachment" title="[% Translate("Attachments") | html %]" rel="TicketAttachment[% Data.Count | html %]">
-                                <i class="icon-file-alt"></i>
+                                <i class="fa fa-file-o"></i>
                             </a>
 [% RenderBlockEnd("TreeItemAttachmentIconMultiple") %]
                             <div id="TicketAttachment[% Data.Count | html %]" class="AttachmentData Hidden">
@@ -674,7 +674,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
     <div class="WidgetBox SpacingTop Expanded">
         <div class="LightRow Header">
             <div class="WidgetAction Toggle">
-                <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]" title="[% Translate("Show or hide the content") | html %]"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
+                <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
             </div>
             <h2>#[% Data.Count | html %] &ndash; [% Data.Subject | html %]</h2>
             <div class="AdditionalInformation SpacingLoader">

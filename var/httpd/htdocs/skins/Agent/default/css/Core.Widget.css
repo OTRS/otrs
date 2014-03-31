@@ -363,11 +363,11 @@ ul.Tablelike li.Header + li {
     top: -1px;
 }
 
-.Expanded .WidgetAction.Toggle i.icon-caret-right {
+.Expanded .WidgetAction.Toggle i.fa-caret-right {
     display: none !important;
 }
 
-.Collapsed .WidgetAction.Toggle i.icon-caret-down {
+.Collapsed .WidgetAction.Toggle i.fa-caret-down {
     display: none !important;
 }
 

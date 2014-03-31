@@ -398,7 +398,7 @@
             </fieldset>
         </div>
         <div class="Footer">
-            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="[% Translate("Send mail") | html %] (g)" type="submit" value="[% Translate("Send mail") | html %]" ><span><i class="icon-envelope-alt"></i> [% Translate("Send mail") | html %]</span></button>
+            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="[% Translate("Send mail") | html %] (g)" type="submit" value="[% Translate("Send mail") | html %]" ><span><i class="fa fa-envelope-o"></i> [% Translate("Send mail") | html %]</span></button>
         </div>
     </div>
 </form>

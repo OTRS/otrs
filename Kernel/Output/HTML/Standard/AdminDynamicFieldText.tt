@@ -184,7 +184,7 @@
                                 <div id="CustomerRegExErrorMessage_[% Data.EntryCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Data.CustomerRegExErrorMessageServerErrorMessage | Translate | html %]"}</p></div>
 
                                 <a id="RemoveRegEx_[% Data.EntryCounter | html %]" class="RemoveRegEx" href="#" style="float:right">
-                                    <i class="icon-minus-sign" style="font-size:15px"></i>
+                                    <i class="fa fa-minus-square" style="font-size:15px"></i>
                                 </a>
                                 <div class="Clear"></div>
                             </div>
@@ -205,7 +205,7 @@
                             <div id="CustomerRegExErrorMessageServerError" class="TooltipErrorMessage"><p>[% Data.CustomerRegExErrorMessageServerErrorMessage | Translate | html %]</p></div>
 
                             <a id="RemoveRegEx" class="RemoveRegEx" href="#" style="float:right">
-                                <i class="icon-minus-sign" style="font-size:15px"></i>
+                                <i class="fa fa-minus-square" style="font-size:15px"></i>
                             </a>
                             <div class="Clear"></div>
                         </div>
@@ -214,7 +214,7 @@
                         <label for="AddRegEx">[% Translate("Add RegEx") | html %]:</label>
                         <div class="Field">
                             <a id="AddRegEx" href="#">
-                                <i style="font-size:15px" class="icon-plus-sign"></i>
+                                <i style="font-size:15px" class="fa fa-plus-square"></i>
                             </a>
                         </div>
                         <div class="Clear"></div>
