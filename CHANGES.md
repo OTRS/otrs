@@ -1,4 +1,5 @@
 #3.3.7 2014-??-??
+ - 2014-03-31 Fixed bug#[10362](http://bugs.otrs.org/show_bug.cgi?id=10362) - .procmailrc is reset with wrong permissions on otrs.SetPermisssion.pl execution.
  - 2014-03-30 Fixed bug#[10350](http://bugs.otrs.org/show_bug.cgi?id=10350) - Events Ticket Calender: In case TicketCalendarStartTime=TicketCalendarEndTime, displayed ticket event time frame always 2 hours.
  - 2014-03-29 Fixed bug#[9970](http://bugs.otrs.org/show_bug.cgi?id=9970) - Existing sequences on oracle databases produces errors.
  - 2014-03-28 Enhanced DiskSpacePatitions SupportDataCollector plugin to deal correctly with multiple partitions with the same name.
