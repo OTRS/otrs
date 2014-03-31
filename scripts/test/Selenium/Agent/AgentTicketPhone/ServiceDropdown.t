@@ -16,6 +16,7 @@ use Kernel::System::UnitTest::Helper;
 use Kernel::System::Service;
 use Kernel::System::Ticket;
 use Kernel::System::UnitTest::Selenium;
+use Kernel::System::SysConfig;
 
 # this test is to check that when AgentTicketPhone is loaded already with
 # customer data on it (like when doing Split), the dropdown of Service is
@@ -33,7 +34,18 @@ $Selenium->RunTest(
         my $Helper = Kernel::System::UnitTest::Helper->new(
             UnitTestObject => $Self,
             %{$Self},
-            RestoreSystemConfiguration => 0,
+            RestoreSystemConfiguration => 1,
+        );
+
+        my $SysConfigObject = Kernel::System::SysConfig->new(
+            %{$Self},
+        );
+
+        # update sysconfig settings
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::Service',
+            Value => 1,
         );
 
         my $TestUserLogin = $Helper->TestUserCreate(
