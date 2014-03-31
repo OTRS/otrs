@@ -2978,8 +2978,18 @@ sub _RenderSLA {
             Message => "Got no ActivityDialogField in _RenderSLA!",
         };
     }
+
+    # create a local copy of the GetParam
+    my %GetServicesParam = %{ $Param{GetParam} };
+
+    # use ticket information as a fall back if customer was already set, otherwise when the
+    # activity dialog displays the service list will be initially empty, see bug#10059
+    if ( IsHashRefWithData( $Param{Ticket} ) ) {
+        $GetServicesParam{CustomerUserID} ||= $Param{Ticket}->{CustomerUserID} ||= '';
+    }
+
     my $Services = $Self->_GetServices(
-        %{ $Param{GetParam} },
+        %GetServicesParam,
     );
 
     my $SLAs = $Self->_GetSLAs(
