@@ -343,6 +343,25 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     # create common objects
     my %CommonObject = _CommonObjects();
 
+    # re-create entire common object again:
+    #
+    # forked scheduler executing RegistrationUpdate tasks using PostgreSQL looses the connection
+    #   to the server and this produces errors in SQL statements in different parts of the chain
+    #   from Kernel/System/SystemData.pm (trying to list the registration variables) to
+    #   Kernel/Scheduler.pm to bin/otrs.Scheduler.pl (trying to get the PID form the DB).
+    #
+    # The results are that the RegistrationUpdate task is not executed and the scheduler stops.
+    #
+    # Some error samples might include:
+    #     DBD::Pg::st execute failed: server closed the connection unexpectedly
+    #     DBD::Pg::st execute failed: lost synchronization with server: got message type "s"
+    #     DBD::Pg::st execute failed: lost synchronization with server: got message type "e"
+    #
+    # It has been found that just creating the entire common object again either at this point
+    #     or within the "main loop" works around the problem; re-creating just the DBObject does not
+    #     work correctly.
+    %CommonObject = _CommonObjects();
+
     # if start is forced, be sure to remove any PID from any host
     my $Force = $Opts{f} ? 1 : '';
 
