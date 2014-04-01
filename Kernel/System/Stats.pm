@@ -2836,7 +2836,7 @@ sub _GenerateDynamicStats {
                         ( $Y, $M, $D, $h, $m, $s )
                             = Add_Delta_DHMS( $Y, $M, $D, $h, $m, $s, 0, 0, -$Count, 0 );
                         $Element->{TimeStart}
-                            = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $h, $m, 0, 0 );
+                            = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, 0 );
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'Second' ) {
                         ( $Y, $M, $D, $h, $m, $s )
