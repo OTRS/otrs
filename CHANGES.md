@@ -1,4 +1,5 @@
 #3.3.7 2014-??-??
+ - 2014-04-01 Fixed bug#[10431](http://bugs.otrs.org/show_bug.cgi?id=10431) - Fallback configuration for scheduler log is wrong.
  - 2014-04-01 Fixed bug#[10426](http://bugs.otrs.org/show_bug.cgi?id=10426) - Scheduler RegistrationUpdate task dies with PostgreSQL DB.
  - 2014-03-31 Fixed bug#[10362](http://bugs.otrs.org/show_bug.cgi?id=10362) - .procmailrc is reset with wrong permissions on otrs.SetPermisssion.pl execution.
  - 2014-03-30 Fixed bug#[10350](http://bugs.otrs.org/show_bug.cgi?id=10350) - Events Ticket Calender: In case TicketCalendarStartTime=TicketCalendarEndTime, displayed ticket event time frame always 2 hours.
