@@ -279,7 +279,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
         # get default log path from configuration
         my $LogPath = $CommonObject{ConfigObject}->Get('Scheduler::LogPath')
-            || '<OTRS_CONFIG_Home>/var/log';
+            || $CommonObject{ConfigObject}->Get('Home') . '/var/log';
 
         # backup old log files
         my $FileExt    = '.log';
@@ -539,6 +539,8 @@ sub _Help {
     #     0 if scheduler is stopped
     #    -1 if scheduler is registered in the DB but is not running
     # <PID> if scheduler is running where <PID> is the process number of the scheduler process
+
+    return 1;
 }
 
 sub _CommonObjects {

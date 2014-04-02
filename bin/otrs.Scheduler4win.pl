@@ -276,6 +276,7 @@ sub _Help {
     print "otrs.Scheduler4win.pl - OTRS Scheduler Daemon\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.Scheduler4win.pl -a <ACTION> (start|stop|status|reload) [-f force]\n";
+    return 1;
 }
 
 sub _Start {
@@ -300,7 +301,7 @@ sub _Start {
 
     # get default log path from configuration
     my $LogPath = $CommonObject{ConfigObject}->Get('Scheduler::LogPath')
-        || '<OTRS_CONFIG_Home>/var/log';
+        || $CommonObject{ConfigObject}->Get('Home') . '/var/log';
 
     # set proper directory separators on windows
     $LogPath =~ s{/}{\\}g;
@@ -513,6 +514,7 @@ sub _Start {
 
     # stop the service
     _Stop();
+    return 1;
 }
 
 sub _Stop {
