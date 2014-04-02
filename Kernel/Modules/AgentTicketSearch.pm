@@ -343,17 +343,6 @@ sub Run {
             $Self->{Profile} = 'last-search';
         }
 
-        # store last queue screen
-        my $URL
-            = "Action=AgentTicketSearch;Subaction=Search;Profile=$Self->{Profile};SortBy=$Self->{SortBy}"
-            . ";OrderBy=$Self->{OrderBy};TakeLastSearch=1;StartHit=$Self->{StartHit}";
-
-        $Self->{SessionObject}->UpdateSessionID(
-            SessionID => $Self->{SessionID},
-            Key       => 'LastScreenOverview',
-            Value     => $URL,
-        );
-
         # save search profile (under last-search or real profile name)
         $Self->{SaveProfile} = 1;
 
@@ -1007,6 +996,17 @@ sub Run {
                     OP => "Action=AgentTicketZoom;TicketID=$ViewableTicketIDs[0]",
                 );
             }
+
+            # store last queue screen
+            my $URL
+                = "Action=AgentTicketSearch;Subaction=Search;Profile=$Self->{Profile};SortBy=$Self->{SortBy}"
+                . ";OrderBy=$Self->{OrderBy};TakeLastSearch=1;StartHit=$Self->{StartHit}";
+
+            $Self->{SessionObject}->UpdateSessionID(
+                SessionID => $Self->{SessionID},
+                Key       => 'LastScreenOverview',
+                Value     => $URL,
+            );
 
             # start html page
             my $Output = $Self->{LayoutObject}->Header();
