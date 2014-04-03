@@ -251,11 +251,11 @@ sub Check {
                 );
             }
 
-            # decrypt
-            my $Cryped = $Entity->parts(1)->as_string();
+            # get crypted part of the mail
+            my $Crypted = $Entity->parts(1)->as_string();
 
-            # Encrypt it
-            my %Decrypt = $Self->{CryptObject}->Decrypt( Message => $Cryped, );
+            # decrypt it
+            my %Decrypt = $Self->{CryptObject}->Decrypt( Message => $Crypted, );
             if ( $Decrypt{Successful} ) {
                 $Entity = $Parser->parse_data( $Decrypt{Data} );
                 my $Head = $Entity->head();
