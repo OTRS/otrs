@@ -1,4 +1,5 @@
 #3.3.7 2014-??-??
+ - 2014-04-03 Fixed bug#[10406](http://bugs.otrs.org/show_bug.cgi?id=10406) - Ticket Templates Type "Create" will be not translated.
  - 2014-04-03 Fixed bug#[10378](http://bugs.otrs.org/show_bug.cgi?id=10378) - SessionID created with generic interface wont work using it as Agent.
  - 2014-04-01 Fixed bug#[10399](http://bugs.otrs.org/show_bug.cgi?id=10399) - Columns Settings lost after search.
  - 2014-04-01 Fixed bug#[10431](http://bugs.otrs.org/show_bug.cgi?id=10431) - Fallback configuration for scheduler log is wrong.
