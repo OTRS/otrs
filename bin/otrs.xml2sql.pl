@@ -33,14 +33,14 @@ use Getopt::Std;
 use Kernel::System::ObjectManager;
 
 my %Opts = ();
-getopt( 'hton', \%Opts );
+getopt( 'htonf', \%Opts );
 if ( $Opts{'h'} || !%Opts ) {
     print <<"EOF";
 $0 - tool to generate database specific SQL from the XML database definition files used by OTRS
 
 Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 
-Usage: $0 -t <DATABASE_TYPE> (or 'all') [-o <OUTPUTDIR> -n <NAME> -s <SPLIT_FILES>]
+Usage: $0 -t <DATABASE_TYPE> (or 'all') [-o <OUTPUTDIR> -n <NAME> -s <SPLIT_FILES>] [-f source file]
 EOF
     exit 1;
 }
@@ -103,8 +103,21 @@ for my $DatabaseType (@DatabaseType) {
 
     # now that the config is set, we can ask for all the required objects
     %CommonObject = $Kernel::OM->ObjectHash(
-        Objects => [qw(ConfigObject XMLObject DBObject)],
+        Objects => [qw(ConfigObject XMLObject DBObject MainObject)],
     );
+
+    if ( $Opts{f} && -f $Opts{f} ) {
+
+        # read the source file
+        my $FileStringRef = $CommonObject{MainObject}->FileRead(
+            Location        => $Opts{f},
+            Type            => 'Local',
+            Result          => 'SCALAR',
+            DisableWarnings => 1,
+        );
+
+        $FileString = ${$FileStringRef};
+    }
 
     # parse xml package
     my @XMLARRAY = $CommonObject{XMLObject}->XMLParse( String => $FileString );
