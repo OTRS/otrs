@@ -189,7 +189,7 @@ sub Auth {
 
         # if UserLogin
         if ($UserID) {
-            return ( $UserID, 'Agent' );
+            return ( $UserID, 'User' );
         }
     }
     elsif ( defined $Param{Data}->{CustomerUserLogin} && $Param{Data}->{CustomerUserLogin} ) {
