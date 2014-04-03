@@ -281,26 +281,26 @@ sub FilenameCleanUp {
 to read files from file system
 
     my $ContentSCALARRef = $MainObject->FileRead(
-        Directory => 'c:\some\location\me_to',
-        Filename  => 'alal.xml',
+        Directory => 'c:\some\location',
+        Filename  => 'file2read.txt',
         # or Location
-        Location  => 'c:\some\location\me_to\alal.xml'
+        Location  => 'c:\some\location\file2read.txt',
     );
 
     my $ContentARRAYRef = $MainObject->FileRead(
-        Directory => 'c:\some\location\me_to',
-        Filename  => 'alal.xml',
+        Directory => 'c:\some\location',
+        Filename  => 'file2read.txt',
         # or Location
-        Location  => 'c:\some\location\me_to\alal.xml'
+        Location  => 'c:\some\location\file2read.txt',
 
         Result    => 'ARRAY', # optional - SCALAR|ARRAY
     );
 
     my $ContentSCALARRef = $MainObject->FileRead(
-        Directory       => 'c:\some\location\me_to',
-        Filename        => 'alal.xml',
+        Directory       => 'c:\some\location',
+        Filename        => 'file2read.txt',
         # or Location
-        Location        => 'c:\some\location\me_to\alal.xml',
+        Location        => 'c:\some\location\file2read.txt',
 
         Mode            => 'binmode', # optional - binmode|utf8
         Type            => 'Local',   # optional - Local|Attachment|MD5
@@ -402,23 +402,23 @@ to write data to file system
 
     my $FileLocation = $MainObject->FileWrite(
         Directory => 'c:\some\location',
-        Filename  => 'me_to/alal.xml',
+        Filename  => 'file2write.txt',
         # or Location
-        Location  => 'c:\some\location\me_to\alal.xml'
+        Location  => 'c:\some\location\file2write.txt',
 
         Content   => \$Content,
     );
 
     my $FileLocation = $MainObject->FileWrite(
         Directory  => 'c:\some\location',
-        Filename   => 'me_to/alal.xml',
+        Filename   => 'file2write.txt',
         # or Location
-        Location   => 'c:\some\location\me_to\alal.xml'
+        Location   => 'c:\some\location\file2write.txt',
 
         Content    => \$Content,
         Mode       => 'binmode', # binmode|utf8
         Type       => 'Local',   # optional - Local|Attachment|MD5
-        Permission => '644',     # unix file permissions
+        Permission => '644',     # optional - unix file permissions
     );
 
 Platform note: MacOS (HFS+) stores filenames as Unicode NFD internally,
