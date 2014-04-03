@@ -357,7 +357,7 @@ sub Run {
     if ( !$Article->{SenderTypeID} && !$Article->{SenderType} ) {
 
         # $Article->{SenderType} = $Self->{Config}->{SenderType} || '';
-        $Article->{SenderType} = $UserType eq 'Agent' ? 'agent' : 'customer';
+        $Article->{SenderType} = $UserType eq 'User' ? 'agent' : 'customer';
     }
     if ( !$Article->{HistoryType} ) {
         $Article->{HistoryType} = $Self->{Config}->{HistoryType} || '';

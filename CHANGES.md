@@ -1,4 +1,5 @@
 #3.2.17 2014-??-??
+ - 2014-04-03 Fixed bug#[10378](http://bugs.otrs.org/show_bug.cgi?id=10378) - SessionID created with generic interface wont work using it as Agent.
  - 2014-03-29 Fixed bug#[9970](http://bugs.otrs.org/show_bug.cgi?id=9970) - Existing sequences on oracle databases produces errors.
 
 #3.2.16 2014-04-01
