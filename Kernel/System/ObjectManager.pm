@@ -114,7 +114,7 @@ L<Kernel::System::Ticket> object.
 sub Get {
 
     # Optimize the heck out of the common case:
-    return $_[0]->{Objects}{ $_[1] } if $_[1] && $_[0]->{Objects}{ $_[1] };
+    return $_[0]->{Objects}->{ $_[1] } if $_[1] && $_[0]->{Objects}->{ $_[1] };
 
     # OK, not so easy
     my ( $Self, $ObjectName ) = @_;
@@ -129,7 +129,7 @@ sub Get {
 
     $Self->_ObjectBuild( Object => $ObjectName );
 
-    return $Self->{Objects}{$ObjectName};
+    return $Self->{Objects}->{$ObjectName};
 }
 
 sub _ObjectBuild {
@@ -143,7 +143,7 @@ sub _ObjectBuild {
 
     my %Args = (
         %{ $Config->{Param} // {} },
-        %{ $Self->{Param}{ $Param{Object} } // {} },
+        %{ $Self->{Param}->{ $Param{Object} } // {} },
     );
 
     if ( !$Config->{OmAware} && $Config->{Dependencies} ) {
@@ -165,7 +165,7 @@ sub _ObjectBuild {
         }
     }
 
-    $Self->{Objects}{ $Param{Object} } = $NewObject;
+    $Self->{Objects}->{ $Param{Object} } = $NewObject;
 
     return $NewObject;
 }
@@ -193,7 +193,7 @@ sub ObjectConfigGet {
         };
     }
 
-    my $ObjConfig = $Self->{Config}{$ObjectName};
+    my $ObjConfig = $Self->{Config}->{$ObjectName};
     $ObjConfig ||= $Self->Get('ConfigObject')->Get('Objects')->{$ObjectName};
 
     if ( !$ObjConfig ) {
@@ -234,10 +234,10 @@ sub ObjectRegister {
     }
 
     my $Object = delete $Param{Object};
-    $Self->{Objects}{ $Param{Name} } = $Object if $Object;
+    $Self->{Objects}->{ $Param{Name} } = $Object if $Object;
 
     my $Name = delete $Param{Name};
-    $Self->{Config}{$Name} = \%Param;
+    $Self->{Config}->{$Name} = \%Param;
 }
 
 =item ObjectHash()
@@ -293,11 +293,11 @@ sub ObjectParamAdd {
     for my $Key ( sort keys %Param ) {
         if ( ref( $Param{$Key} ) eq 'HASH' ) {
             for my $K ( sort keys %{ $Param{$Key} } ) {
-                $Self->{Param}{$Key}{$K} = $Param{$Key}{$K};
+                $Self->{Param}->{$Key}->{$K} = $Param{$Key}->{$K};
             }
         }
         else {
-            $Self->{Param}{$Key} = $Param{$Key};
+            $Self->{Param}->{$Key} = $Param{$Key};
         }
     }
     return;
@@ -344,7 +344,7 @@ sub ObjectsDiscard {
 
             # undef happens to be the value that uses the least amount
             # of memory in perl, and we are only interested in the keys
-            $ReverseDeps{$D}{$Object} = undef;
+            $ReverseDeps{$D}->{$Object} = undef;
         }
         push @AllObjects, $Object;
     }
@@ -377,9 +377,9 @@ sub ObjectsDiscard {
     # third step: destruction
     if ( $Self->{Debug} ) {
         for my $Object (@OrderedObjects) {
-            my $Checker = $Self->{Objects}{$Object};
+            my $Checker = $Self->{Objects}->{$Object};
             weaken($Checker);
-            delete $Self->{Objects}{$Object};
+            delete $Self->{Objects}->{$Object};
             if ( defined $Checker ) {
                 warn "DESTRUCTION OF $Object FAILED!\n";
                 if ( eval { require Devel::Cycle; 1 } ) {
