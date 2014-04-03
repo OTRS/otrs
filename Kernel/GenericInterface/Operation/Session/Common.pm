@@ -161,7 +161,7 @@ sub CreateSessionID {
     if ( defined $Param{Data}->{UserLogin} && $Param{Data}->{UserLogin} ) {
 
         # if UserLogin
-        my $PostUser = $Param{Data}->{UserLogin} || $Param{Data}->{UserLogin} || '';
+        my $PostUser = $Param{Data}->{UserLogin} || '';
 
         # check submitted data
         $User = $Self->{AuthObject}->Auth(
@@ -172,12 +172,12 @@ sub CreateSessionID {
             User  => $User,
             Valid => 1,
         );
-        $UserType = 'Agent';
+        $UserType = 'User';
     }
     elsif ( defined $Param{Data}->{CustomerUserLogin} && $Param{Data}->{CustomerUserLogin} ) {
 
         # if UserCustomerLogin
-        my $PostUser = $Param{Data}->{CustomerUserLogin} || $Param{Data}->{CustomerUserLogin} || '';
+        my $PostUser = $Param{Data}->{CustomerUserLogin} || '';
 
         # check submitted data
         $User = $Self->{CustomerAuthObject}->Auth(
@@ -193,6 +193,23 @@ sub CreateSessionID {
 
     # login is invalid
     return if !$User;
+
+    # get groups rw/ro
+    for my $Type (qw(rw ro)) {
+        my %GroupData = $Self->{GroupObject}->GroupMemberList(
+            Result => 'HASH',
+            Type   => $Type,
+            UserID => $UserData{UserID},
+        );
+        for ( sort keys %GroupData ) {
+            if ( $Type eq 'rw' ) {
+                $UserData{"UserIsGroup[$GroupData{$_}]"} = 'Yes';
+            }
+            else {
+                $UserData{"UserIsGroupRo[$GroupData{$_}]"} = 'Yes';
+            }
+        }
+    }
 
     # create new session id
     my $NewSessionID = $Self->{SessionObject}->CreateSessionID(
