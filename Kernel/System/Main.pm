@@ -300,7 +300,7 @@ to read files from file system
         Directory       => 'c:\some\location\me_to',
         Filename        => 'alal.xml',
         # or Location
-        Location        => 'c:\some\location\me_to\alal.xml'
+        Location        => 'c:\some\location\me_to\alal.xml',
 
         Mode            => 'binmode', # optional - binmode|utf8
         Type            => 'Local',   # optional - Local|Attachment|MD5
