@@ -53,10 +53,18 @@ sub new {
     # get config for frontend module
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
+    # define the dynamic fields to show based on the object type
+    my $ObjectType = ['Ticket'];
+
+    # only screens that add notes can modify Article dynamic fields
+    if ( $Self->{Config}->{Note} ) {
+        $ObjectType = [ 'Ticket', 'Article' ];
+    }
+
     # get the dynamic fields for this screen
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid       => 1,
-        ObjectType  => [ 'Ticket', 'Article' ],
+        ObjectType  => $ObjectType,
         FieldFilter => $Self->{Config}->{DynamicField} || {},
     );
 
@@ -508,6 +516,7 @@ sub Run {
             $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')
             && $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
             && $GetParam{TimeUnits} eq ''
+            && $Self->{Config}->{Note}
             )
         {
             $Error{'TimeUnitsInvalid'} = ' ServerError';
@@ -871,7 +880,7 @@ sub Run {
     # add note (send no notification)
     my $ArticleID;
 
-    if ( $GetParam{Body} || $GetParam{Subject} ) {
+    if ( $Self->{Config}->{Note} && ( $GetParam{Body} || $GetParam{Subject} ) ) {
 
         # get pre-loaded attachments
         my @AttachmentData = $Self->{UploadCacheObject}->FormIDGetAllFilesData(
@@ -1252,52 +1261,60 @@ sub AgentMove {
 
     }
 
-    # fillup configured default vars
-    if ( $Param{Body} eq '' && $Self->{Config}->{Body} ) {
-        $Param{Body} = $Self->{LayoutObject}->Output(
-            Template => $Self->{Config}->{Body},
-        );
-    }
+    if ( $Self->{Config}->{Note} ) {
 
-    if ( $Param{Subject} eq '' && $Self->{Config}->{Subject} ) {
-        $Param{Subject} = $Self->{LayoutObject}->Output(
-            Template => $Self->{Config}->{Subject},
-        );
-    }
+        # fillup configured default vars
+        if ( $Param{Body} eq '' && $Self->{Config}->{Body} ) {
+            $Param{Body} = $Self->{LayoutObject}->Output(
+                Template => $Self->{Config}->{Body},
+            );
+        }
 
-    if ( $Self->{Config}->{NoteMandatory} ) {
-        $Param{SubjectRequired} = 'Validate_Required';
-        $Param{BodyRequired}    = 'Validate_Required';
-    }
+        if ( $Param{Subject} eq '' && $Self->{Config}->{Subject} ) {
+            $Param{Subject} = $Self->{LayoutObject}->Output(
+                Template => $Self->{Config}->{Subject},
+            );
+        }
 
-    # add rich text editor
-    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-
-        # use height/width defined for this screen
-        $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
-        $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
+        if ( $Self->{Config}->{NoteMandatory} ) {
+            $Param{SubjectRequired} = 'Validate_Required';
+            $Param{BodyRequired}    = 'Validate_Required';
+        }
 
         $Self->{LayoutObject}->Block(
-            Name => 'RichText',
-            Data => \%Param,
+            Name => 'Note',
+            Data => {%Param},
         );
-    }
 
-    if ( $Self->{Config}->{NoteMandatory} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'SubjectLabelMandatory',
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'RichTextLabelMandatory',
-        );
-    }
-    else {
-        $Self->{LayoutObject}->Block(
-            Name => 'SubjectLabel',
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'RichTextLabel',
-        );
+        # add rich text editor
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+
+            # use height/width defined for this screen
+            $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
+            $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
+
+            $Self->{LayoutObject}->Block(
+                Name => 'RichText',
+                Data => \%Param,
+            );
+        }
+
+        if ( $Self->{Config}->{NoteMandatory} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'SubjectLabelMandatory',
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'RichTextLabelMandatory',
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'SubjectLabel',
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'RichTextLabel',
+            );
+        }
     }
 
     return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketMove', Data => \%Param );

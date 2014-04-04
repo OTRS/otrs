@@ -101,7 +101,7 @@
 [% END %]
                     </div>
                     <div class="Clear"></div>
-
+[% RenderBlockStart("Note") %]
 [% RenderBlockStart("SubjectLabel") %]
                     <label for="Subject">[% Translate("Subject") | html %]:</label>
 [% RenderBlockEnd("SubjectLabel") %]
@@ -188,6 +188,7 @@
 [% END %]
                     </div>
                     <div class="Clear"></div>
+[% RenderBlockEnd("Note") %]
 
 [% RenderBlockStart("State") %]
                     <label for="NewStateID">[% Translate("Next ticket state") | html %]:</label>
