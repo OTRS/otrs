@@ -3498,7 +3498,7 @@ to lock or unlock a ticket
 
 Optional attribute:
 SendNoNotification, disable or enable agent and customer notification for this
-action. Otherwise a notification will be send to agent and cusomer.
+action. Otherwise a notification will be sent to agent and cusomer.
 
 For example:
 
@@ -3763,7 +3763,7 @@ to set a ticket state
 
 Optional attribute:
 SendNoNotification, disable or enable agent and customer notification for this
-action. Otherwise a notification will be send to agent and cusomer.
+action. Otherwise a notification will be sent to agent and cusomer.
 
 For example:
 
@@ -4053,7 +4053,7 @@ Return:
 
 Optional attribute:
 SendNoNotification, disable or enable agent and customer notification for this
-action. Otherwise a notification will be send to agent and cusomer.
+action. Otherwise a notification will be sent to agent and cusomer.
 
 For example:
 
@@ -4238,7 +4238,7 @@ Return:
 
 Optional attribute:
 SendNoNotification, disable or enable agent and customer notification for this
-action. Otherwise a notification will be send to agent and cusomer.
+action. Otherwise a notification will be sent to agent and cusomer.
 
 For example:
 
