@@ -228,7 +228,7 @@ my @Tests = (
         },
         ExpectedResult => {
             User     => $UserID,
-            UserType => 'Agent',
+            UserType => 'User',
         },
         Success => 1,
     },
@@ -251,7 +251,7 @@ my @Tests = (
         },
         ExpectedResult => {
             User     => $UserID,
-            UserType => 'Agent',
+            UserType => 'User',
         },
         Success => 1,
     },
