@@ -268,17 +268,17 @@
 #                    </fieldset>
                 </div>
             </div>
+# show customer info table
+[% RenderBlockStart("CustomerTable") %]
             <div class="WidgetSimple">
                 <div class="Header">
                     <h2>[% Translate("Customer Information") | html %]</h2>
                 </div>
                 <div class="Content">
-# show customer info table
-[% RenderBlockStart("CustomerTable") %]
                     [% Data.CustomerTable %]
-[% RenderBlockEnd("CustomerTable") %]
                 </div>
             </div>
+[% RenderBlockEnd("CustomerTable") %]
 [% RenderBlockStart("LinkTableSimple") %]
             <div class="WidgetSimple DontPrint">
                 <div class="Header">
