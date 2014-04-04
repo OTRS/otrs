@@ -67,17 +67,8 @@ sub new {
     my %DefaultDynamicFields
         = %{ $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewSmall")->{DynamicField} || {} };
 
-    my %DefaultColumns;
-
-    # enabled dynamic fields should be converted to EnabledColumns format
-    DYNAMICFIELD:
-    for my $DynamicFieldName ( sort keys %DefaultDynamicFields ) {
-        if ( $DefaultDynamicFields{$DynamicFieldName} == 1 ) {
-
-            # set field as available and enabled by default
-            $DefaultColumns{ 'DynamicField_' . $DynamicFieldName } = 2;
-        }
-    }
+    my %DefaultColumns
+        = map { 'DynamicField_' . $_ => $DefaultDynamicFields{$_} } sort keys %DefaultDynamicFields;
 
     # take general settings (Frontend::Agent) if not defined for the screen
     $Self->{Config}->{DefaultColumns} //= $Self->{ConfigObject}->Get('DefaultOverviewColumns');
