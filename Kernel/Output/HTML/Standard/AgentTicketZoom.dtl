@@ -268,17 +268,17 @@
 #                    </fieldset>
                 </div>
             </div>
+# show customer info table
+<!-- dtl:block:CustomerTable -->
             <div class="WidgetSimple">
                 <div class="Header">
                     <h2>$Text{"Customer Information"}</h2>
                 </div>
                 <div class="Content">
-# show customer info table
-<!-- dtl:block:CustomerTable -->
                     $Data{"CustomerTable"}
-<!-- dtl:block:CustomerTable -->
                 </div>
             </div>
+<!-- dtl:block:CustomerTable -->
 <!-- dtl:block:LinkTableSimple -->
             <div class="WidgetSimple DontPrint">
                 <div class="Header">
