@@ -1762,11 +1762,11 @@ sub _SearchParamsGet {
         )
     {
         @Columns = grep { $Self->{Config}->{DefaultColumns}->{$_} eq '2' }
-            sort keys %{ $Self->{Config}->{DefaultColumns} };
+            sort _DefaultColumnSort keys %{ $Self->{Config}->{DefaultColumns} };
     }
     if ($PreferencesColumn) {
         @Columns = grep { $PreferencesColumn->{Columns}->{$_} == 1 }
-            sort keys %{ $PreferencesColumn->{Columns} };
+            sort _DefaultColumnSort keys %{ $PreferencesColumn->{Columns} };
 
         if ( $PreferencesColumn->{Order} && @{ $PreferencesColumn->{Order} } ) {
             @Columns = @{ $PreferencesColumn->{Order} };
@@ -1938,6 +1938,52 @@ sub _SearchParamsGet {
         TicketSearchSummary => \%TicketSearchSummary,
     );
 
+}
+
+sub _DefaultColumnSort {
+
+    my %DefaultColumns = (
+        TicketNumber           => 100,
+        Age                    => 110,
+        Changed                => 111,
+        PendingTime            => 112,
+        EscalationTime         => 113,
+        EscalationSolutionTime => 114,
+        EscalationResponseTime => 115,
+        EscalationUpdateTime   => 116,
+        Title                  => 120,
+        State                  => 130,
+        Lock                   => 140,
+        Queue                  => 150,
+        Owner                  => 160,
+        Responsible            => 161,
+        CustomerID             => 170,
+        CustomerName           => 171,
+        CustomerUserID         => 172,
+        Type                   => 180,
+        Service                => 191,
+        SLA                    => 192,
+        Priority               => 193,
+    );
+
+    # dynamic fields can not be on the DefaultColumns sorting hash
+    # when comparing 2 dynamic fields sorting must be alphabetical
+    if ( !$DefaultColumns{$a} && !$DefaultColumns{$b} ) {
+        return $a cmp $b;
+    }
+
+    # when a dynamic field is compared to a ticket attribute it must be higher
+    elsif ( !$DefaultColumns{$a} ) {
+        return 1;
+    }
+
+    # when a ticket attribute is compared to a dynamic field it must be lower
+    elsif ( !$DefaultColumns{$b} ) {
+        return -1;
+    }
+
+    # otherwise do a numerical comparison with the ticket attributes
+    return $DefaultColumns{$a} <=> $DefaultColumns{$b};
 }
 
 1;
