@@ -9265,7 +9265,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::OverviewSmall###DynamicField" Required="0" Valid="1">
-        <Description Translatable="1">Dynamic fields shown in the ticket small format overview screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.</Description>
+        <Description Translatable="1">Dynamic fields shown in the ticket small format overview screen of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
         <Setting>
@@ -9846,7 +9846,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketStatusView###DefaultColumns" Required="0" Valid="1">
-        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.</Description>
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Dynamic Fields (DynamicField_NameX) are allowed to be added, all others will be discarded.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewStatus</SubGroup>
         <Setting>
@@ -9876,7 +9876,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###DefaultColumns" Required="0" Valid="1">
-        <Description Translatable="1">Columns that can be filtered in the queue view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.</Description>
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Dynamic Fields (DynamicField_NameX) are allowed to be added, all others will be discarded.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
@@ -9906,7 +9906,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsibleView###DefaultColumns" Required="0" Valid="1">
-        <Description Translatable="1">Columns that can be filtered in the responsible view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.</Description>
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Dynamic Fields (DynamicField_NameX) are allowed to be added, all others will be discarded.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
         <Setting>
@@ -9936,7 +9936,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketWatchView###DefaultColumns" Required="0" Valid="1">
-        <Description Translatable="1">Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.</Description>
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Dynamic Fields (DynamicField_NameX) are allowed to be added, all others will be discarded.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewWatch</SubGroup>
         <Setting>
@@ -9966,7 +9966,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketLockedView###DefaultColumns" Required="0" Valid="1">
-        <Description Translatable="1">Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.</Description>
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Dynamic Fields (DynamicField_NameX) are allowed to be added, all others will be discarded.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewLocked</SubGroup>
         <Setting>
@@ -9996,7 +9996,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEscalationView###DefaultColumns" Required="0" Valid="1">
-        <Description Translatable="1">Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.</Description>
+        <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Dynamic Fields (DynamicField_NameX) are allowed to be added, all others will be discarded.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEscalation</SubGroup>
         <Setting>
@@ -10026,8 +10026,8 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###DefaultColumns" Required="0" Valid="1">
-        <Description Translatable="1">Columns that can be filtered in the ticket search result view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.</Description>
-        <Group>Ticket</Group>
+         <Description Translatable="1">Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Dynamic Fields (DynamicField_NameX) are allowed to be added, all others will be discarded.</Description>
+       <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
             <Hash>
