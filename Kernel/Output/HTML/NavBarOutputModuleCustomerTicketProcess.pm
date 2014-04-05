@@ -121,9 +121,11 @@ sub Run {
                 CustomerUserID => $Self->{UserID},
             );
 
-            $ProcessList = $Self->{TicketObject}->TicketAclProcessData(
-                Processes => $ProcessList,
-            );
+            if ( IsHashRefWithData($ProcessList) ) {
+                $ProcessList = $Self->{TicketObject}->TicketAclProcessData(
+                    Processes => $ProcessList,
+                );
+            }
 
             # set the value to show or hide the menu item (based in process list)
             if ( IsHashRefWithData($ProcessList) ) {

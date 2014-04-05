@@ -295,9 +295,11 @@ sub Run {
         UserID        => $Self->{UserID},
     );
 
-    $ProcessList = $Self->{TicketObject}->TicketAclProcessData(
-        Processes => $ProcessList,
-    );
+    if ( IsHashRefWithData($ProcessList) ) {
+        $ProcessList = $Self->{TicketObject}->TicketAclProcessData(
+            Processes => $ProcessList,
+        );
+    }
 
     # If we have no Subaction or Subaction is 'Create' and submitted ProcessEntityID is invalid
     # Display the ProcessList
