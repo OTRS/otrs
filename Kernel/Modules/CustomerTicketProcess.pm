@@ -265,9 +265,11 @@ sub Run {
         CustomerUserID => $Self->{UserID},
     );
 
-    $ProcessList = $Self->{TicketObject}->TicketAclProcessData(
-        Processes => $ProcessList,
-    );
+    if ( IsHashRefWithData($ProcessList) ) {
+        $ProcessList = $Self->{TicketObject}->TicketAclProcessData(
+            Processes => $ProcessList,
+        );
+    }
 
     $Self->{TicketObject}->TicketAcl(
         ReturnType     => 'Ticket',
@@ -276,9 +278,11 @@ sub Run {
         CustomerUserID => $Self->{UserID},
     );
 
-    $FollowupProcessList = $Self->{TicketObject}->TicketAclProcessData(
-        Processes => $FollowupProcessList,
-    );
+    if ( IsHashRefWithData($FollowupProcessList) ) {
+        $FollowupProcessList = $Self->{TicketObject}->TicketAclProcessData(
+            Processes => $FollowupProcessList,
+        );
+    }
 
     # set AJAXDialog for proper error responses and screen display
     $Self->{AJAXDialog} = $Self->{ParamObject}->GetParam( Param => 'AJAXDialog' ) || '';
