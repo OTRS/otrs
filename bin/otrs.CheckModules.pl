@@ -29,7 +29,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use Kernel::System::Environment;
-use Kernel::System::VariableCheck qw( IsHashRefWithData );
+use Kernel::System::VariableCheck qw( :all );
 
 # on Windows, we only have ANSI support if Win32::Console::ANSI is present
 # turn off colors if it is not available
