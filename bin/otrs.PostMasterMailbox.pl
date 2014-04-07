@@ -30,6 +30,7 @@ use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Std;
 
+use Kernel::System::MailAccount;
 use Kernel::System::ObjectManager;
 
 # get options
