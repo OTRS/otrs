@@ -823,7 +823,7 @@ sub _GetNextStates {
             Action         => $Self->{Action},
             CustomerUserID => $Self->{UserID},
 
-            # do not send %Param could contain Ticket Type as only Type, it should not be sent
+            # %Param could contain Ticket Type as only Type, it should not be sent
             Type => undef,
         );
     }
