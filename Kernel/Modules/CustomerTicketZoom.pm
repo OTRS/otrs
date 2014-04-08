@@ -164,7 +164,7 @@ sub Run {
 
     # get params
     my %GetParam;
-    for my $Key (qw( Subject Body StateID PriorityID)) {
+    for my $Key (qw(Subject Body StateID PriorityID)) {
         $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
     }
 
@@ -216,11 +216,13 @@ sub Run {
             %GetParam,
             %ACLCompatGetParam,
             CustomerUserID => $CustomerUser || '',
+            TicketID => $Self->{TicketID},
         );
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
             %ACLCompatGetParam,
             CustomerUserID => $CustomerUser || '',
+            TicketID => $Self->{TicketID},
         );
 
         # update Dynamic Fields Possible Values via AJAX
@@ -489,6 +491,7 @@ sub Run {
                 TicketState   => $Ticket{State},
                 TicketStateID => $Ticket{StateID},
                 %GetParam,
+                %ACLCompatGetParam,
                 DynamicFieldHTML => \%DynamicFieldHTML,
             );
             $Output .= $Self->{LayoutObject}->CustomerFooter();
@@ -740,6 +743,7 @@ sub Run {
         TicketState   => $Ticket{State},
         TicketStateID => $Ticket{StateID},
         %GetParam,
+        %ACLCompatGetParam,
         DynamicFieldHTML => \%DynamicFieldHTML,
     );
 
@@ -943,8 +947,6 @@ sub _Mask {
         'TicketID' => $Self->{TicketID}
     );
 
-    #    my $ProcessData;
-    #    my $ActivityData;
     # show process widget  and activity dialogs on process tickets
     if ($IsProcessTicket) {
 
@@ -1495,10 +1497,9 @@ sub _Mask {
 
         # build next states string
         if ( $Self->{Config}->{State} ) {
-            my %NextStates = $Self->{TicketObject}->TicketStateList(
-                TicketID       => $Self->{TicketID},
-                Action         => $Self->{Action},
-                CustomerUserID => $Self->{UserID},
+            my $NextStates = $Self->_GetNextStates(
+                %Param,
+                TicketID => $Self->{TicketID},
             );
             my %StateSelected;
             if ( $Param{StateID} ) {
@@ -1508,7 +1509,7 @@ sub _Mask {
                 $StateSelected{SelectedValue} = $Self->{Config}->{StateDefault};
             }
             $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data => \%NextStates,
+                Data => $NextStates,
                 Name => 'StateID',
                 %StateSelected,
             );
@@ -1520,9 +1521,9 @@ sub _Mask {
 
         # get priority
         if ( $Self->{Config}->{Priority} ) {
-            my %Priorities = $Self->{TicketObject}->TicketPriorityList(
-                CustomerUserID => $Self->{UserID},
-                Action         => $Self->{Action},
+            my $Priorities = $Self->_GetPriorities(
+                %Param,
+                TicketID => $Self->{TicketID},
             );
             my %PrioritySelected;
             if ( $Param{PriorityID} ) {
@@ -1533,7 +1534,7 @@ sub _Mask {
                     || '3 normal';
             }
             $Param{PriorityStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data => \%Priorities,
+                Data => $Priorities,
                 Name => 'PriorityID',
                 %PrioritySelected,
             );
