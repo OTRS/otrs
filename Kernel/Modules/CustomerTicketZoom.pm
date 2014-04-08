@@ -768,6 +768,9 @@ sub _GetNextStates {
             %Param,
             Action         => $Self->{Action},
             CustomerUserID => $Self->{UserID},
+
+            # %Param could contain Ticket Type as only Type, it should not be sent
+            Type => undef,
         );
     }
     return \%NextStates;
