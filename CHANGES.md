@@ -1,4 +1,5 @@
 #3.3.7 2014-??-??
+ - 2014-04-08 Fixed bug#[10432](http://bugs.otrs.org/show_bug.cgi?id=10432) - ACLs not working correctly in CustomerTicketZoom (Message Followup).
  - 2014-04-04 Fixed bug#[10436](http://bugs.otrs.org/show_bug.cgi?id=10436) - Error message in syslog about ACL then there is no ACL defined.
  - 2014-04-04 Fixed bug#[10438](http://bugs.otrs.org/show_bug.cgi?id=10438) - Strange sorting of columns in Ticket Dashboard widgets.
  - 2014-04-04 Fixed bug#[10425](http://bugs.otrs.org/show_bug.cgi?id=10425) - Customer Information in AgentTicketZoom.
