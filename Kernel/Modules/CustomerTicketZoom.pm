@@ -822,6 +822,9 @@ sub _GetNextStates {
             %Param,
             Action         => $Self->{Action},
             CustomerUserID => $Self->{UserID},
+
+            # do not send %Param could contain Ticket Type as only Type, it should not be sent
+            Type => undef,
         );
     }
     return \%NextStates;
@@ -1546,7 +1549,7 @@ sub _Mask {
 
         # check subject
         if ( !$Param{Subject} ) {
-            $Param{Subject} = "Re: " . ($Param{Title} // '');
+            $Param{Subject} = "Re: " . ( $Param{Title} // '' );
         }
         $Self->{LayoutObject}->Block(
             Name => 'FollowUp',
