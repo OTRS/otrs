@@ -78,7 +78,6 @@
  - 2014-03-27 Followup for bug#[10130](http://bugs.otrs.org/show_bug.cgi?id=10130) - Events Ticket Calendar not working.
 
 #3.3.6 2014-04-01
- - 2014-03-28 Fixed bug#[10402](http://bugs.otrs.org/show_bug.cgi?id=10402) - Transition or Transition Action popup a login page.
  - 2014-03-27 Fixed bug#[10412](http://bugs.otrs.org/show_bug.cgi?id=10412) - customer.pl: Use of uninitialized value $Param{"Title"}.
  - 2014-03-27 Fixed bug#[10413](http://bugs.otrs.org/show_bug.cgi?id=10413) - vertical scroll not shown in search screen.
  - 2014-03-27 Updated French translation, thanks to Guillaume Houdmon..
