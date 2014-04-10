@@ -1124,6 +1124,10 @@ sub _CustomerUserCacheClear {
         Type => $Self->{CacheType},
         Key  => "CustomerName::$Param{UserLogin}",
     );
+    $Self->{CacheObject}->Delete(
+        Type => $Self->{CacheType},
+        Key  => "CustomerIDs::$Param{UserLogin}",
+    );
 
     # delete all search cache entries
     $Self->{CacheObject}->CleanUp(
