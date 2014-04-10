@@ -874,7 +874,7 @@ sub _Edit {
             $Param{Option} = $Self->{LayoutObject}->BuildSelection(
                 Data        => $SelectionsData,
                 Name        => $Entry->[0],
-                Translation => 0,
+                Translation => 1,
                 SelectedID  => $Param{ $Entry->[0] },
                 Class => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
             );
