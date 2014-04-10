@@ -396,7 +396,7 @@ for my $Test (@Tests) {
         },
     },
     {
-        Name        => 'Repy to a previously signed message',
+        Name        => 'Reply to a previously signed message',
         ArticleData => {
             Body => '
 Reply text
