@@ -57,6 +57,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.7 2014-??-??
+ - 2014-04-09 Fixed bug#[10202](http://bugs.otrs.org/show_bug.cgi?id=10202) - Process Modules, Dynamic Fields, and ACLs with AJAX update.
  - 2014-04-08 Fixed bug#[10432](http://bugs.otrs.org/show_bug.cgi?id=10432) - ACLs not working correctly in CustomerTicketZoom (Message Followup).
  - 2014-04-04 Fixed bug#[10436](http://bugs.otrs.org/show_bug.cgi?id=10436) - Error message in syslog about ACL then there is no ACL defined.
  - 2014-04-04 Fixed bug#[10438](http://bugs.otrs.org/show_bug.cgi?id=10438) - Strange sorting of columns in Ticket Dashboard widgets.
