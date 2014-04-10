@@ -898,8 +898,8 @@ sub GenerateGraph {
 
     # set fonts so we can use non-latin characters
     my $FontDir    = $Self->{ConfigObject}->Get('Home') . '/var/fonts/';
-    my $TitleFont  = $FontDir . 'DejaVuSans-Bold.ttf';
-    my $LegendFont = $FontDir . 'DejaVuSans.ttf';
+    my $TitleFont  = $FontDir . $Self->{ConfigObject}->Get('Stats::Graph::TitleFont');
+    my $LegendFont = $FontDir . $Self->{ConfigObject}->Get('Stats::Graph::LegendFont');
     $Graph->set_title_font( $TitleFont, 14 );
 
     # there are different font options for different font types
