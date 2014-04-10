@@ -5313,6 +5313,22 @@ via the Preferences button after logging in.
                 <Item>lbrown</Item>
             </Array>
         </Setting>
+     </ConfigItem>
+     <ConfigItem Name="Stats::Graph::TitleFont" Required="1" Valid="1">
+        <Description Translatable="1">Defines the title font in graphs (place custom fonts in var/fonts).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Stats::Graph</SubGroup>
+        <Setting>
+            <String Regex="">DejaVuSans-Bold.ttf</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::LegendFont" Required="1" Valid="1">
+        <Description Translatable="1">Defines the legend font in graphs (place custom fonts in var/fonts).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Stats::Graph</SubGroup>
+        <Setting>
+            <String Regex="">DejaVuSans.ttf</String>
+        </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::line_width" Required="1" Valid="1">
         <Description Translatable="1">Defines the boldness of the line drawed by the graph.</Description>
