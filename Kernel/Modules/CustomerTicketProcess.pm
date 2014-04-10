@@ -475,6 +475,7 @@ sub _RenderAjax {
         $DynamicFieldCheckParam{ 'DynamicField_' . $DynamicField }
             = $DynamicFieldValues{$DynamicField};
     }
+    $Param{GetParam}->{DynamicField} = \%DynamicFieldCheckParam;
 
     # Get the activity dialog's Submit Param's or Config Params
     DIALOGFIELD:
@@ -509,8 +510,6 @@ sub _RenderAjax {
             my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
-            my %DynamicFieldCheckParam = map { $_ => $Param{GetParam}{$_} }
-                grep {m{^DynamicField_}xms} ( keys %{ $Param{GetParam} } );
 
             # convert possible values key => value to key => key for ACLs using a Hash slice
             my %AclData = %{$PossibleValues};
@@ -519,7 +518,6 @@ sub _RenderAjax {
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 %{ $Param{GetParam} },
-                DynamicField   => \%DynamicFieldCheckParam,
                 ReturnType     => 'Ticket',
                 ReturnSubType  => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data           => \%AclData,
@@ -4105,8 +4103,8 @@ sub _GetStates {
         # be sent and the TicketStateList will send the parameter as State Type
         Type => undef,
 
-        Action => $Self->{Action},
-        UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+        Action         => $Self->{Action},
+        CustomerUserID => $Self->{UserID},
     );
 
     return \%States;
@@ -4120,8 +4118,8 @@ sub _GetTypes {
     if ( $Param{QueueID} || $Param{TicketID} ) {
         %Type = $Self->{TicketObject}->TicketTypeList(
             %Param,
-            Action => $Self->{Action},
-            UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+            Action         => $Self->{Action},
+            CustomerUserID => $Self->{UserID},
         );
     }
     return \%Type;
