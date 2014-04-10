@@ -50,7 +50,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %][% Env("LastStatsOverview") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %][% Env("LastStatsOverview") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
                 </ul>
             </div>
@@ -241,7 +241,7 @@ if ($('[name=StatID]').val() === 'new') {
                         <div class="Clear"></div>
 
                         <div class="Field SpacingTop">
-                            <button class="Primary" type="submit" name="Next" value="[% Translate("Next...") | html %]" accesskey="g" title="[% Translate("Next...") | html %] (g)">[% Translate("Next...") | html %]</button>
+                            <button class="Primary CallForAction" type="submit" name="Next" value="[% Translate("Next...") | html %]" accesskey="g" title="[% Translate("Next...") | html %] (g)"><span>[% Translate("Next...") | html %]</span></button>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>

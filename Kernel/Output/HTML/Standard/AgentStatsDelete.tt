@@ -35,8 +35,8 @@
                         [% Translate("Do you really want to delete this stat?") | html %]
                     </p>
                     <p class="Center SpacingTopSmall">
-                        <button type="submit" name="Yes" value="[% Translate("Yes") | html %]">[% Translate("Yes") | html %]</button>
-                        <button type="submit" name="No" value="[% Translate("No") | html %]">[% Translate("No") | html %]</button>
+                        <button type="submit" name="Yes" class="CallForAction" value="[% Translate("Yes") | html %]"><span>[% Translate("Yes") | html %]</span></button>
+                        <button type="submit" name="No" class="CallForAction" value="[% Translate("No") | html %]"><span>[% Translate("No") | html %]</span></button>
                         <a href="[% Env("Baselink") %][% Env("LastStatsView") %]">[% Translate("Back") | html %]</a>
                     </p>
                 </form>

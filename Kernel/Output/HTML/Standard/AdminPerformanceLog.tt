@@ -20,7 +20,7 @@
                 <ul class="ActionList">
 [% RenderBlockStart("ActionOverview") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
                 </ul>
@@ -47,8 +47,8 @@
                             [% Translate("Activating this feature might affect your system performance!") | html %]
                         </p>
                         <div class="Field SpacingTop">
-                            <button class="CallForAction" type="submit" value="[% Translate("Disable it here!") | html %]">
-                                <span>[% Translate("Disable it here!") | html %]</span>
+                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Disable it here!") | html %]">
+                                <span><i class="fa fa-lock"></i> [% Translate("Disable it here!") | html %]</span>
                             </button>
                         </div>
                         <div class="Clear"></div>
@@ -71,8 +71,8 @@
                             [% Translate("Activating this feature might affect your system performance!") | html %]
                         </p>
                         <div class="Field SpacingTop">
-                            <button class="CallForAction" type="submit" value="[% Translate("Enable it here!") | html %]">
-                                <span>[% Translate("Enable it here!") | html %]</span>
+                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Enable it here!") | html %]">
+                                <span><i class="fa fa-unlock-alt"></i> [% Translate("Enable it here!") | html %]</span>
                             </button>
                         </div>
                         <div class="Clear"></div>

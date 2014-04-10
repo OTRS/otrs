@@ -92,10 +92,8 @@
 /**
  * @subsection  Flag
  */
+ 
 .AdminServiceCenter .Flag {
-    background: url(../img/flag_shadow.png) no-repeat;
-    height: 18px;
-    width: 24px;
     position: absolute;
     left: 0px;
     top: 5px;
@@ -104,30 +102,6 @@
 .AdminServiceCenter .DataTable .Flag {
     position: static;
     display: block;
-}
-
-.AdminServiceCenter .DataTable .Flag span {
-    width: 15px;
-}
-
-.AdminServiceCenter .Flag.Small {
-    width: 17px;
-    height: 10px;
-    background-position: bottom right;
-}
-
-.AdminServiceCenter .Flag span {
-    display: block;
-    height: 16px;
-    margin-right: 2px;
-    text-indent: -9999px;
-    cursor: pointer;
-    /* set a default color for priorities */
-    background-color: #EFEFEF;
-}
-
-.AdminServiceCenter .Flag.Small span {
-    height: 8px;
 }
 
 .AdminServiceCenter .Flag.Unknown span {

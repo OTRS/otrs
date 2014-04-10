@@ -23,7 +23,7 @@
                 <ul class="ActionList">
 [% RenderBlockStart("ActionOverview") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];CustomerUserSearch=[% Data.CustomerUserSearch | uri %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];CustomerUserSearch=[% Data.CustomerUserSearch | uri %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
 
@@ -36,10 +36,10 @@
                             <input type="hidden" name="Subaction" value="[% Data.Subaction | html %]" />
                             <input type="hidden" name="ServiceID" value="[% Data.ServiceID | html %]" />
 [% RenderBlockEnd("SearchAllocateService") %]
-                            <button class="Primary" type="submit" value="[% Translate("Search") | html %]"><span>[% Translate("Search") | html %]</span></button>
+                            <button class="Primary" type="submit" value="[% Translate("Search") | html %]" title="[% Translate("Search") | html %]"><span><i class="fa fa-search"></i></span></button>
                             <p class="FieldExplanation">
                                 <label for="CustomerUserSearch">
-                                    [% Translate("Search for customers.") | html %] [% Translate("Wildcards like '*' are allowed.") | html %]
+                                    [% Translate("Wildcards like '*' are allowed.") | html %]
                                 </label>
                             </p>
                         </form>
@@ -47,8 +47,8 @@
 [% RenderBlockEnd("Search") %]
 [% RenderBlockStart("Default") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=AllocateCustomerUser" class="CallForAction">
-                            <span>[% Translate("Edit default services") | html %]</span>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=AllocateCustomerUser" class="CallForAction Fullsize Center">
+                            <span><i class="fa fa-edit"></i> [% Translate("Edit default services") | html %]</span>
                         </a>
                     </li>
 [% RenderBlockEnd("Default") %]
@@ -66,7 +66,7 @@
                     <li>
                         <form action="">
                             <fieldset>
-                                <input type="text" id="FilterServices" class="W50pc" name="FilterServices" value="" title="[% Translate("Filter for Services") | html %]" />
+                                <input type="text" placeholder="[% Translate("Just start typing to filter...") | html %]" id="FilterServices" class="FilterBox" name="FilterServices" value="" title="[% Translate("Filter for Services") | html %]" />
                             </fieldset>
                         </form>
                     </li>
@@ -179,7 +179,7 @@ $('input:checkbox[name=ItemsSelected]').bind('click', function () {
                         </tbody>
                     </table>
                     <div class="Field SpacingTop">
-                        <button class="Primary" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
+                        <button class="Primary CallForAction" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
                         [% Translate("or") | html %]
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                     </div>

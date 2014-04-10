@@ -22,7 +22,7 @@
                 <ul class="ActionList">
 [% RenderBlockStart("ActionAddDynamicField") %]
                     <li>
-                        <h3><label for="[% Data.SelectName | html %]">[% Translate(Data.ObjectType) | html %]</label></h3>
+                        <h4><label for="[% Data.SelectName | html %]">[% Translate(Data.ObjectType) | html %]</label></h4>
                         [% Data.AddDynamicFieldStrg %]
                         <div class="FieldExplanation">
                             <p>[% Translate("Add new field for object") | html %]: [% Translate(Data.ObjectType) | html %]</p>

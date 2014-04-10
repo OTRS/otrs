@@ -54,7 +54,7 @@
                 <ul class="ActionList">
 [% RenderBlockStart("ActionOverview") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];CustomerUserSearch=[% Data.CustomerUserSearch | uri %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];CustomerUserSearch=[% Data.CustomerUserSearch | uri %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
 [% RenderBlockStart("Search") %]
@@ -66,10 +66,10 @@
                             <input type="hidden" name="Subaction" value="[% Data.Subaction | html %]" />
                             <input type="hidden" name="ID" value="[% Data.GroupID | html %]" />
 [% RenderBlockEnd("SearchChangeGroup") %]
-                            <button class="Primary" type="submit" value="[% Translate("Search") | html %]"><span>[% Translate("Search") | html %]</span></button>
+                            <button class="Primary" type="submit" value="[% Translate("Search") | html %]" title="[% Translate("Search") | html %]"><span><i class="fa fa-search"></i></span></button>
                             <p class="FieldExplanation">
                                 <label for="CustomerUserSearch">
-                                    [% Translate("Search for customers.") | html %] [% Translate("Wildcards like '*' are allowed.") | html %]
+                                    [% Translate("Wildcards like '*' are allowed.") | html %]
                                 </label>
                             </p>
                         </form>
@@ -77,7 +77,7 @@
 [% RenderBlockEnd("Search") %]
 [% RenderBlockStart("AlwaysGroupsConfig") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Frontend::Customer" class="CallForAction"><span>[% Translate("Edit Customer Default Groups") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Frontend::Customer" class="CallForAction Fullsize Center"><span><i class="fa fa-edit"></i>[% Translate("Edit Customer Default Groups") | html %]</span></a>
                         <p class="FieldExplanation">
                             [% Translate("These groups are automatically assigned to all customers.") | html %]
                             [% Translate("You can manage these groups via the configuration setting \"CustomerGroupAlwaysGroups\".") | html %]
@@ -99,7 +99,7 @@
                     <li>
                         <form action="">
                             <fieldset>
-                                <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" title="[% Translate("Filter for Groups") | html %]" />
+                                <input type="text" id="FilterGroups" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGroups" value="" title="[% Translate("Filter for Groups") | html %]" />
                             </fieldset>
                         </form>
                     </li>
@@ -231,7 +231,7 @@
                         </tbody>
                     </table>
                     <div class="Field SpacingTop">
-                        <button class="Primary" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
+                        <button class="Primary CallForAction" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
                         [% Translate("or") | html %]
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                     </div>

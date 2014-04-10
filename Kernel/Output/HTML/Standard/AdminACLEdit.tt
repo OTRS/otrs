@@ -18,11 +18,11 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Center Fullsize Back"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Center Fullsize Back"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockStart("ACLDeleteAction") %]
                     <li>
-                        <a href="#" id="ACLDelete" class="CallForAction Trash Center Fullsize" data-dialog-element="DeleteACLConfirmationDialog" data-dialog-title="[% Translate("Delete ACL") | html %]" data-id="[% Data.ID | html %]"><span>[% Translate("Delete Invalid ACL") | html %]</span></a>
+                        <a href="#" id="ACLDelete" class="CallForAction Trash Center Fullsize" data-dialog-element="DeleteACLConfirmationDialog" data-dialog-title="[% Translate("Delete ACL") | html %]" data-id="[% Data.ID | html %]"><span><i class="fa fa-trash-o"></i>[% Translate("Delete Invalid ACL") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ACLDeleteAction") %]
                 </ul>

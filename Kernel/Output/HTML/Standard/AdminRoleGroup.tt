@@ -17,7 +17,7 @@
                 <h2><label for="FilterRoles">[% Translate("Filter for Roles") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterRoles" class="W50pc" name="FilterRoles" value="" title="[% Translate("Filter for Roles") | html %]"/>
+                <input type="text" id="FilterRoles" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterRoles" value="" title="[% Translate("Filter for Roles") | html %]"/>
             </div>
         </div>
         <div class="WidgetSimple">
@@ -25,7 +25,7 @@
                 <h2><label for="FilterGroups">[% Translate("Filter for Groups") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterGroups" class="W50pc" name="FilterGroups" value="" title="[% Translate("Filter for Groups") | html %]" />
+                <input type="text" id="FilterGroups" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGroups" value="" title="[% Translate("Filter for Groups") | html %]" />
             </div>
         </div>
     </div>
@@ -84,7 +84,7 @@
                 <ul class="ActionList">
 [% RenderBlockStart("ActionOverview") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
                 </ul>
@@ -165,7 +165,7 @@
                         </tbody>
                     </table>
                     <div class="Field SpacingTop">
-                        <button class="Primary" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
+                        <button class="Primary CallForAction" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
                         [% Translate("or") | html %]
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                     </div>

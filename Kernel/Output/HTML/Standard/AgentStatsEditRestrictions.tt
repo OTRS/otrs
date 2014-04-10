@@ -42,7 +42,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %][% Env("LastStatsOverview") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %][% Env("LastStatsOverview") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
                 </ul>
             </div>
@@ -186,8 +186,8 @@
 [% RenderBlockEnd("Attribute") %]
 
                         <div class="Field SpacingTop">
-                            <button type="submit" name="Back" value="[% Translate("...Back") | html %]">[% Translate("...Back") | html %]</button>
-                            <button class="Primary" type="submit" name="Next" value="[% Translate("Finish") | html %]">[% Translate("Finish") | html %]</button>
+                            <button type="submit" name="Back" class="CallForAction" value="[% Translate("...Back") | html %]"><span>[% Translate("...Back") | html %]</span></button>
+                            <button class="Primary CallForAction" type="submit" name="Next" value="[% Translate("Finish") | html %]"><span>[% Translate("Finish") | html %]</span></button>
                         </div>
                     </fieldset>
                 </form>

@@ -19,17 +19,17 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %][% Env("LastStatsOverview") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %][% Env("LastStatsOverview") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockStart("AdminLinks") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=AgentStats;Subaction=EditSpecification;StatID=[% Data.StatID | uri %]" class="CallForAction"><span>[% Translate("Edit") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AgentStats;Subaction=EditSpecification;StatID=[% Data.StatID | uri %]" class="CallForAction Fullsize Center"><span><i class="fa fa-edit"></i>[% Translate("Edit") | html %]</span></a>
                     </li>
                     <li>
-                        <a href="[% Env("Baselink") %]Action=AgentStats;Subaction=Delete;StatID=[% Data.StatID | uri %]" class="CallForAction"><span>[% Translate("Delete") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AgentStats;Subaction=Delete;StatID=[% Data.StatID | uri %]" class="CallForAction Fullsize Center"><span><i class="fa fa-trash-o"></i>[% Translate("Delete") | html %]</span></a>
                     </li>
                     <li>
-                        <a href="[% Env("Baselink") %]Action=AgentStats;Subaction=Export;StatID=[% Data.StatID | uri %]" class="CallForAction"><span>[% Translate("Export config") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AgentStats;Subaction=Export;StatID=[% Data.StatID | uri %]" class="CallForAction Fullsize Center"><span><i class="fa fa-download"></i>[% Translate("Export config") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("AdminLinks") %]
                 </ul>
@@ -150,7 +150,7 @@
 [% RenderBlockStart("FormSubmit") %]
                     <fieldset class="TableLike">
                         <div class="Value">
-                            <button class="Primary" type="submit" id="StartStatistic" name="Start" value="[% Translate("Start") | html %]">[% Translate("Start") | html %]</button>
+                            <button class="Primary CallForAction" type="submit" id="StartStatistic" name="Start" value="[% Translate("Start") | html %]"><span>[% Translate("Start") | html %]</span></button>
                         </div>
                     </fieldset>
 

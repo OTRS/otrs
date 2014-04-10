@@ -16,7 +16,7 @@
                 <h2><label for="Filter">[% Translate("Filter for Processes") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="Filter" class="W95pc" name="Filter" value="" title="[% Translate("Filter") | html %]" placeholder="[% Translate("Process Name") | html %]" />
+                <input type="text" id="Filter" class="W95pc" name="Filter" value="" title="[% Translate("Filter") | html %]" placeholder="[% Translate("Just start typing to filter...") | html %]" />
             </div>
         </div>
         <div class="WidgetSimple">
@@ -26,10 +26,10 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessNew" class="CallForAction Fullsize Center Plus"><span>[% Translate("Create New Process") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessNew" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i> [% Translate("Create New Process") | html %]</span></a>
                     </li>
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessSync" class="CallForAction Fullsize Center Refresh"><span>[% Translate("Synchronize All Processes") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessSync" class="CallForAction Fullsize Center"><span><i class="fa fa-rocket"></i> [% Translate("Deploy All Processes") | html %]</span></a>
                     </li>
                 </ul>
             </div>
@@ -58,8 +58,8 @@
 #                                <label for="OverwriteExistingEntities">[% Translate("Overwrite existing entities") | html %]</label>
 #                            </fieldset>
 #
-                            <button class="CallForAction Plus Fullsize Center" type="submit" value="[% Translate("Upload process configuration") | html %]">
-                                <span>[% Translate("Import process configuration") | html %]</span>
+                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Upload process configuration") | html %]">
+                                <span><i class="fa fa-upload"></i>[% Translate("Import process configuration") | html %]</span>
                             </button>
                         </form>
                     </li>
@@ -111,18 +111,18 @@
                             <td>[% Data.Description | html %]</td>
                             <td>[% Translate(Data.State) | html %]</td>
                             <td>
-                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessExport;ID=[% Data.ID | uri %]" class="Export AsBlock" title="[% Translate("Export Process Configuration") | html %]">
-                                    [% Translate("Export") | html %]
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessExport;ID=[% Data.ID | uri %]" title="[% Translate("Export Process Configuration") | html %]">
+                                    <i class="fa fa-download"></i> [% Translate("Export") | html %]
                                 </a>
                             </td>
                             <td>
-                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessCopy;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" class="Copy AsBlock" title="[% Translate("Copy Process") | html %]">
-                                    [% Translate("Copy") | html %]
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessCopy;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Copy Process") | html %]">
+                                    <i class="fa fa-copy"></i> [% Translate("Copy") | html %]
                                 </a>
                             </td>
                             <td>
-                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessPrint;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" class="Print AsBlock AsPopup PopupType_ProcessOverview">
-                                    [% Translate("Print") | html %]
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessPrint;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" class="AsPopup PopupType_ProcessOverview">
+                                    <i class="fa fa-print"></i> [% Translate("Print") | html %]
                                 </a>
                             </td>
                         </tr>

@@ -46,7 +46,7 @@ $('#LanguageSelection').bind('change', function(){
 [% RenderBlockEnd("ActionLanguageOptions") %]
 [% RenderBlockStart("ActionOverview") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
                 </ul>
@@ -63,7 +63,7 @@ $('#LanguageSelection').bind('change', function(){
                     <li>
                         <form action="">
                             <fieldset>
-                                <input type="text" id="FilterNotification" class="W50pc" name="FilterNotification" value="" title="[% Translate("Filter for Notification") | html %]" />
+                                <input type="text" id="FilterNotification" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]"  name="FilterNotification" value="" title="[% Translate("Filter for Notification") | html %]" />
                             </fieldset>
                         </form>
                     </li>
@@ -147,7 +147,7 @@ $('#LanguageSelection').bind('change', function(){
                         </div>
                         <div class="Clear"></div>
                         <div class="Field">
-                            <button class="Primary" id="submitRichText" type="submit" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+                            <button class="Primary CallForAction" id="submitRichText" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                         </div>

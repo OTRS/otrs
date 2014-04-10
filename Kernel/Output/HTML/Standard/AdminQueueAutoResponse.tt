@@ -22,7 +22,7 @@
                 <ul class="ActionList">
 [% RenderBlockStart("ActionOverview") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
                 </ul>
@@ -36,7 +36,7 @@
                 <h2><label for="FilterQueues">[% Translate("Filter for Queues") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterQueues" class="W50pc" name="FilterQueues" value="" title="[% Translate("Filter for Queues") | html %]" />
+                <input type="text" id="FilterQueues" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterQueues" value="" title="[% Translate("Filter for Queues") | html %]" />
             </div>
         </div>
 [% RenderBlockEnd("FilterQueues") %]
@@ -46,7 +46,7 @@
                 <h2><label for="FilterAutoResponses">[% Translate("Filter for Auto Responses") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterAutoResponses" class="W50pc" name="FilterAutoResponses" value="" title="[% Translate("Filter for Auto Responses") | html %]" />
+                <input type="text" id="FilterAutoResponses" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterAutoResponses" value="" title="[% Translate("Filter for Auto Responses") | html %]" />
             </div>
         </div>
 [% RenderBlockEnd("FilterAutoResponses") %]
@@ -118,7 +118,7 @@
                         <div class="Clear"></div>
 [% RenderBlockEnd("ChangeItemList") %]
                         <div class="Field SpacingTop">
-                            <button class="Primary" type="submit" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+                            <button class="Primary CallForAction" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Data.Action | uri %]">[% Translate("Cancel") | html %]</a>
                         </div>

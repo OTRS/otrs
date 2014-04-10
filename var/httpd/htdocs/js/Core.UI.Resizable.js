@@ -20,7 +20,7 @@ Core.UI = Core.UI || {};
  */
 Core.UI.Resizable = (function (TargetNS) {
 
-    var ScrollerMinHeight = 92,
+    var ScrollerMinHeight = 101,
         HandleHeight = 9;
 
     /**
@@ -41,8 +41,7 @@ Core.UI.Resizable = (function (TargetNS) {
         ScrollerHeight = Math.max(ScrollerHeight || 0, ScrollerMinHeight);
 
         if (isJQueryObject($Element) && $Element.length) {
-            CurrentTableHeight = $Element.find('table').height();
-
+            CurrentTableHeight = $Element.find('table').outerHeight();
             // If the scroller is not needed (because only few elements shown in table)
             // than also do not initialize the scroller event and hide the scroller handle
 
@@ -68,11 +67,11 @@ Core.UI.Resizable = (function (TargetNS) {
                         s: $Element.find('.Handle a')
                     },
                     minHeight: ScrollerMinHeight + HandleHeight,
-                    maxHeight: $Element.find('table').height() + HandleHeight,
+                    maxHeight: $Element.find('table').outerHeight() + HandleHeight,
                     resize: function (Event, UI) {
                         var Height, Width;
                         Height = UI.size.height - HandleHeight;
-                        Width = UI.size.width;
+                        Width = UI.size.width - 2; // substract 2 pixels for the scroller borders
                         $Element.find('div.Scroller').height(Height + 'px').width(Width + 'px');
 
                         if ($.isFunction(Callback)) {

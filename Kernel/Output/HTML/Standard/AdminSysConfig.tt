@@ -21,7 +21,7 @@
                 <ul class="ActionList">
 [% RenderBlockStart("ActionOverview") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
 
@@ -32,8 +32,8 @@
                             <input type="hidden" name="Subaction" value="Search"/>
                             <input type="hidden" name="DontWriteDefault" value="1"/>
                             <input type="text" name="Search" id="SysConfigSearch" value="[% Data.Search | html %]" title="[% Translate("Search") | html %]" />
-                            <button title="[% Translate("Navigate by searching in %s settings", Data.ConfigCounter) | html %]" type="submit" value="[% Translate("Search") | html %]">
-                                <span>[% Translate("Search") | html %]</span>
+                            <button title="[% Translate("Navigate by searching in %s settings", Data.ConfigCounter) | html %]" type="submit" title="[% Translate("Search") | html %]" value="[% Translate("Search") | html %]">
+                                <span><i class="fa fa-search"></i></span>
                             </button>
                             <p class="FieldExplanation">
                                 <label for="SysConfigSearch">
@@ -71,16 +71,16 @@ $('#SysConfigGroup').bind('change', function(){
 
 [% RenderBlockStart("Download") %]
                     <li>
-                        <a title="[% Translate("Download all system config changes") | html %]" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Download;DontWriteDefault=1" class="CallForAction Download">
-                            <span>[% Translate("Export settings") | html %]</span>
+                        <a title="[% Translate("Download all system config changes") | html %]" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Download;DontWriteDefault=1" class="CallForAction Fullsize Center">
+                            <span><i class="fa fa-download"></i> [% Translate("Export settings") | html %]</span>
                         </a>
                     </li>
 [% RenderBlockEnd("Download") %]
 
 [% RenderBlockStart("ActionImport") %]
                     <li>
-                        <a title="[% Translate("Load SysConfig settings from file") | html %]" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Import" class="CallForAction Upload">
-                            <span>[% Translate("Import settings") | html %]</span>
+                        <a title="[% Translate("Load SysConfig settings from file") | html %]" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Import" class="CallForAction Fullsize Center">
+                            <span><i class="fa fa-upload"></i> [% Translate("Import settings") | html %]</span>
                         </a>
                     </li>
 [% RenderBlockEnd("ActionImport") %]

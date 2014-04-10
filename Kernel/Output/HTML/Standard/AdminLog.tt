@@ -19,7 +19,7 @@
                     [% Translate("Here you will find log information about your system.") | html %]
                 </p>
                 <p class="FieldExplanation">
-                    <a id="HideHint" href="#" class="CallForAction"><span>[% Translate("Hide this message") | html %]</span></a>
+                    <a id="HideHint" href="#" class="CallForAction Fullsize Center"><span><i class="fa fa-times-circle"></i> [% Translate("Hide this message") | html %]</span></a>
                 </p>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[

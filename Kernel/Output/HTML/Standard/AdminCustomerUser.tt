@@ -20,10 +20,10 @@
                 <ul class="ActionList">
 [% RenderBlockStart("ActionOverview") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Nav=[% Data.Nav | uri %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Nav=[% Data.Nav | uri %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Search;Search=[% Data.Search | uri %]" class="CallForAction"><span>[% Translate("Back to search results") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Search;Search=[% Data.Search | uri %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Back to search results") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
 [% RenderBlockStart("ActionSearch") %]
@@ -33,7 +33,7 @@
                             <input type="hidden" name="Subaction" value="Search"/>
                             <input type="hidden" name="Nav" value="[% Data.Nav | html %]"/>
                             <input type="text" name="Search" value="[% Data.Search | html %]" id="Search" title="[% Translate("Search") | html %]"/>
-                            <button type="submit" value="[% Translate("Search") | html %]">[% Translate("Search") | html %]</button>
+                            <button type="submit" value="[% Translate("Search") | html %]" title="[% Translate("Search") | html %]"><i class="fa fa-search"></i></button>
                         </form>
                         <p class="FieldExplanation">
                             [% Translate("Wildcards like '*' are allowed.") | html %]
@@ -47,7 +47,7 @@
                             <input type="hidden" name="Subaction" value="Add"/>
                             <input type="hidden" name="Nav" value="[% Data.Nav | html %]"/>
 
-                            <button class="CallForAction Plus" type="submit"><span>[% Translate("Add customer user") | html %]</span></button>
+                            <button class="CallForAction Fullsize Center" type="submit"><span><i class="fa fa-plus-square"></i> [% Translate("Add customer user") | html %]</span></button>
                             <br/>
                             <label class="InvisibleText" for="Source">[% Translate("Select") | html %]</label>
                             [% Data.SourceOption %]
@@ -249,7 +249,7 @@
 [% RenderBlockEnd("Password") %]
 [% RenderBlockEnd("Item") %]
                         <div class="Field SpacingTop">
-                            <button class="Primary" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
+                            <button class="Primary CallForAction" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Nav=[% Data.Nav | uri %]">[% Translate("Cancel") | html %]</a>
                         </div>

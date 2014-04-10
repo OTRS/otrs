@@ -26,13 +26,13 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLNew" class="CallForAction Fullsize Center Plus"><span>[% Translate("Create New ACL") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLNew" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Create New ACL") | html %]</span></a>
                     </li>
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLDeploy" class="CallForAction Fullsize Center Refresh"><span>[% Translate("Deploy ACLs") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLDeploy" class="CallForAction Fullsize Center"><span><i class="fa fa-rocket"></i>[% Translate("Deploy ACLs") | html %]</span></a>
                     </li>
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLExport" class="CallForAction Fullsize Center Download"><span>[% Translate("Export ACLs") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLExport" class="CallForAction Fullsize Center"><span><i class="fa fa-download"></i>[% Translate("Export ACLs") | html %]</span></a>
                     </li>
                 </ul>
             </div>
@@ -59,8 +59,8 @@
                                 <input type="checkbox" id="OverwriteExistingEntities" name="OverwriteExistingEntities" value="1" />
                                 <label for="OverwriteExistingEntities">[% Translate("Overwrite existing ACLs?") | html %]</label>
                             </fieldset>
-                            <button class="CallForAction Plus Fullsize Center" type="submit" value="[% Translate("Upload ACL configuration") | html %]">
-                                <span>[% Translate("Import ACL configuration(s)") | html %]</span>
+                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Upload ACL configuration") | html %]">
+                                <span><i class="fa fa-upload"></i>[% Translate("Import ACL configuration(s)") | html %]</span>
                             </button>
                         </form>
                     </li>
@@ -79,7 +79,6 @@
                 <p class="FieldExplanation">
                     [% Translate("Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.") | html %]
                 </p>
-
             </div>
         </div>
     </div>
@@ -107,8 +106,8 @@
                             <td><a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLEdit;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>
                             <td>[% Data.Comment | html %]</td>
                             <td>[% Translate(Data.ValidID) | html %]</td>
-                            <td><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLExport;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" class="Export AsBlock">[% Translate("Export") | html %]</a></td>
-                            <td><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLCopy;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" class="Copy AsBlock">[% Translate("Copy") | html %]</a></td>
+                            <td><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLExport;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]"><i class="fa fa-download"></i> [% Translate("Export") | html %]</a></td>
+                            <td><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLCopy;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]"><i class="fa fa-copy"></i> [% Translate("Copy") | html %]</a></td>
                         </tr>
 [% RenderBlockEnd("ACLRow") %]
 [% RenderBlockStart("ACLNoDataRow") %]

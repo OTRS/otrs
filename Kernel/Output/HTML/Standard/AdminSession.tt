@@ -22,41 +22,42 @@
                 <ul class="ActionList">
 [% RenderBlockStart("ActionOverview") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
 
 [% RenderBlockStart("ActionSummary") %]
 
                     <li>
-                        <fieldset class="TableLike FixedLabel">
-                            <label>[% Translate("All sessions") | html %]:</label>
-                            <div class="Value">[% Data.Counter | html %]</div>
-                            <div class="Clear"></div>
-
-                            <label>[% Translate("Agent sessions") | html %]:</label>
-                            <div class="Value">[% Data.UserSession | html %]</div>
-                            <div class="Clear"></div>
-
-                            <label>[% Translate("Customer sessions") | html %]:</label>
-                            <div class="Value">[% Data.CustomerSession | html %]</div>
-                            <div class="Clear"></div>
-
-                            <label>[% Translate("Unique agents") | html %]:</label>
-                            <div class="Value">[% Data.UserSessionUniq | html %]</div>
-                            <div class="Clear"></div>
-
-                            <label>[% Translate("Unique customers") | html %]:</label>
-                            <div class="Value">[% Data.CustomerSessionUniq | html %]</div>
-                            <div class="Clear"></div>
-                        </fieldset>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=KillAll;WantSessionID=[% Env("SessionID") %];[% Env("ChallengeTokenParam") | html %]" id="KillAllSessions" class="CallForAction"><span>[% Translate("Kill all sessions") | html %]</span></a>
+                        <table class="DataTable">
+                            <tr>
+                                <td>[% Translate("All sessions") | html %]</td>
+                                <td>[% Data.Counter | html %]</td>
+                            </tr>
+                            <tr>
+                                <td>[% Translate("Agent sessions") | html %]</td>
+                                <td>[% Data.UserSession | html %]</td>
+                            </tr>
+                            <tr>
+                                <td>[% Translate("Customer sessions") | html %]</td>
+                                <td>[% Data.CustomerSession | html %]</td>
+                            </tr>
+                            <tr>
+                                <td>[% Translate("Unique agents") | html %]</td>
+                                <td>[% Data.UserSessionUniq | html %]</td>
+                            </tr>
+                            <tr>
+                                <td>[% Translate("Unique customers") | html %]</td>
+                                <td>[% Data.CustomerSessionUniq | html %]</td>
+                            </tr>
+                        </table>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=KillAll;WantSessionID=[% Env("SessionID") %];[% Env("ChallengeTokenParam") | html %]" id="KillAllSessions" class="CallForAction LittleSpacingTop Fullsize Center"><span><i class="fa fa-trash-o"></i> [% Translate("Kill all sessions") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionSummary") %]
 
 [% RenderBlockStart("ActionKillSession") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Kill;WantSessionID=[% Data.SessionID %];[% Env("ChallengeTokenParam") | html %]" id="KillThisSession" class="CallForAction"><span>[% Translate("Kill this session") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Kill;WantSessionID=[% Data.SessionID %];[% Env("ChallengeTokenParam") | html %]" id="KillThisSession" class="CallForAction Fullsize Center"><span><i class="fa fa-power-off"></i> [% Translate("Kill this session") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionKillSession") %]
 

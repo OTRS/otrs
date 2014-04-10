@@ -19,12 +19,12 @@
                 <ul class="ActionList">
 [% RenderBlockStart("ActionAdd") %]
                     <li>
-                        <a class="CallForAction Plus" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Update"><span>[% Translate("Add job") | html %]</span></a>
+                        <a class="CallForAction Fullsize Center" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Update"><span><i class="fa fa-plus-square"></i>[% Translate("Add job") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionAdd") %]
 [% RenderBlockStart("ActionOverview") %]
                     <li>
-                        <a class="CallForAction" href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a class="CallForAction Fullsize Center" href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
                 </ul>
@@ -69,8 +69,8 @@
                             <td>[% Data.ScheduleLastRun | Localize("TimeLong") %]</td>
                             <td>[% Translate(Data.ShownValid) | html %]</td>
                             <td class="Center">
-                                <a class="TrashCan" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;Profile=[% Data.Name | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this task") | html %]">
-                                    [% Translate("Delete this task") | html %]
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;Profile=[% Data.Name | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this task") | html %]">
+                                    <i class="fa fa-trash-o"></i> [% Translate("Delete") | html %]
                                 </a>
                             </td>
                             <td>
@@ -837,7 +837,7 @@ Core.Agent.Admin.GenericAgent.Init({
                 <div class="Content">
                     <fieldset class="TableLike">
                         <div class="Field SpacingTop">
-                            <button class="Primary" type="submit" value="[% Translate("Save") | html %]">[% Translate("Save") | html %]</button>
+                            <button class="Primary CallForAction" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") |  html %]</span></button>
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                         </div>

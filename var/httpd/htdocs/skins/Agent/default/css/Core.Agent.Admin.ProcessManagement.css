@@ -60,8 +60,7 @@ a.Print span {
 .AvailableIn {
     background-color: #ccc;
     color: #555;
-    display: block;
-    float: right;
+    display: inline-block;
     font-size: 10px !important;
     height: 13px;
     line-height: 100%;
@@ -88,6 +87,10 @@ ul#ProcessElements * {
     font-size: 11px;
 }
 
+ul#ProcessElements i {
+    font-size: 13px;
+}
+
 ul#ProcessElements li.AccordionElement h2 {
     margin-bottom: 0px;
     border: 1px solid #FFF;
@@ -103,14 +106,29 @@ ul#ProcessElements li.AccordionElement h2 a {
 
 ul#ProcessElements li.AccordionElement h2 a span {
     display: block;
-    background: url(../img/toggle_arrow.png) no-repeat left top;
     width: 12px;
     height: 12px;
     position: absolute;
-    left: 3px;
+    left: 6px;
     top: 4px;
     opacity: 0.3;
     filter: Alpha(opacity=30);
+}
+
+ul#ProcessElements li.AccordionElement h2 a span i {
+    color: #333;
+    font-size: 15px;
+    display: block;
+    text-align: center;
+}
+
+ul#ProcessElements li.AccordionElement h2 a span i.fa-caret-down,
+ul#ProcessElements li.AccordionElement.Active h2 a span i.fa-caret-right {
+    display: none;
+}
+
+ul#ProcessElements li.AccordionElement.Active h2 a span i.fa-caret-down {
+    display: inline-block;
 }
 
 ul#ProcessElements li.AccordionElement.Active h2 a {
@@ -177,6 +195,13 @@ ul#ProcessElements li.AccordionElement div.Content ul li > span {
     top: 2px;
 }
 
+ul#ProcessElements li.AccordionElement div.Content ul li > span a {
+    color: #777;
+    line-height: 100%;
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
 ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     width: 234px;
     display: block;
@@ -223,12 +248,12 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     opacity: 1.0;
 }
 
-.CanvasActions a#ExtendCanvasHeight {
-    background: url(../img/icon_resize_vertical.png) no-repeat center;
-}
-
+.CanvasActions a#ExtendCanvasHeight,
 .CanvasActions a#ExtendCanvasWidth {
-    background: url(../img/icon_resize_horizontal.png) no-repeat center;
+    font-size: 15px;
+    color: #555;
+    margin-top: 2px;
+    margin-left: 5px;
 }
 
 #DiagramTooltip {

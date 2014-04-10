@@ -30,10 +30,10 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]" class="CallForAction"><span>[% Translate("Go back to web service") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i> [% Translate("Go back to web service") | html %]</span></a>
                     </li>
                     <li>
-                        <button class="CallForAction Trash W75pc" type="button" id="DeleteButton"><span>[% Translate("Clear") | html %]</span></button>
+                        <button class="CallForAction Fullsize Center" type="button" id="DeleteButton"><span><i class="fa fa-trash-o"></i> [% Translate("Clear") | html %]</span></button>
                         <div class="Hidden" id="DeleteDialogContainer">
                             <span class="WarningDialog ">&nbsp;</span>
                             <p id="DeleteDialog" class="Center Warning">
@@ -102,7 +102,7 @@
                             <div class="Clear"></div>
 
                             <div class="Field">
-                                <button type="button" id="FilterRefresh" value="[% Translate("Refresh") | html %]">[% Translate("Refresh") | html %]</button>
+                                <button type="button" id="FilterRefresh" class="CallForAction" value="[% Translate("Refresh") | html %]"><span><i class="fa fa-refresh"></i> [% Translate("Refresh") | html %]</span></button>
                             </div>
                             <div class="Clear"></div>
                         </fieldset>

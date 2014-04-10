@@ -29,23 +29,23 @@
 [% RenderBlockEnd("ActionOverview") %]
 [% RenderBlockStart("ActionUpdate") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Edit" class="CallForAction">
-                            <span>[% Translate("Edit details") | html %]</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://portal.otrs.com/otrs/customer.pl?Action=CustomerOTRSSystems" target="_blank" class="CallForAction">
-                            <span>[% Translate("Overview of registered systems") | html %]</span>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Edit" class="CallForAction Fullsize Center">
+                            <span><i class="fa fa-edit"></i> [% Translate("Edit details") | html %]</span>
                         </a>
                     </li>
 [% RenderBlockEnd("ActionUpdate") %]
 [% RenderBlockStart("ActionDeregister") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=OTRSIDValidate" class="CallForAction">
-                            <span>[% Translate("Deregister system") | html %]</span>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=OTRSIDValidate" class="CallForAction Fullsize Center">
+                            <span><i class="fa fa-sign-out"></i> [% Translate("Deregister system") | html %]</span>
                         </a>
                     </li>
 [% RenderBlockEnd("ActionDeregister") %]
+                    <li>
+                        <a href="https://portal.otrs.com/otrs/customer.pl?Action=CustomerOTRSSystems" target="_blank" class="CallForAction Fullsize Center">
+                            <span><i class="fa fa-external-link"></i> [% Translate("Overview of registered systems") | html %]</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -425,7 +425,7 @@
 
                                 <div class="Field SpacingTop">
                                     <button class="Primary CallForAction" type="submit" id="Submit" value="[% Translate("Deregister") | html %]">
-                                        <span>[% Translate("Deregister") | html %]</span>
+                                        <span><i class="fa fa-sign-out"></i> [% Translate("Deregister") | html %]</span>
                                     </button>
                                     [% Translate("or") | html %]
                                     <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>

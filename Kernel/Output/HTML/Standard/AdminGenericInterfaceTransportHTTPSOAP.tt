@@ -32,7 +32,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]" class="CallForAction"><span>[% Translate("Go back to web service") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i> [% Translate("Go back to web service") | html %]</span></a>
                     </li>
                 </ul>
             </div>
@@ -322,7 +322,7 @@ $('#UseSSL').bind('change', function(){
 [% RenderBlockEnd("TransportRequester") %]
 
                             <div class="Field SpacingTop">
-                                <button type="submit" class="Primary" value="[% Translate("Save and continue") | html %]">[% Translate("Save") | html %]</button>
+                                <button type="submit" class="Primary CallForAction" value="[% Translate("Save and continue") | html %]"><span>[% Translate("Save") | html %]</span></button>
 [% RenderBlockStart("SaveAndFinishButton") %]
                                 <button type="submit" id="SaveAndFinishButton" value="[% Translate("Save and finish") | html %]">[% Translate("Save and finish") | html %]</button>
                                 <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />

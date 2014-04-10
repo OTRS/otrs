@@ -46,6 +46,10 @@ select[multiple=multiple] {
     box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
 }
 
+.DataTable select[multiple=multiple] {
+    min-width: 0px;
+}
+
 select[multiple=multiple] option {
     padding: 2px;
 }

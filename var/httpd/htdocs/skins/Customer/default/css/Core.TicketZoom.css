@@ -27,14 +27,15 @@
 
 .TicketHeader h2 {
     margin: 3px 0 0;
-    padding-left: 36px;
+    padding: 10px 0px 15px 36px;
     font-size: 24px;
     line-height: 24px;
     position: relative;
     float: left;
 }
+
 .RTL .TicketHeader h2 {
-    padding: 0 36px 0 0;
+    padding: 10px 36px 15px 0px;
     float: right;
 }
 
@@ -59,15 +60,18 @@
 }
 
 .Flag {
-    top: 2px;
+    top: 15px;
     left: 6px;
     width: 21px;
     height: 16px;
     line-height: 16px;
     text-indent: -9999px;
     position: absolute;
-    -webkit-box-shadow: 0 1px 0 #EEE;
-    box-shadow: 0 1px 0 #EEE;
+    -webkit-box-shadow: 1px 1px 1px #777;
+    -moz-box-shadow: 1px 1px 1px #777;
+    -ms-box-shadow: 1px 1px 1px #777;
+    -o-box-shadow: 1px 1px 1px #777;
+    box-shadow: 1px 1px 1px #777;
     display: block;
 }
 
@@ -149,7 +153,7 @@
 #TicketOptions {
     position: absolute;
     right: 0px;
-    top: 5px;
+    top: 20px;
     overflow: hidden;
 }
 

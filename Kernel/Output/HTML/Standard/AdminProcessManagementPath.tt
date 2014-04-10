@@ -110,7 +110,7 @@
         </div>
     </div>
     <div class="Footer">
-        <button class="Primary" id="Submit" title="[% Translate("Submit") | html %]" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
+        <button class="Primary CallForAction" id="Submit" title="[% Translate("Submit") | html %]" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
     </div>
 </div>
 [% WRAPPER JSOnDocumentComplete %]

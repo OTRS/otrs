@@ -12,23 +12,26 @@
     <div class="SidebarColumn">
 
         <div class="WidgetSimple">
-            <div class="Header">
-                <h2>[% Translate("Note") | html %]</h2>
-            </div>
             <div class="Content">
                 <ul class="ActionList">
 [% RenderBlockStart("NoteRegisteredSending") %]
-                    <li class="Separated">
+                    <li>
                         <p class="FieldExplanation">[% Translate("This data is sent to OTRS Group on a regular basis. To stop sending this data please update your system registration.") | html %]</p>
-                        <a href="[% Env("Baselink") %]Action=AdminRegistration;Subaction=Edit" class="CallForAction">
+                        <a href="[% Env("Baselink") %]Action=AdminRegistration;Subaction=Edit" class="CallForAction Fullsize Center">
                             <span>[% Translate("System Registration") | html %]</span>
                         </a>
                     </li>
+                </ul>
+            </div>
+        </div>
 
+        <div class="WidgetSimple">
+            <div class="Content">
+                <ul class="ActionList">
                     <li>
                         <p class="FieldExplanation">[% Translate("You can manually trigger the Support Data sending by pressing this button:") | html %]</p>
-                        <a class="CallForAction LittleSpacingTop" id="SendUpdate" name="SendUpdate" >
-                            <span>[% Translate("Send Update") | html %]</span>
+                        <a class="CallForAction Fullsize Center" id="SendUpdate" name="SendUpdate" >
+                            <span><i class="fa fa-refresh"></i>[% Translate("Send Update") | html %]</span>
                         </a>
                     </li>
 
@@ -84,15 +87,15 @@
 
 [% RenderBlockStart("NoteNotRegisteredNotSending") %]
                     <li>
+                        <a href="[% Env("Baselink") %]Action=AdminRegistration" class="CallForAction Fullsize Center">
+                            <span>[% Translate("System Registration") | html %]</span>
+                        </a>
                         <p class="FieldExplanation">
                             [% Translate("Currently this data is only shown in this system.") | html %]
                             [% Translate("It is highly recommended to send this data to OTRS Group in order to get better support.") | html %]
                             <br/>
                             [% Translate("To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the 'send support data' option.)") | html %]
                         </p>
-                        <a href="[% Env("Baselink") %]Action=AdminRegistration" class="CallForAction">
-                            <span>[% Translate("System Registration") | html %]</span>
-                        </a>
                     </li>
 [% RenderBlockEnd("NoteNotRegisteredNotSending") %]
                 </ul>

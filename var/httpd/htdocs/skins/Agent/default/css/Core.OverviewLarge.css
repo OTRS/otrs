@@ -167,6 +167,8 @@
     position: absolute;
     left: -3px;
     top: 37px;
+    width: 20px;
+    height: 12px;
 }
 
 .RTL .OverviewLarge div.Flag {

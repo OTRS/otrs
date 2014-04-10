@@ -69,7 +69,7 @@
                         <div class="Clear"></div>
 
                         <div class="Field SpacingTop">
-                            <button class="Primary" type="submit" id="Run" value="[% Translate("Run Query") | html %]">[% Translate("Run Query") | html %]</button>
+                            <button class="Primary CallForAction" type="submit" id="Run" value="[% Translate("Run Query") | html %]"><span>[% Translate("Run Query") | html %]</span></button>
                         </div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[

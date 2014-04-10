@@ -705,6 +705,7 @@ sub MaskAgentZoom {
             ArticleBox      => \@ArticleBox,
             Pagination      => $Pagination,
             Page            => $Page,
+            ArticleCount    => scalar @ArticleBox,
         );
     }
 

@@ -20,7 +20,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
                 </ul>
             </div>
@@ -57,7 +57,7 @@
                             <input type="hidden" name="Subaction" value="UninstallAction"/>
                             <input type="hidden" name="Name" value="[% Data.Name | html %]"/>
                             <input type="hidden" name="Version" value="[% Data.Version | html %]"/>
-                            <button class="Primary" type="submit" value="[% Translate("Uninstall package") | html %]">[% Translate("Uninstall package") | html %]</button>
+                            <button class="Primary CallForAction" type="submit" value="[% Translate("Uninstall package") | html %]"><span>[% Translate("Uninstall package") | html %]</span></button>
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                         </form>
@@ -82,7 +82,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
                 </ul>
             </div>
@@ -119,7 +119,7 @@
                             <input type="hidden" name="Subaction" value="ReinstallAction"/>
                             <input type="hidden" name="Name" value="[% Data.Name | html %]"/>
                             <input type="hidden" name="Version" value="[% Data.Version | html %]"/>
-                            <button class="Primary" type="submit" value="[% Translate("Reinstall package") | html %]">[% Translate("Reinstall package") | html %]</button>
+                            <button class="Primary CallForAction" type="submit" value="[% Translate("Reinstall package") | html %]"><span>[% Translate("Reinstall package") | html %]</span></button>
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                         </form>
@@ -143,7 +143,7 @@
                 <div class="Content">
                     <ul class="ActionList">
                         <li>
-                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                         </li>
                     </ul>
                 </div>
@@ -172,7 +172,7 @@
                         <input type="hidden" name="[% Data.Type | html %]" value="1"/>
                         <input type="hidden" name="Name" value="[% Data.Name | html %]"/>
                         <input type="hidden" name="Version" value="[% Data.Version | html %]"/>
-                        <button class="Primary" type="submit" value="[% Translate("Continue") | html %]">[% Translate("Continue") | html %]</button>
+                        <button class="Primary CallForAction" type="submit" value="[% Translate("Continue") | html %]"><span>[% Translate("Continue") | html %]</span></button>
 [% RenderBlockStart("IntroCancel") %]
                         [% Translate("or") | html %]
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
@@ -211,8 +211,8 @@
                                     [% Translate("Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.", Data.MaxAllowedPacketRecommended, Data.MaxAllowedPacket) | html %]
                                 </p>
 [% RenderBlockEnd("DatabasePackageSizeWarning") %]
-                                <button class="Fullsize CallForAction LittleSpacingTop Upload" type="submit" value="[% Translate("Install") | html %]">
-                                    <span>[% Translate("Install Package") | html %]</span>
+                                <button class="Fullsize Center CallForAction LittleSpacingTop" type="submit" value="[% Translate("Install") | html %]">
+                                    <span><i class="fa fa-upload"></i> [% Translate("Install Package") | html %]</span>
                                 </button>
                             </form>
                         </li>
@@ -222,8 +222,8 @@
                                 <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                                 <input type="hidden" name="Subaction" value="ChangeRepository"/>
                                 [% Data.SourceList %]
-                                <button class="Fullsize CallForAction LittleSpacingTop Refresh" type="submit" name="GetRepositoryList" value="[% Translate("Update") | html %]">
-                                    <span>[% Translate("Update repository information") | html %]</span>
+                                <button class="Fullsize CallForAction LittleSpacingTop Center" type="submit" name="GetRepositoryList" value="[% Translate("Update") | html %]">
+                                    <span><i class="fa fa-refresh"></i> [% Translate("Update repository information") | html %]</span>
                                 </button>
                             </form>
                         </li>
@@ -416,7 +416,7 @@
                     <ul class="ActionList">
 
                         <li>
-                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                         </li>
 [% RenderBlockStart("PackageDownloadLocal") %]
                         <li>

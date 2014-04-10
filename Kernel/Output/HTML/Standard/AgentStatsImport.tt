@@ -37,7 +37,8 @@
                     </fieldset>
 
                     <p class="Center">
-                        <button class="Primary" accesskey="g" title="[% Translate("Import") | html %] (g)" type="submit" value="[% Translate("Import") | html %]">[% Translate("Import") | html %]</button>
+                        <button class="Primary CallForAction" accesskey="g" title="[% Translate("Import") | html %] (g)" type="submit" value="[% Translate("Import") | html %]"><span>[% Translate("Import") | html %]</span></button>
+                        [% Translate("or") | html %]
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview">[% Translate("Cancel") | html %]</a>
                     </p>
                 </form>

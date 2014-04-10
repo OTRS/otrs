@@ -115,7 +115,7 @@
                         </div>
 [% RenderBlockEnd("LinkSearchRow") %]
                         <div class="Field">
-                            <button type="submit" id="SubmitSearch" name="SubmitSearch" value="[% Translate("Search") | html %]">[% Translate("Search") | html %]</button>
+                            <button type="submit" id="SubmitSearch" name="SubmitSearch" class="CallForAction" value="[% Translate("Search") | html %]"><span><i class="fa fa-search"></i> [% Translate("Search") | html %]</span></button>
                         </div>
                     </fieldset>
                 </div>

@@ -15,13 +15,13 @@
  * @subsection  Extensions for ticket zoom
  */
 
-.WidgetBox > .Content.ProcessInfo {
+.WidgetSimple > .Content.ProcessInfo {
     padding: 10px 0px 5px 10px;
     min-height: 0px;
     overflow: hidden;
 }
 
-.WidgetBox > .Content.ProcessInfo fieldset .FieldContainer {
+.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer {
     float: left;
     width: 255px;
     margin: 0px 10px 10px 0px;
@@ -30,7 +30,7 @@
     line-height: 150%;
 }
 
-.WidgetBox > .Content.ProcessInfo fieldset .FieldContainer label {
+.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer label {
     color: #686868;
     border-bottom: 1px solid #ccc;
     text-shadow: 0px 1px 0px #FAFAFA;
@@ -40,13 +40,13 @@
     font-size: 11px;
 }
 
-.WidgetBox > .Content.ProcessInfo fieldset .FieldContainer p {
+.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer p {
     background-color: #fff;
     padding: 4px 7px 2px 7px;
     font-size: 11px;
 }
 
-.WidgetBox > .Content.ProcessInfo fieldset .FieldContainer p.CutValue {
+.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer p.CutValue {
     text-overflow: ellipsis; 
     height: 17px; 
     overflow: hidden; 
@@ -54,11 +54,11 @@
     white-space: nowrap;
 }
 
-.WidgetBox > .Content.ProcessInfo fieldset .FieldContainer p.ValueLong {
+.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer p.ValueLong {
     display: none;
 }
 
-.WidgetBox > .Content.ProcessInfo fieldset .FieldContainer label .ShowFieldInfoOverlay {
+.WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer label .ShowFieldInfoOverlay {
     display: block;
     position: absolute;
     right: 0px;
@@ -91,6 +91,16 @@
     width:550px;
     line-height: 150%;
     padding:5px;
+}
+
+#DynamicFieldsWidget .Actions strong {
+    display: block;
+    height: 13px;
+    padding: 7px 0px 8px 10px;
+}
+
+#DynamicFieldsWidget .Actions li:first-child {
+    background: none;
 }
 
 /**

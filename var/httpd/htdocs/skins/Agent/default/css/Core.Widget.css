@@ -155,10 +155,6 @@ ul.Tablelike li.Header + li {
     display: none;
 }
 
-.WidgetSimple fieldset {
-    margin-bottom: 15px;
-}
-
 .WidgetSimple .WidgetSettingsForm fieldset {
     margin-bottom: 0px;
 }
@@ -358,11 +354,6 @@ ul.Tablelike li.Header + li {
     color: #555 !important;
 }
 
-#ArticleItems .WidgetAction.Toggle i,
-#DynamicFieldsWidget .WidgetAction.Toggle i {
-    top: -1px;
-}
-
 .Expanded .WidgetAction.Toggle i.fa-caret-right {
     display: none !important;
 }
@@ -445,13 +436,23 @@ ul.Tablelike li.Header + li {
     color: #888;
 }
 
-.ActionList form select {
-    margin: 8px 0 2px;
+.WidgetSimple .ActionList select {
+    margin: 0px auto;
+    padding: 2px 3px;
     display: block;
+    width: 249px;
+}
+
+.WidgetSimple .ActionList select + .FieldExplanation {
+    margin-top: 2px;
+}
+
+.WidgetSimple .ActionList .CallForAction ~ select {
+    margin-top: -5px;
 }
 
 .CallForAction {
-    padding: 0;
+    padding: 0px;
     background: #f2f2f2;
     background: -moz-linear-gradient(top,  #f2f2f2 0%, #e0e0e0 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f2f2), color-stop(100%,#e0e0e0));
@@ -469,6 +470,10 @@ ul.Tablelike li.Header + li {
     transition: all ease-in 1s;
 }
 
+.CallForAction.Hidden {
+    display: none;
+}
+
 .CallForAction.LittleSpacingTop {
     margin-top: 5px;
 }
@@ -478,8 +483,14 @@ ul.Tablelike li.Header + li {
 }
 
 .CallForAction.Fullsize {
-    width: 100%;
+    width: 248px;
     text-align: center;
+}
+
+.CallForAction.Fullsize + .FieldExplanation {
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin-top: 5px;
 }
 
 /**
@@ -511,6 +522,22 @@ ul.Tablelike li.Header + li {
     display: block;
     text-shadow: 0 1px 0 #FFF;
     cursor: pointer;
+    position: relative;
+}
+
+.CallForAction span i {
+    position: relative;
+    left: 0px;
+    top: 1px;
+    font-size: 13px;
+    width: 15px;
+    text-align: center;
+}
+
+.CallForAction.Fullsize.Center span i {
+    position: absolute;
+    left: 4px;
+    top: 4px;
 }
 
 .CallForAction:active {
@@ -531,84 +558,26 @@ ul.Tablelike li.Header + li {
     cursor: default;
 }
 
-.CallForAction.Plus span {
-    background: url(../img/icons/plus-button.png) no-repeat scroll;
-}
-.CallForAction.Download span {
-    background: url(../img/icons/drive-download.png) no-repeat scroll;
-}
-.CallForAction.Upload span {
-    background: url(../img/icons/drive-upload.png) no-repeat scroll;
-}
-.CallForAction.Clone span {
-    background: url(../img/icons/reports.png) no-repeat scroll;
-}
-.CallForAction.Save span {
-    background: url(../img/icons/disk.png) no-repeat scroll;
-}
-.CallForAction.Trash span {
-    background: url(../img/icons/trash-can.png) no-repeat scroll;
-}
-.CallForAction.History span {
-    background: url(../img/icons/book-brown.png) no-repeat scroll;
-}
-.CallForAction.Debug span {
-    background: url(../img/icons/bug--minus.png) no-repeat scroll;
-}
-.CallForAction.Back span {
-    background: url(../img/arrow_left.png) no-repeat scroll;
-}
-.CallForAction.Refresh span {
-    background: url(../img/icons/reload.png) no-repeat scroll;
-}
-
-.CallForAction.Plus span,
-.CallForAction.Download span,
-.CallForAction.Upload span,
-.CallForAction.Clone span,
-.CallForAction.Trash span,
-.CallForAction.History span,
-.CallForAction.Debug span,
-.CallForAction.Refresh span,
-.CallForAction.Save span {
-    padding-left: 23px;
-    background-position: 2px 2px;
-}
-
-.CallForAction.Back span {
-    padding-left: 23px;
-    background-position: 4px 5px;
-}
-
-.CallForAction.Plus:active span,
-.CallForAction.Download:active span,
-.CallForAction.Upload:active span,
-.CallForAction.Clone:active span,
-.CallForAction.Trash:active span,
-.CallForAction.History:active span,
-.CallForAction.Debug:active span,
-.CallForAction.Refresh:active span,
-.CallForAction.Save:active span {
-    background-position: 2px 3px;
-}
-
-.CallForAction.Back:active span {
-    background-position: 4px 6px;
+input.FilterBox {
+    padding: 4px 5px;
+    width: 238px;
 }
 
 .SearchBox {
     position: relative;
+    margin-bottom: 3px;
 }
 
 .SearchBox input[type='text'] {
     height: 15px;
-    margin: 0;
+    margin: 0px;
     padding: 4px 5px;
     font: normal 12px/15px "Helvetica Neue",Helvetica,Arial,sans-serif;
     border-color: #999;
     border-radius: 3px 0 0 3px;
     border-right: none;
     vertical-align: bottom;
+    width: 213px;
 }
 
 .RTL .SearchBox input[type='text']{
@@ -628,6 +597,7 @@ ul.Tablelike li.Header + li {
 
 .SearchBox button {
     height: 25px;
+    width: 25px;
     margin: 0 0 0 -4px;
     padding: 3px 3px 4px;
     color: #333;
@@ -883,6 +853,22 @@ ul.Tablelike li.Header + li {
 
 #ProgressBar .Visited.Active a {
     border-right-color: #EEE;
+}
+
+/**
+ * @subsection      Icon colors
+ */
+
+.CallForAction span i.fa-plus-square {
+    color: #35A835;
+}
+
+.CallForAction span i.fa-rocket {
+    color: #C4632F;
+}
+.CallForAction span i.fa-download,
+.CallForAction span i.fa-upload {
+    color: #2D6F9E;
 }
 
 } /* end @media */

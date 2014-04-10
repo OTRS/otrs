@@ -70,8 +70,8 @@ if (window.opener) {
 
 [% RenderBlockStart("TableComplex") %]
 [% RenderBlockStart("TableComplexBlock") %]
-<div class="WidgetBox SpacingTop Expanded">
-    <div class="LightRow Header">
+<div class="WidgetSimple SpacingTop Expanded">
+    <div class="Header">
         <div class="WidgetAction Toggle"><a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a></div>
         <h2>[% Translate(Data.BlockDescription) | html %]: [% Translate(Data.Blockname) | html %]</h2>
     </div>
@@ -90,29 +90,27 @@ if (window.opener) {
         <div class="ClearLeft"></div>
     </div>
 [% RenderBlockEnd("TableComplexBlockActionRow") %]
-    <div class="LightRow Content AutoHeight ">
-        <div class="Spacing">
-            <table class="DataTable">
-                <thead>
-                    <tr>
+    <div class="Content AutoHeight ">
+        <table class="DataTable">
+            <thead>
+                <tr>
 [% RenderBlockStart("TableComplexBlockColumn") %]
-                        <th> [% Translate(Data.Content) | html %] </th>
+                    <th> [% Translate(Data.Content) | html %] </th>
 [% RenderBlockEnd("TableComplexBlockColumn") %]
-                    </tr>
-                </thead>
-                <tbody>
+                </tr>
+            </thead>
+            <tbody>
 [% RenderBlockStart("TableComplexBlockRow") %]
-                    <tr>
+                <tr>
 [% RenderBlockStart("TableComplexBlockRowColumn") %]
-                        <td class="[% Data.CssClass | html %]">
-                            [% Data.Content %]
-                        </td>
+                    <td class="[% Data.CssClass | html %]">
+                        [% Data.Content %]
+                    </td>
 [% RenderBlockEnd("TableComplexBlockRowColumn") %]
-                    </tr>
+                </tr>
 [% RenderBlockEnd("TableComplexBlockRow") %]
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
 
 [% RenderBlockStart("TableComplexBlockFooterNormal") %]
 [% RenderBlockEnd("TableComplexBlockFooterNormal") %]
@@ -127,7 +125,7 @@ if (window.opener) {
 
 [% RenderBlockStart("TableComplexBlockFooterDelete") %]
         <div class="SpacingTopSmall">
-            <button class="Primary" type="submit" title="[% Translate("Delete links") | html %]">[% Translate("Delete links") | html %]</button>
+            <button class="Primary CallForAction" type="submit" title="[% Translate("Delete links") | html %]"><span>[% Translate("Delete links") | html %]</span></button>
         </div>
         <input type="hidden" name="SubmitDelete" value="[% Translate("Delete") | html %]" />
 [% RenderBlockEnd("TableComplexBlockFooterDelete") %]
@@ -142,7 +140,7 @@ if (window.opener) {
 <script type="text/javascript">//<![CDATA[
     $('.SelectAll').bind('click', function () {
         var Status = $(this).prop('checked');
-        $(this).closest('.WidgetBox').find('table input[type=checkbox]').prop('checked', Status);
+        $(this).closest('.WidgetSimple').find('table input[type=checkbox]').prop('checked', Status);
     });
 
 //]]></script>

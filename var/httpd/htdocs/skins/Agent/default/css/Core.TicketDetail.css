@@ -16,7 +16,7 @@
  */
 div.Headline {
     height: 24px;
-    margin: 7px 5px 10px 7px;
+    margin: 15px 0px 5px 0px;
     position: relative;
 }
 
@@ -44,20 +44,15 @@ div.Headline .Flag + h1 {
 
 div.Headline .Flag {
     position: absolute;
-    top: 4px;
-    left: 0;
+    top: 5px;
+    left: 0px;
+    width: 20px;
+    height: 15px;
 }
 
 .RTL div.Headline .Flag {
     left: auto;
     right: 0;
-}
-
-/**
- * @subsection  Article tree
- */
-#ArticleTree {
-    margin-top: 20px;
 }
 
 /**
@@ -75,13 +70,19 @@ div.Headline .Flag {
     position: relative;
     overflow: hidden;
     border-bottom: none;
+    margin: 0px;
 }
 
 #ArticleTableBody .Scroller {
     height: 82px;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     margin-bottom: 10px;
+    border: 1px solid #ccc;
+}
+
+#ArticleTableBody .Scroller .DataTable {
+    border: 0px;
 }
 
 .ArticleMailHeader {
@@ -100,25 +101,24 @@ div.Headline .Flag {
  * @subsection  ControlRow Icons
  */
 
-.ArticleFilter {
-    float: left;
-}
-
-.RTL .ArticleFilter {
-    float: right;
-}
-
+.ArticleFilter,
+.ArticlePages,
 .ArticleView {
-    float: right;
+    float: left;
+    margin-left: 10px;
 }
 
+.RTL .ArticleFilter,
+.RTL .ArticlePages,
 .RTL .ArticleView {
-    float: left;
+    float: right;
 }
 
 .ControlRow .Icons a {
     width: 26px;
     height: 24px;
+    line-height: 24px;
+    vertical-align: middle;
     display: block;
     float: left;
 }
@@ -132,6 +132,10 @@ div.Headline .Flag {
     background: -ms-linear-gradient(top,  #5e5e5e 0%,#7e7e7e 50%,#5d5d5d 50%,#5c5c5c 100%);
     background: linear-gradient(to bottom,  #5e5e5e 0%,#7e7e7e 50%,#5d5d5d 50%,#5c5c5c 100%);
     border-left: 1px solid #000;
+}
+
+.ControlRow .Icons a:hover {
+    background-color: #ccc;
 }
 
 .ControlRow .Icons a {
@@ -250,6 +254,10 @@ div.Headline .Flag {
 .UseArticleColors .customer-note-external > td,
 .UseArticleColors .customer-phone > td {
     background: white !important;
+}
+
+.UseArticleColors a {
+    color: #000;
 }
 
 /*

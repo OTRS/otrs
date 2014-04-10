@@ -37,7 +37,7 @@
                 <ul class="ActionList">
 [% RenderBlockStart("ActionOverview") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Nav=[% Data.Nav | uri %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Nav=[% Data.Nav | uri %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
 [% RenderBlockStart("ActionAdd") %]
@@ -47,14 +47,13 @@
                             <input type="hidden" name="Subaction" value="Add"/>
                             <input type="hidden" name="Nav" value="[% Data.Nav | html %]"/>
 
-                            <button class="CallForAction Plus W75pc" type="submit"><span>[% Translate("Add web service") | html %]</span></button>
-                            <br/>
+                            <button class="CallForAction Fullsize Center" type="submit"><span><i class="fa fa-plus-square"></i>[% Translate("Add web service") | html %]</span></button>
                         </form>
                     </li>
 [% RenderBlockEnd("ActionAdd") %]
 [% RenderBlockStart("ActionClone") %]
                     <li>
-                        <button id="CloneButton" class="CallForAction Clone W75pc HideActionOnChange" type="submit"><span>[% Translate("Clone web service") | html %]</span></button>
+                        <button id="CloneButton" class="CallForAction Fullsize Center HideActionOnChange" type="submit"><span><i class="fa fa-copy"></i> [% Translate("Clone web service") | html %]</span></button>
                         <div class="Hidden" id="CloneDialogContainer">
                             <div id="CloneDialog" class="InnerContent GenericInterfaceDialog">
                                 <form id="CloneForm" action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="CloneForm" class="Validate PreventMultipleSubmits">
@@ -78,7 +77,6 @@
                                 <button type="button" id="CancelCloneButtonAction">[% Translate("Cancel") | html %]</button>
                             </div>
                         </div>
-                        <br/>
                     </li>
 [% RenderBlockEnd("ActionClone") %]
 [% RenderBlockStart("ActionExport") %]
@@ -89,14 +87,13 @@
                             <input type="hidden" name="WebserviceID" value="[% Data.WebserviceID | html %]"/>
                             <input type="hidden" name="Nav" value="[% Data.Nav | html %]"/>
 
-                            <button class="CallForAction Download W75pc HideActionOnChange" type="submit"><span>[% Translate("Export web service") | html %]</span></button>
-                            <br/>
+                            <button class="CallForAction Fullsize Center HideActionOnChange" type="submit"><span><i class="fa fa-download"></i> [% Translate("Export web service") | html %]</span></button>
                         </form>
                     </li>
 [% RenderBlockEnd("ActionExport") %]
 [% RenderBlockStart("ActionImport") %]
                     <li>
-                        <button id="ImportButton" class="CallForAction Upload W75pc " type="button"><span>[% Translate("Import web service") | html %]</span></button>
+                        <button id="ImportButton" class="CallForAction Fullsize Center" type="button"><span><i class="fa fa-upload"></i> [% Translate("Import web service") | html %]</span></button>
                         <div class="Hidden" id="ImportDialogContainer">
                             <div id="ImportDialog" class="InnerContent GenericInterfaceDialog">
                                 <form id="ImportForm" action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="ImportForm" class="Validate PreventMultipleSubmits">
@@ -119,7 +116,6 @@
                                 <button type="button" id="CancelImportButtonAction">[% Translate("Cancel") | html %]</button>
                             </div>
                         </div>
-                        <br/>
                     </li>
 [% RenderBlockEnd("ActionImport") %]
 [% RenderBlockStart("ActionHistory") %]
@@ -129,14 +125,13 @@
                             <input type="hidden" name="WebserviceID" value="[% Data.WebserviceID | html %]"/>
                             <input type="hidden" name="Nav" value="[% Data.Nav | html %]"/>
 
-                            <button class="CallForAction History W75pc HideActionOnChange" type="submit"><span>[% Translate("Configuration history") | html %]</span></button>
-                            <br/>
+                            <button class="CallForAction Fullsize Center HideActionOnChange" type="submit"><span><i class="fa fa-clock-o"></i> [% Translate("Configuration history") | html %]</span></button>
                         </form>
                     </li>
 [% RenderBlockEnd("ActionHistory") %]
 [% RenderBlockStart("ActionDelete") %]
                     <li>
-                        <button id="DeleteButton" class="CallForAction Trash W75pc" type="button"><span>[% Translate("Delete web service") | html %]</span></button>
+                        <button id="DeleteButton" class="CallForAction Fullsize Center" type="button"><span><i class="fa fa-trash-o"></i> [% Translate("Delete web service") | html %]</span></button>
                         <div class="Hidden" id="DeleteDialogContainer">
                             <div id ="DeleteDialog" class="InnerContent GenericInterfaceDialog">
                                 <span class="WarningDialog ">&nbsp;</span>
@@ -144,7 +139,6 @@
                                 <div class="SpacingTop"></div>
                             </div>
                         </div>
-                        <br/>
                     </li>
 [% RenderBlockEnd("ActionDelete") %]
 [% RenderBlockStart("ActionDebugger") %]
@@ -154,8 +148,7 @@
                             <input type="hidden" name="WebserviceID" value="[% Data.WebserviceID | html %]"/>
                             <input type="hidden" name="Nav" value="[% Data.Nav | html %]"/>
 
-                            <button class="CallForAction Debug W75pc HideActionOnChange" type="submit"><span>[% Translate("Debugger") | html %]</span></button>
-                            <br/>
+                            <button class="CallForAction Fullsize Center HideActionOnChange" type="submit"><span><i class="fa fa-bug"></i> [% Translate("Debugger") | html %]</span></button>
                         </form>
                     </li>
 [% RenderBlockEnd("ActionDebugger") %]
@@ -228,16 +221,15 @@
         </div>
 [% RenderBlockEnd("OverviewResult") %]
 [% RenderBlockStart("Details") %]
-        <div class="WidgetSimple">
-            <div class="Header">
-                <h2>[% Translate("Details") | html %]</h2>
-            </div>
-            <div class="Content">
-                <h3>[% Translate("General") | html %]</h3>
-                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
-                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
-                    <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action"/>
-                    <input type="hidden" name="WebserviceID" value="[% Data.WebserviceID | html %]" id="WebserviceID"/>
+        <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+            <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action"/>
+            <input type="hidden" name="WebserviceID" value="[% Data.WebserviceID | html %]" id="WebserviceID"/>
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("General") | html %]</h2>
+                </div>
+                <div class="Content">
                     <div class="LayoutGrid ColumnsWithSpacing">
                         <div class="Size1of2">
                             <fieldset class="TableLike">
@@ -278,6 +270,8 @@
                             </fieldset>
                         </div>
                     </div>
+                </div>
+            </div>
 
 [% RenderBlockStart("ConfigSet") %]
 [% WRAPPER JSOnDocumentComplete %]
@@ -377,7 +371,7 @@
 [% RenderBlockEnd("DetailsActionsRow") %]
 [% RenderBlockStart("DetailsActionsNoDataFoundMsg") %]
                                     <tr>
-                                        <td colspan="4">
+                                        <td colspan="5">
                                             [% Translate("No data found.") | html %]
                                         </td>
                                     </tr>
@@ -402,11 +396,18 @@
                     </div>
 
 [% RenderBlockEnd("DetailsCommunicationType") %]
+
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("Save") | html %]</h2>
+                </div>
+                <div class="Content">
                     <fieldset class="TableLike">
                         <div class="Field SpacingTop">
-                            <button type="submit" class="Primary" value="[% Translate("Save and continue") | html %]">[% Translate("Save") | html %]</button>
+                            <button type="submit" class="Primary CallForAction" value="[% Translate("Save and continue") | html %]"><span>[% Translate("Save") | html %]</span></button>
 [% RenderBlockStart("SaveAndFinishButton") %]
-                            <button type="submit" id="SaveAndFinishButton" value="[% Translate("Save and finish") | html %]">[% Translate("Save and finish") | html %]</button>
+                            [% Translate("or") | html %]
+                            <button type="submit" id="SaveAndFinishButton" class="CallForAction" value="[% Translate("Save and finish") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
                             <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
@@ -421,9 +422,9 @@ $('#SaveAndFinishButton').bind('click', function(){
                         </div>
                         <div class="Clear"></div>
                     </fieldset>
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
 
         <div class="Hidden" id="DeleteOperationDialogContainer">
             <div id ="DeleteOperationDialog" class="InnerContent GenericInterfaceDialog">

@@ -20,7 +20,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %]Action=AdminDynamicField" class="CallForAction"><span>[% Translate("Go back to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AdminDynamicField" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back to overview") | html %]</span></a>
                     </li>
                 </ul>
             </div>
@@ -175,7 +175,7 @@
             </div>
             <fieldset class="TableLike">
                 <div class="Field SpacingTop">
-                    <button type="submit" class="Primary" value="[% Translate("Save") | html %]">[% Translate("Save") | html %]</button>
+                    <button type="submit" class="Primary CallForAction" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
                     [% Translate("or") | html %]
                     <a href="[% Env("Baselink") %]Action=AdminDynamicField">[% Translate("Cancel") | html %]</a>
                 </div>

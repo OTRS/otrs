@@ -20,15 +20,15 @@
                 <ul class="ActionList">
 [% RenderBlockStart("ActionAdd") %]
                     <li>
-                        <a class="CallForAction Plus" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ShowAddCertificate"><span>[% Translate("Add certificate") | html %]</span></a>
+                        <a class="CallForAction Fullsize Center" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ShowAddCertificate"><span><i class="fa fa-plus-square"></i> [% Translate("Add certificate") | html %]</span></a>
                     </li>
                     <li>
-                        <a class="CallForAction Plus" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ShowAddPrivate"><span>[% Translate("Add private key") | html %]</span></a>
+                        <a class="CallForAction Fullsize Center" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ShowAddPrivate"><span><i class="fa fa-plus-square"></i> [% Translate("Add private key") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionAdd") %]
 [% RenderBlockStart("ActionOverview") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
                 </ul>
@@ -47,7 +47,7 @@
                     <li>
                         <form action="">
                             <fieldset>
-                                <input type="text" id="FilterSMIME" class="W50pc" name="FilterSMIME" value="" title="[% Translate("Filter for SMIME certs") | html %]" />
+                                <input type="text" id="FilterSMIME" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterSMIME" value="" title="[% Translate("Filter for SMIME certs") | html %]" />
                             </fieldset>
                         </form>
                     </li>
@@ -203,7 +203,7 @@
                     <div class="Clear"></div>
 
                     <div class="Field SpacingTop">
-                        <button class="Primary" type="submit">[% Translate("Add") | html %]</button>
+                        <button class="Primary CallForAction" type="submit"><span>[% Translate("Submit") | html %]</span></button>
                         [% Translate("or") | html %]
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                     </div>
@@ -238,7 +238,7 @@
                     <div class="Clear"></div>
 
                     <div class="Field SpacingTop">
-                        <button class="Primary" type="submit">[% Translate("Add") | html %]</button>
+                        <button class="Primary CallForAction" type="submit"><span>[% Translate("Submit") | html %]</span></button>
                         [% Translate("or") | html %]
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                     </div>

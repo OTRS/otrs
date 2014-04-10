@@ -119,7 +119,7 @@
                         <div class="Clear"></div>
 
                         <div class="Field SpacingTop">
-                            <button class="Primary" id="submitRichText" type="submit" value="[% Translate("Send") | html %]">[% Translate("Send") | html %]</button>
+                            <button class="Primary CallForAction" id="submitRichText" type="submit" value="[% Translate("Send") | html %]"><span>[% Translate("Send") | html %]</span></button>
                         </div>
                         <div class="Clear"></div>
 

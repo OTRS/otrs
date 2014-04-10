@@ -23,8 +23,8 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a class="CallForAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=SelectGroup;SysConfigGroup=[% Data.Group | uri %]">
-                            <span>[% Translate("Go to overview") | html %]</span>
+                        <a class="CallForAction Fullsize Center" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=SelectGroup;SysConfigGroup=[% Data.Group | uri %]">
+                            <span><i class="fa fa-caret-left"></i> [% Translate("Go to overview") | html %]</span>
                         </a>
                     </li>
                 </ul>
@@ -427,7 +427,7 @@
 [% RenderBlockEnd("ConfigElementSufficientConfigLevel") %]
 [% RenderBlockEnd("ConfigElementBlock") %]
                     <fieldset class="Last">
-                        <button type="submit" accesskey="g" title="[% Translate("Update") | html %] (g)" value="[% Translate("Update") | html %]"><span>[% Translate("Update") | html %]</span></button>
+                        <button type="submit" class="CallForAction" accesskey="g" title="[% Translate("Update") | html %] (g)" value="[% Translate("Update") | html %]"><span>[% Translate("Update") | html %]</span></button>
                     </fieldset>
                 </form>
             </div>

@@ -15,22 +15,10 @@
  * @subsection  Control Row
  */
 .ControlRow {
-    background: #bbbbbb;
-    background: -moz-linear-gradient(top,  #ededed 0%, #bbbbbb 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#bbbbbb));
-    background: -webkit-linear-gradient(top,  #ededed 0%,#bbbbbb 100%);
-    background: -o-linear-gradient(top,  #ededed 0%,#bbbbbb 100%);
-    background: -ms-linear-gradient(top,  #ededed 0%,#bbbbbb 100%);
-    background: linear-gradient(to bottom,  #ededed 0%,#bbbbbb 100%);
     position: relative;
     overflow: hidden;
-    border-left: 1px solid #D4D4D4;
-    border-right: 1px solid #D4D4D4;
-    border-top: 1px solid #F8F8F8;
-    border-bottom: 1px solid #999999;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
     min-height: 24px;
+    background-color: #ddd;
 }
 
 .ControlRow a {
@@ -39,6 +27,10 @@
 
 .ControlRow a:hover {
     color: #333;
+}
+
+.ControlRow a.Active {
+    color: #fff;
 }
 
 /**
@@ -261,13 +253,16 @@ ul.ContextFunctions li:last-child:hover > a {
  * @subsection  Control Row Additional Information
  */
 .AdditionalInformation {
-    right: 0;
-    top: 0;
-    margin-right: 8px;
-    font-size: 13px;
-    line-height: 25px;
-    text-shadow: 0 1px 0 #D4D4D4;
+    right: 7px;
+    top: 7px;
+    font-size: 11px;
     position: absolute;
+}
+
+.AdditionalInformation.ControlRow {
+    top: 1px;
+    right: 0px;
+    background: none;
 }
 
 .AdditionalInformation.SpacingLoader {
@@ -289,17 +284,22 @@ ul.ContextFunctions li:last-child:hover > a {
  * @subsection  Control Row Action Row
  */
 .ActionRow {
-    background: #f0f0f0;
-    background: -moz-linear-gradient(top,  #f0f0f0 0%, #eaeaea 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0f0f0), color-stop(100%,#eaeaea));
-    background: -webkit-linear-gradient(top,  #f0f0f0 0%,#eaeaea 100%);
-    background: -o-linear-gradient(top,  #f0f0f0 0%,#eaeaea 100%);
-    background: -ms-linear-gradient(top,  #f0f0f0 0%,#eaeaea 100%);
-    background: linear-gradient(to bottom,  #f0f0f0 0%,#eaeaea 100%);
-    border-top: 1px solid #D6D6D6;
-    border-bottom: 1px solid #666;
     position: relative;
     overflow: hidden;
+    background: #eeeeee;
+    background: -moz-linear-gradient(top,  #eeeeee 0%, #e0e0e0 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#e0e0e0));
+    background: -webkit-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
+    background: -o-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
+    background: -ms-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
+    background: linear-gradient(to bottom,  #eeeeee 0%,#e0e0e0 100%);
+    border-bottom: 1px solid #ccc;
+}
+
+.WidgetSimple .Content .ActionRow {
+    margin: -5px;
+    background: none;
+    border-bottom: 0px;
 }
 
 .Actions {
@@ -468,18 +468,10 @@ ul.ContextFunctions li:last-child:hover > a {
  */
 
 .LightRow {
-    border: 1px solid #C6C5C4;
-    border-bottom: 1px solid #7C7C7C;
 }
 
 .LightRow.Header {
-    background: #ededed;
-    background: -moz-linear-gradient(top,  #ededed 0%, #e7e7e7 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#e7e7e7));
-    background: -webkit-linear-gradient(top,  #ededed 0%,#e7e7e7 100%);
-    background: -o-linear-gradient(top,  #ededed 0%,#e7e7e7 100%);
-    background: -ms-linear-gradient(top,  #ededed 0%,#e7e7e7 100%);
-    background: linear-gradient(to bottom,  #ededed 0%,#e7e7e7 100%);
+    background: #ddd;
     padding-right: 5px;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
@@ -499,16 +491,14 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .LightRow.Bottom {
-    background: #e5e5e5;
-    background: -moz-linear-gradient(top,  #e5e5e5 0%, #dadada 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e5e5), color-stop(100%,#dadada));
-    background: -webkit-linear-gradient(top,  #e5e5e5 0%,#dadada 100%);
-    background: -o-linear-gradient(top,  #e5e5e5 0%,#dadada 100%);
-    background: -ms-linear-gradient(top,  #e5e5e5 0%,#dadada 100%);
-    background: linear-gradient(to bottom,  #e5e5e5 0%,#dadada 100%);
-    border-top: 1px solid #F5F5F5;
-    border-bottom: none;
-    border-bottom: 1px solid #636363;
+    background: #eeeeee;
+    background: -moz-linear-gradient(top,  #eeeeee 0%, #e0e0e0 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#e0e0e0));
+    background: -webkit-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
+    background: -o-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
+    background: -ms-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
+    background: linear-gradient(to bottom,  #eeeeee 0%,#e0e0e0 100%);
+    border-bottom: 1px solid #ccc;
 }
 
 .Collapsed .LightRow.Bottom {

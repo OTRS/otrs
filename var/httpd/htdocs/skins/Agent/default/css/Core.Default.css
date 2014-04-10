@@ -501,29 +501,25 @@ dd {
  * @subsection  Flag
  */
 .Flag {
-    background: transparent url(../img/flag_shadow.png) no-repeat scroll 0 0;
-    height: 18px;
-    width: 24px;
+    -webkit-box-shadow: 1px 1px 1px #777;
+    -moz-box-shadow: 1px 1px 1px #777;
+    -ms-box-shadow: 1px 1px 1px #777;
+    -o-box-shadow: 1px 1px 1px #777;
+    box-shadow: 1px 1px 1px #777;
 }
 
 .Flag.Small {
     width: 17px;
-    height: 10px;
-    background-position: bottom right;
+    height: 8px;
 }
 
 .Flag span {
     display: block;
-    height: 16px;
-    margin-right: 2px;
+    height: 100%;
     text-indent: -9999px;
     cursor: pointer;
     /* set a default color for priorities */
     background-color: #cdcdcd;
-}
-
-.Flag.Small span {
-    height: 8px;
 }
 
 .Flag span.Escalated {

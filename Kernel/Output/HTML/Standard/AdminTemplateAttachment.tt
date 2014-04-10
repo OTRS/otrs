@@ -22,7 +22,7 @@
                 <ul class="ActionList">
 [% RenderBlockStart("ActionOverview") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction"><span>[% Translate("Go to overview") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
                 </ul>
@@ -36,7 +36,7 @@
                 <h2><label for="Filter">[% Translate("Filter") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="Filter" class="W50pc" name="Filter" value="" title="[% Translate("Filter") | html %]" />
+                <input type="text" id="Filter" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="Filter" value="" title="[% Translate("Filter") | html %]" />
             </div>
         </div>
 [% RenderBlockEnd("Filter") %]
@@ -47,7 +47,7 @@
                 <h2><label for="FilterTemplates">[% Translate("Filter for Templates") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterTemplates" class="W50pc" name="FilterUser" value="" title="[% Translate("Filter for Templates") | html %]"/>
+                <input type="text" id="FilterTemplates" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterUser" value="" title="[% Translate("Filter for Templates") | html %]"/>
             </div>
         </div>
         <div class="WidgetSimple">
@@ -55,7 +55,7 @@
                 <h2><label for="FilterAttachments">[% Translate("Filter for Attachments") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterAttachments" class="W50pc" name="FilterGroups" value="" title="[% Translate("Filter for Attachments") | html %]" />
+                <input type="text" id="FilterAttachments" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGroups" value="" title="[% Translate("Filter for Attachments") | html %]" />
             </div>
         </div>
 
@@ -169,7 +169,7 @@ Core.Form.HideSelectAllCheckboxes($('#TemplateAttachment'), '#SelectAllItemsSele
                         </tbody>
                     </table>
                     <div class="Field SpacingTop">
-                        <button class="Primary" type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button>
+                        <button class="Primary CallForAction" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
                         [% Translate("or") | html %]
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                     </div>
