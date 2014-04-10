@@ -473,6 +473,7 @@ sub _RenderAjax {
         $DynamicFieldCheckParam{ 'DynamicField_' . $DynamicField }
             = $DynamicFieldValues{$DynamicField};
     }
+    $Param{GetParam}->{DynamicField} = \%DynamicFieldCheckParam;
 
     # Get the activity dialog's Submit Param's or Config Params
     DIALOGFIELD:
@@ -511,7 +512,6 @@ sub _RenderAjax {
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 %{ $Param{GetParam} },
-                DynamicField  => \%DynamicFieldCheckParam,
                 ReturnType    => 'Ticket',
                 ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data          => \%AclData,

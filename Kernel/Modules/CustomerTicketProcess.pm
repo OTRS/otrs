@@ -317,6 +317,7 @@ sub _RenderAjax {
     # used for ACL checking
     my %DynamicFieldCheckParam = map { $_ => $Param{GetParam}{$_} }
         grep {m{^DynamicField_}xms} ( keys %{ $Param{GetParam} } );
+    $Param{GetParam}->{DynamicField} = \%DynamicFieldCheckParam;
 
     # Get the activity dialog's Submit Param's or Config Params
     DIALOGFIELD:
@@ -345,8 +346,6 @@ sub _RenderAjax {
             my $PossibleValues = $Self->{BackendObject}->AJAXPossibleValuesGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
-            my %DynamicFieldCheckParam = map { $_ => $Param{GetParam}{$_} }
-                grep {m{^DynamicField_}xms} ( keys %{ $Param{GetParam} } );
 
             # convert possible values key => value to key => key for ACLs usign a Hash slice
             my %AclData = %{$PossibleValues};
@@ -355,7 +354,6 @@ sub _RenderAjax {
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 %{ $Param{GetParam} },
-                DynamicField   => \%DynamicFieldCheckParam,
                 ReturnType     => 'Ticket',
                 ReturnSubType  => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data           => \%AclData,
@@ -381,16 +379,15 @@ sub _RenderAjax {
                 }
             );
         }
-
-        my $JSON = $Self->{LayoutObject}->BuildSelectionJSON( [@JSONCollector] );
-
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
-            Content     => $JSON,
-            Type        => 'inline',
-            NoCache     => 1,
-        );
     }
+    my $JSON = $Self->{LayoutObject}->BuildSelectionJSON( [@JSONCollector] );
+
+    return $Self->{LayoutObject}->Attachment(
+        ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        Content     => $JSON,
+        Type        => 'inline',
+        NoCache     => 1,
+    );
 }
 
 =item _GetParam()
