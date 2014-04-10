@@ -1,4 +1,5 @@
 #3.3.7 2014-??-??
+ - 2014-04-10 Fixed bug#[10446](http://bugs.otrs.org/show_bug.cgi?id=10446) - otrs.PostMasterMailbox.pl Unknown encoding '3DISO-8859-2?=' at /usr/local/otrs/Kernel/System/Encode.pm line 367.
  - 2014-04-10 Fixed bug#[8207](http://bugs.otrs.org/show_bug.cgi?id=8207) - Wrong encoding in graphs.
  - 2014-04-10 Fixed bug#[10416](http://bugs.otrs.org/show_bug.cgi?id=10416) - Customer selection is not translated.
  - 2014-04-10 Fixed bug#[9098](http://bugs.otrs.org/show_bug.cgi?id=9098) - The system still consider the customer_ids, even after field is empty on table customer_user.

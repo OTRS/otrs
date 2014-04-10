@@ -363,6 +363,10 @@ sub EncodingIsAsciiSuperset {
         print STDERR "Need Encoding!\n";
         return;
     }
+    if (!defined Encode::find_encoding($Param{Encoding})) {
+        print STDERR "Unsupported Encoding $Param{Encoding}!\n";
+        return;
+    }
     my $Test = join '', map chr, 0 .. 127;
     return Encode::encode( $Param{Encoding}, $Test )
         eq Encode::encode( 'ASCII',          $Test );
