@@ -157,11 +157,11 @@ MySQL:
 
 PostgreSQL 8.2+:
 
-    shell> cat scripts/DBUpdate-to-3.4.postgresql.sql | psql otrs otrs
+    shell> cat scripts/DBUpdate-to-3.4.postgresql.sql | psql --set ON_ERROR_STOP=on --single-transaction otrs otrs
 
 PostgreSQL, older versions:
 
-    shell> cat scripts/DBUpdate-to-3.4.postgresql_before_8_2.sql | psql otrs otrs
+    shell> cat scripts/DBUpdate-to-3.4.postgresql_before_8_2.sql | psql --set ON_ERROR_STOP=on --single-transaction otrs otrs
 
 
  NOTE: If you use PostgreSQL 8.1 or earlier, you need to activate the new legacy driver
