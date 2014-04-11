@@ -1,0 +1,66 @@
+From dev@mydomain.somewhere  Thu Mar 20 10:00:00 2014
+Return-Path: <dev@mydomain.somewhere>
+X-Original-To: test@mydomain.somewhere
+Delivered-To: test@mydomain.somewhere
+Date: Thu, 20 Mar 2014 10:00:00 +0100
+To: <test@mydomain.somewhere>
+From: <dev@mydomain.somewhere>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="------------Boundary-00=_TEST001"
+Subject: Delivery Status
+Message-ID: <test1234@mydomain.somewhere>
+
+--------------Boundary-00=_TEST001
+Content-Type: text/plain; name="deliveryproblems.txt"
+Content-Disposition: attachment; filename="deliveryproblems.txt"
+
+    --- The following addresses had delivery problems ---
+
+<abc123@mydomain.somewhere>   (5.1.1 unknown or illegal alias: abc123@mydomain.somewhere)
+
+--------------Boundary-00=_TEST001
+Content-Type: message/delivery-status; name="deliverystatus.txt"
+Content-Disposition: attachment; filename="deliverystatus.txt"
+
+Original-Recipient: <abc123@mydomain.somewhere>
+Action: failed
+Diagnostic-Code: smtp; 550 5.1.1 unknown or illegal alias: abc123@mydomain.somewhere
+Remote-MTA: 999.999.999.9
+
+
+--------------Boundary-00=_TEST001
+Content-Type: message/rfc822
+Content-Disposition: attachment
+
+MIME-Version: 1.0
+Subject: Test testtestt 1231234/34/Testtesttes testes testtesttestt -
+ testtesttes =?UTF-8?Q?dokument=C3=B3w?=/=?UTF-8?Q?Sprzeda=C5=BC?=, testTE
+ [...] [TE#123123123]
+Date: Thu, 19 Mar 2014 09:00:00 +0100
+Message-ID: <test4567@mydomain.somewhere>
+To: <abc123@mydomain.somewhere>
+From: <test@mydomain.somewhere>
+Content-Type: multipart/mixed; boundary="----------=__TEST002-39"
+
+------------=__TEST002-39
+Content-Type: multipart/related; boundary="----------=__TEST002-38"
+
+------------=__TEST002-38
+Content-Type: multipart/alternative;
+	boundary="----------=__TEST002-37"
+
+------------=__TEST002-37
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Test
+
+------------=__TEST002-37--
+
+------------=__TEST002-38--
+
+------------=__TEST002-39--
+
+--------------Boundary-00=_TEST001--
+

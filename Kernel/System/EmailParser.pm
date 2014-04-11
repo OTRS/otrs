@@ -767,7 +767,7 @@ sub PartsAttachments {
         }
 
         # trim whitespace
-        $Subject =~ s/^\s+|\n|\s+$//;
+        $Subject =~ s/^\s+|\n|\s+$//g;
         if ( length($Subject) > 246 ) {
             $Subject = substr( $Subject, 0, 246 );
         }
