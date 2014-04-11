@@ -200,50 +200,25 @@ sub GetParam {
     $Self->{HeaderObject}->combine($What);
     my $Line = $Self->{HeaderObject}->get($What) || '';
     chomp($Line);
-    my $ReturnLine = '';
-    my %Remember;
+    my $ReturnLine;
 
-    # Since email headers are supposed to be ASCII (but sometimes
-    # aren't), decoding with something like UTF-7 is wrong in the
-    # general case, and turns '+autoreply' into '櫫梭'.
-    # So only do that for encodings that are a superset of ASCII:
-    my $HeaderEncoding = $Self->{EncodeObject}->FindAsciiSupersetEncoding(
-        Encodings => [ $Self->GetCharset() ],
-    );
-
-    for my $Array ( $Self->_DecodeMimewords( String => $Line ) ) {
-        for ( @{$Array} ) {
-
-            # I don't know, but decode_mimewords() returns each mime
-            # word two times! Remember to the old one. :-(
-            if ( !$Remember{ $Array->[0] } ) {
-                if ( $Array->[0] && $Array->[1] ) {
-                    $Remember{ $Array->[0] } = 1;
-                }
-
-                # Workaround for OE problem:
-                # If a header contains =?iso-8859-1?Q?Fr=F6hlich=2C_Roman?=
-                # which is decoded ->Fröhlich, Roman<- which gets an problem
-                # because this means two email addresses. We add " at
-                # the start and at the end of this types of words mime.
-                if ( $What =~ /^(From|To|Cc)/ && $Array->[1] ) {
-                    if ( $Array->[0] !~ /^("|')/ && $Array->[0] =~ /,/ ) {
-                        $Array->[0] = '"' . $Array->[0] . '"';
-                        $Remember{ $Array->[0] } = 1;
-                    }
-                }
-
-                $ReturnLine .= $Self->{EncodeObject}->Convert2CharsetInternal(
-                    Text  => $Array->[0],
-                    From  => $Array->[1] || $HeaderEncoding,
-                    Check => 1,
-                );
-            }
-            else {
-                $Remember{ $Array->[0] } = undef;
-            }
+    # We need to split address lists before decoding; see "6.2. Display of 'encoded-word's"
+    # in RFC 2047. Mail::Address routines will quote stuff if necessary (i.e. comma
+    # or semicolon found in phrase).
+    if ( $What =~ /^(From|To|Cc)/ ) {
+        for my $Address ( Mail::Address->parse($Line) ) {
+            $Address->phrase( $Self->_DecodeString( String => $Address->phrase() ) );
+            $Address->address( $Self->_DecodeString( String => $Address->address() ) );
+            $Address->comment( $Self->_DecodeString( String => $Address->comment() ) );
+            $ReturnLine .= ', ' if $ReturnLine;
+            $ReturnLine .= $Address->format();
         }
     }
+    else {
+        $ReturnLine = $Self->_DecodeString( String => $Line );
+    }
+
+    $ReturnLine //= '';
 
     # debug
     if ( $Self->{Debug} > 1 ) {
@@ -951,6 +926,35 @@ sub CheckMessageBody {
 }
 
 =begin Internal:
+
+=item _DecodeString()
+
+Decode all encoded substrings.
+
+    my $Result = $Self->_DecodeString(
+        String => 'some text',
+    );
+
+=cut
+
+sub _DecodeString {
+    my ( $Self, %Param ) = @_;
+
+    my $DecodedString;
+
+    for my $Entry ( $Self->_DecodeMimewords( String => $Param{String} ) ) {
+        my $Encoding = $Self->{EncodeObject}->FindAsciiSupersetEncoding(
+            Encodings => [ $Entry->[1], $Self->GetCharset() ],
+        );
+        $DecodedString .= $Self->{EncodeObject}->Convert2CharsetInternal(
+            Text  => $Entry->[0],
+            From  => $Encoding,
+            Check => 1,
+        );
+    }
+
+    return $DecodedString;
+}
 
 =item _DecodeMimewords()
 

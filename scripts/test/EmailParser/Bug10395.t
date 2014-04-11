@@ -1,5 +1,5 @@
 # --
-# BrokenEncoding.t - email parser tests
+# Bug10395.t - email parser tests
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -20,7 +20,7 @@ my $Home = $Self->{ConfigObject}->Get('Home');
 
 # test for bug#1970
 my @Array = ();
-open( my $IN, "<", "$Home/scripts/test/sample/EmailParser/BrokenEncoding.box" );    ## no critic
+open( my $IN, "<", "$Home/scripts/test/sample/EmailParser/Bug10395.box" );    ## no critic
 while (<$IN>) {
     push( @Array, $_ );
 }
@@ -32,17 +32,17 @@ my $EmailParserObject = Kernel::System::EmailParser->new(
     Email => \@Array,
 );
 
-$Self->True(
-    $EmailParserObject->GetMessageBody(),
-    'Body found',
+$Self->Is(
+    $EmailParserObject->GetParam( WHAT => 'From'),
+    '"dev.mydomain.somewhere - Oddział 3 w Warszawie, testtes A1" <dev@ib.pl>',
+    'Check complicated to header',
 );
-
-my @Attachments = $EmailParserObject->GetAttachments();
 
 $Self->Is(
-    scalar @Attachments,
-    1,
-    "Found files",
+    $EmailParserObject->GetParam( WHAT => 'Cc'),
+    '"dev.mydomain.somewhere - Oddział 3 w Warszawie, testtes A1" <dev@ib.pl>, "dev.mydomain.somewhere - Oddział 3 w Warszawie, testtes A1" <dev@ib.pl>, "dev.mydomain.somewhere - Oddział 3 w Warszawie, testtes A1" <dev@ib.pl>',
+    'Check complicated to header',
 );
+
 
 1;
