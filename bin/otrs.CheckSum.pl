@@ -80,7 +80,7 @@ else {
 }
 
 my @Dirs;
-R($Start);
+ProcessDirectory($Start);
 for my $File ( sort keys %Compare ) {
 
     #print "Notice: Removed $Compare{$File}\n";
@@ -91,7 +91,7 @@ if ( $Action eq 'create' ) {
     close $Output;
 }
 
-sub R {
+sub ProcessDirectory {
     my $In = shift;
 
     my @List = glob("$In/*");
@@ -100,17 +100,17 @@ sub R {
     for my $File (@List) {
 
         # clean up directory name
-        $File =~ s/\/\//\//g;
+        $File =~ s{//}{/}smxg;
 
         # always stay in OTRS directory
-        next FILE if $File !~ /^\Q$Start\E/;
+        next FILE if $File !~ m{^\Q$Start\E};
 
         # ignore source code directories, ARCHIVE file
-        next FILE if $File =~ /Entries|Repository|Root|CVS|.git|ARCHIVE/;
+        next FILE if $File =~ m{/.git|/ARCHIVE}smx;
 
         # if it's a directory
         if ( -d $File ) {
-            R($File);
+            ProcessDirectory($File);
             next FILE;
         }
 
@@ -119,15 +119,15 @@ sub R {
 
         # if it's a file
         my $OrigFile = $File;
-        $File =~ s/$Start//;
-        $File =~ s/^\/(.*)$/$1/;
+        $File =~ s{$Start}{}smx;
+        $File =~ s{^/(.*)$}{$1}smx;
 
         # ignore directories
-        next FILE if $File =~ /^doc\//;
-        next FILE if $File =~ /^var\/tmp/;
-        next FILE if $File =~ /^var\/article/;
-        next FILE if $File =~ /js-cache/;
-        next FILE if $File =~ /css-cache/;
+        next FILE if $File =~ m{^doc/}smx;
+        next FILE if $File =~ m{^var/tmp}smx;
+        next FILE if $File =~ m{^var/article}smx;
+        next FILE if $File =~ m{js-cache}smx;
+        next FILE if $File =~ m{css-cache}smx;
 
         # print "File: $File\n";
         open( my $In, '<', $OrigFile ) || die "ERROR: $!";    ## no critic
