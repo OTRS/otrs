@@ -653,7 +653,7 @@ $Self->Is(
 );
 $Self->Is(
     $EmailParserObject->GetParam( WHAT => 'To' ),
-    '<support@example.com>',
+    'support@example.com',
     "#13 GetParam(WHAT => 'To')",
 );
 $MD5 = $Self->{MainObject}->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
@@ -682,12 +682,12 @@ $Self->Is(
 );
 $Self->Is(
     $EmailParserObject->GetParam( WHAT => 'To' ),
-    '<security@example.org>',
+    'security@example.org',
     "#14 GetParam(WHAT => 'To')",
 );
 $Self->Is(
     $EmailParserObject->GetParam( WHAT => 'From' ),
-    'VIAGRA � Official Site <security@example.org>',
+    '"VIAGRA � Official Site" <security@example.org>',
     "#14 GetParam(WHAT => 'From')",
 );
 $MD5 = $Self->{MainObject}->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
