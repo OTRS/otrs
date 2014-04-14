@@ -79,6 +79,7 @@
 
 .Dialog > .Content {
     overflow: hidden;
+    position: relative;
 }
 
 .Dialog > .Content > .InnerContent {
