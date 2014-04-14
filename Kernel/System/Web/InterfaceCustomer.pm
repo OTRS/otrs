@@ -159,8 +159,9 @@ sub Run {
     }
 
     # create common framework objects 2/2
-    $Self->{UserObject} = $Kernel::OM->Get('CustomerUserObject');
-    for my $Needed (qw(GroupObject SessionObject)) {
+    $Self->{UserObject}  = $Kernel::OM->Get('CustomerUserObject');
+    $Self->{GroupObject} = $Kernel::OM->Get('CustomerGroupObject');
+    for my $Needed (qw(SessionObject)) {
         $Self->{$Needed} = $Kernel::OM->Get($Needed);
     }
 
