@@ -48,7 +48,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'add new queue' link
-        $Selenium->find_element( "a.Plus", 'css' )->click();
+        $Selenium->find_element( "a.Create", 'css' )->click();
 
         # check add page
         for my $ID (
