@@ -26,7 +26,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLNew" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Create New ACL") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLNew" class="CallForAction Fullsize Center Create"><span><i class="fa fa-plus-square"></i>[% Translate("Create New ACL") | html %]</span></a>
                     </li>
                     <li>
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLDeploy" class="CallForAction Fullsize Center"><span><i class="fa fa-rocket"></i>[% Translate("Deploy ACLs") | html %]</span></a>

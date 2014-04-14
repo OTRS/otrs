@@ -61,7 +61,7 @@ JAVASCRIPT
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminACL");
 
         # click 'Create new ACL' link
-        $Selenium->find_element( "a.Plus", 'css' )->click();
+        $Selenium->find_element( "a.Create", 'css' )->click();
 
         # check add page
         for my $ID (
