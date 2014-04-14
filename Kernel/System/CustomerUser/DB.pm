@@ -523,7 +523,7 @@ sub CustomerUserDataGet {
     }
 
     # build select
-    my $SQL = 'SELECT ';
+    my $SQL = 'SELECT create_time, change_time, ';
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         $SQL .= " $Entry->[2], ";
     }
@@ -559,7 +559,10 @@ sub CustomerUserDataGet {
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-        my $MapCounter = 0;
+        $Data{CreateTime} = $Row[0];
+        $Data{ChangeTime} = $Row[1];
+
+        my $MapCounter = 2;
 
         for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
             $Data{ $Entry->[0] } = $Row[$MapCounter];
