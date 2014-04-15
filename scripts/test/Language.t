@@ -67,6 +67,11 @@ my %Test = (
         TranslationResult => 'Test6 [Hallo] (A=A;B=B;C=C;D=D)',
         Parameters        => [ 'Hallo', 'A', 'B', 'C', 'D' ],
     },
+    'OTRSLanguageUnitTest::Test7 [% test %] {" special characters %s"}' => {
+        TranslationString => 'Test7 [% test %] {" special characters %s"}',
+        TranslationResult => 'Test7 [% test %] {" special characters test"}',
+        Parameters        => [ 'test' ],
+    },
 );
 
 for my $OriginalString ( sort keys %Test ) {
