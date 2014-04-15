@@ -96,7 +96,7 @@ sub new {
     }
 
     if ( $Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone} ) {
-        $Self->{UserTimeObject} = Kernel::System::Time->new(%Param);
+        $Self->{UserTimeObject} = Kernel::System::Time->new(%{$Self});
     }
     else {
         $Self->{UserTimeObject} = $Self->{TimeObject};
