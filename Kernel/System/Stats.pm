@@ -2841,6 +2841,27 @@ sub _GenerateDynamicStats {
         }
     }
 
+    my $UserObject = Kernel::System::User->new(
+        MainObject   => $Self->{MainObject},
+        ConfigObject => $Self->{ConfigObject},
+        EncodeObject => $Self->{EncodeObject},
+        LogObject    => $Self->{LogObject},
+        TimeObject   => $Self->{TimeObject},
+        DBObject     => $Self->{DBObject},
+    );
+
+    my %User = $UserObject->GetUserData(
+        UserID => $Self->{UserID},
+    );
+
+    my $LanguageObject = Kernel::Language->new(
+        MainObject   => $Self->{MainObject},
+        ConfigObject => $Self->{ConfigObject},
+        EncodeObject => $Self->{EncodeObject},
+        LogObject    => $Self->{LogObject},
+        UserLanguage => $User{UserLanguage},
+    );
+
     # get the selected Xvalue
     my $Xvalue = {};
     my (
@@ -2976,7 +2997,7 @@ sub _GenerateDynamicStats {
                     -1
                     );
                 my $Dow = Day_of_Week( $Year, $Month, $Day );
-                $Dow = Day_of_Week_Abbreviation($Dow);
+                $Dow = $LanguageObject->Translate( Day_of_Week_Abbreviation($Dow) );
                 if ( $ToDay eq $Day ) {
                     push @HeaderLine, "$Dow $Day";
                 }
@@ -3000,9 +3021,10 @@ sub _GenerateDynamicStats {
                     );
                 my %WeekNum;
                 ( $WeekNum{Week}, $WeekNum{Year} ) = Week_of_Year( $Year, $Month, $Day );
+                my $TranslateWeek = $LanguageObject->Translate('week');
                 push(
                     @HeaderLine,
-                    sprintf( "Week %02d-%04d - ", $WeekNum{Week}, $WeekNum{Year} ) .
+                    sprintf( "$TranslateWeek %02d-%04d - ", $WeekNum{Week}, $WeekNum{Year} ) .
                         sprintf(
                         "%02d.%02d.%04d - %02d.%02d.%04d",
                         $Day, $Month, $Year, $ToDay, $ToMonth, $ToYear
@@ -3017,7 +3039,8 @@ sub _GenerateDynamicStats {
                     -1
                     );
                 if ( $ToMonth eq $Month ) {
-                    push @HeaderLine, "$MonthArrayRef->[$Month] $Month";
+                    my $TranslateMonth = $LanguageObject->Translate( $MonthArrayRef->[$Month] );
+                    push @HeaderLine, "$TranslateMonth $Month";
                 }
                 else {
                     push(
@@ -3075,7 +3098,7 @@ sub _GenerateDynamicStats {
         # build the headerline
 
         for my $Valuename ( @{ $Xvalue->{SelectedValues} } ) {
-            push @HeaderLine, $Xvalue->{Values}{$Valuename};
+            push @HeaderLine, $LanguageObject->Translate( $Xvalue->{Values}{$Valuename} );
         }
     }
 
@@ -3092,7 +3115,7 @@ sub _GenerateDynamicStats {
         if ( $Ref1->{Block} ne 'Time' ) {
             my %SelectedValues;
             for my $Ref2 ( @{ $Ref1->{SelectedValues} } ) {
-                $SelectedValues{$Ref2} = $Ref1->{Values}{$Ref2};
+                $SelectedValues{$Ref2} = $LanguageObject->Translate( $Ref1->{Values}{$Ref2} );
             }
             push(
                 @ArraySelected,
@@ -3434,13 +3457,15 @@ sub _GenerateDynamicStats {
 
     # get the first column name in the headerline
     if ($ColumnName) {
-        unshift @HeaderLine, $ColumnName;
+        unshift @HeaderLine, $LanguageObject->Translate($ColumnName);
     }
     elsif ( $ArraySelected[1] ) {
-        unshift( @HeaderLine, $ArraySelected[0]{Name} . ' - ' . $ArraySelected[1]{Name} );
+        unshift( @HeaderLine,
+                  $LanguageObject->Translate( $ArraySelected[0]{Name} ) . ' - '
+                . $LanguageObject->Translate( $ArraySelected[1]{Name} ) );
     }
     elsif ( $ArraySelected[0] ) {
-        unshift( @HeaderLine, $ArraySelected[0]{Name} || '' );
+        unshift( @HeaderLine, $LanguageObject->Translate( $ArraySelected[0]{Name} ) || '' );
     }
     else {
 
