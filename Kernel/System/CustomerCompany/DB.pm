@@ -220,7 +220,7 @@ sub CustomerCompanyGet {
     my $SQL = 'SELECT ' . join( ', ', @Fields );
 
     if ( !$Self->{ForeignDB} ) {
-        $SQL .= ", change_time, create_time";
+        $SQL .= ", create_time, create_by, change_time, change_by";
     }
 
     # this seems to be legacy, if Name is passed it should take precedence over CustomerID
@@ -252,9 +252,12 @@ sub CustomerCompanyGet {
             $MapCounter++;
         }
 
-        $Data{ChangeTime} = $Row[$MapCounter];
-        $MapCounter++;
-        $Data{CreateTime} = $Row[$MapCounter];
+        next ROW if $Self->{ForeignDB};
+
+        for my $Key ( qw(CreateTime CreateBy ChangeTime ChangeBy) ) {
+            $Data{$Key} = $Row[$MapCounter];
+            $MapCounter++;
+        }
     }
 
     # cache request

@@ -98,6 +98,10 @@ sub new {
         $Self->{NotParentDBObject} = 1;
     }
 
+    # this setting specifies if the table has the create_time,
+    # create_by, change_time and change_by fields of OTRS
+    $Self->{ForeignDB} = $Self->{CustomerUserMap}->{Params}->{ForeignDB} ? 1 : 0;
+
     $Self->{CaseSensitive} = $Self->{CustomerUserMap}->{Params}->{CaseSensitive} || 0;
 
     return $Self;
@@ -523,10 +527,15 @@ sub CustomerUserDataGet {
     }
 
     # build select
-    my $SQL = 'SELECT create_time, change_time, ';
+    my $SQL = 'SELECT ';
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         $SQL .= " $Entry->[2], ";
     }
+
+    if ( !$Self->{ForeignDB} ) {
+        $SQL .= "create_time, create_by, change_time, change_by, ";
+    }
+
     $SQL .= $Self->{CustomerKey} . " FROM $Self->{CustomerTable} WHERE ";
 
     # check cache
@@ -557,15 +566,20 @@ sub CustomerUserDataGet {
 
     # fetch the result
     my %Data;
+    ROW:
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-        $Data{CreateTime} = $Row[0];
-        $Data{ChangeTime} = $Row[1];
-
-        my $MapCounter = 2;
+        my $MapCounter = 0;
 
         for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
             $Data{ $Entry->[0] } = $Row[$MapCounter];
+            $MapCounter++;
+        }
+
+        next ROW if $Self->{ForeignDB};
+
+        for my $Key ( qw(CreateTime CreateBy ChangeTime ChangeBy) ) {
+            $Data{$Key} = $Row[$MapCounter];
             $MapCounter++;
         }
     }
@@ -713,8 +727,17 @@ sub CustomerUserAdd {
         next MAPENTRY if $SeenKey{ $Entry->[2] }++;
         $SQL .= " $Entry->[2], ";
     }
-    $SQL .= 'create_time, create_by, change_time, change_by)';
-    $SQL .= ' VALUES (';
+
+    if ( !$Self->{ForeignDB} ) {
+        $SQL .= 'create_time, create_by, change_time, change_by';
+    }
+    else {
+        chop $SQL;
+        chop $SQL;
+    }
+
+    $SQL .= ') VALUES (';
+
     my %SeenValue;
     ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
@@ -723,9 +746,14 @@ sub CustomerUserAdd {
         $SQL .= " ?, ";
         push @Bind, \$Value{ $Entry->[0] };
     }
-    $SQL .= "current_timestamp, ?, current_timestamp, ?)";
-    push @Bind, \$Param{UserID};
-    push @Bind, \$Param{UserID};
+
+    if ( !$Self->{ForeignDB} ) {
+        $SQL .= 'current_timestamp, ?, current_timestamp, ?';
+        push @Bind, \$Param{UserID};
+        push @Bind, \$Param{UserID};
+    }
+
+    $SQL .= ')';
 
     return if !$Self->{DBObject}->Do( SQL => $SQL, Bind => \@Bind );
 
@@ -833,10 +861,17 @@ sub CustomerUserUpdate {
         $SQL .= " $Entry->[2] = ?, ";
         push @Bind, \$Value{ $Entry->[0] };
     }
-    $SQL .= " change_time = current_timestamp, ";
-    $SQL .= " change_by = ? ";
-    push @Bind, \$Param{UserID};
-    $SQL .= " WHERE ";
+
+    if ( !$Self->{ForeignDB} ) {
+        $SQL .= 'change_time = current_timestamp, change_by = ?';
+        push @Bind, \$Param{UserID};
+    }
+    else {
+        chop $SQL;
+        chop $SQL;
+    }
+
+    $SQL .= ' WHERE ';
 
     if ( $Self->{CaseSensitive} ) {
         $SQL .= "$Self->{CustomerKey} = ?";
