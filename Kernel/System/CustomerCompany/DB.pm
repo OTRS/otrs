@@ -243,6 +243,7 @@ sub CustomerCompanyGet {
 
     # fetch the result
     my %Data;
+    ROW:
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         my $MapCounter = 0;
