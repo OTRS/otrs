@@ -58,6 +58,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.7 2014-??-??
+ - 2014-04-16 Fixed bug#[8253](http://bugs.otrs.org/show_bug.cgi?id=8253) - Missing hover texts for actions in German translation of AgentTicketZoom.
  - 2014-04-15 Fixed bug#[10442](http://bugs.otrs.org/show_bug.cgi?id=10442) - Translation of states in statistic widgets (Dashboard).
  - 2014-04-11 Fixed bug#[10395](http://bugs.otrs.org/show_bug.cgi?id=10395) - E-mail header parsing bug.
  - 2014-04-11 Fixed bug#[10394](http://bugs.otrs.org/show_bug.cgi?id=10394) - rfc822 attachments name creating bug and validation enhancement.
