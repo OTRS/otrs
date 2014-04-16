@@ -15,18 +15,18 @@
             [% Translate("Link Object: %s", Data.SourceObjectLong) | html %]
         </h1>
         <p>
-            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close" id="CloseLink">[% Translate("Close window") | html %]</a>
+            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close" id="LinkAddCloseLink">[% Translate("Close window") | html %]</a>
 
-[% RenderBlockStart("TemporaryLink") %]
+[% RenderBlockStart("LinkAddTemporaryLink") %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-    $('#CloseLink').bind('click', function (Event) {
+    $('#LinkAddCloseLink').bind('click', function (Event) {
         window.close();
         return false;
     });
 //]]></script>
 [% END %]
-[% RenderBlockEnd("TemporaryLink") %]
+[% RenderBlockEnd("LinkAddTemporaryLink") %]
 
 [% RenderBlockStart("LinkMenuDelete") %]
             [% Translate("or") | html %]
@@ -137,7 +137,19 @@
             [% Translate("Unlink Object: %s", Data.SourceObjectNormal) | html %]
         </h1>
         <p>
-            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close">[% Translate("Close window") | html %]</a>
+            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close" id="LinkDeleteCloseLink">[% Translate("Close window") | html %]</a>
+
+[% RenderBlockStart("LinkDeleteTemporaryLink") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#LinkDeleteCloseLink').bind('click', function (Event) {
+        window.close();
+        return false;
+    });
+//]]></script>
+[% END %]
+[% RenderBlockEnd("LinkDeleteTemporaryLink") %]
+
             [% Translate("or") | html %]
             <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Mode=[% Data.Mode | uri %];SourceObject=[% Data.SourceObject | uri %];SourceKey=[% Data.SourceKey | uri %];TargetIdentifier=[% Data.TargetIdentifier | uri %]" class="menuitem">
                 [% Translate("go to link add screen") | html %]
