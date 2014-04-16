@@ -33,16 +33,15 @@ my $EmailParserObject = Kernel::System::EmailParser->new(
 );
 
 $Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'From'),
+    $EmailParserObject->GetParam( WHAT => 'From' ),
     '"dev.mydomain.somewhere - Oddział 3 w Warszawie, testtes A1" <dev@ib.pl>',
     'Check complicated to header',
 );
 
 $Self->Is(
-    $EmailParserObject->GetParam( WHAT => 'Cc'),
+    $EmailParserObject->GetParam( WHAT => 'Cc' ),
     '"dev.mydomain.somewhere - Oddział 3 w Warszawie, testtes A1" <dev@ib.pl>, "dev.mydomain.somewhere - Oddział 3 w Warszawie, testtes A1" <dev@ib.pl>, "dev.mydomain.somewhere - Oddział 3 w Warszawie, testtes A1" <dev@ib.pl>',
     'Check complicated to header',
 );
-
 
 1;

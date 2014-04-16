@@ -363,7 +363,7 @@ sub EncodingIsAsciiSuperset {
         print STDERR "Need Encoding!\n";
         return;
     }
-    if (!defined Encode::find_encoding($Param{Encoding})) {
+    if ( !defined Encode::find_encoding( $Param{Encoding} ) ) {
         print STDERR "Unsupported Encoding $Param{Encoding}!\n";
         return;
     }
