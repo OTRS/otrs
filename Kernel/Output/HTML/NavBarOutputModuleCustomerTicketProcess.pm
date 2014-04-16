@@ -145,6 +145,9 @@ sub Run {
     # return nothing to display the menu item
     return if $DisplayMenuItem;
 
+    # translate the menu item text
+    $NameForHidden = $Self->{LayoutObject}->{LanguageObject}->Get($NameForHidden);
+
     # add JS snippet to hide the menu item
     my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'CustomerTicketProcessNavigationBar',
