@@ -70,7 +70,7 @@ my %Test = (
     'OTRSLanguageUnitTest::Test7 [% test %] {" special characters %s"}' => {
         TranslationString => 'Test7 [% test %] {" special characters %s"}',
         TranslationResult => 'Test7 [% test %] {" special characters test"}',
-        Parameters        => [ 'test' ],
+        Parameters        => ['test'],
     },
 );
 

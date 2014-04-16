@@ -21,7 +21,7 @@ my $Home = $Self->{ConfigObject}->Get('Home');
 
 # test for bug#1970
 my @Array = ();
-open( my $IN, "<", "$Home/scripts/test/sample/EmailParser/FilenameWithNewline.box" );    ## no critic
+open( my $IN, "<", "$Home/scripts/test/sample/EmailParser/FilenameWithNewline.box" );   ## no critic
 while (<$IN>) {
     push( @Array, $_ );
 }
@@ -34,7 +34,6 @@ my $EmailParserObject = Kernel::System::EmailParser->new(
 );
 
 my @Attachments = $EmailParserObject->GetAttachments();
-
 
 $Self->Is(
     scalar @Attachments,

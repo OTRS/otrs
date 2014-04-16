@@ -3460,9 +3460,11 @@ sub _GenerateDynamicStats {
         unshift @HeaderLine, $LanguageObject->Translate($ColumnName);
     }
     elsif ( $ArraySelected[1] ) {
-        unshift( @HeaderLine,
-                  $LanguageObject->Translate( $ArraySelected[0]{Name} ) . ' - '
-                . $LanguageObject->Translate( $ArraySelected[1]{Name} ) );
+        unshift(
+            @HeaderLine,
+            $LanguageObject->Translate( $ArraySelected[0]{Name} ) . ' - '
+                . $LanguageObject->Translate( $ArraySelected[1]{Name} )
+        );
     }
     elsif ( $ArraySelected[0] ) {
         unshift( @HeaderLine, $LanguageObject->Translate( $ArraySelected[0]{Name} ) || '' );

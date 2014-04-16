@@ -96,7 +96,7 @@ sub new {
     }
 
     if ( $Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone} ) {
-        $Self->{UserTimeObject} = Kernel::System::Time->new(%{$Self});
+        $Self->{UserTimeObject} = Kernel::System::Time->new( %{$Self} );
     }
     else {
         $Self->{UserTimeObject} = $Self->{TimeObject};
@@ -2499,7 +2499,8 @@ sub NavigationBar {
             $ItemSub->{NameForID} = $ItemSub->{Name};
             $ItemSub->{NameForID} =~ s/[ &;]//ig;
             $ItemSub->{NameTop} = $Item->{NameForID};
-            $ItemSub->{Description} ||= $ItemSub->{Name}; # use 'name' as fallback, this is shown as the link title
+            $ItemSub->{Description}
+                ||= $ItemSub->{Name};    # use 'name' as fallback, this is shown as the link title
             $Self->Block(
                 Name => 'ItemAreaSubItem',    #$Item->{Block} || 'Item',
                 Data => {

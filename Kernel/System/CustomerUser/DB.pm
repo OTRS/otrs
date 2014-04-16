@@ -578,7 +578,7 @@ sub CustomerUserDataGet {
 
         next ROW if $Self->{ForeignDB};
 
-        for my $Key ( qw(CreateTime CreateBy ChangeTime ChangeBy) ) {
+        for my $Key (qw(CreateTime CreateBy ChangeTime ChangeBy)) {
             $Data{$Key} = $Row[$MapCounter];
             $MapCounter++;
         }
