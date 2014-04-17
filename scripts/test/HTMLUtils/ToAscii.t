@@ -171,6 +171,11 @@ Fifth Line',
         Result => 'a b',
         Name   => 'ToAscii - Whitespace removal'
     },
+    {
+        Input  => 'a<style>b</style>c<style type="text/css">d</style  >e',
+        Result => 'ace',
+        Name   => 'ToAscii - <style> removal'
+    },
 );
 
 for my $Test (@Tests) {

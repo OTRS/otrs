@@ -59,6 +59,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.7 2014-??-??
+ - 2014-04-17 Fixed bug#[10468](http://bugs.otrs.org/show_bug.cgi?id=10468) - Wrong regexp in Kernel/System/HTMLUtils.pm line 171.
  - 2014-04-17 Fixed bug#[10441](http://bugs.otrs.org/show_bug.cgi?id=10441) - Eventbased notification - infinite loop.
  - 2014-04-17 Fixed bug#[10428](http://bugs.otrs.org/show_bug.cgi?id=10428) - Event Notification ArticleSend Loop.
  - 2014-04-17 Fixed bug#[10462](http://bugs.otrs.org/show_bug.cgi?id=10462) - Translation of static statistic widgets (Dashboard).
