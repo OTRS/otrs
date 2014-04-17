@@ -205,7 +205,6 @@ my @FileListScripts = (
     glob("$DestDir/scripts/*.sh"),
     glob("$DestDir/scripts/tools/*.pl"),
     glob("$DestDir/scripts/auto_build/*.pl"),
-    "$DestDir/scripts/otrs-scheduler-linux",
     "$DestDir/scripts/suse-rcotrs",
 );
 for my $ExecutableFile (@FileListScripts) {
