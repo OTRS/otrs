@@ -602,7 +602,10 @@ sub _AutoRestart {
     );
 
     # delete PID lock
-    my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+    my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
+        Name  => $PID{Name},
+        Force => 1,
+    );
 
     my $ExitCode;
     if ( !$PIDDelSuccess ) {
@@ -656,7 +659,10 @@ sub _AutoStop {
         my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
         # delete process ID lock
-        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
+            Name  => $PID{Name},
+            Force => 1,
+        );
 
         # log daemon stop
         if ( !$PIDDelSuccess ) {

@@ -42,6 +42,9 @@ use Kernel::System::DB;
 use Kernel::System::PID;
 use Kernel::Scheduler;
 
+# defie PID name
+my $PIDName = 'otrs.Scheduler';
+
 # to store service name
 my $Service = 'OTRSScheduler';
 
@@ -115,17 +118,17 @@ if ( $Opts{w} ) {
     # convert Scheduler path to windows format
     $Scheduler =~ s{/}{\\}g;
 
-    my ( $ServiceStatus, $PID ) = _Status();
+    my ( $ServiceStatusCode, $PID ) = _Status();
 
     my $ExitCode = 0;
-    if ( !$ServiceStatus ) {
+    if ( !$ServiceStatusCode ) {
         $ExitCode = system("\"$^X\" \"$Scheduler\" -a start");
     }
-    elsif ( $ServiceStatus != 4 ) {
+    elsif ( $ServiceStatusCode != 4 ) {
         system("\"$^X\" \"$Scheduler\" -a stop -f 1");
 
-        my $ServiceStatus = _Status();
-        if ( !$ServiceStatus ) {
+        my ( $ServiceStatusCode, $PID ) = _Status();
+        if ( !$ServiceStatusCode ) {
             $ExitCode = system("\"$^X\" \"$Scheduler\" -a start");
         }
         else {
@@ -153,7 +156,7 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
 
         # delete process ID lock
         my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
-            Name  => 'otrs.Scheduler',
+            Name  => $PIDName,
             Force => 1,
         );
     }
@@ -161,7 +164,7 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
 
         # get the process ID
         my %PID = $CommonObject{PIDObject}->PIDGet(
-            Name => 'otrs.Scheduler',
+            Name => $PIDName,
         );
 
         # no process ID means that is not running
@@ -206,16 +209,16 @@ elsif ( $Opts{a} && $Opts{a} eq "status" ) {
     # 0 => 'Custom OTRS Status. PID is not Registered in the DB, It should be stoped'
 
     # query scheduler status
-    my ( $ServiceStatus, $PID ) = _Status();
+    my ( $ServiceStatusCode, $PID ) = _Status();
 
     # no status means that is not running
-    if ( !$ServiceStatus || $ServiceStatus == 1 ) {
+    if ( !$ServiceStatusCode || $ServiceStatusCode == 1 ) {
         print "Not running!\n";
     }
 
     # check if service is running (state 4)
     # for state 2  _Status waits for state 4
-    elsif ( $ServiceStatus eq 4 ) {
+    elsif ( $ServiceStatusCode eq 4 ) {
         print "Running $PID\n"
     }
 
@@ -226,7 +229,7 @@ elsif ( $Opts{a} && $Opts{a} eq "status" ) {
     }
 
     my $ExitCode = 1;
-    if ( $ServiceStatus == 4 ) {
+    if ( $ServiceStatusCode == 4 ) {
         $ExitCode = 0;
     }
     exit $ExitCode;
@@ -240,7 +243,7 @@ elsif ( $Opts{a} && $Opts{a} eq "reload" ) {
 
     # get the process ID
     my %PID = $CommonObject{PIDObject}->PIDGet(
-        Name => 'otrs.Scheduler',
+        Name => $PIDName,
     );
 
     # no process ID means that is not running
@@ -264,7 +267,10 @@ elsif ( $Opts{a} && $Opts{a} eq "reload" ) {
     sleep 2;
 
     # delete process ID lock
-    my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+    my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
+        Name  => $PID{Name},
+        Force => 1,
+    );
 
     # start the scheduler service (same as "play" in service control manager)
     # can't use Win32::Daemon because it is called from outside
@@ -290,7 +296,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     }
 
     # check if PID is already there
-    my %PID = $CommonObject{PIDObject}->PIDGet( Name => 'otrs.Scheduler' );
+    my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
     if (%PID) {
 
@@ -389,13 +395,13 @@ sub _Start {
 
     # create new PID on the Database
     $CommonObject{PIDObject}->PIDCreate(
-        Name  => 'otrs.Scheduler',
+        Name  => $PIDName,
         Force => $Force,
     );
 
     # get the process ID
     my %PID = $CommonObject{PIDObject}->PIDGet(
-        Name => 'otrs.Scheduler',
+        Name => $PIDName,
     );
 
     # get default log path from configuration
@@ -546,7 +552,7 @@ sub _Start {
 
             # get the process ID
             my %PID = $CommonObject{PIDObject}->PIDGet(
-                Name => 'otrs.Scheduler',
+                Name => $PIDName,
             );
 
             # check if process ID was deleted from DB
@@ -624,14 +630,17 @@ sub _Stop {
 
     # get the process ID
     my %PID = $CommonObject{PIDObject}->PIDGet(
-        Name => 'otrs.Scheduler',
+        Name => $PIDName,
     );
 
     # stop the service (this can be called because is part of the main loop)
     Win32::Daemon::StopService();
 
     # delete process ID lock
-    my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => 'otrs.Scheduler' );
+    my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
+        Name  => $PIDName,
+        Force => 1,
+    );
 
     sleep 2;
 
@@ -667,7 +676,7 @@ sub _Status {
 
     # get the process ID
     my %PID = $CommonObject{PIDObject}->PIDGet(
-        Name => 'otrs.Scheduler',
+        Name => $PIDName,
     );
 
     # no process ID means that is not running
@@ -716,7 +725,7 @@ sub _AutoRestart {
 
     # get the process ID
     my %PID = $CommonObject{PIDObject}->PIDGet(
-        Name => 'otrs.Scheduler',
+        Name => $PIDName,
     );
 
     # Log daemon start-up
@@ -726,7 +735,10 @@ sub _AutoRestart {
     );
 
     # delete process ID lock
-    my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+    my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
+        Name  => $PID{Name},
+        Force => 1,
+    );
 
     my $ExitCode;
     if ( !$PIDDelSuccess ) {
@@ -795,11 +807,14 @@ sub _AutoStop {
 
         # get the process ID
         my %PID = $CommonObject{PIDObject}->PIDGet(
-            Name => 'otrs.Scheduler',
+            Name => $PIDName,
         );
 
         # delete process ID lock
-        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
+            Name  => $PID{Name},
+            Force => 1,
+        );
 
         # log daemon stop
         if ( !$PIDDelSuccess ) {
