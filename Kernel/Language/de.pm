@@ -480,6 +480,7 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Statistik',
         'Sum' => 'Summe',
+        'Days' => 'Tage',
         'No (not supported)' => 'Nein (nicht unterstützt)',
         'Please fill out the required fields!' => 'Bitte füllen Sie alle Pflichtfelder aus!',
         'Please select a file!' => 'Bitte wählen Sie eine Datei aus!',

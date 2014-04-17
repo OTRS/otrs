@@ -11,6 +11,7 @@
 [% Translate("Stat") | html %]
 [% Translate("Sum") | html %]
 [% Translate("No (not supported)") | html %]
+[% Translate("Days") | html %]
 
 # Error messages
 [% Translate("Please fill out the required fields!") | html %]

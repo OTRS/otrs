@@ -80,12 +80,21 @@ sub Param {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $LanguageObject = Kernel::Language->new(
+        MainObject   => $Self->{MainObject},
+        ConfigObject => $Self->{ConfigObject},
+        EncodeObject => $Self->{EncodeObject},
+        LogObject    => $Self->{LogObject},
+        UserLanguage => $Param{UserLanguage},
+    );
+
     my $Year  = $Param{Year};
     my $Month = $Param{Month};
 
     my %States = $Self->_GetHistoryTypes();
     my @PossibleStates;
     for my $StateID ( sort { $States{$a} cmp $States{$b} } keys %States ) {
+        $States{$StateID} = $LanguageObject->Translate( $States{$StateID} );
         $States{$StateID} =~ s/^(.{18}).*$/$1\.\.\./;
         push @PossibleStates, $States{$StateID};
     }
@@ -112,7 +121,7 @@ sub Run {
     while ( $TimePiece->mon() == $Param{Month} ) {
 
         # x-label is of format 'Mon 1, Tue 2,' etc
-        my $Text = $TimePiece->wdayname() . ' ' . $TimePiece->mday();
+        my $Text = $LanguageObject->Translate( $TimePiece->wdayname() ) . ' ' . $TimePiece->mday();
 
         push @Days, $Text;
         my @Row = ();
@@ -141,7 +150,7 @@ sub Run {
     }
 
     my $Title = "$Year-$Month";
-    return ( [$Title], [ 'Days', @Days ], @Data );
+    return ( [$Title], [ $LanguageObject->Translate('Days'), @Days ], @Data );
 }
 
 sub _GetHistoryTypes {
