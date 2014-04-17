@@ -519,6 +519,9 @@ Core.Form.Validate = (function (TargetNS) {
 
         if ($ServerErrors.length) {
             $ServerErrors.each(function () {
+                // Show fields with errors that might be in a collapsed box.
+                $(this).parents('.WidgetSimple.Collapsed').toggleClass('Collapsed Expanded');
+                // Highlight error fields.
                 TargetNS.HighlightError(this, 'ServerError');
             });
 
