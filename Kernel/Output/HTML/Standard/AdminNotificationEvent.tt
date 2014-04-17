@@ -251,7 +251,7 @@
                     <div class="WidgetAction Toggle">
                         <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
-                    <h2>[% Translate("Article Filter") | html %] <span class="FieldExplanation">([% Translate("Only for ArticleCreate event") | html %])</span></h2>
+                    <h2>[% Translate("Article Filter") | html %] <span class="FieldExplanation">([% Translate("Only for ArticleCreate and ArticleSend event") | html %])</span></h2>
                 </div>
 
                 <div class="Content">
@@ -260,21 +260,30 @@
                         <label for="ArticleTypeID">[% Translate("Article type") | html %]: </label>
                         <div class="Field">
                             [% Data.ArticleTypesStrg %]
-                            <p class="FieldExplanation">([% Translate("Only for ArticleCreate event") | html %])</p>
+                            <p class="FieldExplanation">([% Translate("Only for ArticleCreate and ArticleSend event") | html %])</p>
+                            <div id="ArticleTypeIDServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.") | html %]</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="ArticleSenderTypeID">[% Translate("Article sender type") | html %]: </label>
                         <div class="Field">
                             [% Data.ArticleSenderTypesStrg %]
-                            <p class="FieldExplanation">([% Translate("Only for ArticleCreate event") | html %])</p>
+                            <p class="FieldExplanation">([% Translate("Only for ArticleCreate and ArticleSend event") | html %])</p>
+                            <div id="ArticleSenderTypeIDServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.") | html %]</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="ArticleSubjectMatch">[% Translate("Subject match") | html %]: </label>
                         <div class="Field">
-                            <input type="text" name="ArticleSubjectMatch" id="ArticleSubjectMatch" class="W50pc" value="[% Data.ArticleSubjectMatch | html %]"/>
-                            <p class="FieldExplanation">([% Translate("Only for ArticleCreate event") | html %])</p>
+                            <input type="text" name="ArticleSubjectMatch" id="ArticleSubjectMatch" class="W50pc [% Data.ArticleSubjectMatchServerError %]" value="[% Data.ArticleSubjectMatch | html %]"/>
+                            <p class="FieldExplanation">([% Translate("Only for ArticleCreate and ArticleSend event") | html %])</p>
+                            <div id="ArticleSubjectMatchServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.") | html %]</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
@@ -282,15 +291,18 @@
                             [% Translate("Body match") | html %]:
                         </label>
                         <div class="Field">
-                            <input type="text" name="ArticleBodyMatch" id="ArticleBodyMatch" class="W50pc" value="[% Data.ArticleBodyMatch | html %]"/>
-                            <p class="FieldExplanation">([% Translate("Only for ArticleCreate event") | html %])</p>
+                            <input type="text" name="ArticleBodyMatch" id="ArticleBodyMatch" class="W50pc [% Data.ArticleBodyMatchServerError %]" value="[% Data.ArticleBodyMatch | html %]"/>
+                            <p class="FieldExplanation">([% Translate("Only for ArticleCreate and ArticleSend event") | html %])</p>
+                            <div id="ArticleBodyMatchServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.") | html %]</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="ArticleAttachmentInclude">[% Translate("Include attachments to notification") | html %]: </label>
                         <div class="Field">
                             [% Data.ArticleAttachmentIncludeStrg %]
-                            <p class="FieldExplanation">([% Translate("Only for ArticleCreate event") | html %])</p>
+                            <p class="FieldExplanation">([% Translate("Only for ArticleCreate and ArticleSend event") | html %])</p>
                         </div>
                         <div class="Clear"></div>
 
@@ -369,7 +381,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="Body" class="Mandatory">
+                        <label for="RichText" class="Mandatory">
                             <span class="Marker">*</span>
                             [% Translate("Text") | html %]:
                         </label>
@@ -379,7 +391,7 @@
 [% InsertTemplate("RichTextEditor.tt") %]
 [% RenderBlockEnd("RichText") %]
 
-                            <textarea id="RichText" class="RichText Validate_Required [% Data.RichTextInvalid | html %]" name="Body" title="Message body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
+                            <textarea id="RichText" class="RichText Validate_RequiredRichText [% Data.BodyServerError | html %]" name="Body" title="Message body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
                             <div id="BodyError" class="TooltipErrorMessage">
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>
