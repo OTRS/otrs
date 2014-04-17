@@ -168,7 +168,7 @@ sub ToAscii {
     $Param{String} =~ s/\r/ /gs;
 
     # remove style tags
-    $Param{String} =~ s/\<style.+?\>.*?\<\/style\>//gsi;
+    $Param{String} =~ s/\<style.*?\>.*?\<\/style[^>]*\>//gsi;
 
     # remove <br>,<br/>,<br />, <br class="name"/>, tags and replace it with \n
     $Param{String} =~ s/\<br(\s{0,3}|\s{1,3}.+?)(\/|)\>/\n/gsi;
