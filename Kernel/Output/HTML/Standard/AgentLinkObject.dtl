@@ -63,9 +63,9 @@
         $(this).closest('form').submit();
     });
     // Two submits in this form
-    // if SubmitSelect button was clicked,
+    // if SubmitSelect or AddLinks button was clicked,
     // add "gotclicked" class to this button
-    $('#SubmitSelect').bind('click.Submit', function () {
+    $('#SubmitSelect, #AddLinks').bind('click.Submit', function () {
        $('#SubmitSelect').addClass('gotclicked');
     });
 

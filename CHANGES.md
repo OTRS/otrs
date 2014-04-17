@@ -1,4 +1,5 @@
 #3.3.7 2014-??-??
+ - 2014-04-17 Fixed bug#[10469](http://bugs.otrs.org/show_bug.cgi?id=10469) - Adding Links in AgentLinkObject not possible if no search term was selected.
  - 2014-04-17 Fixed bug#[10428](http://bugs.otrs.org/show_bug.cgi?id=10428) - Event Notification ArticleSend Loop.
  - 2014-04-17 Fixed bug#[10441](http://bugs.otrs.org/show_bug.cgi?id=10441) - Eventbased notification - infinite loop.
  - 2014-04-17 Fixed bug#[10462](http://bugs.otrs.org/show_bug.cgi?id=10462) - Translation of static statistic widgets (Dashboard).

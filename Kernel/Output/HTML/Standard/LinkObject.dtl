@@ -120,7 +120,7 @@ $Text{"none"}
 <!-- dtl:block:TableComplexBlockFooterAdd -->
         <div class="SpacingTopSmall">
             $Data{"LinkTypeStrg"}
-            <button class="Primary" type="submit" title="$Text{"Add links"}">$Text{"Add links"}</button>
+            <button class="Primary" id="AddLinks" name="AddLinks" type="submit" title="$Text{"Add links"}">$Text{"Add links"}</button>
         </div>
         <input type="hidden" name="SubmitLink" value="$Text{"Link"}" />
 <!-- dtl:block:TableComplexBlockFooterAdd -->
