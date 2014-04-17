@@ -1,0 +1,11 @@
+# --
+# cron/scheduler_watchdog - scheduler watch dog cron of the OTRS
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+# check scheduler status
+*/5 * * * *    $HOME/bin/otrs.Scheduler.pl -w 1 >> /dev/null
