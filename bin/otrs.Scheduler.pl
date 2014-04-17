@@ -34,6 +34,7 @@ use Proc::Daemon;
 use Kernel::System::ObjectManager;
 use Kernel::System::DB;
 use Kernel::System::PID;
+use Kernel::System::VariableCheck qw(:all);
 use Kernel::Scheduler;
 
 # defie PID name
@@ -41,7 +42,7 @@ my $PIDName = 'otrs.Scheduler';
 
 # get options
 my %Opts = ();
-getopt( 'hfap', \%Opts );
+getopt( 'hfapw', \%Opts );
 
 # check if is running on windows
 if ( $^O eq "MSWin32" ) {
@@ -53,6 +54,67 @@ if ( $^O eq "MSWin32" ) {
 if ( $Opts{h} ) {
     _Help();
     exit 1;
+}
+
+# check if watch dog mode is requested
+if ( $Opts{w} ) {
+
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
+        LogObject => {
+            LogPrefix => 'OTRS-otrs.Scheduler-Watchdog',
+        },
+    );
+
+    # create common object
+    my %CommonObject = $Kernel::OM->ObjectHash(
+        Objects => [ 'ConfigObject', 'EncodeObject', 'LogObject', 'MainObject', 'TimeObject' ],
+    );
+
+    $CommonObject{DBObject}  = Kernel::System::DB->new(%CommonObject);
+    $CommonObject{PIDObject} = Kernel::System::PID->new(%CommonObject);
+    $CommonObject{DBObject}  = Kernel::System::DB->new(
+        %CommonObject,
+        AutoConnectNo => 1,
+    );
+
+    # check if OTRS can connecto to the DB
+    if ( !$CommonObject{DBObject}->Connect() ) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Database is not ready!",
+        );
+        exit 0;
+    }
+
+    my $Home      = $CommonObject{ConfigObject}->Get('Home');
+    my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
+
+    my $PID = _Status();
+
+    my $ExitCode = 0;
+    if ( !$PID ) {
+        $ExitCode = system("$Scheduler -a start");
+    }
+    elsif ( $PID == -1 ) {
+        system("$Scheduler -a stop -f 1");
+
+        my $PID = _Status();
+        if ( !$PID ) {
+            $ExitCode = system("$Scheduler -a start");
+        }
+        else {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    'Scheduler was forced to stop but it is still registered, can not continue',
+            );
+            $ExitCode = 1;
+        }
+    }
+
+    # if there is a $PID and it is not -1 then it means that the scheduler is running, nothing to
+    #   do here
+    exit $ExitCode;
 }
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
@@ -123,64 +185,34 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
 # check if a status request is sent
 if ( $Opts{a} && $Opts{a} eq "status" ) {
 
-    # create common objects
-    my %CommonObject = _CommonObjects();
+    my $PID = _Status();
 
-    # get the process ID
-    my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
-
-    # no process ID means that is not running
-    if ( !%PID ) {
-
-        # print 0 if PID option is required
-        if ( $Opts{p} ) {
-            print "0\n";
-        }
-
-        # otherwise print a human meaningful message
-        else {
-            print "Not Running!\n";
-        }
-        exit 1;
-    }
-
-    # log daemon stop
-    $CommonObject{LogObject}->Log(
-        Priority => 'notice',
-        Message  => "Scheduler Daemon status request! PID $PID{PID}",
-    );
-
-    # create a new Daemon object
-    my $Daemon = Proc::Daemon->new();
-
-    # Get the process status
-    if ( $Daemon->Status( $PID{PID} ) ) {
-
-        # print only the PID if PID option is required
-        if ( $Opts{p} ) {
-            print "$PID{PID}\n";
-        }
-
-        # otherwise print a human meaningful message
-        else {
-            print "Running $PID{PID}\n";
-        }
+    if ( $Opts{p} ) {
+        print "$PID\n";
     }
     else {
 
-        # print -1 only id PID option is required, this will differentiate from a correct stop
-        # message
-        if ( $Opts{p} ) {
-            print "-1\n";
+        # no process ID means that is not running
+        if ( !$PID ) {
+            print "Not Running!\n";
         }
 
-        # otherwise print an error message
+        # the process ID is not -1
+        elsif ( IsPositiveInteger($PID) ) {
+            print "Running $PID\n";
+        }
+
+        # a process ID of -1, means that is not running but still registered
         else {
             print
                 "Not Running, but PID is still registered! Use '-a stop --force' to unregister "
                 . "the PID from the database.\n";
-            exit 1;
         }
+    }
+
+    # set the correct exit code
+    if ( !IsPositiveInteger($PID) ) {
+        exit 1;
     }
     exit 0;
 }
@@ -533,6 +565,7 @@ sub _Help {
     print "otrs.Scheduler.pl - OTRS Scheduler Daemon\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print "Usage: otrs.Scheduler.pl -a <ACTION> (start|stop|status) [-f (force)]\n";
+    print "       otrs.Scheduler.pl -w 1 (Watchdog mode)\n";
 
     # Not documented!
     # otrs.Scheduler.pl -a status [-p PID]
@@ -661,5 +694,39 @@ sub _AutoStop {
     }
     $ExitCode = 1;
     return $ExitCode;
+}
 
+sub _Status {
+    my %Param = @_;
+
+    # create common objects
+    my %CommonObject = _CommonObjects();
+
+    # get the process ID
+    my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
+
+    # no process ID means that is not running
+    if ( !%PID ) {
+
+        return 0;
+    }
+
+    # log daemon stop
+    $CommonObject{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "Scheduler Daemon status request! PID $PID{PID}",
+    );
+
+    # create a new Daemon object
+    my $Daemon = Proc::Daemon->new();
+
+    # Get the process status
+    if ( $Daemon->Status( $PID{PID} ) ) {
+
+        # print the process ID
+        return $PID{PID};
+    }
+
+    # otherwise return -1, this means that the process is registed but it not running
+    return -1;
 }

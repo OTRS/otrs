@@ -47,7 +47,7 @@ my $ServiceStatus = {};
 
 # get options
 my %Opts = ();
-getopt( 'haf', \%Opts );
+getopt( 'hafw', \%Opts );
 
 BEGIN {
 
@@ -77,6 +77,70 @@ if ( $Opts{a} && ( $Opts{a} eq "start" || $Opts{a} eq "stop" ) ) {
 if ( $Opts{h} ) {
     _Help();
     exit 0;
+}
+
+# check if watch dog mode is requested
+if ( $Opts{w} ) {
+
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
+        LogObject => {
+            LogPrefix => 'OTRS-otrs.Scheduler-Watchdog',
+        },
+    );
+
+    # create common object
+    my %CommonObject = $Kernel::OM->ObjectHash(
+        Objects => [ 'ConfigObject', 'EncodeObject', 'LogObject', 'MainObject', 'TimeObject' ],
+    );
+
+    $CommonObject{DBObject}  = Kernel::System::DB->new(%CommonObject);
+    $CommonObject{PIDObject} = Kernel::System::PID->new(%CommonObject);
+    $CommonObject{DBObject}  = Kernel::System::DB->new(
+        %CommonObject,
+        AutoConnectNo => 1,
+    );
+
+    # check if OTRS can connecto to the DB
+    if ( !$CommonObject{DBObject}->Connect() ) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Database is not ready!",
+        );
+        exit 0;
+    }
+
+    my $Home      = $CommonObject{ConfigObject}->Get('Home');
+    my $Scheduler = $Home . '/bin/otrs.Scheduler4win.pl';
+
+    # convert Scheduler path to windows format
+    $Scheduler =~ s{/}{\\}g;
+
+    my ( $ServiceStatus, $PID ) = _Status();
+
+    my $ExitCode = 0;
+    if ( !$ServiceStatus ) {
+        $ExitCode = system("\"$^X\" \"$Scheduler\" -a start");
+    }
+    elsif ( $ServiceStatus != 4 ) {
+        system("\"$^X\" \"$Scheduler\" -a stop -f 1");
+
+        my $ServiceStatus = _Status();
+        if ( !$ServiceStatus ) {
+            $ExitCode = system("\"$^X\" \"$Scheduler\" -a start");
+        }
+        else {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    'Scheduler was forced to stop but it is still registered, can not continue',
+            );
+            $ExitCode = 1;
+        }
+    }
+
+    # if there is a $PID and it is not -1 then it means that the scheduler is running, nothing to
+    #   do here
+    exit $ExitCode;
 }
 
 # check if a stop request is sent
@@ -130,8 +194,42 @@ elsif ( $Opts{a} && $Opts{a} eq "servicestop" ) {
 # check if a status request is sent
 elsif ( $Opts{a} && $Opts{a} eq "status" ) {
 
+    # Windows service status table
+    # 5 => 'The service continue is pending.',
+
+    # 6 => 'The service pause is pending.',
+    # 7 => 'The service is paused.',
+    # 4 => 'The service is running.',
+    # 2 => 'The service is starting.',
+    # 3 => 'The service is stopping.',
+    # 1 => 'The service is not running.',
+    # 0 => 'Custom OTRS Status. PID is not Registered in the DB, It should be stoped'
+
     # query scheduler status
-    _Status();
+    my ( $ServiceStatus, $PID ) = _Status();
+
+    # no status means that is not running
+    if ( !$ServiceStatus || $ServiceStatus == 1 ) {
+        print "Not running!\n";
+    }
+
+    # check if service is running (state 4)
+    # for state 2  _Status waits for state 4
+    elsif ( $ServiceStatus eq 4 ) {
+        print "Running $PID\n"
+    }
+
+    # otherwise the process is still register but not running
+    else {
+        print
+            "Not running, but PID still registered! Use '-a stop -force' to unregister the PID from the database.\n";
+    }
+
+    my $ExitCode = 1;
+    if ( $ServiceStatus == 4 ) {
+        $ExitCode = 0;
+    }
+    exit $ExitCode;
 }
 
 # check if a reload request is sent
@@ -276,6 +374,7 @@ sub _Help {
     print "otrs.Scheduler4win.pl - OTRS Scheduler Daemon\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.Scheduler4win.pl -a <ACTION> (start|stop|status|reload) [-f force]\n";
+    print "       otrs.Scheduler4win.pl -w 1 (Watchdog mode)\n";
     return 1;
 }
 
@@ -573,8 +672,7 @@ sub _Status {
 
     # no process ID means that is not running
     if ( !%PID ) {
-        print "Not running!\n";
-        exit 1;
+        return ( 0, 0 );
     }
 
     # log daemon stop
@@ -592,17 +690,7 @@ sub _Status {
         sleep 1;
     }
 
-    # check if service is running (state 4)
-    if ( $ServiceStatus->{CurrentState} eq 4 ) {
-        print "Running $PID{PID}\n"
-    }
-    else {
-        print
-            "Not running, but PID still registered! Use '-a stop -force' to unregister the PID from the database.\n";
-        exit 1;
-    }
-
-    exit 0;
+    return ( $ServiceStatus->{CurrentState}, $PID{PID} );
 }
 
 sub _CommonObjects {

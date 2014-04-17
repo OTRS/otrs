@@ -59,6 +59,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.7 2014-??-??
+ - 2014-04-16 Added OTRS Scheduler Watchdog mode.
  - 2014-04-16 Fixed bug#[10464](http://bugs.otrs.org/show_bug.cgi?id=10464) - Closing link delete screen in AgentTicketPhone reloads page for temporary links.
  - 2014-04-16 Fixed bug#[10461](http://bugs.otrs.org/show_bug.cgi?id=10461) - Link to CustomerTicketProcess in Customer interface displayed even though no process is available..
  - 2014-04-16 Fixed bug#[8253](http://bugs.otrs.org/show_bug.cgi?id=8253) - Missing hover texts for actions in German translation of AgentTicketZoom.
