@@ -67,7 +67,11 @@ use Win32::Daemon;
 use Win32::Service;
 
 # starting and stopping can only be done with UAC enabled
-if ( $Opts{a} && ( $Opts{a} eq "start" || $Opts{a} eq "stop" ) ) {
+if (
+    ( $Opts{a} && ( $Opts{a} eq "start" || $Opts{a} eq "stop" ) )
+    || $Opts{w}
+    )
+{
     require Win32;    ## no critic
 
     if ( !Win32::IsAdminUser() ) {
@@ -80,7 +84,7 @@ if ( $Opts{a} && ( $Opts{a} eq "start" || $Opts{a} eq "stop" ) ) {
 # help option
 if ( $Opts{h} ) {
     _Help();
-    exit 0;
+    exit 1;
 }
 
 # check if watch dog mode is requested
@@ -91,7 +95,7 @@ if ( $Opts{w} ) {
 }
 
 # check if a stop request is sent
-if ( $Opts{a} && $Opts{a} eq "stop" ) {
+elsif ( $Opts{a} && $Opts{a} eq "stop" ) {
 
     my $Force = $Opts{f} ? 1 : '';
 
@@ -140,13 +144,11 @@ elsif ( $Opts{a} && $Opts{a} eq "reload" ) {
     my %CommonObject = _CommonObjects();
 
     # get the process ID
-    my %PID = $CommonObject{PIDObject}->PIDGet(
-        Name => $PIDName,
-    );
+    my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
     # no process ID means that is not running
     if ( !%PID ) {
-        print "Can't get OTRS Scheduler status, it is not running!\n";
+        print "Can't get OTRS Scheduler status because it is not running!\n";
         exit 1;
     }
 
@@ -177,7 +179,7 @@ elsif ( $Opts{a} && $Opts{a} eq "reload" ) {
     exit 0;
 }
 
-# check if a start request is sent
+# check if start request is sent
 elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
     my $Force = $Opts{f} ? 1 : '';
@@ -193,18 +195,19 @@ elsif ( $Opts{a} && $Opts{a} eq "servicestart" ) {
     _ServiceStart();
 }
 
-# otherwise show help
+# invalid option, show help
 else {
-
-    # help option
     _Help();
+    exit 1;
 }
+
+exit 1;
 
 # Internal
 sub _Help {
     print "otrs.Scheduler4win.pl - OTRS Scheduler Daemon\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
-    print "usage: otrs.Scheduler4win.pl -a <ACTION> (start|stop|status|reload) [-f force]\n";
+    print "Usage: otrs.Scheduler4win.pl -a <ACTION> (start|stop|status|reload) [-f force]\n";
     print "       otrs.Scheduler4win.pl -w 1 (Watchdog mode)\n";
     return 1;
 }
@@ -270,11 +273,9 @@ sub _Start {
 
     # check for force to start option
     if (%PID) {
-
         if ( !$Param{Force} ) {
             print
-                "NOTICE: otrs.Scheduler4win.pl is already running (use '-force' if you want to start it\n";
-            print "forced)!\n";
+                "NOTICE: otrs.Scheduler4win.pl is already running (use '-f' if you want to start it forced)!\n";
 
             # log daemon already running
             $CommonObject{LogObject}->Log(
@@ -285,63 +286,20 @@ sub _Start {
             $ExitCode = 1;
             return $ExitCode;
         }
-        else {
-            print
-                "NOTICE: otrs.Scheduler4win.pl was already running but is starting again (force was used)!\n";
 
-            # log daemon forced start
-            $CommonObject{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "Scheduler Service is forced to start!",
-            );
-        }
+        print
+            "NOTICE: otrs.Scheduler4win.pl was already running but is starting again (force was used)!\n";
+
+        # log daemon forced start
+        $CommonObject{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Scheduler Service is forced to start!",
+        );
     }
 
     # start the scheduler service (same as "play" in service control manager)
     # cant use Win32::Daemon because is called from outside
     my $Result = Win32::Service::StartService( '', $Service );
-
-    $ExitCode = $Result ? 0 : 1;
-    return $ExitCode;
-}
-
-sub _Stop {
-    my %Param = @_;
-
-    # create common objects
-    my %CommonObject = _CommonObjects();
-
-    my $ExitCode;
-
-    if ( $Param{Force} ) {
-
-        # delete process ID lock
-        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
-            Name  => $PIDName,
-            Force => 1,
-        );
-    }
-    else {
-
-        # get the process ID
-        my %PID = $CommonObject{PIDObject}->PIDGet(
-            Name => $PIDName,
-        );
-
-        # no process ID means that is not running
-        if ( !%PID ) {
-            print "OTRS scheduler was already in stopped state.\n";
-            $ExitCode = 1;
-            return $ExitCode;
-        }
-    }
-
-    # stop the scheduler service (same as "stop"" in service control manger)
-    # cant use Win32::Daemon because is called from outside
-    my $Result = Win32::Service::StopService( '', $Service );
-
-    # sleep to let service stop successfully
-    sleep 2;
 
     $ExitCode = $Result ? 0 : 1;
     return $ExitCode;
@@ -514,9 +472,7 @@ sub _ServiceStart {
             }
 
             # get the process ID
-            my %PID = $CommonObject{PIDObject}->PIDGet(
-                Name => $PIDName,
-            );
+            my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
             # check if process ID was deleted from DB
             if ( !%PID ) {
@@ -527,7 +483,7 @@ sub _ServiceStart {
                 return $ExitCode;
             }
 
-            # check if Framework.xml file exists, otherwise quits because the otrs installation
+            # check if Framework.xml file exists, otherwise quit because the otrs installation
             # might not be OK. for example UnitTest machines during change scenario process
             my $Home                = $CommonObject{ConfigObject}->Get('Home');
             my $FrameworkConfigFile = $Home . '/Kernel/Config/Files/Framework.xml';
@@ -585,22 +541,60 @@ sub _ServiceStart {
     return 1;
 }
 
+sub _Stop {
+    my %Param = @_;
+
+    # create common objects
+    my %CommonObject = _CommonObjects();
+
+    my $ExitCode;
+
+    if ( $Param{Force} ) {
+
+        # delete process ID lock
+        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
+            Name  => $PIDName,
+            Force => 1,
+        );
+    }
+    else {
+
+        # get the process ID
+        my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
+
+        # no process ID means that is not running
+        if ( !%PID ) {
+            print "Can't stop OTRS Scheduler because is not running!\n";
+            $ExitCode = 1;
+            return $ExitCode;
+        }
+    }
+
+    # stop the scheduler service (same as "stop"" in service control manger)
+    # cant use Win32::Daemon because is called from outside
+    my $Result = Win32::Service::StopService( '', $Service );
+
+    # sleep to let service stop successfully
+    sleep 2;
+
+    $ExitCode = $Result ? 0 : 1;
+    return $ExitCode;
+}
+
 sub _ServiceStop {
 
     # create common objects
     my %CommonObject = _CommonObjects();
 
     # get the process ID
-    my %PID = $CommonObject{PIDObject}->PIDGet(
-        Name => $PIDName,
-    );
+    my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
     # stop the service (this can be called because is part of the main loop)
     Win32::Daemon::StopService();
 
     # delete process ID lock
     my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
-        Name  => $PIDName,
+        Name  => $PID{Name},
         Force => 1,
     );
 
@@ -622,6 +616,7 @@ sub _ServiceStop {
 }
 
 sub _Status {
+    my %Param = @_;
 
     # Windows service status table
     # 5 => 'The service continue is pending.',
@@ -637,9 +632,7 @@ sub _Status {
     my %CommonObject = _CommonObjects();
 
     # get the process ID
-    my %PID = $CommonObject{PIDObject}->PIDGet(
-        Name => $PIDName,
-    );
+    my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
     # no process ID means that is not running
     if ( !%PID ) {
@@ -665,6 +658,7 @@ sub _Status {
         return $PID{PID};
     }
 
+    # otherwise return -1, this means that the process is registed but it not running
     return -1;
 }
 
@@ -675,9 +669,7 @@ sub _AutoRestart {
     my %CommonObject = _CommonObjects();
 
     # get the process ID
-    my %PID = $CommonObject{PIDObject}->PIDGet(
-        Name => $PIDName,
-    );
+    my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
     # Log daemon start-up
     $CommonObject{LogObject}->Log(
@@ -722,9 +714,9 @@ sub _AutoRestart {
     # create a new scheduler instance
     # this process could take more than 30 seconds be aware of that!
     # needs a separate process
-    my $Result = system("\"$^X\" \"$Scheduler\" -a start");
+    my $StartExitCode = system("\"$^X\" \"$Scheduler\" -a start");
 
-    if ( !$Result ) {
+    if ($StartExitCode) {
         $CommonObject{LogObject}->Log(
             Priority => 'error',
             Message  => "Could not start-up new Scheduler instance.",
@@ -757,9 +749,7 @@ sub _AutoStop {
     if ( $Param{DeletePID} ) {
 
         # get the process ID
-        my %PID = $CommonObject{PIDObject}->PIDGet(
-            Name => $PIDName,
-        );
+        my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
         # delete process ID lock
         # scheduler should not delete PIDs from other hots at this point
