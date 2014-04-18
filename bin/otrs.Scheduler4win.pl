@@ -772,10 +772,8 @@ sub _AutoStop {
         );
 
         # delete process ID lock
-        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
-            Name  => $PID{Name},
-            Force => 1,
-        );
+        # scheduler should not delete PIDs from other hots at this point
+        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
 
         # log daemon stop
         if ( !$PIDDelSuccess ) {
