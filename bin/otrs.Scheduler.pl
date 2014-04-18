@@ -393,13 +393,13 @@ sub _Start {
     my $Hangup;
 
     # when we get a INT signal, set the exit flag
-    $SIG{INT} = sub { $Interrupt = 1 };
+    local $SIG{INT} = sub { $Interrupt = 1 };
 
     # when we get a TERM signal, set the exit flag
-    $SIG{TERM} = sub { $Terminate = 1 };
+    local $SIG{TERM} = sub { $Terminate = 1 };
 
     # when get a HUP signal, set HUP flag
-    $SIG{HUP} = sub { $Hangup = 1 };
+    local $SIG{HUP} = sub { $Hangup = 1 };
 
     my $SleepTime = $CommonObject{ConfigObject}->Get('Scheduler::SleepTime') || 1;
 
