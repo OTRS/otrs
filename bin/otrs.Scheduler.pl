@@ -65,11 +65,10 @@ if ( $Opts{w} ) {
 
     my $ExitCode = _WatchDog();
     exit $ExitCode;
-
 }
 
 # check if a stop request is sent
-if ( $Opts{a} && $Opts{a} eq "stop" ) {
+elsif ( $Opts{a} && $Opts{a} eq "stop" ) {
 
     my $Force = $Opts{f} ? 1 : '';
 
@@ -78,7 +77,7 @@ if ( $Opts{a} && $Opts{a} eq "stop" ) {
 }
 
 # check if a status request is sent
-if ( $Opts{a} && $Opts{a} eq "status" ) {
+elsif ( $Opts{a} && $Opts{a} eq "status" ) {
 
     my $PID = _Status();
 
@@ -111,7 +110,7 @@ if ( $Opts{a} && $Opts{a} eq "status" ) {
 }
 
 # check if a reload request is sent
-if ( $Opts{a} && $Opts{a} eq "reload" ) {
+elsif ( $Opts{a} && $Opts{a} eq "reload" ) {
 
     # create common objects
     my %CommonObject = _CommonObjects();
@@ -157,7 +156,7 @@ exit 1;
 sub _Help {
     print "otrs.Scheduler.pl - OTRS Scheduler Daemon\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
-    print "Usage: otrs.Scheduler.pl -a <ACTION> (start|stop|status) [-f (force)]\n";
+    print "Usage: otrs.Scheduler.pl -a <ACTION> (start|stop|status|reload) [-f (force)]\n";
     print "       otrs.Scheduler.pl -w 1 (Watchdog mode)\n";
 
     # Not documented!
@@ -210,11 +209,11 @@ sub _Start {
             # remove PID if changed time is greater than
             if ( $DeltaTime > $PIDUpdateTime ) {
 
-                # _AutoStop returns an exit code for the OS, we need the opposite value
+                # _AutoStop returns an exit code for the OS, we need the opposit value
                 my $PIDDeleteSuccess = !_AutoStop(
-                    Message => 'NOTICE: otrs.Scheduler.pl is registered on the DB, but the '
+                    Message => 'NOTICE: otrs.Scheduler.pl is registered in the DB, but the '
                         . 'registry has not been updated in ' . $DeltaTime . ' seconds!. '
-                        . 'The register will be deleted so Scheduler can start again without '
+                        . 'The registration will be deleted so the Scheduler can start again without '
                         . 'forcing',
                     DeletePID => 1,
                 );
@@ -237,7 +236,7 @@ sub _Start {
                 $CommonObject{LogObject}->Log(
                     Priority => 'error',
                     Message =>
-                        "Scheduler Daemon tries to start but found an already running service!\n",
+                        "Scheduler Daemon tried to start but found an already running service!\n",
                 );
                 $ExitCode = 1;
                 return $ExitCode;
@@ -258,7 +257,6 @@ sub _Start {
             || $CommonObject{ConfigObject}->Get('Home') . '/var/log';
 
         # backup old log files
-        my $FileExt    = '.log';
         my $FileStdOut = $LogPath . '/SchedulerOUT.log';
         my $FileStdErr = $LogPath . '/SchedulerERR.log';
         use File::Copy;
@@ -571,7 +569,6 @@ sub _Status {
 
     # no process ID means that is not running
     if ( !%PID ) {
-
         return 0;
     }
 
@@ -604,13 +601,13 @@ sub _AutoRestart {
     # get the process ID
     my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
-    # Log daemon start up
+    # Log daemon start-up
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
         Message => $Param{Message} || 'Unknown reason to restart',
     );
 
-    # delete PID lock
+    # delete process ID lock
     my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
         Name  => $PID{Name},
         Force => 1,
@@ -727,24 +724,19 @@ sub _WatchDog {
         AutoConnectNo => 1,
     );
 
-    my $ExitCode;
+    my $ExitCode = 0;
 
-    # check if OTRS can connecto to the DB
+    # check if OTRS can connect to the DB
     if ( !$CommonObject{DBObject}->Connect() ) {
         $CommonObject{LogObject}->Log(
             Priority => 'notice',
             Message  => "Database is not ready!",
         );
-        $ExitCode = 0;
         return $ExitCode;
     }
 
-    my $Home      = $CommonObject{ConfigObject}->Get('Home');
-    my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
-
     my $PID = _Status();
 
-    $ExitCode = 0;
     if ( !$PID ) {
         $ExitCode = _Start();
     }
