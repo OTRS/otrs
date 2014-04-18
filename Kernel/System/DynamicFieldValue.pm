@@ -426,7 +426,7 @@ sub ValueValidate {
             SystemTime => $SystemTime,
         );
 
-        return if !defined $TimeStamp;
+        return if !$TimeStamp;
 
         # compare if the date is the same
         return if !( $Value{ValueDateTime} eq $TimeStamp )
