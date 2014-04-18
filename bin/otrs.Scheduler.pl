@@ -70,7 +70,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 );
 
 # check if a stop request is sent
-elsif ( $Opts{a} && $Opts{a} eq "stop" ) {
+if ( $Opts{a} && $Opts{a} eq "stop" ) {
 
     my $Force = $Opts{f} ? 1 : '';
 
