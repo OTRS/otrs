@@ -416,10 +416,10 @@ sub _ServiceStart {
     open( STDERR, ">", $FileStdErr );    ## no critic
 
     # main service loop
-    while ( SERVICE_STOPPED != $State ) {
+    while ( SERVICE_STOPPED() != $State ) {
 
         # check if service is in start pending state
-        if ( SERVICE_START_PENDING == $State ) {
+        if ( SERVICE_START_PENDING() == $State ) {
 
             # Log service start-up
             $CommonObject{LogObject}->Log(
@@ -428,11 +428,11 @@ sub _ServiceStart {
             );
 
             # set running state
-            Win32::Daemon::State(SERVICE_RUNNING);
+            Win32::Daemon::State( SERVICE_RUNNING() );
         }
 
         # check if service is in pause pending state
-        elsif ( SERVICE_PAUSE_PENDING == $State ) {
+        elsif ( SERVICE_PAUSE_PENDING() == $State ) {
 
             # Log service pause
             $CommonObject{LogObject}->Log(
@@ -441,11 +441,11 @@ sub _ServiceStart {
             );
 
             # set paused state
-            Win32::Daemon::State(SERVICE_PAUSED);
+            Win32::Daemon::State( SERVICE_PAUSED() );
         }
 
         # check if service is in continue pending state
-        elsif ( SERVICE_CONTINUE_PENDING == $State ) {
+        elsif ( SERVICE_CONTINUE_PENDING() == $State ) {
 
             # Log service resume
             $CommonObject{LogObject}->Log(
@@ -454,11 +454,11 @@ sub _ServiceStart {
             );
 
             # set running state
-            Win32::Daemon::State(SERVICE_RUNNING);
+            Win32::Daemon::State( SERVICE_RUNNING() );
         }
 
         # check if service is in stop pending state
-        elsif ( SERVICE_STOP_PENDING == $State ) {
+        elsif ( SERVICE_STOP_PENDING() == $State ) {
 
             # Log service stop
             $CommonObject{LogObject}->Log(
@@ -467,11 +467,11 @@ sub _ServiceStart {
             );
 
             # set stop state
-            Win32::Daemon::State(SERVICE_STOPPED);
+            Win32::Daemon::State( SERVICE_STOPPED() );
         }
 
         # check if service is running
-        elsif ( SERVICE_RUNNING == $State ) {
+        elsif ( SERVICE_RUNNING() == $State ) {
 
             if ( !$AlreadyStarted ) {
                 $CommonObject{LogObject}->Log(
