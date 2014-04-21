@@ -294,19 +294,9 @@ Make sure to execute it as the OTRS system user!
 
     shell> /opt/otrs/bin/Cron.sh start
 
-
-17. Activate OTRS Scheduler Service
------------------------------------
-
-This only applies if you did not previously configure the OTRS scheduler service.
-
-OTRS comes with a scheduler service that is used to perform asynchronous tasks.
-
-The OTRS RPMs will set up the Scheduler Service automatically.
-If you install/update from source, you can install the service by copying the
-scripts/otrs-scheduler-linux file to /etc/init.d and giving it the appropriate permissions.
-
-This will make sure the scheduler service starts when the system starts up.
+Note: From OTRS 3.3.7 OTRS Scheduler uses a cronjob to start-up and keep alive. It is necessary to
+activate scheduler_watchdog cronjob on UNIX like environments or schduler4win_watchdog cronjob on
+Microsoft Windows environments.
 
 
 18. Well done!
