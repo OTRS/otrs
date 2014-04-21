@@ -212,6 +212,27 @@ installed before):
 
 - XXX
 
+13. Update and activate cronjobs
+--------------------------------
 
-13. Well done!
+There are several OTRS default cronjobs in $OTRS_HOME/var/cron/*.dist.
+They can be activated by copying them without the ".dist" filename extension.
+Do this to make sure you get the latest versions of the cronjobs and new cronjobs
+as well.
+
+    shell> cd var/cron
+    shell> for foo in *.dist; do cp $foo `basename $foo .dist`; done
+
+Please check the copied files and re-apply any customizations that you might have made.
+
+To schedule these cronjobs on your system, you can use the script Cron.sh.
+Make sure to execute it as the OTRS system user!
+
+    shell> /opt/otrs/bin/Cron.sh start
+
+Note: From OTRS 3.3.7 OTRS Scheduler uses a cronjob to start-up and keep alive. It is necessary to
+activate scheduler_watchdog cronjob on UNIX like environments or schduler4win_watchdog cronjob on
+Microsoft Windows environments.
+
+14. Well done!
 --------------
