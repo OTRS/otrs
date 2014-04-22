@@ -107,6 +107,14 @@ my @Tests = (
         Result   => '"Some data with special characters \' \\"."',
     },
     {
+        Name => 'JSON function complex data',
+        Data => {
+            Array => ["Some data with special characters ' \"."],
+        },
+        Template => '[% JSON(Data.Array) %]',
+        Result   => '["Some data with special characters \' \\"."]',
+    },
+    {
         Name     => 'Translate()',
         Template => '[% Translate("Yes") %]',
         Result   => 'Ja',

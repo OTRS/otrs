@@ -118,13 +118,19 @@ sub new {
         };
     };
 
+    my $JSONFunction = sub {
+        return $LayoutObject->JSONEncode( Data => $_[0] );
+    };
+
     my $JSONFilter = sub {
         return $LayoutObject->JSONEncode( Data => $_[0] );
     };
 
-    $Context->stash()->set( 'Config',    $ConfigFunction );
-    $Context->stash()->set( 'Env',       $EnvFunction );
-    $Context->stash()->set( 'Translate', $TranslateFunction );
+    $Context->stash()->set( 'Config',      $ConfigFunction );
+    $Context->stash()->set( 'Env',         $EnvFunction );
+    $Context->stash()->set( 'Translate',   $TranslateFunction );
+    #$Context->stash()->set( 'Interpolate', $InterpolateFunction );
+    $Context->stash()->set( 'JSON',        $JSONFunction );
     $Context->define_filter( 'Translate',   [ $TranslateFilterFactory,   1 ] );
     $Context->define_filter( 'Localize',    [ $LocalizeFilterFactory,    1 ] );
     $Context->define_filter( 'Interpolate', [ $InterpolateFilterFactory, 1 ] );
