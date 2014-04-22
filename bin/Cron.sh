@@ -71,7 +71,7 @@ case "$1" in
             CRON_USER=" -u $CRON_USER"
         fi
 
-        if mkdir -p $CRON_DIR; cd $CRON_DIR && ls -d * | grep -v '.dist'| grep -v '.rpm'| grep -v CVS | xargs cat > $CRON_TMP_FILE && crontab $CRON_USER $CRON_TMP_FILE; then
+        if mkdir -p $CRON_DIR; cd $CRON_DIR && ls -d * | grep -v '.dist'| grep -v '.rpm'| xargs cat > $CRON_TMP_FILE && crontab $CRON_USER $CRON_TMP_FILE; then
 
             rm -rf $CRON_TMP_FILE
             echo "(using $OTRS_ROOT) done";
