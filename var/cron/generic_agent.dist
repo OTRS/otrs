@@ -1,11 +1,3 @@
-# --
-# cron/generic_agent - otrs.GenericAgent.pl cron of the OTRS
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
-# --
 
 # start generic agent every 20 minutes
 */20 * * * *    $HOME/bin/otrs.GenericAgent.pl >> /dev/null
