@@ -89,6 +89,15 @@ my @Tests = (
         Result   => 'Test: B&B 1234',
     },
     {
+        Name => 'Interpolate function',
+        Data => {
+            Title    => 'B&B [% Data.TicketID %]',
+            TicketID => '1234'
+        },
+        Template => 'Test: [% Interpolate(Data.Title) %]',
+        Result   => 'Test: B&B 1234',
+    },
+    {
         Name     => 'Config()',
         Template => '[% Config("Home") %]',
         Result   => $Self->{ConfigObject}->Get('Home'),

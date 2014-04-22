@@ -106,6 +106,14 @@ sub new {
 
     # This filter processes the data as a template and replaces any contained TT tags.
     # This is expensive and potentially dangerous, use with caution!
+    my $InterpolateFunction = sub {
+        # Don't parse if there are no TT tags present!
+        if ( index( $_[0], '[%' ) == -1 ) {
+            return $_[0];
+        }
+        return $Context->process( \$_[0] );
+    };
+
     my $InterpolateFilterFactory = sub {
         my ( $FilterContext, @Parameters ) = @_;
         return sub {
@@ -129,8 +137,9 @@ sub new {
     $Context->stash()->set( 'Config',      $ConfigFunction );
     $Context->stash()->set( 'Env',         $EnvFunction );
     $Context->stash()->set( 'Translate',   $TranslateFunction );
-    #$Context->stash()->set( 'Interpolate', $InterpolateFunction );
+    $Context->stash()->set( 'Interpolate', $InterpolateFunction );
     $Context->stash()->set( 'JSON',        $JSONFunction );
+
     $Context->define_filter( 'Translate',   [ $TranslateFilterFactory,   1 ] );
     $Context->define_filter( 'Localize',    [ $LocalizeFilterFactory,    1 ] );
     $Context->define_filter( 'Interpolate', [ $InterpolateFilterFactory, 1 ] );
