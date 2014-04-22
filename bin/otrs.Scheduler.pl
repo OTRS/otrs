@@ -50,8 +50,26 @@ getopt( 'hfapw', \%Opts );
 
 # check if is running on windows
 if ( $^O eq "MSWin32" ) {
-    print "This program cannot run on Microsoft Windows. Use otrs.Scheduler4win.pl instead.\n";
-    exit 1;
+    if ( $Opts{w} ) {
+
+        my $ConfigObject = Kernel::Config->new();
+
+        # get the scheduler information to restart
+        my $Home      = $ConfigObject->Get('Home');
+        my $Scheduler = $Home . '/bin/otrs.Scheduler4win.pl';
+
+        # convert Scheduler path to windows format
+        $Scheduler =~ s{/}{\\}g;
+
+        # create a new scheduler instance
+        # this process could take more than 30 seconds be aware of that!
+        # needs a separate process
+        system("\"$^X\" \"$Scheduler\" -w 1");
+    }
+    else {
+        print "This program cannot run on Microsoft Windows. Use otrs.Scheduler4win.pl instead.\n";
+        exit 1;
+    }
 }
 
 # help option

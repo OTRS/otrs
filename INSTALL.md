@@ -212,9 +212,8 @@ Make sure to execute it as the OTRS system user!
 
         shell> /opt/otrs/bin/Cron.sh stop
 
-Note: From OTRS 3.3.7 OTRS Scheduler uses a cronjob to start-up and keep alive. It is necessary to
-activate scheduler_watchdog cronjob on UNIX like environments or schduler4win_watchdog cronjob on
-Microsoft Windows environments.
+Note: From OTRS 3.3.7 OTRS Scheduler uses a cronjob to start-up and keep alive. Please make sure
+that scheduler_watchdog cronjob is activated.
 
 Notes
 =====
