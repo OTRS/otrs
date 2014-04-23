@@ -107,6 +107,7 @@ sub new {
     # This filter processes the data as a template and replaces any contained TT tags.
     # This is expensive and potentially dangerous, use with caution!
     my $InterpolateFunction = sub {
+
         # Don't parse if there are no TT tags present!
         if ( index( $_[0], '[%' ) == -1 ) {
             return $_[0];

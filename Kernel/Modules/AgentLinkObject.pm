@@ -69,7 +69,7 @@ sub Run {
         $TemporarySourceTicketLink = 1;
     }
 
-    # do the permission check only if it is no temporary ticket link used while creating a new ticket
+   # do the permission check only if it is no temporary ticket link used while creating a new ticket
     if ( !$TemporarySourceTicketLink ) {
 
         # permission check
