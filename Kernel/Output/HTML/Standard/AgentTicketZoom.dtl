@@ -807,24 +807,24 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
 # field names
 #<!-- dtl:block:ArticleDynamicFieldField1 -->
 #                        <label>$Text{"$Data{"Label"}"}:</label>
-#<!-- dtl:block:ArticleDynamicField1Link -->
+#<!-- dtl:block:ArticleDynamicFieldField1Link -->
 #                    <p class="Value" title="$QData{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></p>
-#<!-- dtl:block:ArticleDynamicField1Link -->
-#<!-- dtl:block:ArticleDynamicField1Plain -->
+#<!-- dtl:block:ArticleDynamicFieldField1Link -->
+#<!-- dtl:block:ArticleDynamicFieldField1Plain -->
 #                    <p class="Value" title="$QData{"Title"}">$Data{"Value"}</p>
-#<!-- dtl:block:ArticleDynamicField1Plain -->
+#<!-- dtl:block:ArticleDynamicFieldField1Plain -->
 #                        <div class="Clear"></div>
 #<!-- dtl:block:ArticleDynamicFieldField1 -->
 #<!-- dtl:block:ArticleDynamicFieldField2 -->
 #                        <label>$Text{"$Data{"Label"}"}:</label>
-#<!-- dtl:block:ArticleDynamicField2Link -->
+#<!-- dtl:block:ArticleDynamicFieldField2Link -->
 #                    <p class="Value" title="$QData{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></p>
-#<!-- dtl:block:ArticleDynamicField2Link -->
-#<!-- dtl:block:ArticleDynamicField2Plain -->
+#<!-- dtl:block:ArticleDynamicFieldField2Link -->
+#<!-- dtl:block:ArticleDynamicFieldField2Plain -->
 #                    <p class="Value" title="$QData{"Title"}">$Data{"Value"}</p>
-#<!-- dtl:block:ArticleDynamicField2Plain -->
+#<!-- dtl:block:ArticleDynamicFieldField2Plain -->
 #                        <div class="Clear"></div>
-#<!-- dtl:block:ArticleDynamicFieldField2 -->
+#<!-- dtl:block:ArticleDynamicFieldFieldField2 -->
 
 # show article options like signed, crypted, ...
 <!-- dtl:block:ArticleOption -->
