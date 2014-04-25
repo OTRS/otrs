@@ -824,7 +824,7 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
 #                    <p class="Value" title="$QData{"Title"}">$Data{"Value"}</p>
 #<!-- dtl:block:ArticleDynamicFieldField2Plain -->
 #                        <div class="Clear"></div>
-#<!-- dtl:block:ArticleDynamicFieldFieldField2 -->
+#<!-- dtl:block:ArticleDynamicFieldField2 -->
 
 # show article options like signed, crypted, ...
 <!-- dtl:block:ArticleOption -->
