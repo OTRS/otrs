@@ -142,52 +142,6 @@ my $StringSecond = '<?xml version="1.0" encoding="utf-8" ?>
 </otrs_package>
 ';
 
-my $Verification = $PackageObject->PackageVerify(
-    Package => $String,
-    Name    => 'Test',
-);
-
-$Self->Is(
-    $Verification,
-    'not_verified',
-    "PackageVerify() - package 'Test' is NOT verified",
-);
-
-my $Download = $PackageObject->PackageOnlineGet(
-    Source => 'http://ftp.otrs.org/pub/otrs/packages',
-    File   => 'Support-1.4.4.opm',
-);
-
-$Self->True(
-    $Download,
-    "PackageOnlineGet - get Support package from ftp.otrs.org",
-);
-
-$Verification = $PackageObject->PackageVerify(
-    Package => $Download,
-    Name    => 'Support',
-);
-
-$Self->Is(
-    $Verification,
-    'verified',
-    "PackageVerify() - package 'Support' is verified",
-);
-
-# test again with changed line endings, see http://bugs.otrs.org/show_bug.cgi?id=9838
-$Download =~ s{\n}{\r\n}xmsg;
-
-$Verification = $PackageObject->PackageVerify(
-    Package => $Download,
-    Name    => 'Support',
-);
-
-$Self->Is(
-    $Verification,
-    'verified',
-    "PackageVerify() - package 'Support' with changed line endings is verified",
-);
-
 # check if the package is already installed - check by name
 my $PackageIsInstalledByName = $PackageObject->PackageIsInstalled( Name => 'Test' );
 $Self->True(
@@ -255,16 +209,6 @@ $Self->True(
     $PackageInstall,
     '#1 PackageInstall() 2',
 );
-
-my %VerifyAll = $PackageObject->PackageVerifyAll();
-
-for my $PackageName (qw( Test TestSecond )) {
-    $Self->Is(
-        $VerifyAll{$PackageName},
-        'not_verified',
-        "VerifyAll - result for $PackageName",
-    );
-}
 
 $CacheClearedCheck->();
 
