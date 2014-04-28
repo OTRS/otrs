@@ -144,11 +144,11 @@ sub CustomerCompanyList {
                 my @SQLParts;
                 for my $Field ( @{$CustomerCompanySearchFields} ) {
                     if ( $Self->{CaseSensitive} ) {
-                        push @SQLParts, "LOWER($Field) LIKE LOWER(?)";
+                        push @SQLParts, "$Field LIKE ?";
                         push @Bind,     \$Part;
                     }
                     else {
-                        push @SQLParts, "$Field LIKE ?";
+                        push @SQLParts, "LOWER($Field) LIKE LOWER(?)";
                         push @Bind,     \$Part;
                     }
                 }
@@ -229,10 +229,10 @@ sub CustomerCompanyGet {
     $SQL .= " FROM $Self->{CustomerCompanyTable} WHERE ";
 
     if ( $Self->{CaseSensitive} ) {
-        $SQL .= "LOWER($Self->{CustomerCompanyKey}) = LOWER( ? )";
+        $SQL .= "$Self->{CustomerCompanyKey} = ?";
     }
     else {
-        $SQL .= "$Self->{CustomerCompanyKey} = ?";
+        $SQL .= "LOWER($Self->{CustomerCompanyKey}) = LOWER( ? )";
     }
 
     # get initial data
@@ -357,10 +357,10 @@ sub CustomerCompanyUpdate {
     $SQL .= join( ', ', @Fields );
 
     if ( $Self->{CaseSensitive} ) {
-        $SQL .= " WHERE LOWER($Self->{CustomerCompanyKey}) = LOWER( ? )";
+        $SQL .= " WHERE $Self->{CustomerCompanyKey} = ?";
     }
     else {
-        $SQL .= " WHERE $Self->{CustomerCompanyKey} = ?";
+        $SQL .= " WHERE LOWER($Self->{CustomerCompanyKey}) = LOWER( ? )";
     }
     push @Values, \$Param{CustomerCompanyID};
 
