@@ -340,10 +340,20 @@ my $ConfigUpdated = $SysConfigObject->ConfigItemUpdate(
     Key   => 'Scheduler::RestartAfterSeconds',
     Value => $RestartAfterSeconds,
 );
-
 $Self->True(
     $ConfigUpdated,
-    'SysConfig setting was changed.'
+    'SysConfig setting Scheduler::RestartAfterSeconds was changed.'
+);
+
+# set new configuration so scheduler will PID update will be in 60 seconds
+$ConfigUpdated = $SysConfigObject->ConfigItemUpdate(
+    Valid => 1,
+    Key   => 'Scheduler::PIDUpdateTime',
+    Value => 60,
+);
+$Self->True(
+    $ConfigUpdated,
+    'SysConfig setting Scheduler::PIDUpdateTime was changed.'
 );
 
 $CheckAction->(
