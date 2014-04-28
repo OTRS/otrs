@@ -67,6 +67,7 @@ use Apache::DBI;
 
 # core modules
 use Kernel::Config;
+use Kernel::System::ObjectManager;
 use Kernel::System::Web::InterfaceAgent;
 use Kernel::System::Web::InterfaceCustomer;
 use Kernel::System::Web::InterfacePublic;
