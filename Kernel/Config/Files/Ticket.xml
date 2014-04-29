@@ -8688,7 +8688,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PostFilterModule###000-FollowUpArticleTypeCheck" Required="0" Valid="1">
-        <Description Translatable="1">Module to check if arrived emails should be marked as email-internal (because of original forwared internal email it college). ArticleType and SenderType define the values for the arrived email/article.</Description>
+        <Description Translatable="1">Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
