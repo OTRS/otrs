@@ -20,4 +20,18 @@
     <ColumnAdd Name="disposition" Required="false" Size="15" Type="VARCHAR"/>
 </TableAlter>
 
+<TableAlter Name="ticket">
+    <ForeignKeyDrop ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKeyDrop>
+    <ColumnDrop Name="valid_id"/>
+</TableAlter>
+
+<TableAlter Name="ticket_history">
+    <ForeignKeyDrop ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKeyDrop>
+    <ColumnDrop Name="valid_id"/>
+</TableAlter>
+
 </database>

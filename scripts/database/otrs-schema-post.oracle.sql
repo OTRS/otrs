@@ -80,7 +80,6 @@ ALTER TABLE ticket ADD CONSTRAINT FK_ticket_create_by_id FOREIGN KEY (create_by)
 ALTER TABLE ticket ADD CONSTRAINT FK_ticket_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE ticket ADD CONSTRAINT FK_ticket_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);
 ALTER TABLE ticket ADD CONSTRAINT FK_ticket_responsible_user_id1 FOREIGN KEY (responsible_user_id) REFERENCES users (id);
-ALTER TABLE ticket ADD CONSTRAINT FK_ticket_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
 ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
 ALTER TABLE ticket_flag ADD CONSTRAINT FK_ticket_flag_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_article_id34 FOREIGN KEY (article_id) REFERENCES article (id);
@@ -93,7 +92,6 @@ ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_type_id_id FOREIGN K
 ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_owner_id_id FOREIGN KEY (owner_id) REFERENCES users (id);
 ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
-ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
 ALTER TABLE ticket_history_type ADD CONSTRAINT FK_ticket_history_type_creat45 FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE ticket_history_type ADD CONSTRAINT FK_ticket_history_type_chang7e FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE ticket_history_type ADD CONSTRAINT FK_ticket_history_type_valid11 FOREIGN KEY (valid_id) REFERENCES valid (id);

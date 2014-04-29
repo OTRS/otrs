@@ -816,7 +816,6 @@ CREATE TABLE ticket (
     escalation_update_time NUMBER (12, 0) NOT NULL,
     escalation_response_time NUMBER (12, 0) NOT NULL,
     escalation_solution_time NUMBER (12, 0) NOT NULL,
-    valid_id NUMBER (5, 0) NOT NULL,
     archive_flag NUMBER (5, 0) DEFAULT 0 NOT NULL,
     create_time_unix NUMBER (20, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -856,7 +855,6 @@ CREATE INDEX FK_ticket_change_by ON ticket (change_by);
 CREATE INDEX FK_ticket_create_by ON ticket (create_by);
 CREATE INDEX FK_ticket_service_id ON ticket (service_id);
 CREATE INDEX FK_ticket_sla_id ON ticket (sla_id);
-CREATE INDEX FK_ticket_valid_id ON ticket (valid_id);
 CREATE INDEX ticket_archive_flag ON ticket (archive_flag);
 CREATE INDEX ticket_create_time ON ticket (create_time);
 CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
@@ -906,7 +904,6 @@ CREATE TABLE ticket_history (
     owner_id NUMBER (12, 0) NOT NULL,
     priority_id NUMBER (5, 0) NOT NULL,
     state_id NUMBER (5, 0) NOT NULL,
-    valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
@@ -942,7 +939,6 @@ END;
 CREATE INDEX FK_ticket_history_article_id ON ticket_history (article_id);
 CREATE INDEX FK_ticket_history_change_by ON ticket_history (change_by);
 CREATE INDEX FK_ticket_history_create_by ON ticket_history (create_by);
-CREATE INDEX FK_ticket_history_valid_id ON ticket_history (valid_id);
 CREATE INDEX ticket_history_create_time ON ticket_history (create_time);
 CREATE INDEX ticket_history_history_type_id ON ticket_history (history_type_id);
 CREATE INDEX ticket_history_owner_id ON ticket_history (owner_id);

@@ -333,7 +333,6 @@ sub TicketCreate {
     }
 
     # set default values if no values are specified
-    my $ValidID = $Param{ValidID} || 1;
     my $Age = $Self->{TimeObject}->SystemTime();
 
     my $ArchiveFlag = 0;
@@ -471,14 +470,14 @@ sub TicketCreate {
                 user_id, responsible_user_id, ticket_priority_id, ticket_state_id,
                 escalation_time, escalation_update_time, escalation_response_time,
                 escalation_solution_time, timeout, service_id, sla_id, until_time,
-                valid_id, archive_flag, create_time, create_by, change_time, change_by)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, 0, 0, ?, ?, 0, ?, ?,
+                archive_flag, create_time, create_by, change_time, change_by)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, 0, 0, ?, ?, 0, ?,
                 current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{TN}, \$Param{Title}, \$Age, \$Param{TypeID}, \$Param{QueueID},
             \$Param{LockID},     \$Param{OwnerID}, \$Param{ResponsibleID},
             \$Param{PriorityID}, \$Param{StateID}, \$Param{ServiceID},
-            \$Param{SLAID}, \$ValidID, \$ArchiveFlag, \$Param{UserID}, \$Param{UserID},
+            \$Param{SLAID}, \$ArchiveFlag, \$Param{UserID}, \$Param{UserID},
         ],
     );
 
@@ -5057,11 +5056,6 @@ sub HistoryAdd {
         }
     }
 
-    # get ValidID!
-    if ( !$Param{ValidID} ) {
-        $Param{ValidID} = $Self->{ValidObject}->ValidIDsGet();
-    }
-
     # get QueueID
     if ( !$Param{QueueID} ) {
         $Param{QueueID} = $Self->TicketQueueID( TicketID => $Param{TicketID} );
@@ -5117,14 +5111,14 @@ sub HistoryAdd {
     return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO ticket_history '
             . ' (name, history_type_id, ticket_id, article_id, queue_id, owner_id, '
-            . ' priority_id, state_id, type_id, valid_id, '
+            . ' priority_id, state_id, type_id, '
             . ' create_time, create_by, change_time, change_by) '
             . 'VALUES '
-            . '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            . '(?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{Name},    \$Param{HistoryTypeID}, \$Param{TicketID},     \$Param{ArticleID},
             \$Param{QueueID}, \$Param{OwnerID},       \$Param{PriorityID},   \$Param{StateID},
-            \$Param{TypeID},  \$Param{ValidID},       \$Param{CreateUserID}, \$Param{CreateUserID},
+            \$Param{TypeID},  \$Param{CreateUserID},  \$Param{CreateUserID},
         ],
     );
 
