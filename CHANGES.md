@@ -1,4 +1,5 @@
 #3.3.7 2014-??-??
+ - 2014-04-29 Fixed bug#[10470](http://bugs.otrs.org/show_bug.cgi?id=10470) - Need FormID! error when embedding image when creating a Process Ticket.
  - 2014-04-28 Fixed bug#[9876](http://bugs.otrs.org/show_bug.cgi?id=9876) - CaseSensitive option wrong in CustomerCompany.
  - 2014-04-17 Removed OTRS Scheduler Service startup files in favor of Watchdog mode via cron jobs.
  - 2014-04-17 Fixed bug#[10468](http://bugs.otrs.org/show_bug.cgi?id=10468) - Wrong regexp in Kernel/System/HTMLUtils.pm line 171.
