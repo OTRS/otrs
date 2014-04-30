@@ -122,6 +122,9 @@ sub Load {
 
     my $Result;
 
+    # get used YAML implementation
+    my $YAMLImplementation = YAML::Any->implementation();
+
     if ( !eval { $Result = YAML::Any::Load( $Param{Data} ) } ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -131,9 +134,6 @@ sub Load {
             Priority => 'error',
             Message  => 'YAML data was: "' . $Param{Data} . '"',
         );
-
-        # get used YAML implementation
-        my $YAMLImplementation = YAML::Any->implementation();
 
         # if used implementation is pure perl YAML there is nothing to do, but exit with error
         return if $YAMLImplementation eq 'YAML';
@@ -155,9 +155,8 @@ sub Load {
         );
     }
 
-    # YAML does not set the UTF8 flag on strings that need it,
-    #   do that manually now
-    if ( defined $Result ) {
+    # YAML does not set the UTF8 flag on strings that need it, do that manually now.
+    if ( $YAMLImplementation eq 'YAML' && defined $Result ) {
         _AddUTF8Flag( \$Result );
     }
 
