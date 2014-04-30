@@ -136,12 +136,17 @@ sub new {
 
     # check/get extra database configuration options
     # (overwrite auto-detection with config options)
-    for (
-        qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect Encode CaseSensitive LcaseLikeInLargeText)
+    for my $Setting (
+        qw(
+        Type Limit DirectBlob Attribute QuoteSingle QuoteBack
+        Connect Encode CaseSensitive LcaseLikeInLargeText
+        )
         )
     {
-        if ( defined $Param{$_} || defined $Self->{ConfigObject}->Get("Database::$_") ) {
-            $Self->{Backend}->{"DB::$_"} = $Param{$_} // $Self->{ConfigObject}->Get("Database::$_");
+        if ( defined $Param{$Setting} || defined $Self->{ConfigObject}->Get("Database::$Setting") )
+        {
+            $Self->{Backend}->{"DB::$Setting"} = $Param{$Setting}
+                // $Self->{ConfigObject}->Get("Database::$Setting");
         }
     }
 
