@@ -836,22 +836,22 @@ $('#[% Data.FormID | html %] select[name=ResponseID]').bind('change', function (
 # field names
 #[% RenderBlockStart("ArticleDynamicFieldField1") %]
 #                        <label>[% Translate(Data.Label) | html %]:</label>
-#[% RenderBlockStart("ArticleDynamicField1Link") %]
+#[% RenderBlockStart("ArticleDynamicFieldField1Link") %]
 #                    <p class="Value" title="[% Data.Title | html %]"><a href="[% Data.Link %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></p>
 #[% RenderBlockEnd("ArticleDynamicField1Link") %]
-#[% RenderBlockStart("ArticleDynamicField1Plain") %]
+#[% RenderBlockStart("ArticleDynamicFieldField1Plain") %]
 #                    <p class="Value" title="[% Data.Title | html %]">[% Data.Value %]</p>
-#[% RenderBlockEnd("ArticleDynamicField1Plain") %]
+#[% RenderBlockEnd("ArticleDynamicFieldField1Plain") %]
 #                        <div class="Clear"></div>
 #[% RenderBlockEnd("ArticleDynamicFieldField1") %]
 #[% RenderBlockStart("ArticleDynamicFieldField2") %]
 #                        <label>[% Translate(Data.Label) | html %]:</label>
-#[% RenderBlockStart("ArticleDynamicField2Link") %]
+#[% RenderBlockStart("ArticleDynamicFieldField2Link") %]
 #                    <p class="Value" title="[% Data.Title | html %]"><a href="[% Data.Link %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></p>
-#[% RenderBlockEnd("ArticleDynamicField2Link") %]
-#[% RenderBlockStart("ArticleDynamicField2Plain") %]
+#[% RenderBlockEnd("ArticleDynamicFieldField2Link") %]
+#[% RenderBlockStart("ArticleDynamicFieldField2Plain") %]
 #                    <p class="Value" title="[% Data.Title | html %]">[% Data.Value %]</p>
-#[% RenderBlockEnd("ArticleDynamicField2Plain") %]
+#[% RenderBlockEnd("ArticleDynamicFieldField2Plain") %]
 #                        <div class="Clear"></div>
 #[% RenderBlockEnd("ArticleDynamicFieldField2") %]
 
