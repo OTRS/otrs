@@ -849,7 +849,7 @@ $('#[% Data.FormID | html %] select[name=ResponseID]').bind('change', function (
 #[% RenderBlockStart("ArticleDynamicFieldField2Link") %]
 #                    <p class="Value" title="[% Data.Title | html %]"><a href="[% Data.Link %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></p>
 #[% RenderBlockEnd("ArticleDynamicFieldField2Link") %]
-#[% RenderBlockStart("ArticleDynamicField2Plain") %]
+#[% RenderBlockStart("ArticleDynamicFieldField2Plain") %]
 #                    <p class="Value" title="[% Data.Title | html %]">[% Data.Value %]</p>
 #[% RenderBlockEnd("ArticleDynamicFieldField2Plain") %]
 #                        <div class="Clear"></div>
