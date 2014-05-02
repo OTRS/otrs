@@ -210,9 +210,9 @@
 
                     <fieldset class="TableLike">
                         <div class="Field SpacingTop SaveButtons">
-                            <button class="Primary" id="SubmitAndContinue" type="submit" value="[% Translate("Save") | html %]">[% Translate("Save") | html %]</button>
+                            <button class="Primary CallForAction" id="SubmitAndContinue" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
                             [% Translate("or") | html %]
-                            <button class="Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]">[% Translate("Save and finish") | html %]</button>
+                            <button class="Primary CallForAction" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
                         </div>

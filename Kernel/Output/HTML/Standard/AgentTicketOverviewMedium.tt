@@ -57,18 +57,6 @@
             </ul>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-    // Shows InlineActionRow on hover
-    $('.OverviewMedium > li').bind('mouseenter', function() {
-        $(this).find('ul.InlineActions').show();
-    }).bind('mouseleave', function() {
-        $(this).find('ul.InlineActions').hide();
-    });
-
-    // Fix for IE: Hovering the options of the select triggers a mouseleave of the li, so we have to stop the event propagation
-    $('.OverviewMedium > li ul.InlineActions li form select').bind('mouseleave', function (Event) {
-        Event.stopPropagation();
-    });
-
     // Stop propagation on click on a part of the InlienActionRow without a link
     // Otherwise that would trigger the li-wide link to the ticketzoom
     $('ul.InlineActions').click(function (Event) {

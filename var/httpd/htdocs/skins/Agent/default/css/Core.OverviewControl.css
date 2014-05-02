@@ -14,6 +14,10 @@
 /**
  * @subsection  Overview Control General
  */
+.OverviewActions {
+    min-height: 28px;
+}
+
 .OverviewControl {
     background-color: #FFF;
 }
@@ -30,8 +34,8 @@
  * @subsection  Control Row View Zoom
  */
 .OverviewZoom {
-    margin-top: -1px;
     float: right;
+    margin: 0px 10px;
 }
 
 .RTL .OverviewZoom {
@@ -39,100 +43,37 @@
 }
 
 .OverviewZoom li {
-    float: left;
-}
-
-.RTL .OverviewZoom li {
-    float: right;
-}
-
-.OverviewZoom li:first-child {
-    padding-left: 5px;
-}
-
-.RTL .OverviewZoom li:first-child {
-    padding-left: 0;
-    padding-right: 5px;
-}
-
-.OverviewZoom li.Last {
-    padding-right: 5px;
-}
-
-.OverviewZoom li:last-child {
-    padding-right: 5px;
-}
-
-.RTL .OverviewZoom li.Last {
-    padding-right: 0;
-    padding-left: 5px;
-}
-
-.RTL .OverviewZoom li:last-child {
-    padding-right: 0;
-    padding-left: 5px;
-}
-
-.OverviewZoom li.Active a:hover {
-    background: none;
-    border-color: transparent;
+    display: inline-block;
 }
 
 .OverviewZoom a {
-    padding: 5px 0;
-    border-left: 1px solid transparent;
-    border-right: 1px solid transparent;
-    display: block;
+    display: inline-block;
+    line-height: 18px;
+    width: 20px;
+    text-align: center;
+    margin-top: 5px;
+    vertical-align: middle;
+    background: #ccc;
+    color: #333;
 }
 
-.OverviewZoom .ImageMode span.NameLong{
-    display:none;
+.OverviewZoom .Active a,
+.OverviewZoom .Active a:hover {
+    background: #5D5D5D;
+    color: #fff;
 }
 
-.OverviewZoom a .ImageMode {
-    width: 18px;
-    height: 18px;
-    background: url(../img/zoom_sprite.png) no-repeat 0 0;
-    display: block;
-}
-
-.OverviewZoom span.Name{
-    display:none;
-}
-
-.OverviewZoom .NameShort {
-    display:none;
-}
-
-.OverviewZoom .Active .Small .ImageMode {
-    background-position: 0 -36px;
-}
-
-.OverviewZoom .Medium .ImageMode {
-    background-position: -18px 0;
-}
-
-.OverviewZoom .Active .Medium .ImageMode {
-    background-position: -18px -36px;
-}
-
-.OverviewZoom .Preview .ImageMode {
-    background-position: -36px 0;
-}
-
-.OverviewZoom .Active .Preview .ImageMode {
-    background-position: -36px -36px;
+.OverviewZoom a:hover {
+    border-bottom: 0px !important;
+    padding-bottom: 0px !important;
+    background: #BBBBBB;
+    color: #333;
 }
 
 .OverviewZoom + .Pagination {
-    background: transparent url(../img/tab_isolator.png) no-repeat center right;
     height: 10px;
     margin-top: 5px;
     padding-right: 12px;
-}
-
-.RTL .OverviewZoom + .Pagination {
-    background-position: center left;
 }
 
 /**

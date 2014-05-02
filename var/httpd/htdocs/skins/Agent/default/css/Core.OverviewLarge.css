@@ -16,7 +16,7 @@
  */
 
 #TicketOverviewLarge {
-    margin-top: 0px;
+    margin-top: 10px;
 }
 
 .OverviewLarge {
@@ -40,29 +40,30 @@
 
 .OverviewLarge > li {
     position: relative;
-    border-left: 1px solid #C5C5C5;
-    border-right: 1px solid #C5C5C5;
-    border-bottom: 1px solid #C5C5C5;
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+
+.OverviewLarge > li:first-child {
+    border-top: 1px solid #ddd;
 }
 
 .OverviewLarge > li ul.InlineActions {
     position: absolute;
-    top: 0px;
+    top: -25px;
     right: 0px;
-    display: none;
     background-color: #EEE;
-    opacity: 0.9;
-    filter: alpha(opacity=90);
-    height: 100%;
-    margin-right: 0px;
     padding-right: 10px;
     padding-left: 5px;
-    height: 28px;
+    height: 25px;
     float: right;
-    border-bottom-left-radius: 5px;
     cursor: auto;
-    -webkit-box-shadow: -2px 2px 3px #666, 0px 2px 3px #666, -2px 0 3px #666;
-    box-shadow: -2px 2px 3px #666, 0px 2px 3px #666, -2px 0 3px #666;
+    transition: all ease-in 0.2s;
+}
+
+.OverviewLarge > li:hover ul.InlineActions {
+    top: 0px;
 }
 
 .OverviewLarge > li ul.InlineActions li {
@@ -81,6 +82,12 @@
 
 .OverviewLarge > li ul.InlineActions li a {
     color: #000;
+    display: inline-block;
+    margin-right: 3px;
+}
+
+.OverviewLarge > li ul.InlineActions li:last-child a {
+    margin-right: 0px;
 }
 
 .OverviewLarge > li ul.InlineActions li.Even {
@@ -95,6 +102,9 @@
     padding-top: 12px;
     position: relative;
     cursor: pointer;
+    border-left: 5px solid #fff;
+    overflow: hidden;
+    padding-bottom: 10px;
 }
 
 .OverviewLarge .Content.ArticleBody {
@@ -105,30 +115,17 @@
     padding-top: 32px;
 }
 
-.OverviewLarge > li:hover > .Content {
-    background: #F6A72B;
-    background: -moz-linear-gradient(top,  #ffcc76 0%, #fab236 10%, #f9c578 50%, #f6a72b 50%, #e88621 94%, #de721e 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffcc76), color-stop(10%,#fab236), color-stop(50%,#f9c578), color-stop(50%,#f6a72b), color-stop(94%,#e88621), color-stop(100%,#de721e));
-    background: -webkit-linear-gradient(top,  #ffcc76 0%,#fab236 10%,#f9c578 50%,#f6a72b 50%,#e88621 94%,#de721e 100%);
-    background: -o-linear-gradient(top,  #ffcc76 0%,#fab236 10%,#f9c578 50%,#f6a72b 50%,#e88621 94%,#de721e 100%);
-    background: -ms-linear-gradient(top,  #ffcc76 0%,#fab236 10%,#f9c578 50%,#f6a72b 50%,#e88621 94%,#de721e 100%);
-    background: linear-gradient(to bottom,  #ffcc76 0%,#fab236 10%,#f9c578 50%,#f6a72b 50%,#e88621 94%,#de721e 100%);
-}
-
-.OverviewLarge > li:hover .Infos table label {
-    color: #751;
-}
-
-.OverviewLarge > li:hover .Infos table a {
-    color: #fff;
+.OverviewLarge > li:hover > .Content,
+.OverviewLarge > li:hover {
+    border-left-color: #FCB24B !important;
 }
 
 .OverviewLarge > li.Last {
-    border-bottom: 1px solid #BBB;
+    border-bottom: 1px solid #ddd;
 }
 
 .OverviewLarge > li:last-child {
-    border-bottom: 1px solid #BBB;
+    border-bottom: 1px solid #ddd;
 }
 
 .OverviewLarge > li.Even {
@@ -137,6 +134,10 @@
 
 .OverviewLarge > li:nth-child(even) {
     background-color: #F5F5F5;
+}
+
+.OverviewLarge > li:nth-child(even) .Content {
+    border-left-color: #f5f5f5;
 }
 
 .OverviewLarge div.Checkbox {
@@ -165,15 +166,16 @@
 
 .OverviewLarge div.Flag {
     position: absolute;
-    left: -3px;
+    left: 5px;
     top: 37px;
-    width: 20px;
-    height: 12px;
+    width: 25px;
+    height: 15px;
+    border: 1px solid #bbb;
 }
 
 .RTL .OverviewLarge div.Flag {
     left: auto;
-    right: -3px;
+    right: -10px;
 }
 
 .OverviewLarge div.UnreadArticles {
@@ -244,10 +246,6 @@
     border-top: 1px dotted #CCC;
 }
 
-.OverviewLarge li:hover .Infos table tr.Middle {
-    border-top: 1px dotted #961;
-}
-
 .OverviewLarge .Infos table tr.Middle td {
     padding-top: 10px;
 }
@@ -267,14 +265,6 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;    
-}
-
-.OverviewLarge li:hover .Infos table td  {
-    border-left: 1px dotted #961;
-}
-
-.OverviewLarge li:hover .Infos table td:first-child  {
-    border-left: none;
 }
 
 .OverviewLarge .Infos table td:first-child {
@@ -304,18 +294,7 @@
 .OverviewLarge .Preview > ul {
     margin: 0 5px 2px;
     background-color: #FFF;
-    border-right: 1px solid transparent;
-    border-left: 1px solid #C1C1C1;
-    border-bottom: 1px solid #BBB;
-    border-top: 1px solid transparent;
-    border-radius: 5px;
-}
-
-.OverviewLarge > li:hover .Preview > ul {
-    border-top-color: #FBC54E;
-    border-left-color: #7B7670;
-    border-right-color: #EEBF60;
-    border-bottom-color: #F3B739;
+    border: 1px solid #ccc;
 }
 
 .OverviewLarge .Preview li {
@@ -328,41 +307,16 @@
     font-size: 12px;
     background: #E8E8E8;
     border: 1px solid #E1E1E1;
-    border-radius: 3px;
-}
-
-.OverviewLarge .Preview li + li h3 {
-    margin-top: -1px;
 }
 
 .OverviewLarge .Preview li.Active h3 {
-    margin-left: -1px;
     background: #e0e0e0;
-    background: -moz-linear-gradient(top,  #eeeeee 0%, #e0e0e0 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#e0e0e0));
-    background: -webkit-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
-    background: -o-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
-    background: -ms-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
-    background: linear-gradient(to bottom,  #eeeeee 0%,#e0e0e0 100%);
     border-color: #D7D7D7;
-    -webkit-box-shadow: 0 1px 0 #E9E9E9;
-    box-shadow: 0 1px 0 #E9E9E9;
 }
 
 .RTL .OverviewLarge .Preview li.Active h3 {
     margin-left: 0;
     margin-right: -1px;
-}
-
-.OverviewLarge li:hover .Preview h3 {
-    background-color: #D4D4D4;
-    border-color: #B8B8B8;
-}
-
-.OverviewLarge li:hover .Preview li.Active h3 {
-    border-color: #949494;
-    -webkit-box-shadow: 0 1px 0 #5A5A5A;
-    box-shadow: 0 1px 0 #5A5A5A;
 }
 
 .OverviewLarge .Preview h3 a {
@@ -408,13 +362,10 @@
 
 .OverviewLarge .Preview li div.HiddenBlock {
     display: none;
-    border-left: 1px solid #E8E8E8;
     border-right: 1px solid #E8E8E8;
     padding-top: 0;
     padding-bottom: 0;
     overflow: auto;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
 }
 
 .OverviewLarge .Preview li.Active div.HiddenBlock {

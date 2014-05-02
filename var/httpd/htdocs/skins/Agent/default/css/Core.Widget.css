@@ -36,7 +36,6 @@ ul.Tablelike li {
     padding: 0 4px;
     min-height: 20px;
     background-color: #FFF;
-    border-radius: 3px;
 }
 
 ul.Tablelike li.OneRow,
@@ -55,15 +54,7 @@ ul.Tablelike li:nth-child(even) {
 }
 
 ul.Tablelike li:hover {
-    background: #f3960d;
-    background: -moz-linear-gradient(top,  #ffe7bd 0%, #fbba49 20%, #f6ad3e 51%, #f3960d 51%, #e98207 95%, #e07006 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffe7bd), color-stop(20%,#fbba49), color-stop(51%,#f6ad3e), color-stop(51%,#f3960d), color-stop(95%,#e98207), color-stop(100%,#e07006));
-    background: -webkit-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
-    background: -o-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
-    background: -ms-linear-gradient(top,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
-    background: linear-gradient(to bottom,  #ffe7bd 0%,#fbba49 20%,#f6ad3e 51%,#f3960d 51%,#e98207 95%,#e07006 100%);
-    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.3);
-    box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+    background: #FCB24B;
 }
 
 ul.Tablelike li:hover a {
@@ -95,31 +86,19 @@ ul.Tablelike li.Header + li {
  * @subsection  WidgetSimple
  */
 .WidgetSimple {
-    border: 1px solid #CCC;
-    margin-bottom: 10px;
-    border-radius: 2px;
-    background: #f1f1f1;
-    background: -moz-linear-gradient(top,  #f9f9f9 0%, #f1f1f1 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9f9f9), color-stop(100%,#f1f1f1));
-    background: -webkit-linear-gradient(top,  #f9f9f9 0%,#f1f1f1 100%);
-    background: -o-linear-gradient(top,  #f9f9f9 0%,#f1f1f1 100%);
-    background: -ms-linear-gradient(top,  #f9f9f9 0%,#f1f1f1 100%);
-    background: linear-gradient(to bottom,  #f9f9f9 0%,#f1f1f1 100%);
+    margin-bottom: 15px;
+    background: #f5f5f5;
 }
 
 .WidgetSimple > .Header,
 .WidgetSimple.Collapsed.AnimationRunning > .Header {
-    padding: 2px 5px 3px;
-    border: 1px solid #FFF;
-    border-bottom: 1px solid #CCC;
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
+    padding: 2px 5px 2px 5px;
     position: relative;
+    background-color: #e8e8e8;
 }
 
 .WidgetSimple.Collapsed > .Header {
     border-bottom: none;
-    border-radius: 2px;
 }
 
 .WidgetSimple > .Header h2,
@@ -129,14 +108,11 @@ ul.Tablelike li.Header + li {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 13px;
 }
 
 .WidgetSimple > .Content {
     padding: 8px 8px 10px;
-    border: 1px solid #FFF;
-    border-bottom: none;
-    border-bottom-right-radius: 2px;
-    border-bottom-left-radius: 2px;
     overflow: auto;
     /**
      *   START IE9 Hover Bug Workaround
@@ -290,13 +266,9 @@ ul.Tablelike li.Header + li {
  */
 
 .ActionMenu {
-    top: 0;
-    right: 0;
+    top: 4px;
+    right: 3px;
     padding-left: 3px;
-    background: #FFF;
-    border-left: 1px solid #CCC;
-    border-bottom: 1px solid #CCC;
-    border-bottom-left-radius: 2px;
     position: absolute;
     display: none;
 }
@@ -453,21 +425,12 @@ ul.Tablelike li.Header + li {
 
 .CallForAction {
     padding: 0px;
-    background: #f2f2f2;
-    background: -moz-linear-gradient(top,  #f2f2f2 0%, #e0e0e0 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f2f2), color-stop(100%,#e0e0e0));
-    background: -webkit-linear-gradient(top,  #f2f2f2 0%,#e0e0e0 100%);
-    background: -o-linear-gradient(top,  #f2f2f2 0%,#e0e0e0 100%);
-    background: -ms-linear-gradient(top,  #f2f2f2 0%,#e0e0e0 100%);
-    background: linear-gradient(to bottom,  #f2f2f2 0%,#e0e0e0 100%);
-    border: 1px solid #999;
-    border-bottom: 1px solid #888;
-    box-shadow: 0 1px 0 #E6E6E6;
-    -webkit-box-shadow: 0 1px 0 #E6E6E6;
-    border-radius: 3px;
+    background: #eee;
+    border: 1px solid #ccc;
+    border-bottom: 1px solid #bbb;
     display: inline-block;
     cursor: pointer;
-    transition: all ease-in 1s;
+    transition: all ease-in 0.2s;
 }
 
 .CallForAction.Hidden {
@@ -505,7 +468,7 @@ ul.Tablelike li.Header + li {
 
 .CallForAction:hover {
     color: #000;
-    border-color: #696969;
+    border-color: #aaa;
 }
 
 .CallForAction span {
@@ -515,10 +478,8 @@ ul.Tablelike li.Header + li {
     vertical-align: middle;
     color: #333;
     font-size: 11px;
-    font-weight: bold;
     border: 1px solid #FFF;
     border-bottom: none;
-    border-radius: 3px;
     display: block;
     text-shadow: 0 1px 0 #FFF;
     cursor: pointer;
@@ -540,17 +501,10 @@ ul.Tablelike li.Header + li {
     top: 4px;
 }
 
-.CallForAction:active {
-    background-color: #DDD;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-}
-
-.CallForAction:active span {
-    padding: 4px 7px 5px;
-    border-color: #DDD;
-    border-bottom: none;
-    text-shadow: 0 1px 0 #DDD;
+.CallForAction:active,
+.CallForAction:hover {
+    background-color: #e5e5e5;
+    border-color: #999;
 }
 
 .CallForAction.Disabled, .CallForAction.Disabled span {
@@ -574,7 +528,6 @@ input.FilterBox {
     padding: 4px 5px;
     font: normal 12px/15px "Helvetica Neue",Helvetica,Arial,sans-serif;
     border-color: #999;
-    border-radius: 3px 0 0 3px;
     border-right: none;
     vertical-align: bottom;
     width: 213px;
@@ -583,7 +536,6 @@ input.FilterBox {
 .RTL .SearchBox input[type='text']{
     border-left: none;
     border-right: 1px solid #999;
-    border-radius: 0 3px 3px 0;
 }
 
 .SearchBox input:focus {
@@ -610,7 +562,6 @@ input.FilterBox {
     background: -ms-linear-gradient(top,  #f2f2f2 0%,#e0e0e0 100%);
     background: linear-gradient(to bottom,  #f2f2f2 0%,#e0e0e0 100%);
     border: 1px solid #888;
-    border-radius: 0 3px 3px 0;
     text-shadow: 0 1px 0 #FFF;
     vertical-align: baseline;
 }
@@ -618,7 +569,6 @@ input.FilterBox {
 .RTL .SearchBox button {
     height: 25px;
     margin: 0 -4px 0 0;
-    border-radius: 3px 0 0 3px;
     text-shadow: 0 1px 0 #FFF;
     vertical-align: baseline;
     border-right: 1px solid #888;

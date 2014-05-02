@@ -34,9 +34,6 @@
     z-index: 3501;
     min-width: 150px;
     background: #FFF;
-    -webkit-box-shadow: 2px 2px 5px #000;
-    box-shadow: 2px 2px 5px #000;
-    border-radius: 8px;
 }
 
 .Dialog > .Header {
@@ -44,16 +41,8 @@
     display: block;
     position: relative;
     height: 25px;
-    background: #dcdcdc;
-    background: -moz-linear-gradient(top,  #f1f1f1 0%, #dcdcdc 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f1f1f1), color-stop(100%,#dcdcdc));
-    background: -webkit-linear-gradient(top,  #f1f1f1 0%,#dcdcdc 100%);
-    background: -o-linear-gradient(top,  #f1f1f1 0%,#dcdcdc 100%);
-    background: -ms-linear-gradient(top,  #f1f1f1 0%,#dcdcdc 100%);
-    background: linear-gradient(to bottom,  #f1f1f1 0%,#dcdcdc 100%);
+    background: #eee;
     border-bottom: 1px solid #CCC;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
 }
 
 .Dialog > .Header .Close {
@@ -92,33 +81,17 @@
 
 .Dialog > .Content > .ContentFooter {
     padding: 6px 0 5px;
-    background: #d2d2d2;
-    background: -moz-linear-gradient(top,  #f1f1f1 0%, #d2d2d2 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f1f1f1), color-stop(100%,#d2d2d2));
-    background: -webkit-linear-gradient(top,  #f1f1f1 0%,#d2d2d2 100%);
-    background: -o-linear-gradient(top,  #f1f1f1 0%,#d2d2d2 100%);
-    background: -ms-linear-gradient(top,  #f1f1f1 0%,#d2d2d2 100%);
-    background: linear-gradient(to bottom,  #f1f1f1 0%,#d2d2d2 100%);
+    background: #e5e5e5;
     min-height: 20px;
     border-top: 1px solid #CCC;
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 8px;
 }
 
 .Dialog > .Footer {
     padding: 6px 0 5px;
     display: block;
     position: relative;
-    background: #d2d2d2;
-    background: -moz-linear-gradient(top,  #f1f1f1 0%, #d2d2d2 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f1f1f1), color-stop(100%,#d2d2d2));
-    background: -webkit-linear-gradient(top,  #f1f1f1 0%,#d2d2d2 100%);
-    background: -o-linear-gradient(top,  #f1f1f1 0%,#d2d2d2 100%);
-    background: -ms-linear-gradient(top,  #f1f1f1 0%,#d2d2d2 100%);
-    background: linear-gradient(to bottom,  #f1f1f1 0%,#d2d2d2 100%);
+    background: #eee;
     border-top: 1px solid #CCC;
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 8px;
 }
 
 .Dialog > .Footer.ContentFooter {
@@ -172,12 +145,6 @@
 
 .Dialog .Buttons {
     background: #ddd;
-    background: -moz-linear-gradient(top,  #eee 0%, #ddd 50%, #ccc 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee), color-stop(50%,#ddd), color-stop(100%,#ccc));
-    background: -webkit-linear-gradient(top,  #eee 0%,#ddd 50%,#ccc 100%);
-    background: -o-linear-gradient(top,  #eee 0%,#ddd 50%,#ccc 100%);
-    background: -ms-linear-gradient(top,  #eee 0%,#ddd 50%,#ccc 100%);
-    background: linear-gradient(to bottom,  #eee 0%,#ddd 50%,#ccc 100%);
     border-top: 1px solid #ccc;
     margin: 15px -8px -8px;
     padding: 10px 10px 9px 10px;

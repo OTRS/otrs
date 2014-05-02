@@ -15,7 +15,7 @@
  * @subsection  Medium View Overview
  */
 #TicketOverviewMedium {
-    margin-top: 0px;
+    margin-top: 10px;
 }
 
 .OverviewMedium {
@@ -35,30 +35,31 @@
 
 .OverviewMedium li {
     position: relative;
-    border-left: 1px solid #C5C5C5;
-    border-right: 1px solid #C5C5C5;
     border-bottom: 1px solid #C5C5C5;
     min-height: 105px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+
+.OverviewMedium li:first-child {
+    border-top: 1px solid #ddd;
 }
 
 .OverviewMedium li ul.InlineActions {
     position: absolute;
-    top: 0px;
+    top: -25px;
     right: 0px;
-    display: none;
+    height: 25px;
     background-color: #EEE;
-    opacity: 0.9;
-    filter: alpha(opacity=90);
-    height: 100%;
     margin-right: 0px;
     padding-right: 10px;
     padding-left: 5px;
-    height: 28px;
-    float: right;
-    border-bottom-left-radius: 5px;
     cursor: auto;
-    box-shadow: -2px 2px 3px #666, 0px 2px 3px #666, -2px 0 3px #666;
-    -webkit-box-shadow: -2px 2px 3px #666, 0px 2px 3px #666, -2px 0 3px #666;
+    transition: all ease-in 0.2s;
+}
+
+.OverviewMedium li:hover ul.InlineActions {
+    top: 0px;
 }
 
 .OverviewMedium li ul.InlineActions li {
@@ -77,6 +78,8 @@
 
 .OverviewMedium li ul.InlineActions li a {
     color: #000;
+    display: inline-block;
+    margin-right: 3px;
 }
 
 .OverviewMedium li ul.InlineActions li.Even {
@@ -92,32 +95,30 @@
     padding-bottom: 12px;
     cursor: pointer;
     position: relative;
+    border-left: 5px solid #fff;
+    overflow: hidden;
 }
 
-.OverviewMedium li:hover div.Content {
-    background: #F6A72B;
-    background: -moz-linear-gradient(top,  #ffcc76 0%, #fab236 10%, #f9c578 50%, #f6a72b 50%, #e88621 94%, #de721e 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffcc76), color-stop(10%,#fab236), color-stop(50%,#f9c578), color-stop(50%,#f6a72b), color-stop(94%,#e88621), color-stop(100%,#de721e));
-    background: -webkit-linear-gradient(top,  #ffcc76 0%,#fab236 10%,#f9c578 50%,#f6a72b 50%,#e88621 94%,#de721e 100%);
-    background: -o-linear-gradient(top,  #ffcc76 0%,#fab236 10%,#f9c578 50%,#f6a72b 50%,#e88621 94%,#de721e 100%);
-    background: -ms-linear-gradient(top,  #ffcc76 0%,#fab236 10%,#f9c578 50%,#f6a72b 50%,#e88621 94%,#de721e 100%);
-    background: linear-gradient(to bottom,  #ffcc76 0%,#fab236 10%,#f9c578 50%,#f6a72b 50%,#e88621 94%,#de721e 100%);
+.OverviewMedium li:nth-child(even) div.Content {
+    border-left-color: #F5F5F5;
 }
 
-.OverviewMedium li:hover div.Content .Infos a {
-    color: #fff;
+.OverviewMedium li:hover div.Content,
+.OverviewMedium li:hover {
+    border-left-color: #F6A72B !important;
 }
 
-.OverviewMedium li.Last {
-    border-bottom: 1px solid #BBB;
+.OverviewMedium li.Last,
+.OverviewMedium li:last-child {
+    border-bottom: 1px solid #ddd;
 }
 
 .OverviewMedium li.Even {
-    background-color: #EEE;
+    background-color: #F5F5F5;
 }
 
 .OverviewMedium li:nth-child(even) {
-    background-color: #EEE;
+    background-color: #F5F5F5;
 }
 
 .OverviewMedium div.Checkbox {
@@ -145,16 +146,17 @@
 }
 
 .OverviewMedium div.Flag {
-    height: 12px;
-    left: -3px;
-    position: absolute;
     top: 37px;
-    width: 20px;
+    left: 8px;
+    position: absolute;
+    width: 22px;
+    height: 12px;
+    border: 1px solid #bbb;
 }
 
 .RTL .OverviewMedium div.Flag {
     left: auto;
-    right: -3px;
+    right: 8px;
 }
 
 .OverviewMedium div.UnreadArticles {
@@ -246,10 +248,6 @@
 
 .RTL .OverviewMedium table.Infos tr.Last td:first-child {
     padding: 0 10px 5px 10px;
-}
-
-.OverviewMedium li:hover table.Infos td label {
-    color: #634e2d;
 }
 
 .OverviewMedium table.Infos td label {

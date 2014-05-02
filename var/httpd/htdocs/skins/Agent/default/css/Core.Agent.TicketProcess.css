@@ -94,13 +94,17 @@
 }
 
 #DynamicFieldsWidget .Actions strong {
-    display: block;
+    display: inline-block;
     height: 13px;
-    padding: 7px 0px 8px 10px;
+    padding: 7px 0px 7px 3px;
 }
 
 #DynamicFieldsWidget .Actions li:first-child {
     background: none;
+}
+
+#DynamicFieldsWidget .Actions li:first-child:after {
+    content: "";
 }
 
 /**

@@ -52,34 +52,14 @@
     float: right;
 }
 
-.ControlRow li:first-child {
-    border-top-left-radius: 2px;
-}
-
-.RTL .ControlRow li:first-child {
-    border-top-right-radius: 2px;
-}
-
 .ControlRow li:hover {
-    background: #F3970D;
-    background: -moz-linear-gradient(top,  #fdf0df 0%, #fbb948 12%, #f6ad3e 50%, #f3970d 50%, #e27306 97%, #dd6905 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdf0df), color-stop(12%,#fbb948), color-stop(50%,#f6ad3e), color-stop(50%,#f3970d), color-stop(97%,#e27306), color-stop(100%,#dd6905));
-    background: -webkit-linear-gradient(top,  #fdf0df 0%,#fbb948 12%,#f6ad3e 50%,#f3970d 50%,#e27306 97%,#dd6905 100%);
-    background: -o-linear-gradient(top,  #fdf0df 0%,#fbb948 12%,#f6ad3e 50%,#f3970d 50%,#e27306 97%,#dd6905 100%);
-    background: -ms-linear-gradient(top,  #fdf0df 0%,#fbb948 12%,#f6ad3e 50%,#f3970d 50%,#e27306 97%,#dd6905 100%);
-    background: linear-gradient(to bottom,  #fdf0df 0%,#fbb948 12%,#f6ad3e 50%,#f3970d 50%,#e27306 97%,#dd6905 100%);
+    background: #bbb;
 }
 
 .ControlRow li.Active,
 .ControlRow li.Active:hover,
 .ControlRow li.Active:active {
-    background: #333333;
-    background: -moz-linear-gradient(top,  #333333 0%, #585959 50%, #333333 50%, #333333 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#333333), color-stop(50%,#585959), color-stop(50%,#333333), color-stop(100%,#333333));
-    background: -webkit-linear-gradient(top,  #333333 0%,#585959 50%,#333333 50%,#333333 100%);
-    background: -o-linear-gradient(top,  #333333 0%,#585959 50%,#333333 50%,#333333 100%);
-    background: -ms-linear-gradient(top,  #333333 0%,#585959 50%,#333333 50%,#333333 100%);
-    background: linear-gradient(to bottom,  #333333 0%,#585959 50%,#333333 50%,#333333 100%);
+    background: #5D5D5D;
     padding-left: 2px;
 }
 
@@ -102,7 +82,6 @@
 .ControlRow li.Active:hover > a,
 .ControlRow li.Active:active > a {
     color: #FFF;
-    border-top-left-radius: 2px;
 }
 
 .ControlRow li > a > span {
@@ -287,12 +266,6 @@ ul.ContextFunctions li:last-child:hover > a {
     position: relative;
     overflow: hidden;
     background: #eeeeee;
-    background: -moz-linear-gradient(top,  #eeeeee 0%, #e0e0e0 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#e0e0e0));
-    background: -webkit-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
-    background: -o-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
-    background: -ms-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
-    background: linear-gradient(to bottom,  #eeeeee 0%,#e0e0e0 100%);
     border-bottom: 1px solid #ccc;
 }
 
@@ -303,7 +276,6 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .Actions {
-    margin-top: -1px;
     padding: 0;
     float: left;
 }
@@ -313,12 +285,19 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .Actions li {
-    padding: 0 1px 0 3px;
-    margin-left: -3px;
     line-height: 13px;
     font-size: 11px;
-    background: url("../img/tab_isolator.png") no-repeat right center;
-    float: left;
+    display: inline-block;
+}
+
+.Actions li:after {
+    content: "|";
+    display: inline-block;
+    color: #bbb;
+}
+
+.Actions li:last-child:after {
+    content: "";
 }
 
 .RTL .Actions li {
@@ -330,7 +309,7 @@ ul.ContextFunctions li:last-child:hover > a {
 
 .Actions li:first-child {
     margin-left: 0;
-    padding-left: 0;
+    padding-left: 5px;
 }
 
 .RTL .Actions li:first-child {
@@ -348,29 +327,16 @@ ul.ContextFunctions li:last-child:hover > a {
 
 .Actions li a,
 .Actions li span {
-    height: 13px;
-    padding: 7px 5px 8px;
+    padding: 5px 2px;
     color: #000;
-    display: block;
-    border-left: 1px solid transparent;
-    border-right: 1px solid transparent;
-    border-radius: 2px;
+    display: inline-block;
 }
 
 .Actions li a:hover,
 .Actions li span:hover,
 .OverviewZoom a:hover {
-    background: #F3970D;
-    background: -moz-linear-gradient(top,  #fdf0df 0%, #fbb948 12%, #f6ad3e 50%, #f3970d 50%, #e27306 97%, #dd6905 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdf0df), color-stop(12%,#fbb948), color-stop(50%,#f6ad3e), color-stop(50%,#f3970d), color-stop(97%,#e27306), color-stop(100%,#dd6905));
-    background: -webkit-linear-gradient(top,  #fdf0df 0%,#fbb948 12%,#f6ad3e 50%,#f3970d 50%,#e27306 97%,#dd6905 100%);
-    background: -o-linear-gradient(top,  #fdf0df 0%,#fbb948 12%,#f6ad3e 50%,#f3970d 50%,#e27306 97%,#dd6905 100%);
-    background: -ms-linear-gradient(top,  #fdf0df 0%,#fbb948 12%,#f6ad3e 50%,#f3970d 50%,#e27306 97%,#dd6905 100%);
-    background: linear-gradient(to bottom,  #fdf0df 0%,#fbb948 12%,#f6ad3e 50%,#f3970d 50%,#e27306 97%,#dd6905 100%);
-    border-left: 1px solid #F6AE2C;
-    border-right: 1px solid #E2AD51;
-    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.46);
-    box-shadow: 0 1px 0 rgba(0,0,0,0.46);
+    border-bottom: 2px solid #FF9922;
+    padding-bottom: 3px;
 }
 
 .Actions li.NoHover:hover a {
@@ -413,6 +379,7 @@ ul.ContextFunctions li:last-child:hover > a {
 
 .Actions form {
     padding: 4px 8px;
+    display: inline-block;
 }
 
 .Actions li.SortBy {
@@ -426,7 +393,10 @@ ul.ContextFunctions li:last-child:hover > a {
 .Tab.Actions li {
     height: auto;
     padding: 0;
-    background: url(../img/tab_isolator_light.png) no-repeat right 5px;
+}
+
+.Tab.Actions li:after {
+    color: #bbb;
 }
 
 .Tab.Actions li:first-child a {
@@ -438,16 +408,15 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .Tab.Actions li a {
-    padding: 3px 8px 5px;
+    padding: 5px 5px 8px 2px;
     color: #999;
 }
 
 .Tab.Actions li a:hover {
     color: #777;
     background: none;
-    border-color: transparent;
-    -webkit-box-shadow: 0 0 0;
-    box-shadow: 0 0 0;
+    text-decoration: underline;
+    border-bottom: 0px;
 }
 
 .Tab.Actions li.Last {
@@ -491,13 +460,7 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .LightRow.Bottom {
-    background: #eeeeee;
-    background: -moz-linear-gradient(top,  #eeeeee 0%, #e0e0e0 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#e0e0e0));
-    background: -webkit-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
-    background: -o-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
-    background: -ms-linear-gradient(top,  #eeeeee 0%,#e0e0e0 100%);
-    background: linear-gradient(to bottom,  #eeeeee 0%,#e0e0e0 100%);
+    background: #F7F7F7;
     border-bottom: 1px solid #ccc;
 }
 

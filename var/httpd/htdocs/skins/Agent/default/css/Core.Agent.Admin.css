@@ -16,12 +16,17 @@
  * @subsubsection     General
  */
 
+.MainBox > h1 {
+    text-indent: -9999px;
+    height: 1px;
+}
+
 .Admin .WidgetSimple > .Content {
-    padding: 2px 0 2px 2px;
+    padding: 10px 0px 2px 2px;
 }
 
 .RTL .Admin .WidgetSimple > .Content {
-    padding: 2px 2px 2px 0;
+    padding: 10px 2px 2px 0;
 }
 
 .Admin .Size1of2 {
@@ -50,8 +55,6 @@
     color: #F92;
     border: 1px solid transparent;
     border-bottom: none;
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
 }
 
 .RTL .Admin .Size1of2 h4 {
@@ -64,8 +67,6 @@
     line-height: 14px;
     border: 1px solid transparent;
     border-top: none;
-    border-bottom-right-radius: 2px;
-    border-bottom-left-radius: 2px;
 }
 
 .RTL .Admin .Size1of2 p {
@@ -80,6 +81,15 @@
 
 .Admin .Size1of2:hover h4 {
     color: #F72;
+}
+
+.WidgetSimple {
+    border: 0px;
+    margin: 0px 10px 15px 10px !important;
+}
+
+.WidgetSimple h4 {
+    font-weight: normal;
 }
 
 /**

@@ -153,20 +153,14 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
 [% RenderBlockStart("OverviewNavBarViewModeSelected") %]
                         <li class="Active">
                             <a class="[% Data.Name | html %]" name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];Filter=[% Data.Filter | uri %];View=[% Data.View | uri %];[% Data.LinkFilter %]" title="[% Translate(Data.Name) | html %]">
-                                <span class="ImageMode">
-                                    <span class="NameShort">[% Translate(Data.NameShort) | html %]</span>
-                                    <span class="NameLong">[% Translate(Data.Name) | html %]</span>
-                                </span>
+                                [% Translate(Data.NameShort) | html %]
                             </a>
                         </li>
 [% RenderBlockEnd("OverviewNavBarViewModeSelected") %]
 [% RenderBlockStart("OverviewNavBarViewModeNotSelected") %]
                         <li>
                             <a class="[% Data.Name | html %]" name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];Filter=[% Data.Filter | uri %];View=[% Data.View | uri %];[% Data.LinkFilter %]" title="[% Translate(Data.Name) | html %]">
-                                <span class="ImageMode">
-                                    <span class="NameShort">[% Translate(Data.NameShort) | html %]</span>
-                                    <span class="NameLong">[% Translate(Data.Name) | html %]</span>
-                                </span>
+                                [% Translate(Data.NameShort) | html %]
                             </a>
                         </li>
 [% RenderBlockEnd("OverviewNavBarViewModeNotSelected") %]

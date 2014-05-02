@@ -26,9 +26,6 @@ div.EventDetails {
     border: 1px solid #CCC;
     background-color: #EEE;
     padding: 6px;
-    -moz-box-shadow: 4px 4px 4px #666;
-    -webkit-box-shadow: 4px 4px 4px #666;
-    box-shadow: 4px 4px 4px #666;
 }
 
 .EventDetails > fieldset.TableLike > label,

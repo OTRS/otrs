@@ -315,7 +315,7 @@ dd {
 
 .MainBox > h1 {
     margin: 0;
-    padding: 10px 8px 8px;
+    padding: 10px 8px 15px 8px;
     position: relative;
 }
 
@@ -354,7 +354,7 @@ dd {
 }
 
 .OverviewBox > h1 {
-    margin: 0;
+    margin: 10px 0px;
     padding: 8px 11px 7px;
     position: relative;
 }
@@ -432,13 +432,8 @@ dd {
  */
 
 .MessageBox {
-    margin: -2px 18px 0 10px;
-    border: 1px solid #B9821C;
-    background: #F39C19;
-    border-bottom-right-radius: 4px;
-    border-bottom-left-radius: 4px;
-    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.1);
-    box-shadow: 0 1px 0 rgba(0,0,0,0.1);
+    margin: 5px 18px 0 10px;
+    background: #F7AE40;
     position: relative;
     z-index: 1;
 }
@@ -448,12 +443,7 @@ dd {
 }
 
 .MessageBox p {
-    padding: 7px 12px 6px;
-    font-weight: bold;
-    border-left: 1px solid #F6AF2F;
-    border-right: 1px solid #F6AF2F;
-    border-bottom-right-radius: 2px;
-    border-bottom-left-radius: 2px;
+    padding: 10px;
 }
 
 .MessageBox p,
@@ -461,7 +451,7 @@ dd {
     color: #442A0B;
 }
 
-.MessageBox a {
+.MessageBox a:hover {
     text-decoration: underline;
 }
 
@@ -470,12 +460,7 @@ dd {
 }
 
 .MessageBox.Error {
-    border-color: #A6281C;
-    background: #F03432;
-}
-
-.MessageBox.Error p {
-    border-color: #F25146;
+    background: #F25C5C;
 }
 
 .MessageBox.Error p,
@@ -497,16 +482,15 @@ dd {
     color: #044016;
 }
 
+.MessageBox p a:after {
+    content: "\2192";
+    display: inline-block;
+    font-size: 15px;
+}
+
 /**
  * @subsection  Flag
  */
-.Flag {
-    -webkit-box-shadow: 1px 1px 1px #777;
-    -moz-box-shadow: 1px 1px 1px #777;
-    -ms-box-shadow: 1px 1px 1px #777;
-    -o-box-shadow: 1px 1px 1px #777;
-    box-shadow: 1px 1px 1px #777;
-}
 
 .Flag.Small {
     width: 17px;

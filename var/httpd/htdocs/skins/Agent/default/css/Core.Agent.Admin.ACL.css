@@ -15,7 +15,6 @@
 .WidgetSimple fieldset.Separated {
     background-color: #E9E9E9;
     border: 1px solid #CCCCCC;
-    border-radius: 4px;
     margin: 9px 0px;
     padding: 4px;
 }
@@ -295,7 +294,7 @@ a.Copy {
 
 .ACLNote {
     background: #fff;
-    border: 2px solid #CCCCCC;
+    border: 1px solid #CCCCCC;
     margin-bottom: 10px;
     padding: 5px 10px;
 }

@@ -16,7 +16,7 @@
  */
 
 #OverviewBody {
-    margin: 0 16px 8px 8px;
+    margin: 10px 16px 8px 8px;
     border-left: 1px solid #DDD;
     border-right: 1px solid #DDD;
 }
@@ -31,35 +31,14 @@
     border-bottom: 1px solid #DDD;
 }
 
-.Small .ActionRow {
-    border-bottom: none;
-}
-
-.Overview table {
-    border: none;
-}
-
 .Overview thead tr {
     background: #eaeaea;
-    background: -moz-linear-gradient(top,  #eaeaea 0%, #e4e4e4 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eaeaea), color-stop(100%,#e4e4e4));
-    background: -webkit-linear-gradient(top,  #eaeaea 0%,#e4e4e4 100%);
-    background: -o-linear-gradient(top,  #eaeaea 0%,#e4e4e4 100%);
-    background: -ms-linear-gradient(top,  #eaeaea 0%,#e4e4e4 100%);
-    background: linear-gradient(to bottom,  #eaeaea 0%,#e4e4e4 100%);
     z-index: 15;
 }
 
 .Overview thead tr th {
     height: 19px;
     padding-top: 0;
-}
-
-.Overview thead tr th:last-child {
-    background-position: center bottom;
-}
-.Overview thead tr th.Last {
-    background-position: center bottom;
 }
 
 .Overview table tbody tr {

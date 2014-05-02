@@ -30,17 +30,7 @@ select[multiple=multiple] {
     box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
 }
 
-input[type=text],
-input[type=password] {
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-}
-
 select[multiple=multiple] {
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
     min-width: 300px;
     padding: 3px;
     box-shadow: inset 1px 1px 3px #eee, inset -1px -1px 3px #eee;
@@ -418,7 +408,6 @@ form label.LabelError {
 .CcCustomerContainer .BoxLabel,
 .BccCustomerContainer .BoxLabel {
     background-color: #CCCCCC;
-    border-radius: 5px 0 0 5px;
     font-size: 11px;
     right: 100%;
     top: 10px;
