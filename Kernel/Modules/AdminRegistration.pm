@@ -74,8 +74,10 @@ sub Run {
         if ( $Response{Token} ) {
             my $NextAction = $Self->{RegistrationState} ne 'registered' ? 'Register' : 'Deregister';
             return $Self->{LayoutObject}->Redirect(
-                OP =>
-                    "Action=AdminRegistration;Subaction=$NextAction;Token=$Response{Token};OTRSID=$OTRSID",
+                OP => "Action=AdminRegistration;Subaction=$NextAction;Token="
+                    . $Self->{LayoutObject}->LinkEncode( $Response{Token} )
+                    . ';OTRSID='
+                    . $Self->{LayoutObject}->LinkEncode($OTRSID),
             );
         }
 
