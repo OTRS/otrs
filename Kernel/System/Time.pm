@@ -162,8 +162,8 @@ sub SystemTime2Date {
     # get time format
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
         = localtime $Param{SystemTime};    ## no critic
-    $Year  = $Year + 1900;
-    $Month = $Month + 1;
+    $Year  += 1900;
+    $Month += 1;
     $Month = sprintf "%02d", $Month;
     $Day   = sprintf "%02d", $Day;
     $Hour  = sprintf "%02d", $Hour;
@@ -336,14 +336,14 @@ sub Date2SystemTime {
             return;
         }
     }
-    my $SytemTime = eval {
+    my $SystemTime = eval {
         timelocal(
             $Param{Second}, $Param{Minute}, $Param{Hour}, $Param{Day}, ( $Param{Month} - 1 ),
             $Param{Year}
         );
     };
 
-    if ( !defined $SytemTime ) {
+    if ( !defined $SystemTime ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message =>
@@ -352,7 +352,7 @@ sub Date2SystemTime {
         return;
     }
 
-    return $SytemTime;
+    return $SystemTime;
 }
 
 =item MailTimeStamp()
@@ -456,9 +456,9 @@ sub WorkingTime {
             );
             my $Zone = $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} );
             if ($Zone) {
-                $Zone             = $Zone * 3600;                # 60 * 60
-                $Param{StartTime} = $Param{StartTime} + $Zone;
-                $Param{StopTime}  = $Param{StopTime} + $Zone;
+                $Zone = $Zone * 3600;    # 60 * 60
+                $Param{StartTime} += $Zone;
+                $Param{StopTime}  += $Zone;
             }
         }
     }
