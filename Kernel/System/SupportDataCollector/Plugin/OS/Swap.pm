@@ -87,7 +87,7 @@ sub Run {
                 );
             }
 
-            my $SwapUsed = $SwapTotal - $SwapFree;
+            my $SwapUsed = ( $SwapTotal - $SwapFree ) / 1024;
 
             if ( $SwapUsed > 200 ) {
                 $Self->AddResultProblem(
