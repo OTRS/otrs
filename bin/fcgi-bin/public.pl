@@ -33,7 +33,7 @@ use CGI::Fast;
 
 # load agent web interface
 use Kernel::System::Web::InterfacePublic();
-use Kernel::Sytem::ObjectManager;
+use Kernel::System::ObjectManager;
 
 # 0=off;1=on;
 my $Debug = 0;
