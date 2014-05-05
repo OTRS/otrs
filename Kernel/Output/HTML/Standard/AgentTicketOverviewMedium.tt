@@ -49,7 +49,7 @@
 [% RenderBlockStart("InlineActionRow") %]
             <ul class="Actions InlineActions">
 [% RenderBlockStart("InlineActionRowItem") %]
-                <li><a id="[% Data.ID | html %]" class="[% Data.Class | html %]" href="[% Data.Link | html %]" title="[% Data.Description | html %]">[% Data.Name | html %]</a></li>
+                <li><a id="[% Data.ID | html %][% Data.TicketID | html %]" class="[% Data.Class | html %]" href="[% Data.Link | Interpolate | html %]" title="[% Data.Description | Interpolate | html %]">[% Data.Name | Interpolate | html %]</a></li>
 [% RenderBlockEnd("InlineActionRowItem") %]
 [% RenderBlockStart("InlineActionRowItemHTML") %]
                 [% Data.HTML %]
@@ -70,7 +70,7 @@
 [% RenderBlockEnd("InlineActionRow") %]
 [% RenderBlockStart("Bulk") %]
             <div class="Checkbox">
-                <input class="Checkbox" type="checkbox" name="TicketID" value="[% Data.TicketID | html %]" autocomplete="off" />
+                <input class="Checkbox" type="checkbox" name="TicketID" title="[% Translate("Select this ticket") | html %]" value="[% Data.TicketID | html %]" autocomplete="off" />
             </div>
 [% RenderBlockEnd("Bulk") %]
 [% RenderBlockStart("Meta") %]
@@ -104,7 +104,7 @@
                         </td>
                         <td>
 [% RenderBlockStart("CustomerIDRW") %]
-                            <label>[% Translate("CustomerID") | html %]</label><a href="[% Config("CustomerDBLink") %]" class="AsPopup PopupType_TicketAction" [% Config("CustomerDBLinkTarget") %]>[% Data.CustomerID | html %]</a>
+                            <label>[% Translate("CustomerID") | html %]</label>[% IF Data.CustomerID %]<a href="[% Config("CustomerDBLink") | Interpolate %]" class="AsPopup PopupType_TicketAction" [% Config("CustomerDBLinkTarget") %]>[% Data.CustomerID | html %]</a>[% END %]
 [% RenderBlockEnd("CustomerIDRW") %]
 [% RenderBlockStart("CustomerIDRO") %]
                             <label>[% Translate("CustomerID") | html %]</label>[% Data.CustomerID | html %]
@@ -253,11 +253,6 @@
 </form>
 [% RenderBlockEnd("DocumentFooter") %]
 
-[% RenderBlockStart("DocumentMenuItem") %]
-<li id="[% Data.ID | html %]">
-    <a href="#" title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %]</a>
-</li>
-[% RenderBlockEnd("DocumentMenuItem") %]
 [% RenderBlockStart("DocumentMenuItemMoveForm") %]
 <li class="[% Data.Class | html %]">
     <form title="[% Translate("Move ticket to a different queue") | html %]" action="[% Env("CGIHandle") %]" method="post">
@@ -279,8 +274,13 @@
 
 [% WRAPPER JSOnDocumentComplete %]
 [% RenderBlockStart("DocumentReadyActionRowAdd") %]
+[% FOREACH MenuElement IN Data.Data %]
+    [% MenuElement.Name = Interpolate(MenuElement.Name) %]
+    [% MenuElement.Link = Interpolate(MenuElement.Link) %]
+    [% MenuElement.Description = Interpolate(MenuElement.Description) %]
+[% END %]
 <script type="text/javascript">//<![CDATA[
-    Core.UI.ActionRow.AddActions($('#TicketID_[% Data.TicketID | html %]'), [% Data.Data %]);
+    Core.UI.ActionRow.AddActions($('#TicketID_[% Data.TicketID | html %]'), [% JSON(Data.Data) %]);
 //]]></script>
 [% RenderBlockEnd("DocumentReadyActionRowAdd") %]
 [% RenderBlockStart("DocumentReadyStart") %]

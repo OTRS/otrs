@@ -300,10 +300,10 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
                     .attr('name');
 
                 if (
-                        $TriggerObj.closest('th').hasClass('CustomerID')
-                        || $TriggerObj.closest('th').hasClass('CustomerUserID')
-                        || $TriggerObj.closest('th').hasClass('Responsible')
-                        || $TriggerObj.closest('th').hasClass('Owner')
+                        $TriggerObj.closest('th').hasClass('CustomerID') ||
+                        $TriggerObj.closest('th').hasClass('CustomerUserID') ||
+                        $TriggerObj.closest('th').hasClass('Responsible') ||
+                        $TriggerObj.closest('th').hasClass('Owner')
                     ) {
 
                     if (!$TriggerObj.parent().find('.SelectedValue').length) {
@@ -364,7 +364,7 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
 
 [% RenderBlockStart("Bulk") %]
                     <td class="Checkbox NonTextContent">
-                        <input class="Checkbox" type="checkbox" name="TicketID" value="[% Data.TicketID | html %]"  autocomplete="off" />
+                        <input class="Checkbox" type="checkbox" name="TicketID" title="[% Translate("Select this ticket") | html %]" value="[% Data.TicketID | html %]"  autocomplete="off" />
                     </td>
 [% RenderBlockEnd("Bulk") %]
 [% RenderBlockStart("ContentLargeTicketGenericRowMeta") %]
@@ -485,9 +485,14 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
                 </tr>
 
 [% RenderBlockStart("DocumentReadyActionRowAdd") %]
+[% FOREACH MenuElement IN Data.Data %]
+    [% MenuElement.Name = Interpolate(MenuElement.Name) %]
+    [% MenuElement.Link = Interpolate(MenuElement.Link) %]
+    [% MenuElement.Description = Interpolate(MenuElement.Description) %]
+[% END %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-    Core.UI.ActionRow.AddActions($('#TicketID_[% Data.TicketID | html %]'), [% Data.Data %]);
+    Core.UI.ActionRow.AddActions($('#TicketID_[% Data.TicketID | html %]'), [% JSON(Data.Data) %]);
 //]]></script>
 [% END %]
 [% RenderBlockEnd("DocumentReadyActionRowAdd") %]
@@ -525,11 +530,6 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
 [% RenderBlockEnd("DocumentReadyStart") %]
 [% RenderBlockEnd("DocumentContent") %]
 
-[% RenderBlockStart("DocumentMenuItem") %]
-<li id="[% Data.ID | html %]">
-    <a href="#" title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %]</a>
-</li>
-[% RenderBlockEnd("DocumentMenuItem") %]
 [% RenderBlockStart("DocumentMenuItemMoveForm") %]
 <li class="[% Data.Class | html %]">
     <form title="[% Translate("Move ticket to a different queue") | html %]" action="[% Env("CGIHandle") %]" method="post">

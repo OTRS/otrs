@@ -166,8 +166,6 @@ sub Run {
     if ( $Self->{Subaction} ne 'AJAXFilterUpdate' ) {
         $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Self->{LayoutObject}->Print( Output => \$Output );
-        $Output = '';
     }
 
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
@@ -386,6 +384,9 @@ sub Run {
         },
 
         Escalation => 1,
+
+        # do not print the result earlier, but return complete content
+        Output     => 1,
     );
 
     $Output .= $Self->{LayoutObject}->Footer();

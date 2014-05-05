@@ -1009,8 +1009,6 @@ sub Run {
             # start html page
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Self->{LayoutObject}->Print( Output => \$Output );
-            $Output = '';
 
             $Self->{Filter} = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || '';
             $Self->{View}   = $Self->{ParamObject}->GetParam( Param => 'View' )   || '';
@@ -1064,6 +1062,9 @@ sub Run {
                 OrderBy      => $Self->{OrderBy},
                 SortBy       => $Self->{SortBy},
                 RequestedURL => 'Action=' . $Self->{Action} . ';' . $LinkPage,
+
+                # do not print the result earlier, but return complete content
+                Output     => 1,
             );
 
             # build footer

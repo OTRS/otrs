@@ -161,8 +161,6 @@ sub Run {
     if ( $Self->{Subaction} ne 'AJAXFilterUpdate' ) {
         $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Self->{LayoutObject}->Print( Output => \$Output );
-        $Output = '';
     }
 
     # get locked  viewable tickets...
@@ -467,6 +465,9 @@ sub Run {
         ColumnFilterForm    => {
             Filter => $Self->{Filter} || '',
         },
+
+        # do not print the result earlier, but return complete content
+        Output     => 1,
     );
 
     $Output .= $Self->{LayoutObject}->Footer();

@@ -198,8 +198,6 @@ sub Run {
     if ( $Self->{Subaction} ne 'AJAXFilterUpdate' ) {
         $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Self->{LayoutObject}->Print( Output => \$Output );
-        $Output = '';
     }
 
     # viewable locks
@@ -438,47 +436,47 @@ sub Run {
     my %NavBar = $Self->BuildQueueView( QueueIDs => \@ViewableQueueIDs, Filter => $Self->{Filter} );
 
     # show tickets
-    $Self->{LayoutObject}->Print(
-        Output => \$Self->{LayoutObject}->TicketListShow(
+    $Output .= $Self->{LayoutObject}->TicketListShow(
+        Filter     => $Self->{Filter},
+        Filters    => \%NavBarFilter,
+        FilterLink => $LinkFilter,
 
-            Filter     => $Self->{Filter},
-            Filters    => \%NavBarFilter,
-            FilterLink => $LinkFilter,
-
-            DataInTheMiddle => $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentTicketQueue',
-                Data         => \%NavBar,
-            ),
-
-            TicketIDs => \@ViewableTickets,
-
-            OriginalTicketIDs => \@OriginalViewableTickets,
-            GetColumnFilter   => \%GetColumnFilter,
-            LastColumnFilter  => $LastColumnFilter,
-            Action            => 'AgentTicketQueue',
-            Total             => $CountTotal,
-            RequestedURL      => $Self->{RequestedURL},
-
-            NavBar => \%NavBar,
-            View   => $Self->{View},
-
-            Bulk       => 1,
-            TitleName  => 'QueueView',
-            TitleValue => $NavBar{SelectedQueue},
-
-            Env        => $Self,
-            LinkPage   => $LinkPage,
-            LinkSort   => $LinkSort,
-            LinkFilter => $LinkFilter,
-
-            OrderBy             => $OrderBy,
-            SortBy              => $SortBy,
-            EnableColumnFilters => 1,
-            ColumnFilterForm    => {
-                QueueID => $Self->{QueueID} || '',
-                Filter  => $Self->{Filter}  || '',
-            },
+        DataInTheMiddle => $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentTicketQueue',
+            Data         => \%NavBar,
         ),
+
+        TicketIDs => \@ViewableTickets,
+
+        OriginalTicketIDs => \@OriginalViewableTickets,
+        GetColumnFilter   => \%GetColumnFilter,
+        LastColumnFilter  => $LastColumnFilter,
+        Action            => 'AgentTicketQueue',
+        Total             => $CountTotal,
+        RequestedURL      => $Self->{RequestedURL},
+
+        NavBar => \%NavBar,
+        View   => $Self->{View},
+
+        Bulk       => 1,
+        TitleName  => 'QueueView',
+        TitleValue => $NavBar{SelectedQueue},
+
+        Env        => $Self,
+        LinkPage   => $LinkPage,
+        LinkSort   => $LinkSort,
+        LinkFilter => $LinkFilter,
+
+        OrderBy             => $OrderBy,
+        SortBy              => $SortBy,
+        EnableColumnFilters => 1,
+        ColumnFilterForm    => {
+            QueueID => $Self->{QueueID} || '',
+            Filter  => $Self->{Filter}  || '',
+        },
+
+        # do not print the result earlier, but return complete content
+        Output     => 1,
     );
 
     # get page footer

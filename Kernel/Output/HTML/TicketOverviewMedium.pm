@@ -405,15 +405,6 @@ sub _Show {
             next MENU if !$Item;
             next MENU if ref $Item ne 'HASH';
 
-            KEY:
-            for my $Key (qw(Name Link Description)) {
-                next KEY if !$Item->{$Key};
-                $Item->{$Key} = $Self->{LayoutObject}->Output(
-                    Template => $Item->{$Key},
-                    Data     => \%Article,
-                );
-            }
-
             # add session id if needed
             if ( !$Self->{LayoutObject}->{SessionIDCookie} && $Item->{Link} ) {
                 $Item->{Link}
@@ -426,14 +417,27 @@ sub _Show {
             $Item->{ID} = $Item->{Name};
             $Item->{ID} =~ s/(\s|&|;)//ig;
 
-            $Self->{LayoutObject}->Block(
-                Name => $Item->{Block} || 'DocumentMenuItem',
-                Data => $Item,
-            );
-            my $Output = $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentTicketOverviewMedium',
-                Data         => $Item,
-            );
+            my $Output;
+            if ( $Item->{Block} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => $Item->{Block},
+                    Data => $Item,
+                );
+                $Output = $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AgentTicketOverviewMedium',
+                    Data         => $Item,
+                );
+            }
+            else {
+                $Output = '<li id="'
+                    . $Item->{ID}
+                    . '"><a href="#" title="'
+                    . $Self->{LayoutObject}->{LanguageObject}->Translate( $Item->{Description} )
+                    . '">'
+                    . $Self->{LayoutObject}->{LanguageObject}->Translate( $Item->{Name} )
+                    . '</a></li>';
+            }
+
             $Output =~ s/\n+//g;
             $Output =~ s/\s+/ /g;
             $Output =~ s/<\!--.+?-->//g;
@@ -446,7 +450,7 @@ sub _Show {
                 Target      => $Item->{Target},
                 PopupType   => $Item->{PopupType},
                 Description => $Item->{Description},
-                Block       => $Item->{Block} || 'DocumentMenuItem',
+                Block       => $Item->{Block},
             };
         }
     }
@@ -481,7 +485,7 @@ sub _Show {
                 $Class = 'AsPopup PopupType_' . $Item->{PopupType};
             }
 
-            if ( $Item->{Block} eq 'DocumentMenuItem' ) {
+            if ( !$Item->{Block} ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'InlineActionRowItem',
                     Data => {
@@ -906,15 +910,11 @@ sub _Show {
 
     # add action items as js
     if ( @ActionItems && !$Param{Config}->{TicketActionsPerTicket} ) {
-        my $JSON = $Self->{LayoutObject}->JSONEncode(
-            Data => \@ActionItems,
-        );
-
         $Self->{LayoutObject}->Block(
             Name => 'DocumentReadyActionRowAdd',
             Data => {
                 TicketID => $Param{TicketID},
-                Data     => $JSON,
+                Data     => \@ActionItems,
             },
         );
     }
