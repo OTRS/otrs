@@ -285,15 +285,17 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .Actions li {
-    line-height: 13px;
+    line-height: 18px;
     font-size: 11px;
-    display: inline-block;
+    display: block;
+    float: left;
 }
 
 .Actions li:after {
-    content: "|";
+    content: " | ";
     display: inline-block;
     color: #bbb;
+    margin: 0px 3px;
 }
 
 .Actions li:last-child:after {
@@ -336,7 +338,7 @@ ul.ContextFunctions li:last-child:hover > a {
 .Actions li span:hover,
 .OverviewZoom a:hover {
     border-bottom: 2px solid #FF9922;
-    padding-bottom: 3px;
+    padding-bottom: 0px;
 }
 
 .Actions li.NoHover:hover a {

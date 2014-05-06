@@ -47,12 +47,11 @@
 
 .OverviewMedium li ul.InlineActions {
     position: absolute;
-    top: -25px;
+    top: -30px;
     right: 0px;
-    height: 25px;
-    background-color: #EEE;
+    height: 30px;
+    background-color: #777;
     margin-right: 0px;
-    padding-right: 10px;
     padding-left: 5px;
     cursor: auto;
     transition: all ease-in 0.2s;
@@ -60,6 +59,10 @@
 
 .OverviewMedium li:hover ul.InlineActions {
     top: 0px;
+}
+
+.OverviewMedium > li ul.InlineActions.Actions li:after {
+    margin-top: 5px;
 }
 
 .OverviewMedium li ul.InlineActions li {
@@ -77,9 +80,9 @@
 }
 
 .OverviewMedium li ul.InlineActions li a {
-    color: #000;
-    display: inline-block;
-    margin-right: 3px;
+    color: #fff;
+    display: block;
+    float: left;
 }
 
 .OverviewMedium li ul.InlineActions li.Even {

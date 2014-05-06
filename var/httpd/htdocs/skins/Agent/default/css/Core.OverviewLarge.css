@@ -51,13 +51,11 @@
 
 .OverviewLarge > li ul.InlineActions {
     position: absolute;
-    top: -25px;
+    top: -30px;
     right: 0px;
-    background-color: #EEE;
-    padding-right: 10px;
+    background-color: #777;
     padding-left: 5px;
-    height: 25px;
-    float: right;
+    height: 30px;
     cursor: auto;
     transition: all ease-in 0.2s;
 }
@@ -72,6 +70,10 @@
     border: none;
 }
 
+.OverviewLarge > li ul.InlineActions.Actions li:after {
+    margin-top: 5px;
+}
+
 .OverviewLarge > li ul.InlineActions li form {
     padding-top: 7px;
 }
@@ -81,9 +83,9 @@
 }
 
 .OverviewLarge > li ul.InlineActions li a {
-    color: #000;
-    display: inline-block;
-    margin-right: 3px;
+    color: #fff;
+    display: block;
+    float: left;
 }
 
 .OverviewLarge > li ul.InlineActions li:last-child a {

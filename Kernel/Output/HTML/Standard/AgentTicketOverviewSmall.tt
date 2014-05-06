@@ -9,15 +9,11 @@
 [% RenderBlockStart("DocumentActionRow") %]
 <ul class="Actions">
 [% RenderBlockStart("DocumentActionRowBulk") %]
-    <li id="BulkAction" class="AlwaysPresent Inactive [% Data.CSS | html %]">
-        <a href="#">[% Translate(Data.Name) | html %]</a>
-    </li>
+    <li id="BulkAction" class="AlwaysPresent Inactive [% Data.CSS | html %]"><a href="#">[% Translate(Data.Name) | html %]</a></li>
 [% RenderBlockEnd("DocumentActionRowBulk") %]
 
 [% RenderBlockStart("DocumentActionRowLastColumnFilter") %]
-    <li class="">
-        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];DeleteFilters=DeleteFilters">[% Translate("Reset overview") | html %]</a>
-    </li>
+    <li class=""><a href="[% Env("Baselink") %]Action=[% Env("Action") %];DeleteFilters=DeleteFilters">[% Translate("Reset overview") | html %]</a></li>
 [% RenderBlockEnd("DocumentActionRowLastColumnFilter") %]
 
 [% RenderBlockStart("DocumentActionRowItem") %]

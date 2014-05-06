@@ -445,13 +445,8 @@ thead .headerSortDown a {
     border-right: 1px solid #000;
 }
 
-.TableSmall tbody tr td:first-child {
-    border-left: 1px solid transparent;
-}
-
 .RTL .TableSmall tbody tr td:first-child {
     border-left: 1px dotted #CCC;
-    border-right:1px solid transparent;
 }
 
 .TableSmall tbody tr.Active td:first-child {
