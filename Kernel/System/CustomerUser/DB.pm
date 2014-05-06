@@ -151,10 +151,10 @@ sub CustomerName {
         Limit => 1,
     );
     my @NameParts;
-    NAMEPART:
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        FIELD:
         for my $Field (@Row) {
-            next NAMEPART if !$Field;
+            next FIELD if !$Field;
             push @NameParts, $Field;
         }
     }
