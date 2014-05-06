@@ -242,7 +242,7 @@ sub new {
         'SLA'            => 1,
     };
 
-    # hash with all valid sortable columuns (taken from TicketSearch)
+    # hash with all valid sortable columns (taken from TicketSearch)
     # SortBy  => 'Age',   # Owner|Responsible|CustomerID|State|TicketNumber|Queue
     # |Priority|Type|Lock|Title|Service|SLA|Changed|PendingTime|EscalationTime
     # | EscalationUpdateTime|EscalationResponseTime|EscalationSolutionTime
@@ -557,7 +557,7 @@ sub Run {
             # copy original column filter
             my %ColumnFilter = %{ $Self->{ColumnFilter} };
 
-            # loop through all colum filter elements
+            # loop through all column filter elements
             for my $Element ( sort keys %ColumnFilter ) {
 
                 # verify if current column filter element is already present in the ticket search
@@ -1743,7 +1743,7 @@ sub _SearchParamsGet {
     my @Params = split /;/, $Self->{Config}->{Attributes};
 
     # read user preferences and config to get columns that
-    # should be shown in the dashboard widget (the prefereces
+    # should be shown in the dashboard widget (the preferences
     # have precedence)
     my %Preferences = $Self->{UserObject}->GetPreferences(
         UserID => $Self->{UserID},
