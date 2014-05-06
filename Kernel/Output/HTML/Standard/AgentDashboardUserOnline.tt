@@ -41,13 +41,19 @@
         <tr>
             <td>
                 <p title="[% Data.UserEmail | html %]">
-                    [% Data.UserFullname | html %]
+                [% IF Data.UserCustomerID %]
+                    <a href="[% Env("Baselink") %]Action=AgentCustomerInformationCenter;CustomerID=[% Data.UserCustomerID | uri %]">
+                [% END %]
+                        [% Data.UserFullname | html %]
 [% RenderBlockStart("ContentSmallUserOnlineRowEmail") %]
-                    ([% Data.UserEmail | truncate(50) | html %])
+                        ([% Data.UserEmail | truncate(50) | html %])
 [% RenderBlockEnd("ContentSmallUserOnlineRowEmail") %]
 [% RenderBlockStart("ContentSmallUserOnlineRowOutOfOffice") %]
-                    - [% Translate("out of office") | html %]
+                        - [% Translate("out of office") | html %]
 [% RenderBlockEnd("ContentSmallUserOnlineRowOutOfOffice") %]
+                [% IF Data.UserCustomerID %]
+                    </a>
+                [% END %]
                 </p>
             </td>
         </tr>
