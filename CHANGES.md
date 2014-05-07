@@ -1,4 +1,5 @@
 #3.3.7 2014-??-??
+ - 2014-05-07 Updated Swedish translation, thanks to Peter Krantz.
  - 2014-05-06 Added CPAN module Archive::Tar.
  - 2014-05-06 Split otrs.checksum.pl functionality it is only able to work in compare mode.
  - 2014-05-06 Extended package object to be able to generate an MD5Sum of all files within a package.
