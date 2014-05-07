@@ -60,6 +60,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.7 2014-??-??
+ - 2014-05-07 Updated Japanese translation, thanks to Toshihiro Takehara.
  - 2014-05-07 Updated Swedish translation, thanks to Peter Krantz.
  - 2014-05-02 Fixed bug#[9350](http://bugs.otrs.org/show_bug.cgi?id=9350) - Initial notes by ticket split not visible it the ticket zoom.
  - 2014-05-02 Fixed bug#[10501](http://bugs.otrs.org/show_bug.cgi?id=10501) - Support-Data Swap plugin reports KB instead of MB.
