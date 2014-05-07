@@ -371,7 +371,7 @@ sub MailTimeStamp {
     my @MonthMap = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
 
     # calculate offset - should be '+0200', '-0600', '+0000' or '+0530'
-    my $Diff = Time::Local::timegm( localtime time ) - time;
+    my $Diff = Time::Local::timegm_nocheck( localtime( time() ) ) - time();
     my $Direction = $Diff < 0 ? '-' : '+';
     $Diff = abs $Diff;
     my $OffsetHours   = int( $Diff / 3600 );

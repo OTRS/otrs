@@ -12,8 +12,6 @@ use warnings;
 use vars (qw($Self));
 use utf8;
 
-use POSIX qw(tzset);
-
 use Kernel::System::Time;
 use Kernel::System::UnitTest::Helper;
 
@@ -34,7 +32,7 @@ if ( $^O eq 'MSWin32' ) {
 
     $Self->True(
         1,
-        'POSIX tzset is not implemented on MSWin32, skipping tests.',
+        'Can not specify local time zone via env on Win32, skipping tests.',
     );
     return 1;
 }
@@ -84,8 +82,7 @@ my @Tests = (
 
 for my $Test (@Tests) {
 
-    $ENV{TZ} = $Test->{TimeZone};
-    tzset;
+    local $ENV{TZ} = $Test->{TimeZone};
 
     $HelperObject->FixedTimeSet(
         $Self->{TimeObject}->TimeStamp2SystemTime( String => $Test->{TimeStamp} ),
