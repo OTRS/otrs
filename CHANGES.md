@@ -1,4 +1,9 @@
 #3.3.7 2014-??-??
+ - 2014-05-06 Added CPAN module Archive::Tar.
+ - 2014-05-06 Split otrs.checksum.pl functionality it is only able to work in compare mode.
+ - 2014-05-06 Extended package object to be able to generate an MD5Sum of all files within a package.
+ - 2014-05-06 Extended email send capabilities to include custom X-Headers.
+ - 2014-05-06 Extended the OTRS services to be able to create a support bundle file.
  - 2014-05-02 Fixed bug#[9350](http://bugs.otrs.org/show_bug.cgi?id=9350) - Initial notes by ticket split not visible it the ticket zoom.
  - 2014-05-02 Fixed bug#[10501](http://bugs.otrs.org/show_bug.cgi?id=10501) - Support-Data Swap plugin reports KB instead of MB.
  - 2014-05-02 Fixed bug#[10458](http://bugs.otrs.org/show_bug.cgi?id=10458) - Can't use system registration with some OTRS-IDs.

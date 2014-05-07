@@ -474,7 +474,9 @@ sub Register {
 
 Get the registration data from the system.
 
-    my %RegistrationInfo = $RegistrationObject->RegistrationDataGet();
+    my %RegistrationInfo = $RegistrationObject->RegistrationDataGet(
+        Extended => 1,              # optional, to also get basic system data
+    );
 
 =cut
 
@@ -488,6 +490,22 @@ sub RegistrationDataGet {
 
     # return empty hash if no UniqueID is found
     return () if !$RegistrationData{UniqueID};
+
+    if ( $Param{Extended} ) {
+        $RegistrationData{SupportDataSending} //= 'No';
+        $RegistrationData{APIVersion} = $Self->{APIVersion};
+
+        # read data from environment object
+        my %OSInfo = $Self->{EnvironmentObject}->OSInfoGet();
+        $RegistrationData{System} = {
+            PerlVersion => sprintf( "%vd", $^V ),
+            OSType      => $OSInfo{OS},
+            OSVersion   => $OSInfo{OSName},
+            OTRSVersion => $Self->{ConfigObject}->Get('Version'),
+            FQDN        => $Self->{ConfigObject}->Get('FQDN'),
+            DatabaseVersion => $Self->{DBObject}->Version(),
+        };
+    }
 
     return %RegistrationData;
 }

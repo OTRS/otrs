@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# bin/otrs.CheckSum.pl - a tool to compare changes in an installation
+# generate-checksum.pl - a tool to generate a md5 index of all files for a release
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
@@ -22,11 +22,11 @@
 use strict;
 use warnings;
 
+# use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
-use lib dirname($RealBin);
-use lib dirname($RealBin) . '/Kernel/cpan-lib';
-use lib dirname($RealBin) . '/Custom';
+use lib dirname($RealBin) . "/../";
+use lib dirname($RealBin) . "/../Kernel/cpan-lib";
 
 use vars qw($RealBin);
 
@@ -34,18 +34,17 @@ use Getopt::Std;
 use Digest::MD5 qw(md5_hex);
 
 my $Start = $RealBin;
-$Start =~ s{/bin}{/}smx;
+$Start =~ s{/scripts/auto_build}{/}smx;
 my $Archive = '';
-my %Compare;
 
 # get options
 my %Opts;
 getopt( 'hbd', \%Opts );
 if ( exists $Opts{h} ) {
-    print "otrs.CheckSum.pl - OTRS check sum\n";
+    print "generate-checksum.pl - OTRS check sum generator\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print
-        "usage: otrs.CheckSum.pl [-b /path/to/ARCHIVE] [-d /path/to/framework]\n";
+        "usage: generate-checksum.pl [-b /path/to/ARCHIVE] [-d /path/to/framework]\n";
     exit 1;
 }
 
@@ -59,21 +58,16 @@ else {
     $Archive = $Start . 'ARCHIVE';
 }
 
-open( my $In, '<', $Archive ) || die "ERROR: Can't read: $Archive";    ## no critic
-while (<$In>) {
-    my @Row = split( /::/, $_ );
-    chomp $Row[1];
-    $Compare{ $Row[1] } = $Row[0];
-}
-close $In;
+my $Output;
+
+print "Writing $Archive ...";
+open( $Output, '>', $Archive ) || die "ERROR: Can't write: $Archive";    ## no critic
 
 my @Dirs;
 ProcessDirectory($Start);
-for my $File ( sort keys %Compare ) {
 
-    #print "Notice: Removed $Compare{$File}\n";
-    print "Notice: Removed $File\n";
-}
+print " done.\n";
+close $Output;
 
 sub ProcessDirectory {
     my $In = shift;
@@ -122,19 +116,7 @@ sub ProcessDirectory {
         my $Digest = $DigestGenerator->hexdigest();
         close $In;
 
-        if ( !$Compare{$File} ) {
-            print "Notice: New $File\n";
-        }
-        elsif ( $Compare{$File} ne $Digest && !-e "$File.save" ) {    ## ignore files with .save
-            print "Notice: Dif $File\n";
-        }
-        elsif ( -e "$File.save" )
-        {    ## report .save files as modified by the OTRS Package Manager
-            print "Notice: OPM Changed $File\n"
-        }
-        if ( defined $Compare{$File} ) {
-            delete $Compare{$File};
-        }
+        print $Output $Digest . '::' . $File . "\n";
     }
     return 1;
 }

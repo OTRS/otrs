@@ -150,4 +150,23 @@
     background-color: #ff0000;
 }
 
+#SupportBundleOptionsDialog legend {
+    color: #333333;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    display: block;
+    width: 100%;
+}
+
+#SupportBundleOptionsDialog fieldset {
+    margin-bottom: 15px;
+}
+#SupportBundleOptionsDialog {
+    width: 560px;
+    padding-right: 20px;
+}
+
+
+
 } /* end @media */

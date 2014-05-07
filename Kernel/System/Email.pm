@@ -18,6 +18,7 @@ use Mail::Address;
 
 use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
+use Kernel::System::VariableCheck qw(:all);
 
 =head1 NAME
 
@@ -113,18 +114,21 @@ sub new {
 To send an email without already created header:
 
     my $Sent = $SendObject->Send(
-        From        => 'me@example.com',
-        To          => 'friend@example.com',
-        Cc          => 'Some Customer B <customer-b@example.com>',   # not required
-        ReplyTo     => 'Some Customer B <customer-b@example.com>',   # not required, is possible to use 'Reply-To' instead
-        Subject     => 'Some words!',
-        Charset     => 'iso-8859-15',
-        MimeType    => 'text/plain', # "text/plain" or "text/html"
-        Body        => 'Some nice text',
-        InReplyTo   => '<somemessageid-2@example.com>',
-        References  => '<somemessageid-1@example.com> <somemessageid-2@example.com>',
-        Loop        => 1, # not required, removes smtp from
-        Attachment  => [
+        From          => 'me@example.com',
+        To            => 'friend@example.com',
+        Cc            => 'Some Customer B <customer-b@example.com>',   # not required
+        ReplyTo       => 'Some Customer B <customer-b@example.com>',   # not required, is possible to use 'Reply-To' instead
+        Subject       => 'Some words!',
+        Charset       => 'iso-8859-15',
+        MimeType      => 'text/plain', # "text/plain" or "text/html"
+        Body          => 'Some nice text',
+        InReplyTo     => '<somemessageid-2@example.com>',
+        References    => '<somemessageid-1@example.com> <somemessageid-2@example.com>',
+        Loop          => 1, # not required, removes smtp from
+        CustomHeaders => {
+            X-OTRS-MyHeader => 'Some Value',
+        },
+        Attachment   => [
             {
                 Filename    => "somefile.csv",
                 Content     => $ContentCSV,
@@ -247,6 +251,9 @@ sub Send {
 
     # build header
     my %Header;
+    if ( IsHashRefWithData( $Param{CustomHeaders} ) ) {
+        %Header = %{ $Param{CustomHeaders} };
+    }
     for (qw(From To Cc Subject Charset Reply-To)) {
         next if !$Param{$_};
         $Header{$_} = $Param{$_};
@@ -802,7 +809,7 @@ sub Bounce {
 
     # split body && header
     my @EmailPlain = split( /\n/, $Param{Email} );
-    my $EmailObject = new Mail::Internet( \@EmailPlain );
+    my $EmailObject = Mail::Internet->new( \@EmailPlain );
 
     # get sender
     my @Sender   = Mail::Address->parse( $Param{From} );

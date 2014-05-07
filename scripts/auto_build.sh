@@ -156,7 +156,7 @@ mv otrs_admin_book.pdf doc/manual/en
 #mv otrs_admin_book.pdf doc/manual/de
 
 # mk ARCHIVE
-bin/otrs.CheckSum.pl -a create
+scripts/auto_build/generate-checksum.pl
 
 # add pre installed packages
 mkdir var/packages/

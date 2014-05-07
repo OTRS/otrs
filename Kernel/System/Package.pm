@@ -2300,6 +2300,81 @@ sub PackageInstallDefaultFiles {
     return 1;
 }
 
+=item PackageFileGetMD5Sum()
+
+generates a MD5 Sum for all files in a given package
+
+    my $MD5Sum = $PackageObject->PackageFileGetMD5Sum(
+        Name => 'Package Name',
+        Version => 123.0,
+    );
+
+returns:
+    $MD5SumLookup = {
+        'Direcoty/File1' => 'f3f30bd59afadf542770d43edb280489'
+        'Direcoty/File2' => 'ccb8a0b86adf125a36392e388eb96778'
+    };
+
+=cut
+
+sub PackageFileGetMD5Sum {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(Name Version)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+        }
+    }
+
+    # check cache
+    my $CacheKey = $Param{Name} . $Param{Version};
+    my $Cache    = $Self->{CacheObject}->Get(
+        Type => 'PackageFileGetMD5Sum',
+        Key  => $CacheKey,
+    );
+    return $Cache if IsHashRefWithData($Cache);
+
+    # get the package contents
+    my $Package = $Self->RepositoryGet(
+        %Param,
+        Result => 'SCALAR',
+    );
+    my %Structure = $Self->PackageParse( String => $Package );
+
+    return 1 if !$Structure{Filelist};
+    return 1 if ref $Structure{Filelist} ne 'ARRAY';
+
+    # cleanup the Home variable (remove tailing "/")
+    my $Home = $Self->{Home};
+    $Home =~ s{\/\z}{};
+
+    my %MD5SumLookup;
+    for my $File ( @{ $Structure{Filelist} } ) {
+
+        my $LocalFile = $Home . '/' . $File->{Location};
+
+        # generate the MD5Sum
+        my $MD5Sum = $Self->{MainObject}->MD5sum(
+            String => \$File->{Content},
+        );
+
+        $MD5SumLookup{$LocalFile} = $MD5Sum;
+    }
+
+    # set cache
+    $Self->{CacheObject}->Set(
+        Type  => 'PackageFileGetMD5Sum',
+        Key   => $CacheKey,
+        Value => \%MD5SumLookup,
+        TTL   => 6 * 30 * 24 * 60 * 60,    # 6 Months (Aprox)
+    );
+
+    return \%MD5SumLookup;
+}
+
 =begin Internal:
 
 =cut
