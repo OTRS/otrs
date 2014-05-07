@@ -614,9 +614,10 @@ sub _MaskUpdate {
 
         # time
         $JobData{ $Type . 'TimePoint' } = $Self->{LayoutObject}->BuildSelection(
-            Data       => \%Counter,
-            Name       => $Type . 'TimePoint',
-            SelectedID => $JobData{ $Type . 'TimePoint' },
+            Data        => \%Counter,
+            Name        => $Type . 'TimePoint',
+            SelectedID  => $JobData{ $Type . 'TimePoint' },
+            Translation => 0,
         );
         $JobData{ $Type . 'TimePointStart' } = $Self->{LayoutObject}->BuildSelection(
             Data => {
