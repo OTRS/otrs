@@ -2248,7 +2248,7 @@ sub Data {
         'The support bundle is too large to send it by email, this option has been disabled.' =>
             'Das Supportpaket ist zu groß, um es manuell zu versenden. Diese Option wurde deaktiviert.',
         'The email address for this user is invalid, this option has been disabled.' =>
-            '',
+            'Die E-Mail-Adresse dieses Nutzers ist ungültig, diese Option wurde deaktiviert.',
         'Sending' => 'Wird gesendet',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             'Das Supportpaket wird automatisch per E-Mail zur OTRS Gruppe gesendet.',
