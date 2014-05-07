@@ -53,7 +53,7 @@ my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
 );
 
 if ( !@PendingAutoStateIDs ) {
-    print STDOUT " No AutoStateIDs found - skipping script!\n";
+    print STDOUT " No pending auto StateIDs found - skipping script!\n";
     exit 0;
 }
 
