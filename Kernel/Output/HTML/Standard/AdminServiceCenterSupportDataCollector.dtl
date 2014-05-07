@@ -220,7 +220,7 @@
                         $Text{"The support bundle is too large to send it by email, this option has been disabled."}
                     </div>
                     <div class="FieldExplanation EmailMessage Hidden">
-                        $Text{"The email address for this user is invalid, this ption has been disabled."}
+                        $Text{"The email address for this user is invalid, this option has been disabled."}
                     </div>
                     <div class="Spacing"></div>
                 </fieldset>
