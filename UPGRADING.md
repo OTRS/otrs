@@ -24,7 +24,13 @@ take an extra step; please read http://bugs.otrs.org/show_bug.cgi?id=6798
 Within a single minor version you can skip patch level releases if you want to
 upgrade. For instance you can upgrade directly from OTRS 3.3.1 to version
 3.3.4. If you need to do such a "patch level upgrade", you should skip steps
-9 and 13-17.
+9 and 13-16.
+
+Please note that if you perform a patch level upgrade from OTRS 3.3.6 or earlier,
+you need to activate a new cron job that controls the scheduler process.
+Please copy the file `/opt/otrs/var/cron/scheduler_watchdog.dist` to
+`/opt/otrs/var/cron/scheduler_watchdog` and update your crontab with
+`/opt/otrs/bin/Cron.sh start` (as "otrs" user, not root).
 
 
 1. Stop all relevant services
@@ -298,5 +304,5 @@ Note: From OTRS 3.3.7 OTRS Scheduler uses a cronjob to start-up and keep alive. 
 that scheduler_watchdog cronjob is activated.
 
 
-18. Well done!
+17. Well done!
 --------------
