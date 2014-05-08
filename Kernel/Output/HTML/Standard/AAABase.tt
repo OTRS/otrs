@@ -269,6 +269,7 @@
 [% Translate("Cannot create %s!") | html %]
 [% Translate("Check to activate this date") | html %]
 [% Translate("You have Out of Office enabled, would you like to disable it?") | html %]
+[% Translate("News about OTRS releases!") | html %]
 
 [% Translate("Customer %s added") | html %]
 [% Translate("Role added!") | html %]
