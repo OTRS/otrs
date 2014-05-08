@@ -227,7 +227,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         });
 
 
-        $('.TableSmall tbody td a.Attachment').bind('click', function (Event) {
+        $('.DataTable tbody td a.Attachment').bind('click', function (Event) {
             var Position, HTML, $HTMLObject;
             if ($(this).attr('rel') && $('#' + $(this).attr('rel')).length) {
                 Position = $(this).offset();

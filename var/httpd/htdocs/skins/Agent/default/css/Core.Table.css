@@ -103,6 +103,11 @@ table tr.MasterAction {
     white-space: nowrap;
 }
 
+.DataTable thead th.UnreadArticles {
+    padding: 4px 0px 3px 0px;
+    text-align: center;
+}
+
 .RTL .DataTable thead th {
     border-left: 1px solid #CCC;
     border-right:none;
@@ -161,6 +166,10 @@ table tr.MasterAction {
 .DataTable tbody td {
     padding: 0 10px;
     border-right: 1px dotted #CCC;
+}
+
+.DataTable tbody td.UnreadArticles {
+    padding: 0px;
 }
 
 .RTL .DataTable tbody td {
@@ -382,13 +391,16 @@ thead .headerSortDown a {
     color: #000;
 }
 
-.TableSmall thead a span {
+.TableSmall thead a span,
+.DataTable thead a span {
     height: 15px;
     width: 16px;
     display: block;
+    text-align: center;
 }
 
-.TableSmall thead a span.Direction {
+.TableSmall thead a span.Direction,
+.DataTable thead a span.Direction {
     background: url(../img/direction_header.png) no-repeat center;
 }
 
@@ -415,7 +427,8 @@ thead .headerSortDown a {
     padding-right: 0;
 }
 
-.TableSmall tbody tr.Active td {
+.TableSmall tbody tr.Active td,
+.DataTable tbody tr.Active td {
     color: #1A1A1A;
     border-top: 1px solid #000;
     border-bottom: 1px solid #000;
@@ -489,38 +502,45 @@ thead .headerSortDown a {
     padding-left: 5px;
 }
 
-.TableSmall tbody td span.Direction {
+.TableSmall tbody td span.Direction,
+.DataTable tbody td span.Direction {
     display: block;
     width: 24px;
     height: 15px;
     text-indent: -9999px;
 }
 
-.TableSmall tbody td span.Direction.Incoming {
+.TableSmall tbody td span.Direction.Incoming,
+.DataTable tbody td span.Direction.Incoming {
     background: url(../img/direction_incoming.png) no-repeat center;
 }
 
-.TableSmall tbody td span.Direction.Outgoing {
+.TableSmall tbody td span.Direction.Outgoing,
+.DataTable tbody td span.Direction.Outgoing {
     background: url(../img/direction_outgoing.png) no-repeat center;
 }
 
-.TableSmall tbody td span.Direction.Internal {
+.TableSmall tbody td span.Direction.Internal,
+.DataTable tbody td span.Direction.Internal {
     background: url(../img/direction_internal.png) no-repeat center;
 }
 
-.TableSmall tbody td a.Attachment {
-    display: block;
-    width: 24px;
-    height: 16px;
-    margin-top: -1px;
+.TableSmall tbody td.Attachment,
+.DataTable tbody td.Attachment {
+    text-align: center;
+}
+
+.TableSmall tbody td a.Attachment,
+.DataTable tbody td a.Attachment {
     cursor: pointer;
     font-size: 16px;
     font-weight: normal;
     text-align: center;
 }
 
-.TableSmall tbody td a.Attachment:hover {
-    background-position: center -16px;
+.TableSmall tbody td a.Attachment i,
+.DataTable tbody td a.Attachment i {
+    color: #000;
 }
 
 .TableSmall td h2 {
