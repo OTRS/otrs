@@ -90,10 +90,10 @@ for my $TicketID (@TicketIDs) {
             ArticleID => $ArticleID,
             UserID    => 1,
         );
-        if ( $Count % 5000 == 0 ) {
-            my $Percent = int( $Count / ( $#TicketIDs / 100 ) );
-            print "NOTICE: $Count of $#TicketIDs processed ($Percent% done).\n";
-        }
+    }
+    if ( $Count % 5000 == 0 ) {
+        my $Percent = int( $Count / ( $#TicketIDs / 100 ) );
+        print "NOTICE: $Count of $#TicketIDs processed ($Percent% done).\n";
     }
 }
 print "NOTICE: Index creation done.\n";

@@ -1,4 +1,5 @@
 #3.3.7 2014-??-??
+ - 2014-05-08 Fixed bug#[10475](http://bugs.otrs.org/show_bug.cgi?id=10475) - otrs.RebuildFulltextIndex.pl - multiple output lines.
  - 2014-05-07 Updated Japanese translation, thanks to Toshihiro Takehara.
  - 2014-05-07 Updated Swedish translation, thanks to Peter Krantz.
  - 2014-05-06 Added CPAN module Archive::Tar.
