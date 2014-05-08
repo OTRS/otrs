@@ -162,8 +162,8 @@ sub SystemTime2Date {
     # get time format
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
         = localtime $Param{SystemTime};    ## no critic
-    $Year  = $Year + 1900;
-    $Month = $Month + 1;
+    $Year  += 1900;
+    $Month += 1;
     $Month = sprintf "%02d", $Month;
     $Day   = sprintf "%02d", $Day;
     $Hour  = sprintf "%02d", $Hour;
@@ -336,14 +336,14 @@ sub Date2SystemTime {
             return;
         }
     }
-    my $SytemTime = eval {
+    my $SystemTime = eval {
         timelocal(
             $Param{Second}, $Param{Minute}, $Param{Hour}, $Param{Day}, ( $Param{Month} - 1 ),
             $Param{Year}
         );
     };
 
-    if ( !defined $SytemTime ) {
+    if ( !defined $SystemTime ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message =>
@@ -352,13 +352,13 @@ sub Date2SystemTime {
         return;
     }
 
-    return $SytemTime;
+    return $SystemTime;
 }
 
 =item MailTimeStamp()
 
-returns the current utc time stamp in "Wed, 22 Sep 2004 16:30:57 +0000"
-format (used for email Date time stamps).
+returns the current time stamp in RFC 2822 format to be used in email headers:
+"Wed, 22 Sep 2014 16:30:57 +0200".
 
     my $MailTimeStamp = $TimeObject->MailTimeStamp();
 
@@ -369,49 +369,23 @@ sub MailTimeStamp {
 
     my @DayMap   = qw/Sun Mon Tue Wed Thu Fri Sat/;
     my @MonthMap = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
-    my @GMTime   = gmtime();
-    my @LTime    = localtime();                                           ## no critic
-    my $GUTime   = $Self->Date2SystemTime(
-        Year   => $GMTime[5] + 1900,
-        Month  => $GMTime[4] + 1,
-        Day    => $GMTime[3],
-        Hour   => $GMTime[2],
-        Minute => $GMTime[1],
-        Second => $GMTime[0],
-    );
-    my $LUTime = $Self->Date2SystemTime(
-        Year   => $LTime[5] + 1900,
-        Month  => $LTime[4] + 1,
-        Day    => $LTime[3],
-        Hour   => $LTime[2],
-        Minute => $LTime[1],
-        Second => $LTime[0],
-    );
-    my $DifTime = $LUTime - $GUTime;
-    my ( $DH, $DM, $DP );
 
-    if ( $DifTime =~ /^-(.*)/ ) {
-        $DifTime = $1;
-        $DP      = '-';
-    }
-    if ( !$DP ) {
-        $DP = '+';
-    }
-    if ( $DifTime >= 3599 ) {
-        $DH = sprintf( "%02d", int( $DifTime / 3600 ) );
-        $DM = sprintf( "%02d", int( ( $DifTime / 60 ) % 60 ) );
-    }
-    else {
-        $DH = '00';
-        $DM = sprintf( "%02d", int( $DifTime / 60 ) );
-    }
-    $GMTime[5] = $GMTime[5] + 1900;
-    $LTime[5]  = $LTime[5] + 1900;
-    my $TimeString = "$DayMap[$LTime[6]], $LTime[3] $MonthMap[$LTime[4]] $LTime[5] "
-        . sprintf( "%02d", $LTime[2] ) . ":"
-        . sprintf( "%02d", $LTime[1] ) . ":"
-        . sprintf( "%02d", $LTime[0] )
-        . " $DP$DH$DM";
+    # calculate offset - should be '+0200', '-0600', '+0000' or '+0530'
+    my $Diff = Time::Local::timegm_nocheck( localtime( time() ) ) - time();
+    my $Direction = $Diff < 0 ? '-' : '+';
+    $Diff = abs $Diff;
+    my $OffsetHours   = int( $Diff / 3600 );
+    my $OffsetMinutes = int( $Diff / 60 - $OffsetHours * 60 );
+
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->SystemTime2Date(
+        SystemTime => $Self->SystemTime(),
+    );
+    my $TimeString = sprintf "%s, %d %s %d %02d:%02d:%02d %s%02d%02d",
+        $DayMap[$WeekDay],    # 'Sat'
+        $Day, $MonthMap[ $Month - 1 ], $Year,    # '2', 'Aug', '2014'
+        $Hour,      $Min,         $Sec,              # '12', '34', '36'
+        $Direction, $OffsetHours, $OffsetMinutes;    # '+', '02', '00'
+
     return $TimeString;
 }
 
@@ -456,9 +430,9 @@ sub WorkingTime {
             );
             my $Zone = $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} );
             if ($Zone) {
-                $Zone             = $Zone * 3600;                # 60 * 60
-                $Param{StartTime} = $Param{StartTime} + $Zone;
-                $Param{StopTime}  = $Param{StopTime} + $Zone;
+                $Zone = $Zone * 3600;    # 60 * 60
+                $Param{StartTime} += $Zone;
+                $Param{StopTime}  += $Zone;
             }
         }
     }
