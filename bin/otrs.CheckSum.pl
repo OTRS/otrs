@@ -36,19 +36,23 @@ use Digest::MD5 qw(md5_hex);
 my $Start = $RealBin;
 $Start =~ s{/bin}{/}smx;
 my $Archive = '';
+my $Action  = 'compare';
 my %Compare;
 
 # get options
 my %Opts;
-getopt( 'hbd', \%Opts );
-if ( exists $Opts{h} ) {
+getopt( 'habd', \%Opts );
+if ( exists $Opts{h} || !keys %Opts ) {
     print "otrs.CheckSum.pl - OTRS check sum\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print
-        "usage: otrs.CheckSum.pl [-b /path/to/ARCHIVE] [-d /path/to/framework]\n";
+        "usage: otrs.CheckSum.pl -a create|compare [-b /path/to/ARCHIVE] [-d /path/to/framework]\n";
     exit 1;
 }
 
+if ( $Opts{a} && $Opts{a} eq 'create' ) {
+    $Action = $Opts{a};
+}
 if ( $Opts{d} ) {
     $Start = $Opts{d};
 }
@@ -59,13 +63,21 @@ else {
     $Archive = $Start . 'ARCHIVE';
 }
 
-open( my $In, '<', $Archive ) || die "ERROR: Can't read: $Archive";    ## no critic
-while (<$In>) {
-    my @Row = split( /::/, $_ );
-    chomp $Row[1];
-    $Compare{ $Row[1] } = $Row[0];
+my $Output;
+
+if ( $Action eq 'create' ) {
+    print "Writing $Archive ...";
+    open( $Output, '>', $Archive ) || die "ERROR: Can't write: $Archive";    ## no critic
 }
-close $In;
+else {
+    open( my $In, '<', $Archive ) || die "ERROR: Can't read: $Archive";      ## no critic
+    while (<$In>) {
+        my @Row = split( /::/, $_ );
+        chomp $Row[1];
+        $Compare{ $Row[1] } = $Row[0];
+    }
+    close $In;
+}
 
 my @Dirs;
 ProcessDirectory($Start);
@@ -73,6 +85,10 @@ for my $File ( sort keys %Compare ) {
 
     #print "Notice: Removed $Compare{$File}\n";
     print "Notice: Removed $File\n";
+}
+if ( $Action eq 'create' ) {
+    print " done.\n";
+    close $Output;
 }
 
 sub ProcessDirectory {
@@ -122,18 +138,23 @@ sub ProcessDirectory {
         my $Digest = $DigestGenerator->hexdigest();
         close $In;
 
-        if ( !$Compare{$File} ) {
-            print "Notice: New $File\n";
+        if ( $Action eq 'create' ) {
+            print $Output $Digest . '::' . $File . "\n";
         }
-        elsif ( $Compare{$File} ne $Digest && !-e "$File.save" ) {    ## ignore files with .save
-            print "Notice: Dif $File\n";
-        }
-        elsif ( -e "$File.save" )
-        {    ## report .save files as modified by the OTRS Package Manager
-            print "Notice: OPM Changed $File\n"
-        }
-        if ( defined $Compare{$File} ) {
-            delete $Compare{$File};
+        else {
+            if ( !$Compare{$File} ) {
+                print "Notice: New $File\n";
+            }
+            elsif ( $Compare{$File} ne $Digest && !-e "$File.save" ) {    ## ignore files with .save
+                print "Notice: Dif $File\n";
+            }
+            elsif ( -e "$File.save" )
+            {    ## report .save files as modified by the OTRS Package Manager
+                print "Notice: OPM Changed $File\n"
+            }
+            if ( defined $Compare{$File} ) {
+                delete $Compare{$File};
+            }
         }
     }
     return 1;
