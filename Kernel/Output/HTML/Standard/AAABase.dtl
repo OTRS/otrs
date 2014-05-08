@@ -270,6 +270,7 @@ $Text{"%s is not writable!"}
 $Text{"Cannot create %s!"}
 $Text{"Check to activate this date"}
 $Text{"You have Out of Office enabled, would you like to disable it?"}
+$Text{"News about OTRS releases!"}
 
 $Text{"Customer %s added"}
 $Text{"Role added!"}
