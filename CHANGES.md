@@ -1,4 +1,5 @@
 #3.3.8 2014-??-??
+ - 2014-05-09 Fixed bug#[10427](http://bugs.otrs.org/show_bug.cgi?id=10427) - Bulk action locks tickets - cancel keeps them locked.
  - 2014-05-09 Updated Swedish translation, thanks to Peter Krantz.
 
 #3.3.7 2014-05-13
