@@ -928,46 +928,6 @@ sub MaskAgentZoom {
         );
     }
 
-    # test access to frontend module for Customer
-    my $Access = $Self->{LayoutObject}->Permission(
-        Action => 'AgentTicketCustomer',
-        Type   => 'rw',
-    );
-
-    # acl check
-    if (
-        $Access
-        && defined $AclAction{AgentTicketCustomer}
-        && !$AclAction{AgentTicketCustomer}
-        )
-    {
-        $Access = 0;
-    }
-
-    if ($Access) {
-
-        # test access to ticket
-        my $Config = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketCustomer');
-        if ( $Config->{Permission} ) {
-            my $OK = $Self->{TicketObject}->Permission(
-                Type     => $Config->{Permission},
-                TicketID => $Ticket{TicketID},
-                UserID   => $Self->{UserID},
-                LogNo    => 1,
-            );
-            if ( !$OK ) {
-                $Access = 0;
-            }
-        }
-    }
-
-    # define proper DTL block based on permissions
-    my $CustomerIDBlock = $Access ? 'CustomerIDRW' : 'CustomerIDRO';
-    $Self->{LayoutObject}->Block(
-        Name => $CustomerIDBlock,
-        Data => \%Ticket,
-    );
-
     # show total accounted time if feature is active:
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
         $Ticket{TicketTimeUnits} = $Self->{TicketObject}->TicketAccountedTimeGet(%Ticket);

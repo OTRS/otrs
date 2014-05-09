@@ -60,6 +60,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.8 2014-??-??
+ - 2014-05-09 Fixed bug#[10491](http://bugs.otrs.org/show_bug.cgi?id=10491) - CIC not always accessible via TicketZoom.
  - 2014-05-09 Updated Swedish translation, thanks to Peter Krantz.
 
 #3.3.7 2014-05-13

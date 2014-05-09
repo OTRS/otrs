@@ -186,12 +186,7 @@
                     <fieldset class="TableLike FixedLabelSmall Narrow">
                         <label>[% Translate("CustomerID") | html %]:</label>
                         <p class="Value">
-[% RenderBlockStart("CustomerIDRW") %]
                             <a href="[% Config("CustomerDBLink") | Interpolate %]" class="[% Config("CustomerDBLinkClass") %]" [% Config("CustomerDBLinkTarget") %]>[% Data.CustomerID | html %]</a>
-[% RenderBlockEnd("CustomerIDRW") %]
-[% RenderBlockStart("CustomerIDRO") %]
-                            [% Data.CustomerID | html %]
-[% RenderBlockEnd("CustomerIDRO") %]
                         </p>
                         <div class="Clear"></div>
 [% RenderBlockStart("TotalAccountedTime") %]
