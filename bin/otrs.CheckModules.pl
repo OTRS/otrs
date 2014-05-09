@@ -126,6 +126,11 @@ my @NeededModules = (
         ],
     },
     {
+        Module   => 'IO::Zlib',
+        Required => 1,
+        Comment  => 'Required for compressed file generation.',
+    },
+    {
         Module   => 'IO::Socket::SSL',
         Required => 0,
         Comment  => 'Required for SSL connections to web and mail servers.',
