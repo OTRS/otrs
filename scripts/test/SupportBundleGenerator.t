@@ -79,7 +79,7 @@ if ( !-e $Home . '/ARCHIVE' ) {
 
 # create an ARCHIVE file on developer systems to continue working
 if ($IsDevelopmentSystem) {
-    my $ArchiveGeneratorTool = $Home . '/scripts/auto_build/generate-checksum.pl';
+    my $ArchiveGeneratorTool = $Home . '/bin/otrs.CheckSum.pl';
 
     # if tool is not present we can't continue
     if ( !-e $ArchiveGeneratorTool ) {
@@ -91,7 +91,7 @@ if ($IsDevelopmentSystem) {
     }
 
     # execute ARCHIVE generator tool
-    my $Result = `$ArchiveGeneratorTool`;
+    my $Result = `$ArchiveGeneratorTool -a create`;
 
     if ( !-e $Home . '/ARCHIVE' || -z $Home . '/ARCHIVE' ) {
 
