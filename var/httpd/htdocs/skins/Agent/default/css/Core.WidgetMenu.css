@@ -292,10 +292,11 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .Actions li:after {
+    color: #BBBBBB;
     content: " | ";
-    display: inline-block;
-    color: #bbb;
-    margin: 0px 3px;
+    display: block;
+    float: right;
+    margin: 5px 3px;
 }
 
 .Actions li:last-child:after {

@@ -95,8 +95,7 @@
 
 #DynamicFieldsWidget .Actions strong {
     display: inline-block;
-    height: 13px;
-    padding: 7px 0px 7px 3px;
+    padding: 5px 0px 5px 3px;
 }
 
 #DynamicFieldsWidget .Actions li:first-child {
