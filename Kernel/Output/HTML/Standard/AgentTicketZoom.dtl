@@ -171,12 +171,7 @@
                     <fieldset class="TableLike FixedLabelSmall Narrow">
                         <label>$Text{"CustomerID"}:</label>
                         <p class="Value">
-<!-- dtl:block:CustomerIDRW -->
                             <a href="$Config{"CustomerDBLink"}" class="$Config{"CustomerDBLinkClass"}" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID"}</a>
-<!-- dtl:block:CustomerIDRW -->
-<!-- dtl:block:CustomerIDRO -->
-                            $QData{"CustomerID"}
-<!-- dtl:block:CustomerIDRO -->
                         </p>
                         <div class="Clear"></div>
 <!-- dtl:block:TotalAccountedTime -->
