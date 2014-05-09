@@ -528,6 +528,9 @@ sub _SendNotificationToRecipients {
             next RECIPIENT;
         }
 
+        # create new array to prevent attachment growth (see bug#5114)
+        my @Attachments = @{ $Param{Attachments} };
+
         $Self->_SendNotification(
             TicketID              => $Param{TicketID},
             UserID                => $Param{UserID},
@@ -535,8 +538,9 @@ sub _SendNotificationToRecipients {
             CustomerMessageParams => {},
             Recipient             => $Recipient,
             Event                 => $Param{Event},
-            Attachments           => $Param{Attachments},
+            Attachments           => \@Attachments,
         );
+
     }
     return 1;
 }
