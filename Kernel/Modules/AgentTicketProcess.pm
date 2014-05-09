@@ -1992,7 +1992,7 @@ sub _OutputActivityDialog {
 
     my $FooterCSSClass = 'Footer';
 
-    if ( $Self->{AJAXDialog} ) {
+    if ( $Self->{AJAXDialog} && !IsHashRefWithData( \%Error ) ) {
 
         # Due to the initial loading of
         # the first ActivityDialog after Process selection
