@@ -24,9 +24,9 @@ sub Data {
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
     $Self->{DateFormat}          = '%D/%M %Y %T';
     $Self->{DateFormatLong}      = '%A %D. %B %Y %T';
-    $Self->{DateFormatShort}     = '%D.%M.%Y';
-    $Self->{DateInputFormat}     = '%D.%M.%Y';
-    $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
+    $Self->{DateFormatShort}     = '%Y.%M.%D';
+    $Self->{DateInputFormat}     = '%Y.%M.%D';
+    $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
 
     # csv separator
     $Self->{Separator} = ';';
@@ -149,7 +149,7 @@ sub Data {
         'CustomerID' => 'KundID',
         'CustomerIDs' => 'KundIDn',
         'customer' => 'kund',
-        'agent' => 'agent',
+        'agent' => 'handläggare',
         'system' => 'System',
         'Customer Info' => 'Kundinfo',
         'Customer Information' => 'Kundinformation',
@@ -238,7 +238,7 @@ sub Data {
         'Logout' => 'Logga ut',
         'Logout successful. Thank you for using %s!' => 'Utloggningen lyckades.  Tack för att du använde %s!',
         'Feature not active!' => 'Funktion inte aktiverad!',
-        'Agent updated!' => 'Agent uppdaterad!',
+        'Agent updated!' => 'Handläggare uppdaterad!',
         'Database Selection' => 'Databasval',
         'Create Database' => 'Skapa databas',
         'System Settings' => 'Systeminställningar',
@@ -307,7 +307,7 @@ sub Data {
         'System e-mail address updated!' => 'E-post för system uppdaterad!',
         'Contract' => 'Kontrakt',
         'Online Customer: %s' => 'Kund online: %s',
-        'Online Agent: %s' => 'Agent online: %s',
+        'Online Agent: %s' => 'Handläggare online: %s',
         'Calendar' => 'Kalender',
         'File' => 'Fil',
         'Filename' => 'Filnamn',
@@ -743,7 +743,7 @@ sub Data {
         'This is a' => 'Detta är en',
         'to open it in a new window.' => 'för att öppna i ett nytt fönster',
         'This is a HTML email. Click here to show it.' => 'Detta är ett HTML-email. Klicka här för att visa.',
-        'Free Fields' => 'Fria Fält',
+        'Free Fields' => 'Fria fält',
         'Merge' => 'Sammanfoga',
         'merged' => 'sammanfogat',
         'closed successful' => 'Löst och stängt',
@@ -1051,12 +1051,12 @@ sub Data {
 
         # Template: AdminAttachment
         'Attachment Management' => 'Hantering av bifogade dokument',
-        'Add attachment' => '',
+        'Add attachment' => 'Bifoga dokument',
         'List' => 'Lista',
-        'Download file' => '',
-        'Delete this attachment' => '',
-        'Add Attachment' => '',
-        'Edit Attachment' => '',
+        'Download file' => 'Hämta fil',
+        'Delete this attachment' => 'Radera bilaga',
+        'Add Attachment' => 'Lägg till bilaga',
+        'Edit Attachment' => 'Redigera bilaga',
 
         # Template: AdminAutoResponse
         'Auto Response Management' => 'Autosvar-hantering',
@@ -1071,7 +1071,7 @@ sub Data {
         'To get the first 5 lines of the email.' => 'För att få dom första fem raderna i mejlet',
         'To get the realname of the sender (if given).' => 'För att få avsändarens riktiga namn (om angivet).',
         'To get the article attribute' => '',
-        ' e. g.' => '',
+        ' e. g.' => ' t.ex.',
         'Options of the current customer user data' => '',
         'Ticket owner options' => '',
         'Ticket responsible options' => '',
@@ -1081,16 +1081,16 @@ sub Data {
         'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
         'Config options' => '',
-        'Example response' => '',
+        'Example response' => 'Exempelsvar',
 
         # Template: AdminCustomerCompany
-        'Customer Management' => '',
+        'Customer Management' => 'Hantera kunder',
         'Wildcards like \'*\' are allowed.' => '',
-        'Add customer' => '',
+        'Add customer' => 'Lägg till kund',
         'Select' => 'Välj',
         'Please enter a search term to look for customers.' => '',
-        'Add Customer' => '',
-        'Edit Customer' => '',
+        'Add Customer' => 'Lägg till kund',
+        'Edit Customer' => 'Redigera kund',
 
         # Template: AdminCustomerUser
         'Customer User Management' => 'Hantera kundanvändare',
@@ -1181,8 +1181,8 @@ sub Data {
             '',
         'This is the name to be shown on the screens where the field is active.' =>
             '',
-        'Field order' => '',
-        'This field is required and must be numeric.' => '',
+        'Field order' => 'Fältordning',
+        'This field is required and must be numeric.' => 'Detta fält är obilgatoriskt och måste innehålla siffror.',
         'This is the order in which this field will be shown on the screens where is active.' =>
             '',
         'Field type' => 'Fälttyp',
@@ -2330,8 +2330,8 @@ sub Data {
         'Manage Templates' => '',
         'Add template' => '',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
-            '',
-        'Don\'t forget to add new templates to queues.' => '',
+            'En mall är en standardtext som hjälper dina handläggare att skriva ärenden, svar eller vidarebefordran snabbare.',
+        'Don\'t forget to add new templates to queues.' => 'Glöm inte att lägga till nya mallar till köer.',
         'Add Template' => '',
         'Edit Template' => '',
         'Template' => '',
@@ -2618,7 +2618,7 @@ sub Data {
         'Previous Owner' => 'Tidigare ägare',
         'Inform Agent' => 'Meddela Agent',
         'Optional' => 'Valfri',
-        'Inform involved Agents' => 'Meddela inblandade agenter',
+        'Inform involved Agents' => 'Meddela inblandade handläggare',
         'Spell check' => 'Stavningskontroll',
         'Note type' => 'Anteckningstyp',
         'Next state' => 'Nästa tillstånd',
@@ -3276,12 +3276,12 @@ sub Data {
         'Change password' => '',
         'Change queue!' => '',
         'Change the customer for this ticket' => 'Byt kund för detta ärende',
-        'Change the free fields for this ticket' => '',
-        'Change the priority for this ticket' => '',
-        'Change the responsible person for this ticket' => '',
+        'Change the free fields for this ticket' => 'Redigera anpassade fält för detta ärende',
+        'Change the priority for this ticket' => 'Ändra prioritet för detta ärende',
+        'Change the responsible person for this ticket' => 'Ändra ansvarig handläggare för detta ärende',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
-        'Checkbox' => '',
+        'Checkbox' => 'Kryssruta',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
         'Closed tickets of customer' => '',
