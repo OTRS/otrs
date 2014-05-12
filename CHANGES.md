@@ -1,4 +1,5 @@
 #3.3.8 2014-??-??
+ - 2014-05-12 Fixed bug#[8494](http://bugs.otrs.org/show_bug.cgi?id=8494) - Possibility to split quotes in rich text editor.
  - 2014-05-09 Fixed bug#[10491](http://bugs.otrs.org/show_bug.cgi?id=10491) - CIC not always accessible via TicketZoom.
  - 2014-05-09 Fixed bug#[10427](http://bugs.otrs.org/show_bug.cgi?id=10427) - Bulk action locks tickets - cancel keeps them locked.
  - 2014-05-09 Updated Swedish translation, thanks to Peter Krantz.
