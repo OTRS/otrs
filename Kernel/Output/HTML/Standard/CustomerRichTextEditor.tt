@@ -15,15 +15,16 @@
     Core.Config.Set('RichText.TextDir', '[% Env("TextDirection") %]');
     Core.Config.Set('RichText.SpellChecker', '[% Env("BrowserSpellCheckerInline") %]');
     Core.Config.Set('RichText.EditingAreaCSS', 'body { [% Config("Frontend::RichText::DefaultCSS") %] }');
+    Core.Config.Set('RichText.Lang.SplitQuote', '[% Translate('Split Quote') | html %]');
     Core.Config.Set('RichText.Toolbar', [
         ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'Image', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
         '/',
-        ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'SpecialChar', '-', 'Maximize']
+        ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'SpecialChar', 'SplitQuote', '-', 'Maximize']
     ]);
     Core.Config.Set('RichText.ToolbarWithoutImage', [
         ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', '-', 'HorizontalRule', '-', 'Undo', 'Redo', '-', 'Find', 'SpellCheck'],
         '/',
-        ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'SpecialChar', '-', 'Maximize']
+        ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'SpecialChar', 'SplitQuote', '-', 'Maximize']
     ]);
     Core.Config.Set('RichText.PictureUploadAction', "[% Data.RichTextPictureUploadAction | html %]");
 
