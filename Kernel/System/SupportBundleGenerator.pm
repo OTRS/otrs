@@ -203,8 +203,13 @@ sub Generate {
     }
 
     # save and create archive
-    my $TempDir
-        = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundle/' . $Self->{RandomID} . '/';
+    my $TempDir = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundle';
+
+    if ( !-d $TempDir ) {
+        mkdir $TempDir;
+    }
+
+    $TempDir = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundle/' . $Self->{RandomID};
 
     if ( !-d $TempDir ) {
         mkdir $TempDir;
@@ -313,7 +318,13 @@ sub GenerateCustomFilesArchive {
     my ( $Self, %Param ) = @_;
 
     my $TempDir
-        = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundle/' . $Self->{RandomID} . '/';
+        = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundle' ;
+
+    if ( !-d $TempDir ) {
+        mkdir $TempDir;
+    }
+
+    $TempDir = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundle/' . $Self->{RandomID};
 
     if ( !-d $TempDir ) {
         mkdir $TempDir;
