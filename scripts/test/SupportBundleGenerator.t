@@ -486,7 +486,7 @@ $OriginalResult{Result} = \%OriginalIdentifiers;
 # execute function
 ( $Content, $Filename ) = $SupportBundleGeneratorObject->GenerateSupportData();
 
-if (%RegistrationInfo) {
+if (%OriginalResult) {
     $Self->IsNot(
         bytes::length( ${$Content} ) / ( 1024 * 1024 ),
         0,
