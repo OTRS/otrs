@@ -238,8 +238,13 @@ sub _GenerateSupportBundle {
     );
 
     # remove any older file
-    my $TempDir
-        = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundleDownloadCache/' . $RandomID . '/';
+    my $TempDir = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundleDownloadCache';
+
+    if ( !-d $TempDir ) {
+        mkdir $TempDir;
+    }
+
+    $TempDir = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundleDownloadCache/' . $RandomID;
 
     if ( !-d $TempDir ) {
         mkdir $TempDir;
@@ -264,7 +269,7 @@ sub _GenerateSupportBundle {
 
         # save support bundle in the FS (temporary)
         my $FileLocation = $Self->{MainObject}->FileWrite(
-            Location   => $TempDir . $Result->{Data}->{Filename},
+            Location   => $TempDir . '/' . $Result->{Data}->{Filename},
             Content    => $Result->{Data}->{Filecontent},
             Mode       => 'binmode',
             Type       => 'Local',
@@ -303,8 +308,8 @@ sub _DownloadSupportBundle {
     }
 
     my $TempDir
-        = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundleDownloadCache/' . $RandomID . '/';
-    my $Location = $TempDir . $Filename;
+        = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundleDownloadCache/' . $RandomID;
+    my $Location = $TempDir . '/' . $Filename;
 
     my $Content = $Self->{MainObject}->FileRead(
         Location => $Location,
@@ -352,8 +357,8 @@ sub _SendSupportBundle {
         my $TempDir
             = $Self->{ConfigObject}->Get('TempDir')
             . '/SupportBundleDownloadCache/'
-            . $RandomID . '/';
-        my $Location = $TempDir . $Filename;
+            . $RandomID;
+        my $Location = $TempDir . '/' . $Filename;
 
         my $Content = $Self->{MainObject}->FileRead(
             Location => $Location,
