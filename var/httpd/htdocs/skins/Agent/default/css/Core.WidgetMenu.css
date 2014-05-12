@@ -295,7 +295,7 @@ ul.ContextFunctions li:last-child:hover > a {
     color: #BBBBBB;
     content: " | ";
     display: block;
-    float: right;
+    float: left;
     margin: 5px 3px;
 }
 
@@ -332,7 +332,8 @@ ul.ContextFunctions li:last-child:hover > a {
 .Actions li span {
     padding: 5px 2px;
     color: #000;
-    display: inline-block;
+    display: block;
+    float: left;
 }
 
 .Actions li a:hover,
