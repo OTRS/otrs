@@ -132,7 +132,7 @@
                         if (filter(positionArray[i][1]) && geomSupport.intersects(focus, r1)) {
                             adjustBy = _calculateSpacingAdjustment(focus, r1);
                             constrainedAdjustment = constrain(positionArray[i][1], o1, adjustBy);
-                            _move(oid, o1, constrainedAdjustment.left + 1, constrainedAdjustment.top + 1);
+                            _move(oid, o1, constrainedAdjustment.left, constrainedAdjustment.top);
                         }
 
                         // now move others to account for this one, if necessary.
@@ -154,7 +154,7 @@
                                         uncleanRun = true;                                                                          
                                         adjustBy =  _calculateSpacingAdjustment(r1, r2),
                                         constrainedAdjustment = constrain(positionArray[j][1], o2, adjustBy);
-                                        _move(positionArray[j][1], o2, constrainedAdjustment.left + 1, constrainedAdjustment.top + 1);
+                                        _move(positionArray[j][1], o2, constrainedAdjustment.left, constrainedAdjustment.top);
                                     }
                                 }
                             }
