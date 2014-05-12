@@ -3146,6 +3146,7 @@ sub Data {
         # Template: Redirect
 
         # Template: RichTextEditor
+        'Split Quote' => 'Zitierung an Cursorposition trennen',
 
         # Template: SpellingInline
 
