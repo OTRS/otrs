@@ -472,9 +472,7 @@ if (%RegistrationInfo) {
 }
 
 # GenerateSupportData tests
-my %OriginalResult = $SupportDataCollectorObject->Collect(
-    UseCache => 1,
-);
+my %OriginalResult = $SupportDataCollectorObject->Collect();
 
 # for this test we will just check that both results has the same identifiers
 my %OriginalIdentifiers;
