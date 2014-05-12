@@ -301,6 +301,7 @@ ul.ContextFunctions li:last-child:hover > a {
 
 .Actions li:last-child:after {
     content: "";
+    display: none;
 }
 
 .RTL .Actions li {
