@@ -337,6 +337,10 @@ for my $Test (@Tests) {
 
 for my $Test (@Tests) {
 
+    my @OriginalList = $PackageObject->RepositoryList(
+        Result => 'short',
+    );
+
     # prepare testing environment
     if ( IsHashRefWithData( $Test->{InstallPackages} ) ) {
 
@@ -353,7 +357,7 @@ for my $Test (@Tests) {
     # execute function
     my ( $Content, $Filename ) = $SupportBundleGeneratorObject->GeneratePackageList();
 
-    if ( $Test->{InstallPackages} ) {
+    if ( $Test->{InstallPackages} || scalar @OriginalList ) {
         $Self->IsNot(
             bytes::length( ${$Content} ) / ( 1024 * 1024 ),
             0,
