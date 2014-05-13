@@ -433,11 +433,13 @@ if (%RegistrationInfo) {
         "GenerateRegistrationInfo() - The size of the RegistrationInfo.json is not 0",
     );
 }
+
+# by encoding an empty string into JSON it will produce '{}' which is exactly 2 bytes
 else {
     $Self->Is(
         bytes::length( ${$Content} ),
-        0,
-        "GenerateRegistrationInfo() - The size of the  RegistrationInfo.json is 0",
+        2,
+        "GenerateRegistrationInfo() - The size of the  RegistrationInfo.json is 2",
     );
 }
 $Self->Is(
