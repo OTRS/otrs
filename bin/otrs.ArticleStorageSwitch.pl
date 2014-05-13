@@ -64,7 +64,7 @@ if ( $Opts{s} eq $Opts{d} ) {
         "ERROR: Need different source and destination params, e. g. -s ArticleStorageDB -d ArticleStorageFS param\n";
     exit 1;
 }
-if ( !$Opts{b} && $Opts{b} !~ m{ \d+ }xms ) {
+if ( $Opts{b} && $Opts{b} !~ m{ \d+ }xms ) {
     print STDERR "ERROR: sleeptime needs to be a numeric value! e.g. 1000\n";
     exit 1;
 }
