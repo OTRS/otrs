@@ -29,6 +29,8 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Std;
+use Time::HiRes qw(usleep);
+
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Log;
@@ -40,12 +42,12 @@ use Kernel::System::Ticket;
 
 # get options
 my %Opts;
-getopt( 'hsdcCf', \%Opts );
+getopt( 'hsdcCb', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.ArticleStorageSwitch.pl - to move storage content\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print
-        "usage: otrs.ArticleStorageSwitch.pl -s ArticleStorageDB -d ArticleStorageFS [-c <JUST_SELECT_WHERE_CLOSE_DATE_IS_BEFORE> e. g. -c '2011-06-29 14:00:00' -C <JUST_SELECT_WHERE_CLOSE_IS_OLDER_IN_DAYS] e. g. -C '5'  [-f force]\n";
+        "usage: otrs.ArticleStorageSwitch.pl -s ArticleStorageDB -d ArticleStorageFS [-c <JUST_SELECT_WHERE_CLOSE_DATE_IS_BEFORE> e. g. -c '2011-06-29 14:00:00' -C <JUST_SELECT_WHERE_CLOSE_IS_OLDER_IN_DAYS] e. g. -C '5' [-b sleeptime per ticket in microseconds] [-l liberal] [-f force]\n";
     exit 1;
 }
 
@@ -54,12 +56,16 @@ if ( !$Opts{s} ) {
     exit 1;
 }
 if ( !$Opts{d} ) {
-    print STDERR "ERROR: Need -d DESTINATION , e. g. -s ArticleStorageFS param\n";
+    print STDERR "ERROR: Need -d DESTINATION, e. g. -s ArticleStorageFS param\n";
     exit 1;
 }
 if ( $Opts{s} eq $Opts{d} ) {
     print STDERR
         "ERROR: Need different source and destination params, e. g. -s ArticleStorageDB -d ArticleStorageFS param\n";
+    exit 1;
+}
+if ( !$Opts{b} && $Opts{b} !~ m{ \d+ }xms ) {
+    print STDERR "ERROR: sleeptime needs to be a numeric value! e.g. 1000\n";
     exit 1;
 }
 
@@ -91,6 +97,11 @@ if ( !$Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'ArticleStorageS
 }
 elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'ArticleStorageSwitch' ) ) {
     print "NOTICE: otrs.ArticleStorageSwitch.pl is already running but is starting again!\n";
+}
+
+# liberal mode
+if ( $Opts{l} ) {
+    print "NOTICE: otrs.ArticleStorageSwitch.pl is running in liberal mode!\n";
 }
 
 # extended input validation
@@ -153,16 +164,26 @@ my @TicketIDs = $CommonObject{TicketObject}->TicketSearch(
 
 my $Count      = 0;
 my $CountTotal = scalar @TicketIDs;
+
+TICKETID:
 for my $TicketID (@TicketIDs) {
+
     $Count++;
 
     print "NOTICE: $Count/$CountTotal (TicketID:$TicketID)\n";
-    exit 1 if !$CommonObject{TicketObject}->TicketArticleStorageSwitch(
+
+    my $Success = $CommonObject{TicketObject}->TicketArticleStorageSwitch(
         TicketID    => $TicketID,
         Source      => $Opts{s},
         Destination => $Opts{d},
         UserID      => 1,
     );
+
+    exit 1 if !$Opts{l} && !$Success;
+
+    next TICKETID if !$Opts{b};
+
+    Time::HiRes::usleep( $Opts{b} );
 }
 
 # delete pid lock
