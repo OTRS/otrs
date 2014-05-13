@@ -91,7 +91,7 @@ $CommonObject{ConfigObject}->{'Ticket::EventModulePost'} = {};
 # create pid lock
 if ( !$Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'ArticleStorageSwitch' ) ) {
     print
-        "NOTICE: otrs.ArticleStorageSwitch.pl is already running (use '-f 1' if you want to start it ";
+        "NOTICE: otrs.ArticleStorageSwitch.pl is already running (use '-f' if you want to start it ";
     print "forced)!\n";
     exit 1;
 }
