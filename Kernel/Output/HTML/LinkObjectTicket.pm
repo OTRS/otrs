@@ -197,6 +197,7 @@ sub TableCreateComplex {
                 Link    => $Self->{LayoutObject}->{Baselink}
                     . 'Action=AgentTicketZoom;TicketID='
                     . $TicketID,
+                Title    => "Ticket# $Ticket->{TicketNumber}",
                 CssClass => $CssClass,
             },
             {
