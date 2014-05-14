@@ -189,6 +189,7 @@ sub TableCreateComplex {
                 Key      => $TicketID,
                 Content  => $Ticket->{TicketNumber},
                 Link     => '$Env{"Baselink"}Action=AgentTicketZoom;TicketID=' . $TicketID,
+                Title    => "Ticket# $Ticket->{TicketNumber}",
                 CssClass => $CssClass,
             },
             {
