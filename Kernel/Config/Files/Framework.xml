@@ -4057,7 +4057,7 @@ via the Preferences button after logging in.
                 <Title></Title>
                 <NavBarName>Customer Information Center</NavBarName>
                 <NavBar>
-                    <Description Translatable="1"></Description>
+                    <Description Translatable="1">Customer Information Center.</Description>
                     <Name Translatable="1">Customer Information Center</Name>
                     <Link>Action=AgentCustomerInformationCenter</Link>
                     <LinkOption>onclick="window.setTimeout(function(){Core.Agent.CustomerInformationCenterSearch.OpenSearchDialog();}, 0); return false;"</LinkOption>
@@ -4068,7 +4068,7 @@ via the Preferences button after logging in.
                     <Prio>50</Prio>
                 </NavBar>
                 <NavBar>
-                    <Description Translatable="1"></Description>
+                    <Description Translatable="1">Customer Information Center.</Description>
                     <Name Translatable="1">Customers</Name>
                     <Link>Action=AgentCustomerInformationCenter</Link>
                     <LinkOption></LinkOption>
@@ -4371,7 +4371,7 @@ via the Preferences button after logging in.
                     <Link>Action=AdminCustomerUser;Nav=Agent</Link>
                     <LinkOption></LinkOption>
                     <NavBar>Customers</NavBar>
-                    <Description Translatable="1"></Description>
+                    <Description Translatable="1">Customer User Administration.</Description>
                     <Type></Type>
                     <Block>ItemArea</Block>
                     <AccessKey></AccessKey>
@@ -4407,7 +4407,7 @@ via the Preferences button after logging in.
                     <Link>Action=AdminCustomerCompany;Nav=Agent</Link>
                     <LinkOption></LinkOption>
                     <NavBar>Customers</NavBar>
-                    <Description Translatable="1"></Description>
+                    <Description Translatable="1">Customer Company Administration.</Description>
                     <Type></Type>
                     <Block>ItemArea</Block>
                     <AccessKey></AccessKey>
