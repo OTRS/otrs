@@ -102,7 +102,12 @@ sub _AddResult {
     my %Result = %Param;
     $Result{Identifier} //= '';
     $Result{Identifier} =~ s{:+}{_};    # Replace all :: in the Identifier
-    $Result{Identifier} = Scalar::Util::blessed($Self) . "::$Result{Identifier}";
+    if ( $Result{Identifier} ) {
+        $Result{Identifier} = Scalar::Util::blessed($Self) . "::$Result{Identifier}";
+    }
+    else {
+        $Result{Identifier} = Scalar::Util::blessed($Self);
+    }
 
     $Result{DisplayPath} //= $Self->GetDisplayPath();
 
