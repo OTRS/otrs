@@ -28,11 +28,13 @@ sub new {
     }
 
     # get more common params
-    $Self->{SessionTable}         = $Self->{ConfigObject}->Get('SessionTable') || 'sessions';
-    $Self->{SystemID}             = $Self->{ConfigObject}->Get('SystemID');
-    $Self->{AgentSessionLimit}    = $Self->{ConfigObject}->Get('AgentSessionLimit');
-    $Self->{CustomerSessionLimit} = $Self->{ConfigObject}->Get('CustomerSessionLimit');
-    $Self->{SessionActiveTime}    = $Self->{ConfigObject}->Get('SessionActiveTime') || 60 * 10;
+    $Self->{SessionTable}                = $Self->{ConfigObject}->Get('SessionTable') || 'sessions';
+    $Self->{SystemID}                    = $Self->{ConfigObject}->Get('SystemID');
+    $Self->{AgentSessionLimit}           = $Self->{ConfigObject}->Get('AgentSessionLimit');
+    $Self->{AgentSessionPerUserLimit}    = $Self->{ConfigObject}->Get('AgentSessionPerUserLimit');
+    $Self->{CustomerSessionLimit}        = $Self->{ConfigObject}->Get('CustomerSessionLimit');
+    $Self->{CustomerSessionPerUserLimit} = $Self->{ConfigObject}->Get('CustomerSessionPerUserLimit');
+    $Self->{SessionActiveTime}           = $Self->{ConfigObject}->Get('SessionActiveTime') || 60 * 10;
 
     # get database type
     $Self->{DBType} = $Self->{DBObject}->{'DB::Type'} || '';
@@ -220,7 +222,16 @@ sub CreateSessionID {
         $SessionLimit = $Self->{CustomerSessionLimit};
     }
 
-    if ($SessionLimit) {
+    # get session per user limit config
+    my $SessionPerUserLimit;
+    if ( $Param{UserType} && $Param{UserType} eq 'User' && $Self->{AgentSessionPerUserLimit} ) {
+        $SessionPerUserLimit = $Self->{AgentSessionPerUserLimit};
+    }
+    elsif ( $Param{UserType} && $Param{UserType} eq 'Customer' && $Self->{CustomerSessionPerUserLimit} ) {
+        $SessionPerUserLimit = $Self->{CustomerSessionPerUserLimit};
+    }
+
+    if ( $SessionLimit || $SessionPerUserLimit ) {
 
         # get all needed timestamps to investigate the expired sessions
         $Self->{DBObject}->Prepare(
@@ -229,6 +240,7 @@ sub CreateSessionID {
                 FROM $Self->{SessionTable}
                 WHERE data_key = 'UserType'
                     OR data_key = 'UserLastRequest'
+                    OR data_key = 'UserLogin'
                 ORDER BY id ASC",
         );
 
@@ -243,6 +255,7 @@ sub CreateSessionID {
         }
 
         my $ActiveSessionCount = 0;
+        my %ActiveSessionPerUserCount;
         SESSIONID:
         for my $SessionID ( sort keys %SessionData ) {
 
@@ -252,6 +265,7 @@ sub CreateSessionID {
             # get needed data
             my $UserType        = $SessionData{$SessionID}->{UserType}        || '';
             my $UserLastRequest = $SessionData{$SessionID}->{UserLastRequest} || $TimeNow;
+            my $UserLogin       = $SessionData{$SessionID}->{UserLogin};
 
             next SESSIONID if $UserType ne $Param{UserType};
 
@@ -259,9 +273,20 @@ sub CreateSessionID {
 
             $ActiveSessionCount++;
 
+            $ActiveSessionPerUserCount{$UserLogin} || 0;
+            $ActiveSessionPerUserCount{$UserLogin}++;
+
             next SESSIONID if $ActiveSessionCount < $SessionLimit;
 
             $Self->{SessionIDErrorMessage} = 'Session limit reached! Please try again later.';
+
+            return;
+        }
+
+        # check session per user limit
+        if ( $SessionPerUserLimit && $Param{UserLogin} && $ActiveSessionPerUserCount{ $Param{UserLogin} } >= $SessionPerUserLimit ) {
+
+            $Self->{SessionIDErrorMessage} = 'Session per user limit reached!';
 
             return;
         }

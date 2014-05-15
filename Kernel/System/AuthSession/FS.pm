@@ -27,11 +27,13 @@ sub new {
     }
 
     # get more common params
-    $Self->{SessionSpool}         = $Self->{ConfigObject}->Get('SessionDir');
-    $Self->{SystemID}             = $Self->{ConfigObject}->Get('SystemID');
-    $Self->{AgentSessionLimit}    = $Self->{ConfigObject}->Get('AgentSessionLimit');
-    $Self->{CustomerSessionLimit} = $Self->{ConfigObject}->Get('CustomerSessionLimit');
-    $Self->{SessionActiveTime}    = $Self->{ConfigObject}->Get('SessionActiveTime') || 60 * 10;
+    $Self->{SessionSpool}                = $Self->{ConfigObject}->Get('SessionDir');
+    $Self->{SystemID}                    = $Self->{ConfigObject}->Get('SystemID');
+    $Self->{AgentSessionLimit}           = $Self->{ConfigObject}->Get('AgentSessionLimit');
+    $Self->{AgentSessionPerUserLimit}    = $Self->{ConfigObject}->Get('AgentSessionPerUserLimit') || 2;
+    $Self->{CustomerSessionLimit}        = $Self->{ConfigObject}->Get('CustomerSessionLimit');
+    $Self->{CustomerSessionPerUserLimit} = $Self->{ConfigObject}->Get('CustomerSessionPerUserLimit');
+    $Self->{SessionActiveTime}           = $Self->{ConfigObject}->Get('SessionActiveTime') || 60 * 10;
 
     return $Self;
 }
@@ -191,7 +193,16 @@ sub CreateSessionID {
         $SessionLimit = $Self->{CustomerSessionLimit};
     }
 
-    if ($SessionLimit) {
+    # get session per user limit config
+    my $SessionPerUserLimit;
+    if ( $Param{UserType} && $Param{UserType} eq 'User' && $Self->{AgentSessionPerUserLimit} ) {
+        $SessionPerUserLimit = $Self->{AgentSessionPerUserLimit};
+    }
+    elsif ( $Param{UserType} && $Param{UserType} eq 'Customer' && $Self->{CustomerSessionPerUserLimit} ) {
+        $SessionPerUserLimit = $Self->{CustomerSessionPerUserLimit};
+    }
+
+    if ( $SessionLimit || $SessionPerUserLimit ) {
 
         # read data
         my @List = $Self->{MainObject}->DirectoryRead(
@@ -200,6 +211,7 @@ sub CreateSessionID {
         );
 
         my $ActiveSessionCount = 0;
+        my %ActiveSessionPerUserCount;
         SESSIONID:
         for my $SessionID (@List) {
 
@@ -222,9 +234,10 @@ sub CreateSessionID {
 
             my @SessionData = split '####', ${$StateData};
 
-            # get needed timestamps
+            # get needed data
             my $UserType        = $SessionData[0] || '';
-            my $UserLastRequest = $SessionData[2] || $TimeNow;
+            my $UserLogin       = $SessionData[1] || '';
+            my $UserLastRequest = $SessionData[3] || $TimeNow;
 
             next SESSIONID if $UserType ne $Param{UserType};
 
@@ -232,9 +245,20 @@ sub CreateSessionID {
 
             $ActiveSessionCount++;
 
+            $ActiveSessionPerUserCount{$UserLogin} || 0;
+            $ActiveSessionPerUserCount{$UserLogin}++;
+
             next SESSIONID if $ActiveSessionCount < $SessionLimit;
 
             $Self->{SessionIDErrorMessage} = 'Session limit reached! Please try again later.';
+
+            return;
+        }
+
+        # check session per user limit
+        if ( $SessionPerUserLimit && $Param{UserLogin} && $ActiveSessionPerUserCount{ $Param{UserLogin} } >= $SessionPerUserLimit ) {
+
+            $Self->{SessionIDErrorMessage} = 'Session per user limit reached!';
 
             return;
         }
@@ -289,10 +313,11 @@ sub CreateSessionID {
 
     # create needed state content
     my $UserType         = $Self->{Cache}->{$SessionID}->{UserType}         || '';
+    my $UserLogin        = $Self->{Cache}->{$SessionID}->{UserLogin}        || '';
     my $UserSessionStart = $Self->{Cache}->{$SessionID}->{UserSessionStart} || '';
     my $UserLastRequest  = $Self->{Cache}->{$SessionID}->{UserLastRequest}  || '';
 
-    my $StateContent = $UserType . '####' . $UserSessionStart . '####' . $UserLastRequest;
+    my $StateContent = $UserType . '####' . $UserLogin . '####' . $UserSessionStart . '####' . $UserLastRequest;
 
     # write state file
     $Self->{MainObject}->FileWrite(
@@ -429,9 +454,9 @@ sub GetExpiredSessionIDs {
 
         my @SessionData = split '####', ${$StateData};
 
-        # get needed timestamps
+        # get needed data
         my $UserSessionStart = $SessionData[1] || $TimeNow;
-        my $UserLastRequest  = $SessionData[2] || $TimeNow;
+        my $UserLastRequest  = $SessionData[3] || $TimeNow;
 
         # time calculation
         my $ValidTime     = $UserSessionStart + $MaxSessionTime - $TimeNow;
@@ -505,10 +530,11 @@ sub DESTROY {
 
         # create needed state content
         my $UserType         = $Self->{Cache}->{$SessionID}->{UserType}         || '';
+        my $UserLogin        = $Self->{Cache}->{$SessionID}->{UserLogin}        || '';
         my $UserSessionStart = $Self->{Cache}->{$SessionID}->{UserSessionStart} || '';
         my $UserLastRequest  = $Self->{Cache}->{$SessionID}->{UserLastRequest}  || '';
 
-        my $StateContent = $UserType . '####' . $UserSessionStart . '####' . $UserLastRequest;
+        my $StateContent = $UserType . '####' . $UserLogin . '####' . $UserSessionStart . '####' . $UserLastRequest;
 
         # write state file
         $Self->{MainObject}->FileWrite(

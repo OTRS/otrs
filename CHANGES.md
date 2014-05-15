@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-05-15 Added per user limit for agent and customer sessions.
  - 2014-05-06 Customer online list now links to the CIC.
  - 2014-04-16 Speedup TicketACLs by gather only the needed data from the DB based in the ACLs requirements, thanks to Moritz Lenz @ noris networks.
  - 2014-04-15 Added foreign db param to the customer user map.

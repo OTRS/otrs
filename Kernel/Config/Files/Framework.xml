@@ -831,12 +831,28 @@
             <String Regex="^[0-9]{1,8}$">100</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="AgentSessionPerUserLimit" Required="0" Valid="1">
+        <Description Translatable="1">Sets the maximum number of active sessions per agent within the timespan defined in SessionActiveTime.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Session</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]{1,8}$">20</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="CustomerSessionLimit" Required="0" Valid="1">
         <Description Translatable="1">Sets the maximum number of active customers within the timespan defined in SessionActiveTime.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,8}$">100</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerSessionPerUserLimit" Required="0" Valid="1">
+        <Description Translatable="1">Sets the maximum number of active sessions per customers within the timespan defined in SessionActiveTime.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Session</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]{1,8}$">20</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionDir" Required="1" Valid="1">
