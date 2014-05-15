@@ -483,6 +483,20 @@ for my $Entry ( @{ $OriginalResult{Result} } ) {
 }
 $OriginalResult{Result} = \%OriginalIdentifiers;
 
+# for some strange reasons if mod_perl is activated, it happnes that some times it uses it and
+# sometimes is doesn't for this test we delete the possible offending identifiers
+for my $Identifier (
+    qw(
+    Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ApacheDBIUsed
+    Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ApacheReloadUsed
+    Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ModDeflateLoaded
+    Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ModHeadersLoaded
+    )
+    )
+{
+    delete $OriginalResult{Result}->{$Identifier};
+}
+
 # execute function
 ( $Content, $Filename ) = $SupportBundleGeneratorObject->GenerateSupportData();
 
@@ -515,6 +529,20 @@ for my $Entry ( @{ $PerlStructureScalar->{Result} } ) {
     $NewIdentifiers{ $Entry->{Identifier} } = $Entry->{DisplayPath};
 }
 $PerlStructureScalar->{Result} = \%NewIdentifiers;
+
+# for some strange reasons if mod_perl is activated, it happnes that some times it uses it and
+# sometimes is doesn't for this test we delete the possible offending identifiers
+for my $Identifier (
+    qw(
+    Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ApacheDBIUsed
+    Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ApacheReloadUsed
+    Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ModDeflateLoaded
+    Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ModHeadersLoaded
+    )
+    )
+{
+    delete $PerlStructureScalar->{Result}->{$Identifier};
+}
 
 $Self->IsDeeply(
     \%OriginalResult,
