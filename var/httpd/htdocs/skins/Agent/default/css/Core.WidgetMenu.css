@@ -132,16 +132,15 @@ ul.ContextFunctions li.ContextSettings a span {
     width: 19px;
     height: 24px;
 }
+
+ul.ContextFunctions li.ContextSettings .fa {    
+    display: block;
+    font-size: 14px;
+    padding: 5px 0px 5px 3px;
+}
+
 ul.ContextFunctions li.ContextHelp a span {
     background: transparent url(../img/contexthelp.png) no-repeat 6px center;
-}
-
-ul.ContextFunctions li.ContextSettings a span {
-    background: url(../img/arrow_outlined_right.png) no-repeat center center;
-}
-
-.RTL ul.ContextFunctions li.ContextSettings a span {
-    background-image: url(../img/arrow_outlined_left.png);
 }
 
 ul.ContextFunctions li.Last:hover > a {

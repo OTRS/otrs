@@ -64,7 +64,10 @@
 [% RenderBlockEnd("DocumentActionRowRemoveColumnFilters") %]
 
                     <li class="ContextSettings">
-                        <a href="#" id="ShowContextSettingsDialog" title="[% Translate("Settings") | html %]"><span>[% Translate("Settings") | html %]</span></a>
+                        <a href="#" id="ShowContextSettingsDialog" title="[% Translate("Settings") | html %]">
+                            <i class="fa fa-cog"></i>
+                            <span>[% Translate("Settings") | html %]</span>
+                        </a>
                     </li>
                 </ul>
 

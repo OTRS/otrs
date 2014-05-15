@@ -29,21 +29,18 @@
     float: right;
 }
 
-.Header li:hover {
-    background: #F3970D;
-    background: -moz-linear-gradient(top,  #fdf0df 0%, #fbb948 15%, #f6ad3e 50%, #f3970d 50%, #e88007 96%, #dd6905 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdf0df), color-stop(15%,#fbb948), color-stop(50%,#f6ad3e), color-stop(50%,#f3970d), color-stop(96%,#e88007), color-stop(100%,#dd6905));
-    background: -webkit-linear-gradient(top,  #fdf0df 0%,#fbb948 15%,#f6ad3e 50%,#f3970d 50%,#e88007 96%,#dd6905 100%);
-    background: -o-linear-gradient(top,  #fdf0df 0%,#fbb948 15%,#f6ad3e 50%,#f3970d 50%,#e88007 96%,#dd6905 100%);
-    background: -ms-linear-gradient(top,  #fdf0df 0%,#fbb948 15%,#f6ad3e 50%,#f3970d 50%,#e88007 96%,#dd6905 100%);
-    background: linear-gradient(to bottom,  #fdf0df 0%,#fbb948 15%,#f6ad3e 50%,#f3970d 50%,#e88007 96%,#dd6905 100%);
-}
-
 .Header li.Active,
 .Header li.Active:hover,
 .Header li.Active:active {
     padding-left: 2px;
-    background-position: 0 -50px;
+}
+
+.Header a i {
+    color: #aaa;
+}
+
+.Header a:hover i {
+    color: #000;
 }
 
 .WidgetSimple > .DynamicFieldsContent {
