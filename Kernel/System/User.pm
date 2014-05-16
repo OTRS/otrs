@@ -881,7 +881,7 @@ sub UserList {
 
     # get configuration for the full name order
     my $FirstnameLastNameOrder = $Self->{ConfigObject}->Get('FirstnameLastnameOrder') || 0;
-    my $NoOutOfOffice          = $Param{NoOutOfOffice} || 0;
+    my $NoOutOfOffice = $Param{NoOutOfOffice} || 0;
 
     # check cache
     my $CacheKey = join '::', 'UserList', $Type, $Valid, $FirstnameLastNameOrder, $NoOutOfOffice;
@@ -923,7 +923,7 @@ sub UserList {
     }
 
     if ( $Type eq 'Short' ) {
-        for my $CurrentUserID (sort keys %UsersRaw ) {
+        for my $CurrentUserID ( sort keys %UsersRaw ) {
             $Users{$CurrentUserID} = $UsersRaw{$CurrentUserID}->[1];
         }
     }
@@ -1147,7 +1147,7 @@ sub TokenCheck {
 
 =begin Internal:
 
-=item _UserFullname
+=item _UserFullname()
 
 Builds the user fullname based on firstname, lastname and login. The order
 can be configured.
@@ -1164,7 +1164,7 @@ can be configured.
 sub _UserFullname {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed ( qw(UserFirstname UserLastname UserLogin) ) {
+    for my $Needed (qw(UserFirstname UserLastname UserLogin)) {
         if ( !$Param{$Needed} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
