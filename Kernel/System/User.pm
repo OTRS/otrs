@@ -929,8 +929,8 @@ sub UserList {
         for my $CurrentUserID ( sort keys %UsersRaw ) {
             my @Data         = @{ $UsersRaw{$CurrentUserID} };
             my $UserFullname = $Self->_UserFullname(
-                UserFirstname => $Data[1],
-                UserLastname  => $Data[2],
+                UserFirstname => $Data[2],
+                UserLastname  => $Data[1],
                 UserLogin     => $Data[3],
                 NameOrder     => $FirstnameLastNameOrder,
             );
