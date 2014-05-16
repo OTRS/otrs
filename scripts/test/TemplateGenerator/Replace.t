@@ -48,7 +48,6 @@ my $QueueObject = Kernel::System::Queue->new(
 );
 
 my $RandomID = $HelperObject->GetRandomID();
-$RandomID =~ s/\-//g;
 
 my @DynamicFieldsToAdd = (
     {

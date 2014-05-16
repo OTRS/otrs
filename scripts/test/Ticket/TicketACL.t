@@ -96,7 +96,6 @@ my %NewCustomerUserData = $CustomerUserObject->CustomerUserDataGet(
 
 # set helper options
 my $RandomID = $HelperObject->GetRandomID();
-$RandomID =~ s/\-//g;
 
 # set queue options
 my $QueueName = 'Queue_' . $RandomID;

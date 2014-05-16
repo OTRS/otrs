@@ -38,8 +38,6 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 # create a RandomID
 my $RandomID = $HelperObject->GetRandomID();
 
-$RandomID =~ s/\-//g;
-
 $ConfigObject->Set(
     Key   => 'DynamicFieldFromCustomerUser::Mapping',
     Value => {

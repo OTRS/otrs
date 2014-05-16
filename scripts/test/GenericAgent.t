@@ -127,8 +127,6 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 
 my $RandomID = $HelperObject->GetRandomID();
 
-$RandomID =~ s/\-//g;
-
 # Add a new Job
 my $Name   = 'UnitTest_' . $RandomID;
 my %NewJob = (

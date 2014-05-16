@@ -37,8 +37,6 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 
 my $RandomID = $HelperObject->GetRandomID();
 
-$RandomID =~ s/\-//g;
-
 # ------------------------------------------------------------ #
 # make preparations
 # ------------------------------------------------------------ #
