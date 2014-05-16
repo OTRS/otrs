@@ -91,8 +91,7 @@ if ( $Opts{l} ) {
     print "NOTICE: otrs.ArticleStorageSwitch.pl is running in liberal mode!\n";
 }
 
-print "B: $Opts{b}";
-exit;
+
 # extended input validation
 my %SearchParams;
 if ( $Opts{c} ) {
