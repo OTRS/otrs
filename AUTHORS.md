@@ -17,6 +17,7 @@ The following persons contributed to OTRS:
 * Denis Nelubin <dnelubin@gmail.com>
 * Dennis Schmelter <dennis.schmelter@otrs.com>
 * Diego Selzlein <diegoselzlein@gmail.com>
+* Dietmar Berg <dietmar.berg@thalesgroup.com>
 * Dominik Klein <dominik.klein@otrs.com>
 * Elias Probst <elias.probst@otrs.com>
 * Elva Novoa <elva.novoa@otrs.com>
@@ -53,6 +54,8 @@ The following persons contributed to OTRS:
 * Oliver Tappe <oliver.tappe@otrs.com>
 * Olivier Sallou <olivier.sallou@irisa.fr>
 * Patrick Rauscher <prauscher@ohai.su>
+* Paul Waring <paul@xk7.net>
+* Peter Krantz <peter@peterkrantz.se>
 * Ralf Hildebrandt <hildeb@charite.de>
 * Raphaël Doursenaud <rdoursenaud@gpcsolutions.fr>
 * Renée Bäcker <info@perl-services.de>
@@ -66,11 +69,13 @@ The following persons contributed to OTRS:
 * Theo van Hoesel <Th.J.v.Hoesel+GitHub@gmail.com>
 * Thomas Raith <thomas.raith@otrs.com>
 * Thorsten Eckel <thorsten.eckel@otrs.com>
-* Torsten Thau <torsten.thau@cape-it.de>
+* Torsten Thau <Torsten.Thau@cape-it.de>
 * Udo Bretz <udo.bretz@otrs.com>
 * Uwe Dieckmann <uwe.dieckmann@otrs.com>
 * Walter Souto <walter.souto@saude.go.gov.br>
+* Wojciech Kuchta <klapi85@gmail.com>
 * Wojciech Kuchta <wojciech.kuchta@allegro.pl>
 * juanmclavero <juanm.clavero@ibsalut.es>
 * otrsintern <otrsintern@gmail.com>
 * s7design <otrs@s7designcreative.com>
+* sergot <filip@sergot.pl>
