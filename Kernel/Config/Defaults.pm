@@ -1790,6 +1790,7 @@ via the Preferences button after logging in.
         },
         UnitTestHelperObject    => {
             ClassName       => 'Kernel::System::UnitTest::Helper',
+            Dependencies    => [@DefaultDependencies, 'UnitTestObject'],
         },
         PostMasterObject  => {
             ClassName       => 'Kernel::System::PostMaster',

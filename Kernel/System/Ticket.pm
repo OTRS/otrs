@@ -5476,6 +5476,12 @@ sub TicketMerge {
         AllUsers => 1,
     );
 
+    $Self->TicketMergeDynamicFields(
+        MergeTicketID => $Param{MergeTicketID},
+        MainTicketID  => $Param{MainTicketID},
+        UserID        => $Param{UserID},
+    );
+
     # trigger event
     $Self->EventHandler(
         Event => 'TicketMerge',
@@ -5486,6 +5492,80 @@ sub TicketMerge {
         UserID => $Param{UserID},
     );
 
+    return 1;
+}
+
+=item TicketMergeDynamicFields()
+
+merge dynamic fields from one ticket into another, that is, copy
+them from the merge ticket to the main ticket if the value is empty
+in the main ticket.
+
+    my $Success = $TicketObject->TicketMergeDynamicFields(
+        MainTicketID  => 123,
+        MergeTicketID => 42,
+        UserID        => 1,
+        DynamicFields => ['DynamicField_TicketFreeText1'], # optional
+    );
+
+If DynamicFields is not present, it is taken from the Ticket::MergeDynamicFields
+configuration.
+
+=cut
+
+sub TicketMergeDynamicFields {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed ( qw(MainTicketID MergeTicketID UserID) ) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            return;
+        }
+    }
+
+    my $DynamicFields = $Param{DynamicFields};
+
+    if ( !$DynamicFields ) {
+        $DynamicFields = $Self->{ConfigObject}->Get( 'Ticket::MergeDynamicFields' );
+    }
+
+    return 1 unless IsArrayRefWithData( $DynamicFields );
+
+    my %MainTicket = $Self->TicketGet(
+        TicketID      => $Param{MainTicketID},
+        UserID        => $Param{UserID},
+        DynamicFields => 1,
+    );
+    my %MergeTicket = $Self->TicketGet(
+        TicketID      => $Param{MergeTicketID},
+        UserID        => $Param{UserID},
+        DynamicFields => 1,
+    );
+
+    FIELDS:
+    for my $DynamicFieldName ( @{ $DynamicFields } ) {
+        my $Key = "DynamicField_$DynamicFieldName";
+        if ( defined $MergeTicket{ $Key } && length $MergeTicket{ $Key }
+            && !( defined $MainTicket{ $Key } && length $MainTicket{ $Key } )
+         ) {
+             my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+                Name => $DynamicFieldName,
+            );
+            if ( !$DynamicFieldConfig ) {
+                $Self->{LogObject}->Log(
+                    Priority    => 'Error',
+                    Message     => qq[No such dynamic field "$DynamicFieldName"],
+                );
+                return;
+            }
+            $Self->{DynamicFieldBackendObject}->ValueSet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                ObjectID           => $Param{MainTicketID},
+                UserID             => $Param{UserID},
+                Value              => $MergeTicket{ $Key },
+            );
+         }
+    }
     return 1;
 }
 
