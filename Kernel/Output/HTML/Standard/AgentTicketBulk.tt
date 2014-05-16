@@ -17,9 +17,19 @@
     <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
             <h1>[% Translate("Ticket Bulk Action") | html %]</h1>
+[% RenderBlockStart("CancelClosePopup") %]
             <p>
                 <a class="CancelClosePopup" href="#">[% Translate("Cancel & close window") | html %]</a>
             </p>
+[% RenderBlockEnd("CancelClosePopup") %]
+[% RenderBlockStart("UndoClosePopup") %]
+            <p>
+                [% Translate("The ticket has been locked") | html %].
+                <a class="UndoClosePopup" href="[% Env("Baselink") %]Action=AgentTicketBulk;Subaction=CancelAndUnlockTickets;[% Data.LockedTickets | html %] ;[% Env("ChallengeTokenParam") | html %]">
+                    [% Translate("Undo & close window") | html %]
+                </a>
+            </p>
+[% RenderBlockEnd("UndoClosePopup") %]
         </div>
         <div class="Content">
 
