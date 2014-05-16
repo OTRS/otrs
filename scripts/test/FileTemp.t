@@ -43,9 +43,12 @@ my $FH;
         "TempDir $TempDir exists",
     );
 
+    my $ConfiguredTempDir = $Self->{ConfigObject}->Get('TempDir');
+    $ConfiguredTempDir =~ s{/+}{/}smxg;
+
     $Self->Is(
         ( dirname $TempDir ),
-        $Self->{ConfigObject}->Get('TempDir'),
+        $ConfiguredTempDir,
         "$TempDir is relative to defined TempDir",
     );
 
