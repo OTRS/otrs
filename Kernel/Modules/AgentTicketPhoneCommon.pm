@@ -707,6 +707,7 @@ sub Run {
                 UserID         => $Self->{UserID},
                 HistoryType    => $Self->{Config}->{HistoryType},
                 HistoryComment => $Self->{Config}->{HistoryComment} || '%%',
+                UnlockOnAway   => 1,
             );
 
             # show error of creating article

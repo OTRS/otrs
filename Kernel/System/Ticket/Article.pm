@@ -94,6 +94,7 @@ example with "Charset & MimeType" and no "ContentType"
         HistoryType      => 'OwnerUpdate',                          # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
         HistoryComment   => 'Some free text!',
         UserID           => 123,
+        UnlockOnAway     => 1,                                      # Unlock ticket if owner is away
     );
 
 Events:
@@ -343,6 +344,31 @@ sub ArticleCreate {
         HistoryType  => $Param{HistoryType},
         Name         => $Param{HistoryComment},
     );
+
+    # unlock ticket if the owner is away (and the feature is enabled)
+    if (
+        $Param{UnlockOnAway}
+        && $OldTicketData{Lock} eq 'lock'
+        && $Self->{ConfigObject}->Get('Ticket::UnlockOnAway')
+        )
+    {
+        my %OwnerInfo = $Self->{UserObject}->GetUserData(
+            UserID => $OldTicketData{OwnerID},
+        );
+
+        if ( $OwnerInfo{OutOfOfficeMessage} ) {
+            $Self->TicketLockSet(
+                TicketID => $Param{TicketID},
+                Lock     => 'unlock',
+                UserID   => $Param{UserID},
+            );
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message =>
+                    "Ticket [$OldTicketData{TicketNumber}] unlocked, current owner is out of office!",
+            );
+        }
+    }
 
     # event
     $Self->EventHandler(

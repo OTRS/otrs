@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-05-16 Added: unlock ticket if owner is away, thanks to Moritz Lenz.
  - 2014-05-16 Added merging of dynamic fields on ticket merge, thanks to Moritz Lenz.
  - 2014-05-16 Detect cookie capability before login, thanks to Moritz Lenz.
  - 2014-05-16 Added support for HTTP basic auth in WebUserAgent, thanks to Renée Bäcker.

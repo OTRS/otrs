@@ -605,6 +605,8 @@ sub Run {
             }
         }
 
+        my $UnlockOnAway = 1;
+
         # set new owner
         my @NotifyDone;
         if ( $Self->{Config}->{Owner} ) {
@@ -623,6 +625,7 @@ sub Run {
                     NewUserID => $GetParam{OldOwnerID},
                     Comment   => $BodyText,
                 );
+                $UnlockOnAway = 0;
 
                 # remember to not notify owner twice
                 if ( $Success && $Success eq 1 ) {
@@ -641,6 +644,7 @@ sub Run {
                     NewUserID => $GetParam{NewOwnerID},
                     Comment   => $BodyText,
                 );
+                $UnlockOnAway = 0;
 
                 # remember to not notify owner twice
                 if ( $Success && $Success eq 1 ) {
@@ -792,6 +796,7 @@ sub Run {
                 HistoryComment                  => $Self->{Config}->{HistoryComment},
                 ForceNotificationToUserID       => \@NotifyUserIDs,
                 ExcludeMuteNotificationToUserID => \@NotifyDone,
+                UnlockOnAway                    => $UnlockOnAway,
                 %GetParam,
             );
             if ( !$ArticleID ) {

@@ -101,24 +101,24 @@ sub new {
     );
 
     # create common needed module objects
-    $Self->{UserObject} = Kernel::System::User->new( %{$Self} );
+    $Self->{UserObject} = $Kernel::OM->Get('UserObject');
     if ( !$Param{GroupObject} ) {
-        $Self->{GroupObject} = Kernel::System::Group->new( %{$Self} );
+        $Self->{GroupObject} = $Kernel::OM->Get('GroupObject');
     }
     else {
         $Self->{GroupObject} = $Param{GroupObject};
     }
 
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
+    $Self->{CustomerUserObject} = $Kernel::OM->Get('CustomerUserObject');
     if ( !$Param{CustomerGroupObject} ) {
-        $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new( %{$Self} );
+        $Self->{CustomerGroupObject} = $Kernel::OM->Get('CustomerGroupObject');
     }
     else {
         $Self->{CustomerGroupObject} = $Param{CustomerGroupObject};
     }
 
     if ( !$Param{QueueObject} ) {
-        $Self->{QueueObject} = Kernel::System::Queue->new( %{$Self} );
+        $Self->{QueueObject} = $Kernel::OM->Get('QueueObject');
     }
     else {
         $Self->{QueueObject} = $Param{QueueObject};
