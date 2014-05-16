@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 use HTTP::Headers;
+use List::Util qw(first);
 use LWP::UserAgent;
 
 use Kernel::System::Encode;
@@ -139,6 +140,20 @@ You can even pass some headers
         },
     );
 
+If you need to set credentials
+
+    my %Response = $WebUserAgentObject->Request(
+        URL          => 'http://example.com/someurl',
+        Type         => 'POST',
+        Data         => [ Attribute => 'Value', Attribute => 'OtherValue' ],
+        Credentials  => {
+            User     => 'otrs_user',
+            Password => 'otrs_password',
+            Realm    => 'OTRS Unittests',
+            Location => 'ftp.otrs.org:80',
+        },
+    );
+
 =cut
 
 sub Request {
@@ -174,6 +189,19 @@ sub Request {
 
         # init agent
         my $UserAgent = LWP::UserAgent->new();
+
+        # set credentials
+        if ( $Param{Credentials} ) {
+            my %CredentialParams    = %{ $Param{Credentials} || {} };
+            my @Keys                = qw(Location Realm User Password);
+            my $AllCredentialParams = !first { !defined $_ } @CredentialParams{@Keys};
+
+            if ($AllCredentialParams) {
+                $UserAgent->credentials(
+                    @CredentialParams{@Keys},
+                );
+            }
+        }
 
         # set headers
         if ( $Param{Header} ) {
@@ -235,7 +263,7 @@ sub Request {
     if ( $Param{Return} && $Param{Return} eq 'REQUEST' ) {
         return (
             Status  => $Response->status_line(),
-            Content => $Response->request()->as_string(),
+            Content => \$Response->request()->as_string(),
         );
     }
 

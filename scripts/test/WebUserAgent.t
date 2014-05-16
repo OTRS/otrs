@@ -139,6 +139,40 @@ my @Tests = (
         Return  => 'REQUEST',
         Matches => qr!Content-Type:\s+text/json!,
     },
+    {
+        Name        => 'GET - http - Credentials ' . $TestNumber++,
+        URL         => "http://jigsaw.w3.org/HTTP/Basic",
+        Timeout     => '100',
+        Proxy       => $Proxy,
+        Success     => '1',
+        Credentials => {
+            User     => 'guest',
+            Password => 'guest',
+            Realm    => 'test',
+            Location => 'jigsaw.w3.org:80',
+        },
+        Matches => qr!Your browser made it!,
+    },
+    {
+        Name        => 'GET - http - MissingCredentials ' . $TestNumber++,
+        URL         => "http://jigsaw.w3.org/HTTP/Basic",
+        Timeout     => '100',
+        Proxy       => $Proxy,
+        Success     => '0',
+        ErrorNumber => 401,
+    },
+    {
+        Name        => 'GET - http - IncompleteCredentials ' . $TestNumber++,
+        URL         => "http://jigsaw.w3.org/HTTP/Basic",
+        Timeout     => '100',
+        Proxy       => $Proxy,
+        Credentials => {
+            User     => 'guest',
+            Password => 'guest',
+        },
+        Success     => '0',
+        ErrorNumber => 401,
+    },
 );
 
 # get repository list
@@ -209,7 +243,7 @@ for my $Test (@Tests) {
 
         if ( $Test->{Matches} ) {
             $Self->True(
-                ( $Response{Content} =~ $Test->{Matches} ) || undef,
+                ( ${ $Response{Content} } =~ $Test->{Matches} ) || undef,
                 "$Test->{Name} - Matches",
             );
         }
