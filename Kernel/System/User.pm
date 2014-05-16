@@ -226,35 +226,10 @@ sub GetUserData {
     }
 
     # generate the full name and save it in the hash
-    my $UserFullname;
-    if ( $FirstnameLastNameOrder eq '0' ) {
-        $UserFullname = $Data{UserFirstname} . ' '
-            . $Data{UserLastname};
-    }
-    elsif ( $FirstnameLastNameOrder eq '1' ) {
-        $UserFullname = $Data{UserLastname} . ', '
-            . $Data{UserFirstname};
-    }
-    elsif ( $FirstnameLastNameOrder eq '2' ) {
-        $UserFullname = $Data{UserFirstname} . ' '
-            . $Data{UserLastname} . ' ('
-            . $Data{UserLogin} . ')';
-    }
-    elsif ( $FirstnameLastNameOrder eq '3' ) {
-        $UserFullname = $Data{UserLastname} . ', '
-            . $Data{UserFirstname} . ' ('
-            . $Data{UserLogin} . ')';
-    }
-    elsif ( $FirstnameLastNameOrder eq '4' ) {
-        $UserFullname = '(' . $Data{UserLogin}
-            . ') ' . $Data{UserFirstname}
-            . ' ' . $Data{UserLastname};
-    }
-    elsif ( $FirstnameLastNameOrder eq '5' ) {
-        $UserFullname = '(' . $Data{UserLogin}
-            . ') ' . $Data{UserLastname}
-            . ', ' . $Data{UserFirstname};
-    }
+    my $UserFullname = $Self->_UserFullname(
+        %Data,
+        NameOrder => $FirstnameLastNameOrder,
+    );
 
     # save the generated fullname in the hash.
     $Data{UserFullname} = $UserFullname;
@@ -942,15 +917,24 @@ sub UserList {
     my %UsersRaw;
     my %Users;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $UsersRaw{ $Row[0] } = $Row[1];
+        $UsersRaw{ $Row[0] } = \@Row;
     }
 
     if ( $Type eq 'Short' ) {
-        %Users = %UsersRaw;
+        for my $CurrentUserID (sort keys %UsersRaw ) {
+            $Users{$CurrentUserID} = $UsersRaw{$CurrentUserID}->[1];
+        }
     }
     else {
         for my $CurrentUserID ( sort keys %UsersRaw ) {
-            my $UserFullname = $Self->UserName( UserID => $CurrentUserID );
+            my @Data         = @{ $UsersRaw{$CurrentUserID} };
+            my $UserFullname = $Self->_UserFullname(
+                UserFirstname => $Data[1],
+                UserLastname  => $Data[2],
+                UserLogin     => $Data[3],
+                NameOrder     => $FirstnameLastNameOrder,
+            );
+
             $Users{$CurrentUserID} = $UserFullname;
         }
     }
@@ -1155,6 +1139,75 @@ sub TokenCheck {
     # return false if token is invalid
     return;
 }
+
+=begin Internal:
+
+=item _UserFullname
+
+Builds the user fullname based on firstname, lastname and login. The order
+can be configured.
+
+    my $Fullname = $Object->_UserFullname(
+        UserFirstname => 'Test',
+        UserLastname  => 'Person',
+        UserLogin     => 'tp',
+        NameOrder     => 0,         # optional 0, 1, 2, 3, 4, 5
+    );
+
+=cut
+
+sub _UserFullname {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed ( qw(UserFirstname UserLastname UserLogin) ) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+
+            return;
+        }
+    }
+
+    my $FirstnameLastNameOrder = $Param{NameOrder} || 0;
+
+    my $UserFullname;
+    if ( $FirstnameLastNameOrder eq '0' ) {
+        $UserFullname = $Param{UserFirstname} . ' '
+            . $Param{UserLastname};
+    }
+    elsif ( $FirstnameLastNameOrder eq '1' ) {
+        $UserFullname = $Param{UserLastname} . ', '
+            . $Param{UserFirstname};
+    }
+    elsif ( $FirstnameLastNameOrder eq '2' ) {
+        $UserFullname = $Param{UserFirstname} . ' '
+            . $Param{UserLastname} . ' ('
+            . $Param{UserLogin} . ')';
+    }
+    elsif ( $FirstnameLastNameOrder eq '3' ) {
+        $UserFullname = $Param{UserLastname} . ', '
+            . $Param{UserFirstname} . ' ('
+            . $Param{UserLogin} . ')';
+    }
+    elsif ( $FirstnameLastNameOrder eq '4' ) {
+        $UserFullname = '(' . $Param{UserLogin}
+            . ') ' . $Param{UserFirstname}
+            . ' ' . $Param{UserLastname};
+    }
+    elsif ( $FirstnameLastNameOrder eq '5' ) {
+        $UserFullname = '(' . $Param{UserLogin}
+            . ') ' . $Param{UserLastname}
+            . ', ' . $Param{UserFirstname};
+    }
+
+    return $UserFullname;
+}
+
+=end Internal:
+
+=cut
 
 1;
 
