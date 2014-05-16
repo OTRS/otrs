@@ -120,6 +120,7 @@ sub Run {
 
     # check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
+    my $BrowserHasCookie = 0;
     if ( $Self->{ConfigObject}->Get('SessionUseCookie') ) {
         $Param{SessionIDCookie} = $Self->{ParamObject}->GetCookie( Key => $Param{SessionName} );
         if ( $Param{SessionIDCookie} ) {
@@ -207,6 +208,25 @@ sub Run {
         # login is invalid
         if ( !$User ) {
 
+            my $Expires = '+' . $Self->{ConfigObject}->Get('SessionMaxTime') . 's';
+            if ( !$Self->{ConfigObject}->Get('SessionUseCookieAfterBrowserClose') ) {
+                $Expires = '';
+            }
+
+            $Kernel::OM->ObjectParamAdd(
+                LayoutObject => {
+                    SetCookies => {
+                        OTRSBrowserHasCookie => $Self->{ParamObject}->SetCookie(
+                            Key      => 'OTRSBrowserHasCookie',
+                            Value    => 1,
+                            Expires  => $Expires,
+                            Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
+                            Secure   => $CookieSecureAttribute,
+                            HTTPOnly => 1,
+                        ),
+                    },
+                }
+            );
             my $LayoutObject = $Kernel::OM->Get('LayoutObject');
 
             # redirect to alternate login
@@ -238,6 +258,17 @@ sub Run {
 
         # login is successful
         my %UserData = $Self->{UserObject}->GetUserData( User => $User, Valid => 1 );
+
+        # check if the browser supports cookies
+
+        if ( $Self->{ParamObject}->GetCookie( Key => 'OTRSBrowserHasCookie' ) ) {
+            $Kernel::OM->ObjectParamAdd(
+                LayoutObject => {
+                    BrowserHasCookie => 1,
+                },
+            );
+        }
+
 
         # check needed data
         if ( !$UserData{UserID} || !$UserData{UserLogin} ) {
@@ -356,6 +387,14 @@ sub Run {
                         Secure   => scalar $CookieSecureAttribute,
                         HTTPOnly => 1,
                     ),
+                    OTRSBrowserHasCookie => $Self->{ParamObject}->SetCookie(
+                        Key      => 'OTRSBrowserHasCookie',
+                        Value    => '',
+                        Expires  => '-1y',
+                        Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
+                        Secure   => $CookieSecureAttribute,
+                        HTTPOnly => 1,
+                    ),
                 },
                 SessionID   => $NewSessionID,
                 SessionName => $Param{SessionName},
@@ -369,7 +408,10 @@ sub Run {
         }
 
         # redirect with new session id
-        print $Kernel::OM->Get('LayoutObject')->Redirect( OP => $Param{RequestedURL} );
+        print $Kernel::OM->Get('LayoutObject')->Redirect(
+            OP    => $Param{RequestedURL},
+            Login => 1,
+        );
         return 1;
     }
 

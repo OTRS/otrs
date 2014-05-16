@@ -475,6 +475,10 @@ return html for browser to redirect
         ExtURL => "http://some.example.com/",
     );
 
+During login action, C<Login => 1> should be passed to Redirect(),
+which indicates that if the browser has cookie support, it is OK
+for the session cookie to be not yet set.
+
 =cut
 
 sub Redirect {
@@ -541,7 +545,7 @@ sub Redirect {
     my $Output = $Cookies . $Self->Output( TemplateFile => 'Redirect', Data => \%Param );
 
     # add session id to redirect if no cookie is enabled
-    if ( !$Self->{SessionIDCookie} ) {
+    if ( !$Self->{SessionIDCookie}  && !($Self->{BrowserHasCookie} && $Param{Login} ) ) {
 
         # rewrite location header
         $Output =~ s{
@@ -583,8 +587,28 @@ sub Login {
     # set Action parameter for the loader
     $Self->{Action} = 'Login';
 
-    # add cookies if exists
     my $Output = '';
+    if ( $Self->{ConfigObject}->Get('SessionUseCookie') ) {
+        # always set a cookie, so that at the time the user submits
+        # the password, we know already if the browser supports cookies.
+        # ( the session cookie isn't available at that time ).
+        my $CookieSecureAttribute = 0;
+        if ( $Self->{ConfigObject}->Get('HttpType') eq 'https' ) {
+
+            # Restrict Cookie to HTTPS if it is used.
+            $CookieSecureAttribute = 1;
+        }
+        $Self->{SetCookies}{OTRSBrowserHasCookie} = $Self->{ParamObject}->SetCookie(
+            Key      => 'OTRSBrowserHasCookie',
+            Value    => 1,
+            Expires  => '1y',
+            Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
+            Secure   => $CookieSecureAttribute,
+            HttpOnly => 1,
+        );
+    }
+
+    # add cookies if exists
     if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
         for ( sort keys %{ $Self->{SetCookies} } ) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
@@ -2902,6 +2926,27 @@ sub CustomerLogin {
 
     # set Action parameter for the loader
     $Self->{Action} = 'CustomerLogin';
+
+    if ( $Self->{ConfigObject}->Get('SessionUseCookie') ) {
+        # always set a cookie, so that at the time the user submits
+        # the password, we know already if the browser supports cookies.
+        # ( the session cookie isn't available at that time ).
+        my $CookieSecureAttribute = 0;
+        if ( $Self->{ConfigObject}->Get('HttpType') eq 'https' ) {
+
+            # Restrict Cookie to HTTPS if it is used.
+            $CookieSecureAttribute = 1;
+        }
+        $Self->{SetCookies}{OTRSBrowserHasCookie} = $Self->{ParamObject}->SetCookie(
+            Key      => 'OTRSBrowserHasCookie',
+            Value    => 1,
+            Expires  => '1y',
+            Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
+            Secure   => $CookieSecureAttribute,
+            HttpOnly => 1,
+        );
+    }
+
 
     # add cookies if exists
     if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {

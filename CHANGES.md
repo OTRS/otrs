@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-05-16 Detect cookie capability before login, thanks to Moritz Lenz.
  - 2014-05-16 Added support for HTTP basic auth in WebUserAgent, thanks to Renée Bäcker.
  - 2014-05-15 Added per user limit for agent and customer sessions.
  - 2014-05-06 Customer online list now links to the CIC.
