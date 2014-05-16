@@ -151,7 +151,6 @@ my @Tests = (
             Realm    => 'test',
             Location => 'jigsaw.w3.org:80',
         },
-        Matches => qr!Your browser made it!,
     },
     {
         Name        => 'GET - http - MissingCredentials ' . $TestNumber++,
