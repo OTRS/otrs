@@ -895,19 +895,14 @@ sub UserList {
             . " $Self->{ConfigObject}->{DatabaseUserTableUser}";
     }
 
+    my $SQL = "SELECT $SelectStr FROM $Self->{ConfigObject}->{DatabaseUserTable}";
+
     # sql query
     if ($Valid) {
-        return if !$Self->{DBObject}->Prepare(
-            SQL =>
-                "SELECT $SelectStr FROM $Self->{ConfigObject}->{DatabaseUserTable} WHERE valid_id IN "
-                . "( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )",
-        );
+        $SQL .= " WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
     }
-    else {
-        return if !$Self->{DBObject}->Prepare(
-            SQL => "SELECT $SelectStr FROM $Self->{ConfigObject}->{DatabaseUserTable}",
-        );
-    }
+
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
     # fetch the result
     my %UsersRaw;
