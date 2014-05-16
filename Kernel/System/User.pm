@@ -883,8 +883,9 @@ sub UserName {
 return a hash with all users
 
     my %List = $UserObject->UserList(
-        Type  => 'Short', # Short|Long, default Short
-        Valid => 1,       # not required, default 0
+        Type          => 'Short', # Short|Long, default Short
+        Valid         => 1,       # not required, default 0
+        NoOutOfOffice => 1,       # optional, default 0
     );
 
 =cut
@@ -905,9 +906,10 @@ sub UserList {
 
     # get configuration for the full name order
     my $FirstnameLastNameOrder = $Self->{ConfigObject}->Get('FirstnameLastnameOrder') || 0;
+    my $NoOutOfOffice          = $Param{NoOutOfOffice} || 0;
 
     # check cache
-    my $CacheKey = join '::', 'UserList', $Type, $Valid, $FirstnameLastNameOrder;
+    my $CacheKey = join '::', 'UserList', $Type, $Valid, $FirstnameLastNameOrder, $NoOutOfOffice;
     my $Cache = $Self->{CacheInternalObject}->Get(
         Key => $CacheKey,
     );
@@ -956,15 +958,18 @@ sub UserList {
     }
 
     # check vacation option
-    USERID:
-    for my $UserID ( sort keys %Users ) {
-        next USERID if !$UserID;
+    if ( !$NoOutOfOffice ) {
 
-        my %User = $Self->GetUserData(
-            UserID => $UserID,
-        );
-        if ( $User{OutOfOfficeMessage} ) {
-            $Users{$UserID} .= ' ' . $User{OutOfOfficeMessage};
+        USERID:
+        for my $UserID ( sort keys %Users ) {
+            next USERID if !$UserID;
+
+            my %User = $Self->GetUserData(
+                UserID => $UserID,
+            );
+            if ( $User{OutOfOfficeMessage} ) {
+                $Users{$UserID} .= ' ' . $User{OutOfOfficeMessage};
+            }
         }
     }
 
