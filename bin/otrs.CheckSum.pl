@@ -129,6 +129,7 @@ sub ProcessDirectory {
         next FILE if $File =~ m{js-cache}smx;
         next FILE if $File =~ m{css-cache}smx;
 
+        # next if not readable
         # print "File: $File\n";
         open( my $In, '<', $OrigFile ) || die "ERROR: $!";    ## no critic
 

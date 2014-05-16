@@ -292,6 +292,11 @@ my @NeededModules = (
         },
     },
     {
+        Module   => 'IO::Zlib',
+        Required => 1,
+        Comment  => 'Required for compressed file generation.',
+    },
+    {
         Module    => 'JSON::XS',
         Required  => 0,
         Comment   => 'Recommended for faster AJAX/JavaScript handling.',

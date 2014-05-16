@@ -276,6 +276,8 @@ sub Register {
         }
     }
 
+    my $SupportDataSending = $Param{SupportDataSending} || 'No';
+
     # create webuseragent object
     my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
         DBObject     => $Self->{DBObject},
@@ -293,10 +295,9 @@ sub Register {
         OSVersion   => $OSInfo{OSName},
         OTRSVersion => $Self->{ConfigObject}->Get('Version'),
         FQDN        => $Self->{ConfigObject}->Get('FQDN'),
-        DatabaseVersion => $Self->{DBObject}->Version(),
+        DatabaseVersion    => $Self->{DBObject}->Version(),
+        SupportDataSending => $SupportDataSending,
     );
-
-    my $SupportDataSending = $Param{SupportDataSending} || 'No';
 
     # send SupportData if sending is activated
     if ( $SupportDataSending eq 'Yes' ) {
@@ -473,7 +474,9 @@ sub Register {
 
 Get the registration data from the system.
 
-    my %RegistrationInfo = $RegistrationObject->RegistrationDataGet();
+    my %RegistrationInfo = $RegistrationObject->RegistrationDataGet(
+        Extended => 1,              # optional, to also get basic system data
+    );
 
 =cut
 
@@ -487,6 +490,22 @@ sub RegistrationDataGet {
 
     # return empty hash if no UniqueID is found
     return () if !$RegistrationData{UniqueID};
+
+    if ( $Param{Extended} ) {
+        $RegistrationData{SupportDataSending} //= 'No';
+        $RegistrationData{APIVersion} = $Self->{APIVersion};
+
+        # read data from environment object
+        my %OSInfo = $Self->{EnvironmentObject}->OSInfoGet();
+        $RegistrationData{System} = {
+            PerlVersion => sprintf( "%vd", $^V ),
+            OSType      => $OSInfo{OS},
+            OSVersion   => $OSInfo{OSName},
+            OTRSVersion => $Self->{ConfigObject}->Get('Version'),
+            FQDN        => $Self->{ConfigObject}->Get('FQDN'),
+            DatabaseVersion => $Self->{DBObject}->Version(),
+        };
+    }
 
     return %RegistrationData;
 }
@@ -558,6 +577,9 @@ sub RegistrationUpdateSend {
     my $SupportDataSending
         = $Param{SupportDataSending} || $RegistrationData{SupportDataSending} || 'No';
 
+    # add support data sending flag
+    $System{SupportDataSending} = $SupportDataSending;
+
     # send SupportData if sending is activated
     if ( $SupportDataSending eq 'Yes' ) {
 
@@ -619,6 +641,9 @@ sub RegistrationUpdateSend {
         );
         return %Result;
     }
+
+    # convert internal used charset
+    $Self->{EncodeObject}->EncodeInput( $Response{Content} );
 
     # decode JSON data
     my $ResponseData = $Self->{JSONObject}->Decode(
