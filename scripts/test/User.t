@@ -42,6 +42,66 @@ $Self->True(
     'UserAdd()',
 );
 
+$ConfigObject->Set(
+    Key   => 'FirstnameLastnameOrder',
+    Value => 0,
+);
+$Self->Is(
+    $UserObject->UserName( UserID => $UserID ),
+    'Firstname Test1 Lastname Test1',
+    'UserName - Order 0',
+);
+
+my %NameCheckList0 = $UserObject->UserList( Type => 'Long' );
+$Self->Is(
+    $NameCheckList0{$UserID},
+    'Firstname Test1 Lastname Test1',
+    'Username in List - Order 0',
+);
+
+
+$ConfigObject->Set(
+    Key   => 'FirstnameLastnameOrder',
+    Value => 1,
+);
+$Self->Is(
+    $ConfigObject->Get( 'FirstnameLastnameOrder' ),
+    1,
+    'Check if NameOrder option is set correctly',
+);
+
+$Self->Is(
+    $UserObject->UserName( UserID => $UserID ),
+    'Lastname Test1, Firstname Test1',
+    'UserName - Order 1',
+);
+
+my %NameCheckList1 = $UserObject->UserList( Type => 'Long' );
+$Self->Is(
+    $NameCheckList1{$UserID},
+    'Lastname Test1, Firstname Test1',
+    'Username in List - Order 1',
+);
+
+
+$ConfigObject->Set(
+    Key   => 'FirstnameLastnameOrder',
+    Value => 2,
+);
+$Self->Is(
+    $UserObject->UserName( UserID => $UserID ),
+    "Firstname Test1 Lastname Test1 ($UserRand1)",
+    'UserName - Order 2',
+);
+
+my %NameCheckList2 = $UserObject->UserList( Type => 'Long' );
+$Self->Is(
+    $NameCheckList2{$UserID},
+    "Firstname Test1 Lastname Test1 ($UserRand1)",
+    'Username in List - Order 2',
+);
+
+
 my %UserData = $UserObject->GetUserData( UserID => $UserID );
 
 $Self->Is(
