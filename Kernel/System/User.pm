@@ -524,7 +524,7 @@ sub UserSearch {
     my ( $Self, %Param ) = @_;
 
     my %Users;
-    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+    my $Valid = $Param{Valid} // 1;
 
     # check needed stuff
     if ( !$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch} ) {
@@ -871,13 +871,7 @@ sub UserList {
     my $Type = $Param{Type} || 'Short';
 
     # set valid option
-    my $Valid = $Param{Valid};
-    if ( !defined $Valid || $Valid ) {
-        $Valid = 1;
-    }
-    else {
-        $Valid = 0;
-    }
+    my $Valid = $Param{Valid} // 1;
 
     # get configuration for the full name order
     my $FirstnameLastNameOrder = $Self->{ConfigObject}->Get('FirstnameLastnameOrder') || 0;
