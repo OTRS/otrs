@@ -9,7 +9,7 @@
 *~
 
 # OTRS
-ARCHIVE
+/ARCHIVE
 doc/manual/en
 Kernel/Config/Files/ZZZ*.pm
 Kernel/Config/GenericAgent.pm
@@ -66,7 +66,6 @@ var/httpd/htdocs/skins/Customer/default/css/*Fred*css
 Support.sopm
 CHANGES-Support
 Kernel/Config/Files/Support.xml
-Kernel/cpan-lib/Archive/*
 Kernel/Language/*_Support.pm
 Kernel/Modules/AdminSupport.pm
 Kernel/System/Support
