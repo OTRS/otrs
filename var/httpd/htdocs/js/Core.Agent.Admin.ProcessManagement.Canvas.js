@@ -862,6 +862,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
     TargetNS.Redraw = function () {
         $('#ShowEntityIDs').removeClass('Visible').text(Core.Agent.Admin.ProcessManagement.Localization.ShowEntityIDs);
+        jsPlumb.reset();
         $('#Canvas').empty();
         TargetNS.Init();
     };
