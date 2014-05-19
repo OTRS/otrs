@@ -132,7 +132,7 @@ getLabel				:	see constructor docs
 		* whose source or target has been dragged since the last spacing operation, are included.
 		*/
 		this.execute = function() {
-			var connections = _jsPlumb.select(), els = [], jpcl = jsPlumb.CurrentLibrary;
+			var connections = _jsPlumb.select(), els = [];
 			connections.each(function(c) {
 				var lbl = getLabel(c);
 				if (lbl != null) {
@@ -141,8 +141,8 @@ getLabel				:	see constructor docs
 						size = [ $(lblElement).outerWidth(), $(lblElement).outerHeight() ],
 						conn = c.getConnector(),
 						op = conn.canvas.offsetParent,
-						opo = op == null ? {left:0, top:0 } : jpcl.getOffset(jpcl.getElementObject(op)),
-						co = jpcl.getOffset(jpcl.getElementObject(conn.canvas)),
+						opo = op == null ? {left:0, top:0 } : $(op).offset(),
+						co = $(conn.canvas).offset(),
 						data = {
 							connection:c,
 							label:lbl,

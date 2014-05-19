@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-05-19 Updated jsPlumb, Farahey and label spacer code.
  - 2014-05-16 Added: unlock ticket if owner is away, thanks to Moritz Lenz.
  - 2014-05-16 Added merging of dynamic fields on ticket merge, thanks to Moritz Lenz.
  - 2014-05-16 Detect cookie capability before login, thanks to Moritz Lenz.

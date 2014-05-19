@@ -622,7 +622,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                         originalEvent.stopPropagation();
                         return false;
                     },
-                    mouseexit: function(labelOverlay, originalEvent) {
+                    mouseleave: function(labelOverlay, originalEvent) {
                         TargetNS.UnHighlightTransitionLabel(labelOverlay);
                         originalEvent.stopPropagation();
                         return false;
@@ -643,7 +643,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             }
         });
 
-        Connection.bind('mouseexit', function (ActiveConnection) {
+        Connection.bind('mouseleave', function (ActiveConnection) {
             var Overlay = Connection.getOverlay('label');
 
             // remove hover class from label
@@ -765,6 +765,9 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 [ "PlainArrow", { location: -15, width: 20, length: 15 } ]
             ]
         });
+
+        // set default container element. This is where all the svg elements of jsplumb will be appended to.
+        jsPlumb.Defaults.Container = $("#Canvas");
 
         // Always start with drawing the start event element
         TargetNS.CreateStartEvent();
