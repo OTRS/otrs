@@ -58,6 +58,11 @@ if ( $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
 # config
 my @NeededModules = (
     {
+        Module   => 'Archive::Tar',
+        Required => 1,
+        Comment  => 'Required for compressed file generation.',
+    },
+    {
         Module   => 'Crypt::Eksblowfish::Bcrypt',
         Required => 0,
         Comment  => 'For strong password hashing.',
@@ -129,11 +134,6 @@ my @NeededModules = (
         Module   => 'IO::Socket::SSL',
         Required => 0,
         Comment  => 'Required for SSL connections to web and mail servers.',
-    },
-    {
-        Module   => 'IO::Zlib',
-        Required => 1,
-        Comment  => 'Required for compressed file generation.',
     },
     {
         Module   => 'JSON::XS',
