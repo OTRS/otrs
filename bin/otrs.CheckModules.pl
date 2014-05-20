@@ -153,6 +153,14 @@ my @NeededModules = (
         },
     },
     {
+        Module   => 'Archive::Tar',
+        Required => 1,
+        Comment  => 'Required for compressed file generation (in perlcore).',
+        InstTypes => {
+            zypper => 'perl-Archive-Tar',
+        },
+    },
+    {
         Module    => 'Crypt::Eksblowfish::Bcrypt',
         Required  => 0,
         Comment   => 'For strong password hashing.',
@@ -290,11 +298,6 @@ my @NeededModules = (
             ppm    => 'IO-Socket-SSL',
             zypper => 'perl-IO-Socket-SSL',
         },
-    },
-    {
-        Module   => 'IO::Zlib',
-        Required => 1,
-        Comment  => 'Required for compressed file generation.',
     },
     {
         Module    => 'JSON::XS',
