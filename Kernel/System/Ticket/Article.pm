@@ -19,6 +19,7 @@ use Kernel::System::Notification;
 use Kernel::System::EmailParser;
 
 use Kernel::System::VariableCheck qw(:all);
+use POSIX qw(ceil);
 
 =head1 NAME
 
@@ -1270,6 +1271,7 @@ returns an array with hash ref (hash contains result of ArticleGet())
         TicketID      => 123,
         DynamicFields => 1,         # 0 or 1, default 1. To include or not the dynamic field values on the return structure.
         UserID        => 1,
+        Order         => 'ASC',     # 'ASC' or 'DESC', default 'ASC'
     );
 
 or with "StripPlainBodyAsAttachment => 1" feature to not include first
@@ -1297,7 +1299,12 @@ only with given article types
         TicketID    => 123,
         UserID      => 1,
         ArticleType => [ $ArticleType1, $ArticleType2 ],
+        # or
+        ArticleTypeID => [ $ArticleTypeID1, $ArticleTypeID2 ],
     );
+
+Likewise C<ArticleSenderTypeID> allows filtering of only articles with
+the given sender type IDs.
 
 example of how to access the hash ref
 
@@ -1332,12 +1339,15 @@ sub ArticleContentIndex {
     }
 
     my @ArticleBox = $Self->ArticleGet(
-        TicketID      => $Param{TicketID},
-        ArticleType   => $Param{ArticleType},
-        UserID        => $Param{UserID},
-        DynamicFields => $Param{DynamicFields},
-        Page          => $Param{Page},
-        Limit         => $Param{Limit},
+        TicketID            => $Param{TicketID},
+        ArticleType         => $Param{ArticleType},
+        UserID              => $Param{UserID},
+        DynamicFields       => $Param{DynamicFields},
+        Page                => $Param{Page},
+        Limit               => $Param{Limit},
+        ArticleTypeID       => $Param{ArticleTypeID},
+        ArticleSenderTypeID => $Param{ArticleSenderTypeID},
+        Order               => $Param{Order},
     );
 
     # article attachments of each article
@@ -1403,9 +1413,11 @@ returns articles in array / hash by given ticket id but
 only requested article types
 
     my @ArticleIndex = $TicketObject->ArticleGet(
-        TicketID    => 123,
-        ArticleType => [ $ArticleType1, $ArticleType2 ],
-        UserID      => 123,
+        TicketID      => 123,
+        ArticleType   => [ $ArticleType1, $ArticleType2 ],
+        # or
+        ArticleTypeID => [ $ArticleTypeID1, $ArticleTypeID2 ],
+        UserID        => 123,
     );
 
 returns articles in array / hash by given ticket id but
@@ -1416,6 +1428,8 @@ certain views)
     my @ArticleIndex = $TicketObject->ArticleGet(
         TicketID            => 123,
         ArticleSenderType   => [ $ArticleSenderType1, $ArticleSenderType2 ],
+        # or
+        ArticleSenderTypeID => [ $ArticleSenderTypeID1, $ArticleSenderTypeID2 ],
         UserID              => 123,
     );
 
@@ -1479,6 +1493,13 @@ sub ArticleGet {
             $ArticleTypeSQL = " AND sa.article_type_id IN ($ArticleTypeSQL)";
         }
     }
+    my $ArticleTypeIDSQL = '';
+    if ( IsArrayRefWithData( $Param{ArticleTypeID} ) ) {
+        my $QuotedIDs = join ', ',
+            map { $Self->{DBObject}->Quote( $_, 'Integer' ) }
+            @{ $Param{ArticleTypeID} };
+        $ArticleTypeIDSQL = " AND sa.article_type_id IN ($QuotedIDs)";
+    }
 
     # sender type lookup
     my $SenderTypeSQL = '';
@@ -1497,6 +1518,14 @@ sub ArticleGet {
         if ($SenderTypeSQL) {
             $SenderTypeSQL = " AND sa.article_sender_type_id IN ($SenderTypeSQL)";
         }
+    }
+
+    my $SenderTypeIDSQL;
+    if ( IsArrayRefWithData( $Param{ArticleSenderTypeID} ) ) {
+        my $QuotedIDs = join ', ',
+            map { $Self->{DBObject}->Quote( $_, 'Integer' ) }
+            @{ $Param{ArticleSenderTypeID} };
+        $SenderTypeIDSQL = " AND sa.article_sender_type_id IN ($QuotedIDs)";
     }
 
     # sql query
@@ -1530,10 +1559,16 @@ sub ArticleGet {
     if ($ArticleTypeSQL) {
         $SQL .= $ArticleTypeSQL;
     }
+    if ($ArticleTypeIDSQL) {
+        $SQL .= $ArticleTypeIDSQL;
+    }
 
     # add sender types
     if ($SenderTypeSQL) {
         $SQL .= $SenderTypeSQL;
+    }
+    if ($SenderTypeIDSQL) {
+        $SQL .= $SenderTypeIDSQL;
     }
 
     # set order
@@ -1886,11 +1921,18 @@ sub ArticleGet {
 
 =item ArticleCount()
 
-Returns the number of articles for a ticket
+Returns the number of articles for a ticket, possibly filtered by
+ArticleSenderTypeID and ArticleTypeID
 
     my $ArticleCount = $TicketID->ArticleCount(
-        TicketID    => 123,
+        TicketID            => 123,
+        ArticleTypeID       => [1, 2], # optional
+        ArticleSenderTypeID => [1, 2], # optional
     );
+
+If the argument C<UpToArticleID> is given, only articles that would normally
+shown before (and including) this article are shown; C<Order> (which can
+be C<ASC> or C<DESC>) controls whether ascending or descending order is used.
 
 =cut
 
@@ -1903,8 +1945,42 @@ sub ArticleCount {
         return;
     }
 
-    my $SQL = 'SELECT COUNT(id) FROM article WHERE ticket_id = ?';
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => [ \$Param{TicketID} ] );
+    my $SQL  = 'SELECT COUNT(id) FROM article WHERE ticket_id = ?';
+    my @Bind = ( \$Param{TicketID} );
+    if ( IsArrayRefWithData( $Param{ArticleTypeID} ) ) {
+        $SQL .= sprintf ' AND article_type_id IN (%s) ',
+            join ', ', ('?') x @{ $Param{ArticleTypeID} };
+        push @Bind, map { \$_ } @{ $Param{ArticleTypeID} };
+    }
+    if ( IsArrayRefWithData( $Param{ArticleSenderTypeID} ) ) {
+        $SQL .= sprintf ' AND article_sender_type_id IN (%s) ',
+            join ', ', ('?') x @{ $Param{ArticleSenderTypeID} };
+        push @Bind, map { \$_ } @{ $Param{ArticleSenderTypeID} };
+    }
+
+    if ( defined $Param{UpToArticleID} ) {
+        $Self->{DBObject}->Prepare(
+            SQL  => 'SELECT create_time FROM article WHERE id = ?',
+            Bind => [ \$Param{UpToArticleID} ],
+        );
+
+        my $CreateTime;
+
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            $CreateTime = $Row[0];
+        }
+
+        if ( !defined $CreateTime ) {
+            return 0;
+        }
+
+        my $Op = ( $Param{Order} // 'ASC' ) eq 'DESC' ? '>' : '<';
+
+        $SQL .= " AND (create_time $Op ? OR (create_time = ? AND id $Op= ?))";
+        push @Bind, \$CreateTime, \$CreateTime, \$Param{UpToArticleID};
+    }
+
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
 
     my $Count;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -1912,6 +1988,45 @@ sub ArticleCount {
     }
 
     return $Count;
+}
+
+=item ArticlePage()
+
+Get the page number of a given article when pagination is active
+
+    my $Page = $TicketObject->ArticlePage(
+        TicketID            => 123,
+        ArticleID           => 4242,
+        RowsPerPage         => 20,
+        ArticleTypeID       => [1, 2], # optional
+        ArticleSenderTypeID => [1],    # optional
+        Order               => 'DESC', # optional, 'ASC' or 'DESC'
+    );
+
+=cut
+
+sub ArticlePage {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(ArticleID TicketID RowsPerPage)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
+    }
+
+    my $Count = $Self->ArticleCount(
+        TicketID            => $Param{TicketID},
+        UpToArticleID       => $Param{ArticleID},
+        ArticleSenderTypeID => $Param{ArticleSenderTypeID},
+        ArticleTypeID       => $Param{ArticleTypeID},
+        Order               => $Param{Order},
+    );
+
+    return ceil( $Count / $Param{RowsPerPage} );
 }
 
 =begin Internal:

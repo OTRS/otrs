@@ -49,6 +49,7 @@ sub new {
 
     # get params
     $Self->{ArticleID}      = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
+    $Self->{ArticlePage}    = $Self->{ParamObject}->GetParam( Param => 'ArticlePage' );
     $Self->{ZoomExpand}     = $Self->{ParamObject}->GetParam( Param => 'ZoomExpand' );
     $Self->{ZoomExpandSort} = $Self->{ParamObject}->GetParam( Param => 'ZoomExpandSort' );
     if ( !defined $Self->{ZoomExpand} ) {
@@ -399,7 +400,7 @@ sub Run {
             )
         {
             my @IDs = split /,/, $1;
-            $Self->{ArticleFilter}->{ArticleTypeID} = { map { $_ => 1 } @IDs };
+            $Self->{ArticleFilter}->{ArticleTypeID} = \@IDs,
         }
 
         # extract ArticleSenderTypeIDs
@@ -409,7 +410,7 @@ sub Run {
             )
         {
             my @IDs = split /,/, $1;
-            $Self->{ArticleFilter}->{SenderTypeID} = { map { $_ => 1 } @IDs };
+            $Self->{ArticleFilter}->{ArticleSenderTypeID} = \@IDs,
         }
     }
 
@@ -483,8 +484,26 @@ sub MaskAgentZoom {
 
     # generate shown articles
 
-    my $Page = $Self->{ParamObject}->GetParam( Param => 'ArticlePage' ) || 1;
     my $Limit = $Self->{ConfigObject}->Get('Ticket::Frontend::MaxArticlesPerPage');
+
+    my $Order = $Self->{ZoomExpandSort} eq 'reverse' ? 'DESC' : 'ASC';
+    my $Page;
+
+    if ( $Self->{ArticleID} ) {
+        $Page = $Self->{TicketObject}->ArticlePage(
+            TicketID    => $Self->{TicketID},
+            ArticleID   => $Self->{ArticleID},
+            RowsPerPage => $Limit,
+            Order       => $Order,
+            %{ $Self->{ArticleFilter} // {} },
+        );
+    }
+    elsif ( $Self->{ArticlePage} ) {
+        $Page = $Self->{ArticlePage};
+    }
+    else {
+        $Page = 1;
+    }
 
     # We need to find out whether pagination is actually necessary.
     # The easiest way would be count the articles, but that would slow
@@ -497,20 +516,45 @@ sub MaskAgentZoom {
     my $NeedPagination;
     my $ArticleCount;
 
-    # get content
-    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
+    my @ArticleContentArgs = (
         TicketID                   => $Self->{TicketID},
         StripPlainBodyAsAttachment => $Self->{StripPlainBodyAsAttachment},
         UserID                     => $Self->{UserID},
-        Page                       => $Page,
         Limit                      => $Limit + $Extra,
+        Order                      => $Order,
         DynamicFields => 0,    # fetch later only for the article(s) to display
+        %{ $Self->{ArticleFilter} // {} },    # limit by ArticleSenderTypeID/ArticleTypeID
+
     );
-    if ( $Page == 1 && @ArticleBox > $Limit ) {
+
+    # get content
+    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
+        @ArticleContentArgs,
+        Page => $Page,
+    );
+
+    if ( !@ArticleBox && $Page > 1 ) {
+
+        # if the page argument is past the actual number of pages,
+        # assume page 1 instead.
+        # This can happen when a new article filter was added.
+        $Page       = 1;
+        @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
+            @ArticleContentArgs,
+            Page => $Page,
+        );
+        $ArticleCount = $Self->{TicketObject}->ArticleCount(
+            TicketID => $Self->{TicketID},
+            %{ $Self->{ArticleFilter} // {} },
+        );
+        $NeedPagination = $ArticleCount > $Limit;
+    }
+    elsif ( @ArticleBox > $Limit ) {
         pop @ArticleBox;
         $NeedPagination = 1;
         $ArticleCount   = $Self->{TicketObject}->ArticleCount(
             TicketID => $Self->{TicketID},
+            %{ $Self->{ArticleFilter} // {} },
         );
     }
     elsif ( $Page == 1 ) {
@@ -521,8 +565,11 @@ sub MaskAgentZoom {
         $NeedPagination = 1;
         $ArticleCount   = $Self->{TicketObject}->ArticleCount(
             TicketID => $Ticket{TicketID},
+            %{ $Self->{ArticleFilter} // {} },
         );
     }
+
+    $Page ||= 1;
 
     my $Pages;
     if ($NeedPagination) {
@@ -530,10 +577,14 @@ sub MaskAgentZoom {
     }
 
     # add counter
-    my $Count = ( $Page - 1 ) * $Limit;
+    my $Count          = ( $Page - 1 ) * $Limit;
+    my $ArticleIDFound = 0;
     for my $Article (@ArticleBox) {
         $Count++;
         $Article->{Count} = $Count;
+        if ( $Self->{ArticleID} && $Self->{ArticleID} == $Article->{ArticleID} ) {
+            $ArticleIDFound = 1;
+        }
     }
 
     my %ArticleFlags = $Self->{TicketObject}->ArticleFlagsOfTicketGet(
@@ -543,7 +594,7 @@ sub MaskAgentZoom {
 
     # get selected or last customer article
     my $ArticleID;
-    if ( $Self->{ArticleID} ) {
+    if ($ArticleIDFound) {
         $ArticleID = $Self->{ArticleID};
     }
     else {
@@ -564,15 +615,10 @@ sub MaskAgentZoom {
 
         # set selected article
         if ( !$ArticleID ) {
-            if ( @ArticleBox && $Self->{ZoomExpandSort} eq 'normal' ) {
+            if (@ArticleBox) {
 
                 # set first article as default if normal sort
                 $ArticleID = $ArticleBox[0]->{ArticleID};
-            }
-            elsif ( @ArticleBox && $Self->{ZoomExpandSort} eq 'reverse' ) {
-
-                # set last article as default if reverse sort
-                $ArticleID = $ArticleBox[$#ArticleBox]->{ArticleID};
             }
 
             # set last customer article as selected article replacing last set
@@ -582,62 +628,6 @@ sub MaskAgentZoom {
                 }
             }
         }
-    }
-
-    # remember shown article ids if article filter is activated in sysconfig
-    if ( $Self->{ArticleFilterActive} && $Self->{ArticleFilter} ) {
-
-        # reset shown article ids
-        $Self->{ArticleFilter}->{ShownArticleIDs} = undef;
-
-        my $NewArticleID = '';
-        my $Count        = 0;
-
-        ARTICLE:
-        for my $Article (@ArticleBox) {
-
-            # article type id does not match
-            if (
-                $Self->{ArticleFilter}->{ArticleTypeID}
-                && !$Self->{ArticleFilter}->{ArticleTypeID}->{ $Article->{ArticleTypeID} }
-                )
-            {
-                next ARTICLE;
-            }
-
-            # article sender type id does not match
-            if (
-                $Self->{ArticleFilter}->{SenderTypeID}
-                && !$Self->{ArticleFilter}->{SenderTypeID}->{ $Article->{SenderTypeID} }
-                )
-            {
-                next ARTICLE;
-            }
-
-            # count shown articles
-            $Count++;
-
-            # remember article id
-            $Self->{ArticleFilter}->{ShownArticleIDs}->{ $Article->{ArticleID} } = 1;
-
-            # set article id to first shown article
-            if ( $Count == 1 ) {
-                $NewArticleID = $Article->{ArticleID};
-            }
-
-            # set article id to last shown customer article
-            if ( $Article->{SenderType} eq 'customer' ) {
-                $NewArticleID = $Article->{ArticleID};
-            }
-        }
-
-        # change article id if it was filtered out
-        if ( $NewArticleID && !$Self->{ArticleFilter}->{ShownArticleIDs}->{$ArticleID} ) {
-            $ArticleID = $NewArticleID;
-        }
-
-        # add current article id
-        $Self->{ArticleFilter}->{ShownArticleIDs}->{$ArticleID} = 1;
     }
 
     # check if expand view is usable (only for less then 400 article)
@@ -663,12 +653,6 @@ sub MaskAgentZoom {
         @ArticleBoxShown = @ArticleBox;
     }
 
-    # resort article order
-    if ( $Self->{ZoomExpandSort} eq 'reverse' ) {
-        @ArticleBox      = reverse @ArticleBox;
-        @ArticleBoxShown = reverse @ArticleBoxShown;
-    }
-
     # set display options
     $Param{WidgetTitle} = 'Ticket Information';
     $Param{Hook} = $Self->{ConfigObject}->Get('Ticket::Hook') || 'Ticket#';
@@ -683,8 +667,10 @@ sub MaskAgentZoom {
         $Param{WidgetTitle} = $Self->{DisplaySettings}->{ProcessDisplay}->{WidgetTitle};
     }
 
-    # only show article tree if articles are present
-    if (@ArticleBox) {
+    # only show article tree if articles are present,
+    # or if a filter is set (so that the user has the option to
+    # disable the filter)
+    if ( @ArticleBox || $Self->{ArticleFilter} ) {
 
         my $Pagination;
 
@@ -714,17 +700,6 @@ sub MaskAgentZoom {
     ARTICLE:
     for my $ArticleTmp (@ArticleBoxShown) {
         my %Article = %$ArticleTmp;
-
-        # article filter is activated in sysconfig and there are articles that passed the filter
-        if ( $Self->{ArticleFilterActive} ) {
-            if ( $Self->{ArticleFilter} && $Self->{ArticleFilter}->{ShownArticleIDs} ) {
-
-                # do not show article if it does not match the filter
-                if ( !$Self->{ArticleFilter}->{ShownArticleIDs}->{ $Article{ArticleID} } ) {
-                    next ARTICLE;
-                }
-            }
-        }
 
         $Self->_ArticleItem(
             Ticket            => \%Ticket,
@@ -1462,7 +1437,7 @@ sub MaskAgentZoom {
         # build article type list for filter dialog
         $Param{ArticleTypeFilterString} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%ArticleTypes,
-            SelectedID  => [ keys %{ $Self->{ArticleFilter}->{ArticleTypeID} } ],
+            SelectedID  => $Self->{ArticleFilter}->{ArticleTypeID},
             Translation => 1,
             Multiple    => 1,
             Sort        => 'AlphanumericValue',
@@ -1477,7 +1452,7 @@ sub MaskAgentZoom {
         # build article sender type list for filter dialog
         $Param{ArticleSenderTypeFilterString} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%ArticleSenderTypes,
-            SelectedID  => [ keys %{ $Self->{ArticleFilter}->{SenderTypeID} } ],
+            SelectedID  => $Self->{ArticleFilter}->{ArticleSenderTypeID},
             Translation => 1,
             Multiple    => 1,
             Sort        => 'AlphanumericValue',
