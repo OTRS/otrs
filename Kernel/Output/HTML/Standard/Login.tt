@@ -61,11 +61,11 @@ X-OTRS-Login: [% Env("Baselink") %]
     <style type="text/css">
         @font-face {
           font-family: 'FontAwesome';
-          src: url('[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.eot?v=4.0.3');
-          src: url('[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.eot?#iefix&v=4.0.3') format('embedded-opentype'),
-               url('[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.woff?v=4.0.3') format('woff'),
-               url('[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.ttf?v=4.0.3') format('truetype'),
-               url('[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.svg#fontawesomeregular?v=4.0.3') format('svg');
+          src: url('[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.eot?v=4.1.0');
+          src: url('[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.eot?#iefix&v=4.1.0') format('embedded-opentype'),
+               url('[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.woff?v=4.1.0') format('woff'),
+               url('[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.ttf?v=4.1.0') format('truetype'),
+               url('[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.svg#fontawesomeregular?v=4.1.0') format('svg');
           font-weight: normal;
           font-style: normal;
         }
@@ -75,9 +75,9 @@ X-OTRS-Login: [% Env("Baselink") %]
             @font-face {
                 font-family: 'FontAwesome';
                 src: url('[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.svg#fontawesomeregular') format('svg'),
-                     url('[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.eot?#iefix&v=4.0.3') format('embedded-opentype'),
-                     url('[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.woff?v=4.0.3') format('woff'),
-                     url('[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.ttf?v=4.0.3') format('truetype');
+                     url('[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.eot?#iefix&v=4.1.0') format('embedded-opentype'),
+                     url('[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.woff?v=4.1.0') format('woff'),
+                     url('[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/fontawesome/fontawesome-webfont.ttf?v=4.1.0') format('truetype');
                 font-weight: normal;
                 font-style: normal;
             }
