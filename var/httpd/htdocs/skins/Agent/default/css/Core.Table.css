@@ -401,6 +401,8 @@ thead .headerSortDown a {
 
 .TableSmall thead a span.Direction,
 .DataTable thead a span.Direction {
+    display: inline-block;
+    height: 10px;
     background: url(../img/direction_header.png) no-repeat center;
 }
 
