@@ -1,4 +1,5 @@
 #3.3.8 2014-??-??
+ - 2014-05-28 Fixed bug#[10535](http://bugs.otrs.org/show_bug.cgi?id=10535) - ACLListGet() produces DB warning message..
  - 2014-05-28 Fixed bug#[10163](http://bugs.otrs.org/show_bug.cgi?id=10163) - subject shows only 30 characters, thanks to S7designcreative.
  - 2014-05-28 Updated Latin Serbian translation, thanks to S7designcreative.
  - 2014-05-28 Updated Cyrillic Serbian translation, thanks to S7designcreative.
