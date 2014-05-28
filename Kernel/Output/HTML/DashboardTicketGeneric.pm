@@ -1206,6 +1206,12 @@ sub Run {
             );
         }
 
+        my $WholeTitle = $Ticket{Title} || '';
+        $Ticket{Title} = $Self->{TicketObject}->TicketSubjectClean(
+            TicketNumber => $Ticket{TicketNumber},
+            Subject      => $Ticket{Title},
+        );
+
         # create human age
         if ( $Self->{Config}->{Time} ne 'Age' ) {
             $Ticket{Time} = $Self->{LayoutObject}->CustomerAgeInHours(
@@ -1412,13 +1418,27 @@ sub Run {
                     $DataValue = $Ticket{$Column};
                 }
 
-                $Self->{LayoutObject}->Block(
-                    Name => "ContentLargeTicketGenericColumn$BlockType",
-                    Data => {
-                        GenericValue => $DataValue || '',
-                        Class        => $CSSClass  || '',
-                    },
-                );
+                if ( $Column eq 'Title' ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => "ContentLargeTicketTitle",
+                        Data => {
+                            Title => "$DataValue " || '',
+                            WholeTitle => $WholeTitle,
+                            Class => $CSSClass || '',
+                        },
+                    );
+
+                }
+                else {
+                    $Self->{LayoutObject}->Block(
+                        Name => "ContentLargeTicketGenericColumn$BlockType",
+                        Data => {
+                            GenericValue => $DataValue || '',
+                            Class        => $CSSClass  || '',
+                        },
+                    );
+                }
+
             }
 
             # Dynamic fields
