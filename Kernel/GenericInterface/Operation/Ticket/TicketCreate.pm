@@ -655,7 +655,7 @@ sub _CheckTicket {
         if ( !$Self->{TicketCommonObject}->ValidatePendingTime( %{$Ticket} ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
-                ErrorMessage => "TicketCreate: Ticket->PendingTimne parameter is invalid!",
+                ErrorMessage => "TicketCreate: Ticket->PendingTime parameter is invalid!",
             };
         }
     }

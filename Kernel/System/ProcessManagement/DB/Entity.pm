@@ -177,7 +177,7 @@ sub EntityIDGenerate {
 
 set new Entity ID
 
-returns 1 on sucess or otherwise udef
+returns 1 on success or otherwise undef
 
     my $Success = $EntityObject->EntityIDUpdate(
         EntityType     => 'Process'        # mandatory, 'Process' || 'Activity' || 'ActivityDialog'
