@@ -504,6 +504,11 @@ $('.DashboardHeader').off('click').on('click', '.ColumnSettingsTrigger', functio
                     <div title="$QData{"GenericValue"}">$QData{"GenericValue","40"}</div>
                 </td>
 <!-- dtl:block:ContentLargeTicketGenericColumn -->
+<!-- dtl:block:ContentLargeTicketTitle -->
+                <td>
+                    <div title="$QData{"WholeTitle"}">$QData{"Title"}</div>
+                </td>
+<!-- dtl:block:ContentLargeTicketTitle-->
 <!-- dtl:block:ContentLargeTicketGenericColumnTranslatable -->
                 <td>
                     <div title="$Text{"$Data{"GenericValue"}"}">$Text{"$Data{"GenericValue"}"}</div>

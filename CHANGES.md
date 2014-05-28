@@ -1,4 +1,5 @@
 #3.3.8 2014-??-??
+ - 2014-05-28 Fixed bug#[10163](http://bugs.otrs.org/show_bug.cgi?id=10163) - subject shows only 30 characters, thanks to S7designcreative.
  - 2014-05-28 Updated Latin Serbian translation, thanks to S7designcreative.
  - 2014-05-28 Updated Cyrillic Serbian translation, thanks to S7designcreative.
  - 2014-05-19 Fixed bug#[10519](http://bugs.otrs.org/show_bug.cgi?id=10519) - Opening and closing popups in ProcessManagement leads to performance issues.
