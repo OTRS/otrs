@@ -1,4 +1,6 @@
 #3.3.8 2014-??-??
+ - 2014-05-28 Updated Latin Serbian translation, thanks to S7designcreative.
+ - 2014-05-28 Updated Cyrillic Serbian translation, thanks to S7designcreative.
  - 2014-05-19 Fixed bug#[10519](http://bugs.otrs.org/show_bug.cgi?id=10519) - Opening and closing popups in ProcessManagement leads to performance issues.
  - 2014-05-15 Fixed bug#[10513](http://bugs.otrs.org/show_bug.cgi?id=10513) - Some SupportData Plugin Identifiers ends with ::.
  - 2014-05-14 Updated Latin Serbian translation, thanks to S7designcreative.
