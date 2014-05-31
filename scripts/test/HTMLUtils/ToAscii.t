@@ -176,6 +176,21 @@ Fifth Line',
         Result => 'ace',
         Name   => 'ToAscii - <style> removal'
     },
+    {
+        Input  => '<!-- asdlfjasdf sdflajsdfj -->',
+        Result => '',
+        Name   => 'ToAscii - comment removal'
+    },
+    {
+        Input  => 'a <!-- asdlfjasdf sdflajsdfj -->   ce',
+        Result => 'a ce',
+        Name   => 'ToAscii - comment removal with content'
+    },
+    {
+        Input  => "a <!-- asdlfjasdf \n sdflajsdfj -->   ce",
+        Result => 'a ce',
+        Name   => 'ToAscii - comment removal with content'
+    },
 );
 
 for my $Test (@Tests) {
