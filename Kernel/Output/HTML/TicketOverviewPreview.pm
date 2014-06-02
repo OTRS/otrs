@@ -1040,7 +1040,7 @@ sub _Show {
                         }
                     }
                 }
-                if ( $Access && !$Param{Output} ) {
+                if ( $Access ) {
                     $Self->{LayoutObject}->Block(
                         Name => 'ArticlePreviewActionRow',
                         Data => {
