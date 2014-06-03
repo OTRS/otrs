@@ -264,37 +264,6 @@ $Self->True(
     'ArticleGet()',
 );
 
-# ticket watch tests
-my $Subscribe = $TicketObject->TicketWatchSubscribe(
-    TicketID    => $TicketID,
-    WatchUserID => 1,
-    UserID      => 1,
-);
-$Self->True(
-    $Subscribe || 0,
-    'TicketWatchSubscribe()',
-);
-my $Unsubscribe = $TicketObject->TicketWatchUnsubscribe(
-    TicketID    => $TicketID,
-    WatchUserID => 1,
-    UserID      => 1,
-);
-$Self->True(
-    $Unsubscribe || 0,
-    'TicketWatchUnsubscribe()',
-);
-
-# add new subscription (will be deleted by TicketDelete(), also check foreign keys)
-$Subscribe = $TicketObject->TicketWatchSubscribe(
-    TicketID    => $TicketID,
-    WatchUserID => 1,
-    UserID      => 1,
-);
-$Self->True(
-    $Subscribe || 0,
-    'TicketWatchSubscribe()',
-);
-
 my $TicketSearchTicketNumber = substr $Ticket{TicketNumber}, 0, 10;
 my %TicketIDs = $TicketObject->TicketSearch(
     Result       => 'HASH',
