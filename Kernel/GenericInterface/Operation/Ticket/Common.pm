@@ -196,7 +196,7 @@ helper function to return an error message.
 
     my $Return = $CommonObject->ReturnError(
         ErrorCode    => Ticket.AccessDenied,
-        ErrorMessage => 'You dont have rights to access this ticket',
+        ErrorMessage => 'You do not have rights to access this ticket',
     );
 
 =cut
@@ -226,11 +226,11 @@ sub ReturnError {
 
 checks if the given queue or queue ID is valid.
 
-    my $Sucess = $CommonObject->ValidateQueue(
+    my $Success = $CommonObject->ValidateQueue(
         QueueID => 123,
     );
 
-    my $Sucess = $CommonObject->ValidateQueue(
+    my $Success = $CommonObject->ValidateQueue(
         Queue   => 'some queue',
     );
 
@@ -283,11 +283,11 @@ sub ValidateQueue {
 
 checks if the given lock or lock ID is valid.
 
-    my $Sucess = $CommonObject->ValidateLock(
+    my $Success = $CommonObject->ValidateLock(
         LockID => 123,
     );
 
-    my $Sucess = $CommonObject->ValidateLock(
+    my $Success = $CommonObject->ValidateLock(
         Lock   => 'some lock',
     );
 
@@ -333,11 +333,11 @@ sub ValidateLock {
 
 checks if the given type or type ID is valid.
 
-    my $Sucess = $CommonObject->ValidateType(
+    my $Success = $CommonObject->ValidateType(
         TypeID => 123,
     );
 
-    my $Sucess = $CommonObject->ValidateType(
+    my $Success = $CommonObject->ValidateType(
         Type   => 'some type',
     );
 
@@ -389,11 +389,11 @@ sub ValidateType {
 
 checks if the given customer user or customer ID is valid.
 
-    my $Sucess = $CommonObject->ValidateCustomer(
+    my $Success = $CommonObject->ValidateCustomer(
         CustomerID => 123,
     );
 
-    my $Sucess = $CommonObject->ValidateCustomer(
+    my $Success = $CommonObject->ValidateCustomer(
         CustomerUser   => 'some type',
     );
 
@@ -443,12 +443,12 @@ sub ValidateCustomer {
 
 checks if the given service or service ID is valid.
 
-    my $Sucess = $CommonObject->ValidateService(
+    my $Success = $CommonObject->ValidateService(
         ServiceID    => 123,
         CustomerUser => 'Test',
     );
 
-    my $Sucess = $CommonObject->ValidateService(
+    my $Success = $CommonObject->ValidateService(
         Service      => 'some service',
         CustomerUser => 'Test',
     );
@@ -504,7 +504,7 @@ sub ValidateService {
         DefaultServices   => 1,
     );
 
-    # return if user does not have pemission to use the service
+    # return if user does not have permission to use the service
     return if !$CustomerServices{ $ServiceData{ServiceID} };
 
     return 1;
@@ -514,12 +514,12 @@ sub ValidateService {
 
 checks if the given service or service ID is valid.
 
-    my $Sucess = $CommonObject->ValidateSLA(
+    my $Success = $CommonObject->ValidateSLA(
         SLAID     => 12,
         ServiceID => 123,       # || Service => 'some service'
     );
 
-    my $Sucess = $CommonObject->ValidateService(
+    my $Success = $CommonObject->ValidateService(
         SLA       => 'some SLA',
         ServiceID => 123,       # || Service => 'some service'
     );
@@ -609,11 +609,11 @@ sub ValidateSLA {
 
 checks if the given state or state ID is valid.
 
-    my $Sucess = $CommonObject->ValidateState(
+    my $Success = $CommonObject->ValidateState(
         StateID => 123,
     );
 
-    my $Sucess = $CommonObject->ValidateState(
+    my $Success = $CommonObject->ValidateState(
         State   => 'some state',
     );
 
@@ -666,11 +666,11 @@ sub ValidateState {
 
 checks if the given priority or priority ID is valid.
 
-    my $Sucess = $CommonObject->ValidatePriority(
+    my $Success = $CommonObject->ValidatePriority(
         PriorityID => 123,
     );
 
-    my $Sucess = $CommonObject->ValidatePriority(
+    my $Success = $CommonObject->ValidatePriority(
         Priority   => 'some priority',
     );
 
@@ -727,11 +727,11 @@ sub ValidatePriority {
 
 checks if the given owner or owner ID is valid.
 
-    my $Sucess = $CommonObject->ValidateOwner(
+    my $Success = $CommonObject->ValidateOwner(
         OwnerID => 123,
     );
 
-    my $Sucess = $CommonObject->ValidateOwner(
+    my $Success = $CommonObject->ValidateOwner(
         Owner   => 'some user',
     );
 
@@ -756,11 +756,11 @@ sub ValidateOwner {
 
 checks if the given responsible or responsible ID is valid.
 
-    my $Sucess = $CommonObject->ValidateResponsible(
+    my $Success = $CommonObject->ValidateResponsible(
         ResponsibleID => 123,
     );
 
-    my $Sucess = $CommonObject->ValidateResponsible(
+    my $Success = $CommonObject->ValidateResponsible(
         Responsible   => 'some user',
     );
 
@@ -785,7 +785,7 @@ sub ValidateResponsible {
 
 checks if the given pending time is valid.
 
-    my $Sucess = $CommonObject->ValidatePendingTime(
+    my $Success = $CommonObject->ValidatePendingTime(
         PendingTime => {
             Year   => 2011,
             Month  => 12,
@@ -807,7 +807,7 @@ sub ValidatePendingTime {
     return if !$Param{PendingTime};
     return if !IsHashRefWithData( $Param{PendingTime} );
 
-    # check that no time attibute is empty or negative
+    # check that no time attribute is empty or negative
     for my $TimeAttribute ( sort keys %{ $Param{PendingTime} } ) {
         return if $Param{PendingTime}->{$TimeAttribute} eq '';
         return if int $Param{PendingTime}->{$TimeAttribute} < 0,
@@ -827,7 +827,7 @@ sub ValidatePendingTime {
 
 checks if the given AutoResponseType is valid.
 
-    my $Sucess = $CommonObject->ValidateAutoResponseType(
+    my $Success = $CommonObject->ValidateAutoResponseType(
         AutoResponseType => 'Some AutoRespobse',
     );
 
@@ -856,11 +856,11 @@ sub ValidateAutoResponseType {
 
 checks if the given ArticleType or ArticleType ID is valid.
 
-    my $Sucess = $CommonObject->ValidateArticleType(
+    my $Success = $CommonObject->ValidateArticleType(
         ArticleTypeID => 123,
     );
 
-    my $Sucess = $CommonObject->ValidateArticleType(
+    my $Success = $CommonObject->ValidateArticleType(
         ArticleType => 'some ArticleType',
     );
 
@@ -922,7 +922,7 @@ sub ValidateArticleType {
 
 checks if the given from is valid.
 
-    my $Sucess = $CommonObject->ValidateFrom(
+    my $Success = $CommonObject->ValidateFrom(
         From => 'user@domain.com',
     );
 
@@ -951,11 +951,11 @@ sub ValidateFrom {
 
 checks if the given SenderType or SenderType ID is valid.
 
-    my $Sucess = $CommonObject->ValidateSenderType(
+    my $Success = $CommonObject->ValidateSenderType(
         SenderTypeID => 123,
     );
 
-    my $Sucess = $CommonObject->ValidateenderType(
+    my $Success = $CommonObject->ValidateenderType(
         SenderType => 'some SenderType',
     );
 
@@ -1013,7 +1013,7 @@ sub ValidateSenderType {
 
 checks if the given MimeType is valid.
 
-    my $Sucess = $CommonObject->ValidateMimeType(
+    my $Success = $CommonObject->ValidateMimeType(
         MimeTypeID => 'some MimeType',
     );
 
@@ -1037,7 +1037,7 @@ sub ValidateMimeType {
 
 checks if the given Charset is valid.
 
-    my $Sucess = $CommonObject->ValidateCharset(
+    my $Success = $CommonObject->ValidateCharset(
         Charset => 'some charset',
     );
 
@@ -1063,7 +1063,7 @@ sub ValidateCharset {
 
 checks if the given HistoryType is valid.
 
-    my $Sucess = $CommonObject->ValidateHistoryType(
+    my $Success = $CommonObject->ValidateHistoryType(
         HistoryType => 'some HostoryType',
     );
 
@@ -1100,7 +1100,7 @@ sub ValidateHistoryType {
 
 checks if the given TimeUnit is valid.
 
-    my $Sucess = $CommonObject->ValidateTimeUnit(
+    my $Success = $CommonObject->ValidateTimeUnit(
         TimeUnit => 1,
     );
 
@@ -1125,7 +1125,7 @@ sub ValidateTimeUnit {
 
 checks if the given user ID is valid.
 
-    my $Sucess = $CommonObject->ValidateUserID(
+    my $Success = $CommonObject->ValidateUserID(
         UserID => 123,
     );
 
@@ -1149,7 +1149,7 @@ sub ValidateUserID {
 
 checks if the given dynamic field name is valid.
 
-    my $Sucess = $CommonObject->ValidateDynamicFieldName(
+    my $Success = $CommonObject->ValidateDynamicFieldName(
         Name => 'some name',
     );
 
@@ -1175,12 +1175,12 @@ sub ValidateDynamicFieldName {
 
 checks if the given dynamic field value is valid.
 
-    my $Sucess = $CommonObject->ValidateDynamicFieldValue(
+    my $Success = $CommonObject->ValidateDynamicFieldValue(
         Name  => 'some name',
         Value => 'some value',          # String or Integer or DateTime format
     );
 
-    my $Sucess = $CommonObject->ValidateDynamicFieldValue(
+    my $Success = $CommonObject->ValidateDynamicFieldValue(
         Value => [                      # Only for fields that can handle multiple values like
             'some value',               #   Miltiselect
             'some other value',
@@ -1213,7 +1213,7 @@ sub ValidateDynamicFieldValue {
 
 checks if the given dynamic field name is valid.
 
-    my $Sucess = $CommonObject->ValidateDynamicFieldObjectType(
+    my $Success = $CommonObject->ValidateDynamicFieldObjectType(
         Name    => 'some name',
         Article => 1,               # if article exists
     );
@@ -1419,11 +1419,11 @@ sub CheckCreatePermissions {
 
 checks if the given user or user ID is valid.
 
-    my $Sucess = $CommonObject->_ValidateUser(
+    my $Success = $CommonObject->_ValidateUser(
         UserID => 123,
     );
 
-    my $Sucess = $CommonObject->_ValidateUser(
+    my $Success = $CommonObject->_ValidateUser(
         User   => 'some user',
     );
 
