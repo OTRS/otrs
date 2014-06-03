@@ -114,6 +114,9 @@ if ( $DatabaseDSN =~ m/:mysql/i ) {
 elsif ( $DatabaseDSN =~ m/:pg/i ) {
     $DB     = 'PostgreSQL';
     $DBDump = 'pg_dump';
+    if ( $DatabaseDSN !~ m/host=/i ) {
+        $DatabaseHost = ''
+    }
 }
 else {
     print STDERR "ERROR: Can't backup, no database dump support!\n";
@@ -301,9 +304,14 @@ else {
     if ($DatabasePw) {
         $ENV{'PGPASSWORD'} = $DatabasePw;
     }
+
+    if ($DatabaseHost) {
+        $DatabaseHost = "-h $DatabaseHost"
+    }
+
     if (
         !system(
-            "$DBDump -f $Directory/DatabaseBackup.sql -h $DatabaseHost -U $DatabaseUser $Database"
+            "$DBDump -f $Directory/DatabaseBackup.sql $DatabaseHost -U $DatabaseUser $Database"
         )
         )
     {
