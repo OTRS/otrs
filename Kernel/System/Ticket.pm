@@ -5443,6 +5443,40 @@ sub TicketMerge {
         CreateUserID => $Param{UserID},
     );
 
+    # tranfer watchers - only those that were not already watching the main ticket
+    # delete all watchers from the merge ticket that are already watching the main ticket
+    my %MainWatchers = $Self->TicketWatchGet(
+        TicketID => $Param{MainTicketID},
+    );
+
+    my %MergeWatchers = $Self->TicketWatchGet(
+        TicketID => $Param{MergeTicketID},
+    );
+
+    WATCHER:
+    for my $WatcherID ( sort keys %MergeWatchers ) {
+
+        next WATCHER if !$MainWatchers{$WatcherID};
+        return if !$Self->{DBObject}->Do(
+            SQL => '
+                DELETE FROM ticket_watcher
+                    WHERE watcher_id = ?
+                    AND ticket_id = ?
+                ',
+            Bind => [ \$WatcherID, \$Param{MergeTicketID} ],
+        );
+    }
+
+    # transfer remaining watchers to new ticket
+    return if !$Self->{DBObject}->Do(
+        SQL => '
+            UPDATE ticket_watcher
+                SET ticket_id = ?
+                WHERE ticket_id = ?
+            ',
+        Bind => [ \$Param{MainTicketID}, \$Param{MergeTicketID} ],
+    );
+
     # link tickets
     my $LinkObject = Kernel::System::LinkObject->new( %{$Self} );
     $LinkObject->LinkAdd(
