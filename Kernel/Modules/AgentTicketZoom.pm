@@ -992,6 +992,7 @@ sub MaskAgentZoom {
         if ( $Ticket{$ActivityEntityIDField} ) {
             $NextActivityDialogs = $ActivityData;
         }
+        my $ActivityName = $ActivityData->{Name};
 
         if ( IsHashRefWithData($NextActivityDialogs) ) {
 
@@ -1075,6 +1076,9 @@ sub MaskAgentZoom {
 
             $Self->{LayoutObject}->Block(
                 Name => 'NextActivityDialogs',
+                Data => {
+                    'ActivityName' => $ActivityName,
+                },
             );
 
             if ( IsHashRefWithData($NextActivityDialogs) ) {
