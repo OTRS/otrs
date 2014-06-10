@@ -163,7 +163,6 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     Core.UI.Table.InitTableFilter($('#Filter'), $('#UserRoles'));
-    Core.Form.HideSelectAllCheckboxes($('#UserRoles'), '#SelectAll[% Data.Type | html %]');
 //]]></script>
 [% END %]
 

@@ -216,7 +216,6 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     Core.UI.Table.InitTableFilter($('#Filter'), $('#UserGroups'));
-    Core.Form.HideSelectAllCheckboxes($('#UserGroups'), '#UserGroups th input[type=checkbox]');
 //]]></script>
 [% END %]
 [% RenderBlockEnd("Change") %]

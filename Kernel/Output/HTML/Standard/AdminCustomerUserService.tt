@@ -193,7 +193,6 @@ $('input:checkbox[name=ItemsSelected]').bind('click', function () {
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     Core.UI.Table.InitTableFilter($('#FilterServices'), $('#Service'));
-    Core.Form.HideSelectAllCheckboxes($('#Service'), '#SelectAllItemsSelected');
 //]]></script>
 [% END %]
 [% RenderBlockEnd("Overview") %]

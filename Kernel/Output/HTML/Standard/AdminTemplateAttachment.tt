@@ -150,7 +150,6 @@ $('input:checkbox[name=ItemsSelected]').bind('click', function () {
     Core.Form.SelectAllCheckboxes($(this), $('#SelectAllItemsSelected'));
 });
 Core.UI.Table.InitTableFilter($('#Filter'), $('#TemplateAttachment'));
-Core.Form.HideSelectAllCheckboxes($('#TemplateAttachment'), '#SelectAllItemsSelected');
 //]]></script>
 [% END %]
 [% RenderBlockEnd("ChangeHeader") %]

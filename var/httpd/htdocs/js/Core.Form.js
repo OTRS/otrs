@@ -120,7 +120,7 @@ Core.Form = (function (TargetNS) {
         if (isJQueryObject($ClickedBox, $SelectAllCheckbox)) {
             var ElementName = $ClickedBox.attr('name'),
                 SelectAllID = $SelectAllCheckbox.attr('id'),
-                $Elements = $('input:checkbox[name=' + ElementName + ']').filter('[id!=' + SelectAllID + ']'),
+                $Elements = $('input:checkbox[name=' + ElementName + ']').filter('[id!=' + SelectAllID + ']:visible'),
                 Status = $ClickedBox.prop('checked'),
                 CountCheckboxes,
                 CountSelectedCheckboxes;
@@ -144,33 +144,29 @@ Core.Form = (function (TargetNS) {
      * @function
      * @description
      *      This function marks the "SelectAll checkbox" as checked if all depending checkboxes are already marked checked.
+     *      Adds PubSub event to control handling of checkboxes, if a filter is used
      * @param {jQueryObject} $Checkboxes The jquery object with all dependent checkboxes
      * @param {jQueryObject} $SelectAllCheckbox The object with the SelectAll checkbox
      * @return nothing
      */
     TargetNS.InitSelectAllCheckboxes = function ($Checkboxes, $SelectAllCheckbox) {
         if (isJQueryObject($Checkboxes, $SelectAllCheckbox)) {
+            // Mark SelectAll checkbox if all depending checkboxes are already marked on initialization
             if ($Checkboxes.filter('[id!=' + $SelectAllCheckbox.attr('id') + ']').length === $Checkboxes.filter(':checked').length) {
                 $SelectAllCheckbox.prop('checked', true);
             }
+
+            // Remove checkbox selection, if filter is used/changed
+            Core.App.Subscribe('Event.UI.Table.InitTableFilter.Change', function ($FilterInput, $Container, ColumnNumber) {
+                // Only continue, if the filter event is associated with the container we are working in
+                if (!$.contains($Container[0], $SelectAllCheckbox[0])) {
+                    return false;
+                }
+
+                $Checkboxes.prop('checked', false);
+                $SelectAllCheckbox.prop('checked', false);
+            });
         }
-    };
-
-    TargetNS.HideSelectAllCheckboxes = function($ContainerElement, SelectAllSelector) {
-        Core.App.Subscribe('Event.UI.Table.InitTableFilter.Change', function ($FilterInput, $Container, ColumnNumber) {
-            // Only execute code, if the fired filter event is associated with the container we want to handle
-            if ($ContainerElement.selector !== $Container.selector) {
-                return false;
-            }
-
-            // Filter is set, remove checkbox to select all entries
-            if ($FilterInput.val().length) {
-                $(SelectAllSelector).addClass('Invisible');
-            }
-            else {
-                $(SelectAllSelector).removeClass('Invisible');
-            }
-        });
     };
 
     return TargetNS;
