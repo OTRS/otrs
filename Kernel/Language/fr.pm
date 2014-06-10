@@ -241,6 +241,10 @@ sub Data {
             'Mauvaise authentification! Votre nom de compte ou mot de passe étaient erronés',
         'There is no acount with that user name.' => 'Il n\'y a aucun compte avec ce nom d\'utilisateur',
         'Please contact your administrator' => 'Veuillez contacter votre administrateur SVP',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            'L\'authentification est réussie mais aucun enregistrement client n\'a été trouvé dans la base OTRS. Veuillez en informer votre administrateur.',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'Déconnexion',
         'Logout successful. Thank you for using %s!' => 'Déconnexion réussie. Merci d\'avoir utilisé %s !',
         'Feature not active!' => 'Cette fonctionnalité n\'est pas activée !',
@@ -2883,6 +2887,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Contrat de niveau de service (SLA)',
@@ -3348,10 +3353,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
         'Customer Company Administration' => 'Administration des clients',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => 'Information sur le client',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => 'Utilisateur client <-> Groupes',
         'Customer User <-> Services' => 'Utilisateur client <-> Services',
         'Customer User Administration' => 'Administration des utilisateurs clients',
+        'Customer User Administration.' => '',
         'Customer Users' => 'Clients',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',

@@ -219,6 +219,8 @@
 [% Translate("Login failed! Your user name or password was entered incorrectly.") | html %]
 [% Translate("There is no acount with that user name.") | html %]
 [% Translate("Please contact your administrator") | html %]
+[% Translate("Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.") | html %]
+[% Translate("This e-mail address already exists. Please log in or reset your password.") | html %]
 [% Translate("Logout") | html %]
 [% Translate("Logout successful. Thank you for using %s!") | html %]
 [% Translate("Feature not active!") | html %]
