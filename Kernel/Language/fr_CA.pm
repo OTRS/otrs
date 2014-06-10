@@ -239,6 +239,10 @@ sub Data {
             'La session ne peut être ouverte. Le nom d\'utilisateur ou le mot de passe est incorrect.',
         'There is no acount with that user name.' => 'Le nom d\'utilisateur ne correspond à aucun compte.',
         'Please contact your administrator' => 'Veuillez contacter votre administrateur',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            'L\'authentification est réussie mais aucun enregistrement client n\'a été trouvé dans la base OTRS. Veuillez en informer votre administrateur.',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'Déconnexion',
         'Logout successful. Thank you for using %s!' => 'Déconnexion réussie. Le groupe %s vous remercie!',
         'Feature not active!' => 'Cette fonctionnalité n\'est pas activée. ',
@@ -2907,6 +2911,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Accord de niveau de service',
@@ -3373,10 +3378,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             'Texte personnalisé pour la page affichée aux clients qui n\'ont pas encore de demande.',
         'Customer Company Administration' => '',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => '',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => '',
         'Customer User <-> Services' => '',
         'Customer User Administration' => '',
+        'Customer User Administration.' => '',
         'Customer Users' => 'Clients utilisateurs',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             'Article du client (icône) lui montrant les demandes fermées regroupées. Le réglage de l\'ouverture de session de l\'utilisateur-client (CustomerUserLogin) à 1 permet la recherche de demandes fondée sur le nom d\'ouverture de session plutôt que sur l\'identification du client.',
@@ -5514,8 +5522,6 @@ sub Data {
         'Attachments per ticket (avg)=$AvgAttachmentTicket;' => 'articles par demandes (moyenne) =$AvgArticlesTicket;',
         'Australia' => 'Australie',
         'Austria' => 'Autriche',
-        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
-            'L\'authentification est complétée mais aucun fichier de client n\'a été trouvé dans l\'arrière-plan du client. Veuillez communiquer avec votre administrateur.',
         'Auto Response From' => 'Réponse automatique de ',
         'Auto follow up is sent out after a follow up has been received for a ticket (in case queue follow up option is "possible").' =>
             'Suivi automatique envoyé après la réception d\'un suivi de demande (lorsque l\'option de suivi de la file est « possible »).',
