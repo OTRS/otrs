@@ -5659,7 +5659,7 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="RegExp">
                     <Array>
-                        <Item>(CVE|CAN)\-(\d{3,4})\-(\d{2,6})</Item>
+                        <Item>(CVE|CAN)\-(\d{3,4})\-(\d{2,})</Item>
                     </Array>
                 </Item>
                 <Item Key="URL1">
