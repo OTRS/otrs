@@ -157,6 +157,10 @@ sub ToAscii {
         $Key;
     }segxmi;
 
+    # remove comments at the first place to avoid to much work
+    # for the regex engine
+    $Param{String} =~ s{<!-- .*? -->}{}xmgsi;
+
     # remove empty lines
     $Param{String} =~ s/^\s*//mg;
 
