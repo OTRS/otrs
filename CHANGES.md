@@ -1,4 +1,5 @@
 #3.3.8 2014-??-??
+ - 2014-06-10 Fixed bug#[10521](http://bugs.otrs.org/show_bug.cgi?id=10521) - OutputFilterText AutoLink CVE.
  - 2014-06-03 Fixed bug#[10430](http://bugs.otrs.org/show_bug.cgi?id=10430) - backup.pl doesn't work with PostgreSQL unix sockets.
  - 2014-06-03 Fixed bug#[5012](http://bugs.otrs.org/show_bug.cgi?id=5012) - Merging a watched ticket _into_ another should "transfer" the Watch status to the final ticket, thanks to Michiel Beijen!
  - 2014-06-02 Fixed bug#[10544](http://bugs.otrs.org/show_bug.cgi?id=10544) - Upgrade to OTRS 3.3.7 breaks connection to external customer user tables.
