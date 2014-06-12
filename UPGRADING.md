@@ -233,5 +233,12 @@ Make sure to execute it as the OTRS system user!
 Note: From OTRS 3.3.7 OTRS Scheduler uses a cronjob to start-up and keep alive. Please make sure
 that scheduler_watchdog cronjob is activated.
 
-14. Well done!
+14. Set ForeignDB => 1 when using an external customer database (optional)
+--------------
+
+If you're using an external customer database and this database does NOT provide the OTRS specific fields
+create_time, create_by, change_time and change_by, please set ForeignDB => 1 for $Self->{CustomerUser} and
+$Self->{CustomerCompany} (see Defaults.pm).
+
+15. Well done!
 --------------
