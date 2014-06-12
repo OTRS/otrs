@@ -997,7 +997,7 @@ sub Run {
                 );
             }
 
-            # store last queue screen
+            # store last overview screen
             my $URL
                 = "Action=AgentTicketSearch;Subaction=Search;Profile=$Self->{Profile};SortBy=$Self->{SortBy}"
                 . ";OrderBy=$Self->{OrderBy};TakeLastSearch=1;StartHit=$Self->{StartHit}";
