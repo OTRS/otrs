@@ -73,6 +73,7 @@ if ( $Opts{h} || !$Opts{n} ) {
     print
         "       <PARAM_STRING> e. g. 'Year=1977&Month=10' (only for static files)\n";
     print "       <DIRECTORY> /output/dir/\n";
+    print "       [-R] Adds a heading line to the CSV output.\n";
     exit 1;
 }
 
