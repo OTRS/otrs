@@ -11,7 +11,6 @@
  - 2014-04-16 Speedup TicketACLs by gather only the needed data from the DB based in the ACLs requirements, thanks to Moritz Lenz @ noris networks.
  - 2014-04-15 Added foreign db param to the customer user map.
  - 2014-04-04 Fixed bug#[10371](http://bugs.otrs.org/show_bug.cgi?id=10371) - Missing Note and NoteMandatory options for AgentTicketMove.
- - 2014-04-01 Fixed bug#[10399](http://bugs.otrs.org/show_bug.cgi?id=10399) - Columns Settings lost after search.
  - 2014-04-01 Fixed bug#[10320](http://bugs.otrs.org/show_bug.cgi?id=10320) - PostMaster Filter // possibility to Set more Email Headers.
  - 2014-03-24 Fixed bug#[10400](http://bugs.otrs.org/show_bug.cgi?id=10400) - AgentTicketProccess will not use error messages of dynamic field drivers.
  - 2014-03-20 Fixed bug#[10141](http://bugs.otrs.org/show_bug.cgi?id=10141) - invalid agents can't be selected in search form.
@@ -120,6 +119,7 @@
  - 2014-04-03 Followup for bug#10340 - Dynamic field not visible in queue view screen (AgentTicketOverviewSmall.dtl).
  - 2014-04-03 Fixed bug#[10406](http://bugs.otrs.org/show_bug.cgi?id=10406) - Ticket Templates Type "Create" will be not translated.
  - 2014-04-03 Fixed bug#[10378](http://bugs.otrs.org/show_bug.cgi?id=10378) - SessionID created with generic interface wont work using it as Agent.
+ - 2014-04-01 Fixed bug#[10399](http://bugs.otrs.org/show_bug.cgi?id=10399) - Columns Settings lost after search.
  - 2014-04-01 Fixed bug#[10431](http://bugs.otrs.org/show_bug.cgi?id=10431) - Fallback configuration for scheduler log is wrong.
  - 2014-04-01 Fixed bug#[10426](http://bugs.otrs.org/show_bug.cgi?id=10426) - Scheduler RegistrationUpdate task dies with PostgreSQL DB.
  - 2014-03-31 Fixed bug#[10362](http://bugs.otrs.org/show_bug.cgi?id=10362) - .procmailrc is reset with wrong permissions on otrs.SetPermisssion.pl execution.
