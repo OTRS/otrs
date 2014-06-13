@@ -517,168 +517,168 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
         <div class="AdditionalInformation ControlRow">
 
 [% RenderBlockStart("ArticlePages") %]
-        <div class="ArticlePages Icons">
+            <div class="ArticlePages Icons">
         [% FOREACH page IN [1 .. Data.Pages]; %]
-            <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticlePage=[% page %]" title="[% Translate('Page') %] [% page %]" data-page="[% page %]" [% IF page == Data.CurrentPage %]class="Active"[% END %]>[% page %]</a>
+                <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticlePage=[% page %]" title="[% Translate('Page') %] [% page %]" data-page="[% page %]" [% IF page == Data.CurrentPage %]class="Active"[% END %]>[% page %]</a>
         [% END; %]
-        </div>
+            </div>
 [% RenderBlockEnd("ArticlePages") %]
 [% RenderBlockStart("ArticleFilterDialogLink") %]
-                <div class="ArticleFilter Icons">
-                    <span class="InvisibleText">[% Translate("Article Filter") | html %]:</span>
+            <div class="ArticleFilter Icons">
+                <span class="InvisibleText">[% Translate("Article Filter") | html %]:</span>
 # Only show one: Set or Reset.
 #[% RenderBlockStart("ArticleFilterSetLink") %]
-                    <a href="#" id="SetArticleFilter" title="[% Translate("Add Filter") | html %]"><i class="fa fa-filter"></i><span>[% Translate("Set") | html %]</span></a>
+                <a href="#" id="SetArticleFilter" title="[% Translate("Add Filter") | html %]"><i class="fa fa-filter"></i><span>[% Translate("Set") | html %]</span></a>
 #[% RenderBlockEnd("ArticleFilterSetLink") %]
 [% RenderBlockStart("ArticleFilterResetLink") %]
-                    <a href="#" id="ResetArticleFilter" title="[% Translate("Reset Filter") | html %]"><i class="fa fa-trash-o"></i><span>[% Translate("Reset") | html %]</span></a>
+                <a href="#" id="ResetArticleFilter" title="[% Translate("Reset Filter") | html %]"><i class="fa fa-trash-o"></i><span>[% Translate("Reset") | html %]</span></a>
 [% RenderBlockEnd("ArticleFilterResetLink") %]
-                </div>
+            </div>
 [% RenderBlockEnd("ArticleFilterDialogLink") %]
-                <div class="ArticleView Icons">
-                    <span class="InvisibleText">[% Translate("Article") | html %] [% Translate("View") | html %]:</span>
+            <div class="ArticleView Icons">
+                <span class="InvisibleText">[% Translate("Article") | html %] [% Translate("View") | html %]:</span>
 [% RenderBlockStart("Expand") %]
-                    <a class="OneArticle Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0;ArticlePage=[% Data.Page | uri %]" title="[% Translate("Show one article") | html %]"><i class="fa fa-minus"></i><span>[% Translate("Show one article") | html %]</span></a>
-                    <a class="AllArticles" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=1;ArticlePage=[% Data.Page | uri %]" title="[% Translate("Show all articles") | html %]"><i class="fa fa-bars"></i><span>[% Translate("Show all articles") | html %]</span></a>
+                <a class="OneArticle Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0;ArticlePage=[% Data.Page | uri %]" title="[% Translate("Show one article") | html %]"><i class="fa fa-minus"></i><span>[% Translate("Show one article") | html %]</span></a>
+                <a class="AllArticles" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=1;ArticlePage=[% Data.Page | uri %]" title="[% Translate("Show all articles") | html %]"><i class="fa fa-bars"></i><span>[% Translate("Show all articles") | html %]</span></a>
 [% RenderBlockEnd("Expand") %]
 [% RenderBlockStart("Collapse") %]
-                    <a class="OneArticle" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0" title="[% Translate("Show one article") | html %]"><i class="fa fa-minus"></i><span>[% Translate("Show one article") | html %]</span></a>
-                    <a class="AllArticles Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=1" title="[% Translate("Show all articles") | html %]"><i class="fa fa-bars"></i><span>[% Translate("Show all articles") | html %]</span></a>
+                <a class="OneArticle" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0" title="[% Translate("Show one article") | html %]"><i class="fa fa-minus"></i><span>[% Translate("Show one article") | html %]</span></a>
+                <a class="AllArticles Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=1" title="[% Translate("Show all articles") | html %]"><i class="fa fa-bars"></i><span>[% Translate("Show all articles") | html %]</span></a>
 [% RenderBlockEnd("Collapse") %]
-                </div>
-                <div class="Clear"></div>
+            </div>
+            <div class="Clear"></div>
         </div>
     </div>
     <div class="Content">
-<div class="TicketList">
-    <div id="ArticleTableBody" class="ActionRow">
-        <div class="Scroller">
-            <table id="ArticleTable" class="DataTable [% Data.TableClasses | html %]">
-                <thead>
-                    <tr>
-                        <th class="UnreadArticles">
-                            <a class="UnreadArticles" href="#" title="[% Translate("Unread articles") | html %]">
-                                <span class="UnreadArticles">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </span>
-                            </a>
-                        </th>
-                        <th class="No Sortable"><a href="#">[% Translate("No.") | html %]</a></th>
-                        <th class="Type Sortable"><a href="#">[% Translate("Type") | html %]</a></th>
-                        <th class="Direction Sortable"><a href="#" title="[% Translate("Direction") | html %]"><span class="Direction"><!--Direction--></span></a></th>
-                        <th class="From Sortable"><a href="#">[% Translate("From") | html %]</a></th>
-                        <th class="Subject Sortable"><a href="#">[% Translate("Subject") | html %]</a></th>
-                        <th class="Created Sortable"><a href="#">[% Translate("Created") | html %]</a></th>
-                        <th class="Attachments Last">
-                            <a href="#" title="[% Translate("Attachments") | html %]">
-                                <i class="fa fa-paperclip"></i>
-                            </a>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
+        <div class="TicketList">
+            <div id="ArticleTableBody" class="ActionRow">
+                <div class="Scroller">
+                    <table id="ArticleTable" class="DataTable [% Data.TableClasses | html %]">
+                        <thead>
+                            <tr>
+                                <th class="UnreadArticles">
+                                    <a class="UnreadArticles" href="#" title="[% Translate("Unread articles") | html %]">
+                                        <span class="UnreadArticles">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </span>
+                                    </a>
+                                </th>
+                                <th class="No Sortable"><a href="#">[% Translate("No.") | html %]</a></th>
+                                <th class="Type Sortable"><a href="#">[% Translate("Type") | html %]</a></th>
+                                <th class="Direction Sortable"><a href="#" title="[% Translate("Direction") | html %]"><span class="Direction"><!--Direction--></span></a></th>
+                                <th class="From Sortable"><a href="#">[% Translate("From") | html %]</a></th>
+                                <th class="Subject Sortable"><a href="#">[% Translate("Subject") | html %]</a></th>
+                                <th class="Created Sortable"><a href="#">[% Translate("Created") | html %]</a></th>
+                                <th class="Attachments Last">
+                                    <a href="#" title="[% Translate("Attachments") | html %]">
+                                        <i class="fa fa-paperclip"></i>
+                                    </a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
 [% RenderBlockStart("TreeItem") %]
-                    <tr class="[% Data.SenderType | html %]-[% Data.ArticleType | html %] [% Data.ClassRow | html %]" id="Row[% Data.Count | uri %]">
-                        <td class="[% Data.Class | html %] UnreadArticles Fixed NonTextContent">
+                            <tr class="[% Data.SenderType | html %]-[% Data.ArticleType | html %] [% Data.ClassRow | html %]" id="Row[% Data.Count | uri %]">
+                                <td class="[% Data.Class | html %] UnreadArticles Fixed NonTextContent">
 [% RenderBlockStart("TreeItemImportantArticle") %]
-                            <span class="ImportantArticles" title="[% Translate("Important") | html %]">
-                                <i class="fa fa-info-circle"></i>
-                                <em>[% Translate("Important") | html %]</em>
-                            </span>
+                                    <span class="ImportantArticles" title="[% Translate("Important") | html %]">
+                                        <i class="fa fa-info-circle"></i>
+                                        <em>[% Translate("Important") | html %]</em>
+                                    </span>
 [% RenderBlockEnd("TreeItemImportantArticle") %]
 [% RenderBlockStart("TreeItemNewArticle") %]
-                            <span class="[% Data.Class | html %]" title="[% Translate("Unread Article!") | html %]">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </span>
+                                    <span class="[% Data.Class | html %]" title="[% Translate("Unread Article!") | html %]">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </span>
 [% RenderBlockEnd("TreeItemNewArticle") %]
 [% RenderBlockStart("TreeItemNoNewArticle") %]
-                            <span class="NoContent"></span>
+                                    <span class="NoContent"></span>
 [% RenderBlockEnd("TreeItemNoNewArticle") %]
-                        </td>
-                        <td class="No">
+                                </td>
+                                <td class="No">
                             [% Data.Count | html %]
-                            <input type="hidden" class="ArticleInfo" name="Link[% Data.Count | uri %]" value="[% Env("Baselink") %]Action=AgentTicketZoom;Subaction=ArticleUpdate;Count=[% Data.Count | uri %];TicketID=[% Data.TicketID | html %];ArticleID=[% Data.ArticleID | html %];"/>
-                            <input type="hidden" class="ArticleID" value="[% Data.ArticleID | html %]" />
-                            <input type="hidden" class="SortData" value="[% Data.Count | html %]" />
-                        </td>
-                        <td class="Type">
-                            <div>[% Translate(Data.SenderType) | html %] &ndash; [% Translate(Data.ArticleType) | html %]</div>
-                            <input type="hidden" class="SortData" value="[% Translate(Data.SenderType) | html %] &ndash; [% Translate(Data.ArticleType) | html %]" />
-                        </td>
-                        <td class="Direction">
+                                    <input type="hidden" class="ArticleInfo" name="Link[% Data.Count | uri %]" value="[% Env("Baselink") %]Action=AgentTicketZoom;Subaction=ArticleUpdate;Count=[% Data.Count | uri %];TicketID=[% Data.TicketID | html %];ArticleID=[% Data.ArticleID | html %];"/>
+                                    <input type="hidden" class="ArticleID" value="[% Data.ArticleID | html %]" />
+                                    <input type="hidden" class="SortData" value="[% Data.Count | html %]" />
+                                </td>
+                                <td class="Type">
+                                    <div>[% Translate(Data.SenderType) | html %] &ndash; [% Translate(Data.ArticleType) | html %]</div>
+                                    <input type="hidden" class="SortData" value="[% Translate(Data.SenderType) | html %] &ndash; [% Translate(Data.ArticleType) | html %]" />
+                                </td>
+                                <td class="Direction">
 [% RenderBlockStart("TreeItemDirectionIncoming") %]
-                            <span class="Direction Incoming" title="[% Translate("Incoming message") | html %]"></span>
-                            <input type="hidden" class="SortData" value="0" />
+                                    <span class="Direction Incoming" title="[% Translate("Incoming message") | html %]"></span>
+                                    <input type="hidden" class="SortData" value="0" />
 [% RenderBlockEnd("TreeItemDirectionIncoming") %]
 [% RenderBlockStart("TreeItemDirectionOutgoing") %]
-                            <span class="Direction Outgoing" title="[% Translate("Outgoing message") | html %]"></span>
-                            <input type="hidden" class="SortData" value="1" />
+                                    <span class="Direction Outgoing" title="[% Translate("Outgoing message") | html %]"></span>
+                                    <input type="hidden" class="SortData" value="1" />
 [% RenderBlockEnd("TreeItemDirectionOutgoing") %]
 [% RenderBlockStart("TreeItemDirectionInternal") %]
-                            <span class="Direction Internal" title="[% Translate("Internal message") | html %]"></span>
-                            <input type="hidden" class="SortData" value="2" />
+                                    <span class="Direction Internal" title="[% Translate("Internal message") | html %]"></span>
+                                    <input type="hidden" class="SortData" value="2" />
 [% RenderBlockEnd("TreeItemDirectionInternal") %]
-                        </td>
-                        <td class="From">
-                            <div title="[% Data.From | html %]"><a href="#">[% Data.FromRealname | truncate(34) | html %]</a></div>
-                            <input type="hidden" class="SortData" value="[% Data.From | html %]" />
-                        </td>
-                        <td class="Subject">
-                            <div title="[% Data.Subject | html %]"><a href="#">[% Data.Subject | truncate(36) | html %]</a></div>
-                            <input type="hidden" class="SortData" value="[% Data.Subject | html %]" />
-                        </td>
-                        <td class="Created">
-                            <a href="#">[% Data.Created | Localize("TimeShort") %]</a>
+                                </td>
+                                <td class="From">
+                                    <div title="[% Data.From | html %]"><a href="#">[% Data.FromRealname | truncate(34) | html %]</a></div>
+                                    <input type="hidden" class="SortData" value="[% Data.From | html %]" />
+                                </td>
+                                <td class="Subject">
+                                    <div title="[% Data.Subject | html %]"><a href="#">[% Data.Subject | truncate(36) | html %]</a></div>
+                                    <input type="hidden" class="SortData" value="[% Data.Subject | html %]" />
+                                </td>
+                                <td class="Created">
+                                    <a href="#">[% Data.Created | Localize("TimeShort") %]</a>
 # Include custom sorting information: date in ISO format.
 # Other date formats cannot be sorted reliably.
-                            <input type="hidden" class="SortData" value="[% Data.Created | html %]" />
-                        </td>
-                        <td class="Attachments Attachment Fixed NonTextContent">
+                                    <input type="hidden" class="SortData" value="[% Data.Created | html %]" />
+                                </td>
+                                <td class="Attachments Attachment Fixed NonTextContent">
 [% RenderBlockStart("TreeItemAttachment") %]
 [% RenderBlockStart("TreeItemAttachmentIconSingle") %]
 # show attachment preview data in tooltip
-                            <a class="Attachment" title="[% Translate("Attachment") | html %] [% Data.Filename | html %] ([% Data.Filesize | html %])" rel="TicketAttachment[% Data.Count | html %]">
-                                <i class="fa fa-file-o"></i>
-                            </a>
+                                    <a class="Attachment" title="[% Translate("Attachment") | html %] [% Data.Filename | html %] ([% Data.Filesize | html %])" rel="TicketAttachment[% Data.Count | html %]">
+                                        <i class="fa fa-file-o"></i>
+                                    </a>
 [% RenderBlockEnd("TreeItemAttachmentIconSingle") %]
 [% RenderBlockStart("TreeItemAttachmentIconMultiple") %]
 # no preview data in tooltip
-                            <a class="Attachment" title="[% Translate("Attachments") | html %]" rel="TicketAttachment[% Data.Count | html %]">
-                                <i class="fa fa-file-o"></i>
-                            </a>
+                                    <a class="Attachment" title="[% Translate("Attachments") | html %]" rel="TicketAttachment[% Data.Count | html %]">
+                                        <i class="fa fa-file-o"></i>
+                                    </a>
 [% RenderBlockEnd("TreeItemAttachmentIconMultiple") %]
-                            <div id="TicketAttachment[% Data.Count | html %]" class="AttachmentData Hidden">
-                                <div class="Attachment InnerContent">
+                                    <div id="TicketAttachment[% Data.Count | html %]" class="AttachmentData Hidden">
+                                        <div class="Attachment InnerContent">
 [% RenderBlockStart("TreeItemAttachmentItem") %]
-                                    <div class="AttachmentElement">
-                                        <h3>
+                                            <div class="AttachmentElement">
+                                                <h3>
 # Bugfix for bug#5579 - Spaces in filenames are converted to + characters when downloading in IE.
 # Filename must be escaped with "| html", not "| uri".
-                                            <a href="[% Env("Baselink") %]Action=AgentTicketAttachment;ArticleID=[% Data.ArticleID | uri %];FileID=[% Data.FileID | uri %]" [% Data.Target %]>[% Data.Filename | html %]</a>
-                                        </h3>
-                                        <p>[% Data.Filesize | html %]</p>
-                                    </div>
+                                                    <a href="[% Env("Baselink") %]Action=AgentTicketAttachment;ArticleID=[% Data.ArticleID | uri %];FileID=[% Data.FileID | uri %]" [% Data.Target %]>[% Data.Filename | html %]</a>
+                                                </h3>
+                                                <p>[% Data.Filesize | html %]</p>
+                                            </div>
 [% RenderBlockEnd("TreeItemAttachmentItem") %]
-                                </div>
-                            </div>
+                                        </div>
+                                    </div>
 [% RenderBlockEnd("TreeItemAttachment") %]
 [% RenderBlockStart("TreeItemNoAttachment") %]
-                            <span class="NoContent"></span>
+                                    <span class="NoContent"></span>
 [% RenderBlockEnd("TreeItemNoAttachment") %]
-                        </td>
-                    </tr>
+                                </td>
+                            </tr>
 [% RenderBlockEnd("TreeItem") %]
-                </tbody>
-            </table>
-        </div>
-        <div class="Handle ui-resizable-handle ui-resizable-s">
-            <a href="#">[% Translate("Resize") | html %]</a>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="Handle ui-resizable-handle ui-resizable-s">
+                    <a href="#">[% Translate("Resize") | html %]</a>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-</div>
 </div>
 [% RenderBlockEnd("Tree") %]
 

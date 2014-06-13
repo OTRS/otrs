@@ -284,73 +284,73 @@
 [% RenderBlockEnd("ConfigSet") %]
 
 [% RenderBlockStart("DetailsCommunicationType") %]
-                    <div class="WidgetSimple Expanded">
-                        <div class="Header">
-                            <div class="WidgetAction Toggle">
-                                <a href="#" title=[% Translate("Show or hide the content") | JSON %]><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
-                            </div>
-                            <h3>[% Translate(Data.Title) | html %]</h3>
-                        </div>
-                        <div class="Content">
+            <div class="WidgetSimple Expanded">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title=[% Translate("Show or hide the content") | JSON %]><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                    </div>
+                    <h3>[% Translate(Data.Title) | html %]</h3>
+                </div>
+                <div class="Content">
 [% RenderBlockStart("DetailsCommunicationTypeExplanationProvider") %]
-                            <p class="FieldExplanation">
+                    <p class="FieldExplanation">
                                 [% Translate("In provider mode, OTRS offers web services which are used by remote systems.") | html %]
-                            </p>
+                    </p>
 [% RenderBlockEnd("DetailsCommunicationTypeExplanationProvider") %]
 [% RenderBlockStart("DetailsCommunicationTypeExplanationRequester") %]
-                            <p class="FieldExplanation">
+                    <p class="FieldExplanation">
                                 [% Translate("In requester mode, OTRS uses web services of remote systems.") | html %]
-                            </p>
+                    </p>
 [% RenderBlockEnd("DetailsCommunicationTypeExplanationRequester") %]
-                            <h4 class="SpacingTop SpacingBottom">[% Translate("Settings") | html %]</h4>
-                            <fieldset class="TableLike">
-                                <label for="[% Data.CommunicationType | html %]TransportList">[% Translate("Network transport") | html %]:</label>
-                                <div class="Field">
+                    <h4 class="SpacingTop SpacingBottom">[% Translate("Settings") | html %]</h4>
+                    <fieldset class="TableLike">
+                        <label for="[% Data.CommunicationType | html %]TransportList">[% Translate("Network transport") | html %]:</label>
+                        <div class="Field">
                                     [% Data.TransportsStrg %]
 [% RenderBlockStart("DetailsTransportPropertiesButton") %]
-                                    <button type="button" id="[% Data.CommunicationType | html %]TransportProperties" class="HideOnChange GenericInterfaceSpacing" value="Configure">[% Translate("Configure") | html %]</button>
+                            <button type="button" id="[% Data.CommunicationType | html %]TransportProperties" class="HideOnChange GenericInterfaceSpacing" value="Configure">[% Translate("Configure") | html %]</button>
 [% RenderBlockEnd("DetailsTransportPropertiesButton") %]
-                                </div>
-                            </fieldset>
-                            <h4 class="SpacingTop SpacingBottom">[% Translate(Data.ActionsTitle) | html %]</h4>
+                        </div>
+                    </fieldset>
+                    <h4 class="SpacingTop SpacingBottom">[% Translate(Data.ActionsTitle) | html %]</h4>
 
 [% RenderBlockStart("DetailsCommunicationTypeActionsExplanationProvider") %]
-                            <p class="FieldExplanation">
+                    <p class="FieldExplanation">
                                 [% Translate("Operations are individual system functions which remote systems can request.") | html %]
-                            </p>
+                    </p>
 [% RenderBlockEnd("DetailsCommunicationTypeActionsExplanationProvider") %]
 [% RenderBlockStart("DetailsCommunicationTypeActionsExplanationRequester") %]
-                            <p class="FieldExplanation">
+                    <p class="FieldExplanation">
                                 [% Translate("Invokers prepare data for a request to a remote web service, and process its response data.") | html %]
-                            </p>
+                    </p>
 [% RenderBlockEnd("DetailsCommunicationTypeActionsExplanationRequester") %]
 
-                            <table class="DataTable" id="[% Data.ActionsTitle | html %]Table" summary="list of [% Data.ActionsTitle | html %]">
-                                <thead>
-                                    <tr>
-                                        <th>[% Translate("Name") | html %]</th>
-                                        <th>[% Translate("Description") | html %]</th>
-                                        <th>[% Translate("Controller") | html %]</th>
-                                        <th>[% Translate("Inbound mapping") | html %]</th>
-                                        <th>[% Translate("Outbound mapping") | html %]</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                    <table class="DataTable" id="[% Data.ActionsTitle | html %]Table" summary="list of [% Data.ActionsTitle | html %]">
+                        <thead>
+                            <tr>
+                                <th>[% Translate("Name") | html %]</th>
+                                <th>[% Translate("Description") | html %]</th>
+                                <th>[% Translate("Controller") | html %]</th>
+                                <th>[% Translate("Inbound mapping") | html %]</th>
+                                <th>[% Translate("Outbound mapping") | html %]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 [% RenderBlockStart("DetailsActionsRow") %]
-                                    <tr>
-                                        <td>
+                            <tr>
+                                <td>
 [% RenderBlockStart("DetailsActionsRowLink") %]
-                                            <a class="AsBlock HideLinkOnChange" href="[% Env("Baselink") %]Action=[% Data.Module | uri %];[% Data.ActionType | uri %]=[% Data.Name | uri %];Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %];Nav=[% Data.Nav | uri %]">
+                                    <a class="AsBlock HideLinkOnChange" href="[% Env("Baselink") %]Action=[% Data.Module | uri %];[% Data.ActionType | uri %]=[% Data.Name | uri %];Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %];Nav=[% Data.Nav | uri %]">
                                                 [% Data.Name | html %]
-                                            </a>
+                                    </a>
 [% RenderBlockEnd("DetailsActionsRowLink") %]
 [% RenderBlockStart("DetailsActionsRowDelete") %]
-                                            <a id="Delete[% Data.ActionType | html %][% Data.Name | html %]" class="TrashCan Delete[% Data.ActionType | html %]" href="#" title="[% Translate("Delete this action") | html %]">
+                                    <a id="Delete[% Data.ActionType | html %][% Data.Name | html %]" class="TrashCan Delete[% Data.ActionType | html %]" href="#" title="[% Translate("Delete this action") | html %]">
                                                 [% Translate("Delete this action") | html %]
-                                            </a>
-                                            <span>
+                                    </a>
+                                    <span>
                                                 [% Data.Name | html %]
-                                            </span>
+                                    </span>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     Core.Agent.Admin.GenericInterfaceWebservice.BindDeleteActionDialog({
@@ -362,38 +362,38 @@
 //]]></script>
 [% END %]
 [% RenderBlockEnd("DetailsActionsRowDelete") %]
-                                        </td>
-                                        <td>[% Translate(Data.Description) | html %]</td>
-                                        <td class="[% Data.ControllerClass | html %]">[% Data.Controller | html %]</td>
-                                        <td>[% Translate(Data.MappingInbound) | html %]</td>
-                                        <td>[% Translate(Data.MappingOutbound) | html %]</td>
-                                    </tr>
+                                </td>
+                                <td>[% Translate(Data.Description) | html %]</td>
+                                <td class="[% Data.ControllerClass | html %]">[% Data.Controller | html %]</td>
+                                <td>[% Translate(Data.MappingInbound) | html %]</td>
+                                <td>[% Translate(Data.MappingOutbound) | html %]</td>
+                            </tr>
 [% RenderBlockEnd("DetailsActionsRow") %]
 [% RenderBlockStart("DetailsActionsNoDataFoundMsg") %]
-                                    <tr>
-                                        <td colspan="5">
+                            <tr>
+                                <td colspan="5">
                                             [% Translate("No data found.") | html %]
-                                        </td>
-                                    </tr>
+                                </td>
+                            </tr>
 [% RenderBlockEnd("DetailsActionsNoDataFoundMsg") %]
-                                </tbody>
-                            </table>
+                        </tbody>
+                    </table>
 [% RenderBlockStart("DetailsActionsNoControllerFoundMsg") %]
-                            <div class="SpacingTop"></div>
-                            <p class="Error">
+                    <div class="SpacingTop"></div>
+                    <p class="Error">
                                 [% Translate("At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s", Data.ActionType, Data.ActionType) | html %]
-                            </p>
+                    </p>
 [% RenderBlockEnd("DetailsActionsNoControllerFoundMsg") %]
-                            <div class="SpacingTop"></div>
-                            <fieldset class="TableLike">
-                                <label class="HideOnChange" for="[% Data.ActionType | html %]List">[% Translate("Add") | html %] [% Translate(Data.ActionType) | html %]:</label>
-                                <div class="Field">
+                    <div class="SpacingTop"></div>
+                    <fieldset class="TableLike">
+                        <label class="HideOnChange" for="[% Data.ActionType | html %]List">[% Translate("Add") | html %] [% Translate(Data.ActionType) | html %]:</label>
+                        <div class="Field">
                                     [% Data.ControllersStrg %]
-                                </div>
-                                <div class="Clear"></div>
-                            </fieldset>
                         </div>
-                    </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </div>
+            </div>
 
 [% RenderBlockEnd("DetailsCommunicationType") %]
 
