@@ -67,6 +67,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.8 2014-??-??
+ - 2014-06-13 Fixed bug#[10508](http://bugs.otrs.org/show_bug.cgi?id=10508) - (Agent|Customer)TicketProcess javascript errors when uploading attachments/having server errors.
  - 2014-06-10 Fixed bug#[10521](http://bugs.otrs.org/show_bug.cgi?id=10521) - OutputFilterText AutoLink CVE.
  - 2014-06-03 Fixed bug#[10430](http://bugs.otrs.org/show_bug.cgi?id=10430) - backup.pl doesn't work with PostgreSQL unix sockets.
  - 2014-06-03 Fixed bug#[5012](http://bugs.otrs.org/show_bug.cgi?id=5012) - Merging a watched ticket _into_ another should "transfer" the Watch status to the final ticket, thanks to Michiel Beijen!

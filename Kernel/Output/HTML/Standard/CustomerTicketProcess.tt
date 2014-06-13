@@ -61,7 +61,7 @@
             $('#AJAXLoader').removeClass('Hidden');
 
             // get new ActivityDialog content
-            Core.AJAX.FunctionCall('[% Env("Baselink") %]', 'Action=[% Env("Action") %];Subaction=DisplayActivityDialogAJAX;AJAXDialog=1;ProcessEntityID=' + $('#ProcessEntityID').val(), function (Response) {
+            Core.AJAX.FunctionCall('[% Env("Baselink") %]', 'Action=[% Env("Action") %];Subaction=DisplayActivityDialogAJAX;IsMainWindow=1;IsAjaxRequest=1;ProcessEntityID=' + $('#ProcessEntityID').val(), function (Response) {
                 var $ElementToUpdate = $('#ActivityDialogContent'),
                     JavaScriptString = '',
                     ErrorMessage = '';
