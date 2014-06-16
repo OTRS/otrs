@@ -398,7 +398,6 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
                         <a href="[% Env("Baselink") %]Action=AgentTicketCustomer;TicketID=[% Data.TicketID | uri %]" class="AsPopup">
                             <span title="[% Data.CustomerID | html %]">[% Data.CustomerID | truncate(15) | html %]</span>
                         </a>
-                        <div title="[% Data.CustomerName | html %]">[% Data.CustomerName | truncate(15) | html %]</div>
                     </td>
 [% RenderBlockEnd("RecordCustomerID") %]
 [% RenderBlockStart("RecordLastCustomerSubject") %]
