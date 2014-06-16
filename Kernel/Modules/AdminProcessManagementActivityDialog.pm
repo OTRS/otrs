@@ -85,14 +85,14 @@ sub new {
         ResultType => 'HASH',
     );
 
+    DYNAMICFIELD:
     for my $DynamicFieldName ( values %{$DynamicFieldList} ) {
-        next if !$DynamicFieldName;
 
-        # skip internal fields
-        my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldGet(
-            Name => $DynamicFieldName,
-        );
-        next if $DynamicField->{InternalField};
+        next DYNAMICFIELD if !$DynamicFieldName;
+
+        # do not show internal fields for process management
+        next DYNAMICFIELD if $DynamicFieldName eq 'ProcessManagementProcessID';
+        next DYNAMICFIELD if $DynamicFieldName eq 'ProcessManagementActivityID';
 
         $Self->{AvailableFields}->{"DynamicField_$DynamicFieldName"} = $DynamicFieldName;
     }
