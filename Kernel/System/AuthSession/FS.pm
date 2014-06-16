@@ -27,13 +27,14 @@ sub new {
     }
 
     # get more common params
-    $Self->{SessionSpool}                = $Self->{ConfigObject}->Get('SessionDir');
-    $Self->{SystemID}                    = $Self->{ConfigObject}->Get('SystemID');
-    $Self->{AgentSessionLimit}           = $Self->{ConfigObject}->Get('AgentSessionLimit');
-    $Self->{AgentSessionPerUserLimit}    = $Self->{ConfigObject}->Get('AgentSessionPerUserLimit') || 2;
-    $Self->{CustomerSessionLimit}        = $Self->{ConfigObject}->Get('CustomerSessionLimit');
-    $Self->{CustomerSessionPerUserLimit} = $Self->{ConfigObject}->Get('CustomerSessionPerUserLimit');
-    $Self->{SessionActiveTime}           = $Self->{ConfigObject}->Get('SessionActiveTime') || 60 * 10;
+    $Self->{SessionSpool}             = $Self->{ConfigObject}->Get('SessionDir');
+    $Self->{SystemID}                 = $Self->{ConfigObject}->Get('SystemID');
+    $Self->{AgentSessionLimit}        = $Self->{ConfigObject}->Get('AgentSessionLimit');
+    $Self->{AgentSessionPerUserLimit} = $Self->{ConfigObject}->Get('AgentSessionPerUserLimit') || 2;
+    $Self->{CustomerSessionLimit}     = $Self->{ConfigObject}->Get('CustomerSessionLimit');
+    $Self->{CustomerSessionPerUserLimit}
+        = $Self->{ConfigObject}->Get('CustomerSessionPerUserLimit');
+    $Self->{SessionActiveTime} = $Self->{ConfigObject}->Get('SessionActiveTime') || 60 * 10;
 
     return $Self;
 }
@@ -198,7 +199,10 @@ sub CreateSessionID {
     if ( $Param{UserType} && $Param{UserType} eq 'User' && $Self->{AgentSessionPerUserLimit} ) {
         $SessionPerUserLimit = $Self->{AgentSessionPerUserLimit};
     }
-    elsif ( $Param{UserType} && $Param{UserType} eq 'Customer' && $Self->{CustomerSessionPerUserLimit} ) {
+    elsif ($Param{UserType}
+        && $Param{UserType} eq 'Customer'
+        && $Self->{CustomerSessionPerUserLimit} )
+    {
         $SessionPerUserLimit = $Self->{CustomerSessionPerUserLimit};
     }
 
@@ -256,7 +260,10 @@ sub CreateSessionID {
         }
 
         # check session per user limit
-        if ( $SessionPerUserLimit && $Param{UserLogin} && $ActiveSessionPerUserCount{ $Param{UserLogin} } >= $SessionPerUserLimit ) {
+        if (   $SessionPerUserLimit
+            && $Param{UserLogin}
+            && $ActiveSessionPerUserCount{ $Param{UserLogin} } >= $SessionPerUserLimit )
+        {
 
             $Self->{SessionIDErrorMessage} = 'Session per user limit reached!';
 
@@ -317,7 +324,8 @@ sub CreateSessionID {
     my $UserSessionStart = $Self->{Cache}->{$SessionID}->{UserSessionStart} || '';
     my $UserLastRequest  = $Self->{Cache}->{$SessionID}->{UserLastRequest}  || '';
 
-    my $StateContent = $UserType . '####' . $UserLogin . '####' . $UserSessionStart . '####' . $UserLastRequest;
+    my $StateContent
+        = $UserType . '####' . $UserLogin . '####' . $UserSessionStart . '####' . $UserLastRequest;
 
     # write state file
     $Self->{MainObject}->FileWrite(
@@ -534,7 +542,11 @@ sub DESTROY {
         my $UserSessionStart = $Self->{Cache}->{$SessionID}->{UserSessionStart} || '';
         my $UserLastRequest  = $Self->{Cache}->{$SessionID}->{UserLastRequest}  || '';
 
-        my $StateContent = $UserType . '####' . $UserLogin . '####' . $UserSessionStart . '####' . $UserLastRequest;
+        my $StateContent
+            = $UserType . '####'
+            . $UserLogin . '####'
+            . $UserSessionStart . '####'
+            . $UserLastRequest;
 
         # write state file
         $Self->{MainObject}->FileWrite(

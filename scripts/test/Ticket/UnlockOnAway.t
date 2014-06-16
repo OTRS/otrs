@@ -21,8 +21,8 @@ my $TicketObject = $Kernel::OM->Get('TicketObject');
 my $TimeObject   = $Kernel::OM->Get('TimeObject');
 
 $ConfigObject->Set(
-    Key => 'Ticket::UnlockOnAway',
-    Value   => 1,
+    Key   => 'Ticket::UnlockOnAway',
+    Value => 1,
 );
 
 my $TestUserLogin = $HelperObject->TestUserCreate(
@@ -45,7 +45,7 @@ my $TicketID = $TicketObject->TicketCreate(
     UserID       => 1,
 );
 
-$Self->True($TicketID, 'Could create ticket');
+$Self->True( $TicketID, 'Could create ticket' );
 
 $TicketObject->ArticleCreate(
     TicketID       => $TicketID,
@@ -68,44 +68,44 @@ $Self->Is(
     'Ticket still locked (UnlockOnAway)',
 );
 $UserObject->SetPreferences(
-    UserID  => $Ticket{OwnerID},
-    Key     => 'OutOfOffice',
-    Value   => 1,
+    UserID => $Ticket{OwnerID},
+    Key    => 'OutOfOffice',
+    Value  => 1,
 );
 
-my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay) = $TimeObject->SystemTime2Date(
+my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
     SystemTime => $TimeObject->SystemTime(),
 );
 
 $UserObject->SetPreferences(
-    UserID  => $Ticket{OwnerID},
-    Key     => 'OutOfOfficeStartYear',
-    Value   => $Year - 1,
+    UserID => $Ticket{OwnerID},
+    Key    => 'OutOfOfficeStartYear',
+    Value  => $Year - 1,
 );
 $UserObject->SetPreferences(
-    UserID  => $Ticket{OwnerID},
-    Key     => 'OutOfOfficeEndYear',
-    Value   => $Year + 1,
+    UserID => $Ticket{OwnerID},
+    Key    => 'OutOfOfficeEndYear',
+    Value  => $Year + 1,
 );
 $UserObject->SetPreferences(
-    UserID  => $Ticket{OwnerID},
-    Key     => 'OutOfOfficeStartMonth',
-    Value   => $Month,
+    UserID => $Ticket{OwnerID},
+    Key    => 'OutOfOfficeStartMonth',
+    Value  => $Month,
 );
 $UserObject->SetPreferences(
-    UserID  => $Ticket{OwnerID},
-    Key     => 'OutOfOfficeEndMonth',
-    Value   => $Month,
+    UserID => $Ticket{OwnerID},
+    Key    => 'OutOfOfficeEndMonth',
+    Value  => $Month,
 );
 $UserObject->SetPreferences(
-    UserID  => $Ticket{OwnerID},
-    Key     => 'OutOfOfficeStartDay',
-    Value   => $Day,
+    UserID => $Ticket{OwnerID},
+    Key    => 'OutOfOfficeStartDay',
+    Value  => $Day,
 );
 $UserObject->SetPreferences(
-    UserID  => $Ticket{OwnerID},
-    Key     => 'OutOfOfficeEndDay',
-    Value   => $Day,
+    UserID => $Ticket{OwnerID},
+    Key    => 'OutOfOfficeEndDay',
+    Value  => $Day,
 );
 
 $TicketObject->ArticleCreate(

@@ -1064,7 +1064,7 @@ sub Run {
                 RequestedURL => 'Action=' . $Self->{Action} . ';' . $LinkPage,
 
                 # do not print the result earlier, but return complete content
-                Output     => 1,
+                Output => 1,
             );
 
             # build footer

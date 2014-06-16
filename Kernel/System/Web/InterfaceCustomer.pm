@@ -115,6 +115,7 @@ sub Run {
     }
 
     my $BrowserHasCookie = 0;
+
     # Check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
     if ( $Self->{ConfigObject}->Get('SessionUseCookie') ) {
@@ -266,7 +267,6 @@ sub Run {
                 },
             );
         }
-
 
         # check needed data
         if ( !$UserData{UserID} || !$UserData{UserLogin} ) {

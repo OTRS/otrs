@@ -28,13 +28,14 @@ sub new {
     }
 
     # get more common params
-    $Self->{SessionTable}                = $Self->{ConfigObject}->Get('SessionTable') || 'sessions';
-    $Self->{SystemID}                    = $Self->{ConfigObject}->Get('SystemID');
-    $Self->{AgentSessionLimit}           = $Self->{ConfigObject}->Get('AgentSessionLimit');
-    $Self->{AgentSessionPerUserLimit}    = $Self->{ConfigObject}->Get('AgentSessionPerUserLimit');
-    $Self->{CustomerSessionLimit}        = $Self->{ConfigObject}->Get('CustomerSessionLimit');
-    $Self->{CustomerSessionPerUserLimit} = $Self->{ConfigObject}->Get('CustomerSessionPerUserLimit');
-    $Self->{SessionActiveTime}           = $Self->{ConfigObject}->Get('SessionActiveTime') || 60 * 10;
+    $Self->{SessionTable}             = $Self->{ConfigObject}->Get('SessionTable') || 'sessions';
+    $Self->{SystemID}                 = $Self->{ConfigObject}->Get('SystemID');
+    $Self->{AgentSessionLimit}        = $Self->{ConfigObject}->Get('AgentSessionLimit');
+    $Self->{AgentSessionPerUserLimit} = $Self->{ConfigObject}->Get('AgentSessionPerUserLimit');
+    $Self->{CustomerSessionLimit}     = $Self->{ConfigObject}->Get('CustomerSessionLimit');
+    $Self->{CustomerSessionPerUserLimit}
+        = $Self->{ConfigObject}->Get('CustomerSessionPerUserLimit');
+    $Self->{SessionActiveTime} = $Self->{ConfigObject}->Get('SessionActiveTime') || 60 * 10;
 
     # get database type
     $Self->{DBType} = $Self->{DBObject}->{'DB::Type'} || '';
@@ -227,7 +228,10 @@ sub CreateSessionID {
     if ( $Param{UserType} && $Param{UserType} eq 'User' && $Self->{AgentSessionPerUserLimit} ) {
         $SessionPerUserLimit = $Self->{AgentSessionPerUserLimit};
     }
-    elsif ( $Param{UserType} && $Param{UserType} eq 'Customer' && $Self->{CustomerSessionPerUserLimit} ) {
+    elsif ($Param{UserType}
+        && $Param{UserType} eq 'Customer'
+        && $Self->{CustomerSessionPerUserLimit} )
+    {
         $SessionPerUserLimit = $Self->{CustomerSessionPerUserLimit};
     }
 
@@ -284,7 +288,10 @@ sub CreateSessionID {
         }
 
         # check session per user limit
-        if ( $SessionPerUserLimit && $Param{UserLogin} && $ActiveSessionPerUserCount{ $Param{UserLogin} } >= $SessionPerUserLimit ) {
+        if (   $SessionPerUserLimit
+            && $Param{UserLogin}
+            && $ActiveSessionPerUserCount{ $Param{UserLogin} } >= $SessionPerUserLimit )
+        {
 
             $Self->{SessionIDErrorMessage} = 'Session per user limit reached!';
 

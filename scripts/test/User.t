@@ -59,13 +59,12 @@ $Self->Is(
     'Username in List - Order 0',
 );
 
-
 $ConfigObject->Set(
     Key   => 'FirstnameLastnameOrder',
     Value => 1,
 );
 $Self->Is(
-    $ConfigObject->Get( 'FirstnameLastnameOrder' ),
+    $ConfigObject->Get('FirstnameLastnameOrder'),
     1,
     'Check if NameOrder option is set correctly',
 );
@@ -83,7 +82,6 @@ $Self->Is(
     'Username in List - Order 1',
 );
 
-
 $ConfigObject->Set(
     Key   => 'FirstnameLastnameOrder',
     Value => 2,
@@ -100,7 +98,6 @@ $Self->Is(
     "Firstname Test1 Lastname Test1 ($UserRand1)",
     'Username in List - Order 2',
 );
-
 
 my %UserData = $UserObject->GetUserData( UserID => $UserID );
 

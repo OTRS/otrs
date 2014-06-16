@@ -545,7 +545,7 @@ sub Redirect {
     my $Output = $Cookies . $Self->Output( TemplateFile => 'Redirect', Data => \%Param );
 
     # add session id to redirect if no cookie is enabled
-    if ( !$Self->{SessionIDCookie}  && !($Self->{BrowserHasCookie} && $Param{Login} ) ) {
+    if ( !$Self->{SessionIDCookie} && !( $Self->{BrowserHasCookie} && $Param{Login} ) ) {
 
         # rewrite location header
         $Output =~ s{
@@ -589,6 +589,7 @@ sub Login {
 
     my $Output = '';
     if ( $Self->{ConfigObject}->Get('SessionUseCookie') ) {
+
         # always set a cookie, so that at the time the user submits
         # the password, we know already if the browser supports cookies.
         # ( the session cookie isn't available at that time ).
@@ -2928,6 +2929,7 @@ sub CustomerLogin {
     $Self->{Action} = 'CustomerLogin';
 
     if ( $Self->{ConfigObject}->Get('SessionUseCookie') ) {
+
         # always set a cookie, so that at the time the user submits
         # the password, we know already if the browser supports cookies.
         # ( the session cookie isn't available at that time ).
@@ -2946,7 +2948,6 @@ sub CustomerLogin {
             HttpOnly => 1,
         );
     }
-
 
     # add cookies if exists
     if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {

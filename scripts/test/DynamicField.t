@@ -21,7 +21,7 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 );
 
 my $RandomID = $HelperObject->GetRandomID();
-my $UserID = 1;
+my $UserID   = 1;
 
 my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$Self} );
 

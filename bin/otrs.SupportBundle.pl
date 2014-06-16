@@ -51,13 +51,13 @@ sub _OM {
     return $Kernel::OM;
 }
 
-
 sub Run {
 
     local $Kernel::OM = _OM();
     my $CommonObjects = { $Kernel::OM->ObjectHash() };
 
-    $CommonObjects->{SupportBundleGeneratorObject}  = Kernel::System::SupportBundleGenerator->new(%{$CommonObjects});
+    $CommonObjects->{SupportBundleGeneratorObject}
+        = Kernel::System::SupportBundleGenerator->new( %{$CommonObjects} );
 
     # Refresh common objects after a certain number of loop iterations.
     #   This will call event handlers and clean up caches to avoid excessive mem usage.
@@ -79,7 +79,6 @@ usage: otrs.SuppportBundle.pl -o <Path> (Optional)
 EOF
         exit 1;
     }
-
 
     # ---
     # TODO: Delete

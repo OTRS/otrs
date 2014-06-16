@@ -225,7 +225,7 @@ sub Run {
                             HTTPOnly => 1,
                         ),
                     },
-                }
+                    }
             );
             my $LayoutObject = $Kernel::OM->Get('LayoutObject');
 
@@ -268,7 +268,6 @@ sub Run {
                 },
             );
         }
-
 
         # check needed data
         if ( !$UserData{UserID} || !$UserData{UserLogin} ) {

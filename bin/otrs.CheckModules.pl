@@ -153,9 +153,9 @@ my @NeededModules = (
         },
     },
     {
-        Module   => 'Archive::Tar',
-        Required => 1,
-        Comment  => 'Required for compressed file generation (in perlcore).',
+        Module    => 'Archive::Tar',
+        Required  => 1,
+        Comment   => 'Required for compressed file generation (in perlcore).',
         InstTypes => {
             zypper => 'perl-Archive-Tar',
         },

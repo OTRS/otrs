@@ -386,7 +386,7 @@ sub Run {
         Escalation => 1,
 
         # do not print the result earlier, but return complete content
-        Output     => 1,
+        Output => 1,
     );
 
     $Output .= $Self->{LayoutObject}->Footer();

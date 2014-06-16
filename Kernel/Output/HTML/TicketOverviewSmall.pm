@@ -477,7 +477,8 @@ sub Run {
                         $Output = '<li id="'
                             . $Item->{ID}
                             . '"><a href="#" title="'
-                            . $Self->{LayoutObject}->{LanguageObject}->Translate( $Item->{Description} )
+                            . $Self->{LayoutObject}->{LanguageObject}
+                            ->Translate( $Item->{Description} )
                             . '">'
                             . $Self->{LayoutObject}->{LanguageObject}->Translate( $Item->{Name} )
                             . '</a></li>';
@@ -1444,7 +1445,7 @@ sub Run {
                     $BlockType = 'Translatable';
                     $DataValue = $Article{$TicketColumn} || $UserInfo{$TicketColumn};
                 }
-                elsif ( $TicketColumn eq 'Created' || $TicketColumn eq 'Changed') {
+                elsif ( $TicketColumn eq 'Created' || $TicketColumn eq 'Changed' ) {
                     $BlockType = 'Time';
                     $DataValue = $Article{$TicketColumn} || $UserInfo{$TicketColumn};
                 }
