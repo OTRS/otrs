@@ -318,7 +318,7 @@ sub GenerateCustomFilesArchive {
     my ( $Self, %Param ) = @_;
 
     my $TempDir
-        = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundle' ;
+        = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundle';
 
     if ( !-d $TempDir ) {
         mkdir $TempDir;

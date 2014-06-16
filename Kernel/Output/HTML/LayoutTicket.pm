@@ -664,10 +664,10 @@ sub ArticleQuote {
     # attach attachments
     if ( $Param{AttachmentsInclude} ) {
         my %ArticleIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
-            ArticleID => $Param{ArticleID},
-            UserID    => $Self->{UserID},
+            ArticleID                  => $Param{ArticleID},
+            UserID                     => $Self->{UserID},
             StripPlainBodyAsAttachment => 3,
-            Article => \%Article,
+            Article                    => \%Article,
         );
         for my $Index ( sort keys %ArticleIndex ) {
             my %Attachment = $Self->{TicketObject}->ArticleAttachment(

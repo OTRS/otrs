@@ -227,7 +227,7 @@ sub Run {
     my @ProcessStates = ('Active');
 
     # set IsMainWindow and IsAjaxRequest for proper error responses, screen display and process list
-    $Self->{IsMainWindow}  = $Self->{ParamObject}->GetParam( Param => 'IsMainWindow' ) || '';
+    $Self->{IsMainWindow}  = $Self->{ParamObject}->GetParam( Param => 'IsMainWindow' )  || '';
     $Self->{IsAjaxRequest} = $Self->{ParamObject}->GetParam( Param => 'IsAjaxRequest' ) || '';
 
     # fetch also FadeAway processes to continue working with existing tickets, but not to start new
@@ -1728,7 +1728,8 @@ sub _OutputActivityDialog {
 
     # display regular footer only in non-ajax case
     if ( !$Self->{IsAjaxRequest} ) {
-        $Output .= $Self->{LayoutObject}->CustomerFooter( Type => $Self->{IsMainWindow} ? '' : 'Small' );
+        $Output .= $Self->{LayoutObject}
+            ->CustomerFooter( Type => $Self->{IsMainWindow} ? '' : 'Small' );
     }
 
     return $Output;
@@ -3110,9 +3111,9 @@ sub _StoreActivityDialog {
         );
     }
 
-    if (!$IsUpload) {
+    if ( !$IsUpload ) {
 
-        # check each Field of an Activity Dialog and fill the error hash if something goes horribly wrong
+   # check each Field of an Activity Dialog and fill the error hash if something goes horribly wrong
         my %CheckedFields;
         DIALOGFIELD:
         for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
@@ -3123,7 +3124,7 @@ sub _StoreActivityDialog {
             if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
                 my $DynamicFieldName = $1;
 
-               # Get the Config of the current DynamicField (the first element of the grep result array)
+           # Get the Config of the current DynamicField (the first element of the grep result array)
                 my $DynamicFieldConfig
                     = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
 
@@ -3157,7 +3158,8 @@ sub _StoreActivityDialog {
 
                 # if we had an invisible field, use config's default value
                 if ( $ActivityDialog->{Fields}{$CurrentField}{Display} == 0 ) {
-                    $TicketParam{$CurrentField} = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue}
+                    $TicketParam{$CurrentField}
+                        = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue}
                         || '';
                 }
 
@@ -3189,8 +3191,9 @@ sub _StoreActivityDialog {
                 }
                 $TicketParam{CustomerID} = $CustomerID;
 
-                # Unfortunately TicketCreate needs 'CustomerUser' as param instead of 'CustomerUserID'
-                my $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' )
+              # Unfortunately TicketCreate needs 'CustomerUser' as param instead of 'CustomerUserID'
+                my $CustomerUserID
+                    = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' )
                     || $Self->{UserID};
                 if ( !$CustomerUserID ) {
                     $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'SelectedUserID' );
