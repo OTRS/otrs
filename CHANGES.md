@@ -1,4 +1,5 @@
 #3.3.8 2014-??-??
+ - 2014-06-16 Fixed bug#[10562](http://bugs.otrs.org/show_bug.cgi?id=10562) - Inconsistent displaying of "CustomerID" value.
  - 2014-06-16 Updated Brazilian Portugese translation, thanks to Murilo Moreira de Oliveira.
  - 2014-06-13 Fixed bug#[10508](http://bugs.otrs.org/show_bug.cgi?id=10508) - (Agent|Customer)TicketProcess javascript errors when uploading attachments/having server errors.
  - 2014-06-10 Fixed bug#[10521](http://bugs.otrs.org/show_bug.cgi?id=10521) - OutputFilterText AutoLink CVE.

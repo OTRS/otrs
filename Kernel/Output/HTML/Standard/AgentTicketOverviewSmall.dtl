@@ -408,7 +408,6 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
                         <a href="$Env{"Baselink"}Action=AgentTicketCustomer;TicketID=$LQData{"TicketID"}" class="AsPopup">
                             <span title="$QData{"CustomerID"}">$QData{"CustomerID","15"}</span>
                         </a>
-                        <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
                     </td>
 <!-- dtl:block:RecordCustomerID -->
 <!-- dtl:block:RecordLastCustomerSubject -->
