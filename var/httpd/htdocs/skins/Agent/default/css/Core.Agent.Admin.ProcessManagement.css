@@ -340,11 +340,11 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
  */
 
 #Canvas #StartEvent {
-    width: 30px;
-    height: 30px;
-    border: 2px solid #000;
+    width: 31px;
+    height: 31px;
+    border: 1px solid #000;
     border-radius: 16px;
-    background-color: #72C177;
+    background-color: #fff;
     position: absolute;
     z-index: 100;
 }
@@ -352,12 +352,13 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
 #Canvas .Activity {
     width: 110px;
     height: 80px;
-    background-color: #e5e5e5;
+    background-color: #fff;
     border: 1px solid #949494;
     border-radius: 10px;
     position: absolute;
     z-index: 100;
     cursor: move;
+    opacity: 0.9;
 }
 
 em.EntityID {
