@@ -66,7 +66,7 @@
  - 2013-12-13 Fixed bug#[10090](http://bugs.otrs.org/show_bug.cgi?id=10090) - Problems with special characters in Kernel/System/WebUserAgent.pm.
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
-#3.3.8 2014-??-??
+#3.3.8 2014-06-24
  - 2014-06-16 Fixed bug#[10524](http://bugs.otrs.org/show_bug.cgi?id=10524) - Internal Dynamic Fields in Activity Dialog.
  - 2014-06-16 Updated Brazilian Portugese translation, thanks to Murilo Moreira de Oliveira.
  - 2014-06-13 Fixed bug#[10508](http://bugs.otrs.org/show_bug.cgi?id=10508) - (Agent|Customer)TicketProcess javascript errors when uploading attachments/having server errors.
