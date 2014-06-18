@@ -171,7 +171,7 @@ sub ToAscii {
     $Param{String} =~ s/\r/ /gs;
 
     # remove style tags
-    $Param{String} =~ s{<style \s*? />}{}xgsi;
+    $Param{String} =~ s{<style [^>]*? />}{}xgsi;
     $Param{String} =~ s{<style [^>]*? > .*? </style[^>]*>}{}xgsi;
 
     # remove <br>,<br/>,<br />, <br class="name"/>, tags and replace it with \n
