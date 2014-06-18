@@ -231,6 +231,10 @@ sub Data {
             'Log masuk gagal. Kata nama anda atau kata laluan yang dimasukkan tidak tepat',
         'There is no acount with that user name.' => 'Tiada akaun dengan nama pengguna tersebut.',
         'Please contact your administrator' => 'Sila hubungi pentadbir anda',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'Log keluar',
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Ciri-ciri tidak aktif!',
@@ -2899,6 +2903,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Perjanjian tahap perkhidmatan.',
@@ -3365,10 +3370,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             'Teks direka untuk halaman yang ditunjukkan kepada pelanggan yang belum mempunyai tiket.',
         'Customer Company Administration' => '',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => '',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => '',
         'Customer User <-> Services' => '',
         'Customer User Administration' => '',
+        'Customer User Administration.' => '',
         'Customer Users' => '',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             'Item pelanggan (icon) yang menunjukkan tiket tertutup pelanggan ini sebagai blok info. Menetapkan CustomerUserLogin kepada carian 1 untuk tiket berdasarkan nama log masuk dan bukannya CustomerID.',

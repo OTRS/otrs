@@ -234,6 +234,10 @@ sub Data {
             'Δεν εγινε συνδεση! Λανθασμενο ονομα χρηστη η κωδικος προσβασης',
         'There is no acount with that user name.' => 'Δεν υπάρχει λογαριασμός με αυτο το ονομα χρηστη',
         'Please contact your administrator' => 'Παρακαλω επικοινωνηστε με τον διαχειριστή σας',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'Έξοδος',
         'Logout successful. Thank you for using %s!' => 'Επιτυχής έξοδος. Ευχαριστούμε που χρησιμοποιήσατε το %s!',
         'Feature not active!' => 'Μη ενεργή επιλογή!',
@@ -2907,6 +2911,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => '',
@@ -3373,10 +3378,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
         'Customer Company Administration' => '',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => '',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => '',
         'Customer User <-> Services' => '',
         'Customer User Administration' => '',
+        'Customer User Administration.' => '',
         'Customer Users' => 'Χρήστες-Πελάτες',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',

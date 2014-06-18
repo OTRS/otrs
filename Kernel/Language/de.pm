@@ -232,6 +232,10 @@ sub Data {
             'Anmeldung fehlgeschlagen! Benutzername oder Passwort wurden falsch eingegeben.',
         'There is no acount with that user name.' => 'Es gibt kein Benutzerkonto mit diesem Benutzernamen.',
         'Please contact your administrator' => 'Bitte kontaktieren Sie Ihren Administrator',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'Abmelden',
         'Logout successful. Thank you for using %s!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  %s!',
         'Feature not active!' => 'Funktion nicht aktiviert!',
@@ -2900,6 +2904,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => 'Zitierung an Cursorposition trennen',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Service-Level-Vereinbarung',
@@ -3146,7 +3151,6 @@ sub Data {
         # Template: Redirect
 
         # Template: RichTextEditor
-        'Split Quote' => 'Zitierung an Cursorposition trennen',
 
         # Template: SpellingInline
 
@@ -3367,10 +3371,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
         'Customer Company Administration' => 'Kundenverwaltung',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => 'Kundeninformation',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => 'Kundenbenutzer <-> Gruppen',
         'Customer User <-> Services' => 'Kundenbenutzer <-> Services',
         'Customer User Administration' => 'Kundenbenutzerverwaltung',
+        'Customer User Administration.' => '',
         'Customer Users' => 'Kundenbenutzer',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',

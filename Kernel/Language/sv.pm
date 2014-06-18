@@ -234,6 +234,10 @@ sub Data {
             'Inloggning misslyckades! Felaktigt användarnamn eller lösenord.',
         'There is no acount with that user name.' => 'Det finns inget konto med det användarnamnet',
         'Please contact your administrator' => 'Vänligen kontakta din administratör',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'Logga ut',
         'Logout successful. Thank you for using %s!' => 'Utloggningen lyckades.  Tack för att du använde %s!',
         'Feature not active!' => 'Funktion inte aktiverad!',
@@ -2902,6 +2906,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => '',
@@ -3368,10 +3373,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
         'Customer Company Administration' => '',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => '',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => '',
         'Customer User <-> Services' => '',
         'Customer User Administration' => 'Hantera kundanvändare',
+        'Customer User Administration.' => '',
         'Customer Users' => 'Kundanvändare',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',

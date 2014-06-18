@@ -233,6 +233,10 @@ sub Data {
             'Login fejlede. Dit brugernavn eller password blev indtastet forkert.',
         'There is no acount with that user name.' => 'Der er ingen konto med det brugernavn.',
         'Please contact your administrator' => 'Kontakt venligst din administrator',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'Log ud',
         'Logout successful. Thank you for using %s!' => 'Du er nu logget ud. Tak fordi du bruger %s.',
         'Feature not active!' => 'Funktionen er ikke aktiv',
@@ -2901,6 +2905,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Service level agreement',
@@ -3367,10 +3372,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             'Tekst til den side, der vises til kunder, der endnu ikke har nogen sager.',
         'Customer Company Administration' => 'Kunde-Firma-administration',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => 'Kunde-Firma-information',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => '',
         'Customer User <-> Services' => '',
         'Customer User Administration' => 'Kunde-administration',
+        'Customer User Administration.' => '',
         'Customer Users' => 'Kunder',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',

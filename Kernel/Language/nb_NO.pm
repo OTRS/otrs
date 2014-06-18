@@ -240,6 +240,10 @@ sub Data {
             'Innlogging feilet! Brukernavn eller passord ble skrevet inn feil.',
         'There is no acount with that user name.' => 'Det finnes ingen konto med det brukernavnet',
         'Please contact your administrator' => 'Vennligst kontakt administratoren',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'Logg ut',
         'Logout successful. Thank you for using %s!' => 'Utlogging utført.  Takk for at du brukte %s!',
         'Feature not active!' => 'Funksjon ikke aktivert!',
@@ -2908,6 +2912,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Tjenestenivåavtale',
@@ -3374,10 +3379,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             'Tekst som vises for kunder som ikke har noen saker enda.',
         'Customer Company Administration' => '',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => '',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => '',
         'Customer User <-> Services' => '',
         'Customer User Administration' => '',
+        'Customer User Administration.' => '',
         'Customer Users' => 'Kunder',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',

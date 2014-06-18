@@ -235,6 +235,10 @@ sub Data {
             'Błąd logowania! Podana została zła nazwa użytkownika lub hasło.',
         'There is no acount with that user name.' => 'Nie ma konta z taką nazwą użytkownika.',
         'Please contact your administrator' => 'Prosimy, skontaktuj się ze swoim administratorem',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'Wyloguj',
         'Logout successful. Thank you for using %s!' => 'Wylogowanie zakończone! Dziękujemy za używanie %s!',
         'Feature not active!' => 'Funkcja nie aktywna!',
@@ -2903,6 +2907,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'SLA',
@@ -3369,10 +3374,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             'Wybrany tekst ukazywany klientom którzy nie dokonali dotychczas żadnych zgłoszeń.',
         'Customer Company Administration' => 'Zarządzanie firmami',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => 'Informacje o firmie klienta',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => 'Użytkownicy Klienta <-> Grupy',
         'Customer User <-> Services' => 'Użytkownicy Klienta <-> Serwisy',
         'Customer User Administration' => 'Zarządzanie Kontami Klienta',
+        'Customer User Administration.' => '',
         'Customer Users' => 'Użytkownicy Klienta',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',

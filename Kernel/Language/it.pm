@@ -240,6 +240,10 @@ sub Data {
             'Login fallito! Il nome utente o la password sono errati.',
         'There is no acount with that user name.' => 'Non esistono account con questo username.',
         'Please contact your administrator' => 'Si prega di contattare l\'amministratore',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'Esci',
         'Logout successful. Thank you for using %s!' => 'Disconnessione avvenuta con successo. Grazie per aver usato %s!',
         'Feature not active!' => 'Funzione non attiva!',
@@ -2909,6 +2913,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => '',
@@ -3375,10 +3380,13 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
         'Customer Company Administration' => 'Amministrazione società cliente',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => 'Informazioni società cliente',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => '',
         'Customer User <-> Services' => '',
         'Customer User Administration' => 'Amministrazione utenti cliente',
+        'Customer User Administration.' => '',
         'Customer Users' => 'Utenti Cliente',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',

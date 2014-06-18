@@ -232,6 +232,10 @@ sub Data {
             'Oturum açılamadı! Kullanıcı adınız veya parolanız hatalı girildi.',
         'There is no acount with that user name.' => 'Bu kullanıcı adıyla bir hesap yok.',
         'Please contact your administrator' => 'Lütfen yöneticinizle irtibat kurun',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'Oturumu kapat',
         'Logout successful. Thank you for using %s!' => 'Oturum kapatma başarılı. %s kullandığınız için teşekkür ederiz!',
         'Feature not active!' => 'Özellik etkin değil!',
@@ -2900,6 +2904,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Servis seviye anlaşması',
@@ -3366,10 +3371,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
         'Customer Company Administration' => 'Müşteri Şirket Yönetimi',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => 'Müşteri Şirket Bilgisi',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => '',
         'Customer User <-> Services' => '',
         'Customer User Administration' => 'Müşteri Kullanıcı Yönetimi',
+        'Customer User Administration.' => '',
         'Customer Users' => 'Müşteri Kullanıcılar',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',

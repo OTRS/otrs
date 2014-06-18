@@ -237,6 +237,10 @@ sub Data {
             'Autenticação falhou! Nome de usuário ou senha foram digitados incorretamente.',
         'There is no acount with that user name.' => 'Não há conta com este nome de usuário.',
         'Please contact your administrator' => 'Por favor, contate seu administrador',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'Sair',
         'Logout successful. Thank you for using %s!' => 'Saiu com sucesso. Obrigado por utilizar o %s!',
         'Feature not active!' => 'Funcionalidade não ativada!',
@@ -945,7 +949,6 @@ sub Data {
         'Archived tickets' => 'Chamados arquivados',
         'Unarchived tickets' => 'Chamados não-arquivados',
         'Ticket Information' => 'Informação do Chamado',
-        'EscalationTime' => 'Prazo de Escalação',
         'History::Move' => 'Chamado foi movido para a Fila "%s" (%s) vindo da Fila "%s" (%s).',
         'History::TypeUpdate' => 'Tipo atualizado para %s (ID=%s).',
         'History::ServiceUpdate' => 'Serviço atualizado para %s (ID=%s).',
@@ -2552,7 +2555,6 @@ sub Data {
         'Relative Period' => 'Período Relativo',
         'The last' => 'O último',
         'Finish' => 'Finalizar',
-        'State Type' => 'Tipo de Estado',
 
         # Template: AgentStatsEditSpecification
         'Permissions' => 'Permissões',
@@ -2907,6 +2909,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Acordo de nível de serviço',
@@ -3373,10 +3376,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             'Texto personalizado para a página mostrada aos clientes que não têm chamados ainda.',
         'Customer Company Administration' => 'Administração de Empresas de Cliente',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => 'Informação da Empresa do Cliente',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => 'Cliente <-> Grupos',
         'Customer User <-> Services' => 'Cliente <-> Serviços',
         'Customer User Administration' => 'Administração de Usuários Cliente',
+        'Customer User Administration.' => '',
         'Customer Users' => 'Clientes',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
@@ -5153,6 +5159,7 @@ sub Data {
         'Escalation - Solution Time' => 'Escalação - Prazo de Solução',
         'Escalation - Update Time' => 'Escalação - Prazo de Atualização',
         'Escalation in' => 'Escalação em',
+        'EscalationTime' => 'Prazo de Escalação',
         'Events Ticket Calendar' => 'Calendário de Eventos de Chamado',
         'False' => 'Falso',
         'Filter for Responses' => 'Filtro Para Respostas',
@@ -5197,6 +5204,7 @@ sub Data {
         'Show  article' => 'Mostrar Artigo',
         'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
             'Ignorar esta etapa irá pular automaticaente o registro do seu OTRS. Tem certeza de que quer continuar?',
+        'State Type' => 'Tipo de Estado',
         'There are currently no steps available for this process.' => 'Não há ações disponíveis para esse processo atualmente.',
         'There are no further steps in this process' => 'Não há mais passos nesse processo',
         'To customer' => 'Para o Cliente',

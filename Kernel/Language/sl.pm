@@ -236,6 +236,10 @@ sub Data {
             'Neuspešna prijava! Uporabniško ime ali geslo ni pravilno.',
         'There is no acount with that user name.' => 'Račun s tem uporabniškem imenom ne obstaja.',
         'Please contact your administrator' => 'Prosimo, obrnite se na vašega skrbnika',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'Odjava',
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Funkcija ni aktivna!',
@@ -2904,6 +2908,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Sporazum o ravni storitev',
@@ -3370,10 +3375,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
         'Customer Company Administration' => '',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => '',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => '',
         'Customer User <-> Services' => '',
         'Customer User Administration' => '',
+        'Customer User Administration.' => '',
         'Customer Users' => 'Stranke',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',

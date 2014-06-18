@@ -234,6 +234,10 @@ sub Data {
             'प्रवेश असफल। आपका उपयोगकर्ता नाम या कूटशब्द गलत प्रविष्ट किया गया था।',
         'There is no acount with that user name.' => 'ऐसे उपयोगकर्ता नाम के साथ कोई खाता नहीं है।',
         'Please contact your administrator' => 'कृपया अपने प्रशासक से संपर्क करें।',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'बाहर प्रवेश करें',
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'सुविधा सक्रिय नहीं है।',
@@ -2902,6 +2906,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'सेवा स्तर अनुबंध',
@@ -3368,10 +3373,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             'कस्टम पाठ जो उन ग्राहकों को दिखाया जाएगा जिनके पास अभी तक कोई टिकट नहीं है।',
         'Customer Company Administration' => '',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => '',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => '',
         'Customer User <-> Services' => '',
         'Customer User Administration' => '',
+        'Customer User Administration.' => '',
         'Customer Users' => '',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',

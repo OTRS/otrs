@@ -238,6 +238,10 @@ sub Data {
             'Inloggen mislukt. Uw gebruikersnaam of wachtwoord is niet correct.',
         'There is no acount with that user name.' => 'Deze gebruikersnaam is niet bekend.',
         'Please contact your administrator' => 'Neem contact op met uw beheerder',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'Uitloggen',
         'Logout successful. Thank you for using %s!' => 'U bent afgemeld. Bedankt voor het gebruiken van %s.',
         'Feature not active!' => 'Deze functie is niet actief.',
@@ -2906,6 +2910,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Service level agreement',
@@ -3372,10 +3377,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
         'Customer Company Administration' => 'Beheren van bedrijven',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => 'Bedrijfsinformatie',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => 'Klanten <-> Groepen',
         'Customer User <-> Services' => 'Klanten <-> Services',
         'Customer User Administration' => 'Beheren van klanten',
+        'Customer User Administration.' => '',
         'Customer Users' => 'Klanten',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',

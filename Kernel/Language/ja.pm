@@ -235,6 +235,10 @@ sub Data {
             'ログインできません。ユーザー名またはパスワードを確認してください。',
         'There is no acount with that user name.' => '該当ユーザー名のアカウントはありません。',
         'Please contact your administrator' => '管理者に連絡してください',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'ログアウト',
         'Logout successful. Thank you for using %s!' => 'ログアウトしました。%s をご利用いただきありがとうございました。',
         'Feature not active!' => '機能が有効になっていません。',
@@ -2903,6 +2907,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'サービスレベル契約 (SLA)',
@@ -3369,10 +3374,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '顧客に対して表示されるチケットがまだ無いページのための、カスタム・テキストです。',
         'Customer Company Administration' => '顧客企業管理',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => '顧客企業情報',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => '顧客ユーザー <-> グループ',
         'Customer User <-> Services' => '顧客ユーザー <-> サービス',
         'Customer User Administration' => '顧客ユーザー管理',
+        'Customer User Administration.' => '',
         'Customer Users' => '顧客ユーザー',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',

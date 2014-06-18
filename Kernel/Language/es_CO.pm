@@ -232,6 +232,10 @@ sub Data {
             '¬°Inicio de sesi√≥n fallido! Nombre de usuario o contrase√±a incorrecto.',
         'There is no acount with that user name.' => 'No existe una cuenta para ese nombre de usuario',
         'Please contact your administrator' => 'Favor de contactar a su administrador',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'Cerrar Sesi√≥n',
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Funcionalidad inactiva.',
@@ -2900,6 +2904,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Acuerdo de nivel de servicio',
@@ -3366,10 +3371,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             'Texto personalizado que ver√°n los clientes que a√∫n no han creado tickets.',
         'Customer Company Administration' => '',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => '',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => '',
         'Customer User <-> Services' => '',
         'Customer User Administration' => '',
+        'Customer User Administration.' => '',
         'Customer Users' => 'Clientes',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',

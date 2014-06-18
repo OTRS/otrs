@@ -238,6 +238,10 @@ sub Data {
             '登录失败！用户名或密码错误。',
         'There is no acount with that user name.' => '没有此用户。',
         'Please contact your administrator' => '请联系管理员',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => '退出',
         'Logout successful. Thank you for using %s!' => '成功退出，谢谢使用!',
         'Feature not active!' => '该特性尚未激活!',
@@ -2906,6 +2910,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => '服务水平协议',
@@ -3372,10 +3377,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
         'Customer Company Administration' => '用户单位管理',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => '用户单位信息',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => '用户 <-> 组',
         'Customer User <-> Services' => '用户 <-> 服务',
         'Customer User Administration' => '用户管理',
+        'Customer User Administration.' => '',
         'Customer Users' => '用户',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',

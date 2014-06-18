@@ -243,6 +243,10 @@ sub Data {
             'Ошибка идентификации! Указано неправильное имя или пароль!',
         'There is no acount with that user name.' => 'Аккаунта с таким именем пользователя нет',
         'Please contact your administrator' => 'Свяжитесь с администратором',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'Выход',
         'Logout successful. Thank you for using %s!' => 'Вы успешно вышли из системы. Благодарим за пользование системой %s !',
         'Feature not active!' => 'Функция не активирована!',
@@ -2911,6 +2915,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Соглашение об уровне сервиса',
@@ -3377,10 +3382,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             '',
         'Customer Company Administration' => 'Управление компаниями клиентов',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => 'Информация о компании клиента',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => 'Клиенты <-> Группы',
         'Customer User <-> Services' => 'Клиенты <-> Сервисы',
         'Customer User Administration' => 'Управление клиентами',
+        'Customer User Administration.' => '',
         'Customer Users' => 'Клиенты',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             'Показать количество закрытых заявок клиента в Информации о клиенте. Установка CustomerUserLogin в 1 считает все заявки для логина клиента, а не по CustomerID.',

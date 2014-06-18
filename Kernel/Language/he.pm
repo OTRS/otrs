@@ -237,6 +237,10 @@ sub Data {
             'ההתחברות נכשלה! שם המשתמש או הסיסמא שלך לא הוקלדו נכון.',
         'There is no acount with that user name.' => 'אין חשבון עם שם משתמש זה.',
         'Please contact your administrator' => 'אנא צרו קשר עם מנהל המערכת',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'התנתק',
         'Logout successful. Thank you for using %s!' => 'ההתנתקות הצליחה! תודה על השימוש ב-%s!',
         'Feature not active!' => 'יכולת זו אינה מופעלת!',
@@ -2905,6 +2909,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
+        'Split Quote' => '',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'הסכם רמת שירות SLA',
@@ -3371,10 +3376,13 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet.' =>
             'טקסט מותאם לעמוד שמוצג ללקוחות שעדיין אין להם פניות',
         'Customer Company Administration' => 'ניהול חברות לקוחות',
+        'Customer Company Administration.' => '',
         'Customer Company Information' => 'מידע על חברות לקוחות',
+        'Customer Information Center.' => '',
         'Customer User <-> Groups' => 'משתמש לקוח <-> קבוצות',
         'Customer User <-> Services' => 'משתמש לקוח <-> שירותים',
         'Customer User Administration' => 'ניהול משתמשי לקוח',
+        'Customer User Administration.' => '',
         'Customer Users' => 'משתמשי לקוח',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
