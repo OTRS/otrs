@@ -2904,7 +2904,7 @@ sub Data {
         # Template: CustomerPreferences
 
         # Template: CustomerRichTextEditor
-        'Split Quote' => 'Zitierung an Cursorposition trennen',
+        'Split Quote' => 'Zitat an Cursorposition trennen',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Service-Level-Vereinbarung',
