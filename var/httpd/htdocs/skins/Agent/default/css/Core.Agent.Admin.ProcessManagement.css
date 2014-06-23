@@ -320,11 +320,12 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     border-radius: 13px;
     display: block;
     font-family: tahoma;
-    font-size: 9px;
+    font-size: 12px;
+    line-height: 19px;
+    vertical-align: middle;
     font-weight: bold;
-    height: 10px;
-    width: 10px;
-    padding: 5px;
+    height: 20px;
+    width: 20px;
     text-align: center;
     color: #aaa;
 }
@@ -505,9 +506,10 @@ em.EntityID {
     display: block;
     font-family: tahoma;
     font-size: 12px;
-    height: 10px;
-    width: 10px;
-    padding: 3px 5px 7px 5px;
+    line-height: 19px;
+    vertical-align: middle;
+    height: 20px;
+    width: 20px;
     text-align: center;
     color: #aaa;
     position: absolute;

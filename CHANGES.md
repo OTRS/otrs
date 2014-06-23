@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-06-23 Added edit and delete icon fonts to process management canvas elements, thanks to Nils Leideck.
  - 2014-06-10 Fixed bug#[10549](http://bugs.otrs.org/show_bug.cgi?id=10549) - SelectAllCheckboxes doesn't work as expected.
  - 2014-05-19 Fixed bug#[10519](http://bugs.otrs.org/show_bug.cgi?id=10519) - Opening and closing popups in ProcessManagement leads to performance issues.
  - 2014-05-19 Updated jsPlumb, Farahey and label spacer code.

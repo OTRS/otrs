@@ -236,8 +236,8 @@
                 <div class="Content">
                     <div id="Canvas">
                     </div>
-                    <div class="DiagramDeleteLink"><a href="#" title="[% Translate("Remove the Activity from this Process") | html %]">X</a></div>
-                    <div class="DiagramEditLink"><a href="#" title="[% Translate("Edit this Activity") | html %]">&gt;</a></div>
+                    <div class="DiagramDeleteLink"><a href="#" title="[% Translate("Remove the Activity from this Process") | html %]"><i class="fa fa-trash-o"></i></a></div>
+                    <div class="DiagramEditLink"><a href="#" title="[% Translate("Edit this Activity") | html %]"><i class="fa fa-edit"></i></a></div>
                 </div>
             </div>
 
