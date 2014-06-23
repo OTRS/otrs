@@ -183,7 +183,7 @@ select.ArticleFreeKey {
 .Preferences .Content,
 .Search .Content {
     margin: 0;
-    display: inline-block;
+    display: block;
 }
 
 fieldset {
@@ -266,7 +266,7 @@ fieldset select {
 }
 
 .TicketCompose fieldset #Subject {
-    width: 350px;
+    width: 50%;
 }
 
 fieldset.Columns .Column {
