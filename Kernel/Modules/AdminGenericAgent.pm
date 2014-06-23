@@ -963,7 +963,7 @@ sub _MaskUpdate {
             Name        => 'NewServiceID',
             SelectedID  => $JobData{NewServiceID},
             Size        => 5,
-            Multiple    => 1,
+            Multiple    => 0,
             Translation => 0,
             Max         => 200,
         );
