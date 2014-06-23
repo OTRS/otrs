@@ -1258,6 +1258,10 @@ sub ProcessDump {
 
         next TRANSITION if !IsHashRefWithData($TransitionData);
 
+        # set ConfitionLinking as it is stored oudise the condition hash
+        $TransitionData->{Config}->{Condition}->{Type}
+            = $TransitionData->{Config}->{ConditionLinking} || '';
+
         $TransitionDump{ $TransitionData->{EntityID} } = {
             Name       => $TransitionData->{Name},
             CreateTime => $TransitionData->{CreateTime},
