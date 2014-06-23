@@ -176,6 +176,22 @@ Fifth Line',
         Result => 'ace',
         Name   => 'ToAscii - <style> removal'
     },
+    {
+        Input  => 'a<style />bc<style type="text/css">d</style >e',
+        Result => 'abce',
+        Name   => 'ToAscii - <style /> removal'
+    },
+    {
+        Input  => 'a<style type="text/css" />bc<style type="text/css">d</style >e',
+        Result => 'abce',
+        Name   => 'ToAscii - <style /> (with attributes) removal'
+    },
+    {
+        Input  => 'a<style/>bc<style type="text/css">d</style >e',
+        Result => 'abce',
+        Name   => 'ToAscii - <style/> (no whitespaces) removal'
+    },
+
 );
 
 for my $Test (@Tests) {

@@ -1,3 +1,6 @@
+#3.3.9 2014-??-??
+ - 2014-06-23 Fixed bug#[10532](http://bugs.otrs.org/show_bug.cgi?id=10532) - PostMasterMailbox.pl hangs parsing mails.
+
 #3.3.8 2014-06-24
  - 2014-06-16 Fixed bug#[10524](http://bugs.otrs.org/show_bug.cgi?id=10524) - Internal Dynamic Fields in Activity Dialog.
  - 2014-06-16 Fixed bug#[10562](http://bugs.otrs.org/show_bug.cgi?id=10562) - Inconsistent displaying of "CustomerID" value.
