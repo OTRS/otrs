@@ -1424,8 +1424,7 @@ sub _Mask {
                 $SeenOldOwner{ $User->{UserID} } = 1;
                 push @OldOwners, {
                     Key   => $User->{UserID},
-                    Value => "$Counter: $User->{UserLastname} "
-                        . "$User->{UserFirstname} ($User->{UserLogin})"
+                    Value => "$Counter: $User->{UserFullname} ($User->{UserLogin})"
                 };
                 $Counter++;
             }
@@ -1926,9 +1925,7 @@ sub _GetOldOwners {
             next USER if $UserHash{ $User->{UserID} };
 
             $UserHash{ $User->{UserID} }
-                = "$Counter: $User->{UserLastname} $User->{UserFirstname} ($User->{UserLogin})";
-        }
-        continue {
+                = "$Counter: $User->{UserFullname} ($User->{UserLogin})";
             $Counter++;
         }
     }

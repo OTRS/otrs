@@ -1031,8 +1031,7 @@ sub AgentMove {
         my $Counter = 1;
         for my $User ( reverse @{ $Param{OldUser} } ) {
             next if $UserHash{ $User->{UserID} };
-            $UserHash{ $User->{UserID} } = "$Counter: $User->{UserLastname} "
-                . "$User->{UserFirstname} ($User->{UserLogin})";
+            $UserHash{ $User->{UserID} } = "$Counter: $User->{UserFullname} $User->{UserFirstname} ($User->{UserLogin})";
             $Counter++;
         }
     }
@@ -1323,8 +1322,7 @@ sub _GetOldOwners {
         my $Counter = 1;
         for my $User ( reverse @OldUserInfo ) {
             next if $UserHash{ $User->{UserID} };
-            $UserHash{ $User->{UserID} } = "$Counter: $User->{UserLastname} "
-                . "$User->{UserFirstname} ($User->{UserLogin})";
+            $UserHash{ $User->{UserID} } = "$Counter: $User->{UserFullname} ($User->{UserLogin})";
             $Counter++;
         }
     }
