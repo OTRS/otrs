@@ -12,6 +12,8 @@ package Kernel::System::DB::mysql;
 use strict;
 use warnings;
 
+use Encode ();
+
 sub new {
     my ( $Type, %Param ) = @_;
 

@@ -14,7 +14,6 @@ use strict;
 use warnings;
 
 use DBI;
-use Encode ();
 
 use Kernel::System::VariableCheck qw(:all);
 
