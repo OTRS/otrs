@@ -1,4 +1,5 @@
 #3.3.9 2014-??-??
+ - 2014-06-30 Fixed bug#[6601](http://bugs.otrs.org/show_bug.cgi?id=6601) - Changing search options changes order of fields, thanks to S7.
  - 2014-06-23 Fixed bug#[10246](http://bugs.otrs.org/show_bug.cgi?id=10246) - ProcessManagement: ConditionLinking OR in a Transition doesn't work.
  - 2014-06-23 Fixed bug#[10559](http://bugs.otrs.org/show_bug.cgi?id=10559) - "Previous Owner" don't use the FirstnameLastnameOrder configuration.
  - 2014-06-23 Fixed bug#[10532](http://bugs.otrs.org/show_bug.cgi?id=10532) - PostMasterMailbox.pl hangs parsing mails.

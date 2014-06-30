@@ -1132,46 +1132,28 @@ sub Run {
         }
         my @Attributes = (
             {
-                Key   => 'TicketNumber',
-                Value => 'Ticket Number',
+                Key   => 'StateIDs',
+                Value => 'State',
             },
             {
-                Key   => 'Fulltext',
-                Value => 'Fulltext',
+                Key   => 'QueueIDs',
+                Value => 'Queue',
             },
             {
-                Key   => 'Title',
-                Value => 'Title',
+                Key   => 'ArticleCreateTimePoint',
+                Value => 'Article Create Time (before/after)',
             },
             {
-                Key      => '',
-                Value    => '-',
-                Disabled => 1,
-            },
-            {
-                Key   => 'From',
-                Value => 'From',
-            },
-            {
-                Key   => 'To',
-                Value => 'To',
-            },
-            {
-                Key   => 'Cc',
-                Value => 'Cc',
-            },
-            {
-                Key   => 'Subject',
-                Value => 'Subject',
+                Key   => 'ArticleCreateTimeSlot',
+                Value => 'Article Create Time (between)',
             },
             {
                 Key   => 'Body',
                 Value => 'Body',
             },
             {
-                Key      => '',
-                Value    => '-',
-                Disabled => 1,
+                Key   => 'Cc',
+                Value => 'Cc',
             },
             {
                 Key   => 'CustomerID',
@@ -1182,12 +1164,82 @@ sub Run {
                 Value => 'Customer User Login',
             },
             {
-                Key   => 'StateIDs',
-                Value => 'State',
+                Key   => 'From',
+                Value => 'From',
             },
             {
-                Key   => 'QueueIDs',
-                Value => 'Queue',
+                Key   => 'Fulltext',
+                Value => 'Fulltext',
+            },
+        );
+
+        if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+            push @Attributes, (
+                {
+                    Key   => 'SearchInArchive',
+                    Value => 'Archive Search',
+                },
+            );
+        }
+
+        push @Attributes, (
+            {
+                Key   => 'Subject',
+                Value => 'Subject',
+            },
+            {
+                Key      => '',
+                Value    => '-',
+                Disabled => 1,
+            },
+            {
+                Key   => 'TicketChangeTimePoint',
+                Value => 'Ticket Change Time (before/after)',
+            },
+            {
+                Key   => 'TicketChangeTimeSlot',
+                Value => 'Ticket Change Time (between)',
+            },
+            {
+                Key   => 'TicketCloseTimePoint',
+                Value => 'Ticket Close Time (before/after)',
+            },
+            {
+                Key   => 'TicketCloseTimeSlot',
+                Value => 'Ticket Close Time (between)',
+            },
+            {
+                Key   => 'TicketCreateTimePoint',
+                Value => 'Ticket Create Time (before/after)',
+            },
+            {
+                Key   => 'TicketCreateTimeSlot',
+                Value => 'Ticket Create Time (between)',
+            },
+            {
+                Key   => 'TicketEscalationTimePoint',
+                Value => 'Ticket Escalation Time (before/after)',
+            },
+            {
+                Key   => 'TicketEscalationTimeSlot',
+                Value => 'Ticket Escalation Time (between)',
+            },
+            {
+                Key   => 'TicketNumber',
+                Value => 'Ticket Number',
+            },
+            {
+                Key   => 'Title',
+                Value => 'Title',
+            },
+            {
+                Key   => 'To',
+                Value => 'To',
+            },
+            {
+                Key      => '',
+                Value    => '-',
+                Disabled => 1,
             },
             {
                 Key   => 'PriorityIDs',
@@ -1206,6 +1258,7 @@ sub Run {
                 Value => 'Created by',
             },
         );
+
         if ( $Self->{ConfigObject}->Get('Ticket::Watcher') ) {
             push @Attributes, (
                 {
@@ -1230,6 +1283,14 @@ sub Run {
                 },
             );
         }
+
+        push @Attributes, (
+            {
+                Key   => 'LockIDs',
+                Value => 'Lock',
+            },
+        );
+
         if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
             push @Attributes, (
                 {
@@ -1399,60 +1460,6 @@ sub Run {
             }
         }
 
-        push @Attributes, (
-            {
-                Key   => 'LockIDs',
-                Value => 'Lock',
-            },
-            {
-                Key   => 'TicketCreateTimePoint',
-                Value => 'Ticket Create Time (before/after)',
-            },
-            {
-                Key   => 'TicketCreateTimeSlot',
-                Value => 'Ticket Create Time (between)',
-            },
-            {
-                Key   => 'TicketChangeTimePoint',
-                Value => 'Ticket Change Time (before/after)',
-            },
-            {
-                Key   => 'TicketChangeTimeSlot',
-                Value => 'Ticket Change Time (between)',
-            },
-            {
-                Key   => 'TicketCloseTimePoint',
-                Value => 'Ticket Close Time (before/after)',
-            },
-            {
-                Key   => 'TicketCloseTimeSlot',
-                Value => 'Ticket Close Time (between)',
-            },
-            {
-                Key   => 'TicketEscalationTimePoint',
-                Value => 'Ticket Escalation Time (before/after)',
-            },
-            {
-                Key   => 'TicketEscalationTimeSlot',
-                Value => 'Ticket Escalation Time (between)',
-            },
-            {
-                Key   => 'ArticleCreateTimePoint',
-                Value => 'Article Create Time (before/after)',
-            },
-            {
-                Key   => 'ArticleCreateTimeSlot',
-                Value => 'Article Create Time (between)',
-            },
-        );
-        if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
-            push @Attributes, (
-                {
-                    Key   => 'SearchInArchive',
-                    Value => 'Archive Search',
-                },
-            );
-        }
         $Param{AttributesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data     => \@Attributes,
             Name     => 'Attribute',
