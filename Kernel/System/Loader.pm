@@ -174,7 +174,6 @@ sub MinifyFiles {
             $Label =~ s{^.*/}{}smx;
 
             if ( $Param{Type} eq 'CSS' ) {
-                $Content .= "/* begin $Label */\n";
 
                 eval {
                     $Content .= $Self->GetMinifiedFile(
@@ -190,10 +189,9 @@ sub MinifyFiles {
                     );
                 }
 
-                $Content .= "\n/* end $Label */\n";
+                $Content .= "\n";
             }
             elsif ( $Param{Type} eq 'JavaScript' ) {
-                $Content .= "// begin $Label\n";
 
                 eval {
                     $Content .= $Self->GetMinifiedFile(
@@ -212,8 +210,7 @@ sub MinifyFiles {
                     $JSError =~ s/\r?\n/ /gsmx;
                     $Content .= "alert('$JSError');";
                 }
-
-                $Content .= "\n// end $Label\n";
+                $Content .= "\n";
             }
         }
 
