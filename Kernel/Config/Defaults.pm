@@ -1766,6 +1766,8 @@ via the Preferences button after logging in.
         },
         PackageObject => {
             ClassName       => 'Kernel::System::Package',
+            Dependencies    => [@DefaultDependencies, qw(CacheObject JSONObject LoaderObject XMLObject)],
+            OmAware         => 1,
         },
         ParamObject   => {
             ClassName       => 'Kernel::System::Web::Request',
@@ -1810,6 +1812,7 @@ via the Preferences button after logging in.
         },
         XMLObject => {
             ClassName       => 'Kernel::System::XML',
+            Dependencies    => [@DefaultDependencies, 'CacheObject'],
         },
         YAMLObject => {
             ClassName       => 'Kernel::System::YAML',
