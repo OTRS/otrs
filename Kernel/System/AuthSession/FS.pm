@@ -199,9 +199,11 @@ sub CreateSessionID {
     if ( $Param{UserType} && $Param{UserType} eq 'User' && $Self->{AgentSessionPerUserLimit} ) {
         $SessionPerUserLimit = $Self->{AgentSessionPerUserLimit};
     }
-    elsif ($Param{UserType}
+    elsif (
+        $Param{UserType}
         && $Param{UserType} eq 'Customer'
-        && $Self->{CustomerSessionPerUserLimit} )
+        && $Self->{CustomerSessionPerUserLimit}
+        )
     {
         $SessionPerUserLimit = $Self->{CustomerSessionPerUserLimit};
     }
@@ -260,9 +262,11 @@ sub CreateSessionID {
         }
 
         # check session per user limit
-        if (   $SessionPerUserLimit
+        if (
+            $SessionPerUserLimit
             && $Param{UserLogin}
-            && $ActiveSessionPerUserCount{ $Param{UserLogin} } >= $SessionPerUserLimit )
+            && $ActiveSessionPerUserCount{ $Param{UserLogin} } >= $SessionPerUserLimit
+            )
         {
 
             $Self->{SessionIDErrorMessage} = 'Session per user limit reached!';
