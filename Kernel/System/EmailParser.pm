@@ -993,7 +993,7 @@ sub _DecodeMimewords {
 
     my @Chunks = $ParserObject->_MailAddressParse(Email => $Email);
 
-Wrapper for C<Email::Address->parse($Email)>, but cache it, since it's
+Wrapper for C<Mail::Address->parse($Email)>, but cache it, since it's
 not too fast, and often called.
 
 =cut
