@@ -48,6 +48,12 @@ textarea.Focus  {
     border-color: #69BFCC;
 }
 
+.Actions li a:hover,
+.Actions li span:hover,
+.OverviewZoom a:hover {
+    border-bottom-color: #69BFCC;
+}
+
 /**
  * @subsection  Navigation
  * @note        the default navigation_sprite is transparent and has a transparent reddish
