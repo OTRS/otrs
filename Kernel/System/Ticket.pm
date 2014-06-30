@@ -13,6 +13,9 @@ use strict;
 use warnings;
 
 use File::Path;
+use utf8;
+use Encode ();
+
 use Kernel::System::Ticket::Article;
 use Kernel::System::TicketSearch;
 use Kernel::System::Type;
