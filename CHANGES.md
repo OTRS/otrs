@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-06-30 Fixed bug#[10581](http://bugs.otrs.org/show_bug.cgi?id=10581) - wrong underline color in ivory slim menu module links..
  - 2014-06-26 Fixed bug#[10396](http://bugs.otrs.org/show_bug.cgi?id=10396) - OTRS, MySQL, utf8 charset and non-BMP characters problem(thanks to ib.pl).
  - 2014-06-23 Fixed bug#[10522](http://bugs.otrs.org/show_bug.cgi?id=10522) - HTTP 500 error when uploading attachments to ticket on Windows.
  - 2014-06-23 Added edit and delete icon fonts to process management canvas elements, thanks to Nils Leideck.
