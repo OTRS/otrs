@@ -13,6 +13,8 @@ package Kernel::System::EventHandler;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(IsArrayRefWithData);
+
 =head1 NAME
 
 Kernel::System::EventHandler - event handler interface
@@ -130,6 +132,10 @@ sub EventHandlerInit {
     my ( $Self, %Param ) = @_;
 
     $Self->{EventHandlerInit} = \%Param;
+
+    if ( $Kernel::OM ) {
+        $Kernel::OM->ObjectRegisterEventHandler( EventHandler => $Self );
+    }
 
     return 1;
 }
@@ -305,6 +311,20 @@ sub EventHandlerTransaction {
 
     return 1;
 }
+
+=item EventHandlerHasQueuedTransactions()
+
+Return a true value if there are queued transactions, which
+C<EventHandlerTransaction> handles, when called.
+
+=cut
+
+sub EventHandlerHasQueuedTransactions {
+    my ( $Self, %Param ) = @_;
+
+    return IsArrayRefWithData($Self->{EventHandlerPipe});
+}
+
 
 1;
 
