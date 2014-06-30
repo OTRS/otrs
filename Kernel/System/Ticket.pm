@@ -8020,7 +8020,7 @@ sub TicketArticleStorageSwitch {
                         Encode::decode( 'UTF-8', $Attachment->{Filename} );
                     };
 
-                    # remove wrong characters
+                    # Replace wrong characters with "_".
                     $Attachment->{Filename} =~ s{[\x{FFFD}]}{_}xms;
                 }
 
