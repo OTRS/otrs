@@ -376,14 +376,25 @@ sub ObjectsDiscard {
 
     # third step: destruction
     if ( $Self->{Debug} ) {
+        # If there are undeclared dependencies between objects, destruction
+        # might not work in the order that we calculated, but might still work
+        # out in the end.
+        my %DestructionFailed;
         for my $Object (@OrderedObjects) {
             my $Checker = $Self->{Objects}->{$Object};
             weaken($Checker);
             delete $Self->{Objects}->{$Object};
+
             if ( defined $Checker ) {
+                $DestructionFailed{ $Object } = $Checker;
+                weaken( $DestructionFailed{ $Object } );
+            }
+        }
+        for my $Object (sort keys %DestructionFailed) {
+            if ( defined $DestructionFailed{ $Object } ) {
                 warn "DESTRUCTION OF $Object FAILED!\n";
                 if ( eval { require Devel::Cycle; 1 } ) {
-                    Devel::Cycle::find_cycle($Checker);
+                    Devel::Cycle::find_cycle($DestructionFailed{$Object});
                 }
                 else {
                     warn "To get more debugging information, please install Devel::Cycle.";
