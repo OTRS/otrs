@@ -54,19 +54,13 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [qw(DBObject ConfigObject LogObject TimeObject MainObject EncodeObject
+                          CacheObject JSONObject LoaderObject XMLObject)],
+        ),
+    };
     bless( $Self, $Type );
-
-    # check needed objects
-    for my $Object (qw(DBObject ConfigObject LogObject TimeObject MainObject EncodeObject)) {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
-
-    # create additional objects
-    $Self->{JSONObject}   = Kernel::System::JSON->new( %{$Self} );
-    $Self->{XMLObject}    = Kernel::System::XML->new( %{$Self} );
-    $Self->{CacheObject}  = $Kernel::OM->Get('CacheObject');
-    $Self->{LoaderObject} = Kernel::System::Loader->new( %{$Self} );
 
     $Self->{PackageMap} = {
         Name            => 'SCALAR',
