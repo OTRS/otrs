@@ -1,0 +1,29 @@
+# --
+# HTMLHeadRefresh.tt - provides global HTML head snippet
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">
+// We don't use an http refresh header any more because it causes problems with
+//  open dialogs / popups (see bug#7135 and others).
+var RefreshSeconds = parseInt("[% Data.Refresh | html %]", 10) || 0;
+if (RefreshSeconds) {
+    window.setInterval(function() {
+        // If there are any open overlay dialogs, don't refresh
+        if ($('.Dialog:visible').length) {
+            return;
+        }
+        // If there are open child popup windows, don't refresh
+        if (Core && Core.UI && Core.UI.Popup && Core.UI.Popup.HasOpenPopups()) {
+            return;
+        }
+        // Now we can reload
+        window.location.reload();
+    }, RefreshSeconds *  1000);
+}
+</script>
+[% END %]

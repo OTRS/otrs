@@ -1,0 +1,76 @@
+# --
+# CustomerFooterJS.tt - provides global HTML footer
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("CommonJS") %]
+    <script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
+[% RenderBlockEnd("CommonJS") %]
+
+[% RenderBlockStart("ModuleJS") %]
+    <script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
+[% RenderBlockEnd("ModuleJS") %]
+
+<script type="text/javascript">//<![CDATA[
+"use strict";
+
+Core.Customer.Enhance();
+
+Core.App.Ready(function() {
+
+    Core.Config.AddConfig({
+        // config
+        Baselink: '[% Env("Baselink") %]',
+        CGIHandle: '[% Env("CGIHandle") %]',
+        WebPath: '[% Config("Frontend::WebPath") %]',
+        Action: '[% Env("Action") | html %]',
+        SessionIDCookie: '[% Env("SessionIDCookie") | html %]',
+        SessionName: '[% Config("SessionName") %]',
+        SessionID: '[% Env("SessionID") | html %]',
+        ChallengeToken: '[% Env("UserChallengeToken") | html %]',
+        CustomerPanelSessionName: '[% Config("CustomerPanelSessionName") %]',
+        Images: '[% Config("Frontend::ImagePath") %]',
+        UserLanguage: '[% Env("UserLanguage") | html %]',
+        CheckEmailAddresses: parseInt('[% Config("CheckEmailAddresses") %]', 10),
+        AnimationEnabled: parseInt('[% Config("Frontend::AnimationEnabled") %]', 10),
+[% RenderBlockStart("AutoCompleteConfig") %]
+        Autocomplete: Core.JSON.Parse('[% Data.AutocompleteConfig %]'),
+[% RenderBlockEnd("AutoCompleteConfig") %]
+        // translation
+        ValidateServerErrorTitle: [% Translate("Error") | JSON %],
+        ValidateServerErrorMsg: [% Translate("One or more errors occurred!") | JSON %],
+        DialogCloseMsg: [% Translate("Close this dialog") | JSON %],
+        PopupBlockerMsg: [% Translate("Could not open popup window. Please disable any popup blockers for this application.") | JSON %],
+        SearchMsg: [% Translate("Search") | JSON %],
+        ApplyButtonText: [% Translate("Apply") | JSON %],
+        NoElementsToSelectFromMsg: [% Translate("There are currently no elements available to select from.") | JSON %]
+    });
+
+    Core.Customer.Init();
+
+[% InsertTemplate("Datepicker.tt") %]
+
+});
+//]]></script>
+
+<script type="text/javascript">//<![CDATA[
+"use strict";
+Core.App.Ready(function() {
+
+    [% PROCESS JSOnDocumentCompleteInsert %]
+
+});
+//]]></script>
+
+# Finally, unblock click events on the page again after all JavaScript was loaded and
+# executed. Put in an own block to make sure it is always run.
+<script type="text/javascript">//<![CDATA[
+"use strict";
+Core.App.Ready(function () {
+    Core.App.UnblockEvents();
+});
+//]]></script>

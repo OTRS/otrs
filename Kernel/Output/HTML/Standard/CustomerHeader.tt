@@ -6,108 +6,12 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-#
-# http headers
-Content-Type: text/html; charset=utf-8;
-X-Powered-By: [% Config("Product") %] [% Config("Version") %] - Open Ticket Request System (http://www.otrs.com/)
-X-UA-Compatible: IE=edge,chrome=1
-X-Frame-Options: SAMEORIGIN
-Expires: Tue, 1 Jan 1980 12:00:00 GMT
-Cache-Control: no-cache
-Pragma: no-cache
+[%- INCLUDE "HTTPHeaders.tt" -%]
 
 <!DOCTYPE html>
 <html>
 [% InsertTemplate("Copyright.tt") %]
-<head>
-    <meta http-equiv="Content-type" content="text/html;charset=utf-8" />
-[% RenderBlockStart("MetaHttpEquivRefresh") %]
-    <meta http-equiv="refresh" content="[% Data.Refresh | html %]" />
-[% RenderBlockEnd("MetaHttpEquivRefresh") %]
-[% RenderBlockStart("MetaLink") %]
-    <link rel="[% Data.Rel | html %]" type="[% Data.Type | html %]" title="[% Data.Title | html %]" href="[% Data.Href %]" />
-[% RenderBlockEnd("MetaLink") %]
-    <link rel="shortcut icon" href="[% Config("Frontend::ImagePath") %]icons/product.ico" type="image/ico" />
-
-[% RenderBlockStart("CommonCSS") %]
-    <link rel="stylesheet" type="text/css" href="[% Config("Frontend::WebPath") %]skins/Customer/[% Data.Skin | uri %]/[% Data.CSSDirectory | html %]/[% Data.Filename | html %]" />
-[% RenderBlockEnd("CommonCSS") %]
-
-[% RenderBlockStart("CommonCSS_IE8") %]
-<!--[if IE 7]>
-    <link rel="stylesheet" type="text/css" href="[% Config("Frontend::WebPath") %]skins/Customer/[% Data.Skin | uri %]/[% Data.CSSDirectory | html %]/[% Data.Filename | html %]" />
-    <![endif]-->
-[% RenderBlockEnd("CommonCSS_IE8") %]
-
-[% RenderBlockStart("ModuleCSS") %]
-    <link rel="stylesheet" type="text/css" href="[% Config("Frontend::WebPath") %]skins/Customer/[% Data.Skin | uri %]/[% Data.CSSDirectory | html %]/[% Data.Filename | html %]" />
-[% RenderBlockEnd("ModuleCSS") %]
-
-[% RenderBlockStart("ModuleCSS_IE8") %]
-<!--[if IE 7]>
-    <link rel="stylesheet" type="text/css" href="[% Config("Frontend::WebPath") %]skins/Customer/[% Data.Skin | uri %]/[% Data.CSSDirectory | html %]/[% Data.Filename | html %]" />
-    <![endif]-->
-[% RenderBlockEnd("ModuleCSS_IE8") %]
-
-    <link rel="stylesheet" type="text/css" href="[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/ui-theme/jquery-ui.css" />
-    <link rel="stylesheet" type="text/css" href="[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/jstree-theme/default/style.css" />
-
-[% RenderBlockStart("HeaderLogoCSS") %]
-    <style type="text/css">
-        #Header #Logo {
-            background-image: [% Data.URL | html %];
-            top: [% Data.StyleTop | html %];
-            right: [% Data.StyleRight | html %];
-            width: [% Data.StyleWidth | html %];
-            height: [% Data.StyleHeight | html %];
-        }
-    </style>
-[% RenderBlockEnd("HeaderLogoCSS") %]
-
-    <style type="text/css">
-        @font-face {
-          font-family: 'FontAwesome';
-          src: url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.eot?v=4.1.0');
-          src: url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.eot?#iefix&v=4.1.0') format('embedded-opentype'),
-               url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.woff?v=4.1.0') format('woff'),
-               url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.ttf?v=4.1.0') format('truetype'),
-               url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.svg#fontawesomeregular?v=4.1.0') format('svg');
-          font-weight: normal;
-          font-style: normal;
-        }
-
-        /* Fix poor font rendering on chrome based browsers on windows */
-        @media all and (-webkit-min-device-pixel-ratio:0) {
-            @font-face {
-                font-family: 'FontAwesome';
-                src: url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.svg#fontawesomeregular') format('svg'),
-                     url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.eot?#iefix&v=4.1.0') format('embedded-opentype'),
-                     url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.woff?v=4.1.0') format('woff'),
-                     url('[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/fontawesome/fontawesome-webfont.ttf?v=4.1.0') format('truetype');
-                font-weight: normal;
-                font-style: normal;
-            }
-        }
-    </style>
-
-<!--[if IE 8]>
-    <script type="text/javascript">
-        /* Fix initial font rendering on IE8 for FontAwesome */
-        (function() {
-            var head = document.getElementsByTagName('head')[0],
-                style = document.createElement('style');
-            style.type = 'text/css';
-            style.styleSheet.cssText = ':before,:after{content:none !important;}';
-            head.appendChild(style);
-            setTimeout(function(){
-                head.removeChild(style);
-            }, 0);
-        }());
-    </script>
-    <![endif]-->
-
-    <title>[% Data.TitleArea | html %] [% Config("ProductName") %]</title>
-</head>
+[% InsertTemplate("CustomerHTMLHead.tt") %]
 <body class="NoJavaScript [% Data.BodyClass | html %]">
 <!-- start CI layout -->
     <div id="Header">

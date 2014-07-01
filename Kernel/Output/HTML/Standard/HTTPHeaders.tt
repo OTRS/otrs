@@ -1,0 +1,18 @@
+# --
+# HTTPHeaders.tt - provides global HTTP headers
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+Content-Type: text/html; charset=utf-8;
+[% IF Data.ContentDisposition -%]
+Content-Disposition: [% Data.ContentDisposition %]
+[% END -%]
+X-Powered-By: [% Config("Product") %] [% Config("Version") %] - Open Ticket Request System (http://www.otrs.com/)
+X-UA-Compatible: IE=edge,chrome=1
+X-Frame-Options: SAMEORIGIN
+Expires: Tue, 1 Jan 1980 12:00:00 GMT
+Cache-Control: no-cache
+Pragma: no-cache

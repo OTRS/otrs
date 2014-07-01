@@ -6,16 +6,7 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-#
-# http headers
-Content-Type: text/html; charset=utf-8;
-Content-Disposition: [% Data.ContentDisposition %]
-X-Powered-By: [% Config("Product") %] [% Config("Version") %] - Open Ticket Request System (http://www.otrs.com/)
-X-UA-Compatible: IE=edge,chrome=1
-X-Frame-Options: SAMEORIGIN
-Expires: Tue, 1 Jan 1980 12:00:00 GMT
-Cache-Control: no-cache
-Pragma: no-cache
+[%- INCLUDE "HTTPHeaders.tt" -%]
 
 <!DOCTYPE html>
 <html>
