@@ -15,6 +15,7 @@
     <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
     <input type="hidden" name="Expand" id="Expand" value=""/>
     <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+    <input type="hidden" name="ReturnModule" value="$QData{"ReturnModule"}"/>
 
     <div class="LayoutPopup ARIARoleMain">
         <div class="Header">

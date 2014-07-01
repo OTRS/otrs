@@ -12,6 +12,8 @@ package Kernel::Output::HTML::TicketOverviewSmall;
 use strict;
 use warnings;
 
+use MIME::Base64 qw(encode_base64url);
+
 use Kernel::System::JSON;
 use Kernel::System::CustomerUser;
 use Kernel::System::DynamicField;
@@ -453,6 +455,11 @@ sub Run {
                             Data     => \%Article,
                         );
                     }
+
+                    # add the return module to redirect back to the current screen afterwards
+                    my $EncodedReturnPath
+                        = encode_base64url( $Self->{LayoutObject}->{EnvRef}->{RequestedURL} );
+                    $Item->{Link} .= ';ReturnModule=' . $EncodedReturnPath;
 
                     # add session id if needed
                     if ( !$Self->{LayoutObject}->{SessionIDCookie} && $Item->{Link} ) {
