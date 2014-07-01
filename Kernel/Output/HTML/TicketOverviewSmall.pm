@@ -1005,7 +1005,7 @@ sub Run {
                 );
 
                 if ($IsSortable) {
-                    my $CSS = '';
+                    my $CSS = 'DynamicField_' . $DynamicFieldConfig->{Name};
                     my $OrderBy;
                     if (
                         $Param{SortBy}
@@ -1136,13 +1136,16 @@ sub Run {
                 }
                 else {
 
+                    my $DynamicFieldName = 'DynamicField_' . $DynamicFieldConfig->{Name};
+                    my $CSS              = $DynamicFieldName;
+
                     $Self->{LayoutObject}->Block(
                         Name => 'OverviewNavBarPageDynamicField',
                         Data => {
                             %Param,
+                            CSS => $CSS,
                         },
                     );
-                    my $DynamicFieldName = 'DynamicField_' . $DynamicFieldConfig->{Name};
 
                     if ( $Self->{ValidFilterableColumns}->{$DynamicFieldName} ) {
 
