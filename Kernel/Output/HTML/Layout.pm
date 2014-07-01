@@ -3053,6 +3053,15 @@ sub CustomerHeader {
         }
     }
 
+    # fix IE bug if in filename is the word attachment
+    my $File = $Param{Filename} || $Self->{Action} || 'unknown';
+    if ( $Self->{BrowserBreakDispositionHeader} ) {
+        $File =~ s/attachment/bttachment/gi;
+    }
+
+    # set file name for "save page as"
+    $Param{ContentDisposition} = "filename=\"$File.html\"";
+
     # area and title
     if (
         !$Param{Area}
