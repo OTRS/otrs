@@ -332,14 +332,15 @@ sub ObjectsDiscard {
     # fire outstanding events before destroying anything
     my $HasQueuedTransactions;
     EVENTS:
-    for my $Counter (1..10) {
+    for my $Counter ( 1 .. 10 ) {
         $HasQueuedTransactions = 0;
         EVENTHANDLERS:
         for my $EventHandler ( @{ $Self->{EventHandlers} } ) {
+
             # since the event handlers are weak references,
             # they might be undef by now.
             next EVENTHANDLERS if !defined $EventHandler;
-            if ($EventHandler->EventHandlerHasQueuedTransactions) {
+            if ( $EventHandler->EventHandlerHasQueuedTransactions() ) {
                 $HasQueuedTransactions = 1;
                 $EventHandler->EventHandlerTransaction();
             }
@@ -348,7 +349,7 @@ sub ObjectsDiscard {
             last EVENTS;
         }
     }
-    if ( $HasQueuedTransactions ) {
+    if ($HasQueuedTransactions) {
         warn "Unable to handle all pending events in 10 iterations";
     }
     delete $Self->{EventHandlers};
@@ -400,6 +401,7 @@ sub ObjectsDiscard {
 
     # third step: destruction
     if ( $Self->{Debug} ) {
+
         # If there are undeclared dependencies between objects, destruction
         # might not work in the order that we calculated, but might still work
         # out in the end.
@@ -410,15 +412,15 @@ sub ObjectsDiscard {
             delete $Self->{Objects}->{$Object};
 
             if ( defined $Checker ) {
-                $DestructionFailed{ $Object } = $Checker;
-                weaken( $DestructionFailed{ $Object } );
+                $DestructionFailed{$Object} = $Checker;
+                weaken( $DestructionFailed{$Object} );
             }
         }
-        for my $Object (sort keys %DestructionFailed) {
-            if ( defined $DestructionFailed{ $Object } ) {
+        for my $Object ( sort keys %DestructionFailed ) {
+            if ( defined $DestructionFailed{$Object} ) {
                 warn "DESTRUCTION OF $Object FAILED!\n";
                 if ( eval { require Devel::Cycle; 1 } ) {
-                    Devel::Cycle::find_cycle($DestructionFailed{$Object});
+                    Devel::Cycle::find_cycle( $DestructionFailed{$Object} );
                 }
                 else {
                     warn "To get more debugging information, please install Devel::Cycle.";
