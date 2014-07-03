@@ -384,7 +384,8 @@
 }
 
 .Details .Attachments div {
-    display: inline-block;
+    display: inline;
+    white-space: normal;
 }
 
 .Details .Attachments span {
