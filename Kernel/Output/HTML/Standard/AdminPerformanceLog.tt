@@ -141,9 +141,9 @@
                         <tr>
                             <td class="Indent">
                                 <em>
-                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=View;Interface=[% Data.Interface | uri %];Module=[% Data.Module | uri %];Minute=[% Data.Minute | uri %]" title="[% Data.Module | html %]">
+                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=View;Interface=[% Data.Interface | uri %];Module=[% Data.Module | uri %];Minute=[% Data.Minute | uri %]" title="[% Data.Module | html %]">
                                     [% Data.Module | truncate(40) | html %]
-                                </a>
+                                    </a>
                                 </em>
                             </td>
                             <td><em>[% Data.Count | html %]</em></td>
