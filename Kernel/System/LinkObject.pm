@@ -1201,12 +1201,13 @@ Return
     };
 
     my $LinkList = $LinkObject->LinkListWithData(
-        Object    => 'Ticket',
-        Key       => '321',
-        Object2   => 'FAQ',         # (optional)
-        State     => 'Valid',
-        Type      => 'ParentChild', # (optional)
-        Direction => 'Target',      # (optional) default Both (Source|Target|Both)
+        Object                          => 'Ticket',
+        Key                             => '321',
+        Object2                         => 'FAQ',         # (optional)
+        State                           => 'Valid',
+        Type                            => 'ParentChild', # (optional)
+        Direction                       => 'Target',      # (optional) default Both (Source|Target|Both)
+        IgnoreLinkedTicketStateTypes    => 0|1            # (optional) default 0
         UserID    => 1,
     );
 
@@ -1258,6 +1259,38 @@ sub LinkListWithData {
         next OBJECT if $Success;
 
         delete $LinkList->{$Object};
+    }
+
+    if ( $Param{IgnoreLinkedTicketStateTypes} ) {
+        # get config, which ticket state types should not be included in linked tickets overview
+        my @IgnoreLinkedTicketStateTypes = @{ $Self->{ConfigObject}->Get('LinkObject::IgnoreLinkedTicketStateTypes') // [] };
+
+        if ( @IgnoreLinkedTicketStateTypes ) {
+            my %IgnoreLinkTicketStateTypesHash;
+            map { $IgnoreLinkTicketStateTypesHash{$_}++ } @IgnoreLinkedTicketStateTypes;
+
+            # remove tickets with configured ticket state types from list
+            OBJECT:
+            for my $Object ( sort keys %{$LinkList} ) {
+                next OBJECT if $Object ne 'Ticket';
+
+                LINKTYPE:
+                for my $LinkType ( sort keys %{ $LinkList->{$Object} } ) {
+
+                    DIRECTION:
+                    for my $Direction ( sort keys %{ $LinkList->{$Object}->{$LinkType} } ) {
+
+                        TICKETID:
+                        for my $TicketID ( sort keys %{ $LinkList->{$Object}->{$LinkType}->{$Direction} } ) {
+
+                            next TICKETID if !$IgnoreLinkTicketStateTypesHash{ $LinkList->{$Object}->{$LinkType}->{$Direction}->{$TicketID}->{StateType} };
+
+                            delete $LinkList->{$Object}->{$LinkType}->{$Direction}->{$TicketID};
+                        }
+                    }
+                }
+            }
+        }
     }
 
     # clean the hash

@@ -1395,10 +1395,11 @@ sub MaskAgentZoom {
 
     # get linked objects
     my $LinkListWithData = $Self->{LinkObject}->LinkListWithData(
-        Object => 'Ticket',
-        Key    => $Self->{TicketID},
-        State  => 'Valid',
-        UserID => $Self->{UserID},
+        Object                          => 'Ticket',
+        Key                             => $Self->{TicketID},
+        State                           => 'Valid',
+        IgnoreLinkedTicketStateTypes    => 1,
+        UserID                          => $Self->{UserID},
     );
 
     # get link table view mode
