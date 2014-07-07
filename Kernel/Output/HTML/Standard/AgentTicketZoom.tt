@@ -132,7 +132,7 @@
                         <div class="Clear"></div>
 
                         <label>[% Translate("Queue") | html %]:</label>
-                        <p class="Value" title="[% Data.Queue | html %]">[% Data.Queue | html %]</p>
+                        <p class="Value" title="[% Data.Queue | html %]">[% Data.Queue | html | replace('::', '<wbr>::<wbr>') %]</p>
                         <div class="Clear"></div>
 
 [% RenderBlockStart("Service") %]
