@@ -71,6 +71,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.9 2014-??-??
+ - 2014-07-07 Fixed bug#[10534](http://bugs.otrs.org/show_bug.cgi?id=10534) - Wildcard hacking the customer information center, thanks to S7.
  - 2014-07-03 Fixed bug#[10586](http://bugs.otrs.org/show_bug.cgi?id=10586) - In Customer Portal no attachments are shown.
  - 2014-06-30 Fixed bug#[6601](http://bugs.otrs.org/show_bug.cgi?id=6601) - Changing search options changes order of fields, thanks to S7.
  - 2014-06-23 Fixed bug#[10246](http://bugs.otrs.org/show_bug.cgi?id=10246) - ProcessManagement: ConditionLinking OR in a Transition doesn't work.
