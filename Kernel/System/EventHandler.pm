@@ -133,7 +133,7 @@ sub EventHandlerInit {
 
     $Self->{EventHandlerInit} = \%Param;
 
-    if ( $Kernel::OM ) {
+    if ($Kernel::OM) {
         $Kernel::OM->ObjectRegisterEventHandler( EventHandler => $Self );
     }
 
@@ -322,9 +322,8 @@ C<EventHandlerTransaction> handles, when called.
 sub EventHandlerHasQueuedTransactions {
     my ( $Self, %Param ) = @_;
 
-    return IsArrayRefWithData($Self->{EventHandlerPipe});
+    return IsArrayRefWithData( $Self->{EventHandlerPipe} );
 }
-
 
 1;
 

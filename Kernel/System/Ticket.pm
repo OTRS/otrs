@@ -8008,11 +8008,13 @@ sub TicketArticleStorageSwitch {
             for my $Attachment (@Attachments) {
 
                 # Check UTF8 string for validity and replace any wrongly encoded characters with _
-                if ( utf8::is_utf8($Attachment->{Filename})
+                if (
+                    utf8::is_utf8( $Attachment->{Filename} )
                     && !eval { Encode::is_utf8( $Attachment->{Filename}, 1 ) }
-                ) {
+                    )
+                {
 
-                    Encode::_utf8_off($Attachment->{Filename});
+                    Encode::_utf8_off( $Attachment->{Filename} );
 
                     # replace invalid characters with � (U+FFFD, Unicode replacement character)
                     # If it runs on good UTF-8 input, output should be identical to input

@@ -39,6 +39,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.PackageManager.pl',
     },
 );
+
 # get options
 my %Opts;
 getopt( 'hapofdv', \%Opts );
@@ -627,7 +628,8 @@ sub BuildPackageIndex {
                 }
                 my %Structure
                     = $Kernel::OM->Get('PackageObject')->PackageParse( String => ${$ContentRef} );
-                my $XML = $Kernel::OM->Get('PackageObject')->PackageBuild( %Structure, Type => 'Index' );
+                my $XML = $Kernel::OM->Get('PackageObject')
+                    ->PackageBuild( %Structure, Type => 'Index' );
                 print "<Package>\n";
                 print $XML;
                 print "  <File>$File</File>\n";
