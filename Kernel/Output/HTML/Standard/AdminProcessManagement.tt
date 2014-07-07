@@ -108,7 +108,7 @@
                                     [% Data.Name | html %]
                                 </a>
                             </td>
-                            <td>[% Data.Description | html %]</td>
+                            <td title="[% Data.Description | html %]">[% Data.Description | truncate(80) | html %]</td>
                             <td>[% Translate(Data.State) | html %]</td>
                             <td>
                                 <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessExport;ID=[% Data.ID | uri %]" title="[% Translate("Export Process Configuration") | html %]">
