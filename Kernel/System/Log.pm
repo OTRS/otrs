@@ -193,22 +193,12 @@ sub Log {
 
             eval { $VersionString = $Package1->VERSION || ''; };    ## no critic
 
-            # Version is present
+            # version is present
             if ($VersionString) {
-                $VersionString = 'v' . $VersionString;
+                $VersionString = ' (v' . $VersionString . ')';
             }
 
-            # OTRS modules do not have a version variable
-            elsif ( index( $Package1, 'Kernel::' ) > -1 ) {
-                $VersionString = $Self->{ProductVersion};
-            }
-
-            # Other modules
-            else {
-                $VersionString = 'unknown version';
-            }
-
-            $Error .= "   Module: $Subroutine2 ($VersionString) Line: $Line1\n";
+            $Error .= "   Module: $Subroutine2$VersionString Line: $Line1\n";
 
             last COUNT if !$Line2;
         }
