@@ -1031,9 +1031,11 @@ sub _OutputActivityDialog {
     my $ActivityActivityDialog;
     my %Ticket;
     my %Error = ();
+    my %ErrorMessage = ();
 
     # If we had Errors, we got an Errorhash
     %Error = %{ $Param{Error} } if ( IsHashRefWithData( $Param{Error} ) );
+    %ErrorMessage = %{ $Param{ErrorMessage} } if ( IsHashRefWithData( $Param{ErrorMessage} ) );
 
     if ( !$TicketID ) {
         $ActivityActivityDialog = $Self->{ProcessObject}->ProcessStartpointGet(
@@ -1346,6 +1348,7 @@ sub _OutputActivityDialog {
                 DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
+                ErrorMessage        => \%ErrorMessage || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
                 AJAXUpdatableFields => $AJAXUpdatableFields,
@@ -1796,6 +1799,7 @@ sub _RenderDynamicField {
     }
 
     my $ServerError;
+    my $ErrorMessage;
     if ( IsHashRefWithData( $Param{Error} ) ) {
         if (
             defined $Param{Error}->{ $Param{FieldName} }
@@ -1803,6 +1807,13 @@ sub _RenderDynamicField {
             )
         {
             $ServerError = 1;
+            if (
+                defined $Param{ErrorMessage}->{ $Param{FieldName} }
+                && $Param{ErrorMessage}->{ $Param{FieldName} } ne ''
+                )
+            {
+                $ErrorMessage = $Param{ErrorMessage}->{ $Param{FieldName} };
+            }
         }
     }
 
@@ -1816,6 +1827,7 @@ sub _RenderDynamicField {
         Mandatory            => $Param{ActivityDialogField}->{Display} == 2,
         UpdatableFields      => $Param{AJAXUpdatableFields},
         ServerError          => $ServerError,
+        ErrorMessage         => $ErrorMessage,
     );
 
     my %Data = (
@@ -3057,6 +3069,7 @@ sub _StoreActivityDialog {
     my $ProcessEntityID;
     my $ActivityEntityID;
     my %Error;
+    my %ErrorMessage;
 
     my %TicketParam;
 
@@ -3158,6 +3171,7 @@ sub _StoreActivityDialog {
 
                 if ( $ValidationResult->{ServerError} ) {
                     $Error{ $DynamicFieldConfig->{Name} } = 1;
+                    $ErrorMessage{ $DynamicFieldConfig->{Name} } = $ValidationResult->{ErrorMessage} || '';
                 }
 
                 # if we had an invisible field, use config's default value
@@ -3458,6 +3472,7 @@ sub _StoreActivityDialog {
             TicketID               => $TicketID || undef,
             ActivityDialogEntityID => $ActivityDialogEntityID,
             Error                  => \%Error,
+            ErrorMessage           => \%ErrorMessage,
             GetParam               => $Param{GetParam},
         );
     }
