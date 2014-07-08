@@ -141,6 +141,29 @@ Core.Agent = (function (TargetNS) {
                 }
             });
 
+        // make the navigation items sortable
+        Core.UI.DnD.Sortable(
+            $('#Navigation'),
+            {
+                Items: 'li',
+                Tolerance: 'pointer',
+                Distance: 15,
+                Opacity: 0.6,
+                Helper: 'clone',
+                Update: function (event, ui) {
+
+                    // collect navigation bar items
+                    var Items = [];
+                    $.each($('#Navigation').children('li'), function() {
+                        Items.push($(this).attr('id'));
+                    });
+
+                    // save the new order to the users preferences
+                    TargetNS.PreferencesUpdate('UserNavBarItemsOrder', Core.JSON.Stringify(Items));
+                }
+            }
+        );
+
         /*
          * The navigation elements don't have a class "ARIAHasPopup" which automatically generates the aria-haspopup attribute,
          * because of some code limitation while generating the nav data.
@@ -178,7 +201,7 @@ Core.Agent = (function (TargetNS) {
         if (!$('#NavigationContainer').find('.NavigationBarNavigate' + Direction).length) {
 
             $('#NavigationContainer')
-                .append('<a href="#" class="Hidden NavigationBarNavigate' + Direction + '"><i class="fa fa-chevron-' + Direction.toLowerCase() + '"></i></a>')
+                .append('<a href="#" title="' + Core.Config.Get('SlideNavigationText') + '" class="Hidden NavigationBarNavigate' + Direction + '"><i class="fa fa-chevron-' + Direction.toLowerCase() + '"></i></a>')
                 .find('.NavigationBarNavigate' + Direction)
                 .delay(Delay)
                 .fadeIn()
@@ -236,6 +259,41 @@ Core.Agent = (function (TargetNS) {
         }
 
     }
+
+    /**
+     * @function
+     * @private
+     * @return nothing
+     *      This function re-orders the navigation items based on the users preferences
+     */
+    TargetNS.ReorderNavigationItems = function(NavbarCustomOrderItems) {
+
+        var CurrentItems,
+            IDA,
+            IDB;
+
+        if (NavbarCustomOrderItems) {
+
+            CurrentItems = $('#Navigation').children('li').get();
+            CurrentItems.sort(function(a, b) {
+
+                IDA = $(a).attr('id');
+                IDB = $(b).attr('id');
+
+                if (NavbarCustomOrderItems.indexOf(IDA) < NavbarCustomOrderItems.indexOf(IDB)) { return -1; }
+                if (NavbarCustomOrderItems.indexOf(IDA) > NavbarCustomOrderItems.indexOf(IDB)) { return 1; }
+                return 0;
+            });
+
+            // append the reordered items
+            $('#Navigation').empty().append(CurrentItems);
+
+            // re-init navigation
+            InitNavigation();
+        }
+
+        $('#Navigation').hide().css('visibility', 'visible').fadeIn('fast');
+    };
 
     function ToolBarIsAside() {
 
@@ -320,7 +378,6 @@ Core.Agent = (function (TargetNS) {
             }
         }
     };
-
 
     /**
      * @function

@@ -8,7 +8,7 @@
 # --
 
 <div id="NavigationContainer">
-    <ul id="Navigation" class="ARIARoleNavigation">
+    <ul id="Navigation" class="Draggable ARIARoleNavigation" style="visibility: hidden;">
 [% RenderBlockStart("ItemArea") %]
         <li id="nav-[% Data.NameForID | html %]" class="[% Data.CSS | html %]">
             <a href="[% Env("Baselink") %][% Data.Link %]" title="[% Translate(Data.Name) | html %][% Data.AccessKeyReference | html %]" accesskey="[% Data.AccessKey | html %]" [% Data.LinkOption %]>[% Translate(Data.Name) | html %]</a>
@@ -30,5 +30,12 @@
             </a>
         </li>
 [% RenderBlockEnd("SearchIcon") %]
+[% RenderBlockStart("NavbarOrderItems") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Agent.ReorderNavigationItems([% Data.NavbarOrderItems %]);
+//]]></script>
+[% END %]
+[% RenderBlockEnd("NavbarOrderItems") %]
     </ul>
 </div>

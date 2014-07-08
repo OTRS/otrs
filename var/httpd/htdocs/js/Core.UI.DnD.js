@@ -74,12 +74,14 @@ Core.UI.DnD = (function (TargetNS) {
         }
     );
      */
+
     TargetNS.Sortable = function ($Elements, Options) {
         $Elements.sortable({
             handle: Options.Handle,
             items: Options.Items,
             axis: Options.Axis,
             placeholder: Options.Placeholder,
+            helper: Options.Helper,
             containment: Options.Containment,
             forcePlaceholderSize: true,
             distance: Options.Distance,

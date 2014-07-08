@@ -54,6 +54,7 @@ Core.App.Ready(function () {
         SpellCheckNeededMsg: [% Translate("Please perform a spell check on the the text first.") | JSON %],
         DeleteMsg: [% Translate("Delete") | JSON %],
         ApplyButtonText: [% Translate("Apply") | JSON %],
+        SlideNavigationText: [% Translate("Slide the navigation bar") | JSON %],
         NoElementsToSelectFromMsg: [% Translate("There are currently no elements available to select from.") | JSON %]
     });
 
