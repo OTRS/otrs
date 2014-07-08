@@ -2491,7 +2491,10 @@ sub NavigationBar {
             next MENUMODULE if !$Object;
 
             # run module
-            %NavBar = ( %NavBar, $Object->Run( %Param, Config => $Jobs{$Job} ) );
+            %NavBar = (
+                %NavBar,
+                $Object->Run( %Param, Config => $Jobs{$Job}, NavBar => \%NavBar || {} )
+            );
         }
     }
 
