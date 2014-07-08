@@ -919,6 +919,7 @@ sub LoadDefaults {
         'Core.UI.js',
         'Core.UI.Accordion.js',
         'Core.UI.Datepicker.js',
+        'Core.UI.DnD.js',
         'Core.UI.Resizable.js',
         'Core.UI.Table.js',
         'Core.UI.Accessibility.js',
