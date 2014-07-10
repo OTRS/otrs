@@ -25,7 +25,7 @@ sub Run {
         return $Self->GetResults();
     }
 
-    if ( $ENV{NLS_LANG} && $ENV{NLS_LANG} =~ m/utf-?8/i ) {
+    if ( $ENV{NLS_LANG} && $ENV{NLS_LANG} =~ m/al32utf-?8/i ) {
         $Self->AddResultOk(
             Identifier => 'NLS_LANG',
             Label      => 'NLS_LANG Setting',
@@ -37,7 +37,7 @@ sub Run {
             Identifier => 'NLS_LANG',
             Label      => 'NLS_LANG Setting',
             Value      => $ENV{NLS_LANG},
-            Message    => 'NLS_LANG must be set to utf8 (e.g. german_germany.utf8).',
+            Message    => 'NLS_LANG must be set to al32utf8 (e.g. GERMAN_GERMANY.AL32UTF8).',
         );
     }
 

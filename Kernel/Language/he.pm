@@ -156,7 +156,6 @@ sub Data {
         'system' => 'מערכת',
         'Customer Info' => 'מידע לקוח',
         'Customer Information' => 'מידע לקוח',
-        'Customer Company' => 'חברת הלקוח',
         'Customer Companies' => 'חברות הלקוח',
         'Company' => 'חברה',
         'go!' => 'התחל!',
@@ -238,6 +237,10 @@ sub Data {
             'ההתחברות נכשלה! שם המשתמש או הסיסמא שלך לא הוקלדו נכון.',
         'There is no acount with that user name.' => 'אין חשבון עם שם משתמש זה.',
         'Please contact your administrator' => 'אנא צרו קשר עם מנהל המערכת',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'התנתק',
         'Logout successful. Thank you for using %s!' => 'ההתנתקות הצליחה! תודה על השימוש ב-%s!',
         'Feature not active!' => 'יכולת זו אינה מופעלת!',
@@ -286,6 +289,7 @@ sub Data {
         'Check to activate this date' => 'סמנו כדי להפעיל תאריך זה',
         'You have Out of Office enabled, would you like to disable it?' =>
             'הגדרה של היעדרות מהמשרד מופעלת, האם תרצו לכבותה?',
+        'News about OTRS releases!' => '',
         'Customer %s added' => 'הלקוח %s נוסף',
         'Role added!' => 'התפקיד נוסף!',
         'Role updated!' => 'התפקיד עודכן!',
@@ -486,6 +490,7 @@ sub Data {
         'Stat' => 'סטטיסטיקה',
         'Sum' => 'סה"כ',
         'No (not supported)' => 'לא (לא נתמך)',
+        'Days' => '',
         'Please fill out the required fields!' => 'אנא מלא את השדות הנדרשים!',
         'Please select a file!' => 'אנא בחר קובץ!',
         'Please select an object!' => 'אנא בחרו אובייקט!',
@@ -591,7 +596,8 @@ sub Data {
         'Tables found which do not have a regular status.' => '',
         'MySQL 5.x or higher is required.' => '',
         'NLS_LANG Setting' => '',
-        'NLS_LANG must be set to utf8 (e.g. german_germany.utf8).' => '',
+        'NLS_LANG must be set to AL32UTF8 (e.g. GERMAN_GERMANY.AL32UTF8).' =>
+            '',
         'NLS_DATE_FORMAT Setting' => '',
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => '',
         'NLS_DATE_FORMAT Setting SQL Check' => '',
@@ -601,6 +607,10 @@ sub Data {
         'Setting DateStyle needs to be ISO.' => '',
         'PostgreSQL 8.x or higher is required.' => '',
         'OTRS Disk Partition' => '',
+        'Disk Usage' => '',
+        'The partition where OTRS is located is almost full.' => '',
+        'The partition where OTRS is located has no disk space problems.' =>
+            '',
         'Disk Partitions Usage' => '',
         'Distribution' => '',
         'Could not determine distribution.' => '',
@@ -770,6 +780,7 @@ sub Data {
         'End message' => 'סוף ההודעה',
         'Forwarded message from' => 'הודעה שהועברה מאת',
         'End forwarded message' => 'סוף ההודעה שהועברה',
+        'Bounce Article to a different mail address' => '',
         'new' => 'חדש',
         'open' => 'פתוח',
         'Open' => 'פתוח',
@@ -832,7 +843,7 @@ sub Data {
         'Phone-Ticket' => 'פניה בטלפון',
         'Search Tickets' => 'חפש פניה',
         'Edit Customer Users' => 'ערוך משתמשי לקוח',
-        'Edit Customer Company' => 'ערוך את חברת הלקוח',
+        'Edit Customer' => 'ערוך לקוח',
         'Bulk Action' => 'פעולה גורפת',
         'Bulk Actions on Tickets' => 'פעולות גורפות על פניות',
         'Send Email and create a new Ticket' => 'שלח דוא"ל וצור פניה חדשה',
@@ -892,6 +903,9 @@ sub Data {
             'שלח לי התראה אם יש פניה חדשה ב"תורות" שלי.',
         'Send new ticket notifications' => 'שלח התראה על פניה חדשה',
         'Ticket follow up notification' => 'התראה למעקב אחר פניה',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
+            'שלח לי התראות אם לקוח שולח מעקב ואני הבעלים של הפניה או שהפניה לא נעולה ובאחד מהתורים שאני מנוי עליהם.',
+        'Send ticket follow up notifications' => 'שלח התראות מעקב פניות',
         'Ticket lock timeout notification' => 'התראת נעילת פניה עקב זמן שחלף',
         'Send me a notification if a ticket is unlocked by the system.' =>
             'שלח לי התראות אם נעילת פניה נפתחת על ידי המערכת.',
@@ -1093,7 +1107,6 @@ sub Data {
         'Select' => 'בחר',
         'Please enter a search term to look for customers.' => 'אנא בחרו מונח לחיפוש עבור לקוחות.',
         'Add Customer' => 'הוסף לקוח',
-        'Edit Customer' => 'ערוך לקוח',
 
         # Template: AdminCustomerUser
         'Customer User Management' => 'ניהול משתמשי לקוח',
@@ -1123,12 +1136,12 @@ sub Data {
         'Just use this feature if you want to define group permissions for customers.' =>
             'השתמשו באפשרות זו אם ברצונכם להגדיר הרשאות קבוצתיות עבור לקוחות',
         'Enable it here!' => 'אפשר זאת כאן!',
-        'Search for customers.' => 'חיפוש אחר לקוחות.',
         'Edit Customer Default Groups' => 'ערוך קבוצות ברירת מחדל של לקוחות',
         'These groups are automatically assigned to all customers.' => 'קבוצות אל משוייכות אוטומטית לכל הלקוחות.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'תוכלו לנהל קבוצות אלו דרך הגדרות "CustomerGroupAlwaysGroups".',
         'Filter for Groups' => 'סנן לפי קבוצות',
+        'Just start typing to filter...' => '',
         'Select the customer:group permissions.' => 'בחרו את הלקוח:הרשאות קבוצה',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'אם דבר לא נבחר, אז אין הרשאות לקבוצה זו (פניות לא יהיו זמינות ללקוח).',
@@ -1211,6 +1224,8 @@ sub Data {
         'Show link' => 'הצג קישור',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
+        'Restrict entering of dates' => '',
+        'Here you can restrict the entering of dates of tickets.' => '',
 
         # Template: AdminDynamicFieldDropdown
         'Possible values' => 'ערכים אפשריים',
@@ -1239,6 +1254,13 @@ sub Data {
         'Number of cols' => 'מספר העמודות',
         'Specify the width (in characters) for this field in the edit mode.' =>
             'קבעו את הרוחב (בתווים) עבור שדה זה במצב עריכה.',
+        'Check RegEx' => '',
+        'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
+            '',
+        'RegEx' => '',
+        'Invalid RegEx' => '',
+        'Error Message' => 'הודעת שגיאה',
+        'Add RegEx' => '',
 
         # Template: AdminEmail
         'Admin Notification' => 'התראת מנהל מערכת',
@@ -1290,7 +1312,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             'אירוע זה כבר משויך למשימה. אנא בחרו אחד אחר.',
         'Delete this Event Trigger' => 'מחק את טריגר האירוע',
-        'Ticket Filter' => 'מסנן פניות',
+        'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => '(למשל 10*5144 או 105658*)',
         '(e. g. 234321)' => '(למשל 234321)',
         'Customer login' => 'התחברות לקוח',
@@ -1328,7 +1350,7 @@ sub Data {
         'Ticket solution time reached' => 'פתרון הפניה הגיע',
         'Ticket solution time reached between' => 'פתרון הפניה הגיע בין',
         'Archive search option' => 'אפשרות חיפוש ארכיון',
-        'Ticket Action' => 'פעולה על פניה',
+        'Update/Add Ticket Attributes' => '',
         'Set new service' => 'קבע שירות חדש',
         'Set new Service Level Agreement' => 'קבע רמת SLA חדשה',
         'Set new priority' => 'קבע עדיפות חדשה',
@@ -1347,8 +1369,7 @@ sub Data {
         'Archive selected tickets' => 'העבר פניות שנבחרו לארכיון',
         'Add Note' => 'הוסף הודעה',
         'Time units' => 'יחידות זמן',
-        '(work units)' => '(יחידות עבודה)',
-        'Ticket Commands' => 'פקודות פניה',
+        'Execute Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'שלח לסוכן/לקוח התראות על שינויים',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
@@ -1388,6 +1409,7 @@ sub Data {
         'Refresh' => 'רענן',
         'Request Details' => '',
         'An error occurred during communication.' => '',
+        'Show or hide the content.' => 'הצג או הסתר את התוכן.',
         'Clear debug log' => '',
 
         # Template: AdminGenericInterfaceInvokerDefault
@@ -1544,7 +1566,6 @@ sub Data {
         'Remote system' => 'מערכת מרוחקת',
         'Provider transport' => '',
         'Requester transport' => '',
-        'Details' => 'פרטים',
         'Debug threshold' => '',
         'In provider mode, OTRS offers web services which are used by remote systems.' =>
             '',
@@ -1580,7 +1601,6 @@ sub Data {
         'Do you really want to restore this version of the web service configuration?' =>
             '',
         'Your current web service configuration will be overwritten.' => '',
-        'Show or hide the content.' => 'הצג או הסתר את התוכן.',
         'Restore' => 'שחזר',
 
         # Template: AdminGroup
@@ -1642,9 +1662,12 @@ sub Data {
         'Add notification' => 'הוסף התראה',
         'Delete this notification' => 'מחק התראה זו',
         'Add Notification' => 'הוסף התראה',
+        'Ticket Filter' => 'מסנן פניות',
         'Article Filter' => 'מסנן מאמר',
-        'Only for ArticleCreate event' => 'רק אירועי יצירת מאמר',
+        'Only for ArticleCreate and ArticleSend event' => '',
         'Article type' => 'סוג מאמר',
+        'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
+            '',
         'Article sender type' => 'סוג שולח מאמר',
         'Subject match' => 'התאמת נושא',
         'Body match' => 'התאמה לגוף',
@@ -1757,10 +1780,14 @@ sub Data {
         'The name is required.' => 'השם הוא נדרש.',
         'Filter Condition' => 'תנאי מסנן',
         'AND Condition' => 'תנאי וגם',
+        'Check email header' => '',
         'Negate' => 'היפוך',
+        'Look for value' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             '',
         'Set Email Headers' => '',
+        'Set email header' => '',
+        'Set value' => '',
         'The field needs to be a literal word.' => '',
 
         # Template: AdminPriority
@@ -1772,11 +1799,11 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => 'ניהול תהליכים',
         'Filter for Processes' => 'סנן עבור תהליך',
-        'Process Name' => 'שם התהליך',
         'Create New Process' => 'צור תהליך חדש',
-        'Synchronize All Processes' => 'סנכרן את כל התהליכים',
+        'Deploy All Processes' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1876,6 +1903,7 @@ sub Data {
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             '',
         'Edit Process Information' => 'ערוך מידע תהליך',
+        'Process Name' => 'שם התהליך',
         'The selected state does not exist.' => '',
         'Add and Edit Activities, Activity Dialogs and Transitions' => '',
         'Show EntityIDs' => '',
@@ -2002,8 +2030,8 @@ sub Data {
         # Template: AdminRegistration
         'System Registration Management' => 'ניהול רישום מערכת',
         'Edit details' => 'ערוך פרטים',
-        'Overview of registered systems' => 'מבט-על של מערכות רשומות',
         'Deregister system' => 'בטל רישום מערכת',
+        'Overview of registered systems' => 'מבט-על של מערכות רשומות',
         'System Registration' => 'רישום מערכת',
         'This system is registered with OTRS Group.' => 'מערכת זו רשומה עם קבוצת OTRS.',
         'System type' => 'סוג מערכת',
@@ -2237,8 +2265,30 @@ sub Data {
             '',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
             '',
+        'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
+            '',
+        'Generate Support Bundle' => '',
+        'Generating...' => '',
+        'It was not possible to generate the Support Bundle.' => '',
+        'Generate Result' => '',
+        'Support Bundle' => '',
+        'The mail could not be sent' => '',
+        'The support bundle has been generated.' => '',
+        'Please choose one of the following options.' => '',
+        'Send by Email' => '',
+        'The support bundle is too large to send it by email, this option has been disabled.' =>
+            '',
+        'The email address for this user is invalid, this ption has been disabled.' =>
+            '',
+        'Sending' => '',
+        'The support bundle will be sent to OTRS Group via email automatically.' =>
+            '',
+        'Download File' => '',
+        'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTRS Group, using an alternate method.' =>
+            '',
         'Support Data' => '',
         'Error: Support data could not be collected (%s).' => '',
+        'Details' => 'פרטים',
 
         # Template: AdminSession
         'Session Management' => '',
@@ -2396,7 +2446,6 @@ sub Data {
         # Template: AgentCustomerInformationCenterBlank
 
         # Template: AgentCustomerInformationCenterSearch
-        'Customer ID' => 'מספר זיהוי לקוח',
         'Customer User' => 'משתמש לקוח',
 
         # Template: AgentCustomerSearch
@@ -2506,7 +2555,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'מחק סטטיסטיקה',
-        'Stat#' => 'סטטיטיקה #',
         'Do you really want to delete this stat?' => 'האם אתם בטוחים שברצונכם למחוק סטטיסטיקה זו?',
 
         # Template: AgentStatsEditRestrictions
@@ -2670,6 +2718,7 @@ sub Data {
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'צור פניית דוא"ל חדשה',
+        'Example Template' => '',
         'From queue' => 'מהתור',
         'To customer user' => 'למשתמש לקוח',
         'Please include at least one customer user for the ticket.' => 'נא לכלול לפחות משתמש לקוח אחד עבור הפניה',
@@ -2705,6 +2754,7 @@ sub Data {
         # Template: AgentTicketOverviewMedium
         'Select all' => 'בחר הכל',
         'No ticket data found.' => 'לא נמצאו נתוני פניה.',
+        'Select this ticket' => '',
         'First Response Time' => 'זמן המענה הראשוני',
         'Update Time' => 'זמן העדכון',
         'Solution Time' => 'זמן הפתרון',
@@ -2802,11 +2852,13 @@ sub Data {
         'This ticket is archived.' => 'פניה זו היא בארכיון.',
         'Locked' => 'נעולה',
         'Linked Objects' => 'פריטים מקושרים',
-        'Article(s)' => 'מאמר(ים)',
         'Change Queue' => 'שנה תור',
+        'Dialogs' => '',
         'There are no dialogs available at this point in the process.' =>
             'אין תיבות שיח זמינות בשלב זה של התהליך.',
         'This item has no articles yet.' => 'לפריט זה עדיין אין מאמרים',
+        'Article Overview' => '',
+        'Article(s)' => 'מאמר(ים)',
         'Add Filter' => 'הוסף מסנן',
         'Set' => 'הגדר',
         'Reset Filter' => 'אפס מסנן',
@@ -2834,6 +2886,8 @@ sub Data {
 
         # Template: CustomerFooter
         'Powered by' => 'מבוסס על',
+
+        # Template: CustomerFooterJS
         'One or more errors occurred!' => 'התרחשו שגיאה אחת או יותר!',
         'Close this dialog' => 'סגור תיבת שיח זו',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
@@ -2841,6 +2895,8 @@ sub Data {
         'There are currently no elements available to select from.' => 'אין כעת פריטים זמינים שניתן לבחור.',
 
         # Template: CustomerFooterSmall
+
+        # Template: CustomerHTMLHead
 
         # Template: CustomerHeader
 
@@ -2875,7 +2931,6 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'עריכת העדפות אישיות',
-        'Logout %s' => 'התנתק %s',
 
         # Template: CustomerPreferences
 
@@ -2900,6 +2955,7 @@ sub Data {
         # Template: CustomerTicketSearch
         'Profile' => 'פרופיל',
         'e. g. 10*5155 or 105658*' => 'למשל 10*5155 או 105658*',
+        'Customer ID' => 'מספר זיהוי לקוח',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'חיפוש טקסט מלא בפניות (למשל "ממשק*" או "מס*ים")',
         'Carbon Copy' => 'העתק',
         'Types' => 'סוגים',
@@ -2923,6 +2979,7 @@ sub Data {
         'of' => 'מתוך',
         'Page' => 'עמוד',
         'Search Results for' => 'חפש תוצאות עבור',
+        'Remove this Search Term.' => '',
 
         # Template: CustomerTicketZoom
         'Expand article' => 'הרחב מאמר',
@@ -2953,12 +3010,12 @@ sub Data {
 
         # Template: Datepicker
         'Invalid date (need a future date)!' => 'תאריך לא תקין (חייב להיות עתידי)!',
+        'Invalid date (need a past date)!' => '',
         'Previous' => 'קודם',
         'Open date selection' => 'פתח בחירת תאריך',
 
         # Template: Error
         'Oops! An Error occurred.' => 'אופס. התרחשה שגיאה.',
-        'Error Message' => 'הודעת שגיאה',
         'You can' => 'אתם יכולים',
         'Send a bugreport' => 'לשלוח דיווח על שגיאה',
         'go back to the previous page' => 'לחזור לעמוד הקודם',
@@ -2975,12 +3032,18 @@ sub Data {
         'Please enter at least one search value or * to find anything.' =>
             '',
         'Please check the fields marked as red for valid inputs.' => '',
+        'Please perform a spell check on the the text first.' => '',
+        'Slide the navigation bar' => '',
 
         # Template: FooterSmall
 
         # Template: HTMLHead
 
         # Template: HTMLHeadBlockEvents
+
+        # Template: HTMLHeadRefresh
+
+        # Template: HTTPHeaders
 
         # Template: Header
         'You are logged in as' => 'אתם מחוברים כ',
@@ -2991,7 +3054,6 @@ sub Data {
         'JavaScript not available' => 'JavaScript לא זמין',
         'Database Settings' => 'הגדרות בסיס נתונים',
         'General Specifications and Mail Settings' => '',
-        'Welcome to %s' => 'ברוכים הבאים אל %s',
         'Web site' => 'אתר',
         'Mail check successful.' => 'בדיקת דועאר הצליחה.',
         'Error in the mail settings. Please correct and try again.' => '',
@@ -3103,6 +3165,7 @@ sub Data {
         'Back to the previous page' => 'חזרה לעמוד הקודם',
 
         # Template: Notify
+        'Close this message' => '',
 
         # Template: Pagination
         'Show first page' => 'הצג עמוד ראשון',
@@ -3131,7 +3194,6 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'עמוד בדיקה OTRS',
-        'Welcome %s' => 'ברוך הבא %s',
         'Counter' => 'מונה',
 
         # Template: Warning
@@ -3140,6 +3202,8 @@ sub Data {
         # SysConfig
         '(UserLogin) Firstname Lastname' => '',
         '(UserLogin) Lastname, Firstname' => '',
+        'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
+            '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '',
         'Access Control Lists (ACL)' => 'Access Control Lists (ACL)',
@@ -3287,21 +3351,22 @@ sub Data {
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Closed tickets of customer' => 'פניות סוגורת של הלקוח',
+        'Closed tickets (customer user)' => '',
+        'Closed tickets (customer)' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the queue view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the queue view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the responsible view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the responsible view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the ticket search result view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the ticket search result view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
         'Comment for new history entries in the customer interface.' => '',
         'Company Status' => 'סטטוס חברה',
@@ -3343,10 +3408,9 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => 'צור ונהל פניית דוא"ל חדשה ושלח אותה (דואר יוצא)',
         'Create new phone ticket (inbound)' => 'צור ונהל פניית טלפון חדשה (נכנסת)',
         'Create new process ticket' => 'צור ונהל פניית תהליך חדשה',
-        'Custom text for the page shown to customers that have no tickets yet.' =>
-            'טקסט מותאם לעמוד שמוצג ללקוחות שעדיין אין להם פניות',
-        'Customer Company Administration' => 'ניהול חברות לקוחות',
-        'Customer Company Information' => 'מידע על חברות לקוחות',
+        'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
+            '',
+        'Customer Administration' => '',
         'Customer User <-> Groups' => 'משתמש לקוח <-> קבוצות',
         'Customer User <-> Services' => 'משתמש לקוח <-> שירותים',
         'Customer User Administration' => 'ניהול משתמשי לקוח',
@@ -3428,7 +3492,7 @@ sub Data {
         'Defines an alternate URL, where the logout link refers to.' => '',
         'Defines an alternate login URL for the customer panel..' => '',
         'Defines an alternate logout URL for the customer panel.' => '',
-        'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=$Data{"CustomerID"}\' or \'\').' =>
+        'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').' =>
             '',
         'Defines from which ticket attributes the agent can select the result order.' =>
             '',
@@ -3476,8 +3540,7 @@ sub Data {
             '',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             '',
-        'Defines scheduler PID update time in seconds (floating point number).' =>
-            '',
+        'Defines scheduler PID update time in seconds.' => '',
         'Defines scheduler sleep time in seconds after processing all available tasks (floating point number).' =>
             '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
@@ -3687,7 +3750,7 @@ sub Data {
             '',
         'Defines the filter that processes the text in the articles, in order to highlight URLs.' =>
             '',
-        'Defines the format of responses in the ticket compose screen of the agent interface ($QData{"OrigFrom"} is From 1:1, $QData{"OrigFromName"} is only realname of From).' =>
+        'Defines the format of responses in the ticket compose screen of the agent interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | html %] is only realname of From).' =>
             '',
         'Defines the fully qualified domain name of the system. This setting is used as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             '',
@@ -3756,6 +3819,8 @@ sub Data {
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
             '',
         'Defines the key to check with CustomerAccept. If this user preferences key is true, then the message is accepted by the system.' =>
+            '',
+        'Defines the legend font in graphs (place custom fonts in var/fonts).' =>
             '',
         'Defines the link type \'Normal\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' =>
             '',
@@ -3843,6 +3908,8 @@ sub Data {
             '',
         'Defines the next state of a ticket after being moved to another queue, in the move ticket screen of the agent interface.' =>
             '',
+        'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
+            '',
         'Defines the parameters for the customer preferences table.' => '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
             '',
@@ -3924,6 +3991,8 @@ sub Data {
             '',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             '',
+        'Defines the title font in graphs (place custom fonts in var/fonts).' =>
+            '',
         'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
@@ -3952,6 +4021,8 @@ sub Data {
         'Defines which states should be set automatically (Content), after the pending time of state (Key) has been reached.' =>
             '',
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
+            '',
+        'Defines, which tickets of which ticket state types should not be listed in linked ticket lists.' =>
             '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
@@ -4058,7 +4129,7 @@ sub Data {
             '',
         'Dynamic fields shown in the ticket search screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
-        'Dynamic fields shown in the ticket small format overview screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
+        'Dynamic fields shown in the ticket small format overview screen of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
         'Dynamic fields shown in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
@@ -4097,11 +4168,11 @@ sub Data {
             '',
         'Event module that updates customer user service membership if login changes.' =>
             '',
-        'Event module that updates customer users after an update of the Customer Company.' =>
-            '',
-        'Event module that updates tickets after an update of the Customer Company.' =>
+        'Event module that updates customer users after an update of the Customer.' =>
             '',
         'Event module that updates tickets after an update of the Customer User.' =>
+            '',
+        'Event module that updates tickets after an update of the Customer.' =>
             '',
         'Execute SQL statements.' => '',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -4372,7 +4443,7 @@ sub Data {
         'Module to check customer permissions.' => '',
         'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
             '',
-        'Module to check if arrived emails should be marked as email-internal (because of original forwared internal email it college). ArticleType and SenderType define the values for the arrived email/article.' =>
+        'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             '',
         'Module to check the agent responsible of a ticket.' => '',
         'Module to check the group permissions for the access to customer tickets.' =>
@@ -4416,7 +4487,8 @@ sub Data {
             '',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
-        'Open tickets of customer' => 'פניות פתוחות של הלקוח',
+        'Open tickets (customer user)' => '',
+        'Open tickets (customer)' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => 'מבט-על של פניות באסקלציה',
@@ -4560,10 +4632,7 @@ sub Data {
             '',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             '',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
-            'שלח לי התראות אם לקוח שולח מעקב ואני הבעלים של הפניה או שהפניה לא נעולה ובאחד מהתורים שאני מנוי עליהם.',
         'Send notifications to users.' => 'שלח התראות למשתמשים.',
-        'Send ticket follow up notifications' => 'שלח התראות מעקב פניות',
         'Sender type for new tickets from the customer inteface.' => '',
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             '',
@@ -4659,6 +4728,10 @@ sub Data {
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
             '',
         'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
+            '',
+        'Sets the maximum number of active sessions per agent within the timespan defined in SessionActiveTime.' =>
+            '',
+        'Sets the maximum number of active sessions per customers within the timespan defined in SessionActiveTime.' =>
             '',
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' =>
             '',
@@ -4980,6 +5053,8 @@ sub Data {
             '',
         'Specifies the top margin of the chart.' => '',
         'Specifies user id of the postmaster data base.' => '',
+        'Specifies whether all storage backends should be checked when looking for attachements. This is only required for installations where some attachements are in the file system, and others in the database.' =>
+            '',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
             '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
@@ -4988,6 +5063,7 @@ sub Data {
             '',
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
+        'Stat#' => 'סטטיטיקה #',
         'Statistics' => 'סטטיסטיקה',
         'Status view' => 'תצוגת סטטוס',
         'Stop words for fulltext index. These words will be removed.' => '',
@@ -5015,6 +5091,10 @@ sub Data {
         'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The logo shown on top of the login box of the agent interface. The URL to the image must be relative URL to the skin image directory.' =>
+            '',
+        'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
+            '',
+        'The maximal number of articles shown on a single page in AgentTicketZoom.' =>
             '',
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' =>
             '',
@@ -5050,6 +5130,8 @@ sub Data {
             '',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '',
+        'Unlock tickets whenever a note is added and the owner is out of office.' =>
+            '',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '',
         'Update and extend your system with software packages.' => '',
@@ -5060,6 +5142,7 @@ sub Data {
         'UserLastname' => 'שם משפחה של משתמש',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             '',
+        'Uses richtext for viewing and editing notification events.' => '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '',
         'View performance benchmark results.' => '',
@@ -5079,17 +5162,25 @@ sub Data {
         # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
         #
         ' (work units)' => ' (יחידות עבודה)',
+        '(work units)' => '(יחידות עבודה)',
         'Add Response' => 'הוסף מענה',
         'Add response' => 'הוסף מענה',
         'Attachments <-> Responses' => 'קבצים מצורפים <-> מענים',
+        'Closed tickets of customer' => 'פניות סוגורת של הלקוח',
         'Complete registration and continue' => 'השלם הרשמה והמשך',
         'Create and manage response templates.' => 'נהל וצור תבניות מענה.',
+        'Custom text for the page shown to customers that have no tickets yet.' =>
+            'טקסט מותאם לעמוד שמוצג ללקוחות שעדיין אין להם פניות',
+        'Customer Company' => 'חברת הלקוח',
+        'Customer Company Administration' => 'ניהול חברות לקוחות',
+        'Customer Company Information' => 'מידע על חברות לקוחות',
         'Customer Data' => 'פרטי לקוח',
         'Customer history' => 'היסטוריית לקוח',
         'CustomerID Search' => 'חיפוש מזהה לקוח',
         'CustomerUser Search' => 'חיפוש משתמש לקוח',
         'DB host' => 'מארח בסיס נתונים',
         'Database-User' => 'משתמש בסיס נתונים',
+        'Edit Customer Company' => 'ערוך את חברת הלקוח',
         'Edit Response' => 'ערוך מענה',
         'Edit customer' => 'ערוך לקוח',
         'Escalation in' => 'אסקלציה ב',
@@ -5101,9 +5192,12 @@ sub Data {
         'Historic Time Range' => 'טווח זמן היסטורי',
         'Link attachments to responses templates.' => 'קשר קבצים מצורפים לתבניות מענים.',
         'Link responses to queues.' => 'קשר מענים לתורים',
+        'Logout %s' => 'התנתק %s',
         'Manage Responses' => 'נהל מענים',
         'New email ticket for %s' => 'פניה חדשה בדוא"ל עבור %s',
         'New phone ticket for %s' => 'פניה חדשה בטלפון עבור %s',
+        'Only for ArticleCreate event' => 'רק אירועי יצירת מאמר',
+        'Open tickets of customer' => 'פניות פתוחות של הלקוח',
         'Password is required.' => 'נדרשת סיסמא.',
         'Please fill in all fields marked as mandatory.' => 'אנא מלאו את כל השדות המסומנים כשדות חובה.',
         'Please supply a' => 'אנא ספקו',
@@ -5113,11 +5207,17 @@ sub Data {
         'Registration' => 'רישום',
         'Responses' => 'מענים',
         'Responses <-> Queues' => 'מענים <-> תורים',
+        'Search for customers.' => 'חיפוש אחר לקוחות.',
         'Send update now' => 'שלח עדכון כעת',
         'Show  article' => 'הצג מאמר',
+        'Synchronize All Processes' => 'סנכרן את כל התהליכים',
         'Template for' => 'תבנית עבור',
+        'Ticket Action' => 'פעולה על פניה',
+        'Ticket Commands' => 'פקודות פניה',
         'URL' => 'קישור',
         'Username and password do not match.' => 'שם משתמש וסיסמא לא תואמים.',
+        'Welcome %s' => 'ברוך הבא %s',
+        'Welcome to %s' => 'ברוכים הבאים אל %s',
         'before' => 'לפני',
         'settings' => 'הגדרות',
 

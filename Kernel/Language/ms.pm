@@ -150,7 +150,6 @@ sub Data {
         'system' => 'sistem',
         'Customer Info' => 'Info Pelanggan',
         'Customer Information' => 'Informasi Pelanggan',
-        'Customer Company' => 'Firma Pelanggan',
         'Customer Companies' => 'Firma Pelanggan',
         'Company' => 'Firma',
         'go!' => 'mula!',
@@ -232,6 +231,10 @@ sub Data {
             'Log masuk gagal. Kata nama anda atau kata laluan yang dimasukkan tidak tepat',
         'There is no acount with that user name.' => 'Tiada akaun dengan nama pengguna tersebut.',
         'Please contact your administrator' => 'Sila hubungi pentadbir anda',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => 'Log keluar',
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Ciri-ciri tidak aktif!',
@@ -280,6 +283,7 @@ sub Data {
         'Check to activate this date' => 'Periksa untuk mengaktifkan tarikh ini',
         'You have Out of Office enabled, would you like to disable it?' =>
             'Anda membolehkan keluar dari pejabat, adakah anda ingin melumpuhkan ia?',
+        'News about OTRS releases!' => '',
         'Customer %s added' => 'Pelanggan %s ditambah',
         'Role added!' => 'Watak ditambah!',
         'Role updated!' => 'watak dikemaskini!',
@@ -480,6 +484,7 @@ sub Data {
         'Stat' => 'Statistik',
         'Sum' => 'Jumlah',
         'No (not supported)' => '',
+        'Days' => '',
         'Please fill out the required fields!' => 'Sila isi bidang yang diperlukan!',
         'Please select a file!' => 'Sila pilih fail!',
         'Please select an object!' => 'Sila pilih objek!',
@@ -585,7 +590,8 @@ sub Data {
         'Tables found which do not have a regular status.' => '',
         'MySQL 5.x or higher is required.' => '',
         'NLS_LANG Setting' => '',
-        'NLS_LANG must be set to utf8 (e.g. german_germany.utf8).' => '',
+        'NLS_LANG must be set to AL32UTF8 (e.g. GERMAN_GERMANY.AL32UTF8).' =>
+            '',
         'NLS_DATE_FORMAT Setting' => '',
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => '',
         'NLS_DATE_FORMAT Setting SQL Check' => '',
@@ -595,6 +601,10 @@ sub Data {
         'Setting DateStyle needs to be ISO.' => '',
         'PostgreSQL 8.x or higher is required.' => '',
         'OTRS Disk Partition' => '',
+        'Disk Usage' => '',
+        'The partition where OTRS is located is almost full.' => '',
+        'The partition where OTRS is located has no disk space problems.' =>
+            '',
         'Disk Partitions Usage' => '',
         'Distribution' => '',
         'Could not determine distribution.' => '',
@@ -764,6 +774,7 @@ sub Data {
         'End message' => 'Akhir mesej',
         'Forwarded message from' => 'Mesej dikemukan daripada',
         'End forwarded message' => 'Mesej akhir dikemukan',
+        'Bounce Article to a different mail address' => '',
         'new' => 'baru',
         'open' => 'buka',
         'Open' => 'Buka',
@@ -826,7 +837,7 @@ sub Data {
         'Phone-Ticket' => 'Tiket-Telefon',
         'Search Tickets' => 'Cari Tiket',
         'Edit Customer Users' => 'Audit Pengguna Pelanggan',
-        'Edit Customer Company' => 'Audit Syarikat Pelanggan',
+        'Edit Customer' => 'Audit pelanggan',
         'Bulk Action' => 'Tindakan pukal',
         'Bulk Actions on Tickets' => 'Tindakan Pukal pada Tiket',
         'Send Email and create a new Ticket' => 'Hantar Emel dan cipta satu tiket baru',
@@ -886,6 +897,9 @@ sub Data {
             'Hantar saya pemberitahuan jika terdapat tiket baru dalam "Barisan saya".',
         'Send new ticket notifications' => 'Hantar pemberitahuan tiket baru',
         'Ticket follow up notification' => 'Pemberitahuan mengikuti tiket',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
+            'Hantar saya pemberitahuan jika pelanggan menghantar susulan dan saya pemilik tiket atau tiket dikunci dan berada dalam salah satu daripada aturan langganan saya.',
+        'Send ticket follow up notifications' => 'Hantar notifikasi susulan tiket.',
         'Ticket lock timeout notification' => 'Pemberitahuan tiket dikunci masa tamat',
         'Send me a notification if a ticket is unlocked by the system.' =>
             'Hantar saya pemberitahuan jika tiket dibuka oleh sistem ("buka")',
@@ -1087,7 +1101,6 @@ sub Data {
         'Select' => 'Pilih',
         'Please enter a search term to look for customers.' => 'Sila masukkan kata kunci untuk mencari pelanggan.',
         'Add Customer' => 'Tambah pelanggan',
-        'Edit Customer' => 'Audit pelanggan',
 
         # Template: AdminCustomerUser
         'Customer User Management' => '',
@@ -1117,12 +1130,12 @@ sub Data {
         'Just use this feature if you want to define group permissions for customers.' =>
             'Gunakan fungsi ini program jika anda mahu untuk menentukan kebenaran kumpulan untuk pelanggan.',
         'Enable it here!' => 'untuk mengaktifkan!',
-        'Search for customers.' => 'Mencari pelanggan.',
         'Edit Customer Default Groups' => 'Edit Kumpulan Pelanggan Sedia Ada',
         'These groups are automatically assigned to all customers.' => 'Kumpulan-kumpulan ini secara automatik diberikan kepada semua pelanggan.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Anda boleh menguruskan kumpulan ini melalui tetapan tatarajah "CustomerGroupAlwaysGroups".',
         'Filter for Groups' => 'Penapis untuk kumpulan',
+        'Just start typing to filter...' => '',
         'Select the customer:group permissions.' => 'Pilih pelanggan: dari kumpulan hak',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Jika tiada apa yang dipilih, maka terdapat tiada kebenaran dalam kumpulan ini (tiket tidak akan disediakan untuk pelanggan).',
@@ -1205,6 +1218,8 @@ sub Data {
         'Show link' => 'Papar pautan',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Disini anda boleh menyatakan pilihan pautan HTTP untuk nilai bidang dalam gambaran keseluruhan dan skrin Zoom.',
+        'Restrict entering of dates' => '',
+        'Here you can restrict the entering of dates of tickets.' => '',
 
         # Template: AdminDynamicFieldDropdown
         'Possible values' => 'nilai yang mungkin',
@@ -1233,6 +1248,13 @@ sub Data {
         'Number of cols' => 'Bilangan lajur',
         'Specify the width (in characters) for this field in the edit mode.' =>
             'Menetapkan lebar dalam aksara untuk bidang ini dalam mod edit.',
+        'Check RegEx' => '',
+        'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
+            '',
+        'RegEx' => '',
+        'Invalid RegEx' => '',
+        'Error Message' => 'Mesej kesilapan',
+        'Add RegEx' => '',
 
         # Template: AdminEmail
         'Admin Notification' => 'Pemberitahuan admin',
@@ -1257,6 +1279,7 @@ sub Data {
         'Run this task' => 'Jalankan tugas ini',
         'Job Settings' => 'kerja Tetapan',
         'Job name' => 'Nama kerja',
+        'The name you entered already exists.' => 'Nama yang anda masukkan sudah wujud.',
         'Toggle this widget' => 'ubah widget ini',
         'Automatic execution (multiple tickets)' => '',
         'Execution Schedule' => '',
@@ -1283,7 +1306,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => 'Padam pencetus acara ini',
-        'Ticket Filter' => 'Penapis tiket',
+        'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => 'contoh. 10*5144 atau 105658*',
         '(e. g. 234321)' => 'contoh. 234321',
         'Customer login' => 'Pelanggan Log Masuk',
@@ -1321,7 +1344,7 @@ sub Data {
         'Ticket solution time reached' => 'Masa penyelesaian Tiket mencapai',
         'Ticket solution time reached between' => 'Tiket masa penyelesaian dicapai antara',
         'Archive search option' => 'Arkib carian pilihan',
-        'Ticket Action' => 'Tindakan tiket',
+        'Update/Add Ticket Attributes' => '',
         'Set new service' => 'Tetapkan perkhidmatan baru',
         'Set new Service Level Agreement' => 'Tetapkan Perjanjian Tahap Perkhidmatan baru',
         'Set new priority' => 'Tetapkan keutamaan baru',
@@ -1340,8 +1363,7 @@ sub Data {
         'Archive selected tickets' => 'Arkib dipilih tiket',
         'Add Note' => 'Tambah Nota',
         'Time units' => 'masa unit',
-        '(work units)' => '',
-        'Ticket Commands' => 'tiket Perintah',
+        'Execute Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Hantar ejen / pelanggan pemberitahuan mengenai perubahan',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
@@ -1381,6 +1403,7 @@ sub Data {
         'Refresh' => 'Menyegarkan',
         'Request Details' => 'Butiran Permintaan ',
         'An error occurred during communication.' => 'Ralat berlaku semasa komunikasi.',
+        'Show or hide the content.' => 'Menunjukkan atau menyembunyikan kandungan.',
         'Clear debug log' => 'debug log yang jelas',
 
         # Template: AdminGenericInterfaceInvokerDefault
@@ -1394,7 +1417,6 @@ sub Data {
         'The name is typically used to call up an operation of a remote web service.' =>
             'Nama biasanya digunakan untuk memanggil operasi perkhidmatan web jauh.',
         'Please provide a unique name for this web service invoker.' => 'Sila berikan nama unik untuk invoker perkhidmatan web ini.',
-        'The name you entered already exists.' => 'Nama yang anda masukkan sudah wujud.',
         'Invoker backend' => 'Invoker backend',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             'Modul OTRS invoker backend ini akan dipanggil untuk menyediakan data untuk dihantar ke sistem jauh, dan untuk memproses data respons.',
@@ -1538,7 +1560,6 @@ sub Data {
         'Remote system' => 'Sistem jarak jauh',
         'Provider transport' => 'Pengankutan pembekal',
         'Requester transport' => 'Pengangkutan peminta',
-        'Details' => 'Butiran',
         'Debug threshold' => 'Paras ambang debug.',
         'In provider mode, OTRS offers web services which are used by remote systems.' =>
             'Dalam mod pembekal, OTRS menawarkan perkhidmatan web yang digunakan oleh sistem jauh.',
@@ -1574,7 +1595,6 @@ sub Data {
         'Do you really want to restore this version of the web service configuration?' =>
             'Adakah anda benar-benar mahu memulihkan versi ini konfigurasi perkhidmatan web?',
         'Your current web service configuration will be overwritten.' => 'Perkhidmatan web konfigurasi semasa anda akan diganti.',
-        'Show or hide the content.' => 'Menunjukkan atau menyembunyikan kandungan.',
         'Restore' => 'Memulihkan',
 
         # Template: AdminGroup
@@ -1636,9 +1656,12 @@ sub Data {
         'Add notification' => 'Tambah pemberitahuan',
         'Delete this notification' => 'Padam pemberitahuan ini',
         'Add Notification' => 'Tambah pemberitahuan',
+        'Ticket Filter' => 'Penapis tiket',
         'Article Filter' => 'Tapisan Artikel',
-        'Only for ArticleCreate event' => 'Hanya kerana Perkara Buat acara',
+        'Only for ArticleCreate and ArticleSend event' => '',
         'Article type' => 'Jenis artikel',
+        'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
+            '',
         'Article sender type' => '',
         'Subject match' => 'perlawanan tertakluk',
         'Body match' => 'perlawanan badan',
@@ -1751,10 +1774,14 @@ sub Data {
         'The name is required.' => 'Nama diperlukan.',
         'Filter Condition' => 'Keadaan penapis',
         'AND Condition' => '',
+        'Check email header' => '',
         'Negate' => '',
+        'Look for value' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             'Bidang perlu untuk menjadi ungkapan yang sah tetap atau perkataan literal.',
         'Set Email Headers' => 'Tetapkan Pengepala E-mel',
+        'Set email header' => '',
+        'Set value' => '',
         'The field needs to be a literal word.' => 'Bidang perlu menjadi perkataan literal.',
 
         # Template: AdminPriority
@@ -1766,11 +1793,11 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => 'Pengurusan Proses',
         'Filter for Processes' => 'Penapis untuk Proses',
-        'Process Name' => 'Nama Proses',
         'Create New Process' => 'Cipta Proses Baru',
-        'Synchronize All Processes' => 'Menyamakan Semua Proses',
+        'Deploy All Processes' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             'Disini anda boleh muat naik fail konfigurasi untuk import proses kedalam sistem anda. Fail itu mestilah di dalam format .yml seperti yang diexport oleh modul pengurusan proses.',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => 'Muat naik konfigurasi proses',
         'Import process configuration' => 'Import konfigurasi proses',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1870,6 +1897,7 @@ sub Data {
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             '',
         'Edit Process Information' => '',
+        'Process Name' => 'Nama Proses',
         'The selected state does not exist.' => '',
         'Add and Edit Activities, Activity Dialogs and Transitions' => '',
         'Show EntityIDs' => '',
@@ -1996,8 +2024,8 @@ sub Data {
         # Template: AdminRegistration
         'System Registration Management' => '',
         'Edit details' => '',
-        'Overview of registered systems' => '',
         'Deregister system' => '',
+        'Overview of registered systems' => '',
         'System Registration' => '',
         'This system is registered with OTRS Group.' => '',
         'System type' => '',
@@ -2231,8 +2259,30 @@ sub Data {
             '',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
             '',
+        'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
+            '',
+        'Generate Support Bundle' => '',
+        'Generating...' => '',
+        'It was not possible to generate the Support Bundle.' => '',
+        'Generate Result' => '',
+        'Support Bundle' => '',
+        'The mail could not be sent' => '',
+        'The support bundle has been generated.' => '',
+        'Please choose one of the following options.' => '',
+        'Send by Email' => '',
+        'The support bundle is too large to send it by email, this option has been disabled.' =>
+            '',
+        'The email address for this user is invalid, this ption has been disabled.' =>
+            '',
+        'Sending' => '',
+        'The support bundle will be sent to OTRS Group via email automatically.' =>
+            '',
+        'Download File' => '',
+        'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTRS Group, using an alternate method.' =>
+            '',
         'Support Data' => '',
         'Error: Support data could not be collected (%s).' => '',
+        'Details' => 'Butiran',
 
         # Template: AdminSession
         'Session Management' => 'Pengurusan sesi',
@@ -2390,7 +2440,6 @@ sub Data {
         # Template: AgentCustomerInformationCenterBlank
 
         # Template: AgentCustomerInformationCenterSearch
-        'Customer ID' => 'ID Pelanggan',
         'Customer User' => '',
 
         # Template: AgentCustomerSearch
@@ -2500,7 +2549,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Padam stat',
-        'Stat#' => 'Nombor Statistik.',
         'Do you really want to delete this stat?' => 'Adakah anda benar-benar mahu untuk memadam stat ini?',
 
         # Template: AgentStatsEditRestrictions
@@ -2664,6 +2712,7 @@ sub Data {
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Buat Tiket Email Baru.',
+        'Example Template' => '',
         'From queue' => 'Dari barisan.',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
@@ -2699,6 +2748,7 @@ sub Data {
         # Template: AgentTicketOverviewMedium
         'Select all' => 'Pilih semua',
         'No ticket data found.' => 'Tiada data tiket ditemui.',
+        'Select this ticket' => '',
         'First Response Time' => 'Masa respon pertama',
         'Update Time' => 'Masa Kemas Kini',
         'Solution Time' => 'Masa Penyelasaian',
@@ -2796,11 +2846,13 @@ sub Data {
         'This ticket is archived.' => '',
         'Locked' => 'Terkunci',
         'Linked Objects' => 'Objek yang Dihubungkan',
-        'Article(s)' => 'Artikel',
         'Change Queue' => 'Ubah Barisan',
+        'Dialogs' => '',
         'There are no dialogs available at this point in the process.' =>
             '',
         'This item has no articles yet.' => '',
+        'Article Overview' => '',
+        'Article(s)' => 'Artikel',
         'Add Filter' => 'Tambah Tapisan',
         'Set' => 'Tetapkan',
         'Reset Filter' => 'Tetapkan semula penapis',
@@ -2828,6 +2880,8 @@ sub Data {
 
         # Template: CustomerFooter
         'Powered by' => 'Dikuasakan oleh',
+
+        # Template: CustomerFooterJS
         'One or more errors occurred!' => 'Satu atau lebih kesilapan berlaku!',
         'Close this dialog' => 'Tutup dialog ini',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
@@ -2835,6 +2889,8 @@ sub Data {
         'There are currently no elements available to select from.' => '',
 
         # Template: CustomerFooterSmall
+
+        # Template: CustomerHTMLHead
 
         # Template: CustomerHeader
 
@@ -2869,7 +2925,6 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => 'Edit pilihan peribadi',
-        'Logout %s' => '%s Log keluar',
 
         # Template: CustomerPreferences
 
@@ -2894,6 +2949,7 @@ sub Data {
         # Template: CustomerTicketSearch
         'Profile' => 'Profil',
         'e. g. 10*5155 or 105658*' => 'contoj: 10*5155 atau 105658*',
+        'Customer ID' => 'ID Pelanggan',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Carian teks penuh dalam tiket (contoh: "John*n" atau "Will*")',
         'Carbon Copy' => 'Salinan Karbon',
         'Types' => 'Jenis',
@@ -2917,6 +2973,7 @@ sub Data {
         'of' => 'daripada',
         'Page' => 'Halaman',
         'Search Results for' => 'Hasil Carian untuk',
+        'Remove this Search Term.' => '',
 
         # Template: CustomerTicketZoom
         'Expand article' => 'Kembangkan artikel',
@@ -2926,6 +2983,7 @@ sub Data {
         # Template: CustomerWarning
 
         # Template: DashboardEventsTicketCalendar
+        'All-day' => '',
         'Sunday' => 'Ahad',
         'Monday' => 'Isnin',
         'Tuesday' => 'Selasa',
@@ -2946,12 +3004,12 @@ sub Data {
 
         # Template: Datepicker
         'Invalid date (need a future date)!' => 'Tarikh tidak sah (memerlukan tarikh di hadapan)!',
+        'Invalid date (need a past date)!' => '',
         'Previous' => 'Sebelum',
         'Open date selection' => 'Buka pilihan tarikh',
 
         # Template: Error
         'Oops! An Error occurred.' => 'Oops! Ada kesilapan berlaku.',
-        'Error Message' => 'Mesej kesilapan',
         'You can' => 'Anda boleh',
         'Send a bugreport' => 'Hantar laporan bug',
         'go back to the previous page' => 'kembali ke halaman sebelum',
@@ -2968,12 +3026,18 @@ sub Data {
         'Please enter at least one search value or * to find anything.' =>
             'Sila masukkan sekurang-kurangnya satu nilai carian atau * untuk mencari apa saja.',
         'Please check the fields marked as red for valid inputs.' => '',
+        'Please perform a spell check on the the text first.' => '',
+        'Slide the navigation bar' => '',
 
         # Template: FooterSmall
 
         # Template: HTMLHead
 
         # Template: HTMLHeadBlockEvents
+
+        # Template: HTMLHeadRefresh
+
+        # Template: HTTPHeaders
 
         # Template: Header
         'You are logged in as' => 'Anda menlog masuk sebagai',
@@ -2984,7 +3048,6 @@ sub Data {
         'JavaScript not available' => 'JavaScript tidak disediakan',
         'Database Settings' => 'Datenbankeinstellungen',
         'General Specifications and Mail Settings' => 'Spesifikasi Am dan Tetapan Mail',
-        'Welcome to %s' => 'Selamat datang ke %s',
         'Web site' => 'Laman web',
         'Mail check successful.' => 'Semakan mel berjaya',
         'Error in the mail settings. Please correct and try again.' => 'Kesilapan dalam konfigurasi e-mel. Sila betulkan dan cuba lagi.',
@@ -3096,6 +3159,7 @@ sub Data {
         'Back to the previous page' => 'Kembali ke halaman sebelumnya',
 
         # Template: Notify
+        'Close this message' => '',
 
         # Template: Pagination
         'Show first page' => 'Pamer halaman pertama',
@@ -3124,7 +3188,6 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'Halaman percubaan OTRS',
-        'Welcome %s' => 'Selamat Datang %s',
         'Counter' => 'Kaunter',
 
         # Template: Warning
@@ -3133,6 +3196,8 @@ sub Data {
         # SysConfig
         '(UserLogin) Firstname Lastname' => '',
         '(UserLogin) Lastname, Firstname' => '',
+        'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
+            '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'Modul ACL yang membolehkan penutupan tiket induk hanya jika kesemua anaknya telah ditutup ("Status" menunjukkan status yang tidak disediakan untuk tiket induk sehingga semua anak tiket ditutup)',
         'Access Control Lists (ACL)' => '',
@@ -3280,21 +3345,22 @@ sub Data {
         'Checkbox' => 'Kotak petak',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'Menyemak IDSistem di dalam pengesanan nombor tiket untuk susulan (guna "Tidak" jika IDSistem telah diubah selepas menggunakan sistem).',
-        'Closed tickets of customer' => 'Tiket customer yang tertutup',
+        'Closed tickets (customer user)' => '',
+        'Closed tickets (customer)' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
-        'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the queue view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the queue view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the responsible view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the responsible view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the ticket search result view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the ticket search result view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
         'Comment for new history entries in the customer interface.' => 'Komen untuk kemasukan sejarah baru di dalam interface pelanggan.',
         'Company Status' => '',
@@ -3336,10 +3402,9 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => 'Buat tiket e-mel baru dan menghantar ia keluar (keluar)',
         'Create new phone ticket (inbound)' => 'Buat tiket telefon baru (masuk).',
         'Create new process ticket' => '',
-        'Custom text for the page shown to customers that have no tickets yet.' =>
-            'Teks direka untuk halaman yang ditunjukkan kepada pelanggan yang belum mempunyai tiket.',
-        'Customer Company Administration' => '',
-        'Customer Company Information' => '',
+        'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
+            '',
+        'Customer Administration' => '',
         'Customer User <-> Groups' => '',
         'Customer User <-> Services' => '',
         'Customer User Administration' => '',
@@ -3421,8 +3486,8 @@ sub Data {
         'Defines an alternate URL, where the logout link refers to.' => 'Mentakrifkan URL gantian, dimana pautan log keluar merujuk kepada.',
         'Defines an alternate login URL for the customer panel..' => 'Mentakrifkan URL log masuk gantian untuk panel pelanggan..',
         'Defines an alternate logout URL for the customer panel.' => 'Mentakrifkan URL log keluar gantian untuk panel pelanggan.',
-        'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=$Data{"CustomerID"}\' or \'\').' =>
-            'Mentakrifkan pautan luaran pada pangkalan data pelanggan (contoh \'http://yourhost/customer.php?CID=$Data{"CustomerID"}\' atau \'\').',
+        'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').' =>
+            '',
         'Defines from which ticket attributes the agent can select the result order.' =>
             '',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
@@ -3469,8 +3534,7 @@ sub Data {
             'Mentakrifkan jika perakaunan masa mesti diset kepada semua tiket dalam tindakan pukal.',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             '',
-        'Defines scheduler PID update time in seconds (floating point number).' =>
-            'Mentakrifkan kemaskini masa penjadual PID dalam saat (nombor sudut terapung).',
+        'Defines scheduler PID update time in seconds.' => '',
         'Defines scheduler sleep time in seconds after processing all available tasks (floating point number).' =>
             'Mentakrifkan masa tidur penjadual dalam saat selepas memproses semua tugas-tugas yang ada (nombor sudut terapung).',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
@@ -3599,6 +3663,8 @@ sub Data {
             'Mentakrifkan sifat tiket asal untuk aturan tiket dalam paparan pantau dari paparan ejen',
         'Defines the default ticket attribute for ticket sorting of the ticket search result of the agent interface.' =>
             'Mentakrifkan sifat tiket asal untuk aturan tiket dalam hasil pencarian tiket dari paparan ejen.',
+        'Defines the default ticket attribute for ticket sorting of the ticket search result of this operation.' =>
+            '',
         'Defines the default ticket bounced notification for customer/sender in the ticket bounce screen of the agent interface.' =>
             'Mentakrifkan notifikasi melantun tiket asal untuk pelanggan/penghantar dalam skrin lantunan tiket dari paparan ejen.',
         'Defines the default ticket next state after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -3615,6 +3681,8 @@ sub Data {
             'Mentakrifkan turutan tiket asal dalam paparan tiket terkunci dari paparan ejen. Atas: yang lama di atas. Bawah: yang terbaru di atas.',
         'Defines the default ticket order in the ticket search result of the agent interface. Up: oldest on top. Down: latest on top.' =>
             'Mentakrifkan turutan tiket asal dalam hasil carian tiket dari paparan ejen. Atas: yang lama di atas. Bawah: yang terbaru di atas.',
+        'Defines the default ticket order in the ticket search result of the this operation. Up: oldest on top. Down: latest on top.' =>
+            '',
         'Defines the default ticket order in the watch view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             'Mentakrifkan turutan tiket asal dalam paparan pantau dari paparan ejen. Atas: yang lama di atas. Bawah: yang terbaru di atas.',
         'Defines the default ticket order of a search result in the customer interface. Up: oldest on top. Down: latest on top.' =>
@@ -3676,8 +3744,8 @@ sub Data {
             '',
         'Defines the filter that processes the text in the articles, in order to highlight URLs.' =>
             'Mentakrifkan penapis yang memproses teks di dalam artikel, untuk menampakan URLs.',
-        'Defines the format of responses in the ticket compose screen of the agent interface ($QData{"OrigFrom"} is From 1:1, $QData{"OrigFromName"} is only realname of From).' =>
-            'Mentakrifkan format tindak balas di dalam skrin karang tiket dari paparan ejen ($QData{"OrigFrom"} ialah dari 1:1, $QData{"OrigFromName"} ialah hanya realname dari From).',
+        'Defines the format of responses in the ticket compose screen of the agent interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | html %] is only realname of From).' =>
+            '',
         'Defines the fully qualified domain name of the system. This setting is used as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             'Mentakrifkan nama domain sistem yang layak sepenuhnya. Tetapan ini digunakan sebagai pembolehubah, OTRS_CONFIG_FQDN dimana ia wujud dalam beberapa bentuk mesej yang digunakan oleh aplikasi itu.',
         'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every user for these groups).' =>
@@ -3746,6 +3814,8 @@ sub Data {
             'Mentakrifkan kunci untuk disemak bersama modul Kernel::Modues""AgentInfo. Jika tetapan kunci pengguna ini benar, mesej akan diterima oleh sistem.',
         'Defines the key to check with CustomerAccept. If this user preferences key is true, then the message is accepted by the system.' =>
             'Mentakrifkan kunci untuk disemak bersama CustomerAccept. Jika tetapan kunci pengguna ini adalah benar, mesej itu akan diterima oleh sistem.',
+        'Defines the legend font in graphs (place custom fonts in var/fonts).' =>
+            '',
         'Defines the link type \'Normal\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' =>
             'Mentakrifkan pautan jenis \'Normal\'. Jika nama sumber dan nama sasaran mengandungi nilai yang sama, pautan yang terhasil adalah yang tidak berhala tuju; sebaliknya, hasil akan memberikan pautan yang mempunyai hala tuju.',
         'Defines the link type \'ParentChild\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' =>
@@ -3832,6 +3902,8 @@ sub Data {
             'Mentakrifkan status tiket seterusnya selepas dilantun, dalam skrin lantunan tiket dari paparan ejen.',
         'Defines the next state of a ticket after being moved to another queue, in the move ticket screen of the agent interface.' =>
             'Mentakrifkan status tiket seterusnya selepas dipindahkan ke aturan yang lain, dalam skrin pindah tiket dari paparan ejen.',
+        'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
+            '',
         'Defines the parameters for the customer preferences table.' => 'Mentakrifkan parameter untuk jadual tetapan pelanggan.',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
             'Mentakrifkan parameter untuk dasboard backend. "Group" digunakan untuk menyekt akses kepada plugin (Contoh : Group: admin;group1;group2;). "Default" menunjukkan jika plugin diaktifkan oleh default atau jika pengguna perlu mengaktifkannya secara manual. "CacheTTL" menunjukkan tempoh tamat cache dalam minit untuk plugin.',
@@ -3913,6 +3985,8 @@ sub Data {
             'Mentakrifkan masa dalam saat selepas di mana penjadual menjalankan restart automatik.',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             'Mentakrifkan zon masa dari kalendar yang dinyatakan, dimana ia boleh ditetapkan kemudian kepada aturan yang tertentu.',
+        'Defines the title font in graphs (place custom fonts in var/fonts).' =>
+            '',
         'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
@@ -3941,6 +4015,8 @@ sub Data {
         'Defines which states should be set automatically (Content), after the pending time of state (Key) has been reached.' =>
             'Mentakrifkan status yang mana harus di set secara automatik (Isi kandungan), selepas masa tangguhan status (Kunci) telah dicapai.',
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
+            '',
+        'Defines, which tickets of which ticket state types should not be listed in linked ticket lists.' =>
             '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             'Memadam sesuatu sesi jika id sesi digunakan bersama alamat IP jarak jauh yang tidak sah.',
@@ -4047,8 +4123,8 @@ sub Data {
             '',
         'Dynamic fields shown in the ticket search screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             'Medan Dinamik ditunjukkan dalam skrin carian tiket dari paparan pelanggan. Tetapan Kemungkinan: 0 = Dilumpuhkan, 1 = Diaktifkan.',
-        'Dynamic fields shown in the ticket small format overview screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
-            'Medan Dinamik ditunjukkan dalam skrin tiket overview format kecil dari paparan ejen. Tetapan Kemungkinan: 0 = Dilumpuhkan, 1 = Diaktifkan.',
+        'Dynamic fields shown in the ticket small format overview screen of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
+            '',
         'Dynamic fields shown in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             'Medan Dinamik ditunjukkan dalam skrin tiket zum dari paparan pelanggan. Tetapan Kemungkinan: 0 = Dilumpuhkan, 1 = Diaktifkan.',
         'DynamicField backend registration.' => 'Pendaftaran backend DynamicField',
@@ -4086,11 +4162,11 @@ sub Data {
             'Pendaftaran modul acara. Untuk lebih prestasi anda boleh mentakrifkan acara pencetus (contoh: Event => TicketCreate). Ini hanya mungkin jika kesemua medan dinamik Tiket perlu acara yang sama.',
         'Event module that updates customer user service membership if login changes.' =>
             '',
-        'Event module that updates customer users after an update of the Customer Company.' =>
-            '',
-        'Event module that updates tickets after an update of the Customer Company.' =>
+        'Event module that updates customer users after an update of the Customer.' =>
             '',
         'Event module that updates tickets after an update of the Customer User.' =>
+            '',
+        'Event module that updates tickets after an update of the Customer.' =>
             '',
         'Execute SQL statements.' => 'Melaksanakan penyata SQL.',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -4352,6 +4428,8 @@ sub Data {
             'Jumlah maksimum tiket untuk dipamerkan dalam hasil carian dalam paparan ejen.',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
             'Jumlah tiket untuk dipamerkan dalam hasil carian dalam paparan pelanggan.',
+        'Maximum number of tickets to be displayed in the result of this operation.' =>
+            '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'Saiz maksimum (dalam aksara) dari jadual maklumat pelanggan dalam paparan zum tiket.',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -4359,8 +4437,8 @@ sub Data {
         'Module to check customer permissions.' => 'Modul untuk menyemak kebenaran pelanggan.',
         'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
             'Modul untuk menyemak jika suatu pengguna ada di dalam kumpulan yang istimewa. Akses diberikan, jika pengguna ada di dalam kumpulan yang ditentukan dan ada kebenaran ro dan rw.',
-        'Module to check if arrived emails should be marked as email-internal (because of original forwared internal email it college). ArticleType and SenderType define the values for the arrived email/article.' =>
-            'Modul untuk menyemak jika emel yang sampai perlu ditanda sebagai email dalaman (kerana emel dalaman asal yang dihadapankan). ArticleType dan SenderType takrifkan nilai untuk emel/artikel yang sampai.',
+        'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
+            '',
         'Module to check the agent responsible of a ticket.' => 'Modul untuk menyemak tanggungjawab ejen pada tiket.',
         'Module to check the group permissions for the access to customer tickets.' =>
             'Modul untuk menyemak kebenaran kumpulan untuk akses kepada tiket pelanggan.',
@@ -4403,7 +4481,8 @@ sub Data {
             'Jumlah tiket yang akan dipamerkan dalam setiap halaman dari hasil carian dalam paparan ejen.',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Jumlah tiket yang akan dipamerkan dalam setiap halaman dari hasil carian dalam paparan pelanggan.',
-        'Open tickets of customer' => 'Tiket terbuka pelanggan',
+        'Open tickets (customer user)' => '',
+        'Open tickets (customer)' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Terlebih muat (mentakrifkan semula) fungsi sedia ada dalam Kernel::System::Ticket. Digunakan untuk memudahkan menambah penyesuaian.',
         'Overview Escalated Tickets' => 'Overview Tiket yang Dilambung',
@@ -4547,10 +4626,7 @@ sub Data {
             'Memilih modul untuk mengendalikan Gambar melalui paparan web. "DB" menyimpan semua Gambar dalam pangkalan data, "FS" menggunakan sistem fail.',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             'Memilih nombor tiket modul penjana. "AutoIncrement" kenaikan bilangan tiket Undur dan kaunter digunakan dengan format SystemID.counter (contohnya 1010138, 1010139). Dengan "Date" nombor tiket akan dijana oleh tarikh semasa, Undur dan kaunter. Format kelihatan seperti Year.Month.Day.SystemID.counter (contohnya 200206231010138, 200206231010139). Dengan "DateChecksum" kaunter itu akan dikepilkan sebagai checksum untuk rentetan tarikh dan Undur. Checksum akan digilirkan setiap hari. Format kelihatan seperti Year.Month.Day.SystemID.Counter.CheckSum (contohnya 2002070110101520, 2002070110101535). "Random" menjana nombor tiket rawak dalam format "SystemID.Random" (contohnya 100057866352, 103745394596).',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
-            'Hantar saya pemberitahuan jika pelanggan menghantar susulan dan saya pemilik tiket atau tiket dikunci dan berada dalam salah satu daripada aturan langganan saya.',
         'Send notifications to users.' => 'Hantar notifikasi kepada pelanggan.',
-        'Send ticket follow up notifications' => 'Hantar notifikasi susulan tiket.',
         'Sender type for new tickets from the customer inteface.' => '',
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             'Menghantar notifikasi susulan ejen hanya kepada pemilik, jika tiket tidak dikunci (default ialah untuk hantar notifikasi kepada kesemua ejen).',
@@ -4646,6 +4722,10 @@ sub Data {
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
             '',
         'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
+            '',
+        'Sets the maximum number of active sessions per agent within the timespan defined in SessionActiveTime.' =>
+            '',
+        'Sets the maximum number of active sessions per customers within the timespan defined in SessionActiveTime.' =>
             '',
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' =>
             'Tetapkan saiz kiraan tikt minimum (jika "AutoIncrement" dipilih sebgai TicketNumberGenerator). Default ialah 5. ini bermakna kiraan bermula dari 10000.',
@@ -4967,6 +5047,8 @@ sub Data {
             'Menentukan teks yang patut muncul dalam fail log untuk menunjukkan kemasukan skrip CGI.',
         'Specifies the top margin of the chart.' => 'Menentukan margin atas untuk carta.',
         'Specifies user id of the postmaster data base.' => 'Menentukan id pengguna pada pangkalan data postmaster.',
+        'Specifies whether all storage backends should be checked when looking for attachements. This is only required for installations where some attachements are in the file system, and others in the database.' =>
+            '',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
             '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
@@ -4975,6 +5057,7 @@ sub Data {
             'Nombor permulaan untuk pengiraan statistik. Setiap kenaikan status baru nombor ini.',
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             'Memulakan carian wildcard pada objek aktif selepas pautan mask objek dimulakan.',
+        'Stat#' => 'Nombor Statistik.',
         'Statistics' => 'Statistik',
         'Status view' => 'Paparan statistik',
         'Stop words for fulltext index. These words will be removed.' => '',
@@ -5003,6 +5086,10 @@ sub Data {
             'Logo ditunjukkan dalam header paparan pelanggan. URL kepada imej boleh relatif kepada direktori kulit imej, atau URL penuh ke server web jauh.',
         'The logo shown on top of the login box of the agent interface. The URL to the image must be relative URL to the skin image directory.' =>
             'Logo ditunjukkan diatas kotak log masuk dari paparan ejen. URL kepada imej mesti URL relatif kepada direktori kulit imej.',
+        'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
+            '',
+        'The maximal number of articles shown on a single page in AgentTicketZoom.' =>
+            '',
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' =>
             'Teks pada permulaan subjek dalam emel balas, cth: RE, AW, atau AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
@@ -5037,6 +5124,8 @@ sub Data {
             'Menghidupkan animasi digunakan dalam GUI. Jika anda ada masalah dengan animasi ini (cth: isu prestasi), anda boleh mematikannya di sini.',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             'Menghidupkan penyemak alamat ip jauh. Ia sepatutnya ditetapkan ke "No", jika aplikasi tersebtu digunakan, sebagai contoh, melalui ladang proksi atau sambungan dialup, kerana alamat ip jauh kebanyakannya erbeza untuk permintaan tersebut.',
+        'Unlock tickets whenever a note is added and the owner is out of office.' =>
+            '',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             'Naik taraf bendera "Seen" tiket jika setiap artikel telah dilihat atau Artikel baru telah dicipta.',
         'Update and extend your system with software packages.' => 'Naik taraf dan kembangkan sistem anda dengan pakej perisian.',
@@ -5047,6 +5136,7 @@ sub Data {
         'UserLastname' => '',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             'Menggunakan penerima Cc dalam senarai balas Cc pada karangan jawapan email dalam skrin karang tiket pada paparan ejen.',
+        'Uses richtext for viewing and editing notification events.' => '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '',
         'View performance benchmark results.' => 'Melihat hasil penanda aras prestasi.',
@@ -5084,6 +5174,7 @@ sub Data {
         'Change Queue Relations for Response' => 'Tukar Perhubungan Barisan untuk Tindak Balas',
         'Change Response Relations for Attachment' => 'tindak balas tugasan untuk perubahan sistem',
         'Change Response Relations for Queue' => 'Tukar Perhubungan Tindak Balas untuk Barisan',
+        'Closed tickets of customer' => 'Tiket customer yang tertutup',
         'Companies' => 'Syarikat',
         'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
             'Nama syarikat untuk interface web pelanggan. Juga akan disertakan di dalam emel sebagai X-header.',
@@ -5095,6 +5186,9 @@ sub Data {
         'Create and manage companies.' => 'Mewujudkan dan menguruskan syarikat.',
         'Create and manage response templates.' => 'Mewujudkan dan menguruskan templat tindak balas.',
         'Currently only MySQL is supported in the web installer.' => 'Kini hanya MySQL disokong pada pemasangan Web.',
+        'Custom text for the page shown to customers that have no tickets yet.' =>
+            'Teks direka untuk halaman yang ditunjukkan kepada pelanggan yang belum mempunyai tiket.',
+        'Customer Company' => 'Firma Pelanggan',
         'Customer Company Management' => 'Pelanggan syarikat pengurusan',
         'Customer Data' => 'Data pelanggan',
         'Customer automatically added in Cc.' => 'Pelanggan secara automatik ditambah pada Cc.',
@@ -5106,6 +5200,10 @@ sub Data {
             'DIKECAM! Penetapan ini tidak digunakan lagi dan akan dikeluarkan dalam OTRS versi masa depan.',
         'Database-User' => 'Pengguna database',
         'Default skin for interface.' => 'Kulit asal untuk paparan.',
+        'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=$Data{"CustomerID"}\' or \'\').' =>
+            'Mentakrifkan pautan luaran pada pangkalan data pelanggan (contoh \'http://yourhost/customer.php?CID=$Data{"CustomerID"}\' atau \'\').',
+        'Defines scheduler PID update time in seconds (floating point number).' =>
+            'Mentakrifkan kemaskini masa penjadual PID dalam saat (nombor sudut terapung).',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.' =>
             'Mentakrifkan tema hadapan-hujung asal (HTML) untuk digunakan oleh ejen dan pelanggan. Tema asal adalah Standard dan Lite. Jika anda suka, anda boleh menambah tema anda sendiri. Sila rujuk manual pentadbir yang terletak di http://doc.otrs.org/.',
         'Defines the default sender type of the article for this operation.' =>
@@ -5114,6 +5212,8 @@ sub Data {
             'Mentakrifkan sifat pencarian tiket yang ditunjuk yang asal untuk skrin carian tiket. Contoh: a text, 1, DynamicField_Field1StartYear=2002; DynamicField_Field1StartMonth=12; DynamicField_Field1StartDay=12; DynamicField_Field1StartHour=00; DynamicField_Field1StartMinute=00; DynamicField_Field1StartSecond=00; DynamicField_Field1StopYear=2009; DynamicField_Field1StopMonth=02; DynamicField_Field1StopDay=10; DynamicField_Field1StopHour=23; DynamicField_Field1StopMinute=59; DynamicField_Field1StopSecond=59;.',
         'Defines the default sort criteria for all queues displayed in the queue view, after sort by priority is done.' =>
             'Mentakrifkan kriteria susunan asal untuk kesemua aturan yang dipamerkan dalam paparan aturan, selepas susunan berdasarkan keutamaan telah dilakukan.',
+        'Defines the format of responses in the ticket compose screen of the agent interface ($QData{"OrigFrom"} is From 1:1, $QData{"OrigFromName"} is only realname of From).' =>
+            'Mentakrifkan format tindak balas di dalam skrin karang tiket dari paparan ejen ($QData{"OrigFrom"} ialah dari 1:1, $QData{"OrigFromName"} ialah hanya realname dari From).',
         'Defines the maximal size (in bytes) for file uploads via the browser.' =>
             'Mentakrifkan saiz maksima (dalam bytes) untuk muat naik fail menggunakan browser.',
         'Defines the module to display a notification in the agent interface, (only for agents on the admin group) if the scheduler is not running.' =>
@@ -5138,8 +5238,11 @@ sub Data {
             'Pilihan Medan Dinamik ditunjukkan dalam skrin mesej tiket dari paparan pelanggan. Tetapan Kemungkinan: 0 = Dilumpuhkan, 1 = Diaktifkan, 2 = Diaktifkan dan Diperlukan. Jika anda mahu mempamerkan medan ini juga dalam zum tiket dari paparan pelanggan, anda perlu untuk aktifkan mereka dalam CustomerTicketZoom###AttributesView.',
         'Dynamic fields shown in the ticket search screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             'Medan Dinamik ditunjukkan dalam skrin carian tiket dari paparan ejen. Tetapan Kemungkinan: 0 = Dilumpuhkan, 1 = Diaktifkan.',
+        'Dynamic fields shown in the ticket small format overview screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
+            'Medan Dinamik ditunjukkan dalam skrin tiket overview format kecil dari paparan ejen. Tetapan Kemungkinan: 0 = Dilumpuhkan, 1 = Diaktifkan.',
         'Dynamic fields shown in the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             'Medan Dinamik ditunjukkan dalam skrin tiket zum dari paparan ejen. Tetapan Kemungkinan: 0 = Dilumpuhkan, 1 = Diaktifkan.',
+        'Edit Customer Company' => 'Audit Syarikat Pelanggan',
         'Edit Response' => 'Edit Tindak Balas',
         'Enables PGP support. When PGP support is enabled for signing and securing mail, it is HIGHLY recommended that the web server be run as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
             'Mengaktifkan sokongan PGP. Apabila sokongan PGP diaktifkan untuk menandatangani dan mendapatkan mel, sangat disranakan web server dijalankan sebagai pengguna OTRS. Jika tidak, akan muncul masalah dengan hak istimewa semasa mengakses folder .gnupg.',
@@ -5179,6 +5282,7 @@ sub Data {
             'Senarai StandardResponses default yang ditugaskan secara automatik kepada aturan baru di saat penciptaan.',
         'Log file location is only needed for File-Log-Backend Module!' =>
             'Lokasi log fail hanya diperlukan untuk modul Fail-Log-Backend!',
+        'Logout %s' => '%s Log keluar',
         'Logout successful. Thank you for using OTRS!' => 'Log keluar berjaya! Terima kasih kerana menggunakan OTRS!',
         'Manage Response-Queue Relations' => 'Mengurus Perhubungan Tindak Balas-Barisan',
         'Manage Responses' => 'mengurus Tindak Balas',
@@ -5186,8 +5290,12 @@ sub Data {
         'Manage periodic tasks.' => 'Mengurus tugas yang berkala.',
         'Maximum size (in characters) of the customer info table in the queue view.' =>
             'Saiz maksimum (dalam aksara) dari jadual maklumat pelanggan dalam paparan aturan.',
+        'Module to check if arrived emails should be marked as email-internal (because of original forwared internal email it college). ArticleType and SenderType define the values for the arrived email/article.' =>
+            'Modul untuk menyemak jika emel yang sampai perlu ditanda sebagai email dalaman (kerana emel dalaman asal yang dihadapankan). ArticleType dan SenderType takrifkan nilai untuk emel/artikel yang sampai.',
         'Need a valid email address or don\'t use a local email address' =>
             'Perlukan alamat emel yang sah atau jangan menggunakan alamat emel tempatan.',
+        'Only for ArticleCreate event' => 'Hanya kerana Perkara Buat acara',
+        'Open tickets of customer' => 'Tiket terbuka pelanggan',
         'Package verification failed!' => 'Pengesahan pakej gagal',
         'Parameter for the CustomQueue object in the preference view of the agent interface.' =>
             'Parameter untuk objek CustomQueue dalam paparan pilihan dari paparan ejen.',
@@ -5203,6 +5311,7 @@ sub Data {
         'Responses <-> Queues' => 'Tindak Balas <-> Aturan',
         'Saves the login and password on the session table in the database, if "DB" was selected for SessionModule.' =>
             'Menyimpan login dan kata laluan di atas meja sesi dalam pangkalan data, jika "DB" telah dipilih untuk SessionModule.',
+        'Search for customers.' => 'Mencari pelanggan.',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Mod selamat mesti dilumpuhkan untuk memasang semula menggunakan web-pemasang.',
         'Sender type for new tickets from the customer interface.' => 'Jenis penghantar untuk tiket baru daripada paparan pelanggan.',
@@ -5214,12 +5323,17 @@ sub Data {
             'Jika anda melangkau langkah ini, pendaftaran sistem OTRS anda juga dilangkau. Anda benar-benar mahu meneruskan?',
         'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuration, or choose another email address. Notifications are messages such as en::Customer::QueueUpdate or en::Agent::Move.' =>
             'Menentukan alamat e-mel yang boleh digunakan oleh aplikasi apabila menghantar notifikasi. Alamat e-mel yang digunakan untuk membina nama paparan lengkap untuk master notifikasi (iaitu "OTRS Notification Master" otrs@your.example.com). Anda boleh menggunakan OTRS_CONFIG_FQDN pembolehubah seperti yang dinyatakan dalam konfigurasi anda, atau memilih alamat e-mel yang lain. Notifikasi adalah mesej seperti en::Customer::QueueUpdate atau en::Agent::Move.',
+        'Synchronize All Processes' => 'Menyamakan Semua Proses',
+        'Ticket Action' => 'Tindakan tiket',
+        'Ticket Commands' => 'tiket Perintah',
         'To customer' => 'Kepada Pelanggan',
         'To protect your privacy, active or/and remote content has blocked.' =>
             'Untuk melindungi privasi anda, aktif dan / atau kandungan jauh telah disekat.',
         'URL' => 'URL',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard responses, auto responses and notifications.' =>
             'Menggunakan richtet untuk melihat dan menyunting: artikel, Ucapan Hormat, Tandatangan, tindak balas standard, tindak balas auto dan notifikasi.',
+        'Welcome %s' => 'Selamat Datang %s',
+        'Welcome to %s' => 'Selamat datang ke %s',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             'Apabila tiket digabungkan, nota akan ditambah secara automatik untuk tiket yang tidak lagi aktif. Dalam kawasan teks ini, anda boleh menentukan teks ini (Teks ini tidak boleh diubah oleh ejen itu).',
         'Your language' => 'Bahasa anda',

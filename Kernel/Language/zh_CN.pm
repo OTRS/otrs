@@ -157,7 +157,6 @@ sub Data {
         'system' => '系统',
         'Customer Info' => '用户信息',
         'Customer Information' => '用户信息',
-        'Customer Company' => '用户单位',
         'Customer Companies' => '用户单位',
         'Company' => '单位',
         'go!' => '开始!',
@@ -239,6 +238,10 @@ sub Data {
             '登录失败！用户名或密码错误。',
         'There is no acount with that user name.' => '没有此用户。',
         'Please contact your administrator' => '请联系管理员',
+        'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
+            '',
+        'This e-mail address already exists. Please log in or reset your password.' =>
+            '',
         'Logout' => '退出',
         'Logout successful. Thank you for using %s!' => '成功退出，谢谢使用!',
         'Feature not active!' => '该特性尚未激活!',
@@ -287,6 +290,7 @@ sub Data {
         'Check to activate this date' => '选中它，以便设置这个日期',
         'You have Out of Office enabled, would you like to disable it?' =>
             '你已设置为不在办公室，是否取消它?',
+        'News about OTRS releases!' => '',
         'Customer %s added' => '用户%s已添加',
         'Role added!' => '角色已添加！',
         'Role updated!' => '角色已更新！',
@@ -487,6 +491,7 @@ sub Data {
         'Stat' => '统计',
         'Sum' => '总和',
         'No (not supported)' => '不支持',
+        'Days' => '',
         'Please fill out the required fields!' => '请填写必填字段',
         'Please select a file!' => '请选择一个文件！',
         'Please select an object!' => '请选择一个对象！',
@@ -592,7 +597,8 @@ sub Data {
         'Tables found which do not have a regular status.' => '',
         'MySQL 5.x or higher is required.' => '',
         'NLS_LANG Setting' => '',
-        'NLS_LANG must be set to utf8 (e.g. german_germany.utf8).' => '',
+        'NLS_LANG must be set to AL32UTF8 (e.g. GERMAN_GERMANY.AL32UTF8).' =>
+            '',
         'NLS_DATE_FORMAT Setting' => '',
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => '',
         'NLS_DATE_FORMAT Setting SQL Check' => '',
@@ -602,6 +608,10 @@ sub Data {
         'Setting DateStyle needs to be ISO.' => '',
         'PostgreSQL 8.x or higher is required.' => '',
         'OTRS Disk Partition' => '',
+        'Disk Usage' => '',
+        'The partition where OTRS is located is almost full.' => '',
+        'The partition where OTRS is located has no disk space problems.' =>
+            '',
         'Disk Partitions Usage' => '',
         'Distribution' => '',
         'Could not determine distribution.' => '',
@@ -771,6 +781,7 @@ sub Data {
         'End message' => '',
         'Forwarded message from' => '',
         'End forwarded message' => '',
+        'Bounce Article to a different mail address' => '',
         'new' => '新建',
         'open' => '处理中',
         'Open' => '处理中',
@@ -833,7 +844,7 @@ sub Data {
         'Phone-Ticket' => '电话工单',
         'Search Tickets' => '搜索工单',
         'Edit Customer Users' => '编辑用户帐户',
-        'Edit Customer Company' => '编辑用户单位',
+        'Edit Customer' => '编辑用户单位',
         'Bulk Action' => '批量处理',
         'Bulk Actions on Tickets' => '批量处理工单',
         'Send Email and create a new Ticket' => '发送邮件并创建新工单',
@@ -893,6 +904,9 @@ sub Data {
             '如果我的队列中有新的工单，请通知我。',
         'Send new ticket notifications' => '发送新工单通知',
         'Ticket follow up notification' => '工单跟进通知',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
+            '如果用户有回复且我是此工单的所有者或者此工单在我的队列中，请通知我。',
+        'Send ticket follow up notifications' => '发送工单跟进通知',
         'Ticket lock timeout notification' => '工单锁定超时通知',
         'Send me a notification if a ticket is unlocked by the system.' =>
             '如果工单被系统解锁，请通知我。',
@@ -1094,7 +1108,6 @@ sub Data {
         'Select' => '选择',
         'Please enter a search term to look for customers.' => '请输入搜索条件以便检索用户单位资料.',
         'Add Customer' => '添加用户单位',
-        'Edit Customer' => '编辑用户单位',
 
         # Template: AdminCustomerUser
         'Customer User Management' => '用户管理',
@@ -1124,12 +1137,12 @@ sub Data {
         'Just use this feature if you want to define group permissions for customers.' =>
             '该功能用于为用户定义权限组。',
         'Enable it here!' => '打开该功能',
-        'Search for customers.' => '搜索用户。',
         'Edit Customer Default Groups' => '定义用户的默认组',
         'These groups are automatically assigned to all customers.' => '默认组会自动指派给所有用户。',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             '你可能通过配置参数"CustomerGroupAlwaysGroups"定义默认组。',
         'Filter for Groups' => '过滤组',
+        'Just start typing to filter...' => '',
         'Select the customer:group permissions.' => '选择用户:组权限。',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '如果没有选择，就不具备该组的任何权限 (用户不能创建或读取工单)。',
@@ -1212,6 +1225,8 @@ sub Data {
         'Show link' => '显示链接',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '可以为字段值指定一个可选的HTTP链接，以便其显示在工单概况和工单详情中。',
+        'Restrict entering of dates' => '',
+        'Here you can restrict the entering of dates of tickets.' => '',
 
         # Template: AdminDynamicFieldDropdown
         'Possible values' => '可选值',
@@ -1240,6 +1255,13 @@ sub Data {
         'Number of cols' => '列宽',
         'Specify the width (in characters) for this field in the edit mode.' =>
             '定义编辑窗口的列宽',
+        'Check RegEx' => '',
+        'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
+            '',
+        'RegEx' => '',
+        'Invalid RegEx' => '',
+        'Error Message' => '出错信息',
+        'Add RegEx' => '',
 
         # Template: AdminEmail
         'Admin Notification' => '管理员通知',
@@ -1291,7 +1313,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '删除这个事件触发器',
-        'Ticket Filter' => '工单过滤',
+        'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => '  例如: 10*5144 或者 105658*',
         '(e. g. 234321)' => '例如: 234321',
         'Customer login' => '用户登录',
@@ -1329,7 +1351,7 @@ sub Data {
         'Ticket solution time reached' => '工单升级 - 解决时间(相对)',
         'Ticket solution time reached between' => '工单升级 - 解决时间(绝对)',
         'Archive search option' => '归档查询选项',
-        'Ticket Action' => '工单处理',
+        'Update/Add Ticket Attributes' => '',
         'Set new service' => '设置新服务',
         'Set new Service Level Agreement' => '指定服务水平协议',
         'Set new priority' => '指定优先级',
@@ -1348,8 +1370,7 @@ sub Data {
         'Archive selected tickets' => '归档选中的工单',
         'Add Note' => '添加备注',
         'Time units' => '时间',
-        '(work units)' => '',
-        'Ticket Commands' => '工单命令',
+        'Execute Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '给服务人员/用户发送通知',
         'CMD' => '命令',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
@@ -1389,6 +1410,7 @@ sub Data {
         'Refresh' => '刷新',
         'Request Details' => '请求详细信息',
         'An error occurred during communication.' => '在通讯时发生一个错误。',
+        'Show or hide the content.' => '显示或隐藏该内容.',
         'Clear debug log' => '删除调试日志',
 
         # Template: AdminGenericInterfaceInvokerDefault
@@ -1545,7 +1567,6 @@ sub Data {
         'Remote system' => '远程系统',
         'Provider transport' => '服务提供方传输',
         'Requester transport' => '服务请求方传输',
-        'Details' => '详情',
         'Debug threshold' => '调试阀值',
         'In provider mode, OTRS offers web services which are used by remote systems.' =>
             '在提供方模式中，OTRS为远程系统提供Web服务。',
@@ -1581,7 +1602,6 @@ sub Data {
         'Do you really want to restore this version of the web service configuration?' =>
             '你确定要恢复Web服务配置的这个版本吗？',
         'Your current web service configuration will be overwritten.' => '当前的Web服务配置将被覆盖',
-        'Show or hide the content.' => '显示或隐藏该内容.',
         'Restore' => '恢复',
 
         # Template: AdminGroup
@@ -1643,9 +1663,12 @@ sub Data {
         'Add notification' => '添加通知',
         'Delete this notification' => '删除通知',
         'Add Notification' => '添加通知',
+        'Ticket Filter' => '工单过滤',
         'Article Filter' => '信件过滤器',
-        'Only for ArticleCreate event' => '仅对ArticleCreate事件有效',
+        'Only for ArticleCreate and ArticleSend event' => '',
         'Article type' => '信件类型',
+        'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
+            '',
         'Article sender type' => '',
         'Subject match' => '主题匹配',
         'Body match' => '内容匹配',
@@ -1758,10 +1781,14 @@ sub Data {
         'The name is required.' => '过滤器名称是必需项。',
         'Filter Condition' => '过滤条件',
         'AND Condition' => '与条件',
+        'Check email header' => '',
         'Negate' => '求反',
+        'Look for value' => '',
         'The field needs to be a valid regular expression or a literal word.' =>
             '该栏位需使用有效的正则表达式或文字。',
         'Set Email Headers' => '设置邮件头',
+        'Set email header' => '',
+        'Set value' => '',
         'The field needs to be a literal word.' => '该字段需要输入文字。',
 
         # Template: AdminPriority
@@ -1773,11 +1800,11 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => '流程管理',
         'Filter for Processes' => '过滤流程',
-        'Process Name' => '流程名称',
         'Create New Process' => '创建新的流程',
-        'Synchronize All Processes' => '同步所有流程',
+        'Deploy All Processes' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '你可以上传流程配置文件，以便将流程配置导入至你的系统中。流程配置文件采用.yml格式，它可以从流程管理模块中导出。',
+        'Overwrite existing entities' => '',
         'Upload process configuration' => '上传流程配置',
         'Import process configuration' => '导入流程配置',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
@@ -1877,6 +1904,7 @@ sub Data {
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             '为了给转向指派转向动作，需要将左侧转向动作拖放至转向标签上。',
         'Edit Process Information' => '编辑流程信息',
+        'Process Name' => '流程名称',
         'The selected state does not exist.' => '选择的状态不存在',
         'Add and Edit Activities, Activity Dialogs and Transitions' => '添加并编辑环节、环节操作和转向',
         'Show EntityIDs' => '显示实体编号',
@@ -2003,8 +2031,8 @@ sub Data {
         # Template: AdminRegistration
         'System Registration Management' => '系统注册管理',
         'Edit details' => '',
-        'Overview of registered systems' => '注册系统概述',
         'Deregister system' => '取消系统注册',
+        'Overview of registered systems' => '注册系统概述',
         'System Registration' => '系统注册',
         'This system is registered with OTRS Group.' => '本系统由OTRS集团注册。',
         'System type' => '系统类型',
@@ -2238,8 +2266,30 @@ sub Data {
             '',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
             '',
+        'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
+            '',
+        'Generate Support Bundle' => '',
+        'Generating...' => '',
+        'It was not possible to generate the Support Bundle.' => '',
+        'Generate Result' => '',
+        'Support Bundle' => '',
+        'The mail could not be sent' => '',
+        'The support bundle has been generated.' => '',
+        'Please choose one of the following options.' => '',
+        'Send by Email' => '',
+        'The support bundle is too large to send it by email, this option has been disabled.' =>
+            '',
+        'The email address for this user is invalid, this ption has been disabled.' =>
+            '',
+        'Sending' => '',
+        'The support bundle will be sent to OTRS Group via email automatically.' =>
+            '',
+        'Download File' => '',
+        'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTRS Group, using an alternate method.' =>
+            '',
         'Support Data' => '',
         'Error: Support data could not be collected (%s).' => '',
+        'Details' => '详情',
 
         # Template: AdminSession
         'Session Management' => '会话管理',
@@ -2397,7 +2447,6 @@ sub Data {
         # Template: AgentCustomerInformationCenterBlank
 
         # Template: AgentCustomerInformationCenterSearch
-        'Customer ID' => '用户编号',
         'Customer User' => '用户',
 
         # Template: AgentCustomerSearch
@@ -2507,7 +2556,6 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '删除统计',
-        'Stat#' => '统计#',
         'Do you really want to delete this stat?' => '你确认要删除该统计?',
 
         # Template: AgentStatsEditRestrictions
@@ -2671,6 +2719,7 @@ sub Data {
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => '创建邮件工单',
+        'Example Template' => '',
         'From queue' => '队列',
         'To customer user' => '选择用户',
         'Please include at least one customer user for the ticket.' => '请包括至少一个工单用户。',
@@ -2706,6 +2755,7 @@ sub Data {
         # Template: AgentTicketOverviewMedium
         'Select all' => '选择全部',
         'No ticket data found.' => '没有找到工单数据。',
+        'Select this ticket' => '',
         'First Response Time' => '第一响应时间',
         'Update Time' => '更新时间',
         'Solution Time' => '解决时间',
@@ -2803,11 +2853,13 @@ sub Data {
         'This ticket is archived.' => '该工单已归档',
         'Locked' => '锁定状态',
         'Linked Objects' => '已连接的对象',
-        'Article(s)' => '信件',
         'Change Queue' => '改变队列',
+        'Dialogs' => '',
         'There are no dialogs available at this point in the process.' =>
             '目前流程中没有环节操作。',
         'This item has no articles yet.' => '此条目没有信件。',
+        'Article Overview' => '',
+        'Article(s)' => '信件',
         'Add Filter' => '添加过滤器',
         'Set' => '设置',
         'Reset Filter' => '重置过滤器',
@@ -2835,6 +2887,8 @@ sub Data {
 
         # Template: CustomerFooter
         'Powered by' => 'Powered by',
+
+        # Template: CustomerFooterJS
         'One or more errors occurred!' => '一个或多个错误!',
         'Close this dialog' => '关闭该对话',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
@@ -2842,6 +2896,8 @@ sub Data {
         'There are currently no elements available to select from.' => '目前没有可供选择的元素。',
 
         # Template: CustomerFooterSmall
+
+        # Template: CustomerHTMLHead
 
         # Template: CustomerHeader
 
@@ -2876,7 +2932,6 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Edit personal preferences' => '编辑个人设置',
-        'Logout %s' => '退出 %s',
 
         # Template: CustomerPreferences
 
@@ -2901,6 +2956,7 @@ sub Data {
         # Template: CustomerTicketSearch
         'Profile' => '搜索条件',
         'e. g. 10*5155 or 105658*' => '例如: 10*5155 或 105658*',
+        'Customer ID' => '用户编号',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => '工单全文搜索 (例如: "John*n" 或 "Will*")',
         'Carbon Copy' => '抄送',
         'Types' => '类型',
@@ -2924,6 +2980,7 @@ sub Data {
         'of' => '在',
         'Page' => '页',
         'Search Results for' => '搜索结果',
+        'Remove this Search Term.' => '',
 
         # Template: CustomerTicketZoom
         'Expand article' => '展开信件',
@@ -2954,12 +3011,12 @@ sub Data {
 
         # Template: Datepicker
         'Invalid date (need a future date)!' => '无效的日期（需使用未来的日期）！',
+        'Invalid date (need a past date)!' => '',
         'Previous' => '上一步',
         'Open date selection' => '打开日历',
 
         # Template: Error
         'Oops! An Error occurred.' => '糟, 发生一个错误.',
-        'Error Message' => '出错信息',
         'You can' => '你可以',
         'Send a bugreport' => '发送一个错误报告',
         'go back to the previous page' => '返回上一页',
@@ -2976,12 +3033,18 @@ sub Data {
         'Please enter at least one search value or * to find anything.' =>
             '请至少输入一个搜索条件或 *。',
         'Please check the fields marked as red for valid inputs.' => '',
+        'Please perform a spell check on the the text first.' => '',
+        'Slide the navigation bar' => '',
 
         # Template: FooterSmall
 
         # Template: HTMLHead
 
         # Template: HTMLHeadBlockEvents
+
+        # Template: HTMLHeadRefresh
+
+        # Template: HTTPHeaders
 
         # Template: Header
         'You are logged in as' => '您已登录为',
@@ -2992,7 +3055,6 @@ sub Data {
         'JavaScript not available' => 'JavaScript没有启用',
         'Database Settings' => '数据库设置',
         'General Specifications and Mail Settings' => '一般设定和邮件配置',
-        'Welcome to %s' => '欢迎使用 %s',
         'Web site' => '网址',
         'Mail check successful.' => '邮件配置检查完成',
         'Error in the mail settings. Please correct and try again.' => '邮件设置错误, 请重新修正.',
@@ -3104,6 +3166,7 @@ sub Data {
         'Back to the previous page' => '返回前一页',
 
         # Template: Notify
+        'Close this message' => '',
 
         # Template: Pagination
         'Show first page' => '首页',
@@ -3132,7 +3195,6 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS测试页',
-        'Welcome %s' => '欢迎 %s',
         'Counter' => '计数器',
 
         # Template: Warning
@@ -3141,6 +3203,8 @@ sub Data {
         # SysConfig
         '(UserLogin) Firstname Lastname' => '',
         '(UserLogin) Lastname, Firstname' => '',
+        'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
+            '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '',
         'Access Control Lists (ACL)' => '访问控制列表(ACL)',
@@ -3288,21 +3352,22 @@ sub Data {
         'Checkbox' => '复选框',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Closed tickets of customer' => '',
+        'Closed tickets (customer user)' => '',
+        'Closed tickets (customer)' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '工单概览“小”模式列表字段过滤器',
-        'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the queue view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the queue view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the responsible view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the responsible view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the ticket search result view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the ticket search result view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
+        'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
         'Comment for new history entries in the customer interface.' => '',
         'Company Status' => '',
@@ -3344,10 +3409,9 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => '创建邮件工单并给用户邮件',
         'Create new phone ticket (inbound)' => '创建电话工单(接电话)',
         'Create new process ticket' => '创建流程工单',
-        'Custom text for the page shown to customers that have no tickets yet.' =>
+        'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
-        'Customer Company Administration' => '用户单位管理',
-        'Customer Company Information' => '用户单位信息',
+        'Customer Administration' => '',
         'Customer User <-> Groups' => '用户 <-> 组',
         'Customer User <-> Services' => '用户 <-> 服务',
         'Customer User Administration' => '用户管理',
@@ -3429,7 +3493,7 @@ sub Data {
         'Defines an alternate URL, where the logout link refers to.' => '',
         'Defines an alternate login URL for the customer panel..' => '',
         'Defines an alternate logout URL for the customer panel.' => '',
-        'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=$Data{"CustomerID"}\' or \'\').' =>
+        'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').' =>
             '',
         'Defines from which ticket attributes the agent can select the result order.' =>
             '',
@@ -3477,8 +3541,7 @@ sub Data {
             '',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             '',
-        'Defines scheduler PID update time in seconds (floating point number).' =>
-            '',
+        'Defines scheduler PID update time in seconds.' => '',
         'Defines scheduler sleep time in seconds after processing all available tasks (floating point number).' =>
             '',
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
@@ -3688,7 +3751,7 @@ sub Data {
             '',
         'Defines the filter that processes the text in the articles, in order to highlight URLs.' =>
             '',
-        'Defines the format of responses in the ticket compose screen of the agent interface ($QData{"OrigFrom"} is From 1:1, $QData{"OrigFromName"} is only realname of From).' =>
+        'Defines the format of responses in the ticket compose screen of the agent interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | html %] is only realname of From).' =>
             '',
         'Defines the fully qualified domain name of the system. This setting is used as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             '',
@@ -3757,6 +3820,8 @@ sub Data {
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
             '',
         'Defines the key to check with CustomerAccept. If this user preferences key is true, then the message is accepted by the system.' =>
+            '',
+        'Defines the legend font in graphs (place custom fonts in var/fonts).' =>
             '',
         'Defines the link type \'Normal\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' =>
             '',
@@ -3844,6 +3909,8 @@ sub Data {
             '',
         'Defines the next state of a ticket after being moved to another queue, in the move ticket screen of the agent interface.' =>
             '',
+        'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
+            '',
         'Defines the parameters for the customer preferences table.' => '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
             '',
@@ -3925,6 +3992,8 @@ sub Data {
             '',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             '',
+        'Defines the title font in graphs (place custom fonts in var/fonts).' =>
+            '',
         'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
@@ -3953,6 +4022,8 @@ sub Data {
         'Defines which states should be set automatically (Content), after the pending time of state (Key) has been reached.' =>
             '',
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
+            '',
+        'Defines, which tickets of which ticket state types should not be listed in linked ticket lists.' =>
             '',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
@@ -4059,7 +4130,7 @@ sub Data {
             '',
         'Dynamic fields shown in the ticket search screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
-        'Dynamic fields shown in the ticket small format overview screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
+        'Dynamic fields shown in the ticket small format overview screen of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
         'Dynamic fields shown in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
@@ -4098,11 +4169,11 @@ sub Data {
             '',
         'Event module that updates customer user service membership if login changes.' =>
             '',
-        'Event module that updates customer users after an update of the Customer Company.' =>
-            '',
-        'Event module that updates tickets after an update of the Customer Company.' =>
+        'Event module that updates customer users after an update of the Customer.' =>
             '',
         'Event module that updates tickets after an update of the Customer User.' =>
+            '',
+        'Event module that updates tickets after an update of the Customer.' =>
             '',
         'Execute SQL statements.' => '执行SQL命令',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
@@ -4373,7 +4444,7 @@ sub Data {
         'Module to check customer permissions.' => '',
         'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
             '',
-        'Module to check if arrived emails should be marked as email-internal (because of original forwared internal email it college). ArticleType and SenderType define the values for the arrived email/article.' =>
+        'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
             '',
         'Module to check the agent responsible of a ticket.' => '',
         'Module to check the group permissions for the access to customer tickets.' =>
@@ -4417,7 +4488,8 @@ sub Data {
             '',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
-        'Open tickets of customer' => '正在处理中的工单(单位)',
+        'Open tickets (customer user)' => '',
+        'Open tickets (customer)' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => '升级工单概况',
@@ -4561,10 +4633,7 @@ sub Data {
             '',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             '',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
-            '如果用户有回复且我是此工单的所有者或者此工单在我的队列中，请通知我。',
         'Send notifications to users.' => '给用户和服务人员发送通知',
-        'Send ticket follow up notifications' => '发送工单跟进通知',
         'Sender type for new tickets from the customer inteface.' => '',
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             '',
@@ -4660,6 +4729,10 @@ sub Data {
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
             '',
         'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
+            '',
+        'Sets the maximum number of active sessions per agent within the timespan defined in SessionActiveTime.' =>
+            '',
+        'Sets the maximum number of active sessions per customers within the timespan defined in SessionActiveTime.' =>
             '',
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' =>
             '',
@@ -4981,6 +5054,8 @@ sub Data {
             '',
         'Specifies the top margin of the chart.' => '',
         'Specifies user id of the postmaster data base.' => '',
+        'Specifies whether all storage backends should be checked when looking for attachements. This is only required for installations where some attachements are in the file system, and others in the database.' =>
+            '',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
             '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
@@ -4989,6 +5064,7 @@ sub Data {
             '',
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
+        'Stat#' => '统计#',
         'Statistics' => '统计',
         'Status view' => '状态视图',
         'Stop words for fulltext index. These words will be removed.' => '',
@@ -5016,6 +5092,10 @@ sub Data {
         'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The logo shown on top of the login box of the agent interface. The URL to the image must be relative URL to the skin image directory.' =>
+            '',
+        'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
+            '',
+        'The maximal number of articles shown on a single page in AgentTicketZoom.' =>
             '',
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' =>
             '',
@@ -5051,6 +5131,8 @@ sub Data {
             '',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '',
+        'Unlock tickets whenever a note is added and the owner is out of office.' =>
+            '',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '',
         'Update and extend your system with software packages.' => '更新或安装系统的软件包或模块.',
@@ -5061,6 +5143,7 @@ sub Data {
         'UserLastname' => '',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             '',
+        'Uses richtext for viewing and editing notification events.' => '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '',
         'View performance benchmark results.' => '查看性能基准测试结果.',
@@ -5103,6 +5186,9 @@ sub Data {
         'Create and manage companies.' => '创建和管理用户单位.',
         'Create and manage response templates.' => '创建和管理回复模板.',
         'Currently only MySQL is supported in the web installer.' => 'Web安装向导目前仅支持MySQL。',
+        'Customer Company' => '用户单位',
+        'Customer Company Administration' => '用户单位管理',
+        'Customer Company Information' => '用户单位信息',
         'Customer Company Management' => '管理用户单位',
         'Customer Data' => '用户数据',
         'Customer will be needed to have a customer history and to login via customer panel.' =>
@@ -5116,6 +5202,7 @@ sub Data {
         'Database-User' => '数据库用户名',
         'Debug' => '调试',
         'Dynamic-Object' => '动态-对象',
+        'Edit Customer Company' => '编辑用户单位',
         'Edit Response' => '编辑回复',
         'Escalation - First Response Time' => '升级 - 第一响应时间',
         'Escalation - Solution Time' => '升级 - 解决时间',
@@ -5147,6 +5234,7 @@ sub Data {
         'Link customers to services.' => '链接用户到服务.',
         'Link responses to queues.' => '链接回复模板到队列',
         'Log file location is only needed for File-LogModule!' => '只需要为File-LogModule指定日志文件位置!',
+        'Logout %s' => '退出 %s',
         'Logout successful. Thank you for using OTRS!' => '成功退出，谢谢使用!',
         'Manage Response-Queue Relations' => '管理回复与队列的对应关系',
         'Manage Responses' => '管理回复',
@@ -5158,6 +5246,8 @@ sub Data {
         'MasterSlave' => '主从',
         'New Master Ticket' => '新的主工单',
         'Online' => '在线',
+        'Only for ArticleCreate event' => '仅对ArticleCreate事件有效',
+        'Open tickets of customer' => '正在处理中的工单(单位)',
         'Operations' => '操作',
         'Out Of Office' => '不在办公室',
         'Package verification failed!' => '软件包验证失败',
@@ -5176,6 +5266,7 @@ sub Data {
         'Responses' => '回复',
         'Responses <-> Queues' => '回复 <-> 队列',
         'Search Result' => '搜索结果',
+        'Search for customers.' => '搜索用户。',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '为了重新用Web 界面安装，安全模式必须禁用',
         'Send update now' => '现在发送更新',
@@ -5186,9 +5277,14 @@ sub Data {
         'State Type' => '状态类型',
         'StateAction' => '工单状态变化',
         'Statistic: widget' => '统计：仪表板显示部件',
+        'Synchronize All Processes' => '同步所有流程',
         'The following ACLs have been updated successfully:' => '以下ACLs配置已成功更新。',
         'There where errors adding/updating the following ACLs:' => '添加/更新以下ACLs时出现错误：',
+        'Ticket Action' => '工单处理',
+        'Ticket Commands' => '工单命令',
         'URL' => '网址',
+        'Welcome %s' => '欢迎 %s',
+        'Welcome to %s' => '欢迎使用 %s',
         'archive tickets' => '工单归档',
         'before' => '早于',
         'default \'hot\'' => '默认密码 \'hot\'',

@@ -121,9 +121,8 @@ sub LoadDefaults {
 #    $ENV{ORACLE_HOME} = '/opt/ora9/product/9.2';
 #    $ENV{ORACLE_HOME} = '/oracle/Ora92';
 #    $ENV{NLS_DATE_FORMAT} = 'YYYY-MM-DD HH24:MI:SS';
-#    $ENV{NLS_LANG} = "german_germany.utf8";
-#    $ENV{NLS_LANG} = "german_germany.we8iso8859p15";
-#    $ENV{NLS_LANG} = "american_america.we8iso8859p1";
+#    $ENV{NLS_LANG} = 'GERMAN_GERMANY.AL32UTF8';
+#    $ENV{NLS_LANG} = 'AMERICAN_AMERICA.AL32UTF8';
 
     # If you want to use an init sql after connect, use this here.
     # (e. g. can be used for mysql encoding between client and server)

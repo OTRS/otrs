@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-07-10 Changed default settings of oracles NLS_LANG variable from UTF8 to AL32UTF8 to fix problems with 4 byte unicode character.
  - 2014-07-08 Linked tickets of a specific type (e.g. merged) can now be hidden via SysConfig option.
  - 2014-07-08 Added: Customizable main navigation bar item sorting on a per-user basis with drag & drop.
  - 2014-07-07 Fixed bug#[7531](http://bugs.otrs.org/show_bug.cgi?id=7531) - Queue and Service delimiter '::' should be replaced in the output by ': :' to allow browsers a line break.
@@ -721,7 +722,7 @@
  - 2013-04-29 Updated Polish translation file, thanks to ib.pl!
  - 2013-04-29 Fixed bug#[9040](http://bugs.otrs.org/show_bug.cgi?id=9040) - CustomerTicketPrint crashes when no attributes are configured to be printed.
  - 2013-04-26 Added UnitTest for case sensivity parameter of customer databases
- - 2013-04-23 Fixed bug#[9362](http://bugs.otrs.org/show_bug.cgi?id=9362) - cannot redirect to external url containing & caracter.
+ - 2013-04-23 Fixed bug#[9362](http://bugs.otrs.org/show_bug.cgi?id=9362) - cannot redirect to external url containing & character.
  - 2013-04-23 Fixed bug#[7856](http://bugs.otrs.org/show_bug.cgi?id=7856) - Statistics only use non archived tickets.
  - 2013-04-23 Fixed bug#[9072](http://bugs.otrs.org/show_bug.cgi?id=9072) - Reply to email-internal includes customer users email in Cc. field.
  - 2013-04-22 Fixed bug#[9349](http://bugs.otrs.org/show_bug.cgi?id=9349) - SQL warnings on Oracle DB if more than 4k characters are sent to the database.
@@ -2749,7 +2750,7 @@
  - 2010-09-02 Fixed bug#[5780](http://bugs.otrs.org/show_bug.cgi?id=5780) - Have to resize window when replying on ticket.
  - 2010-09-02 Fixed bug#[5638](http://bugs.otrs.org/show_bug.cgi?id=5638) - Strange labels/buttons in TicketSearch "Create New  Delete".
  - 2010-09-02 Fixed bug#[5629](http://bugs.otrs.org/show_bug.cgi?id=5629) - Search Dialog of new Ticket Search Feature is not working with IE7.
- - 2010-09-02 Fixed bug#[5582](http://bugs.otrs.org/show_bug.cgi?id=5582) - Ticket::Frontend::MergeText and special carachters.
+ - 2010-09-02 Fixed bug#[5582](http://bugs.otrs.org/show_bug.cgi?id=5582) - Ticket::Frontend::MergeText and special character.
  - 2010-09-01 Fixed bug#[5851](http://bugs.otrs.org/show_bug.cgi?id=5851) - 3 AJAX refresh indicators are shown at the top of the AgentTicketPhone page.
  - 2010-09-01 Fixed bug#[5835](http://bugs.otrs.org/show_bug.cgi?id=5835) - Client side validation without JavaScript broken in
     customer interface.
