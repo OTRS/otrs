@@ -1030,11 +1030,11 @@ sub _OutputActivityDialog {
 
     my $ActivityActivityDialog;
     my %Ticket;
-    my %Error = ();
+    my %Error        = ();
     my %ErrorMessage = ();
 
     # If we had Errors, we got an Errorhash
-    %Error = %{ $Param{Error} } if ( IsHashRefWithData( $Param{Error} ) );
+    %Error        = %{ $Param{Error} }        if ( IsHashRefWithData( $Param{Error} ) );
     %ErrorMessage = %{ $Param{ErrorMessage} } if ( IsHashRefWithData( $Param{ErrorMessage} ) );
 
     if ( !$TicketID ) {
@@ -3171,7 +3171,8 @@ sub _StoreActivityDialog {
 
                 if ( $ValidationResult->{ServerError} ) {
                     $Error{ $DynamicFieldConfig->{Name} } = 1;
-                    $ErrorMessage{ $DynamicFieldConfig->{Name} } = $ValidationResult->{ErrorMessage} || '';
+                    $ErrorMessage{ $DynamicFieldConfig->{Name} }
+                        = $ValidationResult->{ErrorMessage} || '';
                 }
 
                 # if we had an invisible field, use config's default value

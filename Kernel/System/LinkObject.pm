@@ -1262,10 +1262,12 @@ sub LinkListWithData {
     }
 
     if ( $Param{IgnoreLinkedTicketStateTypes} ) {
-        # get config, which ticket state types should not be included in linked tickets overview
-        my @IgnoreLinkedTicketStateTypes = @{ $Self->{ConfigObject}->Get('LinkObject::IgnoreLinkedTicketStateTypes') // [] };
 
-        if ( @IgnoreLinkedTicketStateTypes ) {
+        # get config, which ticket state types should not be included in linked tickets overview
+        my @IgnoreLinkedTicketStateTypes
+            = @{ $Self->{ConfigObject}->Get('LinkObject::IgnoreLinkedTicketStateTypes') // [] };
+
+        if (@IgnoreLinkedTicketStateTypes) {
             my %IgnoreLinkTicketStateTypesHash;
             map { $IgnoreLinkTicketStateTypesHash{$_}++ } @IgnoreLinkedTicketStateTypes;
 
@@ -1281,9 +1283,14 @@ sub LinkListWithData {
                     for my $Direction ( sort keys %{ $LinkList->{$Object}->{$LinkType} } ) {
 
                         TICKETID:
-                        for my $TicketID ( sort keys %{ $LinkList->{$Object}->{$LinkType}->{$Direction} } ) {
+                        for my $TicketID (
+                            sort keys %{ $LinkList->{$Object}->{$LinkType}->{$Direction} } )
+                        {
 
-                            next TICKETID if !$IgnoreLinkTicketStateTypesHash{ $LinkList->{$Object}->{$LinkType}->{$Direction}->{$TicketID}->{StateType} };
+                            next TICKETID
+                                if
+                                !$IgnoreLinkTicketStateTypesHash{ $LinkList->{$Object}->{$LinkType}
+                                    ->{$Direction}->{$TicketID}->{StateType} };
 
                             delete $LinkList->{$Object}->{$LinkType}->{$Direction}->{$TicketID};
                         }
