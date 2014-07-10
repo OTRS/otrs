@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-07-10 Changed default settings to use a quick connect string instead of SID to connect to an oracle database, because SID is not working with an Oracle RAC cluster.
  - 2014-07-10 Changed default settings of oracles NLS_LANG variable from UTF8 to AL32UTF8 to fix problems with 4 byte unicode character.
  - 2014-07-08 Linked tickets of a specific type (e.g. merged) can now be hidden via SysConfig option.
  - 2014-07-08 Added: Customizable main navigation bar item sorting on a per-user basis with drag & drop.

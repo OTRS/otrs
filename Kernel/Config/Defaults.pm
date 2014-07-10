@@ -102,27 +102,26 @@ sub LoadDefaults {
     $Self->{DatabasePw} = 'some-pass';
 
     # DatabaseDSN
-    # (The database DSN for MySQL ==> more: "man DBD::mysql")
+    # The database DSN for MySQL ==> more: "perldoc DBD::mysql"
     $Self->{DatabaseDSN} = "DBI:mysql:database=<OTRS_CONFIG_Database>;host=<OTRS_CONFIG_DatabaseHost>;";
 
-# (The database DSN for PostgreSQL ==> more: "man DBD::Pg")
+    # The database DSN for PostgreSQL ==> more: "perldoc DBD::Pg"
 #    $Self->{DatabaseDSN} = "DBI:Pg:dbname=<OTRS_CONFIG_Database>;host=<OTRS_CONFIG_DatabaseHost>;";
 
-    # (The database DSN for DBI:ODBC ==> more: "man DBD::ODBC")
+    # The database DSN for Microsoft SQL Server - only supported if OTRS is
+    # installed on Windows as well
     #    $Self->{DatabaseDSN} = "DBI:ODBC:$Self->{Database}";
     # If you use ODBC, no database auto detection is possible,
     # so set the database type here. Possible: mysq,postgresql,mssql,oracle
     #    $Self->{'Database::Type'} = 'mssql';
 
-# (The database DSN for Oracle ==> more: "man DBD::oracle")
-#    $Self->{DatabaseDSN} = "DBI:Oracle:sid=$Self->{Database};host=$Self->{DatabaseHost};port=1521;";
-#    $Self->{DatabaseDSN} = "DBI:Oracle:sid=vingador;host=vingador;port=1521;";
-# if needed, oracle env settings
-#    $ENV{ORACLE_HOME} = '/opt/ora9/product/9.2';
-#    $ENV{ORACLE_HOME} = '/oracle/Ora92';
+    # The database DSN for Oracle ==> more: "perldoc DBD::oracle"
+#    $Self->{DatabaseDSN} = "DBI:Oracle://$Self->{DatabaseHost}:1521/$Self->{Database}";
+#
+#    $ENV{ORACLE_HOME}     = '/path/to/your/oracle';
 #    $ENV{NLS_DATE_FORMAT} = 'YYYY-MM-DD HH24:MI:SS';
-#    $ENV{NLS_LANG} = 'GERMAN_GERMANY.AL32UTF8';
-#    $ENV{NLS_LANG} = 'AMERICAN_AMERICA.AL32UTF8';
+#    $ENV{NLS_LANG}        = 'AMERICAN_AMERICA.AL32UTF8';
+#    $ENV{NLS_LANG}        = 'GERMAN_GERMANY.AL32UTF8';
 
     # If you want to use an init sql after connect, use this here.
     # (e. g. can be used for mysql encoding between client and server)

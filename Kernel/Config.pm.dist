@@ -58,11 +58,11 @@ sub Load {
 #    $Self->{DatabaseDSN} = "DBI:ODBC:driver={SQL Server};Database=$Self->{Database};Server=$Self->{DatabaseHost},1433";
 
     # The database DSN for Oracle ==> more: "perldoc DBD::oracle"
-#    $ENV{ORACLE_HOME} = '/u01/app/oracle/product/10.2.0/client_1';
+#    $Self->{DatabaseDSN} = "DBI:Oracle://$Self->{DatabaseHost}:1521/$Self->{Database}";
+#
+#    $ENV{ORACLE_HOME}     = '/path/to/your/oracle';
 #    $ENV{NLS_DATE_FORMAT} = 'YYYY-MM-DD HH24:MI:SS';
-#    $ENV{NLS_LANG} = "AMERICAN_AMERICA.AL32UTF8";
-
-#    $Self->{DatabaseDSN} = "DBI:Oracle:sid=OTRS;host=$Self->{DatabaseHost};port=1522;";
+#    $ENV{NLS_LANG}        = 'AMERICAN_AMERICA.AL32UTF8';
 
     # ---------------------------------------------------- #
     # fs root directory
