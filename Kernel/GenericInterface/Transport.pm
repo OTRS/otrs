@@ -61,19 +61,21 @@ create an object.
         MainObject   => $MainObject,
     );
     my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-        ConfigObject   => $ConfigObject,
-        EncodeObject   => $EncodeObject,
-        LogObject      => $LogObject,
-        MainObject     => $MainObject,
-        DebuggerObject => $DebuggerObject,
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+        TimeObject   => $TimeObject,
+        DBObject     => $DBObject,
     );
     my $TransportObject = Kernel::GenericInterface::Transport->new(
-        ConfigObject  => $ConfigObject,
-        LogObject     => $LogObject,
-        DBObject      => $DBObject,
-        MainObject    => $MainObject,
-        TimeObject    => $TimeObject,
-        EncodeObject  => $EncodeObject,
+        ConfigObject   => $ConfigObject,
+        LogObject      => $LogObject,
+        DBObject       => $DBObject,
+        MainObject     => $MainObject,
+        TimeObject     => $TimeObject,
+        EncodeObject   => $EncodeObject,
+        DebuggerObject => $DebuggerObject,
 
         TransportConfig => {
             Type => 'HTTP::SOAP',
