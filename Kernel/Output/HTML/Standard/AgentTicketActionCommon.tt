@@ -13,6 +13,7 @@
     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
     <input type="hidden" name="Subaction" value="Store"/>
     <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+    <input type="hidden" name="ReplyToArticle" value="[% Data.ReplyToArticle | html %]"/>
     <input type="hidden" name="Expand" id="Expand" value=""/>
     <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
 
@@ -164,7 +165,7 @@ $('#TypeID').bind('change', function (Event) {
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#NewQueueID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewQueueID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' [% Data.DynamicFieldNamesStrg %] ]);
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewQueueID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID', 'StandardTemplateID' [% Data.DynamicFieldNamesStrg %] ]);
     });
 //]]></script>
 [% END %]
@@ -270,6 +271,23 @@ $('#TypeID').bind('change', function (Event) {
 
 <!-- OutputFilterHook_NoTicketOptionsFallback -->
 
+[% RenderBlockStart("StandardTemplate") %]
+                <label for="StandardTemplateID">[% Translate("Text Template") | html %]:</label>
+                <div class="Field">
+                        [% Data.StandardTemplateStrg %]
+                    <p class="FieldExplanation">Setting a template will overwrite any text or attachment.</p>
+                </div>
+                <div class="Clear"></div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#StandardTemplateID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
+        return false;
+    });
+//]]></script>
+[% END %]
+[% RenderBlockEnd("StandardTemplate") %]
+
 [% RenderBlockStart("RichTextLabel") %]
                 <label for="RichText">[% Translate("Text") | html %]:</label>
 [% RenderBlockEnd("RichTextLabel") %]
@@ -277,7 +295,7 @@ $('#TypeID').bind('change', function (Event) {
                 <label class="Mandatory" for="RichText"><span class="Marker">*</span>[% Translate("Text") | html %]:</label>
 [% RenderBlockEnd("RichTextLabelMandatory") %]
 
-                <div class="RichTextField">
+                <div id="RichTextField" class="RichTextField">
 [% RenderBlockStart("RichText") %]
 [% InsertTemplate("RichTextEditor.tt") %]
 [% RenderBlockEnd("RichText") %]
@@ -433,6 +451,7 @@ $('#TypeID').bind('change', function (Event) {
 #Layers
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
+    Core.Config.Set('Localization.Delete', '[% Translate("Delete") | html %]');
     Core.Agent.TicketAction.Init();
 //]]></script>
 [% END %]

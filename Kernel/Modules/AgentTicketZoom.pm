@@ -2287,6 +2287,26 @@ sub _ArticleItem {
         );
     }
 
+    # check if internal reply link should be shown
+    if (
+        $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketNote}
+        && ( !defined $AclAction{AgentTicketNote} || $AclAction{AgentTicketNote} )
+        && $Article{ArticleType} =~ /^note-(internal|external)$/i
+        )
+    {
+        $Self->{LayoutObject}->Block(
+            Name => 'ArticleMenu',
+            Data => {
+                %Ticket, %Article, %AclAction,
+                Description => 'Reply to note',
+                Name        => 'Reply',
+                Class       => 'AsPopup PopupType_TicketAction',
+                Link =>
+                    "Action=AgentTicketNote;TicketID=$Ticket{TicketID};ReplyToArticle=$Article{ArticleID}"
+            },
+        );
+    }
+
     # do some strips && quoting
     KEY:
     for my $Key (qw(From To Cc)) {

@@ -9928,6 +9928,7 @@ Thanks for your help!
                 <Item Key="Create">Create</Item>
                 <Item Key="Forward">Forward</Item>
                 <Item Key="PhoneCall">Phone call</Item>
+                <Item Key="Note">Note</Item>
             </Hash>
         </Setting>
     </ConfigItem>
