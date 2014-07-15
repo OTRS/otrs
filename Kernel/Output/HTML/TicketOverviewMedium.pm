@@ -29,19 +29,19 @@ sub new {
     # get needed objects
     for (
         qw(ConfigObject LogObject DBObject EncodeObject LayoutObject UserID UserObject GroupObject TicketObject MainObject QueueObject)
-      )
+        )
     {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{BackendObject} = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
     # get dynamic field config for frontend module
     $Self->{DynamicFieldFilter} =
-      $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewMedium")
-      ->{DynamicField};
+        $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewMedium")
+        ->{DynamicField};
 
     # get the dynamic fields for this screen
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -58,15 +58,19 @@ sub ActionRow {
 
     # check if bulk feature is enabled
     my $BulkFeature = 0;
-    if (   $Param{Bulk}
-        && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') )
+    if (
+        $Param{Bulk}
+        && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature')
+        )
     {
         my @Groups;
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeatureGroup') )
         {
             @Groups =
-              @{ $Self->{ConfigObject}
-                  ->Get('Ticket::Frontend::BulkFeatureGroup') };
+                @{
+                $Self->{ConfigObject}
+                    ->Get('Ticket::Frontend::BulkFeatureGroup')
+                };
         }
         if ( !@Groups ) {
             $BulkFeature = 1;
@@ -95,21 +99,26 @@ sub ActionRow {
     }
 
     # run ticket overview document item menu modules
-    if ( $Param{Config}->{OverviewMenuModules}
+    if (
+        $Param{Config}->{OverviewMenuModules}
         && ref $Self->{ConfigObject}
-        ->Get('Ticket::Frontend::OverviewMenuModule') eq 'HASH' )
+        ->Get('Ticket::Frontend::OverviewMenuModule') eq 'HASH'
+        )
     {
 
         my %Menus =
-          %{ $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewMenuModule')
-          };
-      MENUMODULE:
+            %{
+            $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewMenuModule')
+            };
+        MENUMODULE:
         for my $Menu ( sort keys %Menus ) {
 
             next MENUMODULE if !IsHashRefWithData( $Menus{$Menu} );
             next MENUMODULE
-              if ( $Menus{$Menu}->{View}
-                && $Menus{$Menu}->{View} ne $Param{View} );
+                if (
+                $Menus{$Menu}->{View}
+                && $Menus{$Menu}->{View} ne $Param{View}
+                );
 
             # load module
             if ( !$Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
@@ -124,12 +133,14 @@ sub ActionRow {
             if ( $Item->{Block} eq 'DocumentActionRowItem' ) {
 
                 # add session id if needed
-                if ( !$Self->{LayoutObject}->{SessionIDCookie}
-                    && $Item->{Link} )
+                if (
+                    !$Self->{LayoutObject}->{SessionIDCookie}
+                    && $Item->{Link}
+                    )
                 {
                     $Item->{Link} .= ';'
-                      . $Self->{LayoutObject}->{SessionName} . '='
-                      . $Self->{LayoutObject}->{SessionID};
+                        . $Self->{LayoutObject}->{SessionName} . '='
+                        . $Self->{LayoutObject}->{SessionID};
                 }
 
                 # create id
@@ -151,9 +162,9 @@ sub ActionRow {
                     Data => {
                         ID   => $Item->{ID},
                         Name => $Self->{LayoutObject}->{LanguageObject}
-                          ->Get( $Item->{Name} ),
+                            ->Get( $Item->{Name} ),
                         Link => $Self->{LayoutObject}->{Baselink}
-                          . $Item->{Link},
+                            . $Item->{Link},
                         Description => $Item->{Description},
                         Block       => $Item->{Block},
                         Class       => $Class,
@@ -199,22 +210,26 @@ sub Run {
     for (qw(TicketIDs PageShown StartHit)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}
-              ->Log( Priority => 'error', Message => "Need $_!" );
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
     # check if bulk feature is enabled
     my $BulkFeature = 0;
-    if (   $Param{Bulk}
-        && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') )
+    if (
+        $Param{Bulk}
+        && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature')
+        )
     {
         my @Groups;
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeatureGroup') )
         {
             @Groups =
-              @{ $Self->{ConfigObject}
-                  ->Get('Ticket::Frontend::BulkFeatureGroup') };
+                @{
+                $Self->{ConfigObject}
+                    ->Get('Ticket::Frontend::BulkFeatureGroup')
+                };
         }
         if ( !@Groups ) {
             $BulkFeature = 1;
@@ -256,8 +271,10 @@ sub Run {
 
         for my $TicketID ( @{ $Param{TicketIDs} } ) {
             $Counter++;
-            if (   $Counter >= $Param{StartHit}
-                && $Counter < ( $Param{PageShown} + $Param{StartHit} ) )
+            if (
+                $Counter >= $Param{StartHit}
+                && $Counter < ( $Param{PageShown} + $Param{StartHit} )
+                )
             {
                 push @TicketIDsShown, $TicketID;
                 my $Output = $Self->_Show(
@@ -315,7 +332,7 @@ sub _Show {
     # check needed stuff
     if ( !$Param{TicketID} ) {
         $Self->{LogObject}
-          ->Log( Priority => 'error', Message => 'Need TicketID!' );
+            ->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
 
@@ -344,8 +361,8 @@ sub _Show {
         %Article = %Ticket;
         if ( !$Article{Title} ) {
             $Article{Title} =
-              $Self->{LayoutObject}->{LanguageObject}
-              ->Get( 'This ticket has no title or subject' );
+                $Self->{LayoutObject}->{LanguageObject}
+                ->Get('This ticket has no title or subject');
         }
         $Article{Subject} = $Article{Title};
     }
@@ -355,19 +372,19 @@ sub _Show {
 
     # user info
     my %UserInfo =
-      $Self->{UserObject}->GetUserData( UserID => $Article{OwnerID}, );
+        $Self->{UserObject}->GetUserData( UserID => $Article{OwnerID}, );
     %Article = ( %UserInfo, %Article );
 
     # create human age
     $Article{Age} =
-      $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
+        $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
 
     # fetch all std. templates ...
     my %StandardTemplates =
-      $Self->{QueueObject}->QueueStandardTemplateMemberList(
+        $Self->{QueueObject}->QueueStandardTemplateMemberList(
         QueueID       => $Article{QueueID},
         TemplateTypes => 1,
-      );
+        );
 
     $Param{StandardResponsesStrg} = $Self->{LayoutObject}->BuildSelection(
         Name => 'ResponseID',
@@ -378,8 +395,8 @@ sub _Show {
     if ( $Param{Config}->{CustomerInfo} ) {
         if ( $Article{CustomerUserID} ) {
             $Article{CustomerName} =
-              $Self->{CustomerUserObject}
-              ->CustomerName( UserLogin => $Article{CustomerUserID}, );
+                $Self->{CustomerUserObject}
+                ->CustomerName( UserLogin => $Article{CustomerUserID}, );
         }
     }
 
@@ -398,10 +415,11 @@ sub _Show {
     my @ActionItems;
     if (
         ref $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') eq
-        'HASH' )
+        'HASH'
+        )
     {
         my %Menus =
-          %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
+            %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
         for my $Menu ( sort keys %Menus ) {
 
             # load module
@@ -409,8 +427,8 @@ sub _Show {
                 return $Self->{LayoutObject}->FatalError();
             }
             my $Object =
-              $Menus{$Menu}->{Module}
-              ->new( %{$Self}, TicketID => $Param{TicketID}, );
+                $Menus{$Menu}->{Module}
+                ->new( %{$Self}, TicketID => $Param{TicketID}, );
 
             # run module
             my $Item = $Object->Run(
@@ -431,14 +449,14 @@ sub _Show {
 
             # add the return module to redirect back to the current screen afterwards
             my $ReturnPath =
-              uri_escape( $Self->{LayoutObject}->{EnvRef}->{RequestedURL} );
+                uri_escape( $Self->{LayoutObject}->{EnvRef}->{RequestedURL} );
             $Item->{Link} .= ';ReturnModule=' . $ReturnPath;
 
             # add session id if needed
             if ( !$Self->{LayoutObject}->{SessionIDCookie} && $Item->{Link} ) {
                 $Item->{Link} .= ';'
-                  . $Self->{LayoutObject}->{SessionName} . '='
-                  . $Self->{LayoutObject}->{SessionID};
+                    . $Self->{LayoutObject}->{SessionName} . '='
+                    . $Self->{LayoutObject}->{SessionID};
             }
 
             # create id
@@ -458,24 +476,24 @@ sub _Show {
             $Output =~ s/<\!--.+?-->//g;
 
             push @ActionItems,
-              {
+                {
                 HTML => $Output,
                 ID   => $Item->{ID},
                 Name =>
-                  $Self->{LayoutObject}->{LanguageObject}->Get( $Item->{Name} ),
-                Link      => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
-                Target    => $Item->{Target},
-                PopupType => $Item->{PopupType},
+                    $Self->{LayoutObject}->{LanguageObject}->Get( $Item->{Name} ),
+                Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
+                Target      => $Item->{Target},
+                PopupType   => $Item->{PopupType},
                 Description => $Item->{Description},
                 Block       => $Item->{Block} || 'DocumentMenuItem',
-              };
+                };
         }
     }
 
     # prepare subject
     $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
         TicketNumber => $Article{TicketNumber},
-        Subject      => $Article{Subject} || '',
+        Subject => $Article{Subject} || '',
     );
 
     $Self->{LayoutObject}->Block(
@@ -520,9 +538,9 @@ sub _Show {
                 my $TicketID   = $Param{TicketID};
                 my $SelectHTML = $Item->{HTML};
                 $SelectHTML =~
-                  s/id="DestQueueID"/id="DestQueueID$TicketID"/xmig;
+                    s/id="DestQueueID"/id="DestQueueID$TicketID"/xmig;
                 $SelectHTML =~
-                  s/for="DestQueueID"/for="DestQueueID$TicketID"/xmig;
+                    s/for="DestQueueID"/for="DestQueueID$TicketID"/xmig;
                 $Self->{LayoutObject}->Block(
                     Name => 'InlineActionRowItemHTML',
                     Data => { HTML => $SelectHTML, },
@@ -541,7 +559,7 @@ sub _Show {
 
     # show ticket flags
     my @TicketMetaItems =
-      $Self->{LayoutObject}->TicketMetaItems( Ticket => \%Article, );
+        $Self->{LayoutObject}->TicketMetaItems( Ticket => \%Article, );
     for my $Item (@TicketMetaItems) {
         $Self->{LayoutObject}->Block(
             Name => 'Meta',
@@ -559,11 +577,14 @@ sub _Show {
     if ( $Article{ArticleID} ) {
         if (
             ref $Self->{ConfigObject}
-            ->Get('Ticket::Frontend::ArticlePreViewModule') eq 'HASH' )
+            ->Get('Ticket::Frontend::ArticlePreViewModule') eq 'HASH'
+            )
         {
             my %Jobs =
-              %{ $Self->{ConfigObject}
-                  ->Get('Ticket::Frontend::ArticlePreViewModule') };
+                %{
+                $Self->{ConfigObject}
+                    ->Get('Ticket::Frontend::ArticlePreViewModule')
+                };
             for my $Job ( sort keys %Jobs ) {
 
                 # load module
@@ -618,13 +639,15 @@ sub _Show {
     );
     if (
         $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketCompose}
-        && ( !defined $AclAction{AgentTicketCompose}
-            || $AclAction{AgentTicketCompose} )
-      )
+        && (
+            !defined $AclAction{AgentTicketCompose}
+            || $AclAction{AgentTicketCompose}
+        )
+        )
     {
         my $Access = 1;
         my $Config =
-          $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketCompose");
+            $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketCompose");
         if ( $Config->{Permission} ) {
             my $Ok = $Self->{TicketObject}->TicketPermission(
                 Type     => $Config->{Permission},
@@ -646,14 +669,16 @@ sub _Show {
     if (
         $Self->{ConfigObject}->Get('Frontend::Module')
         ->{AgentTicketPhoneOutbound}
-        && ( !defined $AclAction{AgentTicketPhoneOutbound}
-            || $AclAction{AgentTicketPhoneOutbound} )
-      )
+        && (
+            !defined $AclAction{AgentTicketPhoneOutbound}
+            || $AclAction{AgentTicketPhoneOutbound}
+        )
+        )
     {
         my $Access = 1;
         my $Config =
-          $Self->{ConfigObject}
-          ->Get("Ticket::Frontend::AgentTicketPhoneOutbound");
+            $Self->{ConfigObject}
+            ->Get("Ticket::Frontend::AgentTicketPhoneOutbound");
         if ( $Config->{Permission} ) {
             my $OK = $Self->{TicketObject}->TicketPermission(
                 Type     => $Config->{Permission},
@@ -698,15 +723,15 @@ sub _Show {
     # show first response time if needed
     if ( defined $Article{FirstResponseTime} ) {
         $Article{FirstResponseTimeHuman} =
-          $Self->{LayoutObject}->CustomerAgeInHours(
+            $Self->{LayoutObject}->CustomerAgeInHours(
             Age   => $Article{FirstResponseTime},
             Space => ' ',
-          );
+            );
         $Article{FirstResponseTimeWorkingTime} =
-          $Self->{LayoutObject}->CustomerAgeInHours(
+            $Self->{LayoutObject}->CustomerAgeInHours(
             Age   => $Article{FirstResponseTimeWorkingTime},
             Space => ' ',
-          );
+            );
         if ( 60 * 60 * 1 > $Article{FirstResponseTime} ) {
             $Article{FirstResponseTimeClass} = 'Warning';
         }
@@ -723,10 +748,10 @@ sub _Show {
             Space => ' ',
         );
         $Article{UpdateTimeWorkingTime} =
-          $Self->{LayoutObject}->CustomerAgeInHours(
+            $Self->{LayoutObject}->CustomerAgeInHours(
             Age   => $Article{UpdateTimeWorkingTime},
             Space => ' ',
-          );
+            );
         if ( 60 * 60 * 1 > $Article{UpdateTime} ) {
             $Article{UpdateTimeClass} = 'Warning';
         }
@@ -743,10 +768,10 @@ sub _Show {
             Space => ' ',
         );
         $Article{SolutionTimeWorkingTime} =
-          $Self->{LayoutObject}->CustomerAgeInHours(
+            $Self->{LayoutObject}->CustomerAgeInHours(
             Age   => $Article{SolutionTimeWorkingTime},
             Space => ' ',
-          );
+            );
         if ( 60 * 60 * 1 > $Article{SolutionTime} ) {
             $Article{SolutionTimeClass} = 'Warning';
         }
@@ -761,7 +786,7 @@ sub _Show {
     my $DisplayDynamicFieldTable = 1;
 
     # cycle trough the activated Dynamic Fields for this screen
-  DYNAMICFIELD:
+    DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
@@ -849,7 +874,7 @@ sub _Show {
             # outout dynamic field value link
             $Self->{LayoutObject}->Block(
                 Name => 'DynamicFieldTableRowRecord'
-                  . $DynamicFieldConfig->{Name} . 'Link',
+                    . $DynamicFieldConfig->{Name} . 'Link',
                 Data => {
                     Value                       => $ValueStrg->{Value},
                     Title                       => $ValueStrg->{Title},
@@ -863,7 +888,7 @@ sub _Show {
             # outout dynamic field value plain
             $Self->{LayoutObject}->Block(
                 Name => 'DynamicFieldTableRowRecord'
-                  . $DynamicFieldConfig->{Name} . 'Plain',
+                    . $DynamicFieldConfig->{Name} . 'Plain',
                 Data => {
                     Value => $ValueStrg->{Value},
                     Title => $ValueStrg->{Title},
@@ -872,7 +897,7 @@ sub _Show {
         }
     }
 
-# fill the rest of the Dynamic Fields row with empty cells, this will look better
+    # fill the rest of the Dynamic Fields row with empty cells, this will look better
     if ( $Counter > 0 && $Counter < 5 ) {
 
         for ( $Counter + 1 ... 5 ) {
@@ -903,7 +928,7 @@ sub _Show {
 
         # test access to ticket
         my $Config =
-          $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketCustomer');
+            $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketCustomer');
         if ( $Config->{Permission} ) {
             my $OK = $Self->{TicketObject}->Permission(
                 Type     => $Config->{Permission},
@@ -933,9 +958,13 @@ sub _Show {
             SelectedID => $Article{QueueID},
         );
     }
-    if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketMove}
-        && ( !defined $AclAction{AgentTicketMove}
-            || $AclAction{AgentTicketMove} ) )
+    if (
+        $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketMove}
+        && (
+            !defined $AclAction{AgentTicketMove}
+            || $AclAction{AgentTicketMove}
+        )
+        )
     {
         my $Access = $Self->{TicketObject}->TicketPermission(
             Type     => 'move',
@@ -967,7 +996,7 @@ sub _Show {
     # create & return output
     my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketOverviewMedium',
-        Data         => { %Param, %Article, %AclAction },
+        Data => { %Param, %Article, %AclAction },
     );
 
     return \$Output;
