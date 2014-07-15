@@ -108,7 +108,7 @@
                                     $QData{"Name"}
                                 </a>
                             </td>
-                            <td>$QData{"Description"}</td>
+                            <td title="$QData{"Description"}">$QData{"Description","80"}</td>
                             <td>$Text{"$Data{"State"}"}</td>
                             <td>
                                 <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=ProcessExport;ID=$LQData{"ID"}" class="Export AsBlock" title="$Text{"Export Process Configuration"}">
