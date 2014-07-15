@@ -12,8 +12,6 @@ package Kernel::Modules::AgentTicketLock;
 use strict;
 use warnings;
 
-use MIME::Base64 qw(decode_base64url);
-
 use Kernel::System::VariableCheck qw(:all);
 
 sub new {
@@ -163,9 +161,10 @@ sub Run {
 
     # get return module string, decode the base64 url and redirect if present
     my $ReturnModule = $Self->{ParamObject}->GetParam( Param => 'ReturnModule' ) || '';
+
     if ( IsStringWithData($ReturnModule) ) {
         return $Self->{LayoutObject}->Redirect(
-            OP => decode_base64url($ReturnModule),
+            OP => $ReturnModule,
         );
     }
 

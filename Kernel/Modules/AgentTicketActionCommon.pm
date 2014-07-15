@@ -12,8 +12,6 @@ package Kernel::Modules::AgentTicketActionCommon;
 use strict;
 use warnings;
 
-use MIME::Base64 qw(decode_base64url);
-
 use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::DynamicField;
@@ -879,7 +877,7 @@ sub Run {
 
         # decode the base64 url if present and set it as return url
         if ( IsStringWithData( $GetParam{ReturnModule} ) ) {
-            $ReturnURL = decode_base64url( $GetParam{ReturnModule} );
+            $ReturnURL = $GetParam{ReturnModule};
         }
 
         # load new URL in parent window and close popup

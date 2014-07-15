@@ -12,8 +12,8 @@ package Kernel::Output::HTML::TicketOverviewSmall;
 use strict;
 use warnings;
 
-use MIME::Base64 qw(encode_base64url);
-
+use Kernel::System::HTMLUtils;
+use URI::Escape ('uri_escape');
 use Kernel::System::JSON;
 use Kernel::System::CustomerUser;
 use Kernel::System::DynamicField;
@@ -41,6 +41,7 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{HTMLUtilsObject}    = Kernel::System::HTMLUtils->new(%Param);
 
     $Self->{SmallViewColumnHeader}
         = $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewSmall')->{ColumnHeader};
@@ -457,9 +458,8 @@ sub Run {
                     }
 
                     # add the return module to redirect back to the current screen afterwards
-                    my $EncodedReturnPath
-                        = encode_base64url( $Self->{LayoutObject}->{EnvRef}->{RequestedURL} );
-                    $Item->{Link} .= ';ReturnModule=' . $EncodedReturnPath;
+                    my $ReturnPath = uri_escape( $Self->{LayoutObject}->{EnvRef}->{RequestedURL} );
+                    $Item->{Link} .= ';ReturnModule=' . $ReturnPath;
 
                     # add session id if needed
                     if ( !$Self->{LayoutObject}->{SessionIDCookie} && $Item->{Link} ) {
