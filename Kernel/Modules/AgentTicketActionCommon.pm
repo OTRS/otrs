@@ -76,7 +76,13 @@ sub new {
         $Self->{ReplyToArticle}        = $ReplyToArticle;
         $Self->{ReplyToArticleContent} = \%ReplyToArticleContent;
 
-        # if article belongt to other ticket, don't use it as reply
+        # get sender of original note (to inform sender about answer)
+        if ( $ReplyToArticleContent{CreatedBy}) {
+            my @ReplyToSenderID = ( $ReplyToArticleContent{CreatedBy} );
+            $Self->{ReplyToSenderUserID} = \@ReplyToSenderID;
+        }
+
+        # if article belongs to other ticket, don't use it as reply
         if ( $ReplyToArticleContent{TicketID} ne $Self->{TicketID} ) {
             $Self->{ReplyToArticle} = "";
         }
@@ -823,7 +829,13 @@ sub Run {
             }
 
             my $From = "\"$Self->{UserFirstname} $Self->{UserLastname}\" <$Self->{UserEmail}>";
-            my @NotifyUserIDs = ( @{ $Self->{InformUserID} }, @{ $Self->{InvolvedUserID} } );
+            my @NotifyUserIDs;
+            if ( $Self->{ReplyToArticle} ) {
+                @NotifyUserIDs = ( @{ $Self->{ReplyToSenderUserID} }, @{ $Self->{InformUserID} }, @{ $Self->{InvolvedUserID} } );
+            }
+            else {
+                @NotifyUserIDs = ( @{ $Self->{InformUserID} }, @{ $Self->{InvolvedUserID} } );
+            }
             $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID                        => $Self->{TicketID},
                 SenderType                      => 'agent',
@@ -1856,7 +1868,7 @@ sub _Mask {
                 push @ReplyToUsers, $ReplyToAddress;
             }
 
-            map { $ReplyToUsersHash{$_}++ } @ReplyToUsers;
+            $ReplyToUsersHash{$_}++ for @ReplyToUsers;
         }
 
         # agent list
