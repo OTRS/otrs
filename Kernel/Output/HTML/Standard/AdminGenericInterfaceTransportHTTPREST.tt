@@ -1,0 +1,308 @@
+# --
+# AdminGenericInterfaceTransportHTTPREST.tt - provides HTML form for AdminLog
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceTransportHTTPREST">
+    <h1>[% Translate("GenericInterface Transport HTTP::REST for Web Service %s", Data.WebserviceName) | html %]</h1>
+    <div class="GenericInterfaceWebserviceConfigPath">
+        <h3>
+[% RenderBlockStart("WebservicePathElement") %]
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+            <a href="[% Env("Baselink") %][% Data.Link %];Nav=[% Data.Nav | uri %]">
+                [% Data.Name | html %]
+            </a>
+[% RenderBlockEnd("WebservicePathElement") %]
+[% RenderBlockStart("WebservicePathElementNoLink") %]
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+            [% Data.Name | html %]
+[% RenderBlockEnd("WebservicePathElementNoLink") %]
+
+        </h3>
+    </div>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]" class="CallForAction"><span>[% Translate("Go back to web service") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Network transport") | html %]</h2>
+            </div>
+            <div class="Content">
+                <h3>[% Translate("Properties") | html %]</h3>
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action"/>
+                    <input type="hidden" name="WebserviceID" value="[% Data.WebserviceID | html %]" id="WebserviceID"/>
+                    <input type="hidden" name="CommunicationType" value="[% Data.CommunicationType | html %]" id="CommunicationType"/>
+                    <div class="LayoutGrid ColumnsWithSpacing">
+                        <fieldset class="TableLike">
+
+                            <label>[% Translate("Type") | html %]:</label>
+                            <div class="Field">[% Data.Type | html %]</div>
+                            <div class="Clear"></div>
+
+[% RenderBlockStart("TransportProvider") %]
+
+[% RenderBlockStart("RouteOperationMapping") %]
+                            <label class="Mandatory" for="RouteOperationMapping[% Data.Operation | html %]"><span class="Marker">*</span>[% Translate("Route mapping for Operation") | html %] '[% Data.Operation | html %]':</label>
+                            <div class="Field">
+                                <input id="RouteOperationMapping[% Data.Operation | html %]" class="W50pc Validate_Required [% Data.ServerError | html %]" type="text" maxlength="250" value="[% Data.Route | html %]" name="RouteOperationMapping[% Data.Operation | html %]"/>
+                                <div id="RouteOperationMapping[% Data.Operation | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="RouteOperationMapping[% Data.Operation | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate(Data.ServerErrorMessage) | html %]</p></div>
+                                <p class="FieldExplanation">
+                                    [% Translate("Define the route that should get mapped to this operation. Variables marked by a ':' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID).") | html %]
+                                </p>
+                            </div>
+                            <label for="RequestMethod[% Data.Operation | html %]">[% Translate("Valid request methods for Operation") | html %] '[% Data.Operation | html %]':</label>
+                            <div class="Field">
+                                [% Data.RequestMethodStrg %]
+                                <p class="FieldExplanation">
+                                    [% Translate("Limit this Operation to specific request methods. If no method is selected all requests will be accepted.") | html %]
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
+[% RenderBlockEnd("RouteOperationMapping") %]
+
+                            <label class="Mandatory" for="MaxLength"><span class="Marker">*</span>[% Translate("Maximum message length") | html %]:</label>
+                            <div class="Field">
+                                <input id="MaxLength" class="W25pc Validate_Required Validate_Number [% Data.MaxLengthServerError | html %]" type="text" maxlength="10" value="[% Data.MaxLength | html %]" name="MaxLength"/>
+                                <div id="MaxLengthError" class="TooltipErrorMessage"><p>[% Translate("This field should be an integer number.") | html %]</p></div>
+                                <div id="MaxLengthServerError" class="TooltipErrorMessage"><p>[% Translate(Data.MaxLengthServerErrorMessage) | html %]</p></div>
+                                <p class="FieldExplanation">
+                                    [% Translate("Here you can specify the maximum size (in bytes) of REST messages that OTRS will process.") | html %]
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label class="Mandatory" for="KeepAlive"><span class="Marker">*</span>[% Translate("Send Keep-Alive") | html %]:</label>
+                            <div class="Field">
+                                [% Data.KeepAliveStrg %]
+                                <div id="KeepAliveError" class="TooltipErrorMessage"><p>[% Translate("This field should be an integer number.") | html %]</p></div>
+                                <div id="KeepAliveServerError" class="TooltipErrorMessage"><p>[% Translate(Data.MaxLengthServerErrorMessage) | html %]</p></div>
+                                <p class="FieldExplanation">
+                                    [% Translate("This configuration defines if incoming connections should get closed or kept alive.") | html %]
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
+[% RenderBlockEnd("TransportProvider") %]
+
+[% RenderBlockStart("TransportRequester") %]
+                            <label class="Mandatory" for="Host"><span class="Marker">*</span>[% Translate("Host") | html %]:</label>
+                            <div class="Field">
+                                <input id="Host" class="W50pc [% Data.HostServerError | html %] Validate_Required" type="text" maxlength="250" value="[% Data.Host | html %]" name="Host"/>
+                                <div id="HostError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="HostServerError" class="TooltipErrorMessage"><p>[% Translate(Data.HostServerErrorMessage) | html %]</p></div>
+                                <p class="FieldExplanation">
+                                    [% Translate("Remote host URL for the REST requests.") | html %]
+                                    <br/>
+                                    [% Translate("e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)") | html %]
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
+
+[% RenderBlockStart("InvokerControllerMapping") %]
+                            <label class="Mandatory" for="InvokerControllerMapping[% Data.Invoker | html %]"><span class="Marker">*</span>[% Translate("Controller mapping for Invoker") | html %] '[% Data.Invoker | html %]':</label>
+                            <div class="Field">
+                                <input id="InvokerControllerMapping[% Data.Invoker | html %]" class="W50pc Validate_Required [% Data.ServerError | html %]" type="text" maxlength="250" value="[% Data.Controller | html %]" name="InvokerControllerMapping[% Data.Invoker | html %]"/>
+                                <div id="InvokerControllerMapping[% Data.Invoker | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="InvokerControllerMapping[% Data.Invoker | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate(Data.ServerErrorMessage) | html %]</p></div>
+                                <p class="FieldExplanation">
+                                    [% Translate("The controller that the invoker should send requests to. Variables marked by a ':' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).") | html %]
+                                </p>
+                            </div>
+                            <label for="Command[% Data.Invoker | html %]">[% Translate("Valid request command for Invoker") | html %] '[% Data.Invoker | html %]':</label>
+                            <div class="Field">
+                                [% Data.CommandStrg %]
+                                <p class="FieldExplanation">
+                                    [% Translate("A specific HTTP command to use for the requests with this Invoker (optional).") | html %]
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
+[% RenderBlockEnd("InvokerControllerMapping") %]
+
+                            <label for="DefaultCommand">[% Translate("Default command") | html %]:</label>
+                            <div class="Field">
+                                [% Data.DefaultCommandStrg %]
+                                <p class="FieldExplanation">
+                                    [% Translate("The default HTTP command to use for the requests.") | html %]
+                                </p>
+                            </div>
+                            <div class="Clear"></div>
+
+                            <label for="Authentication">[% Translate("Authentication") | html %]:</label>
+                            <div class="Field">
+                                [% Data.AuthenticationStrg %]
+                                <p class="FieldExplanation">
+                                    [% Translate("The authentication mechanism to access the remote system.") | html %]
+                                    <br/>
+                                    [% Translate("A \"-\" value means no authentication.") | html %]
+                                </p>
+                            </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#Authentication').bind('change', function(){
+    if ( $(this).val() === 'BasicAuth') {
+        $('.BasicAuthField').removeClass('Hidden');
+        $('.BasicAuthField').find('#User').each(function(){
+            $(this).addClass('Validate_Required');
+        });
+    }
+    else {
+        $('.BasicAuthField').addClass('Hidden');
+        $('.BasicAuthField').find('#User').each(function(){
+            $(this).removeClass('Validate_Required');
+        });
+    }
+});
+//]]></script>
+[% END %]
+                            <div class="Clear"></div>
+
+                            <div class="BasicAuthField [% Data.BasicAuthHidden | html %]">
+                                <fieldset class="TableLike">
+
+                                    <label class="Mandatory" for="User"><span class="Marker">*</span> [% Translate("User") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="User" class="W50pc [% Data.UserValidateRequired | html %] [% Data.UserServerError | html %]" type="text" maxlength="250" value="[% Data.User | html %]" name="User"/>
+                                        <div id="UserError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <div id="UserServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <p class="FieldExplanation">
+                                            [% Translate("The user name to be used to access the remote system.") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label for="Password">[% Translate("Password") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="Password" class="W50pc " type="password" maxlength="250" value="[% Data.Password | html %]" name="Password"/>
+                                        <p class="FieldExplanation">
+                                            [% Translate("The password for the privileged user.") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+                                </fieldset>
+                            </div>
+
+                            <label  for="UseX509">[% Translate("Use SSL Options") | html %]:</label>
+                            <div class="Field">
+                                [% Data.UseX509Strg %]
+                                <p class="FieldExplanation">
+                                    [% Translate("Show or hide SSL options to connect to the remote system.") | html %]
+                                </p>
+                            </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#UseX509').bind('change', function(){
+    if ( $(this).val() === 'Yes') {
+        $('.X509Field').removeClass('Hidden');
+
+        $('.X509Field').find('#X509CertFile').each(function(){
+            $(this).addClass('Validate_Required');
+        });
+        $('.X509Field').find('#X509KeyFile').each(function(){
+            $(this).addClass('Validate_Required');
+        });
+    }
+
+    else {
+        $('.X509Field').addClass('Hidden');
+
+        $('.X509Field').find('#X509CertFile').each(function(){
+            $(this).removeClass('Validate_Required');
+        });
+        $('.X509Field').find('#X509KeyFile').each(function(){
+            $(this).removeClass('Validate_Required');
+        });
+    }
+});
+//]]></script>
+[% END %]
+
+                            <div class="X509Field [% Data.X509Hidden | html %]">
+                                <fieldset class="TableLike">
+
+                                    <label class="Mandatory" for="X509CertFile"><span class="Marker">*</span>[% Translate("Certificate File") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="X509CertFile" class="W50pc [% Data.X509CertFileValidateRequired | html %] [% Data.X509CertFileServerError | html %]" type="text" maxlength="250" value="[% Data.X509CertFile | html %]" name="X509CertFile"/>
+                                        <div id="X509CertFileError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <div id="X509CertFileServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <p class="FieldExplanation">
+                                            [% Translate("The full path and name of the SSL certificate file.") | html %]
+                                            <br/>
+                                            [% Translate("e.g. /opt/otrs/var/certificates/REST/ssl.crt") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label class="Mandatory" for="X509KeyFile"><span class="Marker">*</span>[% Translate("Certificate Password File") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="X509KeyFile" class="W50pc [% Data.X509KeyFileValidateRequired | html %] [% Data.X509KeyFileServerError | html %]" type="text" maxlength="250" value="[% Data.X509KeyFile | html %]" name="X509KeyFile"/>
+                                        <div id="X509KeyFileError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <div id="X509KeyFileServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <p class="FieldExplanation">
+                                            [% Translate("The full path and name of the SSL key file.") | html %]
+                                            <br/>
+                                            [% Translate("e.g. /opt/otrs/var/certificates/REST/ssl.key") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+
+                                    <label for="X509CAFile">[% Translate("Certification Authority (CA) File") | html %]:</label>
+                                    <div class="Field">
+                                        <input id="X509CAFile" class="W50pc " type="text" maxlength="250" value="[% Data.X509CAFile | html %]" name="X509CAFile"/>
+                                        <p class="FieldExplanation">
+                                            [% Translate("The full path and name of the certification authority certificate file that validates the SSL certificate.") | html %]
+                                            <br/>
+                                            [% Translate("e.g. /opt/otrs/var/certificates/REST/CA/ca.file") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
+                                </fieldset>
+                            </div>
+
+[% RenderBlockEnd("TransportRequester") %]
+
+                            <div class="Field SpacingTop">
+                                <button type="submit" class="Primary CallForAction" value="[% Translate("Save and continue") | html %]"><span>[% Translate("Save") | html %]</span></button>
+[% RenderBlockStart("SaveAndFinishButton") %]
+                                [% Translate("or") | html %]
+                                <button type="submit" id="SaveAndFinishButton" class="CallForAction" value="[% Translate("Save and finish") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
+                                <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#SaveAndFinishButton').bind('click', function(){
+    $('#ReturnToWebservice').val(1);
+});
+//]]></script>
+[% END %]
+[% RenderBlockEnd("SaveAndFinishButton") %]
+                                [% Translate("or") | html %]
+                                <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]">[% Translate("Cancel") | html %]</a>
+                            </div>
+                            <div class="Clear"></div>
+                        </fieldset>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <div class="Clear"></div>
+</div>

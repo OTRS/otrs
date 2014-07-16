@@ -172,8 +172,8 @@ my @NeededModules = (
     },
     {
         Module    => 'Crypt::SSLeay',
-        Required  => 0,
-        Comment   => 'Required for Generic Interface SOAP SSL connections.',
+        Required  => 1,
+        Comment   => 'Required for Generic Interface REST transport and SOAP SSL connections.',
         InstTypes => {
             aptget => 'libcrypt-ssleay-perl',
             ppm    => 'Crypt-SSLeay',

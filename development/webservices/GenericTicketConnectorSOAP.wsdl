@@ -2136,8 +2136,8 @@
         </wsdl:operation>
     </wsdl:binding>
 
-    <wsdl:service name="GenericTicketConnector">
+    <wsdl:service name="GenericTicketConnectorSOAP">
         <wsdl:port name="GenericTicketConnector_endPoint" binding="tns:GenericTicketConnector_Service">
-            <soap:address location="http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector" />
+            <soap:address location="http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnectorSOAP" />
         </wsdl:port>
     </wsdl:service></wsdl:definitions>

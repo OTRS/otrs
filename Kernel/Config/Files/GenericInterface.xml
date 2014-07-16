@@ -100,6 +100,21 @@
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminGenericInterfaceTransportHTTPREST" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">GenericInterface TransportHTTPREST GUI</Title>
+                <Loader>
+                    <CSS>Core.Agent.Admin.GenericInterface.css</CSS>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminGenericInterfaceWebserviceHistory" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>GenericInterface</Group>
@@ -163,7 +178,18 @@
             </Hash>
         </Setting>
     </ConfigItem>
-
+    <ConfigItem Name="GenericInterface::Transport::Module###HTTP::REST" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the transport layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Transport::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">REST</Item>
+                <Item Key="Protocol">HTTP</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceTransportHTTPREST</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="GenericInterface::Transport::Module###HTTP::Test" Required="0" Valid="0">
         <Description Translatable="1">GenericInterface module registration for the transport layer.</Description>
         <Group>GenericInterface</Group>

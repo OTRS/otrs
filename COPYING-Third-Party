@@ -226,6 +226,24 @@ o Name:    CPAN Selenium::Remote::Driver
   License: Apache License v2 - http://www.apache.org/licenses/LICENSE-2.0
   Note:    # Copyright (c) 2010-2011 Aditya Ivaturi, Gordon Child
 
+o Name:    CPAN REST::Client
+  Web:     n/a
+  License: # This program is free software; you can redistribute it
+           # and/or modify it under the same terms as Perl itself.
+  Note:    # Copyright 2008 - 2010 by Miles Crawford
+
+o Name:    CPAN SOAP::Lite
+  Web:     n/a
+  License: # This library is free software; you can redistribute it
+           # and/or modify it under the same terms as Perl itself.
+           #
+           # This text and all associated documentation for this library
+           # is made available under the Creative Commons Attribution-NoDerivs
+           # 2.0 license. http://creativecommons.org/licenses/by-nd/2.0/
+  Note:    # Copyright (C) 2000-2007 Paul Kulchenko. All rights reserved.
+           # Copyright (C) 2007-2008 Martin Kutter
+           # Copyright (C) 2013 Fred Moyer
+
 # --
 # JavaScript
 # --

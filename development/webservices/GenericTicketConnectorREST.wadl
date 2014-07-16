@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://wadl.dev.java.net/2009/02">
+  <doc xml:lang="en" title="http://localhost"/>
+  <resources base="http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnectorREST">
+    <resource path="Ticket" id="Ticket">
+      <doc xml:lang="en" title="Ticket"/>
+      <param name="UserLogin" type="xs:string" required="false" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+      <param name="Password" type="xs:string" required="false" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+      <param name="SessionID" type="xs:string" required="false" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+      <resource path="{TicketID}" id="">
+        <doc xml:lang="en" title=""/>
+        <param name="TicketID" type="xs:string" required="false" default="" style="template" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+        <method name="GET" id="GET - TicketGet">
+          <doc xml:lang="en" title="GET - TicketGet"/>
+          <request/>
+          <response status="200">
+            <representation mediaType="application/json; charset=UTF-8" element="ns:Response" xmlns:ns="http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnectorREST/Ticket/1"/>
+          </response>
+        </method>
+        <method name="PATCH" id="PATCH - TicketUpdate">
+          <doc xml:lang="en" title="PATCH - TicketUpdate">TicketUpdate parameters must be specified in request body in JSON format</doc>
+          <request>
+            <representation mediaType="application/json"/>
+          </request>
+          <response status="">
+            <representation mediaType="application/json"/>
+          </response>
+          <response status="500">
+            <representation mediaType="text/plain; charset=UTF-8" element="data"/>
+          </response>
+          <response status="200">
+            <representation mediaType="application/json; charset=UTF-8" element="tic:Response" xmlns:tic="http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnectorREST/Ticket/"/>
+          </response>
+        </method>
+      </resource>
+      <method name="GET" id="GET - TicketSearch">
+        <doc xml:lang="en" title="GET - TicketSearch"/>
+        <request/>
+        <response status="200">
+          <representation mediaType="application/json; charset=UTF-8"/>
+        </response>
+      </method>
+      <method name="POST" id="POST - TicketCreate">
+        <doc xml:lang="en" title="POST - TicketCreate">TicketCreate parameters must be specified in request body in JSON format</doc>
+        <request>
+          <representation mediaType="application/json"/>
+        </request>
+        <response status="">
+          <representation mediaType="application/json"/>
+        </response>
+        <response status="200">
+          <representation mediaType="application/json; charset=UTF-8"/>
+        </response>
+      </method>
+    </resource>
+    <resource path="Session" id="Session">
+      <doc xml:lang="en" title="Session"/>
+      <param name="UserLogin" type="xs:string" required="true" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+      <param name="Password" type="xs:string" required="true" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+      <method name="POST" id="POST - SessionCreate">
+        <doc xml:lang="en" title="POST - SessionCreate"/>
+        <request>
+          <representation mediaType="application/json"/>
+        </request>
+        <response status="404">
+          <representation mediaType="text/html; charset=iso-8859-1"/>
+        </response>
+        <response status="">
+          <representation mediaType="application/json"/>
+        </response>
+        <response status="500">
+          <representation mediaType="text/plain; charset=UTF-8"/>
+        </response>
+        <response status="200">
+          <representation mediaType="application/json; charset=UTF-8"/>
+        </response>
+      </method>
+    </resource>
+  </resources>
+</application>

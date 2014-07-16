@@ -80,7 +80,7 @@ Please run it as the 'otrs' user or with the help of su:
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 5;
+    my $Steps = 6;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
@@ -100,6 +100,17 @@ Please run it as the 'otrs' user or with the help of su:
     # migrate FontAwesome
     print "Step $Step of $Steps: Migrate FontAwesome icons... ";
     if ( _MigrateFontAwesome($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "error.\n\n";
+        die;
+    }
+    $Step++;
+
+    # uninstall Merged Feature Add-Ons
+    print "Step $Step of $Steps: Uninstall Merged Feature Add-Ons... ";
+    if ( _UninstallMergedFeatureAddOns($CommonObject) ) {
         print "done.\n\n";
     }
     else {
@@ -291,6 +302,37 @@ sub _MigrateFontAwesome {
         );
     }
 
+    return 1;
+}
+
+=item _UninstallMergedFeatureAddOns()
+
+safe uninstall packages from the database.
+
+    UninstallMergedFeatureAddOns($CommonObject);
+
+=cut
+
+sub _UninstallMergedFeatureAddOns {
+    my $CommonObject = shift;
+
+    my $PackageObject = Kernel::System::Package->new( %{$CommonObject} );
+
+    # qw( ) contains a list of the feature add-ons to uninstall
+    for my $PackageName (
+        qw(
+        OTRSGenericInterfaceREST
+        )
+        )
+    {
+        my $Success = $PackageObject->_PackageUninstallMerged(
+            Name => $PackageName,
+        );
+        if ( !$Success ) {
+            print STDERR "There was an error uninstalling package $PackageName\n";
+            return;
+        }
+    }
     return 1;
 }
 

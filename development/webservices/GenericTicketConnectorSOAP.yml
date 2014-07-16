@@ -2,8 +2,8 @@
 Debugger:
   DebugThreshold: debug
   TestMode: 0
-Description: Ticket Connector Sample
-FrameworkVersion: 3.1.x CVS
+Description: Ticket Connector SOAP Sample
+FrameworkVersion: 3.4.x git
 Provider:
   Operation:
     SessionCreate:
