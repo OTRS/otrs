@@ -1452,6 +1452,10 @@ sub Run {
                     $BlockType = 'Time';
                     $DataValue = $Article{$TicketColumn} || $UserInfo{$TicketColumn};
                 }
+                elsif ( $TicketColumn eq 'Changed' ) {
+                    $BlockType = 'Time';
+                    $DataValue = $Article{$TicketColumn} || $UserInfo{$TicketColumn};
+                }
                 elsif ( $TicketColumn eq 'Responsible' ) {
 
                     # get responsible info
