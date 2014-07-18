@@ -82,6 +82,7 @@ sub new {
         IntroUninstall  => 'ARRAY',
         IntroUpgrade    => 'ARRAY',
         IntroReinstall  => 'ARRAY',
+        PackageMerge    => 'ARRAY',
 
         # *(Pre|Post) - just for compat. to 2.2
         IntroInstallPre    => 'ARRAY',
@@ -119,6 +120,9 @@ sub new {
             %{$Self},
         },
     );
+
+    # reserve space for merged packages
+    $Self->{MergedPackages} = {};
 
     return $Self;
 }
@@ -434,6 +438,16 @@ sub PackageInstall {
         );
     }
 
+    # check merged packages
+    if ( $Structure{PackageMerge} ) {
+
+        # upgrade merged packages (no files)
+        return if !$Self->_MergedPackages(
+            %Param,
+            Structure => \%Structure,
+        );
+    }
+
     # check files
     my $FileCheckOk = 1;
     if ( $Structure{Filelist} && ref $Structure{Filelist} eq 'ARRAY' ) {
@@ -468,7 +482,13 @@ sub PackageInstall {
 
     # install database (pre)
     if ( $Structure{DatabaseInstall} && $Structure{DatabaseInstall}->{pre} ) {
-        $Self->_Database( Database => $Structure{DatabaseInstall}->{pre} );
+
+        my $DatabaseInstall
+            = $Self->_CheckDBMerged( Database => $Structure{DatabaseInstall}->{pre} );
+
+        if ( IsArrayRefWithData($DatabaseInstall) ) {
+            $Self->_Database( Database => $DatabaseInstall );
+        }
     }
 
     # install files
@@ -497,7 +517,13 @@ sub PackageInstall {
 
     # install database (post)
     if ( $Structure{DatabaseInstall} && $Structure{DatabaseInstall}->{post} ) {
-        $Self->_Database( Database => $Structure{DatabaseInstall}->{post} );
+
+        my $DatabaseInstall
+            = $Self->_CheckDBMerged( Database => $Structure{DatabaseInstall}->{post} );
+
+        if ( IsArrayRefWithData($DatabaseInstall) ) {
+            $Self->_Database( Database => $DatabaseInstall );
+        }
     }
 
     # install code (post)
@@ -658,6 +684,7 @@ sub PackageUpgrade {
 
     # check required packages
     if ( $Structure{PackageRequired} && !$Param{Force} ) {
+
         return if !$Self->_CheckPackageRequired(
             %Param,
             PackageRequired => $Structure{PackageRequired},
@@ -666,9 +693,20 @@ sub PackageUpgrade {
 
     # check required modules
     if ( $Structure{ModuleRequired} && !$Param{Force} ) {
+
         return if !$Self->_CheckModuleRequired(
             %Param,
             ModuleRequired => $Structure{ModuleRequired},
+        );
+    }
+
+    # check merged packages
+    if ( $Structure{PackageMerge} ) {
+
+        # upgrade merged packages (no files)
+        return if !$Self->_MergedPackages(
+            %Param,
+            Structure => \%Structure,
         );
     }
 
@@ -768,7 +806,49 @@ sub PackageUpgrade {
 
         my @Parts;
         my $Use = 0;
+        my $UseInstalled;
+        my $NotUseTag;
+        my $NotUseTagLevel;
+        PARTDB:
         for my $Part ( @{ $Structure{DatabaseUpgrade}->{pre} } ) {
+
+            if ( $UseInstalled eq 0 ) {
+
+                if (
+                    $Part->{TagType} eq 'End'
+                    && $Part->{Tag} eq $NotUseTag
+                    && $Part->{TagLevel} eq $NotUseTagLevel
+                    )
+                {
+                    $UseInstalled = 1;
+                }
+
+                next PARTDB;
+
+            }
+            elsif (
+                (
+                    defined $Part->{IfPackage}
+                    && !$Self->{MergedPackages}->{ $Part->{IfPackage} }
+                )
+                || (
+                    defined $Part->{IfNotPackage}
+                    &&
+                    (
+                        defined $Self->{MergedPackages}->{ $Part->{IfNotPackage} }
+                        || $Self->PackageIsInstalled( Name => $Part->{IfNotPackage} )
+                    )
+                )
+                )
+            {
+                # store Tag and TagLevel to be used later and found the end of this level
+                $NotUseTag      = $Part->{Tag};
+                $NotUseTagLevel = $Part->{TagLevel};
+
+                $UseInstalled = 0;
+
+                next PARTDB;
+            }
 
             if ( $Part->{TagLevel} == 3 && $Part->{Version} ) {
 
@@ -823,7 +903,48 @@ sub PackageUpgrade {
 
         my @Parts;
         my $Use = 0;
+        my $UseInstalled;
+        my $NotUseTag;
+        my $NotUseTagLevel;
+        PARTDB:
         for my $Part ( @{ $Structure{DatabaseUpgrade}->{post} } ) {
+
+            if ( $UseInstalled eq 0 ) {
+
+                if (
+                    $Part->{TagType} eq 'End'
+                    && $Part->{Tag} eq $NotUseTag
+                    && $Part->{TagLevel} eq $NotUseTagLevel
+                    )
+                {
+                    $UseInstalled = 1;
+                }
+
+                next PARTDB;
+
+            }
+            elsif (
+                (
+                    defined $Part->{IfPackage}
+                    && !$Self->{MergedPackages}->{ $Part->{IfPackage} }
+                )
+                || (
+                    defined $Part->{IfNotPackage}
+                    && (
+                        defined $Self->{MergedPackages}->{ $Part->{IfNotPackage} }
+                        || $Self->PackageIsInstalled( Name => $Part->{IfNotPackage} )
+                    )
+                )
+                )
+            {
+                # store Tag and TagLevel to be used later and found the end of this level
+                $NotUseTag      = $Part->{Tag};
+                $NotUseTagLevel = $Part->{TagLevel};
+
+                $UseInstalled = 0;
+
+                next PARTDB;
+            }
 
             if ( $Part->{TagLevel} == 3 && $Part->{Version} ) {
 
@@ -2430,6 +2551,24 @@ sub _Code {
         next CODE if !$Code->{Content};
         next CODE if $Param{Type} !~ /^$Code->{Type}$/i;
 
+        # if the merged packages was already installed or not
+        if (
+            (
+                defined $Code->{IfPackage}
+                && !$Self->{MergedPackages}->{ $Code->{IfPackage} }
+            )
+            || (
+                defined $Code->{IfNotPackage}
+                && (
+                    $Self->{MergedPackages}->{ $Code->{IfNotPackage} }
+                    || $Self->PackageIsInstalled( Name => $Code->{IfNotPackage} )
+                )
+            )
+            )
+        {
+            next CODE;
+        }
+
         print STDERR "Code: $Code->{Content}\n";
 
         if ( !eval $Code->{Content} . "\n1;" ) {    ## no critic
@@ -3160,7 +3299,7 @@ sub _PackageUninstallMerged {
     if ( !$Param{Name} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Need Name (Name of the package)!'
+            Message  => 'Need Name (Name of the package)!',
         );
         return;
     }
@@ -3260,6 +3399,241 @@ sub _PackageUninstallMerged {
     $Self->{LoaderObject}->CacheDelete();
 
     return $PackageRemove;
+}
+
+sub _MergedPackages {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !defined $Param{Structure}->{PackageMerge} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => 'PackageMerge not defined!',
+        );
+
+        return;
+    }
+
+    return 1 if !$Param{Structure}->{PackageMerge};
+    return 1 if ref $Param{Structure}->{PackageMerge} ne 'ARRAY';
+
+    # get repository list
+    my @RepositoryList = $Self->RepositoryList();
+    my %PackageListLookup = map { $_->{Name}->{Content} => $_ } @RepositoryList;
+
+    # check required packages
+    PACKAGE:
+    for my $Package ( @{ $Param{Structure}->{PackageMerge} } ) {
+
+        next PACKAGE if !$Package;
+
+        my $Installed        = 0;
+        my $InstalledVersion = 0;
+        my $TargetVersion    = $Package->{TargetVersion};
+        my %PackageDetails;
+
+        # check if the package is installed, otherwise go next package (nothing to do)
+        my $PackageInstalled = $Self->PackageIsInstalled(
+            Name => $Package->{Name},
+        );
+
+        # do nothing if package is not installed
+        next PACKAGE if !$PackageInstalled;
+
+        # get complete package info
+        %PackageDetails = %{ $PackageListLookup{ $Package->{Name} } };
+
+        # verify package version
+        $InstalledVersion = $PackageDetails{Version}->{Content};
+
+        # store package name and version for
+        # use it on code and database installation
+        # for principal package
+        $Self->{MergedPackages}->{ $Package->{Name} } = $InstalledVersion;
+
+        my $CheckTargetVersion = $Self->_CheckVersion(
+            VersionNew       => $TargetVersion,
+            VersionInstalled => $InstalledVersion,
+            Type             => 'Max',
+        );
+
+        if ( $TargetVersion eq $InstalledVersion ) {
+
+            # do nothing, installed version is the correct one,
+            # code and database are up to date
+        }
+
+        # merged package shouldn't be newer than the known mergeable target version
+        elsif ( !$CheckTargetVersion ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Sorry, can't install package, because package "
+                    . "$Package->{Name} v$InstalledVersion newer than required v$TargetVersion!",
+            );
+
+            return;
+        }
+        else {
+
+            # upgrade code (merge)
+            if (
+                $Param{Structure}->{CodeUpgrade}
+                && ref $Param{Structure}->{CodeUpgrade} eq 'ARRAY'
+                )
+            {
+
+                my @Parts;
+                PART:
+                for my $Part ( @{ $Param{Structure}->{CodeUpgrade} } ) {
+
+                    if ( $Part->{Version} ) {
+
+                        # if VersionNew >= VersionInstalled add code for execution
+                        my $CheckVersion = $Self->_CheckVersion(
+                            VersionNew       => $Part->{Version},
+                            VersionInstalled => $TargetVersion,
+                            Type             => 'Min',
+                        );
+
+                        if ($CheckVersion) {
+                            push @Parts, $Part;
+                        }
+                    }
+                    else {
+                        push @Parts, $Part;
+                    }
+                }
+
+                $Self->_Code(
+                    Code      => \@Parts,
+                    Type      => 'merge',
+                    Structure => $Param{Structure},
+                );
+            }
+
+            # upgrade database (merge)
+            if (
+                $Param{Structure}->{DatabaseUpgrade}->{merge}
+                && ref $Param{Structure}->{DatabaseUpgrade}->{merge} eq 'ARRAY'
+                )
+            {
+
+                my @Parts;
+                my $Use = 0;
+                for my $Part ( @{ $Param{Structure}->{DatabaseUpgrade}->{merge} } ) {
+
+                    if ( $Part->{TagLevel} == 3 && $Part->{Version} ) {
+
+                        my $CheckVersion = $Self->_CheckVersion(
+                            VersionNew       => $Part->{Version},
+                            VersionInstalled => $InstalledVersion,
+                            Type             => 'Min',
+                        );
+
+                        if ( !$CheckVersion ) {
+                            $Use   = 1;
+                            @Parts = ();
+                            push @Parts, $Part;
+                        }
+                    }
+                    elsif ( $Use && $Part->{TagLevel} == 3 && $Part->{TagType} eq 'End' ) {
+                        $Use = 0;
+                        push @Parts, $Part;
+                        $Self->_Database( Database => \@Parts );
+                    }
+                    elsif ($Use) {
+                        push @Parts, $Part;
+                    }
+                }
+            }
+
+        }
+
+        # purge package
+        if ( IsArrayRefWithData( $PackageDetails{Filelist} ) ) {
+            for my $File ( @{ $PackageDetails{Filelist} } ) {
+
+                # remove file
+                $Self->_FileRemove( File => $File );
+            }
+        }
+
+        # remove merged package from repository
+        return if !$Self->RepositoryRemove(
+            Name    => $Package->{Name},
+            Version => $InstalledVersion,
+        );
+    }
+
+    return 1;
+}
+
+sub _CheckDBMerged {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !defined $Param{Database} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => 'Database not defined!',
+        );
+
+        return;
+    }
+
+    if ( ref $Param{Database} ne 'ARRAY' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need array ref in Database param!',
+        );
+
+        return;
+    }
+
+    my @Parts;
+    my $Use = 1;
+    my $NotUseTag;
+    my $NotUseTagLevel;
+    PART:
+    for my $Part ( @{ $Param{Database} } ) {
+
+        if ( $Use eq 0 ) {
+
+            if (
+                $Part->{TagType} eq 'End'
+                && $Part->{Tag} eq $NotUseTag
+                && $Part->{TagLevel} eq $NotUseTagLevel
+                )
+            {
+                $Use = 1;
+            }
+
+            next PART;
+
+        }
+        elsif (
+            (
+                defined $Part->{IfPackage}
+                && !$Self->{MergedPackages}->{ $Part->{IfPackage} }
+            )
+            || (
+                defined $Part->{IfNotPackage}
+                && defined $Self->{MergedPackages}->{ $Part->{IfNotPackage} }
+            )
+            )
+        {
+            # store Tag and TagLevel to be used later and found the end of this level
+            $NotUseTag      = $Part->{Tag};
+            $NotUseTagLevel = $Part->{TagLevel};
+
+            $Use = 0;
+            next PART;
+        }
+
+        push @Parts, $Part;
+    }
+
+    return \@Parts;
 }
 
 sub DESTROY {
