@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-07-18 Changed customer user item to font awesome, thanks to Nils Leideck.
  - 2014-07-16 Added Generic Interface Transport HTTP REST
  - 2014-07-14 Added possibility to reply directly to internal and external notes.
  - 2014-07-10 Fixed bug#[10623](http://bugs.otrs.org/show_bug.cgi?id=10623) - Ticket owner is not shown regardless what is configured, thanks to Renee Bäcker.

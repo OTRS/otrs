@@ -3484,6 +3484,7 @@ You can log in via the following URL:
                 <Item Key="Target">_blank</Item>
                 <Item Key="Text">Location</Item>
                 <Item Key="URL">http://maps.google.com/maps?z=7&amp;q=</Item>
+                <Item Key="IconName">fa-globe</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3501,6 +3502,7 @@ You can log in via the following URL:
                 <Item Key="Target">_blank</Item>
                 <Item Key="Text">Google</Item>
                 <Item Key="URL">http://google.com/search?q=</Item>
+                <Item Key="IconName">fa-google</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3518,6 +3520,7 @@ You can log in via the following URL:
                 <Item Key="Target">_blank</Item>
                 <Item Key="Text">LinkedIn</Item>
                 <Item Key="URL">http://www.linkedin.com/commonSearch?type=people&amp;keywords=</Item>
+                <Item Key="IconName">fa-linkedin</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3535,6 +3538,7 @@ You can log in via the following URL:
                 <Item Key="Target">_blank</Item>
                 <Item Key="Text">XING</Item>
                 <Item Key="URL">https://www.xing.com/app/search?op=search;keywords=</Item>
+                <Item Key="IconName">fa-xing</Item>
             </Hash>
         </Setting>
     </ConfigItem>

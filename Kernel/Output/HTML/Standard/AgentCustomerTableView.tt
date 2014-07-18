@@ -38,6 +38,7 @@
     <ul class="ItemRow">
 [% RenderBlockStart("CustomerItemRow") %]
         <li>
+            <i class="fa [% Data.IconName %] [% Data.CSSClass %]"></i>
             <a class="[% Data.CSSClass %]" href="[% Data.URL %]" target="[% Data.Target %]" title="[% Translate(Data.Text) | html %]">
                 [% Translate(Data.Text) | html %][% Data.Extension | html %]
             </a>

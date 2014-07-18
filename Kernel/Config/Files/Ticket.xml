@@ -4804,6 +4804,8 @@
                     <Item Key="Text" Translatable="1">Open tickets (customer)</Item>
                     <Item Key="Action">AgentTicketSearch</Item>
                     <Item Key="Subaction">Search</Item>
+                    <Item Key="IconNameOpenTicket">fa-exclamation-circle</Item>
+                    <Item Key="IconNameNoOpenTicket">fa-check-circle</Item>
                 </Hash>
             </Setting>
     </ConfigItem>

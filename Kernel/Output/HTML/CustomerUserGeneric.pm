@@ -51,12 +51,15 @@ sub Run {
     }
     $URL = $Param{Config}->{URL} . $URL;
 
+    my $IconName = $Param{Config}->{IconName};
+
     # generate block
     $Self->{LayoutObject}->Block(
         Name => 'CustomerItemRow',
         Data => {
             %{ $Param{Config} },
             URL => $URL,
+            IconName => $IconName,
         },
     );
 

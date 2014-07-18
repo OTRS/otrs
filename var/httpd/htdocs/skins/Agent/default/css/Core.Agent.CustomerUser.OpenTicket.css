@@ -11,14 +11,12 @@
 
 @media screen,projection,tv,handheld {
 
-.ItemRow .OpenTicket {
-    padding-left: 22px;
-    background: url(../img/icons/redled-small.png) no-repeat center left;
+.ItemRow i.OpenTicket {
+    color: red;
 }
 
-.ItemRow .NoOpenTicket {
-    padding-left: 22px;
-    background: url(../img/icons/greenled-small.png) no-repeat center left;
+.ItemRow i.NoOpenTicket {
+    color: green;
 }
 
 } /* end @media */
