@@ -77,7 +77,7 @@ sub new {
         $Self->{ReplyToArticleContent} = \%ReplyToArticleContent;
 
         # get sender of original note (to inform sender about answer)
-        if ( $ReplyToArticleContent{CreatedBy}) {
+        if ( $ReplyToArticleContent{CreatedBy} ) {
             my @ReplyToSenderID = ( $ReplyToArticleContent{CreatedBy} );
             $Self->{ReplyToSenderUserID} = \@ReplyToSenderID;
         }
@@ -831,7 +831,11 @@ sub Run {
             my $From = "\"$Self->{UserFirstname} $Self->{UserLastname}\" <$Self->{UserEmail}>";
             my @NotifyUserIDs;
             if ( $Self->{ReplyToArticle} ) {
-                @NotifyUserIDs = ( @{ $Self->{ReplyToSenderUserID} }, @{ $Self->{InformUserID} }, @{ $Self->{InvolvedUserID} } );
+                @NotifyUserIDs = (
+                    @{ $Self->{ReplyToSenderUserID} },
+                    @{ $Self->{InformUserID} },
+                    @{ $Self->{InvolvedUserID} }
+                );
             }
             else {
                 @NotifyUserIDs = ( @{ $Self->{InformUserID} }, @{ $Self->{InvolvedUserID} } );

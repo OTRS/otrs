@@ -1284,13 +1284,16 @@ sub LinkListWithData {
 
                         TICKETID:
                         for my $TicketID (
-                            sort keys %{ $LinkList->{$Object}->{$LinkType}->{$Direction} } )
+                            sort keys %{ $LinkList->{$Object}->{$LinkType}->{$Direction} }
+                            )
                         {
 
                             next TICKETID
                                 if
-                                !$IgnoreLinkTicketStateTypesHash{ $LinkList->{$Object}->{$LinkType}
-                                    ->{$Direction}->{$TicketID}->{StateType} };
+                                !$IgnoreLinkTicketStateTypesHash{
+                                $LinkList->{$Object}->{$LinkType}
+                                    ->{$Direction}->{$TicketID}->{StateType}
+                                };
 
                             delete $LinkList->{$Object}->{$LinkType}->{$Direction}->{$TicketID};
                         }

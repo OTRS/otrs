@@ -37,10 +37,10 @@ sub new {
             $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
-    $Self->{StateObject}        = Kernel::System::State->new(%Param);
-    $Self->{UploadCacheObject}  = Kernel::System::Web::UploadCache->new(%Param);
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{StateObject}            = Kernel::System::State->new(%Param);
+    $Self->{UploadCacheObject}      = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{DynamicFieldObject}     = Kernel::System::DynamicField->new(%Param);
+    $Self->{BackendObject}          = Kernel::System::DynamicField::Backend->new(%Param);
     $Self->{StandardTemplateObject} = Kernel::System::StandardTemplate->new(%Param);
 
     # get params
@@ -354,7 +354,7 @@ sub Run {
 
         my $StandardTemplates = $Self->_GetStandardTemplates(
             %GetParam,
-            QueueID  => $GetParam{DestQueueID} || '',
+            QueueID => $GetParam{DestQueueID} || '',
             TicketID => $Self->{TicketID},
         );
 
@@ -1389,7 +1389,7 @@ sub AgentMove {
 
         if ( IsHashRefWithData( \%StandardTemplates ) ) {
             $Param{StandardTemplateStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data       => $QueueStandardTemplates || {},
+                Data       => $QueueStandardTemplates    || {},
                 Name       => 'StandardTemplateID',
                 SelectedID => $Param{StandardTemplateID} || '',
                 PossibleNone => 1,

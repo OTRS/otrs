@@ -605,7 +605,7 @@ sub Run {
 
             # set DSN for Config.pm
             $DB{ConfigDSN} = 'DBI:Oracle://$Self->{DatabaseHost}:' . $DB{DBPort} . '/' . $DB{DBSID};
-            $DB{DSN} = "DBI:Oracle://$Self->{DBHost}:$DB{DBPort}/$Self->{DBSID}";
+            $DB{DSN}       = "DBI:Oracle://$Self->{DBHost}:$DB{DBPort}/$Self->{DBSID}";
             $Self->{ConfigObject}->Set(
                 Key   => 'Database::Connect',
                 Value => "ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS'",
