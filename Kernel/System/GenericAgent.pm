@@ -560,13 +560,6 @@ sub JobGet {
             $Data{ $Row[0] } = $Row[1];
         }
     }
-    for my $Key ( sort keys %Data ) {
-        if ( $Key =~ /(NewParam)Key(\d)/ ) {
-            if ( $Data{"$1Value$2"} ) {
-                $Data{"New$Data{$Key}"} = $Data{"$1Value$2"};
-            }
-        }
-    }
 
     # get time settings
     my %Map = (

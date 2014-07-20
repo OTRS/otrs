@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-07-22 Fixed bug#[10644](http://bugs.otrs.org/show_bug.cgi?id=10644) - Module parameters in GenericAgent are copied to ticket parameters
  - 2017-07-21 Changed Action based Ticket ACLs format from a hash form to an array form just like the other ACLs, including possiblilty to define Action based Ticket ACLs in the PossibleNot and PossibleAdd sections.
  - 2017-07-21 Added new Tiket ACL debugging options.
  - 2014-07-21 Added [Not], [NotRegExp] and [Notregexp] modifiers for all Ticket ACL sections.
