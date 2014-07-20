@@ -111,7 +111,7 @@ sub new {
     }
     $Self->{BackendObject} = $Backend->new( %{$Self} );
 
-    # if the backend constructor failed, it returns an error hash, pass it on in this casd
+    # if the backend constructor failed, it returns an error hash, pass it on in this case
     return $Self->{BackendObject} if ref $Self->{BackendObject} ne $Backend;
 
     return $Self;
