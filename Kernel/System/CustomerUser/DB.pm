@@ -721,34 +721,38 @@ sub CustomerUserAdd {
     my $SQL = "INSERT INTO $Self->{CustomerTable} (";
     my @Bind;
     my %SeenKey;    # If the map contains duplicated field names, insert only once.
+    my @ColumnNames;
+
     MAPENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         next MAPENTRY if ( lc( $Entry->[0] ) eq "userpassword" );
         next MAPENTRY if $SeenKey{ $Entry->[2] }++;
-        $SQL .= " $Entry->[2], ";
+        push @ColumnNames, $Entry->[2];
     }
 
+    $SQL .= join ', ', @ColumnNames;
+
     if ( !$Self->{ForeignDB} ) {
-        $SQL .= 'create_time, create_by, change_time, change_by';
-    }
-    else {
-        chop $SQL;
-        chop $SQL;
+        $SQL .= ', create_time, create_by, change_time, change_by';
     }
 
     $SQL .= ') VALUES (';
 
     my %SeenValue;
+    my $BindColumns = 0;
+
     ENTRY:
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         next ENTRY if ( lc( $Entry->[0] ) eq "userpassword" );
         next ENTRY if $SeenValue{ $Entry->[2] }++;
-        $SQL .= " ?, ";
+        $BindColumns++;
         push @Bind, \$Value{ $Entry->[0] };
     }
 
+    $SQL .= join ', ', ('?') x $BindColumns;
+
     if ( !$Self->{ForeignDB} ) {
-        $SQL .= 'current_timestamp, ?, current_timestamp, ?';
+        $SQL .= ', current_timestamp, ?, current_timestamp, ?';
         push @Bind, \$Param{UserID};
         push @Bind, \$Param{UserID};
     }
