@@ -58,7 +58,7 @@ sub Run {
         Name => 'CustomerItemRow',
         Data => {
             %{ $Param{Config} },
-            URL => $URL,
+            URL      => $URL,
             IconName => $IconName,
         },
     );

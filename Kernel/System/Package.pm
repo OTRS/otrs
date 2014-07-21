@@ -3408,7 +3408,7 @@ sub _MergedPackages {
     if ( !defined $Param{Structure}->{PackageMerge} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => 'PackageMerge not defined!',
+            Message  => 'PackageMerge not defined!',
         );
 
         return;
@@ -3575,7 +3575,7 @@ sub _CheckDBMerged {
     if ( !defined $Param{Database} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => 'Database not defined!',
+            Message  => 'Database not defined!',
         );
 
         return;
