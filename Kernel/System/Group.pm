@@ -12,7 +12,6 @@ package Kernel::System::Group;
 use strict;
 use warnings;
 
-use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 =head1 NAME
@@ -43,14 +42,14 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw( DBObject ConfigObject LogObject ValidObject )
+            ],
+        ),
+    };
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(DBObject ConfigObject MainObject LogObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %{$Self},
