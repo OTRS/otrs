@@ -16,9 +16,26 @@ use File::Path;
 use utf8;
 use Encode ();
 
+use Kernel::System::Ticket::Article;
+use Kernel::System::TicketSearch;
+use Kernel::System::Type;
+use Kernel::System::State;
+use Kernel::System::Priority;
+use Kernel::System::Service;
+use Kernel::System::SLA;
+use Kernel::System::Lock;
+use Kernel::System::Queue;
+use Kernel::System::User;
+use Kernel::System::Group;
+use Kernel::System::Cache;
+use Kernel::System::CustomerUser;
+use Kernel::System::CustomerGroup;
 use Kernel::System::Email;
+use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 use Kernel::System::LinkObject;
+use Kernel::System::EventHandler;
+use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::ProcessManagement::Activity;
 use Kernel::System::ProcessManagement::ActivityDialog;
@@ -58,37 +75,21 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {
-        $Kernel::OM->ObjectHash(
-            Objects => [
-                qw(
-                    ConfigObject
-                    LogObject
-                    TimeObject
-                    DBObject
-                    MainObject
-                    EncodeObject
-                    UserObject
-                    GroupObject
-                    QueueObject
-                    CustomerUserObject
-                    CustomerGroupObject
-                    TypeObject
-                    PriorityObject
-                    ServiceObject
-                    SLAObject
-                    StateObject
-                    LockObject
-                    ValidObject
-                    DynamicFieldObject
-                )
-            ],
-        ),
-    };
+    my $Self = {};
     bless( $Self, $Type );
 
     # 0=off; 1=on;
     $Self->{Debug} = $Param{Debug} || 0;
+
+    # get needed objects
+    for my $Needed (qw(ConfigObject LogObject TimeObject DBObject MainObject EncodeObject)) {
+        if ( $Param{$Needed} ) {
+            $Self->{$Needed} = $Param{$Needed};
+        }
+        else {
+            die "Got no $Needed!";
+        }
+    }
 
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
@@ -103,13 +104,44 @@ sub new {
     );
 
     # create common needed module objects
-    $Self->{SendmailObject} = Kernel::System::Email->new( %{$Self} );
+    $Self->{UserObject} = $Kernel::OM->Get('UserObject');
+    if ( !$Param{GroupObject} ) {
+        $Self->{GroupObject} = $Kernel::OM->Get('GroupObject');
+    }
+    else {
+        $Self->{GroupObject} = $Param{GroupObject};
+    }
+
+    $Self->{CustomerUserObject} = $Kernel::OM->Get('CustomerUserObject');
+    if ( !$Param{CustomerGroupObject} ) {
+        $Self->{CustomerGroupObject} = $Kernel::OM->Get('CustomerGroupObject');
+    }
+    else {
+        $Self->{CustomerGroupObject} = $Param{CustomerGroupObject};
+    }
+
+    if ( !$Param{QueueObject} ) {
+        $Self->{QueueObject} = $Kernel::OM->Get('QueueObject');
+    }
+    else {
+        $Self->{QueueObject} = $Param{QueueObject};
+    }
+
+    $Self->{SendmailObject}     = Kernel::System::Email->new( %{$Self} );
+    $Self->{TypeObject}         = Kernel::System::Type->new( %{$Self} );
+    $Self->{PriorityObject}     = Kernel::System::Priority->new( %{$Self} );
+    $Self->{ServiceObject}      = Kernel::System::Service->new( %{$Self} );
+    $Self->{SLAObject}          = Kernel::System::SLA->new( %{$Self} );
+    $Self->{StateObject}        = Kernel::System::State->new( %{$Self} );
+    $Self->{LockObject}         = Kernel::System::Lock->new( %{$Self} );
+    $Self->{ValidObject}        = Kernel::System::Valid->new( %{$Self} );
+    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
 
     # create the DynamicFieldBackendObject passing $Self as TicketObject, this is needed to
     # delete internal cache
     $Self->{DynamicFieldBackendObject} = Kernel::System::DynamicField::Backend->new(
         %{$Self},
-        TicketObject => $Self,
+        TicketObject => $Self
     );
 
     # create ProcessManagement objects
