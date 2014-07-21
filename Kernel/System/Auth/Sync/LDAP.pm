@@ -18,16 +18,14 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw( LogObject ConfigObject UserObject GroupObject EncodeObject )
+            ],
+        ),
+    };
     bless( $Self, $Type );
-
-    # check needed objects
-    for my $Needed (
-        qw(LogObject ConfigObject DBObject UserObject GroupObject EncodeObject MainObject)
-        )
-    {
-        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
-    }
 
     # Debug 0=off 1=on
     $Self->{Debug} = 0;

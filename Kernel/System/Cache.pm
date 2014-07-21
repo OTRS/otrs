@@ -42,9 +42,10 @@ sub new {
     # allocate new hash for object
     my $Self = {
         $Kernel::OM->ObjectHash(
-            Objects =>
-                [ qw( MainObject ConfigObject LogObject EncodeObject ) ],
-            )
+            Objects => [
+                qw( MainObject ConfigObject LogObject EncodeObject )
+            ],
+        ),
     };
     bless( $Self, $Type );
 

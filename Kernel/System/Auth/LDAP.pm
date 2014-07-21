@@ -17,13 +17,14 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw( LogObject ConfigObject EncodeObject )
+            ],
+        ),
+    };
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(LogObject ConfigObject DBObject UserObject GroupObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "No $_!";
-    }
 
     # Debug 0=off 1=on
     $Self->{Debug} = 0;

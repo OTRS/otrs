@@ -19,13 +19,14 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw( LogObject ConfigObject )
+            ],
+        ),
+    };
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(LogObject ConfigObject DBObject)) {
-        $Self->{$_} = $Param{$_} || die "No $_!";
-    }
 
     # Debug 0=off 1=on
     $Self->{Debug} = 0;
@@ -53,9 +54,8 @@ sub GetOption {
     }
 
     # module options
-    my %Option = ( PreAuth => 0, );
+    my %Option = ( PreAuth => 0 );
 
-    # return option
     return $Option{ $Param{What} };
 }
 

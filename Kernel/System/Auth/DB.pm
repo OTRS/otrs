@@ -15,20 +15,18 @@ use warnings;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 use Digest::SHA;
 
-use Kernel::System::Valid;
-
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw( LogObject ConfigObject DBObject EncodeObject MainObject ValidObject )
+            ],
+        ),
+    };
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(LogObject ConfigObject DBObject EncodeObject MainObject UserObject)) {
-        $Self->{$_} = $Param{$_} || die "No $_!";
-    }
-    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     # Debug 0=off 1=on
     $Self->{Debug} = 0;

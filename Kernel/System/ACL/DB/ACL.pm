@@ -45,9 +45,8 @@ sub new {
     my $Self = {
         $Kernel::OM->ObjectHash(
             Objects => [
-                qw(ConfigObject EncodeObject LogObject TimeObject MainObject
-                    DBObject CacheObject YAMLObject UserObject)
-                ]
+                qw(ConfigObject LogObject TimeObject MainObject DBObject CacheObject YAMLObject UserObject)
+            ],
         ),
     };
     bless( $Self, $Type );
