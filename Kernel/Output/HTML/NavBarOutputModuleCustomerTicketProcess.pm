@@ -114,17 +114,15 @@ sub Run {
             );
 
             # validate the ProcessList with stored acls
-            $Self->{TicketObject}->TicketAcl(
-                ReturnType     => 'Ticket',
+            my $ACL = $Self->{TicketObject}->TicketAcl(
+                ReturnType     => 'Process',
                 ReturnSubType  => '-',
                 Data           => $ProcessList,
                 CustomerUserID => $Self->{UserID},
             );
 
-            if ( IsHashRefWithData($ProcessList) ) {
-                $ProcessList = $Self->{TicketObject}->TicketAclProcessData(
-                    Processes => $ProcessList,
-                );
+            if ( IsHashRefWithData($ProcessList) && $ACL ) {
+                %{$ProcessList} = $Self->{TicketObject}->TicketAclData();
             }
 
             # set the value to show or hide the menu item (based in process list)

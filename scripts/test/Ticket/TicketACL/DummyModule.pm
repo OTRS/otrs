@@ -1,13 +1,16 @@
 # --
-# scripts/test/sample/Ticket/Acl/DummyModule.pm - dummy Acl module for testing
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# scripts/test/Ticket/TicketACL/DummyModule.pm - dummy Acl module for testing
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package scripts::test::sample::Ticket::Acl::DummyModule;
+use strict;
+use warnings;
+
+package scripts::test::Ticket::TicketACL::DummyModule;    ## no critic
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -38,6 +41,7 @@ sub Run {
         }
     }
     $Param{Acl}->{DummyModule} = {
+
         # match properties
         Properties => {
 
@@ -48,12 +52,11 @@ sub Run {
         },
         PossibleNot => {
             Ticket => {
-                State   => ['open'],
-            }
+                State => ['open'],
+                }
         },
     };
     return 1;
 }
-
 
 1;

@@ -8444,6 +8444,7 @@
         <Setting>
             <Hash>
                 <Item Key="Possible">Possible</Item>
+                <Item Key="PossibleAdd">PossibleAdd</Item>
                 <Item Key="PossibleNot">PossibleNot</Item>
             </Hash>
         </Setting>
@@ -8462,6 +8463,22 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="ACLKeysLevel2::PossibleAdd" Required="0" Valid="1">
+        <Description Translatable="1">Defines which items are available in second level of the ACL structure.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketACL</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Ticket">Ticket</Item>
+                <Item Key="Action">Action</Item>
+                <!-- Not Implemented Yet
+                <Item Key="ActivityDialog">ActivityDialog</Item>
+                <Item Key="Form">Form</Item>
+                <Item Key="Process">Process</Item>
+                -->
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="ACLKeysLevel2::PossibleNot" Required="0" Valid="1">
         <Description Translatable="1">Defines which items are available in second level of the ACL structure.</Description>
         <Group>Ticket</Group>
@@ -8469,6 +8486,7 @@
         <Setting>
             <Hash>
                 <Item Key="Ticket">Ticket</Item>
+                <Item Key="Action">Action</Item>
                 <Item Key="ActivityDialog">ActivityDialog</Item>
                 <Item Key="Form">Form</Item>
                 <Item Key="Process">Process</Item>
@@ -8558,6 +8576,41 @@
         <SubGroup>Core::TicketACL</SubGroup>
         <Setting>
             <String Regex="">3600</String><!-- default 1 hour -->
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketACL::Debug::Enabled" Required="1" Valid="1">
+        <Description Translatable="1">If enabled debugging information for ACLs is logged.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketACL</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                    <Item Key="0">No</Item>
+                    <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketACL::Debug::LogPriority" Required="0" Valid="0">
+        <Description Translatable="1">Defines the priority in which the information is logged and presented.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketACL</SubGroup>
+        <Setting>
+            <Option SelectedID="debug">
+                    <Item Key="debug">Debug</Item>
+                    <Item Key="info">Info</Item>
+                    <Item Key="notice">Notice</Item>
+                    <Item Key="error">Error</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TicketACL::Debug::Filter###00-Default" Required="0" Valid="0">
+        <Description Translatable="1">Filter for debugging ACLs. Note: More ticket attributes can be added in the format &lt;OTRS_TICKET_Attribute&gt; e.g. &lt;OTRS_TICKET_Priority&gt;.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketACL</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="ACLName"></Item>
+                <Item Key="&lt;OTRS_TICKET_TicketNumber&gt;"></Item>
+            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostmasterMaxEmails" Required="1" Valid="1">

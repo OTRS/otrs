@@ -38,11 +38,11 @@ $ConfigObject->Set(
     Key   => 'Ticket::Acl::Module',
     Value => {
         DummyModule => {
-            Module        => 'scripts::test::sample::Ticket::Acl::DummyModule',
+            Module        => 'scripts::test::Ticket::TicketACL::DummyModule',
             ReturnType    => 'Ticket',
             ReturnSubType => 'State',
             Checks        => ['Ticket'],
-            }
+        },
     },
 );
 my $ValidObject = Kernel::System::Valid->new( %{$Self} );

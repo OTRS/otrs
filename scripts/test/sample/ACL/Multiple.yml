@@ -1,0 +1,45 @@
+---
+- ChangeBy: root@localhost
+  ChangeTime: 2014-06-03 19:51:17
+  Comment: ''
+  ConfigChange:
+    Possible:
+      Ticket:
+        Queue:
+        - Alert1
+  ConfigMatch:
+    Properties:
+      Ticket:
+        Priority:
+        - 5 very high
+        Queue:
+        - Raw
+  CreateBy: root@localhost
+  CreateTime: 2014-06-03 19:03:57
+  Description: ''
+  ID: 9
+  Name: 100-ACL-Test-Multiple1
+  StopAfterMatch: 0
+  ValidID: 1
+- ChangeBy: root@localhost
+  ChangeTime: 2014-06-03 19:51:17
+  Comment: ''
+  ConfigChange:
+    Possible:
+      Ticket:
+        Queue:
+        - Alert2
+  ConfigMatch:
+    Properties:
+      Ticket:
+        Priority:
+        - 5 very high
+        Queue:
+        - Raw
+  CreateBy: root@localhost
+  CreateTime: 2014-06-03 19:03:57
+  Description: ''
+  ID: 10
+  Name: 100-ACL-Test-Multiple2
+  StopAfterMatch: 0
+  ValidID: 1

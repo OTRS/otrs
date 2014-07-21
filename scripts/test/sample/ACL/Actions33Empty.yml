@@ -1,0 +1,22 @@
+---
+- ChangeBy: root@localhost
+  ChangeTime: 2014-06-16 11:31:55
+  Comment: Comment
+  ConfigChange:
+    Possible:
+      Action:
+        AgentTicketPhone: '1'
+        AgentTicketPrint: '1'
+    PossibleNot: {}
+  ConfigMatch:
+    Properties:
+      Frontend:
+        AgentTicketCommon:
+        - '1'
+  CreateBy: root@localhost
+  CreateTime: 2013-09-20 11:56:05
+  Description: ''
+  ID: 5
+  Name: 100-ACL-Test-Actions33Empty
+  StopAfterMatch: 1
+  ValidID: 1

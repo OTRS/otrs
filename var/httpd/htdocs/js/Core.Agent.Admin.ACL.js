@@ -21,7 +21,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
  */
 Core.Agent.Admin.ACL = (function (TargetNS) {
 
-    var KeysWithoutSubkeys = [ 'ActivityDialog', 'Process' ];
+    var KeysWithoutSubkeys = [ 'ActivityDialog', 'Action', 'Process' ];
 
     function ShowDeleteACLConfirmationDialog($Element) {
         var DialogElement = $Element.data('dialog-element'),
@@ -130,7 +130,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                                 .next('input')
                                 .attr('data-parent', Level2Key);
 
-                            if ( Level2Key === 'DynamicField' || Level2Key === 'Action' ) {
+                            if ( Level2Key === 'DynamicField' ) {
                                 SelectHTML = $('#' + Level2Key).parent().html();
                                 SelectHTML += '<span class="AddAll">' + Core.Agent.Admin.ACL.Localization.AddAll + '</span>';
 
@@ -314,7 +314,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                     .next('input')
                     .attr('data-parent', Value);
 
-                if ( Value === 'DynamicField' || Value === 'Action' ) {
+                if ( Value === 'DynamicField' ) {
                     SelectHTML = $('#' + Value).parent().html();
                     SelectHTML += '<span class="AddAll">' + Core.Agent.Admin.ACL.Localization.AddAll + '</span>';
 
@@ -377,7 +377,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
 
             if (Value) {
 
-                Prefix = $Object.prev('select').val();
+                Prefix = $Object.prevAll('select').val();
                 if (Prefix) {
                     Value = Prefix + Value;
                 }
@@ -389,9 +389,9 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                 $LevelObj.insertBefore($Object.parent());
             }
             $Object
-                .prev('select')
+                .prevAll('select')
                 .addClass('Hidden')
-                .next('input')
+                .nextAll('input')
                 .remove();
 
             if (Value) {
@@ -512,11 +512,19 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
         });
 
         $('.ACLStructure').on('click', '.AddDataItem', function() {
+
+            // check if there is already an item placeholder. Do nothing then.
+            if ($(this).prevAll('.NewDataItem').length) {
+                return false;
+            }
+
             $(this)
                 .before('<input type="text" class="NewDataItem" data-level="4" />')
                 .prevAll('select')
                 .removeClass('Hidden');
-            $('.NewDataItem').prev('select').focus();
+            $('.NewDataItem').prevAll('select').focus();
+
+            Core.App.Publish('ACL.InitAutocomplete');
         });
 
         $('.ACLStructure').on('blur keydown', '.NewDataItem', function(Event) {
@@ -634,7 +642,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                     .nextAll('span')
                     .remove();
             }
-
+            Core.App.Publish('ACL.InitAutocomplete');
         });
 
         // prevent users from accidentally submitting the form on pressing 'enter'
@@ -766,6 +774,43 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
             $('input[name=ConfigChange]'),
             $('#ACLChange')
         );
+
+        Core.App.Subscribe('ACL.InitAutocomplete', function() {
+
+            $('.LiveEdit, .NewDataItem').each(function() {
+
+                // only do it for the 'Action' item (can be extended in the future)
+                if ( $(this).closest('ul').closest('li').data('content') === 'Action' ) {
+
+                    Core.UI.Autocomplete.Init(
+                        $(this),
+                        function(Request, Response) {
+                            var Data = [],
+                                ItemLC = '';
+
+                            if (Request.term === '**') {
+                                Data = Core.Agent.Admin.ACL.Autocomplete.Action;
+                            }
+                            else {
+                                $.each(Core.Agent.Admin.ACL.Autocomplete.Action, function(Index, Item) {
+                                    ItemLC = Item.value.toLowerCase();
+                                    if (ItemLC.indexOf(Request.term.toLowerCase()) !== -1) {
+                                        Data.push(Item);
+                                    }
+                                });
+                            }
+                            Response(Data);
+                        },
+                        function(Event, UI) {
+                            $(Event.target).val(UI.item.value);
+                        },
+                        'ACLOptionsAutocomplete'
+                    );
+                }
+            });
+
+
+        });
     };
 
     return TargetNS;

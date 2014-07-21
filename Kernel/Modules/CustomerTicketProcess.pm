@@ -180,43 +180,49 @@ sub Run {
         }
 
         # get ACL restrictions
-        $Self->{TicketObject}->TicketAcl(
-            Data           => '-',
-            TicketID       => $TicketID,
+        my %PossibleActions = ( 1 => $Self->{Action} );
+
+        my $ACL = $Self->{TicketObject}->TicketAcl(
+            Data           => \%PossibleActions,
+            Action         => $Self->{Action},
+            TicketID       => $Self->{TicketID},
             ReturnType     => 'Action',
             ReturnSubType  => '-',
             CustomerUserID => $Self->{UserID},
         );
         my %AclAction = $Self->{TicketObject}->TicketAclActionData();
 
-        # check if ACL resctictions if exist
-        if ( IsHashRefWithData( \%AclAction ) ) {
+        # check if ACL restrictions exist
+        if ( $ACL || IsHashRefWithData( \%AclAction ) ) {
+
+            my %AclActionLookup = reverse %AclAction;
 
             # show error screen if ACL prohibits this action
-            if ( defined $AclAction{ $Self->{Action} } && $AclAction{ $Self->{Action} } eq '0' ) {
+            if ( !$AclActionLookup{ $Self->{Action} } ) {
                 return $Self->{LayoutObject}->CustomerNoPermission( WithHeader => 'yes' );
             }
         }
+
         if ( IsHashRefWithData($ActivityDialogHashRef) ) {
 
+            my $PossibleActivityDialogs = { 1 => $ActivityDialogEntityID };
+
             # get ACL restrictions
-            $Self->{TicketObject}->TicketAcl(
-                Data                   => '-',
+            my $ACL = $Self->{TicketObject}->TicketAcl(
+                Data                   => $PossibleActivityDialogs,
                 ActivityDialogEntityID => $ActivityDialogEntityID,
                 TicketID               => $TicketID,
-                ReturnType             => 'Ticket',
+                ReturnType             => 'ActivityDialog',
                 ReturnSubType          => '-',
                 CustomerUserID         => $Self->{UserID},
             );
 
-            my @PossibleActivityDialogs = $Self->{TicketObject}
-                ->TicketAclActivityDialogData( ActivityDialogs => [ $ActivityDialogEntityID, ] );
+            if ($ACL) {
+                %{$PossibleActivityDialogs} = $Self->{TicketObject}->TicketAclData();
+            }
 
             # check if ACL resctictions exist
-            if (
-                !$PossibleActivityDialogs[0]
-                || $PossibleActivityDialogs[0] ne $ActivityDialogEntityID
-                )
+            if ( !IsHashRefWithData($PossibleActivityDialogs) )
             {
                 return $Self->{LayoutObject}->CustomerNoPermission( WithHeader => 'yes' );
             }
@@ -259,30 +265,26 @@ sub Run {
     }
 
     # validate the ProcessList with stored acls
-    $Self->{TicketObject}->TicketAcl(
-        ReturnType     => 'Ticket',
+    my $ACL = $Self->{TicketObject}->TicketAcl(
+        ReturnType     => 'Process',
         ReturnSubType  => '-',
         Data           => $ProcessList,
         CustomerUserID => $Self->{UserID},
     );
 
-    if ( IsHashRefWithData($ProcessList) ) {
-        $ProcessList = $Self->{TicketObject}->TicketAclProcessData(
-            Processes => $ProcessList,
-        );
+    if ( IsHashRefWithData($ProcessList) && $ACL ) {
+        %{$ProcessList} = $Self->{TicketObject}->TicketAclData();
     }
 
-    $Self->{TicketObject}->TicketAcl(
-        ReturnType     => 'Ticket',
+    $ACL = $Self->{TicketObject}->TicketAcl(
+        ReturnType     => 'Process',
         ReturnSubType  => '-',
         Data           => $FollowupProcessList,
         CustomerUserID => $Self->{UserID},
     );
 
-    if ( IsHashRefWithData($FollowupProcessList) ) {
-        $FollowupProcessList = $Self->{TicketObject}->TicketAclProcessData(
-            Processes => $FollowupProcessList,
-        );
+    if ( IsHashRefWithData($FollowupProcessList) && $ACL ) {
+        %{$FollowupProcessList} = $Self->{TicketObject}->TicketAclData();
     }
 
     # if we have no subaction display the process list to start a new one

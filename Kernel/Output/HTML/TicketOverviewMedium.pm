@@ -371,9 +371,24 @@ sub _Show {
         }
     }
 
-    # get acl actions
-    $Self->{TicketObject}->TicketAcl(
-        Data          => '-',
+    # get ACL restrictions
+    my %PossibleActions;
+    my $Counter = 0;
+
+    # get all registered Actions
+    if ( ref $Self->{ConfigObject}->Get('Frontend::Module') eq 'HASH' ) {
+
+        my %Actions = %{ $Self->{ConfigObject}->Get('Frontend::Module') };
+
+        # only use those Actions that stats with AgentTicket
+        %PossibleActions
+            = map { ++$Counter => $_ }
+            grep { substr( $_, 0, length 'AgentTicket' ) eq 'AgentTicket' }
+            sort keys %Actions;
+    }
+
+    my $ACL = $Self->{TicketObject}->TicketAcl(
+        Data          => \%PossibleActions,
         Action        => $Self->{Action},
         TicketID      => $Article{TicketID},
         ReturnType    => 'Action',
@@ -711,7 +726,7 @@ sub _Show {
     }
 
     # Dynamic fields
-    my $Counter                  = 0;
+    $Counter = 0;
     my $DisplayDynamicFieldTable = 1;
 
     # cycle trough the activated Dynamic Fields for this screen

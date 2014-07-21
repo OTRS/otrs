@@ -1,0 +1,17 @@
+---
+- ChangeBy: root@localhost
+  ChangeTime: 2014-06-03 20:33:44
+  Comment: ''
+  ConfigChange:
+    PossibleNot:
+      Ticket:
+        State:
+        - closed successful
+  ConfigMatch: ''
+  CreateBy: root@localhost
+  CreateTime: 2014-06-03 20:26:04
+  Description: ''
+  ID: 12
+  Name: 100-ACL-Test-PossibleNot
+  StopAfterMatch: 0
+  ValidID: 1

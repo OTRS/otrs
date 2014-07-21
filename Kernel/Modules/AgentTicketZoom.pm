@@ -157,9 +157,24 @@ sub Run {
         DynamicFields => 1,
     );
 
-    # get acl actions
-    $Self->{TicketObject}->TicketAcl(
-        Data          => '-',
+    # get ACL restrictions
+    my %PossibleActions;
+    my $Counter = 0;
+
+    # get all registered Actions
+    if ( ref $Self->{ConfigObject}->Get('Frontend::Module') eq 'HASH' ) {
+
+        my %Actions = %{ $Self->{ConfigObject}->Get('Frontend::Module') };
+
+        # only use those Actions that stats with AgentTicket
+        %PossibleActions
+            = map { ++$Counter => $_ }
+            grep { substr( $_, 0, length 'AgentTicket' ) eq 'AgentTicket' }
+            sort keys %Actions;
+    }
+
+    my $ACL = $Self->{TicketObject}->TicketAcl(
+        Data          => \%PossibleActions,
         Action        => $Self->{Action},
         TicketID      => $Self->{TicketID},
         ReturnType    => 'Action',
@@ -169,10 +184,12 @@ sub Run {
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
 
     # check if ACL restrictions exist
-    if ( IsHashRefWithData( \%AclAction ) ) {
+    if ( $ACL || IsHashRefWithData( \%AclAction ) ) {
+
+        my %AclActionLookup = reverse %AclAction;
 
         # show error screen if ACL prohibits this action
-        if ( defined $AclAction{ $Self->{Action} } && $AclAction{ $Self->{Action} } eq '0' ) {
+        if ( !$AclActionLookup{ $Self->{Action} } ) {
             return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
         }
     }
@@ -400,7 +417,7 @@ sub Run {
             )
         {
             my @IDs = split /,/, $1;
-            $Self->{ArticleFilter}->{ArticleTypeID} = \@IDs,
+            $Self->{ArticleFilter}->{ArticleTypeID} = \@IDs;
         }
 
         # extract ArticleSenderTypeIDs
@@ -410,7 +427,7 @@ sub Run {
             )
         {
             my @IDs = split /,/, $1;
-            $Self->{ArticleFilter}->{ArticleSenderTypeID} = \@IDs,
+            $Self->{ArticleFilter}->{ArticleSenderTypeID} = \@IDs;
         }
     }
 
@@ -780,9 +797,10 @@ sub MaskAgentZoom {
             CurrentQueueID => $Ticket{QueueID},
         );
     }
+    my %AclActionLookup = reverse %AclAction;
     if (
         $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketMove}
-        && ( !defined $AclAction{AgentTicketMove} || $AclAction{AgentTicketMove} )
+        && ( $AclActionLookup{AgentTicketMove} )
         )
     {
         my $Access = $Self->{TicketObject}->TicketPermission(
@@ -1005,41 +1023,29 @@ sub MaskAgentZoom {
                 $NextActivityDialogs = {};
             }
 
-            # ACL Check is done in the initial "Run" statement
-            # so here we can just pick the possibly reduced Activity Dialogs
-            # map and sort reformat the $NextActivityDialogs hash from it's initial form e.g.:
-            # 1 => 'AD1',
-            # 2 => 'AD3',
-            # 3 => 'AD2',
-            # to a regular array in correct order:
-            # ('AD1', 'AD3', 'AD2')
-
-            my @TmpActivityDialogList
-                = map { $NextActivityDialogs->{$_} }
-                sort  { $a <=> $b } keys %{$NextActivityDialogs};
-
             # we have to check if the current user has the needed permissions to view the
             # different activity dialogs, so we loop over every activity dialog and check if there
             # is a permission configured. If there is a permission configured we check this
             # and display/hide the activity dialog link
             my %PermissionRights;
-            my @PermissionActivityDialogList;
+            my %PermissionActivityDialogList;
             ACTIVITYDIALOGPERMISSION:
-            for my $CurrentActivityDialogEntityID (@TmpActivityDialogList) {
+            for my $Index ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
+                my $CurrentActivityDialogEntityID = $NextActivityDialogs->{$Index};
                 my $CurrentActivityDialog
                     = $Self->{ActivityDialogObject}->ActivityDialogGet(
                     Interface              => 'AgentInterface',
                     ActivityDialogEntityID => $CurrentActivityDialogEntityID
                     );
 
-                # create an interface lookuplist
+                # create an interface lookup-list
                 my %InterfaceLookup = map { $_ => 1 } @{ $CurrentActivityDialog->{Interface} };
 
                 next ACTIVITYDIALOGPERMISSION if !$InterfaceLookup{AgentInterface};
 
                 if ( $CurrentActivityDialog->{Permission} ) {
 
-                    # performanceboost/cache
+                    # performance-boost/cache
                     if ( !defined $PermissionRights{ $CurrentActivityDialog->{Permission} } ) {
                         $PermissionRights{ $CurrentActivityDialog->{Permission} }
                             = $Self->{TicketObject}->TicketPermission(
@@ -1049,30 +1055,30 @@ sub MaskAgentZoom {
                             );
                     }
 
-                    next ACTIVITYDIALOGPERMISSION
-                        if !$PermissionRights{ $CurrentActivityDialog->{Permission} };
+                    if ( !$PermissionRights{ $CurrentActivityDialog->{Permission} } ) {
+                        next ACTIVITYDIALOGPERMISSION;
+                    }
                 }
 
-                push @PermissionActivityDialogList, $CurrentActivityDialogEntityID;
+                $PermissionActivityDialogList{$Index} = $CurrentActivityDialogEntityID;
             }
 
-            my @PossibleActivityDialogs;
-            if (@PermissionActivityDialogList) {
-                @PossibleActivityDialogs
-                    = $Self->{TicketObject}->TicketAclActivityDialogData(
-                    ActivityDialogs => \@PermissionActivityDialogList
-                    );
-            }
+            # reduce next activity dialogs to the ones that have permissions
+            $NextActivityDialogs = \%PermissionActivityDialogList;
 
-            # reformat the @PossibleActivityDialogs that is of the structure:
-            # @PossibleActivityDialogs = ('AD1', 'AD3', 'AD4', 'AD2');
-            # to get the same structure as in the %NextActivityDialogs
-            # e.g.:
-            # 1 => 'AD1',
-            # 2 => 'AD3',
-            %{$NextActivityDialogs}
-                = map { $_ => $PossibleActivityDialogs[ $_ - 1 ] }
-                1 .. scalar @PossibleActivityDialogs;
+            # get ACL restrictions
+            my $ACL = $Self->{TicketObject}->TicketAcl(
+                Data          => \%PermissionActivityDialogList,
+                TicketID      => $Ticket{TicketID},
+                ReturnType    => 'ActivityDialog',
+                ReturnSubType => '-',
+                UserID        => $Self->{UserID},
+            );
+
+            if ($ACL) {
+                %{$NextActivityDialogs}
+                    = $Self->{TicketObject}->TicketAclData()
+            }
 
             $Self->{LayoutObject}->Block(
                 Name => 'NextActivityDialogs',
@@ -1901,16 +1907,15 @@ sub _ArticleItem {
 
     # show article actions
 
+    my %AclActionLookup = reverse %AclAction;
+
     # select the output template
     if ( $Article{ArticleType} !~ /^(note|email-noti)/i ) {
 
         # check if compose link should be shown
         if (
             $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketCompose}
-            && (
-                !defined $AclAction{AgentTicketCompose}
-                || $AclAction{AgentTicketCompose}
-            )
+            && ( $AclActionLookup{AgentTicketCompose} )
             )
         {
             my $Access = 1;
@@ -2070,7 +2075,7 @@ sub _ArticleItem {
         # (only show forward on email-external, email-internal, phone, webrequest and fax
         if (
             $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketForward}
-            && ( !defined $AclAction{AgentTicketForward} || $AclAction{AgentTicketForward} )
+            && ( $AclActionLookup{AgentTicketForward} )
             && $Article{ArticleType} =~ /^(email-external|email-internal|phone|webrequest|fax)$/i
             )
         {
@@ -2175,7 +2180,7 @@ sub _ArticleItem {
         # (only show forward on email-external and email-internal
         if (
             $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketBounce}
-            && ( !defined $AclAction{AgentTicketBounce} || $AclAction{AgentTicketBounce} )
+            && ( $AclActionLookup{AgentTicketBounce} )
             && $Article{ArticleType} =~ /^(email-external|email-internal)$/i
             )
         {
@@ -2227,7 +2232,7 @@ sub _ArticleItem {
     # check if split link should be shown
     if (
         $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhone}
-        && ( !defined $AclAction{AgentTicketPhone} || $AclAction{AgentTicketPhone} )
+        && ( $AclActionLookup{AgentTicketPhone} )
         )
     {
         $Self->{LayoutObject}->Block(
@@ -2245,7 +2250,7 @@ sub _ArticleItem {
     # check if print link should be shown
     if (
         $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPrint}
-        && ( !defined $AclAction{AgentTicketPrint} || $AclAction{AgentTicketPrint} )
+        && ( $AclActionLookup{AgentTicketPrint} )
         )
     {
         my $OK = $Self->{TicketObject}->TicketPermission(
@@ -2273,7 +2278,7 @@ sub _ArticleItem {
     if (
         $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPlain}
         && $Self->{ConfigObject}->Get('Ticket::Frontend::PlainView')
-        && ( !defined $AclAction{AgentTicketPlain} || $AclAction{AgentTicketPlain} )
+        && ( $AclActionLookup{AgentTicketPlain} )
         && $Article{ArticleType} =~ /email/i
         )
     {

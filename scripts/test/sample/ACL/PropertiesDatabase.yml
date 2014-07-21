@@ -1,0 +1,23 @@
+---
+- ChangeBy: root@localhost
+  ChangeTime: 2014-06-20 15:32:41
+  Comment: ''
+  ConfigChange:
+    Possible:
+      Ticket:
+        Queue:
+        - Alert
+  ConfigMatch:
+    PropertiesDatabase:
+      Ticket:
+        Priority:
+        - 5 very high
+        Queue:
+        - Raw
+  CreateBy: root@localhost
+  CreateTime: 2014-06-03 19:51:43
+  Description: ''
+  ID: 10
+  Name: 100-ACL-Test-PropertiesDatabase
+  StopAfterMatch: 0
+  ValidID: 1

@@ -158,7 +158,7 @@ sub ACLAdd {
         return;
     }
 
-    # sql
+    # SQL
     return if !$Self->{DBObject}->Do(
         SQL => '
             INSERT INTO acl ( name, comments, description, stop_after_match, config_match,
@@ -311,7 +311,7 @@ sub ACLGet {
     );
     return $Cache if $Cache;
 
-    # sql
+    # SQL
     if ( $Param{ID} ) {
         return if !$Self->{DBObject}->Prepare(
             SQL => '
@@ -507,7 +507,7 @@ sub ACLUpdate {
         return 1;
     }
 
-    # sql
+    # SQL
     return if !$Self->{DBObject}->Do(
         SQL => '
             UPDATE acl
@@ -586,7 +586,7 @@ sub ACLList {
 
     if ( $ValidIDsStrg ne 'ALL' ) {
 
-        my $ValidIDsStrgDB = join ',', map $Self->{DBObject}->Quote( $_, 'Integer' ),
+        my $ValidIDsStrgDB = join ',', map { $Self->{DBObject}->Quote( $_, 'Integer' ) }
             @{ $Param{ValidIDs} };
 
         $SQL .= "WHERE valid_id IN ($ValidIDsStrgDB)";
@@ -682,13 +682,13 @@ sub ACLListGet {
     if ( $ValidIDsStrg ne 'ALL' ) {
 
         my $ValidIDsStrgDB
-            = join ',', map $Self->{DBObject}->Quote( $_, 'Integer' ), @{ $Param{ValidIDs} };
+            = join ',', map { $Self->{DBObject}->Quote( $_, 'Integer' ) } @{ $Param{ValidIDs} };
 
         $SQL .= "WHERE valid_id IN ($ValidIDsStrgDB)";
     }
     $SQL .= 'ORDER BY id';
 
-    # sql
+    # SQL
     return if !$Self->{DBObject}->Prepare(
         SQL => $SQL,
     );
@@ -727,7 +727,7 @@ Check if there are unsynchronized ACLs
 
     Returns:
 
-    $SyncCount = 0 || Number of ALCs that need to be synched
+    $SyncCount = 0 || Number of ALCs that need to be synced
 =cut
 
 sub ACLsNeedSync {
@@ -818,15 +818,17 @@ sub ACLDump {
         my $Properties;
         my $PropertiesDatabase;
         if ( IsHashRefWithData( $ACLData->{ConfigMatch} ) ) {
-            $Properties             = $ACLData->{ConfigMatch}->{Properties},
-                $PropertiesDatabase = $ACLData->{ConfigMatch}->{PropertiesDatabase},
+            $Properties         = $ACLData->{ConfigMatch}->{Properties};
+            $PropertiesDatabase = $ACLData->{ConfigMatch}->{PropertiesDatabase};
         }
 
         my $Possible;
+        my $PossibleAdd;
         my $PossibleNot;
         if ( IsHashRefWithData( $ACLData->{ConfigChange} ) ) {
-            $Possible        = $ACLData->{ConfigChange}->{Possible},
-                $PossibleNot = $ACLData->{ConfigChange}->{PossibleNot},
+            $Possible    = $ACLData->{ConfigChange}->{Possible};
+            $PossibleAdd = $ACLData->{ConfigChange}->{PossibleAdd};
+            $PossibleNot = $ACLData->{ConfigChange}->{PossibleNot};
         }
 
         $ACLDump{ $ACLData->{Name} } = {
@@ -840,6 +842,7 @@ sub ACLDump {
                 Properties         => $Properties                || {},
                 PropertiesDatabase => $PropertiesDatabase        || {},
                 Possible           => $Possible                  || {},
+                PossibleAdd        => $PossibleAdd               || {},
                 PossibleNot        => $PossibleNot               || {},
             },
         };
@@ -908,6 +911,194 @@ EOF
     return $FileLocation;
 }
 
+=item ACLImport()
+
+import an ACL YAML file/content
+
+    my $ACLImport = $ACLObject->ACLImport(
+        Content                   => $YAMLContent, # mandatory, YAML format
+        OverwriteExistingEntities => 0,            # 0 || 1
+        UserID                    => 1,            # mandatory
+    );
+
+Returns:
+
+    $ACLImport = {
+        Success      => 1,                         # 1 if success or undef if operation could not
+                                                   #    be performed
+        Message     => 'The Message to show.',     # error message
+        AddedACLs   => 'ACL1, ACL2',               # list of ACLs correctly added
+        UpdatedACLs => 'ACL3, ACL4',               # list of ACLs correctly updated
+        ACLErrors   => 'ACL5',                     # list of ACLs that could not be added or updated
+    };
+
+=cut
+
+sub ACLImport {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(Content UserID)) {
+
+        # check needed stuff
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return {
+                Success => 0,
+                Message => "$Needed is missing can not continue.",
+                }
+        }
+    }
+
+    my $ACLData = $Self->{YAMLObject}->Load( Data => $Param{Content} );
+
+    if ( ref $ACLData ne 'ARRAY' ) {
+        return {
+            Success => 0,
+            Message =>
+                "Couldn't read ACL configuration file. Please make sure the file is valid.",
+        };
+    }
+
+    my @UpdatedACLs;
+    my @AddedACLs;
+    my @ACLErrors;
+
+    ACL:
+    for my $ACL ( @{$ACLData} ) {
+
+        next ACL if !$ACL;
+        next ACL if ref $ACL ne 'HASH';
+
+        $ACL = $Self->_ACLMigrateFrom33(
+            ACL    => $ACL,
+            UserID => $Param{UserID},
+        );
+
+        my @ExistingACLs
+            = @{ $Self->ACLListGet( UserID => $Param{UserID} ) || [] };
+        @ExistingACLs = grep { $_->{Name} eq $ACL->{Name} } @ExistingACLs;
+
+        if ( $Param{OverwriteExistingEntities} && $ExistingACLs[0] ) {
+            my $Success = $Self->ACLUpdate(
+                %{ $ExistingACLs[0] },
+                Name           => $ACL->{Name},
+                Comment        => $ACL->{Comment},
+                Description    => $ACL->{Description} || '',
+                StopAfterMatch => $ACL->{StopAfterMatch} || 0,
+                ConfigMatch    => $ACL->{ConfigMatch} || undef,
+                ConfigChange   => $ACL->{ConfigChange} || undef,
+                ValidID        => $ACL->{ValidID} || 1,
+                UserID         => $Param{UserID},
+            );
+
+            if ($Success) {
+                push @UpdatedACLs, $ACL->{Name};
+            }
+            else {
+                push @ACLErrors, $ACL->{Name};
+            }
+
+        }
+        else {
+
+            # now add the ACL
+            my $Success = $Self->ACLAdd(
+                Name           => $ACL->{Name},
+                Comment        => $ACL->{Comment},
+                Description    => $ACL->{Description} || '',
+                ConfigMatch    => $ACL->{ConfigMatch} || undef,
+                ConfigChange   => $ACL->{ConfigChange} || undef,
+                StopAfterMatch => $ACL->{StopAfterMatch},
+                ValidID        => $ACL->{ValidID} || 1,
+                UserID         => $Param{UserID},
+            );
+
+            if ($Success) {
+                push @AddedACLs, $ACL->{Name};
+            }
+            else {
+                push @ACLErrors, $ACL->{Name};
+            }
+        }
+    }
+
+    return {
+        Success     => 1,
+        AddedACLs   => join( ', ', @AddedACLs ) || '',
+        UpdatedACLs => join( ', ', @UpdatedACLs ) || '',
+        ACLErrors   => join( ', ', @ACLErrors ) || '',
+        }
+}
+
+=begin Internal:
+
+=cut
+
+=item _ACLItemOutput()
+
+converts an ACL structure to perl code suitable to be saved on a perl file.
+
+    my $Output = $ACLObject->_ACLItemOutput (
+        Key => 'some ACL name',
+        Value => {
+            Properties => {
+                Ticket => {
+                    Priority => [ 'some priority' ],
+                    Queue    => [ 'some queue' ],
+                },
+            },
+            PropertiesDatabase => { },                      # similar to Properties or empty hash ref
+            Possible => {
+                Ticket => {
+                Queue => [ 'some other queue' ],
+            },
+            PossibleNot => { },                             # similar to Possible or empty hash ref
+            PossibleAdd => { },                             # similar to Possible or empty hash ref
+            StopAfterMatch => 0,                            # 0 or 1
+        },
+        Comment    => 'some comment',
+        CreateTime => '2014-06-03 19:03:57',
+        ChangeTime => '2014-06-03 19:51:17',
+        CreateBy   => 'some user login',
+        ChangeBy   => 'some user login',
+    );
+
+returns:
+
+    $Output = '
+        # Created: 2014-06-03 19:03:57 (some user login)
+        # Changed: 2014-06-03 19:51:17 (some user login)
+        # Comment: some comment
+        $Self->{TicketAcl}->{"100-Example-ACL"} = {
+          \\'Possible\\' => {
+            \\'Ticket\\' => {
+              \\'Queue\\' => [
+                \\'some other queue\\'
+              ]
+            }
+          },
+          \\'PossibleAdd\\' => {},
+          \\'PossibleNot\\' => {},
+          \\'Properties\\' => {
+            \\'Ticket\\' => {
+              \\'Priority\\' => [
+                \\'some priority\\'
+              ],
+              \\'Queue\\' => [
+                \\'some queue\\'
+              ]
+            }
+          },
+          \\'PropertiesDatabase\\' => {},
+          \\'StopAfterMatch\\' => 0
+        };
+        ';
+
+=cut
+
 sub _ACLItemOutput {
     my ( $Self, %Param ) = @_;
 
@@ -932,6 +1123,93 @@ sub _ACLItemOutput {
     $Output =~ s{\$VAR1}{$Key}mxs;
 
     return $Output . "\n";
+}
+
+=item _ACLMigrateFrom33()
+
+Updates ACLs structure my changing the Possible->Action hash ref to a PossibleNot->Action array ref
+with just the elements that where set to 0 in the original ACL:
+
+    my $ACL = $ACLObject->_ACLMigrateFrom33 (
+        $ACL => {
+            ID          => 123,
+            Name        => 'some name',
+            Description => '',
+            Comment     => 'Comment',
+            ConfigMatch => {
+                Properties' => {},
+            },
+            ConfigChange => {
+                Possible => {}
+                    Action => {
+                        AgentTicketPhone   => 1,
+                        AgentTicketPrint   => 0,
+                        AgentTicketZoom    => 1,
+                        AgentTicketCLose   => 0,
+                        AgentTicketCompose => 0,
+                    },
+                },
+                PossibleNot => {},
+            },
+            StopAfterMatch => 1,
+            ValidID        => 1,
+            CreateTime     => '2013-09-20 11:56:05',
+            CreateBy       => 'root@localhost',
+            ChangeTime     => '2014-06-16 11:31:55',
+            ChangeBy       => 'root@localhost',
+        };
+        UserID => 123,
+    )
+
+Returns:
+
+        $ACL = {
+            ID          => 123,
+            Name        => 'some name',
+            Description => '',
+            Comment     => 'Comment',
+            ConfigMatch => {
+                Properties' => {},
+            },
+            ConfigChange => {
+                Possible => {},
+                PossibleNot => {
+                    Action => [
+                        'AgentTicketCLose',
+                        'AgentTicketCompose',
+                        'AgentTicketPrint'
+                    ],
+                },
+            }
+            StopAfterMatch => 1,
+            ValidID        => 1,
+            CreateBy       => 'root@localhost',
+            CreateTime     => '2013-09-20 11:56:05',
+            ChangeTime     => '2014-06-16 11:31:55',
+            ChangeBy       => 'root@localhost',
+        };
+
+=cut
+
+sub _ACLMigrateFrom33 {
+    my ( $Self, %Param ) = @_;
+
+    my $ACL = $Param{ACL};
+
+    return $ACL if !ref $ACL->{ConfigChange};
+    return $ACL if !$ACL->{ConfigChange}->{Possible}->{Action};
+    return $ACL if ref $ACL->{ConfigChange}->{Possible}->{Action} ne 'HASH';
+
+    # convert old hash into an array using only the keys set to 0, and skip those that are set
+    # to 1, set them as PossibleNot and delete the Possible->Action section form the ACL.
+    my @NewAction
+        = grep { $ACL->{ConfigChange}->{Possible}->{Action}->{$_} == 0 }
+        sort keys %{ $ACL->{ConfigChange}->{Possible}->{Action} };
+
+    delete $ACL->{ConfigChange}->{Possible}->{Action};
+    $ACL->{ConfigChange}->{PossibleNot}->{Action} = \@NewAction;
+
+    return $ACL;
 }
 
 1;

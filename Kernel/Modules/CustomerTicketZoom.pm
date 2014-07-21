@@ -1071,41 +1071,28 @@ sub _Mask {
                 $NextActivityDialogs = {};
             }
 
-            # ACL Check is done in the initial "Run" statement
-            # so here we can just pick the possibly reduced Activity Dialogs
-            # map and sort reformat the $NextActivityDialogs hash from it's initial form e.g.:
-            # 1 => 'AD1',
-            # 2 => 'AD3',
-            # 3 => 'AD2',
-            # to a regular array in correct order:
-            # ('AD1', 'AD3', 'AD2')
-
-            my @TmpActivityDialogList
-                = map { $NextActivityDialogs->{$_} }
-                sort  { $a <=> $b } keys %{$NextActivityDialogs};
-
             # we have to check if the current user has the needed permissions to view the
             # different activity dialogs, so we loop over every activity dialog and check if there
             # is a permission configured. If there is a permission configured we check this
             # and display/hide the activity dialog link
             my %PermissionRights;
-            my @PermissionActivityDialogList;
+            my %PermissionActivityDialogList;
             ACTIVITYDIALOGPERMISSION:
-            for my $CurrentActivityDialogEntityID (@TmpActivityDialogList) {
-
+            for my $Index ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
+                my $CurrentActivityDialogEntityID = $NextActivityDialogs->{$Index};
                 my $CurrentActivityDialog = $Self->{ActivityDialogObject}->ActivityDialogGet(
                     ActivityDialogEntityID => $CurrentActivityDialogEntityID,
                     Interface              => 'CustomerInterface',
                 );
 
-                # create an interface lookuplist
+                # create an interface lookup-list
                 my %InterfaceLookup = map { $_ => 1 } @{ $CurrentActivityDialog->{Interface} };
 
                 next ACTIVITYDIALOGPERMISSION if !$InterfaceLookup{CustomerInterface};
 
                 if ( $CurrentActivityDialog->{Permission} ) {
 
-                    # performanceboost/cache
+                    # performance-boost/cache
                     if ( !defined $PermissionRights{ $CurrentActivityDialog->{Permission} } ) {
                         $PermissionRights{ $CurrentActivityDialog->{Permission} }
                             = $Self->{TicketObject}->TicketCustomerPermission(
@@ -1115,30 +1102,30 @@ sub _Mask {
                             );
                     }
 
-                    next ACTIVITYDIALOGPERMISSION
-                        if !$PermissionRights{ $CurrentActivityDialog->{Permission} };
+                    if ( !$PermissionRights{ $CurrentActivityDialog->{Permission} } ) {
+                        next ACTIVITYDIALOGPERMISSION;
+                    }
                 }
 
-                push @PermissionActivityDialogList, $CurrentActivityDialogEntityID;
+                $PermissionActivityDialogList{$Index} = $CurrentActivityDialogEntityID;
             }
 
-            my @PossibleActivityDialogs;
-            if (@PermissionActivityDialogList) {
-                @PossibleActivityDialogs
-                    = $Self->{TicketObject}->TicketAclActivityDialogData(
-                    ActivityDialogs => \@PermissionActivityDialogList
-                    );
-            }
+            # reduce next activity dialogs to the ones that have permissions
+            $NextActivityDialogs = \%PermissionActivityDialogList;
 
-            # reformat the @PossibleActivityDialogs that is of the structure:
-            # @PossibleActivityDialogs = ('AD1', 'AD3', 'AD4', 'AD2');
-            # to get the same structure as in the %NextActivityDialogs
-            # e.g.:
-            # 1 => 'AD1',
-            # 2 => 'AD3',
-            %{$NextActivityDialogs}
-                = map { $_ => $PossibleActivityDialogs[ $_ - 1 ] }
-                1 .. scalar @PossibleActivityDialogs;
+            # get ACL restrictions
+            my $ACL = $Self->{TicketObject}->TicketAcl(
+                Data           => \%PermissionActivityDialogList,
+                TicketID       => $Param{TicketID},
+                ReturnType     => 'ActivityDialog',
+                ReturnSubType  => '-',
+                CustomerUserID => $Self->{UserID},
+            );
+
+            if ($ACL) {
+                %{$NextActivityDialogs}
+                    = $Self->{TicketObject}->TicketAclData()
+            }
 
             $Self->{LayoutObject}->Block(
                 Name => 'NextActivities',

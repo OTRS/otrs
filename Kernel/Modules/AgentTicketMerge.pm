@@ -73,8 +73,11 @@ sub Run {
     }
 
     # get ACL restrictions
-    $Self->{TicketObject}->TicketAcl(
-        Data          => '-',
+    my %PossibleActions = ( 1 => $Self->{Action} );
+
+    my $ACL = $Self->{TicketObject}->TicketAcl(
+        Data          => \%PossibleActions,
+        Action        => $Self->{Action},
         TicketID      => $Self->{TicketID},
         ReturnType    => 'Action',
         ReturnSubType => '-',
@@ -82,11 +85,13 @@ sub Run {
     );
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
 
-    # check if ACL resctictions if exist
-    if ( IsHashRefWithData( \%AclAction ) ) {
+    # check if ACL restrictions exist
+    if ( $ACL || IsHashRefWithData( \%AclAction ) ) {
+
+        my %AclActionLookup = reverse %AclAction;
 
         # show error screen if ACL prohibits this action
-        if ( defined $AclAction{ $Self->{Action} } && $AclAction{ $Self->{Action} } eq '0' ) {
+        if ( !$AclActionLookup{ $Self->{Action} } ) {
             return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
         }
     }

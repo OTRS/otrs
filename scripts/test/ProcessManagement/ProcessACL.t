@@ -64,7 +64,7 @@ my $UserObject = Kernel::System::User->new(
 #   no changes to the real system configuration
 my %TestProcesses = (
     P1 => {
-        Name => 'P1',
+        Name => 'Process1',
         Path => {
             A1 => {},
         },
@@ -74,7 +74,7 @@ my %TestProcesses = (
         StateEntityID       => 'S1',
     },
     P2 => {
-        Name => 'P2',
+        Name => 'Process2',
         Path => {
             A1 => {},
         },
@@ -84,7 +84,7 @@ my %TestProcesses = (
         StateEntityID       => 'S1',
     },
     P3 => {
-        Name => 'P3',
+        Name => 'Process3',
         Path => {
             A1 => {},
         },
@@ -94,14 +94,14 @@ my %TestProcesses = (
         StateEntityID       => 'S2',
     },
     P4 => {
-        Name => 'P4',
+        Name => 'Process4',
         Path => {
             A1 => {},
         },
         StartActivity       => 'A1',
         StartActivityDialog => 'AD1',
-        State               => 'Active',
-        StateEntityID       => 'S1',
+        State               => 'FadeAway',
+        StateEntityID       => 'S3',
     },
 );
 
@@ -235,9 +235,9 @@ $Self->True(
 );
 
 my %ActiveProcessList = (
-    P1 => 'P1',
-    P2 => 'P2',
-    P4 => 'P4',
+    P1 => 'Process1',
+    P2 => 'Process2',
+    P4 => 'Process4',
 );
 
 my @Tests = (
@@ -245,9 +245,9 @@ my @Tests = (
         Name            => 'No ACLs',
         ACLs            => {},
         ExpectedResults => {
-            P1 => 'P1',
-            P2 => 'P2',
-            P4 => 'P4',
+            P1 => 'Process1',
+            P2 => 'Process2',
+            P4 => 'Process4',
         },
     },
     {
@@ -260,12 +260,324 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => ['P1'],
+                    Process => ['Process1'],
                 },
             },
         },
         ExpectedResults => {
-            P1 => 'P1',
+            P1 => 'Process1',
+        },
+    },
+    {
+        Name => 'ACL UserID W/Possible [Not]',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                Possible => {
+                    Process => ['[Not]Process1'],
+                },
+            },
+        },
+        ExpectedResults => {
+            P2 => 'Process2',
+            P4 => 'Process4',
+        },
+    },
+    {
+        Name => 'ACL UserID W/Possible [RegExp]',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                Possible => {
+                    Process => ['[RegExp]4'],
+                },
+            },
+        },
+        ExpectedResults => {
+            P4 => 'Process4',
+        },
+    },
+    {
+        Name => 'ACL UserID W/Possible [regexp]',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                Possible => {
+                    Process => ['[regexp]^pro.+4$'],
+                },
+            },
+        },
+        ExpectedResults => {
+            P4 => 'Process4',
+        },
+    },
+    {
+        Name => 'ACL UserID W/Possible [NotRegExp]',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                Possible => {
+                    Process => ['[NotRegExp]4'],
+                },
+            },
+        },
+        ExpectedResults => {
+            P1 => 'Process1',
+            P2 => 'Process2',
+        },
+    },
+    {
+        Name => 'ACL UserID W/Possible [Notregexp]',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                Possible => {
+                    Process => ['[Notregexp]^pro.+4$'],
+                },
+            },
+        },
+        ExpectedResults => {
+            P1 => 'Process1',
+            P2 => 'Process2',
+        },
+    },
+    {
+        Name => 'ACL UserID W/Possible/PossibleAdd',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                Possible => {
+                    Process => ['Process1'],
+                },
+            },
+            '101-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                PossibleAdd => {
+                    Process => ['Process2'],
+                },
+            },
+
+        },
+        ExpectedResults => {
+            P1 => 'Process1',
+            P2 => 'Process2',
+        },
+    },
+    {
+        Name => 'ACL UserID W/Possible/PossibleAdd [Not]',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                Possible => {
+                    Process => ['Process1'],
+                },
+            },
+            '101-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                PossibleAdd => {
+                    Process => ['[Not]Process1'],
+                },
+            },
+
+        },
+        ExpectedResults => {
+            P1 => 'Process1',
+            P2 => 'Process2',
+            P4 => 'Process4',
+        },
+    },
+    {
+        Name => 'ACL UserID W/Possible/PossibleAdd [RegExp]',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                Possible => {
+                    Process => ['Process1'],
+                },
+            },
+            '101-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                PossibleAdd => {
+                    Process => ['[RegExp]4'],
+                },
+            },
+
+        },
+        ExpectedResults => {
+            P1 => 'Process1',
+            P4 => 'Process4',
+        },
+    },
+    {
+        Name => 'ACL UserID W/Possible/PossibleAdd [regexp]',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                Possible => {
+                    Process => ['Process1'],
+                },
+            },
+            '101-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                PossibleAdd => {
+                    Process => ['[regexp]^pro.+4$'],
+                },
+            },
+
+        },
+        ExpectedResults => {
+            P1 => 'Process1',
+            P4 => 'Process4',
+        },
+    },
+    {
+        Name => 'ACL UserID W/Possible/PossibleAdd [NotRegExp]',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                Possible => {
+                    Process => ['Process1'],
+                },
+            },
+            '101-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                PossibleAdd => {
+                    Process => ['[NotRegExp]4'],
+                },
+            },
+
+        },
+        ExpectedResults => {
+            P1 => 'Process1',
+            P2 => 'Process2',
+        },
+    },
+    {
+        Name => 'ACL UserID W/Possible/PossibleAdd [Notregexp]',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                Possible => {
+                    Process => ['Process1'],
+                },
+            },
+            '101-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                PossibleAdd => {
+                    Process => ['[Notregexp]^pro.+4$'],
+                },
+            },
+
+        },
+        ExpectedResults => {
+            P1 => 'Process1',
+            P2 => 'Process2',
+        },
+    },
+    {
+        Name => 'ACL UserID W/Possible/PossibleAdd/Possible',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                Possible => {
+                    Process => ['Process1'],
+                },
+            },
+            '101-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                PossibleAdd => {
+                    Process => ['Process2'],
+                },
+            },
+            '103-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                Possible => {
+                    Process => ['Process4'],
+                },
+            },
+        },
+        ExpectedResults => {
+            P4 => 'Process4',
         },
     },
     {
@@ -278,13 +590,173 @@ my @Tests = (
                     },
                 },
                 PossibleNot => {
-                    Process => ['P1'],
+                    Process => ['Process1'],
                 },
             },
         },
         ExpectedResults => {
-            P2 => 'P2',
-            P4 => 'P4',
+            P2 => 'Process2',
+            P4 => 'Process4',
+        },
+    },
+    {
+        Name => 'ACL UserID W/PossibleNot [Not]',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                PossibleNot => {
+                    Process => ['[Not]Process1'],
+                },
+            },
+        },
+        ExpectedResults => {
+            P1 => 'Process1',
+        },
+    },
+    {
+        Name => 'ACL UserID W/PossibleNot [RegExp]',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                PossibleNot => {
+                    Process => ['[RegExp]4'],
+                },
+            },
+        },
+        ExpectedResults => {
+            P1 => 'Process1',
+            P2 => 'Process2',
+        },
+    },
+    {
+        Name => 'ACL UserID W/PossibleNot [regexp]',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                PossibleNot => {
+                    Process => ['[regexp]^pro.+4$'],
+                },
+            },
+        },
+        ExpectedResults => {
+            P1 => 'Process1',
+            P2 => 'Process2',
+        },
+    },
+    {
+        Name => 'ACL UserID W/PossibleNot [NotRegExp]',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                PossibleNot => {
+                    Process => ['[NotRegExp]4'],
+                },
+            },
+        },
+        ExpectedResults => {
+            P4 => 'Process4',
+        },
+    },
+    {
+        Name => 'ACL UserID W/PossibleNot [Notregexp]',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                PossibleNot => {
+                    Process => ['[Notregexp]^pro.+4$'],
+                },
+            },
+        },
+        ExpectedResults => {
+            P4 => 'Process4',
+        },
+    },
+    {
+        Name => 'ACL UserID W/Possible/PossibleNot',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                Possible => {
+                    Process => [ 'Process1', 'Process2' ],
+                },
+            },
+            '101-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                PossibleNot => {
+                    Process => ['Process1'],
+                },
+            },
+
+        },
+        ExpectedResults => {
+            P2 => 'Process2',
+        },
+    },
+    {
+        Name => 'ACL UserID W/Possible/PossibleAdd/PossibleNot',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                Possible => {
+                    Process => [ 'Process1', 'Process4' ],
+                },
+            },
+            '101-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                PossibleAdd => {
+                    Process => ['Process2'],
+                },
+            },
+            '103-Test' => {
+                Properties => {
+                    User => {
+                        UserID => [$UserID2],
+                    },
+                },
+                PossibleNot => {
+                    Process => ['Process4'],
+                },
+            },
+        },
+        ExpectedResults => {
+            P1 => 'Process1',
+            P2 => 'Process2',
         },
     },
     {
@@ -297,13 +769,42 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => [ 'P1', 'P2' ],
+                    Process => [ 'Process1', 'Process2' ],
                 },
             },
         },
         ExpectedResults => {
-            P1 => 'P1',
-            P2 => 'P2',
+            P1 => 'Process1',
+            P2 => 'Process2',
+        },
+    },
+    {
+        Name => 'ACL Group_rw W/PossibleAdd',
+        ACLs => {
+            '100-Test' => {
+                Properties => {
+                    User => {
+                        Group_rw => [$GroupName],
+                    },
+                },
+                Possible => {
+                    Process => ['Process1'],
+                },
+            },
+            '101-Test' => {
+                Properties => {
+                    User => {
+                        Group_rw => [$GroupName],
+                    },
+                },
+                PossibleAdd => {
+                    Process => ['Process2'],
+                },
+            },
+        },
+        ExpectedResults => {
+            P1 => 'Process1',
+            P2 => 'Process2',
         },
     },
     {
@@ -316,13 +817,13 @@ my @Tests = (
                     },
                 },
                 PossibleNot => {
-                    Process => ['P2'],
+                    Process => ['Process2'],
                 },
             },
         },
         ExpectedResults => {
-            P1 => 'P1',
-            P4 => 'P4',
+            P1 => 'Process1',
+            P4 => 'Process4',
         },
     },
     {
@@ -335,12 +836,12 @@ my @Tests = (
                     },
                 },
                 Possible => {
-                    Process => ['P4'],
+                    Process => ['Process4'],
                 },
             },
         },
         ExpectedResults => {
-            P4 => 'P4',
+            P4 => 'Process4',
         },
     },
     {
@@ -353,13 +854,13 @@ my @Tests = (
                     },
                 },
                 PossibleNot => {
-                    Process => ['P4'],
+                    Process => ['Process4'],
                 },
             },
         },
         ExpectedResults => {
-            P1 => 'P1',
-            P2 => 'P2',
+            P1 => 'Process1',
+            P2 => 'Process2',
         },
     },
 );
@@ -383,21 +884,21 @@ for my $Test (@Tests) {
         $RecreateObjects->();
 
         my $ProcessList = $ProcessObject->ProcessList(
-            ProcessState => ['Active'],
-            Interface    => ['AgentInterface'],
+            ProcessState => [ 'Active', 'FadeAway' ],
+            Interface => ['AgentInterface'],
         );
 
         # validate the ProcessList with stored ACLs
-        $TicketObject->TicketAcl(
-            ReturnType    => 'Ticket',
+        my $ACL = $TicketObject->TicketAcl(
+            ReturnType    => 'Process',
             ReturnSubType => '-',
             Data          => $ProcessList,
             UserID        => $UserID,
         );
 
-        $ProcessList = $TicketObject->TicketAclProcessData(
-            Processes => $ProcessList,
-        );
+        if ($ACL) {
+            %{$ProcessList} = $TicketObject->TicketAclData();
+        }
 
         if ( $UserID == $AffectedUserID ) {
             $Self->IsDeeply(

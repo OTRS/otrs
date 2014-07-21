@@ -88,9 +88,8 @@ sub Run {
     }
 
     # check acl
-    return
-        if defined $Param{ACL}->{ $Param{Config}->{Action} }
-        && !$Param{ACL}->{ $Param{Config}->{Action} };
+    my %ACLLookup = reverse( %{ $Param{ACL} || {} } );
+    return if ( !$ACLLookup{ $Param{Config}->{Action} } );
 
     $Param{Link} = 'Action=AgentTicketMove;TicketID=[% Data.TicketID | uri %];';
 

@@ -101,9 +101,10 @@ sub Run {
     }
 
     # check acl
-    return
-        if defined $Param{ACL}->{ $Param{Config}->{Action} }
-        && !$Param{ACL}->{ $Param{Config}->{Action} };
+    if ( $Param{Config}->{Action} ) {
+        my %ACLLookup = reverse( %{ $Param{ACL} || {} } );
+        return if ( !$ACLLookup{ $Param{Config}->{Action} } );
+    }
 
     # return item
     return { %{ $Param{Config} }, %{ $Param{Ticket} }, %Param };

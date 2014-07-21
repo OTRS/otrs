@@ -193,6 +193,9 @@
                         [% Data.ACLKeysLevel2Possible %]
                     </div>
                     <div class="Hidden">
+                        [% Data.ACLKeysLevel2PossibleAdd %]
+                    </div>
+                    <div class="Hidden">
                         [% Data.ACLKeysLevel2PossibleNot %]
                     </div>
                     <div class="Hidden">
@@ -234,7 +237,20 @@
 
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-//Localizations
+
+// Autocompletions
+Core.Agent.Admin.ACL.Autocomplete = {
+    Action: [
+    [% FOREACH Action IN Data.PossibleActionsList %]
+        {
+            label: [% Action | JSON %],
+            value: [% Action | JSON %]
+        }[%- ',' IF !loop.last %]
+    [% END %]
+    ]
+};
+
+// Localizations
 Core.Agent.Admin.ACL.Localization = {
     CancelMsg:      "[% Translate("Cancel") | html %]",
     DeleteMsg:      "[% Translate("Delete") | html %]",
