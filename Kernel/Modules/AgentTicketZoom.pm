@@ -1897,7 +1897,7 @@ sub _ArticleItem {
             if ($Access) {
 
                 # get StandardResponsesStrg
-                my %StandardResponseHash = %{ $Param{StandardResponses} };
+                my %StandardResponseHash = %{ $Param{StandardResponses} || {} };
 
               # get revers StandardResponseHash because we need to sort by Values
               # from %ReverseStandardResponseHash we get value of Key by %StandardResponseHash Value
