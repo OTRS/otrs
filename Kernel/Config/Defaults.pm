@@ -1711,7 +1711,7 @@ via the Preferences button after logging in.
         },
         MainObject    => {
             ClassName       => 'Kernel::System::Main',
-            Dependencies    => ['ConfigObject', 'LogObject', 'EncodeObject'],
+            Dependencies    => ['LogObject', 'EncodeObject'],
             OmAware         => 1,
         },
         TimeObject    => {
@@ -1826,7 +1826,7 @@ via the Preferences button after logging in.
         },
         StatsObject => {
             ClassName       => 'Kernel::System::Stats',
-            Dependencies    => [@DefaultDependencies, qw(GroupObject UserObject)],
+            Dependencies    => [qw(ConfigObject LogObject GroupObject TimeObject MainObject DBObject EncodeObject XMLObject CacheObject)],
         },
         CSVObject => {
             ClassName       => 'Kernel::System::CSV',
