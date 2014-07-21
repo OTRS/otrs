@@ -50,9 +50,10 @@ sub new {
     # allocate new hash for object
     my $Self = {
         $Kernel::OM->ObjectHash(
-            Objects =>
-                [ qw( LogObject CacheObject ) ],
-            )
+            Objects => [
+                qw( LogObject CacheObject )
+            ],
+        ),
     };
     bless( $Self, $Type );
 

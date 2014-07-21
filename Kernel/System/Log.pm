@@ -57,8 +57,6 @@ sub new {
         Carp::confess('$Kernel::OM is not defined, please initialize your object manager')
     }
 
-    $Self->{EncodeObject} = $Kernel::OM->Get('EncodeObject');
-
     my $ConfigObject = $Kernel::OM->Get('ConfigObject');
     $Self->{ProductVersion} = $ConfigObject->Get('Product') . ' ';
     $Self->{ProductVersion} .= $ConfigObject->Get('Version');
@@ -264,7 +262,7 @@ sub GetLog {
     }
 
     # encode the string
-    $Self->{EncodeObject}->EncodeInput( \$String );
+    $Kernel::OM->Get('EncodeObject')->EncodeInput( \$String );
 
     return $String;
 }
