@@ -466,17 +466,6 @@
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="LinkObject::IgnoreLinkedTicketStateTypes" Required="0" Valid="1">
-        <Description Translatable="1">Defines, which tickets of which ticket state types should not be listed in linked ticket lists.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core::LinkObject</SubGroup>
-        <Setting>
-            <Array>
-                <Item>merged</Item>
-                <Item>removed</Item>
-            </Array>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="LogModule" Required="1" Valid="1">
         <Description Translatable="1">Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.</Description>
         <Group>Framework</Group>
