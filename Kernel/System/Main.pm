@@ -47,16 +47,13 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects =>
+                [ qw( LogObject EncodeObject ) ],
+            )
+    };
     bless( $Self, $Type );
-
-    # fetch needed objects
-    for my $Object (qw(ConfigObject LogObject EncodeObject)) {
-        $Self->{$Object} = $Kernel::OM->Get($Object);
-    }
-
-    # set debug mode
-    $Self->{Debug} = $Param{Debug} || 0;
 
     return $Self;
 }
@@ -143,14 +140,6 @@ sub Require {
 
     # add module
     $INC{$Module} = $File;
-
-    # log debug message
-    if ( $Self->{Debug} > 1 ) {
-        $Self->{LogObject}->Log(
-            Priority => 'debug',
-            Message  => "Module: $Module loaded!",
-        );
-    }
 
     return 1;
 }

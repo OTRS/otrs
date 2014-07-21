@@ -40,16 +40,16 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects =>
+                [ qw( MainObject ConfigObject LogObject EncodeObject ) ],
+            )
+    };
     bless( $Self, $Type );
 
     # 0=off; 1=set+get_cache; 2=+delete+get_request;
     $Self->{Debug} = $Param{Debug} || 0;
-
-    # check needed objects
-    for (qw(MainObject ConfigObject LogObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     # cache backend
     my $CacheModule = $Self->{ConfigObject}->Get('Cache::Module')

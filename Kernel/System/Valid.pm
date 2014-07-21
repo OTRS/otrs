@@ -45,13 +45,7 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for my $Object (qw(DBObject ConfigObject LogObject EncodeObject MainObject)) {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
-
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        %{$Self},
         Type => 'Valid',
         TTL  => 60 * 60 * 24 * 20,
     );
@@ -76,11 +70,12 @@ sub ValidList {
     return %{$Cache} if $Cache;
 
     # get list from database
-    return if !$Self->{DBObject}->Prepare( SQL => 'SELECT id, name FROM valid' );
+    my $DBObject = $Kernel::OM->Get('DBObject');
+    return if !$DBObject->Prepare( SQL => 'SELECT id, name FROM valid' );
 
     # fetch the result
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
 
@@ -109,7 +104,10 @@ sub ValidLookup {
 
     # check needed stuff
     if ( !$Param{Valid} && !$Param{ValidID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Valid or ValidID!' );
+        $Kernel::OM->Get('LogObject')->Log(
+            Priority => 'error',
+            Message  => 'Need Valid or ValidID!',
+        );
         return;
     }
 
@@ -133,7 +131,7 @@ sub ValidLookup {
 
     # check if data exists
     if ( !defined $ReturnData ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('LogObject')->Log(
             Priority => 'error',
             Message  => "No $Key for $Value found!",
         );

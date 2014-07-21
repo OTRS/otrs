@@ -35,30 +35,9 @@ time, because otherwise the in-memory cache will fail.
 
 create an object
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
     use Kernel::System::CacheInternal;
 
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
     my $CacheInternalObject = Kernel::System::CacheInternal->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-        EncodeObject => $EncodeObject,
         Type         => 'ObjectName', # only [a-zA-Z0-9_] chars usable
         TTL          => 60 * 60 * 24,
     );
@@ -69,20 +48,17 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects =>
+                [ qw( LogObject CacheObject ) ],
+            )
+    };
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(MainObject ConfigObject LogObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     for (qw(Type TTL)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-
-    # create additional objects
-    $Self->{CacheObject} = $Kernel::OM->Get('CacheObject');
 
     # Enforce cache type restriction to make sure it works properly on all file systems.
     if ( $Param{Type} !~ m{ \A [a-zA-Z0-9_]+ \z}smx ) {

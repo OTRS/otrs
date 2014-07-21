@@ -21,13 +21,14 @@ use File::Find qw();
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {};
+    # allocate new hash for object
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects =>
+                [ qw( ConfigObject LogObject MainObject EncodeObject ) ],
+            )
+    };
     bless( $Self, $Type );
-
-    # check needed objects
-    for my $Needed (qw(ConfigObject LogObject MainObject EncodeObject)) {
-        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
-    }
 
     my $TempDir = $Self->{ConfigObject}->Get('TempDir');
     $Self->{CacheDirectory} = $TempDir . '/CacheFileStorable';
