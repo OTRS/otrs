@@ -43,7 +43,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 );
 my %CommonObject = $Kernel::OM->ObjectHash(
     Objects => [
-        qw(ConfigObject EncodeObject LogObject CSVObject TimeObject MainObject DBObject GroupObject UserObject StatsObject CheckItemObject EmailObject PDFObject)
+        qw(ConfigObject CSVObject TimeObject UserObject StatsObject CheckItemObject EmailObject PDFObject)
     ],
 );
 

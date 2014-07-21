@@ -12,40 +12,39 @@ package Kernel::System::Stats::Dynamic::TicketSolutionResponseTime;
 use strict;
 use warnings;
 
-use Kernel::System::Queue;
-use Kernel::System::Service;
-use Kernel::System::SLA;
-use Kernel::System::Ticket;
-use Kernel::System::Type;
-use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
+
 use Kernel::System::VariableCheck qw(:all);
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw(
+                    DBObject
+                    ConfigObject
+                    LogObject
+                    UserObject
+                    TimeObject
+                    QueueObject
+                    TicketObject
+                    StateObject
+                    PriorityObject
+                    LockObject
+                    ServiceObject
+                    SLAObject
+                    TypeObject
+                    DynamicFieldObject
+                )
+            ],
+        ),
+    };
     bless( $Self, $Type );
 
-    # check needed objects
-    for my $Object (
-        qw(DBObject ConfigObject LogObject UserObject TimeObject MainObject EncodeObject)
-        )
-    {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
-    $Self->{QueueObject}        = Kernel::System::Queue->new( %{$Self} );
-    $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
-    $Self->{StateObject}        = Kernel::System::State->new( %{$Self} );
-    $Self->{PriorityObject}     = Kernel::System::Priority->new( %{$Self} );
-    $Self->{LockObject}         = Kernel::System::Lock->new( %{$Self} );
-    $Self->{CustomerUser}       = Kernel::System::CustomerUser->new( %{$Self} );
-    $Self->{ServiceObject}      = Kernel::System::Service->new( %{$Self} );
-    $Self->{SLAObject}          = Kernel::System::SLA->new( %{$Self} );
-    $Self->{TypeObject}         = Kernel::System::Type->new( %{$Self} );
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
-    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new( %{$Self} );
+    $Self->{BackendObject} = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(

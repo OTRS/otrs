@@ -1881,6 +1881,9 @@ via the Preferences button after logging in.
         ServiceObject           => {
             ClassName       => 'Kernel::System::Service',
         },
+        SLAObject           => {
+            ClassName       => 'Kernel::System::SLA',
+        },
         TypeObject           => {
             ClassName       => 'Kernel::System::Type',
         },

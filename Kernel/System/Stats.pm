@@ -16,9 +16,6 @@ use MIME::Base64;
 use Date::Pcalc qw(:all);
 use Storable qw();
 
-use Kernel::System::XML;
-use Kernel::System::Cache;
-use Kernel::System::CSV;
 use Kernel::System::VariableCheck qw(:all);
 
 =head1 NAME
@@ -50,26 +47,18 @@ create an object. Do not use it directly, instead use:
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash ref to object
-    my $Self = {};
+    # allocate new hash for object
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw( ConfigObject LogObject GroupObject TimeObject MainObject
+        DBObject EncodeObject XMLObject CacheObject )
+            ],
+        ),
+    };
     bless( $Self, $Type );
 
-    # check object list for completeness
-    for my $Object (
-        qw(
-        ConfigObject LogObject UserID GroupObject UserObject TimeObject MainObject
-        DBObject EncodeObject
-        )
-        )
-    {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
-
-    $Self->{CSVObject} = $Param{CSVObject} || Kernel::System::CSV->new(%Param);
-
-    # create supplementary objects
-    $Self->{XMLObject}   = Kernel::System::XML->new( %{$Self} );
-    $Self->{CacheObject} = $Kernel::OM->Get('CacheObject');
+    $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
 
     # temporary directory
     $Self->{StatsTempDir} = $Self->{ConfigObject}->Get('Home') . '/var/stats/';
