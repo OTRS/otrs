@@ -19,6 +19,9 @@
 [% RenderBlockStart("ContentLargeTicketGenericFilterMyQueues") %]
     <li class="[% Data.item("MyQueues::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]MyQueues" data-filter="MyQueues">[% Translate("Tickets in My Queues") | html %] ([% Data.MyQueues | html %])</a></li>
 [% RenderBlockEnd("ContentLargeTicketGenericFilterMyQueues") %]
+[% RenderBlockStart("ContentLargeTicketGenericFilterMyServices") %]
+    <li class="[% Data.item("MyServices::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]MyServices" data-filter="MyServices">[% Translate("Tickets in My Services") | html %] ([% Data.MyServices | html %])</a></li>
+[% RenderBlockEnd("ContentLargeTicketGenericFilterMyServices") %]
     <li class="[% Data.item("All::Selected") | html %] Last"><a href="#" id="Dashboard[% Data.Name | html %]All" data-filter="All">[% Translate("All tickets") | html %] ([% Data.All | html %])</a></li>
 </ul>
 [% RenderBlockStart("ContentLargeTicketGenericFilterNavBar") %]

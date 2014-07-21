@@ -1,0 +1,56 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  AgentTicketService
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     General
+ */
+
+.ServiceOverview {
+    font-size: 12px;
+    margin: 0 16px 0px 8px;
+    padding: 0 0 4px 0;
+    color: gray;
+}
+
+.RTL .ServiceOverview {
+    margin: 0 8px 10px 16px;
+}
+
+.ServiceOverviewSeparator {
+    height: 10px;
+    min-height: 10px;
+}
+
+.ServiceOverviewList {
+    clear: both;
+    float: none;
+}
+
+.ServiceOverviewList li {
+    float: left;
+    list-style: none;
+    padding: 2px 5px;
+    height: 14px;
+    white-space:nowrap;
+}
+
+.RTL .ServiceOverviewList li {
+    float: right;
+}
+
+.ServiceOverview .Active {
+    font-weight: bold;
+}
+
+} /* end @media */

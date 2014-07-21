@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-07-21 Added "My Services" feature including "Status View", "Tickets in My Services" filter for ticket based dashboard dashlets and more notification options under agent preferences.
  - 2014-07-21 Added DTL -> TT migration script for templates.
  - 2014-07-18 Changed customer user item to font awesome, thanks to Nils Leideck.
  - 2014-07-16 Added Generic Interface Transport HTTP REST

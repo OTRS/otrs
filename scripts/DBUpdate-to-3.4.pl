@@ -80,7 +80,7 @@ Please run it as the 'otrs' user or with the help of su:
     my $CommonObject = _CommonObjectsBase();
 
     # define the number of steps
-    my $Steps = 6;
+    my $Steps = 8;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
@@ -100,6 +100,28 @@ Please run it as the 'otrs' user or with the help of su:
     # migrate FontAwesome
     print "Step $Step of $Steps: Migrate FontAwesome icons... ";
     if ( _MigrateFontAwesome($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "error.\n\n";
+        die;
+    }
+    $Step++;
+
+    # set service notifications
+    print "Step $Step of $Steps: Set service notifications... ";
+    if ( _SetServiceNotifications($CommonObject) ) {
+        print "done.\n\n";
+    }
+    else {
+        print "error.\n\n";
+        die;
+    }
+    $Step++;
+
+    # mgrate settings
+    print "Step $Step of $Steps: Migrate Settings... ";
+    if ( _MigrateSettings($CommonObject) ) {
         print "done.\n\n";
     }
     else {
@@ -346,6 +368,128 @@ sub _MigrateFontAwesome {
     return 1;
 }
 
+=item _SetServiceNotifications()
+
+Set new notifications for service update.
+
+    _SetServiceNotifications($CommonObject);
+
+=cut
+
+sub _SetServiceNotifications {
+    my $CommonObject = shift;
+
+    # define agent notifications
+    my %AgentNotificationsLookup = (
+        en => [
+            'Agent::ServiceUpdate',
+            'en',
+            'Updated service to <OTRS_TICKET_Service>! (<OTRS_CUSTOMER_SUBJECT[24]>)',
+            "Hi <OTRS_UserFirstname>,\n"
+                . "\n"
+                . "<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname> updated a ticket [<OTRS_TICKET_TicketNumber>] and changed the service to <OTRS_TICKET_Service>.\n"
+                . "\n"
+                . "<snip>\n"
+                . "<OTRS_CUSTOMER_EMAIL[30]>\n"
+                . "<snip>\n"
+                . "\n"
+                . "<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>\n"
+                . "\n"
+                . "Your OTRS Notification Master\n",
+        ],
+        de => [
+            'Agent::ServiceUpdate',
+            'de',
+            'Service aktualisiert zu <OTRS_TICKET_Service>! (<OTRS_CUSTOMER_SUBJECT[24]>)',
+            "Hallo <OTRS_UserFirstname> <OTRS_UserLastname>,\n"
+                . "\n"
+                . "<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname> aktualisierte Ticket [<OTRS_TICKET_TicketNumber>] and änderte den Service zu <OTRS_TICKET_Service>.\n"
+                . "\n"
+                . "<snip>\n"
+                . "<OTRS_CUSTOMER_EMAIL[30]>\n"
+                . "<snip>\n"
+                . "\n"
+                . "<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>\n"
+                . "\n"
+                . "Ihr OTRS Benachrichtigungs-Master\n",
+        ],
+    );
+
+    my @AgentNotifications;
+
+    LANGUAGE:
+    for my $Language (qw(en de)) {
+
+        return if !$CommonObject->{DBObject}->Prepare(
+            SQL => "
+                SELECT id
+                FROM notifications
+                WHERE notification_type = 'Agent::ServiceUpdate'
+                    AND notification_language = ?",
+            Bind => [ \$Language ],
+        );
+
+        my @Data = $CommonObject->{DBObject}->FetchrowArray();
+
+        next LANGUAGE if $Data[0];
+
+        push @AgentNotifications, $AgentNotificationsLookup{$Language};
+    }
+
+    # insert the entries
+    for my $Notification (@AgentNotifications) {
+
+        my @Binds;
+        for my $Value ( @{$Notification} ) {
+
+            # Bind requires scalar references
+            push @Binds, \$Value;
+        }
+
+        # do the insertion
+        return if !$CommonObject->{DBObject}->Do(
+            SQL => "
+                INSERT INTO notifications (notification_type, notification_language,
+                    subject, text, notification_charset, content_type, create_time, create_by,
+                    change_time, change_by)
+                VALUES ( ?, ?, ?, ?, 'utf-8', 'text/plain', current_timestamp, 1,
+                    current_timestamp, 1 )",
+            Bind => [@Binds],
+        );
+    }
+
+    return 1;
+}
+
+=item _MigrateSettings()
+
+Migrate different settings
+
+    _MigrateSettings($CommonObject);
+
+=cut
+
+sub _MigrateSettings {
+    my $CommonObject = shift;
+
+    my $NewValue          = 'MyQueues';
+    my $OldValue          = 1;
+    my $NewTicketKey      = 'UserSendNewTicketNotification';
+    my $FollowUpTicketKey = 'UserSendFollowUpNotification';
+
+    # do the update
+    return if !$CommonObject->{DBObject}->Do(
+        SQL => "
+            UPDATE user_preferences
+            SET preferences_value = ?
+            WHERE
+                ( preferences_key = ? OR preferences_key = ? )
+                AND preferences_value = ?",
+        Bind => [ \$NewValue, \$NewTicketKey, \$FollowUpTicketKey, \$OldValue ],
+    );
+    return 1;
+}
+
 =item _UninstallMergedFeatureAddOns()
 
 safe uninstall packages from the database.
@@ -363,6 +507,7 @@ sub _UninstallMergedFeatureAddOns {
     for my $PackageName (
         qw(
         OTRSGenericInterfaceREST
+        OTRSMyServices
         )
         )
     {

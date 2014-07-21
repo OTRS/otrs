@@ -253,6 +253,24 @@
     </ForeignKey>
 </Table>
 
+<!-- personal_services - stores all "my services" -->
+<Table Name="personal_services">
+    <Column Name="user_id" Required="true" Type="INTEGER"/>
+    <Column Name="service_id" Required="true" Type="INTEGER"/>
+    <Index Name="personal_services_user_id">
+        <IndexColumn Name="user_id"/>
+    </Index>
+    <Index Name="personal_services_queue_id">
+        <IndexColumn Name="service_id"/>
+    </Index>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="user_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="service">
+        <Reference Local="service_id" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
 <!-- salutation - all salutations -->
 <Table Name="salutation">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>

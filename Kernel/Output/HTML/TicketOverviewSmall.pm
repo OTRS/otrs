@@ -168,6 +168,11 @@ sub new {
         delete $Self->{AvailableFilterableColumns}->{Queue};
     }
 
+    # remove service from filters on AgentTicketService
+    if ( $Self->{Action} eq 'AgentTicketService' ) {
+        delete $Self->{AvailableFilterableColumns}->{Service};
+    }
+
     # get filtrable dynamic fields
     # cycle trough the activated dynamic fields for this screen
     DYNAMICFIELD:

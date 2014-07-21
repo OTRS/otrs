@@ -69,6 +69,14 @@
             <String Regex="">My Queues</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::CustomService" Required="1" Valid="1">
+        <Description Translatable="1">Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <String Regex="">My Services</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::NewArticleIgnoreSystemSender" Required="1" Valid="1">
         <Description Translatable="1">Ignore article with system sender type for new article feature (e. g. auto responses or email notifications).</Description>
         <Group>Ticket</Group>
@@ -1069,6 +1077,75 @@
         <Description Translatable="1">Defines the default sort order for all queues in the queue view, after priority sort.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
+        <Setting>
+            <Option SelectedID="Up">
+                <Item Key="Down">Down</Item>
+                <Item Key="Up">Up</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketService###StripEmptyLines" Required="1" Valid="1">
+        <Description Translatable="1">Strips empty lines on the ticket preview in the service view.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewService</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketService###ViewAllPossibleTickets" Required="1" Valid="1">
+        <Description Translatable="1">Shows all both ro and rw tickets in the service view.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewService</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketService###ServiceSort" Required="0" Valid="0">
+        <Description Translatable="1">Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewService</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="7">1</Item>
+                <Item Key="3">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketService###SortBy::Default" Required="1" Valid="1">
+        <Description Translatable="1">Defines the default sort criteria for all services displayed in the service view.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewService</SubGroup>
+        <Setting>
+            <Option SelectedID="Age">
+                <Item Key="Age">Age</Item>
+                <Item Key="TicketNumber">TicketNumber</Item>
+                <Item Key="Title">Title</Item>
+                <Item Key="Queue">Queue</Item>
+                <Item Key="EscalationTime">EscalationTime</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketService###PreSort::ByPriority" Required="1" Valid="1">
+        <Description Translatable="1">Defines if a pre-sorting by priority should be done in the service view.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewService</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketService###Order::Default" Required="1" Valid="1">
+        <Description Translatable="1">Defines the default sort order for all services in the service view, after priority sort.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewService</SubGroup>
         <Setting>
             <Option SelectedID="Up">
                 <Item Key="Down">Down</Item>
@@ -4701,6 +4778,22 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <!-- TODO: check if the counter is really needed, otherwise the module can be removed and use
+    the standard link module
+    -->
+    <ConfigItem Name="Frontend::ToolBarModule###8-Ticket::AgentTicketService" Required="0" Valid="0">
+        <Description Translatable="1">Agent interface notification module to see the number of tickets in My Services.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ToolBarTicketService</Item>
+                <Item Key="CssClass">ServiceView</Item>
+                <Item Key="Icon">fa fa-wrench</Item>
+                <Item Key="Priority">1030035</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::ToolBarModule###9-Ticket::TicketSearchProfile" Required="0" Valid="0">
         <Description Translatable="1">Agent interface module to access search profiles via nav bar.</Description>
         <Group>Ticket</Group>
@@ -6092,12 +6185,15 @@
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Column">Email Settings</Item>
                 <Item Key="Label" Translatable="1">New ticket notification</Item>
-                <Item Key="Desc" Translatable="1">Send me a notification if there is a new ticket in "My Queues".</Item>
-                <Item Key="Key" Translatable="1">Send new ticket notifications</Item>
+                <Item Key="Desc" Translatable="1">Send me a notification if there is a new ticket in my subscriptions.</Item>
+                <Item Key="Key" Translatable="1">Send new ticket notifications if subscribed to:</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="0">No</Item>
-                        <Item Key="1">Yes</Item>
+                        <Item Key="MyQueues">My Queues</Item>
+                        <Item Key="MyServices">My Services</Item>
+                        <Item Key="MyQueuesOrMyServices">My Queues or My Services</Item>
+                        <Item Key="MyQueuesAndMyServices">My Queues and My Services</Item>
                     </Hash>
                 </Item>
                 <Item Key="DataSelected">0</Item>
@@ -6116,12 +6212,15 @@
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Column">Email Settings</Item>
                 <Item Key="Label" Translatable="1">Ticket follow up notification</Item>
-                <Item Key="Desc" Translatable="1">Send me a notification if a customer sends a follow up and I'm the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.</Item>
-                <Item Key="Key" Translatable="1">Send ticket follow up notifications</Item>
+                <Item Key="Desc" Translatable="1">Send me a notification if a customer sends a follow up and I'm the owner of the ticket or the ticket is unlocked and is in one of my subscriptions.</Item>
+                <Item Key="Key" Translatable="1">Send ticket follow up notifications if subscribed to:</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="0">No</Item>
-                        <Item Key="1">Yes</Item>
+                        <Item Key="MyQueues">My Queues</Item>
+                        <Item Key="MyServices">My Services</Item>
+                        <Item Key="MyQueuesOrMyServices">My Queues or My Services</Item>
+                        <Item Key="MyQueuesAndMyServices">My Queues and My Services</Item>
                     </Hash>
                 </Item>
                 <Item Key="DataSelected">0</Item>
@@ -6179,6 +6278,30 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="PreferencesGroups###ServiceUpdateNotify" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for the ServiceUpdateNotify object in the preference view of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
+                <Item Key="Column">Email Settings</Item>
+                <Item Key="Label" Translatable="1">Service update notification</Item>
+                <Item Key="Desc" Translatable="1">Send me a notification if the service of a ticket is changed to a service in "My Services" and the ticket is in a queue where I have read permissions.</Item>
+                <Item Key="Key" Translatable="1">Send service update notifications</Item>
+                <Item Key="Data">
+                    <Hash>
+                        <Item Key="0">No</Item>
+                        <Item Key="1">Yes</Item>
+                    </Hash>
+                </Item>
+                <Item Key="DataSelected">0</Item>
+                <Item Key="PrefKey">UserSendServiceUpdateNotification</Item>
+                <Item Key="Prio">4000</Item>
+                <Item Key="Active">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="PreferencesGroups###WatcherNotify" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the WatcherNotify object in the preference view of the agent interface.</Description>
         <Group>Ticket</Group>
@@ -6216,6 +6339,22 @@
                 <Item Key="Key" Translatable="1">My Queues</Item>
                 <Item Key="Prio">1000</Item>
                 <Item Key="Permission">ro</Item>
+                <Item Key="Active">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PreferencesGroups###CustomService" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for the CustomService object in the preference view of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::PreferencesCustomService</Item>
+                <Item Key="Column">Other Settings</Item>
+                <Item Key="Label" Translatable="1">My Services</Item>
+                <Item Key="Desc" Translatable="1">Your service selection of your favorite services. You also get notified about those services via email if enabled.</Item>
+                <Item Key="Key" Translatable="1">My Services</Item>
+                <Item Key="Prio">1000</Item>
                 <Item Key="Active">1</Item>
             </Hash>
         </Setting>
@@ -6996,6 +7135,35 @@
                 </NavBar>
                 <Loader>
                     <CSS>Core.AgentTicketQueue.css</CSS>
+                    <CSS>Core.AllocationList.css</CSS>
+                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
+                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentTicketService" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Overview of all open Tickets</Description>
+                <Title>ServiceView</Title>
+                <NavBarName>Ticket</NavBarName>
+                <NavBar>
+                    <Description Translatable="1">Overview of all open Tickets</Description>
+                    <Name Translatable="1">Service view</Name>
+                    <Link>Action=AgentTicketService</Link>
+                    <LinkOption></LinkOption>
+                    <NavBar>Ticket</NavBar>
+                    <Type></Type>
+                    <Block></Block>
+                    <AccessKey>o</AccessKey>
+                    <Prio>105</Prio>
+                </NavBar>
+                <Loader>
+                    <CSS>Core.AgentTicketService.css</CSS>
                     <CSS>Core.AllocationList.css</CSS>
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
                     <JavaScript>Core.Agent.TableFilters.js</JavaScript>
@@ -10182,6 +10350,46 @@ Thanks for your help!
                 <Item Key="SLA">1</Item>
                 <Item Key="Title">2</Item>
                 <Item Key="Type">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketService###DefaultColumns" Required="0" Valid="1">
+        <Description Translatable="1">Columns that can be filtered in the service view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Age">2</Item>
+                <Item Key="Changed">1</Item>
+                <Item Key="CustomerID">2</Item>
+                <Item Key="CustomerName">1</Item>
+                <Item Key="CustomerUserID">1</Item>
+                <Item Key="EscalationResponseTime">1</Item>
+                <Item Key="EscalationSolutionTime">1</Item>
+                <Item Key="EscalationTime">1</Item>
+                <Item Key="EscalationUpdateTime">1</Item>
+                <Item Key="TicketNumber">2</Item>
+                <Item Key="Lock">2</Item>
+                <Item Key="Owner">2</Item>
+                <Item Key="PendingTime">1</Item>
+                <Item Key="Queue">2</Item>
+                <Item Key="Responsible">1</Item>
+                <Item Key="Priority">1</Item>
+                <Item Key="Service">2</Item>
+                <Item Key="State">2</Item>
+                <Item Key="SLA">1</Item>
+                <Item Key="Title">2</Item>
+                <Item Key="Type">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::NavBarModule###7-AgentTicketService" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration (disable AgentTicketService link if Ticket Serivice feature is not used).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NavBarAgentTicketService</Item>
             </Hash>
         </Setting>
     </ConfigItem>

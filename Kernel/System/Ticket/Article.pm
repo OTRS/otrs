@@ -477,8 +477,20 @@ sub ArticleCreate {
         =~ /^(EmailAgent|EmailCustomer|PhoneCallCustomer|WebRequestCustomer|SystemRequest)$/i
         )
     {
+        # get subscribed users from My Queues in form of a hash
+        my %MyQueuesUserIDs
+            = map { $_ => 1 } $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} );
+
+        # get subscribed users from My Services in form of a hash
+        my %MyServicesUserIDs = map { $_ => 1 } $Self->GetSubscribedUserIDsByServiceID(
+            ServiceID => $Ticket{ServiceID}
+        );
+
+        # combine both subscribed users list (this will also remove duplicates)
+        my %SubscribedUserIDs = ( %MyQueuesUserIDs, %MyServicesUserIDs );
+
         USER:
-        for my $UserID ( $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} ) ) {
+        for my $UserID ( sort keys %SubscribedUserIDs ) {
 
             # do not send to this user
             next USER if $DoNotSend{$UserID};
@@ -492,6 +504,28 @@ sub ArticleCreate {
                 Valid  => 1,
             );
             next USER if !$UserData{UserSendNewTicketNotification};
+
+            if ( $UserData{UserSendNewTicketNotification} eq 'MyQueues' ) {
+                next USER if !$MyQueuesUserIDs{$UserID};
+            }
+            elsif ( $UserData{UserSendNewTicketNotification} eq 'MyServices' ) {
+                next USER if !$MyServicesUserIDs{$UserID};
+            }
+            elsif ( $UserData{UserSendNewTicketNotification} eq 'MyQueuesOrMyServices' ) {
+                next USER if !$MyQueuesUserIDs{$UserID} && !$MyServicesUserIDs{$UserID};
+            }
+            elsif ( $UserData{UserSendNewTicketNotification} eq 'MyQueuesAndMyServices' ) {
+                next USER if !$MyQueuesUserIDs{$UserID} || !$MyServicesUserIDs{$UserID};
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Invalid UserSendNewTicketNotification option"
+                        . " '$UserData{UserSendNewTicketNotification}'"
+                        . " for user '$UserData{UserLogin}' ",
+                );
+                next USER;
+            }
 
             # remember to have sent
             $AlreadySent{$UserID} = 1;
@@ -533,7 +567,7 @@ sub ArticleCreate {
             # do not send to this user
             next USER if $DoNotSend{$UserID};
 
-            # check if alreay sent
+            # check if already sent
             next USER if $AlreadySent{$UserID};
 
             # remember already sent info
@@ -559,24 +593,44 @@ sub ArticleCreate {
 
         # send agent notification to all agents or only to owner
         if ( $Ticket{OwnerID} == 1 || $Ticket{Lock} eq 'unlock' ) {
-            my @OwnerIDs;
+            my %SubscribedUserIDs;
+            my %OwnerUserIDs;
+            my %WatcherUserIDs;
+            my %MyQueuesUserIDs;
+            my %MyServicesUserIDs;
             if ( $Self->{ConfigObject}->Get('PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner') ) {
-                @OwnerIDs = ( $Ticket{OwnerID} );
+                $SubscribedUserIDs{ $Ticket{OwnerID} } = 1;
             }
             else {
-                @OwnerIDs = $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} );
-                push @OwnerIDs, $Self->TicketWatchGet(
+
+                # get subscribed users from My Queues in form of a hash
+                %MyQueuesUserIDs = map { $_ => 1 } $Self->GetSubscribedUserIDsByQueueID(
+                    QueueID => $Ticket{QueueID}
+                );
+
+                # get subscribed users from My Services in form of a hash
+                %MyServicesUserIDs = map { $_ => 1 } $Self->GetSubscribedUserIDsByServiceID(
+                    ServiceID => $Ticket{ServiceID}
+                );
+
+                # get ticket watchers in form of a hash
+                # (ResultType HASH does not seams to help here)
+                %WatcherUserIDs = map { $_ => 1 } $Self->TicketWatchGet(
                     TicketID => $Param{TicketID},
                     Notify   => 1,
                     Result   => 'ARRAY',
                 );
 
                 # add also owner to be notified
-                push @OwnerIDs, $Ticket{OwnerID};
+                %OwnerUserIDs = ( $Ticket{OwnerID} => 1 );
+
+                # combine both subscribed users list (this will also remove duplicates)
+                %SubscribedUserIDs
+                    = ( %MyQueuesUserIDs, %MyServicesUserIDs, %WatcherUserIDs, %OwnerUserIDs );
             }
 
             USER:
-            for my $UserID (@OwnerIDs) {
+            for my $UserID ( sort keys %SubscribedUserIDs ) {
                 next USER if !$UserID;
                 next USER if $UserID == 1;
                 next USER if $UserID eq $Param{UserID};
@@ -584,7 +638,7 @@ sub ArticleCreate {
                 # do not send to this user
                 next USER if $DoNotSend{$UserID};
 
-                # check if alreay sent
+                # check if already sent
                 next USER if $AlreadySent{$UserID};
 
                 # check personal settings
@@ -593,6 +647,31 @@ sub ArticleCreate {
                     Valid  => 1,
                 );
                 next USER if !$UserData{UserSendFollowUpNotification};
+
+                # check UserSendNewTicketNotification to non owners or watchers
+                if ( !$OwnerUserIDs{$UserID} && !$WatcherUserIDs{$UserID} ) {
+                    if ( $UserData{UserSendFollowUpNotification} eq 'MyQueues' ) {
+                        next USER if !$MyQueuesUserIDs{$UserID};
+                    }
+                    elsif ( $UserData{UserSendFollowUpNotification} eq 'MyServices' ) {
+                        next USER if !$MyServicesUserIDs{$UserID};
+                    }
+                    elsif ( $UserData{UserSendFollowUpNotification} eq 'MyQueuesOrMyServices' ) {
+                        next USER if !$MyQueuesUserIDs{$UserID} && !$MyServicesUserIDs{$UserID};
+                    }
+                    elsif ( $UserData{UserSendFollowUpNotification} eq 'MyQueuesAndMyServices' ) {
+                        next USER if !$MyQueuesUserIDs{$UserID} || !$MyServicesUserIDs{$UserID};
+                    }
+                    else {
+                        $Self->{LogObject}->Log(
+                            Priority => 'error',
+                            Message  => "Invalid UserSendNewTicketNotification option"
+                                . " '$UserData{UserSendNewTicketNotification}'"
+                                . " for user '$UserData{UserLogin}' ",
+                        );
+                        next USER;
+                    }
+                }
 
                 # remember already sent info
                 $AlreadySent{$UserID} = 1;
@@ -632,7 +711,7 @@ sub ArticleCreate {
                 # do not send to this user
                 next USER if $DoNotSend{$UserID};
 
-                # check if alreay sent
+                # check if already sent
                 next USER if $AlreadySent{$UserID};
 
                 # check personal settings
@@ -649,7 +728,7 @@ sub ArticleCreate {
                 next USER if $DoNotSendMute{$UserID};
 
                 # send notification
-                $Self->SendAgentNotification(
+                $Self->SendAgetNotification(
                     Type                  => $Param{HistoryType},
                     RecipientID           => $UserID,
                     CustomerMessageParams => {%Param},
@@ -660,8 +739,21 @@ sub ArticleCreate {
             }
 
             # send the rest of agents follow ups
+            # get subscribed users from My Queues in form of a hash
+            my %MyQueuesUserIDs = map { $_ => 1 } $Self->GetSubscribedUserIDsByQueueID(
+                QueueID => $Ticket{QueueID}
+            );
+
+            # get subscribed users from My Services in form of a hash
+            my %MyServicesUserIDs = map { $_ => 1 } $Self->GetSubscribedUserIDsByServiceID(
+                ServiceID => $Ticket{ServiceID}
+            );
+
+            # combine both subscribed users list (this will also remove duplicates)
+            my %SubscribedUserIDs = ( %MyQueuesUserIDs, %MyServicesUserIDs );
+
             USER:
-            for my $UserID ( $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} ) ) {
+            for my $UserID ( sort keys %SubscribedUserIDs ) {
                 next USER if !$UserID;
                 next USER if $UserID == 1;
                 next USER if $UserID eq $Param{UserID};
@@ -669,7 +761,7 @@ sub ArticleCreate {
                 # do not send to this user
                 next USER if $DoNotSend{$UserID};
 
-                # check if alreay sent
+                # check if already sent
                 next USER if $AlreadySent{$UserID};
 
                 # check personal settings
@@ -677,6 +769,9 @@ sub ArticleCreate {
                     UserID => $UserID,
                     Valid  => 1,
                 );
+
+                # TODO: check $UserData{UserSendFollowUpNotification} == 2 is used, otherwise this
+                # part of the code is unreachable
                 if (
                     $UserData{UserSendFollowUpNotification}
                     && $UserData{UserSendFollowUpNotification} == 2

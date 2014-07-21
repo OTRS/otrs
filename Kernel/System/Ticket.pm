@@ -2215,6 +2215,42 @@ sub TicketServiceSet {
         CreateUserID => $Param{UserID},
     );
 
+    # get queue data for this ticket
+    my %Queue = $Self->{QueueObject}->QueueGet(
+        ID => $Ticket{QueueID},
+    );
+
+    USERID:
+    for my $UserID ( $Self->GetSubscribedUserIDsByServiceID( ServiceID => $Param{ServiceID} ) ) {
+
+        # get the preferences for each user
+        my %Preferences = $Self->{UserObject}->GetPreferences(
+            UserID => $UserID,
+        );
+
+        next USERID if !%Preferences;
+        next USERID if !$Preferences{UserSendServiceUpdateNotification};
+
+        # get groups where user is a member for at least the ro permission
+        my %GroupMember = $Self->{GroupObject}->GroupMemberList(
+            UserID => $UserID,
+            Type   => 'ro',
+            Result => 'HASH',
+        );
+
+        # do not send to users without ro permissions on this queue
+        next USERID if !$GroupMember{ $Queue{GroupID} };
+
+        # send agent notification
+        $Self->SendAgentNotification(
+            Type                  => 'ServiceUpdate',
+            RecipientID           => $UserID,
+            CustomerMessageParams => {},
+            TicketID              => $Param{TicketID},
+            UserID                => $Param{UserID},
+        );
+    }
+
     # trigger event
     $Self->EventHandler(
         Event => 'TicketServiceUpdate',
@@ -3273,6 +3309,56 @@ sub GetSubscribedUserIDsByQueueID {
         if ( $GroupMember{ $Queue{GroupID} } ) {
             push @CleanUserIDs, $UserID;
         }
+    }
+    return @CleanUserIDs;
+}
+
+=item GetSubscribedUserIDsByServiceID()
+
+returns an array of user ids which selected the given service id as
+custom service.
+
+    my @UserIDs = $TicketObject->GetSubscribedUserIDsByServiceID(
+        ServiceID => 123,
+    );
+
+Returns:
+
+    @UserIDs = ( 1, 2, 3 );
+
+=cut
+
+sub GetSubscribedUserIDsByServiceID {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{ServiceID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ServiceID!' );
+        return;
+    }
+
+    # fetch all users
+    my @UserIDs;
+    return if !$Self->{DBObject}->Prepare(
+        SQL => '
+            SELECT user_id
+            FROM personal_services
+            WHERE service_id = ?',
+        Bind => [ \$Param{ServiceID} ],
+    );
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        push @UserIDs, $Row[0];
+    }
+
+    # check if user is valid
+    my @CleanUserIDs;
+
+    USER:
+    for my $UserID (@UserIDs) {
+        my %User = $Self->{UserObject}->GetUserData( UserID => $UserID, Valid => 1 );
+        next USER if !%User;
+
+        push @CleanUserIDs, $UserID;
     }
     return @CleanUserIDs;
 }

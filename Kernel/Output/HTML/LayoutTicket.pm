@@ -725,8 +725,15 @@ sub TicketListShow {
     # set default view mode to 'small'
     my $View = $Param{View} || 'Small';
 
-    # set default view mode for AgentTicketQueue
-    if ( !$Param{View} && $Env->{Action} eq 'AgentTicketQueue' ) {
+    # set default view mode for AgentTicketQueue or AgentTicketService
+    if (
+        !$Param{View}
+        && (
+            $Env->{Action} eq 'AgentTicketQueue'
+            || $Env->{Action} eq 'AgentTicketService'
+        )
+        )
+    {
         $View = 'Preview';
     }
 

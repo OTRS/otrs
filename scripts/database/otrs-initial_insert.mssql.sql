@@ -1408,6 +1408,40 @@ Escalatie over: <OTRS_TICKET_EscalationDestinationIn>
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
 ', 'text/plain', 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
+--  insert into table notifications
+-- ----------------------------------------------------------
+INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, content_type, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Agent::ServiceUpdate', 'utf-8', 'en', 'Updated service to <OTRS_TICKET_Service>! (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Hi <OTRS_UserFirstname>,
+
+<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname> updated a ticket [<OTRS_TICKET_TicketNumber>] and changed the service to <OTRS_TICKET_Service>
+
+<snip>
+<OTRS_CUSTOMER_EMAIL[30]>
+<snip>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+Your OTRS Notification Master
+', 'text/plain', 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table notifications
+-- ----------------------------------------------------------
+INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, content_type, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Agent::ServiceUpdate', 'utf-8', 'de', 'Service aktualisiert zu <OTRS_TICKET_Service>! (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Hallo <OTRS_UserFirstname>,
+
+<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname> aktualisierte Ticket [<OTRS_TICKET_TicketNumber>] and änderte den Service zu <OTRS_TICKET_Service>
+
+<snip>
+<OTRS_CUSTOMER_EMAIL[30]>
+<snip>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+Ihr OTRS Benachrichtigungs-Master
+', 'text/plain', 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
 --  insert into table dynamic_field
 -- ----------------------------------------------------------
 INSERT INTO dynamic_field (internal_field, name, label, field_order, field_type, object_type, config, valid_id, create_by, create_time, change_by, change_time)

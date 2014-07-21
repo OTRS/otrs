@@ -167,6 +167,15 @@ CREATE TABLE personal_queues (
     INDEX personal_queues_user_id (user_id)
 );
 # ----------------------------------------------------------
+#  create table personal_services
+# ----------------------------------------------------------
+CREATE TABLE personal_services (
+    user_id INTEGER NOT NULL,
+    service_id INTEGER NOT NULL,
+    INDEX personal_services_queue_id (service_id),
+    INDEX personal_services_user_id (user_id)
+);
+# ----------------------------------------------------------
 #  create table salutation
 # ----------------------------------------------------------
 CREATE TABLE salutation (

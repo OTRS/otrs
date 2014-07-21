@@ -2146,7 +2146,52 @@ Escalatie over: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
         <Data Key="change_by">1</Data>
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
+    <Insert Table="notifications">
+        <Data Key="notification_type" Type="Quote">Agent::ServiceUpdate</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
+        <Data Key="notification_language" Type="Quote">en</Data>
+        <Data Key="subject" Type="Quote">Updated service to &lt;OTRS_TICKET_Service>! (&lt;OTRS_CUSTOMER_SUBJECT[24]>)</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
+&lt;OTRS_CURRENT_UserFirstname> &lt;OTRS_CURRENT_UserLastname&gt; updated a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] and changed the service to &lt;OTRS_TICKET_Service&gt;
+
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+&lt;snip&gt;
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+
+Your OTRS Notification Master
+</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notifications">
+        <Data Key="notification_type" Type="Quote">Agent::ServiceUpdate</Data>
+        <Data Key="notification_charset" Type="Quote">utf-8</Data>
+        <Data Key="notification_language" Type="Quote">de</Data>
+        <Data Key="subject" Type="Quote">Service aktualisiert zu &lt;OTRS_TICKET_Service>! (&lt;OTRS_CUSTOMER_SUBJECT[24]>)</Data>
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt;,
+
+&lt;OTRS_CURRENT_UserFirstname> &lt;OTRS_CURRENT_UserLastname&gt; aktualisierte Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] and änderte den Service zu &lt;OTRS_TICKET_Service&gt;
+
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+&lt;snip&gt;
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+
+Ihr OTRS Benachrichtigungs-Master
+</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
 
     <!-- Internal dynamic fields for ProcessManagement -->
     <Insert Table="dynamic_field">

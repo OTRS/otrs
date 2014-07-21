@@ -17,6 +17,7 @@ use Kernel::System::Ticket::ColumnFilter;
 use Kernel::System::CustomerUser;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
+use Kernel::System::Service;
 use Kernel::System::VariableCheck qw(:all);
 
 sub new {
@@ -40,6 +41,7 @@ sub new {
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{ServiceObject}      = Kernel::System::Service->new(%Param);
 
     my $RemoveFilters
         = $Self->{ParamObject}->GetParam( Param => 'RemoveFilters' )
@@ -276,6 +278,8 @@ sub new {
         delete $Self->{ValidFilterableColumns}->{CustomerID};
         delete $Self->{ValidSortableColumns}->{CustomerID};
     }
+
+    $Self->{UseTicketService} = $Self->{ConfigObject}->Get('Ticket::Service') || 0;
 
     return $Self;
 }
@@ -637,6 +641,19 @@ sub Run {
     if ( $TicketSearchSummary{MyQueues} ) {
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketGenericFilterMyQueues',
+            Data => {
+                %Param,
+                %{ $Self->{Config} },
+                Name => $Self->{Name},
+                %{$Summary},
+            },
+        );
+    }
+
+    # show only myservices if we have the filter
+    if ( $TicketSearchSummary{MyServices} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentLargeTicketGenericFilterMyServices',
             Data => {
                 %Param,
                 %{ $Self->{Config} },
@@ -1929,6 +1946,25 @@ sub _SearchParamsGet {
     if ( !@MyQueues ) {
         @MyQueues = (999_999);
     }
+
+    # get all queues the agent is allowed to see (for my services)
+    my %ViewableQueues = $Self->{QueueObject}->GetAllQueues(
+        UserID => $Self->{UserID},
+        Type   => 'ro',
+    );
+    my @ViewableQueueIDs = sort keys %ViewableQueues;
+
+    # get the custom services from agent preferences
+    # set the service ids to an array of non existing service ids (0)
+    my @MyServiceIDs = (0);
+    if ( $Self->{UseTicketService} ) {
+        @MyServiceIDs = $Self->{ServiceObject}->GetAllCustomServices( UserID => $Self->{UserID} );
+
+        if ( !defined $MyServiceIDs[0] ) {
+            @MyServiceIDs = (0);
+        }
+    }
+
     my %TicketSearchSummary = (
         Locked => {
             OwnerIDs => [ $Self->{UserID}, ],
@@ -1946,6 +1982,11 @@ sub _SearchParamsGet {
             QueueIDs => \@MyQueues,
             Locks    => undef,
         },
+        MyServices => {
+            QueueIDs   => \@ViewableQueueIDs,
+            ServiceIDs => \@MyServiceIDs,
+            Locks      => undef,
+        },
         All => {
             OwnerIDs => undef,
             Locks    => undef,
@@ -1954,6 +1995,10 @@ sub _SearchParamsGet {
 
     if ( defined $TicketSearch{QueueIDs} || defined $TicketSearch{Queues} ) {
         delete $TicketSearchSummary{MyQueues};
+    }
+
+    if ( !$Self->{UseTicketService} ) {
+        delete $TicketSearchSummary{MyServices};
     }
 
     return (
