@@ -17,12 +17,14 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw( ConfigObject )
+            ],
+        ),
+    };
     bless( $Self, $Type );
-
-    # get needed objects
-    $Self->{ConfigObject} = $Kernel::OM->Get('ConfigObject');
-    $Self->{EncodeObject} = $Kernel::OM->Get('EncodeObject');
 
     # get logfile location
     $Self->{LogFile} = $Self->{ConfigObject}->Get('LogModule::LogFile')
@@ -67,7 +69,7 @@ sub Log {
     }
 
     # write log file
-    $Self->{EncodeObject}->SetIO($FH);
+    $Kernel::OM->Get('EncodeObject')->SetIO($FH);
     print $FH '[' . localtime() . ']';    ## no critic
     if ( lc $Param{Priority} eq 'debug' ) {
         print $FH "[Debug][$Param{Module}][$Param{Line}] $Param{Message}\n";

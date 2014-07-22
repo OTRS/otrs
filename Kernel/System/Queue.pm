@@ -13,7 +13,6 @@ use strict;
 use warnings;
 
 use Kernel::System::CacheInternal;
-use Kernel::System::SysConfig;
 
 =head1 NAME
 
@@ -1061,11 +1060,8 @@ sub QueueUpdate {
     # check all sysconfig options
     return 1 if !$Param{CheckSysConfig};
 
-    # create a sysconfig object locally for performance reasons
-    my $SysConfigObject = Kernel::System::SysConfig->new( %{$Self} );
-
     # check all sysconfig options and correct them automatically if neccessary
-    $SysConfigObject->ConfigItemCheckAll();
+    $Kernel::OM->Get('SysConfigObject')->ConfigItemCheckAll();
 
     return 1;
 }

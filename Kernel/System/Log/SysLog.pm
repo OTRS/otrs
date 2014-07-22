@@ -18,12 +18,14 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw( ConfigObject )
+            ],
+        ),
+    };
     bless( $Self, $Type );
-
-    # get needed objects
-    $Self->{ConfigObject} = $Kernel::OM->Get('ConfigObject');
-    $Self->{EncodeObject} = $Kernel::OM->Get('EncodeObject');
 
     # set syslog facility
     $Self->{SysLogFacility} = $Self->{ConfigObject}->Get('LogModule::SysLog::Facility') || 'user';
@@ -36,10 +38,10 @@ sub Log {
 
     # prepare data for byte output
     if ( $Self->{ConfigObject}->Get('LogModule::SysLog::Charset') =~ m/^utf-?8$/ ) {
-        $Self->{EncodeObject}->EncodeOutput( \$Param{Message} );
+        $Kernel::OM->Get('EncodeObject')->EncodeOutput( \$Param{Message} );
     }
     else {
-        $Param{Message} = $Self->{EncodeObject}->Convert(
+        $Param{Message} = $Kernel::OM->Get('EncodeObject')->Convert(
             Text  => $Param{Message},
             From  => 'utf8',
             To    => $Self->{ConfigObject}->Get('LogModule::SysLog::Charset') || 'iso-8859-15',

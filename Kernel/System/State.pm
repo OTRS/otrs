@@ -13,9 +13,6 @@ use strict;
 use warnings;
 
 use Kernel::System::CacheInternal;
-use Kernel::System::SysConfig;
-use Kernel::System::Time;
-use Kernel::System::Valid;
 
 =head1 NAME
 
@@ -45,18 +42,18 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw( DBObject ConfigObject LogObject ValidObject )
+            ],
+        ),
+    };
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
     # create additional objects
-    $Self->{ValidObject}         = Kernel::System::Valid->new( %{$Self} );
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        %Param,
+        %{$Self},
         Type => 'State',
         TTL  => 60 * 60 * 24 * 20,
     );
@@ -275,17 +272,8 @@ sub StateUpdate {
     # check all sysconfig options
     return 1 if !$Param{CheckSysConfig};
 
-    # create a time object locally, needed for the local SysConfigObject
-    my $TimeObject = Kernel::System::Time->new( %{$Self} );
-
-    # create a sysconfig object locally for performance reasons
-    my $SysConfigObject = Kernel::System::SysConfig->new(
-        %{$Self},
-        TimeObject => $TimeObject,
-    );
-
     # check all sysconfig options and correct them automatically if neccessary
-    $SysConfigObject->ConfigItemCheckAll();
+    $Kernel::OM->Get('SysConfigObject')->ConfigItemCheckAll();
 
     return 1;
 }
