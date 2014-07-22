@@ -1395,11 +1395,7 @@ sub Run {
                     $BlockType = 'Translatable';
                     $DataValue = $Ticket{$Column};
                 }
-                elsif ( $Column eq 'Created' ) {
-                    $BlockType = 'Time';
-                    $DataValue = $Ticket{$Column};
-                }
-                elsif ( $Column eq 'Changed' ) {
+                elsif ( $Column eq 'Created' || $Column eq 'Changed' ) {
                     $BlockType = 'Time';
                     $DataValue = $Ticket{$Column};
                 }
