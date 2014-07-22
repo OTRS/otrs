@@ -14,25 +14,11 @@ use utf8;
 
 use vars qw($Self);
 
-use Kernel::System::Ticket;
-use Kernel::System::LinkObject;
-use Kernel::System::User;
-use Kernel::Config;
-
-# create local objects
-my $ConfigObject = Kernel::Config->new();
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $LinkObject = Kernel::System::LinkObject->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $UserObject = Kernel::System::User->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $TicketObject = $Kernel::OM->Get('TicketObject');
+my $LinkObject   = $Kernel::OM->Get('LinkObject');
+my $UserObject   = $Kernel::OM->Get('UserObject');
 
 # ------------------------------------------------------------ #
 # make preparations

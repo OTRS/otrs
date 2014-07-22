@@ -12,8 +12,6 @@ package Kernel::System::LinkObject::Ticket;
 use strict;
 use warnings;
 
-use Kernel::System::Ticket;
-
 =head1 NAME
 
 Kernel::System::LinkObject::Ticket
@@ -32,48 +30,9 @@ Ticket backend for the ticket link object.
 
 create an object
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
     use Kernel::System::LinkObject::Ticket;
 
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $TicketObject = Kernel::System::LinkObject::Ticket->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
-        GroupObject        => $GroupObject,        # if given
-        CustomerUserObject => $CustomerUserObject, # if given
-        QueueObject        => $QueueObject,        # if given
-    );
+    my $TicketObject = Kernel::System::LinkObject::Ticket->new();
 
 =cut
 
@@ -81,14 +40,14 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw( ConfigObject LogObject TicketObject )
+            ],
+        ),
+    };
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject TimeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-    $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
 
     return $Self;
 }

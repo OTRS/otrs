@@ -13,8 +13,6 @@ use strict;
 use warnings;
 
 use Kernel::System::CacheInternal;
-use Kernel::System::CheckItem;
-use Kernel::System::Valid;
 
 =head1 NAME
 
@@ -44,15 +42,15 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw( DBObject ConfigObject LogObject MainObject CheckItemObject )
+            ],
+        ),
+    };
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject TimeObject)) {
-        $Self->{$_} = $Param{$_} || die;
-    }
-    $Self->{CheckItemObject}     = Kernel::System::CheckItem->new( %{$Self} );
-    $Self->{ValidObject}         = Kernel::System::Valid->new( %{$Self} );
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %{$Self},
         Type => 'LinkObject',
@@ -630,10 +628,10 @@ sub LinkCleanup {
     return if !$StateID;
 
     # get current time
-    my $Now = $Self->{TimeObject}->SystemTime();
+    my $Now = $Kernel::OM->Get('TimeObject')->SystemTime();
 
     # calculate delete time
-    my $DeleteTime = $Self->{TimeObject}->SystemTime2TimeStamp(
+    my $DeleteTime = $Kernel::OM->Get('TimeObject')->SystemTime2TimeStamp(
         SystemTime => ( $Now - $Param{Age} ),
     );
 
@@ -2231,7 +2229,7 @@ sub StateList {
     if ( $Param{Valid} ) {
 
         # create the valid id string
-        my $ValidIDs = join ', ', $Self->{ValidObject}->ValidIDsGet();
+        my $ValidIDs = join ', ', $Kernel::OM->Get('ValidObject')->ValidIDsGet();
 
         $SQLWhere = "WHERE valid_id IN ( $ValidIDs )";
     }
