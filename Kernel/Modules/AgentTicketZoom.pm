@@ -193,6 +193,9 @@ sub Run {
             return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
         }
     }
+    else {
+        %AclAction = %PossibleActions;
+    }
 
     # mark shown ticket as seen
     if ( $Self->{Subaction} eq 'TicketMarkAsSeen' ) {
