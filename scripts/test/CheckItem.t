@@ -12,15 +12,9 @@ use warnings;
 use vars (qw($Self));
 use utf8;
 
-use Kernel::System::CheckItem;
-use Kernel::Config;
-
-# create local objects
-my $ConfigObject    = Kernel::Config->new();
-my $CheckItemObject = Kernel::System::CheckItem->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+# get needed objects
+my $ConfigObject    = $Kernel::OM->Get('ConfigObject');
+my $CheckItemObject = $Kernel::OM->Get('CheckItemObject');
 
 # disable dns lookups
 $ConfigObject->Set(
