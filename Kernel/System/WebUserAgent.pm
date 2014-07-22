@@ -16,7 +16,6 @@ use HTTP::Headers;
 use List::Util qw(first);
 use LWP::UserAgent;
 
-use Kernel::System::Encode;
 use Kernel::System::VariableCheck qw(:all);
 
 =head1 NAME
@@ -37,40 +36,11 @@ All web user agent functions.
 
 create an object
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
     use Kernel::System::WebUserAgent;
 
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
     my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-        DBObject     => $DBObject,
-        Timeout      => 15,                  # optional, timeout
-        Proxy        => 'proxy.example.com', # optional, proxy
+        Timeout => 15,                  # optional, timeout
+        Proxy   => 'proxy.example.com', # optional, proxy
     );
 
 =cut
@@ -79,15 +49,14 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw( ConfigObject LogObject )
+            ],
+        ),
+    };
     bless( $Self, $Type );
-
-    # check needed objects
-    for my $Object (qw(DBObject ConfigObject LogObject MainObject)) {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
-
-    $Self->{EncodeObject} = $Param{EncodeObject} || Kernel::System::Encode->new();
 
     $Self->{Timeout} = $Param{Timeout} || $Self->{ConfigObject}->Get('WebUserAgent::Timeout') || 15;
     $Self->{Proxy}   = $Param{Proxy}   || $Self->{ConfigObject}->Get('WebUserAgent::Proxy')   || '';
@@ -258,7 +227,7 @@ sub Request {
 
     # get the content to convert internal used charset
     my $ResponseContent = $Response->decoded_content();
-    $Self->{EncodeObject}->EncodeInput( \$ResponseContent );
+    $Kernel::OM->Get('EncodeObject')->EncodeInput( \$ResponseContent );
 
     if ( $Param{Return} && $Param{Return} eq 'REQUEST' ) {
         return (
