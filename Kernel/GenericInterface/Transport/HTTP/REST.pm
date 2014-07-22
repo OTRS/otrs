@@ -896,6 +896,8 @@ sub _Error {
 
 1;
 
+=end Internal:
+
 =back
 
 =head1 TERMS AND CONDITIONS
