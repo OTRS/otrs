@@ -629,7 +629,7 @@ sub _MigrateDBACLs {
     for my $ACLName ( sort keys %AffectedACLs ) {
         print "\t$ACLName\n";
     }
-    return;
+    return 1;
 }
 
 =item _UninstallMergedFeatureAddOns()
