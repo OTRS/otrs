@@ -38,8 +38,8 @@ create an object
     use Kernel::System::CacheInternal;
 
     my $CacheInternalObject = Kernel::System::CacheInternal->new(
-        Type         => 'ObjectName', # only [a-zA-Z0-9_] chars usable
-        TTL          => 60 * 60 * 24,
+        Type => 'ObjectName', # only [a-zA-Z0-9_] chars usable
+        TTL  => 60 * 60 * 24,
     );
 
 =cut

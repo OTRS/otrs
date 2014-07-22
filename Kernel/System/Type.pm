@@ -13,7 +13,6 @@ use strict;
 use warnings;
 
 use Kernel::System::CacheInternal;
-use Kernel::System::Valid;
 
 =head1 NAME
 
@@ -43,16 +42,16 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw( DBObject ConfigObject LogObject )
+            ],
+        ),
+    };
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-    $Self->{ValidObject}         = Kernel::System::Valid->new( %{$Self} );
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        %{$Self},
         Type => 'Type',
         TTL  => 60 * 60 * 24 * 20,
     );
@@ -279,7 +278,7 @@ sub TypeList {
     return %{$Cache} if $Cache;
 
     # create the valid list
-    my $ValidIDs = join ', ', $Self->{ValidObject}->ValidIDsGet();
+    my $ValidIDs = join ', ', $Kernel::OM->Get('ValidObject')->ValidIDsGet();
 
     # build SQL
     my $SQL = 'SELECT id, name FROM ticket_type';
