@@ -14,10 +14,8 @@ use warnings;
 
 use Storable qw();
 
-use Kernel::System::XML;
 use Kernel::Config;
 use Kernel::Language;
-use Kernel::System::Cache;
 
 =head1 NAME
 
@@ -49,13 +47,14 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw( DBObject ConfigObject LogObject MainObject EncodeObject CacheObject )
+            ],
+        ),
+    };
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(DBObject ConfigObject LogObject TimeObject MainObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     # get home directory
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
@@ -64,8 +63,6 @@ sub new {
     $Self->{utf8}     = 1;
     $Self->{FileMode} = ':utf8';
 
-    $Self->{XMLObject}           = Kernel::System::XML->new( %{$Self} );
-    $Self->{CacheObject}         = $Kernel::OM->Get('CacheObject');
     $Self->{ConfigDefaultObject} = Kernel::Config->new( %{$Self}, Level => 'Default' );
     $Self->{ConfigObject}        = Kernel::Config->new( %{$Self}, Level => 'First' );
     $Self->{ConfigClearObject}   = Kernel::Config->new( %{$Self}, Level => 'Clear' );
@@ -1533,7 +1530,7 @@ sub _Init {
         }
 
         # Ok, cache was not used, parse the config files
-        my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(
+        my @XMLHash = $Kernel::OM->Get('XMLObject')->XMLParse2XMLHash(
             String     => $ConfigFile,
             Sourcename => $File,
         );

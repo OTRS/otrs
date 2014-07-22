@@ -13,12 +13,7 @@ use strict;
 use warnings;
 
 use Kernel::System::CacheInternal;
-use Kernel::System::CustomerGroup;
-use Kernel::System::Group;
-use Kernel::System::StandardTemplate;
 use Kernel::System::SysConfig;
-use Kernel::System::Time;
-use Kernel::System::Valid;
 
 =head1 NAME
 
@@ -51,7 +46,7 @@ sub new {
     my $Self = {
         $Kernel::OM->ObjectHash(
             Objects => [
-                qw( DBObject ConfigObject LogObject MainObject EncodeObject ValidObject GroupObject CustomerGroupObject StandardTemplateObject )
+                qw( DBObject ConfigObject LogObject MainObject ValidObject )
             ],
         ),
     };
@@ -364,7 +359,7 @@ sub GetAllQueues {
     if ( $Param{UserID} ) {
 
         # get group ids
-        my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
+        my @GroupIDs = $Kernel::OM->Get('GroupObject')->GroupMemberList(
             UserID => $Param{UserID},
             Type   => $Type,
             Result => 'ID',
@@ -390,7 +385,7 @@ sub GetAllQueues {
     elsif ( $Param{CustomerUserID} ) {
 
         # get group ids
-        my @GroupIDs = $Self->{CustomerGroupObject}->GroupMemberList(
+        my @GroupIDs = $Kernel::OM->Get('CustomerGroupObject')->GroupMemberList(
             UserID => $Param{CustomerUserID},
             Type   => $Type,
             Result => 'ID',
@@ -740,10 +735,12 @@ sub QueueAdd {
         )
     {
 
+        my $StandardTemplateObject = $Kernel::OM->Get('StandardTemplateObject');
+
         ST:
         for my $ST ( @{$StandardTemplate2QueueByCreating} ) {
 
-            my $StandardTemplateID = $Self->{StandardTemplateObject}->StandardTemplateLookup(
+            my $StandardTemplateID = $StandardTemplateObject->StandardTemplateLookup(
                 StandardTemplate => $ST,
             );
 
@@ -1064,14 +1061,8 @@ sub QueueUpdate {
     # check all sysconfig options
     return 1 if !$Param{CheckSysConfig};
 
-    # create a time object locally, needed for the local SysConfigObject
-    my $TimeObject = Kernel::System::Time->new( %{$Self} );
-
     # create a sysconfig object locally for performance reasons
-    my $SysConfigObject = Kernel::System::SysConfig->new(
-        %{$Self},
-        TimeObject => $TimeObject,
-    );
+    my $SysConfigObject = Kernel::System::SysConfig->new( %{$Self} );
 
     # check all sysconfig options and correct them automatically if neccessary
     $SysConfigObject->ConfigItemCheckAll();

@@ -12,8 +12,6 @@ package Kernel::Language;
 use strict;
 use warnings;
 
-use Kernel::System::Time;
-
 use vars qw(@ISA);
 
 =head1 NAME
@@ -55,9 +53,6 @@ sub new {
     for (qw(ConfigObject LogObject MainObject EncodeObject)) {
         die "Got no $_!" if ( !$Self->{$_} );
     }
-
-    # time object
-    $Self->{TimeObject} = Kernel::System::Time->new(%Param);
 
     # 0=off; 1=on; 2=get all not translated words; 3=get all requests
     $Self->{Debug} = 0;
@@ -351,11 +346,16 @@ sub FormatTimeString {
         # Add user time zone diff, but only if we actually display the time!
         # Otherwise the date might be off by one day because of the TimeZone diff.
         if ( $Self->{TimeZone} && $Config ne 'DateFormatShort' ) {
-            my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime( String => "$Y-$M-$D $T", );
+
+            my $TimeObject = $Kernel::OM->Get('TimeObject');
+
+            my $TimeStamp = $TimeObject->TimeStamp2SystemTime( String => "$Y-$M-$D $T", );
             $TimeStamp = $TimeStamp + ( $Self->{TimeZone} * 60 * 60 );
-            my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
+
+            my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
                 SystemTime => $TimeStamp,
             );
+
             ( $Y, $M, $D, $T ) = ( $Year, $Month, $Day, "$Hour:$Min:$Sec" );
         }
 
@@ -478,10 +478,14 @@ sub Time {
 
     # set or get time
     if ( lc $Param{Action} eq 'get' ) {
+
         my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
         my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
-        ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST ) = $Self->{TimeObject}->SystemTime2Date(
-            SystemTime => $Self->{TimeObject}->SystemTime(),
+
+        my $TimeObject = $Kernel::OM->Get('TimeObject');
+
+        ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST ) = $TimeObject->SystemTime2Date(
+            SystemTime => $TimeObject->SystemTime(),
         );
     }
     elsif ( lc $Param{Action} eq 'return' ) {

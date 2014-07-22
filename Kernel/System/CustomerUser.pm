@@ -48,11 +48,14 @@ sub new {
     my $Self = {
         $Kernel::OM->ObjectHash(
             Objects => [
-                qw( DBObject ConfigObject LogObject MainObject EncodeObject )
+                qw( DBObject LogObject MainObject EncodeObject )
             ],
         ),
     };
     bless( $Self, $Type );
+
+    # check needed objects (needed for the current way the unittest is working)
+    $Self->{ConfigObject} = $Param{ConfigObject} || die "Got no ConfigObject!";
 
     # load generator customer preferences module
     my $GeneratorModule = $Self->{ConfigObject}->Get('CustomerPreferences')->{Module}
