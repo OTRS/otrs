@@ -61,7 +61,7 @@ sub new {
                     EncodeObject
                     XMLObject
                     CacheObject
-                )
+                    )
             ],
         ),
     };

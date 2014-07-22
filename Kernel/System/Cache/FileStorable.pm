@@ -25,7 +25,7 @@ sub new {
     my $Self = {
         $Kernel::OM->ObjectHash(
             Objects =>
-                [ qw( ConfigObject LogObject MainObject EncodeObject ) ],
+                [qw( ConfigObject LogObject MainObject EncodeObject )],
             )
     };
     bless( $Self, $Type );

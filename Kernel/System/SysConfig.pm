@@ -67,7 +67,7 @@ sub new {
     $Self->{ConfigObject}        = Kernel::Config->new( %{$Self}, Level => 'First' );
     $Self->{ConfigClearObject}   = Kernel::Config->new( %{$Self}, Level => 'Clear' );
     $Self->{ConfigCounter}       = $Self->_Init();
-    $Self->{LanguageObject}      = $Param{LanguageObject} || Kernel::Language->new( %{$Self} );
+    $Self->{LanguageObject} = $Param{LanguageObject} || Kernel::Language->new( %{$Self} );
 
     return $Self;
 }

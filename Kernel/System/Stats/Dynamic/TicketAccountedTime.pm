@@ -38,7 +38,7 @@ sub new {
                     SLAObject
                     TypeObject
                     DynamicFieldObject
-                )
+                    )
             ],
         ),
     };
