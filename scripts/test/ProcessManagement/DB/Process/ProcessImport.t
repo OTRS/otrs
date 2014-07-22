@@ -36,7 +36,7 @@ my $RandomID = $HelperObject->GetRandomID();
 my $Home     = $Self->{ConfigObject}->Get('Home');
 my $UserID   = 1;
 
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 my $ProcessObject = Kernel::System::ProcessManagement::DB::Process->new(
     %{$Self},

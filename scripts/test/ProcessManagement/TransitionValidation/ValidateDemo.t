@@ -17,7 +17,7 @@ use Kernel::System::ProcessManagement::TransitionValidation::ValidateDemo;
 
 use Kernel::System::VariableCheck qw(:all);
 
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 my $ValidationObject
     = Kernel::System::ProcessManagement::TransitionValidation::ValidateDemo->new(
     %{$Self},

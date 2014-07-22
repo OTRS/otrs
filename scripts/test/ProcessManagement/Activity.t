@@ -24,7 +24,7 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
     RestoreSystemConfiguration => 0,
 );
 
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 my $ActivityObject = Kernel::System::ProcessManagement::Activity->new(
     %{$Self},

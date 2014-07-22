@@ -44,7 +44,7 @@ my $SEND  = 1;
 my $PARSE = 1;
 
 # create local object
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 # do not really send emails
 $ConfigObject->Set(

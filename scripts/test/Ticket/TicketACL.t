@@ -35,7 +35,7 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},
     RestoreSystemConfiguration => 0,
 );
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 my $ValidObject  = Kernel::System::Valid->new( %{$Self} );
 my $UserObject   = Kernel::System::User->new(
     %{$Self},

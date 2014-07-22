@@ -15,7 +15,7 @@ use utf8;
 use Kernel::System::Time;
 use Kernel::System::UnitTest::Helper;
 
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 my $TimeObject = Kernel::System::Time->new(
     %{$Self},

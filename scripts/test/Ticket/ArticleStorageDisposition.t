@@ -18,7 +18,7 @@ use Kernel::System::UnitTest::Helper;
 use Kernel::System::Ticket;
 
 # create local objects
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},

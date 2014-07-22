@@ -30,7 +30,7 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 my $RandomID = $HelperObject->GetRandomID();
 
 # create local config object
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 # create webservice object
 my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new(

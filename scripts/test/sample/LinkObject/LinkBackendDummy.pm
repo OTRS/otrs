@@ -32,7 +32,7 @@ create an object
     use Kernel::System::DB;
     use Kernel::System::LinkObject::Dummy;
 
-    my $ConfigObject = Kernel::Config->new();
+    my $ConfigObject = $Kernel::OM->Get('ConfigObject');
     my $EncodeObject = Kernel::System::Encode->new(
         ConfigObject => $ConfigObject,
     );

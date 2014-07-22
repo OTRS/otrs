@@ -20,7 +20,7 @@ use Kernel::System::DynamicField;
 use Kernel::Config;
 
 # create local config object
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 my $Hook         = $ConfigObject->Get('Ticket::Hook');
 
 $ConfigObject->Set(

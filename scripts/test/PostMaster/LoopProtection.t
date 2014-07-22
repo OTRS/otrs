@@ -15,7 +15,7 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::Config;
 
 # create local config object
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 for my $Module (qw(DB FS)) {
     $ConfigObject->Set(

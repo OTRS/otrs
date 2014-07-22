@@ -17,7 +17,7 @@ use Kernel::Config;
 use Kernel::System::Ticket;
 
 # create local objects
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 # check all number generators
 for my $Backend (qw(AutoIncrement Date DateChecksum Random)) {

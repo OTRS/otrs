@@ -15,7 +15,7 @@ use Kernel::System::Crypt;
 use Kernel::Config;
 
 # create local object
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 # set config
 $ConfigObject->Set(

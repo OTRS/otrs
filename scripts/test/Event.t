@@ -17,7 +17,7 @@ use Kernel::Config;
 use Kernel::System::DynamicField;
 
 # create local object
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 my $DynamicFieldObject = Kernel::System::DynamicField->new(
     %{$Self},

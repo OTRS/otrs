@@ -50,7 +50,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
 
         # create local objects
-        my $ConfigObject = Kernel::Config->new();
+        my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
         $ConfigObject->Set(
             Key   => 'CheckEmailAddresses',

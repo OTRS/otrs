@@ -26,7 +26,7 @@ my $WebserviceConfig =
 if ( $^O =~ /^mswin/i ) {
     $WebserviceConfig = "\"$^X\" " . $Home . '/bin/otrs.WebserviceConfig.pl';
 }
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 my $YAMLObject   = Kernel::System::YAML->new(
     %{$Self},
     ConfigObject => $ConfigObject,

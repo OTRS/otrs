@@ -33,7 +33,7 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 );
 
 # create local config object
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 # user object
 my $UserObject = Kernel::System::User->new(

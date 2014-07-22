@@ -17,7 +17,7 @@ use Kernel::System::Cache;
 use Kernel::System::UnitTest::Helper;
 
 # use local Config object because it will be modified
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 # get home directory
 my $HomeDir = $ConfigObject->Get('Home');

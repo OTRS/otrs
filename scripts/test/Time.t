@@ -17,7 +17,7 @@ $ENV{TZ} = 'Europe/Berlin';
 
 use Kernel::System::Time;
 
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 $ConfigObject->Set(
     Key   => 'TimeZone::Calendar9',

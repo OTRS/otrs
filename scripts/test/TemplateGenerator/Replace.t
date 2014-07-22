@@ -23,7 +23,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Queue;
 
 # create local objects
-my $ConfigObject       = Kernel::Config->new();
+my $ConfigObject       = $Kernel::OM->Get('ConfigObject');
 my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$Self} );
 my $BackendObject      = Kernel::System::DynamicField::Backend->new( %{$Self} );
 my $HelperObject       = Kernel::System::UnitTest::Helper->new(

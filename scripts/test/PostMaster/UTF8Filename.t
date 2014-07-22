@@ -25,7 +25,7 @@ use Kernel::System::DB;
 use Kernel::System::Main;
 
 # create local config object
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 for my $Backend (qw(DB FS)) {
     $ConfigObject->Set(

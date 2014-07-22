@@ -14,7 +14,7 @@ use Kernel::Config;
 use Kernel::System::CustomerUser;
 
 # create local objects
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 # add two users
 $ConfigObject->Set(

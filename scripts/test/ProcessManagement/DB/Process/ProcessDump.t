@@ -33,7 +33,7 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 my $RandomID = $HelperObject->GetRandomID();
 my $UserID   = 1;
 
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 my $ProcessObject = Kernel::System::ProcessManagement::DB::Process->new(
     %{$Self},

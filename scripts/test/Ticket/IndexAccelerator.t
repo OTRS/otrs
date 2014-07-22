@@ -18,7 +18,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Queue;
 
 # create local objects
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 my $UserObject   = Kernel::System::User->new(
     ConfigObject => $ConfigObject,
     %{$Self},

@@ -16,7 +16,7 @@ use Kernel::System::ReferenceData;
 use Kernel::Config;
 
 # create local object
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 # use ReferenceData ISO list
 $ConfigObject->Set(

@@ -25,7 +25,7 @@ use Kernel::Output::HTML::ArticleCheckSMIME;
 use Kernel::System::HTMLUtils;
 
 # create local objects
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 my $HomeDir      = $ConfigObject->Get('Home');
 my $CertPath     = $ConfigObject->Get('SMIME::CertPath');
 my $PrivatePath  = $ConfigObject->Get('SMIME::PrivatePath');

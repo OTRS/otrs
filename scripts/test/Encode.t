@@ -14,7 +14,7 @@ use vars (qw($Self));
 use Kernel::Config;
 
 # create local objects
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 my $EncodeObject = Kernel::System::Encode->new(
     ConfigObject => $ConfigObject,

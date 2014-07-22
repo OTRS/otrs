@@ -25,7 +25,7 @@ use Kernel::System::SLA;
 use Kernel::System::State;
 
 # create local objects
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 my $UserObject   = Kernel::System::User->new(
     ConfigObject => $ConfigObject,
     %{$Self},

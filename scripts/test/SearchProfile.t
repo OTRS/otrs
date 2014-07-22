@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck qw(:all);
 # set UserID
 my $UserID = 1;
 
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 my $SearchProfileObject = Kernel::System::SearchProfile->new(
     %{$Self},

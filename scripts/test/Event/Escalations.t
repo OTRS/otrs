@@ -18,7 +18,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Time;
 use Kernel::System::UnitTest::Helper;
 
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 # make use to disable EstalationStopEvents modules
 $ConfigObject->Set(

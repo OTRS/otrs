@@ -12,7 +12,7 @@ use vars (qw($Self));
 use utf8;
 use Kernel::Config;
 
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 my $Value = 'Testvalue';
 $ConfigObject->Set(

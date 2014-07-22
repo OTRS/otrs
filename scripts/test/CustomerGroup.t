@@ -25,7 +25,7 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
     RestoreSystemConfiguration => 1,
 );
 
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 # create local objects
 my $CustomerGroupObject = Kernel::System::CustomerGroup->new(

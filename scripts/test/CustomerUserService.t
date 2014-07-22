@@ -16,7 +16,7 @@ use Kernel::System::Service;
 use Kernel::System::UnitTest::Helper;
 
 # create local objects
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 # don't check email address validity
 $ConfigObject->Set(

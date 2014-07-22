@@ -120,7 +120,7 @@ Test: B&B 2
 
 for my $Test (@Tests) {
 
-    my $ConfigObject = Kernel::Config->new();
+    my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
     for my $Key ( sort keys %{ $Test->{Config} || {} } ) {
         $ConfigObject->Set( Key => $Key, Value => $Test->{Config}->{$Key} );

@@ -16,7 +16,7 @@ use Kernel::System::VirtualFS;
 use Kernel::Config;
 
 # create local object
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 my @Tests = (
     {

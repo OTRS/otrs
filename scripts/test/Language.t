@@ -21,7 +21,7 @@ use vars qw( $Self %Param );
 
 # common objects
 my %CommonObject = ();
-$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{ConfigObject} = $Kernel::OM->Get('ConfigObject');
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'Language.t',

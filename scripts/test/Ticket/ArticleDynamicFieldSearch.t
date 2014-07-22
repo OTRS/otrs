@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 # create local objects
 my $RandomID = int rand 1_000_000_000;
 
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 my $UserObject   = Kernel::System::User->new(
     ConfigObject => $ConfigObject,
     %{$Self},

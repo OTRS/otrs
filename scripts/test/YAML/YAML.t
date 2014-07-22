@@ -15,7 +15,7 @@ use utf8;
 use Kernel::System::YAML;
 
 # create needed objects
-my $ConfigObject = Kernel::Config->new();
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 my $YAMLObject   = Kernel::System::YAML->new(
     %{$Self},
     ConfigObject => $ConfigObject,
