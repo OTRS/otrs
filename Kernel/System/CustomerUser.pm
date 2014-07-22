@@ -45,13 +45,14 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw( DBObject ConfigObject LogObject MainObject EncodeObject )
+            ],
+        ),
+    };
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     # load generator customer preferences module
     my $GeneratorModule = $Self->{ConfigObject}->Get('CustomerPreferences')->{Module}

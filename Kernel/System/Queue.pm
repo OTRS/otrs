@@ -48,36 +48,22 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw( DBObject ConfigObject LogObject MainObject EncodeObject ValidObject GroupObject CustomerGroupObject StandardTemplateObject )
+            ],
+        ),
+    };
     bless( $Self, $Type );
 
     $Self->{QueueID} = $Param{QueueID} || '';
 
-    # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-    $Self->{ValidObject}         = Kernel::System::Valid->new( %{$Self} );
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %Param,
         Type => 'Queue',
         TTL  => 60 * 60 * 24 * 20,
     );
-
-    # lib object
-    $Self->{StandardTemplateObject} = Kernel::System::StandardTemplate->new( %{$Self} );
-    if ( !$Param{GroupObject} ) {
-        $Self->{GroupObject} = Kernel::System::Group->new( %{$Self} );
-    }
-    else {
-        $Self->{GroupObject} = $Param{GroupObject};
-    }
-    if ( !$Param{CustomerGroupObject} ) {
-        $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new( %{$Self} );
-    }
-    else {
-        $Self->{CustomerGroupObject} = $Param{CustomerGroupObject};
-    }
 
     # load generator preferences module
     my $GeneratorModule = $Self->{ConfigObject}->Get('Queue::PreferencesModule')

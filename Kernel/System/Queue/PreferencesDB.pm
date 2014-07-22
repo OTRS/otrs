@@ -16,13 +16,17 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
+    my $Self = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw( DBObject ConfigObject LogObject )
+            ],
+        ),
+    };
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject EncodeObject MainObject CacheInternalObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    $Self->{CacheInternalObject} = $Param{CacheInternalObject} || die 'Got no CacheInternalObject!';
 
     # preferences table data
     $Self->{PreferencesTable}        = 'queue_preferences';
