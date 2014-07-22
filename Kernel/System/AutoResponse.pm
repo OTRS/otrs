@@ -12,8 +12,6 @@ package Kernel::System::AutoResponse;
 use strict;
 use warnings;
 
-use Kernel::System::SystemAddress;
-
 =head1 NAME
 
 Kernel::System::AutoResponse - auto response lib
@@ -45,7 +43,7 @@ sub new {
     my $Self = {
         $Kernel::OM->ObjectHash(
             Objects =>
-                [qw(ConfigObject LogObject DBObject MainObject EncodeObject SystemAddressObject)],
+                [qw(ConfigObject LogObject DBObject)],
         ),
     };
     bless( $Self, $Type );
@@ -151,7 +149,7 @@ sub AutoResponseGet {
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
         # convert body
-        $Data[3] = $Self->{EncodeObject}->Convert(
+        $Data[3] = $Kernel::OM->Get('EncodeObject')->Convert(
             Text  => $Data[3],
             From  => $Data[7],
             To    => 'utf-8',
@@ -159,7 +157,7 @@ sub AutoResponseGet {
         );
 
         # convert subject
-        $Data[4] = $Self->{EncodeObject}->Convert(
+        $Data[4] = $Kernel::OM->Get('EncodeObject')->Convert(
             Text  => $Data[4],
             From  => $Data[7],
             To    => 'utf-8',
@@ -317,7 +315,7 @@ sub AutoResponseGetByTypeQueueID {
     return if !%Data;
 
     # get sender attributes
-    my %Address = $Self->{SystemAddressObject}->SystemAddressGet(
+    my %Address = $Kernel::OM->Get('SystemAddressObject')->SystemAddressGet(
         ID => $Data{SystemAddressID},
     );
 

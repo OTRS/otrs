@@ -43,7 +43,7 @@ sub new {
     my $Self = {
         $Kernel::OM->ObjectHash(
             Objects => [
-                qw( MainObject ConfigObject LogObject EncodeObject )
+                qw( MainObject ConfigObject LogObject )
             ],
         ),
     };
@@ -60,7 +60,7 @@ sub new {
         die "Can't load backend module $CacheModule! $@";
     }
 
-    $Self->{CacheObject} = $CacheModule->new( %{$Self} );
+    $Self->{CacheObject} = $CacheModule->new();
 
     return $Self;
 }

@@ -52,7 +52,6 @@ sub new {
     bless( $Self, $Type );
 
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        %{$Self},
         Type => 'Group',
         TTL  => 60 * 60 * 3,
     );

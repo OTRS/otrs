@@ -1728,6 +1728,8 @@ via the Preferences button after logging in.
         },
         CustomerUserObject    => {
             ClassName       => 'Kernel::System::CustomerUser',
+            Dependencies    => [@DefaultDependencies, qw(CustomerCompanyObject)],
+            OmAware         => 1,
         },
         CustomerCompanyObject => {
             ClassName       => 'Kernel::System::CustomerCompany',
@@ -1737,6 +1739,8 @@ via the Preferences button after logging in.
         },
         GroupObject   => {
             ClassName       => 'Kernel::System::Group',
+            Dependencies    => [qw(DBObject ConfigObject LogObject ValidObject)],
+            OmAware         => 1,
         },
         TicketObject  => {
             ClassName       => 'Kernel::System::Ticket',
@@ -1744,7 +1748,8 @@ via the Preferences button after logging in.
         },
         QueueObject  => {
             ClassName       => 'Kernel::System::Queue',
-            Dependencies    => [@DefaultDependencies, qw(DBObject GroupObject CustomerUserObject CustomerGroupObject)],
+            Dependencies    => [qw(DBObject ConfigObject LogObject MainObject ValidObject)],
+            OmAware         => 1,
         },
         LayoutObject  => {
             ClassName       => 'Kernel::Output::HTML::Layout',
@@ -1800,6 +1805,8 @@ via the Preferences button after logging in.
         },
         LinkObject => {
             ClassName       => 'Kernel::System::LinkObject',
+            Dependencies    => [qw(DBObject ConfigObject LogObject MainObject CheckItemObject)],
+            OmAware         => 1,
         },
         XMLObject => {
             ClassName       => 'Kernel::System::XML',
@@ -1819,6 +1826,7 @@ via the Preferences button after logging in.
         StatsObject => {
             ClassName       => 'Kernel::System::Stats',
             Dependencies    => [qw(ConfigObject LogObject GroupObject TimeObject MainObject DBObject EncodeObject XMLObject CacheObject)],
+            OmAware         => 1,
         },
         CSVObject => {
             ClassName       => 'Kernel::System::CSV',
@@ -1826,7 +1834,8 @@ via the Preferences button after logging in.
         },
         CheckItemObject => {
             ClassName       => 'Kernel::System::CheckItem',
-            Dependencies    => [qw(ConfigObject LogObject EncodeObject MainObject)],
+            Dependencies    => [qw(ConfigObject LogObject)],
+            OmAware         => 1,
         },
         EmailObject => {
             ClassName       => 'Kernel::System::Email',
@@ -1857,8 +1866,8 @@ via the Preferences button after logging in.
         },
         SysConfigObject => {
             ClassName       => 'Kernel::System::SysConfig',
-            Dependencies    => [@DefaultDependencies, qw(LanguageObject)],
-
+            Dependencies    => [@DefaultDependencies, qw(LanguageObject CacheObject)],
+            OmAware         => 1,
         },
         LanguageObject => {
             ClassName       => 'Kernel::Language',
@@ -1878,10 +1887,13 @@ via the Preferences button after logging in.
         },
         TypeObject           => {
             ClassName       => 'Kernel::System::Type',
+            Dependencies    => [qw(DBObject ConfigObject LogObject)],
+            OmAware         => 1,
         },
         CacheObject          => {
             ClassName       => 'Kernel::System::Cache',
-            Dependencies    => [qw(ConfigObject LogObject MainObject EncodeObject)],
+            Dependencies    => [qw(MainObject ConfigObject LogObject)],
+            OmAware         => 1,
         },
         ACLDBACLObject      => {
             ClassName       => 'Kernel::System::ACL::DB::ACL',
@@ -1890,6 +1902,8 @@ via the Preferences button after logging in.
         },
         StateObject          => {
             ClassName       => 'Kernel::System::State',
+            Dependencies    => [qw(DBObject ConfigObject LogObject ValidObject)],
+            OmAware         => 1,
         },
         PriorityObject      => {
             ClassName       => 'Kernel::System::Priority',
@@ -1903,7 +1917,7 @@ via the Preferences button after logging in.
         },
         AutoReponseObject   => {
             ClassName       => 'Kernel::System::AutoResponse',
-            Dependencies    => [@DefaultDependencies, qw(SystemAddressObject)],
+            Dependencies    => [qw(ConfigObject LogObject DBObject)],
             OmAware         => 1,
         },
     };

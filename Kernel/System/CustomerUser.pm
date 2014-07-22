@@ -12,7 +12,6 @@ package Kernel::System::CustomerUser;
 use strict;
 use warnings;
 
-use Kernel::System::CustomerCompany;
 use Kernel::System::EventHandler;
 
 use base qw(Kernel::System::EventHandler);
@@ -48,14 +47,11 @@ sub new {
     my $Self = {
         $Kernel::OM->ObjectHash(
             Objects => [
-                qw( DBObject LogObject MainObject EncodeObject )
+                qw( DBObject ConfigObject LogObject MainObject EncodeObject CustomerCompanyObject )
             ],
         ),
     };
     bless( $Self, $Type );
-
-    # check needed objects (needed for the current way the unittest is working)
-    $Self->{ConfigObject} = $Param{ConfigObject} || die "Got no ConfigObject!";
 
     # load generator customer preferences module
     my $GeneratorModule = $Self->{ConfigObject}->Get('CustomerPreferences')->{Module}
@@ -81,8 +77,6 @@ sub new {
             CustomerUserMap   => $Self->{ConfigObject}->Get("CustomerUser$Count"),
         );
     }
-
-    $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new( %{$Self} );
 
     # init of event handler
     $Self->EventHandlerInit(
