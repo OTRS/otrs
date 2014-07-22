@@ -4643,7 +4643,7 @@
                 <Item Key="Name">Status view</Item>
                 <Item Key="Link">Action=AgentTicketStatusView</Item>
                 <Item Key="Action">AgentTicketStatusView</Item>
-                <Item Key="AccessKey">o</Item>
+                <Item Key="AccessKey">S</Item>
                 <Item Key="CssClass">StatusView</Item>
                 <Item Key="Icon">fa fa-list-ol</Item>
                 <Item Key="Priority">1010020</Item>
@@ -7159,7 +7159,7 @@
                     <NavBar>Ticket</NavBar>
                     <Type></Type>
                     <Block></Block>
-                    <AccessKey>o</AccessKey>
+                    <AccessKey>O</AccessKey>
                     <Prio>105</Prio>
                 </NavBar>
                 <Loader>
