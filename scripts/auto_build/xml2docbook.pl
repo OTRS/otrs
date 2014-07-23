@@ -78,16 +78,16 @@ print '<?xml version="1.0" encoding="utf-8"?>
     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 ';
 if ( $Opts{l} eq 'de' ) {
-    print "\n<appendix id=\"config\"><title>Referenz der Konfigurationsoptionen</title>\n";
+    print "\n<appendix id=\"ConfigReference\"><title>Referenz der Konfigurationsoptionen</title>\n";
 }
 else {
-    print "\n<appendix id=\"config\"><title>Configuration Options Reference</title>\n";
+    print "\n<appendix id=\"ConfigReference\"><title>Configuration Options Reference</title>\n";
 }
 for my $Group (@Groups) {
     my %SubList = $CommonObject{SysConfigObject}->ConfigSubGroupList( Name => $Group );
-    print "<sect1 id=\"$Group\"><title>$Group</title> \n";
+    print "<sect1 id=\"ConfigReference_$Group\"><title>$Group</title> \n";
     for my $SubGroup ( sort keys %SubList ) {
-        print "<sect2 id=\"$Group:$SubGroup\"><title>$SubGroup</title> \n";
+        print "<sect2 id=\"ConfigReference_$Group:$SubGroup\"><title>$SubGroup</title> \n";
         my @List = $CommonObject{SysConfigObject}->ConfigSubGroupConfigItemList(
             Group    => $Group,
             SubGroup => $SubGroup
