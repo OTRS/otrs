@@ -353,6 +353,18 @@ sub _MigrateFontAwesome {
             'IconNameOpenTicket'   => 'fa-exclamation-circle',
             'IconNameNoOpenTicket' => 'fa-check-circle',
         },
+        '16-OpenTicketsForCustomerUserLogin' => {
+            'IconNameOpenTicket'   => 'fa-exclamation-circle',
+            'IconNameNoOpenTicket' => 'fa-check-circle',
+        },
+        '17-ClosedTickets' => {
+            'IconNameOpenTicket'   => 'fa-power-off',
+            'IconNameNoOpenTicket' => 'fa-power-off',
+        },
+        '18-ClosedTicketsForCustomerUserLogin' => {
+            'IconNameOpenTicket'   => 'fa-power-off',
+            'IconNameNoOpenTicket' => 'fa-power-off',
+        },
     );
 
     $Setting = $CommonObject->{ConfigObject}->Get('Frontend::CustomerUser::Item');

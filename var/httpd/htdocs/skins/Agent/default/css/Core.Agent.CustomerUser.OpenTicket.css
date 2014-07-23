@@ -19,4 +19,8 @@
     color: green;
 }
 
+.ItemRow i.fa-power-off {
+	color: #333;
+}
+
 } /* end @media */
