@@ -62,18 +62,18 @@ print <<'EOF';
 EOF
 
 if ( $UserLang eq 'de' ) {
-    print "<appendix id=\"config\"><title>Referenz der Konfigurationsoptionen</title>\n";
+    print "<appendix id=\"ConfigReference\"><title>Referenz der Konfigurationsoptionen</title>\n";
 }
 else {
-    print "<appendix id=\"config\"><title>Configuration Options Reference</title>\n";
+    print "<appendix id=\"ConfigReference\"><title>Configuration Options Reference</title>\n";
 }
 
 my %List = $CommonObject{SysConfigObject}->ConfigGroupList();
 for my $Group ( sort { $a cmp $b } keys %List ) {
     my %SubList = $CommonObject{SysConfigObject}->ConfigSubGroupList( Name => $Group );
-    print "<sect1 id=\"$Group\"><title>$Group</title>\n";
+    print "<sect1 id=\"ConfigReference_$Group\"><title>$Group</title>\n";
     for my $SubGroup ( sort keys %SubList ) {
-        print "<sect2 id=\"$Group:$SubGroup\"><title>$SubGroup</title>\n";
+        print "<sect2 id=\"ConfigReference_$Group:$SubGroup\"><title>$SubGroup</title>\n";
         my @List = $CommonObject{SysConfigObject}->ConfigSubGroupConfigItemList(
             Group    => $Group,
             SubGroup => $SubGroup
