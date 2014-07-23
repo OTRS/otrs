@@ -148,10 +148,10 @@ sub TestUserCreate {
     # Add user to groups
     GROUP_NAME:
     for my $GroupName ( @{ $Param{Groups} || [] } ) {
-        my $GroupID = $Self->{GroupObject}->GroupLookup( Group => $GroupName );
+        my $GroupID = $Kernel::OM->Get('GroupObject')->GroupLookup( Group => $GroupName );
         die "Cannot find group $GroupName" if ( !$GroupID );
 
-        $Self->{GroupObject}->GroupMemberAdd(
+        $Kernel::OM->Get('GroupObject')->GroupMemberAdd(
             GID        => $GroupID,
             UID        => $TestUserID,
             Permission => {
