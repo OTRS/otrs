@@ -482,9 +482,12 @@ sub ArticleCreate {
             = map { $_ => 1 } $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} );
 
         # get subscribed users from My Services in form of a hash
-        my %MyServicesUserIDs = map { $_ => 1 } $Self->GetSubscribedUserIDsByServiceID(
-            ServiceID => $Ticket{ServiceID}
-        );
+        my %MyServicesUserIDs;
+        if ( $Ticket{ServiceID} ) {
+            %MyServicesUserIDs = map { $_ => 1 } $Self->GetSubscribedUserIDsByServiceID(
+                ServiceID => $Ticket{ServiceID},
+            );
+        }
 
         # combine both subscribed users list (this will also remove duplicates)
         my %SubscribedUserIDs = ( %MyQueuesUserIDs, %MyServicesUserIDs );
