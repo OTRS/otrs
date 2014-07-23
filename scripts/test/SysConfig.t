@@ -80,7 +80,8 @@ for my $Test (@Tests) {
         }
     }
 
-    my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+    # create a new config object to check the new settings
+    my $ConfigObject = Kernel::Config->new();
 
     $Self->IsDeeply(
         $ConfigObject->Get('Frontend::DebugMode'),
