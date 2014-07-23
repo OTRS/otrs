@@ -17,7 +17,7 @@ use Kernel::System::Package;
 use Kernel::System::VariableCheck qw(:all);
 
 # create local objects
-my $ConfigObject  = Kernel::Config->new( %{$Self} );
+my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 my $PackageObject = Kernel::System::Package->new( %{$Self} );
 
 # get OTRS Version

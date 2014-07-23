@@ -126,7 +126,6 @@ sub TestUserCreate {
 
     # disable email checks to create new user
     local $Self->{ConfigObject}->{CheckEmailAddresses} = 0;
-    local $Self->{ConfigObject}->{CheckMXRecord} = 0;
 
     my $TestUserID = $Kernel::OM->Get('UserObject')->UserAdd(
         UserFirstname => $TestUserLogin,
@@ -193,7 +192,6 @@ sub TestCustomerUserCreate {
 
     # disable email checks to create new user
     local $Self->{ConfigObject}->{CheckEmailAddresses} = 0;
-    local $Self->{ConfigObject}->{CheckMXRecord} = 0;
 
     # create test user
     my $TestUserLogin = $Self->GetRandomID();
