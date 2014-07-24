@@ -413,7 +413,11 @@ sub _Show {
         ReturnSubType => '-',
         UserID        => $Self->{UserID},
     );
-    my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+
+    my %AclAction = %PossibleActions;
+    if ($ACL) {
+        %AclAction = $Self->{TicketObject}->TicketAclActionData();
+    }
 
     # run ticket pre menu modules
     my @ActionItems;

@@ -181,20 +181,18 @@ sub Run {
         ReturnSubType => '-',
         UserID        => $Self->{UserID},
     );
-    my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+
+    my %AclAction = %PossibleActions;
+    if ($ACL) {
+        %AclAction = $Self->{TicketObject}->TicketAclActionData();
+    }
 
     # check if ACL restrictions exist
-    if ( $ACL || IsHashRefWithData( \%AclAction ) ) {
+    my %AclActionLookup = reverse %AclAction;
 
-        my %AclActionLookup = reverse %AclAction;
-
-        # show error screen if ACL prohibits this action
-        if ( !$AclActionLookup{ $Self->{Action} } ) {
-            return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
-        }
-    }
-    else {
-        %AclAction = %PossibleActions;
+    # show error screen if ACL prohibits this action
+    if ( !$AclActionLookup{ $Self->{Action} } ) {
+        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
     }
 
     # mark shown ticket as seen
