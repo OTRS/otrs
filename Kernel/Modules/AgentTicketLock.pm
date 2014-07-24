@@ -159,7 +159,7 @@ sub Run {
         return $Self->{LayoutObject}->Redirect( OP => ";QueueID=$Self->{QueueID}" );
     }
 
-    # get return module string, decode the base64 url and redirect if present
+    # get return module string and redirect if present
     my $ReturnModule = $Self->{ParamObject}->GetParam( Param => 'ReturnModule' ) || '';
 
     if ( IsStringWithData($ReturnModule) ) {

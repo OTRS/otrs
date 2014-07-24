@@ -13,7 +13,7 @@ use strict;
 use warnings;
 
 use Kernel::System::HTMLUtils;
-use URI::Escape ('uri_escape');
+use URI::Escape ();
 use Kernel::System::JSON;
 use Kernel::System::CustomerUser;
 use Kernel::System::DynamicField;
@@ -458,7 +458,8 @@ sub Run {
                     }
 
                     # add the return module to redirect back to the current screen afterwards
-                    my $ReturnPath = uri_escape( $Self->{LayoutObject}->{EnvRef}->{RequestedURL} );
+                    my $ReturnPath = URI::Escape::uri_escape(
+                        $Self->{LayoutObject}->{EnvRef}->{RequestedURL} );
                     $Item->{Link} .= ';ReturnModule=' . $ReturnPath;
 
                     # add session id if needed

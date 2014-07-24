@@ -12,7 +12,7 @@ package Kernel::Output::HTML::TicketOverviewMedium;
 use strict;
 use warnings;
 
-use URI::Escape ('uri_escape');
+use URI::Escape ();
 
 use Kernel::System::CustomerUser;
 use Kernel::System::DynamicField;
@@ -449,7 +449,7 @@ sub _Show {
 
             # add the return module to redirect back to the current screen afterwards
             my $ReturnPath =
-                uri_escape( $Self->{LayoutObject}->{EnvRef}->{RequestedURL} );
+                URI::Escape::uri_escape( $Self->{LayoutObject}->{EnvRef}->{RequestedURL} );
             $Item->{Link} .= ';ReturnModule=' . $ReturnPath;
 
             # add session id if needed

@@ -875,7 +875,7 @@ sub Run {
             );
         }
 
-        # decode the base64 url if present and set it as return url
+        # decode the url if present and set it as return url
         if ( IsStringWithData( $GetParam{ReturnModule} ) ) {
             $ReturnURL = $GetParam{ReturnModule};
         }

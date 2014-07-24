@@ -1,4 +1,5 @@
 #3.3.9 2014-??-??
+ - 2014-07-24 Fixed bug#[9851](http://bugs.otrs.org/show_bug.cgi?id=9851) - Unlocking a ticket in the small view results in AgentTicketZoom.
  - 2014-07-10 Fixed bug#[10595](http://bugs.otrs.org/show_bug.cgi?id=10595) - Standard Replies are false sorted in Ticket Zoom select box.
  - 2014-07-07 Fixed bug#[10534](http://bugs.otrs.org/show_bug.cgi?id=10534) - Wildcard hacking the customer information center, thanks to S7.
  - 2014-07-07 Fixed bug#[10597](http://bugs.otrs.org/show_bug.cgi?id=10597) - Process list description column doesn't support line breaks, thanks to S7.
