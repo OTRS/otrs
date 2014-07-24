@@ -50,6 +50,9 @@ sub new {
     my @InvolvedUserID = $Self->{ParamObject}->GetArray( Param => 'InvolvedUserID' );
     $Self->{InvolvedUserID} = \@InvolvedUserID;
 
+    # get return module base64 string
+    $Self->{ReturnModule} = $Self->{ParamObject}->GetParam( Param => 'ReturnModule' ) || '';
+
     # create form id
     if ( !$Self->{FormID} ) {
         $Self->{FormID} = $Self->{UploadCacheObject}->FormIDCreate();
@@ -128,7 +131,8 @@ sub Run {
     $Self->{LayoutObject}->Block(
         Name => 'Properties',
         Data => {
-            FormID => $Self->{FormID},
+            FormID       => $Self->{FormID},
+            ReturnModule => $Self->{ReturnModule},
             %Ticket,
             %Param,
         },
@@ -213,7 +217,7 @@ sub Run {
         qw(
         NewStateID NewPriorityID TimeUnits ArticleTypeID Title Body Subject NewQueueID
         Year Month Day Hour Minute NewOwnerID NewOwnerType OldOwnerID NewResponsibleID
-        TypeID ServiceID SLAID Expand
+        TypeID ServiceID SLAID Expand ReturnModule
         )
         )
     {
@@ -869,6 +873,11 @@ sub Run {
                 Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
                 UserID             => $Self->{UserID},
             );
+        }
+
+        # decode the url if present and set it as return url
+        if ( IsStringWithData( $GetParam{ReturnModule} ) ) {
+            $ReturnURL = $GetParam{ReturnModule};
         }
 
         # load new URL in parent window and close popup

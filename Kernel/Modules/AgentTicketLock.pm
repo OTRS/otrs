@@ -11,6 +11,7 @@ package Kernel::Modules::AgentTicketLock;
 
 use strict;
 use warnings;
+
 use Kernel::System::VariableCheck qw(:all);
 
 sub new {
@@ -157,6 +158,16 @@ sub Run {
     if ( $Self->{QueueID} ) {
         return $Self->{LayoutObject}->Redirect( OP => ";QueueID=$Self->{QueueID}" );
     }
+
+    # get return module string and redirect if present
+    my $ReturnModule = $Self->{ParamObject}->GetParam( Param => 'ReturnModule' ) || '';
+
+    if ( IsStringWithData($ReturnModule) ) {
+        return $Self->{LayoutObject}->Redirect(
+            OP => $ReturnModule,
+        );
+    }
+
     return $Self->{LayoutObject}->Redirect(
         OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID}",
     );
