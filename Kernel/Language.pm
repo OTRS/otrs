@@ -14,6 +14,10 @@ use warnings;
 
 use vars qw(@ISA);
 
+my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
+my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
+
+
 =head1 NAME
 
 Kernel::Language - global language interface
@@ -321,9 +325,20 @@ sub Get {
 
 =item FormatTimeString()
 
-Get date format in used language format (based on translation file).
+formats a timestamp according to the specified date format for the current
+language (locale).
 
-    my $Date = $LanguageObject->FormatTimeString('2009-12-12 12:12:12', 'DateFormat');
+    my $Date = $LanguageObject->FormatTimeString(
+        '2009-12-12 12:12:12',  # timestamp
+        'DateFormat',           # which date format to use, e. g. DateFormatLong
+        0,                      # optional, hides the seconds from the time output
+    );
+
+Please note that the TimeZone will not be applied in the case of DateFormatShort (date only)
+to avoid switching to another date.
+
+If you only pass an ISO date ('2009-12-12'), it will be returned unchanged.
+Invalid strings will also be returned with an error logged.
 
 =cut
 
@@ -332,53 +347,56 @@ sub FormatTimeString {
 
     return '' if !$String;
 
-    if ( !$Config ) {
-        $Config = 'DateFormat';
-    }
-    if ( !$Short ) {
-        $Short = 0;
-    }
+    $Config ||= 'DateFormat';
+    $Short ||= 0;
 
-    my $ReturnString = $Self->{$Config} || "$Config needs to be translated!";
-    if ( $String =~ /(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d:\d\d:\d\d)/ ) {
-        my ( $Y, $M, $D, $T ) = ( $1, $2, $3, $4 );
+    # Valid timestamp
+    if ( $String =~ /(\d{4})-(\d{2})-(\d{2})\s(\d{2}):(\d{2}):(\d{2})/ ) {
+        my ( $Y, $M, $D, $h, $m, $s ) = ( $1, $2, $3, $4, $5, $6 );
+        my $WD;    # day of week
+
+        my $ReturnString = $Self->{$Config} || "$Config needs to be translated!";
+
+        my $TimeObject = $Kernel::OM->Get('TimeObject');
+        my $TimeStamp = $TimeObject->TimeStamp2SystemTime( String => "$Y-$M-$D $h:$m:$s", );
 
         # Add user time zone diff, but only if we actually display the time!
         # Otherwise the date might be off by one day because of the TimeZone diff.
         if ( $Self->{TimeZone} && $Config ne 'DateFormatShort' ) {
-
-            my $TimeObject = $Kernel::OM->Get('TimeObject');
-
-            my $TimeStamp = $TimeObject->TimeStamp2SystemTime( String => "$Y-$M-$D $T", );
             $TimeStamp = $TimeStamp + ( $Self->{TimeZone} * 60 * 60 );
-
-            my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
-                SystemTime => $TimeStamp,
-            );
-
-            ( $Y, $M, $D, $T ) = ( $Year, $Month, $Day, "$Hour:$Min:$Sec" );
         }
+
+        ( $s, $m, $h, $D, $M, $Y, $WD ) = $TimeObject->SystemTime2Date(
+            SystemTime => $TimeStamp,
+        );
 
         if ($Short) {
-            $T =~ s/(\d\d:\d\d):\d\d/$1/g;
+            $ReturnString =~ s/\%T/$h:$m/g;
         }
-        $ReturnString =~ s/\%T/$T/g;
+        else {
+            $ReturnString =~ s/\%T/$h:$m:$s/g;
+        }
         $ReturnString =~ s/\%D/$D/g;
         $ReturnString =~ s/\%M/$M/g;
         $ReturnString =~ s/\%Y/$Y/g;
+
+        $ReturnString =~ s{(\%A)}{defined $WD ? $Self->Get($DAYS[$WD]) : '';}egx;
+        $ReturnString
+            =~ s{(\%B)}{(defined $M && $M =~ m/^\d+$/) ? $Self->Get($MONS[$M-1]) : '';}egx;
+
         if ( $Self->{TimeZone} && $Config ne 'DateFormatShort' ) {
             return $ReturnString . " ($Self->{TimeZone})";
         }
         return $ReturnString;
     }
-    elsif ( $String =~ /^(\d\d:\d\d:\d\d)$/ ) {
-        return $String;
-    }
 
-    $Self->{LogObject}->Log(
-        Priority => 'notice',
-        Message  => "No FormatTimeString() translation found for '$String' string!",
-    );
+    # Invalid string passed? (don't log for ISO dates)
+    if ( $String !~ /^(\d{2}:\d{2}:\d{2})$/ ) {
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "No FormatTimeString() translation found for '$String' string!",
+        );
+    }
 
     return $String;
 
@@ -479,9 +497,6 @@ sub Time {
     # set or get time
     if ( lc $Param{Action} eq 'get' ) {
 
-        my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
-        my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
-
         my $TimeObject = $Kernel::OM->Get('TimeObject');
 
         ( $s, $m, $h, $D, $M, $Y, $WD, $YD, $DST ) = $TimeObject->SystemTime2Date(
@@ -499,8 +514,6 @@ sub Time {
 
     # do replace
     if ( ( lc $Param{Action} eq 'get' ) || ( lc $Param{Action} eq 'return' ) ) {
-        my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
-        my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
         my $Time = '';
         if ( $Param{Mode} && $Param{Mode} =~ /^NotNumeric$/i ) {
             if ( !$s ) {
