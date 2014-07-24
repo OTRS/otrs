@@ -73,6 +73,7 @@ sub TicketAcceleratorIndex {
     my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock(
         Type => 'ID',
     );
+    my %ViewableLockIDs = ( map { $_ => 1 } @ViewableLockIDs );          # for lookup
     my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
         Type   => 'Viewable',
         Result => 'ID',
@@ -112,67 +113,88 @@ sub TicketAcceleratorIndex {
 
     # CustomQueue add on
     return if !$Self->{DBObject}->Prepare(
+
+        # Differentiate between total and unlocked tickets
         SQL => "
-            SELECT count(*)
+            SELECT count(*), st.ticket_lock_id
             FROM ticket st, queue sq, personal_queues suq
             WHERE st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} )
-                AND st.ticket_lock_id IN ( ${\(join ', ', @ViewableLockIDs)} )
                 AND st.queue_id = sq.id
                 AND st.archive_flag = 0
                 AND suq.queue_id = st.queue_id
                 AND sq.group_id IN ( ${\(join ', ', @GroupIDs)} )
-                AND suq.user_id = $Param{UserID}",
+                AND suq.user_id = $Param{UserID}
+                GROUP BY st.ticket_lock_id",
     );
 
+    my %CustomQueueHashes = (
+        QueueID => 0,
+        Queue   => 'CustomQueue',
+        MaxAge  => 0,
+        Count   => 0,
+        Total   => 0,
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        my %Hashes;
-        $Hashes{QueueID} = 0;
-        $Hashes{Queue}   = 'CustomQueue';
-        $Hashes{MaxAge}  = 0;
-        $Hashes{Count}   = $Row[0];
-        push @{ $Queues{Queues} }, \%Hashes;
-
-        # set some things
-        if ( $Param{QueueID} == 0 ) {
-            $Queues{TicketsShown} = $Row[0];
-            $Queues{TicketsAvail} = $Row[0];
+        $CustomQueueHashes{Total} += $Row[0];
+        if ( $ViewableLockIDs{ $Row[1] } ) {
+            $CustomQueueHashes{Count} += $Row[0];
         }
+    }
+    push @{ $Queues{Queues} }, \%CustomQueueHashes;
+
+    # set some things
+    if ( $Param{QueueID} == 0 ) {
+        $Queues{TicketsShown} = $CustomQueueHashes{Total};
+        $Queues{TicketsAvail} = $CustomQueueHashes{Count};
     }
 
     # prepare the tickets in Queue bar (all data only with my/your Permission)
     return if !$Self->{DBObject}->Prepare(
         SQL => "
-            SELECT st.queue_id, sq.name, min(st.create_time_unix), count(*)
+            SELECT st.queue_id, sq.name, min(st.create_time_unix), st.ticket_lock_id, count(*)
             FROM ticket st, queue sq
             WHERE st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} )
-                AND st.ticket_lock_id IN ( ${\(join ', ', @ViewableLockIDs)} )
                 AND st.queue_id = sq.id
                 AND st.archive_flag = 0
                 AND sq.group_id IN ( ${\(join ', ', @GroupIDs)} )
-            GROUP BY st.queue_id,sq.name
-            ORDER BY sq.name",
+            GROUP BY st.queue_id, sq.name, st.ticket_lock_id
+            ORDER BY sq.name"
     );
 
+    my %QueuesSeen;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        my $Queue     = $Row[1];
+        my $QueueData = $QueuesSeen{$Queue};    # ref to HASH
+        if ( !$QueueData ) {
+            $QueueData = $QueuesSeen{$Queue} = {
+                QueueID => $Row[0],
+                Queue   => $Queue,
+                Total   => 0,
+                Count   => 0,
+                MaxAge  => 0,
+            };
+            push @{ $Queues{Queues} }, $QueueData;
+        }
+        my $Count = $Row[4];
+        $QueueData->{Total} += $Count;
 
-        # store the data into a array
-        my %Hashes;
-        $Hashes{QueueID} = $Row[0];
-        $Hashes{Queue}   = $Row[1];
-        $Hashes{MaxAge}  = $Self->{TimeObject}->SystemTime() - $Row[2];
-        $Hashes{Count}   = $Row[3];
-        push @{ $Queues{Queues} }, \%Hashes;
+        if ( $ViewableLockIDs{ $Row[3] } ) {
+            $QueueData->{Count} += $Count;
 
-        # set some things
-        if ( $Param{QueueID} eq $Row[0] ) {
-            $Queues{TicketsShown} = $Row[3];
-            $Queues{TicketsAvail} = $Row[3];
+            my $MaxAge = $Self->{TimeObject}->SystemTime() - $Row[2];
+            $QueueData->{MaxAge} = $MaxAge if $MaxAge > $QueueData->{MaxAge};
+
+            # get the oldest queue id
+            if ( $QueueData->{MaxAge} > $Queues{MaxAge} ) {
+                $Queues{MaxAge}          = $QueueData->{MaxAge};
+                $Queues{QueueIDOfMaxAge} = $QueueData->{QueueID};
+            }
         }
 
-        # get the oldes queue id
-        if ( $Hashes{MaxAge} > $Queues{MaxAge} ) {
-            $Queues{MaxAge}          = $Hashes{MaxAge};
-            $Queues{QueueIDOfMaxAge} = $Hashes{QueueID};
+        # set some things
+        if ( $Param{QueueID} eq $Queue ) {
+            $Queues{TicketsShown} = $QueueData->{Total};
+            $Queues{TicketsAvail} = $QueueData->{Count};
         }
     }
 
