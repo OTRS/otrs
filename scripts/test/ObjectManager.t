@@ -142,7 +142,7 @@ $Kernel::OM->ObjectsDiscard(
 );
 $Self->True( !$Dummy, 'ObjectsDiscard with list of objects deleted object' );
 
-my $NonexistingObject= eval { $Kernel::OM->Get('Nonexisting::Package') };
+my $NonexistingObject = eval { $Kernel::OM->Get('Nonexisting::Package') };
 $Self->True(
     $@,
     "Fetching a nonexisting object causes an exception",
@@ -150,6 +150,12 @@ $Self->True(
 $Self->False(
     $NonexistingObject,
     "Cannot construct a nonexisting object",
+);
+
+eval { $Kernel::OM->Get() };
+$Self->True(
+    $@,
+    "Invalid object name causes an exception",
 );
 
 # Clean up

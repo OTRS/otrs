@@ -129,17 +129,17 @@ For example C<< ->Get('TicketObject') >> retrieves a L<Kernel::System::Ticket> o
 =cut
 
 sub Get {
-    my ($Self) = $_[0];
+    # No param unpacking for increased performance
+    my $Package = $_[0]->{ObjectAliases}->{ $_[1] } // $_[1];
 
-    my $Package = $Self->{ObjectAliases}->{ $_[1] } // $_[1];
-
-    # Optimize the heck out of the common case:
     if ( $Package && $_[0]->{Objects}->{$Package} ) {
         return $_[0]->{Objects}->{$Package};
     }
 
-    # OK, not so easy
-    die "Error: Missing parameter (object name)\n" if !$Package;
+    if (!$Package) {
+        carp "Error: Missing parameter (object name)";
+        confess "Error: Missing parameter (object name)";
+    }
 
     # record the object we are about to retrieve to potentially
     # build better error messages
@@ -147,7 +147,7 @@ sub Get {
     # is local to the scope of the 'if'-block
     local $CurrentObject = $Package if !$CurrentObject;
 
-    return $Self->_ObjectBuild( Package => $Package );
+    return $_[0]->_ObjectBuild( Package => $Package );
 }
 
 sub _ObjectBuild {
@@ -419,7 +419,8 @@ sub ObjectsDiscard {
     # (but not infinitely)
     if ( !$Param{Objects} && keys %{ $Self->{Objects} } ) {
         if ( $Self->{DestroyAttempts} && $Self->{DestroyAttempts} > 3 ) {
-            Carp::confess("Loop while destroying objects!");
+            carp "Loop while destroying objects!";
+            confess "Loop while destroying objects!";
         }
 
         $Self->{DestroyAttempts}++;
