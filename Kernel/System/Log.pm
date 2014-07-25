@@ -18,6 +18,9 @@ use warnings;
 
 use Carp ();
 
+our @ObjectDependencies = (qw(ConfigObject EncodeObject));
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::Log - global log interface

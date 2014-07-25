@@ -14,6 +14,8 @@ use warnings;
 
 use Kernel::System::CacheInternal;
 
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::Type - type lib

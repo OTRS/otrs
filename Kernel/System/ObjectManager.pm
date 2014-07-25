@@ -35,11 +35,20 @@ use Kernel::System::User;
 use Kernel::System::Group;
 use Kernel::Output::HTML::Layout;
 
-use Carp qw(confess);
+use Carp qw(carp confess);
 
 # Contains the top-level object being retrieved;
 # used to generate better error messages.
 our $CurrentObject;
+
+our @DefaultObjectDependencies = (
+    'ConfigObject',
+    'LogObject',
+    'EncodeObject',
+    'MainObject',
+    'TimeObject',
+    'DBObject',
+);
 
 =head1 NAME
 
@@ -91,167 +100,138 @@ sub new {
     my $Self = bless {}, $Type;
 
     $Self->{Debug}   = delete $Param{Debug};
-    $Self->{Param}   = \%Param;
-    $Self->{Objects} = {};
-    $Self->{Config}  = {};
+
+    # Pre-load ConfigObject to get the ObjectAliases
+    my $ConfigObject = Kernel::Config->new();
+    $Self->{Objects} = {
+        'Kernel::Config' => $ConfigObject,
+    };
+    $Self->{ObjectAliases} = $ConfigObject->Get('ObjectAliases');
+
+    for my $Parameter (sort keys %Param) {
+        $Self->{Param}->{ $Self->{ObjectAliases}->{$Parameter} // $Parameter } = $Param{$Parameter};
+    }
 
     return $Self;
 }
 
 =item Get()
 
-Retrieves an object, and if it not yet exists, implicitly creating one for you.
-Note that objects must be configured before they can be retrieved. The standard objects are configured in L<Kernel::Config::Defaults>.
+Retrieves a singleton object, and if it not yet exists, implicitly creates one for you.
 
-The name of an object is usually what the code base used so far, including
-the C<Object> suffix. For example C<< ->Get('TicketObject') >> retrieves a
-L<Kernel::System::Ticket> object.
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+For backwards compatibility reasons, object aliases can be defined in L<Kernel::Config::Defaults>.
+For example C<< ->Get('TicketObject') >> retrieves a L<Kernel::System::Ticket> object.
+
+    my $ConfigObject = $Kernel::OM->Get('ConfigObject'); # returns the same ConfigObject as above
 
 =cut
 
 sub Get {
+    my ( $Self ) = $_[0];
+
+    my $Package = $Self->{ObjectAliases}->{$_[1]} // $_[1];
 
     # Optimize the heck out of the common case:
-    return $_[0]->{Objects}->{ $_[1] } if $_[1] && $_[0]->{Objects}->{ $_[1] };
+    if ( $Package && $_[0]->{Objects}->{ $Package } ) {
+        return $_[0]->{Objects}->{ $Package };
+    }
 
     # OK, not so easy
-    my ( $Self, $ObjectName ) = @_;
-
-    die "Error: Missing parameter (object name)\n" if !$ObjectName;
+    die "Error: Missing parameter (object name)\n" if !$Package;
 
     # record the object we are about to retrieve to potentially
     # build better error messages
     # needs to be a statement-modifying 'if', otherwise 'local'
     # is local to the scope of the 'if'-block
-    local $CurrentObject = $ObjectName if !$CurrentObject;
+    local $CurrentObject = $Package if !$CurrentObject;
 
-    $Self->_ObjectBuild( Object => $ObjectName );
-
-    return $Self->{Objects}->{$ObjectName};
+    return $Self->_ObjectBuild( Package => $Package );
 }
 
 sub _ObjectBuild {
     my ( $Self, %Param ) = @_;
-    my $Config    = $Self->ObjectConfigGet(%Param);
-    my $ClassName = $Config->{ClassName};
-    my $FileName  = $ClassName;
+
+    my $Package = $Param{Package};
+    my $FileName  = $Package;
     $FileName =~ s{::}{/}g;
     $FileName .= '.pm';
-    require $FileName;
-
-    my %Args = (
-        %{ $Config->{Param} // {} },
-        %{ $Self->{Param}->{ $Param{Object} } // {} },
-    );
-
-    if ( !$Config->{OmAware} && $Config->{Dependencies} ) {
-        for my $Dependency ( @{ $Config->{Dependencies} } ) {
-            $Self->Get($Dependency);
-        }
-        %Args = ( $Self->ObjectHash(), %Args );
-    }
-
-    my $NewObject = $ClassName->new(%Args);
-
-    if ( !defined $NewObject ) {
-        if ( $CurrentObject && $CurrentObject ne $Param{Object} ) {
-            confess "$CurrentObject depends on $Param{Object}, but the"
-                . " constructor of $Param{Object} (class $ClassName) returned undef.";
+    eval {
+        require $FileName;
+    };
+    if ($@) {
+        if ( $CurrentObject && $CurrentObject ne $Package ) {
+            my $Error = "$CurrentObject depends on $Package, but $Package could not be loaded: $@";
+            carp $Error;
+            confess $Error;
         }
         else {
-            confess "The contrustructor of $Param{Object} (class $ClassName) returned undef.";
+            my $Error = "$Package could not be loaded: $@";
+            carp $Error;
+            confess $Error;
         }
     }
 
-    $Self->{Objects}->{ $Param{Object} } = $NewObject;
+    # Kernel::Config does not declare its dependencies (they would have to be in Kernel::Config::Defaults),
+    #   so assume [] in this case.
+    my $Dependencies = [];
+    my $ObjectManagerAware = 0;
+
+    if ($Package ne 'Kernel::Config') {
+        no strict 'refs';
+        if (exists ${$Package . '::'}{ObjectDependencies}) {
+            $Dependencies = \@{$Package . '::ObjectDependencies'};
+        }
+        else {
+            $Dependencies = \@DefaultObjectDependencies;
+        }
+        my $ObjectManagerAware = ${$Package . '::ObjectManagerAware'} // 0;
+        use strict 'refs';
+    }
+    $Self->{ObjectDependencies}->{$Package} = $Dependencies;
+
+    my %Args = (
+        %{ $Self->{Param}->{ $Package } // {} },
+    );
+
+    if ( !$ObjectManagerAware && @{ $Dependencies } ) {
+        for my $Dependency ( @{ $Dependencies } ) {
+            $Self->Get($Dependency);
+        }
+        %Args = (
+            $Self->ObjectHash( Objects => $Dependencies, ),
+            %Args,
+        );
+    }
+
+    my $NewObject = $Package->new(%Args);
+
+    if ( !defined $NewObject ) {
+        if ( $CurrentObject && $CurrentObject ne $Package ) {
+            my $Error = "$CurrentObject depends on $Package, but the constructor of $Package returned undef.";
+            carp $Error;
+            confess $Error;
+        }
+        else {
+            my $Error = "The contrustructor of $Package returned undef.";
+            carp $Error;
+            confess $Error;
+        }
+    }
+
+    $Self->{Objects}->{ $Package } = $NewObject;
 
     return $NewObject;
 }
 
-=item ObjectConfigGet()
-
-Returns the configuration for a given object
-
-    my $Config = $Kernel::OM->ObjectConfigGet(
-        Object  => 'TicketObject',      # Mandatory
-    );
-
-=cut
-
-sub ObjectConfigGet {
-    my ( $Self, %Param ) = @_;
-    my $ObjectName = $Param{Object};
-    if ( $ObjectName eq 'ConfigObject' ) {
-
-        # hardcoded to facilitate bootstrapping
-        return {
-            ClassName    => 'Kernel::Config',
-            Dependencies => [],
-            OmAware      => 1,
-        };
-    }
-
-    my $ObjConfig = $Self->{Config}->{$ObjectName};
-    $ObjConfig ||= $Self->Get('ConfigObject')->Get('Objects')->{$ObjectName};
-
-    if ( !$ObjConfig ) {
-        if ( $CurrentObject && $CurrentObject ne $ObjectName ) {
-            confess "$CurrentObject depends on $ObjectName, but $ObjectName is not configured";
-        }
-        else {
-            confess "Object '$ObjectName' is not configured\n";
-        }
-    }
-
-    $ObjConfig->{Dependencies}
-        ||= $Self->Get('ConfigObject')->Get('ObjectManager')->{DefaultDependencies};
-
-    return $ObjConfig;
-}
-
-=item ObjectRegister()
-
-Registers an object with the object manager.
-
-    $Kernel::OM->ObjectRegister(
-        Name            => 'MyNewObject',       # Mandatory
-        Dependencies    => ['ConfigObject'],    # Optional; falls back to default dependencies
-        Object          => $TheNewObject,       # Optional
-        Param           => {                    # Optional
-            YourArgsHere    => 1,
-        }
-    );
-
-=cut
-
-sub ObjectRegister {
-    my ( $Self, %Param ) = @_;
-
-    for my $Param ( 'Name', 'ClassName' ) {
-        die "Missing parameter $Param" if !$Param{$Param};
-    }
-
-    my $Object = delete $Param{Object};
-    $Self->{Objects}->{ $Param{Name} } = $Object if $Object;
-
-    my $Name = delete $Param{Name};
-    $Self->{Config}->{$Name} = \%Param;
-}
-
 =item ObjectHash()
 
-Returns a hash of all the already instantiated objects.
+Returns a hash of already instantiated objects.
 The keys are the object names, and the values are the objects themselves.
 
 This method is useful for creating objects of classes that are
 not aware of the object manager yet.
-
-    $SomeModule->new($Kernel::OM->ObjectHash());
-
-If the C<Objects> parameter is present, it is interpreted as a list of
-object names that must be part of the returned hash.
 
     $SomeModule->new(
         $Kernel::OM->ObjectHash(
@@ -264,13 +244,12 @@ object names that must be part of the returned hash.
 sub ObjectHash {
     my ( $Self, %Param ) = @_;
 
-    if ( $Param{Objects} ) {
-        for my $Object ( @{ $Param{Objects} } ) {
-            $Self->Get($Object);
-        }
+    my %Result;
+    for my $Object ( @{ $Param{Objects} // [] } ) {
+        $Result{$Object} = $Self->Get($Object);
     }
 
-    return %{ $Self->{Objects} };
+    return %Result;
 }
 
 =item ObjectParamAdd()
@@ -291,13 +270,14 @@ sub ObjectParamAdd {
     my ( $Self, %Param ) = @_;
 
     for my $Key ( sort keys %Param ) {
+        my $Package = $Self->{ObjectAliases}->{$Key} // $Key;
         if ( ref( $Param{$Key} ) eq 'HASH' ) {
             for my $K ( sort keys %{ $Param{$Key} } ) {
-                $Self->{Param}->{$Key}->{$K} = $Param{$Key}->{$K};
+                $Self->{Param}->{$Package}->{$K} = $Param{$Key}->{$K};
             }
         }
         else {
-            $Self->{Param}->{$Key} = $Param{$Key};
+            $Self->{Param}->{$Package} = $Param{$Key};
         }
     }
     return;
@@ -358,18 +338,15 @@ sub ObjectsDiscard {
 
     # first step: get the dependencies into a single hash,
     # so that the topological sorting goes faster
-    my %ReverseDeps;
+    my %ReverseDependencies;
     my @AllObjects;
     for my $Object ( sort keys %{ $Self->{Objects} } ) {
-        my $Deps = $Self->ObjectConfigGet(
-            Object => $Object,
-        )->{Dependencies};
+        my $Dependencies = $Self->{ObjectDependencies}->{$Object};
 
-        for my $D (@$Deps) {
-
+        for my $Dependency (@$Dependencies) {
             # undef happens to be the value that uses the least amount
             # of memory in perl, and we are only interested in the keys
-            $ReverseDeps{$D}->{$Object} = undef;
+            $ReverseDependencies{$Self->{ObjectAliases}->{$Dependency} // $Dependency}->{$Object} = undef;
         }
         push @AllObjects, $Object;
     }
@@ -379,17 +356,17 @@ sub ObjectsDiscard {
     my @OrderedObjects;
     my $Traverser;
     $Traverser = sub {
-        my ($Obj) = @_;
-        return if $Seen{$Obj}++;
-        for my $Object ( sort keys %{ $ReverseDeps{$Obj} } ) {
-            $Traverser->($Object);
+        my ($Object) = @_;
+        return if $Seen{$Object}++;
+        for my $ReverseDependency ( sort keys %{ $ReverseDependencies{$Object} } ) {
+            $Traverser->($ReverseDependency);
         }
-        push @OrderedObjects, $Obj;
+        push @OrderedObjects, $Object;
     };
 
     if ( $Param{Objects} ) {
         for my $Object ( @{ $Param{Objects} } ) {
-            $Traverser->($Object);
+            $Traverser->($Self->{ObjectAliases}->{$Object} // $Object);
         }
     }
     else {

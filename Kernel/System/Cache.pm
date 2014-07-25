@@ -12,6 +12,8 @@ package Kernel::System::Cache;
 use strict;
 use warnings;
 
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::Cache - cache lib

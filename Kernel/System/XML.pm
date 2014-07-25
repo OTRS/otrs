@@ -17,6 +17,13 @@ use Digest::MD5;
 
 use Kernel::System::Cache;
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(CacheObject)
+);
+our $ObjectManagerAware = 0;
+
+
 =head1 NAME
 
 Kernel::System::XML - xml lib

@@ -16,6 +16,10 @@ use Kernel::System::EventHandler;
 
 use base qw(Kernel::System::EventHandler);
 
+our @ObjectDependencies = (@Kernel::System::ObjectManager::DefaultObjectDependencies, qw(CustomerCompanyObject));
+our $ObjectManagerAware = 1;
+
+
 =head1 NAME
 
 Kernel::System::CustomerUser - customer user lib

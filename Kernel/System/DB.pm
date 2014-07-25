@@ -17,6 +17,9 @@ use DBI;
 
 use Kernel::System::VariableCheck qw(:all);
 
+our @ObjectDependencies = (qw(ConfigObject LogObject EncodeObject MainObject TimeObject));
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::DB - global database interface

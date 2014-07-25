@@ -18,6 +18,13 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::State;
 use Kernel::System::VariableCheck qw(:all);
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(TicketObject QueueObject)
+);
+our $ObjectManagerAware = 0;
+
+
 =head1 NAME
 
 Kernel::System::GenericAgent - to manage the generic agent jobs

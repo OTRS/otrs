@@ -18,6 +18,10 @@ use File::Path qw();
 
 use Kernel::System::CheckItem;
 
+our @ObjectDependencies = (qw(ConfigObject LogObject EncodeObject MainObject));
+our $ObjectManagerAware = 0;
+
+
 =head1 NAME
 
 Kernel::System::Web::Request - global CGI interface

@@ -15,15 +15,15 @@ use Scalar::Util qw/weaken/;
 
 use Kernel::System::ObjectManager;
 
-local $Kernel::OM = Kernel::System::ObjectManager->new(
-);
+local $Kernel::OM = Kernel::System::ObjectManager->new();
 
 $Self->True( $Kernel::OM, 'Could build object manager' );
 
 # test that all configured objects can be created and then destroyed;
 # that way we know there are no cyclic references in the constructors
 
-my @Objects = sort keys %{ $Kernel::OM->Get('ConfigObject')->Get('Objects') };
+my %ObjectAliases = %{ $Kernel::OM->Get('ConfigObject')->Get('ObjectAliases') };
+my @Objects       = sort keys %ObjectAliases;
 
 # some objects need extra data/configuration; exlcude them
 my %Exclude = (
@@ -37,6 +37,20 @@ my %Exclude = (
 my %AllObjects = $Kernel::OM->ObjectHash(
     Objects => \@Objects,
 );
+
+for my $Object (@Objects) {
+    my $AliasObject   = $Kernel::OM->Get($Object);
+    my $PackageObject = $Kernel::OM->Get( $ObjectAliases{$Object} );
+    $Self->True(
+        $AliasObject,
+        "ObjectManager could create $Object",
+    );
+    $Self->Is(
+        $AliasObject,
+        $PackageObject,
+        "ObjectManager understands both $Object and $ObjectAliases{$Object}",
+    );
+}
 
 for my $ObjectName ( sort keys %AllObjects ) {
     weaken( $AllObjects{$ObjectName} );
@@ -64,18 +78,18 @@ $Kernel::OM->ObjectsDiscard(
 
 $Self->True(
     !$SomeObjects{DBObject},
-    'ObjectDiscard discared DBObject',
+    'ObjectDiscard discarded DBObject',
 );
 $Self->True(
     !$SomeObjects{TicketObject},
-    'ObjectDiscard discared TicketObject, because it depends on DBObject',
+    'ObjectDiscard discarded TicketObject, because it depends on DBObject',
 );
 $Self->True(
     $SomeObjects{ConfigObject},
     'ObjectDiscard did not discard ConfigObject',
 );
 
-# test custom configured objects
+# test custom objects
 # note that DummyObject creates a Dummy2Object in its destructor,
 # even though it didn't declare a dependency on it.
 # The object manager must be robust enough to deal with that.
@@ -83,19 +97,13 @@ $Self->True(
 my $Dummy = eval { $Kernel::OM->Get('DummyObject') };
 $Self->True( !$Dummy, 'Can not get dummy object before it is registered' );
 
-$Kernel::OM->ObjectRegister(
-    Name         => 'Dummy2Object',
-    ClassName    => 'scripts::test::sample::Dummy2',
-    Dependencies => [],
-);
+$Kernel::OM->{ObjectAliases}->{DummyObject}  = 'scripts::test::sample::Dummy';
+$Kernel::OM->{ObjectAliases}->{Dummy2Object} = 'scripts::test::sample::Dummy2';
 
-$Kernel::OM->ObjectRegister(
-    Name         => 'DummyObject',
-    ClassName    => 'scripts::test::sample::Dummy',
-    Dependencies => [],
-    Param        => {
+$Kernel::OM->ObjectParamAdd(
+    DummyObject => {
         Data => 'Test payload',
-        }
+    },
 );
 
 $Dummy = $Kernel::OM->Get('DummyObject');
@@ -133,6 +141,16 @@ $Kernel::OM->ObjectsDiscard(
     Objects => ['DummyObject'],
 );
 $Self->True( !$Dummy, 'ObjectsDiscard with list of objects deleted object' );
+
+my $NonexistingObject= eval { $Kernel::OM->Get('Nonexisting::Package') };
+$Self->True(
+    $@,
+    "Fetching a nonexisting object causes an exception",
+);
+$Self->False(
+    $NonexistingObject,
+    "Cannot construct a nonexisting object",
+);
 
 # Clean up
 $Kernel::OM->ObjectsDiscard();

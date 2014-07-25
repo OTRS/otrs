@@ -18,6 +18,13 @@ use Storable qw();
 
 use Kernel::System::VariableCheck qw(:all);
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(GroupObject XMLObject CacheObject)
+);
+our $ObjectManagerAware = 1;
+
+
 =head1 NAME
 
 Kernel::System::Stats - stats lib

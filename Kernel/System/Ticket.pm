@@ -48,6 +48,13 @@ use Kernel::System::EventHandler;
 
 use vars qw(@ISA);
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(GroupObject QueueObject CustomerUserObject)
+);
+our $ObjectManagerAware = 0;
+
+
 =head1 NAME
 
 Kernel::System::Ticket - ticket lib

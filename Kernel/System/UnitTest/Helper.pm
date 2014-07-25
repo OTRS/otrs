@@ -19,6 +19,12 @@ use Kernel::System::Group;
 use Kernel::System::CustomerUser;
 use Kernel::System::SysConfig;
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(UnitTestObject)
+);
+our $ObjectManagerAware = 0;
+
 =head1 NAME
 
 Kernel::System::UnitTest::Helper - unit test helper functions

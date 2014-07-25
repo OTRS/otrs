@@ -12,6 +12,8 @@ package Kernel::System::AutoResponse;
 use strict;
 use warnings;
 
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::AutoResponse - auto response lib

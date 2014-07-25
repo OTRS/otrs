@@ -53,22 +53,21 @@ sub _OM {
         Value => 0,
     );
 
-    # eagerly construct the objects
-    for my $Object (
-        qw(Config Time Log Main DB User CustomerUser Group
-        Queue Ticket Link DynamicField DynamicFieldBackend)
-        )
-    {
-        $Kernel::OM->Get( $Object . 'Object' );
-    }
-
     return $Kernel::OM;
 }
 
 sub Run {
 
     local $Kernel::OM = _OM();
-    my $CommonObjects = { $Kernel::OM->ObjectHash() };
+    my $CommonObjects = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw(ConfigObject TimeObject LogObject MainObject DBObject UserObject
+                CustomerUserObject GroupObject QueueObject TicketObject LinkObject DynamicFieldObject
+                DynamicFieldBackendObject)
+            ]
+        )
+    };
 
     # Refresh common objects after a certain number of loop iterations.
     #   This will call event handlers and clean up caches to avoid excessive mem usage.
@@ -282,7 +281,16 @@ EOF
 
             if ( $Counter++ % $CommonObjectRefresh == 0 ) {
                 $Kernel::OM    = _OM();
-                $CommonObjects = { $Kernel::OM->ObjectHash() };
+                $CommonObjects = {
+                    $Kernel::OM->ObjectHash(
+                        Objects => [
+                            qw(ConfigObject TimeObject LogObject MainObject DBObject UserObject
+                            CustomerUserObject GroupObject QueueObject TicketObject LinkObject DynamicFieldObject
+                            DynamicFieldBackendObject)
+                        ]
+                    )
+                };
+
             }
         }
     }
@@ -406,7 +414,15 @@ EOF
 
             if ( $Counter++ % $CommonObjectRefresh == 0 ) {
                 $Kernel::OM    = _OM();
-                $CommonObjects = { $Kernel::OM->ObjectHash() };
+                $CommonObjects = {
+                    $Kernel::OM->ObjectHash(
+                        Objects => [
+                            qw(ConfigObject TimeObject LogObject MainObject DBObject UserObject
+                            CustomerUserObject GroupObject QueueObject TicketObject LinkObject DynamicFieldObject
+                            DynamicFieldBackendObject)
+                        ]
+                    )
+                };
             }
         }
     }

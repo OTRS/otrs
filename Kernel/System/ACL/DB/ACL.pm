@@ -14,6 +14,13 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(CacheObject YAMLObject UserObject)
+);
+our $ObjectManagerAware = 1;
+
+
 =head1 NAME
 
 Kernel::System::ACL::DB::ACL.pm

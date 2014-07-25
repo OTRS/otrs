@@ -14,6 +14,9 @@ use warnings;
 
 use Kernel::System::CacheInternal;
 
+our @ObjectDependencies = (qw(DBObject ConfigObject LogObject MainObject ValidObject));
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::Queue - queue lib

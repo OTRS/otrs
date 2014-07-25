@@ -20,6 +20,13 @@ use Kernel::System::VariableCheck qw(:all);
 use Storable;
 use URI::Escape qw();
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(ParamObject SessionObject TicketObject GroupObject HTMLUtilsObject JSONObject)
+);
+our $ObjectManagerAware = 1;
+
+
 =head1 NAME
 
 Kernel::Output::HTML::Layout - all generic html functions

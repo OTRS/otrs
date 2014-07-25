@@ -33,28 +33,21 @@ use Getopt::Std;
 use Kernel::System::ObjectManager;
 use Kernel::System::SupportBundleGenerator;
 
-sub _OM {
-    local $Kernel::OM = Kernel::System::ObjectManager->new(
+sub Run {
+
+    local $Kernel::OM = $Kernel::OM = Kernel::System::ObjectManager->new(
         ConfigObject => {
             LogPrefix => 'OTRS-otrs.SupportBundle.pl',
         },
     );
 
-    # early construct the objects
-    for my $Object (
-        qw(Config Encode Log Time Main DB User)
-        )
-    {
-        $Kernel::OM->Get( $Object . 'Object' );
-    }
-
-    return $Kernel::OM;
-}
-
-sub Run {
-
-    local $Kernel::OM = _OM();
-    my $CommonObjects = { $Kernel::OM->ObjectHash() };
+    my $CommonObjects = {
+        $Kernel::OM->ObjectHash(
+            Objects => [
+                qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject UserObject)
+            ]
+        ),
+    };
 
     $CommonObjects->{SupportBundleGeneratorObject}
         = Kernel::System::SupportBundleGenerator->new( %{$CommonObjects} );

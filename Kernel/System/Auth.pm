@@ -12,6 +12,13 @@ package Kernel::System::Auth;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(UserObject GroupObject ValidObject)
+);
+our $ObjectManagerAware = 1;
+
+
 =head1 NAME
 
 Kernel::System::Auth - agent authentication module.

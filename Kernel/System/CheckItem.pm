@@ -14,6 +14,8 @@ use warnings;
 
 use Email::Valid;
 
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::CheckItem - check items

@@ -15,6 +15,10 @@ use warnings;
 
 use Time::Local;
 
+our @ObjectDependencies = (qw(ConfigObject LogObject EncodeObject MainObject));
+our $ObjectManagerAware = 0;
+
+
 =head1 NAME
 
 Kernel::System::Time - time functions

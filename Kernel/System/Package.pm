@@ -22,6 +22,12 @@ use Kernel::System::VariableCheck qw(:all);
 
 use base qw(Kernel::System::EventHandler);
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(CacheObject JSONObject LoaderObject XMLObject)
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::Package - to manage application packages/modules

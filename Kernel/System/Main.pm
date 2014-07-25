@@ -19,6 +19,9 @@ use File::stat;
 use Unicode::Normalize;
 use List::Util qw();
 
+our @ObjectDependencies = (qw(LogObject EncodeObject));
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::Main - main object
