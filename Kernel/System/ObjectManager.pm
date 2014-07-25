@@ -99,7 +99,7 @@ sub new {
     my ( $Type, %Param ) = @_;
     my $Self = bless {}, $Type;
 
-    $Self->{Debug}   = delete $Param{Debug};
+    $Self->{Debug} = delete $Param{Debug};
 
     # Pre-load ConfigObject to get the ObjectAliases
     my $ConfigObject = Kernel::Config->new();
@@ -108,7 +108,7 @@ sub new {
     };
     $Self->{ObjectAliases} = $ConfigObject->Get('ObjectAliases');
 
-    for my $Parameter (sort keys %Param) {
+    for my $Parameter ( sort keys %Param ) {
         $Self->{Param}->{ $Self->{ObjectAliases}->{$Parameter} // $Parameter } = $Param{$Parameter};
     }
 
@@ -129,13 +129,13 @@ For example C<< ->Get('TicketObject') >> retrieves a L<Kernel::System::Ticket> o
 =cut
 
 sub Get {
-    my ( $Self ) = $_[0];
+    my ($Self) = $_[0];
 
-    my $Package = $Self->{ObjectAliases}->{$_[1]} // $_[1];
+    my $Package = $Self->{ObjectAliases}->{ $_[1] } // $_[1];
 
     # Optimize the heck out of the common case:
-    if ( $Package && $_[0]->{Objects}->{ $Package } ) {
-        return $_[0]->{Objects}->{ $Package };
+    if ( $Package && $_[0]->{Objects}->{$Package} ) {
+        return $_[0]->{Objects}->{$Package};
     }
 
     # OK, not so easy
@@ -153,8 +153,8 @@ sub Get {
 sub _ObjectBuild {
     my ( $Self, %Param ) = @_;
 
-    my $Package = $Param{Package};
-    my $FileName  = $Package;
+    my $Package  = $Param{Package};
+    my $FileName = $Package;
     $FileName =~ s{::}{/}g;
     $FileName .= '.pm';
     eval {
@@ -173,30 +173,30 @@ sub _ObjectBuild {
         }
     }
 
-    # Kernel::Config does not declare its dependencies (they would have to be in Kernel::Config::Defaults),
-    #   so assume [] in this case.
-    my $Dependencies = [];
+# Kernel::Config does not declare its dependencies (they would have to be in Kernel::Config::Defaults),
+#   so assume [] in this case.
+    my $Dependencies       = [];
     my $ObjectManagerAware = 0;
 
-    if ($Package ne 'Kernel::Config') {
-        no strict 'refs';
-        if (exists ${$Package . '::'}{ObjectDependencies}) {
-            $Dependencies = \@{$Package . '::ObjectDependencies'};
+    if ( $Package ne 'Kernel::Config' ) {
+        no strict 'refs';    ## no critic
+        if ( exists ${ $Package . '::' }{ObjectDependencies} ) {
+            $Dependencies = \@{ $Package . '::ObjectDependencies' };
         }
         else {
             $Dependencies = \@DefaultObjectDependencies;
         }
-        my $ObjectManagerAware = ${$Package . '::ObjectManagerAware'} // 0;
+        my $ObjectManagerAware = ${ $Package . '::ObjectManagerAware' } // 0;
         use strict 'refs';
     }
     $Self->{ObjectDependencies}->{$Package} = $Dependencies;
 
     my %Args = (
-        %{ $Self->{Param}->{ $Package } // {} },
+        %{ $Self->{Param}->{$Package} // {} },
     );
 
-    if ( !$ObjectManagerAware && @{ $Dependencies } ) {
-        for my $Dependency ( @{ $Dependencies } ) {
+    if ( !$ObjectManagerAware && @{$Dependencies} ) {
+        for my $Dependency ( @{$Dependencies} ) {
             $Self->Get($Dependency);
         }
         %Args = (
@@ -209,7 +209,8 @@ sub _ObjectBuild {
 
     if ( !defined $NewObject ) {
         if ( $CurrentObject && $CurrentObject ne $Package ) {
-            my $Error = "$CurrentObject depends on $Package, but the constructor of $Package returned undef.";
+            my $Error
+                = "$CurrentObject depends on $Package, but the constructor of $Package returned undef.";
             carp $Error;
             confess $Error;
         }
@@ -220,7 +221,7 @@ sub _ObjectBuild {
         }
     }
 
-    $Self->{Objects}->{ $Package } = $NewObject;
+    $Self->{Objects}->{$Package} = $NewObject;
 
     return $NewObject;
 }
@@ -344,9 +345,11 @@ sub ObjectsDiscard {
         my $Dependencies = $Self->{ObjectDependencies}->{$Object};
 
         for my $Dependency (@$Dependencies) {
+
             # undef happens to be the value that uses the least amount
             # of memory in perl, and we are only interested in the keys
-            $ReverseDependencies{$Self->{ObjectAliases}->{$Dependency} // $Dependency}->{$Object} = undef;
+            $ReverseDependencies{ $Self->{ObjectAliases}->{$Dependency} // $Dependency }->{$Object}
+                = undef;
         }
         push @AllObjects, $Object;
     }
@@ -366,7 +369,7 @@ sub ObjectsDiscard {
 
     if ( $Param{Objects} ) {
         for my $Object ( @{ $Param{Objects} } ) {
-            $Traverser->($Self->{ObjectAliases}->{$Object} // $Object);
+            $Traverser->( $Self->{ObjectAliases}->{$Object} // $Object );
         }
     }
     else {
