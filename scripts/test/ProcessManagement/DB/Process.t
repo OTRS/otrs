@@ -7,6 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use vars (qw($Self));
@@ -15,6 +16,7 @@ use utf8;
 
 use Kernel::Config;
 use Kernel::System::ProcessManagement::DB::Activity;
+use Kernel::System::ProcessManagement::DB::Entity;
 use Kernel::System::ProcessManagement::DB::Process;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(:all);
@@ -36,6 +38,10 @@ my $ActivityObject = Kernel::System::ProcessManagement::DB::Activity->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
+my $EntityObject = Kernel::System::ProcessManagement::DB::Entity->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 # set fixed time
 $HelperObject->FixedTimeSet();
@@ -49,6 +55,11 @@ my $ActivityEntityID3 = 'A3-' . $RandomID;
 my $ActivityName1     = 'Activity1';
 my $ActivityName2     = 'Activity2';
 my $ActivityName3     = 'Activity3';
+
+my $EntityID = $EntityObject->EntityIDGenerate(
+    EntityType => 'Process',
+    UserID     => 1,
+);
 
 my %ActivityLookup = (
     $ActivityEntityID1 => $ActivityName1,
@@ -67,7 +78,7 @@ my $AcitivityID1 = $ActivityObject->ActivityAdd(
 $Self->IsNot(
     $AcitivityID1,
     undef,
-    "ActivityAdd Test1: EntittyID '$ActivityEntityID1', Name '$ActivityName1' | Should not be undef",
+    "ActivityAdd Test1: EntityID '$ActivityEntityID1', Name '$ActivityName1' | Should not be undef",
 );
 my $AcitivityID2 = $ActivityObject->ActivityAdd(
     EntityID => $ActivityEntityID2,
@@ -80,7 +91,7 @@ my $AcitivityID2 = $ActivityObject->ActivityAdd(
 $Self->IsNot(
     $AcitivityID2,
     undef,
-    "ActivityAdd Test2: EntittyID '$ActivityEntityID2', Name '$ActivityName2' | Should not be undef",
+    "ActivityAdd Test2: EntityID '$ActivityEntityID2', Name '$ActivityName2' | Should not be undef",
 );
 my $AcitivityID3 = $ActivityObject->ActivityAdd(
     EntityID => $ActivityEntityID3,
@@ -93,7 +104,7 @@ my $AcitivityID3 = $ActivityObject->ActivityAdd(
 $Self->IsNot(
     $AcitivityID3,
     undef,
-    "ActivityAdd Test3: EntittyID '$ActivityEntityID3', Name '$ActivityName3' | Should not be undef",
+    "ActivityAdd Test3: EntityID '$ActivityEntityID3', Name '$ActivityName3' | Should not be undef",
 );
 
 my @AddedActivities = ( $AcitivityID1, $AcitivityID2, $AcitivityID3 );
@@ -304,7 +315,25 @@ my @Tests = (
         },
         Success => 1,
     },
-
+    {
+        Name   => 'ProcessAdd Test 15: EntityID Full Lenght',
+        Config => {
+            EntityID      => $EntityID,
+            Name          => $EntityID,
+            StateEntityID => 'S1',
+            Layout        => {},
+            Config        => {
+                Description => 'a Description äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ',
+                Path        => {
+                    $ActivityEntityID1 => {},
+                    $ActivityEntityID2 => {},
+                    $ActivityEntityID3 => {},
+                    }
+            },
+            UserID => $UserID,
+        },
+        Success => 1,
+    },
 );
 
 my %AddedProcess;
@@ -997,8 +1026,8 @@ for my $ProcessID ( sort { $a <=> $b } keys %{$TestProcessList} ) {
         $ProcessID,
         $AddedProcessList[$Counter],
         "ProcessList Test 2: All Process | ProcessID match AddedProcessID",
-        ),
-        $Counter++;
+    );
+    $Counter++;
 }
 
 # prepare process for listing
@@ -1100,19 +1129,19 @@ for my $Test (@Tests) {
                 $ProcessList,
                 $TestProcessList,
                 "$Test->{Name} | List is identical as in no State filter",
-                ),
+            );
         }
         else {
             $Self->IsNotDeeply(
                 $ProcessList,
                 $TestProcessList,
                 "$Test->{Name} | List is different as in no State filter",
-                ),
-                $Self->IsNot(
+            );
+            $Self->IsNot(
                 scalar keys %{$ProcessList},
                 scalar keys %{$TestProcessList},
                 "$Test->{Name} | Number of processes List is different as in no State filter",
-                ),
+            );
         }
     }
 }

@@ -34,6 +34,9 @@
     <ColumnDrop Name="valid_id"/>
 </TableAlter>
 
+<!-- remove pm_entity table as it is not longer needed with use of GUIDs -->
+ <TableDrop Name="pm_entity"/>
+
 <!-- personal_services - stores all "my services" -->
 <TableCreate Name="personal_services">
     <Column Name="user_id" Required="true" Type="INTEGER"/>
@@ -51,6 +54,5 @@
         <Reference Local="service_id" Foreign="id"/>
     </ForeignKey>
 </TableCreate>
-
 
 </database>

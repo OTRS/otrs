@@ -15,6 +15,8 @@ use Kernel::System::VariableCheck qw(:all);
 
 use utf8;
 
+use base qw(Kernel::System::ProcessManagement::TransitionAction::Base);
+
 =head1 NAME
 
 Kernel::System::ProcessManagement::TransitionAction::TicketOwnerSet - A module to set a new ticket owner
@@ -136,49 +138,23 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (
-        qw(UserID Ticket ProcessEntityID ActivityEntityID TransitionEntityID
-        TransitionActionEntityID Config
-        )
-        )
-    {
-        if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
-            return;
-        }
-    }
-
     # define a common message to output in case of any error
     my $CommonMessage = "Process: $Param{ProcessEntityID} Activity: $Param{ActivityEntityID}"
         . " Transition: $Param{TransitionEntityID}"
         . " TransitionAction: $Param{TransitionActionEntityID} - ";
 
-    # Check if we have Ticket to deal with
-    if ( !IsHashRefWithData( $Param{Ticket} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => $CommonMessage . "Ticket has no values!",
-        );
-        return;
-    }
-
-    # Check if we have a ConfigHash
-    if ( !IsHashRefWithData( $Param{Config} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => $CommonMessage . "Config has no values!",
-        );
-        return;
-    }
+    # check for missing or wrong params
+    my $Success = $Self->_CheckParams(
+        %Param,
+        CommonMessage => $CommonMessage,
+    );
+    return if !$Success;
 
     # override UserID if specified as a parameter in the TA config
-    if ( IsNumber( $Param{Config}->{UserID} ) ) {
-        $Param{UserID} = $Param{Config}->{UserID};
-        delete $Param{Config}->{UserID};
-    }
+    $Param{UserID} = $Self->_OverrideUserID(%Param);
+
+    # use ticket attributes if needed
+    $Self->_ReplaceTicketAttributes(%Param);
 
     if ( !$Param{Config}->{OwnerID} && !$Param{Config}->{Owner} ) {
         $Self->{LogObject}->Log(
@@ -187,7 +163,9 @@ sub Run {
         );
         return;
     }
-    my $Success;
+
+    $Success = 0;
+
     if (
         defined $Param{Config}->{Owner}
         && $Param{Config}->{Owner} ne $Param{Ticket}->{Owner}

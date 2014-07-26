@@ -7,6 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use vars (qw($Self));
@@ -14,6 +15,7 @@ use vars (qw($Self));
 use utf8;
 
 use Kernel::Config;
+use Kernel::System::ProcessManagement::DB::Entity;
 use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(:all);
@@ -31,6 +33,10 @@ my $TransitionObject = Kernel::System::ProcessManagement::DB::Transition->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
+my $EntityObject = Kernel::System::ProcessManagement::DB::Entity->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 # set fixed time
 $HelperObject->FixedTimeSet();
@@ -38,6 +44,11 @@ $HelperObject->FixedTimeSet();
 # define needed variables
 my $RandomID = $HelperObject->GetRandomID();
 my $UserID   = 1;
+
+my $EntityID = $EntityObject->EntityIDGenerate(
+    EntityType => 'Transition',
+    UserID     => 1,
+);
 
 # get original Transition list
 my $OriginalTransitionList = $TransitionObject->TransitionList( UserID => $UserID ) || {};
@@ -237,6 +248,34 @@ my @Tests = (
         Config => {
             EntityID => "$RandomID-2",
             Name     => "Transition-$RandomID--!Â§$%&/()=?Ã*ÃÃL:L@,.-",
+            Config   => {
+                Condition => {
+                    Type  => 'and',
+                    Cond1 => {
+                        Type   => 'and',
+                        Fields => {
+                            DynamicField_Test1 => {
+                                Type  => 'String',
+                                Match => '!Â§$%&/()=?Ã*ÃÃL:L@,.-',
+                            },
+                            DynamicField_Test2 => ['1'],
+                        },
+                    },
+                    Cond2 => {
+                        DynamicField_Test1 => ['2'],
+                        DynamicField_Test2 => ['1'],
+                    },
+                },
+            },
+            UserID => $UserID,
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'TransitionAdd Test 13: EntityID Full Lenght',
+        Config => {
+            EntityID => $EntityID,
+            Name     => $EntityID,
             Config   => {
                 Condition => {
                     Type  => 'and',
@@ -812,8 +851,8 @@ for my $TransitionID ( sort { $a <=> $b } keys %{$TestTransitionList} ) {
         $TransitionID,
         $AddedTransitionsList[$Counter],
         "TransitionList Test 2: All | TransitionID match AddedTransitionID",
-        ),
-        $Counter++;
+    );
+    $Counter++;
 }
 
 #

@@ -1,5 +1,5 @@
 # --
-# Kernel/Output/HTML/NavBarOutputModuleCustomerTicketProcess.pm - to show or hide AgentTicketProcess menu item
+# Kernel/Output/HTML/NavBarCustomerTicketProcess.pm - to show or hide AgentTicketProcess menu item
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,7 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::NavBarOutputModuleCustomerTicketProcess;
+package Kernel::Output::HTML::NavBarCustomerTicketProcess;
 
 use strict;
 use warnings;
@@ -143,18 +143,16 @@ sub Run {
     # return nothing to display the menu item
     return if $DisplayMenuItem;
 
-    # translate the menu item text
-    $NameForHidden = $Self->{LayoutObject}->{LanguageObject}->Translate($NameForHidden);
+    # frontend module is enabled but there is no selectable process, then remove the menu entry
+    my $NavBarName = $FrontendModuleConfig->{NavBarName};
+    my $Priotiry = sprintf( "%07d", $FrontendModuleConfig->{NavBar}->[0]->{Prio} );
 
-    # add JS snippet to hide the menu item
-    my $Output = $Self->{LayoutObject}->Output(
-        TemplateFile => 'CustomerTicketProcessNavigationBar',
-        Data         => {
-            NameForHidden => $NameForHidden,
-        },
-    );
+    my %Return = %{ $Param{NavBarModule}->{Sub} };
 
-    return;
+    # remove CustomerTicketProcess from the TicketMenu
+    delete $Return{$NavBarName}->{$Priotiry};
+
+    return ( Sub => \%Return );
 }
 
 1;

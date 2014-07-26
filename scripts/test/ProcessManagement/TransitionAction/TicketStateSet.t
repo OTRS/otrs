@@ -7,14 +7,16 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
 use vars qw($Self);
 
 use Kernel::Config;
-use Kernel::System::UnitTest::Helper;
 use Kernel::System::Ticket;
+use Kernel::System::User;
+use Kernel::System::UnitTest::Helper;
 use Kernel::System::ProcessManagement::TransitionAction::TicketStateSet;
 
 use Kernel::System::VariableCheck qw(:all);
@@ -29,6 +31,10 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 $HelperObject->FixedTimeSet();
 
 my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $UserObject   = Kernel::System::User->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 my $TicketObject = Kernel::System::Ticket->new(
     %{$Self},
     ConfigObject => $ConfigObject,
@@ -45,12 +51,18 @@ my $UserID     = 1;
 my $ModuleName = 'TicketStateSet';
 my $RandomID   = $HelperObject->GetRandomID();
 
+# set user details
+my $TestUserLogin = $HelperObject->TestUserCreate();
+my $TestUserID    = $UserObject->UserLookup(
+    UserLogin => $TestUserLogin,
+);
+
 # ----------------------------------------
 # Create a test ticket
 # ----------------------------------------
 my $TicketID = $TicketObject->TicketCreate(
     TN            => undef,
-    Title         => 'test',
+    Title         => 'open',
     QueueID       => 1,
     Lock          => 'unlock',
     Priority      => '3 normal',
@@ -230,9 +242,47 @@ my @Tests = (
         },
         Success => 1,
     },
+    {
+        Name   => 'Correct Ticket->Title',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                State => '<OTRS_Ticket_Title>',
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct Ticket->NotExisting',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                State => '<OTRS_Ticket_NotExisting>',
+            },
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'Correct Using Different UserID',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                State  => 'open',
+                UserID => $TestUserID,
+            },
+        },
+        Success => 1,
+    },
 );
 
 for my $Test (@Tests) {
+
+    # make a deep copy to avoid changing the definition
+    my $OrigTest = Storable::dclone($Test);
+
     my $Success = $ModuleObject->Run(
         %{ $Test->{Config} },
         ProcessEntityID          => 'P1',
@@ -265,9 +315,23 @@ for my $Test (@Tests) {
                     . " $TicketID exists with True",
             );
 
+            my $ExpectedValue = $Test->{Config}->{Config}->{$Attribute};
+            if (
+                $OrigTest->{Config}->{Config}->{$Attribute}
+                =~ m{\A<OTRS_Ticket_([A-Za-z0-9_]+)>\z}msx
+                )
+            {
+                $ExpectedValue = $Ticket{$1} // '';
+                $Self->IsNot(
+                    $Test->{Config}->{Config}->{$Attribute},
+                    $OrigTest->{Config}->{Config}->{$Attribute},
+                    "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute value: $OrigTest->{Config}->{Config}->{$Attribute} should been replaced",
+                );
+            }
+
             $Self->Is(
                 $Ticket{$Attribute},
-                $Test->{Config}->{Config}->{$Attribute},
+                $ExpectedValue,
                 "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for TicketID:"
                     . " $TicketID match expected value",
             );
@@ -281,11 +345,19 @@ for my $Test (@Tests) {
                 );
             }
         }
+        if ( $OrigTest->{Config}->{Config}->{UserID} ) {
+            $Self->Is(
+                $Test->{Config}->{Config}->{UserID},
+                undef,
+                "$ModuleName - Test:'$Test->{Name}' | Attribute: UserID for TicketID:"
+                    . " $TicketID should be removed (as it was used)",
+            );
+        }
     }
     else {
         $Self->False(
             $Success,
-            "$ModuleName Run() - Test:'$Test->{Name}' | excecuted with False"
+            "$ModuleName Run() - Test:'$Test->{Name}' | executed with False"
         );
     }
 }

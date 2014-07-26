@@ -7,6 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use vars (qw($Self));
@@ -14,6 +15,7 @@ use vars (qw($Self));
 use utf8;
 
 use Kernel::Config;
+use Kernel::System::ProcessManagement::DB::Entity;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(:all);
@@ -31,6 +33,10 @@ my $TransitionActionObject = Kernel::System::ProcessManagement::DB::TransitionAc
     %{$Self},
     ConfigObject => $ConfigObject,
 );
+my $EntityObject = Kernel::System::ProcessManagement::DB::Entity->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 # set fixed time
 $HelperObject->FixedTimeSet();
@@ -38,6 +44,11 @@ $HelperObject->FixedTimeSet();
 # define needed variables
 my $RandomID = $HelperObject->GetRandomID();
 my $UserID   = 1;
+
+my $EntityID = $EntityObject->EntityIDGenerate(
+    EntityType => 'TransitionAction',
+    UserID     => 1,
+);
 
 # get original TransitionAction list
 my $OriginalTransitionActionList
@@ -236,6 +247,23 @@ my @Tests = (
         },
         Success => 1,
     },
+    {
+        Name   => 'TransitionActionAdd Test 15: EntityID Full Lenght',
+        Config => {
+            EntityID => $EntityID,
+            Name     => $EntityID,
+            Config   => {
+                Module => 'Kernel::System::Process::Transition::Action::QueueMove',
+                Config => {
+                    Key1 => '-!Â§$%&/()=?Ã*ÃÃL:L@,.',
+                    Key2 => 2,
+                },
+            },
+            UserID => $UserID,
+        },
+        Success => 1,
+    },
+
 );
 
 my %AddedTransitionActions;

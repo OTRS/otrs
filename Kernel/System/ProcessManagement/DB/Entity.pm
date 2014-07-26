@@ -12,7 +12,6 @@ package Kernel::System::ProcessManagement::DB::Entity;
 use strict;
 use warnings;
 
-use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 =head1 NAME
@@ -88,13 +87,6 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    # create additional objects
-    $Self->{CacheObject} = $Kernel::OM->Get('CacheObject');
-
-    # get the cache TTL (in seconds)
-    $Self->{CacheTTL}
-        = int( $Self->{ConfigObject}->Get('Process::CacheTTL') || 3600 );
-
     $Self->{ValidEntities} = {
         'Process'          => 1,
         'Activity'         => 1,
@@ -111,7 +103,7 @@ sub new {
 generate unique Entity ID
 
     my $EntityID = $EntityObject->EntityIDGenerate(
-        EntityType     => 'Process'        # mandatory, 'Process' || 'Activity' || 'ActivityDialog'
+        EntityType     => 'Process',       # mandatory, 'Process' || 'Activity' || 'ActivityDialog'
                                            #    || 'Transition' || 'TransitionAction'
         UserID         => 123,             # mandatory
     );
@@ -146,214 +138,16 @@ sub EntityIDGenerate {
 
     }
 
-    # get last entity counter
-    my $EntityCounter = $Self->EntityCounterGet(
-        EntityType => $Param{EntityType},
-        UserID     => $Param{UserID}
+    # this is not a 'proper' GUID as defined in RFC 4122 but it's close enough for
+    # our purposes and we can replace it later if needed
+    my $GUID = $Self->{MainObject}->GenerateRandomString(
+        Length => 32,
+        Dictionary => [ 0 .. 9, 'a' .. 'f' ],    # hexadecimal
     );
 
-    # increment entity counter
-    $EntityCounter++;
-
-    # get entity prefix
-    my $EntityPrefix
-        = $Self->{ConfigObject}->Get('Process::Entity::Prefix')->{ $Param{EntityType} } || 'E';
-
-    my $EntityID = $EntityPrefix . $EntityCounter;
-
-    # update entity id in DB
-    my $Success = $Self->EntityIDUpdate(
-        EntityType => $Param{EntityType},
-        EntityID   => $EntityID,
-        UserID     => 1,
-    );
-
-    return if !$Success;
+    my $EntityID = $Param{EntityType} . '-' . $GUID;
 
     return $EntityID;
-}
-
-=item EntityIDUpdate()
-
-set new Entity ID
-
-returns 1 on success or otherwise undef
-
-    my $Success = $EntityObject->EntityIDUpdate(
-        EntityType     => 'Process'        # mandatory, 'Process' || 'Activity' || 'ActivityDialog'
-                                           #    || 'Transition' || 'TransitionAction'
-        EntityID       => 'P1',            # optional, if not defined, base value will be
-                                           #    incremented by 1 (prefered usage)
-        UserID         => 123,             # mandatory
-    );
-
-=cut
-
-sub EntityIDUpdate {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Key (qw(EntityType UserID)) {
-        if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Key!",
-            );
-            return;
-        }
-    }
-
-    # check entity type
-    if ( !$Self->{ValidEntities}->{ $Param{EntityType} } ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The EntityType:$Param{EntityType} is invalid!"
-        );
-        return;
-    }
-
-    # get last entity counter
-    my $EntityCounter = $Self->EntityCounterGet(
-        EntityType => $Param{EntityType},
-        UserID     => $Param{UserID}
-    );
-
-    # get entity prefix
-    my $EntityPrefix
-        = $Self->{ConfigObject}->Get('Process::Entity::Prefix')->{ $Param{EntityType} } || 'E';
-
-    my $NewEntityCounter;
-    if ( $Param{EntityID} ) {
-        my $EntityID = $Param{EntityID};
-
-        # remove prefix
-        $EntityID =~ s{\A$EntityPrefix}{};
-
-        # check if value is numeric
-        if ( !IsNumber($EntityID) ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "The EntityID:$Param{EntityID} is invalid!"
-            );
-            return;
-        }
-        $NewEntityCounter = $EntityID;
-    }
-    else {
-        $NewEntityCounter = $EntityCounter;
-        $NewEntityCounter++;
-    }
-
-    # check that new entity counter is different than current
-    if ( $NewEntityCounter == $EntityCounter ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The EntityID:$EntityPrefix$EntityCounter is already in use!"
-        );
-        return;
-    }
-
-    # remove old counter
-    return if !$Self->{DBObject}->Do(
-        SQL => '
-            DELETE
-            FROM pm_entity
-            WHERE entity_type = ?
-                AND entity_counter = ?',
-        Bind => [
-            \$Param{EntityType}, \$EntityCounter,
-        ],
-    );
-
-    # store new counter
-    return if !$Self->{DBObject}->Do(
-        SQL => '
-            INSERT INTO pm_entity ( entity_type, entity_counter )
-            VALUES (?, ?)',
-        Bind => [ \$Param{EntityType}, \$NewEntityCounter, ],
-    );
-
-    # delete cache
-    $Self->{CacheObject}->CleanUp(
-        Type => 'ProcessManagement_Entity',
-    );
-
-    return 1;
-}
-
-=item EntityCounterGet()
-
-gets current Entity Counter
-
-    my $EntityCounter = $EntityObject->EntityCounterGet(
-        EntityType     => 'Process'        # mandatory, 'Process' || 'Activity' || 'ActivityDialog'
-                                           #    || 'Transition' || 'TransitionAction'
-        UserID         => 123,             # mandatory
-    );
-
-Returns:
-
-    $EntityCounter = '1';
-
-=cut
-
-sub EntityCounterGet {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Key (qw(EntityType UserID)) {
-        if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Key!",
-            );
-            return;
-        }
-    }
-
-    # check entity type
-    if ( !$Self->{ValidEntities}->{ $Param{EntityType} } ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "The EntityType:$Param{EntityType} is invalid!"
-        );
-        return;
-
-    }
-
-    # check if result is cached
-    my $CacheKey = "EntityCounterGet::EntityType::$Param{EntityType}";
-
-    my $Cache = $Self->{CacheObject}->Get(
-        Type => 'ProcessManagement_Entity',
-        Key  => $CacheKey,
-    );
-    return ${$Cache} if ( ref $Cache eq 'SCALAR' );
-
-    # get last registered entity id
-    return if !$Self->{DBObject}->Prepare(
-        SQL => "
-            SELECT entity_counter
-            FROM pm_entity
-            WHERE entity_type = ?",
-        Bind  => [ \$Param{EntityType} ],
-        Limit => 1,
-    );
-
-    # counter must be defined as 0
-    my $EntityCounter = 0;
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        $EntityCounter = $Data[0] || 0;
-    }
-
-    # set cache
-    $Self->{CacheObject}->Set(
-        Type  => 'ProcessManagement_Entity',
-        Key   => $CacheKey,
-        Value => \$EntityCounter,
-        TTL   => $Self->{CacheTTL},
-    );
-    return $EntityCounter;
 }
 
 =item EntitySyncStateSet()

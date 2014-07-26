@@ -377,6 +377,79 @@ my @Tests = (
         },
     },
 
+    # Check: Condition->Cond->Type 'and' check
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Cond1 => {
+                            Type   => 'and',
+                            Fields => {
+                                Queue             => ['Raw'],
+                                DynamicField_Make => {
+                                    Type  => 'Hash',
+                                    Match => {
+                                        1 => 7,
+                                        2 => 8,
+                                        3 => 11,
+                                    },
+                                },
+                                DynamicField_VWModel => ['2'],
+                            },
+                        },
+                    },
+                },
+            },
+            Data => {
+                Queue             => ['Raw'],
+                DynamicField_Make => {
+                    1 => 7,
+                    2 => 8,
+                    3 => 11,
+                },
+                DynamicField_VWModel => ['2'],
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (Condition->Cond->Type "and" check)',
+            TestType           => 'True',
+        },
+    },
+
+    # Check: Condition->Cond->Type 'and' w/RegExp check
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Cond1 => {
+                            Type   => 'and',
+                            Fields => {
+                                Queue => {
+                                    Type  => 'String',
+                                    Match => 'Raw',
+                                },
+                                DynamicField_VWModel => {
+                                    Type  => 'Regexp',
+                                    Match => '\d+',
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            Data => {
+                Queue                => 'Raw',
+                DynamicField_VWModel => '2',
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (Condition->Cond->Type "and" W/RegExp check)',
+            TestType           => 'True',
+        },
+    },
+
     # Check: Condition->Cond->Type 'or' check
     {
         Check => {
@@ -1158,10 +1231,296 @@ my @Tests = (
             TestType           => 'False',
         },
     },
+
+    # Check: ConditionLinking 'and' check
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Cond1 => {
+                            Fields => {
+                                Queue => ['Raw'],
+                            },
+                        },
+                        Cond2 => {
+                            Fields => {
+                                DynamicField_Make => {
+                                    Type  => 'Hash',
+                                    Match => {
+                                        1 => 2,
+                                        2 => 3,
+                                        3 => 4,
+                                    },
+                                },
+                            },
+                        },
+                        Cond3 => {
+                            Fields => {
+                                DynamicField_VWModel => ['2'],
+                            },
+                        },
+                    },
+                    ConditionLinking => 'and'
+                },
+            },
+            Data => {
+                Queue             => ['Raw'],
+                DynamicField_Make => {
+                    1 => 2,
+                    2 => 3,
+                    3 => 4,
+                },
+                DynamicField_VWModel => ['2'],
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (ConditionLinking "and" check)',
+            TestType           => 'True',
+        },
+    },
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Cond1 => {
+                            Fields => {
+                                Queue => ['Raw'],
+                            },
+                        },
+                        Cond2 => {
+                            Fields => {
+                                DynamicField_Make => {
+                                    Type  => 'Hash',
+                                    Match => {
+                                        1 => 2,
+                                        2 => 3,
+                                        3 => 4,
+                                    },
+                                },
+                            },
+                        },
+                        Cond3 => {
+                            Fields => {
+                                DynamicField_VWModel => ['2'],
+                            },
+                        },
+                    },
+                },
+            },
+            Data => {
+                Queue             => ['Raw'],
+                DynamicField_Make => {
+                    1 => 2,
+                    2 => 3,
+                    3 => 4,
+                },
+                DynamicField_VWModel => ['2'],
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (ConditionLinking "and" missing check)',
+            TestType           => 'True',
+        },
+    },
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Cond1 => {
+                            Fields => {
+                                Queue => ['Raw'],
+                            },
+                        },
+                        Cond2 => {
+                            Fields => {
+                                DynamicField_Make => {
+                                    Type  => 'Hash',
+                                    Match => {
+                                        1 => 2,
+                                        2 => 3,
+                                        3 => 4,
+                                    },
+                                },
+                            },
+                        },
+                        Cond3 => {
+                            Fields => {
+                                DynamicField_VWModel => ['3'],
+                            },
+                        },
+                    },
+                    ConditionLinking => 'and'
+                },
+            },
+            Data => {
+                Queue             => ['Raw'],
+                DynamicField_Make => {
+                    1 => 2,
+                    2 => 3,
+                    3 => 4,
+                },
+                DynamicField_VWModel => ['2'],
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (ConditionLinking "and" fail check)',
+            TestType           => 'False',
+        },
+    },
+
+    # Check: ConditionLinking 'or' check
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Cond1 => {
+                            Fields => {
+                                Queue => ['Raw'],
+                            },
+                        },
+                        Cond2 => {
+                            Fields => {
+                                DynamicField_Make => ['VW'],
+                            },
+                        },
+                        Cond3 => {
+                            Fields => {
+                                DynamicField_VWModel => ['3'],
+                            },
+                        },
+                    },
+                    ConditionLinking => 'or'
+                },
+            },
+            Data => {
+                Queue                => ['PostMaster'],
+                DynamicField_Make    => ['VW'],
+                DynamicField_VWModel => ['3'],
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (ConditionLinking "or" check)',
+            TestType           => 'True',
+        },
+    },
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Cond1 => {
+                            Fields => {
+                                Queue => ['Raw'],
+                            },
+                        },
+                        Cond2 => {
+                            Fields => {
+                                DynamicField_Make => ['VW'],
+                            },
+                        },
+                        Cond3 => {
+                            Fields => {
+                                DynamicField_VWModel => ['3'],
+                            },
+                        },
+                    },
+                    ConditionLinking => 'or'
+                },
+            },
+            Data => {
+                Queue                => ['PostMaster'],
+                DynamicField_Make    => ['Seat'],
+                DynamicField_VWModel => ['2'],
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (ConditionLinking "or" fail check)',
+            TestType           => 'Fail',
+        },
+    },
+
+    # Check: ConditionLinking 'xor' check
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Cond1 => {
+                            Fields => {
+                                Queue => ['Raw'],
+                            },
+                        },
+                        Cond2 => {
+                            Fields => {
+                                DynamicField_Make => ['VW'],
+                            },
+                        },
+                        Cond3 => {
+                            Fields => {
+                                DynamicField_VWModel => ['2'],
+                            },
+                        },
+                    },
+                    ConditionLinking => 'or'
+                },
+            },
+            Data => {
+                Queue                => ['PostMaster'],
+                DynamicField_Make    => ['VW'],
+                DynamicField_VWModel => ['3'],
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (ConditionLinking "xor" check)',
+            TestType           => 'True',
+        },
+    },
+    {
+        Check => {
+            Config => {
+                'T2' . $RandomID => {
+                    Name      => 'Transition 2 optional',
+                    Condition => {
+                        Cond1 => {
+                            Fields => {
+                                Queue => ['Raw'],
+                            },
+                        },
+                        Cond2 => {
+                            Fields => {
+                                DynamicField_Make => ['VW'],
+                            },
+                        },
+                        Cond3 => {
+                            Fields => {
+                                DynamicField_VWModel => ['3'],
+                            },
+                        },
+                    },
+                    ConditionLinking => 'xor'
+                },
+            },
+            Data => {
+                Queue                => ['PostMaster'],
+                DynamicField_Make    => ['VW'],
+                DynamicField_VWModel => ['3'],
+            },
+            TransitionEntityID => 'T2' . $RandomID,
+            Message            => 'TransitionCheck() (ConditionLinking "xor" fail check)',
+            TestType           => 'False',
+        },
+    },
 );
 
 for my $Test (@Tests) {
     if ( $Test->{Check} ) {
+
+        $TransitionObject->{TransitionDebug}
+            = $Self->{ConfigObject}->Get('ProcessManagement::Transition::Debug::Enabled') || 0;
 
         # Set Config
         if ( IsHashRefWithData( $Test->{Check}{Config} ) ) {

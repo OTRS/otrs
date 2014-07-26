@@ -7,6 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use vars (qw($Self));
@@ -174,7 +175,7 @@ my $CheckProcess = sub {
     }
 
     # check path
-    # a tipical path looks like:
+    # a typical path looks like:
     #   Path {
     #       A1 => {
     #           T1 => {
@@ -311,7 +312,7 @@ my $CheckProcess = sub {
         }
     }
 
-    # check the rest of the proces parts
+    # check the rest of the process parts
     my %PartListGetMap = (
         ActivityDialog   => $ActivityDialogListGet,
         Transition       => $TransitionListGet,
@@ -496,13 +497,33 @@ my @Tests = (
         CreateDynamicFields => 1,
         Success             => 1,
     },
+    {
+        Name   => 'GUID 1 OverwriteExistingEntities',
+        Config => {
+            UserID                    => $UserID,
+            OverwriteExistingEntities => 1
+        },
+        ProcessFile         => 'GUID1.yml',
+        CreateDynamicFields => 1,
+        Success             => 1,
+    },
+    {
+        Name   => 'GUID 1 UPDATED OverwriteExistingEntities',
+        Config => {
+            UserID                    => $UserID,
+            OverwriteExistingEntities => 1
+        },
+        ProcessFile         => 'GUID1Updated.yml',
+        CreateDynamicFields => 1,
+        Success             => 1,
+    },
 );
 
 for my $Test (@Tests) {
 
     my $ProcessData;
 
-    # read process for yml file if needed
+    # read process for YAML file if needed
     my $FileRef;
     if ( $Test->{ProcessFile} ) {
         $FileRef = $Self->{MainObject}->FileRead(
@@ -544,19 +565,23 @@ for my $Test (@Tests) {
         );
 
         my $CurrentProcessID;
-        if ( !$Test->{Config}->{OverwriteExistingEntities} ) {
 
-            # get CurrentProcessID
-            my $CurrentProcessList = $ProcessObject->ProcessListGet(
-                UserID => 1,
-            );
-            PROCESS:
-            for my $Process ( @{$CurrentProcessList} ) {
-                next PROCESS if $Process->{Name} ne $ProcessData->{Process}->{Name};
-                $CurrentProcessID = $Process->{ID};
-                last PROCESS;
-            }
+        # get CurrentProcessID
+        my $CurrentProcessList = $ProcessObject->ProcessListGet(
+            UserID => 1,
+        );
+        PROCESS:
+        for my $Process ( @{$CurrentProcessList} ) {
+            next PROCESS if $Process->{Name} ne $ProcessData->{Process}->{Name};
+            $CurrentProcessID = $Process->{ID};
+            last PROCESS;
         }
+
+        $Self->IsNot(
+            $CurrentProcessID,
+            undef,
+            "ProcessImport() $Test->{Name} - Process found by name, ProcessID must not be undef",
+        );
 
         # run matching tests
         $CheckProcess->(

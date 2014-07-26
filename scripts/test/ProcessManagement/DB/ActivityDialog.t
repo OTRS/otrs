@@ -7,6 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use vars (qw($Self));
@@ -15,6 +16,7 @@ use utf8;
 
 use Kernel::Config;
 use Kernel::System::ProcessManagement::DB::ActivityDialog;
+use Kernel::System::ProcessManagement::DB::Entity;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(:all);
 
@@ -31,6 +33,10 @@ my $ActivityDialogObject = Kernel::System::ProcessManagement::DB::ActivityDialog
     %{$Self},
     ConfigObject => $ConfigObject,
 );
+my $EntityObject = Kernel::System::ProcessManagement::DB::Entity->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 # set fixed time
 $HelperObject->FixedTimeSet();
@@ -38,6 +44,11 @@ $HelperObject->FixedTimeSet();
 # define needed variables
 my $RandomID = $HelperObject->GetRandomID();
 my $UserID   = 1;
+
+my $EntityID = $EntityObject->EntityIDGenerate(
+    EntityType => 'ActivityDialog',
+    UserID     => 1,
+);
 
 # get original ActivityDialog list
 my $OriginalActivityDialogList = $ActivityDialogObject->ActivityDialogList( UserID => $UserID )
@@ -271,6 +282,40 @@ my @Tests = (
         Config => {
             EntityID => "$RandomID-2",
             Name     => "ActivityDialog-$RandomID--äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ",
+            Config   => {
+                DescriptionShort =>
+                    'a Description -äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ',
+                Fields => {
+                    PriorityID => {
+                        DescriptionShort => 'Short description',
+                        DescriptionLong  => 'Longer description',
+                        Display          => 0,
+                        DefaultValue     => 1,
+                    },
+                    StateID => {
+                        DescriptionShort => 'Short description',
+                        DescriptionLong  => 'Longer description',
+                        Display          => 0,
+                        DefaultValue     => 1,
+                    },
+                    QueueID => {
+                        DescriptionShort => 'Short description',
+                        DescriptionLong  => 'Longer description',
+                        Display          => 0,
+                        DefaultValue     => 1,
+                    },
+                },
+                FieldOrder => [ 'PriotityID', 'StateID', 'QueueID' ],
+            },
+            UserID => $UserID,
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'ActivityDialogAdd Test 15: EntityID Full Lenght',
+        Config => {
+            EntityID => $EntityID,
+            Name     => $EntityID,
             Config   => {
                 DescriptionShort =>
                     'a Description -äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ',
@@ -834,8 +879,8 @@ for my $ActivityDialogID ( sort { $a <=> $b } keys %{$TestActivityDialogList} ) 
         $ActivityDialogID,
         $AddedActivityDialogsList[$Counter],
         "ActivityDialogList Test 2: All | ActivityDialogID match AddedActivityDialogID",
-        ),
-        $Counter++;
+    );
+    $Counter++;
 }
 
 #

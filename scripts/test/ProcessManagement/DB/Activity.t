@@ -7,6 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use vars (qw($Self));
@@ -16,6 +17,7 @@ use utf8;
 use Kernel::Config;
 use Kernel::System::ProcessManagement::DB::Activity;
 use Kernel::System::ProcessManagement::DB::ActivityDialog;
+use Kernel::System::ProcessManagement::DB::Entity;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(:all);
 
@@ -36,6 +38,10 @@ my $ActivityDialogObject = Kernel::System::ProcessManagement::DB::ActivityDialog
     %{$Self},
     ConfigObject => $ConfigObject,
 );
+my $EntityObject = Kernel::System::ProcessManagement::DB::Entity->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 
 # set fixed time
 $HelperObject->FixedTimeSet();
@@ -49,6 +55,11 @@ my $ActivityDialogEntityID3 = 'AD3-' . $RandomID;
 my $ActivityDialogName1     = 'ActivityDialog1';
 my $ActivityDialogName2     = 'ActivityDialog2';
 my $ActivityDialogName3     = 'ActivityDialog3';
+
+my $EntityID = $EntityObject->EntityIDGenerate(
+    EntityType => 'Activity',
+    UserID     => 1,
+);
 
 my %ActivityDialogLookup = (
     $ActivityDialogEntityID1 => $ActivityDialogName1,
@@ -228,7 +239,23 @@ my @Tests = (
         },
         Success => 1,
     },
-
+    {
+        Name   => 'ActivityAdd Test 10: EntityID Full Lenght',
+        Config => {
+            EntityID => $EntityID,
+            Name     => $EntityID,
+            Config   => {
+                Description    => 'a Description -äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ',
+                ActivityDialog => {
+                    1 => $ActivityDialogEntityID1,
+                    2 => $ActivityDialogEntityID2,
+                    3 => $ActivityDialogEntityID3,
+                },
+            },
+            UserID => $UserID,
+        },
+        Success => 1,
+    },
 );
 
 my %AddedActivities;
@@ -836,8 +863,8 @@ for my $ActivityID ( sort { $a <=> $b } keys %{$TestActivityList} ) {
         $ActivityID,
         $AddedActivityList[$Counter],
         "ActivityList Test 2: | ActivityID match AddedActivityID",
-        ),
-        $Counter++;
+    );
+    $Counter++;
 }
 
 #

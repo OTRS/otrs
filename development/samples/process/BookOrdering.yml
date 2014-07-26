@@ -1,0 +1,519 @@
+---
+Activities:
+  A1:
+    ActivityDialogs:
+      - AD1
+    ChangeTime: 2012-11-23 14:49:22
+    Config:
+      ActivityDialog:
+        1: AD1
+    CreateTime: 2012-11-23 11:49:38
+    EntityID: A1
+    ID: 151
+    Name: Recording the demand
+  A2:
+    ActivityDialogs:
+      - AD2
+      - AD3
+    ChangeTime: 2012-12-13 00:55:12
+    Config:
+      ActivityDialog:
+        1: AD2
+        2: AD3
+    CreateTime: 2012-11-23 11:50:11
+    EntityID: A2
+    ID: 152
+    Name: Approval
+  A3:
+    ActivityDialogs:
+      - AD4
+      - AD5
+    ChangeTime: 2012-11-23 18:12:14
+    Config:
+      ActivityDialog:
+        1: AD4
+        2: AD5
+    CreateTime: 2012-11-23 11:50:35
+    EntityID: A3
+    ID: 153
+    Name: Order
+  A4:
+    ActivityDialogs:
+      - AD6
+    ChangeTime: 2012-11-23 18:12:35
+    Config:
+      ActivityDialog:
+        1: AD6
+    CreateTime: 2012-11-23 11:51:00
+    EntityID: A4
+    ID: 154
+    Name: Incoming
+  A5:
+    ActivityDialogs: []
+    ChangeTime: 2012-11-23 11:51:33
+    Config: {}
+    CreateTime: 2012-11-23 11:51:33
+    EntityID: A5
+    ID: 155
+    Name: Process complete
+ActivityDialogs:
+  AD1:
+    ChangeTime: 2012-12-06 02:16:21
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Recoding the demand
+      FieldOrder:
+        - DynamicField_Author
+        - DynamicField_ISBN
+        - DynamicField_Title
+        - DynamicField_Status
+      Fields:
+        DynamicField_Author:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: 1
+        DynamicField_ISBN:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: 1
+        DynamicField_Status:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: 1
+        DynamicField_Title:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: 1
+      Interface:
+        - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2012-11-23 14:34:43
+    EntityID: AD1
+    ID: 154
+    Name: Recording the demand
+  AD2:
+    ChangeTime: 2012-11-23 14:57:41
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Approval denied
+      FieldOrder:
+        - Article
+        - DynamicField_Status
+      Fields:
+        Article:
+          Config:
+            ArticleType: note-internal
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: 1
+        DynamicField_Status:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: 1
+      Interface:
+        - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: Deny Request
+    CreateTime: 2012-11-23 14:36:39
+    EntityID: AD2
+    ID: 155
+    Name: Approval denied
+  AD3:
+    ChangeTime: 2012-12-14 03:14:23
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Approved
+      FieldOrder:
+        - DynamicField_Status
+      Fields:
+        DynamicField_Status:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: 1
+      Interface:
+        - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: Approve Request
+    CreateTime: 2012-11-23 14:37:35
+    EntityID: AD3
+    ID: 156
+    Name: Approved
+  AD4:
+    ChangeTime: 2012-11-23 14:58:52
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Order rejected
+      FieldOrder:
+        - Article
+        - DynamicField_Status
+      Fields:
+        Article:
+          Config:
+            ArticleType: note-internal
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: 1
+        DynamicField_Status:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: 1
+      Interface:
+        - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: Reject Order
+    CreateTime: 2012-11-23 14:38:48
+    EntityID: AD4
+    ID: 157
+    Name: Order rejected
+  AD5:
+    ChangeTime: 2012-12-06 02:20:12
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Order placed
+      FieldOrder:
+        - DynamicField_DeliveryDate
+        - DynamicField_Price
+        - DynamicField_Supplier
+        - DynamicField_Status
+      Fields:
+        DynamicField_DeliveryDate:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: 1
+        DynamicField_Price:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: 1
+        DynamicField_Status:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: 1
+        DynamicField_Supplier:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: 1
+      Interface:
+        - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: Place Order
+    CreateTime: 2012-11-23 14:41:28
+    EntityID: AD5
+    ID: 158
+    Name: Order placed
+  AD6:
+    ChangeTime: 2012-11-23 14:42:43
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Shipment received
+      FieldOrder:
+        - DynamicField_DateOfReceipt
+        - DynamicField_Status
+      Fields:
+        DynamicField_DateOfReceipt:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: 1
+        DynamicField_Status:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: 1
+      Interface:
+        - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2012-11-23 14:42:43
+    EntityID: AD6
+    ID: 159
+    Name: Shipment received
+Process:
+  Activities:
+    - A1
+    - A2
+    - A3
+    - A4
+    - A5
+  ChangeTime: 2012-12-06 02:31:59
+  Config:
+    Description: The process to order a book
+    Path:
+      A1:
+        T1:
+          ActivityEntityID: A2
+          TransitionAction:
+            - TA2
+            - TA1
+      A2:
+        T2:
+          ActivityEntityID: A5
+          TransitionAction:
+            - TA3
+            - TA4
+            - TA8
+        T3:
+          ActivityEntityID: A3
+          TransitionAction:
+            - TA5
+      A3:
+        T4:
+          ActivityEntityID: A5
+          TransitionAction:
+            - TA3
+            - TA4
+            - TA8
+        T5:
+          ActivityEntityID: A4
+          TransitionAction:
+            - TA6
+      A4:
+        T6:
+          ActivityEntityID: A5
+          TransitionAction:
+            - TA3
+            - TA4
+            - TA7
+      A5: {}
+    StartActivity: A1
+    StartActivityDialog: AD1
+  CreateTime: 2012-11-23 11:45:12
+  EntityID: P1
+  ID: 94
+  Layout:
+    A1:
+      left: 172
+      top: 63
+    A2:
+      left: 402
+      top: 156
+    A3:
+      left: 649
+      top: 255
+    A4:
+      left: 774
+      top: 391
+    A5:
+      left: 194
+      top: 410
+  Name: Book ordering
+  State: Active
+  StateEntityID: S1
+  TransitionActions:
+    - TA1
+    - TA2
+    - TA3
+    - TA4
+    - TA8
+    - TA5
+    - TA3
+    - TA4
+    - TA8
+    - TA6
+    - TA3
+    - TA4
+    - TA7
+  Transitions:
+    - T1
+    - T2
+    - T3
+    - T4
+    - T5
+    - T6
+TransitionActions:
+  TA1:
+    ChangeTime: 2012-11-23 16:01:37
+    Config:
+      Config:
+        Queue: Management
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketQueueSet
+    CreateTime: 2012-11-23 15:50:59
+    EntityID: TA1
+    ID: 61
+    Name: Move the process ticket into the "Management" queue
+  TA2:
+    ChangeTime: 2012-11-23 16:02:12
+    Config:
+      Config:
+        Responsible: manager
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketResponsibleSet
+    CreateTime: 2012-11-23 15:58:22
+    EntityID: TA2
+    ID: 62
+    Name: Change ticket responsible to "manager"
+  TA3:
+    ChangeTime: 2012-11-24 14:27:02
+    Config:
+      Config:
+        Queue: Employees
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketQueueSet
+    CreateTime: 2012-11-23 16:02:54
+    EntityID: TA3
+    ID: 63
+    Name: Move the process ticket into the "Employees" queue
+  TA4:
+    ChangeTime: 2012-11-23 16:04:06
+    Config:
+      Config:
+        Responsible: Employee
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketResponsibleSet
+    CreateTime: 2012-11-23 16:04:06
+    EntityID: TA4
+    ID: 64
+    Name: Change ticket responsible to "Employee"
+  TA5:
+    ChangeTime: 2012-12-06 02:18:34
+    Config:
+      Config:
+        Queue: Purchasing
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketQueueSet
+    CreateTime: 2012-11-23 16:04:54
+    EntityID: TA5
+    ID: 65
+    Name: Move process ticket into the "Purchasing" queue
+  TA6:
+    ChangeTime: 2012-12-06 02:18:48
+    Config:
+      Config:
+        Queue: Post office
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketQueueSet
+    CreateTime: 2012-11-23 16:06:20
+    EntityID: TA6
+    ID: 66
+    Name: Move process ticket into the "Post office" queue
+  TA7:
+    ChangeTime: 2012-12-06 02:29:55
+    Config:
+      Config:
+        State: closed successful
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketStateSet
+    CreateTime: 2012-12-06 02:29:27
+    EntityID: TA7
+    ID: 67
+    Name: Close ticket successfully
+  TA8:
+    ChangeTime: 2012-12-06 02:31:12
+    Config:
+      Config:
+        State: closed unsuccessful
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketStateSet
+    CreateTime: 2012-12-06 02:31:12
+    EntityID: TA8
+    ID: 68
+    Name: Close ticket unsuccessfully
+Transitions:
+  T1:
+    ChangeTime: 2012-11-23 15:12:20
+    Config:
+      Condition:
+        1:
+          Fields:
+            DynamicField_Status:
+              Match: Approval
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2012-11-23 11:53:52
+    EntityID: T1
+    ID: 94
+    Name: Approval
+  T2:
+    ChangeTime: 2012-11-23 15:12:50
+    Config:
+      Condition:
+        1:
+          Fields:
+            DynamicField_Status:
+              Match: Approval denied
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2012-11-23 11:54:26
+    EntityID: T2
+    ID: 95
+    Name: Approval denied
+  T3:
+    ChangeTime: 2012-11-23 15:13:29
+    Config:
+      Condition:
+        1:
+          Fields:
+            DynamicField_Status:
+              Match: Approved
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2012-11-23 11:54:54
+    EntityID: T3
+    ID: 96
+    Name: Approved
+  T4:
+    ChangeTime: 2012-11-23 15:14:08
+    Config:
+      Condition:
+        1:
+          Fields:
+            DynamicField_Status:
+              Match: Order denied
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2012-11-23 11:55:25
+    EntityID: T4
+    ID: 97
+    Name: Order denied
+  T5:
+    ChangeTime: 2012-11-23 18:30:33
+    Config:
+      Condition:
+        1:
+          Fields:
+            DynamicField_Status:
+              Match: Order placed
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2012-11-23 11:56:15
+    EntityID: T5
+    ID: 98
+    Name: Order placed
+  T6:
+    ChangeTime: 2012-11-23 15:15:30
+    Config:
+      Condition:
+        1:
+          Fields:
+            DynamicField_Status:
+              Match: Shipment received
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2012-11-23 11:56:48
+    EntityID: T6
+    ID: 99
+    Name: Shipment received

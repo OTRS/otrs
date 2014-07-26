@@ -7,15 +7,16 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
 use vars qw($Self);
 
 use Kernel::Config;
-use Kernel::System::UnitTest::Helper;
 use Kernel::System::Ticket;
 use Kernel::System::User;
+use Kernel::System::UnitTest::Helper;
 use Kernel::System::ProcessManagement::TransitionAction::TicketTitleSet;
 
 use Kernel::System::VariableCheck qw(:all);
@@ -45,6 +46,12 @@ my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::TicketTi
 my $UserID     = 1;
 my $ModuleName = 'TicketTitleSet';
 my $RandomID   = $HelperObject->GetRandomID();
+
+# set user details
+my $TestUserLogin = $HelperObject->TestUserCreate();
+my $TestUserID    = $UserObject->UserLookup(
+    UserLogin => $TestUserLogin,
+);
 
 # ----------------------------------------
 # Create a test ticket
@@ -202,9 +209,46 @@ my @Tests = (
         },
         Success => 1,
     },
+    {
+        Name   => 'Correct Ticket->Queue',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                Title => '<OTRS_Ticket_Queue>',
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct Ticket->NotExisting',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                Title => '<OTRS_Ticket_NotExisting>',
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct Using Different UserID',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                Title => '',
+            },
+        },
+        Success => 1,
+    },
 );
 
 for my $Test (@Tests) {
+
+    # make a deep copy to avoid changing the definition
+    my $OrigTest = Storable::dclone($Test);
+
     my $Success = $ModuleObject->Run(
         %{ $Test->{Config} },
         ProcessEntityID          => 'P1',
@@ -229,14 +273,37 @@ for my $Test (@Tests) {
         ATTRIBUTE:
         for my $Attribute ( sort keys %{ $Test->{Config}->{Config} } ) {
 
+            my $ExpectedValue = $Test->{Config}->{Config}->{$Attribute};
+            if (
+                $OrigTest->{Config}->{Config}->{$Attribute}
+                =~ m{\A<OTRS_Ticket_([A-Za-z0-9_]+)>\z}msx
+                )
+            {
+                $ExpectedValue = $Ticket{$1} // '';
+                $Self->IsNot(
+                    $Test->{Config}->{Config}->{$Attribute},
+                    $OrigTest->{Config}->{Config}->{$Attribute},
+                    "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute value: $OrigTest->{Config}->{Config}->{$Attribute} should been replaced",
+                );
+            }
+
             # workaround for oracle
             # oracle databases can't determine the difference between NULL and ''
             # compare ticket attribute or empty string then
             $Self->Is(
                 $Ticket{$Attribute} || '',
-                $Test->{Config}->{Config}->{$Attribute},
+                $ExpectedValue,
                 "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for TicketID:"
                     . " $TicketID match expected value",
+            );
+        }
+
+        if ( $OrigTest->{Config}->{Config}->{UserID} ) {
+            $Self->Is(
+                $Test->{Config}->{Config}->{UserID},
+                undef,
+                "$ModuleName - Test:'$Test->{Name}' | Attribute: UserID for TicketID:"
+                    . " $TicketID should be removed (as it was used)",
             );
         }
     }

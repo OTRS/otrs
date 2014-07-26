@@ -117,13 +117,13 @@
         </Setting>
     </ConfigItem>
 
-    <ConfigItem Name="Frontend::NavBarOutputModule###1-TicketProcesses" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::NavBarModule###1-TicketProcesses" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration (disable ticket processes screen if no process available).</Description>
         <Group>ProcessManagement</Group>
         <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NavBarOutputModuleAgentTicketProcess</Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBarAgentTicketProcess</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -153,6 +153,7 @@
                     <CSS>Core.Agent.TicketProcess.css</CSS>
                     <JavaScript>Core.Agent.CustomerSearch.js</JavaScript>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketProcess.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -249,6 +250,22 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::MenuModule###480-Process" Required="0" Valid="1">
+        <Description Translatable="1">Shows a link in the menu to enroll a ticket into a process in the ticket zoom view of the agent interface.</Description>
+        <Group>ProcessManagement</Group>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenuProcess</Item>
+                <Item Key="Name">Process Enroll</Item>
+                <Item Key="Description" Translatable="1">Enroll this ticket into a process</Item>
+                <Item Key="Action">AgentTicketProcess</Item>
+                <Item Key="Link">Action=AgentTicketProcess;IsProcessEnroll=1;TicketID=[% Data.TicketID | html %]</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketProcess" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Group>ProcessManagement</Group>
@@ -281,7 +298,7 @@
         <SubGroup>Frontend::Customer::NavBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NavBarOutputModuleCustomerTicketProcess</Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBarCustomerTicketProcess</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -340,6 +357,41 @@
                 <Item>new</Item>
                 <Item>open</Item>
             </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ProcessManagement::Transition::Debug::Enabled" Required="1" Valid="1">
+        <Description Translatable="1">If enabled debugging information for transitions is logged.</Description>
+        <Group>ProcessManagement</Group>
+        <SubGroup>Core::Transition</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                    <Item Key="0">No</Item>
+                    <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ProcessManagement::Transition::Debug::LogPriority" Required="0" Valid="0">
+        <Description Translatable="1">Defines the priority in which the information is logged and presented.</Description>
+        <Group>ProcessManagement</Group>
+        <SubGroup>Core::Transition</SubGroup>
+        <Setting>
+            <Option SelectedID="debug">
+                    <Item Key="debug">Debug</Item>
+                    <Item Key="info">Info</Item>
+                    <Item Key="notice">Notice</Item>
+                    <Item Key="error">Error</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ProcessManagement::Transition::Debug::Filter###00-Default" Required="0" Valid="0">
+        <Description Translatable="1">Filter for debugging Transitions. Note: More filters can be added in the format &lt;OTRS_TICKET_Attribute&gt; e.g. &lt;OTRS_TICKET_Priority&gt;.</Description>
+        <Group>ProcessManagement</Group>
+        <SubGroup>Core::Transition</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TransitionEntityID"></Item>
+                <Item Key="&lt;OTRS_TICKET_TicketNumber&gt;"></Item>
+            </Hash>
         </Setting>
     </ConfigItem>
 </otrs_config>

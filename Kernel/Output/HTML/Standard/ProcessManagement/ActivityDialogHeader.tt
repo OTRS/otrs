@@ -50,6 +50,7 @@
             <input type="hidden" name="ActivityDialogEntityID" value="[% Data.ActivityDialogEntityID | html %]"/>
             <input type="hidden" name="Expand" id="Expand" value=""/>
             <input type="hidden" name="IsMainWindow" id="IsMainWindow" value="[% Data.IsMainWindow | html %]"/>
+            <input type="hidden" name="IsProcessEnroll" id="IsProcessEnroll" value="[% Data.IsProcessEnroll | html %]"/>
             <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
             <div class="LayoutPopup ARIARoleMain">
 [% RenderBlockStart("Header") %]

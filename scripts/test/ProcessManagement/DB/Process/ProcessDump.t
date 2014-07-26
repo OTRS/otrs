@@ -262,7 +262,6 @@ $ExpectedResult->{Transition} = {
     'T-Test1' => {
         Name      => 'Transition 1',
         Condition => {
-            Type  => 'or',
             Cond1 => {
                 Type   => 'and',
                 Fields => {
@@ -290,6 +289,7 @@ $ExpectedResult->{Transition} = {
                 DynamicField_PeugeotModell => ['1'],
             },
         },
+        ConditionLinking => 'or',
     },
 };
 

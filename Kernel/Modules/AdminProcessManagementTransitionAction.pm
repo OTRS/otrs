@@ -552,10 +552,12 @@ sub _ShowEdit {
         Filter    => '*.pm',
     );
     my %TransitionAction;
+    ITEM:
     for my $Item (@List) {
 
         # remove .pm
         $Item =~ s/^.*\/(.+?)\.pm$/$1/;
+        next ITEM if $Item eq 'Base';
         $TransitionAction{ 'Kernel::System::ProcessManagement::TransitionAction::' . $Item }
             = $Item;
     }

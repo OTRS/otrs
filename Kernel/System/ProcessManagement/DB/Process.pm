@@ -211,7 +211,7 @@ sub ProcessAdd {
     utf8::upgrade($Layout);
     utf8::upgrade($Config);
 
-    # sql
+    # SQL
     return if !$Self->{DBObject}->Do(
         SQL => '
             INSERT INTO pm_process ( entity_id, name, state_entity_id, layout, config, create_time,
@@ -410,7 +410,7 @@ sub ProcessGet {
     );
     return $Cache if $Cache;
 
-    # sql
+    # SQL
     if ( $Param{ID} ) {
         return if !$Self->{DBObject}->Prepare(
             SQL => '
@@ -703,7 +703,7 @@ sub ProcessUpdate {
             && $CurrentConfig eq $Config;
     }
 
-    # sql
+    # SQL
     return if !$Self->{DBObject}->Do(
         SQL => '
             UPDATE pm_process
@@ -732,7 +732,7 @@ get a Process list
         UseEntities     => 0,                   # default 0, 1 || 0. if 0 the return hash keys are
                                                 #    the process IDs otherwise keys are the
                                                 #    process entity IDs
-        StateEntityIDs  => ['S1','S2'],         # optional, to filter proceses that match listed
+        StateEntityIDs  => ['S1','S2'],         # optional, to filter processes that match listed
                                                 #    state entity IDs
         UserID          => 1,
     );
@@ -878,7 +878,7 @@ sub ProcessListGet {
     );
     return $Cache if $Cache;
 
-    # sql
+    # SQL
     return if !$Self->{DBObject}->Prepare(
         SQL => '
             SELECT id, entity_id
@@ -914,12 +914,12 @@ sub ProcessListGet {
 
 =item ProcessDump()
 
-gets a complete procesess information dump from the DB including: Process State, Activities,
+gets a complete processes information dump from the DB including: Process State, Activities,
 ActivityDialogs, Transitions and TransitionActions
 
     my $ProcessDump = $ProcessObject->ProcessDump(
         ResultType  => 'SCALAR'                     # 'SCALAR' || 'HASH' || 'FILE'
-        Location    => '/opt/otrs/var/myfile.txt'   # mandatry for ResultType = 'FILE'
+        Location    => '/opt/otrs/var/myfile.txt'   # mandatory for ResultType = 'FILE'
         UserID      => 1,
     );
 
@@ -1030,7 +1030,7 @@ Returns:
 
     my $ProcessDump = $ProcessObject->ProcessDump(
         ResultType  => 'HASH'                       # 'SCALAR' || 'HASH' || 'FILE'
-        Location    => '/opt/otrs/var/myfile.txt'   # mandatry for ResultType = 'FILE'
+        Location    => '/opt/otrs/var/myfile.txt'   # mandatory for ResultType = 'FILE'
         UserID      => 1,
     );
 
@@ -1141,7 +1141,7 @@ Returns:
 
     my $ProcessDump = $ProcessObject->ProcessDump(
         ResultType  => 'Location'                     # 'SCALAR' || 'HASH' || 'FILE'
-        Location    => '/opt/otrs/var/myfile.txt'     # mandatry for ResultType = 'FILE'
+        Location    => '/opt/otrs/var/myfile.txt'     # mandatory for ResultType = 'FILE'
         UserID      => 1,
     );
 
@@ -1258,15 +1258,12 @@ sub ProcessDump {
 
         next TRANSITION if !IsHashRefWithData($TransitionData);
 
-        # set ConfitionLinking as it is stored oudise the condition hash
-        $TransitionData->{Config}->{Condition}->{Type}
-            = $TransitionData->{Config}->{ConditionLinking} || '';
-
         $TransitionDump{ $TransitionData->{EntityID} } = {
-            Name       => $TransitionData->{Name},
-            CreateTime => $TransitionData->{CreateTime},
-            ChangeTime => $TransitionData->{ChangeTime},
-            Condition  => $TransitionData->{Config}->{Condition} || {},
+            Name             => $TransitionData->{Name},
+            CreateTime       => $TransitionData->{CreateTime},
+            ChangeTime       => $TransitionData->{ChangeTime},
+            Condition        => $TransitionData->{Config}->{Condition} || {},
+            ConditionLinking => $TransitionData->{Config}->{ConditionLinking} || '',
         };
     }
 
@@ -1313,7 +1310,7 @@ sub ProcessDump {
 
         # create output
 
-        my $Output .= $Self->_ProcessItemOutput(
+        my $Output = $Self->_ProcessItemOutput(
             Key   => "Process",
             Value => \%ProcessDump,
         );
@@ -1410,9 +1407,9 @@ import a process YAML file/content
 Returns:
 
     %ProcessImport = (
-        Message => 'The Mesage to show.', # error or success message
-        Comment => 'Any comment',         # optional
-        Success => 1,                     # 1 if success or undef otherwise
+        Message => 'The Message to show.', # error or success message
+        Comment => 'Any comment',          # optional
+        Success => 1,                      # 1 if success or undef otherwise
     );
 
 =cut
@@ -1532,13 +1529,39 @@ sub ProcessImport {
     #    not not exists
     if ( $Param{OverwriteExistingEntities} ) {
 
-        # keep entities
-        $EntityMapping{Process}->{ $ProcessData->{Process}->{EntityID} }
-            = $ProcessData->{Process}->{EntityID};
+        my $EntityID    = $ProcessData->{Process}->{EntityID};
+        my $NewEntityID = $EntityID;
+
+        # check if EntityID matched the format (it could be that a process from 3.3.x is been
+        #    imported)
+        if ( $NewEntityID !~ m{\A Process - [0-9a-f]{32}? \z}msx ) {
+
+            # generate new EntityIDs
+            $NewEntityID = $Self->{EntityObject}->EntityIDGenerate(
+                EntityType => 'Process',
+                UserID     => $Param{UserID},
+            );
+        }
+
+        $EntityMapping{Process}->{$EntityID} = $NewEntityID;
 
         for my $PartName (qw(Activity ActivityDialog Transition TransitionAction)) {
             for my $PartEntityID ( sort keys %{ $ProcessData->{ $PartNameMap{$PartName} } } ) {
-                $EntityMapping{ $PartNameMap{$PartName} }->{$PartEntityID} = $PartEntityID;
+
+                $NewEntityID = $PartEntityID;
+
+               # check if EntityID matched the format (it could be that a process from 3.3.x is been
+               #    imported)
+                if ( $NewEntityID !~ m{\A $PartName - [0-9a-f]{32}? \z}msx ) {
+
+                    # generate new EntityIDs
+                    $NewEntityID = $Self->{EntityObject}->EntityIDGenerate(
+                        EntityType => $PartName,
+                        UserID     => $Param{UserID},
+                    );
+                }
+
+                $EntityMapping{ $PartNameMap{$PartName} }->{$PartEntityID} = $NewEntityID;
             }
 
             # make sure that all entity mapping parts are defined as hash references
@@ -1546,32 +1569,32 @@ sub ProcessImport {
         }
     }
     else {
-        my $TempPrefix = 'Tmp';
 
-        # create entity mappings with temporary entities (those will be replaced later with the
-        #     definitive ones when they are actually generated)
-        $EntityMapping{Process}->{ $ProcessData->{Process}->{EntityID} } = $TempPrefix . 'P1';
+        my $EntityID = $ProcessData->{Process}->{EntityID};
 
-        my %PartPrefixMap = (
-            Activity         => 'A',
-            ActivityDialog   => 'AD',
-            Transition       => 'T',
-            TransitionAction => 'TA',
+        # generate new EntityIDs
+        my $NewEntityID = $Self->{EntityObject}->EntityIDGenerate(
+            EntityType => 'Process',
+            UserID     => $Param{UserID},
         );
-        for my $PartName (qw(Activity ActivityDialog Transition TransitionAction)) {
 
-            my $Counter = 1;
+        $EntityMapping{Process}->{$EntityID} = $NewEntityID;
+
+        for my $PartName (qw(Activity ActivityDialog Transition TransitionAction)) {
             for my $PartEntityID ( sort keys %{ $ProcessData->{ $PartNameMap{$PartName} } } ) {
-                $EntityMapping{ $PartNameMap{$PartName} }->{$PartEntityID}
-                    = $TempPrefix . $PartPrefixMap{$PartName} . $Counter;
-                $Counter++;
+
+                $NewEntityID = $Self->{EntityObject}->EntityIDGenerate(
+                    EntityType => $PartName,
+                    UserID     => $Param{UserID},
+                );
+                $EntityMapping{ $PartNameMap{$PartName} }->{$PartEntityID} = $NewEntityID;
             }
 
             # make sure that all entity mapping parts are defined as hash references
-            $EntityMapping{ $PartNameMap{$PartName} } //= {}
+            $EntityMapping{ $PartNameMap{$PartName} } //= {};
         }
 
-        # set tempory EntityIDs
+        # set EntityIDs
         my $UpdateResult = $Self->_ImportedEntitiesUpdate(
             ProcessData   => $ProcessData,
             EntityMapping => \%EntityMapping,
@@ -1581,16 +1604,16 @@ sub ProcessImport {
             return %{$UpdateResult};
         }
 
-        # overwrite procees data with the temporary entities
+        # overwrite process data with the temporary entities
         $ProcessData = $UpdateResult->{ProcessData};
     }
 
     # invert the entity mappings, this is needed as we need to check if the new entities exists:
     #    for non overwriting processes they must not exists and new records must be generated,
-    #    for overwritting processes it might happens that one record does not exists and it needs
+    #    for overwriting processes it might happens that one record does not exists and it needs
     #    to be created before it is updated
     # if new entities are to be created they will be using minimal data and updated with real data
-    #    later, this way overwritting and non overwritting processes will share the same logic
+    #    later, this way overwriting and non overwriting processes will share the same logic
     %{ $EntityMapping{Process} }           = reverse %{ $EntityMapping{Process} };
     %{ $EntityMapping{Activities} }        = reverse %{ $EntityMapping{Activities} };
     %{ $EntityMapping{ActivityDialogs} }   = reverse %{ $EntityMapping{ActivityDialogs} };
@@ -1609,26 +1632,9 @@ sub ProcessImport {
     for my $ProcessEntityID ( sort keys %{ $EntityMapping{Process} } ) {
         if ( !$ProcessList->{$ProcessEntityID} ) {
 
-            # get next EntityID
-            my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
-                EntityType => 'Process',
-                UserID     => $Param{UserID},
-            );
-            if ( !$EntityID ) {
-                return $Self->_ProcessImportRollBack(
-                    AddedEntityIDs => \%AddedEntityIDs,
-                    UserID         => $Param{UserID},
-                    Message =>
-                        'New process EntityID could not be generated. Stoping import!',
-                );
-            }
-
-            # update entity mappings
-            $EntityMapping{Process}->{$ProcessEntityID} = $EntityID;
-
             # create an empty process
             my $ProcessID = $Self->ProcessAdd(
-                EntityID      => $EntityID,
+                EntityID      => $ProcessEntityID,
                 Name          => 'NewProcess',
                 StateEntityID => 'S1',
                 Layout        => {},
@@ -1649,7 +1655,7 @@ sub ProcessImport {
             }
 
             # remember added entity
-            $AddedEntityIDs{Process}->{$EntityID} = $ProcessID;
+            $AddedEntityIDs{Process}->{$ProcessEntityID} = $ProcessID;
         }
     }
 
@@ -1686,26 +1692,9 @@ sub ProcessImport {
         for my $PartEntityID ( sort keys %{ $EntityMapping{ $PartNameMap{$PartName} } } ) {
             if ( !$PartsList->{$PartEntityID} ) {
 
-                # get next EntityID
-                my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
-                    EntityType => $PartName,
-                    UserID     => $Param{UserID},
-                );
-                if ( !$EntityID ) {
-                    return $Self->_ProcessImportRollBack(
-                        AddedEntityIDs => \%AddedEntityIDs,
-                        UserID         => $Param{UserID},
-                        Message =>
-                            "New $PartName EntityID could not be generated. Stoping import!",
-                    );
-                }
-
-                # update entity mappings
-                $EntityMapping{ $PartNameMap{$PartName} }->{$PartEntityID} = $EntityID;
-
                 # create an empty part
                 my $PartID = $Self->{$PartObject}->$PartAddFunction(
-                    EntityID => $EntityID,
+                    EntityID => $PartEntityID,
                     Name     => "New$PartName",
                     Config   => $PartConfigMap{$PartName},
                     UserID   => $Param{UserID},
@@ -1721,33 +1710,10 @@ sub ProcessImport {
                 }
 
                 # remember added entity
-                $AddedEntityIDs{ $PartNameMap{$PartName} }->{$EntityID} = $PartID;
+                $AddedEntityIDs{ $PartNameMap{$PartName} }->{$PartEntityID} = $PartID;
             }
         }
     }
-
-    # set definitive EntityIDs (now EntityMapping has the real entities)
-    my $UpdateResult = $Self->_ImportedEntitiesUpdate(
-        ProcessData   => $ProcessData,
-        EntityMapping => \%EntityMapping,
-    );
-
-    if ( !$UpdateResult->{Success} ) {
-        return $Self->_ProcessImportRollBack(
-            AddedEntityIDs => \%AddedEntityIDs,
-            UserID         => $Param{UserID},
-            Message        => $UpdateResult->{Message},
-        );
-    }
-
-    $ProcessData = $UpdateResult->{ProcessData};
-
-    # invert the entity mappings again for easy lookup as keys:
-    %{ $EntityMapping{Process} }           = reverse %{ $EntityMapping{Process} };
-    %{ $EntityMapping{Activities} }        = reverse %{ $EntityMapping{Activities} };
-    %{ $EntityMapping{ActivityDialogs} }   = reverse %{ $EntityMapping{ActivityDialogs} };
-    %{ $EntityMapping{Transitions} }       = reverse %{ $EntityMapping{Transitions} };
-    %{ $EntityMapping{TransitionActions} } = reverse %{ $EntityMapping{TransitionActions} };
 
     # update all entities with real data
     # update process
@@ -1766,7 +1732,7 @@ sub ProcessImport {
                 AddedEntityIDs => \%AddedEntityIDs,
                 UserID         => $Param{UserID},
                 Message        => "Process: $ProcessEntityID could not be updated. "
-                    . "Stoping import!",
+                    . "Stopping import!",
             );
         }
     }
@@ -1793,7 +1759,7 @@ sub ProcessImport {
                     AddedEntityIDs => \%AddedEntityIDs,
                     UserID         => $Param{UserID},
                     Message        => "$PartName: $PartEntityID could not be updated. "
-                        . " Stoping import!",
+                        . " Stopping import!",
                 );
             }
         }
@@ -1802,7 +1768,7 @@ sub ProcessImport {
     return (
         Message => 'Process '
             . $ProcessData->{Process}->{Name}
-            . ' and all its data has been imported sucessfully.',
+            . ' and all its data has been imported successfully.',
         Success => 1,
     );
 }
@@ -1927,7 +1893,7 @@ sub _ImportedEntitiesUpdate {
                 my $NewTransition;
                 for my $TransitionActionEntityID ( @{ $Transition->{TransitionAction} } ) {
 
-                    # set new transition action EntityID from process path aticivity transition
+                    # set new transition action EntityID from process path activity transition
                     my $NewTransitionActionEntityID
                         = $EntityMapping{TransitionActions}->{$TransitionActionEntityID};
                     if ( !$NewTransitionActionEntityID ) {
@@ -2020,7 +1986,7 @@ sub _ImportedEntitiesUpdate {
             # get old activity dialog EntityID
             my $ActivityDialogEntityID = $CurrentActivityDialogs->{$OrderKey};
 
-            # set new actvity dialog EntityID
+            # set new activity dialog EntityID
             my $NewActivityDialogEntityID
                 = $EntityMapping{ActivityDialogs}->{$ActivityDialogEntityID};
             if ( !$NewActivityDialogEntityID ) {
@@ -2123,7 +2089,7 @@ sub _ProcessImportRollBack {
     );
 
     # delete added process parts
-    for my $Part (qw(Actvity ActivityDialog Transition TransitionAction)) {
+    for my $Part (qw(Activity ActivityDialog Transition TransitionAction)) {
         for my $PartEntityID ( sort keys %{ $AddedEntityIDs{ $PartNameMap{$Part} } } ) {
             my $PartID         = $AddedEntityIDs{ $PartNameMap{$Part} }->{$PartEntityID};
             my $DeleteFunction = $Part . 'Delete';

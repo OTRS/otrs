@@ -15,6 +15,8 @@ use Kernel::System::VariableCheck qw(:all);
 
 use utf8;
 
+use base qw(Kernel::System::ProcessManagement::TransitionAction::Base);
+
 =head1 NAME
 
 Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate - A module to create an article
@@ -146,7 +148,8 @@ sub new {
                                                                         # sending gets muted, agent will still shown in To:
                                                                         # line of article
 
-            UserID => 123,                                              # optional, to override the UserID from the logged user
+            TimeUnit => 123                                             # optional, to set the acouting time
+            UserID   => 123,                                            # optional, to override the UserID from the logged user
         }
     );
     Ticket contains the result of TicketGet including DynamicFields
@@ -162,48 +165,36 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (
-        qw(UserID Ticket ProcessEntityID ActivityEntityID TransitionEntityID
-        TransitionActionEntityID Config
-        )
-        )
-    {
-        if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
-            return;
-        }
-    }
-
     # define a common message to output in case of any error
     my $CommonMessage = "Process: $Param{ProcessEntityID} Activity: $Param{ActivityEntityID}"
         . " Transition: $Param{TransitionEntityID}"
         . " TransitionAction: $Param{TransitionActionEntityID} - ";
 
-    # Check if we have Ticket to deal with
-    if ( !IsHashRefWithData( $Param{Ticket} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => $CommonMessage . "Ticket has no values!",
-        );
-        return;
-    }
-
-    # Check if we have a ConfigHash
-    if ( !IsHashRefWithData( $Param{Config} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => $CommonMessage . "Config has no values!",
-        );
-        return;
-    }
+    # check for missing or wrong params
+    my $Success = $Self->_CheckParams(
+        %Param,
+        CommonMessage => $CommonMessage,
+    );
+    return if !$Success;
 
     # override UserID if specified as a parameter in the TA config
-    if ( IsNumber( $Param{Config}->{UserID} ) ) {
-        $Param{UserID} = $Param{Config}->{UserID};
-        delete $Param{Config}->{UserID};
+    $Param{UserID} = $Self->_OverrideUserID(%Param);
+
+    # use ticket attributes if needed
+    $Self->_ReplaceTicketAttributes(%Param);
+
+    # convert scalar items into array references
+    for my $Attribute (
+        qw(ForceNotificationToUserID ExcludeNotificationToUserID
+        ExcludeMuteNotificationToUserID
+        )
+        )
+    {
+        if ( IsStringWithData( $Param{Config}->{$Attribute} ) ) {
+            $Param{Config}->{$Attribute} = $Self->_ConvertScalar2ArrayRef(
+                Data => $Param{Config}->{$Attribute},
+            );
+        }
     }
 
     # Check ArticleType
@@ -216,13 +207,13 @@ sub Run {
         return;
     }
 
-    my $Success = $Self->{TicketObject}->ArticleCreate(
+    my $ArticleID = $Self->{TicketObject}->ArticleCreate(
         %{ $Param{Config} },
         TicketID => $Param{Ticket}->{TicketID},
         UserID   => $Param{UserID},
     );
 
-    if ( !$Success ) {
+    if ( !$ArticleID ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => $CommonMessage
@@ -231,6 +222,17 @@ sub Run {
         );
         return;
     }
+
+    # set time units
+    if ( $Param{Config}->{TimeUnit} ) {
+        $Self->{TicketObject}->TicketAccountTime(
+            TicketID  => $Param{Ticket}->{TicketID},
+            ArticleID => $ArticleID,
+            TimeUnit  => $Param{Config}->{TimeUnit},
+            UserID    => $Param{UserID},
+        );
+    }
+
     return 1;
 }
 

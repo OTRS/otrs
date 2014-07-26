@@ -16,6 +16,8 @@ use Kernel::System::VariableCheck qw(:all);
 use utf8;
 use Kernel::System::State;
 
+use base qw(Kernel::System::ProcessManagement::TransitionAction::Base);
+
 =head1 NAME
 
 Kernel::System::ProcessManagement::TransitionAction::TicketStateSet - A module to set the ticket state
@@ -130,8 +132,8 @@ sub new {
             StateID => 3,
 
             PendingTimeDiff => 123,             # optional, used for pending states, difference in seconds from
-                                                #   current time to desired penting time (e.g. a value of 3600 means
-                                                #   that the pending time will be 1hr after the Transition Action is
+                                                #   current time to desired pending time (e.g. a value of 3600 means
+                                                #   that the pending time will be 1 hr after the Transition Action is
                                                 #   executed)
             UserID  => 123,                     # optional, to override the UserID from the logged user
         }
@@ -147,49 +149,23 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (
-        qw(UserID Ticket ProcessEntityID ActivityEntityID TransitionEntityID
-        TransitionActionEntityID Config
-        )
-        )
-    {
-        if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
-            return;
-        }
-    }
-
     # define a common message to output in case of any error
     my $CommonMessage = "Process: $Param{ProcessEntityID} Activity: $Param{ActivityEntityID}"
         . " Transition: $Param{TransitionEntityID}"
         . " TransitionAction: $Param{TransitionActionEntityID} - ";
 
-    # Check if we have Ticket to deal with
-    if ( !IsHashRefWithData( $Param{Ticket} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => $CommonMessage . "Ticket has no values!",
-        );
-        return;
-    }
-
-    # Check if we have a ConfigHash
-    if ( !IsHashRefWithData( $Param{Config} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => $CommonMessage . "Config has no values!",
-        );
-        return;
-    }
+    # check for missing or wrong params
+    my $Success = $Self->_CheckParams(
+        %Param,
+        CommonMessage => $CommonMessage,
+    );
+    return if !$Success;
 
     # override UserID if specified as a parameter in the TA config
-    if ( IsNumber( $Param{Config}->{UserID} ) ) {
-        $Param{UserID} = $Param{Config}->{UserID};
-        delete $Param{Config}->{UserID};
-    }
+    $Param{UserID} = $Self->_OverrideUserID(%Param);
+
+    # use ticket attributes if needed
+    $Self->_ReplaceTicketAttributes(%Param);
 
     if ( !$Param{Config}->{StateID} && !$Param{Config}->{State} ) {
         $Self->{LogObject}->Log(
@@ -199,7 +175,7 @@ sub Run {
         return;
     }
 
-    my $Success;
+    $Success = 0;
     my %StateData;
 
     # If Ticket's StateID is already the same as the Value we

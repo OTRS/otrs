@@ -7,15 +7,17 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
 use vars qw($Self);
 
 use Kernel::Config;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::Ticket;
 use Kernel::System::Service;
+use Kernel::System::Ticket;
+use Kernel::System::User;
+use Kernel::System::UnitTest::Helper;
 use Kernel::System::ProcessManagement::TransitionAction::TicketServiceSet;
 
 use Kernel::System::VariableCheck qw(:all);
@@ -27,6 +29,10 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
     RestoreSystemConfiguration => 0,
 );
 my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $UserObject   = Kernel::System::User->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 my $TicketObject = Kernel::System::Ticket->new(
     %{$Self},
     ConfigObject => $ConfigObject,
@@ -48,7 +54,13 @@ my $ModuleName = 'TicketServiceSet';
 my $RandomID   = $HelperObject->GetRandomID();
 
 # add a customer user
-my $TestUserLogin = $HelperObject->TestCustomerUserCreate();
+my $TestCustomerUserLogin = $HelperObject->TestCustomerUserCreate();
+
+# set user details
+my $TestUserLogin = $HelperObject->TestUserCreate();
+my $TestUserID    = $UserObject->UserLookup(
+    UserLogin => $TestUserLogin,
+);
 
 # ----------------------------------------
 # Create new services
@@ -91,7 +103,7 @@ for my $ServiceData (@Services) {
 # Assign services to customer (0 and 1)
 # ----------------------------------------
 my $Success = $ServiceObject->CustomerUserServiceMemberAdd(
-    CustomerUserLogin => $TestUserLogin,
+    CustomerUserLogin => $TestCustomerUserLogin,
     ServiceID         => $Services[0]->{ServiceID},
     Active            => 1,
     UserID            => 1,
@@ -100,12 +112,12 @@ my $Success = $ServiceObject->CustomerUserServiceMemberAdd(
 # sanity test
 $Self->True(
     $Success,
-    "CustomerUserServiceMemberAdd() for user $TestUserLogin, and Service $Services[0]->{Name}"
+    "CustomerUserServiceMemberAdd() for user $TestCustomerUserLogin, and Service $Services[0]->{Name}"
         . " with true",
 );
 
 $Success = $ServiceObject->CustomerUserServiceMemberAdd(
-    CustomerUserLogin => $TestUserLogin,
+    CustomerUserLogin => $TestCustomerUserLogin,
     ServiceID         => $Services[1]->{ServiceID},
     Active            => 1,
     UserID            => 1,
@@ -114,7 +126,7 @@ $Success = $ServiceObject->CustomerUserServiceMemberAdd(
 # sanity test
 $Self->True(
     $Success,
-    "CustomerUserServiceMemberAdd() for user $TestUserLogin, and Service $Services[1]->{Name}"
+    "CustomerUserServiceMemberAdd() for user $TestCustomerUserLogin, and Service $Services[1]->{Name}"
         . " with true",
 );
 
@@ -125,7 +137,7 @@ $Self->True(
 # ----------------------------------------
 my $TicketID1 = $TicketObject->TicketCreate(
     TN            => undef,
-    Title         => 'test',
+    Title         => $Services[0]->{ServiceID},
     QueueID       => 1,
     Lock          => 'unlock',
     Priority      => '3 normal',
@@ -134,7 +146,7 @@ my $TicketID1 = $TicketObject->TicketCreate(
     Service       => undef,
     SLA           => undef,
     CustomerID    => undef,
-    CustomerUser  => $TestUserLogin,
+    CustomerUser  => $TestCustomerUserLogin,
     OwnerID       => 1,
     ResponsibleID => 1,
     ArchiveFlag   => undef,
@@ -365,7 +377,41 @@ my @Tests = (
             UserID => $UserID,
             Ticket => \%Ticket1,
             Config => {
-                ServiceID => $Services[0]->{ServiceID},
+                ServiceID => $Services[1]->{ServiceID},
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => "Correct Ticket->Title",
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket1,
+            Config => {
+                ServiceID => '<OTRS_Ticket_Title>',
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => "Wrong Ticket->NotExisting",
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket1,
+            Config => {
+                ServiceID => '<OTRS_Ticket_NotExisting>',
+            },
+        },
+        Success => 0,
+    },
+    {
+        Name   => "Correct Using Different UserID",
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket1,
+            Config => {
+                Service => $Services[0]->{Name},
+                UserID  => $TestUserID,
             },
         },
         Success => 1,
@@ -373,6 +419,10 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
+
+    # make a deep copy to avoid changing the definition
+    my $OrigTest = Storable::dclone($Test);
+
     my $Success = $ModuleObject->Run(
         %{ $Test->{Config} },
         ProcessEntityID          => 'P1',
@@ -402,23 +452,46 @@ for my $Test (@Tests) {
         for my $Attribute ( sort keys %{ $Test->{Config}->{Config} } ) {
 
             $Self->True(
-                $Ticket{$Attribute},
+                defined $Ticket{$Attribute},
                 "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for TicketID:"
                     . " $TicketID exists with True",
             );
 
+            my $ExpectedValue = $Test->{Config}->{Config}->{$Attribute};
+            if (
+                $OrigTest->{Config}->{Config}->{$Attribute}
+                =~ m{\A<OTRS_Ticket_([A-Za-z0-9_]+)>\z}msx
+                )
+            {
+                $ExpectedValue = $Ticket{$1} // '';
+                $Self->IsNot(
+                    $Test->{Config}->{Config}->{$Attribute},
+                    $OrigTest->{Config}->{Config}->{$Attribute},
+                    "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute value: $OrigTest->{Config}->{Config}->{$Attribute} should been replaced",
+                );
+            }
+
             $Self->Is(
                 $Ticket{$Attribute},
-                $Test->{Config}->{Config}->{$Attribute},
+                $ExpectedValue,
                 "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for TicketID:"
                     . " $TicketID match expected value",
+            );
+        }
+
+        if ( $OrigTest->{Config}->{Config}->{UserID} ) {
+            $Self->Is(
+                $Test->{Config}->{Config}->{UserID},
+                undef,
+                "$ModuleName - Test:'$Test->{Name}' | Attribute: UserID for TicketID:"
+                    . " $TicketID should be removed (as it was used)",
             );
         }
     }
     else {
         $Self->False(
             $Success,
-            "$ModuleName Run() - Test:'$Test->{Name}' | excecuted with False"
+            "$ModuleName Run() - Test:'$Test->{Name}' | executed with False"
         );
     }
 }

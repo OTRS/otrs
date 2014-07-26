@@ -1,0 +1,286 @@
+---
+Activities:
+  Activity-12345678901234567890123456789012:
+    ActivityDialogs:
+    - ActivityDialog-22345678901234567890123456789012
+    - ActivityDialog-12345678901234567890123456789012
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-22345678901234567890123456789012
+        '2': ActivityDialog-12345678901234567890123456789012
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: Activity-12345678901234567890123456789012
+    ID: '1'
+    Name: GUID 1 A1
+  Activity-22345678901234567890123456789012:
+    ActivityDialogs:
+    - ActivityDialog-12345678901234567890123456789012
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-12345678901234567890123456789012
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: Activity-22345678901234567890123456789012
+    ID: '2'
+    Name: GUID 1 A2
+  Activity-32345678901234567890123456789012:
+    ActivityDialogs:
+    - ActivityDialog-32345678901234567890123456789012
+    - ActivityDialog-12345678901234567890123456789012
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-32345678901234567890123456789012
+        '2': ActivityDialog-12345678901234567890123456789012
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: Activity-32345678901234567890123456789012
+    ID: '3'
+    Name: GUID 1 A3
+  Activity-42345678901234567890123456789012:
+    ActivityDialogs:
+    - ActivityDialog-12345678901234567890123456789012
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-12345678901234567890123456789012
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: Activity-42345678901234567890123456789012
+    ID: '4'
+    Name: GUID 1 A4
+  Activity-52345678901234567890123456789012:
+    ActivityDialogs: []
+    ChangeTime: 2013-10-22 14:12:51
+    Config: {}
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: Activity-52345678901234567890123456789012
+    ID: '5'
+    Name: GUID 1 A5
+  Activity-62345678901234567890123456789012:
+    ActivityDialogs: []
+    ChangeTime: 2013-10-22 14:12:51
+    Config: {}
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: Activity-62345678901234567890123456789012
+    ID: '6'
+    Name: GUID 1 A6
+ActivityDialogs:
+  ActivityDialog-12345678901234567890123456789012:
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Submit RMA details
+      FieldOrder:
+      - Title
+      - CustomerID
+      - DynamicField_VendorTicket
+      - DynamicField_RMANumber
+      - DynamicField_TicketFreeText1
+      - DynamicField_RMAReplacementSN
+      - DynamicField_RMAContactPerson
+      - DynamicField_RMAShippingAdress
+      Fields:
+        CustomerID:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_RMAContactPerson:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_RMANumber:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_RMAReplacementSN:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_RMAShippingAdress:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_TicketFreeText1:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_VendorTicket:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        Title:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: '0'
+      SubmitAdviceText: Don't forget to link this RMA ticket to the original customer
+        ticket
+      SubmitButtonText: ''
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: ActivityDialog-12345678901234567890123456789012
+    ID: '1'
+    Name: GUID 1 AD1
+  ActivityDialog-22345678901234567890123456789012:
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Defect unit received from customer
+      FieldOrder:
+      - DynamicField_RMADefectReceived
+      Fields:
+        DynamicField_RMADefectReceived:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: Vul de datum in waarop de defecte unit ontvangen is door
+            ons
+          Display: '1'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: ActivityDialog-22345678901234567890123456789012
+    ID: '2'
+    Name: GUID 1 AD2
+  ActivityDialog-32345678901234567890123456789012:
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Defect unit shipped to vendor
+      FieldOrder:
+      - DynamicField_RMADefectShipped
+      Fields:
+        DynamicField_RMADefectShipped:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: Vul de datum in waarop de defecte unit naar de vendor
+            verstuurd is
+          Display: '1'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: ActivityDialog-32345678901234567890123456789012
+    ID: '3'
+    Name: GUID 1 AD3
+Process:
+  Activities:
+  - Activity-12345678901234567890123456789012
+  - Activity-22345678901234567890123456789012
+  - Activity-32345678901234567890123456789012
+  - Activity-42345678901234567890123456789012
+  - Activity-52345678901234567890123456789012
+  - Activity-62345678901234567890123456789012
+  ChangeTime: 2013-10-22 14:12:51
+  Config:
+    Description: Best effort/Return To Factory hardware replacements. Klant dient
+      defecte unit aan ons op te sturen, wij sturen die terug aan vendor, we krijgen
+      van vendor een replacement unit terug die weer doorgestuurd moet worden aan
+      de klant. Geen Advance Replacement!
+    Path:
+      Activity-12345678901234567890123456789012:
+        Transition-22345678901234567890123456789012:
+          ActivityEntityID: Activity-32345678901234567890123456789012
+      Activity-22345678901234567890123456789012:
+        Transition-12345678901234567890123456789012:
+          ActivityEntityID: Activity-12345678901234567890123456789012
+      Activity-32345678901234567890123456789012:
+        Transition-32345678901234567890123456789012:
+          ActivityEntityID: Activity-42345678901234567890123456789012
+      Activity-42345678901234567890123456789012: {}
+      Activity-52345678901234567890123456789012: {}
+      Activity-62345678901234567890123456789012: {}
+    StartActivity: Activity-22345678901234567890123456789012
+    StartActivityDialog: ''
+  CreateTime: 2013-10-22 14:12:51
+  EntityID: Process-12345678901234567890123456789012
+  ID: '1'
+  Layout:
+    Activity-12345678901234567890123456789012:
+      left: '331'
+      top: '58'
+    Activity-22345678901234567890123456789012:
+      left: '157'
+      top: '6'
+    Activity-32345678901234567890123456789012:
+      left: '499'
+      top: '121'
+    Activity-42345678901234567890123456789012:
+      left: '677'
+      top: '184'
+    Activity-52345678901234567890123456789012:
+      left: '876'
+      top: '259'
+    Activity-62345678901234567890123456789012:
+      left: '1075'
+      top: '344'
+  Name: GUID 1
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-22345678901234567890123456789012
+  - Transition-12345678901234567890123456789012
+  - Transition-32345678901234567890123456789012
+Transitions:
+  Transition-12345678901234567890123456789012:
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_TicketFreeText1:
+              Match: .*
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: Transition-12345678901234567890123456789012
+    ID: '1'
+    Name: GUID 1 T1
+  Transition-22345678901234567890123456789012:
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_RMADefectReceived:
+              Match: .*
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: Transition-22345678901234567890123456789012
+    ID: '2'
+    Name: GUID 1 T2
+  Transition-32345678901234567890123456789012:
+    ChangeTime: 2013-10-22 14:12:51
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_RMADefectShipped:
+              Match: .*
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2013-10-22 14:12:51
+    EntityID: Transition-32345678901234567890123456789012
+    ID: '3'
+    Name: GUID 1 T3

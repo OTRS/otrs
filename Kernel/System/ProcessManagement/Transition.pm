@@ -73,6 +73,22 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
+    # get the debug parameters
+    $Self->{TransitionDebug}
+        = $Self->{ConfigObject}->Get('ProcessManagement::Transition::Debug::Enabled') || 0;
+    $Self->{TransitionDebugLogPriority}
+        = $Self->{ConfigObject}->Get('ProcessManagement::Transition::Debug::LogPriority')
+        || 'debug';
+
+    my $TransitionDebugConfigFilters
+        = $Self->{ConfigObject}->Get('ProcessManagement::Transition::Debug::Filter') || {};
+    for my $FilterName ( sort keys %{$TransitionDebugConfigFilters} ) {
+        my %Filter = %{ $TransitionDebugConfigFilters->{$FilterName} };
+        for my $FilterItem ( sort keys %Filter ) {
+            $Self->{TransitionDebugFilters}->{$FilterItem} = $Filter{$FilterItem};
+        }
+    }
+
     return $Self;
 }
 
@@ -134,7 +150,10 @@ sub TransitionGet {
 
     for my $Needed (qw(TransitionEntityID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
             return;
         }
     }
@@ -142,14 +161,17 @@ sub TransitionGet {
     my $Transition = $Self->{ConfigObject}->Get('Process::Transition');
 
     if ( !IsHashRefWithData($Transition) ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Transition config!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Transition config!',
+        );
         return;
     }
 
     if ( !IsHashRefWithData( $Transition->{ $Param{TransitionEntityID} } ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "No data for Transition '$Param{TransitionEntityID}' found!"
+            Message  => "No data for Transition '$Param{TransitionEntityID}' found!",
         );
         return;
     }
@@ -188,18 +210,70 @@ sub TransitionCheck {
     # Check if we have TransitionEntityID and Data
     for my $Needed (qw(TransitionEntityID Data)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!", );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
             return;
         }
     }
 
-    # Check if TransitionEntityID is not empty (eighter Array or String with length)
+    # Check if TransitionEntityID is not empty (either Array or String with length)
     if ( !length $Param{TransitionEntityID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Need TransitionEntityID or TransitionEntityID array!",
         );
         return;
+    }
+
+    # check if debug filters apply (ticket)
+    if ( $Self->{TransitionDebug} ) {
+
+        DEBUGFILTER:
+        for my $DebugFilter ( sort keys %{ $Self->{TransitionDebugFilters} } ) {
+            next DEBUGFILTER if $DebugFilter eq 'TransitionEntityID';
+            next DEBUGFILTER if !$Self->{TransitionDebugFilters}->{$DebugFilter};
+            next DEBUGFILTER if ref $Param{Data} ne 'HASH';
+
+            if ( $DebugFilter =~ m{<OTRS_TICKET_([^>]+)>}msx ) {
+                my $TicketParam = $1;
+
+                if (
+                    defined $Param{Data}->{$TicketParam}
+                    && $Param{Data}->{$TicketParam}
+                    )
+                {
+                    if ( ref $Param{Data}->{$TicketParam} eq 'ARRAY' ) {
+                        for my $Item ( @{ $Param{Data}->{$TicketParam} } ) {
+
+                            # if matches for one item go to next filter (debug keeps active)
+                            if ( $Self->{TransitionDebugFilters}->{$DebugFilter} eq $Item ) {
+                                next DEBUGFILTER
+                            }
+                        }
+
+                        # if no matches then deactivate debug
+                        $Self->{TransitionDebug} = 0;
+                        last DEBUGFILTER;
+                    }
+
+                    elsif (
+                        $Self->{TransitionDebugFilters}->{$DebugFilter} ne
+                        $Param{Data}->{$TicketParam}
+                        )
+                    {
+                        $Self->{TransitionDebug} = 0;
+                        last DEBUGFILTER;
+                    }
+
+                    elsif ( !defined $Param{Data}->{$TicketParam} ) {
+                        $Self->{TransitionDebug} = 0;
+                        last DEBUGFILTER;
+                    }
+                }
+            }
+        }
     }
 
     # If we got just a string, make $Param{TransitionEntityID} an Array
@@ -229,9 +303,23 @@ sub TransitionCheck {
         return;
     }
 
+    $Self->{TransitionDebugOrig} = $Self->{TransitionDebug};
+
     # Loop through all submitted TransitionEntityID's
     TRANSITIONLOOP:
     for my $TransitionEntityID ( @{ $Param{TransitionEntityID} } ) {
+
+        $Self->{TransitionDebug} = $Self->{TransitionDebugOrig};
+
+        # check if debug filters apply (Transition) (only if TransitionDebug is active)
+        if (
+            $Self->{TransitionDebug}
+            && defined $Self->{TransitionDebugFilters}->{'TransitionEntityID'}
+            && $Self->{TransitionDebugFilters}->{'TransitionEntityID'} ne $TransitionEntityID
+            )
+        {
+            $Self->{TransitionDebug} = 0;
+        }
 
         # Check if the submitted TransitionEntityID has a config
         if ( !IsHashRefWithData( $Transitions->{$TransitionEntityID} ) ) {
@@ -243,7 +331,7 @@ sub TransitionCheck {
         }
 
         # Check if we have TransitionConditions
-        if ( !IsHashRefWithData( $Transitions->{$TransitionEntityID}{Condition} ) ) {
+        if ( !IsHashRefWithData( $Transitions->{$TransitionEntityID}->{Condition} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "No conditions for transition $TransitionEntityID found!",
@@ -251,13 +339,37 @@ sub TransitionCheck {
             return;
         }
 
-        # If we don't have a Condition->Type
+        my $ConditionLinking = $Transitions->{$TransitionEntityID}->{ConditionLinking} || '';
+
+        # If we don't have a ConditionLinking
         # set it to 'and' by default
-        my $ConditionType = $Transitions->{$TransitionEntityID}{Condition}{Type} || 'and';
+        # compatibility with OTRS 3.3.x
+        if ( !$ConditionLinking ) {
+            $ConditionLinking = $Transitions->{$TransitionEntityID}->{Condition}->{Type} || 'and';
+        }
+        if (
+            $Self->{TransitionDebug}
+            && !$Transitions->{$TransitionEntityID}->{Condition}->{ConditionLinking}
+            && !$Transitions->{$TransitionEntityID}->{Condition}->{Type}
+            )
+        {
+            $Self->{LogObject}->Log(
+                Priority => $Self->{TransitionDebugLogPriority},
+                Message =>
+                    "Transition:'$Transitions->{$TransitionEntityID}->{Name}' No Condition Linking"
+                    . " as Condition->Type or Condition->ConditionLinking was found, using 'and' as"
+                    . " default!",
+            );
+        }
 
         # If there is something else than 'and', 'or', 'xor'
         # log defect Transition Config
-        if ( $ConditionType ne 'and' && $ConditionType ne 'or' && $ConditionType ne 'xor' ) {
+        if (
+            $ConditionLinking ne 'and'
+            && $ConditionLinking ne 'or'
+            && $ConditionLinking ne 'xor'
+            )
+        {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Invalid Condition->Type in $TransitionEntityID!",
@@ -267,13 +379,16 @@ sub TransitionCheck {
         my ( $ConditionSuccess, $ConditionFail ) = ( 0, 0 );
 
         CONDITIONLOOP:
-        for my $Cond ( sort { $a cmp $b } keys %{ $Transitions->{$TransitionEntityID}{Condition} } )
+        for my $Cond (
+            sort { $a cmp $b }
+            keys %{ $Transitions->{$TransitionEntityID}->{Condition} }
+            )
         {
 
-            next CONDITIONLOOP if $Cond eq 'Type';
+            next CONDITIONLOOP if $Cond eq 'Type' || $Cond eq 'ConditionLinking';
 
             # get the condition
-            my $ActualCondition = $Transitions->{$TransitionEntityID}{Condition}{$Cond};
+            my $ActualCondition = $Transitions->{$TransitionEntityID}->{Condition}->{$Cond};
 
             # Check if we have Fields in our Cond
             if ( !IsHashRefWithData( $ActualCondition->{Fields} ) )
@@ -288,6 +403,18 @@ sub TransitionCheck {
 
             # If we don't have a Condition->$Cond->Type, set it to 'and' by default
             my $CondType = $ActualCondition->{Type} || 'and';
+            if (
+                $Self->{TransitionDebug}
+                && !$ActualCondition->{Type}
+                )
+            {
+                $Self->{LogObject}->Log(
+                    Priority => $Self->{TransitionDebugLogPriority},
+                    Message =>
+                        "Transition:'$Transitions->{$TransitionEntityID}->{Name}' Condition:'$Cond'"
+                        . " No Condition Type found, using 'and' as default",
+                );
+            }
 
             # If there is something else than 'and', 'or', 'xor'
             # log defect Transition Config
@@ -304,27 +431,40 @@ sub TransitionCheck {
             FIELDLOOP:
             for my $Field ( sort keys %{ $ActualCondition->{Fields} } ) {
 
-                # If we have just a String transform it into stringcheck condition
-                if ( ref $ActualCondition->{Fields}{$Field} eq '' ) {
-                    $ActualCondition->{Fields}{$Field} = {
+                # If we have just a String transform it into string check condition
+                if ( ref $ActualCondition->{Fields}->{$Field} eq '' ) {
+                    $ActualCondition->{Fields}->{$Field} = {
                         Type  => 'String',
-                        Match => $ActualCondition->{Fields}{$Field},
+                        Match => $ActualCondition->{Fields}->{$Field},
                     };
                 }
 
                 # If we have an Arrayref in "Fields" we deal with just values
-                # -> transform it into a { Type => 'Array', Match => [1,2,3,4] } struct
+                # -> transform it into a { Type => 'Array', Match => [1,2,3,4] } structure
                 # to unify testing later on
-                if ( ref $ActualCondition->{Fields}{$Field} eq 'ARRAY' ) {
-                    $ActualCondition->{Fields}{$Field} = {
+                if ( ref $ActualCondition->{Fields}->{$Field} eq 'ARRAY' ) {
+                    $ActualCondition->{Fields}->{$Field} = {
                         Type  => 'Array',
-                        Match => $ActualCondition->{Fields}{$Field},
+                        Match => $ActualCondition->{Fields}->{$Field},
                     };
                 }
 
                 # If we don't have a Condition->$Cond->Fields->Field->Type
                 # set it to 'String' by default
-                my $FieldType = $ActualCondition->{Fields}{$Field}{Type} || 'String';
+                my $FieldType = $ActualCondition->{Fields}->{$Field}->{Type} || 'String';
+                if (
+                    $Self->{TransitionDebug}
+                    && !$ActualCondition->{Fields}->{$Field}->{Type}
+                    )
+                {
+                    $Self->{LogObject}->Log(
+                        Priority => $Self->{TransitionDebugLogPriority},
+                        Message =>
+                            "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                            . " Condition:'$Cond' Field:'$Field'"
+                            . " No Field Type found, using 'String' as default",
+                    );
+                }
 
                 # If there is something else than 'String', 'Regexp', 'Hash', 'Array', 'Module'
                 # log defect Transition Config
@@ -343,17 +483,17 @@ sub TransitionCheck {
                     return;
                 }
 
-                if ( $ActualCondition->{Fields}{$Field}{Type} eq 'String' ) {
+                if ( $ActualCondition->{Fields}->{$Field}->{Type} eq 'String' ) {
 
                     # if our Check contains anything else than a string we can't check
                     # Special Condition: if Match contains '0' we can check
                     #
                     if (
                         (
-                            !$ActualCondition->{Fields}{$Field}{Match}
-                            && $ActualCondition->{Fields}{$Field}{Match} ne '0'
+                            !$ActualCondition->{Fields}->{$Field}->{Match}
+                            && $ActualCondition->{Fields}->{$Field}->{Match} ne '0'
                         )
-                        || ref $ActualCondition->{Fields}{$Field}{Match}
+                        || ref $ActualCondition->{Fields}->{$Field}->{Match}
                         )
                     {
                         $Self->{LogObject}->Log(
@@ -370,33 +510,66 @@ sub TransitionCheck {
                     # then compare it to our Config
                     if (
                         defined $Param{Data}->{$Field}
-                        && defined $ActualCondition->{Fields}{$Field}{Match}
+                        && defined $ActualCondition->{Fields}->{$Field}->{Match}
                         && ( $Param{Data}->{$Field} || $Param{Data}->{$Field} eq '0' )
                         && ref $Param{Data}->{$Field} eq ''
-                        && $ActualCondition->{Fields}{$Field}{Match} eq $Param{Data}->{$Field}
+                        && $ActualCondition->{Fields}->{$Field}->{Match} eq $Param{Data}->{$Field}
                         )
                     {
                         $FieldSuccess++;
 
+                        if ( $Self->{TransitionDebug} ) {
+                            $Self->{LogObject}->Log(
+                                Priority => $Self->{TransitionDebugLogPriority},
+                                Message =>
+                                    "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                    . " Condition:'$Cond' Matched Field:'$Field' as string"
+                                    . " ($Param{Data}->{$Field} eq"
+                                    . " $ActualCondition->{Fields}->{$Field}->{Match})",
+                            );
+                        }
+
                         # Successful check if we just need one matching Condition
                         # to make this Transition valid
-                        return $TransitionEntityID
-                            if $ConditionType eq 'or' && $CondType eq 'or';
+                        if ( $ConditionLinking eq 'or' && $CondType eq 'or' ) {
+                            if ( $Self->{TransitionDebug} ) {
+                                $Self->{LogObject}->Log(
+                                    Priority => $Self->{TransitionDebugLogPriority},
+                                    Message =>
+                                        "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                        . " Condition:'$Cond' Success on"
+                                        . " Condition Linking:'$ConditionLinking'"
+                                        . " and Condition Type:'$CondType'",
+                                );
+                            }
+                            return $TransitionEntityID;
+                        }
 
-                        next CONDITIONLOOP if $ConditionType ne 'or' && $CondType eq 'or';
+                        next CONDITIONLOOP if $ConditionLinking ne 'or' && $CondType eq 'or';
                     }
                     else {
                         $FieldFail++;
 
+                        if ( $Self->{TransitionDebug} ) {
+                            $Self->{LogObject}->Log(
+                                Priority => $Self->{TransitionDebugLogPriority},
+                                Message =>
+                                    "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                    . " Condition:'$Cond' Not Matched Field:'$Field' as string"
+                                    . " ($Param{Data}->{$Field} eq"
+                                    . " $ActualCondition->{Fields}->{$Field}->{Match})",
+                            );
+                        }
+
                         # Failed check if we have all 'and' conditions
-                        next TRANSITIONLOOP if $ConditionType eq 'and' && $CondType eq 'and';
+                        next TRANSITIONLOOP if $ConditionLinking eq 'and' && $CondType eq 'and';
 
                         # Try next Cond if all Cond Fields have to be true
                         next CONDITIONLOOP if $CondType eq 'and';
                     }
                     next FIELDLOOP;
                 }
-                elsif ( $ActualCondition->{Fields}{$Field}{Type} eq 'Array' ) {
+                elsif ( $ActualCondition->{Fields}->{$Field}->{Type} eq 'Array' ) {
 
                     # 1. go through each Condition->$Cond->Fields->$Field->Value (map)
                     # 2. assign the value to $CheckValue
@@ -408,38 +581,67 @@ sub TransitionCheck {
                         $CheckValue = $_;
                         grep { $CheckValue eq $_ } @{ $Param{Data}->{$Field} }
                         }
-                        @{ $ActualCondition->{Fields}{$Field}{Match} };
+                        @{ $ActualCondition->{Fields}->{$Field}->{Match} };
 
                     # if the found amount is the same as the "toCheck" amount we succeeded
                     if (
                         scalar @CheckResults
-                        == scalar @{ $ActualCondition->{Fields}{$Field}{Match} }
+                        == scalar @{ $ActualCondition->{Fields}->{$Field}->{Match} }
                         )
                     {
                         $FieldSuccess++;
 
+                        if ( $Self->{TransitionDebug} ) {
+                            $Self->{LogObject}->Log(
+                                Priority => $Self->{TransitionDebugLogPriority},
+                                Message =>
+                                    "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                    . " Condition:'$Cond' Matched Field:'$Field' as array",
+                            );
+                        }
+
                         # Successful check if we just need one matching Condition
                         # to make this Transition valid
-                        return $TransitionEntityID
-                            if $ConditionType eq 'or' && $CondType eq 'or';
+                        if ( $ConditionLinking eq 'or' && $CondType eq 'or' ) {
+                            if ( $Self->{TransitionDebug} ) {
+                                $Self->{LogObject}->Log(
+                                    Priority => $Self->{TransitionDebugLogPriority},
+                                    Message =>
+                                        "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                        . " Condition:'$Cond' Success on"
+                                        . " Condition Linking:'$ConditionLinking'"
+                                        . " and Condition Type:'$CondType'",
+                                );
+                            }
+                            return $TransitionEntityID;
+                        }
 
-                        next CONDITIONLOOP if $ConditionType ne 'or' && $CondType eq 'or';
+                        next CONDITIONLOOP if $ConditionLinking ne 'or' && $CondType eq 'or';
                     }
                     else {
                         $FieldFail++;
 
+                        if ( $Self->{TransitionDebug} ) {
+                            $Self->{LogObject}->Log(
+                                Priority => $Self->{TransitionDebugLogPriority},
+                                Message =>
+                                    "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                    . " Condition:'$Cond' Not Matched Field:'$Field' as array",
+                            );
+                        }
+
                         # Failed check if we have all 'and' conditions
-                        next TRANSITIONLOOP if $ConditionType eq 'and' && $CondType eq 'and';
+                        next TRANSITIONLOOP if $ConditionLinking eq 'and' && $CondType eq 'and';
 
                         # Try next Cond if all Cond Fields have to be true
                         next CONDITIONLOOP if $CondType eq 'and';
                     }
                     next FIELDLOOP;
                 }
-                elsif ( $ActualCondition->{Fields}{$Field}{Type} eq 'Hash' ) {
+                elsif ( $ActualCondition->{Fields}->{$Field}->{Type} eq 'Hash' ) {
 
                     # if our Check doesn't contain a hash
-                    if ( ref $ActualCondition->{Fields}{$Field}{Match} ne 'HASH' ) {
+                    if ( ref $ActualCondition->{Fields}->{$Field}->{Match} ne 'HASH' ) {
                         $Self->{LogObject}->Log(
                             Priority => 'error',
                             Message =>
@@ -459,50 +661,76 @@ sub TransitionCheck {
                         next FIELDLOOP;
                     }
 
-                    # Find all Data Hashvalues that equal to the Condition Match Values
+                    # Find all Data Hash values that equal to the Condition Match Values
                     my @CheckResults = grep {
-                        $Param{Data}->{$Field}{$_} eq $ActualCondition->{Fields}{$Field}{Match}{$_}
-                    } keys %{ $ActualCondition->{Fields}{$Field}{Match} };
+                        $Param{Data}->{$Field}->{$_} eq
+                            $ActualCondition->{Fields}->{$Field}->{Match}->{$_}
+                    } keys %{ $ActualCondition->{Fields}->{$Field}->{Match} };
 
                     # If the amount of Results equals the amount of Keys in our hash
                     # this part matched
                     if (
                         scalar @CheckResults
-                        == scalar keys %{ $ActualCondition->{Fields}{$Field}{Match} }
+                        == scalar keys %{ $ActualCondition->{Fields}->{$Field}->{Match} }
                         )
                     {
 
                         $FieldSuccess++;
 
+                        $Self->{LogObject}->Log(
+                            Priority => $Self->{TransitionDebugLogPriority},
+                            Message =>
+                                "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                . " Condition:'$Cond' Matched Field:'$Field' as hash",
+                        );
+
                         # Successful check if we just need one matching Condition
                         # to make this Transition valid
-                        return $TransitionEntityID
-                            if $ConditionType eq 'or' && $CondType eq 'or';
+                        if ( $ConditionLinking eq 'or' && $CondType eq 'or' ) {
+                            if ( $Self->{TransitionDebug} ) {
+                                $Self->{LogObject}->Log(
+                                    Priority => $Self->{TransitionDebugLogPriority},
+                                    Message =>
+                                        "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                        . " Condition:'$Cond' Success on"
+                                        . " Condition Linking:'$ConditionLinking'"
+                                        . " and Condition Type:'$CondType'",
+                                );
+                            }
+                            return $TransitionEntityID;
+                        }
 
-                        next CONDITIONLOOP if $ConditionType ne 'or' && $CondType eq 'or';
+                        next CONDITIONLOOP if $ConditionLinking ne 'or' && $CondType eq 'or';
 
                     }
                     else {
                         $FieldFail++;
 
+                        $Self->{LogObject}->Log(
+                            Priority => $Self->{TransitionDebugLogPriority},
+                            Message =>
+                                "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                . " Condition:'$Cond' Not Matched Field:'$Field' as hash",
+                        );
+
                         # Failed check if we have all 'and' conditions
-                        next TRANSITIONLOOP if $ConditionType eq 'and' && $CondType eq 'and';
+                        next TRANSITIONLOOP if $ConditionLinking eq 'and' && $CondType eq 'and';
 
                         # Try next Cond if all Cond Fields have to be true
                         next CONDITIONLOOP if $CondType eq 'and';
                     }
                     next FIELDLOOP;
                 }
-                elsif ( $ActualCondition->{Fields}{$Field}{Type} eq 'Regexp' )
+                elsif ( $ActualCondition->{Fields}->{$Field}->{Type} eq 'Regexp' )
                 {
 
                     # if our Check contains anything else then a string we can't check
                     if (
-                        !$ActualCondition->{Fields}{$Field}{Match}
+                        !$ActualCondition->{Fields}->{$Field}->{Match}
                         ||
                         (
-                            ref $ActualCondition->{Fields}{$Field}{Match} ne 'Regexp'
-                            && ref $ActualCondition->{Fields}{$Field}{Match} ne ''
+                            ref $ActualCondition->{Fields}->{$Field}->{Match} ne 'Regexp'
+                            && ref $ActualCondition->{Fields}->{$Field}->{Match} ne ''
                         )
                         )
                     {
@@ -516,11 +744,11 @@ sub TransitionCheck {
                     }
 
                     # precompile Regexp if is a string
-                    if ( ref $ActualCondition->{Fields}{$Field}{Match} eq '' ) {
-                        my $Match = $ActualCondition->{Fields}{$Field}{Match};
+                    if ( ref $ActualCondition->{Fields}->{$Field}->{Match} eq '' ) {
+                        my $Match = $ActualCondition->{Fields}->{$Field}->{Match};
 
                         eval {
-                            $ActualCondition->{Fields}{$Field}{Match} = qr{$Match};
+                            $ActualCondition->{Fields}->{$Field}->{Match} = qr{$Match};
                         };
                         if ($@) {
                             $Self->{LogObject}->Log(
@@ -537,42 +765,72 @@ sub TransitionCheck {
                     if (
                         $Param{Data}->{$Field}
                         && ref $Param{Data}->{$Field} eq ''
-                        && $Param{Data}->{$Field} =~ $ActualCondition->{Fields}{$Field}{Match}
+                        && $Param{Data}->{$Field} =~ $ActualCondition->{Fields}->{$Field}->{Match}
                         )
                     {
                         $FieldSuccess++;
 
+                        $Self->{LogObject}->Log(
+                            Priority => $Self->{TransitionDebugLogPriority},
+                            Message =>
+                                "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                . " Condition:'$Cond' Matched Field:'$Field' as RegExp"
+                                . " ($Param{Data}->{$Field} eq"
+                                . " $ActualCondition->{Fields}->{$Field}->{Match})",
+                        );
+
                         # Successful check if we just need one matching Condition
                         # to make this Transition valid
-                        return $TransitionEntityID
-                            if $ConditionType eq 'or' && $CondType eq 'or';
+                        if ( $ConditionLinking eq 'or' && $CondType eq 'or' ) {
+                            if ( $Self->{TransitionDebug} ) {
+                                $Self->{LogObject}->Log(
+                                    Priority => $Self->{TransitionDebugLogPriority},
+                                    Message =>
+                                        "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                        . " Condition:'$Cond' Success on"
+                                        . " Condition Linking:'$ConditionLinking'"
+                                        . " and Condition Type:'$CondType'",
+                                );
+                            }
+                            return $TransitionEntityID;
+                        }
 
-                        next CONDITIONLOOP if $ConditionType ne 'or' && $CondType eq 'or';
+                        next CONDITIONLOOP if $ConditionLinking ne 'or' && $CondType eq 'or';
                     }
                     else {
                         $FieldFail++;
 
+                        $Self->{LogObject}->Log(
+                            Priority => $Self->{TransitionDebugLogPriority},
+                            Message =>
+                                "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                . " Condition:'$Cond' Not Matched Field:'$Field' as RegExp"
+                                . " ($Param{Data}->{$Field} eq"
+                                . " $ActualCondition->{Fields}->{$Field}->{Match})",
+                        );
+
                         # Failed check if we have all 'and' conditions
-                        next TRANSITIONLOOP if $ConditionType eq 'and' && $CondType eq 'and';
+                        next TRANSITIONLOOP if $ConditionLinking eq 'and' && $CondType eq 'and';
 
                         # Try next Cond if all Cond Fields have to be true
                         next CONDITIONLOOP if $CondType eq 'and';
                     }
                     next FIELDLOOP;
                 }
-                elsif ( $ActualCondition->{Fields}{$Field}{Type} eq 'Module' ) {
+                elsif ( $ActualCondition->{Fields}->{$Field}->{Type} eq 'Module' ) {
 
                     # Load Validation Modules
                     # Default location for validation modules:
                     # Kernel/System/ProcessManagement/TransitionValidation/
                     if (
-                        !$Self->{MainObject}->Require( $ActualCondition->{Fields}{$Field}{Match} )
+                        !$Self->{MainObject}
+                        ->Require( $ActualCondition->{Fields}->{$Field}->{Match} )
                         )
                     {
                         $Self->{LogObject}->Log(
                             Priority => 'error',
                             Message  => "Can't load "
-                                . $ActualCondition->{Fields}{$Field}{Type}
+                                . $ActualCondition->{Fields}->{$Field}->{Type}
                                 . "Module for Transition->$TransitionEntityID->Condition->$Cond->"
                                 . "Fields->$Field validation!",
                         );
@@ -581,7 +839,7 @@ sub TransitionCheck {
 
                     # create new ValidateModuleObject
                     my $ValidateModuleObject =
-                        $ActualCondition->{Fields}{$Field}{Match}->new(
+                        $ActualCondition->{Fields}->{$Field}->{Match}->new(
                         ConfigObject => $Self->{ConfigObject},
                         LogObject    => $Self->{LogObject},
                         );
@@ -590,18 +848,47 @@ sub TransitionCheck {
                     if ( $ValidateModuleObject->Validate( Data => $Param{Data} ) ) {
                         $FieldSuccess++;
 
+                        $Self->{LogObject}->Log(
+                            Priority => $Self->{TransitionDebugLogPriority},
+                            Message =>
+                                "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                . " Condition:'$Cond' Matched Field:'$Field'"
+                                . " with Transition Validation Module:"
+                                . " $ActualCondition->{Fields}->{$Field}->{Type}",
+                        );
+
                         # Successful check if we just need one matching Condition
                         # to make this Transition valid
-                        return $TransitionEntityID
-                            if $ConditionType eq 'or' && $CondType eq 'or';
+                        if ( $ConditionLinking eq 'or' && $CondType eq 'or' ) {
+                            if ( $Self->{TransitionDebug} ) {
+                                $Self->{LogObject}->Log(
+                                    Priority => $Self->{TransitionDebugLogPriority},
+                                    Message =>
+                                        "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                        . " Condition:'$Cond' Success on"
+                                        . " Condition Linking:'$ConditionLinking'"
+                                        . " and Condition Type:'$CondType'",
+                                );
+                            }
+                            return $TransitionEntityID;
+                        }
 
-                        next CONDITIONLOOP if $ConditionType ne 'or' && $CondType eq 'or';
+                        next CONDITIONLOOP if $ConditionLinking ne 'or' && $CondType eq 'or';
                     }
                     else {
                         $FieldFail++;
 
+                        $Self->{LogObject}->Log(
+                            Priority => $Self->{TransitionDebugLogPriority},
+                            Message =>
+                                "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                . "Condition:'$Cond' Matched Field:'$Field'"
+                                . " with Transition Validation Module:"
+                                . " $ActualCondition->{Fields}->{$Field}->{Type}",
+                        );
+
                         # Failed check if we have all 'and' conditions
-                        next TRANSITIONLOOP if $ConditionType eq 'and' && $CondType eq 'and';
+                        next TRANSITIONLOOP if $ConditionLinking eq 'and' && $CondType eq 'and';
 
                         # Try next Cond if all Cond Fields have to be true
                         next CONDITIONLOOP if $CondType eq 'and';
@@ -618,14 +905,26 @@ sub TransitionCheck {
 
                     # Successful check if we just need one matching Condition
                     # to make this Transition valid
-                    return $TransitionEntityID if $ConditionType eq 'or';
+                    if ( $ConditionLinking eq 'or' ) {
+                        if ( $Self->{TransitionDebug} ) {
+                            $Self->{LogObject}->Log(
+                                Priority => $Self->{TransitionDebugLogPriority},
+                                Message =>
+                                    "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                    . " Condition:'$Cond' Success on"
+                                    . " Condition Linking:'$ConditionLinking'"
+                                    . " and Condition Type:'$CondType'",
+                            );
+                        }
+                        return $TransitionEntityID;
+                    }
                     $ConditionSuccess++;
                 }
                 else {
                     $ConditionFail++;
 
                     # Failed check if we have all 'and' conditions
-                    next TRANSITIONLOOP if $ConditionType eq 'and';
+                    next TRANSITIONLOOP if $ConditionLinking eq 'and';
                 }
             }
             elsif ( $CondType eq 'or' )
@@ -636,14 +935,26 @@ sub TransitionCheck {
 
                     # Successful check if we just need one matching Condition
                     # to make this Transition valid
-                    return $TransitionEntityID if $ConditionType eq 'or';
+                    if ( $ConditionLinking eq 'or' ) {
+                        if ( $Self->{TransitionDebug} ) {
+                            $Self->{LogObject}->Log(
+                                Priority => $Self->{TransitionDebugLogPriority},
+                                Message =>
+                                    "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                    . " Condition:'$Cond' Success on"
+                                    . " Condition Linking:'$ConditionLinking'"
+                                    . " and Condition Type:'$CondType'",
+                            );
+                        }
+                        return $TransitionEntityID;
+                    }
                     $ConditionSuccess++;
                 }
                 else {
                     $ConditionFail++;
 
                     # Failed check if we have all 'and' conditions
-                    next TRANSITIONLOOP if $ConditionType eq 'and';
+                    next TRANSITIONLOOP if $ConditionLinking eq 'and';
                 }
             }
             elsif ( $CondType eq 'xor' )
@@ -654,7 +965,19 @@ sub TransitionCheck {
 
                     # Successful check if we just need one matching Condition
                     # to make this Transition valid
-                    return $TransitionEntityID if $ConditionType eq 'or';
+                    if ( $ConditionLinking eq 'or' ) {
+                        if ( $Self->{TransitionDebug} ) {
+                            $Self->{LogObject}->Log(
+                                Priority => $Self->{TransitionDebugLogPriority},
+                                Message =>
+                                    "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                                    . " Condition:'$Cond' Success on"
+                                    . " Condition Linking:'$ConditionLinking'"
+                                    . " and Condition Type:'$CondType'",
+                            );
+                        }
+                        return $TransitionEntityID;
+                    }
                     $ConditionSuccess++;
                 }
                 else {
@@ -664,26 +987,50 @@ sub TransitionCheck {
         }
 
         # CONDITIONLOOP END
-        if ( $ConditionType eq 'and' ) {
+        if ( $ConditionLinking eq 'and' ) {
 
             # if we had no failing conditions this transition matched
             if ( !$ConditionFail ) {
+                if ( $Self->{TransitionDebug} ) {
+                    $Self->{LogObject}->Log(
+                        Priority => $Self->{TransitionDebugLogPriority},
+                        Message =>
+                            "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                            . " Success on Condition Linking:'$ConditionLinking'",
+                    );
+                }
                 return $TransitionEntityID;
             }
         }
-        elsif ( $ConditionType eq 'or' )
+        elsif ( $ConditionLinking eq 'or' )
         {
 
             # if we had at least one successful condition, this transition matched
             if ( $ConditionSuccess > 0 ) {
+                if ( $Self->{TransitionDebug} ) {
+                    $Self->{LogObject}->Log(
+                        Priority => $Self->{TransitionDebugLogPriority},
+                        Message =>
+                            "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                            . " Success on Condition Linking:'$ConditionLinking'",
+                    );
+                }
                 return $TransitionEntityID;
             }
         }
-        elsif ( $ConditionType eq 'xor' )
+        elsif ( $ConditionLinking eq 'xor' )
         {
 
             # if we had exactly one successful condition, this transition matched
             if ( $ConditionSuccess == 1 ) {
+                if ( $Self->{TransitionDebug} ) {
+                    $Self->{LogObject}->Log(
+                        Priority => $Self->{TransitionDebugLogPriority},
+                        Message =>
+                            "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
+                            . " Success on Condition Linking:'$ConditionLinking'",
+                    );
+                }
                 return $TransitionEntityID;
             }
         }

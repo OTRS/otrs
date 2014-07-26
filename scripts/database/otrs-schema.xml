@@ -2068,11 +2068,6 @@
     </ForeignKey>
 </Table>
 
-<Table Name="pm_entity">
-    <Column Name="entity_type" Required="true" Type="VARCHAR" Size="50"/>
-    <Column Name="entity_counter" Required="true" Type="INTEGER"/>
-</Table>
-
 <Table Name="pm_entity_sync">
     <Column Name="entity_type" Required="true" Size="30" Type="VARCHAR"/>
     <Column Name="entity_id" Required="true" Size="50" Type="VARCHAR"/>

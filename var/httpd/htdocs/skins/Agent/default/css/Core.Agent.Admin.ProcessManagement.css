@@ -365,23 +365,37 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
 em.EntityID {
     position: absolute;
     background: #FF9922;
-    border: 1px solid #000;
-    border-radius: 5px;
+    border-radius: 2px;
     display: block;
     font-family: tahoma;
     font-size: 10px;
-    height: 10px;
-    padding: 5px 5px 6px 5px;
+    white-space: nowrap;
+    padding: 3px 4px;
     text-align: center;
     color: #fff;
     font-style: normal;
-    top: -10px;
-    left: -20px;
+    top: -25px;
+    width: 290px;
+    left: 50%;
+    margin-left: -149px;
+}
+
+em.EntityID:after {
+    top: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(255, 153, 34, 0);
+    border-top-color: #FF9922;
+    border-width: 5px;
+    margin-left: -5px;
 }
 
 .TransitionLabel em.EntityID {
-    left: auto;
-    right: -20px;
     z-index: 103;
 }
 

@@ -7,15 +7,17 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
 use vars qw($Self);
 
 use Kernel::Config;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::Ticket;
 use Kernel::System::DynamicField;
+use Kernel::System::Ticket;
+use Kernel::System::UnitTest::Helper;
+use Kernel::System::User;
 use Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet;
 
 use Kernel::System::VariableCheck qw(:all);
@@ -27,6 +29,10 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
     RestoreSystemConfiguration => 0,
 );
 my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $UserObject   = Kernel::System::User->new(
+    %{$Self},
+    ConfigObject => $ConfigObject,
+);
 my $TicketObject = Kernel::System::Ticket->new(
     %{$Self},
     ConfigObject => $ConfigObject,
@@ -47,6 +53,12 @@ my $ModuleName      = 'DynamicFieldSet';
 my $NumericRandomID = int rand 1000_000;
 my $DFName1         = 'Test1' . $NumericRandomID;
 my $DFName2         = 'Test2' . $NumericRandomID;
+
+# set user details
+my $TestUserLogin = $HelperObject->TestUserCreate();
+my $TestUserID    = $UserObject->UserLookup(
+    UserLogin => $TestUserLogin,
+);
 
 # ----------------------------------------
 # Create the dynamic fields for testing
@@ -267,9 +279,47 @@ my @Tests = (
         },
         Success => 1,
     },
+    {
+        Name   => 'Correct Ticket->Queue Dropdown',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                $DFName1 => '<OTRS_Ticket_Queue>',
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct Ticket->NotExisting Dropdown',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                $DFName1 => '<OTRS_Ticket_NotExisting>',
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct Using Different UserID',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                $DFName1 => 'Test',
+                UserID   => $TestUserID,
+            },
+        },
+        Success => 1,
+    },
 );
 
 for my $Test (@Tests) {
+
+    # make a deep copy to avoid changing the definition
+    my $OrigTest = Storable::dclone($Test);
+
     my $Success = $ModuleObject->Run(
         %{ $Test->{Config} },
         ProcessEntityID          => 'P1',
@@ -295,24 +345,55 @@ for my $Test (@Tests) {
         ATTRIBUTE:
         for my $Attribute ( sort keys %{ $Test->{Config}->{Config} } ) {
 
+            if (
+                $OrigTest->{Config}->{Config}->{$Attribute} eq '<OTRS_Ticket_NotExisting>'
+                && $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle'
+                )
+            {
+                $Ticket{ 'DynamicField_' . $Attribute } //= '';
+            }
+
             $Self->True(
                 defined $Ticket{ 'DynamicField_' . $Attribute },
                 "$ModuleName - Test:'$Test->{Name}' | Attribute: DynamicField_" . $Attribute
                     . " for TicketID: $TicketID exists with True",
             );
 
+            my $ExpectedValue = $Test->{Config}->{Config}->{$Attribute};
+            if (
+                $OrigTest->{Config}->{Config}->{$Attribute}
+                =~ m{\A<OTRS_Ticket_([A-Za-z0-9_]+)>\z}msx
+                )
+            {
+                $ExpectedValue = $Ticket{$1} // '';
+                $Self->IsNot(
+                    $Test->{Config}->{Config}->{$Attribute},
+                    $OrigTest->{Config}->{Config}->{$Attribute},
+                    "$ModuleName - Test:'$Test->{Name}' | Attribute: DynamicField_$Attribute value: $OrigTest->{Config}->{Config}->{$Attribute} should been replaced",
+                );
+            }
+
             $Self->Is(
                 $Ticket{ 'DynamicField_' . $Attribute },
-                $Test->{Config}->{Config}->{$Attribute},
+                $ExpectedValue,
                 "$ModuleName - Test:'$Test->{Name}' | Attribute: DynamicField_" . $Attribute
                     . " for TicketID: $TicketID match expected value",
+            );
+        }
+
+        if ( $OrigTest->{Config}->{Config}->{UserID} ) {
+            $Self->Is(
+                $Test->{Config}->{Config}->{UserID},
+                undef,
+                "$ModuleName - Test:'$Test->{Name}' | Attribute: UserID for TicketID:"
+                    . " $TicketID should be removed (as it was used)",
             );
         }
     }
     else {
         $Self->False(
             $Success,
-            "$ModuleName Run() - Test:'$Test->{Name}' | excecuted with False"
+            "$ModuleName Run() - Test:'$Test->{Name}' | executed with False"
         );
     }
 }
