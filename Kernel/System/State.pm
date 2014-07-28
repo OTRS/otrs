@@ -17,7 +17,6 @@ use Kernel::System::CacheInternal;
 our @ObjectDependencies = (qw(DBObject ConfigObject LogObject ValidObject));
 our $ObjectManagerAware = 1;
 
-
 =head1 NAME
 
 Kernel::System::State - state lib

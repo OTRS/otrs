@@ -54,7 +54,7 @@ sub new {
     # allocate new hash for object
     my $Self = {
         $Kernel::OM->ObjectHash(
-            Objects => [ qw( ConfigObject ) ],
+            Objects => [qw( ConfigObject )],
         ),
     };
 
@@ -175,7 +175,8 @@ sub TestUserCreate {
 
     # set user language
     my $UserLanguage = $Param{Language} || 'en';
-    $Kernel::OM->Get('UserObject')->SetPreferences( UserID => $TestUserID, Key => 'UserLanguage', Value => $UserLanguage );
+    $Kernel::OM->Get('UserObject')
+        ->SetPreferences( UserID => $TestUserID, Key => 'UserLanguage', Value => $UserLanguage );
     $Self->{UnitTestObject}->True( 1, "Set user UserLanguage to $UserLanguage" );
 
     return $TestUserLogin;

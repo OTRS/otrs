@@ -63,10 +63,10 @@ sub Run {
         $Kernel::OM->ObjectHash(
             Objects => [
                 qw(ConfigObject TimeObject LogObject MainObject DBObject UserObject
-                CustomerUserObject GroupObject QueueObject TicketObject LinkObject DynamicFieldObject
-                DynamicFieldBackendObject)
-            ]
-        )
+                    CustomerUserObject GroupObject QueueObject TicketObject LinkObject DynamicFieldObject
+                    DynamicFieldBackendObject)
+                ]
+            )
     };
 
     # Refresh common objects after a certain number of loop iterations.
@@ -285,10 +285,10 @@ EOF
                     $Kernel::OM->ObjectHash(
                         Objects => [
                             qw(ConfigObject TimeObject LogObject MainObject DBObject UserObject
-                            CustomerUserObject GroupObject QueueObject TicketObject LinkObject DynamicFieldObject
-                            DynamicFieldBackendObject)
-                        ]
-                    )
+                                CustomerUserObject GroupObject QueueObject TicketObject LinkObject DynamicFieldObject
+                                DynamicFieldBackendObject)
+                            ]
+                        )
                 };
 
             }
@@ -418,10 +418,10 @@ EOF
                     $Kernel::OM->ObjectHash(
                         Objects => [
                             qw(ConfigObject TimeObject LogObject MainObject DBObject UserObject
-                            CustomerUserObject GroupObject QueueObject TicketObject LinkObject DynamicFieldObject
-                            DynamicFieldBackendObject)
-                        ]
-                    )
+                                CustomerUserObject GroupObject QueueObject TicketObject LinkObject DynamicFieldObject
+                                DynamicFieldBackendObject)
+                            ]
+                        )
                 };
             }
         }

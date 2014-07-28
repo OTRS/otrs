@@ -52,7 +52,8 @@ sub new {
 
     # check needed objects
     for my $Object (
-        qw(DBObject ConfigObject EncodeObject LogObject MainObject TimeObject QueueObject))
+        qw(DBObject ConfigObject EncodeObject LogObject MainObject TimeObject QueueObject)
+        )
     {
         $Self->{$Object} = $Kernel::OM->Get($Object);
     }

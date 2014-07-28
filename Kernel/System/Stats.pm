@@ -24,7 +24,6 @@ our @ObjectDependencies = (
 );
 our $ObjectManagerAware = 1;
 
-
 =head1 NAME
 
 Kernel::System::Stats - stats lib

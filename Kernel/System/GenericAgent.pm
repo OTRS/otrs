@@ -24,7 +24,6 @@ our @ObjectDependencies = (
 );
 our $ObjectManagerAware = 0;
 
-
 =head1 NAME
 
 Kernel::System::GenericAgent - to manage the generic agent jobs

@@ -54,7 +54,6 @@ our @ObjectDependencies = (
 );
 our $ObjectManagerAware = 0;
 
-
 =head1 NAME
 
 Kernel::System::Ticket - ticket lib

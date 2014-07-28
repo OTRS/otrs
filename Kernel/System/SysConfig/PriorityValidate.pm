@@ -51,7 +51,8 @@ sub new {
     bless( $Self, $Type );
 
     for my $Object (
-        qw(DBObject ConfigObject EncodeObject LogObject MainObject TimeObject PriorityObject))
+        qw(DBObject ConfigObject EncodeObject LogObject MainObject TimeObject PriorityObject)
+        )
     {
         $Self->{$Object} = $Kernel::OM->Get($Object);
     }

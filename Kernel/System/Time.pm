@@ -18,7 +18,6 @@ use Time::Local;
 our @ObjectDependencies = (qw(ConfigObject LogObject));
 our $ObjectManagerAware = 1;
 
-
 =head1 NAME
 
 Kernel::System::Time - time functions

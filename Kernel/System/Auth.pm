@@ -18,7 +18,6 @@ our @ObjectDependencies = (
 );
 our $ObjectManagerAware = 1;
 
-
 =head1 NAME
 
 Kernel::System::Auth - agent authentication module.

@@ -17,7 +17,6 @@ use vars qw(@ISA);
 my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
 my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
 
-
 =head1 NAME
 
 Kernel::Language - global language interface
@@ -348,7 +347,7 @@ sub FormatTimeString {
     return '' if !$String;
 
     $Config ||= 'DateFormat';
-    $Short ||= 0;
+    $Short  ||= 0;
 
     # Valid timestamp
     if ( $String =~ /(\d{4})-(\d{2})-(\d{2})\s(\d{2}):(\d{2}):(\d{2})/ ) {

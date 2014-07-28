@@ -23,7 +23,6 @@ our @ObjectDependencies = (
 );
 our $ObjectManagerAware = 0;
 
-
 =head1 NAME
 
 Kernel::System::XML - xml lib
