@@ -22,7 +22,7 @@ use URI::Escape qw();
 
 our @ObjectDependencies = (
     @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(ParamObject SessionObject TicketObject GroupObject HTMLUtilsObject JSONObject LanguageObject)
+    qw(ParamObject SessionObject TicketObject GroupObject HTMLUtilsObject JSONObject LanguageObject UserObject)
 );
 our $ObjectManagerAware = 1;
 
