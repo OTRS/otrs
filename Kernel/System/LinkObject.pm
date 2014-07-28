@@ -14,9 +14,9 @@ use warnings;
 
 use Kernel::System::CacheInternal;
 
-our @ObjectDependencies = (qw(DBObject ConfigObject LogObject MainObject CheckItemObject));
+our @ObjectDependencies
+    = (qw(DBObject ConfigObject LogObject MainObject CheckItemObject TimeObject ValidObject));
 our $ObjectManagerAware = 1;
-
 
 =head1 NAME
 

@@ -15,6 +15,10 @@ use warnings;
 use Kernel::Config;
 use Kernel::System::State;
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(StateObject)
+);
 our $ObjectManagerAware = 1;
 
 =head1 NAME
@@ -51,7 +55,8 @@ sub new {
     bless( $Self, $Type );
 
     for my $Object (
-        qw(DBObject ConfigObject EncodeObject LogObject MainObject TimeObject StateObject))
+        qw(DBObject ConfigObject EncodeObject LogObject MainObject TimeObject StateObject)
+        )
     {
         $Self->{$Object} = $Kernel::OM->Get($Object);
     }

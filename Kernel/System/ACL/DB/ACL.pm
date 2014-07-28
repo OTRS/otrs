@@ -20,7 +20,6 @@ our @ObjectDependencies = (
 );
 our $ObjectManagerAware = 1;
 
-
 =head1 NAME
 
 Kernel::System::ACL::DB::ACL.pm

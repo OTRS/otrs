@@ -20,10 +20,9 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(TicketObject QueueObject)
+    qw(CacheObject)
 );
 our $ObjectManagerAware = 0;
-
 
 =head1 NAME
 

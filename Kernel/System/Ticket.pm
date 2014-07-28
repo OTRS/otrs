@@ -50,10 +50,9 @@ use vars qw(@ISA);
 
 our @ObjectDependencies = (
     @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(GroupObject QueueObject CustomerUserObject)
+    qw(UserObject GroupObject QueueObject CustomerUserObject CustomerGroupObject)
 );
 our $ObjectManagerAware = 0;
-
 
 =head1 NAME
 

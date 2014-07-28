@@ -15,6 +15,10 @@ use warnings;
 use Kernel::Config;
 use Kernel::System::Queue;
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(QueueObject)
+);
 our $ObjectManagerAware = 1;
 
 =head1 NAME
@@ -52,7 +56,8 @@ sub new {
 
     # check needed objects
     for my $Object (
-        qw(DBObject ConfigObject EncodeObject LogObject MainObject TimeObject QueueObject))
+        qw(DBObject ConfigObject EncodeObject LogObject MainObject TimeObject QueueObject)
+        )
     {
         $Self->{$Object} = $Kernel::OM->Get($Object);
     }

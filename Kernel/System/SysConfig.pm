@@ -19,10 +19,9 @@ use Kernel::Language;
 
 our @ObjectDependencies = (
     @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(LanguageObject CacheObject)
+    qw(LanguageObject CacheObject XMLObject)
 );
 our $ObjectManagerAware = 1;
-
 
 =head1 NAME
 
