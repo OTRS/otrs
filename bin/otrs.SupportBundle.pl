@@ -45,7 +45,7 @@ sub Run {
         $Kernel::OM->ObjectHash(
             Objects => [
                 qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject UserObject)
-            ]
+                ]
         ),
     };
 

@@ -16,7 +16,7 @@ use Kernel::Config;
 use Kernel::System::Package;
 
 # create local objects
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject  = $Kernel::OM->Get('ConfigObject');
 my $PackageObject = Kernel::System::Package->new( %{$Self} );
 my $DBObject      = Kernel::System::DB->new( %{$Self} );
 

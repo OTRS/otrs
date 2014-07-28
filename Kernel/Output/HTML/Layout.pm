@@ -26,7 +26,6 @@ our @ObjectDependencies = (
 );
 our $ObjectManagerAware = 1;
 
-
 =head1 NAME
 
 Kernel::Output::HTML::Layout - all generic html functions

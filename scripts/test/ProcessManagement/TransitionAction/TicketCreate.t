@@ -765,12 +765,15 @@ for my $Test (@Tests) {
             for my $ObjectType ( sort keys %{$LinkList} ) {
                 for my $RelationType ( sort keys %{ $LinkList->{$ObjectType} } ) {
                     for my $RelationTypeWay (
-                        sort keys %{ $LinkList->{$ObjectType}->{$RelationType} } )
+                        sort keys %{ $LinkList->{$ObjectType}->{$RelationType} }
+                        )
                     {
                         my $LinkType = $TypeList{$RelationType}->{ $RelationTypeWay . 'Name' };
                         my %ObjectsPerRelation
-                            = %{ $LinkList->{$ObjectType}->{$RelationType}->{$RelationTypeWay}
-                                || {} };
+                            = %{
+                            $LinkList->{$ObjectType}->{$RelationType}->{$RelationTypeWay}
+                                || {}
+                            };
                         for my $ObjectID ( sort keys %{ObjectsPerRelation} ) {
                             $LinkLookup{$ObjectID} = $LinkType
                         }
