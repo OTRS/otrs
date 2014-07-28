@@ -187,7 +187,7 @@ sub _ObjectBuild {
         else {
             $Dependencies = \@DefaultObjectDependencies;
         }
-        my $ObjectManagerAware = ${ $Package . '::ObjectManagerAware' } // 0;
+        $ObjectManagerAware = ${ $Package . '::ObjectManagerAware' } // 0;
         use strict 'refs';
     }
     $Self->{ObjectDependencies}->{$Package} = $Dependencies;
