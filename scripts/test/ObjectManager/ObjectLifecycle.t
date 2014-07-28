@@ -95,8 +95,8 @@ $Self->True(
 my $Dummy = eval { $Kernel::OM->Get('DummyObject') };
 $Self->True( !$Dummy, 'Can not get dummy object before it is registered' );
 
-$Kernel::OM->{ObjectAliases}->{DummyObject}  = 'scripts::test::sample::Dummy';
-$Kernel::OM->{ObjectAliases}->{Dummy2Object} = 'scripts::test::sample::Dummy2';
+$Kernel::OM->{ObjectAliases}->{DummyObject}  = 'scripts::test::ObjectManager::Dummy';
+$Kernel::OM->{ObjectAliases}->{Dummy2Object} = 'scripts::test::ObjectManager::Dummy2';
 
 $Kernel::OM->ObjectParamAdd(
     DummyObject => {
