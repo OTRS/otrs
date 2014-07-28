@@ -15,8 +15,8 @@ use warnings;
 
 use Time::Local;
 
-our @ObjectDependencies = (qw(ConfigObject LogObject EncodeObject MainObject));
-our $ObjectManagerAware = 0;
+our @ObjectDependencies = (qw(ConfigObject LogObject));
+our $ObjectManagerAware = 1;
 
 
 =head1 NAME
@@ -46,18 +46,11 @@ create a time object. Do not use it directly, instead use:
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject)) {
-        if ( $Param{$_} ) {
-            $Self->{$_} = $Param{$_};
-        }
-        else {
-            die "Got no $_!";
-        }
+    for my $Needed (qw(ConfigObject)) {
+        $Self->{$Needed} = $Kernel::OM->Get($Needed);
     }
 
     # 0=off; 1=on;
@@ -111,7 +104,7 @@ sub SystemTime2TimeStamp {
 
     # check needed stuff
     if ( !defined $Param{SystemTime} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SystemTime!' );
+        $Kernel::OM->Get('LogObject')->Log( Priority => 'error', Message => 'Need SystemTime!' );
         return;
     }
 
@@ -159,7 +152,7 @@ sub SystemTime2Date {
 
     # check needed stuff
     if ( !defined $Param{SystemTime} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SystemTime!' );
+        $Kernel::OM->Get('LogObject')->Log( Priority => 'error', Message => 'Need SystemTime!' );
         return;
     }
 
@@ -194,7 +187,7 @@ sub TimeStamp2SystemTime {
 
     # check needed stuff
     if ( !$Param{String} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need String!' );
+        $Kernel::OM->Get('LogObject')->Log( Priority => 'error', Message => 'Need String!' );
         return;
     }
 
@@ -302,7 +295,7 @@ sub TimeStamp2SystemTime {
 
     # return error
     if ( !defined $SystemTime ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('LogObject')->Log(
             Priority => 'error',
             Message  => "Invalid Date '$Param{String}'!",
         );
@@ -336,7 +329,7 @@ sub Date2SystemTime {
     # check needed stuff
     for (qw(Year Month Day Hour Minute Second)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('LogObject')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -348,7 +341,7 @@ sub Date2SystemTime {
     };
 
     if ( !defined $SystemTime ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('LogObject')->Log(
             Priority => 'error',
             Message =>
                 "Invalid Date '$Param{Year}-$Param{Month}-$Param{Day} $Param{Hour}:$Param{Minute}:$Param{Second}'!",
@@ -416,7 +409,7 @@ sub WorkingTime {
     # check needed stuff
     for (qw(StartTime StopTime)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('LogObject')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -561,7 +554,7 @@ sub DestinationTime {
     # check needed stuff
     for (qw(StartTime Time)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('LogObject')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -763,7 +756,7 @@ sub VacationCheck {
     # check required params
     for (qw(Year Month Day)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('LogObject')->Log(
                 Priority => 'error',
                 Message  => "VacationCheck: Need $_!"
             );
