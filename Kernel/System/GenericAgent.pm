@@ -20,7 +20,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(CacheObject)
+    qw(TicketObject QueueObject CacheObject)
 );
 our $ObjectManagerAware = 0;
 
