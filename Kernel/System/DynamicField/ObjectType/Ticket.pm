@@ -17,6 +17,9 @@ use Scalar::Util;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Ticket;
 
+our @ObjectDependencies = (@Kernel::OM::DefaultObjectDependencies, 'TicketObject');
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::DynamicField::ObjectType::Ticket
@@ -39,30 +42,8 @@ by using Kernel::System::DynamicField::ObjectType::Ticket->new();
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Needed (
-        qw(ConfigObject EncodeObject LogObject MainObject DBObject TimeObject)
-        )
-    {
-        die "Got no $Needed!" if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
-
-    # check for TicketObject
-    if ( $Param{TicketObject} ) {
-
-        $Self->{TicketObject} = $Param{TicketObject};
-
-     # Make ticket object reference weak so it will not count as a reference on objects destroy.
-     #   This is because the TicketObject has a Kernel::DynamicField::Backend object, which has this
-     #   object, which has a TicketObject again. Without weaken() we'd have a cyclic reference.
-        Scalar::Util::weaken( $Self->{TicketObject} );
-    }
 
     return $Self;
 }
@@ -87,14 +68,14 @@ sub PostValueSet {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig ObjectID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('LogObject')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
     # check DynamicFieldConfig (general)
     if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('LogObject')->Log(
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
@@ -104,7 +85,7 @@ sub PostValueSet {
     # check DynamicFieldConfig (internally)
     for my $Needed (qw(ID FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('LogObject')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
@@ -112,14 +93,12 @@ sub PostValueSet {
         }
     }
 
-    # check for TicketObject
-    if ( !$Self->{TicketObject} ) {
+    # Don't hold a permanent reference to the TicketObject.
+    #   This is because the TicketObject has a Kernel::DynamicField::Backend object, which has this
+    #   object, which has a TicketObject again. Without weaken() we'd have a cyclic reference.
+    my $TicketObject = $Kernel::OM->Get('TicketObject');
 
-        # create it on demand
-        $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
-    }
-
-    my %Ticket = $Self->{TicketObject}->TicketGet(
+    my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Param{ObjectID},
         DynamicFields => 0,
     );
@@ -128,13 +107,13 @@ sub PostValueSet {
     my $HistoryOldValue = defined $Param{OldValue} ? $Param{OldValue} : '';
 
     # get value for storing
-    my $ValueStrg = $Self->{TicketObject}->{DynamicFieldBackendObject}->ReadableValueRender(
+    my $ValueStrg = $TicketObject->{DynamicFieldBackendObject}->ReadableValueRender(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         Value              => $HistoryValue,
     );
     $HistoryValue = $ValueStrg->{Value};
 
-    my $OldValueStrg = $Self->{TicketObject}->{DynamicFieldBackendObject}->ReadableValueRender(
+    my $OldValueStrg = $TicketObject->{DynamicFieldBackendObject}->ReadableValueRender(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         Value              => $HistoryOldValue,
     );
@@ -205,7 +184,7 @@ sub PostValueSet {
     }
 
     # history insert
-    $Self->{TicketObject}->HistoryAdd(
+    $TicketObject->HistoryAdd(
         TicketID    => $Param{ObjectID},
         QueueID     => $Ticket{QueueID},
         HistoryType => 'TicketDynamicFieldUpdate',
@@ -217,10 +196,10 @@ sub PostValueSet {
     );
 
     # clear ticket cache
-    $Self->{TicketObject}->_TicketCacheClear( TicketID => $Param{ObjectID} );
+    $TicketObject->_TicketCacheClear( TicketID => $Param{ObjectID} );
 
     # Trigger event.
-    $Self->{TicketObject}->EventHandler(
+    $TicketObject->EventHandler(
         Event => 'TicketDynamicFieldUpdate_' . $Param{DynamicFieldConfig}->{Name},
         Data  => {
             FieldName => $Param{DynamicFieldConfig}->{Name},

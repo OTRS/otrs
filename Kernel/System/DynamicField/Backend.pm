@@ -15,6 +15,8 @@ use warnings;
 use Scalar::Util qw(weaken);
 use Kernel::System::VariableCheck qw(:all);
 
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::DynamicField::Backend
@@ -46,11 +48,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
     for my $Needed (qw(ConfigObject EncodeObject LogObject MainObject DBObject TimeObject)) {
-        die "Got no $Needed!" if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
+        $Self->{$Needed} = $Kernel::OM->Get($Needed);
     }
 
     # get the Dynamic Field Backends configuration
