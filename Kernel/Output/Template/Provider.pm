@@ -22,6 +22,12 @@ use Template::Constants;
 use Kernel::Output::Template::Document;
 use Kernel::System::Cache;
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(ParamObject CacheObject)
+);
+our $ObjectManagerAware = 1;
+
 # Force the use of our own document class.
 $Template::Provider::DOCUMENT = 'Kernel::Output::Template::Document';
 
@@ -50,16 +56,16 @@ sub OTRSInit {
     my ( $Self, %Param ) = @_;
 
     for my $Needed (
-        qw(ConfigObject LogObject TimeObject MainObject EncodeObject LayoutObject ParamObject)
+        qw(ConfigObject LogObject TimeObject MainObject EncodeObject ParamObject CacheObject)
         )
     {
-        if ( $Param{$Needed} ) {
-            $Self->{$Needed} = $Param{$Needed};
-        }
-        else {
-            die "Got no $Needed!";
-        }
+        $Self->{$Needed} = $Kernel::OM->Get($Needed);
     }
+
+    # Don't fetch LayoutObject via ObjectManager as there might be several instances involved
+    #   at this point (for example in LinkObject there is an own LayoutObject to avoid block
+    #   name collisions).
+    $Self->{LayoutObject} = $Param{LayoutObject} || die "Got no LayoutObject!";
 
     #
     # Store a weak reference to the LayoutObject to avoid ring references.
