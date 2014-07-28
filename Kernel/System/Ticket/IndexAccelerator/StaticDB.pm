@@ -340,7 +340,7 @@ sub TicketAcceleratorIndex {
             SELECT queue_id, queue, min(create_time_unix), s_lock, count(*)
             FROM ticket_index
             WHERE group_id IN ( ${\(join ', ', @GroupIDs)} )
-            GROUP BY queue_id, queue
+            GROUP BY queue_id, queue, s_lock
             ORDER BY queue",
     );
 
