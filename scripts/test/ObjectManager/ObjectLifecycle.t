@@ -1,5 +1,5 @@
 # --
-# ObjectManager.t - Customer Group tests
+# ObjectManager/ObjectLifecycle.t - ObjectManager tests
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -17,15 +17,13 @@ use Kernel::System::ObjectManager;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new();
 
-$Self->True( $Kernel::OM, 'Could build object manager' );
-
 # test that all configured objects can be created and then destroyed;
 # that way we know there are no cyclic references in the constructors
 
 my %ObjectAliases = %{ $Kernel::OM->Get('ConfigObject')->Get('ObjectAliases') };
 my @Objects       = sort keys %ObjectAliases;
 
-# some objects need extra data/configuration; exlcude them
+# some objects need extra data/configuration; exclude them
 my %Exclude = (
     CryptObject          => 1,    # needs CryptType
     PostMasterObject     => 1,    # needs Email
