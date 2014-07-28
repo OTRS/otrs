@@ -43,11 +43,11 @@ our $CurrentObject;
 
 our @DefaultObjectDependencies = (
     'ConfigObject',
-    'LogObject',
+    'DBObject',
     'EncodeObject',
+    'LogObject',
     'MainObject',
     'TimeObject',
-    'DBObject',
 );
 
 =head1 NAME
