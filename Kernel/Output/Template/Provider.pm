@@ -24,7 +24,7 @@ use Kernel::System::Cache;
 
 our @ObjectDependencies = (
     @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(ParamObject CacheObject)
+    qw(CacheObject)
 );
 our $ObjectManagerAware = 1;
 
@@ -55,10 +55,7 @@ references.
 sub OTRSInit {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (
-        qw(ConfigObject LogObject TimeObject MainObject EncodeObject ParamObject CacheObject)
-        )
-    {
+    for my $Needed (qw(ConfigObject MainObject CacheObject)) {
         $Self->{$Needed} = $Kernel::OM->Get($Needed);
     }
 
@@ -102,7 +99,7 @@ sub OTRSInit {
 
         if ( !%TemplateList ) {
 
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('LogObject')->Log(
                 Priority => 'error',
                 Message =>
                     "Please add a template list to output filter $FilterConfig->{Module} "
@@ -388,7 +385,7 @@ sub _PreProcessTemplateContent {
 
             if ( !%TemplateList ) {
 
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('LogObject')->Log(
                     Priority => 'error',
                     Message =>
                         "Please add a template list to output filter $FilterConfig->{Module} "

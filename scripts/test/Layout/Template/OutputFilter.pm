@@ -12,7 +12,11 @@ package scripts::test::Layout::Template::OutputFilter;    ## no critic
 use strict;
 use warnings;
 
-use Cwd;
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(ParamObject)
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -23,12 +27,7 @@ sub new {
 
     # check needed objects
     for my $Needed (qw(MainObject ConfigObject ParamObject)) {
-        if ( !$Self->{$Needed} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Got no $Needed!",
-            );
-        }
+        $Self->{$Needed} //= $Kernel::OM->Get($Needed);
     }
 
     return $Self;
