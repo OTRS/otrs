@@ -17,7 +17,7 @@ use Scalar::Util;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Ticket;
 
-our @ObjectDependencies = (@Kernel::OM::DefaultObjectDependencies, 'TicketObject');
+our @ObjectDependencies = ( @Kernel::OM::DefaultObjectDependencies, 'TicketObject' );
 our $ObjectManagerAware = 1;
 
 =head1 NAME
