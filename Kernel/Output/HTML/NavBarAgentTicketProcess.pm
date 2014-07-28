@@ -21,6 +21,11 @@ use Kernel::System::ProcessManagement::TransitionAction;
 
 use Kernel::System::VariableCheck qw(:all);
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(CacheObject)
+);
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -142,12 +147,12 @@ sub Run {
 
     # frontend module is enabled but there is no selectable process, then remove the menu entry
     my $NavBarName = $FrontendModuleConfig->{NavBarName};
-    my $Priotiry = sprintf( "%07d", $FrontendModuleConfig->{NavBar}->[0]->{Prio} );
+    my $Priority = sprintf( "%07d", $FrontendModuleConfig->{NavBar}->[0]->{Prio} );
 
     my %Return = %{ $Param{NavBar}->{Sub} || {} };
 
     # remove AgentTicketProcess from the TicketMenu
-    delete $Return{$NavBarName}->{$Priotiry};
+    delete $Return{$NavBarName}->{$Priority};
 
     return ( Sub => \%Return );
 }

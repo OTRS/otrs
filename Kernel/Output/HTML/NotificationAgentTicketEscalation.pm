@@ -16,6 +16,11 @@ use Kernel::System::Lock;
 use Kernel::System::State;
 use Kernel::System::Cache;
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(CacheObject)
+);
+
 sub new {
     my ( $Type, %Param ) = @_;
 
