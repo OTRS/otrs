@@ -29,18 +29,9 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
     RestoreSystemConfiguration => 0,
 );
 my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-my $UserObject   = Kernel::System::User->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $DynamicFieldObject = Kernel::System::DynamicField->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $UserObject   = $Kernel::OM->Get('UserObject');
+my $TicketObject = $Kernel::OM->Get('TicketObject');
+my $DynamicFieldObject = $Kernel::OM->Get('DynamicFieldObject');
 my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet->new(
     %{$Self},
     ConfigObject => $ConfigObject,
