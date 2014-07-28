@@ -17,6 +17,11 @@ use Net::LDAP;
 use Kernel::System::Cache;
 use Kernel::System::Time;
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(CacheObject)
+);
+
 sub new {
     my ( $Type, %Param ) = @_;
 

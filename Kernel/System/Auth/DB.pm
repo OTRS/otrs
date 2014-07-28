@@ -15,6 +15,12 @@ use warnings;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 use Digest::SHA;
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(ValidObject)
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 

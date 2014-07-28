@@ -12,6 +12,12 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 use warnings;
 
+# There are additional dependencies that are only loaded on demand
+## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
+our @ObjectDependencies = (
+    qw(EncodeObject LogObject MainObject TimeObject ParamObject),
+);
+
 =head1 NAME
 
 Kernel::System::Web::InterfaceCustomer - the customer web interface

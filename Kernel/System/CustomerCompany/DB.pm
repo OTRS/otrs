@@ -15,6 +15,11 @@ use warnings;
 use Kernel::System::Cache;
 use Kernel::System::Valid;
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(CacheObject)
+);
+
 sub new {
     my ( $Type, %Param ) = @_;
 

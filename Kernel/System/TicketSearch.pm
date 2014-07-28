@@ -15,6 +15,8 @@ use warnings;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 
+## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
+
 =head1 NAME
 
 Kernel::System::TicketSearch - ticket search lib

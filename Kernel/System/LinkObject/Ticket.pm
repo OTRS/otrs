@@ -12,6 +12,11 @@ package Kernel::System::LinkObject::Ticket;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(TicketObject)
+);
+
 =head1 NAME
 
 Kernel::System::LinkObject::Ticket

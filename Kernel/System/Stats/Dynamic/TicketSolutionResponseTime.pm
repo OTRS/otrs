@@ -12,9 +12,14 @@ package Kernel::System::Stats::Dynamic::TicketSolutionResponseTime;
 use strict;
 use warnings;
 
-use Kernel::System::DynamicField::Backend;
-
 use Kernel::System::VariableCheck qw(:all);
+
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(UserObject QueueObject TicketObject StateObject PriorityObject LockObject
+        ServiceObject SLAObject TypeObject DynamicFieldObject DynamicFieldBackendObject)
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -38,13 +43,12 @@ sub new {
                     SLAObject
                     TypeObject
                     DynamicFieldObject
-                    )
+                    DynamicFieldBackendObject
+                    ),
             ],
         ),
     };
     bless( $Self, $Type );
-
-    $Self->{BackendObject} = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -503,7 +507,7 @@ sub GetObjectAttributes {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # skip all fields not designed to be supported by statistics
-        my $IsStatsCondition = $Self->{BackendObject}->HasBehavior(
+        my $IsStatsCondition = $Self->{DynamicFieldBackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
             Behavior           => 'IsStatsCondition',
         );
@@ -512,7 +516,7 @@ sub GetObjectAttributes {
 
         my $PossibleValuesFilter;
 
-        my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
+        my $IsACLReducible = $Self->{DynamicFieldBackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
             Behavior           => 'IsACLReducible',
         );
@@ -520,7 +524,7 @@ sub GetObjectAttributes {
         if ($IsACLReducible) {
 
             # get PossibleValues
-            my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+            my $PossibleValues = $Self->{DynamicFieldBackendObject}->PossibleValuesGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
 
@@ -547,10 +551,11 @@ sub GetObjectAttributes {
         }
 
         # get field html
-        my $DynamicFieldStatsParameter = $Self->{BackendObject}->StatsFieldParameterBuild(
+        my $DynamicFieldStatsParameter
+            = $Self->{DynamicFieldBackendObject}->StatsFieldParameterBuild(
             DynamicFieldConfig   => $DynamicFieldConfig,
             PossibleValuesFilter => $PossibleValuesFilter,
-        );
+            );
 
         if ( IsHashRefWithData($DynamicFieldStatsParameter) ) {
             if ( IsHashRefWithData( $DynamicFieldStatsParameter->{Values} ) ) {
@@ -883,7 +888,7 @@ sub _ReportingValues {
                 next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
 
                 # skip all fields not designed to be supported by statistics
-                my $IsStatsCondition = $Self->{BackendObject}->HasBehavior(
+                my $IsStatsCondition = $Self->{DynamicFieldBackendObject}->HasBehavior(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Behavior           => 'IsStatsCondition',
                 );
@@ -892,7 +897,7 @@ sub _ReportingValues {
 
                 # get new search parameter
                 my $DynamicFieldStatsSearchParameter
-                    = $Self->{BackendObject}->StatsSearchFieldParameterBuild(
+                    = $Self->{DynamicFieldBackendObject}->StatsSearchFieldParameterBuild(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $TicketSearch{$ParameterName},
                     );

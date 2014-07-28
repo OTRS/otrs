@@ -12,6 +12,7 @@ package Kernel::System::AutoResponse;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (qw(ConfigObject EncodeObject LogObject DBObject SystemAddressObject));
 our $ObjectManagerAware = 1;
 
 =head1 NAME

@@ -14,6 +14,12 @@ use warnings;
 
 use Kernel::System::ObjectManager;
 
+# There are additional dependencies that are only loaded on demand
+## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
+our @ObjectDependencies = (
+    qw(LogObject EncodeObject SessionObject MainObject TimeObject ParamObject UserObject GroupObject),
+);
+
 =head1 NAME
 
 Kernel::System::Web::InterfaceAgent - the agent web interface

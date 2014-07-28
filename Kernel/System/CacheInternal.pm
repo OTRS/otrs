@@ -12,6 +12,8 @@ package Kernel::System::CacheInternal;
 use strict;
 use warnings;
 
+## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
+
 =head1 NAME
 
 Kernel::System::CacheInternal - cache lib

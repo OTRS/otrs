@@ -14,9 +14,14 @@ use warnings;
 
 use List::Util qw( first );
 
-use Kernel::System::DynamicField::Backend;
-
 use Kernel::System::VariableCheck qw(:all);
+
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(UserObject QueueObject TicketObject StateObject PriorityObject LockObject
+        ServiceObject SLAObject TypeObject DynamicFieldObject DynamicFieldBackendObject)
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -40,13 +45,12 @@ sub new {
                     SLAObject
                     TypeObject
                     DynamicFieldObject
-                    )
+                    DynamicFieldBackendObject
+                    ),
             ],
         ),
     };
     bless( $Self, $Type );
-
-    $Self->{BackendObject} = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -134,7 +138,7 @@ sub GetObjectAttributes {
         next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
 
         # check if dynamic field is sortable
-        my $IsSortable = $Self->{BackendObject}->HasBehavior(
+        my $IsSortable = $Self->{DynamicFieldBackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
             Behavior           => 'IsSortable',
         );
@@ -607,7 +611,7 @@ sub GetObjectAttributes {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # skip all fields not designed to be supported by statistics
-        my $IsStatsCondition = $Self->{BackendObject}->HasBehavior(
+        my $IsStatsCondition = $Self->{DynamicFieldBackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
             Behavior           => 'IsStatsCondition',
         );
@@ -616,7 +620,7 @@ sub GetObjectAttributes {
 
         my $PossibleValuesFilter;
 
-        my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
+        my $IsACLReducible = $Self->{DynamicFieldBackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
             Behavior           => 'IsACLReducible',
         );
@@ -624,7 +628,7 @@ sub GetObjectAttributes {
         if ($IsACLReducible) {
 
             # get PossibleValues
-            my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+            my $PossibleValues = $Self->{DynamicFieldBackendObject}->PossibleValuesGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
 
@@ -651,10 +655,11 @@ sub GetObjectAttributes {
         }
 
         # get dynamic field stats parameters
-        my $DynamicFieldStatsParameter = $Self->{BackendObject}->StatsFieldParameterBuild(
+        my $DynamicFieldStatsParameter
+            = $Self->{DynamicFieldBackendObject}->StatsFieldParameterBuild(
             DynamicFieldConfig   => $DynamicFieldConfig,
             PossibleValuesFilter => $PossibleValuesFilter,
-        );
+            );
 
         if ( IsHashRefWithData($DynamicFieldStatsParameter) ) {
             if ( IsHashRefWithData( $DynamicFieldStatsParameter->{Values} ) ) {
@@ -760,7 +765,7 @@ sub GetStatTable {
                 next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
 
                 # skip all fields not designed to be supported by statistics
-                my $IsStatsCondition = $Self->{BackendObject}->HasBehavior(
+                my $IsStatsCondition = $Self->{DynamicFieldBackendObject}->HasBehavior(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Behavior           => 'IsStatsCondition',
                 );
@@ -769,7 +774,7 @@ sub GetStatTable {
 
                 # get new search parameter
                 my $DynamicFieldStatsSearchParameter
-                    = $Self->{BackendObject}->StatsSearchFieldParameterBuild(
+                    = $Self->{DynamicFieldBackendObject}->StatsSearchFieldParameterBuild(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $Param{Restrictions}->{$ParameterName},
                     );
@@ -1118,13 +1123,13 @@ sub GetStatTable {
 
                     # convert from stored keys to values for certain Dynamic Fields like
                     # Dropdown, Checkbox and Multiselect
-                    my $ValueLookup = $Self->{BackendObject}->ValueLookup(
+                    my $ValueLookup = $Self->{DynamicFieldBackendObject}->ValueLookup(
                         DynamicFieldConfig => $DynamicFieldConfig,
                         Key                => $Ticket{$ParameterName},
                     );
 
                     # get field value in plain text
-                    my $ValueStrg = $Self->{BackendObject}->ReadableValueRender(
+                    my $ValueStrg = $Self->{DynamicFieldBackendObject}->ReadableValueRender(
                         DynamicFieldConfig => $DynamicFieldConfig,
                         Value              => $ValueLookup,
                     );
@@ -1587,7 +1592,7 @@ sub _OrderByIsValueOfTicketSearchSort {
         next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
 
         # get dynamic field sortable condition
-        my $IsSortable = $Self->{BackendObject}->HasBehavior(
+        my $IsSortable = $Self->{DynamicFieldBackendObject}->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
             Behavior           => 'IsSortable',
         );

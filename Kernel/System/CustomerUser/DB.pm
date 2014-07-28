@@ -20,6 +20,11 @@ use Kernel::System::CheckItem;
 use Kernel::System::Time;
 use Kernel::System::Valid;
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(CacheObject)
+);
+
 sub new {
     my ( $Type, %Param ) = @_;
 

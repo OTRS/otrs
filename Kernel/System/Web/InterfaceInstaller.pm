@@ -23,6 +23,12 @@ use Kernel::System::DB;
 use Kernel::System::CustomerUser;
 use Kernel::Output::HTML::Layout;
 
+# There are additional dependencies that are only loaded on demand
+## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
+our @ObjectDependencies = (
+    qw(EncodeObject LogObject MainObject TimeObject ParamObject),
+);
+
 =head1 NAME
 
 Kernel::System::Web::InterfaceInstaller - the installer web interface

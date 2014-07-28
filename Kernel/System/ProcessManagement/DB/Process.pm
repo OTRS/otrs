@@ -26,6 +26,11 @@ use Kernel::System::ProcessManagement::DB::Process::State;
 use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(CacheObject)
+);
+
 =head1 NAME
 
 Kernel::System::ProcessManagement::DB::Process.pm

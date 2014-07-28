@@ -17,6 +17,11 @@ use Kernel::System::YAML;
 use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(CacheObject)
+);
+
 =head1 NAME
 
 Kernel::System::ProcessManagement::DB::ActivityDialog.pm

@@ -16,6 +16,11 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Time;
 use Kernel::System::Cache;
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(CacheObject)
+);
+
 =head1 NAME
 
 Kernel::System::DynamicFieldValue

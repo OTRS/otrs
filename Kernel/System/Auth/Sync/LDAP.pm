@@ -14,6 +14,12 @@ use warnings;
 
 use Net::LDAP;
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(UserObject GroupObject)
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 

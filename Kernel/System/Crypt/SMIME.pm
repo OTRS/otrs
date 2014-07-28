@@ -14,6 +14,11 @@ use warnings;
 
 use Kernel::System::Cache;
 
+our @ObjectDependencies = (
+    @Kernel::System::ObjectManager::DefaultObjectDependencies,
+    qw(CacheObject)
+);
+
 =head1 NAME
 
 Kernel::System::Crypt::SMIME - smime crypt backend lib
