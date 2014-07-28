@@ -54,7 +54,7 @@ Webserver
 
 Databases
 - MySQL 5.0 or higher
-- PostgreSQL 8.0 or higher
+- PostgreSQL 8.4 or higher
 - Oracle 10g or higher
 - Microsoft SQL Server 2005 or higher
 
