@@ -28,8 +28,6 @@ sub new {
         }
     }
 
-    $Self->{SysConfigObject} = Kernel::System::SysConfig->new(%Param);
-
     return $Self;
 }
 
@@ -42,6 +40,7 @@ sub Run {
     }
 
     # write default file
+    $Self->{SysConfigObject} = Kernel::System::SysConfig->new(%Param);
     if ( !$Self->{SysConfigObject}->WriteDefault() ) {
         return $Self->{LayoutObject}->ErrorScreen();
     }

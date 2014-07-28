@@ -14,7 +14,6 @@ use warnings;
 
 use Kernel::System::Environment;
 use Kernel::System::Registration;
-use Kernel::System::SysConfig;
 use Kernel::System::SystemData;
 
 sub new {
@@ -32,7 +31,6 @@ sub new {
     }
     $Self->{EnvironmentObject}  = Kernel::System::Environment->new(%Param);
     $Self->{RegistrationObject} = Kernel::System::Registration->new(%Param);
-    $Self->{SysConfigObject}    = Kernel::System::SysConfig->new(%Param);
     $Self->{SystemDataObject}   = Kernel::System::SystemData->new(%Param);
 
     $Self->{RegistrationState} = $Self->{SystemDataObject}->SystemDataGet(
