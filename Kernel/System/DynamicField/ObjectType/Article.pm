@@ -68,14 +68,14 @@ sub PostValueSet {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig ObjectID UserID)) {
         if ( !$Param{$Needed} ) {
-            $kernel::OM->Get('LogObject')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('LogObject')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
     # check DynamicFieldConfig (general)
     if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $kernel::OM->Get('LogObject')->Log(
+        $Kernel::OM->Get('LogObject')->Log(
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
@@ -85,7 +85,7 @@ sub PostValueSet {
     # check DynamicFieldConfig (internally)
     for my $Needed (qw(ID FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $kernel::OM->Get('LogObject')->Log(
+            $Kernel::OM->Get('LogObject')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );
