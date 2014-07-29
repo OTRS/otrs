@@ -14,21 +14,20 @@ use warnings;
 
 use Sys::Syslog qw();
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Encode',
+);
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {
-        $Kernel::OM->ObjectHash(
-            Objects => [
-                qw( ConfigObject )
-            ],
-        ),
-    };
+    my $Self = {};
     bless( $Self, $Type );
 
     # set syslog facility
-    $Self->{SysLogFacility} = $Self->{ConfigObject}->Get('LogModule::SysLog::Facility') || 'user';
+    $Self->{SysLogFacility} = $Kernel::OM->Get('Kernel::Config')->Get('LogModule::SysLog::Facility') || 'user';
 
     return $Self;
 }
@@ -36,15 +35,19 @@ sub new {
 sub Log {
     my ( $Self, %Param ) = @_;
 
+    # get needed objects
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
     # prepare data for byte output
-    if ( $Self->{ConfigObject}->Get('LogModule::SysLog::Charset') =~ m/^utf-?8$/ ) {
-        $Kernel::OM->Get('EncodeObject')->EncodeOutput( \$Param{Message} );
+    if ( $ConfigObject->Get('LogModule::SysLog::Charset') =~ m/^utf-?8$/ ) {
+        $EncodeObject->EncodeOutput( \$Param{Message} );
     }
     else {
-        $Param{Message} = $Kernel::OM->Get('EncodeObject')->Convert(
+        $Param{Message} = $EncodeObject->Convert(
             Text  => $Param{Message},
             From  => 'utf8',
-            To    => $Self->{ConfigObject}->Get('LogModule::SysLog::Charset') || 'iso-8859-15',
+            To    => $ConfigObject->Get('LogModule::SysLog::Charset') || 'iso-8859-15',
             Force => 1,
         );
     }
