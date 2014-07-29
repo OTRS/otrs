@@ -294,7 +294,7 @@ sub _Edit {
         SelectedID => $Param{ValidID},
     );
 
-    for my $Entry ( @{ $Self->{ConfigObject}->Get('CustomerCompany')->{Map} } ) {
+    for my $Entry ( @{ $Self->{ConfigObject}->Get( $Param{Source} )->{Map} } ) {
         if ( $Entry->[0] ) {
             my $Block = 'Input';
 
