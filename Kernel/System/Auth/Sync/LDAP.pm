@@ -100,7 +100,8 @@ sub Sync {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need User!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need User!' );
         return;
     }
     $Param{User} = $Self->_ConvertTo( $Param{User}, 'utf-8' );

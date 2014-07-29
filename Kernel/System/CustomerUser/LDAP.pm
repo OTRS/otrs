@@ -30,7 +30,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed data
-    for my $Needed ( qw( PreferencesObject CustomerUserMap ) ) {
+    for my $Needed (qw( PreferencesObject CustomerUserMap )) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
@@ -212,7 +212,8 @@ sub CustomerName {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserLogin!' );
         return;
     }
 
@@ -650,7 +651,8 @@ sub CustomerIDs {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need User!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need User!' );
         return;
     }
 
@@ -719,7 +721,8 @@ sub CustomerUserDataGet {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need User!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need User!' );
         return;
     }
 
@@ -793,9 +796,10 @@ sub CustomerUserDataGet {
 
     # add last login timestamp
     if ( $Preferences{UserLastLogin} ) {
-        $Preferences{UserLastLoginTimestamp} = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
+        $Preferences{UserLastLoginTimestamp}
+            = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
             SystemTime => $Preferences{UserLastLogin},
-        );
+            );
     }
 
     # cache request
@@ -816,11 +820,13 @@ sub CustomerUserAdd {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Customer backend is read only!' );
         return;
     }
 
-    $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Not supported for this module!' );
+    $Kernel::OM->Get('Kernel::System::Log')
+        ->Log( Priority => 'error', Message => 'Not supported for this module!' );
 
     return;
 }
@@ -830,11 +836,13 @@ sub CustomerUserUpdate {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Customer backend is read only!' );
         return;
     }
 
-    $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Not supported for this module!' );
+    $Kernel::OM->Get('Kernel::System::Log')
+        ->Log( Priority => 'error', Message => 'Not supported for this module!' );
 
     return;
 }
@@ -846,11 +854,13 @@ sub SetPassword {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Customer backend is read only!' );
         return;
     }
 
-    $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Not supported for this module!' );
+    $Kernel::OM->Get('Kernel::System::Log')
+        ->Log( Priority => 'error', Message => 'Not supported for this module!' );
 
     return;
 }
@@ -883,7 +893,8 @@ sub SetPreferences {
 
     # check needed params
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 
@@ -902,7 +913,8 @@ sub GetPreferences {
 
     # check needed params
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 

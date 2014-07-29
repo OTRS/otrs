@@ -751,7 +751,8 @@ sub Dump {
 
     # check needed data
     if ( !defined $Data ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need \$String in Dump()!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Need \$String in Dump()!" );
         return;
     }
 
@@ -760,7 +761,8 @@ sub Dump {
         $Type = 'binary';
     }
     if ( $Type ne 'ascii' && $Type ne 'binary' ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Invalid Type '$Type'!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Invalid Type '$Type'!" );
         return;
     }
 

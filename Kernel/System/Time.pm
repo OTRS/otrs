@@ -193,7 +193,7 @@ sub TimeStamp2SystemTime {
     if ( !$Param{String} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message => 'Need String!',
+            Message  => 'Need String!',
         );
         return;
     }
@@ -338,7 +338,7 @@ sub Date2SystemTime {
         if ( !defined $Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message => "Need $_!",
+                Message  => "Need $_!",
             );
             return;
         }
@@ -421,7 +421,7 @@ sub WorkingTime {
         if ( !defined $Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message => "Need $_!",
+                Message  => "Need $_!",
             );
             return;
         }
@@ -595,7 +595,7 @@ sub DestinationTime {
                 "TimeVacationDaysOneTime::Calendar" . $Param{Calendar}
             );
             $Zone = $ConfigObject->Get( "TimeZone::Calendar" . $Param{Calendar} );
-            $Zone = $Zone * 3600;                                                          # 60 * 60
+            $Zone = $Zone * 3600;                                                    # 60 * 60
             $Param{StartTime} = $Param{StartTime} + $Zone;
         }
     }

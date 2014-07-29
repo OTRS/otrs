@@ -218,7 +218,8 @@ sub Upload {
     # check needed stuff
     for (qw(Content)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -366,7 +367,8 @@ sub ConfigItemUpdate {
     # check needed stuff
     for (qw(Valid Key Value)) {
         if ( !defined( $Param{$_} ) ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -499,7 +501,8 @@ sub ConfigItemGet {
     # check needed stuff
     for (qw(Name)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -947,7 +950,8 @@ sub ConfigItemReset {
     # check needed stuff
     for (qw(Name)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -1005,7 +1009,8 @@ sub ConfigSubGroupList {
     # check needed stuff
     for (qw(Name)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -1053,7 +1058,8 @@ sub ConfigSubGroupConfigItemList {
     # check needed stuff
     for (qw(Group SubGroup)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -1121,7 +1127,8 @@ sub ConfigItemSearch {
     # check needed stuff
     for (qw(Search)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -1661,7 +1668,8 @@ sub _DataDiff {
     # check needed stuff
     for (qw(Data1 Data2)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -1811,7 +1819,8 @@ sub _FileWriteAtomic {
 
     for (qw(Filename Content)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -1850,7 +1859,8 @@ sub _ConfigItemTranslatableStrings {
     # check needed stuff
     for (qw(Data)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -1937,7 +1947,8 @@ sub _XML2Perl {
     # check needed stuff
     for (qw(Data)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }

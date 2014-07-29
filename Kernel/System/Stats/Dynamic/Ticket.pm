@@ -649,7 +649,8 @@ sub GetStatElement {
             }
             else {
                 $Param{$ParameterName}
-                    = $Self->{DBSlaveObject}->QueryStringEscape( QueryString => $Param{$ParameterName} );
+                    = $Self->{DBSlaveObject}
+                    ->QueryStringEscape( QueryString => $Param{$ParameterName} );
             }
         }
     }
@@ -681,9 +682,9 @@ sub ExportWrapper {
     my ( $Self, %Param ) = @_;
 
     # get needed objects
-    my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
-    my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
-    my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+    my $UserObject     = $Kernel::OM->Get('Kernel::System::User');
+    my $QueueObject    = $Kernel::OM->Get('Kernel::System::Queue');
+    my $StateObject    = $Kernel::OM->Get('Kernel::System::State');
     my $PriorityObject = $Kernel::OM->Get('Kernel::System::Priority');
 
     # wrap ids to used spelling
@@ -741,9 +742,9 @@ sub ImportWrapper {
     my ( $Self, %Param ) = @_;
 
     # get needed objects
-    my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
-    my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
-    my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+    my $UserObject     = $Kernel::OM->Get('Kernel::System::User');
+    my $QueueObject    = $Kernel::OM->Get('Kernel::System::Queue');
+    my $StateObject    = $Kernel::OM->Get('Kernel::System::State');
     my $PriorityObject = $Kernel::OM->Get('Kernel::System::Priority');
 
     # wrap used spelling to ids

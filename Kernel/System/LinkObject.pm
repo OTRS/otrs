@@ -236,7 +236,8 @@ sub PossibleLinkList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 
@@ -1283,7 +1284,8 @@ sub LinkListWithData {
 
         # get config, which ticket state types should not be included in linked tickets overview
         my @IgnoreLinkedTicketStateTypes
-            = @{ $Kernel::OM->Get('Kernel::Config')->Get('LinkObject::IgnoreLinkedTicketStateTypes') // [] };
+            = @{ $Kernel::OM->Get('Kernel::Config')->Get('LinkObject::IgnoreLinkedTicketStateTypes')
+                // [] };
 
         if (@IgnoreLinkedTicketStateTypes) {
             my %IgnoreLinkTicketStateTypesHash;
@@ -1527,7 +1529,8 @@ sub ObjectLookup {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 
@@ -1671,7 +1674,8 @@ sub TypeLookup {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 
@@ -1925,7 +1929,8 @@ sub TypeList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 
@@ -1997,7 +2002,8 @@ sub TypeGroupList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 
@@ -2151,7 +2157,8 @@ sub StateLookup {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 
@@ -2262,7 +2269,8 @@ sub StateList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 

@@ -75,7 +75,8 @@ sub OTRSInit {
     #   registered for a particular or for all templates, the template cannot be
     #   cached any more.
     #
-    $Self->{FilterElementPre} = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Output::FilterElementPre');
+    $Self->{FilterElementPre}
+        = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Output::FilterElementPre');
 
     my %UncacheableTemplates;
 
@@ -394,7 +395,8 @@ sub _PreProcessTemplateContent {
             }
 
             next FILTER if !$Param{TemplateFile} && !$TemplateList{ALL};
-            next FILTER if !$Kernel::OM->Get('Kernel::System::Main')->Require( $FilterConfig->{Module} );
+            next FILTER
+                if !$Kernel::OM->Get('Kernel::System::Main')->Require( $FilterConfig->{Module} );
 
             # create new instance
             my $Object = $FilterConfig->{Module}->new(

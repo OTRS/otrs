@@ -123,7 +123,7 @@ sub Auth {
     my ( $Self, %Param ) = @_;
 
     # get needed objects
-    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+    my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # use all 11 auth backends and return on first true

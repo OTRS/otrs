@@ -104,7 +104,7 @@ sub StatsAdd {
     # meta tags
     my $StatNumber = $StatID + $Kernel::OM->Get('Kernel::Config')->Get('Stats::StatsStartNumber');
 
-    my %MetaData   = (
+    my %MetaData = (
         Created => [
             { Content => $TimeStamp },
         ],
@@ -165,7 +165,8 @@ sub StatsGet {
 
     # check necessary data
     if ( !$Param{StatID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need StatID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need StatID!' );
     }
 
     $Param{NoObjectAttributes} = $Param{NoObjectAttributes} ? 1 : 0;
@@ -372,7 +373,8 @@ sub StatsUpdate {
 
     # check necessary data
     if ( !$Param{StatID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need StatID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need StatID!' );
     }
 
     # requesting stats reference
@@ -488,7 +490,8 @@ sub StatsUpdate {
         XMLHash => \@Array
     );
     if ( !$Success ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Can't add XMLHash!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Can't add XMLHash!" );
         return;
     }
 
@@ -512,7 +515,8 @@ sub StatsDelete {
 
     # check necessary data
     if ( !$Param{StatID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need StatID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need StatID!' );
     }
 
     # delete the record
@@ -820,7 +824,8 @@ sub GenerateGraph {
     # check if need params are available
     for (qw(Array GraphSize HeadArrayRef Title Format)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -1646,7 +1651,8 @@ sub Export {
     PERMISSION:
     for my $ID ( @{ $StatsXML->{Permission} } ) {
         next PERMISSION if !$ID;
-        my $Name = $Kernel::OM->Get('Kernel::System::Group')->GroupLookup( GroupID => $ID->{Content} );
+        my $Name
+            = $Kernel::OM->Get('Kernel::System::Group')->GroupLookup( GroupID => $ID->{Content} );
         next PERMISSION if !$Name;
         $ID->{Content} = $Name;
     }
@@ -2053,7 +2059,8 @@ sub StatsResultCacheCompute {
 
     for my $Needed (qw(StatID UserGetParam)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -2104,7 +2111,8 @@ sub StatsResultCacheGet {
 
     for my $Needed (qw(StatID UserGetParam)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -2136,7 +2144,8 @@ sub _StatsParamsGenerate {
 
     for my $Needed (qw(StatID UserGetParam)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }

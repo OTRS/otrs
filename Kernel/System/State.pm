@@ -89,7 +89,8 @@ sub StateAdd {
     # check needed stuff
     for (qw(Name ValidID TypeID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -161,7 +162,8 @@ sub StateGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need ID or Name!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Need ID or Name!" );
         return;
     }
 
@@ -254,7 +256,8 @@ sub StateUpdate {
     # check needed stuff
     for (qw(ID Name ValidID TypeID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -315,12 +318,14 @@ sub StateGetStatesByType {
 
     # check needed stuff
     if ( !$Param{Result} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need Result!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need Result!' );
         return;
     }
 
     if ( !$Param{Type} && !$Param{StateType} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need Type or StateType!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need Type or StateType!' );
         return;
     }
 
@@ -483,7 +488,8 @@ sub StateList {
     # sql
     my $SQL = 'SELECT id, name FROM ticket_state';
     if ($Valid) {
-        $SQL .= " WHERE valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} )";
+        $SQL
+            .= " WHERE valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} )";
     }
 
     # get database object
@@ -525,7 +531,8 @@ sub StateLookup {
 
     # check needed stuff
     if ( !$Param{State} && !$Param{StateID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( State => 'error', Message => 'Need State or StateID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( State => 'error', Message => 'Need State or StateID!' );
         return;
     }
 

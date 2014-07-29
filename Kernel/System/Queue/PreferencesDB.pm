@@ -52,7 +52,7 @@ sub QueuePreferencesSet {
         if ( !defined $Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message => "Need $_!",
+                Message  => "Need $_!",
             );
             return;
         }
@@ -92,7 +92,7 @@ sub QueuePreferencesGet {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message => "Need $_!",
+                Message  => "Need $_!",
             );
             return;
         }

@@ -105,7 +105,8 @@ sub GetOption {
 
     # check needed stuff
     if ( !$Param{What} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need What!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Need What!" );
         return;
     }
 
@@ -122,7 +123,8 @@ sub Auth {
     # check needed stuff
     for (qw(User Pw)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }

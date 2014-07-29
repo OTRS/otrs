@@ -1052,7 +1052,8 @@ sub QueryCondition {
     # check needed stuff
     for (qw(Key Value)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -1469,7 +1470,8 @@ sub QueryStringEscape {
     # check needed stuff
     for my $Key (qw(QueryString)) {
         if ( !defined $Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }

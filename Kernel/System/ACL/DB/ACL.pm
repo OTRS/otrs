@@ -232,7 +232,8 @@ sub ACLDelete {
     # check needed stuff
     for my $Key (qw(ID UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
@@ -303,7 +304,8 @@ sub ACLGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ID or Name!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need ID or Name!' );
         return;
     }
 
@@ -440,7 +442,8 @@ sub ACLUpdate {
     # check needed stuff
     for my $Key (qw(ID Name ValidID UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
@@ -714,7 +717,7 @@ sub ACLListGet {
 
     # check cache
     my $CacheKey = 'ACLListGet::ValidIDs::' . $ValidIDsStrg;
-    my $Cache = $CacheObject->Get(
+    my $Cache    = $CacheObject->Get(
         Type => 'ACLEditor_ACL',
         Key  => $CacheKey,
     );

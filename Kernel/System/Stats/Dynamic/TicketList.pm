@@ -1207,9 +1207,9 @@ sub ExportWrapper {
     my ( $Self, %Param ) = @_;
 
     # get needed objects
-    my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
-    my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
-    my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+    my $UserObject     = $Kernel::OM->Get('Kernel::System::User');
+    my $QueueObject    = $Kernel::OM->Get('Kernel::System::Queue');
+    my $StateObject    = $Kernel::OM->Get('Kernel::System::State');
     my $PriorityObject = $Kernel::OM->Get('Kernel::System::Priority');
 
     # wrap ids to used spelling
@@ -1266,9 +1266,9 @@ sub ImportWrapper {
     my ( $Self, %Param ) = @_;
 
     # get needed objects
-    my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
-    my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
-    my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+    my $UserObject     = $Kernel::OM->Get('Kernel::System::User');
+    my $QueueObject    = $Kernel::OM->Get('Kernel::System::Queue');
+    my $StateObject    = $Kernel::OM->Get('Kernel::System::State');
     my $PriorityObject = $Kernel::OM->Get('Kernel::System::Priority');
 
     # wrap used spelling to ids
@@ -1377,7 +1377,7 @@ sub _TicketAttributes {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my %TicketAttributes = (
-        Number => 'Number',    # only a counter for a better readability
+        Number       => 'Number',                          # only a counter for a better readability
         TicketNumber => $ConfigObject->Get('Ticket::Hook'),
 
         #TicketID       => 'TicketID',

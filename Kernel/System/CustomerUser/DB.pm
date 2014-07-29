@@ -35,7 +35,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed data
-    for my $Needed ( qw( PreferencesObject CustomerUserMap ) ) {
+    for my $Needed (qw( PreferencesObject CustomerUserMap )) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
@@ -110,7 +110,8 @@ sub CustomerName {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserLogin!' );
         return;
     }
 
@@ -461,7 +462,8 @@ sub CustomerIDs {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need User!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need User!' );
         return;
     }
 
@@ -528,7 +530,8 @@ sub CustomerUserDataGet {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need User!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need User!' );
         return;
     }
 
@@ -613,9 +616,10 @@ sub CustomerUserDataGet {
 
     # add last login timestamp
     if ( $Preferences{UserLastLogin} ) {
-        $Preferences{UserLastLoginTimestamp} = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
+        $Preferences{UserLastLoginTimestamp}
+            = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
             SystemTime => $Preferences{UserLastLogin},
-        );
+            );
     }
 
     # cache request
@@ -636,7 +640,8 @@ sub CustomerUserAdd {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Customer backend is read only!' );
         return;
     }
 
@@ -648,12 +653,14 @@ sub CustomerUserAdd {
             # skip UserLogin, will be checked later
             next ENTRY if ( $Entry->[0] eq 'UserLogin' );
 
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
             return;
         }
     }
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 
@@ -672,7 +679,8 @@ sub CustomerUserAdd {
 
     # check if user login exists
     if ( !$Param{UserLogin} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserLogin!' );
         return;
     }
 
@@ -795,14 +803,16 @@ sub CustomerUserUpdate {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Customer backend is read only!' );
         return;
     }
 
     # check needed stuff
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         if ( !$Param{ $Entry->[0] } && $Entry->[4] && $Entry->[0] ne 'UserPassword' ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
             return;
         }
     }
@@ -940,19 +950,22 @@ sub SetPassword {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Customer backend is read only!' );
         return;
     }
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserLogin!' );
         return;
     }
     my $CryptedPw = '';
 
     # get crypt type
-    my $CryptType = $Kernel::OM->Get('Kernel::Config')->Get('Customer::AuthModule::DB::CryptType') || 'sha2';
+    my $CryptType
+        = $Kernel::OM->Get('Kernel::Config')->Get('Customer::AuthModule::DB::CryptType') || 'sha2';
 
     # get encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
@@ -1105,7 +1118,8 @@ sub SetPreferences {
 
     # check needed params
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 
@@ -1119,7 +1133,8 @@ sub GetPreferences {
 
     # check needed params
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 
@@ -1138,7 +1153,8 @@ sub _CustomerUserCacheClear {
     return if !$Self->{CacheObject};
 
     if ( !$Param{UserLogin} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserLogin!' );
         return;
     }
 
