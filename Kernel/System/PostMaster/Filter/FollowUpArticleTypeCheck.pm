@@ -49,7 +49,7 @@ sub Run {
         || $Param{GetParam}->{'X-OTRS-FollowUp-SenderType'} ne 'customer'
         )
     {
-        return;
+        return 1;
     }
 
     # Get all articles.
