@@ -15,6 +15,13 @@ use warnings;
 
 use Time::Piece;
 
+our @ObjectDependencies = (
+    'Kernel::Language',
+    'Kernel::System::DB',
+    'Kernel::System::Time',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -22,10 +29,7 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(ConfigObject LogObject DBObject MainObject TimeObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    $Self->{DBSlaveObject} = $Param{DBSlaveObject} || $Kernel::OM->Get('Kernel::System::DB');
 
     return $Self;
 }
@@ -43,9 +47,12 @@ sub GetObjectBehaviours {
 sub Param {
     my $Self = shift;
 
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     # get current time
-    my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
-        SystemTime => $Self->{TimeObject}->SystemTime(),
+    my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
+        SystemTime => $TimeObject->SystemTime(),
     );
 
     # get one month before
@@ -80,13 +87,8 @@ sub Param {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $LanguageObject = Kernel::Language->new(
-        MainObject   => $Self->{MainObject},
-        ConfigObject => $Self->{ConfigObject},
-        EncodeObject => $Self->{EncodeObject},
-        LogObject    => $Self->{LogObject},
-        UserLanguage => $Param{UserLanguage},
-    );
+    # get language object
+    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
     my $Year  = $Param{Year};
     my $Month = $Param{Month};
@@ -103,7 +105,7 @@ sub Run {
 
     # first take epoch for 12:00 on the 1st of given month
     # create Time::Piece object for this time
-    my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
+    my $SystemTime = $Kernel::OM->Get('Kernel::System::Time')->Date2SystemTime(
         Year   => $Param{Year},
         Month  => $Param{Month},
         Day    => 1,
@@ -111,6 +113,7 @@ sub Run {
         Minute => 0,
         Second => 0,
     );
+
     my $TimePiece = localtime($SystemTime);    ## no critic
 
     my @Data;
@@ -157,10 +160,10 @@ sub _GetHistoryTypes {
     my $Self = shift;
 
     my $SQL = 'SELECT id, name FROM ticket_history_type WHERE valid_id = 1';
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    $Self->{DBSlaveObject}->Prepare( SQL => $SQL );
 
     my %Stats;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $Self->{DBSlaveObject}->FetchrowArray() ) {
         $Stats{ $Row[0] } = $Row[1];
     }
 
@@ -175,10 +178,10 @@ sub _GetDBDataPerDay {
     my $SQL   = 'SELECT count(*) FROM ticket_history '
         . 'WHERE history_type_id = ? AND create_time >= ? AND create_time <= ?';
 
-    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => [ \$Param{StateID}, \$Start, \$End ] );
+    $Self->{DBSlaveObject}->Prepare( SQL => $SQL, Bind => [ \$Param{StateID}, \$Start, \$End ] );
 
     my $DayData = 0;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $Self->{DBSlaveObject}->FetchrowArray() ) {
         $DayData = $Row[0];
     }
     return $DayData;

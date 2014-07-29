@@ -19,8 +19,16 @@ use Storable qw();
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
-    @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(GroupObject XMLObject CacheObject)
+    'Kernel::Config',
+    'Kernel::Language',
+    'Kernel::System::Cache',
+    'Kernel::System::Encode',
+    'Kernel::System::Group',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Time',
+    'Kernel::System::User',
+    'Kernel::System::XML',
 );
 our $ObjectManagerAware = 1;
 
@@ -46,7 +54,7 @@ create an object. Do not use it directly, instead use:
             UserID  => 123,
         }
     );
-    my $StatsObject = $Kernel::OM->Get('StatsObject');
+    my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
 =cut
 
@@ -54,29 +62,13 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {
-        $Kernel::OM->ObjectHash(
-            Objects => [
-                qw(
-                    ConfigObject
-                    LogObject
-                    GroupObject
-                    TimeObject
-                    MainObject
-                    DBObject
-                    EncodeObject
-                    XMLObject
-                    CacheObject
-                    )
-            ],
-        ),
-    };
+    my $Self = {};
     bless( $Self, $Type );
 
     $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
 
     # temporary directory
-    $Self->{StatsTempDir} = $Self->{ConfigObject}->Get('Home') . '/var/stats/';
+    $Self->{StatsTempDir} = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/stats/';
 
     return $Self;
 }
@@ -92,21 +84,26 @@ add new empty stats
 sub StatsAdd {
     my $Self = shift;
 
+    # get needed objects
+    my $XMLObject  = $Kernel::OM->Get('Kernel::System::XML');
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     # get new StatID
     my $StatID = 1;
-    my @Keys = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats', );
+    my @Keys = $XMLObject->XMLHashSearch( Type => 'Stats', );
     if (@Keys) {
         my @SortKeys = sort { $a <=> $b } @Keys;
         $StatID = $SortKeys[-1] + 1;
     }
 
     # requesting current time stamp
-    my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => $Self->{TimeObject}->SystemTime(),
+    my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
+        SystemTime => $TimeObject->SystemTime(),
     );
 
     # meta tags
-    my $StatNumber = $StatID + $Self->{ConfigObject}->Get('Stats::StatsStartNumber');
+    my $StatNumber = $StatID + $Kernel::OM->Get('Kernel::Config')->Get('Stats::StatsStartNumber');
+
     my %MetaData   = (
         Created => [
             { Content => $TimeStamp },
@@ -132,20 +129,20 @@ sub StatsAdd {
     my @XMLHash = (
         { otrs_stats => [ \%MetaData ] },
     );
-    my $Success = $Self->{XMLObject}->XMLHashAdd(
+    my $Success = $XMLObject->XMLHashAdd(
         Type    => 'Stats',
         Key     => $StatID,
         XMLHash => \@XMLHash,
     );
     if ( !$Success ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Can not add a new Stat!',
         );
         return;
     }
 
-    $Self->{CacheObject}->CleanUp(
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => 'Stats',
     );
 
@@ -168,28 +165,31 @@ sub StatsGet {
 
     # check necessary data
     if ( !$Param{StatID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need StatID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need StatID!' );
     }
 
     $Param{NoObjectAttributes} = $Param{NoObjectAttributes} ? 1 : 0;
 
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
     my $CacheKey
         = "StatsGet::StatID::$Param{StatID}::NoObjectAttributes::$Param{NoObjectAttributes}";
 
-    my $Cache = $Self->{CacheObject}->Get(
+    my $Cache = $CacheObject->Get(
         Type => 'Stats',
         Key  => $CacheKey,
     );
     return $Cache if ref $Cache eq 'HASH';
 
     # get hash from storage
-    my @XMLHash = $Self->{XMLObject}->XMLHashGet(
+    my @XMLHash = $Kernel::OM->Get('Kernel::System::XML')->XMLHashGet(
         Type => 'Stats',
         Key  => $Param{StatID},
     );
 
     if ( !$XMLHash[0] ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't get StatsID $Param{StatID}!",
         );
@@ -234,7 +234,8 @@ sub StatsGet {
     # %Allowed is used to avoid double selection in different forms
     my %Allowed;
     my %TimeAllowed;
-    my $TimeElement = $Self->{ConfigObject}->Get('Stats::TimeElement') || 'Time';
+    my $TimeElement = $Kernel::OM->Get('Kernel::Config')->Get('Stats::TimeElement') || 'Time';
+
     return \%Stat if !$Stat{Object};
 
     $Stat{ObjectName} = $Self->GetObjectName(
@@ -243,7 +244,7 @@ sub StatsGet {
 
     if ( $Param{NoObjectAttributes} ) {
 
-        $Self->{CacheObject}->Set(
+        $CacheObject->Set(
             Type  => 'Stats',
             Key   => $CacheKey,
             Value => \%Stat,
@@ -342,7 +343,7 @@ sub StatsGet {
         $Stat{$Key} = \@StatAttributesSimplified;
     }
 
-    $Self->{CacheObject}->Set(
+    $CacheObject->Set(
         Type  => 'Stats',
         Key   => $CacheKey,
         Value => \%Stat,
@@ -371,13 +372,13 @@ sub StatsUpdate {
 
     # check necessary data
     if ( !$Param{StatID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need StatID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need StatID!' );
     }
 
     # requesting stats reference
     my $StatOld = $Self->StatsGet( StatID => $Param{StatID} );
     if ( !$StatOld ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message =>
                 "Can't get stats, perhaps you have an invalid stats id! (StatsID => $Param{StatID})"
@@ -443,24 +444,30 @@ sub StatsUpdate {
         }
     }
 
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     # meta tags
-    my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => $Self->{TimeObject}->SystemTime(),
+    my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
+        SystemTime => $TimeObject->SystemTime(),
     );
     $StatXML{Changed}->[1]->{Content}   = $TimeStamp;
     $StatXML{ChangedBy}->[1]->{Content} = $Self->{UserID};
+
+    # get xml object
+    my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
 
     # please don't change the functionality of XMLHashDelete and XMLHashAdd
     # into the new function XMLHashUpdate, there is an incompatibility.
     # Perhaps there are intricacies because of the 'Array[0] = undef' definition
 
     # delete the old record
-    my $Success = $Self->{XMLObject}->XMLHashDelete(
+    my $Success = $XMLObject->XMLHashDelete(
         Type => 'Stats',
         Key  => $Param{StatID},
     );
     if ( !$Success ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't delete XMLHash!"
         );
@@ -475,17 +482,17 @@ sub StatsUpdate {
     );
 
     # add the revised record
-    $Success = $Self->{XMLObject}->XMLHashAdd(
+    $Success = $XMLObject->XMLHashAdd(
         Type    => 'Stats',
         Key     => $Param{StatID},
         XMLHash => \@Array
     );
     if ( !$Success ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't add XMLHash!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Can't add XMLHash!" );
         return;
     }
 
-    $Self->{CacheObject}->CleanUp(
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => 'Stats',
     );
 
@@ -505,18 +512,18 @@ sub StatsDelete {
 
     # check necessary data
     if ( !$Param{StatID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need StatID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need StatID!' );
     }
 
     # delete the record
-    my $Success = $Self->{XMLObject}->XMLHashDelete(
+    my $Success = $Kernel::OM->Get('Kernel::System::XML')->XMLHashDelete(
         Type => 'Stats',
         Key  => $Param{StatID},
     );
 
     # error handling
     if ( !$Success ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't delete XMLHash!",
         );
@@ -526,8 +533,11 @@ sub StatsDelete {
     # delete cache
     $Self->_DeleteCache( StatID => $Param{StatID} );
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     # get list of installed stats files
-    my @StatsFileList = $Self->{MainObject}->DirectoryRead(
+    my @StatsFileList = $MainObject->DirectoryRead(
         Directory => $Self->{StatsTempDir},
         Filter    => '*.xml.installed',
     );
@@ -537,7 +547,7 @@ sub StatsDelete {
     for my $File ( sort @StatsFileList ) {
 
         # read file content
-        my $StatsIDRef = $Self->{MainObject}->FileRead(
+        my $StatsIDRef = $MainObject->FileRead(
             Location => $File,
         );
 
@@ -548,18 +558,18 @@ sub StatsDelete {
         next FILE if ${$StatsIDRef} ne $Param{StatID};
 
         # delete .installed file
-        $Self->{MainObject}->FileDelete(
+        $MainObject->FileDelete(
             Location => $File,
         );
     }
 
     # add log message
-    $Self->{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',
         Message  => "Delete stats (StatsID = $Param{StatID})",
     );
 
-    $Self->{CacheObject}->CleanUp(
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => 'Stats',
     );
 
@@ -590,9 +600,12 @@ sub StatsListGet {
 
     my @SearchResult;
 
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
     # Only cache the XML search as we need to filter based on user permissions later
     my $CacheKey = 'StatsListGet::XMLSearch';
-    my $Cache    = $Self->{CacheObject}->Get(
+    my $Cache    = $CacheObject->Get(
         Type => 'Stats',
         Key  => $CacheKey,
     );
@@ -602,16 +615,20 @@ sub StatsListGet {
         @SearchResult = @{$Cache};
     }
     else {
+
+        # get xml object
+        my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
+
         # No cache. Is there stats data yet?
-        if ( !( @SearchResult = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats' ) ) ) {
+        if ( !( @SearchResult = $XMLObject->XMLHashSearch( Type => 'Stats' ) ) ) {
 
             # Import sample stats
             $Self->_AutomaticSampleImport();
 
             # Load stats again
-            return if !( @SearchResult = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats' ) );
+            return if !( @SearchResult = $XMLObject->XMLHashSearch( Type => 'Stats' ) );
         }
-        $Self->{CacheObject}->Set(
+        $CacheObject->Set(
             Type  => 'Stats',
             Key   => $CacheKey,
             Value => \@SearchResult,
@@ -621,7 +638,7 @@ sub StatsListGet {
     }
 
     # get user groups
-    my @Groups = $Self->{GroupObject}->GroupMemberList(
+    my @Groups = $Kernel::OM->Get('Kernel::System::Group')->GroupMemberList(
         UserID => $Self->{UserID},
         Type   => 'ro',
         Result => 'ID',
@@ -803,7 +820,7 @@ sub GenerateGraph {
     # check if need params are available
     for (qw(Array GraphSize HeadArrayRef Title Format)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -823,10 +840,13 @@ sub GenerateGraph {
         }
     }
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     # load gd modules
     for my $Module ( 'GD', 'GD::Graph', $GDBackend ) {
-        if ( !$Self->{MainObject}->Require($Module) ) {
-            $Self->{LogObject}->Log(
+        if ( !$MainObject->Require($Module) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Module!"
             );
@@ -849,10 +869,13 @@ sub GenerateGraph {
     my ( $XSize, $YSize ) = split( m{x}x, $Param{GraphSize} );
     my $Graph = $GDBackend->new( $XSize || 550, $YSize || 350 );
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # set fonts so we can use non-latin characters
-    my $FontDir    = $Self->{ConfigObject}->Get('Home') . '/var/fonts/';
-    my $TitleFont  = $FontDir . $Self->{ConfigObject}->Get('Stats::Graph::TitleFont');
-    my $LegendFont = $FontDir . $Self->{ConfigObject}->Get('Stats::Graph::LegendFont');
+    my $FontDir    = $ConfigObject->Get('Home') . '/var/fonts/';
+    my $TitleFont  = $FontDir . $ConfigObject->Get('Stats::Graph::TitleFont');
+    my $LegendFont = $FontDir . $ConfigObject->Get('Stats::Graph::LegendFont');
     $Graph->set_title_font( $TitleFont, 14 );
 
     # there are different font options for different font types
@@ -877,20 +900,20 @@ sub GenerateGraph {
         #        y_tick_number => 16,
         #        y_label_skip => 4,
         #        x_tick_number => 8,
-        t_margin    => $Self->{ConfigObject}->Get('Stats::Graph::t_margin')    || 10,
-        b_margin    => $Self->{ConfigObject}->Get('Stats::Graph::b_margin')    || 10,
-        l_margin    => $Self->{ConfigObject}->Get('Stats::Graph::l_margin')    || 10,
-        r_margin    => $Self->{ConfigObject}->Get('Stats::Graph::r_margin')    || 20,
-        bgclr       => $Self->{ConfigObject}->Get('Stats::Graph::bgclr')       || 'white',
-        transparent => $Self->{ConfigObject}->Get('Stats::Graph::transparent') || 0,
+        t_margin    => $ConfigObject->Get('Stats::Graph::t_margin')    || 10,
+        b_margin    => $ConfigObject->Get('Stats::Graph::b_margin')    || 10,
+        l_margin    => $ConfigObject->Get('Stats::Graph::l_margin')    || 10,
+        r_margin    => $ConfigObject->Get('Stats::Graph::r_margin')    || 20,
+        bgclr       => $ConfigObject->Get('Stats::Graph::bgclr')       || 'white',
+        transparent => $ConfigObject->Get('Stats::Graph::transparent') || 0,
         interlaced  => 1,
-        fgclr       => $Self->{ConfigObject}->Get('Stats::Graph::fgclr')       || 'black',
-        boxclr      => $Self->{ConfigObject}->Get('Stats::Graph::boxclr')      || 'white',
-        accentclr   => $Self->{ConfigObject}->Get('Stats::Graph::accentclr')   || 'black',
-        shadowclr   => $Self->{ConfigObject}->Get('Stats::Graph::shadowclr')   || 'black',
-        legendclr   => $Self->{ConfigObject}->Get('Stats::Graph::legendclr')   || 'black',
-        textclr     => $Self->{ConfigObject}->Get('Stats::Graph::textclr')     || 'black',
-        dclrs       => $Self->{ConfigObject}->Get('Stats::Graph::dclrs')
+        fgclr       => $ConfigObject->Get('Stats::Graph::fgclr')       || 'black',
+        boxclr      => $ConfigObject->Get('Stats::Graph::boxclr')      || 'white',
+        accentclr   => $ConfigObject->Get('Stats::Graph::accentclr')   || 'black',
+        shadowclr   => $ConfigObject->Get('Stats::Graph::shadowclr')   || 'black',
+        legendclr   => $ConfigObject->Get('Stats::Graph::legendclr')   || 'black',
+        textclr     => $ConfigObject->Get('Stats::Graph::textclr')     || 'black',
+        dclrs       => $ConfigObject->Get('Stats::Graph::dclrs')
             || [
             qw(red green blue yellow purple orange pink marine cyan lgray lblue lyellow lgreen lred lpurple lorange lbrown)
             ],
@@ -898,12 +921,12 @@ sub GenerateGraph {
         x_label_position    => 1 / 2,
         y_label_position    => 1 / 2,
         x_labels_vertical   => 31,
-        line_width          => $Self->{ConfigObject}->Get('Stats::Graph::line_width') || 1,
-        legend_placement    => $Self->{ConfigObject}->Get('Stats::Graph::legend_placement') || 'BC',
-        legend_spacing      => $Self->{ConfigObject}->Get('Stats::Graph::legend_spacing') || 4,
-        legend_marker_width => $Self->{ConfigObject}->Get('Stats::Graph::legend_marker_width')
+        line_width          => $ConfigObject->Get('Stats::Graph::line_width') || 1,
+        legend_placement    => $ConfigObject->Get('Stats::Graph::legend_placement') || 'BC',
+        legend_spacing      => $ConfigObject->Get('Stats::Graph::legend_spacing') || 4,
+        legend_marker_width => $ConfigObject->Get('Stats::Graph::legend_marker_width')
             || 12,
-        legend_marker_height => $Self->{ConfigObject}->Get('Stats::Graph::legend_marker_height')
+        legend_marker_height => $ConfigObject->Get('Stats::Graph::legend_marker_height')
             || 8,
     );
 
@@ -936,7 +959,7 @@ sub GenerateGraph {
     # error handling
     if ( !$Ext ) {
 
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message =>
                 "The support of png, jpeg and gif output is not activated in the GD CPAN module!",
@@ -1042,7 +1065,7 @@ sub CompletenessCheck {
     NEED:
     for my $Need (qw(StatData Section)) {
         next NEED if $Param{$Need};
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need $Need"
         );
@@ -1075,6 +1098,10 @@ sub CompletenessCheck {
         }
     }
 
+    # get needed objects
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
+
     # for form calls
     if ( $StatData{StatType} && $StatData{StatType} eq 'dynamic' ) {
         if (
@@ -1089,10 +1116,10 @@ sub CompletenessCheck {
 
                 if ( $Xvalue->{Block} eq 'Time' ) {
                     if ( $Xvalue->{TimeStart} && $Xvalue->{TimeStop} ) {
-                        my $TimeStart = $Self->{TimeObject}->TimeStamp2SystemTime(
+                        my $TimeStart = $TimeObject->TimeStamp2SystemTime(
                             String => $Xvalue->{TimeStart}
                         );
-                        my $TimeStop = $Self->{TimeObject}->TimeStamp2SystemTime(
+                        my $TimeStop = $TimeObject->TimeStamp2SystemTime(
                             String => $Xvalue->{TimeStop}
                         );
                         if ( !$TimeStart || !$TimeStop ) {
@@ -1191,10 +1218,10 @@ sub CompletenessCheck {
                     )
                 {
                     if ( $Restriction->{TimeStart} && $Restriction->{TimeStop} ) {
-                        my $TimeStart = $Self->{TimeObject}->TimeStamp2SystemTime(
+                        my $TimeStart = $TimeObject->TimeStamp2SystemTime(
                             String => $Restriction->{TimeStart}
                         );
-                        my $TimeStop = $Self->{TimeObject}->TimeStamp2SystemTime(
+                        my $TimeStop = $TimeObject->TimeStamp2SystemTime(
                             String => $Restriction->{TimeStop}
                         );
                         if ( !$TimeStart || !$TimeStop ) {
@@ -1265,10 +1292,10 @@ sub CompletenessCheck {
                 if ( $Xvalue->{TimeStop} && $Xvalue->{TimeStart} ) {
                     $TimePeriod
                         = (
-                        $Self->{TimeObject}->TimeStamp2SystemTime( String => $Xvalue->{TimeStop} )
+                        $TimeObject->TimeStamp2SystemTime( String => $Xvalue->{TimeStop} )
                         )
                         - (
-                        $Self->{TimeObject}->TimeStamp2SystemTime( String => $Xvalue->{TimeStart} )
+                        $TimeObject->TimeStamp2SystemTime( String => $Xvalue->{TimeStart} )
                         );
                 }
                 else {
@@ -1276,7 +1303,7 @@ sub CompletenessCheck {
                         * $Xvalue->{TimeRelativeCount};
                 }
 
-                my $MaxAttr = $Self->{ConfigObject}->Get('Stats::MaxXaxisAttributes') || 1000;
+                my $MaxAttr = $ConfigObject->Get('Stats::MaxXaxisAttributes') || 1000;
                 if ( $TimePeriod / ( $ScalePeriod * $Count ) > $MaxAttr ) {
                     push @IndexArray, 15;
                 }
@@ -1310,7 +1337,7 @@ sub GetStatsObjectAttributes {
     # check needed params
     for (qw(ObjectModule Use)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $_!"
             );
@@ -1320,7 +1347,7 @@ sub GetStatsObjectAttributes {
 
     # load module
     my $ObjectModule = $Param{ObjectModule};
-    return if !$Self->{MainObject}->Require($ObjectModule);
+    return if !$Kernel::OM->Get('Kernel::System::Main')->Require($ObjectModule);
     my $StatObject = $ObjectModule->new( %{$Self} );
     return if !$StatObject;
 
@@ -1355,14 +1382,14 @@ Get all static files
 sub GetStaticFiles {
     my ( $Self, %Param ) = @_;
 
-    my $Directory = $Self->{ConfigObject}->Get('Home');
+    my $Directory = $Kernel::OM->Get('Kernel::Config')->Get('Home');
     if ( $Directory !~ m{^.*\/$}x ) {
         $Directory .= '/';
     }
     $Directory .= 'Kernel/System/Stats/Static/';
 
     if ( !opendir( DIR, $Directory ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can not open Directory: $Directory",
         );
@@ -1416,7 +1443,10 @@ Get all static objects
 sub GetDynamicFiles {
     my $Self = shift;
 
-    my %Filelist = %{ $Self->{ConfigObject}->Get('Stats::DynamicObjectRegistration') };
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my %Filelist = %{ $ConfigObject->Get('Stats::DynamicObjectRegistration') };
     OBJECT:
     for my $Object ( sort keys %Filelist ) {
         if ( !$Filelist{$Object} ) {
@@ -1451,7 +1481,7 @@ sub GetObjectName {
 
     # load module, return if module does not exist
     # (this is important when stats are uninstalled, see also bug# 4269)
-    return if !$Self->{MainObject}->Require($Module);
+    return if !$Kernel::OM->Get('Kernel::System::Main')->Require($Module);
 
     # get name
     my $StatObject = $Module->new( %{$Self} );
@@ -1492,7 +1522,7 @@ sub GetObjectBehaviours {
 
     # load module, return if module does not exist
     # (this is important when stats are uninstalled, see also bug# 4269)
-    return if !$Self->{MainObject}->Require($Module);
+    return if !$Kernel::OM->Get('Kernel::System::Main')->Require($Module);
 
     my $StatObject = $Module->new( %{$Self} );
     return if !$StatObject;
@@ -1520,7 +1550,7 @@ check readable object file
 sub ObjectFileCheck {
     my ( $Self, %Param ) = @_;
 
-    my $Directory = $Self->{ConfigObject}->Get('Home');
+    my $Directory = $Kernel::OM->Get('Kernel::Config')->Get('Home');
     if ( $Directory !~ m{^.*\/$}x ) {
         $Directory .= '/';
     }
@@ -1550,14 +1580,17 @@ sub Export {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{StatID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Export: Need StatID!'
         );
         return;
     }
 
-    my @XMLHash = $Self->{XMLObject}->XMLHashGet(
+    # get xml object
+    my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
+
+    my @XMLHash = $XMLObject->XMLHashGet(
         Type => 'Stats',
 
         #Cache => 0,
@@ -1580,7 +1613,7 @@ sub Export {
         my $FileLocation = $StatsXML->{ObjectModule}->[1]->{Content};
         $FileLocation =~ s{::}{\/}xg;
         $FileLocation .= '.pm';
-        my $File        = $Self->{ConfigObject}->Get('Home') . "/$FileLocation";
+        my $File        = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/$FileLocation";
         my $FileContent = '';
 
         open my $Filehandle, '<', $File || die "Can't open: $File: $!";    ## no critic
@@ -1592,7 +1625,7 @@ sub Export {
         }
         close $Filehandle;
 
-        $Self->{EncodeObject}->EncodeInput( \$FileContent );
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$FileContent );
         $StatsXML->{File}->[1]->{File}       = $StatsXML->{File}->[1]->{Content};
         $StatsXML->{File}->[1]->{Content}    = encode_base64( $FileContent, '' );
         $StatsXML->{File}->[1]->{Location}   = $FileLocation;
@@ -1613,7 +1646,7 @@ sub Export {
     PERMISSION:
     for my $ID ( @{ $StatsXML->{Permission} } ) {
         next PERMISSION if !$ID;
-        my $Name = $Self->{GroupObject}->GroupLookup( GroupID => $ID->{Content} );
+        my $Name = $Kernel::OM->Get('Kernel::System::Group')->GroupLookup( GroupID => $ID->{Content} );
         next PERMISSION if !$Name;
         $ID->{Content} = $Name;
     }
@@ -1623,7 +1656,7 @@ sub Export {
 
         # load module
         my $ObjectModule = $StatsXML->{ObjectModule}->[1]->{Content};
-        return if !$Self->{MainObject}->Require($ObjectModule);
+        return if !$Kernel::OM->Get('Kernel::System::Main')->Require($ObjectModule);
         my $StatObject = $ObjectModule->new( %{$Self} );
         return if !$StatObject;
 
@@ -1634,7 +1667,7 @@ sub Export {
     }
 
     # convert hash to string
-    $File{Content} = $Self->{XMLObject}->XMLHash2XML(
+    $File{Content} = $XMLObject->XMLHash2XML(
         {
             otrs_stats => [
                 undef,
@@ -1660,13 +1693,17 @@ sub Import {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{Content} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Content!'
         );
         return;
     }
-    my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $Param{Content} );
+
+    # get xml object
+    my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
+
+    my @XMLHash = $XMLObject->XMLParse2XMLHash( String => $Param{Content} );
 
     if ( !$XMLHash[0] ) {
         shift @XMLHash;
@@ -1674,7 +1711,7 @@ sub Import {
     my $StatsXML = $XMLHash[0]->{otrs_stats}->[1];
 
     # Get new StatID
-    my @Keys = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats', );
+    my @Keys = $XMLObject->XMLHashSearch( Type => 'Stats', );
 
     # check if the required elements are available
     for my $Element (
@@ -1682,7 +1719,7 @@ sub Import {
         )
     {
         if ( !defined $StatsXML->{$Element}->[1]->{Content} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
                     "Can't import Stat, because the required element $Element is not available!"
@@ -1691,14 +1728,17 @@ sub Import {
         }
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # if-clause if a stat-xml includes a StatNumber
     my $StatID = 1;
     if ( $StatsXML->{StatNumber} ) {
         my $XMLStatsID = $StatsXML->{StatNumber}->[1]->{Content}
-            - $Self->{ConfigObject}->Get('Stats::StatsStartNumber');
+            - $ConfigObject->Get('Stats::StatsStartNumber');
         for my $Key (@Keys) {
             if ( $Key eq $XMLStatsID ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message =>
                         "Can't import StatNumber $Key, because this StatNumber is already used!"
@@ -1717,9 +1757,12 @@ sub Import {
         }
     }
 
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     # get time
-    my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => $Self->{TimeObject}->SystemTime(),
+    my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
+        SystemTime => $TimeObject->SystemTime(),
     );
 
     # meta tags
@@ -1728,7 +1771,7 @@ sub Import {
     $StatsXML->{Changed}->[1]->{Content}   = $TimeStamp;
     $StatsXML->{ChangedBy}->[1]->{Content} = $Self->{UserID};
     $StatsXML->{StatNumber}->[1]->{Content}
-        = $StatID + $Self->{ConfigObject}->Get('Stats::StatsStartNumber');
+        = $StatID + $ConfigObject->Get('Stats::StatsStartNumber');
 
     my $DynamicFiles = $Self->GetDynamicFiles();
 
@@ -1742,7 +1785,7 @@ sub Import {
         && !$DynamicFiles->{ $StatsXML->{Object}->[1]->{Content} }
         )
     {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Object $StatsXML->{Object}->[1]->{Content} doesn't exist!"
         );
@@ -1757,7 +1800,7 @@ sub Import {
     {
         my $FileLocation = $StatsXML->{ObjectModule}[1]{Content};
         $FileLocation =~ s{::}{\/}gx;
-        $FileLocation = $Self->{ConfigObject}->Get('Home') . '/' . $FileLocation . '.pm';
+        $FileLocation = $ConfigObject->Get('Home') . '/' . $FileLocation . '.pm';
 
         # if no inline file is given in the stats definition
         if ( !$StatsXML->{File}->[1]->{Content} ) {
@@ -1779,7 +1822,7 @@ sub Import {
             {
                 $StatsXML->{File}->[1]->{Content}
                     = decode_base64( $StatsXML->{File}->[1]->{Content} );
-                $Self->{EncodeObject}->EncodeOutput(
+                $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput(
                     \$StatsXML->{File}->[1]->{Content}
                 );
             }
@@ -1810,7 +1853,7 @@ sub Import {
 
     # wrapper to change used spelling in ids
     # wrap permissions
-    my %Groups = $Self->{GroupObject}->GroupList( Valid => 1 );
+    my %Groups = $Kernel::OM->Get('Kernel::System::Group')->GroupList( Valid => 1 );
 
     NAME:
     for my $Name ( @{ $StatsXML->{Permission} } ) {
@@ -1826,7 +1869,7 @@ sub Import {
             }
         }
         if ($Flag) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Can't find the permission (group) $Name->{Content}!"
             );
@@ -1839,7 +1882,7 @@ sub Import {
 
         # load module
         my $ObjectModule = $StatsXML->{ObjectModule}->[1]->{Content};
-        return if !$Self->{MainObject}->Require($ObjectModule);
+        return if !$Kernel::OM->Get('Kernel::System::Main')->Require($ObjectModule);
         my $StatObject = $ObjectModule->new( %{$Self} );
         return if !$StatObject;
 
@@ -1848,7 +1891,7 @@ sub Import {
     }
 
     # new
-    return if !$Self->{XMLObject}->XMLHashAdd(
+    return if !$XMLObject->XMLHashAdd(
         Type    => 'Stats',
         Key     => $StatID,
         XMLHash => [
@@ -1861,7 +1904,7 @@ sub Import {
         ],
     );
 
-    $Self->{CacheObject}->CleanUp(
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => 'Stats',
     );
 
@@ -1880,7 +1923,7 @@ sub GetParams {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{StatID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need StatID!'
         );
@@ -1896,13 +1939,14 @@ sub GetParams {
 
         # load static modul
         my $ObjectModule = $Stat->{ObjectModule};
-        return if !$Self->{MainObject}->Require($ObjectModule);
+        return if !$Kernel::OM->Get('Kernel::System::Main')->Require($ObjectModule);
         my $StatObject = $ObjectModule->new( %{$Self} );
         return if !$StatObject;
 
         # get params
         @Params = $StatObject->Param();
     }
+
     return \@Params;
 }
 
@@ -1924,32 +1968,31 @@ sub StatsRun {
     NEED:
     for my $Need (qw(StatID GetParam)) {
         next NEED if $Param{$Need};
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need $Need!"
         );
         return;
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # use the mirror db if configured
-    if ( $Self->{ConfigObject}->Get('Core::MirrorDB::DSN') ) {
+    if ( $ConfigObject->Get('Core::MirrorDB::DSN') ) {
         my $ExtraDatabaseObject = Kernel::System::DB->new(
-            LogObject    => $Self->{LogObject},
-            ConfigObject => $Self->{ConfigObject},
-            MainObject   => $Self->{MainObject},
-            EncodeObject => $Self->{EncodeObject},
-            DatabaseDSN  => $Self->{ConfigObject}->Get('Core::MirrorDB::DSN'),
-            DatabaseUser => $Self->{ConfigObject}->Get('Core::MirrorDB::User'),
-            DatabasePw   => $Self->{ConfigObject}->Get('Core::MirrorDB::Password'),
+            DatabaseDSN  => $ConfigObject->Get('Core::MirrorDB::DSN'),
+            DatabaseUser => $ConfigObject->Get('Core::MirrorDB::User'),
+            DatabasePw   => $ConfigObject->Get('Core::MirrorDB::Password'),
         );
         if ( !$ExtraDatabaseObject ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'There is no MirroDB!',
             );
             return;
         }
-        $Self->{DBObject} = $ExtraDatabaseObject;
+        $Self->{DBSlaveObject} = $ExtraDatabaseObject;
     }
 
     my $Stat = $Self->StatsGet( StatID => $Param{StatID} );
@@ -1989,6 +2032,7 @@ sub StatsRun {
             SumCol => $Stat->{SumCol},
         );
     }
+
     return \@Result;
 }
 
@@ -2009,7 +2053,7 @@ sub StatsResultCacheCompute {
 
     for my $Needed (qw(StatID UserGetParam)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -2017,9 +2061,12 @@ sub StatsResultCacheCompute {
     my %GetParam = $Self->_StatsParamsGenerate(%Param);
     return if !%GetParam;
 
-    my $DumpString = $Self->{MainObject}->Dump( \%GetParam );
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    my $MD5Sum = $Self->{MainObject}->MD5sum(
+    my $DumpString = $MainObject->Dump( \%GetParam );
+
+    my $MD5Sum = $MainObject->MD5sum(
         String => \$DumpString,
     );
 
@@ -2032,7 +2079,7 @@ sub StatsResultCacheCompute {
 
     # Only set/update the cache after computing it, otherwise no cache data
     #   would be available in between.
-    return $Self->{CacheObject}->Set(
+    return $Kernel::OM->Get('Kernel::System::Cache')->Set(
         Type  => 'StatsRun',
         Key   => $CacheKey,
         Value => $Result,
@@ -2057,7 +2104,7 @@ sub StatsResultCacheGet {
 
     for my $Needed (qw(StatID UserGetParam)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -2065,15 +2112,18 @@ sub StatsResultCacheGet {
     my %GetParam = $Self->_StatsParamsGenerate(%Param);
     return if !%GetParam;
 
-    my $DumpString = $Self->{MainObject}->Dump( \%GetParam );
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    my $MD5Sum = $Self->{MainObject}->MD5sum(
+    my $DumpString = $MainObject->Dump( \%GetParam );
+
+    my $MD5Sum = $MainObject->MD5sum(
         String => \$DumpString,
     );
 
     my $CacheKey = "StatsRunCached::$Self->{UserID}::$Param{StatID}::$MD5Sum";
 
-    return $Self->{CacheObject}->Get(
+    return $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => 'StatsRun',
         Key  => $CacheKey,
     );
@@ -2086,7 +2136,7 @@ sub _StatsParamsGenerate {
 
     for my $Needed (qw(StatID UserGetParam)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -2095,13 +2145,16 @@ sub _StatsParamsGenerate {
 
     my $Stat = $Self->StatsGet( StatID => $Param{StatID} );
     if ( !IsHashRefWithData($Stat) ) {
-        $Self->{LogObject}
+        $Kernel::OM->Get('Kernel::System::Log')
             ->Log( Priority => 'error', Message => "Could not load stat $Param{StatID}!" );
     }
 
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     # Get current date for static stats.
-    my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
-        SystemTime => $Self->{TimeObject}->SystemTime(),
+    my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
+        SystemTime => $TimeObject->SystemTime(),
     );
 
     # get params
@@ -2140,6 +2193,10 @@ sub _StatsParamsGenerate {
         }
     }
     else {
+
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
         my $TimePeriod = 0;
 
         for my $Use (qw(UseAsRestriction UseAsXvalue UseAsValueSeries)) {
@@ -2230,16 +2287,16 @@ sub _StatsParamsGenerate {
 
                             # integrate this functionality in the completenesscheck
                             if (
-                                $Self->{TimeObject}->TimeStamp2SystemTime(
+                                $TimeObject->TimeStamp2SystemTime(
                                     String => $Time{TimeStart}
                                 )
-                                < $Self->{TimeObject}->TimeStamp2SystemTime(
+                                < $TimeObject->TimeStamp2SystemTime(
                                     String => $Element->{TimeStart}
                                 )
                                 )
                             {
 
-                                $Self->{LogObject}->Log(
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => 'error',
                                     Message =>
                                         "User StartTime $Time{TimeStart} is before configured StartTime $Element->{TimeStart}!",
@@ -2250,15 +2307,15 @@ sub _StatsParamsGenerate {
 
                             # integrate this functionality in the completenesscheck
                             if (
-                                $Self->{TimeObject}->TimeStamp2SystemTime(
+                                $TimeObject->TimeStamp2SystemTime(
                                     String => $Time{TimeStop}
                                 )
-                                > $Self->{TimeObject}->TimeStamp2SystemTime(
+                                > $TimeObject->TimeStamp2SystemTime(
                                     String => $Element->{TimeStop}
                                 )
                                 )
                             {
-                                $Self->{LogObject}->Log(
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => 'error',
                                     Message =>
                                         "User StopTime $Time{TimeStop} is after configured StopTime $Element->{TimeStop}!",
@@ -2271,12 +2328,12 @@ sub _StatsParamsGenerate {
                             $Element->{TimeStop}  = $Time{TimeStop};
                             $TimePeriod
                                 = (
-                                $Self->{TimeObject}->TimeStamp2SystemTime(
+                                $TimeObject->TimeStamp2SystemTime(
                                     String => $Element->{TimeStop}
                                     )
                                 )
                                 - (
-                                $Self->{TimeObject}->TimeStamp2SystemTime(
+                                $TimeObject->TimeStamp2SystemTime(
                                     String => $Element->{TimeStart}
                                     )
                                 );
@@ -2299,7 +2356,7 @@ sub _StatsParamsGenerate {
 
                             # integrate this functionality in the completenesscheck
                             if ( $TimePeriodAgent > $TimePeriodAdmin ) {
-                                $Self->{LogObject}->Log(
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => 'error',
                                     Message =>
                                         "User TimePeriod is greater than allowed TimePeriod!",
@@ -2349,10 +2406,10 @@ sub _StatsParamsGenerate {
             # integrate this functionality in the completenesscheck
             if (
                 $TimePeriod / ( $ScalePeriod * $GetParam{UseAsXvalue}[0]{TimeScaleCount} )
-                > ( $Self->{ConfigObject}->Get('Stats::MaxXaxisAttributes') || 1000 )
+                > ( $ConfigObject->Get('Stats::MaxXaxisAttributes') || 1000 )
                 )
             {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message =>
                         "The reporting time interval is too small, please use a larger time scale!",
@@ -2379,22 +2436,25 @@ sub StringAndTimestamp2Filename {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{String} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need String!'
         );
         return;
     }
 
-    my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
-        SystemTime => $Self->{TimeObject}->SystemTime(),
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+    my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
+        SystemTime => $TimeObject->SystemTime(),
     );
     $M = sprintf( "%02d", $M );
     $D = sprintf( "%02d", $D );
     $h = sprintf( "%02d", $h );
     $m = sprintf( "%02d", $m );
 
-    $Param{String} = $Self->{MainObject}->FilenameCleanUp(
+    $Param{String} = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
         Filename => $Param{String},
         Type     => 'Attachment',
     );
@@ -2418,14 +2478,14 @@ sub StatNumber2StatID {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{StatNumber} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need StatNumber!',
         );
         return;
     }
 
-    my @Key = $Self->{XMLObject}->XMLHashSearch(
+    my @Key = $Kernel::OM->Get('Kernel::System::XML')->XMLHashSearch(
         Type => 'Stats',
         What => [ { "[%]{'otrs_stats'}[%]{'StatNumber'}[%]{'Content'}" => $Param{StatNumber} } ],
     );
@@ -2433,7 +2493,7 @@ sub StatNumber2StatID {
         return $Key[0];
     }
 
-    $Self->{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'error',
         Message  => 'StatNumber invalid!',
     );
@@ -2462,8 +2522,11 @@ sub StatsInstall {
     # cleanup stats
     $Self->StatsCleanUp();
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     # get list of stats files
-    my @StatsFileList = $Self->{MainObject}->DirectoryRead(
+    my @StatsFileList = $MainObject->DirectoryRead(
         Directory => $Self->{StatsTempDir},
         Filter    => $Param{FilePrefix} . '*.xml',
     );
@@ -2477,7 +2540,7 @@ sub StatsInstall {
         next FILE if -e $File . $InstalledPostfix;
 
         # read file content
-        my $XMLContentRef = $Self->{MainObject}->FileRead(
+        my $XMLContentRef = $MainObject->FileRead(
             Location => $File,
         );
 
@@ -2489,7 +2552,7 @@ sub StatsInstall {
         next FILE if !$StatID;
 
         # write installed file with stat id
-        $Self->{MainObject}->FileWrite(
+        $MainObject->FileWrite(
             Content  => \$StatID,
             Location => $File . $InstalledPostfix,
         );
@@ -2514,8 +2577,11 @@ sub StatsUninstall {
     # prepare prefix
     $Param{FilePrefix} = $Param{FilePrefix} ? $Param{FilePrefix} . '-' : '';
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     # get list of installed stats files
-    my @StatsFileList = $Self->{MainObject}->DirectoryRead(
+    my @StatsFileList = $MainObject->DirectoryRead(
         Directory => $Self->{StatsTempDir},
         Filter    => $Param{FilePrefix} . '*.xml.installed',
     );
@@ -2524,7 +2590,7 @@ sub StatsUninstall {
     for my $File ( sort @StatsFileList ) {
 
         # read file content
-        my $StatsIDRef = $Self->{MainObject}->FileRead(
+        my $StatsIDRef = $MainObject->FileRead(
             Location => $File,
         );
 
@@ -2557,6 +2623,9 @@ sub StatsCleanUp {
     return if !$ListRef;
     return if ref $ListRef ne 'ARRAY';
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     STATSID:
     for my $StatsID ( @{$ListRef} ) {
 
@@ -2569,7 +2638,7 @@ sub StatsCleanUp {
         next STATSID if $HashRef
             && ref $HashRef eq 'HASH'
             && $HashRef->{ObjectModule}
-            && $Self->{MainObject}->Require( $HashRef->{ObjectModule} );
+            && $MainObject->Require( $HashRef->{ObjectModule} );
 
         # delete stats
         $Self->StatsDelete( StatID => $StatsID );
@@ -2601,7 +2670,7 @@ sub _GenerateStaticStats {
     NEED:
     for my $Need (qw(ObjectModule GetParam Title StatID)) {
         next NEED if $Param{$Need};
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need $Need!"
         );
@@ -2610,7 +2679,7 @@ sub _GenerateStaticStats {
 
     # load static module
     my $ObjectModule = $Param{ObjectModule};
-    return if !$Self->{MainObject}->Require($ObjectModule);
+    return if !$Kernel::OM->Get('Kernel::System::Main')->Require($ObjectModule);
     my $StatObject = $ObjectModule->new( %{$Self} );
     return if !$StatObject;
 
@@ -2630,14 +2699,8 @@ sub _GenerateStaticStats {
         }
     }
 
-    my $UserObject = Kernel::System::User->new(
-        MainObject   => $Self->{MainObject},
-        ConfigObject => $Self->{ConfigObject},
-        EncodeObject => $Self->{EncodeObject},
-        LogObject    => $Self->{LogObject},
-        TimeObject   => $Self->{TimeObject},
-        DBObject     => $Self->{DBObject},
-    );
+    # get user object
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
     my %User = $UserObject->GetUserData(
         UserID => $Self->{UserID},
@@ -2697,7 +2760,7 @@ sub _GenerateDynamicStats {
     NEED:
     for my $Need (qw(ObjectModule UseAsXvalue UseAsValueSeries Title Object StatID)) {
         next NEED if $Param{$Need};
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need $Need!"
         );
@@ -2706,9 +2769,12 @@ sub _GenerateDynamicStats {
 
     # include the needed dynamic object
     my $ObjectModule = $Param{ObjectModule};
-    return if !$Self->{MainObject}->Require($ObjectModule);
+    return if !$Kernel::OM->Get('Kernel::System::Main')->Require($ObjectModule);
     my $StatObject = $ObjectModule->new( %{$Self} );
     return if !$StatObject;
+
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
     # get the selected values
     # perhaps i can split the StatGet function to make this needless
@@ -2736,8 +2802,8 @@ sub _GenerateDynamicStats {
             if ( $Element->{Block} eq 'Time' ) {
                 delete $Element->{TimePeriodFormat};
                 if ( $Element->{TimeRelativeUnit} ) {
-                    my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
-                        SystemTime => $Self->{TimeObject}->SystemTime(),
+                    my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
+                        SystemTime => $TimeObject->SystemTime(),
                     );
 
                     my $Count = $Element->{TimeRelativeCount} ? $Element->{TimeRelativeCount} : 1;
@@ -2859,25 +2925,12 @@ sub _GenerateDynamicStats {
         }
     }
 
-    my $UserObject = Kernel::System::User->new(
-        MainObject   => $Self->{MainObject},
-        ConfigObject => $Self->{ConfigObject},
-        EncodeObject => $Self->{EncodeObject},
-        LogObject    => $Self->{LogObject},
-        TimeObject   => $Self->{TimeObject},
-        DBObject     => $Self->{DBObject},
-    );
+    # get needed objects
+    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
+    my $UserObject     = $Kernel::OM->Get('Kernel::System::User');
 
     my %User = $UserObject->GetUserData(
         UserID => $Self->{UserID},
-    );
-
-    my $LanguageObject = Kernel::Language->new(
-        MainObject   => $Self->{MainObject},
-        ConfigObject => $Self->{ConfigObject},
-        EncodeObject => $Self->{EncodeObject},
-        LogObject    => $Self->{LogObject},
-        UserLanguage => $User{UserLanguage},
     );
 
     # get the selected Xvalue
@@ -2905,7 +2958,7 @@ sub _GenerateDynamicStats {
             $Second = $VSSecond = int $6;
         }
 
-        $TimeAbsolutStopUnixTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+        $TimeAbsolutStopUnixTime = $TimeObject->TimeStamp2SystemTime(
             String => $Element->{TimeStop},
         );
         my $TimeStart = 0;
@@ -2958,7 +3011,7 @@ sub _GenerateDynamicStats {
         # FIXME Timeheader zusammenbauen
         while (
             !$TimeStop
-            || $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
+            || $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
             < $TimeAbsolutStopUnixTime
             )
         {
@@ -3241,7 +3294,7 @@ sub _GenerateDynamicStats {
 
         if ( $Ref1->{SelectedValues}[0] eq 'Year' ) {
             while (
-                $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
+                $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
                 < $TimeAbsolutStopUnixTime
                 )
             {
@@ -3269,7 +3322,7 @@ sub _GenerateDynamicStats {
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Month' ) {
             while (
-                $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
+                $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
                 < $TimeAbsolutStopUnixTime
                 )
             {
@@ -3303,7 +3356,7 @@ sub _GenerateDynamicStats {
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Week' ) {
             while (
-                $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
+                $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
                 < $TimeAbsolutStopUnixTime
                 )
             {
@@ -3333,7 +3386,7 @@ sub _GenerateDynamicStats {
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Day' ) {
             while (
-                $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
+                $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
                 < $TimeAbsolutStopUnixTime
                 )
             {
@@ -3360,7 +3413,7 @@ sub _GenerateDynamicStats {
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Hour' ) {
             while (
-                $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
+                $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
                 < $TimeAbsolutStopUnixTime
                 )
             {
@@ -3393,7 +3446,7 @@ sub _GenerateDynamicStats {
 
         elsif ( $Ref1->{SelectedValues}[0] eq 'Minute' ) {
             while (
-                $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
+                $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
                 < $TimeAbsolutStopUnixTime
                 )
             {
@@ -3537,12 +3590,12 @@ sub _GenerateDynamicStats {
                 my $TimeStop  = $Xvalue->{Values}{TimeStop};
                 if ( $ValueSeries{$Row}{$TimeStop} && $ValueSeries{$Row}{$TimeStart} ) {
                     if (
-                        $Self->{TimeObject}->TimeStamp2SystemTime( String => $Cell->{TimeStop} )
-                        > $Self->{TimeObject}->TimeStamp2SystemTime(
+                        $TimeObject->TimeStamp2SystemTime( String => $Cell->{TimeStop} )
+                        > $TimeObject->TimeStamp2SystemTime(
                             String => $ValueSeries{$Row}{$TimeStop}
                         )
-                        || $Self->{TimeObject}->TimeStamp2SystemTime( String => $Cell->{TimeStart} )
-                        < $Self->{TimeObject}->TimeStamp2SystemTime(
+                        || $TimeObject->TimeStamp2SystemTime( String => $Cell->{TimeStart} )
+                        < $TimeObject->TimeStamp2SystemTime(
                             String => $ValueSeries{$Row}{$TimeStart}
                         )
                         )
@@ -3613,7 +3666,7 @@ sub _GenerateDynamicStats {
 
     # check if we should cache this result
     if ( !$TitleTimeStart || !$TitleTimeStop ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message =>
                 "Can't cache: StatID $Param{StatID} has no time period, so you can't cache the stat!",
@@ -3622,12 +3675,12 @@ sub _GenerateDynamicStats {
     }
 
     if (
-        $Self->{TimeObject}->TimeStamp2SystemTime( String => $TitleTimeStop )
-        > $Self->{TimeObject}->SystemTime()
+        $TimeObject->TimeStamp2SystemTime( String => $TitleTimeStop )
+        > $TimeObject->SystemTime()
         )
     {
 
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message =>
                 "Can't cache StatID $Param{StatID}: The selected end time is in the future!",
@@ -3648,10 +3701,13 @@ sub _WriteResultCache {
 
     my %GetParam = %{ $Param{GetParam} };
 
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     # check if we should cache this result
     # get the current time
-    my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
-        SystemTime => $Self->{TimeObject}->SystemTime(),
+    my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
+        SystemTime => $TimeObject->SystemTime(),
     );
 
     # if get params in future do not cache
@@ -3700,7 +3756,7 @@ sub _CreateStaticResultCacheFilename {
     # check needed params
     for my $NeededParam (qw( StatID GetParam )) {
         if ( !$Param{$NeededParam} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $NeededParam!"
             );
@@ -3728,7 +3784,7 @@ sub _CreateStaticResultCacheFilename {
         $Key .= "-$GetParamRef->{Day}";
     }
 
-    my $MD5Key = $Self->{MainObject}->FilenameCleanUp(
+    my $MD5Key = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
         Filename => $Key,
         Type     => 'md5',
     );
@@ -3753,7 +3809,7 @@ sub _SetResultCache {
     # check needed params
     for my $NeededParam (qw( Filename Result)) {
         if ( !$Param{$NeededParam} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $NeededParam!"
             );
@@ -3761,7 +3817,7 @@ sub _SetResultCache {
         }
     }
 
-    $Self->{CacheObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
         Type  => 'StatsRun',
         Key   => $Param{Filename},
         Value => $Param{Result},
@@ -3786,25 +3842,22 @@ sub _GetResultCache {
 
     # check needed params
     if ( !$Param{Filename} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => '_GetResultCache: Need Filename!',
         );
         return;
     }
 
-    my $Cache = $Self->{CacheObject}->Get(
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => 'StatsRun',
         Key  => $Param{Filename},
     );
 
     if ( ref $Cache ) {
-
-        #print STDERR "Using cache...\n";
         return @{$Cache};
     }
 
-    #print STDERR "Not using cache...\n";
     return;
 }
 
@@ -3817,7 +3870,7 @@ clean up stats result cache.
 sub _DeleteCache {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{CacheObject}->CleanUp(
+    return $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => 'Stats',
     );
 }
@@ -3833,11 +3886,11 @@ sub _MonthArray {
 sub _AutomaticSampleImport {
     my ( $Self, %Param ) = @_;
 
-    my $Language  = $Self->{ConfigObject}->Get('DefaultLanguage');
+    my $Language  = $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage');
     my $Directory = $Self->{StatsTempDir};
 
     if ( !opendir( DIRE, $Directory ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can not open Directory: $Directory",
         );
@@ -3862,7 +3915,7 @@ sub _AutomaticSampleImport {
 
             my $Filehandle;
             if ( !open $Filehandle, '<', $Directory . $Filename ) {    ## no critic
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Can not open File: " . $Directory . $Filename,
                 );
@@ -3914,7 +3967,7 @@ sub _GetCacheString {
         }
     }
 
-    my $MD5Key = $Self->{MainObject}->FilenameCleanUp(
+    my $MD5Key = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
         Filename => $CacheString,
         Type     => 'md5',
     );
