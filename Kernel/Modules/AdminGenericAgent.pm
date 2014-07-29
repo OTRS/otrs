@@ -1101,6 +1101,12 @@ sub _MaskRun {
 
     if ( $Self->{Profile} ) {
         %JobData = $Self->{GenericAgentObject}->JobGet( Name => $Self->{Profile} );
+        if ( exists $JobData{SearchInArchive} && $JobData{SearchInArchive} eq 'ArchivedTickets' ) {
+            $JobData{ArchiveFlags} = ['y'];
+        }
+        if ( exists $JobData{SearchInArchive} && $JobData{SearchInArchive} eq 'AllTickets' ) {
+            $JobData{ArchiveFlags} = [ 'y', 'n' ];
+        }
     }
     else {
         $Self->{LayoutObject}->FatalError( Message => "Need Profile!" );
