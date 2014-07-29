@@ -12,8 +12,10 @@ package Kernel::System::CustomerUser::Event::TicketUpdate;
 use strict;
 use warnings;
 
-use Kernel::System::Time;
-use Kernel::System::Ticket;
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -21,14 +23,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for (
-        qw( ConfigObject EncodeObject LogObject MainObject DBObject )
-        )
-    {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -39,13 +33,13 @@ sub Run {
     # check needed stuff
     for (qw( Data Event Config UserID )) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     for (qw( UserLogin NewData OldData )) {
         if ( !$Param{Data}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_ in Data!" );
             return;
         }
     }
@@ -57,10 +51,11 @@ sub Run {
         )
     {
 
-        # create ticket object and perform search
-        $Self->{TimeObject}   = Kernel::System::Time->new( %{$Self} );
-        $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
-        my @Tickets = $Self->{TicketObject}->TicketSearch(
+        # get ticket object
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        # perform search
+        my @Tickets = $TicketObject->TicketSearch(
             Result            => 'ARRAY',
             Limit             => 100_000,
             CustomerUserLogin => $Param{Data}->{OldData}->{UserLogin},
@@ -71,7 +66,7 @@ sub Run {
 
         # update the customer ID and login of tickets
         for my $TicketID (@Tickets) {
-            $Self->{TicketObject}->TicketCustomerSet(
+            $TicketObject->TicketCustomerSet(
                 No       => $Param{Data}->{NewData}->{UserCustomerID},
                 User     => $Param{Data}->{NewData}->{UserLogin},
                 TicketID => $TicketID,

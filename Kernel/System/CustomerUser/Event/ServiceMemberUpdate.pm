@@ -12,7 +12,10 @@ package Kernel::System::CustomerUser::Event::ServiceMemberUpdate;
 use strict;
 use warnings;
 
-use Kernel::System::Service;
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::System::Service',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -20,14 +23,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for (
-        qw( ConfigObject EncodeObject LogObject MainObject DBObject )
-        )
-    {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -38,13 +33,13 @@ sub Run {
     # check needed stuff
     for (qw( Data Event Config UserID )) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     for (qw( UserLogin NewData OldData )) {
         if ( !$Param{Data}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_ in Data!" );
             return;
         }
     }
@@ -52,10 +47,10 @@ sub Run {
     # only update CustomerUser <> Service if fields have really changed
     if ( $Param{Data}->{OldData}->{UserLogin} ne $Param{Data}->{NewData}->{UserLogin} ) {
 
-        # instantiate service object
-        $Self->{ServiceObject} = Kernel::System::Service->new( %{$Self} );
+        # get service object
+        my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
 
-        my @Services = $Self->{ServiceObject}->CustomerUserServiceMemberList(
+        my @Services = $ServiceObject->CustomerUserServiceMemberList(
             CustomerUserLogin => $Param{Data}->{OldData}->{UserLogin},
             Result            => 'ARRAY',
             DefaultServices   => 0,
@@ -64,7 +59,7 @@ sub Run {
         for my $ServiceID (@Services) {
 
             # first remove old customer id as service member
-            $Self->{ServiceObject}->CustomerUserServiceMemberAdd(
+            $ServiceObject->CustomerUserServiceMemberAdd(
                 CustomerUserLogin => $Param{Data}->{OldData}->{UserLogin},
                 ServiceID         => $ServiceID,
                 Active            => 0,
@@ -72,7 +67,7 @@ sub Run {
             );
 
             # add new customer id as service member
-            $Self->{ServiceObject}->CustomerUserServiceMemberAdd(
+            $ServiceObject->CustomerUserServiceMemberAdd(
                 CustomerUserLogin => $Param{Data}->{NewData}->{UserLogin},
                 ServiceID         => $ServiceID,
                 Active            => 1,
@@ -80,6 +75,7 @@ sub Run {
             );
         }
     }
+
     return 1;
 }
 
