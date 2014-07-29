@@ -20,6 +20,7 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::Time',
 );
+our $ObjectManagerAware = 1;
 
 my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
 my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;

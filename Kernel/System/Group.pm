@@ -14,7 +14,12 @@ use warnings;
 
 use Kernel::System::CacheInternal;
 
-our @ObjectDependencies = (qw(DBObject ConfigObject LogObject ValidObject));
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+    'Kernel::System::Valid',
+);
 our $ObjectManagerAware = 1;
 
 =head1 NAME
@@ -37,7 +42,7 @@ create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $GroupObject = $Kernel::OM->Get('GroupObject');
+    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
 =cut
 
@@ -45,13 +50,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {
-        $Kernel::OM->ObjectHash(
-            Objects => [
-                qw( DBObject ConfigObject LogObject ValidObject )
-            ],
-        ),
-    };
+    my $Self = {};
     bless( $Self, $Type );
 
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
@@ -77,7 +76,10 @@ sub GroupLookup {
 
     # check needed stuff
     if ( !$Param{Group} && !$Param{GroupID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Group or GroupID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message => 'Need Group or GroupID!',
+        );
         return;
     }
 
@@ -108,18 +110,23 @@ sub GroupLookup {
         $SQL         = 'SELECT name FROM groups WHERE id = ?';
         push @Bind, \$Param{GroupID};
     }
-    return if !$Self->{DBObject}->Prepare(
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL  => $SQL,
         Bind => \@Bind,
     );
+
     my $Result;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Result = $Row[0];
     }
 
     # check if data exists
     if ( !$Result ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Found no \$$Suffix for $Param{What}!",
         );
@@ -152,13 +159,16 @@ sub GroupAdd {
     # check needed stuff
     for (qw(Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # insert new group
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'INSERT INTO groups (name, comments, valid_id, '
             . ' create_time, create_by, change_time, change_by)'
             . ' VALUES (?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
@@ -168,17 +178,17 @@ sub GroupAdd {
     );
 
     # get new group id
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL  => 'SELECT id FROM groups WHERE name = ?',
         Bind => [ \$Param{Name} ],
     );
     my $GroupID;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $GroupID = $Row[0];
     }
 
     # log
-    $Self->{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'info',
         Message  => "Group: '$Param{Name}' ID: '$GroupID' created successfully ($Param{UserID})!",
     );
@@ -213,18 +223,25 @@ sub GroupGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message => 'Need ID!',
+        );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # sql
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => 'SELECT name, valid_id, comments, change_time, create_time '
             . 'FROM groups WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
+
     my %Group;
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Data = $DBObject->FetchrowArray() ) {
         %Group = (
             ID         => $Param{ID},
             Name       => $Data[0],
@@ -234,6 +251,7 @@ sub GroupGet {
             CreateTime => $Data[4],
         );
     }
+
     return %Group;
 }
 
@@ -257,13 +275,19 @@ sub GroupUpdate {
     # check needed stuff
     for (qw(ID Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message => "Need $_!",
+            );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # sql
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'UPDATE groups SET name = ?, comments = ?, valid_id = ?, '
             . 'change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [
@@ -313,16 +337,19 @@ sub GroupList {
     if ($Valid) {
 
         # get valid ids
-        my $ValidIDs = join( ', ', $Self->{ValidObject}->ValidIDsGet() );
+        my $ValidIDs = join( ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet() );
 
         $SQL .= " WHERE valid_id IN ($ValidIDs)";
     }
 
-    return if !$Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL => $SQL,
     );
     my %Groups;
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Data = $DBObject->FetchrowArray() ) {
         $Groups{ $Data[0] } = $Data[1];
     }
 
@@ -362,20 +389,23 @@ sub GroupMemberAdd {
     # check needed stuff
     for (qw(UID GID UserID Permission)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # check if update is needed (fetch current values)
     my %Value;
     if ( !$Self->{"GroupMemberAdd::GID::$Param{GID}"} ) {
-        return if !$Self->{DBObject}->Prepare(
+        return if !$DBObject->Prepare(
             SQL => 'SELECT group_id, user_id, permission_key, permission_value FROM '
                 . 'group_user WHERE group_id = ?',
             Bind => [ \$Param{GID} ],
         );
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $Value{ $Row[0] }->{ $Row[1] }->{ $Row[2] } = $Row[3];
         }
         $Self->{"GroupMemberAdd::GID::$Param{GID}"} = \%Value;
@@ -405,7 +435,7 @@ sub GroupMemberAdd {
         $Self->{"GroupMemberAdd::GID::$Param{GID}"} = undef;
 
         # delete existing permission
-        $Self->{DBObject}->Do(
+        $DBObject->Do(
             SQL => 'DELETE FROM group_user WHERE '
                 . ' group_id = ? AND user_id = ? AND permission_key = ?',
             Bind => [ \$Param{GID}, \$Param{UID}, \$Type ],
@@ -413,7 +443,7 @@ sub GroupMemberAdd {
 
         # debug
         if ( $Self->{Debug} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Add UID:$Param{UID} to GID:$Param{GID}, $Type:$ValueNew!",
             );
@@ -421,7 +451,7 @@ sub GroupMemberAdd {
 
         # insert new permission (if needed)
         next TYPE if !$ValueNew;
-        $Self->{DBObject}->Do(
+        $DBObject->Do(
             SQL => 'INSERT INTO group_user '
                 . '(user_id, group_id, permission_key, permission_value, '
                 . 'create_time, create_by, change_time, change_by) '
@@ -482,12 +512,12 @@ sub GroupMemberList {
     # check needed stuff
     for (qw(Result Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     if ( !$Param{UserID} && !$Param{GroupID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or GroupID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID or GroupID!' );
         return;
     }
 
@@ -602,7 +632,7 @@ sub GroupMemberInvolvedList {
     # check needed stuff
     for my $Attribute (qw(UserID Type)) {
         if ( !$Param{$Attribute} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Attribute!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Attribute!" );
             return;
         }
     }
@@ -618,10 +648,13 @@ sub GroupMemberInvolvedList {
     my $TypeString = $Self->_GetTypeString( Type => $Param{Type} );
 
     # get valid ids
-    my $ValidID = join( ', ', $Self->{ValidObject}->ValidIDsGet() );
+    my $ValidID = join( ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet() );
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get all groups of the given user
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "SELECT DISTINCT(g.id) FROM groups g, group_user gu WHERE "
             . "g.valid_id IN ($ValidID) AND "
             . "g.id = gu.group_id AND gu.permission_value = 1 AND "
@@ -631,12 +664,12 @@ sub GroupMemberInvolvedList {
         ],
     );
     my %Groups;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Groups{ $Row[0] } = 1;
     }
 
     # get all roles of the given user
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "SELECT DISTINCT(ru.role_id) FROM role_user ru, roles r WHERE "
             . "r.valid_id in ($ValidID) AND r.id = ru.role_id AND ru.user_id = ?",
         Bind => [
@@ -644,19 +677,19 @@ sub GroupMemberInvolvedList {
         ],
     );
     my @Roles;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         push @Roles, $Row[0];
     }
 
     # get groups of roles of given user
     if (@Roles) {
-        return if !$Self->{DBObject}->Prepare(
+        return if !$DBObject->Prepare(
             SQL => "SELECT DISTINCT(g.id) FROM groups g, group_role gu WHERE "
                 . "g.valid_id in ($ValidID) AND g.id = gu.group_id AND "
                 . "gu.permission_value = 1 AND gu.permission_key IN ( $TypeString ) AND "
                 . "gu.role_id IN (" . join( ',', @Roles ) . ")",
         );
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $Groups{ $Row[0] } = 1;
         }
     }
@@ -665,36 +698,36 @@ sub GroupMemberInvolvedList {
     my @ArrayGroups = keys %Groups;
     my %AllUsers;
     if (@ArrayGroups) {
-        return if !$Self->{DBObject}->Prepare(
+        return if !$DBObject->Prepare(
             SQL => "SELECT DISTINCT(gu.user_id) FROM groups g, group_user gu WHERE "
                 . "g.valid_id in ($ValidID) AND g.id = gu.group_id AND "
                 . "gu.permission_value = 1 AND gu.permission_key IN ( $TypeString ) AND "
                 . "gu.group_id IN (" . join( ',', @ArrayGroups ) . ")",
         );
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $AllUsers{ $Row[0] } = 1;
         }
 
         # get all roles of the groups
-        return if !$Self->{DBObject}->Prepare(
+        return if !$DBObject->Prepare(
             SQL => "SELECT DISTINCT(gu.role_id) FROM groups g, group_role gu WHERE "
                 . "g.valid_id in ($ValidID) AND g.id = gu.group_id AND "
                 . "gu.permission_value = 1 AND gu.permission_key IN ( $TypeString ) AND "
                 . "gu.group_id IN (" . join( ',', @ArrayGroups ) . ")",
         );
         my @AllRoles;
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             push @AllRoles, $Row[0];
         }
 
         # get all users of the roles
         if (@AllRoles) {
-            return if !$Self->{DBObject}->Prepare(
+            return if !$DBObject->Prepare(
                 SQL => "SELECT DISTINCT(ru.user_id) FROM role_user ru, roles r WHERE "
                     . "r.valid_id in ($ValidID) AND r.id = ru.role_id AND "
                     . "ru.role_id IN (" . join( ',', @AllRoles ) . ")",
             );
-            while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            while ( my @Row = $DBObject->FetchrowArray() ) {
                 $AllUsers{ $Row[0] } = 1;
             }
         }
@@ -745,12 +778,12 @@ sub GroupGroupMemberList {
     # check needed stuff
     for (qw(Result Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     if ( !$Param{UserID} && !$Param{GroupID} && !$Param{UserIDs} && !$Param{GroupIDs} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need UserID or GroupID or UserIDs or GroupIDs!'
         );
@@ -786,7 +819,10 @@ sub GroupGroupMemberList {
     # only allow valid system permissions as Type
     my $TypeString = $Self->_GetTypeString( Type => $Param{Type} );
 
-    my $ValidIDs = join( ', ', $Self->{ValidObject}->ValidIDsGet() );
+    my $ValidIDs = join( ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet() );
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # sql
     my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, gu.user_id
@@ -800,20 +836,20 @@ sub GroupGroupMemberList {
             AND ";
 
     if ( $Param{UserID} ) {
-        $SQL .= 'gu.user_id = ' . $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
+        $SQL .= 'gu.user_id = ' . $DBObject->Quote( $Param{UserID}, 'Integer' );
     }
     elsif ( $Param{GroupID} ) {
-        $SQL .= 'gu.group_id = ' . $Self->{DBObject}->Quote( $Param{GroupID}, 'Integer' );
+        $SQL .= 'gu.group_id = ' . $DBObject->Quote( $Param{GroupID}, 'Integer' );
     }
     elsif ( $Param{UserIDs} ) {
         for my $UserID (@UserIDs) {
-            $UserID = $Self->{DBObject}->Quote( $UserID, 'Integer' );
+            $UserID = $DBObject->Quote( $UserID, 'Integer' );
         }
         $SQL .= ' ru.user_id IN (' . join( ',', @UserIDs ) . ')';
     }
     elsif ( $Param{GroupIDs} ) {
         for my $GroupID (@GroupIDs) {
-            $GroupID = $Self->{DBObject}->Quote( $GroupID, 'Integer' );
+            $GroupID = $DBObject->Quote( $GroupID, 'Integer' );
         }
         $SQL .= ' gu.group_id IN (' . join( ',', @GroupIDs ) . ')';
     }
@@ -821,8 +857,8 @@ sub GroupGroupMemberList {
     my %Data;
     my @Name;
     my @ID;
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    return if !$DBObject->Prepare( SQL => $SQL );
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         my $Key   = '';
         my $Value = '';
         if ( $Param{UserID} || $Param{UserIDs} ) {
@@ -911,12 +947,12 @@ sub GroupRoleMemberList {
     # check needed stuff
     for (qw(Result Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     if ( !$Param{RoleID} && !$Param{GroupID} && !$Param{RoleIDs} && !$Param{GroupIDs} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need RoleID or GroupID or RoleIDs or GroupIDs!'
         );
@@ -953,43 +989,46 @@ sub GroupRoleMemberList {
     # only allow valid system permissions as Type
     my $TypeString = $Self->_GetTypeString( Type => $Param{Type} );
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # assemble the query
     my $SQL = ''
         . 'SELECT g.id, g.name, gr.permission_key, gr.permission_value, gr.role_id'
         . ' FROM groups g, group_role gr'
-        . ' WHERE g.valid_id IN (' . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ')'
+        . ' WHERE g.valid_id IN (' . join( ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet() ) . ')'
         . ' AND g.id = gr.group_id'
         . ' AND gr.permission_value = 1'
         . " AND gr.permission_key IN ( $TypeString )"
         . ' AND ';
 
     if ( $Param{RoleID} ) {
-        $SQL .= ' gr.role_id = ' . $Self->{DBObject}->Quote( $Param{RoleID}, 'Integer' );
+        $SQL .= ' gr.role_id = ' . $DBObject->Quote( $Param{RoleID}, 'Integer' );
     }
     elsif ( $Param{GroupID} ) {
-        $SQL .= ' gr.group_id = ' . $Self->{DBObject}->Quote( $Param{GroupID}, 'Integer' );
+        $SQL .= ' gr.group_id = ' . $DBObject->Quote( $Param{GroupID}, 'Integer' );
     }
     elsif ( $Param{RoleIDs} ) {
         for my $RoleID (@RoleIDs) {
-            $RoleID = $Self->{DBObject}->Quote( $RoleID, 'Integer' );
+            $RoleID = $DBObject->Quote( $RoleID, 'Integer' );
         }
         $SQL .= ' gr.role_id IN (' . join( ',', @RoleIDs ) . ')';
     }
     elsif ( $Param{GroupIDs} ) {
         for my $GroupID (@GroupIDs) {
-            $GroupID = $Self->{DBObject}->Quote( $GroupID, 'Integer' );
+            $GroupID = $DBObject->Quote( $GroupID, 'Integer' );
         }
         $SQL .= ' gr.group_id IN (' . join( ',', @GroupIDs ) . ')';
     }
 
     # run the query
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$DBObject->Prepare( SQL => $SQL );
 
     # fetch the data
     my %Data;
     my @Name;
     my @ID;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         my ( $Key, $Value ) = ( '', '' );
         if ( $Param{RoleID} || $Param{RoleIDs} ) {
 
@@ -1068,20 +1107,23 @@ sub GroupRoleMemberAdd {
     # check needed stuff
     for (qw(RID GID UserID Permission)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # check if update is needed (fetch current values)
     my %Value;
     if ( !$Self->{"GroupRoleMemberAdd::GID::$Param{GID}"} ) {
-        $Self->{DBObject}->Prepare(
+        $DBObject->Prepare(
             SQL => 'SELECT group_id, role_id, permission_key, permission_value FROM '
                 . ' group_role WHERE group_id = ?',
             Bind => [ \$Param{GID} ],
         );
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $Value{ $Row[0] }->{ $Row[1] }->{ $Row[2] } = $Row[3];
         }
         $Self->{"GroupRoleMemberAdd::GID::$Param{GID}"} = \%Value;
@@ -1108,7 +1150,7 @@ sub GroupRoleMemberAdd {
         next TYPE if $ValueCurrent  && $ValueNew;
 
         # delete existing permission
-        $Self->{DBObject}->Do(
+        $DBObject->Do(
             SQL => 'DELETE FROM group_role WHERE '
                 . 'group_id = ? AND role_id = ? AND permission_key = ?',
             Bind => [ \$Param{GID}, \$Param{RID}, \$Type ],
@@ -1116,7 +1158,7 @@ sub GroupRoleMemberAdd {
 
         # debug
         if ( $Self->{Debug} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Add RID:$Param{RID} to GID:$Param{GID}, $Type:$ValueNew!",
             );
@@ -1124,7 +1166,7 @@ sub GroupRoleMemberAdd {
 
         # insert new permission (if needed)
         next TYPE if !$ValueNew;
-        $Self->{DBObject}->Do(
+        $DBObject->Do(
             SQL => 'INSERT INTO group_role '
                 . '(role_id, group_id, permission_key, permission_value, '
                 . 'create_time, create_by, change_time, change_by) '
@@ -1177,12 +1219,12 @@ sub GroupUserRoleMemberList {
 
     # check needed stuff
     if ( !$Param{Result} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Result!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need Result!' );
         return;
     }
 
     if ( !$Param{RoleID} && !$Param{UserID} && !$Param{RoleIDs} && !$Param{UserIDs} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need RoleID or UserID or RoleIDs or UserIDs!',
         );
@@ -1215,7 +1257,10 @@ sub GroupUserRoleMemberList {
         }
     }
 
-    my $ValidIDs = join( ', ', $Self->{ValidObject}->ValidIDsGet() );
+    my $ValidIDs = join( ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet() );
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # sql
     my $SQL = "SELECT ru.role_id, ru.user_id, r.name, u.login FROM role_user ru, roles r, users u
@@ -1227,7 +1272,7 @@ sub GroupUserRoleMemberList {
 
     # db quote
     for (qw(RoleID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
+        $Param{$_} = $DBObject->Quote( $Param{$_}, 'Integer' );
     }
 
     if ( $Param{RoleID} ) {
@@ -1238,13 +1283,13 @@ sub GroupUserRoleMemberList {
     }
     elsif ( $Param{RoleIDs} ) {
         for my $RoleID (@RoleIDs) {
-            $RoleID = $Self->{DBObject}->Quote( $RoleID, 'Integer' );
+            $RoleID = $DBObject->Quote( $RoleID, 'Integer' );
         }
         $SQL .= ' ru.role_id IN (' . join( ',', @RoleIDs ) . ')';
     }
     elsif ( $Param{UserIDs} ) {
         for my $UserID (@UserIDs) {
-            $UserID = $Self->{DBObject}->Quote( $UserID, 'Integer' );
+            $UserID = $DBObject->Quote( $UserID, 'Integer' );
         }
         $SQL .= ' ru.user_id IN (' . join( ',', @UserIDs ) . ')';
     }
@@ -1252,8 +1297,8 @@ sub GroupUserRoleMemberList {
     my %Data;
     my @Name;
     my @ID;
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    return if !$DBObject->Prepare( SQL => $SQL );
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         my $Key   = '';
         my $Value = '';
         if ( $Param{RoleID} || $Param{RoleIDs} ) {
@@ -1319,13 +1364,16 @@ sub GroupUserRoleMemberAdd {
     # check needed stuff
     for (qw(RID UID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # delete existing relation
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'DELETE FROM role_user WHERE user_id = ? AND role_id = ?',
         Bind => [ \$Param{UID}, \$Param{RID} ],
     );
@@ -1341,14 +1389,14 @@ sub GroupUserRoleMemberAdd {
 
     # debug
     if ( $Self->{Debug} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Add UID:$Param{UID} to RID:$Param{RID}!",
         );
     }
 
     # insert new permission
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'INSERT INTO role_user '
             . '(role_id, user_id, create_time, create_by, change_time, change_by) '
             . 'VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
@@ -1376,7 +1424,7 @@ sub RoleLookup {
 
     # check needed stuff
     if ( !$Param{Role} && !$Param{RoleID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no Role or RoleID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Got no Role or RoleID!' );
         return;
     }
 
@@ -1407,18 +1455,22 @@ sub RoleLookup {
         $SQL         = 'SELECT name FROM roles WHERE id = ?';
         push @Bind, \$Param{RoleID};
     }
-    return if !$Self->{DBObject}->Prepare(
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL  => $SQL,
         Bind => \@Bind,
     );
     my $Result;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Result = $Row[0];
     }
 
     # check if data exists
     if ( !$Result ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Found no \$$Suffix for $Param{What}!",
         );
@@ -1456,17 +1508,21 @@ sub RoleGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ID!' );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # sql
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL  => 'SELECT name, valid_id, comments, change_time, create_time FROM roles WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
+
     my %Role;
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Data = $DBObject->FetchrowArray() ) {
         %Role = (
             ID         => $Param{ID},
             Name       => $Data[0],
@@ -1476,6 +1532,7 @@ sub RoleGet {
             CreateTime => $Data[4],
         );
     }
+
     return %Role;
 }
 
@@ -1498,13 +1555,16 @@ sub RoleAdd {
     # check needed stuff
     for (qw(Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # insert
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'INSERT INTO roles (name, comments, valid_id, '
             . 'create_time, create_by, change_time, change_by) '
             . 'VALUES (?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
@@ -1515,16 +1575,16 @@ sub RoleAdd {
 
     # get new group id
     my $RoleID;
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL  => 'SELECT id FROM roles WHERE name = ?',
         Bind => [ \$Param{Name}, ],
     );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $RoleID = $Row[0];
     }
 
     # log
-    $Self->{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'info',
         Message  => "Role: '$Param{Name}' ID: '$RoleID' created successfully ($Param{UserID})!",
     );
@@ -1555,13 +1615,16 @@ sub RoleUpdate {
     # check needed stuff
     for (qw(ID Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message => "Need $_!",
+            );
             return;
         }
     }
 
     # sql
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE roles SET name = ?, comments = ?, valid_id = ?, '
             . 'change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [
@@ -1611,16 +1674,20 @@ sub RoleList {
     if ($Valid) {
 
         # get valid ids
-        my $ValidIDs = join( ', ', $Self->{ValidObject}->ValidIDsGet() );
+        my $ValidIDs = join( ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet() );
 
         $SQL .= " WHERE valid_id IN ($ValidIDs)";
     }
 
-    return if !$Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL => $SQL,
     );
+
     my %Roles;
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Data = $DBObject->FetchrowArray() ) {
         $Roles{ $Data[0] } = $Data[1];
     }
 
@@ -1647,8 +1714,11 @@ returns a string for a sql IN elements which contains a comma separted list of s
 sub _GetTypeString {
     my ( $Self, %Param ) = @_;
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # only allow valid system permissions as Type
-    my @Types = grep $_ eq $Param{Type}, @{ $Self->{ConfigObject}->Get('System::Permission') };
+    my @Types = grep $_ eq $Param{Type}, @{ $ConfigObject->Get('System::Permission') };
     push @Types, 'rw';
     my $TypeString = join ',', map "'$_'", @Types;
 
