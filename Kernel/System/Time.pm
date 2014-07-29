@@ -102,7 +102,10 @@ sub SystemTime2TimeStamp {
 
     # check needed stuff
     if ( !defined $Param{SystemTime} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need SystemTime!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need SystemTime!',
+        );
         return;
     }
 
@@ -150,7 +153,10 @@ sub SystemTime2Date {
 
     # check needed stuff
     if ( !defined $Param{SystemTime} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need SystemTime!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need SystemTime!',
+        );
         return;
     }
 
@@ -185,7 +191,10 @@ sub TimeStamp2SystemTime {
 
     # check needed stuff
     if ( !$Param{String} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need String!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message => 'Need String!',
+        );
         return;
     }
 
@@ -327,7 +336,10 @@ sub Date2SystemTime {
     # check needed stuff
     for (qw(Year Month Day Hour Minute Second)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message => "Need $_!",
+            );
             return;
         }
     }
@@ -407,7 +419,10 @@ sub WorkingTime {
     # check needed stuff
     for (qw(StartTime StopTime)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message => "Need $_!",
+            );
             return;
         }
     }
@@ -556,7 +571,10 @@ sub DestinationTime {
     # check needed stuff
     for (qw(StartTime Time)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!",
+            );
             return;
         }
     }
@@ -764,7 +782,7 @@ sub VacationCheck {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "VacationCheck: Need $_!"
+                Message  => "VacationCheck: Need $_!",
             );
             return;
         }
