@@ -349,7 +349,7 @@ sub CustomerUserDataGet {
             %Customer,
             Source        => "CustomerUser$Count",
             Config        => $Self->{ConfigObject}->Get("CustomerUser$Count"),
-            CompanyConfig => $Self->{ConfigObject}->Get("CustomerCompany"),
+            CompanyConfig => $Self->{ConfigObject}->Get( $Company{Source} // 'CustomerCompany' ),
         );
     }
     return;
