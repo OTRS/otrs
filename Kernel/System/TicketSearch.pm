@@ -95,9 +95,21 @@ To find tickets in your system.
         CustomerID => '123',
         CustomerID => ['123', 'ABC'],
 
+        # CustomerIDRaw (optional) as STRING or as ARRAYREF
+        # CustomerID without QueryCondition checking
+        #The raw value will be used if is set this parameter
+        CustomerIDRaw => '123 + 345',
+        CustomerIDRaw => ['123', 'ABC','123 && 456','ABC % efg'],
+
         # CustomerUserLogin (optional) as STRING as ARRAYREF
         CustomerUserLogin => 'uid123',
         CustomerUserLogin => ['uid123', 'uid777'],
+
+        # CustomerUserLoginRaw (optional) as STRING as ARRAYREF
+        #The raw value will be used if is set this parameter
+        CustomerUserLoginRaw => 'uid',
+        CustomerUserLoginRaw => 'uid + 123',
+        CustomerUserLoginRaw => ['uid  -  123', 'uid # 777 + 321'],
 
         # create ticket properties (optional)
         CreatedUserIDs     => [1, 12, 455, 32]
@@ -941,16 +953,22 @@ sub TicketSearch {
 
     # other ticket stuff
     my %FieldSQLMap = (
-        TicketNumber      => 'st.tn',
-        Title             => 'st.title',
-        CustomerID        => 'st.customer_id',
-        CustomerUserLogin => 'st.customer_user_id',
+        TicketNumber         => 'st.tn',
+        Title                => 'st.title',
+        CustomerID           => 'st.customer_id',
+        CustomerIDRaw        => 'st.customer_id',
+        CustomerUserLogin    => 'st.customer_user_id',
+        CustomerUserLoginRaw => 'st.customer_user_id',
     );
 
     ATTRIBUTE:
     for my $Key ( sort keys %FieldSQLMap ) {
 
         next ATTRIBUTE if !defined $Param{$Key};
+
+        next ATTRIBUTE if ( ( $Key eq 'CustomerID' ) && ( defined $Param{CustomerIDRaw} ) );
+        next ATTRIBUTE
+            if ( ( $Key eq 'CustomerUserLogin' ) && ( defined $Param{CustomerUserLoginRaw} ) );
 
         # if it's no ref, put it to array ref
         if ( ref $Param{$Key} eq '' ) {
@@ -991,12 +1009,18 @@ sub TicketSearch {
                 }
             }
 
-            # use search condition extension
-            $SQLExt .= $Self->{DBObject}->QueryCondition(
-                Key   => $FieldSQLMap{$Key},
-                Value => $Value,
-                %ConditionFocus,
-            );
+            if ( $Key eq 'CustomerIDRaw' || $Key eq 'CustomerUserLoginRaw' ) {
+                $SQLExt .= " $FieldSQLMap{$Key}= '" . $Self->{DBObject}->Quote($Value) . "'";
+            }
+            else {
+
+                # use search condition extension
+                $SQLExt .= $Self->{DBObject}->QueryCondition(
+                    Key   => $FieldSQLMap{$Key},
+                    Value => $Value,
+                    %ConditionFocus,
+                );
+            }
         }
         if ($Used) {
             $SQLExt .= ')';

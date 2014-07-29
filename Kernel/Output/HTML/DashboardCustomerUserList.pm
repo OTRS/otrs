@@ -227,43 +227,39 @@ sub Run {
             );
         }
 
-        my $CustomerKeySQL = $Self->{DBObject}->QueryStringEscape( QueryString => $CustomerKey );
-
         my $TicketCountOpen = $Self->{TicketObject}->TicketSearch(
-            StateType         => 'Open',
-            CustomerUserLogin => $CustomerKeySQL,
-            Result            => 'COUNT',
-            Permission        => $Self->{Config}->{Permission},
-            UserID            => $Self->{UserID},
-            CacheTTL          => $Self->{Config}->{CacheTTLLocal} * 60,
+            StateType            => 'Open',
+            CustomerUserLoginRaw => $CustomerKey,
+            Result               => 'COUNT',
+            Permission           => $Self->{Config}->{Permission},
+            UserID               => $Self->{UserID},
+            CacheTTL             => $Self->{Config}->{CacheTTLLocal} * 60,
         );
 
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeCustomerUserListRowCustomerUserTicketsOpen',
             Data => {
                 %Param,
-                Count          => $TicketCountOpen,
-                CustomerKey    => $CustomerKey,
-                CustomerKeySQL => $CustomerKeySQL,
+                Count       => $TicketCountOpen,
+                CustomerKey => $CustomerKey,
             },
         );
 
         my $TicketCountClosed = $Self->{TicketObject}->TicketSearch(
-            StateType         => 'Closed',
-            CustomerUserLogin => $CustomerKeySQL,
-            Result            => 'COUNT',
-            Permission        => $Self->{Config}->{Permission},
-            UserID            => $Self->{UserID},
-            CacheTTL          => $Self->{Config}->{CacheTTLLocal} * 60,
+            StateType            => 'Closed',
+            CustomerUserLoginRaw => $CustomerKey,
+            Result               => 'COUNT',
+            Permission           => $Self->{Config}->{Permission},
+            UserID               => $Self->{UserID},
+            CacheTTL             => $Self->{Config}->{CacheTTLLocal} * 60,
         );
 
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeCustomerUserListRowCustomerUserTicketsClosed',
             Data => {
                 %Param,
-                Count          => $TicketCountClosed,
-                CustomerKey    => $CustomerKey,
-                CustomerKeySQL => $CustomerKeySQL,
+                Count       => $TicketCountClosed,
+                CustomerKey => $CustomerKey,
             },
         );
 
@@ -297,9 +293,8 @@ sub Run {
                 Name => 'OverviewResultRowSwitchToCustomer',
                 Data => {
                     %Param,
-                    Count          => $TicketCountClosed,
-                    CustomerKey    => $CustomerKey,
-                    CustomerKeySQL => $CustomerKeySQL,
+                    Count       => $TicketCountClosed,
+                    CustomerKey => $CustomerKey,
                 },
             );
         }
