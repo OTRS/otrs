@@ -14,6 +14,10 @@ use warnings;
 
 use Email::Valid;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Log',
+);
 our $ObjectManagerAware = 1;
 
 =head1 NAME
@@ -36,7 +40,7 @@ create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $CheckItemObject = $Kernel::OM->Get('CheckItemObject');
+    my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
 =cut
 
@@ -44,13 +48,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {
-        $Kernel::OM->ObjectHash(
-            Objects => [
-                qw( ConfigObject LogObject )
-            ],
-        ),
-    };
+    my $Self = {};
     bless( $Self, $Type );
 
     return $Self;
@@ -100,15 +98,18 @@ sub CheckEmail {
 
     # check needed stuff
     if ( !$Param{Address} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Address!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need Address!' );
         return;
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # check if it's to do
-    return 1 if !$Self->{ConfigObject}->Get('CheckEmailAddresses');
+    return 1 if !$ConfigObject->Get('CheckEmailAddresses');
 
     # check valid email addresses
-    my $RegExp = $Self->{ConfigObject}->Get('CheckEmailValidAddress');
+    my $RegExp = $ConfigObject->Get('CheckEmailValidAddress');
     if ( $RegExp && $Param{Address} =~ /$RegExp/i ) {
         return 1;
     }
@@ -130,7 +131,7 @@ sub CheckEmail {
 
     # mx check
     elsif (
-        $Self->{ConfigObject}->Get('CheckMXRecord')
+        $ConfigObject->Get('CheckMXRecord')
         && eval { require Net::DNS }    ## no critic
         )
     {
@@ -150,7 +151,7 @@ sub CheckEmail {
             $Resolver->udp_timeout(3);
 
             # check if we need to use a specific name server
-            my $Nameserver = $Self->{ConfigObject}->Get('CheckMXRecord::Nameserver');
+            my $Nameserver = $ConfigObject->Get('CheckMXRecord::Nameserver');
             if ($Nameserver) {
                 $Resolver->nameservers($Nameserver);
             }
@@ -160,7 +161,7 @@ sub CheckEmail {
             if ( !$Packet ) {
                 $Self->{ErrorType} = 'InvalidDNS';
                 $Error = "DNS problem: " . $Resolver->errorstring();
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "DNS problem: " . $Resolver->errorstring(),
                 );
@@ -177,8 +178,8 @@ sub CheckEmail {
             }
         }
     }
-    elsif ( $Self->{ConfigObject}->Get('CheckMXRecord') ) {
-        $Self->{LogObject}->Log(
+    elsif ( $ConfigObject->Get('CheckMXRecord') ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't load Net::DNS, no mx lookups possible",
         );
@@ -188,7 +189,7 @@ sub CheckEmail {
     if ( !$Error ) {
 
         # check special stuff
-        my $RegExp = $Self->{ConfigObject}->Get('CheckEmailInvalidAddress');
+        my $RegExp = $ConfigObject->Get('CheckEmailInvalidAddress');
         if ( $RegExp && $Param{Address} =~ /$RegExp/i ) {
             $Self->{Error}     = "invalid $Param{Address} (config)!";
             $Self->{ErrorType} = 'InvalidConfig';
@@ -223,7 +224,7 @@ sub StringClean {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{StringRef} || ref $Param{StringRef} ne 'SCALAR' ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need a scalar reference!'
         );
@@ -269,7 +270,7 @@ sub CreditCardClean {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{StringRef} || ref $Param{StringRef} ne 'SCALAR' ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need a scalar reference!'
         );
