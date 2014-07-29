@@ -1,4 +1,5 @@
 #3.2.17 2014-??-??
+ - 2014-07-29 Fixed bug#[10598](http://bugs.otrs.org/show_bug.cgi?id=10598) - Field tags not parsed properly in auto response subject.
  - 2014-06-23 Fixed bug#[10522](http://bugs.otrs.org/show_bug.cgi?id=10522) - HTTP 500 error when uploading attachments to ticket on Windows.
  - 2014-06-23 Fixed bug#[10578](http://bugs.otrs.org/show_bug.cgi?id=10578) - Service selection in GA Ticket Action allows multi select.
  - 2014-05-19 Fixed bug#[10519](http://bugs.otrs.org/show_bug.cgi?id=10519) - Opening and closing popups in ProcessManagement leads to performance issues.
