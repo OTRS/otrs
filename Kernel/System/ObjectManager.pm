@@ -42,12 +42,12 @@ use Carp qw(carp confess);
 our $CurrentObject;
 
 our @DefaultObjectDependencies = (
-    'ConfigObject',
-    'DBObject',
-    'EncodeObject',
-    'LogObject',
-    'MainObject',
-    'TimeObject',
+    'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Time',
 );
 
 =head1 NAME
@@ -106,7 +106,8 @@ sub new {
     $Self->{Objects} = {
         'Kernel::Config' => $ConfigObject,
     };
-    $Self->{ObjectAliases} = $ConfigObject->Get('ObjectAliases');
+    $Self->{ObjectAliases}        = $ConfigObject->Get('ObjectAliases');
+    $Self->{ReverseObjectAliases} = { reverse %{ $Self->{ObjectAliases} } };
 
     for my $Parameter ( sort keys %Param ) {
         $Self->{Param}->{ $Self->{ObjectAliases}->{$Parameter} // $Parameter } = $Param{$Parameter};
@@ -174,8 +175,8 @@ sub _ObjectBuild {
         }
     }
 
-# Kernel::Config does not declare its dependencies (they would have to be in Kernel::Config::Defaults),
-#   so assume [] in this case.
+    # Kernel::Config does not declare its dependencies (they would have to be in
+    #   Kernel::Config::Defaults), so assume [] in this case.
     my $Dependencies       = [];
     my $ObjectManagerAware = 0;
 
@@ -192,21 +193,20 @@ sub _ObjectBuild {
     }
     $Self->{ObjectDependencies}->{$Package} = $Dependencies;
 
-    my %Args = (
+    my %ConstructorArguments = (
         %{ $Self->{Param}->{$Package} // {} },
     );
 
+    # For objects which are not ObjectManagerAware, provide the dependencies in
+    #   short form (e.g. ConfigObject) to the constructor.
     if ( !$ObjectManagerAware && @{$Dependencies} ) {
         for my $Dependency ( @{$Dependencies} ) {
-            $Self->Get($Dependency);
+            $ConstructorArguments{ $Self->{ReverseObjectAliases}->{$Dependency} // $Dependency }
+                //= $Self->Get($Dependency);
         }
-        %Args = (
-            $Self->ObjectHash( Objects => $Dependencies, ),
-            %Args,
-        );
     }
 
-    my $NewObject = $Package->new(%Args);
+    my $NewObject = $Package->new(%ConstructorArguments);
 
     if ( !defined $NewObject ) {
         if ( $CurrentObject && $CurrentObject ne $Package ) {
