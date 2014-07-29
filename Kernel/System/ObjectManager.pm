@@ -7,35 +7,33 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+package Kernel::System::ObjectManager;
 ## nofilter(TidyAll::Plugin::OTRS::Perl::PodSpelling)
 ## nofilter(TidyAll::Plugin::OTRS::Perl::Require)
 ## nofilter(TidyAll::Plugin::OTRS::Perl::SyntaxCheck)
 
-package Kernel::System::ObjectManager;
-
 use strict;
 use warnings;
 
+use Carp qw(carp confess);
 use Scalar::Util qw(weaken);
 
 # use the "standard" modules directly, so that persistent environments
 # like mod_perl and FastCGI preload them at startup
 
 use Kernel::Config;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::Encode;
-use Kernel::System::Time;
-use Kernel::System::Web::Request;
-use Kernel::System::DB;
-use Kernel::System::Cache;
+use Kernel::Output::HTML::Layout;
 use Kernel::System::Auth;
 use Kernel::System::AuthSession;
-use Kernel::System::User;
+use Kernel::System::Cache;
+use Kernel::System::DB;
+use Kernel::System::Encode;
 use Kernel::System::Group;
-use Kernel::Output::HTML::Layout;
-
-use Carp qw(carp confess);
+use Kernel::System::Log;
+use Kernel::System::Main;
+use Kernel::System::Time;
+use Kernel::System::Web::Request;
+use Kernel::System::User;
 
 # Contains the top-level object being retrieved;
 # used to generate better error messages.
