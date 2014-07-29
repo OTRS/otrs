@@ -279,9 +279,10 @@ sub GetRealname {
         return $Realname;
     }
 
-    # fallback of Mail::Address
+# fallback of Mail::Address
+# use $obj->phrase() from Mail::Address because $obj->name() formats the first letter to uppercase, but sometimes it is not necessary
     for my $EmailSplit ( Mail::Address->parse( $Param{Email} ) ) {
-        $Realname = $EmailSplit->name();
+        $Realname = $EmailSplit->phrase();
     }
     return $Realname;
 }

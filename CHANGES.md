@@ -1,4 +1,5 @@
 #3.3.9 2014-??-??
+ - 2014-07-29 Fixed bug#[10622](http://bugs.otrs.org/show_bug.cgi?id=10622) - eMail address only with uppercases - wrong display.
  - 2014-07-29 Fixed bug#[10596](http://bugs.otrs.org/show_bug.cgi?id=10596) - Manual Generic Agent Run doesn't show archived tickets as affected.
  - 2014-07-29 Fixed bug#[10601](http://bugs.otrs.org/show_bug.cgi?id=10601) - ExternalTicketNumberRecognition produces errors in log file.
  - 2014-07-24 Fixed bug#[9851](http://bugs.otrs.org/show_bug.cgi?id=9851) - Unlocking a ticket in the small view results in AgentTicketZoom.
