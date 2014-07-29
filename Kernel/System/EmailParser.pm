@@ -281,7 +281,7 @@ sub GetRealname {
 
     # fallback of Mail::Address
     for my $EmailSplit ( $Self->_MailAddressParse( Email => $Param{Email} ) ) {
-        $Realname = $EmailSplit->name();
+        $Realname = $EmailSplit->phrase();
     }
     return $Realname;
 }
