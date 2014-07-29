@@ -16,8 +16,14 @@ use Kernel::System::EventHandler;
 
 use base qw(Kernel::System::EventHandler);
 
-our @ObjectDependencies
-    = ( @Kernel::System::ObjectManager::DefaultObjectDependencies, qw(CustomerCompanyObject) );
+our @ObjectDependencies = (
+    'Kernel::System::DB',
+    'Kernel::Config',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Encode',
+    'Kernel::System::CustomerCompany',
+);
 our $ObjectManagerAware = 1;
 
 =head1 NAME
