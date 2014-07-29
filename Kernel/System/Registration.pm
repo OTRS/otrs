@@ -457,6 +457,17 @@ sub Register {
         SystemTime => $Self->{TimeObject}->SystemTime() + $NextUpdateSeconds,
     );
 
+    # remove all existing RegistrationUpdate scheduler task
+    my @TaskList = $Self->{TaskObject}->TaskList();
+
+    TASK:
+    for my $Task (@TaskList) {
+
+        next TASK if $Task->{Type} ne 'RegistrationUpdate';
+
+        $Self->{TaskObject}->TaskDelete( ID => $Task->{ID} );
+    }
+
     # schedule update in scheduler
     # after first update the updates will reschedule itself
     my $Result = $Self->{TaskObject}->TaskAdd(
