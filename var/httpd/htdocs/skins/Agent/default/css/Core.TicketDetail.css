@@ -263,48 +263,18 @@ div.Headline .Flag {
 */
 .UseArticleColors .agent-phone > td {
     background: #d1e8d1 !important;
-    background: -moz-linear-gradient(top,  #d1e8d1 0%, #c5e2c5 100%) !important;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d1e8d1), color-stop(100%,#c5e2c5)) !important;
-    background: -webkit-linear-gradient(top,  #d1e8d1 0%,#c5e2c5 100%) !important;
-    background: -o-linear-gradient(top,  #d1e8d1 0%,#c5e2c5 100%) !important;
-    background: -ms-linear-gradient(top,  #d1e8d1 0%,#c5e2c5 100%) !important;
-    background: linear-gradient(to bottom,  #d1e8d1 0%,#c5e2c5 100%) !important;
 }
 .UseArticleColors .agent-email-external > td {
     background: #d1e8d1 !important;
-    background: -moz-linear-gradient(top,  #d1e8d1 0%, #c5e2c5 100%) !important;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d1e8d1), color-stop(100%,#c5e2c5)) !important;
-    background: -webkit-linear-gradient(top,  #d1e8d1 0%,#c5e2c5 100%) !important;
-    background: -o-linear-gradient(top,  #d1e8d1 0%,#c5e2c5 100%) !important;
-    background: -ms-linear-gradient(top,  #d1e8d1 0%,#c5e2c5 100%) !important;
-    background: linear-gradient(to bottom,  #d1e8d1 0%,#c5e2c5 100%) !important;
 }
 .UseArticleColors .agent-email-internal > td {
     background: #ffd1d1 !important;
-    background: -moz-linear-gradient(top,  #ffd1d1 0%, #ffc5c5 100%) !important;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffd1d1), color-stop(100%,#ffc5c5)) !important;
-    background: -webkit-linear-gradient(top,  #ffd1d1 0%,#ffc5c5 100%) !important;
-    background: -o-linear-gradient(top,  #ffd1d1 0%,#ffc5c5 100%) !important;
-    background: -ms-linear-gradient(top,  #ffd1d1 0%,#ffc5c5 100%) !important;
-    background: linear-gradient(to bottom,  #ffd1d1 0%,#ffc5c5 100%) !important;
 }
 .UseArticleColors .agent-note-external > td {
     background: #d1d1d1 !important;
-    background: -moz-linear-gradient(top,  #d1d1d1 0%, #c5c5c5 100%) !important;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d1d1d1), color-stop(100%,#c5c5c5)) !important;
-    background: -webkit-linear-gradient(top,  #d1d1d1 0%,#c5c5c5 100%) !important;
-    background: -o-linear-gradient(top,  #d1d1d1 0%,#c5c5c5 100%) !important;
-    background: -ms-linear-gradient(top,  #d1d1d1 0%,#c5c5c5 100%) !important;
-    background: linear-gradient(to bottom,  #d1d1d1 0%,#c5c5c5 100%) !important;
 }
 .UseArticleColors .agent-note-internal > td {
     background: #ffd1d1 !important;
-    background: -moz-linear-gradient(top,  #ffd1d1 0%, #ffc5c5 100%) !important;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffd1d1), color-stop(100%,#ffc5c5)) !important;
-    background: -webkit-linear-gradient(top,  #ffd1d1 0%,#ffc5c5 100%) !important;
-    background: -o-linear-gradient(top,  #ffd1d1 0%,#ffc5c5 100%) !important;
-    background: -ms-linear-gradient(top,  #ffd1d1 0%,#ffc5c5 100%) !important;
-    background: linear-gradient(to bottom,  #ffd1d1 0%,#ffc5c5 100%) !important;
 }
 
 /*
@@ -318,12 +288,6 @@ div.Headline .Flag {
 .UseArticleColors .system-email-notification-int > td,
 .UseArticleColors .system-email-notification-ext > td {
     background: #ffffd1 !important;
-    background: -moz-linear-gradient(top,  #ffffd1 0%, #ffffc5 100%) !important;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffd1), color-stop(100%,#ffffc5)) !important;
-    background: -webkit-linear-gradient(top,  #ffffd1 0%,#ffffc5 100%) !important;
-    background: -o-linear-gradient(top,  #ffffd1 0%,#ffffc5 100%) !important;
-    background: -ms-linear-gradient(top,  #ffffd1 0%,#ffffc5 100%) !important;
-    background: linear-gradient(to bottom,  #ffffd1 0%,#ffffc5 100%) !important;
 }
 
 .UseArticleColors .customer-webrequest > td,
