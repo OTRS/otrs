@@ -12,7 +12,12 @@ package Kernel::System::AutoResponse;
 use strict;
 use warnings;
 
-our @ObjectDependencies = (qw(ConfigObject EncodeObject LogObject DBObject SystemAddressObject));
+our @ObjectDependencies = (
+    'Kernel::System::DB',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+    'Kernel::System::SystemAddress',
+);
 our $ObjectManagerAware = 1;
 
 =head1 NAME
@@ -35,7 +40,7 @@ create an object
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $AutoResponseObject = $Kernel::OM->Get('AutoReponseObject');
+    my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoReponse');
 
 =cut
 
@@ -43,12 +48,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {
-        $Kernel::OM->ObjectHash(
-            Objects =>
-                [qw(ConfigObject LogObject DBObject)],
-        ),
-    };
+    my $Self = {};
     bless( $Self, $Type );
 
     return $Self;
@@ -78,7 +78,7 @@ sub AutoResponseAdd {
     # check needed stuff
     for (qw(Name ValidID Response ContentType AddressID TypeID Charset UserID Subject)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -86,8 +86,11 @@ sub AutoResponseAdd {
     # check if a autoresponse with this name already exits
     return if !$Self->_NameExistsCheck( Name => $Param{Name} );
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # insert into database
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'INSERT INTO auto_response '
             . '(name, valid_id, comments, text0, text1, type_id, system_address_id, '
             . 'charset, content_type,  create_time, create_by, change_time, change_by)'
@@ -101,7 +104,7 @@ sub AutoResponseAdd {
     );
 
     # get id
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => 'SELECT id FROM auto_response WHERE name = ? AND type_id = ? AND'
             . ' system_address_id = ? AND charset = ? AND content_type = ? AND create_by = ?',
         Bind => [
@@ -113,7 +116,7 @@ sub AutoResponseAdd {
 
     # fetch the result
     my $ID;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $ID = $Row[0];
     }
 
@@ -135,12 +138,15 @@ sub AutoResponseGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ID!' );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # select
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => 'SELECT name, valid_id, comments, text0, text1, type_id, system_address_id, '
             . ' charset, content_type, create_time, create_by, change_time, change_by'
             . ' FROM auto_response WHERE id = ?',
@@ -148,11 +154,14 @@ sub AutoResponseGet {
         Limit => 1,
     );
 
+    # get encode object
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
     my %Data;
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Data = $DBObject->FetchrowArray() ) {
 
         # convert body
-        $Data[3] = $Kernel::OM->Get('EncodeObject')->Convert(
+        $Data[3] = $EncodeObject->Convert(
             Text  => $Data[3],
             From  => $Data[7],
             To    => 'utf-8',
@@ -160,7 +169,7 @@ sub AutoResponseGet {
         );
 
         # convert subject
-        $Data[4] = $Kernel::OM->Get('EncodeObject')->Convert(
+        $Data[4] = $EncodeObject->Convert(
             Text  => $Data[4],
             From  => $Data[7],
             To    => 'utf-8',
@@ -220,7 +229,7 @@ sub AutoResponseUpdate {
     # check needed stuff
     for (qw(ID Name ValidID Response AddressID Charset ContentType UserID Subject)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -232,7 +241,7 @@ sub AutoResponseUpdate {
     );
 
     # update the database
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE auto_response SET '
             . 'name = ?, text0 = ?, comments = ?, text1 = ?, type_id = ?, '
             . 'system_address_id = ?, charset = ?, content_type = ?, valid_id = ?, '
@@ -287,13 +296,16 @@ sub AutoResponseGetByTypeQueueID {
     # check needed stuff
     for (qw(QueueID Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # SQL query
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => 'SELECT ar.text0, ar.text1, ar.charset, ar.content_type, ar.system_address_id FROM '
             . 'auto_response_type art, auto_response ar, queue_auto_response qar '
             . 'WHERE qar.queue_id = ? AND art.id = ar.type_id AND '
@@ -306,7 +318,7 @@ sub AutoResponseGetByTypeQueueID {
 
     # fetch the result
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Data{Text}            = $Row[0];
         $Data{Subject}         = $Row[1];
         $Data{Charset}         = $Row[2];
@@ -318,7 +330,7 @@ sub AutoResponseGetByTypeQueueID {
     return if !%Data;
 
     # get sender attributes
-    my %Address = $Kernel::OM->Get('SystemAddressObject')->SystemAddressGet(
+    my %Address = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressGet(
         ID => $Data{SystemAddressID},
     );
 
@@ -348,7 +360,7 @@ Return example:
 sub AutoResponseList {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{DBObject}->GetTableData(
+    return $Kernel::OM->Get('Kernel::System::DB')->GetTableData(
         What  => 'id, name, id',
         Valid => 0,
         Clamp => 1,
@@ -377,7 +389,7 @@ Return example:
 sub AutoResponseTypeList {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{DBObject}->GetTableData(
+    return $Kernel::OM->Get('Kernel::System::DB')->GetTableData(
         What  => 'id, name',
         Valid => 1,
         Clamp => 1,
@@ -405,13 +417,16 @@ sub AutoResponseQueue {
     # check needed stuff
     for (qw(QueueID AutoResponseIDs UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # store queue:auto response relations
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM queue_auto_response WHERE queue_id = ?',
         Bind => [ \$Param{QueueID} ],
     );
@@ -421,7 +436,7 @@ sub AutoResponseQueue {
 
         next NEWID if !$NewID;
 
-        $Self->{DBObject}->Do(
+        $DBObject->Do(
             SQL => 'INSERT INTO queue_auto_response (queue_id, auto_response_id, '
                 . 'create_time, create_by, change_time, change_by) VALUES '
                 . '(?, ?, current_timestamp, ?, current_timestamp, ?)',
@@ -450,21 +465,24 @@ return if another autoresponse with this name already exits
 sub _NameExistsCheck {
     my ( $Self, %Param ) = @_;
 
-    return if !$Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL  => 'SELECT id FROM auto_response WHERE name = ?',
         Bind => [ \$Param{Name} ],
     );
 
     # fetch the result
     my $Flag;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( !$Param{ID} || $Param{ID} ne $Row[0] ) {
             $Flag = 1;
         }
     }
 
     if ($Flag) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "An Auto-Response with name '$Param{Name}' already exists!",
         );
