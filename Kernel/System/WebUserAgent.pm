@@ -18,6 +18,13 @@ use LWP::UserAgent;
 
 use Kernel::System::VariableCheck qw(:all);
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::WebUserAgent - a web user agent lib
@@ -49,17 +56,14 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {
-        $Kernel::OM->ObjectHash(
-            Objects => [
-                qw( ConfigObject LogObject )
-            ],
-        ),
-    };
+    my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{Timeout} = $Param{Timeout} || $Self->{ConfigObject}->Get('WebUserAgent::Timeout') || 15;
-    $Self->{Proxy}   = $Param{Proxy}   || $Self->{ConfigObject}->Get('WebUserAgent::Proxy')   || '';
+    # get database object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    $Self->{Timeout} = $Param{Timeout} || $ConfigObject->Get('WebUserAgent::Timeout') || 15;
+    $Self->{Proxy}   = $Param{Proxy}   || $ConfigObject->Get('WebUserAgent::Proxy')   || '';
 
     return $Self;
 }
@@ -182,9 +186,12 @@ sub Request {
         # set timeout
         $UserAgent->timeout( $Self->{Timeout} );
 
+        # get database object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
         # set user agent
         $UserAgent->agent(
-            $Self->{ConfigObject}->Get('Product') . ' ' . $Self->{ConfigObject}->Get('Version')
+            $ConfigObject->Get('Product') . ' ' . $ConfigObject->Get('Version')
         );
 
         # set proxy - but only for non-https urls, the https urls must use the environment
@@ -203,7 +210,7 @@ sub Request {
 
             # check for Data param
             if ( !IsArrayRefWithData( $Param{Data} ) && !IsHashRefWithData( $Param{Data} ) ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message =>
                         'WebUserAgent POST: Need Data param containing a hashref or arrayref with data.',
@@ -216,7 +223,7 @@ sub Request {
         }
     }
     if ( !$Response->is_success() ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't perform $Param{Type} on $Param{URL}: " . $Response->status_line(),
         );
@@ -227,7 +234,7 @@ sub Request {
 
     # get the content to convert internal used charset
     my $ResponseContent = $Response->decoded_content();
-    $Kernel::OM->Get('EncodeObject')->EncodeInput( \$ResponseContent );
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$ResponseContent );
 
     if ( $Param{Return} && $Param{Return} eq 'REQUEST' ) {
         return (
