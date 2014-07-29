@@ -15,10 +15,10 @@ use utf8;
 use vars qw($Self);
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-my $TicketObject = $Kernel::OM->Get('TicketObject');
-my $LinkObject   = $Kernel::OM->Get('LinkObject');
-my $UserObject   = $Kernel::OM->Get('UserObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $LinkObject   = $Kernel::OM->Get('Kernel::System::LinkObject');
+my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
 # ------------------------------------------------------------ #
 # make preparations
