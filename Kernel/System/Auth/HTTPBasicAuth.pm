@@ -22,17 +22,17 @@ package Kernel::System::Auth::HTTPBasicAuth;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {
-        $Kernel::OM->ObjectHash(
-            Objects => [
-                qw( LogObject ConfigObject )
-            ],
-        ),
-    };
+    my $Self = {};
     bless( $Self, $Type );
 
     $Self->{Count} = $Param{Count} || '';
@@ -45,7 +45,7 @@ sub GetOption {
 
     # check needed stuff
     if ( !$Param{What} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need What!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need What!" );
         return;
     }
 
@@ -65,7 +65,7 @@ sub Auth {
 
     # return on no user
     if ( !$User ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message =>
                 "User: No \$ENV{REMOTE_USER} or \$ENV{HTTP_REMOTE_USER} !(REMOTE_ADDR: $RemoteAddr).",
@@ -73,8 +73,11 @@ sub Auth {
         return;
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # replace login parts
-    my $Replace = $Self->{ConfigObject}->Get(
+    my $Replace = $ConfigObject->Get(
         'AuthModule::HTTPBasicAuth::Replace' . $Self->{Count},
     );
     if ($Replace) {
@@ -82,7 +85,7 @@ sub Auth {
     }
 
     # regexp on login
-    my $ReplaceRegExp = $Self->{ConfigObject}->Get(
+    my $ReplaceRegExp = $ConfigObject->Get(
         'AuthModule::HTTPBasicAuth::ReplaceRegExp' . $Self->{Count},
     );
     if ($ReplaceRegExp) {
@@ -90,12 +93,11 @@ sub Auth {
     }
 
     # log
-    $Self->{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',
         Message  => "User: $User authentication ok (REMOTE_ADDR: $RemoteAddr).",
     );
 
-    # return login
     return $User;
 }
 

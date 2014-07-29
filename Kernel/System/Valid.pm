@@ -40,7 +40,7 @@ create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $ValidObject = $Kernel::OM->Get('ValidObject');
+    my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
 
 =cut
 
