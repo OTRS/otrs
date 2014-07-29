@@ -8,11 +8,10 @@
 # --
 
 package Kernel::System::CacheInternal;
+## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
 
 use strict;
 use warnings;
-
-## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
 
 =head1 NAME
 
@@ -50,13 +49,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {
-        $Kernel::OM->ObjectHash(
-            Objects => [
-                qw( LogObject CacheObject )
-            ],
-        ),
-    };
+    my $Self = {};
     bless( $Self, $Type );
 
     for (qw(Type TTL)) {
@@ -65,7 +58,7 @@ sub new {
 
     # Enforce cache type restriction to make sure it works properly on all file systems.
     if ( $Param{Type} !~ m{ \A [a-zA-Z0-9_]+ \z}smx ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message =>
                 "Cache type '$Param{Type}' contains invalid characters, use [a-zA-Z0-9_] only!",
@@ -95,7 +88,7 @@ sub Set {
     # check needed stuff
     for (qw(Key Value)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -104,7 +97,7 @@ sub Set {
     $Self->{Cache}->{ $Param{Key} } = $Param{Value};
 
     # set permanent cache
-    $Self->{CacheObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
         Type  => $Self->{Type},
         Key   => $Param{Key},
         Value => $Param{Value},
@@ -130,7 +123,7 @@ sub Get {
     # check needed stuff
     for (qw(Key)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -139,7 +132,7 @@ sub Get {
     return $Self->{Cache}->{ $Param{Key} } if exists $Self->{Cache}->{ $Param{Key} };
 
     # check permanent cache
-    my $Cache = $Self->{CacheObject}->Get(
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => $Self->{Type},
         Key  => $Param{Key},
     );
@@ -167,7 +160,7 @@ sub Delete {
     # check needed stuff
     for (qw(Key)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -176,7 +169,7 @@ sub Delete {
     delete $Self->{Cache}->{ $Param{Key} };
 
     # delete permanent cache
-    $Self->{CacheObject}->Delete(
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
         Type => $Self->{Type},
         Key  => $Param{Key},
     );
@@ -214,12 +207,12 @@ sub CleanUp {
 
     # delete permanent cache
     if ( $Param{OtherType} ) {
-        return if !$Self->{CacheObject}->CleanUp(
+        return if !$Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'CacheInternal' . $Param{OtherType}
         );
     }
     else {
-        return if !$Self->{CacheObject}->CleanUp(
+        return if !$Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => $Self->{Type}
         );
     }

@@ -27,13 +27,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {
-        $Kernel::OM->ObjectHash(
-            Objects => [
-                qw( ConfigObject )
-            ],
-        ),
-    };
+    my $Self = {};
     bless( $Self, $Type );
 
     # Debug 0=off 1=on
