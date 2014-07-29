@@ -17,10 +17,7 @@ use Kernel::System::EventHandler;
 use base qw(Kernel::System::EventHandler);
 
 our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::CustomerCompany',
-    'Kernel::System::Log',
-    'Kernel::System::Main',
+
 );
 our $ObjectManagerAware = 1;
 
