@@ -63,12 +63,12 @@ sub Run {
 
     return if !$Param{CustomerID};
 
-    my $CustomerIDSQL = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{CustomerID} );
+    my $CustomerIDRaw = $Param{CustomerID};
 
     # escalated tickets
     my $Count = $Self->{TicketObject}->TicketSearch(
         TicketEscalationTimeOlderMinutes => 1,
-        CustomerID                       => $CustomerIDSQL,
+        CustomerIDRaw                    => $CustomerIDRaw,
         Result                           => 'COUNT',
         Permission                       => $Self->{Config}->{Permission},
         UserID                           => $Self->{UserID},
@@ -85,12 +85,12 @@ sub Run {
 
     # open tickets
     $Count = $Self->{TicketObject}->TicketSearch(
-        StateType  => 'Open',
-        CustomerID => $CustomerIDSQL,
-        Result     => 'COUNT',
-        Permission => $Self->{Config}->{Permission},
-        UserID     => $Self->{UserID},
-        CacheTTL   => $Self->{Config}->{CacheTTLLocal} * 60,
+        StateType     => 'Open',
+        CustomerIDRaw => $CustomerIDRaw,
+        Result        => 'COUNT',
+        Permission    => $Self->{Config}->{Permission},
+        UserID        => $Self->{UserID},
+        CacheTTL      => $Self->{Config}->{CacheTTLLocal} * 60,
     );
 
     $Self->{LayoutObject}->Block(
@@ -103,12 +103,12 @@ sub Run {
 
     # closed tickets
     $Count = $Self->{TicketObject}->TicketSearch(
-        StateType  => 'Closed',
-        CustomerID => $CustomerIDSQL,
-        Result     => 'COUNT',
-        Permission => $Self->{Config}->{Permission},
-        UserID     => $Self->{UserID},
-        CacheTTL   => $Self->{Config}->{CacheTTLLocal} * 60,
+        StateType     => 'Closed',
+        CustomerIDRaw => $CustomerIDRaw,
+        Result        => 'COUNT',
+        Permission    => $Self->{Config}->{Permission},
+        UserID        => $Self->{UserID},
+        CacheTTL      => $Self->{Config}->{CacheTTLLocal} * 60,
     );
 
     $Self->{LayoutObject}->Block(
@@ -121,11 +121,11 @@ sub Run {
 
     # all tickets
     $Count = $Self->{TicketObject}->TicketSearch(
-        CustomerID => $CustomerIDSQL,
-        Result     => 'COUNT',
-        Permission => $Self->{Config}->{Permission},
-        UserID     => $Self->{UserID},
-        CacheTTL   => $Self->{Config}->{CacheTTLLocal} * 60,
+        CustomerIDRaw => $CustomerIDRaw,
+        Result        => 'COUNT',
+        Permission    => $Self->{Config}->{Permission},
+        UserID        => $Self->{UserID},
+        CacheTTL      => $Self->{Config}->{CacheTTLLocal} * 60,
     );
 
     $Self->{LayoutObject}->Block(
@@ -139,12 +139,12 @@ sub Run {
     # archived tickets
     if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
         $Count = $Self->{TicketObject}->TicketSearch(
-            CustomerID   => $CustomerIDSQL,
-            ArchiveFlags => ['y'],
-            Result       => 'COUNT',
-            Permission   => $Self->{Config}->{Permission},
-            UserID       => $Self->{UserID},
-            CacheTTL     => $Self->{Config}->{CacheTTLLocal} * 60,
+            CustomerIDRaw => $CustomerIDRaw,
+            ArchiveFlags  => ['y'],
+            Result        => 'COUNT',
+            Permission    => $Self->{Config}->{Permission},
+            UserID        => $Self->{UserID},
+            CacheTTL      => $Self->{Config}->{CacheTTLLocal} * 60,
         );
 
         $Self->{LayoutObject}->Block(

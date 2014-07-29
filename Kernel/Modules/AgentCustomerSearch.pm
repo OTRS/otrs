@@ -153,20 +153,14 @@ sub Run {
 
         my @ViewableTickets;
         if (@CustomerIDs) {
-            my @CustomerIDsEscaped;
-            for my $CustomerID (@CustomerIDs) {
-                push @CustomerIDsEscaped,
-                    $Self->{DBObject}->QueryStringEscape( QueryString => $CustomerID );
-            }
-
             @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-                Result     => 'ARRAY',
-                Limit      => 250,
-                SortBy     => [$SortBy],
-                OrderBy    => [$OrderBy],
-                CustomerID => \@CustomerIDsEscaped,
-                UserID     => $Self->{UserID},
-                Permission => 'ro',
+                Result        => 'ARRAY',
+                Limit         => 250,
+                SortBy        => [$SortBy],
+                OrderBy       => [$OrderBy],
+                CustomerIDRaw => \@CustomerIDs,
+                UserID        => $Self->{UserID},
+                Permission    => 'ro',
             );
         }
 

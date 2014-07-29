@@ -126,13 +126,12 @@ sub Run {
 
     # note:
     # "special characters" in customer id have to be escaped, so that DB::QueryCondition works
-    my $CustomerIDEscaped
-        = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{Data}->{UserCustomerID} );
+    my $CustomerIDRaw = $Param{Data}->{UserCustomerID};
 
     my $Action    = $Param{Config}->{Action};
     my $Subaction = $Param{Config}->{Subaction};
     my $URL       = $Self->{LayoutObject}->{Baselink} . "Action=$Action;Subaction=$Subaction";
-    $URL .= ';CustomerID=' . $Self->{LayoutObject}->LinkEncode($CustomerIDEscaped);
+    $URL .= ';CustomerID=' . $Self->{LayoutObject}->LinkEncode($CustomerIDRaw);
     for my $Key ( sort keys %TicketSearch ) {
         if ( ref $TicketSearch{$Key} eq 'ARRAY' ) {
             for my $Value ( @{ $TicketSearch{$Key} } ) {
@@ -158,11 +157,11 @@ sub Run {
 
         # result (required)
         %TicketSearch,
-        CustomerID => $CustomerIDEscaped,
-        CacheTTL   => 60 * 2,
-        Result     => 'COUNT',
-        Permission => 'ro',
-        UserID     => $Self->{UserID},
+        CustomerIDRaw => $CustomerIDRaw,
+        CacheTTL      => 60 * 2,
+        Result        => 'COUNT',
+        Permission    => 'ro',
+        UserID        => $Self->{UserID},
     );
 
     my $CSSClass = $Param{Config}->{CSSClassNoOpenTicket};

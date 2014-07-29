@@ -652,7 +652,7 @@ $('#Dashboard[% Data.Name | html %]-box').find('.RemoveFilters').remove();
         CustomerID = $('input[name=CustomerID]').val() || '';
 
         $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
-        Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=' + CustomerID, function () {
+        Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=' + encodeURIComponent(CustomerID), function () {
             Core.UI.Table.InitCSSPseudoClasses($('#Dashboard[% Data.Name | html %]'));
             $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
         });
