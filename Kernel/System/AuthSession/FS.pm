@@ -467,7 +467,7 @@ sub GetExpiredSessionIDs {
         my @SessionData = split '####', ${$StateData};
 
         # get needed data
-        my $UserSessionStart = $SessionData[1] || $TimeNow;
+        my $UserSessionStart = $SessionData[2] || $TimeNow;
         my $UserLastRequest  = $SessionData[3] || $TimeNow;
 
         # time calculation

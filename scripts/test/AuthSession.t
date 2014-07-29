@@ -52,6 +52,7 @@ for my $SessionFile (@SampleSessionFiles) {
 
     # read data structure back from file dump, use block eval for safety reasons
     my $Session = eval { Storable::thaw( ${$Content} ) };
+    delete $Session->{UserLastRequest};
 
     push @SampleSessionData, $Session;
 }
@@ -405,6 +406,19 @@ for my $ModuleFile (@BackendModuleFiles) {
             "Real session data check",
         );
     }
+
+    my @ExpiredSessionIDs = $SessionObject->GetExpiredSessionIDs();
+    $Self->Is(
+        scalar @{ $ExpiredSessionIDs[0] },
+        0,
+        'No expired Session IDs',
+    );
+
+    $Self->Is(
+        scalar @{ $ExpiredSessionIDs[1] },
+        0,
+        'No Session IDs idle for too long',
+    );
 
     $CleanUp = $SessionObject->CleanUp();
 

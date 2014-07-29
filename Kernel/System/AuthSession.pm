@@ -185,7 +185,8 @@ sub UpdateSessionID {
 
 =item GetExpiredSessionIDs()
 
-returns a array with expired session ids
+returns a array of an array of session ids that have expired,
+and one array of session ids that have been idle for too long.
 
     my @Sessions = $SessionObject->GetExpiredSessionIDs();
 
@@ -202,7 +203,7 @@ sub GetExpiredSessionIDs {
 
 =item GetAllSessionIDs()
 
-returns a array with all session ids
+returns an array with all session ids
 
     my @Sessions = $SessionObject->GetAllSessionIDs();
 
