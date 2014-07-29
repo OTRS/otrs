@@ -1,4 +1,5 @@
 #3.3.9 2014-??-??
+ - 2014-07-29 Fixed bug#[10601](http://bugs.otrs.org/show_bug.cgi?id=10601) - ExternalTicketNumberRecognition produces errors in log file.
  - 2014-07-24 Fixed bug#[9851](http://bugs.otrs.org/show_bug.cgi?id=9851) - Unlocking a ticket in the small view results in AgentTicketZoom.
  - 2014-07-17 Fixed bug#[10612](http://bugs.otrs.org/show_bug.cgi?id=10612) - Wrong Time in DashboardField "Changed", thanks to S7.
  - 2014-07-10 Fixed bug#[10595](http://bugs.otrs.org/show_bug.cgi?id=10595) - Standard Replies are false sorted in Ticket Zoom select box.
