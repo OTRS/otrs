@@ -17,8 +17,8 @@ use Scalar::Util;
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
-    @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    'TicketObject',
+    'Kernel::System::Log',
+    'Kernel::System::Ticket'
 );
 our $ObjectManagerAware = 1;
 
@@ -70,14 +70,17 @@ sub PostValueSet {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig ObjectID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('LogObject')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message => "Need $Needed!",
+            );
             return;
         }
     }
 
     # check DynamicFieldConfig (general)
     if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Kernel::OM->Get('LogObject')->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
@@ -87,9 +90,9 @@ sub PostValueSet {
     # check DynamicFieldConfig (internally)
     for my $Needed (qw(ID FieldType ObjectType)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Kernel::OM->Get('LogObject')->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Needed in DynamicFieldConfig!"
+                Message  => "Need $Needed in DynamicFieldConfig!",
             );
             return;
         }
@@ -98,7 +101,7 @@ sub PostValueSet {
     # Don't hold a permanent reference to the TicketObject.
     #   This is because the TicketObject has a Kernel::DynamicField::Backend object, which has this
     #   object, which has a TicketObject again. Without weaken() we'd have a cyclic reference.
-    my $TicketObject = $Kernel::OM->Get('TicketObject');
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Param{ObjectID},
