@@ -1117,10 +1117,13 @@ sub _UninstallMergedFeatureAddOns {
     my $PackageObject = Kernel::System::Package->new( %{$CommonObject} );
 
     # qw( ) contains a list of the feature add-ons to uninstall
+    # Also uninstalls the support assessment package which was replaced by the SupportData
+    #   and SupportBundle features.
     for my $PackageName (
         qw(
         OTRSGenericInterfaceREST
         OTRSMyServices
+        Support
         )
         )
     {
