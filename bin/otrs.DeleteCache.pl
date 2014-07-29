@@ -60,24 +60,19 @@ if ( $Opts{t} ) {
     $Options{Type} = $Opts{t};
 }
 
-# ---
-# common objects
-# ---
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     LogObject => {
         LogPrefix => 'OTRS-otrs.DeleteCache.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject CacheObject)],
-);
 
-# ---
-# cleanup
-# ---
-if ( !$CommonObject{CacheObject}->CleanUp(%Options) ) {
+# get cache object
+my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+if ( !$CacheObject->CleanUp(%Options) ) {
     exit 1;
 }
 
 print "Done.\n";
+
 exit;
