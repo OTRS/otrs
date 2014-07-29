@@ -59,11 +59,6 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(ConfigObject)) {
-        die "Got no $_!" if ( !$Self->{$_} );
-    }
-
     # 0=off; 1=on; 2=get all not translated words; 3=get all requests
     $Self->{Debug} = 0;
 
