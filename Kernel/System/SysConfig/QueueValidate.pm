@@ -12,12 +12,9 @@ package Kernel::System::SysConfig::QueueValidate;
 use strict;
 use warnings;
 
-use Kernel::Config;
-use Kernel::System::Queue;
-
 our @ObjectDependencies = (
-    @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(QueueObject)
+    'Kernel::System::Log',
+    'Kernel::System::Queue',
 );
 our $ObjectManagerAware = 1;
 
@@ -56,7 +53,7 @@ sub new {
 
     # check needed objects
     for my $Object (
-        qw(DBObject ConfigObject EncodeObject LogObject MainObject TimeObject QueueObject)
+        qw( QueueObject)
         )
     {
         $Self->{$Object} = $Kernel::OM->Get($Object);
@@ -83,7 +80,7 @@ sub Validate {
 
     # check needed stuff
     if ( !$Param{Data} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need Data!",
         );
@@ -96,7 +93,7 @@ sub Validate {
         # get the reference type
         my $RefType = ref $Param{Data};
 
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Data must be a scalar, but it is a $RefType!",
         );
@@ -104,7 +101,7 @@ sub Validate {
     }
 
     # get list of all valid queues
-    my %Queues = $Self->{QueueObject}->QueueList(
+    my %Queues = $Kernel::OM->Get('Kernel::System::Queue')->QueueList(
         Valid => 1,
     );
 
@@ -130,7 +127,7 @@ sub GetAutoCorrectValue {
     my ( $Self, %Param ) = @_;
 
     # get list of all valid queues
-    my %Queues = $Self->{QueueObject}->QueueList(
+    my %Queues = $Kernel::OM->Get('Kernel::System::Queue')->QueueList(
         Valid => 1,
     );
 

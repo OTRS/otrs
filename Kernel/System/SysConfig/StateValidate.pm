@@ -12,12 +12,9 @@ package Kernel::System::SysConfig::StateValidate;
 use strict;
 use warnings;
 
-use Kernel::Config;
-use Kernel::System::State;
-
 our @ObjectDependencies = (
-    @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(StateObject)
+    'Kernel::System::Log',
+    'Kernel::System::State',
 );
 our $ObjectManagerAware = 1;
 
@@ -55,7 +52,7 @@ sub new {
     bless( $Self, $Type );
 
     for my $Object (
-        qw(DBObject ConfigObject EncodeObject LogObject MainObject TimeObject StateObject)
+        qw( StateObject)
         )
     {
         $Self->{$Object} = $Kernel::OM->Get($Object);
@@ -82,7 +79,7 @@ sub Validate {
 
     # check needed stuff
     if ( !$Param{Data} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need Data!",
         );
@@ -90,7 +87,7 @@ sub Validate {
     }
 
     # get list of all valid states
-    my %States = $Self->{StateObject}->StateList(
+    my %States = $Kernel::OM->Get('Kernel::System::State')->StateList(
         UserID => 1,
         Valid  => 1,
     );
@@ -140,7 +137,7 @@ sub Validate {
             # get the reference type
             my $RefType = ref $Param{Data};
 
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Data must be a scalar or a hash, but it is a $RefType!",
             );
@@ -181,7 +178,7 @@ sub GetAutoCorrectValue {
     }
 
     # get list of all valid states
-    my %States = $Self->{StateObject}->StateList(
+    my %States = $Kernel::OM->Get('Kernel::System::State')->StateList(
         UserID => 1,
         Valid  => 1,
     );
@@ -248,7 +245,7 @@ sub GetAutoCorrectValue {
         # get the reference type
         my $RefType = ref $Param{Data};
 
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Data must be a scalar or a hash, but it is a $RefType!",
         );
@@ -272,7 +269,7 @@ sub _GetAutoCorrectValue {
     my ( $Self, %Param ) = @_;
 
     # get list of all valid states
-    my %States = $Self->{StateObject}->StateList(
+    my %States = $Kernel::OM->Get('Kernel::System::State')->StateList(
         UserID => 1,
         Valid  => 1,
     );

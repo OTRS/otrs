@@ -12,12 +12,9 @@ package Kernel::System::SysConfig::PriorityValidate;
 use strict;
 use warnings;
 
-use Kernel::Config;
-use Kernel::System::Priority;
-
 our @ObjectDependencies = (
-    @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(PriorityObject)
+    'Kernel::System::Log',
+    'Kernel::System::Priority',
 );
 our $ObjectManagerAware = 1;
 
@@ -55,7 +52,7 @@ sub new {
     bless( $Self, $Type );
 
     for my $Object (
-        qw(DBObject ConfigObject EncodeObject LogObject MainObject TimeObject PriorityObject)
+        qw( PriorityObject)
         )
     {
         $Self->{$Object} = $Kernel::OM->Get($Object);
@@ -82,7 +79,7 @@ sub Validate {
 
     # check needed stuff
     if ( !$Param{Data} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need Data!",
         );
@@ -95,7 +92,7 @@ sub Validate {
         # get the reference type
         my $RefType = ref $Param{Data};
 
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Data must be a scalar, but it is a $RefType!",
         );
@@ -103,7 +100,7 @@ sub Validate {
     }
 
     # get list of all valid priorities
-    my %Priorities = $Self->{PriorityObject}->PriorityList(
+    my %Priorities = $Kernel::OM->Get('Kernel::System::Priority')->PriorityList(
         Valid => 1,
     );
 
@@ -129,7 +126,7 @@ sub GetAutoCorrectValue {
     my ( $Self, %Param ) = @_;
 
     # get list of all valid priorities
-    my %Priorities = $Self->{PriorityObject}->PriorityList(
+    my %Priorities = $Kernel::OM->Get('Kernel::System::Priority')->PriorityList(
         Valid => 1,
     );
 
