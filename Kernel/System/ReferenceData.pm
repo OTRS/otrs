@@ -31,33 +31,11 @@ codes.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::ReferenceData;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $ReferenceDataObject = Kernel::System::ReferenceData->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        EncodeObject => $EncodeObject,
-        MainObject   => $MainObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $ReferenceDataObject = $Kernel::OM->Get('Kernel::System::ReferenceData');
 
 =cut
 
@@ -67,11 +45,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # check needed objects
-    for my $Object (qw(ConfigObject LogObject EncodeObject MainObject)) {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
 
     return $Self;
 }
@@ -95,7 +68,7 @@ sub CountryList {
         $Param{Result} = undef;
     }
 
-    my $Countries = $Self->{ConfigObject}->Get('ReferenceData::OwnCountryList');
+    my $Countries = $Kernel::OM->Get('Kernel::Config')->Get('ReferenceData::OwnCountryList');
 
     if ( $Param{Result} && $Countries ) {
 
