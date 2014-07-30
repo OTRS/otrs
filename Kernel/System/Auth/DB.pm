@@ -23,7 +23,7 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::Valid',
 );
-our $ObjectManagerAware = 1;
+our $ObjectManagerAware = 0;
 
 sub new {
     my ( $Type, %Param ) = @_;

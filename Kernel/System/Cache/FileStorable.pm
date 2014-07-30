@@ -24,7 +24,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
 );
-our $ObjectManagerAware = 1;
+our $ObjectManagerAware = 0;
 
 sub new {
     my ( $Type, %Param ) = @_;

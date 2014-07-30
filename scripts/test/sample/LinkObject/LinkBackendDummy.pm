@@ -15,7 +15,7 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::System::Log',
 );
-our $ObjectManagerAware = 1;
+our $ObjectManagerAware = 0;
 
 =head1 NAME
 
