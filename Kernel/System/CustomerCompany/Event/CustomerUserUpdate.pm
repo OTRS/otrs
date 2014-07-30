@@ -12,7 +12,11 @@ package Kernel::System::CustomerCompany::Event::CustomerUserUpdate;
 use strict;
 use warnings;
 
-use Kernel::System::CustomerUser;
+our @ObjectDependencies = (
+    'Kernel::System::CustomerUser',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -20,14 +24,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for (
-        qw( ConfigObject EncodeObject LogObject MainObject DBObject)
-        )
-    {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -38,34 +34,35 @@ sub Run {
     # check needed stuff
     for (qw( Data Event Config UserID )) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     for (qw( CustomerID OldCustomerID )) {
         if ( !$Param{Data}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_ in Data!" );
             return;
         }
     }
 
     return 1 if $Param{Data}->{CustomerID} eq $Param{Data}->{OldCustomerID};
 
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
+    # get customer user object
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
-    my %CustomerUsers = $Self->{CustomerUserObject}->CustomerSearch(
+    my %CustomerUsers = $CustomerUserObject->CustomerSearch(
         CustomerID => $Param{Data}->{OldCustomerID},
         Valid      => 0,
     );
 
     for my $CustomerUserLogin ( sort keys %CustomerUsers ) {
-        my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+        my %CustomerData = $CustomerUserObject->CustomerUserDataGet(
             User => $CustomerUserLogin,
         );
 
         # we do not need to 'change' the password (this would re-hash it!)
         delete $CustomerData{UserPassword};
-        $Self->{CustomerUserObject}->CustomerUserUpdate(
+        $CustomerUserObject->CustomerUserUpdate(
             %CustomerData,
             ID             => $CustomerUserLogin,
             UserCustomerID => $Param{Data}->{CustomerID},

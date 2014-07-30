@@ -12,13 +12,13 @@ package Kernel::System::CustomerCompany::DB;
 use strict;
 use warnings;
 
-use Kernel::System::Cache;
-use Kernel::System::Valid;
-
 our @ObjectDependencies = (
-    @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(CacheObject)
+    'Kernel::System::Cache',
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+    'Kernel::System::Valid',
 );
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,16 +27,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for my $Needed (
-        qw(DBObject ConfigObject LogObject CustomerCompanyMap MainObject EncodeObject)
-        )
-    {
-        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
-    }
-
-    # create additional objects
-    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
+    # get customer company map
+    $Self->{CustomerCompanyMap} = $Param{CustomerCompanyMap} || die "Got no CustomerCompanyMap!";
 
     # config options
     $Self->{CustomerCompanyTable} = $Self->{CustomerCompanyMap}->{Params}->{Table}
@@ -56,18 +48,17 @@ sub new {
 
     # create cache object, but only if CacheTTL is set in customer config
     if ( $Self->{CustomerCompanyMap}->{CacheTTL} ) {
-        $Self->{CacheObject} = $Kernel::OM->Get('CacheObject');
+        $Self->{CacheObject} = $Kernel::OM->Get('Kernel::System::Cache');
         $Self->{CacheType}   = 'CustomerCompany' . $Param{Count};
         $Self->{CacheTTL}    = $Self->{CustomerCompanyMap}->{CacheTTL} || 0;
     }
 
+    # get database object
+    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
+
     # create new db connect if DSN is given
     if ( $Self->{CustomerCompanyMap}->{Params}->{DSN} ) {
         $Self->{DBObject} = Kernel::System::DB->new(
-            LogObject    => $Param{LogObject},
-            ConfigObject => $Param{ConfigObject},
-            MainObject   => $Param{MainObject},
-            EncodeObject => $Param{EncodeObject},
             DatabaseDSN  => $Self->{CustomerCompanyMap}->{Params}->{DSN},
             DatabaseUser => $Self->{CustomerCompanyMap}->{Params}->{User},
             DatabasePw   => $Self->{CustomerCompanyMap}->{Params}->{Password},
@@ -124,8 +115,12 @@ sub CustomerCompanyList {
     my @Bind;
 
     if ($Valid) {
+
+        # get valid object
+        my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
+
         $SQL
-            .= "$Self->{CustomerCompanyValid} IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
+            .= "$Self->{CustomerCompanyValid} IN ( ${\(join ', ', $ValidObject->ValidIDsGet())} )";
     }
 
     # where
@@ -202,7 +197,7 @@ sub CustomerCompanyGet {
 
     # check needed stuff
     if ( !$Param{CustomerID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need CustomerID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need CustomerID!' );
         return;
     }
 
@@ -285,7 +280,7 @@ sub CustomerCompanyAdd {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}
+        $Kernel::OM->Get('Kernel::System::Log')
             ->Log( Priority => 'error', Message => 'CustomerCompany backend is read only!' );
         return;
     }
@@ -315,7 +310,7 @@ sub CustomerCompanyAdd {
     );
 
     # log notice
-    $Self->{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'info',
         Message =>
             "CustomerCompany: '$Param{CustomerCompanyName}/$Param{CustomerID}' created successfully ($Param{UserID})!",
@@ -331,14 +326,14 @@ sub CustomerCompanyUpdate {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Customer backend is read only!' );
         return;
     }
 
     # check needed stuff
     for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
         if ( !$Param{ $Entry->[0] } && $Entry->[4] && $Entry->[0] ne 'UserPassword' ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
             return;
         }
     }
@@ -375,7 +370,7 @@ sub CustomerCompanyUpdate {
     );
 
     # log notice
-    $Self->{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'info',
         Message =>
             "CustomerCompany: '$Param{CustomerCompanyName}/$Param{CustomerID}' updated successfully ($Param{UserID})!",
@@ -395,7 +390,7 @@ sub _CustomerCompanyCacheClear {
     return if !$Self->{CacheObject};
 
     if ( !$Param{CustomerID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need CustomerID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need CustomerID!' );
         return;
     }
 
