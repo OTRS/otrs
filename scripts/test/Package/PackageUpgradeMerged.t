@@ -322,8 +322,10 @@ while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
     $Result = $Row[0];
 }
 
+$Result //= '';
+
 $Self->Is(
-    $Result || '',
+    $Result,
     'Lalala1',
     'SQL check - merge_package table was created and have one record for select',
 );
@@ -577,9 +579,11 @@ for my $Test (@Tests) {
         $SQLResult = $Row[0];
     }
 
+    $SQLResult //= '';
+
     my $SQLTest = $Test->{SQLTest};
     $Self->$SQLTest(
-        $SQLResult || '',
+        $SQLResult,
         '1234',
         'SQL check - test_package table creation select one record',
     );
