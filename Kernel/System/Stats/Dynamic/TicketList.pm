@@ -33,7 +33,7 @@ our @ObjectDependencies = (
     'Kernel::System::Type',
     'Kernel::System::User',
 );
-our $ObjectManagerAware = 0;
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;

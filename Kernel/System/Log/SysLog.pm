@@ -18,7 +18,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Encode',
 );
-our $ObjectManagerAware = 0;
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
