@@ -12,9 +12,14 @@ package Kernel::System::YAML;
 use strict;
 use warnings;
 
+use Encode qw();
 use YAML::Any qw();
 use YAML qw();
-use Encode qw();
+
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -34,7 +39,7 @@ create a YAML object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $YAMLObject = $Kernel::OM->Get('YAMLObject');
+    my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
 
 =cut
 
@@ -44,11 +49,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # check needed objects
-    for my $Object (qw(ConfigObject EncodeObject LogObject)) {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
 
     return $Self;
 }
@@ -68,7 +68,7 @@ sub Dump {
 
     # check for needed data
     if ( !defined $Param{Data} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Data!',
         );
@@ -110,11 +110,11 @@ sub Load {
     my $YAMLImplementation = YAML::Any->implementation();
 
     if ( !eval { $Result = YAML::Any::Load( $Param{Data} ) } ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Loading the YAML string failed: ' . $@,
         );
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'YAML data was: "' . $Param{Data} . '"',
         );
@@ -125,13 +125,13 @@ sub Load {
         # otherwise use pure-perl YAML as fallback if YAML::XS or other can't parse the data
         # structure correctly
         if ( !eval { $Result = YAML::Load( $Param{Data} ) } ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'YAML data was not readable even by pure-perl YAML module',
             );
             return;
         }
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Data was only readable pure-perl YAML module, please contact the'
                 . ' System Administrator to update this record, as the stored data is still in a'
@@ -188,11 +188,6 @@ sub _AddUTF8Flag {
     if ( ref ${$Data} eq 'REF' ) {
         return _AddUTF8Flag( ${$Data} );
     }
-
-    #$Self->{LogObject}->Log(
-    #    Priority => 'error',
-    #    Message  => "Unknown ref '" . ref( ${$Data} ) . "'!",
-    #);
 
     return;
 }
