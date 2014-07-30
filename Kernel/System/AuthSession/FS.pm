@@ -14,6 +14,14 @@ use warnings;
 
 use Storable;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Time',
+);
+our $ObjectManagerAware = 0;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -21,20 +29,18 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(LogObject ConfigObject DBObject TimeObject MainObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "No $_!";
-    }
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get more common params
-    $Self->{SessionSpool}             = $Self->{ConfigObject}->Get('SessionDir');
-    $Self->{SystemID}                 = $Self->{ConfigObject}->Get('SystemID');
-    $Self->{AgentSessionLimit}        = $Self->{ConfigObject}->Get('AgentSessionLimit');
-    $Self->{AgentSessionPerUserLimit} = $Self->{ConfigObject}->Get('AgentSessionPerUserLimit') || 2;
-    $Self->{CustomerSessionLimit}     = $Self->{ConfigObject}->Get('CustomerSessionLimit');
+    $Self->{SessionSpool}             = $ConfigObject->Get('SessionDir');
+    $Self->{SystemID}                 = $ConfigObject->Get('SystemID');
+    $Self->{AgentSessionLimit}        = $ConfigObject->Get('AgentSessionLimit');
+    $Self->{AgentSessionPerUserLimit} = $ConfigObject->Get('AgentSessionPerUserLimit') || 2;
+    $Self->{CustomerSessionLimit}     = $ConfigObject->Get('CustomerSessionLimit');
     $Self->{CustomerSessionPerUserLimit}
-        = $Self->{ConfigObject}->Get('CustomerSessionPerUserLimit');
-    $Self->{SessionActiveTime} = $Self->{ConfigObject}->Get('SessionActiveTime') || 60 * 10;
+        = $ConfigObject->Get('CustomerSessionPerUserLimit');
+    $Self->{SessionActiveTime} = $ConfigObject->Get('SessionActiveTime') || 60 * 10;
 
     return $Self;
 }
@@ -44,7 +50,7 @@ sub CheckSessionID {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
@@ -57,20 +63,23 @@ sub CheckSessionID {
 
     if ( !$Data{UserID} || !$Data{UserLogin} ) {
         $Self->{SessionIDErrorMessage} = 'Session invalid. Please log in again.';
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "SessionID: '$Param{SessionID}' is invalid!!!",
         );
         return;
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # remote ip check
     if (
         $Data{UserRemoteAddr} ne $RemoteAddr
-        && $Self->{ConfigObject}->Get('SessionCheckRemoteIP')
+        && $ConfigObject->Get('SessionCheckRemoteIP')
         )
     {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "RemoteIP of '$Param{SessionID}' ($Data{UserRemoteAddr}) is "
                 . "different from registered IP ($RemoteAddr). Invalidating session!"
@@ -78,7 +87,7 @@ sub CheckSessionID {
         );
 
         # delete session id if it isn't the same remote ip?
-        if ( $Self->{ConfigObject}->Get('SessionDeleteIfNotRemoteID') ) {
+        if ( $ConfigObject->Get('SessionDeleteIfNotRemoteID') ) {
             $Self->RemoveSessionID( SessionID => $Param{SessionID} );
         }
 
@@ -86,8 +95,8 @@ sub CheckSessionID {
     }
 
     # check session idle time
-    my $TimeNow            = $Self->{TimeObject}->SystemTime();
-    my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
+    my $TimeNow            = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $MaxSessionIdleTime = $ConfigObject->Get('SessionMaxIdleTime');
 
     if ( ( $TimeNow - $MaxSessionIdleTime ) >= $Data{UserLastRequest} ) {
 
@@ -95,14 +104,14 @@ sub CheckSessionID {
 
         my $Timeout = int( ( $TimeNow - $Data{UserLastRequest} ) / ( 60 * 60 ) );
 
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message =>
                 "SessionID ($Param{SessionID}) idle timeout ($Timeout h)! Don't grant access!!!",
         );
 
         # delete session id if too old?
-        if ( $Self->{ConfigObject}->Get('SessionDeleteIfTimeToOld') ) {
+        if ( $ConfigObject->Get('SessionDeleteIfTimeToOld') ) {
             $Self->RemoveSessionID( SessionID => $Param{SessionID} );
         }
 
@@ -110,7 +119,7 @@ sub CheckSessionID {
     }
 
     # check session time
-    my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
+    my $MaxSessionTime = $ConfigObject->Get('SessionMaxTime');
 
     if ( ( $TimeNow - $MaxSessionTime ) >= $Data{UserSessionStart} ) {
 
@@ -118,13 +127,13 @@ sub CheckSessionID {
 
         my $Timeout = int( ( $TimeNow - $Data{UserSessionStart} ) / ( 60 * 60 ) );
 
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "SessionID ($Param{SessionID}) too old ($Timeout h)! Don't grant access!!!",
         );
 
         # delete session id if too old?
-        if ( $Self->{ConfigObject}->Get('SessionDeleteIfTimeToOld') ) {
+        if ( $ConfigObject->Get('SessionDeleteIfTimeToOld') ) {
             $Self->RemoveSessionID( SessionID => $Param{SessionID} );
         }
 
@@ -145,7 +154,7 @@ sub GetSessionIDData {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
 
@@ -154,7 +163,7 @@ sub GetSessionIDData {
         if $Self->{Cache}->{ $Param{SessionID} };
 
     # read data
-    my $Content = $Self->{MainObject}->FileRead(
+    my $Content = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
         Directory       => $Self->{SessionSpool},
         Filename        => 'Data-' . $Param{SessionID},
         Type            => 'Local',
@@ -183,7 +192,7 @@ sub CreateSessionID {
     my ( $Self, %Param ) = @_;
 
     # get system time
-    my $TimeNow = $Self->{TimeObject}->SystemTime();
+    my $TimeNow = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
 
     # get session limit config
     my $SessionLimit;
@@ -208,10 +217,13 @@ sub CreateSessionID {
         $SessionPerUserLimit = $Self->{CustomerSessionPerUserLimit};
     }
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     if ( $SessionLimit || $SessionPerUserLimit ) {
 
         # read data
-        my @List = $Self->{MainObject}->DirectoryRead(
+        my @List = $MainObject->DirectoryRead(
             Directory => $Self->{SessionSpool},
             Filter    => 'State-' . $Self->{SystemID} . '*',
         );
@@ -227,7 +239,7 @@ sub CreateSessionID {
             next SESSIONID if !$SessionID;
 
             # read state data
-            my $StateData = $Self->{MainObject}->FileRead(
+            my $StateData = $MainObject->FileRead(
                 Directory       => $Self->{SessionSpool},
                 Filename        => 'State-' . $SessionID,
                 Type            => 'Local',
@@ -265,6 +277,7 @@ sub CreateSessionID {
         if (
             $SessionPerUserLimit
             && $Param{UserLogin}
+            && defined $ActiveSessionPerUserCount{ $Param{UserLogin} }
             && $ActiveSessionPerUserCount{ $Param{UserLogin} } >= $SessionPerUserLimit
             )
         {
@@ -280,12 +293,12 @@ sub CreateSessionID {
     my $RemoteUserAgent = $ENV{HTTP_USER_AGENT} || 'none';
 
     # create session id
-    my $SessionID = $Self->{SystemID} . $Self->{MainObject}->GenerateRandomString(
+    my $SessionID = $Self->{SystemID} . $MainObject->GenerateRandomString(
         Length => 32,
     );
 
     # create challenge token
-    my $ChallengeToken = $Self->{MainObject}->GenerateRandomString(
+    my $ChallengeToken = $MainObject->GenerateRandomString(
         Length => 32,
     );
 
@@ -307,7 +320,7 @@ sub CreateSessionID {
     my $DataContent = Storable::nfreeze( \%Data );
 
     # write data file
-    my $FileLocation = $Self->{MainObject}->FileWrite(
+    my $FileLocation = $MainObject->FileWrite(
         Directory       => $Self->{SessionSpool},
         Filename        => 'Data-' . $SessionID,
         Content         => \$DataContent,
@@ -332,7 +345,7 @@ sub CreateSessionID {
         = $UserType . '####' . $UserLogin . '####' . $UserSessionStart . '####' . $UserLastRequest;
 
     # write state file
-    $Self->{MainObject}->FileWrite(
+    $MainObject->FileWrite(
         Directory       => $Self->{SessionSpool},
         Filename        => 'State-' . $SessionID,
         Content         => \$StateContent,
@@ -350,18 +363,21 @@ sub RemoveSessionID {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     # delete file
-    my $DeleteData = $Self->{MainObject}->FileDelete(
+    my $DeleteData = $MainObject->FileDelete(
         Directory       => $Self->{SessionSpool},
         Filename        => 'Data-' . $Param{SessionID},
         Type            => 'Local',
         DisableWarnings => 1,
     );
-    my $DeleteState = $Self->{MainObject}->FileDelete(
+    my $DeleteState = $MainObject->FileDelete(
         Directory       => $Self->{SessionSpool},
         Filename        => 'State-' . $Param{SessionID},
         Type            => 'Local',
@@ -375,7 +391,7 @@ sub RemoveSessionID {
     delete $Self->{Cache}->{ $Param{SessionID} };
 
     # log event
-    $Self->{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',
         Message  => "Removed SessionID $Param{SessionID}."
     );
@@ -389,7 +405,7 @@ sub UpdateSessionID {
     # check needed stuff
     for (qw(SessionID Key)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -411,7 +427,7 @@ sub GetAllSessionIDs {
     my ( $Self, %Param ) = @_;
 
     # read data
-    my @List = $Self->{MainObject}->DirectoryRead(
+    my @List = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => $Self->{SessionSpool},
         Filter    => 'Data-' . $Self->{SystemID} . '*',
     );
@@ -429,15 +445,21 @@ sub GetAllSessionIDs {
 sub GetExpiredSessionIDs {
     my ( $Self, %Param ) = @_;
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # get config
-    my $MaxSessionTime     = $Self->{ConfigObject}->Get('SessionMaxTime');
-    my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
+    my $MaxSessionTime     = $ConfigObject->Get('SessionMaxTime');
+    my $MaxSessionIdleTime = $ConfigObject->Get('SessionMaxIdleTime');
 
     # get current time
-    my $TimeNow = $Self->{TimeObject}->SystemTime();
+    my $TimeNow = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     # read data
-    my @List = $Self->{MainObject}->DirectoryRead(
+    my @List = $MainObject->DirectoryRead(
         Directory => $Self->{SessionSpool},
         Filter    => 'State-' . $Self->{SystemID} . '*',
     );
@@ -453,7 +475,7 @@ sub GetExpiredSessionIDs {
         next SESSIONID if !$SessionID;
 
         # read state data
-        my $StateData = $Self->{MainObject}->FileRead(
+        my $StateData = $MainObject->FileRead(
             Directory       => $Self->{SessionSpool},
             Filename        => 'State-' . $SessionID,
             Type            => 'Local',
@@ -512,6 +534,9 @@ sub DESTROY {
 
     return 1 if !$Self->{Cache};
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     SESSIONID:
     for my $SessionID ( sort keys %{ $Self->{Cache} } ) {
 
@@ -530,7 +555,7 @@ sub DESTROY {
         my $DataContent = Storable::nfreeze( \%SessionData );
 
         # write data file
-        $Self->{MainObject}->FileWrite(
+        $MainObject->FileWrite(
             Directory       => $Self->{SessionSpool},
             Filename        => 'Data-' . $SessionID,
             Content         => \$DataContent,
@@ -553,7 +578,7 @@ sub DESTROY {
             . $UserLastRequest;
 
         # write state file
-        $Self->{MainObject}->FileWrite(
+        $MainObject->FileWrite(
             Directory       => $Self->{SessionSpool},
             Filename        => 'State-' . $SessionID,
             Content         => \$StateContent,
