@@ -8,7 +8,7 @@
 # --
 
 package Kernel::System::Package;
-## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
+
 use strict;
 use warnings;
 
@@ -17,7 +17,6 @@ use File::Copy;
 
 use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
-use Kernel::System::CloudService;
 use Kernel::System::EventHandler;
 use Kernel::System::VariableCheck qw(:all);
 
@@ -66,9 +65,6 @@ sub new {
         ),
     };
     bless( $Self, $Type );
-
-    # create additional objects
-    $Self->{CloudServiceObject} = Kernel::System::CloudService->new(%Param);
 
     $Self->{PackageMap} = {
         Name            => 'SCALAR',
@@ -164,8 +160,7 @@ sub RepositoryList {
 
     # get repository list
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT name, version, install_status, content, vendor,'
-            . ' from_cloud, visible, downloadable, removable '
+        SQL => 'SELECT name, version, install_status, content, vendor '
             . 'FROM package_repository ORDER BY name, create_time',
     );
 
@@ -173,14 +168,10 @@ sub RepositoryList {
     my @Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Package = (
-            Name         => $Row[0],
-            Version      => $Row[1],
-            Status       => $Row[2],
-            Vendor       => $Row[4],
-            FromCloud    => $Row[5] || 0,
-            Visible      => $Row[6] || 0,
-            Downloadable => $Row[7] || 0,
-            Removable    => $Row[8] || 0,
+            Name    => $Row[0],
+            Version => $Row[1],
+            Status  => $Row[2],
+            Vendor  => $Row[4],
         );
 
         # correct any 'dos-style' line endings - http://bugs.otrs.org/show_bug.cgi?id=9838
@@ -286,10 +277,7 @@ sub RepositoryGet {
 
 add a package to local repository
 
-    $PackageObject->RepositoryAdd(
-        String => $FileString,
-        FromCloud => 0, # optional 1 or 0
-    );
+    $PackageObject->RepositoryAdd( String => $FileString );
 
 =cut
 
@@ -300,11 +288,6 @@ sub RepositoryAdd {
     if ( !defined $Param{String} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'String not defined!' );
         return;
-    }
-
-    # get extra flags
-    for my $Item (qw(from_cloud visible downloadable removable)) {
-        $Param{$Item} //= 0;
     }
 
     # get package attributes
@@ -337,23 +320,17 @@ sub RepositoryAdd {
         );
     }
 
-    for my $Item (qw(Visible Downloadable Removable)) {
-        $Param{$Item} = ( !defined $Param{$Item} ? 1 : $Param{$Item} );
-    }
-
     # add new package
     my $FileName = $Structure{Name}->{Content} . '-' . $Structure{Version}->{Content} . '.xml';
     return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO package_repository (name, version, vendor, filename, '
             . ' content_size, content_type, content, install_status, '
-            . ' from_cloud, visible, downloadable, removable, '
             . ' create_time, create_by, change_time, change_by)'
             . ' VALUES  (?, ?, ?, ?, \'213\', \'text/xml\', ?, \'not installed\', '
-            . ' ?, ?, ?, ?, current_timestamp, 1, current_timestamp, 1)',
+            . ' current_timestamp, 1, current_timestamp, 1)',
         Bind => [
             \$Structure{Name}->{Content}, \$Structure{Version}->{Content},
             \$Structure{Vendor}->{Content}, \$FileName, \$Param{String},
-            \$Param{from_cloud}, \$Param{Visible}, \$Param{Downloadable}, \$Param{Removable},
         ],
     );
 
@@ -410,10 +387,7 @@ sub RepositoryRemove {
 
 install a package
 
-    $PackageObject->PackageInstall(
-        String    => $FileString
-        FromCloud => 1, # optional 1 or 0
-    );
+    $PackageObject->PackageInstall( String => $FileString );
 
 =cut
 
@@ -425,9 +399,6 @@ sub PackageInstall {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'String not defined!' );
         return;
     }
-
-    # get from cloud flag
-    my $FromCloud = $Param{FromCloud} || 0;
 
     # conflict check
     my %Structure = $Self->PackageParse(%Param);
@@ -530,7 +501,7 @@ sub PackageInstall {
     }
 
     # add package
-    return if !$Self->RepositoryAdd( String => $Param{String}, FromCloud => $FromCloud );
+    return if !$Self->RepositoryAdd( String => $Param{String} );
 
     # update package status
     return if !$Self->{DBObject}->Do(
@@ -1246,84 +1217,61 @@ sub PackageOnlineList {
         return @{$Cache} if $Cache;
     }
 
+    my $XML = $Self->_Download( URL => $Param{URL} . '/otrs.xml' );
+
+    return if !$XML;
+
+    my @XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+
+    if ( !@XMLARRAY ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Unable to parse repository index document.',
+        );
+        return;
+    }
+
     my @Packages;
     my %Package;
     my $Filelist;
-    if ( !$Param{FromCloud} ) {
+    TAG:
+    for my $Tag (@XMLARRAY) {
 
-        my $XML = $Self->_Download( URL => $Param{URL} . '/otrs.xml' );
-        return if !$XML;
-
-        my @XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
-
-        if ( !@XMLARRAY ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => 'Unable to parse repository index document.',
-            );
-            return;
+        # remember package
+        if ( $Tag->{TagType} eq 'End' && $Tag->{Tag} eq 'Package' ) {
+            if (%Package) {
+                push @Packages, {%Package};
+            }
+            next TAG;
         }
 
-        TAG:
-        for my $Tag (@XMLARRAY) {
+        # just use start tags
+        next TAG if $Tag->{TagType} ne 'Start';
 
-            # remember package
-            if ( $Tag->{TagType} eq 'End' && $Tag->{Tag} eq 'Package' ) {
-                if (%Package) {
-                    push @Packages, {%Package};
-                }
-                next TAG;
+        # reset package data
+        if ( $Tag->{Tag} eq 'Package' ) {
+            %Package  = ();
+            $Filelist = 0;
+        }
+        elsif ( $Tag->{Tag} eq 'Framework' ) {
+            push @{ $Package{Framework} }, $Tag;
+        }
+        elsif ( $Tag->{Tag} eq 'Filelist' ) {
+            $Filelist = 1;
+        }
+        elsif ( $Filelist && $Tag->{Tag} eq 'FileDoc' ) {
+            push @{ $Package{Filelist} }, $Tag;
+        }
+        elsif ( $Tag->{Tag} eq 'Description' ) {
+            if ( !$Package{Description} ) {
+                $Package{Description} = $Tag->{Content};
             }
-
-            # just use start tags
-            next TAG if $Tag->{TagType} ne 'Start';
-
-            # reset package data
-            if ( $Tag->{Tag} eq 'Package' ) {
-                %Package  = ();
-                $Filelist = 0;
-            }
-            elsif ( $Tag->{Tag} eq 'Framework' ) {
-                push @{ $Package{Framework} }, $Tag;
-            }
-            elsif ( $Tag->{Tag} eq 'Filelist' ) {
-                $Filelist = 1;
-            }
-            elsif ( $Filelist && $Tag->{Tag} eq 'FileDoc' ) {
-                push @{ $Package{Filelist} }, $Tag;
-            }
-            elsif ( $Tag->{Tag} eq 'Description' ) {
-                if ( !$Package{Description} ) {
-                    $Package{Description} = $Tag->{Content};
-                }
-                if ( $Tag->{Lang} eq $Param{Lang} ) {
-                    $Package{Description} = $Tag->{Content};
-                }
-            }
-            else {
-                $Package{ $Tag->{Tag} } = $Tag->{Content};
+            if ( $Tag->{Lang} eq $Param{Lang} ) {
+                $Package{Description} = $Tag->{Content};
             }
         }
-
-    }
-    else {
-        # get list from cloud
-        my $ListResult = $Self->CloudFileGet(
-            Type => $Param{URL},
-        );
-
-        # check result structure
-        return if !IsHashRefWithData($ListResult);
-
-        my $CurrentFramework = $Self->{ConfigObject}->Get('Version');
-        FRAMEWORKVERSION:
-        for my $FrameworkVersion ( sort keys %{$ListResult} ) {
-
-            if ( $CurrentFramework =~ m{ \A $FrameworkVersion }xms ) {
-
-                @Packages = @{ $ListResult->{$FrameworkVersion} };
-                last FRAMEWORKVERSION;
-            }
+        else {
+            $Package{ $Tag->{Tag} } = $Tag->{Content};
         }
     }
 
@@ -1464,30 +1412,6 @@ sub PackageOnlineGet {
         }
     }
 
-    #check if file might be retrieved from cloud
-    my $RepositoryCloudList = $Self->RepositoryCloudList();
-    if ( IsHashRefWithData($RepositoryCloudList) && $RepositoryCloudList->{ $Param{Source} } ) {
-
-        my $PackageFromCloud;
-
-        # download package from cloud
-        my $PackageResult = $Self->CloudFileGet(
-            Type => $Param{Source} . 'FileGet',
-            Data => {
-                File => $Param{File},
-            },
-        );
-        if (
-            IsHashRefWithData($PackageResult)
-            && $PackageResult->{Package}
-            )
-        {
-            $PackageFromCloud = $PackageResult->{Package};
-        }
-
-        return $PackageFromCloud;
-    }
-
     return $Self->_Download( URL => $Param{Source} . '/' . $Param{File} );
 }
 
@@ -1621,19 +1545,11 @@ sub PackageVerify {
 
     # check needed stuff
     if ( !$Param{Package} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Need Package!"
-        );
-
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Package!" );
         return;
     }
     if ( !$Param{Structure} && !$Param{Name} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Need Structure or Name!'
-        );
-
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Structure or Name!' );
         return;
     }
 
@@ -1661,57 +1577,47 @@ sub PackageVerify {
     );
     if ($CachedValue) {
         $Self->{PackageVerifyInfo} = $PackageVerifyInfo;
-
         return $CachedValue;
     }
 
-    my $CloudService = 'PackageManagement';
-    my $Operation    = 'PackageVerify';
-
-    # prepare cloud service request
-    my %RequestParams = (
-        RequestData => {
-            $CloudService => [
-                {
-                    Operation => $Operation,
-                    Data      => {
-                        Package => [
-                            {
-                                Name   => $Name,
-                                MD5sum => $Sum,
-                            }
-                        ],
-                    },
-                },
-            ],
-        },
+    # create new web user agent object -> note proxy is different from Package::Proxy
+    my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
+        DBObject     => $Self->{DBObject},
+        ConfigObject => $Self->{ConfigObject},
+        LogObject    => $Self->{LogObject},
+        MainObject   => $Self->{MainObject},
+        Timeout      => 10,
     );
 
-    # dispatch the cloud service request
-    my $RequestResult = $Self->{CloudServiceObject}->Request(%RequestParams);
+    return 'verified' if !$WebUserAgentObject;
 
-    # as this is the only operation an unsuccessful request means that the operation was also
-    # unsuccessful, in such case set the package as verified
-    return 'unknown' if !IsHashRefWithData($RequestResult);
+    # verify package at web server
+    my %Response = $WebUserAgentObject->Request(
+        URL  => $Self->{PackageVerifyURL},
+        Type => 'POST',
+        Data => {
+            Action  => 'PublicPackageVerification',
+            Package => $Name . '::' . $Sum,
+            }
+    );
+    return 'verified' if !$Response{Status};
+    return 'verified' if $Response{Status} ne '200 OK';
+    return 'verified' if !$Response{Content};
+    return 'verified' if ref $Response{Content} ne 'SCALAR';
 
-    my $OperationResult = $Self->{CloudServiceObject}->OperationResultGet(
-        RequestResult => $RequestResult,
-        CloudService  => $CloudService,
-        Operation     => $Operation,
+    # decode JSON data
+    my $ResponseData = $Self->{JSONObject}->Decode(
+        Data => ${ $Response{Content} },
     );
 
-    # if there was no result for this specific operation or the operation was not success, then
-    # set the package as verified
-    return 'unknown' if !IsHashRefWithData($OperationResult);
-    return 'unknown' if !$OperationResult->{Success};
-
-    my $VerificationData = $OperationResult->{Data};
+    return 'verified' if !$ResponseData;
+    return 'verified' if ref $ResponseData ne 'HASH';
 
     # extract response
-    my $PackageVerify = $VerificationData->{$Name};
+    my $PackageVerify = $ResponseData->{$Name};
 
-    return 'unknown' if !$PackageVerify;
-    return 'unknown' if $PackageVerify ne 'not_verified' && $PackageVerify ne 'verified';
+    return 'verified' if !$PackageVerify;
+    return 'verified' if $PackageVerify ne 'not_verified' && $PackageVerify ne 'verified';
 
     # set package verification info
     if ( $PackageVerify eq 'not_verified' ) {
@@ -1793,61 +1699,56 @@ sub PackageVerifyAll {
             $Result{ $Package->{Name} } = $Verification;
         }
         else {
-            $Result{ $Package->{Name} } = 'unknown';
-            push @PackagesToVerify, {
-                Name   => $Package->{Name},
-                MD5sum => $Package->{MD5sum},
-            };
+            $Result{ $Package->{Name} } = 'verified';
+            push @PackagesToVerify, 'Package';
+            push @PackagesToVerify, $Package->{Name} . '::' . $Package->{MD5sum};
         }
     }
 
     return %Result if !@PackagesToVerify;
 
-    my $CloudService = 'PackageManagement';
-    my $Operation    = 'PackageVerify';
-
-    # prepare cloud service request
-    my %RequestParams = (
-        RequestData => {
-            $CloudService => [
-                {
-                    Operation => $Operation,
-                    Data      => {
-                        Package => \@PackagesToVerify,
-                    },
-                },
-            ],
-        },
+    # create new web user agent object -> note proxy is different from Package::Proxy
+    my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
+        DBObject     => $Self->{DBObject},
+        ConfigObject => $Self->{ConfigObject},
+        LogObject    => $Self->{LogObject},
+        MainObject   => $Self->{MainObject},
+        Timeout      => 10,
     );
 
-    # dispatch the cloud service request
-    my $RequestResult = $Self->{CloudServiceObject}->Request(%RequestParams);
+    return %Result if !$WebUserAgentObject;
 
-    # as this is the only operation an unsuccessful request means that the operation was also
-    # unsuccessful, then return all packages as verified (or cache)
-    return %Result if !IsHashRefWithData($RequestResult);
-
-    my $OperationResult = $Self->{CloudServiceObject}->OperationResultGet(
-        RequestResult => $RequestResult,
-        CloudService  => $CloudService,
-        Operation     => $Operation,
+    # verify package at web server
+    my %Response = $WebUserAgentObject->Request(
+        URL  => $Self->{PackageVerifyURL},
+        Type => 'POST',
+        Data => [
+            Action => 'PublicPackageVerification',
+            @PackagesToVerify
+            ]
     );
 
-    # if no operation result found or it was not successful the return all packages as verified
-    # (or cache)
-    return %Result if !IsHashRefWithData($OperationResult);
-    return %Result if !$OperationResult->{Success};
+    return %Result if !$Response{Status};
+    return %Result if $Response{Status} ne '200 OK';
+    return %Result if !$Response{Content};
+    return %Result if ref $Response{Content} ne 'SCALAR';
 
-    my $VerificationData = $OperationResult->{Data};
+    # decode the response content
+    my $ResponseData = $Self->{JSONObject}->Decode(
+        Data => ${ $Response{Content} },
+    );
+
+    return %Result if !$ResponseData;
+    return %Result if ref $ResponseData ne 'HASH';
 
     PACKAGE:
     for my $Package ( sort keys %Result ) {
 
         next PACKAGE if !$Package;
-        next PACKAGE if !$VerificationData->{$Package};
+        next PACKAGE if !$ResponseData->{$Package};
 
         # extract response
-        my $PackageVerify = $VerificationData->{$Package};
+        my $PackageVerify = $ResponseData->{$Package};
 
         next PACKAGE if !$PackageVerify;
         next PACKAGE if $PackageVerify ne 'not_verified' && $PackageVerify ne 'verified';
@@ -3735,116 +3636,6 @@ sub _CheckDBMerged {
     }
 
     return \@Parts;
-}
-
-=item RepositoryCloudList()
-
-returns a list of available cloud repositories
-
-    my $List = $PackageObject->RepositoryCloudList();
-
-=cut
-
-sub RepositoryCloudList {
-    my ( $Self, %Param ) = @_;
-
-    # check cache
-    my $CacheKey = "Repository::List::From::Cloud";
-    my $Cache    = $Self->{CacheObject}->Get(
-        Type => 'RepositoryCloudList',
-        Key  => $CacheKey,
-    );
-
-    $Param{NoCache} //= 0;
-
-    # check if use cache is needed
-    if ( !$Param{NoCache} ) {
-        return $Cache if IsHashRefWithData($Cache);
-    }
-
-    my $RepositoryResult = $Self->CloudFileGet(
-        Type => 'RepositoryListAvailable',
-    );
-
-    return if !IsHashRefWithData($RepositoryResult);
-
-    # set cache
-    $Self->{CacheObject}->Set(
-        Type  => 'RepositoryCloudList',
-        Key   => $CacheKey,
-        Value => $RepositoryResult,
-        TTL   => 60 * 60,
-    );
-
-    return $RepositoryResult;
-}
-
-=item CloudFileGet()
-
-returns a file from cloud
-
-    my $List = $PackageObject->CloudFileGet();
-
-=cut
-
-sub CloudFileGet {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    if ( !defined $Param{Type} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Type not defined!',
-        );
-        return;
-    }
-
-    my %Data;
-    %Data = %{ $Param{Data} } if IsHashRefWithData( $Param{Data} );
-
-    my $CloudService = 'PackageManagement';
-    my $Operation    = $Param{Type};
-
-    # prepare cloud service request
-    my %RequestParams = (
-        RequestData => {
-            $CloudService => [
-                {
-                    Operation => $Operation,
-                    Data      => \%Data,
-                },
-            ],
-        },
-    );
-
-    # dispatch the cloud service request
-    my $RequestResult = $Self->{CloudServiceObject}->Request(%RequestParams);
-
-    # as this is the only operation an unsuccessful request means that the operation was also
-    # unsuccessful
-    if ( !IsHashRefWithData($RequestResult) ) {
-        return "Can't connect to cloud server!";
-    }
-
-    my $OperationResult = $Self->{CloudServiceObject}->OperationResultGet(
-        RequestResult => $RequestResult,
-        CloudService  => $CloudService,
-        Operation     => $Operation,
-    );
-
-    if ( !IsHashRefWithData($OperationResult) ) {
-        return "Can't get result from server";
-    }
-    elsif ( !$OperationResult->{Success} ) {
-        return $OperationResult->{ErrorMessage} || "Can't get list from server!";
-    }
-
-    # return if not correct structure
-    return if !IsHashRefWithData( $OperationResult->{Data} );
-
-    # return repo list
-    return $OperationResult->{Data};
-
 }
 
 sub DESTROY {
