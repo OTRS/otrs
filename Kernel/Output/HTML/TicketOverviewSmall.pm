@@ -1713,7 +1713,19 @@ sub _InitialColumnFilter {
     }
 
     if ( $Param{ColumnName} =~ m{ \A DynamicField_ }xms ) {
-        $Class .= ' DynamicFieldWithTreeView';
+
+        # get the pure dynamic field name without prefix
+        my $DynamicFieldName = substr( $Param{ColumnName}, 13 );
+
+        # get the dynamic field config
+        my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+            Name => $DynamicFieldName,
+        );
+
+        # check for active treeview configuration
+        if ( $DynamicFieldConfig->{Config}->{TreeView} ) {
+            $Class .= ' DynamicFieldWithTreeView';
+        }
     }
 
     # build select HTML
