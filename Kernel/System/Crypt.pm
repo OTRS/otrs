@@ -12,10 +12,19 @@ package Kernel::System::Crypt;
 use strict;
 use warnings;
 
-use Kernel::System::FileTemp;
-use Kernel::System::Time;
-
 use vars qw(@ISA);
+
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Cache',
+    'Kernel::System::DB',
+    'Kernel::System::Encode',
+    'Kernel::System::FileTemp',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Time',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -43,7 +52,7 @@ create new object. Do not use it directly, instead use:
             CryptType   => 'PGP',   # PGP or SMIME
         },
     );
-    my $CryptObject = $Kernel::OM->Get('CryptObject');
+    my $CryptObject = $Kernel::OM->Get('Kernel::System::Crypt');
 
 =cut
 
@@ -57,25 +66,17 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get needed objects
-    for (qw( ConfigObject EncodeObject LogObject MainObject DBObject CryptType )) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    $Self->{CryptType} = $Param{CryptType} || die "Got no $_!";
 
     # check if module is enabled
-    return if !$Self->{ConfigObject}->Get( $Param{CryptType} );
-
-    # create file template object
-    $Self->{FileTempObject} = Kernel::System::FileTemp->new( %{$Self} );
+    return if !$Kernel::OM->Get('Kernel::Config')->Get( $Param{CryptType} );
 
     # reset ISA for testability and peristent environments
     @ISA = ();
 
     # load generator crypt module
     $Self->{GenericModule} = "Kernel::System::Crypt::$Param{CryptType}";
-    return if !$Self->{MainObject}->RequireBaseClass( $Self->{GenericModule} );
-
-    # time object
-    $Self->{TimeObject} = Kernel::System::Time->new( %{$Self} );
+    return if !$Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass( $Self->{GenericModule} );
 
     # call init()
     $Self->_Init();
