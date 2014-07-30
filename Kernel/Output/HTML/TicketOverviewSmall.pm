@@ -459,7 +459,8 @@ sub Run {
 
                     # add the return module to redirect back to the current screen afterwards
                     my $ReturnPath = URI::Escape::uri_escape(
-                        $Self->{LayoutObject}->{EnvRef}->{RequestedURL} );
+                        $Self->{LayoutObject}->{EnvRef}->{RequestedURL}
+                    );
                     $Item->{Link} .= ';ReturnModule=' . $ReturnPath;
 
                     # add session id if needed
