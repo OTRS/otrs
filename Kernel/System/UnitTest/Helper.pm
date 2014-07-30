@@ -16,6 +16,7 @@ use warnings;
 use Kernel::System::SysConfig;
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::CustomerUser',
     'Kernel::System::Group',
     'Kernel::System::Main',
@@ -56,7 +57,8 @@ sub new {
 
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # get unittest object
+    # get needed objects
+    $Self->{ConfigObject}   = $Kernel::OM->Get('Kernel::Config');
     $Self->{UnitTestObject} = $Kernel::OM->Get('Kernel::System::UnitTest');
 
     # make backup of system configuration if needed
