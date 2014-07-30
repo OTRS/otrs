@@ -476,12 +476,19 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 DisabledAttr = ' disabled="disabled"';
             }
 
-            SelectData.push({
-                'Key'          : Key,
-                'Value'        : Value,
-                'SelectedAttr' : SelectedAttr,
-                'DisabledAttr' : DisabledAttr
-            });
+            // append the delete filter value on top
+            // and do not push it to the array
+            if ( Key === 'DeleteFilter' ) {
+                $FieldObj.append('<option value="' + Key + '"' + SelectedAttr + DisabledAttr + '>' + Value + '</option>');
+            }
+            else {
+                SelectData.push({
+                    'Key'          : Key,
+                    'Value'        : Value,
+                    'SelectedAttr' : SelectedAttr,
+                    'DisabledAttr' : DisabledAttr
+                });
+            }
         });
 
         SelectData.sort(function(a, b) {
