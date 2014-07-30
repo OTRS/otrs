@@ -14,6 +14,11 @@ use warnings;
 
 use Locale::Country qw(all_country_names);
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::ReferenceData - ReferenceData lib
