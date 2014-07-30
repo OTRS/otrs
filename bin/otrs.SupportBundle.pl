@@ -70,22 +70,8 @@ if ( $Opts{h} ) {
     exit 1;
 }
 
-# ---
-# TODO: Delete
-# ---
-use Time::HiRes;
-my $TimeStart = [ Time::HiRes::gettimeofday() ];
-
-# ---
 my $Response = $CommonObject{SupportBundleGeneratorObject}->Generate();
 
-# ---
-# TODO: Delete
-# ---
-my $TimeElapsed = Time::HiRes::tv_interval($TimeStart);
-print "Took $TimeElapsed seconds to generate!\n";
-
-# ---
 if ( $Response->{Success} ) {
 
     my $FileData = $Response->{Data};
