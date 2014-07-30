@@ -24,7 +24,17 @@ use base qw(Kernel::System::EventHandler);
 
 our @ObjectDependencies = (
     @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(CacheObject JSONObject LoaderObject XMLObject)
+    qw(CacheObject JSONObject LoaderObject XMLObject),
+    'Kernel::System::DB',
+    'Kernel::Config',
+    'Kernel::System::Log',
+    'Kernel::System::Time',
+    'Kernel::System::Main',
+    'Kernel::System::Encode',
+    'Kernel::System::Cache',
+    'Kernel::System::JSON',
+    'Kernel::System::Loader',
+    'Kernel::System::XML',
 );
 our $ObjectManagerAware = 1;
 
