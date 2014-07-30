@@ -19,6 +19,7 @@ our @ObjectDependencies = (
     'Kernel::System::CustomerUser',
     'Kernel::System::Group',
     'Kernel::System::Main',
+    'Kernel::System::UnitTest',
     'Kernel::System::User',
 );
 our $ObjectManagerAware = 0;
@@ -55,17 +56,10 @@ sub new {
 
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # check needed objects
-    if ( $Param{UnitTestObject} ) {
-        $Self->{UnitTestObject} = $Param{UnitTestObject};
-    }
-    else {
-        die "Got no UnitTestObject!";
-    }
+    # get unittest object
+    $Self->{UnitTestObject} = $Kernel::OM->Get('Kernel::System::UnitTest');
 
-    #
-    # Make backup of system configuration if needed
-    #
+    # make backup of system configuration if needed
     if ( $Param{RestoreSystemConfiguration} ) {
         $Self->{SysConfigObject} = Kernel::System::SysConfig->new();
 
@@ -74,9 +68,7 @@ sub new {
         $Self->{UnitTestObject}->True( 1, 'Creating backup of the system configuration' );
     }
 
-    #
-    # Set environment variable to skip SSL certificate verification if needed
-    #
+    # set environment variable to skip SSL certificate verification if needed
     if ( $Param{SkipSSLVerify} ) {
 
         # remember original value
