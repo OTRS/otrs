@@ -12,23 +12,15 @@ package scripts::test::Layout::Template::OutputFilter;    ## no critic
 use strict;
 use warnings;
 
-our @ObjectDependencies = (
-    @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(ParamObject)
-);
+our @ObjectDependencies = ();
 our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
+    my $Self = {};
     bless( $Self, $Type );
-
-    # check needed objects
-    for my $Needed (qw(MainObject ConfigObject ParamObject)) {
-        $Self->{$Needed} //= $Kernel::OM->Get($Needed);
-    }
 
     return $Self;
 }
