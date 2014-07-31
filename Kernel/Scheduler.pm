@@ -15,7 +15,15 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 use Kernel::System::Scheduler::TaskManager;
 use Kernel::Scheduler::TaskHandler;
-use Kernel::System::PID;
+
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Log',
+    'Kernel::System::PID',
+    'Kernel::System::Scheduler::TaskManager',
+    'Kernel::System::Time',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -44,47 +52,12 @@ all existing tasks.
 
 =item new()
 
-create an object.
+create a time object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::Scheduler;
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $TimeObject = $Kernel::OM->Get('Kernel::Scheduler');
 
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $SchedulerObject = Kernel::Scheduler->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        TimeObject   => $TimeObject,
-        DBObject     => $DBObject,
-        MainObject   => $MainObject,
-        EncodeObject => $EncodeObject,
-    );
 
 =cut
 
@@ -95,16 +68,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for my $Object (qw(MainObject ConfigObject LogObject DBObject EncodeObject TimeObject)) {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
-
-    # create additional objects
-    $Self->{TaskManagerObject} = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
-
-    $Self->{PIDObject} = Kernel::System::PID->new( %{$Self} );
-    $Self->{PIDUpdateTime} = $Self->{ConfigObject}->Get('Scheduler::PIDUpdateTime') || 60;
+    $Self->{PIDUpdateTime}
+        = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::PIDUpdateTime') || 60;
 
     return $Self;
 }
@@ -127,7 +92,7 @@ sub Run {
     $Self->_PIDChangedTimeUpdate();
 
     # get all tasks
-    my @TaskList = $Self->{TaskManagerObject}->TaskList();
+    my @TaskList = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskList();
 
     # if there are no task to execute return successfully
     return 1 if !@TaskList;
@@ -137,7 +102,7 @@ sub Run {
     for my $TaskItem (@TaskList) {
 
         if ( !IsHashRefWithData($TaskItem) ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Got invalid task list entry!',
             );
@@ -147,41 +112,46 @@ sub Run {
 
         # delete task if no type is set
         if ( !$TaskItem->{Type} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Task $TaskItem->{ID} will be deleted bacause type is not set!",
             );
-            $Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
+            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')
+                ->TaskDelete( ID => $TaskItem->{ID} );
 
             next TASKITEM;
         }
 
         # do not execute if task is scheduled for future
-        my $SystemTime  = $Self->{TimeObject}->SystemTime();
-        my $TaskDueTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+        my $SystemTime  = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+        my $TaskDueTime = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
             String => $TaskItem->{DueTime},
         );
         next TASKITEM if ( $TaskDueTime gt $SystemTime );
 
         # get task data
-        my %TaskData = $Self->{TaskManagerObject}->TaskGet( ID => $TaskItem->{ID} );
+        my %TaskData
+            = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')
+            ->TaskGet( ID => $TaskItem->{ID} );
         if ( !%TaskData ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Got invalid task data!',
             );
-            $Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
+            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')
+                ->TaskDelete( ID => $TaskItem->{ID} );
 
             # skip if cant get task data
             next TASKITEM;
         }
 
         if ( !IsHashRefWithData( $TaskData{Data} ) ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Got invalid data inside task data!',
             );
-            $Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
+            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')
+                ->TaskDelete( ID => $TaskItem->{ID} );
 
             # skip if can't get task data -> data
             next TASKITEM;
@@ -190,19 +160,19 @@ sub Run {
         # create task handler object
         my $TaskHandlerObject = eval {
             Kernel::Scheduler::TaskHandler->new(
-                %{$Self},
                 TaskHandlerType => $TaskItem->{Type},
             );
         };
 
         # check if Task Handler object was created
         if ( !$TaskHandlerObject ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Can't create $TaskItem->{Type} task handler object! $@",
             );
 
-            $Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
+            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')
+                ->TaskDelete( ID => $TaskItem->{ID} );
 
             # skip if can't create task handler
             next TASKITEM;
@@ -215,7 +185,9 @@ sub Run {
         $Self->_PIDChangedTimeUpdate();
 
         # skip if can't delete task
-        next TASKITEM if !$Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
+        next TASKITEM
+            if !$Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')
+            ->TaskDelete( ID => $TaskItem->{ID} );
 
         # check if need to reschedule
         if ( $TaskResult->{ReSchedule} ) {
@@ -232,13 +204,13 @@ sub Run {
 
             # check if task was rescheduled successfully
             if ( !$TaskID ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Could not reschedule task",
                 );
                 next TASKITEM;
             }
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'info',
                 Message  => "Task is rescheduled.",
             );
@@ -271,7 +243,7 @@ sub TaskRegister {
 
     # check task type
     if ( !IsStringWithData( $Param{Type} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Got no Task Type with content!',
         );
@@ -282,7 +254,7 @@ sub TaskRegister {
 
     # check if task data is undefined
     if ( !defined $Param{Data} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Got undefined Task data!',
         );
@@ -292,13 +264,13 @@ sub TaskRegister {
     }
 
     # register task
-    my $TaskID = $Self->{TaskManagerObject}->TaskAdd(
+    my $TaskID = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskAdd(
         %Param,
     );
 
     # check if task was registered
     if ( !$TaskID ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Task could not be registered',
         );
@@ -325,28 +297,28 @@ sub _PIDChangedTimeUpdate {
 
     # PID time to update should be defined, except the first time
     if ( !defined $Self->{PIDTimeToUpdate} ) {
-        my %PIDGetUpdate = $Self->{PIDObject}->PIDGet(
+        my %PIDGetUpdate = $Kernel::OM->Get('Kernel::System::PID')->PIDGet(
             Name => 'otrs.Scheduler'
         );
         $Self->{PIDTimeToUpdate} = $PIDGetUpdate{Changed} + $Self->{PIDUpdateTime};
     }
 
     # get current system time
-    my $CurrentTime = $Self->{TimeObject}->SystemTime();
+    my $CurrentTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
 
     # check if it's necessary to update change time for pid
     if ( $CurrentTime >= $Self->{PIDTimeToUpdate} ) {
-        my $UpdateSuccess = $Self->{PIDObject}->PIDUpdate(
+        my $UpdateSuccess = $Kernel::OM->Get('Kernel::System::PID')->PIDUpdate(
             Name => 'otrs.Scheduler'
         );
         if ( !$UpdateSuccess ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Could not update PID",
             );
             return;
         }
-        my %PIDGetUpdate = $Self->{PIDObject}->PIDGet(
+        my %PIDGetUpdate = $Kernel::OM->Get('Kernel::System::PID')->PIDGet(
             Name => 'otrs.Scheduler'
         );
         $Self->{PIDTimeToUpdate} = $PIDGetUpdate{Changed} + $Self->{PIDUpdateTime};

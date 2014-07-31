@@ -14,6 +14,11 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
+our @ObjectDependencies = (
+    'Kernel::System::Main',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::Scheduler::TaskHandler::Test - test backend of the TaskHandler for the Scheduler
@@ -38,11 +43,6 @@ sub new {
 
     my $Self = {};
     bless( $Self, $Type );
-
-    # check needed objects
-    for my $Needed (qw(MainObject ConfigObject LogObject DBObject TimeObject)) {
-        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
-    }
 
     return $Self;
 }
@@ -90,7 +90,7 @@ sub Run {
     # create tmp file
     if ( $Param{Data}->{File} ) {
         my $Content = 123;
-        return if !$Self->{MainObject}->FileWrite(
+        return if !$Kernel::OM->Get('Kernel::System::Main')->FileWrite(
             Location => $Param{Data}->{File},
             Content  => \$Content,
         );

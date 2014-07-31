@@ -15,6 +15,16 @@ use warnings;
 use Kernel::System::Encode;
 use Kernel::System::Registration;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Time',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::Scheduler::TaskHandler::RegistrationUpdate - RegistrationUpdate backend of the TaskHandler for the Scheduler
@@ -41,10 +51,9 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (qw(MainObject ConfigObject LogObject DBObject TimeObject)) {
-        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
+    for my $Needed (qw(EncodeObject MainObject ConfigObject LogObject DBObject TimeObject)) {
+        $Self->{$Needed} = $Kernel::OM->Get($Needed);
     }
-    $Self->{EncodeObject}       = Kernel::System::Encode->new( %{$Self} );
     $Self->{RegistrationObject} = Kernel::System::Registration->new( %{$Self} );
 
     return $Self;

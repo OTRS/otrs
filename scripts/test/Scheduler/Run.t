@@ -159,9 +159,9 @@ if ( $CurrentSchedulerStatus !~ /^running/i ) {
     die "Scheduler could not be started.";
 }
 
-my $SchedulerObject   = Kernel::Scheduler->new( %{$Self} );
-my $TaskManagerObject = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
-my $PIDObject         = Kernel::System::PID->new( %{$Self} );
+my $SchedulerObject   = $Kernel::OM->Get('Kernel::Scheduler');
+my $TaskManagerObject = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager');
+my $PIDObject         = $Kernel::OM->Get('Kernel::System::PID');
 
 # define global wait times (Secs)
 my $TotalWaitToExecute    = 125;

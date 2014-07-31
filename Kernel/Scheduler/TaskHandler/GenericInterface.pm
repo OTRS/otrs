@@ -15,6 +15,16 @@ use warnings;
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 use Kernel::GenericInterface::Requester;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Time',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::Scheduler::TaskHandler::GenericInterface - GenericInterface backend of the TaskHandler for the Scheduler
@@ -40,7 +50,7 @@ sub new {
 
     # check needed objects
     for my $Needed (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
-        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
+        $Self->{$Needed} = $Kernel::OM->Get($Needed);
     }
 
     # create aditional objects
