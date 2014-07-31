@@ -132,10 +132,7 @@ sub EventHandlerInit {
     my ( $Self, %Param ) = @_;
 
     $Self->{EventHandlerInit} = \%Param;
-
-    if ($Kernel::OM) {
-        $Kernel::OM->ObjectRegisterEventHandler( EventHandler => $Self );
-    }
+    $Kernel::OM->ObjectRegisterEventHandler( EventHandler => $Self );
 
     return 1;
 }
@@ -173,23 +170,6 @@ Example 2:
 sub EventHandler {
     my ( $Self, %Param ) = @_;
 
-    # check log object
-    if ( !$Self->{LogObject} ) {
-        print STDERR 'Need LogObject to activate event handler!';
-        return;
-    }
-
-    # check needed objects
-    for my $Object (qw(ConfigObject MainObject)) {
-        if ( !$Self->{$Object} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Object to activate event handler!",
-            );
-            return;
-        }
-    }
-
     # check needed stuff
     for (qw(Data Event UserID)) {
         if ( !$Param{$_} ) {
@@ -199,7 +179,7 @@ sub EventHandler {
     }
 
     # get configured modules
-    my $Modules = $Self->{ConfigObject}->Get( $Self->{EventHandlerInit}->{Config} );
+    my $Modules = $Kernel::OM->Get('Kernel::Config')->Get( $Self->{EventHandlerInit}->{Config} );
 
     # return if there is no one
     return 1 if !$Modules;
@@ -250,10 +230,7 @@ sub EventHandler {
             next MODULE if !$Self->{MainObject}->Require( $Modules->{$Module}->{Module} );
 
             # execute event backend
-            my $Generic = $Modules->{$Module}->{Module}->new(
-                %{ $Self->{EventHandlerInit}->{Objects} || {} },
-                $Self->{EventHandlerInit}->{BaseObject} => $Self,
-            );
+            my $Generic = $Modules->{$Module}->{Module}->new();
 
             $Generic->Run(
                 %Param,
