@@ -137,8 +137,9 @@ sub Get {
     }
 
     if ( !$Package ) {
-        carp "Error: Missing parameter (object name)";
-        confess "Error: Missing parameter (object name)";
+        $_[0]->_DieWithError(
+            Error => "Error: Missing parameter (object name)",
+        );
     }
 
     # record the object we are about to retrieve to potentially
@@ -162,14 +163,14 @@ sub _ObjectBuild {
     };
     if ($@) {
         if ( $CurrentObject && $CurrentObject ne $Package ) {
-            my $Error = "$CurrentObject depends on $Package, but $Package could not be loaded: $@";
-            carp $Error;
-            confess $Error;
+            $Self->_DieWithError(
+                Error => "$CurrentObject depends on $Package, but $Package could not be loaded: $@",
+            );
         }
         else {
-            my $Error = "$Package could not be loaded: $@";
-            carp $Error;
-            confess $Error;
+            $Self->_DieWithError(
+                Error => "$Package could not be loaded: $@",
+            );
         }
     }
 
@@ -208,15 +209,15 @@ sub _ObjectBuild {
 
     if ( !defined $NewObject ) {
         if ( $CurrentObject && $CurrentObject ne $Package ) {
-            my $Error
-                = "$CurrentObject depends on $Package, but the constructor of $Package returned undef.";
-            carp $Error;
-            confess $Error;
+            $Self->_DieWithError(
+                Error =>
+                    "$CurrentObject depends on $Package, but the constructor of $Package returned undef.",
+            );
         }
         else {
-            my $Error = "The contrustructor of $Package returned undef.";
-            carp $Error;
-            confess $Error;
+            $Self->_DieWithError(
+                Error => "The contrustructor of $Package returned undef.",
+            );
         }
     }
 
@@ -225,7 +226,41 @@ sub _ObjectBuild {
     return $NewObject;
 }
 
+=item ObjectInstanceRegister()
+
+Adds an existing object instance to the ObjectManager so that it can be accessed by other objects.
+
+This should only be used on special circumstances, e. g. in the unit tests to pass $Self to the
+ObjectManager so that it is also available from there as 'Kernel::System::UnitTest'.
+
+    $Kernel::OM->ObjectInstanceRegister(
+        Package => 'Kernel::System::UnitTest',
+        Object  => $UnitTestObject,
+        Dependencies => [],         # optional, specify OM-managed packages that the object might depend on
+    );
+
+=cut
+
+sub ObjectInstanceRegister {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{Package} || !$Param{Object} ) {
+        $Self->_DieWithError( Error => 'Need Package and Object.' );
+    }
+
+    if ( defined $Self->{Objects}->{ $Param{Package} } ) {
+        $Self->_DieWithError( Error => 'Need $Param{Package} is already registered.' );
+    }
+
+    $Self->{Objects}->{ $Param{Package} } = $Param{Object};
+    $Self->{ObjectDependencies}->{ $Param{Package} } = $Param{Dependencies} // [];
+
+    return 1;
+}
+
 =item ObjectHash()
+
+Please note that this method is DEPRECATED and will be removed in a future version of OTRS.
 
 Returns a hash of already instantiated objects.
 The keys are the object names, and the values are the objects themselves.
@@ -454,9 +489,22 @@ sub ObjectRegisterEventHandler {
     return 1;
 }
 
-=back
+sub _DieWithError {
+    my ( $Self, %Param ) = @_;
 
-=cut
+    if ( $Self->{Objects}->{'Kernel::System::Log'} ) {
+        $Self->{Objects}->{'Kernel::System::Log'}->Log(
+            Priority => 'Error',
+            Message  => $Param{Error},
+        );
+    }
+    else {
+        carp $Param{Error};
+    }
+
+    confess $Param{Error};    # this will cause a die(), so return will not be reached.
+    return;
+}
 
 sub DESTROY {
     my ($Self) = @_;
@@ -465,5 +513,17 @@ sub DESTROY {
     local $Kernel::OM = $Self;
     $Self->ObjectsDiscard();
 }
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=cut
 
 1;

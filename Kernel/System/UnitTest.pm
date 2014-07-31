@@ -19,8 +19,13 @@ use Kernel::System::Environment;
 use Kernel::System::ObjectManager;
 
 our @ObjectDependencies = (
-    @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(EnvironmentObject)
+    'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::Encode',
+    'Kernel::System::Environment',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Time',
 );
 our $ObjectManagerAware = 1;
 
@@ -157,6 +162,13 @@ sub Run {
                     LogObject => {
                         LogPrefix => 'OTRS-otrs.UnitTest',
                     },
+                );
+
+                # Provide $Self as 'Kernel::System::UnitTest' for convenience.
+                $Kernel::OM->ObjectInstanceRegister(
+                    Package      => 'Kernel::System::UnitTest',
+                    Object       => $Self,
+                    Dependencies => [],
                 );
 
                 push @{ $Self->{NotOkInfo} }, [$File];
