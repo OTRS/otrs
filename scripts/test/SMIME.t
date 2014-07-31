@@ -2420,7 +2420,7 @@ for my $Count ( 1 .. 2 ) {
 
     # get attributes from OpenSSL
     # check cache
-    my $Cache = $CryptObject->{CacheObject}->Get(
+    my $Cache = $Kernel::OM->Get('CacheObject')->Get(
         Type => 'SMIME_Cert',
         Key  => $CertCacheKey,
     );
@@ -2442,7 +2442,7 @@ for my $Count ( 1 .. 2 ) {
 
     # at this point the attributes should be cached, read them again
     # check cache
-    $Cache = $CryptObject->{CacheObject}->Get(
+    $Cache = $Kernel::OM->Get('CacheObject')->Get(
         Type => 'SMIME_Cert',
         Key  => $CertCacheKey,
     );
@@ -2498,7 +2498,7 @@ for my $Count ( 1 .. 2 ) {
 
     # read private attribues from OpenSSL
     # check cache
-    $Cache = $CryptObject->{CacheObject}->Get(
+    $Cache = $Kernel::OM->Get('CacheObject')->Get(
         Type => 'SMIME_Private',
         Key  => $PrivateCacheKey,
     );
@@ -2521,7 +2521,7 @@ for my $Count ( 1 .. 2 ) {
 
     # at this point the attributes should be already cached
     # check cache
-    $Cache = $CryptObject->{CacheObject}->Get(
+    $Cache = $Kernel::OM->Get('CacheObject')->Get(
         Type => 'SMIME_Private',
         Key  => $PrivateCacheKey,
     );
@@ -2551,7 +2551,7 @@ for my $Count ( 1 .. 2 ) {
 
     # after private add all cache for certs must be cleaned, get certificate attributes from OpenSSL
     # check cache
-    $Cache = $CryptObject->{CacheObject}->Get(
+    $Cache = $Kernel::OM->Get('CacheObject')->Get(
         Type => 'SMIME_Cert',
         Key  => $CertCacheKey,
     );
@@ -2573,7 +2573,7 @@ for my $Count ( 1 .. 2 ) {
 
     # cache must be set right now, read attributes again
     # check cache
-    $Cache = $CryptObject->{CacheObject}->Get(
+    $Cache = $Kernel::OM->Get('CacheObject')->Get(
         Type => 'SMIME_Cert',
         Key  => $CertCacheKey,
     );
