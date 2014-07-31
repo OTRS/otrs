@@ -71,7 +71,7 @@ sub _DynamicFieldDelete {
     my $Confirmed = $Self->{ParamObject}->GetParam( Param => 'Confirmed' );
 
     if ( !$Confirmed ) {
-        $Self->{'LogObject'}->Log(
+        $Self->{LogObject}->Log(
             'Priority' => 'error',
             'Message'  => "Need 'Confirmed'!",
         );
@@ -85,7 +85,7 @@ sub _DynamicFieldDelete {
     );
 
     if ( !IsHashRefWithData($DynamicFieldConfig) ) {
-        $Self->{'LogObject'}->Log(
+        $Self->{LogObject}->Log(
             'Priority' => 'error',
             'Message'  => "Could not find DynamicField $ID!",
         );
@@ -93,7 +93,7 @@ sub _DynamicFieldDelete {
     }
 
     if ( $DynamicFieldConfig->{InternalField} ) {
-        $Self->{'LogObject'}->Log(
+        $Self->{LogObject}->Log(
             'Priority' => 'error',
             'Message'  => "Could not delete internal DynamicField $ID!",
         );
