@@ -18,7 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
-    'Kernel::System::Ticket'
+    'Kernel::System::Ticket',
 );
 our $ObjectManagerAware = 1;
 
