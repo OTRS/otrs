@@ -16,10 +16,18 @@ use Kernel::System::VariableCheck qw(:all);
 
 use base qw(Kernel::System::DynamicField::Driver::Base);
 
+our @ObjectDependencies = (
+    'Kernel::System::DB',
+    'Kernel::System::DynamicFieldValue',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::DynamicField::Driver::BaseText - sub module of
-Kernel::System::DynamicField::Driver::Text and Kernel::System::DynamicField::Driver::TextArea
+Kernel::System::DynamicField::Driver::Text and
+Kernel::System::DynamicField::Driver::TextArea
 
 =head1 SYNOPSIS
 
@@ -34,7 +42,7 @@ Text common functions.
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
-    my $DFValue = $Self->{DynamicFieldValueObject}->ValueGet(
+    my $DFValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueGet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
     );
@@ -49,7 +57,7 @@ sub ValueGet {
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
-    my $Success = $Self->{DynamicFieldValueObject}->ValueSet(
+    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
         Value    => [
@@ -66,7 +74,7 @@ sub ValueSet {
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
-    my $Success = $Self->{DynamicFieldValueObject}->ValueValidate(
+    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
         Value => {
             ValueText => $Param{Value},
         },
@@ -85,7 +93,7 @@ sub ValueValidate {
         for my $RegEx (@RegExList) {
 
             if ( $Param{Value} !~ $RegEx->{Value} ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "The value '$Param{Value}' is not matching /"
                         . $RegEx->{Value} . "/ ("
@@ -111,15 +119,18 @@ sub SearchSQLGet {
         SmallerThanEquals => '<=',
     );
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     if ( $Operators{ $Param{Operator} } ) {
         my $SQL = " $Param{TableAlias}.value_text $Operators{$Param{Operator}} '";
-        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
+        $SQL .= $DBObject->Quote( $Param{SearchTerm} ) . "' ";
         return $SQL;
     }
 
     if ( $Param{Operator} eq 'Like' ) {
 
-        my $SQL = $Self->{DBObject}->QueryCondition(
+        my $SQL = $DBObject->QueryCondition(
             Key   => "$Param{TableAlias}.value_text",
             Value => $Param{SearchTerm},
         );
@@ -127,7 +138,7 @@ sub SearchSQLGet {
         return $SQL;
     }
 
-    $Self->{'LogObject'}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         'Priority' => 'error',
         'Message'  => "Unsupported Operator $Param{Operator}",
     );
@@ -601,7 +612,7 @@ sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
     # get historical values from database
-    my $HistoricalValues = $Self->{DynamicFieldValueObject}->HistoricalValueGet(
+    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text',
     );

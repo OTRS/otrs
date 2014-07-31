@@ -13,9 +13,16 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::DynamicFieldValue;
 
 use base qw(Kernel::System::DynamicField::Driver::BaseSelect);
+
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DynamicFieldValue',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -46,16 +53,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for my $Needed (qw(ConfigObject EncodeObject LogObject MainObject DBObject)) {
-        die "Got no $Needed!" if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
-
-    # create additional objects
-    $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
-
     # set field behaviors
     $Self->{Behaviors} = {
         'IsACLReducible'               => 1,
@@ -68,7 +65,7 @@ sub new {
 
     # get the Dynamic Field Backend custmom extensions
     my $DynamicFieldDriverExtensions
-        = $Self->{ConfigObject}->Get('DynamicFields::Extension::Driver::Multiselect');
+        = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Extension::Driver::Multiselect');
 
     EXTENSION:
     for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
@@ -83,7 +80,7 @@ sub new {
         if ( $Extension->{Module} ) {
 
             # check if module can be loaded
-            if ( !$Self->{MainObject}->RequireBaseClass( $Extension->{Module} ) ) {
+            if ( !$Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass( $Extension->{Module} ) ) {
                 die "Can't load dynamic fields backend module"
                     . " $Extension->{Module}! $@";
             }
@@ -105,7 +102,7 @@ sub new {
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
-    my $DFValue = $Self->{DynamicFieldValueObject}->ValueGet(
+    my $DFValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueGet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
     );
@@ -128,7 +125,7 @@ sub ValueSet {
 
     # check for valid possible values list
     if ( !$Param{DynamicFieldConfig}->{Config}->{PossibleValues} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need PossibleValues in DynamicFieldConfig!",
         );
@@ -144,6 +141,9 @@ sub ValueSet {
         @Values = ( $Param{Value} );
     }
 
+    # get dynamic field value object
+    my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
+
     my $Success;
     if ( IsArrayRefWithData( \@Values ) ) {
 
@@ -154,7 +154,7 @@ sub ValueSet {
             push @ValueText, { ValueText => $Item };
         }
 
-        $Success = $Self->{DynamicFieldValueObject}->ValueSet(
+        $Success = $DynamicFieldValueObject->ValueSet(
             FieldID  => $Param{DynamicFieldConfig}->{ID},
             ObjectID => $Param{ObjectID},
             Value    => \@ValueText,
@@ -165,7 +165,7 @@ sub ValueSet {
 
         # otherwise no value was selected, then in fact this means that any value there should be
         # deleted
-        $Success = $Self->{DynamicFieldValueObject}->ValueDelete(
+        $Success = $DynamicFieldValueObject->ValueDelete(
             FieldID  => $Param{DynamicFieldConfig}->{ID},
             ObjectID => $Param{ObjectID},
             UserID   => $Param{UserID},
@@ -212,17 +212,22 @@ sub ValueValidate {
         @Values = ( $Param{Value} );
     }
 
+    # get dynamic field value object
+    my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
+
     my $Success;
     for my $Item (@Values) {
 
-        $Success = $Self->{DynamicFieldValueObject}->ValueValidate(
+        $Success = $DynamicFieldValueObject->ValueValidate(
             Value => {
                 ValueText => $Item,
             },
             UserID => $Param{UserID}
         );
+
         return if !$Success
     }
+
     return $Success;
 }
 
@@ -595,7 +600,7 @@ sub DisplayValueRender {
     }
 
     # get specific field settings
-    my $FieldConfig = $Self->{ConfigObject}->Get('DynamicFields::Driver')->{Multiselect} || {};
+    my $FieldConfig = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Driver')->{Multiselect} || {};
 
     # set new line separator
     my $ItemSeparator = $FieldConfig->{ItemSeparator} || ', ';
@@ -692,7 +697,7 @@ sub StatsFieldParameterBuild {
     my $Values = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
 
     # get historical values from database
-    my $HistoricalValues = $Self->{DynamicFieldValueObject}->HistoricalValueGet(
+    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text,',
     );
@@ -822,7 +827,7 @@ sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
     # get historical values from database
-    my $HistoricalValues = $Self->{DynamicFieldValueObject}->HistoricalValueGet(
+    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text',
     );

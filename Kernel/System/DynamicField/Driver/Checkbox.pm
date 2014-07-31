@@ -13,10 +13,18 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::DynamicFieldValue;
-use Kernel::System::Ticket::ColumnFilter;
 
 use base qw(Kernel::System::DynamicField::Driver::Base);
+
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::DynamicFieldValue',
+    'Kernel::System::Ticket::ColumnFilter',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -47,17 +55,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for my $Needed (qw(ConfigObject EncodeObject LogObject MainObject DBObject TimeObject)) {
-        die "Got no $Needed!" if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
-
-    # create additional objects
-    $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
-    $Self->{ColumnFilterObject}      = Kernel::System::Ticket::ColumnFilter->new( %{$Self} );
-
     # set field behaviors
     $Self->{Behaviors} = {
         'IsACLReducible'               => 0,
@@ -70,7 +67,7 @@ sub new {
 
     # get the Dynamic Field Backend custmom extensions
     my $DynamicFieldDriverExtensions
-        = $Self->{ConfigObject}->Get('DynamicFields::Extension::Driver::Checkbox');
+        = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Extension::Driver::Checkbox');
 
     EXTENSION:
     for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
@@ -85,7 +82,7 @@ sub new {
         if ( $Extension->{Module} ) {
 
             # check if module can be loaded
-            if ( !$Self->{MainObject}->RequireBaseClass( $Extension->{Module} ) ) {
+            if ( !$Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass( $Extension->{Module} ) ) {
                 die "Can't load dynamic fields backend module"
                     . " $Extension->{Module}! $@";
             }
@@ -107,7 +104,7 @@ sub new {
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
-    my $DFValue = $Self->{DynamicFieldValueObject}->ValueGet(
+    my $DFValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueGet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
     );
@@ -127,14 +124,14 @@ sub ValueSet {
         $Param{Value} = 0;
     }
     elsif ( $Param{Value} && $Param{Value} !~ m{\A [0|1]? \z}xms ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Value $Param{Value} is invalid for Checkbox fields!",
         );
         return;
     }
 
-    my $Success = $Self->{DynamicFieldValueObject}->ValueSet(
+    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
         Value    => [
@@ -156,14 +153,14 @@ sub ValueValidate {
         $Param{Value} = 0;
     }
     elsif ( $Param{Value} && $Param{Value} !~ m{\A [0|1]? \z}xms ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Value $Param{Value} is invalid for Checkbox fields!",
         );
         return;
     }
 
-    my $Success = $Self->{DynamicFieldValueObject}->ValueValidate(
+    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
         Value => {
             ValueInt => $Param{Value},
         },
@@ -177,7 +174,7 @@ sub SearchSQLGet {
     my ( $Self, %Param ) = @_;
 
     if ( !IsInteger( $Param{SearchTerm} ) ) {
-        $Self->{'LogObject'}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             'Priority' => 'error',
             'Message'  => "Unsupported Search Term $Param{SearchTerm}, should be an integer",
         );
@@ -186,11 +183,11 @@ sub SearchSQLGet {
 
     if ( $Param{Operator} eq 'Equals' ) {
         my $SQL = " $Param{TableAlias}.value_int = ";
-        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm}, 'Integer' ) . ' ';
+        $SQL .= $Kernel::OM->Get('Kernel::System::DB')->Quote( $Param{SearchTerm}, 'Integer' ) . ' ';
         return $SQL;
     }
 
-    $Self->{'LogObject'}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         'Priority' => 'error',
         'Message'  => "Unsupported Operator $Param{Operator}",
     );
@@ -781,7 +778,7 @@ sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
     # get historical values from database
-    my $HistoricalValues = $Self->{DynamicFieldValueObject}->HistoricalValueGet(
+    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Integer',
     );
@@ -819,7 +816,7 @@ sub ColumnFilterValuesGet {
     };
 
     # get historical values from database
-    my $ColumnFilterValues = $Self->{ColumnFilterObject}->DynamicFieldFilterValuesGet(
+    my $ColumnFilterValues = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->DynamicFieldFilterValuesGet(
         TicketIDs => $Param{TicketIDs},
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Integer',

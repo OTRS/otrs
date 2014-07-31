@@ -14,6 +14,12 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
+our @ObjectDependencies = (
+    'Kernel::System::DynamicFieldValue',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::DynamicField::Driver::Base - common fields backend functions
@@ -40,7 +46,7 @@ sub ValueIsDifferent {
 sub ValueDelete {
     my ( $Self, %Param ) = @_;
 
-    my $Success = $Self->{DynamicFieldValueObject}->ValueDelete(
+    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueDelete(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
         UserID   => $Param{UserID},
@@ -52,7 +58,7 @@ sub ValueDelete {
 sub AllValuesDelete {
     my ( $Self, %Param ) = @_;
 
-    my $Success = $Self->{DynamicFieldValueObject}->AllValuesDelete(
+    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->AllValuesDelete(
         FieldID => $Param{DynamicFieldConfig}->{ID},
         UserID  => $Param{UserID},
     );
@@ -105,14 +111,14 @@ sub EditLabelRender {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig FieldName)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
     # check DynamicFieldConfig (general)
     if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "The field configuration is invalid",
         );
@@ -122,7 +128,7 @@ sub EditLabelRender {
     # check DynamicFieldConfig (internally)
     for my $Needed (qw(Label)) {
         if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed in DynamicFieldConfig!"
             );

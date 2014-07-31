@@ -16,6 +16,14 @@ use Kernel::System::VariableCheck qw(:all);
 
 use base qw(Kernel::System::DynamicField::Driver::Base);
 
+our @ObjectDependencies = (
+    'Kernel::System::DB',
+    'Kernel::System::DynamicFieldValue',
+    'Kernel::System::Ticket::ColumnFilter',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::DynamicField::Driver::BaseSelect - sub module of
@@ -35,7 +43,7 @@ Date common functions.
 sub ValueGet {
     my ( $Self, %Param ) = @_;
 
-    my $DFValue = $Self->{DynamicFieldValueObject}->ValueGet(
+    my $DFValue = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueGet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
     );
@@ -52,14 +60,14 @@ sub ValueSet {
 
     # check for valid possible values list
     if ( !$Param{DynamicFieldConfig}->{Config}->{PossibleValues} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need PossibleValues in DynamicFieldConfig!",
         );
         return;
     }
 
-    my $Success = $Self->{DynamicFieldValueObject}->ValueSet(
+    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
         FieldID  => $Param{DynamicFieldConfig}->{ID},
         ObjectID => $Param{ObjectID},
         Value    => [
@@ -76,7 +84,7 @@ sub ValueSet {
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
-    my $Success = $Self->{DynamicFieldValueObject}->ValueValidate(
+    my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
         Value => {
             ValueText => $Param{Value},
         },
@@ -97,15 +105,18 @@ sub SearchSQLGet {
         SmallerThanEquals => '<=',
     );
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     if ( $Operators{ $Param{Operator} } ) {
         my $SQL = " $Param{TableAlias}.value_text $Operators{$Param{Operator}} '";
-        $SQL .= $Self->{DBObject}->Quote( $Param{SearchTerm} ) . "' ";
+        $SQL .= $DBObject->Quote( $Param{SearchTerm} ) . "' ";
         return $SQL;
     }
 
     if ( $Param{Operator} eq 'Like' ) {
 
-        my $SQL = $Self->{DBObject}->QueryCondition(
+        my $SQL = $DBObject->QueryCondition(
             Key   => "$Param{TableAlias}.value_text",
             Value => $Param{SearchTerm},
         );
@@ -113,7 +124,7 @@ sub SearchSQLGet {
         return $SQL;
     }
 
-    $Self->{'LogObject'}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         'Priority' => 'error',
         'Message'  => "Unsupported Operator $Param{Operator}",
     );
@@ -650,7 +661,7 @@ sub StatsFieldParameterBuild {
     my $Values = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
 
     # get historical values from database
-    my $HistoricalValues = $Self->{DynamicFieldValueObject}->HistoricalValueGet(
+    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text,',
     );
@@ -777,7 +788,7 @@ sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
     # get historical values from database
-    my $HistoricalValues = $Self->{DynamicFieldValueObject}->HistoricalValueGet(
+    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text',
     );
@@ -962,7 +973,7 @@ sub ColumnFilterValuesGet {
     my $SelectionData = $FieldConfig->{PossibleValues};
 
     # get column filter values from database
-    my $ColumnFilterValues = $Self->{ColumnFilterObject}->DynamicFieldFilterValuesGet(
+    my $ColumnFilterValues = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->DynamicFieldFilterValuesGet(
         TicketIDs => $Param{TicketIDs},
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text',
