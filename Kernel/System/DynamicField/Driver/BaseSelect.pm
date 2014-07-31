@@ -661,10 +661,11 @@ sub StatsFieldParameterBuild {
     my $Values = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
 
     # get historical values from database
-    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+    my $HistoricalValues
+        = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text,',
-    );
+        );
 
     # add historic values to current values (if they don't exist anymore)
     for my $Key ( sort keys %{$HistoricalValues} ) {
@@ -788,10 +789,11 @@ sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
     # get historical values from database
-    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+    my $HistoricalValues
+        = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text',
-    );
+        );
 
     # return the historical values from database
     return $HistoricalValues;
@@ -973,11 +975,12 @@ sub ColumnFilterValuesGet {
     my $SelectionData = $FieldConfig->{PossibleValues};
 
     # get column filter values from database
-    my $ColumnFilterValues = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->DynamicFieldFilterValuesGet(
+    my $ColumnFilterValues
+        = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->DynamicFieldFilterValuesGet(
         TicketIDs => $Param{TicketIDs},
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text',
-    );
+        );
 
     # get the display value if still exist in dynamic field configuration
     for my $Key ( sort keys %{$ColumnFilterValues} ) {

@@ -56,7 +56,8 @@ sub new {
     bless( $Self, $Type );
 
     # get the cache TTL (in seconds)
-    $Self->{CacheTTL} = int $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::CacheTTL') || 3600;
+    $Self->{CacheTTL}
+        = int $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::CacheTTL') || 3600;
 
     # set lower if database is case sensitive
     $Self->{Lower} = '';
@@ -100,7 +101,8 @@ sub DynamicFieldAdd {
     # check needed stuff
     for my $Key (qw(Name Label FieldOrder FieldType ObjectType Config ValidID UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
@@ -229,7 +231,8 @@ sub DynamicFieldGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ID or Name!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need ID or Name!' );
         return;
     }
 
@@ -339,7 +342,8 @@ sub DynamicFieldUpdate {
     # check needed stuff
     for my $Key (qw(ID Name Label FieldOrder FieldType ObjectType Config ValidID UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
@@ -468,7 +472,8 @@ sub DynamicFieldDelete {
     # check needed stuff
     for my $Key (qw(ID UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
@@ -1143,7 +1148,8 @@ sub _DynamicFieldReorder {
     # check needed stuff
     for my $Needed (qw(ID FieldOrder Mode)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need $Needed!' );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => 'Need $Needed!' );
             return;
         }
     }
@@ -1152,7 +1158,8 @@ sub _DynamicFieldReorder {
 
         # check needed stuff
         if ( !$Param{OldFieldOrder} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need OldFieldOrder!' );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => 'Need OldFieldOrder!' );
             return;
         }
     }

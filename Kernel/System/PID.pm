@@ -251,7 +251,8 @@ sub PIDUpdate {
     my %PID = $Self->PIDGet( Name => $Param{Name} );
 
     if ( !%PID ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Can not get PID' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Can not get PID' );
         return;
     }
 

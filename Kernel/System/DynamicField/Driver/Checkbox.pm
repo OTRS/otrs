@@ -82,7 +82,9 @@ sub new {
         if ( $Extension->{Module} ) {
 
             # check if module can be loaded
-            if ( !$Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass( $Extension->{Module} ) ) {
+            if ( !$Kernel::OM->Get('Kernel::System::Main')->RequireBaseClass( $Extension->{Module} )
+                )
+            {
                 die "Can't load dynamic fields backend module"
                     . " $Extension->{Module}! $@";
             }
@@ -183,7 +185,8 @@ sub SearchSQLGet {
 
     if ( $Param{Operator} eq 'Equals' ) {
         my $SQL = " $Param{TableAlias}.value_int = ";
-        $SQL .= $Kernel::OM->Get('Kernel::System::DB')->Quote( $Param{SearchTerm}, 'Integer' ) . ' ';
+        $SQL
+            .= $Kernel::OM->Get('Kernel::System::DB')->Quote( $Param{SearchTerm}, 'Integer' ) . ' ';
         return $SQL;
     }
 
@@ -778,10 +781,11 @@ sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
     # get historical values from database
-    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+    my $HistoricalValues
+        = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Integer',
-    );
+        );
 
     # return the historical values from database
     return $HistoricalValues;
@@ -816,11 +820,12 @@ sub ColumnFilterValuesGet {
     };
 
     # get historical values from database
-    my $ColumnFilterValues = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->DynamicFieldFilterValuesGet(
+    my $ColumnFilterValues
+        = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->DynamicFieldFilterValuesGet(
         TicketIDs => $Param{TicketIDs},
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Integer',
-    );
+        );
 
     # get the display value if still exist in dynamic field configuration
     for my $Key ( sort keys %{$ColumnFilterValues} ) {

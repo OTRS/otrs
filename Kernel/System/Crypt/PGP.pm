@@ -83,7 +83,8 @@ sub Crypt {
     # check needed stuff
     for my $ParamName (qw( Message Key )) {
         if ( !$Param{$ParamName} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $ParamName!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $ParamName!" );
             return;
         }
     }
@@ -104,7 +105,8 @@ sub Crypt {
     my $LogMessage = qx{$Self->{GPGBin} $GPGOptions 2>&1};
 
     # get crypted content
-    my $CryptedDataRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $FilenameCrypt );
+    my $CryptedDataRef
+        = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $FilenameCrypt );
 
     return $$CryptedDataRef;
 }
@@ -132,7 +134,8 @@ sub Decrypt {
     # check needed stuff
     for (qw(Message)) {
         if ( !defined( $Param{$_} ) ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -183,7 +186,8 @@ sub Sign {
     # check needed stuff
     for (qw(Message Key)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -270,7 +274,8 @@ sub Verify {
 
     # check needed stuff
     if ( !$Param{Message} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need Message!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need Message!' );
         return;
     }
 
@@ -873,7 +878,8 @@ sub _DecryptPart {
     # check needed stuff
     for (qw(Key Password Filename)) {
         if ( !defined( $Param{$_} ) ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -900,7 +906,8 @@ sub _DecryptPart {
         );
     }
     else {
-        my $DecryptedDataRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $FileDecrypt );
+        my $DecryptedDataRef
+            = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $FileDecrypt );
         return (
             Successful => 1,
             Message    => $LogMessage,
@@ -926,7 +933,8 @@ sub _HandleLog {
     # check needed stuff
     for (qw(LogString)) {
         if ( !defined( $Param{$_} ) ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -1094,7 +1102,8 @@ sub _CryptedWithKey {
 
     # check needed stuff
     if ( !$Param{File} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need File!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Need File!" );
         return;
     }
 

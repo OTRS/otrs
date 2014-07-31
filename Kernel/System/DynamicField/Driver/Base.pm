@@ -111,7 +111,8 @@ sub EditLabelRender {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig FieldName)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }

@@ -130,7 +130,8 @@ sub Crypt {
     # check needed stuff
     for (qw(Message)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -160,7 +161,8 @@ sub Crypt {
         = "smime -encrypt -binary -des3 -in $PlainFile -out $CryptedFile $CertFile";
     my $LogMessage = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
     if ($LogMessage) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Can't crypt: $LogMessage!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Can't crypt: $LogMessage!" );
         return;
     }
 
@@ -193,7 +195,8 @@ sub Decrypt {
     # check needed stuff
     for (qw(Message)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -251,7 +254,8 @@ sub Decrypt {
     }
 
     if ($LogMessage) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Can't decrypt: $LogMessage!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Can't decrypt: $LogMessage!" );
         return (
             Successful => 0,
             Message    => $LogMessage,
@@ -296,7 +300,8 @@ sub Sign {
     # check needed stuff
     for (qw(Message)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -417,7 +422,8 @@ sub Verify {
 
     # check needed stuff
     if ( !$Param{Message} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need Message!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Need Message!" );
         return;
     }
 
@@ -601,7 +607,8 @@ sub CertificateAdd {
 
     # check needed stuff
     if ( !$Param{Certificate} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need Certificate!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need Certificate!' );
         return;
     }
     my %Attributes = $Self->CertificateAttributes( Certificate => $Param{Certificate}, );
@@ -668,7 +675,8 @@ sub CertificateAdd {
             return %Result;
         }
 
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Can't write $File: $!!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Can't write $File: $!!" );
         %Result = (
             Successful => 0,
             Message    => "Can't write $File: $!!",
@@ -859,7 +867,8 @@ sub CertificateAttributes {
 
     my %Attributes;
     if ( !$Param{Certificate} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need Certificate!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need Certificate!' );
         return;
     }
 
@@ -1035,7 +1044,8 @@ sub PrivateAdd {
     # check needed stuff
     for my $Needed (qw(Private Secret)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -1045,7 +1055,8 @@ sub PrivateAdd {
     # get private attributes
     my %Attributes = $Self->PrivateAttributes(%Param);
     if ( !$Attributes{Modulus} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'No Private Key!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'No Private Key!' );
         %Result = (
             Successful => 0,
             Message    => 'No private key',
@@ -1111,7 +1122,8 @@ sub PrivateAdd {
             return %Result;
         }
         else {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Can't write $File: $!!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Can't write $File: $!!" );
             %Result = (
                 Successful => 0,
                 Message    => "Can't write $File: $!!",
@@ -1120,7 +1132,8 @@ sub PrivateAdd {
         }
     }
 
-    $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Can\'t add invalid private key!' );
+    $Kernel::OM->Get('Kernel::System::Log')
+        ->Log( Priority => 'error', Message => 'Can\'t add invalid private key!' );
     %Result = (
         Successful => 0,
         Message    => 'Can\'t add invalid private key!',
@@ -1327,7 +1340,8 @@ sub PrivateAttributes {
 
     for my $Needed (qw(Private Secret)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -1402,7 +1416,8 @@ sub SignerCertRelationAdd {
     # check needed stuff
     for my $Needed (qw( CertFingerprint CAFingerprint UserID )) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -1477,7 +1492,8 @@ sub SignerCertRelationGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{CertFingerprint} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Needed ID or CertFingerprint!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Needed ID or CertFingerprint!' );
         return;
     }
 
@@ -1668,7 +1684,8 @@ sub SignerCertRelationDelete {
 
     # check needed stuff
     if ( !$Param{CertFingerprint} && !$Param{ID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ID or CertFingerprint!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need ID or CertFingerprint!' );
         return;
     }
 
@@ -1968,7 +1985,8 @@ sub _CertificateFilename {
     # check needed stuff
     for my $Needed (qw(Fingerprint Hash)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -2000,7 +2018,8 @@ sub _PrivateFilename {
     # check needed stuff
     for my $Needed (qw(Hash Modulus)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }

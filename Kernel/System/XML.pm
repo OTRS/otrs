@@ -81,7 +81,8 @@ sub XMLHashAdd {
     # check needed stuff
     for (qw(Type XMLHash)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -156,7 +157,8 @@ sub XMLHashUpdate {
     # check needed stuff
     for (qw(Type Key XMLHash)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -190,7 +192,8 @@ sub XMLHashGet {
     # check needed stuff
     for (qw(Type Key)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -264,7 +267,8 @@ sub XMLHashDelete {
     # check needed stuff
     for (qw(Type Key)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -305,7 +309,8 @@ sub XMLHashMove {
     # check needed stuff
     for (qw(OldType OldKey NewType NewKey)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -374,7 +379,8 @@ sub XMLHashSearch {
 
     # check needed stuff
     if ( !$Param{Type} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need Type!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need Type!' );
         return;
     }
 
@@ -473,7 +479,8 @@ sub XMLHashList {
 
     # check needed stuff
     if ( !$Param{Type} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need Type!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need Type!' );
         return;
     }
 
@@ -661,7 +668,8 @@ sub XMLStructure2XMLHash {
 
     # check needed stuff
     if ( !defined $Param{XMLStructure} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'XMLStructure not defined!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'XMLStructure not defined!' );
         return;
     }
 
@@ -697,7 +705,8 @@ sub XMLParse {
 
     # check needed stuff
     if ( !defined $Param{String} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'String not defined!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'String not defined!' );
         return;
     }
 
@@ -772,7 +781,8 @@ sub XMLParse {
             $Self->{XMLQuote} = 0;
         }
         else {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "C-Parser: $@!$Sourcename" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "C-Parser: $@!$Sourcename" );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'XML::Parser produced errors. I use XML::Parser::Lite as fallback!'
@@ -837,7 +847,8 @@ sub _XMLHashAddAutoIncrement {
     # check needed stuff
     for (qw(Type KeyAutoIncrement)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }

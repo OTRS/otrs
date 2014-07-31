@@ -1284,8 +1284,10 @@ sub LinkListWithData {
 
         # get config, which ticket state types should not be included in linked tickets overview
         my @IgnoreLinkedTicketStateTypes
-            = @{ $Kernel::OM->Get('Kernel::Config')->Get('LinkObject::IgnoreLinkedTicketStateTypes')
-                // [] };
+            = @{
+            $Kernel::OM->Get('Kernel::Config')->Get('LinkObject::IgnoreLinkedTicketStateTypes')
+                // []
+            };
 
         if (@IgnoreLinkedTicketStateTypes) {
             my %IgnoreLinkTicketStateTypesHash;

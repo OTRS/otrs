@@ -68,7 +68,7 @@ sub new {
             $MainObject->Die("Can't load backend module $GenericModule! $@");
         }
         $Self->{"CustomerCompany$Count"} = $GenericModule->new(
-            Count => $Count,
+            Count              => $Count,
             CustomerCompanyMap => $ConfigObject->Get("CustomerCompany$Count"),
         );
     }
@@ -114,7 +114,8 @@ sub CustomerCompanyAdd {
     # check needed stuff
     for (qw(CustomerID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -169,7 +170,8 @@ sub CustomerCompanyGet {
 
     # check needed stuff
     if ( !$Param{CustomerID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need CustomerID!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Need CustomerID!" );
         return;
     }
 

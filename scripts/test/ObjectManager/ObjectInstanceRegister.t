@@ -33,8 +33,8 @@ my $TimeObject = Kernel::System::Time->new();
 
 $Self->True(
     $Kernel::OM->ObjectInstanceRegister(
-        Package => 'Kernel::System::Time',
-        Object  => $TimeObject,
+        Package      => 'Kernel::System::Time',
+        Object       => $TimeObject,
         Dependencies => [],
     ),
     'Registered TimeObject',
@@ -58,6 +58,5 @@ $Self->IsNot(
     $TimeObject,
     "OM returns its own TimeObject",
 );
-
 
 1;

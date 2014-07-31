@@ -86,7 +86,8 @@ sub ValueSet {
     # check needed stuff
     for my $Needed (qw(FieldID ObjectID Value)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -204,7 +205,8 @@ sub ValueGet {
     # check needed stuff
     for my $Needed (qw(FieldID ObjectID)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -270,7 +272,8 @@ sub ValueGet {
     }
 
     # get the cache TTL (in seconds)
-    my $CacheTTL = int $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::CacheTTL') || 60 * 60 * 12;
+    my $CacheTTL
+        = int $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::CacheTTL') || 60 * 60 * 12;
 
     # set cache
     $CacheObject->Set(
@@ -308,7 +311,8 @@ sub ValueDelete {
     # check needed stuff
     for my $Needed (qw(FieldID ObjectID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -344,7 +348,8 @@ sub AllValuesDelete {
     # check needed stuff
     for my $Needed (qw(FieldID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -449,7 +454,8 @@ sub HistoricalValueGet {
     # check needed stuff
     for my $Needed (qw(FieldID)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -508,7 +514,8 @@ sub HistoricalValueGet {
     }
 
     # get the cache TTL (in seconds)
-    my $CacheTTL = int $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::CacheTTL') || 60 * 60 * 12;
+    my $CacheTTL
+        = int $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::CacheTTL') || 60 * 60 * 12;
 
     # set cache
     $CacheObject->Set(
@@ -531,7 +538,8 @@ sub _DeleteFromCache {
     # check needed stuff
     for my $Needed (qw(FieldID ObjectID)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }

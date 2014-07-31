@@ -168,8 +168,8 @@ sub TestUserCreate {
     my $UserLanguage = $Param{Language} || 'en';
     $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
         UserID => $TestUserID,
-        Key => 'UserLanguage',
-        Value => $UserLanguage,
+        Key    => 'UserLanguage',
+        Value  => $UserLanguage,
     );
     $Self->{UnitTestObject}->True( 1, "Set user UserLanguage to $UserLanguage" );
 
@@ -220,8 +220,8 @@ sub TestCustomerUserCreate {
     my $UserLanguage = $Param{Language} || 'en';
     $Kernel::OM->Get('Kernel::System::CustomerUser')->SetPreferences(
         UserID => $TestUser,
-        Key => 'UserLanguage',
-        Value => $UserLanguage,
+        Key    => 'UserLanguage',
+        Value  => $UserLanguage,
     );
     $Self->{UnitTestObject}->True( 1, "Set customer user UserLanguage to $UserLanguage" );
 

@@ -49,7 +49,7 @@ print "DSN         : $DatabaseDSN\n";
 print "DatabaseUser: $DatabaseUser\n\n";
 
 # check database state
-if ( $DBObject ) {
+if ($DBObject) {
     $DBObject->Prepare( SQL => "SELECT * FROM valid" );
     my $Check = 0;
     while ( my @Row = $DBObject->FetchrowArray() ) {
