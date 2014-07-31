@@ -135,11 +135,6 @@ sub EventHandlerInit {
 
     if ($Kernel::OM) {
         $Kernel::OM->ObjectRegisterEventHandler( EventHandler => $Self );
-
-        # this part can be removed after all event modules are ported to the object manager
-        $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
-        $Self->{LogObject}    = $Kernel::OM->Get('Kernel::System::Log');
-        $Self->{MainObject}   = $Kernel::OM->Get('Kernel::System::Main');
     }
 
     return 1;
