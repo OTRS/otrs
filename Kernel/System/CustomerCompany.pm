@@ -12,8 +12,6 @@ package Kernel::System::CustomerCompany;
 use strict;
 use warnings;
 
-use Kernel::System::EventHandler;
-
 use base qw(Kernel::System::EventHandler);
 
 our @ObjectDependencies = (
@@ -77,11 +75,7 @@ sub new {
 
     # init of event handler
     $Self->EventHandlerInit(
-        Config     => 'CustomerCompany::EventModulePost',
-        BaseObject => 'CustomerCompanyObject',
-        Objects    => {
-            %{$Self},
-        },
+        Config => 'CustomerCompany::EventModulePost',
     );
 
     return $Self;
