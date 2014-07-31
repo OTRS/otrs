@@ -173,7 +173,7 @@ sub EventHandler {
     # check needed stuff
     for (qw(Data Event UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -188,6 +188,9 @@ sub EventHandler {
     if ( !$Self->{EventHandlerTransaction} ) {
         push @{ $Self->{EventHandlerPipe} }, \%Param;
     }
+
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     # load modules and execute
     MODULE:
@@ -227,7 +230,7 @@ sub EventHandler {
             }
 
             # load event module
-            next MODULE if !$Self->{MainObject}->Require( $Modules->{$Module}->{Module} );
+            next MODULE if !$MainObject->Require( $Modules->{$Module}->{Module} );
 
             # execute event backend
             my $Generic = $Modules->{$Module}->{Module}->new();
