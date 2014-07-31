@@ -32,7 +32,7 @@ if ( $PreviousSchedulerStatus =~ /^running/i ) {
     `$Scheduler -a stop`;
 
     # wait to get scheduler fully stoped before test continues
-    my $SleepTime = 1;
+    my $SleepTime = 2;
     if ( $^O =~ /^mswin/i ) {
         $SleepTime = 5;
     }

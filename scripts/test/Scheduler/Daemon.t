@@ -271,7 +271,7 @@ $CheckAction->(
     Name                => 'Initial start',
     Action              => 'start',
     ExpectActionSuccess => 1,
-    SleepAfterAction    => 20,
+    SleepAfterAction    => 60,
     StateBefore         => 'not running',
     StateAfter          => 'running',
     PIDChangeExpected   => 1,
@@ -289,7 +289,7 @@ $CheckAction->(
 $CheckAction->(
     Name                => 'Reload',
     Action              => 'reload',
-    SleepAfterAction    => 20,
+    SleepAfterAction    => 60,
     ExpectActionSuccess => 1,
     StateBefore         => 'running',
     StateAfter          => 'running',
@@ -302,7 +302,7 @@ $CheckAction->(
     ExpectActionSuccess => 1,
     StateBefore         => 'running',
     StateAfter          => 'not running',
-    SleepAfterAction    => 20,
+    SleepAfterAction    => 60,
     PIDChangeExpected   => 1,
 );
 
@@ -312,7 +312,7 @@ $CheckAction->(
     ExpectActionSuccess => 0,
     StateBefore         => 'not running',
     StateAfter          => 'not running',
-    SleepAfterAction    => 20,
+    SleepAfterAction    => 60,
     PIDChangeExpected   => 0,
 );
 
@@ -362,7 +362,7 @@ $CheckAction->(
     ExpectActionSuccess => 1,
     StateBefore         => 'not running',
     StateAfter          => 'running',
-    SleepAfterAction    => 20,
+    SleepAfterAction    => 60,
     PIDChangeExpected   => 1,
 );
 
@@ -430,7 +430,7 @@ $CheckAction->(
     ExpectActionSuccess => 1,
     StateBefore         => 'running',
     StateAfter          => 'not running',
-    SleepAfterAction    => 20,
+    SleepAfterAction    => 60,
     PIDChangeExpected   => 1,
 );
 
@@ -444,7 +444,7 @@ $ConfigUpdated = $SysConfigObject->ConfigItemUpdate(
 $CheckAction->(
     Name                => 'Start auto-stop tests',
     Action              => 'start',
-    SleepAfterAction    => 20,
+    SleepAfterAction    => 60,
     ExpectActionSuccess => 1,
     StateBefore         => 'not running',
     StateAfter          => 'running',
@@ -485,7 +485,7 @@ $CheckAction->(
     Name                => 'Config file is recovered, start Scheduler again',
     Action              => 'start',
     ExpectActionSuccess => 1,
-    SleepAfterAction    => 20,
+    SleepAfterAction    => 60,
     StateBefore         => 'not running',
     StateAfter          => 'running',
     PIDChangeExpected   => 1,
@@ -565,7 +565,7 @@ $CheckAction->(
     ExpectActionSuccess => 1,
     StateBefore         => 'not running',
     StateAfter          => 'running',
-    SleepAfterAction    => 20,
+    SleepAfterAction    => 60,
     PIDChangeExpected   => 1,
 );
 
@@ -608,7 +608,7 @@ $CheckAction->(
     Name                => 'Start for PID host change',
     Action              => 'start',
     ExpectActionSuccess => 1,
-    SleepAfterAction    => 20,
+    SleepAfterAction    => 60,
     StateBefore         => 'not running',
     StateAfter          => 'running',
     PIDChangeExpected   => 1,
@@ -673,7 +673,7 @@ $CheckAction->(
     Name                => 'Start after PID host change',
     Action              => 'start',
     ExpectActionSuccess => 0,
-    SleepAfterAction    => 20,
+    SleepAfterAction    => 60,
     StateBefore         => 'not running',
     StateAfter          => 'not running',
     PIDChangeExpected   => 0,
@@ -711,7 +711,7 @@ $CheckAction->(
     Name                => 'Start after force stop for PID host change',
     Action              => 'start',
     ExpectActionSuccess => 1,
-    SleepAfterAction    => 20,
+    SleepAfterAction    => 60,
     StateBefore         => 'not running',
     StateAfter          => 'running',
     PIDChangeExpected   => 1,
@@ -828,7 +828,7 @@ $CheckAction->(
     StateAfter          => 'running',
     PIDChangeExpected   => 1,
     PIDDifferentBefore  => 1,
-    SleepAfterAction    => 40,
+    SleepAfterAction    => 100,
 );
 
 # start scheduler with watchdog again, no changes should be made
@@ -893,7 +893,7 @@ if ( $PreviousSchedulerStatus =~ /^running/i ) {
         ExpectActionSuccess => 1,
         StateBefore         => 'not running',
         StateAfter          => 'running',
-        SleepAfterAction    => 20,
+        SleepAfterAction    => 60,
         PIDChangeExpected   => 1,
     );
 }

@@ -326,7 +326,7 @@ for my $Test (@Tests) {
     for my $FileToCheck (@FileRemember) {
 
         # Wait for slow systems
-        $SleepTime = 20;
+        $SleepTime = 60;
         print "Waiting at most $TotalWaitToCheck s until task executes\n";
         ACTIVESLEEP:
         for my $Seconds ( 1 .. $TotalWaitToCheck ) {
