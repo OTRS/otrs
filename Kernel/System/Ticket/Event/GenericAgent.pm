@@ -12,8 +12,14 @@ package Kernel::System::Ticket::Event::GenericAgent;
 use strict;
 use warnings;
 
-use Kernel::System::GenericAgent;
 use Kernel::System::VariableCheck qw(:all);
+
+our @ObjectDependencies = (
+    'Kernel::System::GenericAgent',
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -21,14 +27,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Item (
-        qw(ConfigObject LogObject DBObject MainObject EncodeObject TimeObject QueueObject TicketObject)
-        )
-    {
-        $Self->{$Item} = $Param{$Item} || die "Got no $Item!";
-    }
 
     return $Self;
 }
@@ -39,14 +37,14 @@ sub Run {
     # check needed stuff
     for my $Needed (qw(Data Event Config)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
     # check for TicketID
     if ( !$Param{Data}->{TicketID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need TicketID! in Data",
         );
@@ -54,17 +52,12 @@ sub Run {
     }
 
     # Loop protection: only execute this handler once for each ticket and event.
-    my $CacheKey = '';
-    if (
-        $Self->{TicketObject}->{'_GenericAgent::AlreadyProcessed'}->{ $Param{Data}->{TicketID} }
-        ->{ $Param{Event} }++
-        )
-    {
-        return;
-    }
+    return if $Kernel::OM->Get('Kernel::System::Ticket')->{'_GenericAgent::AlreadyProcessed'}->{ $Param{Data}->{TicketID} }->{ $Param{Event} }++;
 
-    $Self->{GenericAgentObject} = Kernel::System::GenericAgent->new(%$Self);
-    my %JobEventList = $Self->{GenericAgentObject}->JobEventList();
+    # get generic agent object
+    my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
+
+    my %JobEventList = $GenericAgentObject->JobEventList();
 
     # no configured jobs is OK
     return 1 if !IsHashRefWithData( \%JobEventList );
@@ -80,7 +73,7 @@ sub Run {
         next JOB if !grep { $_ eq $Param{Event} } @Events;
 
         # execute the job
-        my $Result = $Self->{GenericAgentObject}->JobRun(
+        my $Result = $GenericAgentObject->JobRun(
             Job          => $JobName,
             OnlyTicketID => $Param{Data}->{TicketID},
             UserID       => 1,                          # run the job as system user

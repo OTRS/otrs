@@ -12,20 +12,18 @@ package Kernel::System::Ticket::Event::TriggerEscalationStopEvents;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Object (
-        qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject TimeObject)
-        )
-    {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
 
     return $Self;
 }
@@ -36,19 +34,22 @@ sub Run {
     # check needed stuff
     for my $Needed (qw(Event UserID Config)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
     for my $Needed (qw(OldTicketData TicketID)) {
         if ( !$Param{Data}->{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed in Data!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed in Data!" );
             return;
         }
     }
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # get the current escalation status
-    my %Ticket = $Self->{TicketObject}->TicketGet(
+    my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Param{Data}->{TicketID},
         UserID        => $Param{UserID},
         DynamicFields => 0,
@@ -60,11 +61,13 @@ sub Run {
         UpdateTimeEscalation        => 'EscalationUpdateTimeStop',
         SolutionTimeEscalation      => 'EscalationSolutionTimeStop',
     );
+
     while ( my ( $Attr, $Event ) = each %Attr2Event ) {
+
         if ( $Param{Data}->{OldTicketData}->{$Attr} && !$Ticket{$Attr} ) {
 
             # trigger the event
-            $Self->{TicketObject}->EventHandler(
+            $TicketObject->EventHandler(
                 Event  => $Event,
                 UserID => $Param{UserID},
                 Data   => {
@@ -74,7 +77,7 @@ sub Run {
             );
 
             # log the triggered event in the history
-            $Self->{TicketObject}->HistoryAdd(
+            $TicketObject->HistoryAdd(
                 TicketID     => $Param{Data}->{TicketID},
                 HistoryType  => $Event,
                 Name         => "%%$Event%%triggered",

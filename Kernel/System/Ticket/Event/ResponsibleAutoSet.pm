@@ -8,8 +8,16 @@
 # --
 
 package Kernel::System::Ticket::Event::ResponsibleAutoSet;
+
 use strict;
 use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -18,10 +26,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject SendmailObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
     return $Self;
 }
 
@@ -31,23 +35,29 @@ sub Run {
     # check needed stuff
     for (qw(Data Event Config UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     for (qw(TicketID)) {
         if ( !$Param{Data}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_ in Data!" );
             return;
         }
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # set responsible if first change
-    return 1 if !$Self->{ConfigObject}->Get('Ticket::Responsible');
-    return 1 if !$Self->{ConfigObject}->Get('Ticket::ResponsibleAutoSet');
+    return 1 if !$ConfigObject->Get('Ticket::Responsible');
+    return 1 if !$ConfigObject->Get('Ticket::ResponsibleAutoSet');
+
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # get current ticket data
-    my %Ticket = $Self->{TicketObject}->TicketGet(
+    my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Param{Data}->{TicketID},
         UserID        => $Param{UserID},
         DynamicFields => 0,
@@ -55,13 +65,14 @@ sub Run {
 
     # check responible update
     if ( $Ticket{ResponsibleID} == 1 && $Param{UserID} != 1 ) {
-        $Self->{TicketObject}->TicketResponsibleSet(
+        $TicketObject->TicketResponsibleSet(
             TicketID           => $Param{Data}->{TicketID},
             NewUserID          => $Ticket{OwnerID},
             SendNoNotification => 1,
             UserID             => $Param{UserID},
         );
     }
+
     return 1;
 }
 

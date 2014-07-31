@@ -8,12 +8,20 @@
 # --
 
 package Kernel::System::Ticket::Event::TicketDynamicFieldDefault;
+
 use strict;
 use warnings;
 
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
+
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -22,39 +30,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject SendmailObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
-    # create additional objects
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(
-        EncodeObject => $Param{TicketObject}->{EncodeObject},
-        MainObject   => $Param{TicketObject}->{MainObject},
-        DBObject     => $Param{TicketObject}->{DBObject},
-        %Param,
-    );
-    $Self->{BackendObject} = Kernel::System::DynamicField::Backend->new(
-        EncodeObject => $Param{TicketObject}->{EncodeObject},
-        MainObject   => $Param{TicketObject}->{MainObject},
-        DBObject     => $Param{TicketObject}->{DBObject},
-        TimeObject   => $Param{TicketObject}->{TimeObject},
-        %Param,
-    );
-
-    # get the dynamic fields
-    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-        Valid      => 1,
-        ObjectType => ['Ticket'],
-    );
-
-    # create a lookup table by name (since name is unique)
-    DYNAMICFIELD:
-    for my $DynamicField ( @{ $Self->{DynamicField} } ) {
-        next DYNAMICFIELD if !$DynamicField->{Name};
-
-        $Self->{DynamicFieldLookup}->{ $DynamicField->{Name} } = $DynamicField;
-    }
     return $Self;
 }
 
@@ -64,41 +39,63 @@ sub Run {
     # check needed stuff
     for (qw(Data Event Config UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     for (qw(TicketID)) {
         if ( !$Param{Data}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_ in Data!" );
             return;
         }
     }
 
     # get settings from sysconfig
-    my $ConfigSettings = $Self->{ConfigObject}->Get('Ticket::TicketDynamicFieldDefault');
+    my $ConfigSettings = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::TicketDynamicFieldDefault');
 
-    my %Ticket = $Self->{TicketObject}->TicketGet(
+    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
         TicketID      => $Param{Data}->{TicketID},
         DynamicFields => 1,
     );
 
+    # get dynamic field objects
+    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+    # get the dynamic fields
+    my $DynamicField = $DynamicFieldObject->DynamicFieldListGet(
+        Valid      => 1,
+        ObjectType => ['Ticket'],
+    );
+
+    # create a lookup table by name (since name is unique)
+    my %DynamicFieldLookup;
+    DYNAMICFIELD:
+    for my $DynamicField ( @{$DynamicField} ) {
+
+        next DYNAMICFIELD if !$DynamicField->{Name};
+
+        $DynamicFieldLookup{ $DynamicField->{Name} } = $DynamicField;
+    }
+
     ELEMENT:
     for my $ElementName ( sort keys %{$ConfigSettings} ) {
+
         my $Element = $ConfigSettings->{$ElementName};
+
         if ( $Param{Event} eq $Element->{Event} ) {
 
             # do not set default dynamic field if already set
             next ELEMENT if $Ticket{ 'DynamicField_' . $Element->{Name} };
 
             # check if field is defined and valid
-            next ELEMENT if !$Self->{DynamicFieldLookup}->{ $Element->{Name} };
+            next ELEMENT if !$DynamicFieldLookup{ $Element->{Name} };
 
             # get dynamic field config
-            my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Element->{Name} };
+            my $DynamicFieldConfig = $DynamicFieldLookup{ $Element->{Name} };
 
             # set the value
-            my $Success = $Self->{BackendObject}->ValueSet(
+            my $Success = $DynamicFieldBackendObject->ValueSet(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $Param{Data}->{TicketID},
                 Value              => $Element->{Value},
@@ -106,7 +103,7 @@ sub Run {
             );
 
             if ( !$Success ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message =>
                         "Can not set value $Element->{Value} for dynamic field $Element->{Name}!"
@@ -114,6 +111,7 @@ sub Run {
             }
         }
     }
+
     return 1;
 }
 

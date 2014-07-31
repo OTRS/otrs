@@ -12,17 +12,18 @@ package Kernel::System::Ticket::Event::Test;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for (qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject SendmailObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -33,26 +34,31 @@ sub Run {
     # check needed stuff
     for (qw(Data Event Config)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     for (qw(TicketID)) {
         if ( !$Param{Data}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_ in Data!" );
             return;
         }
     }
 
     if ( $Param{Event} eq 'TicketCreate' ) {
-        my %Ticket = $Self->{TicketObject}->TicketGet(
+
+        # get ticket object
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        my %Ticket = $TicketObject->TicketGet(
             TicketID      => $Param{Data}->{TicketID},
             DynamicFields => 0,
         );
+
         if ( $Ticket{State} eq 'Test' ) {
 
             # do some stuff
-            $Self->{TicketObject}->HistoryAdd(
+            $TicketObject->HistoryAdd(
                 TicketID     => $Param{Data}->{TicketID},
                 CreateUserID => $Param{UserID},
                 HistoryType  => 'Misc',
@@ -61,14 +67,19 @@ sub Run {
         }
     }
     elsif ( $Param{Event} eq 'TicketQueueUpdate' ) {
-        my %Ticket = $Self->{TicketObject}->TicketGet(
+
+        # get ticket object
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        my %Ticket = $TicketObject->TicketGet(
             TicketID      => $Param{Data}->{TicketID},
             DynamicFields => 0,
         );
+
         if ( $Ticket{Queue} eq 'Test' ) {
 
             # do some stuff
-            $Self->{TicketObject}->HistoryAdd(
+            $TicketObject->HistoryAdd(
                 TicketID     => $Param{Data}->{TicketID},
                 CreateUserID => $Param{UserID},
                 HistoryType  => 'Misc',
@@ -76,6 +87,7 @@ sub Run {
             );
         }
     }
+
     return 1;
 }
 

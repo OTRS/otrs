@@ -12,20 +12,19 @@ package Kernel::System::Ticket::Event::TicketNewMessageUpdate;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Needed (
-        qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject TimeObject)
-        )
-    {
-        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
-    }
 
     return $Self;
 }
@@ -36,13 +35,13 @@ sub Run {
     # check needed stuff
     for my $Parameter (qw(Data Event Config)) {
         if ( !$Param{$Parameter} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Parameter!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Parameter!" );
             return;
         }
     }
     for my $DataParameter (qw(TicketID ArticleID)) {
         if ( !$Param{Data}->{$DataParameter} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $DataParameter in Data!",
             );
@@ -52,31 +51,41 @@ sub Run {
 
     # update ticket new message flag
     if ( $Param{Event} eq 'ArticleCreate' ) {
-        $Self->{TicketObject}->TicketFlagDelete(
+
+        # get ticket object
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        $TicketObject->TicketFlagDelete(
             TicketID => $Param{Data}->{TicketID},
             Key      => 'Seen',
             AllUsers => 1,
         );
 
         # set the seen flag to 1 for the agent who created the article
-        $Self->{TicketObject}->ArticleFlagSet(
+        $TicketObject->ArticleFlagSet(
             ArticleID => $Param{Data}->{ArticleID},
             Key       => 'Seen',
             Value     => 1,
             UserID    => $Param{UserID},
         );
+
         return 1;
     }
     elsif ( $Param{Event} eq 'ArticleFlagSet' ) {
+
+        # get ticket object
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
         my @ArticleList;
         my @SenderTypes = (qw(customer agent system));
 
         # ignore system sender
-        if ( $Self->{ConfigObject}->Get('Ticket::NewArticleIgnoreSystemSender') ) {
+        if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::NewArticleIgnoreSystemSender') ) {
             @SenderTypes = (qw(customer agent));
         }
+
         for my $SenderType (@SenderTypes) {
-            push @ArticleList, $Self->{TicketObject}->ArticleIndex(
+            push @ArticleList, $TicketObject->ArticleIndex(
                 TicketID   => $Param{Data}->{TicketID},
                 SenderType => $SenderType,
             );
@@ -86,7 +95,7 @@ sub Run {
         my $ArticleAllSeen = 1;
         ARTICLE:
         for my $ArticleID (@ArticleList) {
-            my %ArticleFlag = $Self->{TicketObject}->ArticleFlagGet(
+            my %ArticleFlag = $TicketObject->ArticleFlagGet(
                 ArticleID => $ArticleID,
                 UserID    => $Param{Data}->{UserID},
             );
@@ -100,15 +109,15 @@ sub Run {
 
         # mark ticket as seen if all articles have been seen
         if ($ArticleAllSeen) {
-            $Self->{TicketObject}->TicketFlagSet(
+            $TicketObject->TicketFlagSet(
                 TicketID => $Param{Data}->{TicketID},
                 Key      => 'Seen',
                 Value    => 1,
                 UserID   => $Param{Data}->{UserID},
             );
         }
-
     }
+
     return;
 }
 

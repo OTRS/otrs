@@ -12,20 +12,19 @@ package Kernel::System::Ticket::Event::ArchiveRestore;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for (
-        qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject SendmailObject TimeObject EncodeObject)
-        )
-    {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -36,22 +35,25 @@ sub Run {
     # check needed stuff
     for (qw(Data Event Config)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     for (qw(TicketID)) {
         if ( !$Param{Data}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_ in Data!" );
             return;
         }
     }
 
     # return if no archive feature is enabled
-    return 1 if !$Self->{ConfigObject}->Get('Ticket::ArchiveSystem');
+    return 1 if !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::ArchiveSystem');
+
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # get ticket
-    my %Ticket = $Self->{TicketObject}->TicketGet(
+    my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Param{Data}->{TicketID},
         UserID        => 1,
         DynamicFields => 0,
@@ -65,7 +67,7 @@ sub Run {
     return 1 if $Ticket{StateType} eq 'merged';
 
     # restore ticket from archive
-    return if !$Self->{TicketObject}->TicketArchiveFlagSet(
+    return if !$TicketObject->TicketArchiveFlagSet(
         TicketID    => $Param{Data}->{TicketID},
         UserID      => 1,
         ArchiveFlag => 'n',

@@ -12,20 +12,18 @@ package Kernel::System::Ticket::Event::ForceState;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for (
-        qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject SendmailObject TimeObject EncodeObject)
-        )
-    {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -36,18 +34,21 @@ sub Run {
     # check needed stuff
     for (qw(Data Event Config)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     for (qw(TicketID)) {
         if ( !$Param{Data}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_ in Data!" );
             return;
         }
     }
 
-    my %Ticket = $Self->{TicketObject}->TicketGet(
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Param{Data}->{TicketID},
         UserID        => $Param{UserID},
         DynamicFields => 0,
@@ -59,16 +60,18 @@ sub Run {
     # set now state
     OLDSTATE:
     for my $OldState ( sort keys %{ $Param{Config} } ) {
+
         next OLDSTATE if !$OldState;
         next OLDSTATE if $OldState ne $Ticket{State};
 
-        $Self->{TicketObject}->TicketStateSet(
+        $TicketObject->TicketStateSet(
             TicketID           => $Param{Data}->{TicketID},
             State              => $Param{Config}->{$OldState},
             SendNoNotification => 1,
             UserID             => 1,
         );
     }
+
     return 1;
 }
 

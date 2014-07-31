@@ -12,11 +12,13 @@ package Kernel::System::Ticket::Event::TicketProcessTransitions;
 use strict;
 use warnings;
 
-use Kernel::System::ProcessManagement::Activity;
-use Kernel::System::ProcessManagement::ActivityDialog;
-use Kernel::System::ProcessManagement::Process;
-use Kernel::System::ProcessManagement::Transition;
-use Kernel::System::ProcessManagement::TransitionAction;
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Log',
+    'Kernel::System::ProcessManagement::Process',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -25,13 +27,7 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for my $Needed (
-        qw(ConfigObject EncodeObject TimeObject DBObject MainObject TicketObject LogObject)
-        )
-    {
-        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
-    }
+    $Self->{Debug} = 0;
 
     return $Self;
 }
@@ -42,7 +38,7 @@ sub Run {
     # check needed stuff
     for my $Needed (qw(Data Event Config UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
@@ -52,22 +48,25 @@ sub Run {
 
     # listen to all kinds of events
     if ( !$Param{Data}->{TicketID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need TicketID in Data!",
         );
         return;
     }
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     my $CacheKey = '_TicketProcessTransitions::AlreadyProcessed';
 
     # loop protection: only execute this handler once for each ticket, as multiple events may be
     #   fired, for example TicketTitleUpdate and TicketPriorityUpdate.
-    return if ( $Self->{TicketObject}->{$CacheKey}->{ $Param{Data}->{TicketID} } );
+    return if ( $TicketObject->{$CacheKey}->{ $Param{Data}->{TicketID} } );
 
     # get ticket data in silent mode, it could be that the ticket was deleted
     #   in the meantime.
-    my %Ticket = $Self->{TicketObject}->TicketGet(
+    my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Param{Data}->{TicketID},
         DynamicFields => 1,
         Silent        => 1,
@@ -77,17 +76,20 @@ sub Run {
 
         # remember that the event was executed for this TicketID to avoid multiple executions.
         #   Store the information on the ticketobject
-        $Self->{TicketObject}->{$CacheKey}->{ $Param{Data}->{TicketID} } = 1;
+        $TicketObject->{$CacheKey}->{ $Param{Data}->{TicketID} } = 1;
 
         return;
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     my $ProcessIDField
-        = $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementProcessID");
+        = $ConfigObject->Get("Process::DynamicFieldProcessManagementProcessID");
     my $ProcessEntityID = $Ticket{"DynamicField_$ProcessIDField"};
 
     my $ActivityIDField
-        = $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementActivityID");
+        = $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
     my $ActivityEntityID = $Ticket{"DynamicField_$ActivityIDField"};
 
     # ticket can be ignored if it is no process ticket. Don't set the cache key in this case as
@@ -96,26 +98,14 @@ sub Run {
 
     # ok, now we know that we need to call the transition logic for this ticket.
 
-    # create the needed objects only now to save performance.
-    my $ActivityObject = Kernel::System::ProcessManagement::Activity->new( %{$Self} );
-    my $ActivityDialogObject
-        = Kernel::System::ProcessManagement::ActivityDialog->new( %{$Self} );
-    my $TransitionObject = Kernel::System::ProcessManagement::Transition->new( %{$Self} );
-    my $TransitionActionObject
-        = Kernel::System::ProcessManagement::TransitionAction->new( %{$Self} );
-    my $ProcessObject = Kernel::System::ProcessManagement::Process->new(
-        %{$Self},
-        ActivityObject         => $ActivityObject,
-        ActivityDialogObject   => $ActivityDialogObject,
-        TransitionObject       => $TransitionObject,
-        TransitionActionObject => $TransitionActionObject,
-    );
+    # get process object
+    my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process');
 
     # Remember that the event was executed for this ticket to avoid multiple executions.
     #   Store the information on the ticketobject, this needs to be done before the execution of the
     #   transitions as it could happen that the transition generates new events that will be
     #   processed in the mean time, before the chache is set, see bug#9748
-    $Self->{TicketObject}->{$CacheKey}->{ $Param{Data}->{TicketID} } = 1;
+    $TicketObject->{$CacheKey}->{ $Param{Data}->{TicketID} } = 1;
 
     my $TransitionApplied = $ProcessObject->ProcessTransition(
         ProcessEntityID  => $ProcessEntityID,
@@ -125,7 +115,7 @@ sub Run {
     );
 
     if ( $Self->{Debug} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message =>
                 "Transition for to TicketID: $Param{Data}->{TicketID}"

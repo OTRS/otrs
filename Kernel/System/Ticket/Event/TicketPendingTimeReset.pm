@@ -12,20 +12,19 @@ package Kernel::System::Ticket::Event::TicketPendingTimeReset;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for (
-        qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject SendmailObject TimeObject EncodeObject)
-        )
-    {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -36,26 +35,32 @@ sub Run {
     # check needed stuff
     for (qw(Data Event Config)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     for (qw(TicketID)) {
         if ( !$Param{Data}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_ in Data!" );
             return;
         }
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # read pending state types from config
     my $PendingReminderStateType =
-        $Self->{ConfigObject}->Get('Ticket::PendingReminderStateType:') || 'pending reminder';
+        $ConfigObject->Get('Ticket::PendingReminderStateType:') || 'pending reminder';
 
     my $PendingAutoStateType =
-        $Self->{ConfigObject}->Get('Ticket::PendingAutoStateType:') || 'pending auto';
+        $ConfigObject->Get('Ticket::PendingAutoStateType:') || 'pending auto';
+
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # get ticket
-    my %Ticket = $Self->{TicketObject}->TicketGet(
+    my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Param{Data}->{TicketID},
         UserID        => 1,
         DynamicFields => 0,
@@ -70,7 +75,7 @@ sub Run {
     return 1 if $Ticket{StateType} eq $PendingAutoStateType;
 
     # reset pending date/time
-    return if !$Self->{TicketObject}->TicketPendingTimeSet(
+    return if !$TicketObject->TicketPendingTimeSet(
         TicketID => $Param{Data}->{TicketID},
         UserID   => $Param{UserID},
         String   => '0000-00-00 00:00:00',

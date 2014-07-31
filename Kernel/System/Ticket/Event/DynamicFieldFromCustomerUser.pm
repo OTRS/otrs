@@ -11,9 +11,16 @@ package Kernel::System::Ticket::Event::DynamicFieldFromCustomerUser;
 
 use strict;
 use warnings;
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
-use Kernel::System::VariableCheck qw(:all);
+
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::CustomerUser',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -21,26 +28,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Needed (
-        qw(ConfigObject TicketObject LogObject EncodeObject MainObject DBObject TimeObject CustomerUserObject)
-        )
-    {
-        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
-    }
-
-    # create extra needed objects
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
-    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new( %{$Self} );
-
-    # get dynamic fields list
-    my $DynamicFields = $Self->{DynamicFieldObject}->DynamicFieldList(
-        Valid      => 1,
-        ObjectType => 'Ticket',
-        ResultType => 'HASH',
-    );
-    $Self->{DynamicFields} = { reverse %{$DynamicFields} };
 
     return $Self;
 }
@@ -51,7 +38,7 @@ sub Run {
     # check needed stuff
     for my $Needed (qw(Data UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
@@ -60,7 +47,7 @@ sub Run {
     }
     for my $Needed (qw(TicketID)) {
         if ( !$Param{Data}->{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed! in Data",
             );
@@ -68,17 +55,36 @@ sub Run {
         }
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # get mapping config,
-    my %Mapping = %{ $Self->{ConfigObject}->Get('DynamicFieldFromCustomerUser::Mapping') || {} };
+    my %Mapping = %{ $ConfigObject->Get('DynamicFieldFromCustomerUser::Mapping') || {} };
 
     # no mapping is OK
     return 1 if !%Mapping;
 
     # get customer user data, so that values can be stored in dynamic fields
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{Data}->{TicketID} );
+    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+        TicketID => $Param{Data}->{TicketID},
+    );
+
     return if !%Ticket;
 
-    my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+    # get dynamic field objects
+    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+    # get dynamic fields list
+    my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 1,
+        ObjectType => 'Ticket',
+        ResultType => 'HASH',
+    );
+
+    my $DynamicFieldsReverse = { reverse %{$DynamicFields} };
+
+    my %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
         User => $Ticket{CustomerUserID},
     );
 
@@ -88,8 +94,8 @@ sub Run {
     for my $CustomerUserVariableName ( sort keys %Mapping ) {
 
         # check config for the particular mapping
-        if ( !defined $Self->{DynamicFields}->{ $Mapping{$CustomerUserVariableName} } ) {
-            $Self->{LogObject}->Log(
+        if ( !defined $DynamicFieldsReverse->{ $Mapping{$CustomerUserVariableName} } ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
                     "DynamicField $Mapping{$CustomerUserVariableName} in DynamicFieldFromCustomerUser::Mapping must be set in system and valid.",
@@ -97,12 +103,12 @@ sub Run {
             next CUSTOMERUSERVARIABLENAME;
         }
 
-        my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+        my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
             Name => $Mapping{$CustomerUserVariableName},
         );
 
         # update dynamic field value for ticket
-        $Self->{BackendObject}->ValueSet(
+        $DynamicFieldBackendObject->ValueSet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ObjectID           => $Param{Data}->{TicketID},
             Value              => $CustomerUserData{$CustomerUserVariableName} || '',
