@@ -12,8 +12,13 @@ package Kernel::System::StandardTemplate;
 use strict;
 use warnings;
 
-use Kernel::System::Valid;
-use Kernel::System::CacheInternal;
+our @ObjectDependencies = (
+    'Kernel::System::Cache',
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+    'Kernel::System::Valid',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -46,23 +51,7 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject EncodeObject MainObject)) {
-        if ( $Param{$_} ) {
-            $Self->{$_} = $Param{$_};
-        }
-        else {
-            die "Got no $_!";
-        }
-    }
-
-    # create additional objects
-    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        %{$Self},
-        Type => 'StandardTemplate',
-        TTL  => 60 * 60 * 24 * 20,
-    );
-    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
+    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
 
     return $Self;
 }
@@ -88,7 +77,8 @@ sub StandardTemplateAdd {
     # check needed stuff
     for (qw(Name ValidID Template ContentType UserID TemplateType)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -114,7 +104,9 @@ sub StandardTemplateAdd {
     }
 
     # clear queue cache, due to Queue <-> Template relations
-    $Self->{CacheInternalObject}->CleanUp( OtherType => 'Queue' );
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => 'Queue'
+    );
 
     return $ID;
 }
@@ -150,7 +142,7 @@ sub StandardTemplateGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ID!' );
         return;
     }
 
@@ -197,7 +189,7 @@ sub StandardTemplateDelete {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ID!' );
         return;
     }
 
@@ -220,7 +212,9 @@ sub StandardTemplateDelete {
     );
 
     # clear queue cache, due to Queue <-> Template relations
-    $Self->{CacheInternalObject}->CleanUp( OtherType => 'Queue' );
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => 'Queue'
+    );
 
     return 1;
 }
@@ -247,7 +241,8 @@ sub StandardTemplateUpdate {
     # check needed stuff
     for (qw(ID Name ValidID TemplateType ContentType UserID TemplateType)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -266,7 +261,9 @@ sub StandardTemplateUpdate {
     );
 
     # clear queue cache, due to Queue <-> Template relations
-    $Self->{CacheInternalObject}->CleanUp( OtherType => 'Queue' );
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => 'Queue'
+    );
 
     return 1;
 }
@@ -292,7 +289,7 @@ sub StandardTemplateLookup {
 
     # check needed stuff
     if ( !$Param{StandardTemplate} && !$Param{StandardTemplateID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Got no StandardTemplate or StandardTemplateID!'
         );
@@ -331,7 +328,8 @@ sub StandardTemplateLookup {
 
     # check if data exists
     if ( !exists $Self->{"StandardTemplate$Suffix"} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Found no \$$Suffix!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Found no \$$Suffix!" );
         return;
     }
 
@@ -389,7 +387,8 @@ sub StandardTemplateList {
         FROM standard_template';
 
     if ($Valid) {
-        $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
+        $SQL .= ' WHERE valid_id IN (' . join ', ',
+            $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet() . ')';
     }
 
     my @Bind;
