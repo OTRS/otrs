@@ -19,7 +19,7 @@ use Carp qw(carp confess);
 use Scalar::Util qw(weaken);
 
 # use the "standard" modules directly, so that persistent environments
-# like mod_perl and FastCGI preload them at startup
+# like mod_perl and FastCGI pre-load them at startup
 
 use Kernel::Config;
 use Kernel::Output::HTML::Layout;
@@ -323,7 +323,7 @@ sub ObjectParamAdd {
 Discards internally stored objects, so that the next access to objects
 creates them newly. If a list of object names is passed, only
 the supplied objects and their recursive dependencies are destroyed.
-If no list of object names is passed, all stored objects are detroyed.
+If no list of object names is passed, all stored objects are destroyed.
 
     $Kernel::OM->ObjectsDiscard();
 
