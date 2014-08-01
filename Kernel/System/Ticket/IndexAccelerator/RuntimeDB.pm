@@ -13,6 +13,17 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::Group',
+    'Kernel::System::Lock',
+    'Kernel::System::Log',
+    'Kernel::System::State',
+    'Kernel::System::Time',
+);
+our $ObjectManagerAware = 1;
+
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
 
@@ -37,19 +48,22 @@ sub TicketAcceleratorIndex {
     # check needed stuff
     for (qw(UserID QueueID ShownQueueIDs)) {
         if ( !exists( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # db quote
     for (qw(UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
+        $Param{$_} = $DBObject->Quote( $Param{$_}, 'Integer' );
     }
 
     # get user groups
     my $Type             = 'rw';
-    my $AgentTicketQueue = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketQueue');
+    my $AgentTicketQueue = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::AgentTicketQueue');
     if (
         $AgentTicketQueue
         && ref $AgentTicketQueue eq 'HASH'
@@ -58,11 +72,13 @@ sub TicketAcceleratorIndex {
     {
         $Type = 'ro';
     }
-    my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
+
+    my @GroupIDs = $Kernel::OM->Get('Kernel::System::Group')->GroupMemberList(
         UserID => $Param{UserID},
         Type   => $Type,
         Result => 'ID',
     );
+
     my @QueueIDs = @{ $Param{ShownQueueIDs} };
     my %Queues;
     $Queues{MaxAge}       = 0;
@@ -70,49 +86,59 @@ sub TicketAcceleratorIndex {
     $Queues{TicketsAvail} = 0;
 
     # prepare "All tickets: ??" in Queue
-    my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock(
+    my @ViewableLockIDs = $Kernel::OM->Get('Kernel::System::Lock')->LockViewableLock(
         Type => 'ID',
     );
-    my %ViewableLockIDs = ( map { $_ => 1 } @ViewableLockIDs );          # for lookup
-    my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
+
+    my %ViewableLockIDs = ( map { $_ => 1 } @ViewableLockIDs );
+
+    my @ViewableStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
         Type   => 'Viewable',
         Result => 'ID',
     );
 
     if (@QueueIDs) {
+
         my $SQL = "
             SELECT count(*)
             FROM ticket st
             WHERE st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} )
                 AND st.archive_flag = 0
                 AND st.queue_id IN (";
+
         for ( 0 .. $#QueueIDs ) {
+
             if ( $_ > 0 ) {
                 $SQL .= ",";
             }
-            $SQL .= $Self->{DBObject}->Quote( $QueueIDs[$_], 'Integer' );
+
+            $SQL .= $DBObject->Quote( $QueueIDs[$_], 'Integer' );
         }
         $SQL .= " )";
 
-        $Self->{DBObject}->Prepare( SQL => $SQL );
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $DBObject->Prepare( SQL => $SQL );
+
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $Queues{AllTickets} = $Row[0];
         }
     }
 
     # check if user is in min. one group! if not, return here
     if ( !@GroupIDs ) {
+
         my %Hashes;
         $Hashes{QueueID} = 0;
         $Hashes{Queue}   = 'CustomQueue';
         $Hashes{MaxAge}  = 0;
         $Hashes{Count}   = 0;
+
         push @{ $Queues{Queues} }, \%Hashes;
+
         return %Queues;
     }
 
     # CustomQueue add on
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
 
         # Differentiate between total and unlocked tickets
         SQL => "
@@ -134,12 +160,16 @@ sub TicketAcceleratorIndex {
         Count   => 0,
         Total   => 0,
     );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+
         $CustomQueueHashes{Total} += $Row[0];
+
         if ( $ViewableLockIDs{ $Row[1] } ) {
             $CustomQueueHashes{Count} += $Row[0];
         }
     }
+
     push @{ $Queues{Queues} }, \%CustomQueueHashes;
 
     # set some things
@@ -149,7 +179,7 @@ sub TicketAcceleratorIndex {
     }
 
     # prepare the tickets in Queue bar (all data only with my/your Permission)
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "
             SELECT st.queue_id, sq.name, min(st.create_time_unix), st.ticket_lock_id, count(*)
             FROM ticket st, queue sq
@@ -161,11 +191,17 @@ sub TicketAcceleratorIndex {
             ORDER BY sq.name"
     );
 
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     my %QueuesSeen;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+
         my $Queue     = $Row[1];
         my $QueueData = $QueuesSeen{$Queue};    # ref to HASH
+
         if ( !$QueueData ) {
+
             $QueueData = $QueuesSeen{$Queue} = {
                 QueueID => $Row[0],
                 Queue   => $Queue,
@@ -173,15 +209,18 @@ sub TicketAcceleratorIndex {
                 Count   => 0,
                 MaxAge  => 0,
             };
+
             push @{ $Queues{Queues} }, $QueueData;
         }
+
         my $Count = $Row[4];
         $QueueData->{Total} += $Count;
 
         if ( $ViewableLockIDs{ $Row[3] } ) {
+
             $QueueData->{Count} += $Count;
 
-            my $MaxAge = $Self->{TimeObject}->SystemTime() - $Row[2];
+            my $MaxAge = $TimeObject->SystemTime() - $Row[2];
             $QueueData->{MaxAge} = $MaxAge if $MaxAge > $QueueData->{MaxAge};
 
             # get the oldest queue id
