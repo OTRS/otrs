@@ -11,37 +11,15 @@ use strict;
 use warnings;
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::CustomerGroup;
-use Kernel::System::CustomerUser;
-use Kernel::System::Group;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(:all);
 
-# Create Helper instance which will restore system configuration in destructor
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 1,
+    UnitTestObject => $Self,
 );
 
 my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-
-# create local objects
-my $CustomerGroupObject = Kernel::System::CustomerGroup->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $CustomerUserObject = Kernel::System::CustomerUser->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-my $GroupObject = Kernel::System::Group->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
 $ConfigObject->Set(
     Key   => 'CustomerGroupAlwaysGroups',
     Value => [],
@@ -50,6 +28,11 @@ $ConfigObject->Set(
     Key   => 'CustomerGroupSupport',
     Value => 1,
 );
+
+# create local objects
+my $CustomerGroupObject = $Kernel::OM->Get('Kernel::System::CustomerGroup');
+my $CustomerUserObject  = $Kernel::OM->Get('Kernel::System::CustomerUser');
+my $GroupObject         = $Kernel::OM->Get('Kernel::System::Group');
 
 my $RandomID = $HelperObject->GetRandomID();
 my $UserID   = 1;
@@ -195,7 +178,10 @@ for my $Test (@Tests) {
             # check cache internal is empty
             my $CacheKey
                 = "GroupMemberList::" . $Permission . "::ID::UserID::$Test->{Config}->{UID}";
-            my $Cache = $CustomerGroupObject->{CacheInternalObject}->Get( Key => $CacheKey );
+            my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+                Type => 'CustomerGroup',
+                Key  => $CacheKey,
+            );
 
             $Self->Is(
                 $Cache,
@@ -217,7 +203,10 @@ for my $Test (@Tests) {
             );
 
             # check cache internal is not empty
-            $Cache = $CustomerGroupObject->{CacheInternalObject}->Get( Key => $CacheKey );
+            $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+                Type => 'CustomerGroup',
+                Key  => $CacheKey
+            );
             $Self->IsDeeply(
                 $Cache,
                 \@MemberList,
@@ -298,7 +287,10 @@ my $ResetMembership = sub {
 
         # check cache internal is empty
         my $CacheKey = "GroupMemberList::" . $Permission . "::ID::UserID::$Param{UID}";
-        my $Cache = $CustomerGroupObject->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => 'CustomerGroup',
+            Key  => $CacheKey,
+        );
 
         $Self->Is(
             $Cache,
@@ -325,7 +317,10 @@ my $ResetMembership = sub {
         );
 
         # check cache internal is empty
-        $Cache = $CustomerGroupObject->{CacheInternalObject}->Get( Key => $CacheKey );
+        $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => 'CustomerGroup',
+            Key  => $CacheKey,
+        );
 
         $Self->IsDeeply(
             $Cache,
@@ -829,7 +824,10 @@ for my $Test (@Tests) {
         }
 
         # check cache
-        my $Cache = $CustomerGroupObject->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => 'CustomerGroup',
+            Key  => $CacheKey,
+        );
 
         $Self->IsDeeply(
             $Cache,
@@ -949,7 +947,10 @@ for my $Test (@Tests) {
         }
 
         # check cache (cahce is an scalar reference)
-        my $Cache = $CustomerGroupObject->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => 'CustomerGroup',
+            Key  => $CacheKey,
+        );
 
         $Self->Is(
             ${$Cache},
