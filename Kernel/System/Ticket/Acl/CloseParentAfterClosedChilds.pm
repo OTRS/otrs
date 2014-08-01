@@ -13,7 +13,12 @@ package Kernel::System::Ticket::Acl::CloseParentAfterClosedChilds;
 use strict;
 use warnings;
 
-use Kernel::System::LinkObject;
+our @ObjectDependencies = (
+    'Kernel::System::Link',
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -21,14 +26,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for (
-        qw(ConfigObject DBObject TicketObject LogObject UserObject CustomerUserObject MainObject TimeObject EncodeObject)
-        )
-    {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -39,7 +36,7 @@ sub Run {
     # check needed stuff
     for (qw(Config Acl)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -47,16 +44,8 @@ sub Run {
     # check if child tickets are not closed
     return 1 if !$Param{TicketID} || !$Param{UserID};
 
-    # create new instance of the link object
-    if ( !$Self->{LinkObject} ) {
-        $Self->{LinkObject} = Kernel::System::LinkObject->new(
-            %{$Self},
-            %Param,
-        );
-    }
-
     # link tickets
-    my $Links = $Self->{LinkObject}->LinkList(
+    my $Links = $Kernel::OM->Get('Kernel::System::Link')->LinkList(
         Object => 'Ticket',
         Key    => $Param{TicketID},
         State  => 'Valid',
@@ -78,7 +67,7 @@ sub Run {
     for my $TicketID ( sort keys %{ $Links->{Ticket}->{ParentChild}->{Target} } ) {
 
         # get ticket
-        my %Ticket = $Self->{TicketObject}->TicketGet(
+        my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
             TicketID      => $TicketID,
             DynamicFields => 0,
         );
