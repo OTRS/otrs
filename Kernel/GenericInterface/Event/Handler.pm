@@ -73,17 +73,17 @@ sub Run {
             ID => $WebserviceID,
         );
 
-        next WEBSERVICE if ( !IsHashRefWithData( $WebserviceData->{Config} ) );
-        next WEBSERVICE if ( !IsHashRefWithData( $WebserviceData->{Config}->{Requester} ) );
-        next WEBSERVICE
-            if ( !IsHashRefWithData( $WebserviceData->{Config}->{Requester}->{Invoker} ) );
+        next WEBSERVICE if !IsHashRefWithData( $WebserviceData->{Config} );
+        next WEBSERVICE if !IsHashRefWithData( $WebserviceData->{Config}->{Requester} );
+        next WEBSERVICE if !IsHashRefWithData( $WebserviceData->{Config}->{Requester}->{Invoker} );
 
         # check invokers of the webservice, to see if some might be connected to this event
         INVOKER:
         for my $Invoker ( sort keys %{ $WebserviceData->{Config}->{Requester}->{Invoker} } ) {
+
             my $InvokerConfig = $WebserviceData->{Config}->{Requester}->{Invoker}->{$Invoker};
 
-            next INVOKER if ( ref $InvokerConfig->{Events} ne 'ARRAY' );
+            next INVOKER if ref $InvokerConfig->{Events} ne 'ARRAY';
 
             EVENT:
             for my $Event ( @{ $InvokerConfig->{Events} } ) {
