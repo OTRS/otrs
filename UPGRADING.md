@@ -27,6 +27,10 @@ e. g. (depends on used services):
     shell> /etc/init.d/postfix stop
     shell> /etc/init.d/apache stop
 
+stop the OTRS scheduler:
+
+    shell> cd /opt/otrs/
+    shell> bin/otrs.Scheduler.pl -a stop
 
 2. Backup everything below $OTRS_HOME (default: OTRS_HOME=/opt/otrs)
 --------------------------------------------------------------------
