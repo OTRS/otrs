@@ -56,8 +56,7 @@ sub new {
     bless( $Self, $Type );
 
     # get the cache TTL (in seconds)
-    $Self->{CacheTTL}
-        = int $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::CacheTTL') || 3600;
+    $Self->{CacheTTL} = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::CacheTTL') || 3600;
 
     # set lower if database is case sensitive
     $Self->{Lower} = '';
