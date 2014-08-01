@@ -12,10 +12,16 @@ package Kernel::System::Package::Event::SupportDataSend;
 use strict;
 use warnings;
 
-use Kernel::Scheduler;
-use Kernel::System::SystemData;
-use Kernel::System::Scheduler::TaskManager;
 use Kernel::System::VariableCheck qw(:all);
+
+our @ObjectDependencies = (
+    'Kernel::System::Cache',
+    'Kernel::System::Log',
+    'Kernel::System::Scheduler::TaskManager',
+    'Kernel::System::SystemData',
+    'Kernel::System::Time',
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -23,26 +29,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Item (
-        qw(ConfigObject LogObject DBObject MainObject EncodeObject TimeObject)
-        )
-    {
-        $Self->{$Item} = $Param{$Item} || die "Got no $Item!";
-    }
-
-    # create extra objects
-    $Self->{SchedulerObject}   = Kernel::Scheduler->new( %{$Self} );
-    $Self->{TaskManagerObject} = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
-    $Self->{SystemDataObject}  = Kernel::System::SystemData->new(%Param);
-
-    $Self->{RegistrationState} = $Self->{SystemDataObject}->SystemDataGet(
-        Key => 'Registration::State',
-    ) || '';
-    $Self->{SupportDataSending} = $Self->{SystemDataObject}->SystemDataGet(
-        Key => 'Registration::SupportDataSending',
-    ) || 'No';
 
     return $Self;
 }
@@ -53,45 +39,48 @@ sub Run {
     # check needed stuff
     for (qw(Data Event Config)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
+    # get system data object
+    my $SystemDataObject = $Kernel::OM->Get('Kernel::System::SystemData');
+
+    my $RegistrationState = $SystemDataObject->SystemDataGet(
+        Key => 'Registration::State',
+    ) || '';
+
     # do nothing if system is not register
-    return 1 if $Self->{RegistrationState} ne 'registered';
+    return 1 if $RegistrationState ne 'registered';
+
+    my $SupportDataSending = $SystemDataObject->SystemDataGet(
+        Key => 'Registration::SupportDataSending',
+    ) || 'No';
 
     # return if Data Sending is not activated
-    return 1 if $Self->{SupportDataSending} ne 'Yes';
+    return 1 if $SupportDataSending ne 'Yes';
 
-    # delete cache of data collector
-    # in order to refresh packages list
-    my $CacheModule = 'Kernel::System::Cache';
-
-    # check if backend field exists
-    if ( !$Self->{MainObject}->Require($CacheModule) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't load $CacheModule!",
-        );
-        return;
-    }
-
-    # create a cache object
-    my $CacheObject = $CacheModule->new( %{$Self} );
-    $CacheObject->Delete(
+    # delete cache
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
         Type => 'SupportDataCollector',
         Key  => 'DataCollect',
     );
 
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     # calculate due date for next update, 1h
     my $NextUpdateSeconds = 3600;
-    my $NewDueTime        = $Self->{TimeObject}->SystemTime() + $NextUpdateSeconds;
-    my $NewDueTimeStamp   = $Self->{TimeObject}->SystemTime2TimeStamp(
+    my $NewDueTime        = $TimeObject->SystemTime() + $NextUpdateSeconds;
+    my $NewDueTimeStamp   = $TimeObject->SystemTime2TimeStamp(
         SystemTime => $NewDueTime,
     );
 
-    my @TaskList = $Self->{TaskManagerObject}->TaskList();
+    # get task manager object
+    my $TaskManagerObject = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager');
+
+    my @TaskList = $TaskManagerObject->TaskList();
 
     if (@TaskList) {
 
@@ -99,7 +88,7 @@ sub Run {
         for my $TaskItem (@TaskList) {
 
             if ( !IsHashRefWithData($TaskItem) ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => 'Got invalid task list entry!',
                 );
@@ -108,7 +97,7 @@ sub Run {
             }
 
             if ( !$TaskItem->{Type} ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Task $TaskItem->{ID} has no type set!",
                 );
@@ -118,19 +107,19 @@ sub Run {
 
             next TASKITEM if $TaskItem->{Type} ne 'RegistrationUpdate';
 
-            my $TaskTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            my $TaskTime = $TimeObject->TimeStamp2SystemTime(
                 String => $TaskItem->{DueTime},
             );
 
             # if the task have a due time more than one hour update it to one hour
             if ( $TaskTime > $NewDueTime ) {
-                my $UpdateResult = $Self->{TaskManagerObject}->TaskUpdate(
+                my $UpdateResult = $TaskManagerObject->TaskUpdate(
                     %{$TaskItem},
                     DueTime => $NewDueTimeStamp,
                 );
 
                 if ( !$UpdateResult ) {
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
                         Message =>
                             "Error while updating scheduler task for RegistrationUpdate: $TaskItem->{ID}!",
@@ -145,7 +134,7 @@ sub Run {
         }
     }
 
-    my $TaskID = $Self->{TaskManagerObject}->TaskAdd(
+    my $TaskID = $TaskManagerObject->TaskAdd(
         Type    => 'RegistrationUpdate',
         DueTime => $NewDueTimeStamp,
         Data    => {
@@ -158,7 +147,7 @@ sub Run {
     );
 
     if ( !$TaskID ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Error while registering scheduler task for RegistrationUpdate!",
         );
