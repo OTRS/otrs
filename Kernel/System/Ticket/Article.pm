@@ -20,6 +20,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Cache',
     'Kernel::System::CustomerUser',
     'Kernel::System::DB',
     'Kernel::System::DynamicField',
@@ -968,7 +969,10 @@ sub ArticleGetContentPath {
     my $CacheKey = 'ArticleGetContentPath::' . $Param{ArticleID};
 
     # check cache
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key => $CacheKey,
+     );
     return $Cache if $Cache;
 
     # get database object
@@ -986,7 +990,12 @@ sub ArticleGetContentPath {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Result );
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type => $Self->{CacheType},
+        TTL  => $Self->{CacheTTL},
+        Key => $CacheKey,
+        Value => $Result,
+    );
 
     # return
     return $Result;
@@ -1068,7 +1077,10 @@ sub ArticleSenderTypeLookup {
     }
 
     # check cache
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key => $CacheKey,
+         );
     return $Cache if $Cache;
 
     # get database object
@@ -1104,7 +1116,12 @@ sub ArticleSenderTypeLookup {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Result );
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type => $Self->{CacheType},
+        TTL  => $Self->{CacheTTL},
+        Key => $CacheKey,
+        Value => $Result,
+         );
 
     return $Result;
 }
@@ -1148,7 +1165,10 @@ sub ArticleTypeLookup {
     }
 
     # check cache
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key => $CacheKey,
+     );
     return $Cache if $Cache;
 
     # get database object
@@ -1184,7 +1204,12 @@ sub ArticleTypeLookup {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Result );
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type => $Self->{CacheType},
+        TTL  => $Self->{CacheTTL},
+        Key => $CacheKey,
+        Value => $Result,
+         );
 
     # return
     return $Result;
@@ -1368,7 +1393,8 @@ sub ArticleIndex {
     my $CacheKey = 'ArticleIndex::' . $Param{TicketID} . '::' . ( $Param{SenderType} || 'ALL' );
 
     if ($UseCache) {
-        my $Cached = $Self->{CacheInternalObject}->Get(
+        my $Cached = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
             Key => $CacheKey,
         );
 
@@ -1410,7 +1436,9 @@ sub ArticleIndex {
     }
 
     if ($UseCache) {
-        $Self->{CacheInternalObject}->Set(
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type => $Self->{CacheType},
+        TTL  => $Self->{CacheTTL},
             Key   => $CacheKey,
             Value => \@Index,
         );
