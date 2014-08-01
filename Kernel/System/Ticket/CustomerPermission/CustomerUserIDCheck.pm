@@ -13,17 +13,19 @@ package Kernel::System::Ticket::CustomerPermission::CustomerUserIDCheck;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::System::CustomerUser',
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject TicketObject CustomerUserObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -34,23 +36,25 @@ sub Run {
     # check needed stuff
     for (qw(TicketID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
     # get ticket data
-    my %Ticket = $Self->{TicketObject}->TicketGet(
+    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
         TicketID      => $Param{TicketID},
         DynamicFields => 0,
     );
 
     # get user data
-    my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Param{UserID} );
+    my %CustomerData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+        User => $Param{UserID},
+    );
 
     # check user login, return access if customer user id is the same
-    return   if !$Ticket{CustomerUserID};
-    return 1 if ( lc $Ticket{CustomerUserID} eq lc $CustomerData{UserLogin} );
+    return if !$Ticket{CustomerUserID};
+    return 1 if lc $Ticket{CustomerUserID} eq lc $CustomerData{UserLogin};
 
     # return no access
     return;

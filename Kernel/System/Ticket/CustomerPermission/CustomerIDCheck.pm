@@ -13,21 +13,20 @@ package Kernel::System::Ticket::CustomerPermission::CustomerIDCheck;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::CustomerUser',
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject TicketObject CustomerUserObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
-    # disable output of customer company tickets
-    $Self->{DisableCompanyTickets}
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
 
     return $Self;
 }
@@ -38,25 +37,28 @@ sub Run {
     # check needed stuff
     for (qw(TicketID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
     # disable output of customer company tickets if configured
-    return if $Self->{DisableCompanyTickets};
+    return if $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
 
     # get ticket data
-    my %Ticket = $Self->{TicketObject}->TicketGet(
+    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
         TicketID      => $Param{TicketID},
         DynamicFields => 0,
     );
 
+    # get customer user object
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
     # check customer id
-    my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Param{UserID} );
+    my %CustomerData = $CustomerUserObject->CustomerUserDataGet( User => $Param{UserID} );
 
     # get customer ids
-    my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs( User => $Param{UserID} );
+    my @CustomerIDs = $CustomerUserObject->CustomerIDs( User => $Param{UserID} );
 
     # add own customer id
     if ( $CustomerData{UserCustomerID} ) {
