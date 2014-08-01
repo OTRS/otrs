@@ -246,7 +246,13 @@ sub _Start {
 
         # check for force to start option
         if (%SchedulerPID) {
-            if ( !$Param{Force} ) {
+
+            # we need to make sure sure that all other scheduler processes are stopped
+            # if there is more than one process running
+            if ( $Param{Force} ) {
+                _Stop( Force => 1 );
+            }
+            else {
                 print
                     "NOTICE: otrs.Scheduler.pl is already running (use '-f' if you want to start it forced)!\n";
 

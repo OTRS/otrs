@@ -1,4 +1,5 @@
 #3.3.9 2014-??-??
+ - 2014-08-01 Fixed bug#[10670](http://bugs.otrs.org/show_bug.cgi?id=10670) - It is possible to start the scheduler more than once.
  - 2014-07-30 Fixed bug#[10515](http://bugs.otrs.org/show_bug.cgi?id=10515) - Problem with column filter sorting
  - 2014-07-29 Fixed bug#[10598](http://bugs.otrs.org/show_bug.cgi?id=10598) - Field tags not parsed properly in auto response subject.
  - 2014-07-29 Fixed bug#[10658](http://bugs.otrs.org/show_bug.cgi?id=10658) - Issue with multiple customer company backends.
