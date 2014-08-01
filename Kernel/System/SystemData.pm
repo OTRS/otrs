@@ -12,9 +12,12 @@ package Kernel::System::SystemData;
 use strict;
 use warnings;
 
-use Kernel::System::CacheInternal;
-use Kernel::System::SysConfig;
-use Kernel::System::Valid;
+our @ObjectDependencies = (
+    'Kernel::System::Cache',
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -32,41 +35,11 @@ Provides key/value store for system data
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::SystemData;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $SystemDataObject = Kernel::System::SystemData->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-        MainObject   => $MainObject,
-        EncodeObject => $EncodeObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $ValidObject = $Kernel::OM->Get('Kernel::System::SystemData');
 
 =cut
 
@@ -77,18 +50,11 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
 
     # create additional objects
-    $Self->{ValidObject}         = Kernel::System::Valid->new( %{$Self} );
-    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        %Param,
-        Type => 'SystemData',
-        TTL  => 60 * 60 * 24 * 20,
-    );
+    $Self->{CacheType} = 'SystemData';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     return $Self;
 }
@@ -124,19 +90,21 @@ sub SystemDataAdd {
     # check needed stuff
     for (qw(Key UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     if ( !defined $Param{Value} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Value!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Need Value!" );
         return;
     }
 
     # return if key does not already exists - then we can't do an update
     my $Value = $Self->SystemDataGet( Key => $Param{Key} );
     if ( defined $Value ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't add SystemData key '$Param{Key}', it already exists!",
         );
@@ -179,13 +147,16 @@ sub SystemDataGet {
 
     # check needed stuff
     if ( !$Param{Key} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Key!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need Key!" );
         return;
     }
 
     # check cache
     my $CacheKey = 'SystemDataGet::' . $Param{Key};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
     return $Cache if $Cache;
 
     return if !$Self->{DBObject}->Prepare(
@@ -204,8 +175,10 @@ sub SystemDataGet {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set(
-        Key => $CacheKey,
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => $CacheKey,
         Value => $Value || '',
     );
 
@@ -236,13 +209,17 @@ sub SystemDataGroupGet {
 
     # check needed stuff
     if ( !$Param{Group} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Group!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Need Group!" );
         return;
     }
 
     # check cache
     my $CacheKey = 'SystemDataGetGroup::' . $Param{Group};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
     return %{$Cache} if $Cache;
 
     # get like escape string needed for some databases (e.g. oracle)
@@ -269,7 +246,9 @@ sub SystemDataGroupGet {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
         Key   => $CacheKey,
         Value => \%Result,
     );
@@ -298,19 +277,21 @@ sub SystemDataUpdate {
     # check needed stuff
     for (qw(Key UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     if ( !defined $Param{Value} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Value!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Need Value!" );
         return;
     }
 
     # return if key does not already exists - then we can't do an update
     my $Value = $Self->SystemDataGet( Key => $Param{Key} );
     if ( !defined $Value ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't update SystemData key '$Param{Key}', it does not exist!",
         );
@@ -331,7 +312,8 @@ sub SystemDataUpdate {
 
     # delete cache entry
     $Self->_SystemDataCacheKeyDelete(
-        Key => $Param{Key},
+        Type => $Self->{CacheType},
+        Key  => $Param{Key},
     );
 
     return 1;
@@ -357,7 +339,8 @@ sub SystemDataDelete {
     # check needed stuff
     for (qw(Key UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -365,7 +348,7 @@ sub SystemDataDelete {
     # return if key does not already exists - then we can't do a delete
     my $Value = $Self->SystemDataGet( Key => $Param{Key} );
     if ( !defined $Value ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't delete SystemData key '$Param{Key}', it does not exist!",
         );
@@ -411,14 +394,15 @@ sub _SystemDataCacheKeyDelete {
 
     # check needed stuff
     if ( !$Param{Key} ) {
-        $Self->{LogObject}
+        $Kernel::OM->Get('Kernel::System::Log')
             ->Log( Priority => 'error', Message => "_SystemDataCacheKeyDelete: need 'Key'!" );
         return;
     }
 
     # delete cache entry
-    $Self->{CacheInternalObject}->Delete(
-        Key => 'SystemDataGet::' . $Param{Key},
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'SystemDataGet::' . $Param{Key},
     );
 
     # delete cache for groups if needed
@@ -431,7 +415,8 @@ sub _SystemDataCacheKeyDelete {
         for my $Part (@Parts) {
             pop @Parts;
             my $CacheKey = join( '::', @Parts );
-            $Self->{CacheInternalObject}->Delete(
+            $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+                Type => $Self->{CacheType},
                 Key => 'SystemDataGetGroup::' . join( '::', @Parts ),
             );
 
