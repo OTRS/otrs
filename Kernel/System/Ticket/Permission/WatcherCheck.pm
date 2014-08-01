@@ -13,17 +13,19 @@ package Kernel::System::Ticket::Permission::WatcherCheck;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject TicketObject QueueObject UserObject GroupObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -34,19 +36,19 @@ sub Run {
     # check needed stuff
     for (qw(TicketID UserID Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
     # return if no watcher feature is active
-    return if !$Self->{ConfigObject}->Get('Ticket::Watcher');
+    return if !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Watcher');
 
     # return no acces if it's wrong permission type
     return if $Param{Type} ne 'ro';
 
     # get ticket data, return access if current user is watcher
-    my %Ticket = $Self->{TicketObject}->TicketWatchGet(
+    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketWatchGet(
         TicketID => $Param{TicketID},
     );
     return 1 if $Ticket{ $Param{UserID} };

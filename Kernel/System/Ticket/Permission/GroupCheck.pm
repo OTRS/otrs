@@ -13,17 +13,20 @@ package Kernel::System::Ticket::Permission::GroupCheck;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::System::Group',
+    'Kernel::System::Log',
+    'Kernel::System::Queue',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject TicketObject QueueObject UserObject GroupObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -34,22 +37,22 @@ sub Run {
     # check needed stuff
     for (qw(TicketID UserID Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
     # get ticket data
-    my %Ticket = $Self->{TicketObject}->TicketGet(
+    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
         TicketID      => $Param{TicketID},
         DynamicFields => 0,
     );
 
     # get ticket group
-    my $QueueGroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+    my $QueueGroupID = $Kernel::OM->Get('Kernel::System::Queue')->GetQueueGroupID( QueueID => $Ticket{QueueID} );
 
     # get user groups
-    my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
+    my @GroupIDs = $Kernel::OM->Get('Kernel::System::Group')->GroupMemberList(
         UserID => $Param{UserID},
         Type   => $Param{Type},
         Result => 'ID',
