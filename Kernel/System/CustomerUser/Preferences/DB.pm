@@ -12,10 +12,9 @@ package Kernel::System::CustomerUser::Preferences::DB;
 use strict;
 use warnings;
 
-use Kernel::System::CacheInternal;
-
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Cache',
     'Kernel::System::DB',
 );
 
@@ -26,10 +25,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        Type => 'CustomerUserPreferencesDB',
-        TTL  => 60 * 60 * 24,
-    );
+    $Self->{CacheType} = 'CustomerUserPreferencesDB';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -93,8 +90,9 @@ sub SetPreferences {
     );
 
     # delete cache
-    $Self->{CacheInternalObject}->Delete(
-        Key => $Self->{CachePrefix} . $Param{UserID},
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => $Self->{CachePrefix} . $Param{UserID},
     );
 
     return 1;
@@ -129,8 +127,9 @@ sub RenamePreferences {
     );
 
     # delete cache
-    $Self->{CacheInternalObject}->Delete(
-        Key => $Self->{CachePrefix} . $Param{OldUserID},
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => $Self->{CachePrefix} . $Param{OldUserID},
     );
 
     return 1;
@@ -142,8 +141,9 @@ sub GetPreferences {
     return if !$Param{UserID};
 
     # read cache
-    my $Cache = $Self->{CacheInternalObject}->Get(
-        Key => $Self->{CachePrefix} . $Param{UserID},
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $Self->{CachePrefix} . $Param{UserID},
     );
     return %{$Cache} if $Cache;
 
@@ -166,7 +166,9 @@ sub GetPreferences {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
         Key   => $Self->{CachePrefix} . $Param{UserID},
         Value => \%Data,
     );
