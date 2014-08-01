@@ -17,6 +17,7 @@ use Scalar::Util;
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
+    'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
     'Kernel::System::Ticket',
 );
@@ -98,9 +99,7 @@ sub PostValueSet {
         }
     }
 
-    # Don't hold a permanent reference to the TicketObject.
-    #   This is because the TicketObject has a Kernel::DynamicField::Backend object, which has this
-    #   object, which has a TicketObject again. Without weaken() we'd have a cyclic reference.
+    # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     my %Ticket = $TicketObject->TicketGet(
@@ -111,14 +110,17 @@ sub PostValueSet {
     my $HistoryValue    = defined $Param{Value}    ? $Param{Value}    : '';
     my $HistoryOldValue = defined $Param{OldValue} ? $Param{OldValue} : '';
 
+    # get dynamic field backend object
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
     # get value for storing
-    my $ValueStrg = $TicketObject->{DynamicFieldBackendObject}->ReadableValueRender(
+    my $ValueStrg = $DynamicFieldBackendObject->ReadableValueRender(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         Value              => $HistoryValue,
     );
     $HistoryValue = $ValueStrg->{Value};
 
-    my $OldValueStrg = $TicketObject->{DynamicFieldBackendObject}->ReadableValueRender(
+    my $OldValueStrg = $DynamicFieldBackendObject->ReadableValueRender(
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         Value              => $HistoryOldValue,
     );
@@ -132,9 +134,9 @@ sub PostValueSet {
         $FieldName = $Param{DynamicFieldConfig}->{Name};
     }
 
-    my $FieldNameLength       = length($FieldName);
-    my $HistoryValueLength    = length($HistoryValue);
-    my $HistoryOldValueLength = length($HistoryOldValue);
+    my $FieldNameLength       = length $FieldName || 0;
+    my $HistoryValueLength    = length $HistoryValue || 0;
+    my $HistoryOldValueLength = length $HistoryOldValue || 0;
 
 # Name in ticket_history is like this form "\%\%FieldName\%\%$FieldName\%\%Value\%\%$HistoryValue\%\%OldValue\%\%$HistoryOldValue" up to 200 chars
 # \%\%FieldName\%\% is 13 chars
@@ -187,6 +189,9 @@ sub PostValueSet {
             }
         }
     }
+
+    $HistoryValue //= '';
+    $HistoryOldValue //= '';
 
     # history insert
     $TicketObject->HistoryAdd(
