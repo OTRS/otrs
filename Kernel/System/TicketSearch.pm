@@ -12,8 +12,10 @@ package Kernel::System::TicketSearch;
 use strict;
 use warnings;
 
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
+our @ObjectDependencies = (
+
+);
+our $ObjectManagerAware = 1;
 
 ## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
 
@@ -315,7 +317,7 @@ sub TicketSearch {
 
     # check required params
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need UserID or CustomerUserID params for permission check!',
         );
@@ -336,12 +338,15 @@ sub TicketSearch {
         next ARGUMENT if ref $Param{$Key} eq 'ARRAY' && @{ $Param{$Key} };
 
         # log error
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "The given param '$Key' is invalid or an empty array reference!",
         );
         return;
     }
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # quote id array elements
     ARGUMENT:
@@ -356,10 +361,10 @@ sub TicketSearch {
 
         # quote elements
         for my $Element ( @{ $Param{$Key} } ) {
-            if ( !defined $Self->{DBObject}->Quote( $Element, 'Integer' ) ) {
+            if ( !defined $DBObject->Quote( $Element, 'Integer' ) ) {
 
                 # log error
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "The given param '$Element' in '$Key' is invalid!",
                 );
@@ -367,10 +372,6 @@ sub TicketSearch {
             }
         }
     }
-
-    $Self->{DynamicFieldObject} ||= Kernel::System::DynamicField->new( %{$Self} );
-    $Self->{DynamicFieldBackendObject}
-        ||= Kernel::System::DynamicField::Backend->new( %{$Self} );
 
     my $TicketDynamicFields  = [];
     my $ArticleDynamicFields = [];
@@ -390,8 +391,11 @@ sub TicketSearch {
 
     if ( $ParamCheckString =~ m/DynamicField_/smx ) {
 
+        # get dynamic field object
+        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
         # Check all configured ticket dynamic fields
-        $TicketDynamicFields = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        $TicketDynamicFields = $DynamicFieldObject->DynamicFieldListGet(
             ObjectType => 'Ticket',
         );
 
@@ -401,7 +405,7 @@ sub TicketSearch {
         }
 
         # Check all configured article dynamic fields
-        $ArticleDynamicFields = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        $ArticleDynamicFields = $DynamicFieldObject->DynamicFieldListGet(
             ObjectType => 'Article',
         );
 
@@ -428,14 +432,14 @@ sub TicketSearch {
             && !$ValidDynamicFieldParams{ $SortByArray[$Count] }
             )
         {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Need valid SortBy (' . $SortByArray[$Count] . ')!',
             );
             return;
         }
         if ( $OrderByArray[$Count] ne 'Down' && $OrderByArray[$Count] ne 'Up' ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Need valid OrderBy (' . $OrderByArray[$Count] . ')!',
             );
@@ -478,7 +482,7 @@ sub TicketSearch {
     # Limit the search to just one TicketID (used by the GenericAgent
     #   to filter for events on single tickets with the job's ticket filter).
     if ( $Param{TicketID} ) {
-        $SQLExt .= ' AND st.id = ' . $Self->{DBObject}->Quote( $Param{TicketID}, 'Integer' );
+        $SQLExt .= ' AND st.id = ' . $DBObject->Quote( $Param{TicketID}, 'Integer' );
     }
 
     # add ticket flag table
@@ -492,10 +496,14 @@ sub TicketSearch {
 
     # current type lookup
     if ( $Param{Types} ) {
+
+        # get type object
+        my $TypeObject = $Kernel::OM->Get('Kernel::System::Type');
+
         for my $Type ( @{ $Param{Types} } ) {
 
             # lookup type id
-            my $TypeID = $Self->{TypeObject}->TypeLookup(
+            my $TypeID = $TypeObject->TypeLookup(
                 Type => $Type,
             );
             return if !$TypeID;
@@ -513,13 +521,19 @@ sub TicketSearch {
 
     # created types lookup
     if ( $Param{CreatedTypes} ) {
+
+        # get type object
+        my $TypeObject = $Kernel::OM->Get('Kernel::System::Type');
+
         for my $Type ( @{ $Param{CreatedTypes} } ) {
 
             # lookup type id
-            my $TypeID = $Self->{TypeObject}->TypeLookup(
+            my $TypeID = $TypeObject->TypeLookup(
                 Type => $Type,
             );
+
             return if !$TypeID;
+
             push @{ $Param{CreatedTypeIDs} }, $TypeID;
         }
     }
@@ -545,13 +559,19 @@ sub TicketSearch {
 
     # current state lookup
     if ( $Param{States} ) {
+
+        # get state object
+        my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+
         for my $State ( @{ $Param{States} } ) {
 
             # get state data
-            my %StateData = $Self->{StateObject}->StateGet(
+            my %StateData = $StateObject->StateGet(
                 Name => $State,
             );
+
             return if !%StateData;
+
             push @{ $Param{StateIDs} }, $StateData{ID};
         }
     }
@@ -566,13 +586,19 @@ sub TicketSearch {
 
     # created states lookup
     if ( $Param{CreatedStates} ) {
+
+        # get state object
+        my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+
         for my $State ( @{ $Param{CreatedStates} } ) {
 
             # get state data
-            my %StateData = $Self->{StateObject}->StateGet(
+            my %StateData = $StateObject->StateGet(
                 Name => $State,
             );
+
             return if !%StateData;
+
             push @{ $Param{CreatedStateIDs} }, $StateData{ID};
         }
     }
@@ -601,14 +627,14 @@ sub TicketSearch {
     # Open   -> All states which are grouped as open (new, open, pending, ...)
     # Closed -> All states which are grouped as closed (closed successful, closed unsuccessful)
     if ( $Param{StateType} && $Param{StateType} eq 'Open' ) {
-        my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
+        my @ViewableStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
             Type   => 'Viewable',
             Result => 'ID',
         );
         $SQLExt .= " AND st.ticket_state_id IN ( ${\(join ', ', sort @ViewableStateIDs)} ) ";
     }
     elsif ( $Param{StateType} && $Param{StateType} eq 'Closed' ) {
-        my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
+        my @ViewableStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
             Type   => 'Viewable',
             Result => 'ID',
         );
@@ -617,7 +643,7 @@ sub TicketSearch {
 
     # current ticket state type
     elsif ( $Param{StateType} ) {
-        my @StateIDs = $Self->{StateObject}->StateGetStatesByType(
+        my @StateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
             StateType => $Param{StateType},
             Result    => 'ID',
         );
@@ -626,27 +652,36 @@ sub TicketSearch {
     }
 
     if ( $Param{StateTypeIDs} ) {
-        my %StateTypeList = $Self->{StateObject}->StateTypeList(
+
+        # get state object
+        my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+
+        my %StateTypeList = $StateObject->StateTypeList(
             UserID => $Param{UserID} || 1,
         );
         my @StateTypes = map { $StateTypeList{$_} } @{ $Param{StateTypeIDs} };
-        my @StateIDs = $Self->{StateObject}->StateGetStatesByType(
+        my @StateIDs = $StateObject->StateGetStatesByType(
             StateType => \@StateTypes,
             Result    => 'ID',
         );
+
         return if !$StateIDs[0];
+
         $SQLExt .= " AND st.ticket_state_id IN ( ${\(join ', ', sort {$a <=> $b} @StateIDs)} ) ";
     }
 
     # current lock lookup
     if ( $Param{Locks} ) {
+
         for my $Lock ( @{ $Param{Locks} } ) {
 
             # lookup lock id
-            my $LockID = $Self->{LockObject}->LockLookup(
+            my $LockID = $Kernel::OM->Get('Kernel::System::Lock')->LockLookup(
                 Lock => $Lock,
             );
+
             return if !$LockID;
+
             push @{ $Param{LockIDs} }, $LockID;
         }
     }
@@ -696,29 +731,43 @@ sub TicketSearch {
 
     # current queue lookup
     if ( $Param{Queues} ) {
+
+        # get queue object
+        my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+
         for my $Queue ( @{ $Param{Queues} } ) {
 
             # lookup queue id
-            my $QueueID = $Self->{QueueObject}->QueueLookup(
+            my $QueueID = $QueueObject->QueueLookup(
                 Queue => $Queue,
             );
+
             return if !$QueueID;
+
             push @{ $Param{QueueIDs} }, $QueueID;
         }
     }
 
     # current sub queue ids
     if ( $Param{UseSubQueues} && $Param{QueueIDs} ) {
+
+        # get queue object
+        my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+
         my @SubQueueIDs;
-        my %Queues = $Self->{QueueObject}->GetAllQueues();
+        my %Queues = $QueueObject->GetAllQueues();
+
         for my $QueueID ( @{ $Param{QueueIDs} } ) {
-            my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID );
+
+            my $Queue = $QueueObject->QueueLookup( QueueID => $QueueID );
+
             for my $QueuesID ( sort keys %Queues ) {
                 if ( $Queues{$QueuesID} =~ /^\Q$Queue\E::/i ) {
                     push @SubQueueIDs, $QueuesID;
                 }
             }
         }
+
         push @{ $Param{QueueIDs} }, @SubQueueIDs;
     }
 
@@ -732,13 +781,19 @@ sub TicketSearch {
 
     # created queue lookup
     if ( $Param{CreatedQueues} ) {
+
+        # get queue object
+        my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+
         for my $Queue ( @{ $Param{CreatedQueues} } ) {
 
             # lookup queue id
-            my $QueueID = $Self->{QueueObject}->QueueLookup(
+            my $QueueID = $QueueObject->QueueLookup(
                 Queue => $Queue,
             );
+
             return if !$QueueID;
+
             push @{ $Param{CreatedQueueIDs} }, $QueueID;
         }
     }
@@ -768,7 +823,7 @@ sub TicketSearch {
     if ( $Param{UserID} && $Param{UserID} != 1 ) {
 
         # get users groups
-        @GroupIDs = $Self->{GroupObject}->GroupMemberList(
+        @GroupIDs = $Kernel::OM->Get('Kernel::System::Group')->GroupMemberList(
             UserID => $Param{UserID},
             Type   => $Param{Permission} || 'ro',
             Result => 'ID',
@@ -780,7 +835,8 @@ sub TicketSearch {
 
     # customer groups
     elsif ( $Param{CustomerUserID} ) {
-        @GroupIDs = $Self->{CustomerGroupObject}->GroupMemberList(
+
+        @GroupIDs = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupMemberList(
             UserID => $Param{CustomerUserID},
             Type   => $Param{Permission} || 'ro',
             Result => 'ID',
@@ -791,14 +847,14 @@ sub TicketSearch {
 
         # get all customer ids
         $SQLExt .= ' AND (';
-        my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(
+        my @CustomerIDs = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerIDs(
             User => $Param{CustomerUserID},
         );
 
         if (@CustomerIDs) {
 
             my $Lower = '';
-            if ( $Self->{DBObject}->GetDatabaseFunction('CaseSensitive') ) {
+            if ( $DBObject->GetDatabaseFunction('CaseSensitive') ) {
                 $Lower = 'LOWER';
             }
 
@@ -813,13 +869,13 @@ sub TicketSearch {
                 else {
                     $Exists = 1;
                 }
-                $SQLExt .= "$Lower('" . $Self->{DBObject}->Quote($_) . "')";
+                $SQLExt .= "$Lower('" . $DBObject->Quote($_) . "')";
             }
             $SQLExt .= ') OR ';
         }
 
         # get all own tickets
-        my $CustomerUserIDQuoted = $Self->{DBObject}->Quote( $Param{CustomerUserID} );
+        my $CustomerUserIDQuoted = $DBObject->Quote( $Param{CustomerUserID} );
         $SQLExt .= "st.customer_user_id = '$CustomerUserIDQuoted') ";
     }
 
@@ -830,13 +886,19 @@ sub TicketSearch {
 
     # current priority lookup
     if ( $Param{Priorities} ) {
+
+        # get priority object
+        my $PriorityObject = $Kernel::OM->Get('Kernel::System::Priority');
+
         for my $Priority ( @{ $Param{Priorities} } ) {
 
             # lookup priority id
-            my $PriorityID = $Self->{PriorityObject}->PriorityLookup(
+            my $PriorityID = $PriorityObject->PriorityLookup(
                 Priority => $Priority,
             );
+
             return if !$PriorityID;
+
             push @{ $Param{PriorityIDs} }, $PriorityID;
         }
     }
@@ -851,13 +913,19 @@ sub TicketSearch {
 
     # created priority lookup
     if ( $Param{CreatedPriorities} ) {
+
+        # get priority object
+        my $PriorityObject = $Kernel::OM->Get('Kernel::System::Priority');
+
         for my $Priority ( @{ $Param{CreatedPriorities} } ) {
 
             # lookup priority id
-            my $PriorityID = $Self->{PriorityObject}->PriorityLookup(
+            my $PriorityID = $PriorityObject->PriorityLookup(
                 Priority => $Priority,
             );
+
             return if !$PriorityID;
+
             push @{ $Param{CreatedPriorityIDs} }, $PriorityID;
         }
     }
@@ -883,13 +951,19 @@ sub TicketSearch {
 
     # current service lookup
     if ( $Param{Services} ) {
+
+        # get service object
+        my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
+
         for my $Service ( @{ $Param{Services} } ) {
 
             # lookup service id
-            my $ServiceID = $Self->{ServiceObject}->ServiceLookup(
+            my $ServiceID = $ServiceObject->ServiceLookup(
                 Name => $Service,
             );
+
             return if !$ServiceID;
+
             push @{ $Param{ServiceIDs} }, $ServiceID;
         }
     }
@@ -904,13 +978,19 @@ sub TicketSearch {
 
     # current sla lookup
     if ( $Param{SLAs} ) {
+
+        # get sla object
+        my $SLAObject = $Kernel::OM->Get('Kernel::System::SLA');
+
         for my $SLA ( @{ $Param{SLAs} } ) {
 
             # lookup sla id
-            my $SLAID = $Self->{SLAObject}->SLALookup(
+            my $SLAID = $SLAObject->SLALookup(
                 Name => $SLA,
             );
+
             return if !$SLAID;
+
             push @{ $Param{SLAIDs} }, $SLAID;
         }
     }
@@ -942,10 +1022,10 @@ sub TicketSearch {
             my $Value = $Param{TicketFlag}->{$Key};
             return if !defined $Value;
 
-            $SQLExt .= " AND tf$Index.ticket_key = '" . $Self->{DBObject}->Quote($Key) . "'";
-            $SQLExt .= " AND tf$Index.ticket_value = '" . $Self->{DBObject}->Quote($Value) . "'";
+            $SQLExt .= " AND tf$Index.ticket_key = '" . $DBObject->Quote($Key) . "'";
+            $SQLExt .= " AND tf$Index.ticket_value = '" . $DBObject->Quote($Value) . "'";
             $SQLExt .= " AND tf$Index.create_by = "
-                . $Self->{DBObject}->Quote( $TicketFlagUserID, 'Integer' );
+                . $DBObject->Quote( $TicketFlagUserID, 'Integer' );
 
             $Index++;
         }
@@ -1010,12 +1090,12 @@ sub TicketSearch {
             }
 
             if ( $Key eq 'CustomerIDRaw' || $Key eq 'CustomerUserLoginRaw' ) {
-                $SQLExt .= " $FieldSQLMap{$Key}= '" . $Self->{DBObject}->Quote($Value) . "'";
+                $SQLExt .= " $FieldSQLMap{$Key}= '" . $DBObject->Quote($Value) . "'";
             }
             else {
 
                 # use search condition extension
-                $SQLExt .= $Self->{DBObject}->QueryCondition(
+                $SQLExt .= $DBObject->QueryCondition(
                     Key   => $FieldSQLMap{$Key},
                     Value => $Value,
                     %ConditionFocus,
@@ -1034,6 +1114,9 @@ sub TicketSearch {
     # Remember already joined tables for sorting.
     my %DynamicFieldJoinTables;
     my $DynamicFieldJoinCounter = 1;
+
+    # get dynamic field backend object
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     DYNAMIC_FIELD:
     for my $DynamicField ( @{$TicketDynamicFields}, @{$ArticleDynamicFields} ) {
@@ -1063,13 +1146,13 @@ sub TicketSearch {
                 next TEXT if $Text =~ /^\%{1,3}$/;
 
                 # validate data type
-                my $ValidateSuccess = $Self->{DynamicFieldBackendObject}->ValueValidate(
+                my $ValidateSuccess = $DynamicFieldBackendObject->ValueValidate(
                     DynamicFieldConfig => $DynamicField,
                     Value              => $Text,
                     UserID             => $Param{UserID} || 1,
                 );
                 if ( !$ValidateSuccess ) {
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
                         Message =>
                             "Search not executed due to invalid value '"
@@ -1084,7 +1167,7 @@ sub TicketSearch {
                 if ($Counter) {
                     $SQLExtSub .= ' OR ';
                 }
-                $SQLExtSub .= $Self->{DynamicFieldBackendObject}->SearchSQLGet(
+                $SQLExtSub .= $DynamicFieldBackendObject->SearchSQLGet(
                     DynamicFieldConfig => $DynamicField,
                     TableAlias         => "dfv$DynamicFieldJoinCounter",
                     Operator           => $Operator,
@@ -1108,7 +1191,7 @@ sub TicketSearch {
                 $SQLFrom .= "INNER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
                     ON (st.id = dfv$DynamicFieldJoinCounter.object_id
                         AND dfv$DynamicFieldJoinCounter.field_id = " .
-                    $Self->{DBObject}->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+                    $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
             }
             elsif ( $DynamicField->{ObjectType} eq 'Article' ) {
                 if ( !$ArticleJoinSQL ) {
@@ -1119,7 +1202,7 @@ sub TicketSearch {
                 $SQLFrom .= "INNER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
                     ON (art.id = dfv$DynamicFieldJoinCounter.object_id
                         AND dfv$DynamicFieldJoinCounter.field_id = " .
-                    $Self->{DBObject}->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+                    $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
 
             }
 
@@ -1129,8 +1212,11 @@ sub TicketSearch {
         }
     }
 
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     # remember current time to prevent searches for future timestamps
-    my $CurrentSystemTime = $Self->{TimeObject}->SystemTime();
+    my $CurrentSystemTime = $TimeObject->SystemTime();
 
     # get articles created older/newer than x minutes or older/newer than a date
     my %ArticleTime = (
@@ -1143,7 +1229,7 @@ sub TicketSearch {
 
             $Param{ $Key . 'OlderMinutes' } ||= 0;
 
-            my $Time = $Self->{TimeObject}->SystemTime()
+            my $Time = $TimeObject->SystemTime()
                 - ( $Param{ $Key . 'OlderMinutes' } * 60 );
 
             $SQLExt .= " AND $ArticleTime{$Key} <= '$Time'";
@@ -1154,7 +1240,7 @@ sub TicketSearch {
 
             $Param{ $Key . 'NewerMinutes' } ||= 0;
 
-            my $Time = $Self->{TimeObject}->SystemTime()
+            my $Time = $TimeObject->SystemTime()
                 - ( $Param{ $Key . 'NewerMinutes' } * 60 );
 
             $SQLExt .= " AND $ArticleTime{$Key} >= '$Time'";
@@ -1168,7 +1254,7 @@ sub TicketSearch {
                 !~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
                 )
             {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Invalid time format '" . $Param{ $Key . 'OlderDate' } . "'!",
                 );
@@ -1176,7 +1262,7 @@ sub TicketSearch {
             }
 
             # convert param date to system time
-            my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
+            my $SystemTime = $TimeObject->Date2SystemTime(
                 Year   => $1,
                 Month  => $2,
                 Day    => $3,
@@ -1185,7 +1271,7 @@ sub TicketSearch {
                 Second => $6,
             );
             if ( !$SystemTime ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message =>
                         "Search not executed due to invalid time '"
@@ -1206,7 +1292,7 @@ sub TicketSearch {
                 !~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
                 )
             {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Invalid time format '" . $Param{ $Key . 'NewerDate' } . "'!",
                 );
@@ -1214,7 +1300,7 @@ sub TicketSearch {
             }
 
             # convert param date to system time
-            my $SystemTime = $Self->{TimeObject}->Date2SystemTime(
+            my $SystemTime = $TimeObject->Date2SystemTime(
                 Year   => $1,
                 Month  => $2,
                 Day    => $3,
@@ -1223,7 +1309,7 @@ sub TicketSearch {
                 Second => $6,
             );
             if ( !$SystemTime ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message =>
                         "Search not executed due to invalid time '"
@@ -1262,7 +1348,7 @@ sub TicketSearch {
                 $SQLExt .= " AND $TicketTime{$Key} != 0";
             }
 
-            my $Time = $Self->{TimeObject}->SystemTime();
+            my $Time = $TimeObject->SystemTime();
             $Time -= ( $Param{ $Key . 'OlderMinutes' } * 60 );
 
             $SQLExt .= " AND $TicketTime{$Key} <= $Time";
@@ -1278,7 +1364,7 @@ sub TicketSearch {
                 $SQLExt .= " AND $TicketTime{$Key} != 0";
             }
 
-            my $Time = $Self->{TimeObject}->SystemTime();
+            my $Time = $TimeObject->SystemTime();
             $Time -= ( $Param{ $Key . 'NewerMinutes' } * 60 );
 
             $SQLExt .= " AND $TicketTime{$Key} >= $Time";
@@ -1298,7 +1384,7 @@ sub TicketSearch {
                 !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
                 )
             {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Invalid time format '" . $Param{ $Key . 'OlderDate' } . "'!",
                 );
@@ -1309,11 +1395,11 @@ sub TicketSearch {
             if ( $Key =~ m{ \A TicketEscalation }xms ) {
                 $SQLExt .= " AND $TicketTime{$Key} != 0";
             }
-            my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
+            my $Time = $TimeObject->TimeStamp2SystemTime(
                 String => $Param{ $Key . 'OlderDate' },
             );
             if ( !$Time ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message =>
                         "Search not executed due to invalid time '"
@@ -1333,7 +1419,7 @@ sub TicketSearch {
                 !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
                 )
             {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Invalid time format '" . $Param{ $Key . 'NewerDate' } . "'!",
                 );
@@ -1344,11 +1430,11 @@ sub TicketSearch {
             if ( $Key =~ m{ \A TicketEscalation }xms ) {
                 $SQLExt .= " AND $TicketTime{$Key} != 0";
             }
-            my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
+            my $Time = $TimeObject->TimeStamp2SystemTime(
                 String => $Param{ $Key . 'NewerDate' },
             );
             if ( !$Time ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message =>
                         "Search not executed due to invalid time '"
@@ -1372,10 +1458,10 @@ sub TicketSearch {
 
         $Param{TicketChangeTimeOlderMinutes} ||= 0;
 
-        my $TimeStamp = $Self->{TimeObject}->SystemTime();
+        my $TimeStamp = $TimeObject->SystemTime();
         $TimeStamp -= ( $Param{TicketChangeTimeOlderMinutes} * 60 );
 
-        $Param{TicketChangeTimeOlderDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
+        $Param{TicketChangeTimeOlderDate} = $TimeObject->SystemTime2TimeStamp(
             SystemTime => $TimeStamp,
         );
     }
@@ -1385,10 +1471,10 @@ sub TicketSearch {
 
         $Param{TicketChangeTimeNewerMinutes} ||= 0;
 
-        my $TimeStamp = $Self->{TimeObject}->SystemTime();
+        my $TimeStamp = $TimeObject->SystemTime();
         $TimeStamp -= ( $Param{TicketChangeTimeNewerMinutes} * 60 );
 
-        $Param{TicketChangeTimeNewerDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
+        $Param{TicketChangeTimeNewerDate} = $TimeObject->SystemTime2TimeStamp(
             SystemTime => $TimeStamp,
         );
     }
@@ -1403,17 +1489,17 @@ sub TicketSearch {
             !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
             )
         {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Invalid time format '$Param{TicketChangeTimeOlderDate}'!",
             );
             return;
         }
-        my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
+        my $Time = $TimeObject->TimeStamp2SystemTime(
             String => $Param{TicketChangeTimeOlderDate},
         );
         if ( !$Time ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
                     "Search not executed due to invalid time '"
@@ -1424,7 +1510,7 @@ sub TicketSearch {
         $CompareChangeTimeOlderNewerDate = $Time;
 
         $SQLExt .= " AND th.create_time <= '"
-            . $Self->{DBObject}->Quote( $Param{TicketChangeTimeOlderDate} ) . "'";
+            . $DBObject->Quote( $Param{TicketChangeTimeOlderDate} ) . "'";
     }
 
     # get tickets changed newer than xxxx-xx-xx xx:xx date
@@ -1434,17 +1520,17 @@ sub TicketSearch {
             !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
             )
         {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Invalid time format '$Param{TicketChangeTimeNewerDate}'!",
             );
             return;
         }
-        my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
+        my $Time = $TimeObject->TimeStamp2SystemTime(
             String => $Param{TicketChangeTimeNewerDate},
         );
         if ( !$Time ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
                     "Search not executed due to invalid time '"
@@ -1460,7 +1546,7 @@ sub TicketSearch {
         return if $CompareChangeTimeOlderNewerDate && $Time > $CompareChangeTimeOlderNewerDate;
 
         $SQLExt .= " AND th.create_time >= '"
-            . $Self->{DBObject}->Quote( $Param{TicketChangeTimeNewerDate} ) . "'";
+            . $DBObject->Quote( $Param{TicketChangeTimeNewerDate} ) . "'";
     }
 
     # get tickets closed older than x minutes
@@ -1468,10 +1554,10 @@ sub TicketSearch {
 
         $Param{TicketCloseTimeOlderMinutes} ||= 0;
 
-        my $TimeStamp = $Self->{TimeObject}->SystemTime();
+        my $TimeStamp = $TimeObject->SystemTime();
         $TimeStamp -= ( $Param{TicketCloseTimeOlderMinutes} * 60 );
 
-        $Param{TicketCloseTimeOlderDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
+        $Param{TicketCloseTimeOlderDate} = $TimeObject->SystemTime2TimeStamp(
             SystemTime => $TimeStamp,
         );
     }
@@ -1481,10 +1567,10 @@ sub TicketSearch {
 
         $Param{TicketCloseTimeNewerMinutes} ||= 0;
 
-        my $TimeStamp = $Self->{TimeObject}->SystemTime();
+        my $TimeStamp = $TimeObject->SystemTime();
         $TimeStamp -= ( $Param{TicketCloseTimeNewerMinutes} * 60 );
 
-        $Param{TicketCloseTimeNewerDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
+        $Param{TicketCloseTimeNewerDate} = $TimeObject->SystemTime2TimeStamp(
             SystemTime => $TimeStamp,
         );
     }
@@ -1499,17 +1585,17 @@ sub TicketSearch {
             !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
             )
         {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Invalid time format '$Param{TicketCloseTimeOlderDate}'!",
             );
             return;
         }
-        my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
+        my $Time = $TimeObject->TimeStamp2SystemTime(
             String => $Param{TicketCloseTimeOlderDate},
         );
         if ( !$Time ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
                     "Search not executed due to invalid time '"
@@ -1520,7 +1606,7 @@ sub TicketSearch {
         $CompareCloseTimeOlderNewerDate = $Time;
 
         # get close state ids
-        my @List = $Self->{StateObject}->StateGetStatesByType(
+        my @List = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
             StateType => ['closed'],
             Result    => 'ID',
         );
@@ -1530,7 +1616,7 @@ sub TicketSearch {
             $SQLExt .= " AND th.history_type_id IN  (${\(join ', ', sort @StateID)}) AND "
                 . " th.state_id IN (${\(join ', ', sort @List)}) AND "
                 . "th.create_time <= '"
-                . $Self->{DBObject}->Quote( $Param{TicketCloseTimeOlderDate} ) . "'";
+                . $DBObject->Quote( $Param{TicketCloseTimeOlderDate} ) . "'";
         }
     }
 
@@ -1541,17 +1627,17 @@ sub TicketSearch {
             !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
             )
         {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Invalid time format '$Param{TicketCloseTimeNewerDate}'!",
             );
             return;
         }
-        my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
+        my $Time = $TimeObject->TimeStamp2SystemTime(
             String => $Param{TicketCloseTimeNewerDate},
         );
         if ( !$Time ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
                     "Search not executed due to invalid time '"
@@ -1567,7 +1653,7 @@ sub TicketSearch {
         return if $CompareCloseTimeOlderNewerDate && $Time > $CompareCloseTimeOlderNewerDate;
 
         # get close state ids
-        my @List = $Self->{StateObject}->StateGetStatesByType(
+        my @List = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
             StateType => ['closed'],
             Result    => 'ID',
         );
@@ -1577,7 +1663,7 @@ sub TicketSearch {
             $SQLExt .= " AND th.history_type_id IN  (${\(join ', ', sort @StateID)}) AND "
                 . " th.state_id IN (${\(join ', ', sort @List)}) AND "
                 . " th.create_time >= '"
-                . $Self->{DBObject}->Quote( $Param{TicketCloseTimeNewerDate} ) . "'";
+                . $DBObject->Quote( $Param{TicketCloseTimeNewerDate} ) . "'";
         }
     }
 
@@ -1591,7 +1677,7 @@ sub TicketSearch {
     {
 
         # get close state ids
-        my @List = $Self->{StateObject}->StateGetStatesByType(
+        my @List = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
             StateType => [ 'pending reminder', 'pending auto' ],
             Result => 'ID',
         );
@@ -1605,10 +1691,10 @@ sub TicketSearch {
 
         $Param{TicketPendingTimeOlderMinutes} ||= 0;
 
-        my $TimeStamp = $Self->{TimeObject}->SystemTime();
+        my $TimeStamp = $TimeObject->SystemTime();
         $TimeStamp -= ( $Param{TicketPendingTimeOlderMinutes} * 60 );
 
-        $Param{TicketPendingTimeOlderDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
+        $Param{TicketPendingTimeOlderDate} = $TimeObject->SystemTime2TimeStamp(
             SystemTime => $TimeStamp,
         );
     }
@@ -1618,10 +1704,10 @@ sub TicketSearch {
 
         $Param{TicketPendingTimeNewerMinutes} ||= 0;
 
-        my $TimeStamp = $Self->{TimeObject}->SystemTime();
+        my $TimeStamp = $TimeObject->SystemTime();
         $TimeStamp -= ( $Param{TicketPendingTimeNewerMinutes} * 60 );
 
-        $Param{TicketPendingTimeNewerDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
+        $Param{TicketPendingTimeNewerDate} = $TimeObject->SystemTime2TimeStamp(
             SystemTime => $TimeStamp,
         );
     }
@@ -1636,17 +1722,17 @@ sub TicketSearch {
             !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
             )
         {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Invalid time format '$Param{TicketPendingTimeOlderDate}'!",
             );
             return;
         }
-        my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
+        my $TimeStamp = $TimeObject->TimeStamp2SystemTime(
             String => $Param{TicketPendingTimeOlderDate},
         );
         if ( !$TimeStamp ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
                     "Search not executed due to invalid time '"
@@ -1666,17 +1752,17 @@ sub TicketSearch {
             !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
             )
         {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Invalid time format '$Param{TicketPendingTimeNewerDate}'!",
             );
             return;
         }
-        my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
+        my $TimeStamp = $TimeObject->TimeStamp2SystemTime(
             String => $Param{TicketPendingTimeNewerDate},
         );
         if ( !$TimeStamp ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
                     "Search not executed due to invalid time '"
@@ -1696,7 +1782,7 @@ sub TicketSearch {
     }
 
     # archive flag
-    if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ArchiveSystem') ) {
 
         # if no flag is given, only search for not archived ticket
         if ( !$Param{ArchiveFlags} ) {
@@ -1705,7 +1791,7 @@ sub TicketSearch {
 
         # prepare search with archive flags, check arguments
         if ( ref $Param{ArchiveFlags} ne 'ARRAY' ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Invalid attribute ArchiveFlags '$Param{ArchiveFlags}'!",
             );
@@ -1756,7 +1842,7 @@ sub TicketSearch {
                             .= " LEFT OUTER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
                             ON (st.id = dfv$DynamicFieldJoinCounter.object_id
                                 AND dfv$DynamicFieldJoinCounter.field_id = " .
-                            $Self->{DBObject}->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+                            $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
                     }
                     elsif ( $ArticleDynamicFieldName2Config{$DynamicFieldName} ) {
                         if ( !$ArticleJoinSQL ) {
@@ -1768,7 +1854,7 @@ sub TicketSearch {
                             .= " LEFT OUTER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
                             ON (art.id = dfv$DynamicFieldJoinCounter.object_id
                                 AND dfv$DynamicFieldJoinCounter.field_id = " .
-                            $Self->{DBObject}->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
+                            $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
                     }
 
                     $DynamicFieldJoinTables{ $DynamicField->{Name} }
@@ -1777,7 +1863,7 @@ sub TicketSearch {
                     $DynamicFieldJoinCounter++;
                 }
 
-                my $SQLOrderField = $Self->{DynamicFieldBackendObject}->SearchSQLOrderFieldGet(
+                my $SQLOrderField = $DynamicFieldBackendObject->SearchSQLOrderFieldGet(
                     DynamicFieldConfig => $DynamicField,
                     TableAlias         => $DynamicFieldJoinTables{$DynamicFieldName},
                 );
@@ -1820,7 +1906,7 @@ sub TicketSearch {
             elsif ( ref $CacheData eq '' ) {
                 return $CacheData;
             }
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Invalid ref ' . ref($CacheData) . '!'
             );
@@ -1833,8 +1919,8 @@ sub TicketSearch {
     my @TicketIDs;
     my $Count;
     return
-        if !$Self->{DBObject}->Prepare( SQL => $SQLSelect . $SQLFrom . $SQLExt, Limit => $Limit );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        if !$DBObject->Prepare( SQL => $SQLSelect . $SQLFrom . $SQLExt, Limit => $Limit );
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Count = $Row[0];
         $Tickets{ $Row[0] } = $Row[1];
         push @TicketIDs, $Row[0];
@@ -1905,7 +1991,7 @@ sub _InConditionGet {
     # check needed stuff
     for my $Key (qw(TableColumn IDRef)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Key!",
             );
@@ -1918,7 +2004,7 @@ sub _InConditionGet {
 
     # quote values
     for my $Value (@SortedIDs) {
-        return if !defined $Self->{DBObject}->Quote( $Value, 'Integer' );
+        return if !defined $Kernel::OM->Get('Kernel::System::DB')->Quote( $Value, 'Integer' );
     }
 
     return " AND $Param{TableColumn} IN (" . ( join ',', @SortedIDs ) . ")";

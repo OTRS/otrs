@@ -14,6 +14,24 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::CustomerGroup',
+    'Kernel::System::CustomerUser',
+    'Kernel::System::Group',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Priority',
+    'Kernel::System::ProcessManagement::ActivityDialog',
+    'Kernel::System::Queue',
+    'Kernel::System::SLA',
+    'Kernel::System::Service',
+    'Kernel::System::State',
+    'Kernel::System::Type',
+    'Kernel::System::User',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::TicketACL - ticket ACL lib
@@ -152,7 +170,7 @@ sub TicketAcl {
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need UserID or CustomerUserID!',
         );
@@ -162,7 +180,7 @@ sub TicketAcl {
     # check needed stuff
     for my $Needed (qw(ReturnSubType ReturnType Data)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
@@ -173,8 +191,11 @@ sub TicketAcl {
     # do not execute ACLs if UserID 1 is used
     return if $Param{UserID} && $Param{UserID} == 1;
 
-    my $ACLs       = $Self->{ConfigObject}->Get('TicketAcl');
-    my $AclModules = $Self->{ConfigObject}->Get('Ticket::Acl::Module');
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $ACLs       = $ConfigObject->Get('TicketAcl');
+    my $AclModules = $ConfigObject->Get('Ticket::Acl::Module');
 
     # only execute ACLs if ACL or ACL module is configured
     if ( !$ACLs && !$AclModules ) {
@@ -251,21 +272,20 @@ sub TicketAcl {
 
     # check ACL configuration
     my %Acls;
-    if ( $Self->{ConfigObject}->Get('TicketAcl') ) {
-        %Acls = %{ $Self->{ConfigObject}->Get('TicketAcl') };
+    if ( $ConfigObject->Get('TicketAcl') ) {
+        %Acls = %{ $ConfigObject->Get('TicketAcl') };
     }
 
     # check ACL module
     MODULE:
     for my $ModuleName ( sort keys %ApplicableAclModules ) {
+
         my $Module = $ApplicableAclModules{$ModuleName};
 
-        next MODULE if !$Self->{MainObject}->Require( $Module->{Module} );
+        next MODULE if !$Kernel::OM->Get('Kernel::System::Main')->Require( $Module->{Module} );
 
-        my $Generic = $Module->{Module}->new(
-            %{$Self},
-            TicketObject => $Self,
-        );
+        my $Generic = $Module->{Module}->new();
+
         $Generic->Run(
             %Param,
             Acl    => \%Acls,
@@ -304,7 +324,7 @@ sub TicketAcl {
 
         # calculate default ticket action ACL data
         my @ActionsToDelete;
-        my $DefaultActionData = $Self->{ConfigObject}->Get('TicketACL::Default::Action') || {};
+        my $DefaultActionData = $ConfigObject->Get('TicketACL::Default::Action') || {};
 
         if ( IsHashRefWithData($DefaultActionData) ) {
 
@@ -328,11 +348,11 @@ sub TicketAcl {
     my %NewTmpData = %Data;
 
     # get the debug parameters
-    $Self->{ACLDebug} = $Self->{ConfigObject}->Get('TicketACL::Debug::Enabled') || 0;
+    $Self->{ACLDebug} = $ConfigObject->Get('TicketACL::Debug::Enabled') || 0;
     $Self->{ACLDebugLogPriority}
-        = $Self->{ConfigObject}->Get('TicketACL::Debug::LogPriority') || 'debug';
+        = $ConfigObject->Get('TicketACL::Debug::LogPriority') || 'debug';
 
-    my $ACLDebugConfigFilters = $Self->{ConfigObject}->Get('TicketACL::Debug::Filter') || {};
+    my $ACLDebugConfigFilters = $ConfigObject->Get('TicketACL::Debug::Filter') || {};
     for my $FilterName ( sort keys %{$ACLDebugConfigFilters} ) {
         my %Filter = %{ $ACLDebugConfigFilters->{$FilterName} };
         for my $FilterItem ( sort keys %Filter ) {
@@ -443,7 +463,7 @@ sub TicketAcl {
 
                                 # debug log
                                 if ( $Self->{ACLDebug} ) {
-                                    $Self->{LogObject}->Log(
+                                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                                         Priority => $Self->{ACLDebugLogPriority},
                                         Message =>
                                             "TicketACL '$Acl' $PropertiesHash:'$Key->$Data' MatchedARRAY ($Item eq $MatchedArrayDataItem)",
@@ -465,7 +485,7 @@ sub TicketAcl {
 
                                 # debug
                                 if ( $Self->{ACLDebug} ) {
-                                    $Self->{LogObject}->Log(
+                                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                                         Priority => $Self->{ACLDebugLogPriority},
                                         Message =>
                                             "TicketACL '$Acl' $PropertiesHash:'$Key->$Data' Matched ($Item eq $UsedChecks{$Key}->{$Data})",
@@ -528,7 +548,7 @@ sub TicketAcl {
         # debug log
         if ( $Match && $MatchTry ) {
             if ( $Self->{ACLDebug} ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => $Self->{ACLDebugLogPriority},
                     Message =>
                         "TicketACL '$Acl' Matched for return data:'$Param{ReturnType}:$Param{ReturnSubType}'",
@@ -563,12 +583,12 @@ sub TicketAcl {
 
                 # debug log
                 if ( $Self->{ADLDebug} ) {
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => $Self->{ACLDebugLogPriority},
                         Message =>
                             "TicketACL '$Acl' Used with Possible:'$Param{ReturnType}:$Param{ReturnSubType}'",
                     );
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => $Self->{ACLDebugLogPriority},
                         Message =>
                             "TicketACL '$Acl' Reset return data:'$Param{ReturnType}:$Param{ReturnSubType}''",
@@ -587,7 +607,7 @@ sub TicketAcl {
                         if ( $MatchResult->{Match} ) {
                             $NewTmpData{$ID} = $Data{$ID};
                             if ( $Self->{ACLDebug} ) {
-                                $Self->{LogObject}->Log(
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => $Self->{ACLDebugLogPriority},
                                     Message =>
                                         "TicketACL '$Acl' Possible param '$Data{$ID}' added to return data:'$Param{ReturnType}:$Param{ReturnSubType}'",
@@ -596,7 +616,7 @@ sub TicketAcl {
                         }
                         else {
                             if ( $Self->{ACLDebug} ) {
-                                $Self->{LogObject}->Log(
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => $Self->{ACLDebugLogPriority},
                                     Message =>
                                         "TicketACL '$Acl' Possible param '$Data{$ID}' skipped from return data:'$Param{ReturnType}:$Param{ReturnSubType}'",
@@ -621,7 +641,7 @@ sub TicketAcl {
 
                 # debug log
                 if ( $Self->{ACLDebug} ) {
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => $Self->{ACLDebugLogPriority},
                         Message =>
                             "TicketACL '$Acl' Used with PossibleAdd:'$Param{ReturnType}:$Param{ReturnSubType}'",
@@ -640,7 +660,7 @@ sub TicketAcl {
                         if ( $MatchResult->{Match} ) {
                             $NewTmpData{$ID} = $Data{$ID};
                             if ( $Self->{ACLDebug} ) {
-                                $Self->{LogObject}->Log(
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => $Self->{ACLDebugLogPriority},
                                     Message =>
                                         "TicketACL '$Acl' PossibleAdd param '$Data{$ID}' added to return data:'$Param{ReturnType}:$Param{ReturnSubType}'",
@@ -649,7 +669,7 @@ sub TicketAcl {
                         }
                         else {
                             if ( $Self->{ACLDebug} ) {
-                                $Self->{LogObject}->Log(
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => $Self->{ACLDebugLogPriority},
                                     Message =>
                                         "TicketACL '$Acl' PossibleAdd param '$Data{$ID}' skipped from return data:'$Param{ReturnType}:$Param{ReturnSubType}'",
@@ -674,7 +694,7 @@ sub TicketAcl {
 
                 # debug log
                 if ( $Self->{ACLDebug} ) {
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => $Self->{ACLDebugLogPriority},
                         Message =>
                             "TicketACL '$Acl' Used with PossibleNot:'$Param{ReturnType}:$Param{ReturnSubType}'",
@@ -696,7 +716,7 @@ sub TicketAcl {
                     }
                     if ( !$Match ) {
                         if ( $Self->{ACLDebug} ) {
-                            $Self->{LogObject}->Log(
+                            $Kernel::OM->Get('Kernel::System::Log')->Log(
                                 Priority => $Self->{ACLDebugLogPriority},
                                 Message =>
                                     "TicketACL '$Acl' PossibleNot param '$Data{$ID}' removed from return data:'$Param{ReturnType}:$Param{ReturnSubType}'",
@@ -708,7 +728,7 @@ sub TicketAcl {
                     }
                     else {
                         if ( $Self->{ACLDebug} ) {
-                            $Self->{LogObject}->Log(
+                            $Kernel::OM->Get('Kernel::System::Log')->Log(
                                 Priority => $Self->{ACLDebugLogPriority},
                                 Message =>
                                     "TicketACL '$Acl' PossibleNot param '$Data{$ID}' leaved for return data:'$Param{ReturnType}:$Param{ReturnSubType}'",
@@ -739,12 +759,12 @@ sub TicketAcl {
 
                 # debug log
                 if ( $Self->{ACLDebug} ) {
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => $Self->{ACLDebugLogPriority},
                         Message =>
                             "TicketACL '$Acl' Used with Possible:'$Param{ReturnType}:$Param{ReturnSubType}'",
                     );
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => $Self->{ACLDebugLogPriority},
                         Message =>
                             "TicketACL '$Acl' Reset return data:'$Param{ReturnType}:$Param{ReturnSubType}''",
@@ -763,7 +783,7 @@ sub TicketAcl {
                         if ( $MatchResult->{Match} ) {
                             $NewTmpData{$ID} = $Data{$ID};
                             if ( $Self->{ACLDebug} ) {
-                                $Self->{LogObject}->Log(
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => $Self->{ACLDebugLogPriority},
                                     Message =>
                                         "TicketACL '$Acl' Possible param '$Data{$ID}' added to return data:'$Param{ReturnType}:$Param{ReturnSubType}'",
@@ -772,7 +792,7 @@ sub TicketAcl {
                         }
                         else {
                             if ( $Self->{ACLDebug} ) {
-                                $Self->{LogObject}->Log(
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => $Self->{ACLDebugLogPriority},
                                     Message =>
                                         "TicketACL '$Acl' Possible param '$Data{$ID}' skipped from return data:'$Param{ReturnType}:$Param{ReturnSubType}'",
@@ -795,7 +815,7 @@ sub TicketAcl {
 
                 # debug log
                 if ( $Self->{ACLDebug} ) {
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => $Self->{ACLDebugLogPriority},
                         Message =>
                             "TicketACL '$Acl' Used with PossibleAdd:'$Param{ReturnType}:$Param{ReturnSubType}'",
@@ -814,7 +834,7 @@ sub TicketAcl {
                         if ( $MatchResult->{Match} ) {
                             $NewTmpData{$ID} = $Data{$ID};
                             if ( $Self->{ACLDebug} ) {
-                                $Self->{LogObject}->Log(
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => $Self->{ACLDebugLogPriority},
                                     Message =>
                                         "TicketACL '$Acl' PossibleAdd param '$Data{$ID}' added to return data:'$Param{ReturnType}:$Param{ReturnSubType}'",
@@ -823,7 +843,7 @@ sub TicketAcl {
                         }
                         else {
                             if ( $Self->{ACLDebug} ) {
-                                $Self->{LogObject}->Log(
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => $Self->{ACLDebugLogPriority},
                                     Message =>
                                         "TicketACL '$Acl' PossibleAdd param '$Data{$ID}' skipped from return data:'$Param{ReturnType}:$Param{ReturnSubType}'",
@@ -846,7 +866,7 @@ sub TicketAcl {
 
                 # debug log
                 if ( $Self->{ACLDebug} ) {
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => $Self->{ACLDebugLogPriority},
                         Message =>
                             "TicketACL '$Acl' Used with PossibleNot:'$Param{ReturnType}:$Param{ReturnSubType}'",
@@ -868,7 +888,7 @@ sub TicketAcl {
                     }
                     if ( !$Match ) {
                         if ( $Self->{ACLDebug} ) {
-                            $Self->{LogObject}->Log(
+                            $Kernel::OM->Get('Kernel::System::Log')->Log(
                                 Priority => $Self->{ACLDebugLogPriority},
                                 Message =>
                                     "TicketACL '$Acl' PossibleNot param '$Data{$ID}' removed from return data:'$Param{ReturnType}:$Param{ReturnSubType}'",
@@ -880,7 +900,7 @@ sub TicketAcl {
                     }
                     else {
                         if ( $Self->{ACLDebug} ) {
-                            $Self->{LogObject}->Log(
+                            $Kernel::OM->Get('Kernel::System::Log')->Log(
                                 Priority => $Self->{ACLDebugLogPriority},
                                 Message =>
                                     "TicketACL '$Acl' PossibleNot param '$Data{$ID}' leaved for return data:'$Param{ReturnType}:$Param{ReturnSubType}'",
@@ -1067,6 +1087,9 @@ sub _GetChecks {
         $ChecksDatabase{Frontend} = { Action => $Param{Action}, };
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # use ticket data if ticket id is given
     # do that always, even if $RequiredChecks{Ticket} is not that
     # (because too much stuff depends on it)
@@ -1084,9 +1107,9 @@ sub _GetChecks {
         # get used dynamic fields where Activity and Process Entities IDs are Stored
         # (ProcessManagement)
         my $ActivityEntityIDField
-            = $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementActivityID");
+            = $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
         my $ProcessEntityIDField
-            = $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementProcessID");
+            = $ConfigObject->Get("Process::DynamicFieldProcessManagementProcessID");
 
         # check for ActivityEntityID
         if ( $Ticket{ 'DynamicField_' . $ActivityEntityIDField } ) {
@@ -1114,10 +1137,12 @@ sub _GetChecks {
 
     # check for ActivityDialogEntityID if set as parameter (ProcessManagement)
     if ( ( $CheckAll || $RequiredChecks{Process} ) && $Param{ActivityDialogEntityID} ) {
-        my $ActivityDialog = $Self->{ActivityDialogObject}->ActivityDialogGet(
+
+        my $ActivityDialog = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog')->ActivityDialogGet(
             ActivityDialogEntityID => $Param{ActivityDialogEntityID},
             Interface              => $Interface,
         );
+
         if ( IsHashRefWithData($ActivityDialog) ) {
             $Checks{Process}->{ActivityDialogEntityID} = $Param{ActivityDialogEntityID};
         }
@@ -1176,11 +1201,16 @@ sub _GetChecks {
 
     # use user data
     if ( ( $CheckAll || $RequiredChecks{User} ) && $Param{UserID} ) {
-        my %User = $Self->{UserObject}->GetUserData(
+
+        my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
             UserID => $Param{UserID},
         );
-        for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
-            my @Groups = $Self->{GroupObject}->GroupMemberList(
+
+        # get group object
+        my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+
+        for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
+            my @Groups = $GroupObject->GroupMemberList(
                 UserID => $Param{UserID},
                 Result => 'Name',
                 Type   => $Type,
@@ -1188,14 +1218,14 @@ sub _GetChecks {
             $User{"Group_$Type"} = \@Groups;
         }
 
-        my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+        my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
             UserID => $Param{UserID},
             Result => 'ID',
         );
         my @Roles;
         ROLEID:
         for my $RoleID (@RoleIDs) {
-            my $RoleName = $Self->{GroupObject}->RoleLookup(
+            my $RoleName = $GroupObject->RoleLookup(
                 RoleID => $RoleID,
             );
             next ROLEID if !$RoleName;
@@ -1207,19 +1237,27 @@ sub _GetChecks {
         $ChecksDatabase{User} = \%User;
     }
 
+    # get customer user objects
+    my $CustomerGroupObject = $Kernel::OM->Get('Kernel::System::CustomerGroup');
+    my $CustomerUserObject  = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
     # use customer user data
     if ( ( $CheckAll || $RequiredChecks{CustomerUser} ) && $Param{CustomerUserID} ) {
-        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+
+        my %CustomerUser = $CustomerUserObject->CustomerUserDataGet(
             User => $Param{CustomerUserID},
         );
-        for my $Type ( @{ $Self->{ConfigObject}->Get('System::Customer::Permission') } ) {
-            my @Groups = $Self->{CustomerGroupObject}->GroupMemberList(
+
+        for my $Type ( @{ $ConfigObject->Get('System::Customer::Permission') } ) {
+
+            my @Groups = $CustomerGroupObject->GroupMemberList(
                 UserID => $Param{CustomerUserID},
                 Result => 'Name',
                 Type   => $Type,
             );
             $CustomerUser{"Group_$Type"} = \@Groups;
         }
+
         $Checks{CustomerUser} = \%CustomerUser;
 
         # update or add customer information to the ticket check
@@ -1230,17 +1268,21 @@ sub _GetChecks {
         if ( IsStringWithData( $Checks{Ticket}->{CustomerUserID} ) ) {
 
             # get customer data from the ticket
-            my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            my %CustomerUser = $CustomerUserObject->CustomerUserDataGet(
                 User => $Checks{Ticket}->{CustomerUserID},
             );
-            for my $Type ( @{ $Self->{ConfigObject}->Get('System::Customer::Permission') } ) {
-                my @Groups = $Self->{CustomerGroupObject}->GroupMemberList(
+
+            for my $Type ( @{ $ConfigObject->Get('System::Customer::Permission') } ) {
+
+                my @Groups = $CustomerGroupObject->GroupMemberList(
                     UserID => $Checks{Ticket}->{CustomerUserID},
                     Result => 'Name',
                     Type   => $Type,
                 );
+
                 $CustomerUser{"Group_$Type"} = \@Groups;
             }
+
             $Checks{CustomerUser} = \%CustomerUser;
         }
     }
@@ -1263,25 +1305,34 @@ sub _GetChecks {
 
         # otherwise complete the data querying the database again
         else {
-            my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+
+            my %CustomerUser = $CustomerUserObject->CustomerUserDataGet(
                 User => $ChecksDatabase{Ticket}->{CustomerUserID},
             );
-            for my $Type ( @{ $Self->{ConfigObject}->Get('System::Customer::Permission') } ) {
-                my @Groups = $Self->{CustomerGroupObject}->GroupMemberList(
+
+            for my $Type ( @{ $ConfigObject->Get('System::Customer::Permission') } ) {
+
+                my @Groups = $CustomerGroupObject->GroupMemberList(
                     UserID => $ChecksDatabase{Ticket}->{CustomerUserID},
                     Result => 'Name',
                     Type   => $Type,
                 );
+
                 $CustomerUser{"Group_$Type"} = \@Groups;
             }
+
             $ChecksDatabase{CustomerUser} = \%CustomerUser;
         }
     }
 
     # use queue data (if given)
     if ( $CheckAll || $RequiredChecks{Queue} ) {
+
+        # get queue object
+        my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+
         if ( $Param{QueueID} ) {
-            my %Queue = $Self->{QueueObject}->QueueGet( ID => $Param{QueueID} );
+            my %Queue = $QueueObject->QueueGet( ID => $Param{QueueID} );
             $Checks{Queue} = \%Queue;
 
             # update or add queue information to the ticket check
@@ -1289,7 +1340,7 @@ sub _GetChecks {
             $Checks{Ticket}->{QueueID} = $Checks{Queue}->{QueueID};
         }
         elsif ( $Param{Queue} ) {
-            my %Queue = $Self->{QueueObject}->QueueGet( Name => $Param{Queue} );
+            my %Queue = $QueueObject->QueueGet( Name => $Param{Queue} );
             $Checks{Queue} = \%Queue;
 
             # update or add queue information to the ticket check
@@ -1300,7 +1351,7 @@ sub _GetChecks {
             if ( IsPositiveInteger( $Checks{Ticket}->{QueueID} ) ) {
 
                 # get queue data from the ticket
-                my %Queue = $Self->{QueueObject}->QueueGet( ID => $Checks{Ticket}->{QueueID} );
+                my %Queue = $QueueObject->QueueGet( ID => $Checks{Ticket}->{QueueID} );
                 $Checks{Queue} = \%Queue;
             }
         }
@@ -1324,15 +1375,26 @@ sub _GetChecks {
 
         # otherwise complete the data querying the database again
         else {
-            my %Queue = $Self->{QueueObject}->QueueGet( ID => $ChecksDatabase{Ticket}->{QueueID} );
+
+            # get queue object
+            my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+
+            my %Queue = $QueueObject->QueueGet(
+                ID => $ChecksDatabase{Ticket}->{QueueID},
+            );
+
             $ChecksDatabase{Queue} = \%Queue;
         }
     }
 
     # use service data (if given)
     if ( $CheckAll || $RequiredChecks{Service} ) {
+
+        # get service object
+        my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
+
         if ( $Param{ServiceID} ) {
-            my %Service = $Self->{ServiceObject}->ServiceGet(
+            my %Service = $ServiceObject->ServiceGet(
                 ServiceID => $Param{ServiceID},
                 UserID    => 1,
             );
@@ -1343,7 +1405,7 @@ sub _GetChecks {
             $Checks{Ticket}->{ServiceID} = $Checks{Service}->{ServiceID};
         }
         elsif ( $Param{Service} ) {
-            my %Service = $Self->{ServiceObject}->ServiceGet(
+            my %Service = $ServiceObject->ServiceGet(
                 Name   => $Param{Service},
                 UserID => 1,
             );
@@ -1357,7 +1419,7 @@ sub _GetChecks {
             if ( IsPositiveInteger( $Checks{Ticket}->{ServiceID} ) ) {
 
                 # get service data from the ticket
-                my %Service = $Self->{ServiceObject}->ServiceGet(
+                my %Service = $ServiceObject->ServiceGet(
                     ServiceID => $Checks{Ticket}->{ServiceID},
                     UserID    => 1,
                 );
@@ -1379,7 +1441,7 @@ sub _GetChecks {
 
             # otherwise complete the data querying the database again
             else {
-                my %Service = $Self->{ServiceObject}->ServiceGet(
+                my %Service = $ServiceObject->ServiceGet(
                     ServiceID => $ChecksDatabase{Ticket}->{ServiceID},
                     UserID    => 1,
                 );
@@ -1390,8 +1452,12 @@ sub _GetChecks {
 
     # use type data (if given)
     if ( $CheckAll || $RequiredChecks{Type} ) {
+
+        # get type object
+        my $TypeObject = $Kernel::OM->Get('Kernel::System::Type');
+
         if ( $Param{TypeID} ) {
-            my %Type = $Self->{TypeObject}->TypeGet(
+            my %Type = $TypeObject->TypeGet(
                 ID     => $Param{TypeID},
                 UserID => 1,
             );
@@ -1415,11 +1481,11 @@ sub _GetChecks {
        # is found in the list, so we can be more sure that it is the type that we want here.
 
             # lookup the type list (workaround for described problem)
-            my %TypeList = reverse $Self->{TypeObject}->TypeList();
+            my %TypeList = reverse $TypeObject->TypeList();
 
             # check if type is in the type list (workaround for described problem)
             if ( $TypeList{ $Param{Type} } ) {
-                my %Type = $Self->{TypeObject}->TypeGet(
+                my %Type = $TypeObject->TypeGet(
                     Name   => $Param{Type},
                     UserID => 1,
                 );
@@ -1434,7 +1500,7 @@ sub _GetChecks {
             if ( IsPositiveInteger( $Checks{Ticket}->{TypeID} ) ) {
 
                 # get type data from the ticket
-                my %Type = $Self->{TypeObject}->TypeGet(
+                my %Type = $TypeObject->TypeGet(
                     ID     => $Checks{Ticket}->{TypeID},
                     UserID => 1,
                 );
@@ -1456,7 +1522,7 @@ sub _GetChecks {
 
             # otherwise complete the data querying the database again
             else {
-                my %Type = $Self->{TypeObject}->TypeGet(
+                my %Type = $TypeObject->TypeGet(
                     ID     => $ChecksDatabase{Ticket}->{TypeID},
                     UserID => 1,
                 );
@@ -1467,12 +1533,16 @@ sub _GetChecks {
 
     if ( $CheckAll || $RequiredChecks{Priority} ) {
 
+        # get priority object
+        my $PriorityObject = $Kernel::OM->Get('Kernel::System::Priority');
+
         # use priority data (if given)
         if ( $Param{NewPriorityID} && !$Param{PriorityID} ) {
             $Param{PriorityID} = $Param{NewPriorityID}
         }
+
         if ( $Param{PriorityID} ) {
-            my %Priority = $Self->{PriorityObject}->PriorityGet(
+            my %Priority = $PriorityObject->PriorityGet(
                 PriorityID => $Param{PriorityID},
                 UserID     => 1,
             );
@@ -1483,10 +1553,10 @@ sub _GetChecks {
             $Checks{Ticket}->{PriorityID} = $Checks{Priority}->{ID};
         }
         elsif ( $Param{Priority} ) {
-            my $PriorityID = $Self->{PriorityObject}->PriorityLookup(
+            my $PriorityID = $PriorityObject->PriorityLookup(
                 Priority => $Param{Priority},
             );
-            my %Priority = $Self->{PriorityObject}->PriorityGet(
+            my %Priority = $PriorityObject->PriorityGet(
                 PriorityID => $PriorityID,
                 UserID     => 1,
             );
@@ -1500,7 +1570,7 @@ sub _GetChecks {
             if ( IsPositiveInteger( $Checks{Ticket}->{PriorityID} ) ) {
 
                 # get priority data from the ticket
-                my %Priority = $Self->{PriorityObject}->PriorityGet(
+                my %Priority = $PriorityObject->PriorityGet(
                     PriorityID => $Checks{Ticket}->{PriorityID},
                     UserID     => 1,
                 );
@@ -1524,8 +1594,11 @@ sub _GetChecks {
         # otherwise complete the data querying the database again
         else {
 
+            # get priority object
+            my $PriorityObject = $Kernel::OM->Get('Kernel::System::Priority');
+
             # get priority data from the ticket
-            my %Priority = $Self->{PriorityObject}->PriorityGet(
+            my %Priority = $PriorityObject->PriorityGet(
                 PriorityID => $ChecksDatabase{Ticket}->{PriorityID},
                 UserID     => 1,
             );
@@ -1535,8 +1608,12 @@ sub _GetChecks {
 
     # use SLA data (if given)
     if ( $CheckAll || $RequiredChecks{SLA} ) {
+
+        # get sla object
+        my $SLAObject = $Kernel::OM->Get('Kernel::System::SLA');
+
         if ( $Param{SLAID} ) {
-            my %SLA = $Self->{SLAObject}->SLAGet(
+            my %SLA = $SLAObject->SLAGet(
                 SLAID  => $Param{SLAID},
                 UserID => 1,
             );
@@ -1547,10 +1624,10 @@ sub _GetChecks {
             $Checks{Ticket}->{SLAID} = $Checks{SLA}->{SLAID};
         }
         elsif ( $Param{SLA} ) {
-            my $SLAID = $Self->{SLAObject}->SLALookup(
+            my $SLAID = $SLAObject->SLALookup(
                 Name => $Param{SLA},
             );
-            my %SLA = $Self->{SLAObject}->SLAGet(
+            my %SLA = $SLAObject->SLAGet(
                 SLAID  => $SLAID,
                 UserID => 1,
             );
@@ -1561,10 +1638,11 @@ sub _GetChecks {
             $Checks{Ticket}->{SLAID} = $Checks{SLA}->{SLAID};
         }
         elsif ( !$Param{SLAID} && !$Param{SLA} ) {
+
             if ( IsPositiveInteger( $Checks{Ticket}->{SLAID} ) ) {
 
                 # get SLA data from the ticket
-                my %SLA = $Self->{SLAObject}->SLAGet(
+                my %SLA = $SLAObject->SLAGet(
                     SLAID  => $Checks{Ticket}->{SLAID},
                     UserID => 1,
                 );
@@ -1587,7 +1665,8 @@ sub _GetChecks {
 
         # otherwise complete the data querying the database again
         else {
-            my %SLA = $Self->{SLAObject}->SLAGet(
+
+            my %SLA = $Kernel::OM->Get('Kernel::System::SLA')->SLAGet(
                 SLAID  => $ChecksDatabase{Ticket}->{SLAID},
                 UserID => 1,
             );
@@ -1595,13 +1674,16 @@ sub _GetChecks {
         }
     }
 
+    # get state object
+    my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+
     # use state data (if given)
     if ( $CheckAll || $RequiredChecks{State} ) {
         if ( $Param{NextStateID} && !$Param{StateID} ) {
             $Param{StateID} = $Param{NextStateID}
         }
         if ( $Param{StateID} ) {
-            my %State = $Self->{StateObject}->StateGet(
+            my %State = $StateObject->StateGet(
                 ID     => $Param{StateID},
                 UserID => 1,
             );
@@ -1613,7 +1695,7 @@ sub _GetChecks {
             $Checks{Ticket}->{StateType} = $Checks{State}->{TypeName};
         }
         elsif ( $Param{State} ) {
-            my %State = $Self->{StateObject}->StateGet(
+            my %State = $StateObject->StateGet(
                 Name   => $Param{State},
                 UserID => 1,
             );
@@ -1628,7 +1710,7 @@ sub _GetChecks {
             if ( IsPositiveInteger( $Checks{Ticket}->{StateID} ) ) {
 
                 # get state data from the ticket
-                my %State = $Self->{StateObject}->StateGet(
+                my %State = $StateObject->StateGet(
                     ID     => $Checks{Ticket}->{StateID},
                     UserID => 1,
                 );
@@ -1651,13 +1733,17 @@ sub _GetChecks {
 
         # otherwise complete the data querying the database again
         else {
-            my %State = $Self->{StateObject}->StateGet(
+            my %State = $StateObject->StateGet(
                 ID     => $ChecksDatabase{Ticket}->{StateID},
                 UserID => 1,
             );
             $ChecksDatabase{State} = \%State;
         }
     }
+
+    # get needed objects
+    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+    my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
 
     # use owner data (if given)
     if ( $CheckAll || $RequiredChecks{Owner} ) {
@@ -1681,11 +1767,12 @@ sub _GetChecks {
         }
 
         if ( $Param{OwnerID} ) {
-            my %Owner = $Self->{UserObject}->GetUserData(
+
+            my %Owner = $UserObject->GetUserData(
                 UserID => $Param{OwnerID},
             );
-            for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
-                my @Groups = $Self->{GroupObject}->GroupMemberList(
+            for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
+                my @Groups = $GroupObject->GroupMemberList(
                     UserID => $Param{OwnerID},
                     Result => 'Name',
                     Type   => $Type,
@@ -1693,14 +1780,14 @@ sub _GetChecks {
                 $Owner{"Group_$Type"} = \@Groups;
             }
 
-            my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+            my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
                 UserID => $Param{OwnerID},
                 Result => 'ID',
             );
             my @Roles;
             ROLEID:
             for my $RoleID (@RoleIDs) {
-                my $RoleName = $Self->{GroupObject}->RoleLookup(
+                my $RoleName = $GroupObject->RoleLookup(
                     RoleID => $RoleID,
                 );
                 next ROLEID if !$RoleName;
@@ -1715,14 +1802,14 @@ sub _GetChecks {
             $Checks{Ticket}->{OwnerID} = $Checks{Owner}->{UserID};
         }
         elsif ( $Param{Owner} ) {
-            my $OwnerID = $Self->{UserObject}->UserLookup(
+            my $OwnerID = $UserObject->UserLookup(
                 UserLogin => $Param{Owner},
             );
-            my %Owner = $Self->{UserObject}->GetUserData(
+            my %Owner = $UserObject->GetUserData(
                 UserID => $OwnerID,
             );
-            for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
-                my @Groups = $Self->{GroupObject}->GroupMemberList(
+            for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
+                my @Groups = $GroupObject->GroupMemberList(
                     UserID => $OwnerID,
                     Result => 'Name',
                     Type   => $Type,
@@ -1730,14 +1817,14 @@ sub _GetChecks {
                 $Owner{"Group_$Type"} = \@Groups;
             }
 
-            my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+            my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
                 UserID => $OwnerID,
                 Result => 'ID',
             );
             my @Roles;
             ROLEID:
             for my $RoleID (@RoleIDs) {
-                my $RoleName = $Self->{GroupObject}->RoleLookup(
+                my $RoleName = $GroupObject->RoleLookup(
                     RoleID => $RoleID,
                 );
                 next ROLEID if !$RoleName;
@@ -1755,11 +1842,11 @@ sub _GetChecks {
             if ( IsPositiveInteger( $Checks{Ticket}->{OwnerID} ) ) {
 
                 # get responsible data from the ticket
-                my %Owner = $Self->{UserObject}->GetUserData(
+                my %Owner = $UserObject->GetUserData(
                     UserID => $Checks{Ticket}->{OwnerID},
                 );
-                for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
-                    my @Groups = $Self->{GroupObject}->GroupMemberList(
+                for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
+                    my @Groups = $GroupObject->GroupMemberList(
                         UserID => $Checks{Ticket}->{OwnerID},
                         Result => 'Name',
                         Type   => $Type,
@@ -1767,14 +1854,14 @@ sub _GetChecks {
                     $Owner{"Group_$Type"} = \@Groups;
                 }
 
-                my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+                my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
                     UserID => $Checks{Ticket}->{OwnerID},
                     Result => 'ID',
                 );
                 my @Roles;
                 ROLEID:
                 for my $RoleID (@RoleIDs) {
-                    my $RoleName = $Self->{GroupObject}->RoleLookup(
+                    my $RoleName = $GroupObject->RoleLookup(
                         RoleID => $RoleID,
                     );
                     next ROLEID if !$RoleName;
@@ -1801,11 +1888,11 @@ sub _GetChecks {
 
         # otherwise complete the data querying the database again
         else {
-            my %Owner = $Self->{UserObject}->GetUserData(
+            my %Owner = $UserObject->GetUserData(
                 UserID => $ChecksDatabase{Ticket}->{OwnerID},
             );
-            for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
-                my @Groups = $Self->{GroupObject}->GroupMemberList(
+            for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
+                my @Groups = $GroupObject->GroupMemberList(
                     UserID => $ChecksDatabase{Ticket}->{OwnerID},
                     Result => 'Name',
                     Type   => $Type,
@@ -1813,14 +1900,14 @@ sub _GetChecks {
                 $Owner{"Group_$Type"} = \@Groups;
             }
 
-            my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+            my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
                 UserID => $ChecksDatabase{Ticket}->{OwnerID},
                 Result => 'ID',
             );
             my @Roles;
             ROLEID:
             for my $RoleID (@RoleIDs) {
-                my $RoleName = $Self->{GroupObject}->RoleLookup(
+                my $RoleName = $GroupObject->RoleLookup(
                     RoleID => $RoleID,
                 );
                 next ROLEID if !$RoleName;
@@ -1837,11 +1924,11 @@ sub _GetChecks {
 
     if ( $CheckAll || $RequiredChecks{Responsible} ) {
         if ( $Param{ResponsibleID} ) {
-            my %Responsible = $Self->{UserObject}->GetUserData(
+            my %Responsible = $UserObject->GetUserData(
                 UserID => $Param{ResponsibleID},
             );
-            for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
-                my @Groups = $Self->{GroupObject}->GroupMemberList(
+            for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
+                my @Groups = $GroupObject->GroupMemberList(
                     UserID => $Param{ResponsibleID},
                     Result => 'Name',
                     Type   => $Type,
@@ -1849,14 +1936,14 @@ sub _GetChecks {
                 $Responsible{"Group_$Type"} = \@Groups;
             }
 
-            my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+            my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
                 UserID => $Param{ResponsibleID},
                 Result => 'ID',
             );
             my @Roles;
             ROLEID:
             for my $RoleID (@RoleIDs) {
-                my $RoleName = $Self->{GroupObject}->RoleLookup(
+                my $RoleName = $GroupObject->RoleLookup(
                     RoleID => $RoleID,
                 );
                 next ROLEID if !$RoleName;
@@ -1871,14 +1958,14 @@ sub _GetChecks {
             $Checks{Ticket}->{ResponsibleID} = $Checks{Responsible}->{UserID};
         }
         elsif ( $Param{Responsible} ) {
-            my $ResponsibleID = $Self->{UserObject}->UserLookup(
+            my $ResponsibleID = $UserObject->UserLookup(
                 UserLogin => $Param{Responsible},
             );
-            my %Responsible = $Self->{UserObject}->GetUserData(
+            my %Responsible = $UserObject->GetUserData(
                 UserID => $ResponsibleID,
             );
-            for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
-                my @Groups = $Self->{GroupObject}->GroupMemberList(
+            for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
+                my @Groups = $GroupObject->GroupMemberList(
                     UserID => $ResponsibleID,
                     Result => 'Name',
                     Type   => $Type,
@@ -1886,14 +1973,14 @@ sub _GetChecks {
                 $Responsible{"Group_$Type"} = \@Groups;
             }
 
-            my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+            my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
                 UserID => $ResponsibleID,
                 Result => 'ID',
             );
             my @Roles;
             ROLEID:
             for my $RoleID (@RoleIDs) {
-                my $RoleName = $Self->{GroupObject}->RoleLookup(
+                my $RoleName = $GroupObject->RoleLookup(
                     RoleID => $RoleID,
                 );
                 next ROLEID if !$RoleName;
@@ -1911,11 +1998,11 @@ sub _GetChecks {
             if ( IsPositiveInteger( $Checks{Ticket}->{ResponsibleID} ) ) {
 
                 # get responsible data from the ticket
-                my %Responsible = $Self->{UserObject}->GetUserData(
+                my %Responsible = $UserObject->GetUserData(
                     UserID => $Checks{Ticket}->{ResponsibleID},
                 );
-                for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
-                    my @Groups = $Self->{GroupObject}->GroupMemberList(
+                for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
+                    my @Groups = $GroupObject->GroupMemberList(
                         UserID => $Checks{Ticket}->{ResponsibleID},
                         Result => 'Name',
                         Type   => $Type,
@@ -1923,14 +2010,14 @@ sub _GetChecks {
                     $Responsible{"Group_$Type"} = \@Groups;
                 }
 
-                my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+                my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
                     UserID => $Checks{Ticket}->{ResponsibleID},
                     Result => 'ID',
                 );
                 my @Roles;
                 ROLEID:
                 for my $RoleID (@RoleIDs) {
-                    my $RoleName = $Self->{GroupObject}->RoleLookup(
+                    my $RoleName = $GroupObject->RoleLookup(
                         RoleID => $RoleID,
                     );
                     next ROLEID if !$RoleName;
@@ -1958,31 +2045,40 @@ sub _GetChecks {
 
         # otherwise complete the data querying the database again
         else {
-            my %Responsible = $Self->{UserObject}->GetUserData(
+
+            my %Responsible = $UserObject->GetUserData(
                 UserID => $ChecksDatabase{Ticket}->{ResponsibleID},
             );
-            for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
-                my @Groups = $Self->{GroupObject}->GroupMemberList(
+
+            for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
+
+                my @Groups = $GroupObject->GroupMemberList(
                     UserID => $ChecksDatabase{Ticket}->{ResponsibleID},
                     Result => 'Name',
                     Type   => $Type,
                 );
+
                 $Responsible{"Group_$Type"} = \@Groups;
             }
 
-            my @RoleIDs = $Self->{GroupObject}->GroupUserRoleMemberList(
+            my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
                 UserID => $ChecksDatabase{Ticket}->{ResponsibleID},
                 Result => 'ID',
             );
             my @Roles;
+
             ROLEID:
             for my $RoleID (@RoleIDs) {
-                my $RoleName = $Self->{GroupObject}->RoleLookup(
+
+                my $RoleName = $GroupObject->RoleLookup(
                     RoleID => $RoleID,
                 );
+
                 next ROLEID if !$RoleName;
+
                 push @Roles, $RoleName;
             }
+
             $Responsible{Role} = \@Roles;
 
             $ChecksDatabase{Responsible} = \%Responsible;
@@ -2029,7 +2125,7 @@ sub _CompareMatchWithData {
     # check needed stuff
     for my $Needed (qw(Match Data)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );

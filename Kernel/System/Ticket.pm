@@ -16,65 +16,35 @@ use File::Path;
 use utf8;
 use Encode ();
 
-use Kernel::System::Ticket::Article;
-use Kernel::System::TicketSearch;
-use Kernel::System::Type;
-use Kernel::System::State;
-use Kernel::System::Priority;
-use Kernel::System::Service;
-use Kernel::System::SLA;
-use Kernel::System::Lock;
-use Kernel::System::Queue;
-use Kernel::System::User;
-use Kernel::System::Group;
-use Kernel::System::Cache;
-use Kernel::System::CustomerUser;
-use Kernel::System::CustomerGroup;
-use Kernel::System::Email;
-use Kernel::System::Valid;
-use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
-use Kernel::System::ProcessManagement::Activity;
-use Kernel::System::ProcessManagement::ActivityDialog;
-
-use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Ticket::Article;
 use Kernel::System::TicketACL;
 use Kernel::System::TicketSearch;
-use Kernel::System::EventHandler;
+use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA);
 
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
-    'Kernel::System::CustomerGroup',
-    'Kernel::System::CustomerUser',
     'Kernel::System::DB',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
-    'Kernel::System::Email',
     'Kernel::System::Group',
-    'Kernel::System::HTMLUtils',
+    'Kernel::System::LinkObject',
     'Kernel::System::Lock',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Notification',
-    'Kernel::System::PostMaster::LoopProtection',
     'Kernel::System::Priority',
     'Kernel::System::Queue',
-    'Kernel::System::Service',
     'Kernel::System::SLA',
+    'Kernel::System::Service',
     'Kernel::System::State',
-    'Kernel::System::TemplateGenerator',
     'Kernel::System::Time',
     'Kernel::System::Type',
     'Kernel::System::User',
-    'Kernel::System::Valid',
 );
-our $ObjectManagerAware = 0;
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -96,7 +66,7 @@ create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $TicketObject = $Kernel::OM->Get('TicketObject');
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 =cut
 
@@ -110,16 +80,6 @@ sub new {
     # 0=off; 1=on;
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # get needed objects
-    for my $Needed (qw(ConfigObject LogObject TimeObject DBObject MainObject EncodeObject)) {
-        if ( $Param{$Needed} ) {
-            $Self->{$Needed} = $Param{$Needed};
-        }
-        else {
-            die "Got no $Needed!";
-        }
-    }
-
     $Self->{CacheType} = 'Ticket';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
@@ -130,97 +90,52 @@ sub new {
         Kernel::System::EventHandler
     );
 
-    # create common needed module objects
-    $Self->{UserObject} = $Kernel::OM->Get('Kernel::System::User');
-    if ( !$Param{GroupObject} ) {
-        $Self->{GroupObject} = $Kernel::OM->Get('Kernel::System::Group');
-    }
-    else {
-        $Self->{GroupObject} = $Param{GroupObject};
-    }
-
-    $Self->{CustomerUserObject} = $Kernel::OM->Get('Kernel::System::CustomerUser');
-    if ( !$Param{CustomerGroupObject} ) {
-        $Self->{CustomerGroupObject} = $Kernel::OM->Get('Kernel::System::CustomerGroup');
-    }
-    else {
-        $Self->{CustomerGroupObject} = $Param{CustomerGroupObject};
-    }
-
-    if ( !$Param{QueueObject} ) {
-        $Self->{QueueObject} = $Kernel::OM->Get('Kernel::System::Queue');
-    }
-    else {
-        $Self->{QueueObject} = $Param{QueueObject};
-    }
-
-    $Self->{SendmailObject}     = Kernel::System::Email->new( %{$Self} );
-    $Self->{TypeObject}         = Kernel::System::Type->new( %{$Self} );
-    $Self->{PriorityObject}     = Kernel::System::Priority->new( %{$Self} );
-    $Self->{ServiceObject}      = Kernel::System::Service->new( %{$Self} );
-    $Self->{SLAObject}          = Kernel::System::SLA->new( %{$Self} );
-    $Self->{StateObject}        = Kernel::System::State->new( %{$Self} );
-    $Self->{LockObject}         = Kernel::System::Lock->new( %{$Self} );
-    $Self->{ValidObject}        = Kernel::System::Valid->new( %{$Self} );
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
-
-    # create the DynamicFieldBackendObject passing $Self as TicketObject, this is needed to
-    # delete internal cache
-    $Self->{DynamicFieldBackendObject} = Kernel::System::DynamicField::Backend->new(
-        %{$Self},
-        TicketObject => $Self
-    );
-
-    # create ProcessManagement objects
-    $Self->{ActivityObject} = Kernel::System::ProcessManagement::Activity->new( %{$Self} );
-    $Self->{ActivityDialogObject}
-        = Kernel::System::ProcessManagement::ActivityDialog->new( %{$Self} );
-
     # init of event handler
     $Self->EventHandlerInit(
-        Config     => 'Ticket::EventModulePost',
-        BaseObject => 'TicketObject',
-        Objects    => {
-            %{$Self},
-        },
+        Config => 'Ticket::EventModulePost',
     );
 
+    # get needed objects
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+
     # load ticket number generator
-    my $GeneratorModule = $Self->{ConfigObject}->Get('Ticket::NumberGenerator')
+    my $GeneratorModule = $ConfigObject->Get('Ticket::NumberGenerator')
         || 'Kernel::System::Ticket::Number::AutoIncrement';
-    if ( !$Self->{MainObject}->RequireBaseClass($GeneratorModule) ) {
+    if ( !$MainObject->RequireBaseClass($GeneratorModule) ) {
         die "Can't load ticket number generator backend module $GeneratorModule! $@";
     }
 
     # load ticket index generator
-    my $GeneratorIndexModule = $Self->{ConfigObject}->Get('Ticket::IndexModule')
+    my $GeneratorIndexModule = $ConfigObject->Get('Ticket::IndexModule')
         || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
-    if ( !$Self->{MainObject}->RequireBaseClass($GeneratorIndexModule) ) {
+    if ( !$MainObject->RequireBaseClass($GeneratorIndexModule) ) {
         die "Can't load ticket index backend module $GeneratorIndexModule! $@";
     }
 
     # load article storage module
-    my $StorageModule = $Self->{ConfigObject}->Get('Ticket::StorageModule')
+    my $StorageModule = $ConfigObject->Get('Ticket::StorageModule')
         || 'Kernel::System::Ticket::ArticleStorageDB';
-    if ( !$Self->{MainObject}->RequireBaseClass($StorageModule) ) {
+    if ( !$MainObject->RequireBaseClass($StorageModule) ) {
         die "Can't load ticket storage backend module $StorageModule! $@";
     }
 
     # do we need to check all backends, or just one?
     $Self->{CheckAllBackends} =
-        $Self->{ConfigObject}->Get('Ticket::StorageModule::CheckAllBackends')
+        $ConfigObject->Get('Ticket::StorageModule::CheckAllBackends')
         // 0;
 
     # load article search index module
-    my $SearchIndexModule = $Self->{ConfigObject}->Get('Ticket::SearchIndexModule')
+    my $SearchIndexModule = $ConfigObject->Get('Ticket::SearchIndexModule')
         || 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB';
-    if ( !$Self->{MainObject}->RequireBaseClass($SearchIndexModule) ) {
+    if ( !$MainObject->RequireBaseClass($SearchIndexModule) ) {
         die "Can't load ticket search index backend module $SearchIndexModule! $@";
     }
 
     # load ticket extension modules
-    my $CustomModule = $Self->{ConfigObject}->Get('Ticket::CustomModule');
+    my $CustomModule = $ConfigObject->Get('Ticket::CustomModule');
     if ($CustomModule) {
+
         my %ModuleList;
         if ( ref $CustomModule eq 'HASH' ) {
             %ModuleList = %{$CustomModule};
@@ -228,11 +143,14 @@ sub new {
         else {
             $ModuleList{Init} = $CustomModule;
         }
+
         MODULEKEY:
         for my $ModuleKey ( sort keys %ModuleList ) {
+
             my $Module = $ModuleList{$ModuleKey};
+
             next MODULEKEY if !$Module;
-            next MODULEKEY if !$Self->{MainObject}->RequireBaseClass($Module);
+            next MODULEKEY if !$MainObject->RequireBaseClass($Module);
         }
     }
 
@@ -267,19 +185,22 @@ sub TicketCheckNumber {
 
     # check needed stuff
     if ( !$Param{Tn} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TN!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need TN!' );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # db query
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL   => 'SELECT id FROM ticket WHERE tn = ?',
         Bind  => [ \$Param{Tn} ],
         Limit => 1,
     );
 
     my $TicketID;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $TicketID = $Row[0];
     }
 
@@ -357,13 +278,13 @@ sub TicketCreate {
     # check needed stuff
     for my $Needed (qw(OwnerID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
     # set default values if no values are specified
-    my $Age = $Self->{TimeObject}->SystemTime();
+    my $Age = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
 
     my $ArchiveFlag = 0;
     if ( $Param{ArchiveFlag} && $Param{ArchiveFlag} eq 'y' ) {
@@ -376,47 +297,56 @@ sub TicketCreate {
         $Param{TypeID} = 1;
     }
 
+    # get type object
+    my $TypeObject = $Kernel::OM->Get('Kernel::System::Type');
+
     # TypeID/Type lookup!
     if ( !$Param{TypeID} && $Param{Type} ) {
-        $Param{TypeID} = $Self->{TypeObject}->TypeLookup( Type => $Param{Type} );
+        $Param{TypeID} = $TypeObject->TypeLookup( Type => $Param{Type} );
     }
     elsif ( $Param{TypeID} && !$Param{Type} ) {
-        $Param{Type} = $Self->{TypeObject}->TypeLookup( TypeID => $Param{TypeID} );
+        $Param{Type} = $TypeObject->TypeLookup( TypeID => $Param{TypeID} );
     }
     if ( !$Param{TypeID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "No TypeID for '$Param{Type}'!",
         );
         return;
     }
 
+    # get queue object
+    my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+
     # QueueID/Queue lookup!
     if ( !$Param{QueueID} && $Param{Queue} ) {
-        $Param{QueueID} = $Self->{QueueObject}->QueueLookup( Queue => $Param{Queue} );
+        $Param{QueueID} = $QueueObject->QueueLookup( Queue => $Param{Queue} );
     }
     elsif ( !$Param{Queue} ) {
-        $Param{Queue} = $Self->{QueueObject}->QueueLookup( QueueID => $Param{QueueID} );
+        $Param{Queue} = $QueueObject->QueueLookup( QueueID => $Param{QueueID} );
     }
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "No QueueID for '$Param{Queue}'!",
         );
         return;
     }
 
+    # get state object
+    my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+
     # StateID/State lookup!
     if ( !$Param{StateID} ) {
-        my %State = $Self->{StateObject}->StateGet( Name => $Param{State} );
+        my %State = $StateObject->StateGet( Name => $Param{State} );
         $Param{StateID} = $State{ID};
     }
     elsif ( !$Param{State} ) {
-        my %State = $Self->{StateObject}->StateGet( ID => $Param{StateID} );
+        my %State = $StateObject->StateGet( ID => $Param{StateID} );
         $Param{State} = $State{Name};
     }
     if ( !$Param{StateID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "No StateID for '$Param{State}'!",
         );
@@ -425,53 +355,66 @@ sub TicketCreate {
 
     # LockID lookup!
     if ( !$Param{LockID} && $Param{Lock} ) {
-        $Param{LockID} = $Self->{LockObject}->LockLookup( Lock => $Param{Lock} );
+
+        $Param{LockID} = $Kernel::OM->Get('Kernel::System::Lock')->LockLookup(
+            Lock => $Param{Lock},
+        );
     }
     if ( !$Param{LockID} && !$Param{Lock} ) {
-        $Self->{LogObject}->Log(
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'No LockID and no LockType!',
         );
         return;
     }
 
+    # get priority object
+    my $PriorityObject = $Kernel::OM->Get('Kernel::System::Priority');
+
     # PriorityID/Priority lookup!
     if ( !$Param{PriorityID} && $Param{Priority} ) {
-        $Param{PriorityID} = $Self->{PriorityObject}->PriorityLookup(
+        $Param{PriorityID} = $PriorityObject->PriorityLookup(
             Priority => $Param{Priority},
         );
     }
     elsif ( $Param{PriorityID} && !$Param{Priority} ) {
-        $Param{Priority} = $Self->{PriorityObject}->PriorityLookup(
+        $Param{Priority} = $PriorityObject->PriorityLookup(
             PriorityID => $Param{PriorityID},
         );
     }
     if ( !$Param{PriorityID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'No PriorityID (invalid Priority Name?)!',
         );
         return;
     }
 
+    # get service object
+    my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
+
     # ServiceID/Service lookup!
     if ( !$Param{ServiceID} && $Param{Service} ) {
-        $Param{ServiceID} = $Self->{ServiceObject}->ServiceLookup(
+        $Param{ServiceID} = $ServiceObject->ServiceLookup(
             Name => $Param{Service},
         );
     }
     elsif ( $Param{ServiceID} && !$Param{Service} ) {
-        $Param{Service} = $Self->{ServiceObject}->ServiceLookup(
+        $Param{Service} = $ServiceObject->ServiceLookup(
             ServiceID => $Param{ServiceID},
         );
     }
 
+    # get sla object
+    my $SLAObject = $Kernel::OM->Get('Kernel::System::SLA');
+
     # SLAID/SLA lookup!
     if ( !$Param{SLAID} && $Param{SLA} ) {
-        $Param{SLAID} = $Self->{SLAObject}->SLALookup( Name => $Param{SLA} );
+        $Param{SLAID} = $SLAObject->SLALookup( Name => $Param{SLA} );
     }
     elsif ( $Param{SLAID} && !$Param{SLA} ) {
-        $Param{SLA} = $Self->{SLAObject}->SLALookup( SLAID => $Param{SLAID} );
+        $Param{SLA} = $SLAObject->SLALookup( SLAID => $Param{SLAID} );
     }
 
     # create ticket number if none is given
@@ -494,7 +437,7 @@ sub TicketCreate {
     $Param{SLAID}     ||= undef;
 
     # create db record
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             INSERT INTO ticket (tn, title, create_time_unix, type_id, queue_id, ticket_lock_id,
                 user_id, responsible_user_id, ticket_priority_id, ticket_state_id,
@@ -526,7 +469,7 @@ sub TicketCreate {
         CreateUserID => $Param{UserID},
     );
 
-    if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service') ) {
 
         # history insert for service so that initial values can be seen
         my $HistoryService   = $Param{Service}   || 'NULL';
@@ -563,7 +506,7 @@ sub TicketCreate {
     $Self->TicketAcceleratorAdd( TicketID => $TicketID );
 
     # log ticket creation
-    $Self->{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'info',
         Message => "New Ticket [$Param{TN}/" . substr( $Param{Title}, 0, 15 ) . "] created "
             . "(TicketID=$TicketID,Queue=$Param{Queue},Priority=$Param{Priority},State=$Param{State})",
@@ -601,7 +544,7 @@ sub TicketDelete {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -610,8 +553,7 @@ sub TicketDelete {
     $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
 
     # delete ticket links
-    my $LinkObject = Kernel::System::LinkObject->new( %{$Self} );
-    $LinkObject->LinkDeleteAll(
+    $Kernel::OM->Get('Kernel::System::LinkObject')->LinkDeleteAll(
         Object => 'Ticket',
         Key    => $Param{TicketID},
         UserID => $Param{UserID},
@@ -623,14 +565,17 @@ sub TicketDelete {
     # update full text index
     return if !$Self->ArticleIndexDeleteTicket(%Param);
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # remove ticket watcher
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM ticket_watcher WHERE ticket_id = ?',
         Bind => [ \$Param{TicketID} ],
     );
 
     # delete ticket flags
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM ticket_flag WHERE ticket_id = ?',
         Bind => [ \$Param{TicketID} ],
     );
@@ -650,8 +595,12 @@ sub TicketDelete {
         );
     }
 
+    # get dynamic field objects
+    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
     # get all dynamic fields for the object type Ticket
-    my $DynamicFieldListTicket = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+    my $DynamicFieldListTicket = $DynamicFieldObject->DynamicFieldListGet(
         ObjectType => 'Ticket',
         Valid      => 0,
     );
@@ -665,7 +614,7 @@ sub TicketDelete {
         next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
         next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
 
-        $Self->{DynamicFieldBackendObject}->ValueDelete(
+        $DynamicFieldBackendObject->ValueDelete(
             DynamicFieldConfig => $DynamicFieldConfig,
             ObjectID           => $Param{TicketID},
             UserID             => $Param{UserID},
@@ -673,7 +622,7 @@ sub TicketDelete {
     }
 
     # delete ticket
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM ticket WHERE id = ?',
         Bind => [ \$Param{TicketID} ],
     );
@@ -706,21 +655,25 @@ sub TicketIDLookup {
 
     # check needed stuff
     if ( !$Param{TicketNumber} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketNumber!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need TicketNumber!' );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # db query
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL   => 'SELECT id FROM ticket WHERE tn = ?',
         Bind  => [ \$Param{TicketNumber} ],
         Limit => 1,
     );
 
     my $ID;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $ID = $Row[0];
     }
+
     return $ID;
 }
 
@@ -740,21 +693,25 @@ sub TicketNumberLookup {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # db query
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL   => 'SELECT tn FROM ticket WHERE id = ?',
         Bind  => [ \$Param{TicketID} ],
         Limit => 1,
     );
 
     my $Number;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Number = $Row[0];
     }
+
     return $Number;
 }
 
@@ -805,7 +762,7 @@ sub TicketSubjectBuild {
 
     # check needed stuff
     if ( !defined $Param{TicketNumber} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketNumber!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need TicketNumber!" );
         return;
     }
     my $Subject = $Param{Subject} || '';
@@ -816,12 +773,15 @@ sub TicketSubjectBuild {
         $Subject = $Self->TicketSubjectClean(%Param);
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # get config options
-    my $TicketHook          = $Self->{ConfigObject}->Get('Ticket::Hook');
-    my $TicketHookDivider   = $Self->{ConfigObject}->Get('Ticket::HookDivider');
-    my $TicketSubjectRe     = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
-    my $TicketSubjectFwd    = $Self->{ConfigObject}->Get('Ticket::SubjectFwd');
-    my $TicketSubjectFormat = $Self->{ConfigObject}->Get('Ticket::SubjectFormat') || 'Left';
+    my $TicketHook          = $ConfigObject->Get('Ticket::Hook');
+    my $TicketHookDivider   = $ConfigObject->Get('Ticket::HookDivider');
+    my $TicketSubjectRe     = $ConfigObject->Get('Ticket::SubjectRe');
+    my $TicketSubjectFwd    = $ConfigObject->Get('Ticket::SubjectFwd');
+    my $TicketSubjectFormat = $ConfigObject->Get('Ticket::SubjectFormat') || 'Left';
 
     # return subject for new tickets
     if ( $Param{Type} && $Param{Type} eq 'New' ) {
@@ -883,22 +843,25 @@ sub TicketSubjectClean {
 
     # check needed stuff
     if ( !defined $Param{TicketNumber} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketNumber!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need TicketNumber!" );
         return;
     }
 
     my $Subject = $Param{Subject} || '';
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # get config options
-    my $TicketHook        = $Self->{ConfigObject}->Get('Ticket::Hook');
-    my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
+    my $TicketHook        = $ConfigObject->Get('Ticket::Hook');
+    my $TicketHookDivider = $ConfigObject->Get('Ticket::HookDivider');
     my $TicketSubjectSize = $Param{Size};
     if ( !defined $TicketSubjectSize ) {
-        $TicketSubjectSize = $Self->{ConfigObject}->Get('Ticket::SubjectSize')
+        $TicketSubjectSize = $ConfigObject->Get('Ticket::SubjectSize')
             || 120;
     }
-    my $TicketSubjectRe  = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
-    my $TicketSubjectFwd = $Self->{ConfigObject}->Get('Ticket::SubjectFwd');
+    my $TicketSubjectRe  = $ConfigObject->Get('Ticket::SubjectRe');
+    my $TicketSubjectFwd = $ConfigObject->Get('Ticket::SubjectFwd');
 
     # remove all possible ticket hook formats with []
     $Subject =~ s/\[\s*\Q$TicketHook: $Param{TicketNumber}\E\s*\]\s*//g;
@@ -906,7 +869,7 @@ sub TicketSubjectClean {
     $Subject =~ s/\[\s*\Q$TicketHook$TicketHookDivider$Param{TicketNumber}\E\s*\]\s*//g;
 
     # remove all ticket numbers with []
-    if ( $Self->{ConfigObject}->Get('Ticket::SubjectCleanAllNumbers') ) {
+    if ( $ConfigObject->Get('Ticket::SubjectCleanAllNumbers') ) {
         $Subject =~ s/\[\s*\Q$TicketHook$TicketHookDivider\E\d+?\s*\]\s*//g;
     }
 
@@ -916,7 +879,7 @@ sub TicketSubjectClean {
     $Subject =~ s/\Q$TicketHook$TicketHookDivider$Param{TicketNumber}\E\s*//g;
 
     # remove all ticket numbers without []
-    if ( $Self->{ConfigObject}->Get('Ticket::SubjectCleanAllNumbers') ) {
+    if ( $ConfigObject->Get('Ticket::SubjectCleanAllNumbers') ) {
         $Subject =~ s/\Q$TicketHook$TicketHookDivider\E\d+?\s*//g;
     }
 
@@ -1051,7 +1014,7 @@ sub TicketGet {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
     $Param{Extended} ||= '';
@@ -1086,7 +1049,10 @@ sub TicketGet {
     }
     else {
 
-        return if !$Self->{DBObject}->Prepare(
+        # get database object
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+        return if !$DBObject->Prepare(
             SQL => '
                 SELECT st.id, st.queue_id, st.ticket_state_id, st.ticket_lock_id, st.ticket_priority_id,
                     st.create_time_unix, st.create_time, st.tn, st.customer_id, st.customer_user_id,
@@ -1100,7 +1066,7 @@ sub TicketGet {
             Limit => 1,
         );
 
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $Ticket{TicketID}   = $Row[0];
             $Ticket{QueueID}    = $Row[1];
             $Ticket{StateID}    = $Row[2];
@@ -1144,7 +1110,7 @@ sub TicketGet {
     # check ticket
     if ( !$Ticket{TicketID} ) {
         if ( !$Param{Silent} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "No such TicketID ($Param{TicketID})!",
             );
@@ -1155,8 +1121,12 @@ sub TicketGet {
     # check if need to return DynamicFields
     if ($FetchDynamicFields) {
 
+        # get dynamic field objects
+        my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
         # get all dynamic fields for the object type Ticket
-        my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
             ObjectType => 'Ticket'
         );
 
@@ -1170,7 +1140,7 @@ sub TicketGet {
             next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
 
             # get the current value for each dynamic field
-            my $Value = $Self->{DynamicFieldBackendObject}->ValueGet(
+            my $Value = $DynamicFieldBackendObject->ValueGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $Ticket{TicketID},
             );
@@ -1180,11 +1150,14 @@ sub TicketGet {
         }
     }
 
-    $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp(
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+    $Ticket{Created} = $TimeObject->SystemTime2TimeStamp(
         SystemTime => $Ticket{CreateTimeUnix},
     );
 
-    my %Queue = $Self->{QueueObject}->QueueGet(
+    my %Queue = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet(
         ID => $Ticket{QueueID},
     );
 
@@ -1192,49 +1165,61 @@ sub TicketGet {
     $Ticket{GroupID} = $Queue{GroupID};
 
     # fillup runtime values
-    $Ticket{Age} = $Self->{TimeObject}->SystemTime() - $Ticket{CreateTimeUnix};
+    $Ticket{Age} = $TimeObject->SystemTime() - $Ticket{CreateTimeUnix};
 
-    $Ticket{Priority} = $Self->{PriorityObject}->PriorityLookup(
+    $Ticket{Priority} = $Kernel::OM->Get('Kernel::System::Priority')->PriorityLookup(
         PriorityID => $Ticket{PriorityID},
     );
 
+    # get user object
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
     # get owner
-    $Ticket{Owner} = $Self->{UserObject}->UserLookup(
+    $Ticket{Owner} = $UserObject->UserLookup(
         UserID => $Ticket{OwnerID},
     );
 
     # get responsible
-    $Ticket{Responsible} = $Self->{UserObject}->UserLookup(
+    $Ticket{Responsible} = $UserObject->UserLookup(
         UserID => $Ticket{ResponsibleID},
     );
 
     # get lock
-    $Ticket{Lock} = $Self->{LockObject}->LockLookup( LockID => $Ticket{LockID} );
+    $Ticket{Lock} = $Kernel::OM->Get('Kernel::System::Lock')->LockLookup(
+        LockID => $Ticket{LockID},
+    );
 
     # get type
-    $Ticket{Type} = $Self->{TypeObject}->TypeLookup( TypeID => $Ticket{TypeID} );
+    $Ticket{Type} = $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( TypeID => $Ticket{TypeID} );
 
     # get service
     if ( $Ticket{ServiceID} ) {
-        $Ticket{Service} = $Self->{ServiceObject}->ServiceLookup(
+
+        $Ticket{Service} = $Kernel::OM->Get('Kernel::System::Service')->ServiceLookup(
             ServiceID => $Ticket{ServiceID},
         );
     }
 
     # get sla
     if ( $Ticket{SLAID} ) {
-        $Ticket{SLA} = $Self->{SLAObject}->SLALookup( SLAID => $Ticket{SLAID} );
+        $Ticket{SLA} = $Kernel::OM->Get('Kernel::System::SLA')->SLALookup(
+            SLAID => $Ticket{SLAID},
+        );
     }
 
     # get state info
-    my %StateData = $Self->{StateObject}->StateGet( ID => $Ticket{StateID} );
+    my %StateData = $Kernel::OM->Get('Kernel::System::State')->StateGet(
+        ID => $Ticket{StateID}
+    );
+
     $Ticket{StateType} = $StateData{TypeName};
     $Ticket{State}     = $StateData{Name};
+
     if ( !$Ticket{RealTillTimeNotUsed} || lc $StateData{TypeName} eq 'pending' ) {
         $Ticket{UntilTime} = 0;
     }
     else {
-        $Ticket{UntilTime} = $Ticket{RealTillTimeNotUsed} - $Self->{TimeObject}->SystemTime();
+        $Ticket{UntilTime} = $Ticket{RealTillTimeNotUsed} - $TimeObject->SystemTime();
     }
 
     # get escalation attributes
@@ -1269,7 +1254,7 @@ sub _TicketCacheClear {
 
     for my $Needed (qw(TicketID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -1308,7 +1293,7 @@ sub _TicketGetExtended {
     # check needed stuff
     for my $Needed (qw(TicketID Ticket)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -1328,13 +1313,16 @@ sub _TicketGetFirstResponse {
     # check needed stuff
     for my $Needed (qw(TicketID Ticket)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # check if first response is already done
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => 'SELECT a.create_time,a.id FROM article a, article_sender_type ast, article_type art'
             . ' WHERE a.article_sender_type_id = ast.id AND a.article_type_id = art.id AND'
             . ' a.ticket_id = ? AND ast.name = \'agent\' AND'
@@ -1343,8 +1331,9 @@ sub _TicketGetFirstResponse {
         Bind  => [ \$Param{TicketID} ],
         Limit => 1,
     );
+
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Data{FirstResponse} = $Row[0];
 
         # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
@@ -1362,16 +1351,19 @@ sub _TicketGetFirstResponse {
 
     if ( $Escalation{FirstResponseTime} ) {
 
+        # get time object
+        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
         # get unix time stamps
-        my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+        my $CreateTime = $TimeObject->TimeStamp2SystemTime(
             String => $Param{Ticket}->{Created},
         );
-        my $FirstResponseTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+        my $FirstResponseTime = $TimeObject->TimeStamp2SystemTime(
             String => $Data{FirstResponse},
         );
 
         # get time between creation and first response
-        my $WorkingTime = $Self->{TimeObject}->WorkingTime(
+        my $WorkingTime = $TimeObject->WorkingTime(
             StartTime => $CreateTime,
             StopTime  => $FirstResponseTime,
             Calendar  => $Escalation{Calendar},
@@ -1381,6 +1373,7 @@ sub _TicketGetFirstResponse {
         my $EscalationFirstResponseTime = $Escalation{FirstResponseTime} * 60;
         $Data{FirstResponseDiffInMin} = int( ( $EscalationFirstResponseTime - $WorkingTime ) / 60 );
     }
+
     return %Data;
 }
 
@@ -1390,13 +1383,13 @@ sub _TicketGetClosed {
     # check needed stuff
     for my $Needed (qw(TicketID Ticket)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
     # get close state types
-    my @List = $Self->{StateObject}->StateGetStatesByType(
+    my @List = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
         StateType => ['closed'],
         Result    => 'ID',
     );
@@ -1408,7 +1401,10 @@ sub _TicketGetClosed {
         push @HistoryTypeIDs, $Self->HistoryTypeLookup( Type => $HistoryType );
     }
 
-    return if !$Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL => "
             SELECT MAX(create_time)
             FROM ticket_history
@@ -1421,7 +1417,7 @@ sub _TicketGetClosed {
 
     my %Data;
     ROW:
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         last ROW if !defined $Row[0];
         $Data{Closed} = $Row[0];
 
@@ -1443,16 +1439,19 @@ sub _TicketGetClosed {
 
     if ( $Escalation{SolutionTime} ) {
 
+        # get time object
+        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
         # get unix time stamps
-        my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+        my $CreateTime = $TimeObject->TimeStamp2SystemTime(
             String => $Param{Ticket}->{Created},
         );
-        my $SolutionTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+        my $SolutionTime = $TimeObject->TimeStamp2SystemTime(
             String => $Data{Closed},
         );
 
         # get time between creation and solution
-        my $WorkingTime = $Self->{TimeObject}->WorkingTime(
+        my $WorkingTime = $TimeObject->WorkingTime(
             StartTime => $CreateTime,
             StopTime  => $SolutionTime,
             Calendar  => $Escalation{Calendar},
@@ -1473,13 +1472,16 @@ sub _TicketGetFirstLock {
     # check needed stuff
     for my $Needed (qw(TicketID Ticket)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # first lock
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => 'SELECT th.name, tht.name, th.create_time '
             . 'FROM ticket_history th, ticket_history_type tht '
             . 'WHERE th.history_type_id = tht.id AND th.ticket_id = ? '
@@ -1489,7 +1491,7 @@ sub _TicketGetFirstLock {
     );
 
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( !$Data{FirstLock} ) {
             $Data{FirstLock} = $Row[2];
 
@@ -1523,7 +1525,7 @@ sub TicketTitleUpdate {
     # check needed stuff
     for my $Needed (qw(Title TicketID UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -1538,7 +1540,7 @@ sub TicketTitleUpdate {
     return 1 if defined $Ticket{Title} && $Ticket{Title} eq $Param{Title};
 
     # db access
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE ticket SET title = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE id = ?',
         Bind => [ \$Param{Title}, \$Param{UserID}, \$Param{TicketID} ],
@@ -1588,7 +1590,7 @@ sub TicketUnlockTimeoutUpdate {
     # check needed stuff
     for my $Needed (qw(UnlockTimeout TicketID UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -1602,7 +1604,7 @@ sub TicketUnlockTimeoutUpdate {
     return 1 if $Ticket{UnlockTimeout} eq $Param{UnlockTimeout};
 
     # reset unlock time
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE ticket SET timeout = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE id = ?',
         Bind => [ \$Param{UnlockTimeout}, \$Param{UserID}, \$Param{TicketID} ],
@@ -1646,7 +1648,7 @@ sub TicketQueueID {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
 
@@ -1688,7 +1690,7 @@ sub TicketMoveList {
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need UserID or CustomerUserID!',
         );
@@ -1697,19 +1699,22 @@ sub TicketMoveList {
 
     # check needed stuff
     if ( !$Param{QueueID} && !$Param{TicketID} && !$Param{Type} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need QueueID, TicketID or Type!',
         );
         return;
     }
 
+    # get queue object
+    my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+
     my %Queues;
     if ( $Param{UserID} && $Param{UserID} eq 1 ) {
-        %Queues = $Self->{QueueObject}->GetAllQueues();
+        %Queues = $QueueObject->GetAllQueues();
     }
     else {
-        %Queues = $Self->{QueueObject}->GetAllQueues(%Param);
+        %Queues = $QueueObject->GetAllQueues(%Param);
     }
 
     # workflow
@@ -1763,15 +1768,18 @@ Events:
 sub TicketQueueSet {
     my ( $Self, %Param ) = @_;
 
+    # get queue object
+    my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+
     # queue lookup
     if ( $Param{Queue} && !$Param{QueueID} ) {
-        $Param{QueueID} = $Self->{QueueObject}->QueueLookup( Queue => $Param{Queue} );
+        $Param{QueueID} = $QueueObject->QueueLookup( Queue => $Param{Queue} );
     }
 
     # check needed stuff
     for my $Needed (qw(TicketID QueueID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -1792,21 +1800,21 @@ sub TicketQueueSet {
     # permission check
     my %MoveList = $Self->MoveList( %Param, Type => 'move_into' );
     if ( !$MoveList{ $Param{QueueID} } ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "Permission denied on TicketID: $Param{TicketID}!",
         );
         return;
     }
 
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE ticket SET queue_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE id = ?',
         Bind => [ \$Param{QueueID}, \$Param{UserID}, \$Param{TicketID} ],
     );
 
     # queue lookup
-    my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $Param{QueueID} );
+    my $Queue = $QueueObject->QueueLookup( QueueID => $Param{QueueID} );
 
     # clear ticket cache
     $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
@@ -1822,17 +1830,22 @@ sub TicketQueueSet {
 
     # send move notify to queue subscriber
     if ( !$Param{SendNoNotification} && $Ticket{StateType} ne 'closed' ) {
+
         my %Used;
         my @UserIDs = $Self->GetSubscribedUserIDsByQueueID( QueueID => $Param{QueueID} );
+
         if ( $Param{ForceNotificationToUserID} ) {
             push @UserIDs, @{ $Param{ForceNotificationToUserID} };
         }
+
+        # get user object
+        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
         USER:
         for my $UserID (@UserIDs) {
             if ( !$Used{$UserID} && $UserID ne $Param{UserID} ) {
                 $Used{$UserID} = 1;
-                my %UserData = $Self->{UserObject}->GetUserData(
+                my %UserData = $UserObject->GetUserData(
                     UserID => $UserID,
                     Valid  => 1,
                 );
@@ -1895,20 +1908,24 @@ sub TicketMoveQueueList {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need TicketID!" );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # db query
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => 'SELECT sh.name, ht.name, sh.create_by, sh.queue_id FROM '
             . 'ticket_history sh, ticket_history_type ht WHERE '
             . 'sh.ticket_id = ? AND ht.name IN (\'Move\', \'NewTicket\') AND '
             . 'ht.id = sh.history_type_id ORDER BY sh.id',
         Bind => [ \$Param{TicketID} ],
     );
+
     my @QueueID;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
 
         # store result
         if ( $Row[1] eq 'NewTicket' ) {
@@ -1926,12 +1943,18 @@ sub TicketMoveQueueList {
         }
     }
 
+    # get queue object
+    my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+
     # queue lookup
     my @QueueName;
     for my $QueueID (@QueueID) {
-        my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID );
+
+        my $Queue = $QueueObject->QueueLookup( QueueID => $QueueID );
+
         push @QueueName, $Queue;
     }
+
     if ( $Param{Type} && $Param{Type} eq 'Name' ) {
         return @QueueName;
     }
@@ -1973,16 +1996,11 @@ sub TicketTypeList {
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
         return;
     }
 
-    # check needed stuff
-    # if (!$Param{QueueID} && !$Param{TicketID}) {
-    #     $Self->{LogObject}->Log(Priority => 'error', Message => 'Need QueueID or TicketID!');
-    #     return;
-    # }
-    my %Types = $Self->{TypeObject}->TypeList( Valid => 1 );
+    my %Types = $Kernel::OM->Get('Kernel::System::Type')->TypeList( Valid => 1 );
 
     # workflow
     my $ACL = $Self->TicketAcl(
@@ -1991,6 +2009,7 @@ sub TicketTypeList {
         ReturnSubType => 'Type',
         Data          => \%Types,
     );
+
     return $Self->TicketAclData() if $ACL;
     return %Types;
 }
@@ -2021,13 +2040,13 @@ sub TicketTypeSet {
 
     # type lookup
     if ( $Param{Type} && !$Param{TypeID} ) {
-        $Param{TypeID} = $Self->{TypeObject}->TypeLookup( Type => $Param{Type} );
+        $Param{TypeID} = $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( Type => $Param{Type} );
     }
 
     # check needed stuff
     for my $Needed (qw(TicketID TypeID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -2044,14 +2063,14 @@ sub TicketTypeSet {
     # permission check
     my %TypeList = $Self->TicketTypeList(%Param);
     if ( !$TypeList{ $Param{TypeID} } ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "Permission denied on TicketID: $Param{TicketID}!",
         );
         return;
     }
 
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE ticket SET type_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE id = ?',
         Bind => [ \$Param{TypeID}, \$Param{UserID}, \$Param{TicketID} ],
@@ -2125,7 +2144,7 @@ sub TicketServiceList {
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need UserID, CustomerUserID or UserID and CustomerUserID is needed!',
         );
@@ -2134,18 +2153,22 @@ sub TicketServiceList {
 
     # check needed stuff
     if ( !$Param{QueueID} && !$Param{TicketID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need QueueID or TicketID!',
         );
         return;
     }
+
+    # get service object
+    my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
+
     my %Services;
     if ( !$Param{CustomerUserID} ) {
-        %Services = $Self->{ServiceObject}->ServiceList( UserID => 1, );
+        %Services = $ServiceObject->ServiceList( UserID => 1, );
     }
     else {
-        %Services = $Self->{ServiceObject}->CustomerUserServiceMemberList(
+        %Services = $ServiceObject->CustomerUserServiceMemberList(
             Result            => 'HASH',
             CustomerUserLogin => $Param{CustomerUserID},
             UserID            => 1,
@@ -2159,6 +2182,7 @@ sub TicketServiceList {
         ReturnSubType => 'Service',
         Data          => \%Services,
     );
+
     return $Self->TicketAclData() if $ACL;
     return %Services;
 }
@@ -2189,13 +2213,15 @@ sub TicketServiceSet {
 
     # service lookup
     if ( $Param{Service} && !$Param{ServiceID} ) {
-        $Param{ServiceID} = $Self->{ServiceObject}->ServiceLookup( Name => $Param{Service} );
+        $Param{ServiceID} = $Kernel::OM->Get('Kernel::System::Service')->ServiceLookup(
+            Name => $Param{Service},
+        );
     }
 
     # check needed stuff
     for my $Needed (qw(TicketID ServiceID UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -2212,7 +2238,7 @@ sub TicketServiceSet {
     # permission check
     my %ServiceList = $Self->TicketServiceList(%Param);
     if ( $Param{ServiceID} ne '' && !$ServiceList{ $Param{ServiceID} } ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "Permission denied on TicketID: $Param{TicketID}!",
         );
@@ -2226,7 +2252,7 @@ sub TicketServiceSet {
         }
     }
 
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE ticket SET service_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE id = ?',
         Bind => [ \$Param{ServiceID}, \$Param{UserID}, \$Param{TicketID} ],
@@ -2255,15 +2281,19 @@ sub TicketServiceSet {
     );
 
     # get queue data for this ticket
-    my %Queue = $Self->{QueueObject}->QueueGet(
+    my %Queue = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet(
         ID => $Ticket{QueueID},
     );
+
+    # get needed objects
+    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+    my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
 
     USERID:
     for my $UserID ( $Self->GetSubscribedUserIDsByServiceID( ServiceID => $Param{ServiceID} ) ) {
 
         # get the preferences for each user
-        my %Preferences = $Self->{UserObject}->GetPreferences(
+        my %Preferences = $UserObject->GetPreferences(
             UserID => $UserID,
         );
 
@@ -2271,7 +2301,7 @@ sub TicketServiceSet {
         next USERID if !$Preferences{UserSendServiceUpdateNotification};
 
         # get groups where user is a member for at least the ro permission
-        my %GroupMember = $Self->{GroupObject}->GroupMemberList(
+        my %GroupMember = $GroupObject->GroupMemberList(
             UserID => $UserID,
             Type   => 'ro',
             Result => 'HASH',
@@ -2319,7 +2349,7 @@ sub TicketEscalationPreferences {
     # check needed stuff
     for my $Needed (qw(Ticket UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -2329,15 +2359,16 @@ sub TicketEscalationPreferences {
 
     # get escalation properties
     my %Escalation;
-    if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Ticket{SLAID} ) {
-        %Escalation = $Self->{SLAObject}->SLAGet(
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service') && $Ticket{SLAID} ) {
+
+        %Escalation = $Kernel::OM->Get('Kernel::System::SLA')->SLAGet(
             SLAID  => $Ticket{SLAID},
             UserID => $Param{UserID},
             Cache  => 1,
         );
     }
     else {
-        %Escalation = $Self->{QueueObject}->QueueGet(
+        %Escalation = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet(
             ID     => $Ticket{QueueID},
             UserID => $Param{UserID},
             Cache  => 1,
@@ -2395,7 +2426,7 @@ sub TicketEscalationDateCalculation {
     # check needed stuff
     for my $Needed (qw(Ticket UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -2428,10 +2459,14 @@ sub TicketEscalationDateCalculation {
             last KEY;
         }
     }
+
     return if !$EscalationAttribute;
 
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     # calculate escalation times based on escalation properties
-    my $Time = $Self->{TimeObject}->SystemTime();
+    my $Time = $TimeObject->SystemTime();
     my %Data;
 
     TIME:
@@ -2446,7 +2481,7 @@ sub TicketEscalationDateCalculation {
         my $WorkingTime = 0;
         if ( $TimeTillEscalation > 0 ) {
 
-            $WorkingTime = $Self->{TimeObject}->WorkingTime(
+            $WorkingTime = $TimeObject->WorkingTime(
                 StartTime => $Time,
                 StopTime  => $Ticket{$Key},
                 Calendar  => $Escalation{Calendar},
@@ -2469,7 +2504,7 @@ sub TicketEscalationDateCalculation {
 
         # ticket is overtime ($TimeTillEscalation < 0)
         else {
-            $WorkingTime = $Self->{TimeObject}->WorkingTime(
+            $WorkingTime = $TimeObject->WorkingTime(
                 StartTime => $Ticket{$Key},
                 StopTime  => $Time,
                 Calendar  => $Escalation{Calendar},
@@ -2479,7 +2514,7 @@ sub TicketEscalationDateCalculation {
             # set escalation
             $Data{ $Map{$Key} . 'TimeEscalation' } = 1;
         }
-        my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(
+        my $DestinationDate = $TimeObject->SystemTime2TimeStamp(
             SystemTime => $Ticket{$Key},
         );
         $Data{ $Map{$Key} . 'TimeDestinationTime' } = $Ticket{$Key};
@@ -2532,7 +2567,7 @@ sub TicketEscalationIndexBuild {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -2542,6 +2577,9 @@ sub TicketEscalationIndexBuild {
         UserID        => $Param{UserID},
         DynamicFields => 0,
     );
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # do no escalations on (merge|close|remove) tickets
     if ( $Ticket{StateType} =~ /^(merge|close|remove)/i ) {
@@ -2561,7 +2599,7 @@ sub TicketEscalationIndexBuild {
             next TIME if !$Ticket{$Key};
 
             # update ticket table
-            $Self->{DBObject}->Do(
+            $DBObject->Do(
                 SQL =>
                     "UPDATE ticket SET $EscalationTimes{$Key} = 0, change_time = current_timestamp, "
                     . " change_by = ? WHERE id = ?",
@@ -2586,7 +2624,7 @@ sub TicketEscalationIndexBuild {
 
     # update first response (if not responded till now)
     if ( !$Escalation{FirstResponseTime} ) {
-        $Self->{DBObject}->Do(
+        $DBObject->Do(
             SQL =>
                 'UPDATE ticket SET escalation_response_time = 0, change_time = current_timestamp, '
                 . ' change_by = ? WHERE id = ?',
@@ -2603,7 +2641,7 @@ sub TicketEscalationIndexBuild {
 
         # update first response time to 0
         if (%FirstResponseDone) {
-            $Self->{DBObject}->Do(
+            $DBObject->Do(
                 SQL =>
                     'UPDATE ticket SET escalation_response_time = 0, change_time = current_timestamp, '
                     . ' change_by = ? WHERE id = ?',
@@ -2613,8 +2651,12 @@ sub TicketEscalationIndexBuild {
 
         # update first response time to expected escalation destination time
         else {
-            my $DestinationTime = $Self->{TimeObject}->DestinationTime(
-                StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(
+
+            # get time object
+            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+            my $DestinationTime = $TimeObject->DestinationTime(
+                StartTime => $TimeObject->TimeStamp2SystemTime(
                     String => $Ticket{Created}
                 ),
                 Time     => $Escalation{FirstResponseTime} * 60,
@@ -2622,7 +2664,7 @@ sub TicketEscalationIndexBuild {
             );
 
             # update first response time to $DestinationTime
-            $Self->{DBObject}->Do(
+            $DBObject->Do(
                 SQL =>
                     'UPDATE ticket SET escalation_response_time = ?, change_time = current_timestamp, '
                     . ' change_by = ? WHERE id = ?',
@@ -2636,7 +2678,7 @@ sub TicketEscalationIndexBuild {
 
     # update update && do not escalate in "pending auto" for escalation update time
     if ( !$Escalation{UpdateTime} || $Ticket{StateType} =~ /^(pending)/i ) {
-        $Self->{DBObject}->Do(
+        $DBObject->Do(
             SQL => 'UPDATE ticket SET escalation_update_time = 0, change_time = current_timestamp, '
                 . ' change_by = ? WHERE id = ?',
             Bind => [ \$Param{UserID}, \$Ticket{TicketID}, ]
@@ -2646,12 +2688,12 @@ sub TicketEscalationIndexBuild {
 
         # check if update escalation should be set
         my @SenderHistory;
-        return if !$Self->{DBObject}->Prepare(
+        return if !$DBObject->Prepare(
             SQL => 'SELECT article_sender_type_id, article_type_id, create_time FROM '
                 . 'article WHERE ticket_id = ? ORDER BY create_time ASC',
             Bind => [ \$Param{TicketID} ],
         );
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             push @SenderHistory, {
                 SenderTypeID  => $Row[0],
                 ArticleTypeID => $Row[1],
@@ -2713,8 +2755,12 @@ sub TicketEscalationIndexBuild {
             }
         }
         if ($LastSenderTime) {
-            my $DestinationTime = $Self->{TimeObject}->DestinationTime(
-                StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(
+
+            # get time object
+            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+            my $DestinationTime = $TimeObject->DestinationTime(
+                StartTime => $TimeObject->TimeStamp2SystemTime(
                     String => $LastSenderTime,
                 ),
                 Time     => $Escalation{UpdateTime} * 60,
@@ -2722,7 +2768,7 @@ sub TicketEscalationIndexBuild {
             );
 
             # update update time to $DestinationTime
-            $Self->{DBObject}->Do(
+            $DBObject->Do(
                 SQL =>
                     'UPDATE ticket SET escalation_update_time = ?, change_time = current_timestamp, '
                     . ' change_by = ? WHERE id = ?',
@@ -2737,7 +2783,7 @@ sub TicketEscalationIndexBuild {
 
         # else, no not escalate, because latest sender was agent
         else {
-            $Self->{DBObject}->Do(
+            $DBObject->Do(
                 SQL =>
                     'UPDATE ticket SET escalation_update_time = 0, change_time = current_timestamp, '
                     . ' change_by = ? WHERE id = ?',
@@ -2748,7 +2794,7 @@ sub TicketEscalationIndexBuild {
 
     # update solution
     if ( !$Escalation{SolutionTime} ) {
-        $Self->{DBObject}->Do(
+        $DBObject->Do(
             SQL =>
                 'UPDATE ticket SET escalation_solution_time = 0, change_time = current_timestamp, '
                 . ' change_by = ? WHERE id = ?',
@@ -2765,7 +2811,7 @@ sub TicketEscalationIndexBuild {
 
         # update solution time to 0
         if (%SolutionDone) {
-            $Self->{DBObject}->Do(
+            $DBObject->Do(
                 SQL =>
                     'UPDATE ticket SET escalation_solution_time = 0, change_time = current_timestamp, '
                     . ' change_by = ? WHERE id = ?',
@@ -2773,8 +2819,12 @@ sub TicketEscalationIndexBuild {
             );
         }
         else {
-            my $DestinationTime = $Self->{TimeObject}->DestinationTime(
-                StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(
+
+            # get time object
+            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+            my $DestinationTime = $TimeObject->DestinationTime(
+                StartTime => $TimeObject->TimeStamp2SystemTime(
                     String => $Ticket{Created}
                 ),
                 Time     => $Escalation{SolutionTime} * 60,
@@ -2782,7 +2832,7 @@ sub TicketEscalationIndexBuild {
             );
 
             # update solution time to $DestinationTime
-            $Self->{DBObject}->Do(
+            $DBObject->Do(
                 SQL =>
                     'UPDATE ticket SET escalation_solution_time = ?, change_time = current_timestamp, '
                     . ' change_by = ? WHERE id = ?',
@@ -2798,7 +2848,7 @@ sub TicketEscalationIndexBuild {
 
     # update escalation time (< escalation time)
     if ( defined $EscalationTime ) {
-        $Self->{DBObject}->Do(
+        $DBObject->Do(
             SQL => 'UPDATE ticket SET escalation_time = ?, change_time = current_timestamp, '
                 . ' change_by = ? WHERE id = ?',
             Bind => [ \$EscalationTime, \$Param{UserID}, \$Ticket{TicketID}, ],
@@ -2847,13 +2897,13 @@ sub TicketSLAList {
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
         return;
     }
 
     # check needed stuff
     if ( !$Param{QueueID} && !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID or TicketID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need QueueID or TicketID!' );
         return;
     }
 
@@ -2863,7 +2913,7 @@ sub TicketSLAList {
     }
 
     # get sla list
-    my %SLAs = $Self->{SLAObject}->SLAList(
+    my %SLAs = $Kernel::OM->Get('Kernel::System::SLA')->SLAList(
         ServiceID => $Param{ServiceID},
         UserID    => 1,
     );
@@ -2875,6 +2925,7 @@ sub TicketSLAList {
         ReturnSubType => 'SLA',
         Data          => \%SLAs,
     );
+
     return $Self->TicketAclData() if $ACL;
     return %SLAs;
 }
@@ -2905,13 +2956,13 @@ sub TicketSLASet {
 
     # sla lookup
     if ( $Param{SLA} && !$Param{SLAID} ) {
-        $Param{SLAID} = $Self->{SLAObject}->SLALookup( Name => $Param{SLA} );
+        $Param{SLAID} = $Kernel::OM->Get('Kernel::System::SLA')->SLALookup( Name => $Param{SLA} );
     }
 
     # check needed stuff
     for my $Needed (qw(TicketID SLAID UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -2932,7 +2983,7 @@ sub TicketSLASet {
     );
 
     if ( $Param{UserID} != 1 && $Param{SLAID} ne '' && !$SLAList{ $Param{SLAID} } ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "Permission denied on TicketID: $Param{TicketID}!",
         );
@@ -2946,7 +2997,7 @@ sub TicketSLASet {
         }
     }
 
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE ticket SET sla_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE id = ?',
         Bind => [ \$Param{SLAID}, \$Param{UserID}, \$Param{TicketID} ],
@@ -3009,22 +3060,27 @@ sub TicketCustomerSet {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
     if ( !defined $Param{No} && !defined $Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User or No for update!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need User or No for update!' );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # db customer id update
     if ( defined $Param{No} ) {
-        my $Ok = $Self->{DBObject}->Do(
+
+        my $Ok = $DBObject->Do(
             SQL => 'UPDATE ticket SET customer_id = ?, '
                 . ' change_time = current_timestamp, change_by = ? WHERE id = ?',
             Bind => [ \$Param{No}, \$Param{UserID}, \$Param{TicketID} ]
         );
+
         if ($Ok) {
             $Param{History} = "CustomerID=$Param{No};";
         }
@@ -3032,11 +3088,13 @@ sub TicketCustomerSet {
 
     # db customer user update
     if ( defined $Param{User} ) {
-        my $Ok = $Self->{DBObject}->Do(
+
+        my $Ok = $DBObject->Do(
             SQL => 'UPDATE ticket SET customer_user_id = ?, '
                 . 'change_time = current_timestamp, change_by = ? WHERE id = ?',
             Bind => [ \$Param{User}, \$Param{UserID}, \$Param{TicketID} ],
         );
+
         if ($Ok) {
             $Param{History} .= "CustomerUser=$Param{User};";
         }
@@ -3097,43 +3155,35 @@ sub TicketPermission {
     # check needed stuff
     for my $Needed (qw(Type TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
+    # get needed objects
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+
     # run all TicketPermission modules
-    if ( ref $Self->{ConfigObject}->Get('Ticket::Permission') eq 'HASH' ) {
-        my %Modules = %{ $Self->{ConfigObject}->Get('Ticket::Permission') };
+    if ( ref $ConfigObject->Get('Ticket::Permission') eq 'HASH' ) {
+        my %Modules = %{ $ConfigObject->Get('Ticket::Permission') };
 
         MODULE:
         for my $Module ( sort keys %Modules ) {
 
             # log try of load module
             if ( $Self->{Debug} > 1 ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
                     Message  => "Try to load module: $Modules{$Module}->{Module}!",
                 );
             }
 
             # load module
-            next MODULE if !$Self->{MainObject}->Require( $Modules{$Module}->{Module} );
+            next MODULE if !$MainObject->Require( $Modules{$Module}->{Module} );
 
             # create object
-            my $ModuleObject = $Modules{$Module}->{Module}->new(
-                ConfigObject => $Self->{ConfigObject},
-                EncodeObject => $Self->{EncodeObject},
-                LogObject    => $Self->{LogObject},
-                MainObject   => $Self->{MainObject},
-                TimeObject   => $Self->{TimeObject},
-                DBObject     => $Self->{DBObject},
-                TicketObject => $Self,
-                QueueObject  => $Self->{QueueObject},
-                UserObject   => $Self->{UserObject},
-                GroupObject  => $Self->{GroupObject},
-                Debug        => $Self->{Debug},
-            );
+            my $ModuleObject = $Modules{$Module}->{Module}->new();
 
             # execute Run()
             my $AccessOk = $ModuleObject->Run(%Param);
@@ -3141,7 +3191,7 @@ sub TicketPermission {
             # check granted option (should I say ok)
             if ( $AccessOk && $Modules{$Module}->{Granted} ) {
                 if ( $Self->{Debug} > 0 ) {
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'debug',
                         Message  => "Granted access '$Param{Type}' true for "
                             . "TicketID '$Param{TicketID}' "
@@ -3156,7 +3206,7 @@ sub TicketPermission {
             # return because access is false but it's required
             if ( !$AccessOk && $Modules{$Module}->{Required} ) {
                 if ( !$Param{LogNo} ) {
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'notice',
                         Message  => "Permission denied because module "
                             . "($Modules{$Module}->{Module}) is required "
@@ -3173,12 +3223,13 @@ sub TicketPermission {
 
     # don't grant access to the ticket
     if ( !$Param{LogNo} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "Permission denied (UserID: $Param{UserID} '$Param{Type}' "
                 . "on TicketID: $Param{TicketID})!",
         );
     }
+
     return;
 }
 
@@ -3209,43 +3260,35 @@ sub TicketCustomerPermission {
     # check needed stuff
     for my $Needed (qw(Type TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
+    # get main object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+
     # run all CustomerTicketPermission modules
-    if ( ref $Self->{ConfigObject}->Get('CustomerTicket::Permission') eq 'HASH' ) {
-        my %Modules = %{ $Self->{ConfigObject}->Get('CustomerTicket::Permission') };
+    if ( ref $ConfigObject->Get('CustomerTicket::Permission') eq 'HASH' ) {
+        my %Modules = %{ $ConfigObject->Get('CustomerTicket::Permission') };
 
         MODULE:
         for my $Module ( sort keys %Modules ) {
 
             # log try of load module
             if ( $Self->{Debug} > 1 ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
                     Message  => "Try to load module: $Modules{$Module}->{Module}!",
                 );
             }
 
             # load module
-            next MODULE if !$Self->{MainObject}->Require( $Modules{$Module}->{Module} );
+            next MODULE if !$MainObject->Require( $Modules{$Module}->{Module} );
 
             # create object
-            my $ModuleObject = $Modules{$Module}->{Module}->new(
-                ConfigObject        => $Self->{ConfigObject},
-                EncodeObject        => $Self->{EncodeObject},
-                LogObject           => $Self->{LogObject},
-                MainObject          => $Self->{MainObject},
-                TimeObject          => $Self->{TimeObject},
-                DBObject            => $Self->{DBObject},
-                TicketObject        => $Self,
-                QueueObject         => $Self->{QueueObject},
-                CustomerUserObject  => $Self->{CustomerUserObject},
-                CustomerGroupObject => $Self->{CustomerGroupObject},
-                Debug               => $Self->{Debug},
-            );
+            my $ModuleObject = $Modules{$Module}->{Module}->new();
 
             # execute Run()
             my $AccessOk = $ModuleObject->Run(%Param);
@@ -3253,7 +3296,7 @@ sub TicketCustomerPermission {
             # check granted option (should I say ok)
             if ( $AccessOk && $Modules{$Module}->{Granted} ) {
                 if ( $Self->{Debug} > 0 ) {
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'debug',
                         Message  => "Granted access '$Param{Type}' true for "
                             . "TicketID '$Param{TicketID}' "
@@ -3268,7 +3311,7 @@ sub TicketCustomerPermission {
             # return because access is false but it's required
             if ( !$AccessOk && $Modules{$Module}->{Required} ) {
                 if ( !$Param{LogNo} ) {
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'notice',
                         Message  => "Permission denied because module "
                             . "($Modules{$Module}->{Module}) is required "
@@ -3285,7 +3328,7 @@ sub TicketCustomerPermission {
 
     # don't grant access to the ticket
     if ( !$Param{LogNo} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "Permission denied (UserID: $Param{UserID} '$Param{Type}' on "
                 . "TicketID: $Param{TicketID})!",
@@ -3314,41 +3357,52 @@ sub GetSubscribedUserIDsByQueueID {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need QueueID!' );
         return;
     }
 
     # get group of queue
-    my %Queue = $Self->{QueueObject}->QueueGet( ID => $Param{QueueID} );
+    my %Queue = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet( ID => $Param{QueueID} );
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # fetch all queues
     my @UserIDs;
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL  => 'SELECT user_id FROM personal_queues WHERE queue_id = ?',
         Bind => [ \$Param{QueueID} ],
     );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         push @UserIDs, $Row[0];
     }
+
+    # get needed objects
+    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+    my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
 
     # check if user is valid and check permissions
     my @CleanUserIDs;
 
     USER:
     for my $UserID (@UserIDs) {
-        my %User = $Self->{UserObject}->GetUserData( UserID => $UserID, Valid => 1 );
+
+        my %User = $UserObject->GetUserData( UserID => $UserID, Valid => 1 );
+
         next USER if !%User;
 
         # just send emails to permitted agents
-        my %GroupMember = $Self->{GroupObject}->GroupMemberList(
+        my %GroupMember = $GroupObject->GroupMemberList(
             UserID => $UserID,
             Type   => 'ro',
             Result => 'HASH',
         );
+
         if ( $GroupMember{ $Queue{GroupID} } ) {
             push @CleanUserIDs, $UserID;
         }
     }
+
     return @CleanUserIDs;
 }
 
@@ -3372,33 +3426,45 @@ sub GetSubscribedUserIDsByServiceID {
 
     # check needed stuff
     if ( !$Param{ServiceID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ServiceID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ServiceID!' );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # fetch all users
     my @UserIDs;
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => '
             SELECT user_id
             FROM personal_services
             WHERE service_id = ?',
         Bind => [ \$Param{ServiceID} ],
     );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         push @UserIDs, $Row[0];
     }
 
+    # get user object
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
     # check if user is valid
     my @CleanUserIDs;
-
     USER:
     for my $UserID (@UserIDs) {
-        my %User = $Self->{UserObject}->GetUserData( UserID => $UserID, Valid => 1 );
+
+        my %User = $UserObject->GetUserData(
+            UserID => $UserID,
+            Valid => 1,
+        );
+
         next USER if !%User;
 
         push @CleanUserIDs, $UserID;
     }
+
     return @CleanUserIDs;
 }
 
@@ -3464,7 +3530,7 @@ sub TicketPendingTimeSet {
     if ( !$Param{String} && !$Param{Diff} ) {
         for my $Needed (qw(Year Month Day Hour Minute TicketID UserID)) {
             if ( !defined $Param{$Needed} ) {
-                $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+                $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
                 return;
             }
         }
@@ -3476,7 +3542,7 @@ sub TicketPendingTimeSet {
     {
         for my $Needed (qw(Diff TicketID UserID)) {
             if ( !defined $Param{$Needed} ) {
-                $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+                $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
                 return;
             }
         }
@@ -3484,7 +3550,7 @@ sub TicketPendingTimeSet {
     else {
         for my $Needed (qw(String TicketID UserID)) {
             if ( !defined $Param{$Needed} ) {
-                $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+                $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
                 return;
             }
         }
@@ -3516,21 +3582,25 @@ sub TicketPendingTimeSet {
     # get system time from string/params
     my $Time = 0;
     if ( !$PendingTimeNull ) {
+
+        # get time object
+        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
         if ( $Param{String} ) {
-            $Time = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Param{String}, );
+            $Time = $TimeObject->TimeStamp2SystemTime( String => $Param{String}, );
             ( $Param{Sec}, $Param{Minute}, $Param{Hour}, $Param{Day}, $Param{Month}, $Param{Year} )
-                = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Time, );
+                = $TimeObject->SystemTime2Date( SystemTime => $Time, );
         }
         elsif ( $Param{Diff} ) {
-            $Time = $Self->{TimeObject}->SystemTime() + ( $Param{Diff} * 60 );
+            $Time = $TimeObject->SystemTime() + ( $Param{Diff} * 60 );
             ( $Param{Sec}, $Param{Minute}, $Param{Hour}, $Param{Day}, $Param{Month}, $Param{Year} )
                 =
-                $Self->{TimeObject}->SystemTime2Date(
+                $TimeObject->SystemTime2Date(
                 SystemTime => $Time,
                 );
         }
         else {
-            $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
+            $Time = $TimeObject->TimeStamp2SystemTime(
                 String => "$Param{Year}-$Param{Month}-$Param{Day} $Param{Hour}:$Param{Minute}:00",
             );
         }
@@ -3540,7 +3610,7 @@ sub TicketPendingTimeSet {
     }
 
     # db update
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE ticket SET until_time = ?, change_time = current_timestamp, change_by = ?'
             . ' WHERE id = ?',
         Bind => [ \$Time, \$Param{UserID}, \$Param{TicketID} ],
@@ -3592,7 +3662,7 @@ sub TicketLockGet {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
 
@@ -3641,21 +3711,27 @@ sub TicketLockSet {
 
     # lookup!
     if ( !$Param{LockID} && $Param{Lock} ) {
-        $Param{LockID} = $Self->{LockObject}->LockLookup( Lock => $Param{Lock} );
+
+        $Param{LockID} = $Kernel::OM->Get('Kernel::System::Lock')->LockLookup(
+            Lock => $Param{Lock},
+        );
     }
     if ( $Param{LockID} && !$Param{Lock} ) {
-        $Param{Lock} = $Self->{LockObject}->LockLookup( LockID => $Param{LockID} );
+
+        $Param{Lock} = $Kernel::OM->Get('Kernel::System::Lock')->LockLookup(
+            LockID => $Param{LockID},
+        );
     }
 
     # check needed stuff
     for my $Needed (qw(TicketID UserID LockID Lock)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
     if ( !$Param{Lock} && !$Param{LockID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need LockID or Lock!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need LockID or Lock!' );
         return;
     }
 
@@ -3667,7 +3743,7 @@ sub TicketLockSet {
     return 1 if $Ticket{Lock} eq $Param{Lock};
 
     # db update
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE ticket SET ticket_lock_id = ?, '
             . ' change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [ \$Param{LockID}, \$Param{UserID}, \$Param{TicketID} ],
@@ -3698,8 +3774,12 @@ sub TicketLockSet {
 
     # set unlock time it event is 'lock'
     if ( $Param{Lock} eq 'lock' ) {
+
+        # get time object
+        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
         $Self->TicketUnlockTimeoutUpdate(
-            UnlockTimeout => $Self->{TimeObject}->SystemTime(),
+            UnlockTimeout => $TimeObject->SystemTime(),
             TicketID      => $Param{TicketID},
             UserID        => $Param{UserID},
         );
@@ -3707,6 +3787,7 @@ sub TicketLockSet {
 
     # send unlock notify
     if ( lc $Param{Lock} eq 'unlock' ) {
+
         my %Ticket = $Self->TicketGet(
             %Param,
             DynamicFields => 0,
@@ -3723,7 +3804,7 @@ sub TicketLockSet {
         {
 
             # get user data of owner
-            my %Preferences = $Self->{UserObject}->GetUserData(
+            my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
                 UserID => $Ticket{OwnerID},
                 Valid  => 1,
             );
@@ -3774,7 +3855,7 @@ sub TicketArchiveFlagSet {
     # check needed stuff
     for my $Needed (qw(TicketID UserID ArchiveFlag)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
@@ -3782,12 +3863,15 @@ sub TicketArchiveFlagSet {
         }
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # return if feature is not enabled
-    return if !$Self->{ConfigObject}->Get('Ticket::ArchiveSystem');
+    return if !$ConfigObject->Get('Ticket::ArchiveSystem');
 
     # check given archive flag
     if ( $Param{ArchiveFlag} ne 'y' && $Param{ArchiveFlag} ne 'n' ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "ArchiveFlag is invalid '$Param{ArchiveFlag}'!",
         );
@@ -3807,7 +3891,7 @@ sub TicketArchiveFlagSet {
     my $ArchiveFlag = $Param{ArchiveFlag} eq 'y' ? 1 : 0;
 
     # set new archive flag
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             UPDATE ticket
             SET archive_flag = ?, change_time = current_timestamp, change_by = ?
@@ -3822,7 +3906,7 @@ sub TicketArchiveFlagSet {
     #   and if the ticket flag was just set.
     if ($ArchiveFlag) {
 
-        if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem::RemoveSeenFlags') ) {
+        if ( $ConfigObject->Get('Ticket::ArchiveSystem::RemoveSeenFlags') ) {
             $Self->TicketFlagDelete(
                 TicketID => $Param{TicketID},
                 Key      => 'Seen',
@@ -3839,8 +3923,8 @@ sub TicketArchiveFlagSet {
         }
 
         if (
-            $Self->{ConfigObject}->Get('Ticket::ArchiveSystem::RemoveTicketWatchers')
-            && $Self->{ConfigObject}->Get('Ticket::Watcher')
+            $ConfigObject->Get('Ticket::ArchiveSystem::RemoveTicketWatchers')
+            && $ConfigObject->Get('Ticket::Watcher')
             )
         {
             $Self->TicketWatchUnsubscribe(
@@ -3910,26 +3994,29 @@ sub TicketStateSet {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
     if ( !$Param{State} && !$Param{StateID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need StateID or State!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need StateID or State!' );
         return;
     }
 
+    # get state object
+    my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+
     # state id lookup
     if ( !$Param{StateID} ) {
-        %State = $Self->{StateObject}->StateGet( Name => $Param{State} );
+        %State = $StateObject->StateGet( Name => $Param{State} );
     }
 
     # state lookup
     if ( !$Param{State} ) {
-        %State = $Self->{StateObject}->StateGet( ID => $Param{StateID} );
+        %State = $StateObject->StateGet( ID => $Param{StateID} );
     }
     if ( !%State ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need StateID or State!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need StateID or State!' );
         return;
     }
 
@@ -3947,7 +4034,7 @@ sub TicketStateSet {
     # permission check
     my %StateList = $Self->StateList(%Param);
     if ( !$StateList{ $State{ID} } ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "Permission denied on TicketID: $Param{TicketID} / StateID: $State{ID}!",
         );
@@ -3955,7 +4042,7 @@ sub TicketStateSet {
     }
 
     # db update
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE ticket SET ticket_state_id = ?, '
             . ' change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [ \$State{ID}, \$Param{UserID}, \$Param{TicketID} ],
@@ -4024,38 +4111,46 @@ sub TicketStateList {
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
         return;
     }
 
     # check needed stuff
     if ( !$Param{QueueID} && !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID, TicketID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need QueueID, TicketID!' );
         return;
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # get state object
+    my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+
     # get states by type
     if ( $Param{Type} ) {
-        %States = $Self->{StateObject}->StateGetStatesByType(
+        %States = $StateObject->StateGetStatesByType(
             Type   => $Param{Type},
             Result => 'HASH',
         );
     }
     elsif ( $Param{Action} ) {
+
         if (
-            ref $Self->{ConfigObject}->Get("Ticket::Frontend::$Param{Action}")->{StateType} ne
+            ref $ConfigObject->Get("Ticket::Frontend::$Param{Action}")->{StateType} ne
             'ARRAY'
             )
         {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need config for Ticket::Frontend::$Param{Action}->StateType!"
             );
             return;
         }
+
         my @StateType
-            = @{ $Self->{ConfigObject}->Get("Ticket::Frontend::$Param{Action}")->{StateType} };
-        %States = $Self->{StateObject}->StateGetStatesByType(
+            = @{ $ConfigObject->Get("Ticket::Frontend::$Param{Action}")->{StateType} };
+        %States = $StateObject->StateGetStatesByType(
             StateType => \@StateType,
             Result    => 'HASH',
         );
@@ -4063,7 +4158,7 @@ sub TicketStateList {
 
     # get whole states list
     else {
-        %States = $Self->{StateObject}->StateList( UserID => $Param{UserID}, );
+        %States = $StateObject->StateList( UserID => $Param{UserID}, );
     }
 
     # workflow
@@ -4073,6 +4168,7 @@ sub TicketStateList {
         ReturnSubType => 'State',
         Data          => \%States,
     );
+
     return $Self->TicketAclData() if $ACL;
     return %States;
 }
@@ -4101,9 +4197,12 @@ sub OwnerCheck {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # db query
     if ( $Param{OwnerID} ) {
@@ -4118,13 +4217,13 @@ sub OwnerCheck {
         }
 
         # check if user has access
-        return if !$Self->{DBObject}->Prepare(
+        return if !$DBObject->Prepare(
             SQL => 'SELECT user_id FROM ticket WHERE '
                 . ' id = ? AND (user_id = ? OR responsible_user_id = ?)',
             Bind => [ \$Param{TicketID}, \$Param{OwnerID}, \$Param{OwnerID}, ],
         );
         my $Access = 0;
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $Access = 1;
         }
 
@@ -4134,15 +4233,19 @@ sub OwnerCheck {
         return 1 if $Access;
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # search for owner_id and owner
-    return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT st.user_id, su.$Self->{ConfigObject}->{DatabaseUserTableUser} "
-            . " FROM ticket st, $Self->{ConfigObject}->{DatabaseUserTable} su "
+    return if !$DBObject->Prepare(
+        SQL => "SELECT st.user_id, su.$ConfigObject->{DatabaseUserTableUser} "
+            . " FROM ticket st, $ConfigObject->{DatabaseUserTable} su "
             . " WHERE st.id = ? AND "
-            . " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID}",
+            . " st.user_id = su.$ConfigObject->{DatabaseUserTableUserID}",
         Bind => [ \$Param{TicketID}, ],
     );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Param{SearchUserID} = $Row[0];
         $Param{SearchUser}   = $Row[1];
     }
@@ -4197,23 +4300,32 @@ sub TicketOwnerSet {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
     if ( !$Param{NewUserID} && !$Param{NewUser} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need NewUserID or NewUser!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need NewUserID or NewUser!' );
         return;
     }
 
+    # get user object
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
     # lookup if no NewUserID is given
     if ( !$Param{NewUserID} ) {
-        $Param{NewUserID} = $Self->{UserObject}->UserLookup( UserLogin => $Param{NewUser} );
+
+        $Param{NewUserID} = $UserObject->UserLookup(
+            UserLogin => $Param{NewUser},
+        );
     }
 
     # lookup if no NewUser is given
     if ( !$Param{NewUser} ) {
-        $Param{NewUser} = $Self->{UserObject}->UserLookup( UserID => $Param{NewUserID} );
+
+        $Param{NewUser} = $UserObject->UserLookup(
+            UserID => $Param{NewUserID},
+        );
     }
 
     # check if update is needed!
@@ -4225,7 +4337,7 @@ sub TicketOwnerSet {
     }
 
     # db update
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE ticket SET '
             . ' user_id = ?, change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [ \$Param{NewUserID}, \$Param{UserID}, \$Param{TicketID} ],
@@ -4246,7 +4358,7 @@ sub TicketOwnerSet {
     if ( !$Param{SendNoNotification} ) {
         if (
             $Param{UserID} ne $Param{NewUserID}
-            && $Param{NewUserID} ne $Self->{ConfigObject}->Get('PostmasterUserID')
+            && $Param{NewUserID} ne $Kernel::OM->Get('Kernel::Config')->Get('PostmasterUserID')
             )
         {
 
@@ -4309,12 +4421,15 @@ sub TicketOwnerList {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need TicketID!" );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # db query
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => 'SELECT sh.owner_id FROM ticket_history sh, ticket_history_type ht WHERE '
             . ' sh.ticket_id = ? AND ht.name IN (\'OwnerUpdate\', \'NewTicket\') AND '
             . ' ht.id = sh.history_type_id ORDER BY sh.id',
@@ -4323,19 +4438,30 @@ sub TicketOwnerList {
     my @UserID;
 
     USER:
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         next USER if !$Row[0];
         next USER if $Row[0] eq 1;
         push @UserID, $Row[0];
     }
-    my @UserInfo;
 
+    # get user object
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
+    my @UserInfo;
     USER:
     for my $UserID (@UserID) {
-        my %User = $Self->{UserObject}->GetUserData( UserID => $UserID, Cache => 1, Valid => 1 );
+
+        my %User = $UserObject->GetUserData(
+            UserID => $UserID,
+            Cache => 1,
+            Valid => 1,
+        );
+
         next USER if !%User;
+
         push @UserInfo, \%User;
     }
+
     return @UserInfo;
 }
 
@@ -4382,23 +4508,26 @@ sub TicketResponsibleSet {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
     if ( !$Param{NewUserID} && !$Param{NewUser} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need NewUserID or NewUser!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need NewUserID or NewUser!' );
         return;
     }
 
+    # get user object
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
     # lookup if no NewUserID is given
     if ( !$Param{NewUserID} ) {
-        $Param{NewUserID} = $Self->{UserObject}->UserLookup( UserLogin => $Param{NewUser} );
+        $Param{NewUserID} = $UserObject->UserLookup( UserLogin => $Param{NewUser} );
     }
 
     # lookup if no NewUser is given
     if ( !$Param{NewUser} ) {
-        $Param{NewUser} = $Self->{UserObject}->UserLookup( UserID => $Param{NewUserID} );
+        $Param{NewUser} = $UserObject->UserLookup( UserID => $Param{NewUserID} );
     }
 
     # check if update is needed!
@@ -4414,7 +4543,7 @@ sub TicketResponsibleSet {
     }
 
     # db update
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE ticket SET responsible_user_id = ?, '
             . ' change_time = current_timestamp, change_by = ? '
             . ' WHERE id = ?',
@@ -4436,7 +4565,7 @@ sub TicketResponsibleSet {
     if ( !$Param{SendNoNotification} ) {
         if (
             $Param{UserID} ne $Param{NewUserID}
-            && $Param{NewUserID} ne $Self->{ConfigObject}->Get('PostmasterUserID')
+            && $Param{NewUserID} ne $Kernel::OM->Get('Kernel::Config')->Get('PostmasterUserID')
             )
         {
             if ( !$Param{Comment} ) {
@@ -4499,14 +4628,17 @@ sub TicketResponsibleList {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need TicketID!" );
         return;
     }
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # db query
     my @User;
     my $LastResponsible = 1;
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => 'SELECT sh.name, ht.name, sh.create_by FROM '
             . ' ticket_history sh, ticket_history_type ht WHERE '
             . ' sh.ticket_id = ? AND '
@@ -4514,7 +4646,8 @@ sub TicketResponsibleList {
             . ' ht.id = sh.history_type_id ORDER BY sh.id',
         Bind => [ \$Param{TicketID} ],
     );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+    while ( my @Row = $DBObject->FetchrowArray() ) {
 
         # store result
         if ( $Row[1] eq 'NewTicket' && $Row[2] ne '1' && $LastResponsible ne $Row[2] ) {
@@ -4532,14 +4665,20 @@ sub TicketResponsibleList {
             }
         }
     }
+
+    # get user object
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
     my @UserInfo;
     for my $SingleUser (@User) {
-        my %User = $Self->{UserObject}->GetUserData(
+
+        my %User = $UserObject->GetUserData(
             UserID => $SingleUser,
             Cache  => 1
         );
         push @UserInfo, \%User;
     }
+
     return @UserInfo;
 }
 
@@ -4576,14 +4715,17 @@ sub TicketInvolvedAgentsList {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # db query, only entries with a known history_id are retrieved
     my @User;
     my %UsedOwner;
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => ''
             . 'SELECT sh.create_by'
             . ' FROM ticket_history sh, ticket_history_type ht'
@@ -4592,7 +4734,8 @@ sub TicketInvolvedAgentsList {
             . ' ORDER BY sh.id',
         Bind => [ \$Param{TicketID} ],
     );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+    while ( my @Row = $DBObject->FetchrowArray() ) {
 
         # store result, skip the
         if ( $Row[0] ne 1 && !$UsedOwner{ $Row[0] } ) {
@@ -4601,16 +4744,22 @@ sub TicketInvolvedAgentsList {
         }
     }
 
+    # get user object
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
     # collect agent information
     my @UserInfo;
     USER:
     for my $SingleUser (@User) {
-        my %User = $Self->{UserObject}->GetUserData(
+
+        my %User = $UserObject->GetUserData(
             UserID => $SingleUser,
             Valid  => 1,
             Cache  => 1,
         );
+
         next USER if !%User;
+
         push @UserInfo, \%User;
     }
 
@@ -4641,14 +4790,17 @@ Events:
 sub TicketPrioritySet {
     my ( $Self, %Param ) = @_;
 
+    # get priority object
+    my $PriorityObject = $Kernel::OM->Get('Kernel::System::Priority');
+
     # lookup!
     if ( !$Param{PriorityID} && $Param{Priority} ) {
-        $Param{PriorityID} = $Self->{PriorityObject}->PriorityLookup(
+        $Param{PriorityID} = $PriorityObject->PriorityLookup(
             Priority => $Param{Priority},
         );
     }
     if ( $Param{PriorityID} && !$Param{Priority} ) {
-        $Param{Priority} = $Self->{PriorityObject}->PriorityLookup(
+        $Param{Priority} = $PriorityObject->PriorityLookup(
             PriorityID => $Param{PriorityID},
         );
     }
@@ -4656,7 +4808,7 @@ sub TicketPrioritySet {
     # check needed stuff
     for my $Needed (qw(TicketID UserID PriorityID Priority)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -4675,7 +4827,7 @@ sub TicketPrioritySet {
     # permission check
     my %PriorityList = $Self->PriorityList(%Param);
     if ( !$PriorityList{ $Param{PriorityID} } ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "Permission denied on TicketID: $Param{TicketID}!",
         );
@@ -4683,7 +4835,7 @@ sub TicketPrioritySet {
     }
 
     # db update
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE ticket SET ticket_priority_id = ?, '
             . ' change_time = current_timestamp, change_by = ?'
             . ' WHERE id = ?',
@@ -4744,17 +4896,11 @@ sub TicketPriorityList {
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
         return;
     }
 
-    # check needed stuff
-    #    if (!$Param{QueueID} && !$Param{TicketID}) {
-    #        $Self->{LogObject}->Log(Priority => 'error', Message => 'Need QueueID or TicketID!');
-    #        return;
-    #    }
-    # sql
-    my %Data = $Self->{PriorityObject}->PriorityList(%Param);
+    my %Data = $Kernel::OM->Get('Kernel::System::Priority')->PriorityList(%Param);
 
     # workflow
     my $ACL = $Self->TicketAcl(
@@ -4763,6 +4909,7 @@ sub TicketPriorityList {
         ReturnSubType => 'Priority',
         Data          => \%Data,
     );
+
     return $Self->TicketAclData() if $ACL;
     return %Data;
 }
@@ -4790,7 +4937,7 @@ sub HistoryTicketStatusGet {
     # check needed stuff
     for my $Needed (qw(StopYear StopMonth StopDay StartYear StartMonth StartDay)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -4815,10 +4962,15 @@ sub HistoryTicketStatusGet {
             $SQLExt .= ",$ID";
         }
     }
+
     if ($SQLExt) {
         $SQLExt .= ')';
     }
-    return if !$Self->{DBObject}->Prepare(
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL => "
             SELECT DISTINCT(th.ticket_id), th.create_time
             FROM ticket_history th
@@ -4828,11 +4980,14 @@ sub HistoryTicketStatusGet {
             ORDER BY th.create_time DESC",
         Limit => 150000,
     );
+
     my %Ticket;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Ticket{ $Row[0] } = 1;
     }
+
     for my $TicketID ( sort keys %Ticket ) {
+
         my %TicketData = $Self->HistoryTicketGet(
             TicketID  => $TicketID,
             StopYear  => $Param{StopYear},
@@ -4840,6 +4995,7 @@ sub HistoryTicketStatusGet {
             StopDay   => $Param{StopDay},
             Force     => $Param{Force} || 0,
         );
+
         if (%TicketData) {
             $Ticket{$TicketID} = \%TicketData;
         }
@@ -4847,6 +5003,7 @@ sub HistoryTicketStatusGet {
             $Ticket{$TicketID} = {};
         }
     }
+
     return %Ticket;
 }
 
@@ -4902,7 +5059,7 @@ sub HistoryTicketGet {
     # check needed stuff
     for my $Needed (qw(TicketID StopYear StopMonth StopDay)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -4929,7 +5086,11 @@ sub HistoryTicketGet {
 
     my $Time
         = "$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} $Param{StopHour}:$Param{StopMinute}:$Param{StopSecond}";
-    return if !$Self->{DBObject}->Prepare(
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL => '
             SELECT th.name, tht.name, th.create_time, th.create_by, th.ticket_id,
                 th.article_id, th.queue_id, th.state_id, th.priority_id, th.owner_id, th.type_id
@@ -4943,7 +5104,7 @@ sub HistoryTicketGet {
     );
 
     my %Ticket;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
 
         if ( $Row[1] eq 'NewTicket' ) {
             if (
@@ -5068,7 +5229,7 @@ sub HistoryTicketGet {
         $Ticket{QueueID}    = $Row[6]  || '';
     }
     if ( !%Ticket ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "No such TicketID in ticket history till "
                 . "'$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} $Param{StopHour}:$Param{StopMinute}:$Param{StopSecond}' ($Param{TicketID})!",
@@ -5090,9 +5251,12 @@ sub HistoryTicketGet {
         }
     }
 
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     # check if we should cache this ticket data
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = $Self->{TimeObject}->SystemTime2Date(
-        SystemTime => $Self->{TimeObject}->SystemTime(),
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = $TimeObject->SystemTime2Date(
+        SystemTime => $TimeObject->SystemTime(),
     );
 
     # if the request is for the last month or older, cache it
@@ -5121,7 +5285,7 @@ sub HistoryTypeLookup {
 
     # check needed stuff
     if ( !$Param{Type} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Type!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need Type!' );
         return;
     }
 
@@ -5131,23 +5295,27 @@ sub HistoryTypeLookup {
         return $Self->{$CacheKey};
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # db query
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL  => 'SELECT id FROM ticket_history_type WHERE name = ?',
         Bind => [ \$Param{Type} ],
     );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Self->{$CacheKey} = $Row[0];
     }
 
     # check if data exists
     if ( !$Self->{$CacheKey} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "No TypeID for $Param{Type} found!",
         );
         return;
     }
+
     return $Self->{$CacheKey};
 }
 
@@ -5175,7 +5343,7 @@ sub HistoryAdd {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need Name!' );
         return;
     }
 
@@ -5187,7 +5355,7 @@ sub HistoryAdd {
     # check needed stuff
     for my $Needed (qw(TicketID CreateUserID HistoryTypeID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -5244,7 +5412,7 @@ sub HistoryAdd {
     }
 
     # db insert
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'INSERT INTO ticket_history '
             . ' (name, history_type_id, ticket_id, article_id, queue_id, owner_id, '
             . ' priority_id, state_id, type_id, '
@@ -5291,12 +5459,15 @@ sub HistoryGet {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
-    return if !$Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL => 'SELECT sh.name, sh.article_id, sh.create_time, sh.create_by, ht.name, '
             . ' sh.queue_id, sh.owner_id, sh.priority_id, sh.state_id, sh.history_type_id, sh.type_id '
             . ' FROM ticket_history sh, ticket_history_type ht WHERE '
@@ -5304,7 +5475,8 @@ sub HistoryGet {
             . ' ORDER BY sh.create_time, sh.id',
         Bind => [ \$Param{TicketID} ],
     );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         my %Data;
         $Data{TicketID}      = $Param{TicketID};
         $Data{ArticleID}     = $Row[1] || 0;
@@ -5321,15 +5493,20 @@ sub HistoryGet {
         push @Lines, \%Data;
     }
 
+    # get user object
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
     # get user data
     for my $Data (@Lines) {
-        my %UserInfo = $Self->{UserObject}->GetUserData(
+
+        my %UserInfo = $UserObject->GetUserData(
             UserID => $Data->{CreateBy},
         );
 
         # merge result, put %Data last so that it "wins"
         %{$Data} = ( %UserInfo, %{$Data} );
     }
+
     return @Lines;
 }
 
@@ -5353,13 +5530,13 @@ sub HistoryDelete {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
     # delete ticket history entries from db
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL =>
             'DELETE FROM ticket_history WHERE ticket_id = ? AND (article_id IS NULL OR article_id = 0)',
         Bind => [ \$Param{TicketID} ],
@@ -5390,20 +5567,25 @@ sub TicketAccountedTimeGet {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # db query
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL  => 'SELECT time_unit FROM time_accounting WHERE ticket_id = ?',
         Bind => [ \$Param{TicketID} ],
     );
+
     my $AccountedTime = 0;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Row[0] =~ s/,/./g;
         $AccountedTime = $AccountedTime + $Row[0];
     }
+
     return $AccountedTime;
 }
 
@@ -5429,7 +5611,7 @@ sub TicketAccountTime {
     # check needed stuff
     for my $Needed (qw(TicketID ArticleID TimeUnit UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -5440,11 +5622,14 @@ sub TicketAccountTime {
     $Param{TimeUnit} =~ s/^(\d{1,10}\.\d\d).+?$/$1/g;
     chomp $Param{TimeUnit};
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # db quote
-    $Param{TimeUnit} = $Self->{DBObject}->Quote( $Param{TimeUnit}, 'Number' );
+    $Param{TimeUnit} = $DBObject->Quote( $Param{TimeUnit}, 'Number' );
 
     # db update
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => "INSERT INTO time_accounting "
             . " (ticket_id, article_id, time_unit, create_time, create_by, change_time, change_by) "
             . " VALUES (?, ?, $Param{TimeUnit}, current_timestamp, ?, current_timestamp, ?)",
@@ -5499,13 +5684,16 @@ sub TicketMerge {
     # check needed stuff
     for my $Needed (qw(MainTicketID MergeTicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # change ticket id of merge ticket to main ticket
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'UPDATE article SET ticket_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE ticket_id = ?',
         Bind => [ \$Param{MainTicketID}, \$Param{UserID}, \$Param{MergeTicketID} ],
@@ -5513,13 +5701,13 @@ sub TicketMerge {
 
     # bug 9635
     # do the same with article_search (harmless if not used)
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'UPDATE article_search SET ticket_id = ? WHERE ticket_id = ?',
         Bind => [ \$Param{MainTicketID}, \$Param{MergeTicketID} ],
     );
 
     # reassign article history
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'UPDATE ticket_history SET ticket_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE ticket_id = ?
             AND (article_id IS NOT NULL OR article_id != 0)',
@@ -5527,7 +5715,7 @@ sub TicketMerge {
     );
 
     # update the accounted time of the main ticket
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'UPDATE time_accounting SET ticket_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE ticket_id = ?',
         Bind => [ \$Param{MainTicketID}, \$Param{UserID}, \$Param{MergeTicketID} ],
@@ -5542,7 +5730,10 @@ sub TicketMerge {
         DynamicFields => 0,
     );
 
-    my $Body = $Self->{ConfigObject}->Get('Ticket::Frontend::AutomaticMergeText');
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $Body = $ConfigObject->Get('Ticket::Frontend::AutomaticMergeText');
     $Body =~ s{<OTRS_TICKET>}{$MergeTicket{TicketNumber}}xms;
     $Body =~ s{<OTRS_MERGE_TO_TICKET>}{$MainTicket{TicketNumber}}xms;
 
@@ -5555,7 +5746,7 @@ sub TicketMerge {
         UserID         => $Param{UserID},
         HistoryType    => 'AddNote',
         HistoryComment => '%%Note',
-        Subject        => $Self->{ConfigObject}->Get('Ticket::Frontend::AutomaticMergeSubject')
+        Subject        => $ConfigObject->Get('Ticket::Frontend::AutomaticMergeSubject')
             || 'Ticket Merged',
         Body          => $Body,
         NoAgentNotify => 1,
@@ -5593,7 +5784,7 @@ sub TicketMerge {
     for my $WatcherID ( sort keys %MergeWatchers ) {
 
         next WATCHER if !$MainWatchers{$WatcherID};
-        return if !$Self->{DBObject}->Do(
+        return if !$DBObject->Do(
             SQL => '
                 DELETE FROM ticket_watcher
                     WHERE watcher_id = ?
@@ -5604,7 +5795,7 @@ sub TicketMerge {
     }
 
     # transfer remaining watchers to new ticket
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => '
             UPDATE ticket_watcher
                 SET ticket_id = ?
@@ -5614,8 +5805,7 @@ sub TicketMerge {
     );
 
     # link tickets
-    my $LinkObject = Kernel::System::LinkObject->new( %{$Self} );
-    $LinkObject->LinkAdd(
+    $Kernel::OM->Get('Kernel::System::LinkObject')->LinkAdd(
         SourceObject => 'Ticket',
         SourceKey    => $Param{MainTicketID},
         TargetObject => 'Ticket',
@@ -5688,7 +5878,7 @@ sub TicketMergeDynamicFields {
 
     for my $Needed (qw(MainTicketID MergeTicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -5696,7 +5886,7 @@ sub TicketMergeDynamicFields {
     my $DynamicFields = $Param{DynamicFields};
 
     if ( !$DynamicFields ) {
-        $DynamicFields = $Self->{ConfigObject}->Get('Ticket::MergeDynamicFields');
+        $DynamicFields = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::MergeDynamicFields');
     }
 
     return 1 if !IsArrayRefWithData($DynamicFields);
@@ -5712,26 +5902,35 @@ sub TicketMergeDynamicFields {
         DynamicFields => 1,
     );
 
+    # get dynamic field objects
+    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
     FIELDS:
     for my $DynamicFieldName ( @{$DynamicFields} ) {
+
         my $Key = "DynamicField_$DynamicFieldName";
+
         if (
             defined $MergeTicket{$Key}
             && length $MergeTicket{$Key}
             && !( defined $MainTicket{$Key} && length $MainTicket{$Key} )
             )
         {
-            my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+
+            my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
                 Name => $DynamicFieldName,
             );
+
             if ( !$DynamicFieldConfig ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'Error',
                     Message  => qq[No such dynamic field "$DynamicFieldName"],
                 );
                 return;
             }
-            $Self->{DynamicFieldBackendObject}->ValueSet(
+
+            $DynamicFieldBackendObject->ValueSet(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $Param{MainTicketID},
                 UserID             => $Param{UserID},
@@ -5739,6 +5938,7 @@ sub TicketMergeDynamicFields {
             );
         }
     }
+
     return 1;
 }
 
@@ -5771,15 +5971,18 @@ sub TicketWatchGet {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need TicketID!" );
         return;
     }
 
     # check if feature is enabled
-    return if !$Self->{ConfigObject}->Get('Ticket::Watcher');
+    return if !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Watcher');
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get all attributes of an watched ticket
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => '
             SELECT user_id, create_time, create_by, change_time, change_by
             FROM ticket_watcher
@@ -5789,7 +5992,7 @@ sub TicketWatchGet {
 
     # fetch the result
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Data{ $Row[0] } = {
             CreateTime => $Row[1],
             CreateBy   => $Row[2],
@@ -5799,11 +6002,17 @@ sub TicketWatchGet {
     }
 
     if ( $Param{Notify} ) {
+
         for my $UserID ( sort keys %Data ) {
-            my %UserData = $Self->{UserObject}->GetUserData(
+
+            # get user object
+            my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
+            my %UserData = $UserObject->GetUserData(
                 UserID => $UserID,
                 Valid  => 1,
             );
+
             if ( !$UserData{UserSendWatcherNotification} ) {
                 delete $Data{$UserID};
             }
@@ -5812,10 +6021,13 @@ sub TicketWatchGet {
 
     # check result
     if ( $Param{Result} && $Param{Result} eq 'ARRAY' ) {
+
         my @UserIDs;
+
         for my $UserID ( sort keys %Data ) {
             push @UserIDs, $UserID;
         }
+
         return @UserIDs;
     }
 
@@ -5843,20 +6055,23 @@ sub TicketWatchSubscribe {
     # check needed stuff
     for my $Needed (qw(TicketID WatchUserID UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # db access
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => '
             DELETE FROM ticket_watcher
             WHERE ticket_id = ?
                 AND user_id = ?',
         Bind => [ \$Param{TicketID}, \$Param{WatchUserID} ],
     );
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => '
             INSERT INTO ticket_watcher (ticket_id, user_id, create_time, create_by, change_time, change_by)
             VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
@@ -5864,7 +6079,7 @@ sub TicketWatchSubscribe {
     );
 
     # get user data
-    my %User = $Self->{UserObject}->GetUserData(
+    my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
         UserID => $Param{WatchUserID},
     );
 
@@ -5909,19 +6124,22 @@ sub TicketWatchUnsubscribe {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
     # only one of these parameters is needed
     if ( !$Param{WatchUserID} && !$Param{AllUsers} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need WatchUserID or AllUsers param!"
         );
         return;
     }
+
+    # get user object
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
     if ( $Param{AllUsers} ) {
         my @WatchUsers = $Self->TicketWatchGet(
@@ -5929,14 +6147,14 @@ sub TicketWatchUnsubscribe {
             Result   => 'ARRAY',
         );
 
-        return if !$Self->{DBObject}->Do(
+        return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL  => 'DELETE FROM ticket_watcher WHERE ticket_id = ?',
             Bind => [ \$Param{TicketID} ],
         );
 
         for my $WatchUser (@WatchUsers) {
 
-            my %User = $Self->{UserObject}->GetUserData(
+            my %User = $UserObject->GetUserData(
                 UserID => $WatchUser,
             );
 
@@ -5958,12 +6176,12 @@ sub TicketWatchUnsubscribe {
 
     }
     else {
-        return if !$Self->{DBObject}->Do(
+        return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL => 'DELETE FROM ticket_watcher WHERE ticket_id = ? AND user_id = ?',
             Bind => [ \$Param{TicketID}, \$Param{WatchUserID} ],
         );
 
-        my %User = $Self->{UserObject}->GetUserData(
+        my %User = $UserObject->GetUserData(
             UserID => $Param{WatchUserID},
         );
 
@@ -6008,7 +6226,7 @@ sub TicketFlagSet {
     # check needed stuff
     for my $Needed (qw(TicketID Key Value UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -6018,8 +6236,11 @@ sub TicketFlagSet {
     # check if set is needed
     return 1 if defined $Flag{ $Param{Key} } && $Flag{ $Param{Key} } eq $Param{Value};
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # set flag
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => '
             DELETE FROM ticket_flag
             WHERE ticket_id = ?
@@ -6027,7 +6248,7 @@ sub TicketFlagSet {
                 AND create_by = ?',
         Bind => [ \$Param{TicketID}, \$Param{Key}, \$Param{UserID} ],
     );
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => '
             INSERT INTO ticket_flag
             (ticket_id, ticket_key, ticket_value, create_time, create_by)
@@ -6084,14 +6305,14 @@ sub TicketFlagDelete {
     # check needed stuff
     for my $Needed (qw(TicketID Key)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
     # only one of these parameters is needed
     if ( !$Param{UserID} && !$Param{AllUsers} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID or AllUsers param!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need UserID or AllUsers param!" );
         return;
     }
 
@@ -6105,7 +6326,7 @@ sub TicketFlagDelete {
         );
 
         # do db insert
-        return if !$Self->{DBObject}->Do(
+        return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL => '
                 DELETE FROM ticket_flag
                 WHERE ticket_id = ?
@@ -6137,7 +6358,7 @@ sub TicketFlagDelete {
     else {
 
         # do db insert
-        return if !$Self->{DBObject}->Do(
+        return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL => '
                 DELETE FROM ticket_flag
                 WHERE ticket_id = ?
@@ -6188,15 +6409,18 @@ sub TicketFlagGet {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need TicketID!" );
         return;
     }
 
     # check optional
     if ( !$Param{UserID} && !$Param{AllUsers} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID or AllUsers param!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need UserID or AllUsers param!" );
         return;
     }
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     if ( $Param{UserID} ) {
 
@@ -6211,7 +6435,7 @@ sub TicketFlagGet {
         my %Flag;
 
         # sql query
-        return if !$Self->{DBObject}->Prepare(
+        return if !$DBObject->Prepare(
             SQL => '
                 SELECT ticket_key, ticket_value
                 FROM ticket_flag
@@ -6221,7 +6445,7 @@ sub TicketFlagGet {
             Limit => 1500,
         );
 
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $Flag{ $Row[0] } = $Row[1];
         }
 
@@ -6241,7 +6465,7 @@ sub TicketFlagGet {
     else {
 
         # sql query
-        return if !$Self->{DBObject}->Prepare(
+        return if !$DBObject->Prepare(
             SQL => '
                 SELECT ticket_key, ticket_value, create_by
                 FROM ticket_flag
@@ -6251,7 +6475,7 @@ sub TicketFlagGet {
         );
 
         my @FlagAllUsers;
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             push @FlagAllUsers, {
                 Key    => $Row[0],
                 Value  => $Row[1],
@@ -6284,7 +6508,7 @@ sub TicketArticleStorageSwitch {
     # check needed stuff
     for my $Needed (qw(TicketID Source Destination UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -6292,9 +6516,12 @@ sub TicketArticleStorageSwitch {
     # check source vs. destination
     return 1 if $Param{Source} eq $Param{Destination};
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # reset events and remember
-    my $EventConfig = $Self->{ConfigObject}->Get('Ticket::EventModulePost');
-    $Self->{ConfigObject}->{'Ticket::EventModulePost'} = {};
+    my $EventConfig = $ConfigObject->Get('Ticket::EventModulePost');
+    $ConfigObject->{'Ticket::EventModulePost'} = {};
 
     # make sure that CheckAllBackends is set for the duration of this method
     $Self->{CheckAllBackends} = 1;
@@ -6304,15 +6531,19 @@ sub TicketArticleStorageSwitch {
         TicketID => $Param{TicketID},
         UserID   => $Param{UserID},
     );
+
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     ARTICLEID:
     for my $ArticleID (@ArticleIndex) {
 
         # create source object
-        $Self->{ConfigObject}->Set(
+        $ConfigObject->Set(
             Key   => 'Ticket::StorageModule',
             Value => 'Kernel::System::Ticket::' . $Param{Source},
         );
-        my $TicketObjectSource = Kernel::System::Ticket->new( %{$Self} );
+        my $TicketObjectSource = Kernel::System::Ticket->new();
         return if !$TicketObjectSource;
 
         # read source attachments
@@ -6330,7 +6561,7 @@ sub TicketArticleStorageSwitch {
         my $PlainMD5Sum = '';
         if ($Plain) {
             my $PlainMD5 = $Plain;
-            $PlainMD5Sum = $Self->{MainObject}->MD5sum(
+            $PlainMD5Sum = $MainObject->MD5sum(
                 String => \$PlainMD5,
             );
         }
@@ -6347,7 +6578,7 @@ sub TicketArticleStorageSwitch {
                 Force         => 1,
             );
             push @Attachments, \%Attachment;
-            my $MD5Sum = $Self->{MainObject}->MD5sum(
+            my $MD5Sum = $MainObject->MD5sum(
                 String => $Attachment{Content},
             );
             $MD5Sums{$MD5Sum}++;
@@ -6357,7 +6588,7 @@ sub TicketArticleStorageSwitch {
         next ARTICLEID if !@Attachments && !$Plain;
 
         # write target attachments
-        $Self->{ConfigObject}->Set(
+        $ConfigObject->Set(
             Key   => 'Ticket::StorageModule',
             Value => 'Kernel::System::Ticket::' . $Param{Destination},
         );
@@ -6373,7 +6604,7 @@ sub TicketArticleStorageSwitch {
 
         # read source attachments
         if (%Index) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
                     "Attachments of TicketID:$Param{TicketID}/ArticleID:$ArticleID already in $Param{Destination}!"
@@ -6436,7 +6667,7 @@ sub TicketArticleStorageSwitch {
                 OnlyMyBackend => 1,
                 Force         => 1,
             );
-            my $MD5Sum = $Self->{MainObject}->MD5sum(
+            my $MD5Sum = $MainObject->MD5sum(
                 String => \$Attachment{Content},
             );
             if ( $MD5Sums{$MD5Sum} ) {
@@ -6446,7 +6677,7 @@ sub TicketArticleStorageSwitch {
                 }
             }
             else {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message =>
                         "Corrupt file: $Attachment{Filename} (TicketID:$Param{TicketID}/ArticleID:$ArticleID)!",
@@ -6460,14 +6691,14 @@ sub TicketArticleStorageSwitch {
                 );
 
                 # set events
-                $Self->{ConfigObject}->{'Ticket::EventModulePost'} = $EventConfig;
+                $ConfigObject->{'Ticket::EventModulePost'} = $EventConfig;
                 return;
             }
         }
 
         # check if all files are moved
         if (%MD5Sums) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
                     "Not all files are moved! (TicketID:$Param{TicketID}/ArticleID:$ArticleID)!",
@@ -6481,7 +6712,7 @@ sub TicketArticleStorageSwitch {
             );
 
             # set events
-            $Self->{ConfigObject}->{'Ticket::EventModulePost'} = $EventConfig;
+            $ConfigObject->{'Ticket::EventModulePost'} = $EventConfig;
             return;
         }
 
@@ -6493,12 +6724,12 @@ sub TicketArticleStorageSwitch {
             );
             my $PlainMD5SumVerify = '';
             if ($PlainVerify) {
-                $PlainMD5SumVerify = $Self->{MainObject}->MD5sum(
+                $PlainMD5SumVerify = $MainObject->MD5sum(
                     String => \$PlainVerify,
                 );
             }
             if ( $PlainMD5Sum ne $PlainMD5SumVerify ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message =>
                         "Corrupt plain file: ArticleID: $ArticleID ($PlainMD5Sum/$PlainMD5SumVerify)",
@@ -6512,13 +6743,13 @@ sub TicketArticleStorageSwitch {
                 );
 
                 # set events
-                $Self->{ConfigObject}->{'Ticket::EventModulePost'} = $EventConfig;
+                $ConfigObject->{'Ticket::EventModulePost'} = $EventConfig;
                 return;
             }
         }
 
         # remove source attachments
-        $Self->{ConfigObject}->Set(
+        $ConfigObject->Set(
             Key   => 'Ticket::StorageModule',
             Value => 'Kernel::System::Ticket::' . $Param{Source},
         );
@@ -6545,7 +6776,7 @@ sub TicketArticleStorageSwitch {
 
         # read source attachments
         if (%Index) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Attachments still in $Param{Source}!"
             );
@@ -6554,11 +6785,11 @@ sub TicketArticleStorageSwitch {
     }
 
     # set events
-    $Self->{ConfigObject}->{'Ticket::EventModulePost'} = $EventConfig;
+    $ConfigObject->{'Ticket::EventModulePost'} = $EventConfig;
 
     # restore previous behaviour
     $Self->{CheckAllBackends} =
-        $Self->{ConfigObject}->Get('Ticket::StorageModule::CheckAllBackends')
+        $ConfigObject->Get('Ticket::StorageModule::CheckAllBackends')
         // 0;
 
     return 1;
@@ -6581,7 +6812,7 @@ sub TicketCheckForProcessType {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need TicketID!',
         );
@@ -6589,7 +6820,7 @@ sub TicketCheckForProcessType {
     }
 
     my $DynamicFieldName
-        = $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementProcessID');
+        = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementProcessID');
 
     return if !$DynamicFieldName;
     $DynamicFieldName = 'DynamicField_' . $DynamicFieldName;
