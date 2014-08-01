@@ -11,9 +11,16 @@ package Kernel::System::Ticket::ColumnFilter;
 
 use strict;
 use warnings;
-use Kernel::System::User;
-use Kernel::System::CustomerUser;
+
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
+
+our @ObjectDependencies = (
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::User',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -31,48 +38,11 @@ All functions for Column Filters.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::Ticket::ColumnFilter;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $TicketObject = Kernel::System::Ticket::ColumnFilter->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
-        CustomerUserObject => $CustomerUserObject, # if given
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $TicketColumnFilterObject = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter');
 
 =cut
 
@@ -82,20 +52,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Needed (qw(ConfigObject LogObject TimeObject DBObject MainObject EncodeObject)) {
-        if ( $Param{$Needed} ) {
-            $Self->{$Needed} = $Param{$Needed};
-        }
-        else {
-            die "Got no $Needed!";
-        }
-    }
-
-    # create common needed module objects
-    $Self->{UserObject}         = Kernel::System::User->new( %{$Self} );
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
 
     return $Self;
 }
@@ -133,17 +89,20 @@ sub StateFilterValuesGet {
     }
 
     if ( !IsArrayRefWithData( $Param{TicketIDs} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'TicketIDs must be an array ref!',
         );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     my @TicketIDs = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "SELECT DISTINCT(t.ticket_state_id), ts.name"
             . " FROM ticket t, ticket_state ts"
             . " WHERE t.id IN ($TicketIDString) AND t.ticket_state_id = ts.id"
@@ -151,7 +110,7 @@ sub StateFilterValuesGet {
     );
 
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[0] ) {
             $Data{ $Row[0] } = $Row[1];
         }
@@ -195,17 +154,20 @@ sub QueueFilterValuesGet {
     }
 
     if ( !IsArrayRefWithData( $Param{TicketIDs} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'TicketIDs must be an array ref!',
         );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     my @TicketIDs = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "SELECT DISTINCT(t.queue_id), q.name"
             . " FROM ticket t, queue q"
             . " WHERE t.id IN ($TicketIDString) AND t.queue_id = q.id"
@@ -213,7 +175,7 @@ sub QueueFilterValuesGet {
     );
 
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[0] ) {
             $Data{ $Row[0] } = $Row[1];
         }
@@ -255,17 +217,20 @@ sub PriorityFilterValuesGet {
     }
 
     if ( !IsArrayRefWithData( $Param{TicketIDs} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'TicketIDs must be an array ref!',
         );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     my @TicketIDs = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "SELECT DISTINCT(t.ticket_priority_id), tp.name"
             . " FROM ticket t, ticket_priority tp"
             . " WHERE t.id IN ($TicketIDString) AND t.ticket_priority_id = tp.id"
@@ -273,7 +238,7 @@ sub PriorityFilterValuesGet {
     );
 
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[0] ) {
             $Data{ $Row[0] } = $Row[1];
         }
@@ -315,17 +280,20 @@ sub TypeFilterValuesGet {
     }
 
     if ( !IsArrayRefWithData( $Param{TicketIDs} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'TicketIDs must be an array ref!',
         );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     my @TicketIDs = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "SELECT DISTINCT(t.type_id), tt.name"
             . " FROM ticket t, ticket_type tt"
             . " WHERE t.id IN ($TicketIDString) AND t.type_id = tt.id"
@@ -333,7 +301,7 @@ sub TypeFilterValuesGet {
     );
 
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[0] ) {
             $Data{ $Row[0] } = $Row[1];
         }
@@ -376,17 +344,20 @@ sub LockFilterValuesGet {
     }
 
     if ( !IsArrayRefWithData( $Param{TicketIDs} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'TicketIDs must be an array ref!',
         );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     my @TicketIDs = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "SELECT DISTINCT(t.ticket_lock_id), tlt.name"
             . " FROM ticket t, ticket_lock_type tlt"
             . " WHERE t.id IN ($TicketIDString) AND t.ticket_lock_id = tlt.id"
@@ -394,7 +365,7 @@ sub LockFilterValuesGet {
     );
 
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[0] ) {
             $Data{ $Row[0] } = $Row[1];
         }
@@ -436,17 +407,20 @@ sub ServiceFilterValuesGet {
     }
 
     if ( !IsArrayRefWithData( $Param{TicketIDs} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'TicketIDs must be an array ref!',
         );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     my @TicketIDs = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "SELECT DISTINCT(t.service_id), s.name"
             . " FROM ticket t, service s"
             . " WHERE t.id IN ($TicketIDString) AND t.service_id = s.id"
@@ -454,7 +428,7 @@ sub ServiceFilterValuesGet {
     );
 
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[0] ) {
             $Data{ $Row[0] } = $Row[1];
         }
@@ -496,17 +470,20 @@ sub SLAFilterValuesGet {
     }
 
     if ( !IsArrayRefWithData( $Param{TicketIDs} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'TicketIDs must be an array ref!',
         );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     my @TicketIDs = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "SELECT DISTINCT(t.sla_id), s.name"
             . " FROM ticket t, sla s"
             . " WHERE t.id IN ($TicketIDString) AND t.sla_id = s.id"
@@ -514,7 +491,7 @@ sub SLAFilterValuesGet {
     );
 
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[0] ) {
             $Data{ $Row[0] } = $Row[1];
         }
@@ -544,7 +521,7 @@ sub CustomerFilterValuesGet {
 
     # check needed stuff
     if ( !$Param{TicketIDs} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need TicketIDs!',
         );
@@ -552,17 +529,20 @@ sub CustomerFilterValuesGet {
     }
 
     if ( !IsArrayRefWithData( $Param{TicketIDs} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'TicketIDs must be an array ref!',
         );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     my @TicketIDs = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "SELECT DISTINCT(t.customer_id)"
             . " FROM ticket t"
             . " WHERE t.id IN ($TicketIDString)"
@@ -570,7 +550,7 @@ sub CustomerFilterValuesGet {
     );
 
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[0] ) {
             $Data{ $Row[0] } = $Row[0];
         }
@@ -600,7 +580,7 @@ sub CustomerUserIDFilterValuesGet {
 
     # check needed stuff
     if ( !$Param{TicketIDs} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need TicketIDs!',
         );
@@ -608,17 +588,20 @@ sub CustomerUserIDFilterValuesGet {
     }
 
     if ( !IsArrayRefWithData( $Param{TicketIDs} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'TicketIDs must be an array ref!',
         );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     my @TicketIDs = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "SELECT DISTINCT(t.customer_user_id)"
             . " FROM ticket t"
             . " WHERE t.id IN ($TicketIDString)"
@@ -626,7 +609,7 @@ sub CustomerUserIDFilterValuesGet {
     );
 
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[0] ) {
             $Data{ $Row[0] } = $Row[0];
         }
@@ -668,17 +651,20 @@ sub OwnerFilterValuesGet {
     }
 
     if ( !IsArrayRefWithData( $Param{TicketIDs} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'TicketIDs must be an array ref!',
         );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     my @TicketIDs = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "SELECT DISTINCT(t.user_id)"
             . " FROM ticket t"
             . " WHERE t.id IN ($TicketIDString)"
@@ -686,17 +672,19 @@ sub OwnerFilterValuesGet {
     );
 
     my @UserList;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[0] ) {
             push @UserList, $Row[0];
         }
     }
 
-    my %Data;
+    # get user object
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
+    my %Data;
     if ( scalar @UserList > 0 ) {
         for my $UserID (@UserList) {
-            my %User = $Self->{UserObject}->GetUserData(
+            my %User = $UserObject->GetUserData(
                 UserID => $UserID,
             );
             if (%User) {
@@ -741,17 +729,20 @@ sub ResponsibleFilterValuesGet {
     }
 
     if ( !IsArrayRefWithData( $Param{TicketIDs} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'TicketIDs must be an array ref!',
         );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     my @TicketIDs = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "SELECT DISTINCT(t.responsible_user_id)"
             . " FROM ticket t"
             . " WHERE t.id IN ($TicketIDString)"
@@ -759,16 +750,19 @@ sub ResponsibleFilterValuesGet {
     );
 
     my @UserList;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[0] ) {
             push @UserList, $Row[0];
         }
     }
 
+    # get user object
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
     my %Data;
     if ( scalar @UserList > 0 ) {
         for my $UserID (@UserList) {
-            my %User = $Self->{UserObject}->GetUserData(
+            my %User = $UserObject->GetUserData(
                 UserID => $UserID,
             );
             if (%User) {
@@ -807,7 +801,7 @@ sub DynamicFieldFilterValuesGet {
     for my $Needed (qw(TicketIDs ValueType FieldID)) {
 
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
@@ -816,7 +810,7 @@ sub DynamicFieldFilterValuesGet {
     }
 
     if ( !IsArrayRefWithData( $Param{TicketIDs} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'TicketIDs must be an array ref!',
         );
@@ -834,7 +828,10 @@ sub DynamicFieldFilterValuesGet {
         $ValueType = 'value_int';
     }
 
-    return if !$Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL =>
             "SELECT DISTINCT($ValueType)"
             . ' FROM dynamic_field_value'
@@ -845,7 +842,7 @@ sub DynamicFieldFilterValuesGet {
     );
 
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
 
         # check if the value is already stored
         if (
@@ -879,7 +876,7 @@ sub _GeneralDataGet {
     # check needed stuff
     for my $Needed (qw(ModuleName FunctionName UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
@@ -893,8 +890,8 @@ sub _GeneralDataGet {
     my $BackendModule = $Param{ModuleName};
 
     # check if backend field exists
-    if ( !$Self->{MainObject}->Require($BackendModule) ) {
-        $Self->{LogObject}->Log(
+    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($BackendModule) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't load backend module $BackendModule!",
         );
@@ -905,7 +902,7 @@ sub _GeneralDataGet {
     my $BackendObject = $BackendModule->new( %{$Self} );
 
     if ( !$BackendObject ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Couldn't create a backend object for $BackendModule!",
         );
@@ -913,7 +910,7 @@ sub _GeneralDataGet {
     }
 
     if ( ref $BackendObject ne $BackendModule ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Backend object for $BackendModule was not created successfuly!",
         );
