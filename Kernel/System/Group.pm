@@ -12,8 +12,6 @@ package Kernel::System::Group;
 use strict;
 use warnings;
 
-use Kernel::System::CacheInternal;
-
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',

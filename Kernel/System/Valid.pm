@@ -12,8 +12,6 @@ package Kernel::System::Valid;
 use strict;
 use warnings;
 
-use Kernel::System::CacheInternal;
-
 our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::DB',
