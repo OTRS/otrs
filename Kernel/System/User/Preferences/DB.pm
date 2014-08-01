@@ -12,6 +12,14 @@ package Kernel::System::User::Preferences::DB;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Cache',
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -19,10 +27,7 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(DBObject ConfigObject LogObject EncodeObject MainObject CacheInternalObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
 
     # preferences table data
     $Self->{PreferencesTable} = $Self->{ConfigObject}->Get('PreferencesTable')
@@ -33,6 +38,9 @@ sub new {
         || 'preferences_value';
     $Self->{PreferencesTableUserID} = $Self->{ConfigObject}->Get('PreferencesTableUserID')
         || 'user_id';
+
+    $Self->{CacheType} = 'User';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     # create cache prefix
     $Self->{CachePrefix} = 'UserPreferencesDB'
@@ -50,15 +58,18 @@ sub SetPreferences {
     # check needed stuff
     for (qw(UserID Key)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
     my $Value = $Param{Value} // '';
 
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # delete old data
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => "
             DELETE FROM $Self->{PreferencesTable}
             WHERE $Self->{PreferencesTableUserID} = ?
@@ -67,7 +78,7 @@ sub SetPreferences {
     );
 
     # insert new data
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => "
             INSERT INTO $Self->{PreferencesTable}
             ($Self->{PreferencesTableUserID}, $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue})
@@ -76,8 +87,9 @@ sub SetPreferences {
     );
 
     # delete cache
-    $Self->{CacheInternalObject}->Delete(
-        Key => $Self->{CachePrefix} . $Param{UserID},
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => $Self->{CachePrefix} . $Param{UserID},
     );
 
     return 1;
@@ -89,19 +101,23 @@ sub GetPreferences {
     # check needed stuff
     for (qw(UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
     # read cache
-    my $Cache = $Self->{CacheInternalObject}->Get(
-        Key => $Self->{CachePrefix} . $Param{UserID},
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $Self->{CachePrefix} . $Param{UserID},
     );
     return %{$Cache} if $Cache;
 
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # get preferences
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "
             SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}
             FROM $Self->{PreferencesTable}
@@ -111,12 +127,14 @@ sub GetPreferences {
 
     # fetch the result
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
         Key   => $Self->{CachePrefix} . $Param{UserID},
         Value => \%Data,
     );
@@ -130,8 +148,10 @@ sub SearchPreferences {
     my $Key   = $Param{Key}   || '';
     my $Value = $Param{Value} || '';
 
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     my $Lower = '';
-    if ( $Self->{DBObject}->GetDatabaseFunction('CaseSensitive') ) {
+    if ( $DBObject->GetDatabaseFunction('CaseSensitive') ) {
         $Lower = 'LOWER';
     }
 
@@ -147,14 +167,14 @@ sub SearchPreferences {
     }
 
     # get preferences
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL  => $SQL,
         Bind => \@Bind,
     );
 
     # fetch the result
     my %UserID;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $UserID{ $Row[0] } = $Row[1];
     }
 
