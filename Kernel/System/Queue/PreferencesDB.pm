@@ -14,9 +14,11 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Cache',
     'Kernel::System::DB',
     'Kernel::System::Log',
 );
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -24,9 +26,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # check needed objects
-    $Self->{CacheInternalObject} = $Param{CacheInternalObject} || die 'Got no CacheInternalObject!';
 
     # preferences table data
     $Self->{PreferencesTable}        = 'queue_preferences';
@@ -40,6 +39,9 @@ sub new {
         . $Self->{PreferencesTableKey}
         . $Self->{PreferencesTableValue}
         . $Self->{PreferencesTableQueueID};
+
+    $Self->{CacheType} = 'Queue';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     return $Self;
 }
@@ -77,8 +79,9 @@ sub QueuePreferencesSet {
     );
 
     # delete cache
-    $Self->{CacheInternalObject}->Delete(
-        Key => $Self->{CachePrefix} . $Param{QueueID},
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => $Self->{CachePrefix} . $Param{QueueID},
     );
 
     return 1;
@@ -102,8 +105,9 @@ sub QueuePreferencesGet {
     return if !$Kernel::OM->Get('Kernel::Config')->Get('QueuePreferences');
 
     # read cache
-    my $Cache = $Self->{CacheInternalObject}->Get(
-        Key => $Self->{CachePrefix} . $Param{QueueID},
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $Self->{CachePrefix} . $Param{QueueID},
     );
     return %{$Cache} if $Cache;
 
@@ -123,7 +127,9 @@ sub QueuePreferencesGet {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
         Key   => $Self->{CachePrefix} . $Param{QueueID},
         Value => \%Data,
     );

@@ -12,10 +12,9 @@ package Kernel::System::Queue;
 use strict;
 use warnings;
 
-use Kernel::System::CacheInternal;
-
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Cache',
     'Kernel::System::CustomerGroup',
     'Kernel::System::DB',
     'Kernel::System::Group',
@@ -60,18 +59,14 @@ sub new {
 
     $Self->{QueueID} = $Param{QueueID} || '';
 
-    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        Type => 'Queue',
-        TTL  => 60 * 60 * 24 * 20,
-    );
+    $Self->{CacheType} = 'Queue';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     # load generator preferences module
     my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('Queue::PreferencesModule')
         || 'Kernel::System::Queue::PreferencesDB';
     if ( $Kernel::OM->Get('Kernel::System::Main')->Require($GeneratorModule) ) {
-        $Self->{PreferencesObject} = $GeneratorModule->new(
-            CacheInternalObject => $Self->{CacheInternalObject},
-        );
+        $Self->{PreferencesObject} = $GeneratorModule->new();
     }
 
     # --------------------------------------------------- #
@@ -214,7 +209,9 @@ sub QueueStandardTemplateMemberAdd {
 
     # return if relation is not active
     if ( !$Param{Active} ) {
-        $Self->{CacheInternalObject}->CleanUp();
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            Type => $Self->{CacheType},
+        );
         return 1;
     }
 
@@ -227,7 +224,9 @@ sub QueueStandardTemplateMemberAdd {
         Bind => [ \$Param{QueueID}, \$Param{StandardTemplateID}, \$Param{UserID}, \$Param{UserID} ],
     );
 
-    $Self->{CacheInternalObject}->CleanUp();
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
     return $Success;
 }
 
@@ -291,7 +290,10 @@ sub QueueStandardTemplateMemberList {
 
         # check if this result is present (in cache)
         $CacheKey = "StandardTemplates::$Param{QueueID}::$TemplateTypes";
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
         return %{$Cache} if ref $Cache eq 'HASH';
 
         # get std. templates
@@ -319,7 +321,13 @@ sub QueueStandardTemplateMemberList {
         }
 
         # store std templates (in cache)
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%StandardTemplates );
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type  => $Self->{CacheType},
+            TTL   => $Self->{CacheTTL},
+            Key   => $CacheKey,
+            Value => \%StandardTemplates,
+
+        );
         return %StandardTemplates;
     }
 
@@ -327,7 +335,10 @@ sub QueueStandardTemplateMemberList {
 
         # check if this result is present (in cache)
         $CacheKey = "Queues::$Param{StandardTemplateID}";
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
         return %{$Cache} if ref $Cache eq 'HASH';
 
         # get queues
@@ -349,7 +360,12 @@ sub QueueStandardTemplateMemberList {
         }
 
         # store queues (in cache)
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Queues );
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type  => $Self->{CacheType},
+            TTL   => $Self->{CacheTTL},
+            Key   => $CacheKey,
+            Value => \%Queues,
+        );
 
         return %Queues;
     }
@@ -393,8 +409,9 @@ sub GetAllQueues {
         $CacheKey = "GetAllQueues::UserID::${Type}::${GroupString}::$Param{UserID}";
 
         # check cache
-        my $Cache = $Self->{CacheInternalObject}->Get(
-            Key => $CacheKey,
+        my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
         );
         return %{$Cache} if $Cache;
 
@@ -420,8 +437,9 @@ sub GetAllQueues {
             = "GetAllQueues::CustomerUserID::${Type}::${GroupString}::$Param{CustomerUserID}";
 
         # check cache
-        my $Cache = $Self->{CacheInternalObject}->Get(
-            Key => $CacheKey,
+        my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
         );
         return %{$Cache} if $Cache;
 
@@ -436,8 +454,9 @@ sub GetAllQueues {
         $CacheKey = 'GetAllQueues';
 
         # check cache
-        my $Cache = $Self->{CacheInternalObject}->Get(
-            Key => $CacheKey,
+        my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
         );
         return %{$Cache} if $Cache;
 
@@ -453,7 +472,9 @@ sub GetAllQueues {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
         Key   => $CacheKey,
         Value => \%MoveQueues,
     );
@@ -481,7 +502,10 @@ sub GetAllCustomQueues {
 
     # check cache
     my $CacheKey = 'GetAllCustomQueues::' . $Param{UserID};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
     return @{$Cache} if $Cache;
 
     # get database object
@@ -500,7 +524,9 @@ sub GetAllCustomQueues {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
         Key   => $CacheKey,
         Value => \@QueueIDs,
     );
@@ -760,7 +786,9 @@ sub QueueAdd {
     }
 
     # reset cache
-    $Self->{CacheInternalObject}->CleanUp();
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
 
     my $StandardTemplate2QueueByCreating
         = $ConfigObject->Get('StandardTemplate2QueueByCreating');
@@ -856,7 +884,10 @@ sub QueueGet {
     }
 
     # check cache
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
     return %{$Cache} if $Cache;
 
     # sql
@@ -935,7 +966,12 @@ sub QueueGet {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => $CacheKey,
+        Value => \%Data,
+    );
 
     return %Data;
 }
@@ -1078,7 +1114,9 @@ sub QueueUpdate {
     );
 
     # reset cache
-    $Self->{CacheInternalObject}->CleanUp();
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
 
     # updated all sub queue names
     my @ParentQueue = split( /::/, $OldQueue{Name} );
@@ -1101,7 +1139,9 @@ sub QueueUpdate {
                 );
 
                 # reset cache
-                $Self->{CacheInternalObject}->CleanUp();
+                $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+                    Type => $Self->{CacheType},
+                );
             }
         }
     }
@@ -1139,8 +1179,9 @@ sub QueueList {
 
     # check cache
     my $CacheKey = 'QueueList::' . $Valid;
-    my $Cache    = $Self->{CacheInternalObject}->Get(
-        Key => $CacheKey,
+    my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
     );
     return %{$Cache} if $Cache;
 
@@ -1167,7 +1208,9 @@ sub QueueList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
         Key   => $CacheKey,
         Value => \%Queues,
     );
@@ -1198,7 +1241,10 @@ sub QueuePreferencesSet {
         'QueueGetName::' . $Name,
     );
     for my $CacheKey (@CacheKeys) {
-        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+        $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
     }
 
     return $Self->{PreferencesObject}->QueuePreferencesSet(%Param);
