@@ -14,7 +14,6 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::Config',
     'Kernel::System::DB',
     'Kernel::System::Log',
 );
@@ -288,7 +287,7 @@ sub _ArticleIndexStringToWord {
     }
 
     # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::System::Config');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $Config   = $ConfigObject->Get('Ticket::SearchIndex::Attribute');
     my %StopWord = %{ $ConfigObject->Get('Ticket::SearchIndex::StopWords') || {} };
