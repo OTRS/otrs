@@ -44,8 +44,8 @@ e. g. (depends on used services):
 
 stop the OTRS scheduler:
 
- shell> cd /opt/otrs/
- shell> bin/otrs.Scheduler.pl -a stop
+    shell> cd /opt/otrs/
+    shell> bin/otrs.Scheduler.pl -a stop
 
 
 2. Backup everything below $OTRS_HOME (default: OTRS_HOME=/opt/otrs)
