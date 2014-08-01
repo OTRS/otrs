@@ -12,7 +12,15 @@ package Kernel::Output::HTML::PreferencesCustomQueue;
 use strict;
 use warnings;
 
-use Kernel::System::CacheInternal;
+our @ObjectDependencies = (
+    'Kernel::Output::HTML::Layout',
+    'Kernel::System::Cache',
+    'Kernel::System::DB',
+    'Kernel::System::Group',
+    'Kernel::System::Queue',
+    'Kernel::System::Web::Request',
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -21,17 +29,9 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject QueueObject ConfigItem))
-    {
+    for (qw(UserID ConfigItem)) {
         die "Got no $_!" if ( !$Self->{$_} );
     }
-
-    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        %{$Self},
-        Type => 'Queue',
-        TTL  => 60 * 60 * 24 * 20,
-    );
 
     return $Self;
 }
@@ -46,18 +46,21 @@ sub Param {
     # check needed param, if no user id is given, do not show this box
     if ( !$Param{UserData}->{UserID} ) {
         return ();
+
     }
+    my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
     if ( $Param{UserData}->{UserID} ) {
-        %QueueData = $Self->{QueueObject}->GetAllQueues(
+        %QueueData = $QueueObject->GetAllQueues(
             UserID => $Param{UserData}->{UserID},
             Type => $Self->{ConfigItem}->{Permission} || 'ro',
         );
     }
-    if ( $Self->{ParamObject}->GetArray( Param => 'QueueID' ) ) {
-        @CustomQueueIDs = $Self->{ParamObject}->GetArray( Param => 'QueueID' );
+    if ( $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'QueueID' ) ) {
+        @CustomQueueIDs
+            = $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'QueueID' );
     }
     elsif ( $Param{UserData}->{UserID} && !defined $CustomQueueIDs[0] ) {
-        @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(
+        @CustomQueueIDs = $QueueObject->GetAllCustomQueues(
             UserID => $Param{UserData}->{UserID}
         );
     }
@@ -65,7 +68,7 @@ sub Param {
         @Params,
         {
             %Param,
-            Option => $Self->{LayoutObject}->AgentQueueListOption(
+            Option => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->AgentQueueListOption(
                 Data               => \%QueueData,
                 Size               => 10,
                 Name               => 'QueueID',
@@ -85,7 +88,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # delete old custom queues
-    $Self->{DBObject}->Do(
+    $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => "
             DELETE FROM personal_queues
             WHERE user_id = ?",
@@ -93,19 +96,20 @@ sub Run {
     );
 
     # get ro groups of agent
-    my %GroupMember = $Self->{GroupObject}->GroupMemberList(
+    my %GroupMember = $Kernel::OM->Get('Kernel::System::Group')->GroupMemberList(
         UserID => $Param{UserData}->{UserID},
         Type   => 'ro',
         Result => 'HASH',
     );
 
     # add new custom queues
+    my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
     for my $Key ( sort keys %{ $Param{GetParam} } ) {
         my @Array = @{ $Param{GetParam}->{$Key} };
         for my $ID (@Array) {
 
             # get group of queue
-            my %Queue = $Self->{QueueObject}->QueueGet( ID => $ID );
+            my %Queue = $QueueObject->QueueGet( ID => $ID );
 
             # check permissions
             if ( $GroupMember{ $Queue{GroupID} } ) {
@@ -121,7 +125,10 @@ sub Run {
     }
 
     my $CacheKey = 'GetAllCustomQueues::' . $Param{UserData}->{UserID};
-    $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => 'Queue',
+        Key  => $CacheKey,
+    );
 
     $Self->{Message} = 'Preferences updated successfully!';
     return 1;

@@ -259,7 +259,10 @@ $Self->True(
 
 # check cache
 my $CacheKey = "StandardTemplates::1::0";
-my $Cache = $QueueObject->{CacheInternalObject}->Get( Key => $CacheKey );
+my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+    Type => 'Queue',
+    Key  => $CacheKey,
+);
 $Self->IsDeeply(
     \%Templates,
     $Cache,
@@ -279,7 +282,10 @@ $Self->True(
 
 # check cache
 $CacheKey = "StandardTemplates::1::1";
-$Cache = $QueueObject->{CacheInternalObject}->Get( Key => $CacheKey );
+$Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+    Type => 'Queue',
+    Key  => $CacheKey,
+);
 $Self->IsDeeply(
     \%TemplatesByType,
     $Cache,
