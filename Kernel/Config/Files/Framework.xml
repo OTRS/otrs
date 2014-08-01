@@ -6272,6 +6272,28 @@ via the Preferences button after logging in.
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Cache::InMemory" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Should the cache data be help in memory?</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Cache</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Cache::InBackend" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Should the cache data be stored in the selected cache backend?</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Cache</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Cache::SubdirLevels" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.</Description>
         <Group>Framework</Group>

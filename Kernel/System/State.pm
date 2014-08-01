@@ -16,6 +16,7 @@ use Kernel::System::CacheInternal;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Cache',
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::SysConfig',
@@ -54,12 +55,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # create additional objects
-    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        %{$Self},
-        Type => 'State',
-        TTL  => 60 * 60 * 24 * 20,
-    );
+    $Self->{CacheType} = 'State';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     # check needed config options
     for (qw(Ticket::ViewableStateType Ticket::UnlockStateType)) {
@@ -125,7 +122,9 @@ sub StateAdd {
     return if !$ID;
 
     # delete cache
-    $Self->{CacheInternalObject}->CleanUp();
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
 
     return $ID;
 }
@@ -175,7 +174,10 @@ sub StateGet {
     else {
         $CacheKey = 'StateGet::ID::' . $Param{ID};
     }
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
     return %{$Cache} if $Cache;
 
     # get database object
@@ -217,7 +219,9 @@ sub StateGet {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
         Key   => $CacheKey,
         Value => \%Data,
     );
@@ -280,7 +284,9 @@ sub StateUpdate {
     );
 
     # delete cache
-    $Self->{CacheInternalObject}->CleanUp();
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
 
     # check all sysconfig options
     return 1 if !$Param{CheckSysConfig};
@@ -347,7 +353,10 @@ sub StateGetStatesByType {
     }
 
     # check cache
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
     if ($Cache) {
         if ( $Param{Result} eq 'Name' ) {
             return @{ $Cache->{Name} };
@@ -417,7 +426,9 @@ sub StateGetStatesByType {
     };
 
     # set permanent cache
-    $Self->{CacheInternalObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
         Key   => $CacheKey,
         Value => $All,
     );
@@ -482,7 +493,10 @@ sub StateList {
 
     # check cache
     my $CacheKey = 'StateList::' . $Valid;
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
     return %{$Cache} if $Cache;
 
     # sql
@@ -504,7 +518,9 @@ sub StateList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
         Key   => $CacheKey,
         Value => \%Data,
     );
@@ -602,7 +618,10 @@ sub StateTypeList {
 
     # check cache
     my $CacheKey = 'StateTypeList';
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
     return %{$Cache} if $Cache;
 
     # get database object
@@ -620,7 +639,12 @@ sub StateTypeList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => $CacheKey,
+        Value => \%Data,
+    );
 
     return %Data;
 }

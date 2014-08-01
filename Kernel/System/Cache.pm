@@ -15,7 +15,6 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
-    'Kernel::System::Main',
 );
 our $ObjectManagerAware = 1;
 
@@ -57,11 +56,10 @@ sub new {
     my $CacheModule = $Kernel::OM->Get('Kernel::Config')->Get('Cache::Module')
         || 'Kernel::System::Cache::FileStorable';
 
-    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($CacheModule) ) {
-        die "Can't load backend module $CacheModule! $@";
-    }
-
-    $Self->{CacheObject} = $CacheModule->new();
+    # Store backend in $Self for fastest access.
+    $Self->{CacheObject}    = $Kernel::OM->Get($CacheModule);
+    $Self->{CacheInMemory}  = $Kernel::OM->Get('Kernel::Config')->Get('Cache::InMemory') // 1;
+    $Self->{CacheInBackend} = $Kernel::OM->Get('Kernel::Config')->Get('Cache::InBackend') // 1;
 
     return $Self;
 }
@@ -110,7 +108,18 @@ sub Set {
             Message  => "Set Key:$Param{Key} TTL:$Param{TTL}!",
         );
     }
-    return $Self->{CacheObject}->Set(%Param);
+
+    # set in-memory cache
+    if ( $Self->{CacheInMemory} ) {
+        $Self->{Cache}->{ $Param{Type} }->{ $Param{Key} } = $Param{Value};
+    }
+
+    # set persistent cache
+    if ( $Self->{CacheInBackend} ) {
+        return $Self->{CacheObject}->Set(%Param);
+    }
+
+    return 1;
 }
 
 =item Get()
@@ -145,6 +154,15 @@ sub Get {
             Message  => "Get Key:$Param{Key}!",
         );
     }
+
+    # check in-memory cache
+    if ( $Self->{CacheInMemory} && exists $Self->{Cache}->{ $Param{Type} }->{ $Param{Key} } ) {
+        return $Self->{Cache}->{ $Param{Type} }->{ $Param{Key} };
+    }
+
+    return if ( !$Self->{CacheInBackend} );
+
+    # check persistent cache
     my $Value = $Self->{CacheObject}->Get(%Param);
     if ( defined $Value ) {
         if ( $Self->{Debug} > 0 ) {
@@ -189,6 +207,14 @@ sub Delete {
             Message  => "Delete Key:$Param{Key}!",
         );
     }
+
+    # Delete and cleanup operations should also be done if the cache is disabled
+    #   to avoid inconsistent states.
+
+    # delete from in-memory cache
+    delete $Self->{Cache}->{ $Param{Type} }->{ $Param{Key} };
+
+    # delete from persistent cache
     return $Self->{CacheObject}->Delete(%Param);
 }
 
@@ -225,6 +251,21 @@ sub CleanUp {
             Message  => 'CleanUp cache!',
         );
     }
+
+    # Delete and cleanup operations should also be done if the cache is disabled
+    #   to avoid inconsistent states.
+
+    # cleanup in-memory cache
+    if ( !$Param{Expired} ) {
+        if ( $Param{Type} ) {
+            delete $Self->{Cache}->{ $Param{Type} };
+        }
+        else {
+            delete $Self->{Cache};
+        }
+    }
+
+    # cleanup persistent cache
     return $Self->{CacheObject}->CleanUp(%Param);
 }
 

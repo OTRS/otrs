@@ -15,6 +15,7 @@ use warnings;
 use Kernel::System::CacheInternal;
 
 our @ObjectDependencies = (
+    'Kernel::System::Cache',
     'Kernel::System::DB',
     'Kernel::System::Log',
 );
@@ -51,10 +52,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        Type => 'Valid',
-        TTL  => 60 * 60 * 24 * 20,
-    );
+    $Self->{CacheType} = 'Valid';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     return $Self;
 }
@@ -72,7 +71,11 @@ sub ValidList {
 
     # read cache
     my $CacheKey = 'ValidList';
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        TTL  => $Self->{CacheTTL},
+        Key  => $CacheKey,
+    );
     return %{$Cache} if $Cache;
 
     # get database object
@@ -88,7 +91,12 @@ sub ValidList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => $CacheKey,
+        Value => \%Data
+    );
 
     return %Data;
 }

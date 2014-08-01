@@ -16,6 +16,7 @@ use Kernel::System::CacheInternal;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Cache',
     'Kernel::System::CheckItem',
     'Kernel::System::DB',
     'Kernel::System::Log',
@@ -56,10 +57,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        Type => 'LinkObject',
-        TTL  => 60 * 60 * 24 * 20,
-    );
+    $Self->{CacheType} = 'LinkObject';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     return $Self;
 }
@@ -1543,7 +1542,10 @@ sub ObjectLookup {
 
         # check cache
         my $CacheKey = 'ObjectLookup::ObjectID::' . $Param{ObjectID};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
         return $Cache if $Cache;
 
         # ask the database
@@ -1572,7 +1574,9 @@ sub ObjectLookup {
         }
 
         # set cache
-        $Self->{CacheInternalObject}->Set(
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type  => $Self->{CacheType},
+            TTL   => $Self->{CacheTTL},
             Key   => $CacheKey,
             Value => $Name,
         );
@@ -1583,7 +1587,10 @@ sub ObjectLookup {
 
         # check cache
         my $CacheKey = 'ObjectLookup::Name::' . $Param{Name};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
         return $Cache if $Cache;
 
         # get check item object
@@ -1635,7 +1642,9 @@ sub ObjectLookup {
         }
 
         # set cache
-        $Self->{CacheInternalObject}->Set(
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type  => $Self->{CacheType},
+            TTL   => $Self->{CacheTTL},
             Key   => $CacheKey,
             Value => $ObjectID,
         );
@@ -1688,7 +1697,10 @@ sub TypeLookup {
 
         # check cache
         my $CacheKey = 'TypeLookup::TypeID::' . $Param{TypeID};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
         return $Cache if $Cache;
 
         # ask the database
@@ -1714,7 +1726,9 @@ sub TypeLookup {
         }
 
         # set cache
-        $Self->{CacheInternalObject}->Set(
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type  => $Self->{CacheType},
+            TTL   => $Self->{CacheTTL},
             Key   => $CacheKey,
             Value => $Name,
         );
@@ -1733,7 +1747,10 @@ sub TypeLookup {
 
         # check cache
         my $CacheKey = 'TypeLookup::Name::' . $Param{Name};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
         return $Cache if $Cache;
 
         # investigate the type id
@@ -1784,7 +1801,9 @@ sub TypeLookup {
         }
 
         # set cache
-        $Self->{CacheInternalObject}->Set(
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type  => $Self->{CacheType},
+            TTL   => $Self->{CacheTTL},
             Key   => $CacheKey,
             Value => $TypeID,
         );
@@ -2171,7 +2190,10 @@ sub StateLookup {
 
         # check cache
         my $CacheKey = 'StateLookup::StateID::' . $Param{StateID};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
         return $Cache if $Cache;
 
         # ask the database
@@ -2200,7 +2222,9 @@ sub StateLookup {
         }
 
         # set cache
-        $Self->{CacheInternalObject}->Set(
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type  => $Self->{CacheType},
+            TTL   => $Self->{CacheTTL},
             Key   => $CacheKey,
             Value => $Name,
         );
@@ -2211,7 +2235,10 @@ sub StateLookup {
 
         # check cache
         my $CacheKey = 'StateLookup::Name::' . $Param{Name};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
         return $Cache if $Cache;
 
         # ask the database
@@ -2240,7 +2267,9 @@ sub StateLookup {
         }
 
         # set cache
-        $Self->{CacheInternalObject}->Set(
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type  => $Self->{CacheType},
+            TTL   => $Self->{CacheTTL},
             Key   => $CacheKey,
             Value => $StateID,
         );
