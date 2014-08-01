@@ -22,6 +22,8 @@ use Kernel::System::PostMaster::FollowUp;
 use Kernel::System::PostMaster::NewTicket;
 use Kernel::System::PostMaster::DestQueue;
 
+## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
+
 =head1 NAME
 
 Kernel::System::PostMaster - postmaster lib
@@ -113,8 +115,11 @@ sub new {
 
     if ( $Self->{Trusted} ) {
 
+        # get dynamic field objects
+        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
         # add Dynamic Field headers
-        my $DynamicFields = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldList(
+        my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
             Valid      => 1,
             ObjectType => [ 'Ticket', 'Article' ],
             ResultType => 'HASH',
@@ -635,7 +640,6 @@ sub GetEmailParams {
     my @Attachments = $Self->{ParserObject}->GetAttachments();
     $GetParam{Attachment} = \@Attachments;
 
-    # return params
     return \%GetParam;
 }
 
