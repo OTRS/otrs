@@ -32,7 +32,6 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 use Kernel::System::Email;
 use Kernel::System::Valid;
-use Kernel::System::CacheInternal;
 use Kernel::System::LinkObject;
 use Kernel::System::EventHandler;
 use Kernel::System::DynamicField;
@@ -49,8 +48,31 @@ use Kernel::System::EventHandler;
 use vars qw(@ISA);
 
 our @ObjectDependencies = (
-    @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(UserObject GroupObject QueueObject CustomerUserObject CustomerGroupObject)
+    'Kernel::Config',
+    'Kernel::System::Cache',
+    'Kernel::System::CustomerGroup',
+    'Kernel::System::CustomerUser',
+    'Kernel::System::DB',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
+    'Kernel::System::Email',
+    'Kernel::System::Group',
+    'Kernel::System::HTMLUtils',
+    'Kernel::System::Lock',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Notification',
+    'Kernel::System::PostMaster::LoopProtection',
+    'Kernel::System::Priority',
+    'Kernel::System::Queue',
+    'Kernel::System::Service',
+    'Kernel::System::SLA',
+    'Kernel::System::State',
+    'Kernel::System::TemplateGenerator',
+    'Kernel::System::Time',
+    'Kernel::System::Type',
+    'Kernel::System::User',
+    'Kernel::System::Valid',
 );
 our $ObjectManagerAware = 0;
 
@@ -98,11 +120,8 @@ sub new {
         }
     }
 
-    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        %Param,
-        Type => 'Ticket',
-        TTL  => 60 * 60 * 24 * 3,
-    );
+    $Self->{CacheType} = 'Valid';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     @ISA = qw(
         Kernel::System::Ticket::Article
@@ -112,24 +131,24 @@ sub new {
     );
 
     # create common needed module objects
-    $Self->{UserObject} = $Kernel::OM->Get('UserObject');
+    $Self->{UserObject} = $Kernel::OM->Get('Kernel::System::User');
     if ( !$Param{GroupObject} ) {
-        $Self->{GroupObject} = $Kernel::OM->Get('GroupObject');
+        $Self->{GroupObject} = $Kernel::OM->Get('Kernel::System::Group');
     }
     else {
         $Self->{GroupObject} = $Param{GroupObject};
     }
 
-    $Self->{CustomerUserObject} = $Kernel::OM->Get('CustomerUserObject');
+    $Self->{CustomerUserObject} = $Kernel::OM->Get('Kernel::System::CustomerUser');
     if ( !$Param{CustomerGroupObject} ) {
-        $Self->{CustomerGroupObject} = $Kernel::OM->Get('CustomerGroupObject');
+        $Self->{CustomerGroupObject} = $Kernel::OM->Get('Kernel::System::CustomerGroup');
     }
     else {
         $Self->{CustomerGroupObject} = $Param{CustomerGroupObject};
     }
 
     if ( !$Param{QueueObject} ) {
-        $Self->{QueueObject} = $Kernel::OM->Get('QueueObject');
+        $Self->{QueueObject} = $Kernel::OM->Get('Kernel::System::Queue');
     }
     else {
         $Self->{QueueObject} = $Param{QueueObject};
@@ -1057,7 +1076,10 @@ sub TicketGet {
 
     my %Ticket;
 
-    my $Cached = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cached = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
 
     if ( ref $Cached eq 'HASH' ) {
         %Ticket = %{$Cached};
@@ -1111,7 +1133,9 @@ sub TicketGet {
             $Ticket{ChangeBy} = $Row[25];
         }
 
-        $Self->{CacheInternalObject}->Set(
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type  => $Self->{CacheType},
+            TTL   => $Self->{CacheTTL},
             Key   => $CacheKey,
             Value => \%Ticket,
         );
@@ -1253,20 +1277,27 @@ sub _TicketCacheClear {
     # TicketGet()
     my $CacheKey = 'Cache::GetTicket' . $Param{TicketID};
     delete $Self->{$CacheKey};
-    $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
 
     # ArticleIndex()
-    $Self->{CacheInternalObject}->Delete(
-        Key => 'ArticleIndex::' . $Param{TicketID} . '::agent'
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'ArticleIndex::' . $Param{TicketID} . '::agent'
     );
-    $Self->{CacheInternalObject}->Delete(
-        Key => 'ArticleIndex::' . $Param{TicketID} . '::customer'
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'ArticleIndex::' . $Param{TicketID} . '::customer'
     );
-    $Self->{CacheInternalObject}->Delete(
-        Key => 'ArticleIndex::' . $Param{TicketID} . '::system'
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'ArticleIndex::' . $Param{TicketID} . '::system'
     );
-    $Self->{CacheInternalObject}->Delete(
-        Key => 'ArticleIndex::' . $Param{TicketID} . '::ALL'
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'ArticleIndex::' . $Param{TicketID} . '::ALL'
     );
 
 }
@@ -4888,7 +4919,10 @@ sub HistoryTicketGet {
         = 'HistoryTicketGet::'
         . join( '::', map { ( $_ || 0 ) . "::$Param{$_}" } sort keys %Param );
 
-    my $Cached = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cached = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
     if ( ref $Cached eq 'HASH' && !$Param{Force} ) {
         return %{$Cached};
     }
@@ -5063,7 +5097,12 @@ sub HistoryTicketGet {
 
     # if the request is for the last month or older, cache it
     if ( "$Year-$Month" gt "$Param{StopYear}-$Param{StopMonth}" ) {
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Ticket );
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type  => $Self->{CacheType},
+            TTL   => $Self->{CacheTTL},
+            Key   => $CacheKey,
+            Value => \%Ticket,
+        );
     }
 
     return %Ticket;
@@ -5998,7 +6037,10 @@ sub TicketFlagSet {
 
     # delete cache
     my $CacheKey = 'TicketFlagGet::' . $Param{TicketID} . '::' . $Param{UserID};
-    $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
 
     # event
     $Self->EventHandler(
@@ -6076,7 +6118,10 @@ sub TicketFlagDelete {
             my $CacheKey = 'TicketFlagGet::' . $Param{TicketID} . '::' . $Record->{UserID};
 
             # delete cache
-            $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+            $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+                Type => $Self->{CacheType},
+                Key  => $CacheKey,
+            );
 
             $Self->EventHandler(
                 Event => 'TicketFlagDelete',
@@ -6103,7 +6148,10 @@ sub TicketFlagDelete {
 
         # delete cache
         my $CacheKey = 'TicketFlagGet::' . $Param{TicketID} . '::' . $Param{UserID};
-        $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+        $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
 
         $Self->EventHandler(
             Event => 'TicketFlagDelete',
@@ -6154,7 +6202,10 @@ sub TicketFlagGet {
 
         # check cache
         my $CacheKey = 'TicketFlagGet::' . $Param{TicketID} . '::' . $Param{UserID};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
         return %{$Cache} if $Cache;
 
         my %Flag;
@@ -6175,7 +6226,12 @@ sub TicketFlagGet {
         }
 
         # set cache
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Flag );
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type  => $Self->{CacheType},
+            TTL   => $Self->{CacheTTL},
+            Key   => $CacheKey,
+            Value => \%Flag,
+        );
 
         return %Flag;
 
