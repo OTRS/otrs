@@ -27,7 +27,7 @@ our @ObjectDependencies = (
     'Kernel::System::HTMLUtils',
     'Kernel::System::Lock',
     'Kernel::System::Log',
-    'Kernel::System::Mail',
+    'Kernel::System::Email',
     'Kernel::System::Main',
     'Kernel::System::Notification',
     'Kernel::System::PostMaster::LoopProtection',
@@ -2486,7 +2486,7 @@ sub ArticleSend {
     return if !$ArticleID;
 
     # send mail
-    my ( $HeadRef, $BodyRef ) = $Kernel::OM->Get('Kernel::System::Mail')->Send(
+    my ( $HeadRef, $BodyRef ) = $Kernel::OM->Get('Kernel::System::Email')->Send(
         'Message-ID' => $MessageID,
         %Param,
     );
@@ -2573,7 +2573,7 @@ sub ArticleBounce {
     }
 
     # pipe all into sendmail
-    return if !$Kernel::OM->Get('Kernel::System::Mail')->Bounce(
+    return if !$Kernel::OM->Get('Kernel::System::Email')->Bounce(
         MessageID => $NewMessageID,
         From      => $Param{From},
         To        => $Param{To},
@@ -2690,7 +2690,7 @@ sub SendAgentNotification {
     );
 
     # send notify
-    $Kernel::OM->Get('Kernel::System::Mail')->Send(
+    $Kernel::OM->Get('Kernel::System::Email')->Send(
         From => $ConfigObject->Get('NotificationSenderName') . ' <'
             . $ConfigObject->Get('NotificationSenderEmail') . '>',
         To       => $User{UserEmail},
