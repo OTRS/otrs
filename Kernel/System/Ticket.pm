@@ -120,7 +120,7 @@ sub new {
         }
     }
 
-    $Self->{CacheType} = 'Valid';
+    $Self->{CacheType} = 'Ticket';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     @ISA = qw(

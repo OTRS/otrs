@@ -55,7 +55,7 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{CacheType} = 'Valid';
+    $Self->{CacheType} = 'Loader';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     return $Self;
