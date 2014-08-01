@@ -15,9 +15,18 @@ use warnings;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 use Digest::SHA;
 
-use Kernel::System::CacheInternal;
-use Kernel::System::CheckItem;
-use Kernel::System::Valid;
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Cache',
+    'Kernel::System::CheckItem',
+    'Kernel::System::DB',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Time',
+    'Kernel::System::Valid',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -51,9 +60,8 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject TimeObject MainObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
+    $Self->{DBObject}     = $Kernel::OM->Get('Kernel::System::DB');
 
     # get user table
     $Self->{UserTable}       = $Self->{ConfigObject}->Get('DatabaseUserTable')       || 'user';
@@ -61,15 +69,8 @@ sub new {
     $Self->{UserTableUserPW} = $Self->{ConfigObject}->Get('DatabaseUserTableUserPW') || 'pw';
     $Self->{UserTableUser}   = $Self->{ConfigObject}->Get('DatabaseUserTableUser')   || 'login';
 
-    # create needed object
-    $Self->{ValidObject}     = Kernel::System::Valid->new( %{$Self} );
-    $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
-
-    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        %{$Self},
-        Type => 'User',
-        TTL  => 60 * 60 * 3,
-    );
+    $Self->{CacheType} = 'User';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     # set lower if database is case sensitive
     $Self->{Lower} = '';
@@ -80,7 +81,7 @@ sub new {
     # load generator preferences module
     my $GeneratorModule = $Self->{ConfigObject}->Get('User::PreferencesModule')
         || 'Kernel::System::User::Preferences::DB';
-    if ( $Self->{MainObject}->Require($GeneratorModule) ) {
+    if ( $Kernel::OM->Get('Kernel::System::Main')->Require($GeneratorModule) ) {
         $Self->{PreferencesObject} = $GeneratorModule->new( %{$Self} );
     }
 
@@ -112,7 +113,8 @@ sub GetUserData {
 
     # check needed stuff
     if ( !$Param{User} && !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User or UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need User or UserID!' );
         return;
     }
 
@@ -150,7 +152,10 @@ sub GetUserData {
     }
 
     # check cache
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
     return %{$Cache} if $Cache;
 
     # get initial data
@@ -191,14 +196,14 @@ sub GetUserData {
     # check data
     if ( !$Data{UserID} ) {
         if ( $Param{User} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message  => "Panic! No UserData for user: '$Param{User}'!!!",
             );
             return;
         }
         else {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message  => "Panic! No UserData for user id: '$Param{UserID}'!!!",
             );
@@ -211,7 +216,7 @@ sub GetUserData {
 
         my $Hit = 0;
 
-        for ( $Self->{ValidObject}->ValidIDsGet() ) {
+        for ( $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet() ) {
             if ( $_ eq $Data{ValidID} ) {
                 $Hit = 1;
             }
@@ -220,7 +225,12 @@ sub GetUserData {
         if ( !$Hit ) {
 
             # set cache
-            $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => {} );
+            $Kernel::OM->Get('Kernel::System::Cache')->Set(
+                Type  => $Self->{CacheType},
+                TTL   => $Self->{CacheTTL},
+                Key   => $CacheKey,
+                Value => {},
+            );
             return;
         }
     }
@@ -237,9 +247,11 @@ sub GetUserData {
     # get preferences
     my %Preferences = $Self->GetPreferences( UserID => $Data{UserID} );
 
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     # add last login timestamp
     if ( $Preferences{UserLastLogin} ) {
-        $Preferences{UserLastLoginTimestamp} = $Self->{TimeObject}->SystemTime2TimeStamp(
+        $Preferences{UserLastLoginTimestamp} = $TimeObject->SystemTime2TimeStamp(
             SystemTime => $Preferences{UserLastLogin},
         );
     }
@@ -252,15 +264,15 @@ sub GetUserData {
     # out of office check
     if ( !$Param{NoOutOfOffice} ) {
         if ( $Preferences{OutOfOffice} ) {
-            my $Time = $Self->{TimeObject}->SystemTime();
+            my $Time = $TimeObject->SystemTime();
             my $Start
                 = "$Preferences{OutOfOfficeStartYear}-$Preferences{OutOfOfficeStartMonth}-$Preferences{OutOfOfficeStartDay} 00:00:00";
-            my $TimeStart = $Self->{TimeObject}->TimeStamp2SystemTime(
+            my $TimeStart = $TimeObject->TimeStamp2SystemTime(
                 String => $Start,
             );
             my $End
                 = "$Preferences{OutOfOfficeEndYear}-$Preferences{OutOfOfficeEndMonth}-$Preferences{OutOfOfficeEndDay} 23:59:59";
-            my $TimeEnd = $Self->{TimeObject}->TimeStamp2SystemTime(
+            my $TimeEnd = $TimeObject->TimeStamp2SystemTime(
                 String => $End,
             );
             my $Till = int( ( $TimeEnd - $Time ) / 60 / 60 / 24 );
@@ -294,7 +306,12 @@ sub GetUserData {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => $CacheKey,
+        Value => \%Data,
+    );
 
     return %Data;
 }
@@ -321,7 +338,8 @@ sub UserAdd {
     # check needed stuff
     for (qw(UserFirstname UserLastname UserLogin UserEmail ValidID ChangeUserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -329,13 +347,14 @@ sub UserAdd {
     # check email address
     if (
         $Param{UserEmail}
-        && !$Self->{CheckItemObject}->CheckEmail( Address => $Param{UserEmail} )
+        && !$Kernel::OM->Get('Kernel::System::CheckItem')
+        ->CheckEmail( Address => $Param{UserEmail} )
         )
     {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Email address ($Param{UserEmail}) not valid ("
-                . $Self->{CheckItemObject}->CheckError() . ")!",
+                . $Kernel::OM->Get('Kernel::System::CheckItem')->CheckError() . ")!",
         );
         return;
     }
@@ -377,7 +396,7 @@ sub UserAdd {
 
     # check if user exists
     if ( !$UserID ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "Unable to create User: '$Param{UserLogin}' ($Param{ChangeUserID})!",
         );
@@ -385,7 +404,7 @@ sub UserAdd {
     }
 
     # log notice
-    $Self->{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',
         Message =>
             "User: '$Param{UserLogin}' ID: '$UserID' created successfully ($Param{ChangeUserID})!",
@@ -398,8 +417,12 @@ sub UserAdd {
     $Self->SetPreferences( UserID => $UserID, Key => 'UserEmail', Value => $Param{UserEmail} );
 
     # delete cache
-    $Self->{CacheInternalObject}->CleanUp();
-    $Self->{CacheInternalObject}->CleanUp( OtherType => 'Group' );
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => 'Group'
+    );
 
     return $UserID;
 }
@@ -427,7 +450,8 @@ sub UserUpdate {
     # check needed stuff
     for (qw(UserID UserFirstname UserLastname UserLogin ValidID ChangeUserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -435,13 +459,14 @@ sub UserUpdate {
     # check email address
     if (
         $Param{UserEmail}
-        && !$Self->{CheckItemObject}->CheckEmail( Address => $Param{UserEmail} )
+        && !$Kernel::OM->Get('Kernel::System::CheckItem')
+        ->CheckEmail( Address => $Param{UserEmail} )
         )
     {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Email address ($Param{UserEmail}) not valid ("
-                . $Self->{CheckItemObject}->CheckError() . ")!",
+                . $Kernel::OM->Get('Kernel::System::CheckItem')->CheckError() . ")!",
         );
         return;
     }
@@ -459,7 +484,7 @@ sub UserUpdate {
     );
 
     # log notice
-    $Self->{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',
         Message  => "User: '$Param{UserLogin}' updated successfully ($Param{ChangeUserID})!",
     );
@@ -477,8 +502,12 @@ sub UserUpdate {
     );
 
     # delete cache
-    $Self->{CacheInternalObject}->CleanUp();
-    $Self->{CacheInternalObject}->CleanUp( OtherType => 'Group' );
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => 'Group',
+    );
 
     return 1;
 }
@@ -528,7 +557,7 @@ sub UserSearch {
 
     # check needed stuff
     if ( !$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Search, UserLogin or PostMasterSearch!',
         );
@@ -582,7 +611,8 @@ sub UserSearch {
 
     # add valid option
     if ($Valid) {
-        $SQL .= "AND valid_id IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ")";
+        $SQL .= "AND valid_id IN ("
+            . join( ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet() ) . ")";
     }
 
     # get data
@@ -616,14 +646,16 @@ sub SetPassword {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserLogin!' );
         return;
     }
 
     # get old user data
     my %User = $Self->GetUserData( User => $Param{UserLogin} );
     if ( !$User{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'No such User!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'No such User!' );
         return;
     }
 
@@ -642,8 +674,8 @@ sub SetPassword {
     elsif ( $CryptType eq 'crypt' ) {
 
         # encode output, needed by crypt() only non utf8 signs
-        $Self->{EncodeObject}->EncodeOutput( \$Pw );
-        $Self->{EncodeObject}->EncodeOutput( \$Param{UserLogin} );
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{UserLogin} );
 
         $CryptedPw = crypt( $Pw, $Param{UserLogin} );
     }
@@ -652,8 +684,8 @@ sub SetPassword {
     elsif ( $CryptType eq 'md5' || !$CryptType ) {
 
         # encode output, needed by unix_md5_crypt() only non utf8 signs
-        $Self->{EncodeObject}->EncodeOutput( \$Pw );
-        $Self->{EncodeObject}->EncodeOutput( \$Param{UserLogin} );
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{UserLogin} );
 
         $CryptedPw = unix_md5_crypt( $Pw, $Param{UserLogin} );
     }
@@ -664,7 +696,7 @@ sub SetPassword {
         my $SHAObject = Digest::SHA->new('sha1');
 
         # encode output, needed by sha1_hex() only non utf8 signs
-        $Self->{EncodeObject}->EncodeOutput( \$Pw );
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
 
         $SHAObject->add($Pw);
         $CryptedPw = $SHAObject->hexdigest();
@@ -673,8 +705,8 @@ sub SetPassword {
     # bcrypt
     elsif ( $CryptType eq 'bcrypt' ) {
 
-        if ( !$Self->{MainObject}->Require('Crypt::Eksblowfish::Bcrypt') ) {
-            $Self->{LogObject}->Log(
+        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require('Crypt::Eksblowfish::Bcrypt') ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
                     "User: '$User{UserLogin}' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
@@ -683,10 +715,10 @@ sub SetPassword {
         }
 
         my $Cost = 9;
-        my $Salt = $Self->{MainObject}->GenerateRandomString( Length => 16 );
+        my $Salt = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString( Length => 16 );
 
         # remove UTF8 flag, required by Crypt::Eksblowfish::Bcrypt
-        $Self->{EncodeObject}->EncodeOutput( \$Pw );
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
 
         # calculate password hash
         my $Octets = Crypt::Eksblowfish::Bcrypt::bcrypt_hash(
@@ -709,7 +741,7 @@ sub SetPassword {
         my $SHAObject = Digest::SHA->new('sha256');
 
         # encode output, needed by sha256_hex() only non utf8 signs
-        $Self->{EncodeObject}->EncodeOutput( \$Pw );
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
 
         $SHAObject->add($Pw);
         $CryptedPw = $SHAObject->hexdigest();
@@ -724,7 +756,7 @@ sub SetPassword {
     );
 
     # log notice
-    $Self->{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',
         Message  => "User: '$Param{UserLogin}' changed password successfully!",
     );
@@ -751,7 +783,8 @@ sub UserLookup {
 
     # check needed stuff
     if ( !$Param{UserLogin} && !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin or UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserLogin or UserID!' );
         return;
     }
 
@@ -759,7 +792,10 @@ sub UserLookup {
 
         # check cache
         my $CacheKey = 'UserLookup::ID::' . $Param{UserLogin};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
         return $Cache if $Cache;
 
         # build sql query
@@ -779,7 +815,7 @@ sub UserLookup {
         }
 
         if ( !$ID ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "No UserID found for '$Param{UserLogin}'!",
             );
@@ -787,7 +823,12 @@ sub UserLookup {
         }
 
         # set cache
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $ID );
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type  => $Self->{CacheType},
+            TTL   => $Self->{CacheTTL},
+            Key   => $CacheKey,
+            Value => $ID,
+        );
 
         return $ID;
     }
@@ -796,7 +837,10 @@ sub UserLookup {
 
         # check cache
         my $CacheKey = 'UserLookup::Login::' . $Param{UserID};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
         return $Cache if $Cache;
 
         # build sql query
@@ -814,7 +858,7 @@ sub UserLookup {
         }
 
         if ( !$Login ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "No UserLogin found for '$Param{UserID}'!",
             );
@@ -822,7 +866,12 @@ sub UserLookup {
         }
 
         # set cache
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Login );
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type  => $Self->{CacheType},
+            TTL   => $Self->{CacheTTL},
+            Key   => $CacheKey,
+            Value => $Login,
+        );
 
         return $Login;
     }
@@ -879,8 +928,9 @@ sub UserList {
 
     # check cache
     my $CacheKey = join '::', 'UserList', $Type, $Valid, $FirstnameLastNameOrder, $NoOutOfOffice;
-    my $Cache = $Self->{CacheInternalObject}->Get(
-        Key => $CacheKey,
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
     );
     return %{$Cache} if $Cache;
 
@@ -899,7 +949,8 @@ sub UserList {
 
     # sql query
     if ($Valid) {
-        $SQL .= " WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
+        $SQL
+            .= " WHERE valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} )";
     }
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
@@ -947,7 +998,9 @@ sub UserList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
         Key   => $CacheKey,
         Value => \%Users,
     );
@@ -975,7 +1028,7 @@ sub GenerateRandomPassword {
     # Generated passwords are eight characters long by default.
     my $Size = $Param{Size} || 8;
 
-    my $Password = $Self->{MainObject}->GenerateRandomString(
+    my $Password = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
         Length => $Size,
     );
 
@@ -1001,7 +1054,8 @@ sub SetPreferences {
     # check needed stuff
     for (qw(Key UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -1020,7 +1074,9 @@ sub SetPreferences {
 
     # delete cache
     my $Login = $Self->UserLookup( UserID => $Param{UserID} );
-    $Self->{CacheInternalObject}->CleanUp();
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
 
     # set preferences
     return $Self->{PreferencesObject}->SetPreferences(%Param);
@@ -1074,10 +1130,11 @@ sub TokenGenerate {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Need UserID!" );
         return;
     }
-    my $Token = $Self->{MainObject}->GenerateRandomString(
+    my $Token = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
         Length => 15,
     );
 
@@ -1107,7 +1164,8 @@ sub TokenCheck {
 
     # check needed stuff
     if ( !$Param{Token} || !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Token and UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need Token and UserID!' );
         return;
     }
 
@@ -1155,7 +1213,7 @@ sub _UserFullname {
 
     for my $Needed (qw(UserFirstname UserLastname UserLogin)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
