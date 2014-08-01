@@ -12,14 +12,20 @@ package Kernel::System::EmailParser;
 use strict;
 use warnings;
 
-use Kernel::System::HTMLUtils;
-
 use Mail::Internet;
 use MIME::Parser;
 use MIME::QuotedPrint;
 use MIME::Base64;
 use MIME::Words qw(:all);
 use Mail::Address;
+
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Encode',
+    'Kernel::System::HTMLUtils',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -37,57 +43,11 @@ A module to parse and encode an email.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::EmailParser;
-
-    # as array ref
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $ParserObject = Kernel::System::EmailParser->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        EncodeObject => $EncodeObject,
-        Email        => \@ArrayOfEmail,
-        Debug        => 0,
-    );
-
-    # as scalar ref
-    my $ParserObject = Kernel::System::EmailParser->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        EncodeObject => $EncodeObject,
-        Email        => \$ScalarOfEmail,
-        Debug        => 0,
-    );
-
-    # as string (takes more memory!)
-    my $ParserObject = Kernel::System::EmailParser->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        EncodeObject => $EncodeObject,
-        Email        => $EmailString,
-        Debug        => 0,
-    );
-
-    # as stand alone mode, without parsing emails
-    my $ParserObject = Kernel::System::EmailParser->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        EncodeObject => $EncodeObject,
-        Mode         => 'Standalone',
-        Debug        => 0,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $EmailParserObject = $Kernel::OM->Get('Kernel::System::EmailParser');
 
 =cut
 
@@ -100,13 +60,6 @@ sub new {
 
     # get debug level from parent
     $Self->{Debug} = $Param{Debug} || 0;
-
-    # check needed objects
-    for (qw(LogObject ConfigObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
-    $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new( %{$Self} );
 
     if ( $Param{Mode} && $Param{Mode} eq 'Standalone' ) {
         return $Self;
@@ -222,7 +175,7 @@ sub GetParam {
 
     # debug
     if ( $Self->{Debug} > 1 ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => "Get: $What; ReturnLine: $ReturnLine; OrigLine: $Line",
         );
@@ -344,7 +297,7 @@ sub GetCharset {
 
         # debug
         if ( $Self->{Debug} > 0 ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message  => "Got charset from mime body: $Self->{Charset}",
             );
@@ -365,7 +318,7 @@ sub GetCharset {
 
         # debug
         if ( $Self->{Debug} > 0 ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message =>
                     "Got no charset from email body because of ContentType ($Data{ContentType})!",
@@ -384,7 +337,7 @@ sub GetCharset {
 
         # debug
         if ( $Self->{Debug} > 0 ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message  => "Got charset from email body: $Data{Charset}",
             );
@@ -402,7 +355,7 @@ sub GetCharset {
 
     # debug
     if ( $Self->{Debug} > 0 ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => 'Got no charset from email body! Take iso-8859-1!',
         );
@@ -434,7 +387,7 @@ sub GetReturnContentType {
 
     # debug
     if ( $Self->{Debug} > 0 ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => "Changed ContentType from '"
                 . $Self->GetContentType()
@@ -475,10 +428,13 @@ sub GetMessageBody {
     # check if message body is already there
     return $Self->{MessageBody} if $Self->{MessageBody};
 
+    # get encode object
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
     if ( !$Self->{EntityMode} && $Self->{ParserParts}->parts() == 0 ) {
         $Self->{MimeEmail} = 0;
         if ( $Self->{Debug} > 0 ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message  => 'It\'s a plain (not mime) email!',
             );
@@ -497,7 +453,7 @@ sub GetMessageBody {
 
         # charset decode
         if ( $Self->GetCharset() ) {
-            $Self->{MessageBody} = $Self->{EncodeObject}->Convert2CharsetInternal(
+            $Self->{MessageBody} = $EncodeObject->Convert2CharsetInternal(
                 Text  => $BodyStrg,
                 From  => $Self->GetCharset(),
                 Check => 1,
@@ -516,7 +472,7 @@ sub GetMessageBody {
     else {
         $Self->{MimeEmail} = 1;
         if ( $Self->{Debug} > 0 ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message  => 'It\'s a mime email!',
             );
@@ -529,7 +485,7 @@ sub GetMessageBody {
             $Self->{Charset}     = $Attachments[0]->{Charset};
             $Self->{ContentType} = $Attachments[0]->{ContentType};
             if ( $Self->{Debug} > 0 ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
                     Message  => "First attachment ContentType: $Self->{ContentType}",
                 );
@@ -542,7 +498,7 @@ sub GetMessageBody {
 
             # check if charset exists
             if ( $Self->GetCharset() ) {
-                $Self->{MessageBody} = $Self->{EncodeObject}->Convert2CharsetInternal(
+                $Self->{MessageBody} = $EncodeObject->Convert2CharsetInternal(
                     Text  => $Attachments[0]->{Content},
                     From  => $Self->GetCharset(),
                     Check => 1,
@@ -562,7 +518,7 @@ sub GetMessageBody {
         }
         else {
             if ( $Self->{Debug} > 0 ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
                     Message =>
                         'No attachments returned from GetAttachments(), just an empty attachment!?',
@@ -575,6 +531,7 @@ sub GetMessageBody {
             return '-';
         }
     }
+
     return;
 }
 
@@ -682,7 +639,7 @@ sub PartsAttachments {
     if ( $Part->bodyhandle() ) {
         $PartData{Content} = $Part->bodyhandle()->as_string();
         if ( !$PartData{Content} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message  => "Totally empty attachment part ($PartCounter)",
             );
@@ -692,7 +649,7 @@ sub PartsAttachments {
 
     # log error if there is an corrupt MIME email
     else {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message =>
                 "Was not able to parse corrupt MIME email! Skipped attachment ($PartCounter)",
@@ -729,11 +686,17 @@ sub PartsAttachments {
 
     # Guess the filename for nested messages (see bug#1970).
     elsif ( $PartData{ContentType} eq 'message/rfc822' ) {
+
         my ($SubjectString) = $Part->as_string() =~ m/^Subject: ([^\n]*(\n[ \t][^\n]*)*)/m;
+
+        # get encode object
+        my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
         my $Subject;
         for my $Decoded ( $Self->_DecodeMimewords( String => $SubjectString ) ) {
+
             if ( $Decoded->[0] ) {
-                $Subject .= $Self->{EncodeObject}->Convert2CharsetInternal(
+                $Subject .= $EncodeObject->Convert2CharsetInternal(
                     Text  => $Decoded->[0],
                     From  => $Decoded->[1] || 'us-ascii',
                     Check => 1,
@@ -874,7 +837,7 @@ sub CheckMessageBody {
     return if $Self->{MessageChecked};
 
     # return if no auto convert from html2text is needed
-    return if !$Self->{ConfigObject}->Get('PostmasterAutoHTML2Text');
+    return if !$Kernel::OM->Get('Kernel::Config')->Get('PostmasterAutoHTML2Text');
 
     # return if no auto convert from html2text is needed
     return if $Self->{NoHTMLChecks};
@@ -909,19 +872,20 @@ sub CheckMessageBody {
         $Self->{MimeEmail} = 1;
 
         # convert from html to ascii
-        $Self->{MessageBody} = $Self->{HTMLUtilsObject}->ToAscii(
+        $Self->{MessageBody} = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToAscii(
             String => $Self->{MessageBody},
         );
 
         $Self->{ContentType} = 'text/plain';
         if ( $Self->{Debug} > 0 ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message =>
                     'It\'s an html only email, added ascii dump, attached html email as attachment.',
             );
         }
     }
+
     return;
 }
 
@@ -940,13 +904,18 @@ Decode all encoded substrings.
 sub _DecodeString {
     my ( $Self, %Param ) = @_;
 
+    # get encode object
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
     my $DecodedString;
 
     for my $Entry ( $Self->_DecodeMimewords( String => $Param{String} ) ) {
-        my $Encoding = $Self->{EncodeObject}->FindAsciiSupersetEncoding(
+
+        my $Encoding = $EncodeObject->FindAsciiSupersetEncoding(
             Encodings => [ $Entry->[1], $Self->GetCharset() ],
         );
-        $DecodedString .= $Self->{EncodeObject}->Convert2CharsetInternal(
+
+        $DecodedString .= $EncodeObject->Convert2CharsetInternal(
             Text  => $Entry->[0],
             From  => $Encoding,
             Check => 1,
