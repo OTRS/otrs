@@ -55,7 +55,7 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{CacheType} = 'Valid';
+    $Self->{CacheType} = 'Lock';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     $Self->{ViewableLocks} = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ViewableLocks')
