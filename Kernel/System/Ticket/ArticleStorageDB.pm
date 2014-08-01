@@ -17,16 +17,31 @@ use MIME::Words qw(:all);
 
 use Kernel::System::VariableCheck qw(:all);
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Time',
+);
+our $ObjectManagerAware = 1;
+
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
 
     # ArticleDataDir
-    $Self->{ArticleDataDir} = $Self->{ConfigObject}->Get('ArticleDir')
+    $Self->{ArticleDataDir} = $Kernel::OM->Get('Kernel::Config')->Get('ArticleDir')
         || die 'Got no ArticleDir!';
 
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     # create ArticleContentPath
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
-        SystemTime => $Self->{TimeObject}->SystemTime(),
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
+        SystemTime => $TimeObject->SystemTime(),
     );
     $Self->{ArticleContentPath} = $Year . '/' . $Month . '/' . $Day;
 
@@ -39,15 +54,18 @@ sub ArticleDelete {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
-    my $DynamicFieldListArticle = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+    my $DynamicFieldListArticle = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         ObjectType => 'Article',
         Valid      => 0,
     );
+
+    # get dynamic field backend object
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     # delete dynamicfield values for this article
     DYNAMICFIELD:
@@ -58,7 +76,7 @@ sub ArticleDelete {
         next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
         next DYNAMICFIELD if !IsHashRefWithData( $DynamicFieldConfig->{Config} );
 
-        $Self->{DynamicFieldBackendObject}->ValueDelete(
+        $DynamicFieldBackendObject->ValueDelete(
             DynamicFieldConfig => $DynamicFieldConfig,
             ObjectID           => $Param{ArticleID},
             UserID             => $Param{UserID},
@@ -89,14 +107,17 @@ sub ArticleDelete {
         UserID    => $Param{UserID},
     );
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # delete article flags
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM article_flag WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
 
     # delete article history entries
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM ticket_history WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
@@ -108,7 +129,7 @@ sub ArticleDelete {
     );
 
     # delete articles
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM article WHERE id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
@@ -122,13 +143,13 @@ sub ArticleDeletePlain {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
     # delete attachments
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL  => 'DELETE FROM article_plain WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
@@ -144,7 +165,7 @@ sub ArticleDeletePlain {
     my $File = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt";
     if ( -f $File ) {
         if ( !unlink $File ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Can't remove: $File: $!!",
             );
@@ -160,13 +181,13 @@ sub ArticleDeleteAttachment {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
     # delete attachments
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL  => 'DELETE FROM article_attachment WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
@@ -180,15 +201,21 @@ sub ArticleDeleteAttachment {
     # delete from fs
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
+
     if ( -e $Path ) {
-        my @List = $Self->{MainObject}->DirectoryRead(
+
+        my @List = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => $Path,
             Filter    => "*",
         );
+
         for my $File (@List) {
+
             if ( $File !~ /(\/|\\)plain.txt$/ ) {
+
                 if ( !unlink $File ) {
-                    $Self->{LogObject}->Log(
+
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
                         Message  => "Can't remove: $File: $!!",
                     );
@@ -196,6 +223,7 @@ sub ArticleDeleteAttachment {
             }
         }
     }
+
     return 1;
 }
 
@@ -205,24 +233,30 @@ sub ArticleWritePlain {
     # check needed stuff
     for (qw(ArticleID Email UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # encode attachment if it's a postgresql backend!!!
-    if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
-        $Self->{EncodeObject}->EncodeOutput( \$Param{Email} );
+    if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
+
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Email} );
+
         $Param{Email} = encode_base64( $Param{Email} );
     }
 
     # write article to db 1:1
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'INSERT INTO article_plain '
             . ' (article_id, body, create_time, create_by, change_time, change_by) '
             . ' VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [ \$Param{ArticleID}, \$Param{Email}, \$Param{UserID}, \$Param{UserID} ],
     );
+
     return 1;
 }
 
@@ -232,7 +266,7 @@ sub ArticleWriteAttachment {
     # check needed stuff
     for (qw(Content Filename ContentType ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -266,9 +300,14 @@ sub ArticleWriteAttachment {
     # get attachment size
     $Param{Filesize} = bytes::length( $Param{Content} );
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # encode attachment if it's a postgresql backend!!!
-    if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
-        $Self->{EncodeObject}->EncodeOutput( \$Param{Content} );
+    if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
+
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Content} );
+
         $Param{Content} = encode_base64( $Param{Content} );
     }
 
@@ -285,7 +324,7 @@ sub ArticleWriteAttachment {
     $Disposition //= '';
 
     # write attachment to db
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => '
             INSERT INTO article_attachment (article_id, filename, content_type, content_size,
                 content, content_id, content_alternative, disposition, create_time, create_by,
@@ -305,7 +344,7 @@ sub ArticlePlain {
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ArticleID!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need ArticleID!" );
         return;
     }
 
@@ -313,17 +352,21 @@ sub ArticlePlain {
     $Param{ArticleID} = quotemeta( $Param{ArticleID} );
     $Param{ArticleID} =~ s/\0//g;
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # can't open article, try database
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL    => 'SELECT body FROM article_plain WHERE article_id = ?',
         Bind   => [ \$Param{ArticleID} ],
         Encode => [0],
     );
+
     my $Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
 
         # decode attachment if it's e. g. a postgresql backend!!!
-        if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') && $Row[0] !~ m/ / ) {
+        if ( !$DBObject->GetDatabaseFunction('DirectBlob') && $Row[0] !~ m/ / ) {
             $Data = decode_base64( $Row[0] );
         }
         else {
@@ -343,19 +386,19 @@ sub ArticlePlain {
     if ( -f "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt" ) {
 
         # read whole article
-        my $Data = $Self->{MainObject}->FileRead(
+        my $Data = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
             Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/",
             Filename  => 'plain.txt',
             Mode      => 'binmode',
         );
-        if ( !$Data ) {
-            return;
-        }
+
+        return if !$Data;
+
         return ${$Data};
     }
 
     # log info
-    $Self->{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'error',
         Message  => "No plain article (article id $Param{ArticleID}) in database!",
     );
@@ -367,21 +410,24 @@ sub ArticleAttachmentIndexRaw {
 
     # check ArticleContentPath
     if ( !$Self->{ArticleContentPath} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleContentPath!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ArticleContentPath!' );
         return;
     }
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ArticleID!' );
         return;
     }
 
     my %Index;
     my $Counter = 0;
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # try database
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => '
             SELECT filename, content_type, content_size, content_id, content_alternative,
                 disposition
@@ -390,7 +436,8 @@ sub ArticleAttachmentIndexRaw {
             ORDER BY filename, id',
         Bind => [ \$Param{ArticleID} ],
     );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+    while ( my @Row = $DBObject->FetchrowArray() ) {
 
         # human readable file size
         my $FileSizeRaw = $Row[2];
@@ -453,8 +500,11 @@ sub ArticleAttachmentIndexRaw {
         $Param{ContentPath} = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} ) || '';
     }
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     # try fs (if there is no index in fs)
-    my @List = $Self->{MainObject}->DirectoryRead(
+    my @List = $MainObject->DirectoryRead(
         Directory => "$Self->{ArticleDataDir}/$Param{ContentPath}/$Param{ArticleID}",
         Filter    => "*",
         Silent    => 1,
@@ -491,7 +541,7 @@ sub ArticleAttachmentIndexRaw {
         my $Alternative = '';
         my $Disposition = '';
         if ( -e "$Filename.content_type" ) {
-            my $Content = $Self->{MainObject}->FileRead(
+            my $Content = $MainObject->FileRead(
                 Location => "$Filename.content_type",
             );
             return if !$Content;
@@ -499,7 +549,7 @@ sub ArticleAttachmentIndexRaw {
 
             # content id (optional)
             if ( -e "$Filename.content_id" ) {
-                my $Content = $Self->{MainObject}->FileRead(
+                my $Content = $MainObject->FileRead(
                     Location => "$Filename.content_id",
                 );
                 if ($Content) {
@@ -509,7 +559,7 @@ sub ArticleAttachmentIndexRaw {
 
             # alternativ (optional)
             if ( -e "$Filename.content_alternative" ) {
-                my $Content = $Self->{MainObject}->FileRead(
+                my $Content = $MainObject->FileRead(
                     Location => "$Filename.content_alternative",
                 );
                 if ($Content) {
@@ -519,7 +569,7 @@ sub ArticleAttachmentIndexRaw {
 
             # disposition
             if ( -e "$Filename.disposition" ) {
-                my $Content = $Self->{MainObject}->FileRead(
+                my $Content = $MainObject->FileRead(
                     Location => "$Filename.disposition",
                 );
                 if ($Content) {
@@ -546,7 +596,7 @@ sub ArticleAttachmentIndexRaw {
 
         # read content type (old style)
         else {
-            my $Content = $Self->{MainObject}->FileRead(
+            my $Content = $MainObject->FileRead(
                 Location => $Filename,
                 Result   => 'ARRAY',
             );
@@ -577,7 +627,7 @@ sub ArticleAttachment {
     # check needed stuff
     for (qw(ArticleID FileID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -591,11 +641,15 @@ sub ArticleAttachment {
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
     );
+
     return if !$Index{ $Param{FileID} };
     my %Data = %{ $Index{ $Param{FileID} } };
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # try database
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => '
             SELECT content_type, content, content_id, content_alternative, disposition, filename
             FROM article_attachment
@@ -605,11 +659,12 @@ sub ArticleAttachment {
         Limit  => $Param{FileID},
         Encode => [ 1, 0, 0, 0 ],
     );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Data{ContentType} = $Row[0];
 
         # decode attachment if it's e. g. a postgresql backend!!!
-        if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
+        if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
             $Data{Content} = decode_base64( $Row[1] );
         }
         else {
@@ -620,6 +675,7 @@ sub ArticleAttachment {
         $Data{Disposition}        = $Row[4];
         $Data{Filename}           = $Row[5];
     }
+
     if ( !$Data{Disposition} ) {
 
         # if no content disposition is set images with content id should be inline
@@ -651,13 +707,20 @@ sub ArticleAttachment {
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my $Counter = 0;
 
-    my @List = $Self->{MainObject}->DirectoryRead(
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    my @List = $MainObject->DirectoryRead(
         Directory => "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}",
         Filter    => "*",
         Silent    => 1,
     );
 
     if (@List) {
+
+        # get encode object
+        my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
         FILENAME:
         for my $Filename (@List) {
             next FILENAME if $Filename =~ /\.content_alternative$/;
@@ -673,14 +736,14 @@ sub ArticleAttachment {
                 if ( -e "$Filename.content_type" ) {
 
                     # read content type
-                    my $Content = $Self->{MainObject}->FileRead(
+                    my $Content = $MainObject->FileRead(
                         Location => "$Filename.content_type",
                     );
                     return if !$Content;
                     $Data{ContentType} = ${$Content};
 
                     # read content
-                    $Content = $Self->{MainObject}->FileRead(
+                    $Content = $MainObject->FileRead(
                         Location => $Filename,
                         Mode     => 'binmode',
                     );
@@ -689,7 +752,7 @@ sub ArticleAttachment {
 
                     # content id (optional)
                     if ( -e "$Filename.content_id" ) {
-                        my $Content = $Self->{MainObject}->FileRead(
+                        my $Content = $MainObject->FileRead(
                             Location => "$Filename.content_id",
                         );
                         if ($Content) {
@@ -699,7 +762,7 @@ sub ArticleAttachment {
 
                     # alternativ (optional)
                     if ( -e "$Filename.content_alternative" ) {
-                        my $Content = $Self->{MainObject}->FileRead(
+                        my $Content = $MainObject->FileRead(
                             Location => "$Filename.content_alternative",
                         );
                         if ($Content) {
@@ -709,7 +772,7 @@ sub ArticleAttachment {
 
                     # disposition
                     if ( -e "$Filename.disposition" ) {
-                        my $Content = $Self->{MainObject}->FileRead(
+                        my $Content = $MainObject->FileRead(
                             Location => "$Filename.disposition",
                         );
                         if ($Content) {
@@ -736,7 +799,7 @@ sub ArticleAttachment {
                 else {
 
                     # read content
-                    my $Content = $Self->{MainObject}->FileRead(
+                    my $Content = $MainObject->FileRead(
                         Location => $Filename,
                         Mode     => 'binmode',
                         Result   => 'ARRAY',
@@ -756,22 +819,25 @@ sub ArticleAttachment {
                     && $Data{ContentType} =~ /(utf\-8|utf8)/i
                     )
                 {
-                    $Self->{EncodeObject}->EncodeInput( \$Data{Content} );
+                    $EncodeObject->EncodeInput( \$Data{Content} );
                 }
+
                 chomp $Data{ContentType};
+
                 return %Data;
             }
         }
     }
 
     if ( !$Data{Content} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message =>
                 "No article attachment (article id $Param{ArticleID}, file id $Param{FileID}) in database!",
         );
         return;
     }
+
     return %Data;
 }
 
@@ -781,7 +847,7 @@ sub _ArticleDeleteDirectory {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -791,7 +857,7 @@ sub _ArticleDeleteDirectory {
     my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
     if ( -d $Path ) {
         if ( !rmdir $Path ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Can't remove: $Path: $!!",
             );
