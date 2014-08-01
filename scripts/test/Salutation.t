@@ -77,6 +77,18 @@ $Self->True(
     'SalutationList()',
 );
 
+%SalutationList = $SalutationObject->SalutationList( Valid => 1 );
+$Hit = 0;
+for ( sort keys %SalutationList ) {
+    if ( $_ eq $SalutationID ) {
+        $Hit = 1;
+    }
+}
+$Self->True(
+    $Hit eq 1,
+    'SalutationList()',
+);
+
 my $SalutationUpdate = $SalutationObject->SalutationUpdate(
     ID          => $SalutationID,
     Name        => $SalutationNameRand0 . '1',
@@ -117,6 +129,30 @@ $Self->Is(
     $Salutation{ValidID} || '',
     2,
     'SalutationGet() - ValidID',
+);
+
+%SalutationList = $SalutationObject->SalutationList( Valid => 0 );
+$Hit = 0;
+for ( sort keys %SalutationList ) {
+    if ( $_ eq $SalutationID ) {
+        $Hit = 1;
+    }
+}
+$Self->True(
+    $Hit eq 1,
+    'SalutationList()',
+);
+
+%SalutationList = $SalutationObject->SalutationList( Valid => 1 );
+$Hit = 0;
+for ( sort keys %SalutationList ) {
+    if ( $_ eq $SalutationID ) {
+        $Hit = 1;
+    }
+}
+$Self->False(
+    $Hit eq 1,
+    'SalutationList()',
 );
 
 1;

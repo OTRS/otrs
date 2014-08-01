@@ -12,8 +12,6 @@ package Kernel::System::LinkObject;
 use strict;
 use warnings;
 
-use Kernel::System::CacheInternal;
-
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
