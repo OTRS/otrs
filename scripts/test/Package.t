@@ -17,8 +17,8 @@ use Kernel::System::Cache;
 use Kernel::System::VariableCheck qw(:all);
 
 # create local objects
-my $PackageObject = Kernel::System::Package->new( %{$Self} );
-my $CacheObject   = Kernel::System::Cache->new( %{$Self} );
+my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+my $CacheObject   = $Kernel::OM->Get('Kernel::System::Cache');
 
 my $Home = $Self->{ConfigObject}->Get('Home');
 
