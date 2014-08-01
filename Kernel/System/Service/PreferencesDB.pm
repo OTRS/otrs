@@ -12,7 +12,13 @@ package Kernel::System::Service::PreferencesDB;
 use strict;
 use warnings;
 
-use Kernel::System::CacheInternal;
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Cache',
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -21,16 +27,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(DBObject ConfigObject LogObject EncodeObject MainObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
-    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        %{$Self},
-        Type => 'ServicePreferencesDB',
-        TTL  => 60 * 60 * 24 * 20,
-    );
+    $Self->{CacheType} = 'ServicePreferencesDB';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     # preferences table data
     $Self->{PreferencesTable}          = 'service_preferences';
@@ -54,20 +52,23 @@ sub ServicePreferencesSet {
     # check needed stuff
     for (qw(ServiceID Key Value)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # delete old data
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => "DELETE FROM $Self->{PreferencesTable} WHERE "
             . "$Self->{PreferencesTableServiceID} = ? AND $Self->{PreferencesTableKey} = ?",
         Bind => [ \$Param{ServiceID}, \$Param{Key} ],
     );
 
     # insert new data
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableServiceID}, "
             . " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) "
             . " VALUES (?, ?, ?)",
@@ -75,8 +76,9 @@ sub ServicePreferencesSet {
     );
 
     # delete cache
-    $Self->{CacheInternalObject}->Delete(
-        Key => $Self->{CachePrefix} . $Param{ServiceID},
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => $Self->{CachePrefix} . $Param{ServiceID},
     );
 
     return 1;
@@ -88,34 +90,40 @@ sub ServicePreferencesGet {
     # check needed stuff
     for (qw(ServiceID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
     # check if service preferences are available
-    return if !$Self->{ConfigObject}->Get('ServicePreferences');
+    return if !$Kernel::OM->Get('Kernel::Config')->Get('ServicePreferences');
 
     # read cache
-    my $Cache = $Self->{CacheInternalObject}->Get(
-        Key => $Self->{CachePrefix} . $Param{ServiceID},
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $Self->{CachePrefix} . $Param{ServiceID},
     );
     return %{$Cache} if $Cache;
 
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # get preferences
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} "
             . " FROM $Self->{PreferencesTable} WHERE $Self->{PreferencesTableServiceID} = ?",
         Bind => [ \$Param{ServiceID} ],
     );
 
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
         Key   => $Self->{CachePrefix} . $Param{ServiceID},
         Value => \%Data,
     );

@@ -12,8 +12,14 @@ package Kernel::Output::HTML::PreferencesCustomService;
 use strict;
 use warnings;
 
-use Kernel::System::CacheInternal;
-use Kernel::System::Service;
+our @ObjectDependencies = (
+    'Kernel::Output::HTML::Layout',
+    'Kernel::System::Cache',
+    'Kernel::System::DB',
+    'Kernel::System::Service',
+    'Kernel::System::Web::Request',
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -22,18 +28,9 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # get needed objects
-    for my $Needed (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem))
-    {
+    for my $Needed (qw(UserID ConfigItem)) {
         die "Got no $Needed!" if ( !$Self->{$Needed} );
     }
-
-    $Self->{ServiceObject}       = Kernel::System::Service->new( %{$Self} );
-    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        %{$Self},
-        Type => 'Service',
-        TTL  => 60 * 60 * 24 * 20,
-    );
 
     return $Self;
 }
@@ -50,16 +47,17 @@ sub Param {
     }
 
     # get all services
-    my %ServiceList = $Self->{ServiceObject}->ServiceList(
+    my %ServiceList = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
         Valid  => 1,
         UserID => $Self->{UserID},
     );
 
-    if ( $Self->{ParamObject}->GetArray( Param => 'ServiceID' ) ) {
-        @CustomServiceIDs = $Self->{ParamObject}->GetArray( Param => 'ServiceID' );
+    if ( $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'ServiceID' ) ) {
+        @CustomServiceIDs
+            = $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'ServiceID' );
     }
     elsif ( $Param{UserData}->{UserID} && !defined $CustomServiceIDs[0] ) {
-        @CustomServiceIDs = $Self->{ServiceObject}->GetAllCustomServices(
+        @CustomServiceIDs = $Kernel::OM->Get('Kernel::System::Service')->GetAllCustomServices(
             UserID => $Param{UserData}->{UserID}
         );
     }
@@ -67,7 +65,7 @@ sub Param {
         @Params,
         {
             %Param,
-            Option => $Self->{LayoutObject}->BuildSelection(
+            Option => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->BuildSelection(
                 Data        => \%ServiceList,
                 Name        => 'ServiceID',
                 Multiple    => 1,
@@ -91,8 +89,10 @@ sub Run {
     return if !$Param{GetParam}->{ServiceID};
     return if ref $Param{GetParam}->{ServiceID} ne 'ARRAY';
 
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # delete old custom services
-    $Self->{DBObject}->Do(
+    $DBObject->Do(
         SQL => "
             DELETE FROM personal_services
             WHERE user_id = ?",
@@ -101,7 +101,7 @@ sub Run {
 
     # add new custom services
     for my $ServiceID ( @{ $Param{GetParam}->{ServiceID} } ) {
-        $Self->{DBObject}->Do(
+        $DBObject->Do(
             SQL => "
                 INSERT INTO personal_services (service_id, user_id)
                 VALUES (?, ?)",
@@ -110,7 +110,10 @@ sub Run {
     }
 
     my $CacheKey = 'GetAllCustomServices::' . $Param{UserData}->{UserID};
-    $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => 'Service',
+        Key  => $CacheKey,
+    );
 
     $Self->{Message} = 'Preferences updated successfully!';
     return 1;
