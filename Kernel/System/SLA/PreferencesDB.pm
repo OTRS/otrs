@@ -12,7 +12,13 @@ package Kernel::System::SLA::PreferencesDB;
 use strict;
 use warnings;
 
-use Kernel::System::CacheInternal;
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Cache',
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -21,16 +27,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(DBObject ConfigObject LogObject EncodeObject MainObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
-    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        %{$Self},
-        Type => 'SLAPreferencesDB',
-        TTL  => 60 * 60 * 24 * 20,
-    );
+    $Self->{CacheType} = 'SLAPreferencesDB';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     # preferences table data
     $Self->{PreferencesTable}      = 'sla_preferences';
@@ -54,20 +52,23 @@ sub SLAPreferencesSet {
     # check needed stuff
     for (qw(SLAID Key Value)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # delete old data
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => "DELETE FROM $Self->{PreferencesTable} WHERE "
             . "$Self->{PreferencesTableSLAID} = ? AND $Self->{PreferencesTableKey} = ?",
         Bind => [ \$Param{SLAID}, \$Param{Key} ],
     );
 
     # insert new data
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableSLAID}, "
             . " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) "
             . " VALUES (?, ?, ?)",
@@ -75,8 +76,9 @@ sub SLAPreferencesSet {
     );
 
     # delete cache
-    $Self->{CacheInternalObject}->Delete(
-        Key => $Self->{CachePrefix} . $Param{SLAID},
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => $Self->{CachePrefix} . $Param{SLAID},
     );
 
     return 1;
@@ -88,34 +90,40 @@ sub SLAPreferencesGet {
     # check needed stuff
     for (qw(SLAID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
     # check if service preferences are available
-    return if !$Self->{ConfigObject}->Get('SLAPreferences');
+    return if !$Kernel::OM->Get('Kernel::Config')->Get('SLAPreferences');
 
     # read cache
-    my $Cache = $Self->{CacheInternalObject}->Get(
-        Key => $Self->{CachePrefix} . $Param{SLAID},
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $Self->{CachePrefix} . $Param{SLAID},
     );
     return %{$Cache} if $Cache;
 
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # get preferences
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} "
             . " FROM $Self->{PreferencesTable} WHERE $Self->{PreferencesTableSLAID} = ?",
         Bind => [ \$Param{SLAID} ],
     );
 
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
         Key   => $Self->{CachePrefix} . $Param{SLAID},
         Value => \%Data,
     );
