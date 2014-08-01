@@ -12,8 +12,14 @@ package Kernel::System::GenericInterface::DebugLog;
 use strict;
 use warnings;
 
-use Kernel::System::CacheInternal;
 use Kernel::System::VariableCheck qw(:all);
+
+our @ObjectDependencies = (
+    'Kernel::System::Cache',
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -46,19 +52,10 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for my $Needed (qw(ConfigObject EncodeObject LogObject MainObject DBObject)) {
-        die "Got no $Needed!" if !$Param{$Needed};
+    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
 
-        $Self->{$Needed} = $Param{$Needed};
-    }
-
-    # create additional objects
-    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        %Param,
-        Type => 'GenericInterfaceDebugLog',
-        TTL  => 60 * 60,
-    );
+    $Self->{CacheType} = 'GenericInterfaceDebugLog';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     return $Self;
 }
@@ -91,7 +88,7 @@ sub LogAdd {
     {
         next NEEDED if IsStringWithData( $Param{$Needed} );
 
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need $Needed as a string!",
         );
@@ -100,14 +97,14 @@ sub LogAdd {
 
     # param syntax check
     if ( !IsMD5Sum( $Param{CommunicationID} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'CommunicationID is not an md5sum!',
         );
         return;
     }
     if ( $Param{CommunicationType} !~ m{ \A (?: Provider | Requester ) \z }xms ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "CommunicationType '$Param{CommunicationType}' is not valid!",
         );
@@ -119,14 +116,14 @@ sub LogAdd {
         )
     {
         if ( !IsStringWithData( $Param{RemoteIP} ) ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
             );
             return;
         }
         if ( !IsIPv4Address( $Param{RemoteIP} ) && !IsIPv6Address( $Param{RemoteIP} ) ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
             );
@@ -134,7 +131,7 @@ sub LogAdd {
         }
     }
     if ( !IsPositiveInteger( $Param{WebserviceID} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'WebserviceID is not a positive integer!',
         );
@@ -144,7 +141,7 @@ sub LogAdd {
     for my $Key (qw(Data DebugLevel Summary)) {
         next KEY if !defined $Param{$Key};
         if ( !IsString( $Param{$Key} ) ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "$Key is not a string!",
             );
@@ -177,7 +174,7 @@ sub LogAdd {
             next KEY if !defined $Param{$Key};
             next KEY if $Param{$Key} eq $LogData->{$Key};
 
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "$Key does not match current value for this CommunicationID!",
             );
@@ -198,7 +195,7 @@ sub LogAdd {
         )
         )
     {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Could not create debug entry in db!',
         );
@@ -232,7 +229,7 @@ sub LogGet {
 
     # check needed param
     if ( !IsMD5Sum( $Param{CommunicationID} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'CommunicationID is not an md5sum!',
         );
@@ -240,8 +237,9 @@ sub LogGet {
     }
 
     # check cache
-    my $Cache = $Self->{CacheInternalObject}->Get(
-        Key => 'LogGet::' . $Param{CommunicationID},
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => 'LogGet::' . $Param{CommunicationID},
     );
     return $Cache if $Cache;
 
@@ -256,7 +254,7 @@ sub LogGet {
         )
         )
     {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Could not prepare db query!',
         );
@@ -279,7 +277,9 @@ sub LogGet {
     return if !%LogData;
 
     # set cache
-    $Self->{CacheInternalObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
         Key   => 'LogGet::' . $Param{CommunicationID},
         Value => \%LogData,
     );
@@ -320,7 +320,7 @@ sub LogGetWithData {
 
     # check needed param
     if ( !IsMD5Sum( $Param{CommunicationID} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'CommunicationID is not an md5sum!',
         );
@@ -332,7 +332,7 @@ sub LogGetWithData {
         CommunicationID => $Param{CommunicationID},
     );
     if ( !IsHashRefWithData($LogData) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Could not get communication chain!',
         );
@@ -350,7 +350,7 @@ sub LogGetWithData {
         )
         )
     {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Could not prepare db query!',
         );
@@ -394,7 +394,7 @@ sub LogDelete {
     # check needed params
     my $CommunicationIDValid = IsMD5Sum( $Param{CommunicationID} );
     if ( $Param{CommunicationID} && !$CommunicationIDValid ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'CommunicationID is not an md5sum!',
         );
@@ -402,7 +402,7 @@ sub LogDelete {
     }
     my $WebserviceIDValid = IsPositiveInteger( $Param{WebserviceID} );
     if ( $Param{WebserviceID} && !$WebserviceIDValid ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'WebserviceID is not a positive integer!',
         );
@@ -414,7 +414,7 @@ sub LogDelete {
         ( $CommunicationIDValid && $WebserviceIDValid )
         )
     {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need exactly one of CommunicationID or WebserviceID!',
         );
@@ -428,7 +428,7 @@ sub LogDelete {
         );
         if ( !IsHashRefWithData($LogData) ) {
             return 1 if $Param{NoErrorIfEmpty};
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Communication chain does not exist!',
             );
@@ -441,7 +441,7 @@ sub LogDelete {
         );
         if ( !IsArrayRefWithData($LogData) ) {
             return 1 if $Param{NoErrorIfEmpty};
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Communication chain does not exist!',
             );
@@ -471,7 +471,7 @@ sub LogDelete {
         )
         )
     {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Could not remove entries of communication chain in db!',
         );
@@ -496,7 +496,7 @@ sub LogDelete {
         )
         )
     {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Could not remove communication chain in db!',
         );
@@ -504,7 +504,9 @@ sub LogDelete {
     }
 
     # clean cache
-    $Self->{CacheInternalObject}->CleanUp();
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
 
     return 1;
 }
@@ -559,7 +561,7 @@ sub LogSearch {
         next KEY if !defined $Param{$Key};
         next KEY if IsStringWithData( $Param{$Key} );
 
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need $Key as a string!",
         );
@@ -568,7 +570,7 @@ sub LogSearch {
 
     # param syntax check
     if ( $Param{CommunicationID} && !IsMD5Sum( $Param{CommunicationID} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'CommunicationID is not an md5sum!',
         );
@@ -579,7 +581,7 @@ sub LogSearch {
         && $Param{CommunicationType} !~ m{ \A (?: Provider | Requester ) \z }xms
         )
     {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "CommunicationType '$Param{CommunicationType}' is not valid!",
         );
@@ -592,7 +594,7 @@ sub LogSearch {
                 \A \d{4} - \d{2} - \d{2} [ ] \d{2} : \d{2} : \d{2} \z
             }xms;
 
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "$Key '$Param{$Key}' is not valid!",
         );
@@ -604,14 +606,14 @@ sub LogSearch {
         )
     {
         if ( !IsStringWithData( $Param{RemoteIP} ) ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
             );
             return;
         }
         if ( !IsIPv4Address( $Param{RemoteIP} ) && !IsIPv6Address( $Param{RemoteIP} ) ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
             );
@@ -619,14 +621,14 @@ sub LogSearch {
         }
     }
     if ( $Param{WebserviceID} && !IsPositiveInteger( $Param{WebserviceID} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'WebserviceID is not a positive integer!',
         );
         return;
     }
     if ( $Param{WithData} && $Param{WithData} !~ m{ \A [01] \z }xms ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'WebserviceID is not a positive integer!',
         );
@@ -675,7 +677,7 @@ sub LogSearch {
         )
         )
     {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Could not prepare db query!',
         );
@@ -739,7 +741,7 @@ sub _LogAddChain {
     for my $Needed (qw(CommunicationID CommunicationType WebserviceID)) {
         next NEEDED if IsStringWithData( $Param{$Needed} );
 
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need $Needed as a string!",
         );
@@ -748,14 +750,14 @@ sub _LogAddChain {
 
     # param syntax check
     if ( !IsMD5Sum( $Param{CommunicationID} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'CommunicationID is not an md5sum!',
         );
         return;
     }
     if ( $Param{CommunicationType} !~ m{ \A (?: Provider | Requester ) \z }xms ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "CommunicationType '$Param{CommunicationType}' is not valid!",
         );
@@ -767,14 +769,14 @@ sub _LogAddChain {
         )
     {
         if ( !IsStringWithData( $Param{RemoteIP} ) ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
             );
             return;
         }
         if ( !IsIPv4Address( $Param{RemoteIP} ) && !IsIPv6Address( $Param{RemoteIP} ) ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
             );
@@ -782,7 +784,7 @@ sub _LogAddChain {
         }
     }
     if ( !IsPositiveInteger( $Param{WebserviceID} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'WebserviceID is not a positive integer!',
         );
@@ -803,7 +805,7 @@ sub _LogAddChain {
         )
         )
     {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Could not create debug entry chain in db!',
         );
