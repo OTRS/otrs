@@ -12,10 +12,15 @@ package Kernel::GenericInterface::Event::Handler;
 use strict;
 use warnings;
 
-use Kernel::GenericInterface::Requester;
-use Kernel::Scheduler;
-use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
+
+our @ObjectDependencies = (
+    'Kernel::GenericInterface::Requester',
+    'Kernel::Scheduler',
+    'Kernel::System::GenericInterface::Webservice',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -35,16 +40,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (
-        qw(ConfigObject LogObject DBObject MainObject EncodeObject TimeObject)
-        )
-    {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
-    $Self->{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new(%$Self);
-
     return $Self;
 }
 
@@ -54,13 +49,18 @@ sub Run {
     # check needed stuff
     for (qw(Data Event Config)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
+    # get needed objects
+    my $RequesterObject  = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
+    my $SchedulerObject  = $Kernel::OM->Get('Kernel::Scheduler');
+    my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+
     my %WebserviceList = %{
-        $Self->{WebserviceObject}->WebserviceList(
+        $WebserviceObject->WebserviceList(
             Valid => 1,
         ),
     };
@@ -69,7 +69,7 @@ sub Run {
     WEBSERVICE:
     for my $WebserviceID ( sort keys %WebserviceList ) {
 
-        my $WebserviceData = $Self->{WebserviceObject}->WebserviceGet(
+        my $WebserviceData = $WebserviceObject->WebserviceGet(
             ID => $WebserviceID,
         );
 
@@ -95,7 +95,6 @@ sub Run {
 
                     # create a scheduler task for later execution
                     if ( $Event->{Asynchronous} ) {
-                        my $SchedulerObject = Kernel::Scheduler->new( %{$Self} );
 
                         my $TaskID = $SchedulerObject->TaskRegister(
                             Type => 'GenericInterface',
@@ -108,7 +107,6 @@ sub Run {
 
                     }
                     else {    # or execute Event directly
-                        my $RequesterObject = Kernel::GenericInterface::Requester->new( %{$Self} );
 
                         $RequesterObject->Run(
                             WebserviceID => $WebserviceID,
