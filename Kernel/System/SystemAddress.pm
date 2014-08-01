@@ -12,8 +12,13 @@ package Kernel::System::SystemAddress;
 use strict;
 use warnings;
 
-use Kernel::System::CacheInternal;
-use Kernel::System::Valid;
+our @ObjectDependencies = (
+    'Kernel::System::Cache',
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+    'Kernel::System::Valid',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -46,22 +51,10 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for my $Needed (qw(ConfigObject LogObject DBObject MainObject EncodeObject)) {
-        if ( $Param{$Needed} ) {
-            $Self->{$Needed} = $Param{$Needed};
-        }
-        else {
-            die "Got no $Needed!";
-        }
-    }
+    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
 
-    $Self->{ValidObject}         = Kernel::System::Valid->new( %{$Self} );
-    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        %Param,
-        Type => 'SystemAddress',
-        TTL  => 60 * 60 * 24 * 20,
-    );
+    $Self->{CacheType} = 'SystemAddress';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     return $Self;
 }
@@ -87,7 +80,8 @@ sub SystemAddressAdd {
     # check needed stuff
     for my $Needed (qw(Name ValidID Realname QueueID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -116,7 +110,9 @@ sub SystemAddressAdd {
         $ID = $Row[0];
     }
 
-    $Self->{CacheInternalObject}->CleanUp();
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
 
     return $ID;
 }
@@ -149,14 +145,15 @@ sub SystemAddressGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need ID!" );
         return;
     }
 
     my $CacheKey = 'SystemAddressGet::' . $Param{ID};
 
-    my $Cached = $Self->{CacheInternalObject}->Get(
-        Key => $CacheKey,
+    my $Cached = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
     );
 
     if ( ref $Cached eq 'HASH' ) {
@@ -186,7 +183,9 @@ sub SystemAddressGet {
         );
     }
 
-    $Self->{CacheInternalObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
         Key   => $CacheKey,
         Value => \%Data,
     );
@@ -216,7 +215,8 @@ sub SystemAddressUpdate {
     # check needed stuff
     for my $Needed (qw(ID Name ValidID Realname QueueID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -231,7 +231,9 @@ sub SystemAddressUpdate {
         ],
     );
 
-    $Self->{CacheInternalObject}->CleanUp();
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
 
     return 1;
 }
@@ -264,8 +266,9 @@ sub SystemAddressList {
 
     my $CacheKey = 'SystemAddressList::' . $Valid;
 
-    my $Cached = $Self->{CacheInternalObject}->Get(
-        Key => $CacheKey,
+    my $Cached = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
     );
 
     if ( ref $Cached eq 'HASH' ) {
@@ -274,7 +277,7 @@ sub SystemAddressList {
 
     my $ValidSQL = '';
     if ($Valid) {
-        my $ValidIDs = join ',', $Self->{ValidObject}->ValidIDsGet();
+        my $ValidIDs = join ',', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
         $ValidSQL = " WHERE valid_id IN ($ValidIDs)";
     }
 
@@ -292,7 +295,9 @@ sub SystemAddressList {
         $List{ $Data[0] } = $Data[1];
     }
 
-    $Self->{CacheInternalObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
         Key   => $CacheKey,
         Value => \%List,
     );
@@ -320,7 +325,8 @@ sub SystemAddressIsLocalAddress {
     # check needed stuff
     for my $Needed (qw(Address)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -342,7 +348,8 @@ sub SystemAddressQueueID {
     # check needed stuff
     for my $Needed (qw(Address)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -351,8 +358,9 @@ sub SystemAddressQueueID {
     $Param{Address} =~ s/\s+//g;
 
     my $CacheKey = 'SystemAddressQueueID::' . $Param{Address};
-    my $Cached   = $Self->{CacheInternalObject}->Get(
-        Key => $CacheKey,
+    my $Cached   = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
     );
 
     if ( ref $Cached eq 'SCALAR' ) {
@@ -362,7 +370,7 @@ sub SystemAddressQueueID {
     if ( $Self->{DBObject}->GetDatabaseFunction('CaseSensitive') ) {
         return if !$Self->{DBObject}->Prepare(
             SQL => "SELECT queue_id FROM system_address WHERE "
-                . "valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) "
+                . "valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} ) "
                 . "AND LOWER(value0) = LOWER(?)",
             Bind  => [ \$Param{Address} ],
             Limit => 1,
@@ -371,7 +379,7 @@ sub SystemAddressQueueID {
     else {
         return if !$Self->{DBObject}->Prepare(
             SQL => "SELECT queue_id FROM system_address WHERE "
-                . "valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) "
+                . "valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} ) "
                 . "AND value0 = ?",
             Bind  => [ \$Param{Address} ],
             Limit => 1,
@@ -384,7 +392,9 @@ sub SystemAddressQueueID {
         $QueueID = $Row[0];
     }
 
-    $Self->{CacheInternalObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
         Key   => $CacheKey,
         Value => \$QueueID,
     );
