@@ -12,7 +12,12 @@ package Kernel::System::SearchProfile;
 use strict;
 use warnings;
 
-use Kernel::System::CacheInternal;
+our @ObjectDependencies = (
+    'Kernel::System::Cache',
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -30,39 +35,11 @@ module with all functions to manage search profiles
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::SearchProfile;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $SearchProfileObject = Kernel::System::SearchProfile->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $SearchProfileObject = $Kernel::OM->Get('Kernel::System::SearchProfile');
 
 =cut
 
@@ -73,16 +50,10 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(DBObject ConfigObject LogObject EncodeObject MainObject )) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
 
-    $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
-        %{$Self},
-        Type => 'SearchProfile',
-        TTL  => 60 * 60 * 24 * 20,
-    );
+    $Self->{CacheType} = 'SearchProfile';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     # set lower if database is case sensitive
     $Self->{Lower} = '';
@@ -113,7 +84,8 @@ sub SearchProfileAdd {
     # check needed stuff
     for (qw(Base Name Key UserLogin)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -150,8 +122,14 @@ sub SearchProfileAdd {
 
     # reset cache
     my $CacheKey = $Login . '::' . $Param{Name};
-    $Self->{CacheInternalObject}->Delete( Key => $Login );
-    $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => $Login,
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
 
     return 1;
 }
@@ -174,7 +152,8 @@ sub SearchProfileGet {
     # check needed stuff
     for (qw(Base Name UserLogin)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -184,7 +163,10 @@ sub SearchProfileGet {
 
     # check the cache
     my $CacheKey = $Login . '::' . $Param{Name};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
     return %{$Cache} if $Cache;
 
     # get search profile
@@ -207,8 +189,12 @@ sub SearchProfileGet {
             $Result{ $Data[1] } = $Data[2];
         }
     }
-    $Self->{CacheInternalObject}
-        ->Set( TTL => 60, Type => 'SearchProfile', Key => $CacheKey, Value => \%Result );
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => $CacheKey,
+        Value => \%Result
+    );
 
     return %Result;
 }
@@ -231,7 +217,8 @@ sub SearchProfileDelete {
     # check needed stuff
     for (qw(Base Name UserLogin)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -252,8 +239,14 @@ sub SearchProfileDelete {
 
     # delete cache
     my $CacheKey = $Login . '::' . $Param{Name};
-    $Self->{CacheInternalObject}->Delete( Key => $Login );
-    $Self->{CacheInternalObject}->Delete( Key => $CacheKey );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => $Login,
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
     return 1;
 }
 
@@ -274,7 +267,8 @@ sub SearchProfileList {
     # check needed stuff
     for (qw(Base UserLogin)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -282,7 +276,10 @@ sub SearchProfileList {
     # create login string
     my $Login = $Param{Base} . '::' . $Param{UserLogin};
 
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $Login );
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $Login,
+    );
     return %{$Cache} if $Cache;
 
     # get search profile list
@@ -300,7 +297,12 @@ sub SearchProfileList {
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         $Result{ $Data[0] } = $Data[0];
     }
-    $Self->{CacheInternalObject}->Set( Key => $Login, Value => \%Result );
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => $Login,
+        Value => \%Result,
+    );
     return %Result;
 }
 
