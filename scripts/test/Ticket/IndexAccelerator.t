@@ -19,18 +19,8 @@ use Kernel::System::Queue;
 
 # create local objects
 my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-my $UserObject   = Kernel::System::User->new(
-    ConfigObject => $ConfigObject,
-    %{$Self},
-);
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $QueueObject = Kernel::System::Queue->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
 
 # ticket index accelerator tests
 for my $Module ( 'RuntimeDB', 'StaticDB' ) {
