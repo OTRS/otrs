@@ -19,14 +19,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (
-        qw(ConfigObject DBObject TicketObject LogObject UserObject CustomerUserObject MainObject TimeObject EncodeObject)
-        )
-    {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
     return $Self;
 }
 
@@ -36,7 +28,10 @@ sub Run {
     # check needed stuff
     for (qw(Config Acl)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!",
+            );
             return;
         }
     }
