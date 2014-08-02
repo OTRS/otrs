@@ -21,28 +21,13 @@ use Kernel::System::Type;
 
 # create local objects
 my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-my $UserObject   = Kernel::System::User->new(
-    ConfigObject => $ConfigObject,
-    %{$Self},
-);
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $QueueObject = Kernel::System::Queue->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $TypeObject = Kernel::System::Type->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $StateObject = Kernel::System::State->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
+my $TypeObject   = $Kernel::OM->Get('Kernel::System::Type');
+my $StateObject  = $Kernel::OM->Get('Kernel::System::State');
 
-$TicketObject->{CacheInternalObject}->CleanUp();
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 my @Tests = (
     {
