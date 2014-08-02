@@ -17,6 +17,13 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 use Kernel::System::User;
 
+# Porting not finished!! Just a workaround to fix dynamic field calls
+our @ObjectDependencies = (
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -269,13 +276,17 @@ sub Run {
         }
     }
 
+    # get dynamic field objects
+    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
     # dynamic fields
     my $DynamicFieldList =
-        $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldList(
+        $DynamicFieldObject->DynamicFieldList(
         Valid      => 1,
         ResultType => 'HASH',
-        ObjectType => 'Ticket'
-        );
+        ObjectType => 'Ticket',
+    );
 
     # set dynamic fields for Ticket object type
     DYNAMICFIELDID:
@@ -288,11 +299,11 @@ sub Run {
 
             # get dynamic field config
             my $DynamicFieldGet
-                = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
+                = $DynamicFieldObject->DynamicFieldGet(
                 ID => $DynamicFieldID,
                 );
 
-            $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
+            $DynamicFieldBackendObject->ValueSet(
                 DynamicFieldConfig => $DynamicFieldGet,
                 ObjectID           => $TicketID,
                 Value              => $GetParam{$Key},
@@ -321,11 +332,11 @@ sub Run {
             if ( $GetParam{$Key} && $DynamicFieldListReversed{ $Values{$Item} . $Count } ) {
 
                 # get dynamic field config
-                my $DynamicFieldGet = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
+                my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
                     ID => $DynamicFieldListReversed{ $Values{$Item} . $Count },
                 );
                 if ($DynamicFieldGet) {
-                    my $Success = $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
+                    my $Success = $DynamicFieldBackendObject->ValueSet(
                         DynamicFieldConfig => $DynamicFieldGet,
                         ObjectID           => $TicketID,
                         Value              => $GetParam{$Key},
@@ -351,11 +362,11 @@ sub Run {
             if ( $SystemTime && $DynamicFieldListReversed{ 'TicketFreeTime' . $Count } ) {
 
                 # get dynamic field config
-                my $DynamicFieldGet = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
+                my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
                     ID => $DynamicFieldListReversed{ 'TicketFreeTime' . $Count },
                 );
                 if ($DynamicFieldGet) {
-                    my $Success = $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
+                    my $Success = $DynamicFieldBackendObject->ValueSet(
                         DynamicFieldConfig => $DynamicFieldGet,
                         ObjectID           => $TicketID,
                         Value              => $GetParam{$Key},
@@ -434,7 +445,7 @@ sub Run {
 
     # dynamic fields
     $DynamicFieldList =
-        $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldList(
+        $DynamicFieldObject->DynamicFieldList(
         Valid      => 1,
         ResultType => 'HASH',
         ObjectType => 'Article'
@@ -450,11 +461,11 @@ sub Run {
 
             # get dynamic field config
             my $DynamicFieldGet
-                = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
+                = $DynamicFieldObject->DynamicFieldGet(
                 ID => $DynamicFieldID,
                 );
 
-            $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
+            $DynamicFieldBackendObject->ValueSet(
                 DynamicFieldConfig => $DynamicFieldGet,
                 ObjectID           => $ArticleID,
                 Value              => $GetParam{$Key},
@@ -483,11 +494,11 @@ sub Run {
             if ( $GetParam{$Key} && $DynamicFieldListReversed{ $Values{$Item} . $Count } ) {
 
                 # get dynamic field config
-                my $DynamicFieldGet = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
+                my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
                     ID => $DynamicFieldListReversed{ $Values{$Item} . $Count },
                 );
                 if ($DynamicFieldGet) {
-                    my $Success = $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
+                    my $Success = $DynamicFieldBackendObject->ValueSet(
                         DynamicFieldConfig => $DynamicFieldGet,
                         ObjectID           => $ArticleID,
                         Value              => $GetParam{$Key},

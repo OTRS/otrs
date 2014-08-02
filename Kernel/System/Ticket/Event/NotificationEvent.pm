@@ -723,7 +723,8 @@ sub _SendNotification {
         $Notification{Body} =~ s/${Start}OTRS_CUSTOMER_REALNAME${End}/$RealName/g;
     }
 
-    # get dynamic field backend object
+    # get dynamic field objects
+    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     KEY:
@@ -740,7 +741,7 @@ sub _SendNotification {
             $FieldName =~ s/DynamicField_//gi;
 
             # get dynamic field config
-            my $DynamicField = $TicketObject->{DynamicFieldObject}->DynamicFieldGet(
+            my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
                 Name => $FieldName,
             );
 
@@ -758,11 +759,10 @@ sub _SendNotification {
             $DisplayValue = $ValueStrg->{Value};
 
             # get display key value
-            my $KeyValueStrg
-                = $TicketObject->{DynamicFieldBackendObject}->ReadableValueRender(
+            my $KeyValueStrg = $DynamicFieldBackendObject->ReadableValueRender(
                 DynamicFieldConfig => $DynamicField,
                 Value              => $DisplayKeyValue,
-                );
+            );
             $DisplayKeyValue = $KeyValueStrg->{Value};
         }
 
