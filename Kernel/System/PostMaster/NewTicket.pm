@@ -286,7 +286,7 @@ sub Run {
         Valid      => 1,
         ResultType => 'HASH',
         ObjectType => 'Ticket',
-    );
+        );
 
     # set dynamic fields for Ticket object type
     DYNAMICFIELDID:

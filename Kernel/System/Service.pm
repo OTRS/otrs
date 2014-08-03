@@ -256,7 +256,8 @@ sub ServiceListGet {
         . 'FROM service';
 
     if ( $Param{Valid} ) {
-        $SQL .= ' WHERE valid_id IN (' . join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet() . ')';
+        $SQL .= ' WHERE valid_id IN (' . join ', ',
+            $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet() . ')';
     }
 
     $SQL .= ' ORDER BY name';

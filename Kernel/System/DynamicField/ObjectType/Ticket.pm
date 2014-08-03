@@ -134,8 +134,8 @@ sub PostValueSet {
         $FieldName = $Param{DynamicFieldConfig}->{Name};
     }
 
-    my $FieldNameLength       = length $FieldName || 0;
-    my $HistoryValueLength    = length $HistoryValue || 0;
+    my $FieldNameLength       = length $FieldName       || 0;
+    my $HistoryValueLength    = length $HistoryValue    || 0;
     my $HistoryOldValueLength = length $HistoryOldValue || 0;
 
 # Name in ticket_history is like this form "\%\%FieldName\%\%$FieldName\%\%Value\%\%$HistoryValue\%\%OldValue\%\%$HistoryOldValue" up to 200 chars
@@ -190,7 +190,7 @@ sub PostValueSet {
         }
     }
 
-    $HistoryValue //= '';
+    $HistoryValue    //= '';
     $HistoryOldValue //= '';
 
     # history insert

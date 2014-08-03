@@ -600,7 +600,7 @@ for my $Index ( 1, 2 ) {
         UserID  => 1,
     );
 
-    my $AddedACLListIndex = $AddedACLList[$Index] //='';
+    my $AddedACLListIndex = $AddedACLList[$Index] //= '';
 
     $Self->IsNot(
         $Success,

@@ -36,7 +36,8 @@ sub Run {
     # check needed stuff
     for (qw(TicketID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -53,7 +54,7 @@ sub Run {
     );
 
     # check user login, return access if customer user id is the same
-    return if !$Ticket{CustomerUserID};
+    return   if !$Ticket{CustomerUserID};
     return 1 if lc $Ticket{CustomerUserID} eq lc $CustomerData{UserLogin};
 
     # return no access

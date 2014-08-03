@@ -27,9 +27,8 @@ $ConfigObject->Set(
 
 my $DatabaseCaseSensitive                = $Self->{DBObject}->{Backend}->{'DB::CaseSensitive'};
 my $CustomerDatabaseCaseSensitiveDefault = $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive};
-my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-
+my $CacheObject                          = $Kernel::OM->Get('Kernel::System::Cache');
+my $CustomerUserObject                   = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
 my $UserID = '';
 for my $Key ( 1 .. 3, 'ä', 'カス' ) {

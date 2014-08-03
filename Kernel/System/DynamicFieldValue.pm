@@ -272,7 +272,8 @@ sub ValueGet {
     }
 
     # get the cache TTL (in seconds)
-    my $CacheTTL = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::CacheTTL') || 60 * 60 * 12;
+    my $CacheTTL
+        = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::CacheTTL') || 60 * 60 * 12;
 
     # set cache
     $CacheObject->Set(
@@ -513,7 +514,8 @@ sub HistoricalValueGet {
     }
 
     # get the cache TTL (in seconds)
-    my $CacheTTL = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::CacheTTL') || 60 * 60 * 12;
+    my $CacheTTL
+        = $Kernel::OM->Get('Kernel::Config')->Get('DynamicField::CacheTTL') || 60 * 60 * 12;
 
     # set cache
     $CacheObject->Set(

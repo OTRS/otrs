@@ -25,7 +25,8 @@ sub ArticleIndexBuild {
     # check needed stuff
     for my $Needed (qw(ArticleID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -90,7 +91,8 @@ sub ArticleIndexDelete {
     # check needed stuff
     for my $Needed (qw(ArticleID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -110,7 +112,8 @@ sub ArticleIndexDeleteTicket {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -128,7 +131,8 @@ sub _ArticleIndexQuerySQL {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{Data} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need Data!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Need Data!" );
         return;
     }
 
@@ -153,7 +157,8 @@ sub _ArticleIndexQuerySQLExt {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{Data} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need Data!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Need Data!" );
         return;
     }
 
@@ -230,7 +235,8 @@ sub _ArticleIndexString {
     my ( $Self, %Param ) = @_;
 
     if ( !defined $Param{String} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need String!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Need String!" );
         return;
     }
 
@@ -282,7 +288,8 @@ sub _ArticleIndexStringToWord {
 
     # check needed stuff
     if ( !defined $Param{String} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need String!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Need String!" );
         return;
     }
 

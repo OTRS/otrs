@@ -99,7 +99,8 @@ sub PriorityList {
     # create sql
     my $SQL = 'SELECT id, name FROM ticket_priority ';
     if ( $Param{Valid} ) {
-        $SQL .= "WHERE valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} )";
+        $SQL
+            .= "WHERE valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} )";
     }
 
     return if !$DBObject->Prepare( SQL => $SQL );

@@ -1138,10 +1138,11 @@ sub _GetChecks {
     # check for ActivityDialogEntityID if set as parameter (ProcessManagement)
     if ( ( $CheckAll || $RequiredChecks{Process} ) && $Param{ActivityDialogEntityID} ) {
 
-        my $ActivityDialog = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog')->ActivityDialogGet(
+        my $ActivityDialog = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog')
+            ->ActivityDialogGet(
             ActivityDialogEntityID => $Param{ActivityDialogEntityID},
             Interface              => $Interface,
-        );
+            );
 
         if ( IsHashRefWithData($ActivityDialog) ) {
             $Checks{Process}->{ActivityDialogEntityID} = $Param{ActivityDialogEntityID};

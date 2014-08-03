@@ -124,7 +124,7 @@ sub Run {
         Valid      => 0,
         ResultType => 'HASH',
         ObjectType => 'Article',
-    );
+        );
 
     # set dynamic fields for Article object type
     DYNAMICFIELDID:

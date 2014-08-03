@@ -37,7 +37,8 @@ sub Run {
     # check needed stuff
     for my $Needed (qw(Data Event Config)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -52,7 +53,9 @@ sub Run {
     }
 
     # Loop protection: only execute this handler once for each ticket and event.
-    return if $Kernel::OM->Get('Kernel::System::Ticket')->{'_GenericAgent::AlreadyProcessed'}->{ $Param{Data}->{TicketID} }->{ $Param{Event} }++;
+    return
+        if $Kernel::OM->Get('Kernel::System::Ticket')->{'_GenericAgent::AlreadyProcessed'}
+        ->{ $Param{Data}->{TicketID} }->{ $Param{Event} }++;
 
     # get generic agent object
     my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');

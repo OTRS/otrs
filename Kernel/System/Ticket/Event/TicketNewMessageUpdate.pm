@@ -35,7 +35,8 @@ sub Run {
     # check needed stuff
     for my $Parameter (qw(Data Event Config)) {
         if ( !$Param{$Parameter} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Parameter!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Parameter!" );
             return;
         }
     }
