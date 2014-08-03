@@ -6,13 +6,16 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
 use strict;
 use warnings;
 use vars (qw($Self));
-use utf8;
-use Kernel::Config;
 
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+use utf8;
+
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
 my $Value = 'Testvalue';
 $ConfigObject->Set(
