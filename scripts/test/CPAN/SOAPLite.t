@@ -9,28 +9,20 @@
 
 use strict;
 use warnings;
-use utf8;
 use vars (qw($Self));
 
+use utf8;
+
 use SOAP::Lite;
-use Kernel::System::SysConfig;
-use Kernel::System::UnitTest::Helper;
+
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
-# helper object
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 1,
-);
+# get needed objects
+my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
 my $RandomID = $HelperObject->GetRandomID();
-
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-
-my $SysConfigObject = Kernel::System::SysConfig->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
 
 # define SOAP variables
 my $SOAPUser     = 'User' . $RandomID;
@@ -50,7 +42,7 @@ $SysConfigObject->ConfigItemUpdate(
 
 # get remote host with some precautions for certain unit test systems
 my $Host;
-my $FQDN = $Self->{ConfigObject}->Get('FQDN');
+my $FQDN = $ConfigObject->Get('FQDN');
 
 # try to resolve fqdn host
 if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
@@ -69,21 +61,21 @@ if ( !$Host ) {
 
 # prepare RPC config
 my $Proxy
-    = $Self->{ConfigObject}->Get('HttpType')
+    = $ConfigObject->Get('HttpType')
     . '://'
     . $Host
     . '/'
-    . $Self->{ConfigObject}->Get('ScriptAlias')
+    . $ConfigObject->Get('ScriptAlias')
     . '/rpc.pl';
 
 my $URI
-    = $Self->{ConfigObject}->Get('HttpType')
+    = $ConfigObject->Get('HttpType')
     . '://'
     . $Host
     . '/Core';
 
 # Create SOAP Object and use RPC interface to test SOAP Lite
-my $SOAPObject = new SOAP::Lite(
+my $SOAPObject = SOAP::Lite->new(
     proxy => $Proxy,
     uri   => $URI,
 );
