@@ -9,28 +9,16 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
-
 use utf8;
 
-use Kernel::Config;
-use Kernel::System::ACL::DB::ACL;
-use Kernel::System::UnitTest::Helper;
+use vars (qw($Self));
+
 use Kernel::System::VariableCheck qw(:all);
 
-# Create Helper instance which will restore system configuration in destructor
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 0,
-);
-
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-
-my $ACLObject = Kernel::System::ACL::DB::ACL->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+# get needed objects
+my $ACLObject    = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # define needed variables
 my $RandomID = $HelperObject->GetRandomID();

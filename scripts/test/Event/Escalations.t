@@ -14,11 +14,11 @@ use vars qw($Self);
 
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $TimeObject         = $Kernel::OM->Get('Kernel::System::Time');
+my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
+my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
-my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
+my $TimeObject         = $Kernel::OM->Get('Kernel::System::Time');
 
 # make use to disable EstalationStopEvents modules
 $ConfigObject->Set(
