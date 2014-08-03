@@ -10,10 +10,16 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+
 use utf8;
-use Encode;
+
 use File::Path;
 use Unicode::Normalize;
+
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 # FilenameCleanUp - tests
 my @Tests = (
@@ -82,7 +88,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    my $Filename = $Self->{MainObject}->FilenameCleanUp(
+    my $Filename = $MainObject->FilenameCleanUp(
         Filename => $Test->{FilenameOrig},
         Type     => $Test->{Type},
     );
@@ -95,7 +101,7 @@ for my $Test (@Tests) {
 
 # md5sum tests
 my $String = 'abc1234567890';
-my $MD5Sum = $Self->{MainObject}->MD5sum( String => \$String );
+my $MD5Sum = $MainObject->MD5sum( String => \$String );
 $Self->Is(
     $MD5Sum || '',
     '57041f8f7dff9b67e3f97d7facbaf8d3',
@@ -104,7 +110,7 @@ $Self->Is(
 
 # test charset specific situations
 $String = 'abc1234567890äöüß-カスタマ';
-$MD5Sum = $Self->{MainObject}->MD5sum( String => \$String );
+$MD5Sum = $MainObject->MD5sum( String => \$String );
 
 $Self->Is(
     $MD5Sum || '',
@@ -121,8 +127,8 @@ my %MD5SumOf = (
 );
 
 for my $Extension (qw(doc pdf png txt xls)) {
-    my $MD5Sum = $Self->{MainObject}->MD5sum(
-        Filename => $Self->{ConfigObject}->Get('Home')
+    my $MD5Sum = $MainObject->MD5sum(
+        Filename => $ConfigObject->Get('Home')
             . "/scripts/test/sample/Main/Main-Test1.$Extension",
     );
     $Self->Is(
@@ -134,20 +140,20 @@ for my $Extension (qw(doc pdf png txt xls)) {
 
 # write & read some files via Directory/Filename
 for my $Extension (qw(doc pdf png txt xls)) {
-    my $MD5Sum = $Self->{MainObject}->MD5sum(
-        Filename => $Self->{ConfigObject}->Get('Home')
+    my $MD5Sum = $MainObject->MD5sum(
+        Filename => $ConfigObject->Get('Home')
             . "/scripts/test/sample/Main/Main-Test1.$Extension",
     );
-    my $Content = $Self->{MainObject}->FileRead(
-        Directory => $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Main/',
+    my $Content = $MainObject->FileRead(
+        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/Main/',
         Filename  => "Main-Test1.$Extension",
     );
     $Self->True(
         ${$Content} || '',
         "FileRead() - Main-Test1.$Extension",
     );
-    my $FileLocation = $Self->{MainObject}->FileWrite(
-        Directory => $Self->{ConfigObject}->Get('TempDir'),
+    my $FileLocation = $MainObject->FileWrite(
+        Directory => $ConfigObject->Get('TempDir'),
         Filename  => "me_öüto/al<>?Main-Test1.$Extension",
         Content   => $Content,
     );
@@ -155,16 +161,16 @@ for my $Extension (qw(doc pdf png txt xls)) {
         $FileLocation || '',
         "FileWrite() - $FileLocation",
     );
-    my $MD5Sum2 = $Self->{MainObject}->MD5sum(
-        Filename => $Self->{ConfigObject}->Get('TempDir') . '/' . $FileLocation,
+    my $MD5Sum2 = $MainObject->MD5sum(
+        Filename => $ConfigObject->Get('TempDir') . '/' . $FileLocation,
     );
     $Self->Is(
         $MD5Sum2 || '',
         $MD5Sum  || '',
         "MD5sum()>FileWrite()>MD5sum() - $FileLocation",
     );
-    my $Success = $Self->{MainObject}->FileDelete(
-        Directory => $Self->{ConfigObject}->Get('TempDir'),
+    my $Success = $MainObject->FileDelete(
+        Directory => $ConfigObject->Get('TempDir'),
         Filename  => $FileLocation,
     );
     $Self->True(
@@ -175,12 +181,12 @@ for my $Extension (qw(doc pdf png txt xls)) {
 
 # write & read some files via Location
 for my $Extension (qw(doc pdf png txt xls)) {
-    my $MD5Sum = $Self->{MainObject}->MD5sum(
-        Filename => $Self->{ConfigObject}->Get('Home')
+    my $MD5Sum = $MainObject->MD5sum(
+        Filename => $ConfigObject->Get('Home')
             . "/scripts/test/sample/Main/Main-Test1.$Extension",
     );
-    my $Content = $Self->{MainObject}->FileRead(
-        Location => $Self->{ConfigObject}->Get('Home')
+    my $Content = $MainObject->FileRead(
+        Location => $ConfigObject->Get('Home')
             . '/scripts/test/sample/Main/'
             . "Main-Test1.$Extension",
     );
@@ -188,21 +194,21 @@ for my $Extension (qw(doc pdf png txt xls)) {
         ${$Content} || '',
         "FileRead() - Main-Test1.$Extension",
     );
-    my $FileLocation = $Self->{MainObject}->FileWrite(
-        Location => $Self->{ConfigObject}->Get('TempDir') . "Main-Test1.$Extension",
+    my $FileLocation = $MainObject->FileWrite(
+        Location => $ConfigObject->Get('TempDir') . "Main-Test1.$Extension",
         Content  => $Content,
     );
     $Self->True(
         $FileLocation || '',
         "FileWrite() - $FileLocation",
     );
-    my $MD5Sum2 = $Self->{MainObject}->MD5sum( Filename => $FileLocation );
+    my $MD5Sum2 = $MainObject->MD5sum( Filename => $FileLocation );
     $Self->Is(
         $MD5Sum2 || '',
         $MD5Sum  || '',
         "MD5sum()>FileWrite()>MD5sum() - $FileLocation",
     );
-    my $Success = $Self->{MainObject}->FileDelete( Location => $FileLocation );
+    my $Success = $MainObject->FileDelete( Location => $FileLocation );
     $Self->True(
         $Success || '',
         "FileDelete() - $FileLocation",
@@ -211,8 +217,8 @@ for my $Extension (qw(doc pdf png txt xls)) {
 
 # write / read ARRAYREF test
 my $Content      = "some\ntest\nöäüßカスタマ";
-my $FileLocation = $Self->{MainObject}->FileWrite(
-    Directory => $Self->{ConfigObject}->Get('TempDir'),
+my $FileLocation = $MainObject->FileWrite(
+    Directory => $ConfigObject->Get('TempDir'),
     Filename  => "some-test.txt",
     Mode      => 'utf8',
     Content   => \$Content,
@@ -222,8 +228,8 @@ $Self->True(
     "FileWrite() - $FileLocation",
 );
 
-my $ContentARRAYRef = $Self->{MainObject}->FileRead(
-    Directory => $Self->{ConfigObject}->Get('TempDir'),
+my $ContentARRAYRef = $MainObject->FileRead(
+    Directory => $ConfigObject->Get('TempDir'),
     Filename  => $FileLocation,
     Mode      => 'utf8',
     Result    => 'ARRAY',                                 # optional - SCALAR|ARRAY
@@ -248,8 +254,8 @@ $Self->Is(
     "FileRead() [2] - $FileLocation",
 );
 
-my $Success = $Self->{MainObject}->FileDelete(
-    Directory => $Self->{ConfigObject}->Get('TempDir'),
+my $Success = $MainObject->FileDelete(
+    Directory => $ConfigObject->Get('TempDir'),
     Filename  => $FileLocation,
 );
 $Self->True(
@@ -258,8 +264,8 @@ $Self->True(
 );
 
 # check if the file have the correct charset
-my $ContentSCALARRef = $Self->{MainObject}->FileRead(
-    Location => $Self->{ConfigObject}->Get('Home')
+my $ContentSCALARRef = $MainObject->FileRead(
+    Location => $ConfigObject->Get('Home')
         . '/scripts/test/sample/Main/PDF-test2-utf-8.txt',
     Mode   => 'utf8',
     Result => 'SCALAR',
@@ -277,8 +283,8 @@ $Self->True(
     "FileRead() - Check a utf8 file - is the utf8 content wellformed ( $Text )",
 );
 
-my $FileMTime = $Self->{MainObject}->FileGetMTime(
-    Location => $Self->{ConfigObject}->Get('Home')
+my $FileMTime = $MainObject->FileGetMTime(
+    Location => $ConfigObject->Get('Home')
         . '/Kernel/Config.pm',
 );
 
@@ -287,8 +293,8 @@ $Self->True(
     'FileGetMTime()',
 );
 
-my $FileMTimeNonexisting = $Self->{MainObject}->FileGetMTime(
-    Location => $Self->{ConfigObject}->Get('Home')
+my $FileMTimeNonexisting = $MainObject->FileGetMTime(
+    Location => $ConfigObject->Get('Home')
         . '/Kernel/some.nonexisting.file',
 );
 
@@ -298,7 +304,7 @@ $Self->False(
 );
 
 # testing DirectoryRead function
-my $Path                  = $Self->{ConfigObject}->Get('TempDir');
+my $Path                  = $ConfigObject->Get('TempDir');
 my $DirectoryWithFiles    = "$Path/WithFiles";
 my $DirectoryWithoutFiles = "$Path/WithoutFiles";
 my $SubDirA               = "$DirectoryWithFiles/a";
@@ -323,7 +329,7 @@ for my $Directory ( $DirectoryWithFiles, $SubDirA, $SubDirB, ) {
         'Второй_файл',    # Unicode NFD
         )
     {
-        my $Success = $Self->{MainObject}->FileWrite(
+        my $Success = $MainObject->FileWrite(
             Directory => $Directory,
             Filename  => "Example_File_$Suffix",
             Content   => \'',
@@ -526,14 +532,14 @@ for my $Test (@Tests) {
 
     my @UnicodeResults;
     for my $Result ( @{ $Test->{Results} } ) {
-        push @UnicodeResults, $Self->{EncodeObject}->Convert2CharsetInternal(
+        push @UnicodeResults, $EncodeObject->Convert2CharsetInternal(
             Text => $Result,
             From => 'utf-8',
         );
     }
     @UnicodeResults = sort @UnicodeResults;
 
-    my @Results = $Self->{MainObject}->DirectoryRead(
+    my @Results = $MainObject->DirectoryRead(
         Directory => $Test->{Directory},
         Filter    => $Test->{Filter},
         Recursive => $Test->{Recursive},
@@ -589,24 +595,10 @@ for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
         Source => "Antonín Dvořák",
         Result => "\$VAR1 = 'Antonín Dvořák';\n",
     },
-
-    # Strange things happen here. \x{e9} is not valid UTF8, but instead Latin1.
-    # The first test works, the second doesn't...
-    #    {
-    #        Name => 'Invalid UTF8',
-    #        Source =>
-    #            "ä \x{e9}",
-    #        Result => "\$VAR1 = 'ä é';\n",
-    #    },
-    #    {
-    #        Name   => 'Invalid UTF8',
-    #        Source => "\x{e9}",
-    #        Result => "\$VAR1 = 'é';",
-    #    },
 );
 
 for my $Test (@Tests) {
-    my $Result = $Self->{MainObject}->Dump( $Test->{Source} );
+    my $Result = $MainObject->Dump( $Test->{Source} );
 
     $Self->Is(
         $Result,
@@ -617,7 +609,7 @@ for my $Test (@Tests) {
 
 # Generate Random string test
 
-my $Token  = $Self->{MainObject}->GenerateRandomString();
+my $Token  = $MainObject->GenerateRandomString();
 my $Length = length($Token);
 
 $Self->True(
@@ -631,7 +623,7 @@ $Self->Is(
     "GenerateRandomString - standard size is 16",
 );
 
-$Token = $Self->{MainObject}->GenerateRandomString(
+$Token = $MainObject->GenerateRandomString(
     Length => 8,
 );
 $Length = length($Token);
@@ -651,7 +643,7 @@ my %Values;
 my $Seen = 0;
 COUNTER:
 for my $Counter ( 1 .. 100_000 ) {
-    my $Random = $Self->{MainObject}->GenerateRandomString( Length => 16 );
+    my $Random = $MainObject->GenerateRandomString( Length => 16 );
     if ( $Values{$Random}++ ) {
         $Seen = 1;
         last COUNTER;
@@ -668,7 +660,7 @@ $Self->Is(
 my $NoHexChar;
 COUNTER:
 for my $Counter ( 1 .. 1000 ) {
-    my $HexString = $Self->{MainObject}->GenerateRandomString(
+    my $HexString = $MainObject->GenerateRandomString(
         Length => 32,
         Dictionary => [ 0 .. 9, 'a' .. 'f' ],
     );
