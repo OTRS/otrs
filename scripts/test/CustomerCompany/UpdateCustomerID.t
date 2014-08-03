@@ -6,38 +6,30 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
 use strict;
 use warnings;
 use vars (qw($Self));
+
 use utf8;
 
-use Kernel::Config;
-use Kernel::System::CustomerUser;
-use Kernel::System::CustomerCompany;
-
-# create local objects
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+# get needed objects
+my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
+my $CustomerUserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
+my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 
 $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );
 
-my $CustomerUserObject = Kernel::System::CustomerUser->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $CustomerCompanyObject = Kernel::System::CustomerCompany->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
 my @CustomerIDs;
-
 for my $Key ( 1 .. 1, 'ä', 'カス' ) {
-    my $CompanyRand = 'Example-Customer-Company' . $Key . int( rand(1000000) );
+
+    my $CompanyRand = 'Example-Customer-Company' . $Key . int rand 1000000;
 
     push @CustomerIDs, $CompanyRand;
+
     my $CustomerID = $CustomerCompanyObject->CustomerCompanyAdd(
         CustomerID             => $CompanyRand,
         CustomerCompanyName    => $CompanyRand . ' Inc',
@@ -74,7 +66,9 @@ for my $Key ( 1 .. 1, 'ä', 'カス' ) {
 
     my @CustomerLogins;
     for my $CustomerUserKey ( 1 .. 3, 'ä', 'カス' ) {
-        my $UserRand = 'Example-Customer-User' . $CustomerUserKey . int( rand(1000000) );
+
+        my $UserRand = 'Example-Customer-User' . $CustomerUserKey . int rand 1000000;
+
         push @CustomerLogins, $UserRand;
 
         my $UserID = $CustomerUserObject->CustomerUserAdd(
@@ -88,13 +82,17 @@ for my $Key ( 1 .. 1, 'ä', 'カス' ) {
             ValidID        => 1,
             UserID         => 1,
         );
+
         $Self->True(
             $UserID,
             "Created Customer $UserRand for customerID $CompanyRand",
         );
     }
 
-    my %CompanyData = $CustomerCompanyObject->CustomerCompanyGet( CustomerID => $CompanyRand );
+    my %CompanyData = $CustomerCompanyObject->CustomerCompanyGet(
+        CustomerID => $CompanyRand,
+    );
+
     $Self->Is(
         $CompanyData{CustomerID},
         $CompanyRand,
@@ -107,6 +105,7 @@ for my $Key ( 1 .. 1, 'ä', 'カス' ) {
         CustomerID        => 'new' . $CompanyData{CustomerID},
         UserID            => 1,
     );
+
     $Self->True(
         $Success,
         "CustomerCompanyUpdate - OK for $CompanyData{CustomerID}",
@@ -121,6 +120,7 @@ for my $Key ( 1 .. 1, 'ä', 'カス' ) {
     );
 
     for my $CustomerLogin (@CustomerLogins) {
+
         $Self->False(
             $OldIDList{$CustomerLogin},
             "Customer User $CustomerLogin not in list for $CompanyData{CustomerID}",
@@ -130,9 +130,11 @@ for my $Key ( 1 .. 1, 'ä', 'カス' ) {
             $NewIDList{$CustomerLogin},
             "Customer User $CustomerLogin found in list for new$CompanyData{CustomerID}",
         );
+
         my %CustomerData = $CustomerUserObject->CustomerUserDataGet(
             User => $CustomerLogin,
         );
+
         $Self->Is(
             $CustomerData{UserCustomerID},
             'new' . $CompanyData{CustomerID},
