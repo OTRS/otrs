@@ -9,7 +9,13 @@
 
 use strict;
 use warnings;
-use vars qw($Self);
+use vars (qw($Self));
+
+use utf8;
+
+# get needed objects
+my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
+my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
 
 =cut
 This test is supposed to verify the solution for bug#9092, which showed
@@ -19,11 +25,6 @@ problems because the indices actually contain foreign key constraint data.
 A workaround is to first drop the foreign key constraints, then drop the indices, and
 then re-add the foreign keyconstraints again.
 =cut
-
-use Kernel::System::XML;
-
-my $XMLObject = Kernel::System::XML->new( %{$Self} );
-my $DBObject  = Kernel::System::DB->new( %{$Self} );
 
 my @Tests = (
 

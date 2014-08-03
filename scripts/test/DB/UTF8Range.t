@@ -6,16 +6,16 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
 use strict;
 use warnings;
 use vars (qw($Self));
+
 use utf8;
 
-use Kernel::System::XML;
-use Kernel::Config;
-
-# create local objects
-my $XMLObject = Kernel::System::XML->new( %{$Self} );
+# get needed objects
+my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
+my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
 
 # create database for tests
 my $XML = '
@@ -24,10 +24,10 @@ my $XML = '
 </Table>
 ';
 my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-my @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "CREATE TABLE ($SQL)",
     );
 }
@@ -54,7 +54,7 @@ my @Tests = (
 
 for my $Test (@Tests) {
 
-    my $Success = $Self->{DBObject}->Do(
+    my $Success = $DBObject->Do(
         SQL => 'INSERT INTO test_utf8_range ( test_message )'
             . ' VALUES ( ? )',
         Bind => [ \$Test->{Data} ],
@@ -66,19 +66,19 @@ for my $Test (@Tests) {
     );
 
     my $ExpectedData = $Test->{Data};
-    if ( $Test->{ExpectedDataOnMysql} && $Self->{DBObject}->{Backend}->{'DB::Type'} eq 'mysql' ) {
+    if ( $Test->{ExpectedDataOnMysql} && $DBObject->{Backend}->{'DB::Type'} eq 'mysql' ) {
         $ExpectedData = $Test->{ExpectedDataOnMysql};
     }
 
     # Fetch withouth WHERE
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL   => 'SELECT test_message FROM test_utf8_range',
         Limit => 1,
     );
 
     my $RowCount = 0;
 
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Self->Is(
             $Row[0],
             $ExpectedData,
@@ -94,7 +94,7 @@ for my $Test (@Tests) {
     );
 
     # Fetch 1 with WHERE
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL => '
             SELECT test_message
             FROM test_utf8_range
@@ -105,7 +105,7 @@ for my $Test (@Tests) {
 
     $RowCount = 0;
 
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Self->Is(
             $Row[0],
             $ExpectedData,
@@ -120,7 +120,7 @@ for my $Test (@Tests) {
         "$Test->{Name} - SELECT all row count",
     );
 
-    $Success = $Self->{DBObject}->Do(
+    $Success = $DBObject->Do(
         SQL => 'DELETE FROM test_utf8_range',
     );
 
@@ -132,7 +132,7 @@ for my $Test (@Tests) {
 
 # cleanup
 $Self->True(
-    $Self->{DBObject}->Do( SQL => 'DROP TABLE test_utf8_range' ) || 0,
+    $DBObject->Do( SQL => 'DROP TABLE test_utf8_range' ) || 0,
     "DROP TABLE",
 );
 

@@ -13,12 +13,9 @@ use vars (qw($Self));
 
 use utf8;
 
-use Encode;
-
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
-my $XMLObject    = $Kernel::OM->Get('Kernel::System::XML');
+my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
+my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
 
 # ------------------------------------------------------------ #
 # XML test 6 - default value test (create table)

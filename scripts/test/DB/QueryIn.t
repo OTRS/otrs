@@ -8,10 +8,16 @@
 # --
 
 ## no critic (Modules::RequireExplicitPackage)
+
 use strict;
 use warnings;
-use utf8;
 use vars (qw($Self));
+
+use utf8;
+
+# get needed objects
+my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
+my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
 
 my @Tests = (
     {
@@ -143,13 +149,13 @@ for my $Test (@Tests) {
         $Counter++;
     }
 
-    my $Success = $Self->{DBObject}->Prepare(
+    my $Success = $DBObject->Prepare(
         SQL   => $SQL,
         Limit => 1,
     );
 
     if (
-        $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle'
+        $DBObject->GetDatabaseFunction('Type') eq 'oracle'
         && !$Test->{OracleSuccess}
         )
     {

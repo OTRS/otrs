@@ -6,15 +6,17 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
 use strict;
 use warnings;
 use vars (qw($Self));
 
-use Kernel::System::XML;
-use Kernel::Config;
+use utf8;
 
-# create local objects
-my $XMLObject = Kernel::System::XML->new( %{$Self} );
+# get needed objects
+my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
+my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+my $XMLObject  = $Kernel::OM->Get('Kernel::System::XML');
 
 # create database for tests
 my $XML = '
@@ -24,7 +26,7 @@ my $XML = '
 </Table>
 ';
 my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-my @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
     'SQLProcessor() CREATE TABLE',
@@ -32,7 +34,7 @@ $Self->True(
 
 for my $SQL (@SQL) {
     $Self->True(
-        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        $DBObject->Do( SQL => $SQL ) || 0,
         "Do() CREATE TABLE ($SQL)",
     );
 }
@@ -44,9 +46,9 @@ my $Success;
 INSERT:
 for ( 1 .. 10_000 ) {
 
-    my $RandomString = $Self->{MainObject}->GenerateRandomString( Length => 50 );
-    $MessageIDs{$RandomString} = $Self->{MainObject}->MD5sum( String => $RandomString );
-    $Success = $Self->{DBObject}->Do(
+    my $RandomString = $MainObject->GenerateRandomString( Length => 50 );
+    $MessageIDs{$RandomString} = $MainObject->MD5sum( String => $RandomString );
+    $Success = $DBObject->Do(
         SQL => 'INSERT INTO test_md5_conversion ( message_id )'
             . ' VALUES ( ? )',
         Bind => [ \$RandomString ],
@@ -60,32 +62,33 @@ $Self->True(
 
 # conversion to MD5
 if (
-    $Self->{DBObject}->GetDatabaseFunction('Type') eq 'mysql'
-    || $Self->{DBObject}->GetDatabaseFunction('Type') eq 'postgresql'
+    $DBObject->GetDatabaseFunction('Type') eq 'mysql'
+    || $DBObject->GetDatabaseFunction('Type') eq 'postgresql'
     )
 {
     $Self->True(
-        $Self->{DBObject}
-            ->Do( SQL => 'UPDATE test_md5_conversion SET message_id_md5 = MD5(message_id)' ) || 0,
+        $DBObject->Do(
+            SQL => 'UPDATE test_md5_conversion SET message_id_md5 = MD5(message_id)'
+        ) || 0,
         "UPDATE statement",
     );
 }
 else {
 
     my %MD5sum;
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL => 'SELECT message_id, message_id_md5
                     FROM test_md5_conversion
                 ',
     );
     MESSAGEID:
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         next MESSAGEID if !$Row[0];
-        $MD5sum{ $Row[0] } = $Self->{MainObject}->MD5sum( String => $Row[0] );
+        $MD5sum{ $Row[0] } = $MainObject->MD5sum( String => $Row[0] );
     }
 
     for my $MessageID ( sort keys %MD5sum ) {
-        $Self->{DBObject}->Do(
+        $DBObject->Do(
             SQL => "UPDATE test_md5_conversion
                      SET message_id_md5 = ?
                      WHERE message_id = ?",
@@ -96,14 +99,14 @@ else {
 }
 
 # test conversion
-return if !$Self->{DBObject}->Prepare(
+return if !$DBObject->Prepare(
     SQL => 'SELECT message_id, message_id_md5 FROM test_md5_conversion',
 );
 
 my $Result = 1;
 
 RESULT:
-while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+while ( my @Row = $DBObject->FetchrowArray() ) {
     next RESULT if $Row[1] eq $MessageIDs{ $Row[0] };
     $Result = 0;
 }
@@ -115,7 +118,7 @@ $Self->True(
 
 # cleanup
 $Self->True(
-    $Self->{DBObject}->Do( SQL => 'DROP TABLE test_md5_conversion' ) || 0,
+    $DBObject->Do( SQL => 'DROP TABLE test_md5_conversion' ) || 0,
     "Do() DROP TABLE",
 );
 

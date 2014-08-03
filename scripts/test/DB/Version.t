@@ -9,9 +9,15 @@
 
 use strict;
 use warnings;
-use vars qw($Self);
+use vars (qw($Self));
 
-my $Version = $Self->{DBObject}->Version();
+use utf8;
+
+# get needed objects
+my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
+my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
+
+my $Version = $DBObject->Version();
 
 $Self->True(
     $Version,

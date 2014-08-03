@@ -9,25 +9,31 @@
 
 use strict;
 use warnings;
-use vars qw($Self);
+use vars (qw($Self));
+
+use utf8;
+
 use Encode;
 
-use Kernel::System::XML;
-
-my $XMLObject = Kernel::System::XML->new( %{$Self} );
-my $DBObject  = Kernel::System::DB->new( %{$Self} );
+# get needed objects
+my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
+my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+my $XMLObject    = $Kernel::OM->Get('Kernel::System::XML');
 
 # ------------------------------------------------------------ #
 # XML test 5 - INSERT special characters test
 # ------------------------------------------------------------ #
+
 my $XML = '
 <TableCreate Name="test_d">
     <Column Name="name_a" Required="true" Size="60" Type="VARCHAR"/>
     <Column Name="name_b" Required="true" Size="60" Type="VARCHAR"/>
 </TableCreate>
 ';
+
 my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
 my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+
 $Self->True(
     $SQL[0],
     'SQLProcessor() CREATE TABLE',
@@ -45,7 +51,8 @@ push @SpecialCharacters, ( ',', '#', 'otrs test', 'otrs_test' );
 my $Counter = 0;
 
 for my $Character (@SpecialCharacters) {
-    $Self->{EncodeObject}->EncodeInput( \$Character );
+
+    $EncodeObject->EncodeInput( \$Character );
 
     # insert
     my $Result = $DBObject->Do(
@@ -67,6 +74,7 @@ for my $Character (@SpecialCharacters) {
         $Result,
         "#5.$Counter Prepare() SELECT = \$Counter",
     );
+
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $Self->True(
             $Row[0] eq $Character,
@@ -92,7 +100,9 @@ for my $Character (@SpecialCharacters) {
         $Result,
         "#5.$Counter Prepare() SELECT = value",
     );
+
     while ( my @Row = $DBObject->FetchrowArray() ) {
+
         $Self->True(
             $Row[0] eq $Character,
             "#5.$Counter Check special character $Character by 'eq' (db returned $Row[0])",
@@ -121,6 +131,7 @@ for my $Character (@SpecialCharacters) {
 
     CHARACTER:
     while ( my @Row = $DBObject->FetchrowArray() ) {
+
         next CHARACTER if $Character eq '%';    # do not test %, because it's wanted as % for like
 
         $Self->True(
@@ -128,6 +139,7 @@ for my $Character (@SpecialCharacters) {
             "#5.$Counter Check special character $Character by 'eq' (db returned $Row[0])",
         );
         my $Hit = 0;
+
         if ( $Row[0] =~ /\Q$Character\E/ ) {
             $Hit = 1;
         }

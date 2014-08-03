@@ -9,12 +9,13 @@
 
 use strict;
 use warnings;
-use vars qw($Self);
+use vars (qw($Self));
 
-use Kernel::System::XML;
+use utf8;
 
-my $XMLObject = Kernel::System::XML->new( %{$Self} );
-my $DBObject  = Kernel::System::DB->new( %{$Self} );
+# get needed objects
+my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
+my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
 
 # ------------------------------------------------------------ #
 # Statement size checks (test 11)
