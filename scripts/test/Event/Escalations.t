@@ -12,52 +12,18 @@ use warnings;
 
 use vars qw($Self);
 
-use Kernel::System::GenericAgent;
-use Kernel::System::Queue;
-use Kernel::System::Ticket;
-use Kernel::System::Time;
-use Kernel::System::UnitTest::Helper;
-
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+# get needed objects
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $TimeObject         = $Kernel::OM->Get('Kernel::System::Time');
+my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
+my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
 
 # make use to disable EstalationStopEvents modules
 $ConfigObject->Set(
     Key   => 'Ticket::EventModulePost###900-EscalationStopEvents',
     Value => undef,
-);
-
-# create common objects
-my $TimeObject = Kernel::System::Time->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-my $QueueObject = Kernel::System::Queue->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-# Make sure that Kernel::System::Ticket::new() does not create it's own QueueObject.
-# This will interfere with caching.
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    TimeObject   => $TimeObject,
-    QueueObject  => $QueueObject,
-    ConfigObject => $ConfigObject,
-);
-my $GenericAgentObject = Kernel::System::GenericAgent->new(
-    %{$Self},
-    TimeObject   => $TimeObject,
-    QueueObject  => $QueueObject,
-    TicketObject => $TicketObject,
-    ConfigObject => $ConfigObject,
-);
-
-# creates a local helper object
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    ConfigObject   => $ConfigObject,
-    UnitTestObject => $Self,
 );
 
 # set fixed time
