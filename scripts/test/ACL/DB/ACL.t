@@ -9,16 +9,19 @@
 
 use strict;
 use warnings;
-use utf8;
-
 use vars (qw($Self));
+
+use utf8;
 
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ACLObject    = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $ACLObject    = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# set fixed time
+$HelperObject->FixedTimeSet();
 
 # define needed variables
 my $RandomID = $HelperObject->GetRandomID();
@@ -379,7 +382,7 @@ for my $Test (@Tests) {
 
 # try to update the ACL
 print "Force a gap between create and update ACL, Sleeping 2s\n";
-sleep 2;
+$HelperObject->FixedTimeAddSeconds(2);
 
 TEST:
 for my $Test (@Tests) {
@@ -597,10 +600,12 @@ for my $Index ( 1, 2 ) {
         UserID  => 1,
     );
 
+    my $AddedACLListIndex = $AddedACLList[$Index] //='';
+
     $Self->IsNot(
         $Success,
         0,
-        "ACLList | Updated ACL for ACLID:'$AddedACLList[$Index]' result should be 1",
+        "ACLList | Updated ACL for ACLID:'$AddedACLListIndex' result should be 1",
     );
 }
 

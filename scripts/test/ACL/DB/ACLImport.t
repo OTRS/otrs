@@ -8,16 +8,12 @@
 # --
 
 ## no critic (Modules::RequireExplicitPackage)
+
 use strict;
 use warnings;
 use vars (qw($Self));
 
 use utf8;
-
-use Kernel::Config;
-use Kernel::System::ACL::DB::ACL;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::YAML;
 
 use Kernel::System::VariableCheck qw(:all);
 
