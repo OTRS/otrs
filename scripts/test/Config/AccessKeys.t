@@ -6,18 +6,24 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
 use strict;
 use warnings;
 use vars (qw($Self));
+
 use utf8;
+
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # check used accesskeys in agent frontend
 my %UsedAccessKeysAgent;
 
 # frontend and toolbar modules
 my %AgentModules = (
-    %{ $Self->{ConfigObject}->Get('Frontend::Module') },
-    %{ $Self->{ConfigObject}->Get('Frontend::ToolBarModule') }
+    %{ $ConfigObject->Get('Frontend::Module') },
+    %{ $ConfigObject->Get('Frontend::ToolBarModule') }
 );
 
 ACCESSKEYSAGENT:
@@ -42,6 +48,7 @@ for my $AgentModule ( sort keys %AgentModules ) {
     }
 
     my $AccessKey = $AgentModules{$AgentModule}->{AccessKey} || '';
+
     next ACCESSKEYSAGENT if !$AccessKey;
 
     $Self->False(
@@ -56,31 +63,27 @@ for my $AgentModule ( sort keys %AgentModules ) {
 my %UsedAccessKeysCustomer;
 
 # frontend and toolbar modules
-my %CustomerModules = %{ $Self->{ConfigObject}->Get('CustomerFrontend::Module') };
+my %CustomerModules = %{ $ConfigObject->Get('CustomerFrontend::Module') };
 
 ACCESSKEYSCUSTOMER:
 for my $CustomerModule ( sort keys %CustomerModules ) {
 
-    # check navbar items
-    if (
-        $CustomerModules{$CustomerModule}->{NavBar}
-        && @{ $CustomerModules{$CustomerModule}->{NavBar} }
-        )
-    {
+    next ACCESSKEYSCUSTOMER if !$CustomerModules{$CustomerModule}->{NavBar};
+    next ACCESSKEYSCUSTOMER if !@{ $CustomerModules{$CustomerModule}->{NavBar} };
 
-        NAVBARITEMS:
-        for my $NavBar ( sort @{ $CustomerModules{$CustomerModule}->{NavBar} } ) {
+    NAVBARITEMS:
+    for my $NavBar ( sort @{ $CustomerModules{$CustomerModule}->{NavBar} } ) {
 
-            my $NavBarKey = $NavBar->{AccessKey} || '';
-            next NAVBARITEMS if !$NavBarKey;
+        my $NavBarKey = $NavBar->{AccessKey} || '';
 
-            $Self->False(
-                defined $UsedAccessKeysCustomer{$NavBarKey},
-                "[CUSTOMER FRONTEND] Check if access key already exists for access key '$NavBarKey'",
-            );
+        next NAVBARITEMS if !$NavBarKey;
 
-            $UsedAccessKeysCustomer{$NavBarKey} = 1;
-        }
+        $Self->False(
+            defined $UsedAccessKeysCustomer{$NavBarKey},
+            "[CUSTOMER FRONTEND] Check if access key already exists for access key '$NavBarKey'",
+        );
+
+        $UsedAccessKeysCustomer{$NavBarKey} = 1;
     }
 }
 
