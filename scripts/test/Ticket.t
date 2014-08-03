@@ -9,46 +9,20 @@
 
 use strict;
 use warnings;
-
-use utf8;
-use Kernel::System::UnitTest::Helper;
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::Ticket;
-use Kernel::System::Queue;
-use Kernel::System::User;
-use Kernel::System::PostMaster;
-use Kernel::System::Type;
-use Kernel::System::Service;
-use Kernel::System::SLA;
-use Kernel::System::State;
+use utf8;
 
-# create local objects
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-my $UserObject   = Kernel::System::User->new(
-    ConfigObject => $ConfigObject,
-    %{$Self},
-);
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $QueueObject = Kernel::System::Queue->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $TypeObject    = Kernel::System::Type->new( %{$Self} );
-my $ServiceObject = Kernel::System::Service->new( %{$Self} );
-my $SLAObject     = Kernel::System::SLA->new( %{$Self} );
-my $HelperObject  = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject => $Self,
-);
-my $StateObject = Kernel::System::State->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+# get needed objects
+my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject  = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $QueueObject   = $Kernel::OM->Get('Kernel::System::Queue');
+my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
+my $SLAObject     = $Kernel::OM->Get('Kernel::System::SLA');
+my $StateObject   = $Kernel::OM->Get('Kernel::System::State');
+my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TypeObject    = $Kernel::OM->Get('Kernel::System::Type');
+my $UserObject    = $Kernel::OM->Get('Kernel::System::User');
 
 # set fixed time
 $HelperObject->FixedTimeSet();
