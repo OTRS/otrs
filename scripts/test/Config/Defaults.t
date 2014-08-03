@@ -10,9 +10,14 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+
 use utf8;
 
 use Kernel::Config::Files::ZZZAAuto;
+
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 =head1 SYNOPSIS
 
@@ -26,8 +31,8 @@ and cause wrong test failures.
 =cut
 
 # Get list of installed config XML files
-my $Directory   = $Self->{ConfigObject}->Get('Home') . "/Kernel/Config/Files/";
-my @ConfigFiles = $Self->{MainObject}->DirectoryRead(
+my $Directory   = $ConfigObject->Get('Home') . "/Kernel/Config/Files/";
+my @ConfigFiles = $MainObject->DirectoryRead(
     Directory => $Directory,
     Filter    => "*.xml",
 );
@@ -44,9 +49,13 @@ my %AllowedConfigFiles = (
 );
 
 for my $ConfigFile (@ConfigFiles) {
+
     $ConfigFile =~ s{^.*/([^/]+.xml)$}{$1}xmsg;
+
     if ( !$AllowedConfigFiles{$ConfigFile} ) {
+
         print "You have custom configuration files installed ($ConfigFile). Skipping this test.\n";
+
         return 1;
     }
 }
@@ -103,13 +112,13 @@ for my $DefaultConfigEntry ( sort keys %{$DefaultConfig} ) {
         }
     }
     else {
+
         $Self->IsDeeply(
             \$DefaultConfig->{$DefaultConfigEntry},
             \$ZZZAAutoConfig->{$DefaultConfigEntry},
             "$DefaultConfigEntry must be the same in Defaults.pm and ZZZAAuto.pm",
         );
     }
-
 }
 
 1;
