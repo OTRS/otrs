@@ -9,8 +9,9 @@
 
 use strict;
 use warnings;
+use vars (qw($Self));
 
-use vars qw($Self);
+use utf8;
 
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
