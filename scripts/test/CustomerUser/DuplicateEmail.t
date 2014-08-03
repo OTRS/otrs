@@ -6,15 +6,17 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
 use strict;
 use warnings;
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::CustomerUser;
+use utf8;
 
-# create local objects
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+# get needed objects
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+my $DBObject           = $Kernel::OM->Get('Kernel::System::DB');
 
 # add two users
 $ConfigObject->Set(
@@ -22,17 +24,14 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-my $DatabaseCaseSensitive                = $Self->{DBObject}->{Backend}->{'DB::CaseSensitive'};
+my $DatabaseCaseSensitive                = $DBObject->{Backend}->{'DB::CaseSensitive'};
 my $CustomerDatabaseCaseSensitiveDefault = $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive};
 
-my $CustomerUserObject = Kernel::System::CustomerUser->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $Rand = int rand 1000000;
 
 my @CustomerLogins;
-my $Rand = int( rand(1000000) );
 for my $Key ( 1 .. 2 ) {
+
     my $UserRand = 'Duplicate' . $Key . $Rand;
 
     my $UserID = $CustomerUserObject->CustomerUserAdd(
@@ -46,6 +45,7 @@ for my $Key ( 1 .. 2 ) {
         ValidID        => 1,
         UserID         => 1,
     );
+
     push @CustomerLogins, $UserID;
 
     $Self->True(
@@ -64,6 +64,7 @@ for my $Key ( 1 .. 2 ) {
         ValidID        => 1,
         UserID         => 1,
     );
+
     $Self->True(
         $Update,
         "CustomerUserUpdate$Key() - $UserID",
