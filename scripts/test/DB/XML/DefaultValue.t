@@ -9,13 +9,16 @@
 
 use strict;
 use warnings;
-use vars qw($Self);
+use vars (qw($Self));
+
+use utf8;
+
 use Encode;
 
-use Kernel::System::XML;
-
-my $XMLObject = Kernel::System::XML->new( %{$Self} );
-my $DBObject  = Kernel::System::DB->new( %{$Self} );
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
+my $XMLObject    = $Kernel::OM->Get('Kernel::System::XML');
 
 # ------------------------------------------------------------ #
 # XML test 6 - default value test (create table)
