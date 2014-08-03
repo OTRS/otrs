@@ -10,11 +10,12 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+
 use utf8;
 
-use Kernel::System::Valid;
-
-my $ValidObject = Kernel::System::Valid->new( %{$Self} );
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $ValidObject  = $Kernel::OM->Get('Kernel::System::Valid');
 
 # tests the method to make sure there is at least 2 registries: valid - invalid
 my %ValidList = $ValidObject->ValidList();
