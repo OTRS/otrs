@@ -23,11 +23,11 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
     RestoreSystemConfiguration => 0,
 );
 
-my $SupportDataCollectorObject = Kernel::System::SupportDataCollector->new( %{$Self} );
-
-$SupportDataCollectorObject->{CacheObject}->CleanUp(
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
     Type => 'SupportDataCollector',
 );
+
+my $SupportDataCollectorObject = Kernel::System::SupportDataCollector->new( %{$Self} );
 
 my $TimeStart   = [ Time::HiRes::gettimeofday() ];
 my %Result      = $SupportDataCollectorObject->Collect();
@@ -72,7 +72,7 @@ for my $ResultEntry ( @{ $Result{Result} || [] } ) {
 }
 
 # cache tests
-my $CacheResult = $SupportDataCollectorObject->{CacheObject}->Get(
+my $CacheResult = $Kernel::OM->Get('Kernel::System::Cache')->Get(
     Type => 'SupportDataCollector',
     Key  => 'DataCollect',
 );
@@ -93,7 +93,7 @@ my $TimeStartCache = [ Time::HiRes::gettimeofday() ];
 );
 my $TimeElapsedCache = Time::HiRes::tv_interval($TimeStartCache);
 
-$CacheResult = $SupportDataCollectorObject->{CacheObject}->Get(
+$CacheResult = $Kernel::OM->Get('Kernel::System::Cache')->Get(
     Type => 'SupportDataCollector',
     Key  => 'DataCollect',
 );
