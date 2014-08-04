@@ -453,8 +453,7 @@ sub ObjectsDiscard {
     # (but not infinitely)
     if ( !$Param{Objects} && keys %{ $Self->{Objects} } ) {
         if ( $Self->{DestroyAttempts} && $Self->{DestroyAttempts} > 3 ) {
-            carp "Loop while destroying objects!";
-            confess "Loop while destroying objects!";
+            $Self->_DieWithError(Error => "Loop while destroying objects!");
         }
 
         $Self->{DestroyAttempts}++;
@@ -497,13 +496,11 @@ sub _DieWithError {
             Priority => 'Error',
             Message  => $Param{Error},
         );
-    }
-    else {
-        carp $Param{Error};
+        confess $Param{Error}; # this will die()
     }
 
-    confess $Param{Error};    # this will cause a die(), so return will not be reached.
-    return;
+    carp $Param{Error};
+    confess $Param{Error};
 }
 
 sub DESTROY {
