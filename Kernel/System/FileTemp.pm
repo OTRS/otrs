@@ -14,6 +14,11 @@ use warnings;
 
 use File::Temp qw( tempfile tempdir );
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::FileTemp - tmp files
@@ -30,16 +35,11 @@ This module is managing temporary files and directories.
 
 =item new()
 
-create a tmp file object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::FileTemp;
-
-    my $ConfigObject = Kernel::Config->new();
-
-    my $TempObject = Kernel::System::FileTemp->new(
-        ConfigObject => $ConfigObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
 
 =cut
 
@@ -50,13 +50,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for my $Object (qw(ConfigObject)) {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
-
-    # set global variables
-    $Self->{TempDir}        = $Self->{ConfigObject}->Get('TempDir');
     $Self->{FileHandleList} = [];
 
     return $Self;
@@ -73,8 +66,10 @@ returns a file handle and its file name
 sub TempFile {
     my $Self = shift;
 
+    my $TempDir = $Kernel::OM->Get('Kernel::Config')->Get('TempDir');
+
     my ( $FH, $Filename ) = tempfile(
-        DIR    => $Self->{TempDir},
+        DIR    => $TempDir,
         SUFFIX => '.tmp',
         UNLINK => 1,
     );
@@ -95,8 +90,10 @@ if the FileTemp object goes out of scope.
 sub TempDir {
     my $Self = shift;
 
+    my $TempDir = $Kernel::OM->Get('Kernel::Config')->Get('TempDir');
+
     my $DirName = tempdir(
-        DIR     => $Self->{TempDir},
+        DIR     => $TempDir,
         CLEANUP => 1,
     );
 
