@@ -12,7 +12,13 @@ package Kernel::System::GenericAgent::AutoPriorityIncrease;
 use strict;
 use warnings;
 
-use Kernel::System::Priority;
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::System::Priority',
+    'Kernel::System::Ticket',
+    'Kernel::System::Time',
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -20,13 +26,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject TicketObject TimeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
-    $Self->{PriorityObject} = Kernel::System::Priority->new( %{$Self} );
 
     # 0=off; 1=on;
     $Self->{Debug} = $Param{Debug} || 0;
@@ -42,7 +41,7 @@ sub Run {
 
     # check needed param
     if ( !$Param{New}->{'TimeInterval'} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need TimeInterval param for GenericAgent module!',
         );
@@ -51,12 +50,15 @@ sub Run {
 
     $Param{New}->{TimeInterval} = $Param{New}->{TimeInterval} * 60;
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # get ticket data
-    my %Ticket = $Self->{TicketObject}->TicketGet(
+    my %Ticket = $TicketObject->TicketGet(
         %Param,
         DynamicFields => 0,
     );
-    my @HistoryLines = $Self->{TicketObject}->HistoryGet( %Param, UserID => 1 );
+    my @HistoryLines = $TicketObject->HistoryGet( %Param, UserID => 1 );
 
     # find latest auto priority update
     for my $History (@HistoryLines) {
@@ -67,10 +69,14 @@ sub Run {
     if ( !$LatestAutoIncrease ) {
         $LatestAutoIncrease = $Ticket{Created};
     }
-    $LatestAutoIncrease
-        = $Self->{TimeObject}->TimeStamp2SystemTime( String => $LatestAutoIncrease, );
+
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+    $LatestAutoIncrease = $TimeObject->TimeStamp2SystemTime( String => $LatestAutoIncrease, );
+
     if (
-        ( $Self->{TimeObject}->SystemTime() - $LatestAutoIncrease )
+        ( $TimeObject->SystemTime() - $LatestAutoIncrease )
         > $Param{New}->{TimeInterval}
         )
     {
@@ -82,7 +88,7 @@ sub Run {
 
         # do nothing
         if ( $Self->{Debug} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message =>
                     "Nothing to do on (Ticket=$Ticket{TicketNumber}/TicketID=$Ticket{TicketID})!",
@@ -92,12 +98,13 @@ sub Run {
     }
 
     # increase priority
-    my $Priority
-        = $Self->{PriorityObject}->PriorityLookup( PriorityID => ( $Ticket{PriorityID} + 1 ) );
+    my $Priority = $Kernel::OM->Get('Kernel::System::Priority')->PriorityLookup(
+        PriorityID => ( $Ticket{PriorityID} + 1 ),
+    );
 
     # do nothing if already highest priority
     if ( !$Priority ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message =>
                 "Ticket=$Ticket{TicketNumber}/TicketID=$Ticket{TicketID} already set to higest priority! Can't increase priority!",
@@ -106,19 +113,19 @@ sub Run {
     }
 
     # increase priority
-    $Self->{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',
         Message =>
             "Increase priority of (Ticket=$Ticket{TicketNumber}/TicketID=$Ticket{TicketID}) to $Priority!",
     );
 
-    $Self->{TicketObject}->TicketPrioritySet(
+    $TicketObject->TicketPrioritySet(
         TicketID   => $Param{TicketID},
         PriorityID => ( $Ticket{PriorityID} + 1 ),
         UserID     => 1,
     );
 
-    $Self->{TicketObject}->HistoryAdd(
+    $TicketObject->HistoryAdd(
         Name => "AutoPriorityIncrease (Priority=$Priority/PriorityID="
             . ( $Ticket{PriorityID} + 1 ) . ")",
         HistoryType  => 'Misc',
@@ -126,6 +133,7 @@ sub Run {
         UserID       => 1,
         CreateUserID => 1,
     );
+
     return 1;
 }
 
