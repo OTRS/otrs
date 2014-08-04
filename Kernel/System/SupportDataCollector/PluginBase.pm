@@ -28,6 +28,19 @@ our %Status2Name = (
     $StatusInfo    => 'Information',
 );
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::Encode',
+    'Kernel::System::Environment',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Ticket',
+    'Kernel::System::Time',
+    'Kernel::System::XML',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -40,7 +53,7 @@ sub new {
         qw( ConfigObject LogObject MainObject DBObject EncodeObject XMLObject EnvironmentObject TimeObject TicketObject)
         )
     {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
+        $Self->{$Object} = $Kernel::OM->Get($Object);
     }
 
     return $Self;

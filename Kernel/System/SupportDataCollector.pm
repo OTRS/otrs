@@ -14,14 +14,16 @@ use warnings;
 
 use File::Basename;
 
-use Kernel::System::Cache;
-use Kernel::System::Environment;
-use Kernel::System::JSON;
-use Kernel::System::SystemData;
-use Kernel::System::Ticket;
-use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::WebUserAgent;
-use Kernel::System::XML;
+
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Cache',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::SystemData',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -37,41 +39,12 @@ All stats functions.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::SupportDataCollector;
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $SupportDataCollectorObject = $Kernel::OM->Get('Kernel::System::SupportDataCollector');
 
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $StatsObject = Kernel::System::SupportDataCollector->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-        MainObject   => $MainObject,
-    );
 
 =cut
 
@@ -81,21 +54,6 @@ sub new {
     # allocate new hash ref to object
     my $Self = {};
     bless( $Self, $Type );
-
-    # check object list for completeness
-    for my $Object (
-        qw( ConfigObject LogObject MainObject DBObject EncodeObject TimeObject )
-        )
-    {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
-
-    $Self->{CacheObject}       = Kernel::System::Cache->new( %{$Self} );
-    $Self->{EnvironmentObject} = Kernel::System::Environment->new( %{$Self} );
-    $Self->{JSONObject}        = Kernel::System::JSON->new( %{$Self} );
-    $Self->{SystemDataObject}  = Kernel::System::SystemData->new( %{$Self} );
-    $Self->{TicketObject}      = Kernel::System::Ticket->new( %{$Self} );
-    $Self->{XMLObject}         = Kernel::System::XML->new( %{$Self} );
 
     return $Self;
 }
@@ -148,7 +106,7 @@ sub Collect {
     my $CacheKey = 'DataCollect';
 
     if ( $Param{UseCache} ) {
-        my $Cache = $Self->{CacheObject}->Get(
+        my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
             Type => 'SupportDataCollector',
             Key  => $CacheKey,
         );
@@ -162,7 +120,7 @@ sub Collect {
     }
 
     # Look for all plugins in the FS
-    my @PluginFiles = $Self->{MainObject}->DirectoryRead(
+    my @PluginFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => dirname(__FILE__) . "/SupportDataCollector/Plugin",
         Filter    => "*.pm",
         Recursive => 1,
@@ -176,7 +134,7 @@ sub Collect {
         # Convert file name => package name
         $PluginFile =~ s{^.*(Kernel/System.*)[.]pm$}{$1}xmsg;
         $PluginFile =~ s{/+}{::}xmsg;
-        if ( !$Self->{MainObject}->Require($PluginFile) ) {
+        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($PluginFile) ) {
             return (
                 Success      => 0,
                 ErrorMessage => "Could not load $PluginFile!",
@@ -203,7 +161,7 @@ sub Collect {
     );
 
     # set cache
-    $Self->{CacheObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
         Type  => 'SupportDataCollector',
         Key   => $CacheKey,
         Value => \%ReturnData,
@@ -218,21 +176,22 @@ sub CollectByWebRequest {
 
     # Create a challenge token to authenticate this request without customer/agent login.
     #   PublicSupportDataCollector requires this ChallengeToken.
-    my $ChallengeToken = $Self->{MainObject}->GenerateRandomString(
+    my $ChallengeToken = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
         Length => 32,
         Dictionary => [ 0 .. 9, 'a' .. 'f' ],    # hexadecimal
     );
 
-    if ( $Self->{SystemDataObject}->SystemDataGet( Key => 'SupportDataCollector::ChallengeToken' ) )
+    if ( $Kernel::OM->Get('Kernel::System::SystemData')
+        ->SystemDataGet( Key => 'SupportDataCollector::ChallengeToken' ) )
     {
-        $Self->{SystemDataObject}->SystemDataUpdate(
+        $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataUpdate(
             Key    => 'SupportDataCollector::ChallengeToken',
             Value  => $ChallengeToken,
             UserID => 1,
         );
     }
     else {
-        $Self->{SystemDataObject}->SystemDataAdd(
+        $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataAdd(
             Key    => 'SupportDataCollector::ChallengeToken',
             Value  => $ChallengeToken,
             UserID => 1,
@@ -240,7 +199,7 @@ sub CollectByWebRequest {
     }
 
     my $Host;
-    my $FQDN = $Self->{ConfigObject}->Get('FQDN');
+    my $FQDN = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
 
     if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
         $Host = $FQDN;
@@ -254,11 +213,11 @@ sub CollectByWebRequest {
 
     # prepare webservice config
     my $URL =
-        $Self->{ConfigObject}->Get('HttpType')
+        $Kernel::OM->Get('Kernel::Config')->Get('HttpType')
         . '://'
         . $Host
         . '/'
-        . $Self->{ConfigObject}->Get('ScriptAlias')
+        . $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias')
         . 'public.pl';
 
     # create webuseragent object
@@ -284,7 +243,7 @@ sub CollectByWebRequest {
     # test if the web response was successful
     if ( $Response{Status} ne '200 OK' ) {
         $Result{ErrorMessage} = "Can't connect to server - $Response{Status}";
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "SupportDataCollector - $Result{ErrorMessage}",
         );
@@ -295,7 +254,7 @@ sub CollectByWebRequest {
     # check if we have content as a scalar ref
     if ( !$Response{Content} || ref $Response{Content} ne 'SCALAR' ) {
         $Result{ErrorMessage} = 'No content received.';
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "SupportDataCollector - $Result{ErrorMessage}",
         );
@@ -308,7 +267,7 @@ sub CollectByWebRequest {
     # Discard HTML responses (error pages etc.).
     if ( substr( ${ $Response{Content} }, 0, 1 ) eq '<' ) {
         $Result{ErrorMessage} = 'Response looks like HTML instead of JSON.';
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "SupportDataCollector - $Result{ErrorMessage}",
         );
@@ -321,7 +280,7 @@ sub CollectByWebRequest {
     );
     if ( !$ResponseData || ref $ResponseData ne 'HASH' ) {
         $Result{ErrorMessage} = "Can't decode JSON: '" . ${ $Response{Content} } . "'!";
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "SupportDataCollector - $Result{ErrorMessage}",
         );
@@ -329,7 +288,7 @@ sub CollectByWebRequest {
     }
 
     # set cache
-    $Self->{CacheObject}->Set(
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
         Type  => 'SupportDataCollect',
         Key   => 'DataCollect',
         Value => $ResponseData,
