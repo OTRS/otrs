@@ -12,6 +12,12 @@ package Kernel::System::Event;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DynamicField',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::Event - events management
@@ -28,55 +34,11 @@ Global module to manage events.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::Time;
-    use Kernel::System::DB;
-    use Kernel::System::DynamicField;
-    use Kernel::System::Event;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $DynamicFieldObject = Kernel::System::DynamicField->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $EventObject = Kernel::System::Event->new(
-        ConfigObject        => $ConfigObject,
-        LogObject           => $LogObject,
-        DBObject            => $DBObject,
-        MainObject          => $MainObject,
-        TimeObject          => $TimeObject,
-        EncodeObject        => $EncodeObject,
-        DynamicFieldObject  => $DynamicFieldObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $EventObject = $Kernel::OM->Get('Kernel::System::Event');
 
 =cut
 
@@ -86,15 +48,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(ConfigObject LogObject DBObject TimeObject MainObject EncodeObject DynamicFieldObject))
-    {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
-    # debug level
-    $Self->{Debug} = $Param{Debug} || 0;
 
     return $Self;
 }
@@ -120,11 +73,11 @@ sub EventList {
 
     my %ObjectTypes = map { $_ => 1 } @{ $Param{ObjectTypes} || [] };
 
+    my %EventConfig = %{ $Kernel::OM->Get('Kernel::Config')->Get('Events') || {} };
+
     my %Result;
-
-    my %EventConfig = %{ $Self->{ConfigObject}->Get('Events') || {} };
-
     for my $ObjectType ( sort keys %EventConfig ) {
+
         if ( !%ObjectTypes || $ObjectTypes{$ObjectType} ) {
             $Result{$ObjectType} = $EventConfig{$ObjectType};
         }
@@ -132,12 +85,18 @@ sub EventList {
 
     # get ticket df events
     if ( !%ObjectTypes || $ObjectTypes{'Ticket'} ) {
-        my $DynamicFields = $Self->{DynamicFieldObject}->DynamicFieldList(
+
+        # get dynamic field object
+        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+        my $DynamicFields = $DynamicFieldObject->DynamicFieldList(
             Valid      => 1,
             ObjectType => ['Ticket'],
             ResultType => 'HASH',
         );
+
         my @DynamicFieldEvents = map {"TicketDynamicFieldUpdate_$_"} sort values %{$DynamicFields};
+
         push @{ $Result{'Ticket'} || [] }, @DynamicFieldEvents;
     }
 
