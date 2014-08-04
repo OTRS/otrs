@@ -110,12 +110,12 @@ sub Set {
     }
 
     # set in-memory cache
-    if ( $Self->{CacheInMemory} ) {
+    if ( $Self->{CacheInMemory} && ($Param{CacheInMemory} // 1) ) {
         $Self->{Cache}->{ $Param{Type} }->{ $Param{Key} } = $Param{Value};
     }
 
     # set persistent cache
-    if ( $Self->{CacheInBackend} ) {
+    if ( $Self->{CacheInBackend} && ($Param{CacheInBackend} // 1) ) {
         return $Self->{CacheObject}->Set(%Param);
     }
 

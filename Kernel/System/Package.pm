@@ -2260,6 +2260,8 @@ sub PackageParse {
             Key   => $Checksum,
             Value => \%Package,
             TTL   => 30 * 24 * 60 * 60,
+            # Don't store complex structure in memory as it will be modified later.
+            CacheInMemory => 0,
         );
     }
 
