@@ -79,7 +79,6 @@ use Kernel::System::EventHandler;
 use Kernel::System::Main;
 use Kernel::System::Time;
 use Kernel::System::Cache;
-use Kernel::System::CacheInternal;
 use Kernel::System::Auth;
 use Kernel::System::Auth::DB;
 use Kernel::System::AuthSession;
