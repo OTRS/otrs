@@ -19,6 +19,8 @@ use Kernel::System::WebUserAgent;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
+    'Kernel::System::Encode',
+    'Kernel::System::JSON',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::SystemData',
@@ -181,8 +183,10 @@ sub CollectByWebRequest {
         Dictionary => [ 0 .. 9, 'a' .. 'f' ],    # hexadecimal
     );
 
-    if ( $Kernel::OM->Get('Kernel::System::SystemData')
-        ->SystemDataGet( Key => 'SupportDataCollector::ChallengeToken' ) )
+    if (
+        $Kernel::OM->Get('Kernel::System::SystemData')
+        ->SystemDataGet( Key => 'SupportDataCollector::ChallengeToken' )
+        )
     {
         $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataUpdate(
             Key    => 'SupportDataCollector::ChallengeToken',
@@ -262,7 +266,7 @@ sub CollectByWebRequest {
     }
 
     # convert internal used charset
-    $Self->{EncodeObject}->EncodeInput( $Response{Content} );
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( $Response{Content} );
 
     # Discard HTML responses (error pages etc.).
     if ( substr( ${ $Response{Content} }, 0, 1 ) eq '<' ) {
@@ -275,7 +279,7 @@ sub CollectByWebRequest {
     }
 
     # decode JSON data
-    my $ResponseData = $Self->{JSONObject}->Decode(
+    my $ResponseData = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
         Data => ${ $Response{Content} },
     );
     if ( !$ResponseData || ref $ResponseData ne 'HASH' ) {
