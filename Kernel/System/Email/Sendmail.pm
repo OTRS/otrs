@@ -12,6 +12,12 @@ package Kernel::System::Email::Sendmail;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -22,11 +28,6 @@ sub new {
     # debug
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # check all needed objects
-    for (qw(ConfigObject LogObject)) {
-        die "Got no $_" if ( !$Self->{$_} );
-    }
-
     return $Self;
 }
 
@@ -36,7 +37,7 @@ sub Send {
     # check needed stuff
     for (qw(Header Body ToArray)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -60,7 +61,7 @@ sub Send {
     # check availability
     my %Result = $Self->Check();
     if ( !$Result{Successful} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $Result{Message},
         );
@@ -75,7 +76,7 @@ sub Send {
     ## no critic
     if ( !open( $FH, '|-', "$Sendmail $Arg " ) ) {
         ## use critic
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't send message: $!!",
         );
@@ -92,7 +93,7 @@ sub Send {
     # Check if the filehandle was already closed because of an error
     #   (e. g. mail too large). See bug#9251.
     if ( !close($FH) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't send message: $!!",
         );
@@ -101,7 +102,7 @@ sub Send {
 
     # debug
     if ( $Self->{Debug} > 2 ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "Sent email to '$ToString' from '$Param{From}'.",
         );
@@ -114,7 +115,7 @@ sub Check {
     my ( $Self, %Param ) = @_;
 
     # get config data
-    my $Sendmail = $Self->{ConfigObject}->Get('SendmailModule::CMD');
+    my $Sendmail = $Kernel::OM->Get('Kernel::Config')->Get('SendmailModule::CMD');
 
     # check if sendmail binary is there (strip all args and check if file exists)
     my $SendmailBinary = $Sendmail;

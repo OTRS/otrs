@@ -14,17 +14,19 @@ use warnings;
 
 use Net::SMTP;
 
+our @ObjectDependencies = (
+    'Kernel::System::DB',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
-
-    # check all needed objects
-    for (qw(ConfigObject LogObject EncodeObject)) {
-        die "Got no $_" if ( !$Self->{$_} );
-    }
 
     # debug
     $Self->{Debug} = $Param{Debug} || 0;
@@ -40,13 +42,16 @@ sub new {
 sub Check {
     my ( $Self, %Param ) = @_;
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # get config data
-    $Self->{FQDN}     = $Self->{ConfigObject}->Get('FQDN');
-    $Self->{MailHost} = $Self->{ConfigObject}->Get('SendmailModule::Host')
+    $Self->{FQDN}     = $ConfigObject->Get('FQDN');
+    $Self->{MailHost} = $ConfigObject->Get('SendmailModule::Host')
         || die "No SendmailModule::Host found in Kernel/Config.pm";
-    $Self->{SMTPPort} = $Self->{ConfigObject}->Get('SendmailModule::Port');
-    $Self->{User}     = $Self->{ConfigObject}->Get('SendmailModule::AuthUser');
-    $Self->{Password} = $Self->{ConfigObject}->Get('SendmailModule::AuthPassword');
+    $Self->{SMTPPort} = $ConfigObject->Get('SendmailModule::Port');
+    $Self->{User}     = $ConfigObject->Get('SendmailModule::AuthUser');
+    $Self->{Password} = $ConfigObject->Get('SendmailModule::AuthPassword');
 
     # try it 3 times to connect with the SMTP server
     # (M$ Exchange Server 2007 have sometimes problems on port 25)
@@ -95,7 +100,7 @@ sub Send {
     # check needed stuff
     for (qw(Header Body ToArray)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -106,7 +111,7 @@ sub Send {
     # check mail configuration - is there a working smtp host?
     my %Result = $Self->Check();
     if ( !$Result{Successful} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $Result{Message},
         );
@@ -119,7 +124,7 @@ sub Send {
     # set from, return it from was not accepted
     if ( !$SMTP->mail( $Param{From} ) ) {
         my $Error = $SMTP->code() . $SMTP->message();
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message =>
                 "Can't use from '$Param{From}': $Error! Enable Net::SMTP debug for more info!",
@@ -134,7 +139,7 @@ sub Send {
         $ToString .= $To . ',';
         if ( !$SMTP->to($To) ) {
             my $Error = $SMTP->code() . $SMTP->message();
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Can't send to '$To': $Error! Enable Net::SMTP debug for more info!",
             );
@@ -143,16 +148,19 @@ sub Send {
         }
     }
 
+    # get encode object
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
     # encode utf8 header strings (of course, there should only be 7 bit in there!)
-    $Self->{EncodeObject}->EncodeOutput( $Param{Header} );
+    $EncodeObject->EncodeOutput( $Param{Header} );
 
     # encode utf8 body strings
-    $Self->{EncodeObject}->EncodeOutput( $Param{Body} );
+    $EncodeObject->EncodeOutput( $Param{Body} );
 
     # send data
     if ( !$SMTP->data( ${ $Param{Header} }, "\n", ${ $Param{Body} } ) ) {
         my $Error = $SMTP->code() . $SMTP->message();
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't send message: $Error! Enable Net::SMTP debug for more info!"
         );
@@ -163,7 +171,7 @@ sub Send {
 
     # debug
     if ( $Self->{Debug} > 2 ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "Sent email to '$ToString' from '$Param{From}'.",
         );
@@ -177,7 +185,7 @@ sub _Connect {
     # check needed stuff
     for (qw(MailHost FQDN)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }

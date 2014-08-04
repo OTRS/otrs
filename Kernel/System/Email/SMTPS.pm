@@ -16,13 +16,18 @@ use Net::SSLGlue::SMTP;
 
 use base qw(Kernel::System::Email::SMTP);
 
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 sub _Connect {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(MailHost FQDN)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -37,6 +42,7 @@ sub _Connect {
         SSL             => 1,
         SSL_verify_mode => 0,
     );
+
     return $SMTP;
 }
 
