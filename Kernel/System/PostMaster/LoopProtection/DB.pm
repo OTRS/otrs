@@ -13,6 +13,13 @@ package Kernel::System::PostMaster::LoopProtection::DB;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -20,13 +27,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed  objects
-    for (qw(DBObject LogObject ConfigObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
     # get config options
-    $Self->{PostmasterMaxEmails} = $Self->{ConfigObject}->Get('PostmasterMaxEmails') || 40;
+    $Self->{PostmasterMaxEmails} = $Kernel::OM->Get('Kernel::Config')->Get('PostmasterMaxEmails') || 40;
 
     # create logfile name
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = localtime(time);    ## no critic
@@ -40,48 +42,58 @@ sub new {
 sub SendEmail {
     my ( $Self, %Param ) = @_;
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     my $To = $Param{To} || return;
 
     # insert log
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => "INSERT INTO ticket_loop_protection (sent_to, sent_date)"
             . " VALUES ('"
-            . $Self->{DBObject}->Quote($To)
+            . $DBObject->Quote($To)
             . "', '$Self->{LoopProtectionDate}')",
     );
 
     # delete old enrties
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => "DELETE FROM ticket_loop_protection WHERE "
             . " sent_date != '$Self->{LoopProtectionDate}'",
     );
+
     return 1;
 }
 
 sub Check {
     my ( $Self, %Param ) = @_;
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     my $To = $Param{To} || return;
     my $Count = 0;
 
     # check existing logfile
     my $SQL = "SELECT count(*) FROM ticket_loop_protection "
-        . " WHERE sent_to = '" . $Self->{DBObject}->Quote($To) . "' AND "
+        . " WHERE sent_to = '" . $DBObject->Quote($To) . "' AND "
         . " sent_date = '$Self->{LoopProtectionDate}'";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+    $DBObject->Prepare( SQL => $SQL );
+
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Count = $Row[0];
     }
 
     # check possible loop
     if ( $Count >= $Self->{PostmasterMaxEmails} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message =>
                 "LoopProtection: send no more emails to '$To'! Max. count of $Self->{PostmasterMaxEmails} has been reached!",
         );
         return;
     }
+
     return 1;
 }
 

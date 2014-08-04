@@ -12,6 +12,12 @@ package Kernel::System::PostMaster::LoopProtection;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Main',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -19,33 +25,49 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed  objects
-    for (qw(DBObject LogObject ConfigObject MainObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
-    # load backend module
-    my $BackendModule = $Self->{ConfigObject}->Get('LoopProtectionModule')
-        || 'Kernel::System::PostMaster::LoopProtection::DB';
-    if ( !$Self->{MainObject}->Require($BackendModule) ) {
-        $Self->{MainObject}->Die("Can't load loop protection backend module $BackendModule! $@");
-    }
-
-    $Self->{Backend} = $BackendModule->new( %{$Self} );
-
     return $Self;
 }
 
 sub SendEmail {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{Backend}->SendEmail(%Param);
+    # get configured backend module
+    my $BackendModule = $Kernel::OM->Get('Kernel::Config')->Get('LoopProtectionModule')
+        || 'Kernel::System::PostMaster::LoopProtection::DB';
+
+    # get backend object
+    my $BackendObject = $Kernel::OM->Get($BackendModule);
+
+    if ( !$BackendObject ) {
+
+        # get main object
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+        $MainObject->Die("Can't load loop protection backend module $BackendModule!");
+    }
+
+    return $BackendObject->SendEmail(%Param);
 }
 
 sub Check {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{Backend}->Check(%Param);
+    # get configured backend module
+    my $BackendModule = $Kernel::OM->Get('Kernel::Config')->Get('LoopProtectionModule')
+        || 'Kernel::System::PostMaster::LoopProtection::DB';
+
+    # get backend object
+    my $BackendObject = $Kernel::OM->Get($BackendModule);
+
+    if ( !$BackendObject ) {
+
+        # get main object
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+        $MainObject->Die("Can't load loop protection backend module $BackendModule!");
+    }
+
+    return $BackendObject->Check(%Param);
 }
 
 1;

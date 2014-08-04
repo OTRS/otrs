@@ -13,6 +13,12 @@ package Kernel::System::PostMaster::LoopProtection::FS;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -20,16 +26,14 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed  objects
-    for (qw(DBObject LogObject ConfigObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get config options
-    $Self->{LoopProtectionLog} = $Self->{ConfigObject}->Get('LoopProtectionLog')
+    $Self->{LoopProtectionLog} = $ConfigObject->Get('LoopProtectionLog')
         || die 'No Config option "LoopProtectionLog"!';
 
-    $Self->{PostmasterMaxEmails} = $Self->{ConfigObject}->Get('PostmasterMaxEmails') || 40;
+    $Self->{PostmasterMaxEmails} = $ConfigObject->Get('PostmasterMaxEmails') || 40;
 
     # create logfile name
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = localtime(time);    ## no critic
@@ -53,7 +57,7 @@ sub SendEmail {
         close($Out);
     }
     else {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "LoopProtection! Can't write '$Self->{LoopProtectionLog}': $!!",
         );
@@ -77,7 +81,7 @@ sub Check {
         ## no critic
         if ( !open( my $Out, '>', $Self->{LoopProtectionLog} ) ) {
             ## use critic
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "LoopProtection! Can't write '$Self->{LoopProtectionLog}': $!!",
             );
@@ -100,13 +104,14 @@ sub Check {
 
     # check possible loop
     if ( $Count >= $Self->{PostmasterMaxEmails} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message =>
                 "LoopProtection: send no more emails to '$To'! Max. count of $Self->{PostmasterMaxEmails} has been reached!",
         );
         return;
     }
+
     return 1;
 }
 
