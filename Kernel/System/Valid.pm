@@ -71,7 +71,6 @@ sub ValidList {
     my $CacheKey = 'ValidList';
     my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => $Self->{CacheType},
-        TTL  => $Self->{CacheTTL},
         Key  => $CacheKey,
     );
     return %{$Cache} if $Cache;
