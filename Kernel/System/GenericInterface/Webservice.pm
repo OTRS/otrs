@@ -12,19 +12,22 @@ package Kernel::System::GenericInterface::Webservice;
 use strict;
 use warnings;
 
-use Kernel::System::YAML;
-use Kernel::System::Valid;
-use Kernel::System::GenericInterface::DebugLog;
-use Kernel::System::GenericInterface::WebserviceHistory;
-use Kernel::System::GenericInterface::ObjectLockState;
-use Kernel::System::Cache;
-
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
-    @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(CacheObject)
+    'Kernel::Config',
+    'Kernel::System::Cache',
+    'Kernel::System::DB',
+    'Kernel::System::GenericInterface::DebugLog',
+    'Kernel::System::GenericInterface::ObjectLockState',
+    'Kernel::System::GenericInterface::WebserviceHistory',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Time',
+    'Kernel::System::Valid',
+    'Kernel::System::YAML',
 );
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -46,7 +49,7 @@ create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $WebserviceObject = $Kernel::OM->Get('WebserviceObject');
+    my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
 =cut
 
@@ -56,25 +59,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Webservice );
-
-    # check needed objects
-    for my $Object (qw(DBObject ConfigObject LogObject MainObject EncodeObject TimeObject)) {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
-
-    # create additional objects
-    $Self->{CacheObject}    = $Kernel::OM->Get('CacheObject');
-    $Self->{ValidObject}    = Kernel::System::Valid->new( %{$Self} );
-    $Self->{DebugLogObject} = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
-    $Self->{WebserviceHistoryObject}
-        = Kernel::System::GenericInterface::WebserviceHistory->new( %{$Self} );
-    $Self->{ObjectLockStateObject}
-        = Kernel::System::GenericInterface::ObjectLockState->new( %{$Self} );
-    $Self->{YAMLObject} = Kernel::System::YAML->new( %{$Self} );
-
-    # get the cache TTL (in seconds)
-    $Self->{CacheTTL}
-        = int( $Self->{ConfigObject}->Get('GenericInterface::WebserviceConfig::CacheTTL') || 3600 );
 
     return $Self;
 }
@@ -100,14 +84,14 @@ sub WebserviceAdd {
     # check needed stuff
     for my $Key (qw(Name Config ValidID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
 
     # check config
     if ( !IsHashRefWithData( $Param{Config} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Webservice Config should be a non empty hash reference!",
         );
@@ -116,21 +100,21 @@ sub WebserviceAdd {
 
     # check config internals
     if ( !IsHashRefWithData( $Param{Config}->{Debugger} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Webservice Config Debugger should be a non empty hash reference!",
         );
         return;
     }
     if ( !IsStringWithData( $Param{Config}->{Debugger}->{DebugThreshold} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Webservice Config Debugger DebugThreshold should be a non empty string!",
         );
         return;
     }
     if ( !defined $Param{Config}->{Provider} && !defined $Param{Config}->{Requester} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Webservice Config Provider or Requester should be defined!",
         );
@@ -139,7 +123,7 @@ sub WebserviceAdd {
     for my $CommunicationType (qw(Provider Requester)) {
         if ( defined $Param{Config}->{$CommunicationType} ) {
             if ( !IsHashRefWithData( $Param{Config}->{$CommunicationType} ) ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Webservice Config $CommunicationType should be a non empty hash"
                         . " reference!",
@@ -147,7 +131,7 @@ sub WebserviceAdd {
                 return;
             }
             if ( !IsHashRefWithData( $Param{Config}->{$CommunicationType}->{Transport} ) ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Webservice Config $CommunicationType Transport should be a"
                         . " non empty hash reference!",
@@ -158,15 +142,18 @@ sub WebserviceAdd {
     }
 
     # dump config as string
-    my $Config = $Self->{YAMLObject}->Dump( Data => $Param{Config} );
+    my $Config = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Param{Config} );
 
     # md5 of content
-    my $MD5 = $Self->{MainObject}->MD5sum(
-        String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
+    my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
+        String => $Kernel::OM->Get('Kernel::System::Time')->SystemTime() . int( rand(1000000) ),
     );
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # sql
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL =>
             'INSERT INTO gi_webservice_config (name, config, config_md5, valid_id, '
             . ' create_time, create_by, change_time, change_by)'
@@ -177,23 +164,26 @@ sub WebserviceAdd {
         ],
     );
 
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL  => 'SELECT id FROM gi_webservice_config WHERE config_md5 = ?',
         Bind => [ \$MD5 ],
     );
 
     my $ID;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $ID = $Row[0];
     }
 
     # delete cache
-    $Self->{CacheObject}->CleanUp(
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => 'Webservice',
     );
 
+    # get webservice history object
+    my $WebserviceHistoryObject = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory');
+
     # add history
-    return if !$Self->{WebserviceHistoryObject}->WebserviceHistoryAdd(
+    return if !$WebserviceHistoryObject->WebserviceHistoryAdd(
         WebserviceID => $ID,
         Config       => $Param{Config},
         UserID       => $Param{UserID},
@@ -229,9 +219,12 @@ sub WebserviceGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID or Name!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ID or Name!' );
         return;
     }
+
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     # check cache
     my $CacheKey;
@@ -242,15 +235,18 @@ sub WebserviceGet {
         $CacheKey = 'WebserviceGet::Name::' . $Param{Name};
 
     }
-    my $Cache = $Self->{CacheObject}->Get(
+    my $Cache = $CacheObject->Get(
         Type => 'Webservice',
         Key  => $CacheKey,
     );
     return $Cache if $Cache;
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # sql
     if ( $Param{ID} ) {
-        return if !$Self->{DBObject}->Prepare(
+        return if !$DBObject->Prepare(
             SQL => 'SELECT id, name, config, valid_id, create_time, change_time '
                 . 'FROM gi_webservice_config WHERE id = ?',
             Bind  => [ \$Param{ID} ],
@@ -258,7 +254,7 @@ sub WebserviceGet {
         );
     }
     else {
-        return if !$Self->{DBObject}->Prepare(
+        return if !$DBObject->Prepare(
             SQL => 'SELECT id, name, config, valid_id, create_time, change_time '
                 . 'FROM gi_webservice_config WHERE name = ?',
             Bind  => [ \$Param{Name} ],
@@ -266,10 +262,13 @@ sub WebserviceGet {
         );
     }
 
-    my %Data;
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+    # get yaml object
+    my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
 
-        my $Config = $Self->{YAMLObject}->Load( Data => $Data[2] );
+    my %Data;
+    while ( my @Data = $DBObject->FetchrowArray() ) {
+
+        my $Config = $YAMLObject->Load( Data => $Data[2] );
 
         %Data = (
             ID         => $Data[0],
@@ -281,12 +280,15 @@ sub WebserviceGet {
         );
     }
 
+    # get the cache TTL (in seconds)
+    my $CacheTTL = int( $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::WebserviceConfig::CacheTTL') || 3600 );
+
     # set cache
-    $Self->{CacheObject}->Set(
+    $CacheObject->Set(
         Type  => 'Webservice',
         Key   => $CacheKey,
         Value => \%Data,
-        TTL   => $Self->{CacheTTL},
+        TTL   => $CacheTTL,
     );
 
     return \%Data;
@@ -314,14 +316,14 @@ sub WebserviceUpdate {
     # check needed stuff
     for my $Key (qw(ID Name Config ValidID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
 
     # check config
     if ( !IsHashRefWithData( $Param{Config} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Webservice Config should be a non empty hash reference!",
         );
@@ -330,21 +332,21 @@ sub WebserviceUpdate {
 
     # check config internals
     if ( !IsHashRefWithData( $Param{Config}->{Debugger} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Webservice Config Debugger should be a non empty hash reference!",
         );
         return;
     }
     if ( !IsStringWithData( $Param{Config}->{Debugger}->{DebugThreshold} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Webservice Config Debugger DebugThreshold should be a non empty string!",
         );
         return;
     }
     if ( !defined $Param{Config}->{Provider} && !defined $Param{Config}->{Requester} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Webservice Config Provider or Requester should be defined!",
         );
@@ -353,7 +355,7 @@ sub WebserviceUpdate {
     for my $CommunicationType (qw(Provider Requester)) {
         if ( defined $Param{Config}->{$CommunicationType} ) {
             if ( !IsHashRefWithData( $Param{Config}->{$CommunicationType} ) ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Webservice Config $CommunicationType should be a non empty hash"
                         . " reference!",
@@ -361,7 +363,7 @@ sub WebserviceUpdate {
                 return;
             }
             if ( !IsHashRefWithData( $Param{Config}->{$CommunicationType}->{Transport} ) ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Webservice Config $CommunicationType Transport should be a"
                         . " non empty hash reference!",
@@ -372,15 +374,18 @@ sub WebserviceUpdate {
     }
 
     # dump config as string
-    my $Config = $Self->{YAMLObject}->Dump( Data => $Param{Config} );
+    my $Config = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Param{Config} );
 
     # md5 of content
-    my $MD5 = $Self->{MainObject}->MD5sum(
-        String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
+    my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
+        String => $Kernel::OM->Get('Kernel::System::Time')->SystemTime() . int( rand(1000000) ),
     );
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # check if config and valid_id is the same
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL   => 'SELECT config, valid_id, name FROM gi_webservice_config WHERE id = ?',
         Bind  => [ \$Param{ID} ],
         Limit => 1,
@@ -389,7 +394,7 @@ sub WebserviceUpdate {
     my $ConfigCurrent;
     my $ValidIDCurrent;
     my $NameCurrent;
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Data = $DBObject->FetchrowArray() ) {
         $ConfigCurrent  = $Data[0];
         $ValidIDCurrent = $Data[1];
         $NameCurrent    = $Data[2];
@@ -400,7 +405,7 @@ sub WebserviceUpdate {
         && $NameCurrent eq $Param{Name};
 
     # sql
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'UPDATE gi_webservice_config SET name = ?, config = ?, '
             . ' config_md5 = ?, valid_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE id = ?',
@@ -411,12 +416,15 @@ sub WebserviceUpdate {
     );
 
     # delete cache
-    $Self->{CacheObject}->CleanUp(
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => 'Webservice',
     );
 
+    # get webservice history object
+    my $WebserviceHistoryObject = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory');
+
     # add history
-    return if !$Self->{WebserviceHistoryObject}->WebserviceHistoryAdd(
+    return if !$WebserviceHistoryObject->WebserviceHistoryAdd(
         WebserviceID => $Param{ID},
         Config       => $Param{Config},
         UserID       => $Param{UserID},
@@ -444,7 +452,7 @@ sub WebserviceDelete {
     # check needed stuff
     for my $Key (qw(ID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
@@ -455,31 +463,40 @@ sub WebserviceDelete {
     );
     return if !IsHashRefWithData($Webservice);
 
+    # get webservice history object
+    my $WebserviceHistoryObject = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory');
+
     # delete history
-    return if !$Self->{WebserviceHistoryObject}->WebserviceHistoryDelete(
+    return if !$WebserviceHistoryObject->WebserviceHistoryDelete(
         WebserviceID => $Param{ID},
         UserID       => $Param{UserID},
     );
 
+    # get object lock state object
+    my $ObjectLockStateObject = $Kernel::OM->Get('Kernel::System::GenericInterface::ObjectLockState');
+
     # delete remaining entries in ObjectLockState
-    return if !$Self->{ObjectLockStateObject}->ObjectLockStatePurge(
+    return if !$ObjectLockStateObject->ObjectLockStatePurge(
         WebserviceID => $Param{ID},
     );
 
+    # get debug log object
+    my $DebugLogObject = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog');
+
     # delete debugging data for webservice
-    return if !$Self->{DebugLogObject}->LogDelete(
+    return if !$DebugLogObject->LogDelete(
         WebserviceID   => $Param{ID},
         NoErrorIfEmpty => 1,
     );
 
     # delete web service
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL  => 'DELETE FROM gi_webservice_config WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
 
     # delete cache
-    $Self->{CacheObject}->CleanUp(
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => 'Webservice',
     );
 
@@ -503,13 +520,16 @@ get Webservice list
 sub WebserviceList {
     my ( $Self, %Param ) = @_;
 
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
     # check cache
     my $Valid = 1;
     if ( !$Param{Valid} ) {
         $Valid = '0';
     }
     my $CacheKey = 'WebserviceList::Valid::' . $Valid;
-    my $Cache    = $Self->{CacheObject}->Get(
+    my $Cache    = $CacheObject->Get(
         Type => 'Webservice',
         Key  => $CacheKey,
     );
@@ -518,22 +538,32 @@ sub WebserviceList {
     my $SQL = 'SELECT id, name FROM gi_webservice_config';
 
     if ( !defined $Param{Valid} || $Param{Valid} eq 1 ) {
-        $SQL .= ' WHERE valid_id IN (' . join ', ', $Self->{ValidObject}->ValidIDsGet() . ')';
+
+        # get valid object
+        my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
+
+        $SQL .= ' WHERE valid_id IN (' . join ', ', $ValidObject->ValidIDsGet() . ')';
     }
 
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare( SQL => $SQL );
 
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
 
+    # get the cache TTL (in seconds)
+    my $CacheTTL = int( $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::WebserviceConfig::CacheTTL') || 3600 );
+
     # set cache
-    $Self->{CacheObject}->Set(
+    $CacheObject->Set(
         Type  => 'Webservice',
         Key   => $CacheKey,
         Value => \%Data,
-        TTL   => $Self->{CacheTTL},
+        TTL   => $CacheTTL,
     );
 
     return \%Data;

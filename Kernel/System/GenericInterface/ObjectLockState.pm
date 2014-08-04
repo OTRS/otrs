@@ -12,6 +12,12 @@ package Kernel::System::GenericInterface::ObjectLockState;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::GenericInterface::ObjectLockState - lock state backend
@@ -26,47 +32,11 @@ Kernel::System::GenericInterface::ObjectLockState - lock state backend
 
 =item new()
 
-create an object
+create a debug log object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::GenericInterface::ObjectLockState;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $ObjectLockStateObject = Kernel::System::GenericInterface::ObjectLockState->new(
-        ConfigObject   => $ConfigObject,
-        LogObject      => $LogObject,
-        DBObject       => $DBObject,
-        MainObject     => $MainObject,
-        TimeObject     => $TimeObject,
-        EncodeObject   => $EncodeObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $ObjectLockStateObject = $Kernel::OM->Get('Kernel::System::GenericInterface::ObjectLockState');
 
 =cut
 
@@ -76,11 +46,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $ObjectLockState );
-
-    # check needed objects
-    for my $Object (qw(DBObject ConfigObject LogObject MainObject EncodeObject TimeObject)) {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
 
     return $Self;
 }
@@ -105,14 +70,17 @@ sub ObjectLockStateSet {
     # check needed stuff
     for my $Key (qw(WebserviceID ObjectType ObjectID LockState)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # create new
     if ( !%{ $Self->ObjectLockStateGet(%Param) || {} } ) {
-        return if !$Self->{DBObject}->Do(
+        return if !$DBObject->Do(
             SQL => '
                 INSERT INTO gi_object_lock_state
                     (webservice_id, object_type, object_id, lock_state, lock_state_counter, create_time, change_time)
@@ -128,7 +96,7 @@ sub ObjectLockStateSet {
     }
     else {    # update existing
 
-        return if !$Self->{DBObject}->Do(
+        return if !$DBObject->Do(
             SQL => '
                 UPDATE gi_object_lock_state
                 SET lock_state = ?, lock_state_counter = ?, change_time = current_timestamp
@@ -181,12 +149,15 @@ sub ObjectLockStateGet {
     # check needed stuff
     for my $Key (qw(WebserviceID ObjectType ObjectID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
 
-    return if !$Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL => '
             SELECT webservice_id, object_type, object_id, lock_state, lock_state_counter, create_time, change_time
             FROM gi_object_lock_state
@@ -201,8 +172,7 @@ sub ObjectLockStateGet {
     );
 
     my %Result;
-
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Data = $DBObject->FetchrowArray() ) {
 
         %Result = (
             WebserviceID     => $Data[0],
@@ -236,14 +206,17 @@ sub ObjectLockStateDelete {
     # check needed stuff
     for my $Key (qw(WebserviceID ObjectType ObjectID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
 
     return if ( !%{ $Self->ObjectLockStateGet(%Param) || {} } );
 
-    return if !$Self->{DBObject}->Do(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Do(
         SQL => '
             DELETE FROM gi_object_lock_state
             WHERE webservice_id = ?
@@ -275,12 +248,15 @@ sub ObjectLockStatePurge {
     # check needed stuff
     for my $Key (qw(WebserviceID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
 
-    return if !$Self->{DBObject}->Do(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Do(
         SQL => '
             DELETE FROM gi_object_lock_state
             WHERE webservice_id = ?',
@@ -325,7 +301,7 @@ sub ObjectLockStateList {
     # check needed stuff
     for my $Key (qw(ObjectType)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
@@ -350,14 +326,17 @@ sub ObjectLockStateList {
 
     $SQL .= ' ORDER BY object_id ASC';
 
-    return if !$Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL  => $SQL,
         Bind => \@Bind,
     );
 
     my @Result;
 
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Data = $DBObject->FetchrowArray() ) {
 
         push @Result, {
             WebserviceID     => $Data[0],

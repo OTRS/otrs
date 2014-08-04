@@ -41,7 +41,7 @@ create a debug log object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $DebugLogObject = $Kernel::OM->Get('DebugLogObject');
+    my $DebugLogObject = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog');
 
 =cut
 
@@ -51,8 +51,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
 
     $Self->{CacheType} = 'GenericInterfaceDebugLog';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
@@ -184,7 +182,7 @@ sub LogAdd {
 
     # create entry
     if (
-        !$Self->{DBObject}->Do(
+        !$Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL =>
                 'INSERT INTO gi_debugger_entry_content'
                 . ' (content, create_time, debug_level, gi_debugger_entry_id, subject)'
@@ -243,9 +241,12 @@ sub LogGet {
     );
     return $Cache if $Cache;
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # prepare db request
     if (
-        !$Self->{DBObject}->Prepare(
+        !$DBObject->Prepare(
             SQL =>
                 'SELECT communication_id, communication_type, create_time, id, remote_ip,'
                 . ' webservice_id FROM gi_debugger_entry WHERE communication_id = ?',
@@ -263,7 +264,7 @@ sub LogGet {
 
     # read data
     my %LogData;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         %LogData = (
             CommunicationID   => $Row[0],
             CommunicationType => $Row[1],
@@ -339,9 +340,12 @@ sub LogGetWithData {
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # prepare db request
     if (
-        !$Self->{DBObject}->Prepare(
+        !$DBObject->Prepare(
             SQL =>
                 'SELECT create_time, content, debug_level, subject'
                 . ' FROM gi_debugger_entry_content WHERE gi_debugger_entry_id = ?'
@@ -359,7 +363,7 @@ sub LogGetWithData {
 
     # read data
     my @LogDataEntries;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         my %SingleEntry = (
             Created    => $Row[0],
             Data       => $Row[1] || '',
@@ -464,8 +468,11 @@ sub LogDelete {
     }
     $SQLIndividual .= ' )';
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     if (
-        !$Self->{DBObject}->Do(
+        !$DBObject->Do(
             SQL  => $SQLIndividual,
             Bind => \@BindIndividual,
         )
@@ -490,7 +497,7 @@ sub LogDelete {
         push @BindMain, \$Param{WebserviceID};
     }
     if (
-        !$Self->{DBObject}->Do(
+        !$DBObject->Do(
             SQL  => $SQLMain,
             Bind => \@BindMain,
         )
@@ -670,8 +677,11 @@ sub LogSearch {
 
     $SQLExt .= ' ORDER BY create_time ASC';
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     if (
-        !$Self->{DBObject}->Prepare(
+        !$DBObject->Prepare(
             SQL  => $SQL . $SQLExt,
             Bind => \@Bind,
         )
@@ -686,7 +696,7 @@ sub LogSearch {
 
     # read data
     my @LogEntries;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         my %SingleEntry = (
             CommunicationID   => $Row[0],
             CommunicationType => $Row[1],
@@ -792,7 +802,7 @@ sub _LogAddChain {
     }
 
     if (
-        !$Self->{DBObject}->Do(
+        !$Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL =>
                 'INSERT INTO gi_debugger_entry'
                 . ' (communication_id, communication_type, create_time, remote_ip,'

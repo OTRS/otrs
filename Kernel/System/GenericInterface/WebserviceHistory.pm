@@ -12,7 +12,14 @@ package Kernel::System::GenericInterface::WebserviceHistory;
 use strict;
 use warnings;
 
-use Kernel::System::YAML;
+our @ObjectDependencies = (
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Time',
+    'Kernel::System::YAML',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -31,47 +38,11 @@ It holds older versions of web service configuration data.
 
 =item new()
 
-create an object
+create a debug log object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::GenericInterface::WebserviceHistory;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $WebserviceHistoryObject = Kernel::System::GenericInterface::WebserviceHistory->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-        MainObject   => $MainObject,
-        EncodeObject => $EncodeObject,
-        TimeObject   => $TimeObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $WebserviceHistoryObject = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory');
 
 =cut
 
@@ -82,13 +53,6 @@ sub new {
     my $Self = {};
     bless( $Self, $WebserviceHistory );
 
-    # check needed objects
-    for my $Object (qw(DBObject ConfigObject LogObject MainObject EncodeObject TimeObject)) {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
-
-    # create additional objects
-    $Self->{YAMLObject} = Kernel::System::YAML->new( %{$Self} );
     return $Self;
 }
 
@@ -112,21 +76,24 @@ sub WebserviceHistoryAdd {
     # check needed stuff
     for my $Key (qw(WebserviceID Config UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
 
     # dump config as string
-    my $Config = $Self->{YAMLObject}->Dump( Data => $Param{Config} );
+    my $Config = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Param{Config} );
 
     # md5 of content
-    my $MD5 = $Self->{MainObject}->MD5sum(
-        String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
+    my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
+        String => $Kernel::OM->Get('Kernel::System::Time')->SystemTime() . int( rand(1000000) ),
     );
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # sql
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL =>
             'INSERT INTO gi_webservice_config_history
                 (config_id, config, config_md5, create_time, create_by, change_time, change_by)
@@ -136,15 +103,17 @@ sub WebserviceHistoryAdd {
         ],
     );
 
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL   => 'SELECT id FROM gi_webservice_config_history WHERE config_md5 = ?',
         Bind  => [ \$MD5 ],
         Limit => 1,
     );
+
     my $ID;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $ID = $Row[0];
     }
+
     return $ID;
 }
 
@@ -172,22 +141,29 @@ sub WebserviceHistoryGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ID!' );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # sql
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => 'SELECT config_id, config, create_time, change_time
                 FROM gi_webservice_config_history
                 WHERE id = ?',
         Bind  => [ \$Param{ID} ],
         Limit => 1,
     );
-    my %Data;
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
-        my $Config = $Self->{YAMLObject}->Load( Data => $Data[1] );
+    # get yaml object
+    my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
+
+    my %Data;
+    while ( my @Data = $DBObject->FetchrowArray() ) {
+
+        my $Config = $YAMLObject->Load( Data => $Data[1] );
 
         %Data = (
             ID           => $Param{ID},
@@ -197,6 +173,7 @@ sub WebserviceHistoryGet {
             ChangeTime   => $Data[4],
         );
     }
+
     return \%Data;
 }
 
@@ -219,21 +196,24 @@ sub WebserviceHistoryUpdate {
     # check needed stuff
     for my $Key (qw(ID WebserviceID Config UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
 
     # dump config as string
-    my $Config = $Self->{YAMLObject}->Dump( Data => $Param{Config} );
+    my $Config = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Param{Config} );
 
     # md5 of content
-    my $MD5 = $Self->{MainObject}->MD5sum(
-        String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
+    my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
+        String => $Kernel::OM->Get('Kernel::System::Time')->SystemTime() . int( rand(1000000) ),
     );
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # sql
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'UPDATE gi_webservice_config_history
                 SET config_id = ?, config = ?, config_md5 = ?, hange_time = current_timestamp, change_by = ?
                 WHERE id = ?',
@@ -241,6 +221,7 @@ sub WebserviceHistoryUpdate {
             \$Param{WebserviceID}, \$Config, \$MD5, \$Param{UserID}, \$Param{ID},
         ],
     );
+
     return 1;
 }
 
@@ -261,13 +242,13 @@ sub WebserviceHistoryDelete {
     # check needed stuff
     for my $Key (qw(WebserviceID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
 
     # sql
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'DELETE FROM gi_webservice_config_history
                 WHERE config_id = ?',
         Bind => [ \$Param{WebserviceID} ],
@@ -292,12 +273,15 @@ sub WebserviceHistoryList {
     # check needed stuff
     for my $Key (qw(WebserviceID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
 
-    return if !$Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL =>
             'SELECT id FROM gi_webservice_config_history
             WHERE config_id = ? ORDER BY id DESC',
@@ -305,9 +289,10 @@ sub WebserviceHistoryList {
     );
 
     my @List;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         push @List, $Row[0];
     }
+
     return @List;
 }
 
