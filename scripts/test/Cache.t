@@ -70,7 +70,9 @@ for my $ModuleFile (@BackendModuleFiles) {
         $CacheObject->CleanUp();
 
         # some tests check that the cache expires, for that we have to disable the in-memory cache
-        $CacheObject->{CacheInMemory} = 0;
+        $CacheObject->Configure(
+            CacheInMemory => 0
+        );
 
         # set fixed time
         $HelperObject->FixedTimeSet();

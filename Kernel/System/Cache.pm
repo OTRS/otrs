@@ -69,6 +69,30 @@ sub new {
     return $Self;
 }
 
+=item Configure()
+
+change cache configuration settings at runtime. You can use this to disable the cache in
+environments where it is not desired, such as in long running scripts.
+
+    $CacheObject->Configure(
+        CacheInMemory  => 1,    # optional
+        CacheInBackend => 1,    # optional
+    );
+
+=cut
+
+sub Configure {
+    my ( $Self, %Param ) = @_;
+
+    SETTING:
+    for my $Setting (qw(CacheInMemory CacheInBackend)) {
+        next SETTING if !exists $Param{$Setting};
+        $Self->{$Setting} = $Param{$Setting} ? 1 : 0;
+    }
+
+    return;
+}
+
 =item Set()
 
 store a value in the cache.
