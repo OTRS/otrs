@@ -44,8 +44,10 @@ my $Debug = 0;
 while ( my $WebRequest = new CGI::Fast ) {
 
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $Interface
-        = Kernel::System::Web::InterfaceCustomer->new( Debug => $Debug, WebRequest => $WebRequest );
+    my $Interface = Kernel::System::Web::InterfaceAgent->new(
+        Debug => $Debug,
+        WebRequest => $WebRequest,
+    );
     $Interface->Run();
 
     #    $Cnt++;
