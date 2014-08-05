@@ -12,7 +12,6 @@ package Kernel::Output::HTML::NavBarCustomerTicketProcess;
 use strict;
 use warnings;
 
-use Kernel::System::Cache;
 use Kernel::System::ProcessManagement::Activity;
 use Kernel::System::ProcessManagement::ActivityDialog;
 use Kernel::System::ProcessManagement::Process;
@@ -22,8 +21,14 @@ use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
-    @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(CacheObject)
+    'Kernel::Config',
+    'Kernel::System::Cache',
+    'Kernel::System::DB',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Ticket',
+    'Kernel::System::Time',
 );
 
 sub new {
@@ -34,18 +39,19 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (
-        qw(
-        ConfigObject LogObject DBObject TicketObject LayoutObject MainObject EncodeObject
-        TimeObject UserID
-        )
-        )
-    {
+    for ( qw( LayoutObject UserID ) ) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    # create additional objects
-    $Self->{CacheObject} = $Kernel::OM->Get('CacheObject');
+    # get needed objects
+    $Self->{ConfigObject} //= $Kernel::OM->Get('Kernel::Config');
+    $Self->{CacheObject}  //= $Kernel::OM->Get('Kernel::System::Cache');
+    $Self->{DBObject}     //= $Kernel::OM->Get('Kernel::System::DB');
+    $Self->{LogObject}    //= $Kernel::OM->Get('Kernel::System::Log');
+    $Self->{TimeObject}   //= $Kernel::OM->Get('Kernel::System::Time');
+    $Self->{MainObject}   //= $Kernel::OM->Get('Kernel::System::Main');
+    $Self->{EncodeObject} //= $Kernel::OM->Get('Kernel::System::Encode');
+    $Self->{TicketObject} //= $Kernel::OM->Get('Kernel::System::Ticket');
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL}

@@ -37,7 +37,6 @@ our @ObjectDependencies = (
     'Kernel::System::User',
     'Kernel::System::Web::Request',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -88,6 +87,7 @@ sub new {
     # set debug
     $Self->{Debug} = 0;
 
+    # get needed objects
     $Self->{ConfigObject}    //= $Kernel::OM->Get('Kernel::Config');
     $Self->{LogObject}       //= $Kernel::OM->Get('Kernel::System::Log');
     $Self->{TimeObject}      //= $Kernel::OM->Get('Kernel::System::Time');
