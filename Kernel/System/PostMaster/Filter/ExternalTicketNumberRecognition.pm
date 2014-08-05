@@ -12,7 +12,13 @@ package Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition;
 use strict;
 use warnings;
 
-use Kernel::System::State;
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Log',
+    'Kernel::System::State',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -23,17 +29,6 @@ sub new {
 
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # get needed objects
-    for my $Object (
-        qw(DBObject ConfigObject LogObject MainObject EncodeObject TicketObject TimeObject)
-        )
-    {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
-
-    # create additional objects
-    $Self->{StateObject} = Kernel::System::State->new( %{$Self} );
-
     return $Self;
 }
 
@@ -43,7 +38,7 @@ sub Run {
     # checking mandatory configuration options
     for my $Option (qw(NumberRegExp DynamicFieldName SenderType ArticleType)) {
         if ( !defined $Param{JobConfig}->{$Option} && !$Param{JobConfig}->{$Option} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Missing configuration for $Option for postmaster filter.",
             );
@@ -52,7 +47,7 @@ sub Run {
     }
 
     if ( $Self->{Debug} >= 1 ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => "starting Filter $Param{JobConfig}->{Name}",
         );
@@ -60,8 +55,9 @@ sub Run {
 
     # check if sender is of interest
     return 1 if !$Param{GetParam}->{From};
-    if ( defined $Param{JobConfig}->{FromAddressRegExp} && $Param{JobConfig}->{FromAddressRegExp} )
-    {
+
+    if ( defined $Param{JobConfig}->{FromAddressRegExp} && $Param{JobConfig}->{FromAddressRegExp} ) {
+
         if ( $Param{GetParam}->{From} !~ /$Param{JobConfig}->{FromAddressRegExp}/i ) {
             return 1;
         }
@@ -82,7 +78,7 @@ sub Run {
 
         if ( $Self->{Number} ) {
             if ( $Self->{Debug} >= 1 ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
                     Message  => "Found number: $Self->{Number} in subject",
                 );
@@ -90,7 +86,7 @@ sub Run {
         }
         else {
             if ( $Self->{Debug} >= 1 ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
                     Message => "No number found in subject: '" . join( '', @SubjectLines ) . "'",
                 );
@@ -119,7 +115,7 @@ sub Run {
     # we need to have found an external number to proceed.
     if ( !$Self->{Number} ) {
         if ( $Self->{Debug} >= 1 ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message  => 'Could not find external ticket number => Ignoring',
             );
@@ -128,7 +124,7 @@ sub Run {
     }
     else {
         if ( $Self->{Debug} >= 1 ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message  => "Found number $Self->{Number}",
             );
@@ -156,12 +152,13 @@ sub Run {
         else {
             @StateTypeIDs = split ' ', $Param{JobConfig}->{TicketStateTypes};
         }
+
         STATETYPE:
         for my $StateType (@StateTypeIDs) {
 
             next STATETYPE if !$StateType;
 
-            my $StateTypeID = $Self->{StateObject}->StateTypeLookup(
+            my $StateTypeID = $Kernel::OM->Get('Kernel::System::State')->StateTypeLookup(
                 StateType => $StateType,
             );
 
@@ -176,8 +173,11 @@ sub Run {
         Equals => $Self->{Number},
     };
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # search tickets
-    my @TicketIDs = $Self->{TicketObject}->TicketSearch(%Query);
+    my @TicketIDs = $TicketObject->TicketSearch(%Query);
 
     # get the first and only ticket id
     my $TicketID = shift @TicketIDs;
@@ -186,22 +186,25 @@ sub Run {
     if ($TicketID) {
 
         # get ticket number
-        my $TicketNumber = $Self->{TicketObject}->TicketNumberLookup(
+        my $TicketNumber = $TicketObject->TicketNumberLookup(
             TicketID => $TicketID,
             UserID   => 1,
         );
 
         if ( $Self->{Debug} >= 1 ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message =>
                     "Found ticket $TicketNumber open for external number $Self->{Number}. Updating.",
             );
         }
 
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
         # build subject
-        my $TicketHook        = $Self->{ConfigObject}->Get('Ticket::Hook');
-        my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
+        my $TicketHook        = $ConfigObject->Get('Ticket::Hook');
+        my $TicketHookDivider = $ConfigObject->Get('Ticket::HookDivider');
         $Param{GetParam}->{Subject} .= " [$TicketHook$TicketHookDivider$TicketNumber]";
 
         # set sender type and article type.
@@ -216,7 +219,7 @@ sub Run {
     }
     else {
         if ( $Self->{Debug} >= 1 ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message  => "Creating new ticket for external ticket $Self->{Number}",
             );

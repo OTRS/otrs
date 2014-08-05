@@ -12,6 +12,12 @@ package Kernel::System::PostMaster::Filter;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::PostMaster::Filter
@@ -28,39 +34,11 @@ All postmaster database filters
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::PostMaster::Filter;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $PMFilterObject = Kernel::System::PostMaster::Filter->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $FilterObject = $Kernel::OM->Get('Kernel::System::PostMaster::Filter');
 
 =cut
 
@@ -70,11 +48,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -90,13 +63,18 @@ get all filter
 sub FilterList {
     my ( $Self, %Param ) = @_;
 
-    return if !$Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL => 'SELECT f_name FROM postmaster_filter',
     );
+
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[0];
     }
+
     return %Data;
 }
 
@@ -124,17 +102,23 @@ sub FilterAdd {
     # check needed stuff
     for (qw(Name StopAfterMatch Match Set)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     my %Not = %{ $Param{Not} || {} };
 
     for my $Type (qw(Match Set)) {
+
         my %Data = %{ $Param{$Type} };
+
         for my $Key ( sort keys %Data ) {
-            return if !$Self->{DBObject}->Do(
+
+            return if !$DBObject->Do(
                 SQL =>
                     'INSERT INTO postmaster_filter (f_name, f_stop, f_type, f_key, f_value, f_not)'
                     . ' VALUES (?, ?, ?, ?, ?, ?)',
@@ -145,6 +129,7 @@ sub FilterAdd {
             );
         }
     }
+
     return 1;
 }
 
@@ -164,15 +149,19 @@ sub FilterDelete {
     # check needed stuff
     for (qw(Name)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
-    return if !$Self->{DBObject}->Do(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM postmaster_filter WHERE f_name = ?',
         Bind => [ \$Param{Name} ],
     );
+
     return 1;
 }
 
@@ -192,18 +181,22 @@ sub FilterGet {
     # check needed stuff
     for (qw(Name)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
-    return if !$Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL =>
             'SELECT f_type, f_key, f_value, f_name, f_stop, f_not FROM postmaster_filter WHERE f_name = ?',
         Bind => [ \$Param{Name} ],
     );
+
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Data{ $Row[0] }->{ $Row[1] } = $Row[2];
         $Data{Name}                   = $Row[3];
         $Data{StopAfterMatch}         = $Row[4];
@@ -212,6 +205,7 @@ sub FilterGet {
             $Data{Not}->{ $Row[1] } = $Row[5];
         }
     }
+
     return %Data;
 }
 

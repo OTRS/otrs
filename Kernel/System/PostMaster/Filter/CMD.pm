@@ -12,19 +12,19 @@ package Kernel::System::PostMaster::Filter::CMD;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::EmailParser',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    $Self->{Debug} = $Param{Debug} || 0;
-
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject ParserObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -44,7 +44,7 @@ sub Run {
 
     # check CMD config param
     if ( !$Config{CMD} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need CMD config option in PostMaster::PreFilterModule job!',
         );
@@ -52,13 +52,15 @@ sub Run {
     }
 
     # execute prog
-    my $TmpFile = $Self->{ConfigObject}->Get('TempDir') . "/PostMaster.Filter.CMD.$$";
+    my $TmpFile = $Kernel::OM->Get('Kernel::Config')->Get('TempDir') . "/PostMaster.Filter.CMD.$$";
+
     ## no critic
     if ( open my $Prog, '|-', "$Config{CMD} > $TmpFile" ) {
         ## use critic
-        print $Prog $Self->{ParserObject}->GetPlainEmail();
+        print $Prog $Kernel::OM->Get('Kernel::System::EmailParser')->GetPlainEmail();
         close $Prog;
     }
+
     if ( -s $TmpFile ) {
         open my $In, '<', $TmpFile;    ## no critic
         my $Ret = <$In>;
@@ -67,14 +69,16 @@ sub Run {
         # set new params
         for ( sort keys %Set ) {
             $Param{GetParam}->{$_} = $Set{$_};
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message =>
                     "Set param '$_' to '$Set{$_}' because of '$Ret' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
             );
         }
     }
+
     unlink $TmpFile;
+
     return 1;
 }
 

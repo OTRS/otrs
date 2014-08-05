@@ -12,19 +12,19 @@ package Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::System::EmailParser',
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    $Self->{Debug} = $Param{Debug} || 0;
-
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject MainObject TicketObject ParserObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -35,7 +35,7 @@ sub Run {
     # check needed stuff
     for (qw(TicketID JobConfig GetParam)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -52,8 +52,11 @@ sub Run {
         return 1;
     }
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # Get all articles.
-    my @ArticleIndex = $Self->{TicketObject}->ArticleGet(
+    my @ArticleIndex = $TicketObject->ArticleGet(
         TicketID      => $Param{TicketID},
         DynamicFields => 0,
     );
@@ -63,6 +66,9 @@ sub Run {
     if ( $ArticleIndex[0]->{CustomerUserID} && $Param{GetParam}->{'X-Sender'} ) {
         return 1 if lc $ArticleIndex[0]->{CustomerUserID} eq lc $Param{GetParam}->{'X-Sender'};
     }
+
+    # get email parser object
+    my $EmailParserObject = $Kernel::OM->Get('Kernel::System::EmailParser');
 
     # check if current sender got an internal forward
     my $InternalForward;
@@ -78,17 +84,17 @@ sub Run {
         # check recipients
         next ARTICLE if !$Article->{To};
 
-        my @ToEmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+        my @ToEmailAddresses = $EmailParserObject->SplitAddressLine(
             Line => $Article->{To},
         );
-        my @CcEmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+        my @CcEmailAddresses = $EmailParserObject->SplitAddressLine(
             Line => $Article->{Cc},
         );
         my @EmailAdresses = ( @ToEmailAddresses, @CcEmailAddresses );
 
         EMAIL:
         for my $Email (@EmailAdresses) {
-            my $Recipient = $Self->{ParserObject}->GetEmailAddress(
+            my $Recipient = $EmailParserObject->GetEmailAddress(
                 Email => $Email,
             );
             if ( lc $Recipient eq lc $Param{GetParam}->{'X-Sender'} ) {
@@ -111,7 +117,7 @@ sub Run {
 
     # set article type to email-internal
     my $ArticleType = $Param{JobConfig}->{ArticleType} || 'email-internal';
-    $Self->{TicketObject}->ArticleUpdate(
+    $TicketObject->ArticleUpdate(
         ArticleID => $ArticleID,
         Key       => 'ArticleType',
         Value     => $ArticleType,
@@ -121,7 +127,7 @@ sub Run {
 
     # set sender type to agent/customer
     my $SenderType = $Param{JobConfig}->{SenderType} || 'customer';
-    $Self->{TicketObject}->ArticleUpdate(
+    $TicketObject->ArticleUpdate(
         ArticleID => $ArticleID,
         Key       => 'SenderType',
         Value     => $SenderType,
