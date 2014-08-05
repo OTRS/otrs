@@ -12,7 +12,14 @@ package Kernel::System::PostMaster::DestQueue;
 use strict;
 use warnings;
 
-use Kernel::System::SystemAddress;
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::EmailParser',
+    'Kernel::System::Log',
+    'Kernel::System::Queue',
+    'Kernel::System::SystemAddress',
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -23,17 +30,9 @@ sub new {
 
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject ParserObject QueueObject EncodeObject MainObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
-    $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new( %{$Self} );
-
     return $Self;
 }
 
-# GetQueueID
 sub GetQueueID {
     my ( $Self, %Param ) = @_;
 
@@ -44,76 +43,89 @@ sub GetQueueID {
     my $Recipient = '';
     RECIPIENT:
     for my $Key (qw(Resent-To Envelope-To To Cc Delivered-To X-Original-To)) {
+
         next RECIPIENT if !$GetParam{$Key};
+
         if ($Recipient) {
             $Recipient .= ', ';
         }
+
         $Recipient .= $GetParam{$Key};
     }
 
+    # get email parser object
+    my $EmailParserObject = $Kernel::OM->Get('Kernel::System::EmailParser');
+    my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
+
     # get addresses
-    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $Recipient );
+    my @EmailAddresses = $EmailParserObject->SplitAddressLine( Line => $Recipient );
 
     # check addresses
     my $QueueID;
     EMAIL:
     for my $Email (@EmailAddresses) {
+
         next EMAIL if !$Email;
-        my $Address = $Self->{ParserObject}->GetEmailAddress( Email => $Email );
+
+        my $Address = $EmailParserObject->GetEmailAddress( Email => $Email );
+
         next EMAIL if !$Address;
 
         # lookup queue id if recipiend address
-        $QueueID = $Self->{SystemAddressObject}->SystemAddressQueueID(
+        $QueueID = $SystemAddressObject->SystemAddressQueueID(
             Address => $Address,
         );
 
         # debug
         if ( $Self->{Debug} > 1 ) {
             if ($QueueID) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
                     Message =>
                         "Match email: $Email to QueueID $QueueID (MessageID:$GetParam{'Message-ID'})!",
                 );
             }
             else {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
                     Message  => "Does not match email: $Email (MessageID:$GetParam{'Message-ID'})!",
                 );
             }
         }
+
         last EMAIL if $QueueID;
     }
 
-    # if no queue id got found, lookup postmaster queue id
-    if ( !$QueueID ) {
-        my $Queue = $Self->{ConfigObject}->Get('PostmasterDefaultQueue');
-        return $Self->{QueueObject}->QueueLookup( Queue => $Queue ) || 1;
-    }
-    return $QueueID;
+    return $QueueID if $QueueID;
+
+    my $Queue = $Kernel::OM->Get('Kernel::Config')->Get('PostmasterDefaultQueue');
+
+    return $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
+        Queue => $Queue,
+    ) || 1;
 }
 
-# GetTrustedQueueID
 sub GetTrustedQueueID {
     my ( $Self, %Param ) = @_;
 
     # get email headers
     my %GetParam = %{ $Param{Params} };
 
-    # if there exists a X-OTRS-Queue header
-    if ( $GetParam{'X-OTRS-Queue'} ) {
-        if ( $Self->{Debug} > 0 ) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message =>
-                    "There exists a X-OTRS-Queue header: $GetParam{'X-OTRS-Queue'} (MessageID:$GetParam{'Message-ID'})!",
-            );
-        }
+    return if !$GetParam{'X-OTRS-Queue'};
 
-        # get dest queue
-        return $Self->{QueueObject}->QueueLookup( Queue => $GetParam{'X-OTRS-Queue'} );
+    if ( $Self->{Debug} > 0 ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'debug',
+            Message =>
+                "There exists a X-OTRS-Queue header: $GetParam{'X-OTRS-Queue'} (MessageID:$GetParam{'Message-ID'})!",
+        );
     }
+
+    # get dest queue
+    return $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
+        Queue => $GetParam{'X-OTRS-Queue'},
+    );
+
     return;
 }
 

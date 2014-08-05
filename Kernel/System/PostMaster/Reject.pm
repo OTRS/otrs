@@ -12,10 +12,12 @@ package Kernel::System::PostMaster::Reject;
 use strict;
 use warnings;
 
-# Porting not finished!! Just a workaround to fix dynamic field calls
 our @ObjectDependencies = (
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
+    'Kernel::System::EmailParser',
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
 );
 our $ObjectManagerAware = 1;
 
@@ -25,11 +27,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(DBObject ConfigObject TicketObject LogObject ParserObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     $Self->{Debug} = $Param{Debug} || 0;
 
@@ -42,14 +39,17 @@ sub Run {
     # check needed stuff
     for (qw(TicketID InmailUserID GetParam Tn AutoResponseType)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     my %GetParam = %{ $Param{GetParam} };
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # get ticket data
-    my %Ticket = $Self->{TicketObject}->TicketGet(
+    my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Param{TicketID},
         DynamicFields => 0,
     );
@@ -59,7 +59,7 @@ sub Run {
     my $AutoResponseType = $Param{AutoResponseType} || '';
 
     # do db insert
-    my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+    my $ArticleID = $TicketObject->ArticleCreate(
         TicketID         => $Param{TicketID},
         ArticleType      => $GetParam{'X-OTRS-ArticleType'},
         SenderType       => $GetParam{'X-OTRS-SenderType'},
@@ -93,16 +93,19 @@ sub Run {
         }
     }
 
+    # get email parser object
+    my $EmailParserObject = $Kernel::OM->Get('Kernel::System::EmailParser');
+
     # write plain email to the storage
-    $Self->{TicketObject}->ArticleWritePlain(
+    $TicketObject->ArticleWritePlain(
         ArticleID => $ArticleID,
-        Email     => $Self->{ParserObject}->GetPlainEmail(),
+        Email     => $EmailParserObject->GetPlainEmail(),
         UserID    => $Param{InmailUserID},
     );
 
     # write attachments to the storage
-    for my $Attachment ( $Self->{ParserObject}->GetAttachments() ) {
-        $Self->{TicketObject}->ArticleWriteAttachment(
+    for my $Attachment ( $EmailParserObject->GetAttachments() ) {
+        $TicketObject->ArticleWriteAttachment(
             Filename           => $Attachment->{Filename},
             Content            => $Attachment->{Content},
             ContentType        => $Attachment->{ContentType},
@@ -188,7 +191,7 @@ sub Run {
     }
 
     # write log
-    $Self->{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',
         Message  => "Reject FollowUp Article to Ticket [$Param{Tn}] created "
             . "(TicketID=$Param{TicketID}, ArticleID=$ArticleID). $Comment"

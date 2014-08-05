@@ -12,15 +12,20 @@ package Kernel::System::PostMaster::NewTicket;
 use strict;
 use warnings;
 
-use Kernel::System::AutoResponse;
-use Kernel::System::CustomerUser;
-use Kernel::System::LinkObject;
-use Kernel::System::User;
-
-# Porting not finished!! Just a workaround to fix dynamic field calls
 our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::CustomerUser',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
+    'Kernel::System::EmailParser',
+    'Kernel::System::LinkObject',
+    'Kernel::System::Log',
+    'Kernel::System::Priority',
+    'Kernel::System::Queue',
+    'Kernel::System::State',
+    'Kernel::System::Ticket',
+    'Kernel::System::Time',
+    'Kernel::System::User',
 );
 our $ObjectManagerAware = 1;
 
@@ -33,18 +38,6 @@ sub new {
 
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # get all objects
-    for my $Object (
-        qw(DBObject ConfigObject TicketObject LogObject ParserObject TimeObject QueueObject StateObject MainObject EncodeObject PriorityObject)
-        )
-    {
-        $Self->{$Object} = $Param{$Object} || die 'Got no $Object';
-    }
-
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
-    $Self->{LinkObject}         = Kernel::System::LinkObject->new( %{$Self} );
-    $Self->{UserObject}         = Kernel::System::User->new( %{$Self} );
-
     return $Self;
 }
 
@@ -54,7 +47,7 @@ sub Run {
     # check needed stuff
     for my $Needed (qw(InmailUserID GetParam)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -64,17 +57,26 @@ sub Run {
 
     # get queue id and name
     my $QueueID = $Param{QueueID} || die "need QueueID!";
-    my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID );
+    my $Queue = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
+        QueueID => $QueueID,
+    );
+
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get state
-    my $State = $Self->{ConfigObject}->Get('PostmasterDefaultState') || 'new';
+    my $State = $ConfigObject->Get('PostmasterDefaultState') || 'new';
     if ( $GetParam{'X-OTRS-State'} ) {
-        my $StateID = $Self->{StateObject}->StateLookup( State => $GetParam{'X-OTRS-State'} );
+
+        my $StateID = $Kernel::OM->Get('Kernel::System::State')->StateLookup(
+            State => $GetParam{'X-OTRS-State'},
+        );
+
         if ($StateID) {
             $State = $GetParam{'X-OTRS-State'};
         }
         else {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message => "State $GetParam{'X-OTRS-State'} does not exist, falling back to $State!"
             );
@@ -82,15 +84,19 @@ sub Run {
     }
 
     # get priority
-    my $Priority = $Self->{ConfigObject}->Get('PostmasterDefaultPriority') || '3 normal';
+    my $Priority = $ConfigObject->Get('PostmasterDefaultPriority') || '3 normal';
+
     if ( $GetParam{'X-OTRS-Priority'} ) {
-        my $PriorityID
-            = $Self->{PriorityObject}->PriorityLookup( Priority => $GetParam{'X-OTRS-Priority'} );
+
+        my $PriorityID = $Kernel::OM->Get('Kernel::System::Priority')->PriorityLookup(
+            Priority => $GetParam{'X-OTRS-Priority'},
+        );
+
         if ($PriorityID) {
             $Priority = $GetParam{'X-OTRS-Priority'};
         }
         else {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
                     "Priority $GetParam{'X-OTRS-Priority'} does not exist, falling back to $Priority!"
@@ -98,10 +104,13 @@ sub Run {
         }
     }
 
+    # get email parser object
+    my $EmailParserObject = $Kernel::OM->Get('Kernel::System::EmailParser');
+
     # get sender email
-    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $GetParam{From}, );
+    my @EmailAddresses = $EmailParserObject->SplitAddressLine( Line => $GetParam{From}, );
     for my $Address (@EmailAddresses) {
-        $GetParam{SenderEmailAddress} = $Self->{ParserObject}->GetEmailAddress(
+        $GetParam{SenderEmailAddress} = $EmailParserObject->GetEmailAddress(
             Email => $Address,
         );
     }
@@ -109,10 +118,14 @@ sub Run {
     # get customer id (sender email) if there is no customer id given
     if ( !$GetParam{'X-OTRS-CustomerNo'} && $GetParam{'X-OTRS-CustomerUser'} ) {
 
+        # get customer user object
+        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
         # get customer user data form X-OTRS-CustomerUser
-        my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+        my %CustomerData = $CustomerUserObject->CustomerUserDataGet(
             User => $GetParam{'X-OTRS-CustomerUser'},
         );
+
         if (%CustomerData) {
             $GetParam{'X-OTRS-CustomerNo'} = $CustomerData{UserCustomerID};
         }
@@ -120,21 +133,29 @@ sub Run {
 
     # get customer user data form From: (sender address)
     if ( !$GetParam{'X-OTRS-CustomerUser'} ) {
+
         my %CustomerData;
         if ( $GetParam{From} ) {
-            my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+
+            my @EmailAddresses = $EmailParserObject->SplitAddressLine(
                 Line => $GetParam{From},
             );
+
             for my $Address (@EmailAddresses) {
-                $GetParam{EmailFrom} = $Self->{ParserObject}->GetEmailAddress(
+                $GetParam{EmailFrom} = $EmailParserObject->GetEmailAddress(
                     Email => $Address,
                 );
             }
-            my %List = $Self->{CustomerUserObject}->CustomerSearch(
+
+            # get customer user object
+            my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
+            my %List = $CustomerUserObject->CustomerSearch(
                 PostMasterSearch => lc( $GetParam{EmailFrom} ),
             );
+
             for my $UserLogin ( sort keys %List ) {
-                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                %CustomerData = $CustomerUserObject->CustomerUserDataGet(
                     User => $UserLogin,
                 );
             }
@@ -145,7 +166,7 @@ sub Run {
             $GetParam{'X-OTRS-CustomerUser'} = $CustomerData{UserLogin};
 
             # notice that UserLogin is from customer source backend
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message  => "Take UserLogin ($CustomerData{UserLogin}) from "
                     . "customer source backend based on ($GetParam{'EmailFrom'}).",
@@ -155,7 +176,7 @@ sub Run {
             $GetParam{'X-OTRS-CustomerNo'} = $CustomerData{UserCustomerID};
 
             # notice that UserCustomerID is from customer source backend
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message  => "Take UserCustomerID ($CustomerData{UserCustomerID})"
                     . " from customer source backend based on ($GetParam{'EmailFrom'}).",
@@ -176,7 +197,11 @@ sub Run {
     # get ticket owner
     my $OwnerID = $GetParam{'X-OTRS-OwnerID'} || $Param{InmailUserID};
     if ( $GetParam{'X-OTRS-Owner'} ) {
-        my $TmpOwnerID = $Self->{UserObject}->UserLookup( UserLogin => $GetParam{'X-OTRS-Owner'} );
+
+        my $TmpOwnerID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+            UserLogin => $GetParam{'X-OTRS-Owner'},
+        );
+
         $OwnerID = $TmpOwnerID || $OwnerID;
     }
 
@@ -186,14 +211,20 @@ sub Run {
     }
 
     if ( $GetParam{'X-OTRS-Responsible'} ) {
-        my $TmpResponsibleID
-            = $Self->{UserObject}->UserLookup( UserLogin => $GetParam{'X-OTRS-Responsible'} );
+
+        my $TmpResponsibleID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+            UserLogin => $GetParam{'X-OTRS-Responsible'},
+        );
+
         $Opts{ResponsibleID} = $TmpResponsibleID || $Opts{ResponsibleID};
     }
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # create new ticket
-    my $NewTn    = $Self->{TicketObject}->TicketCreateNumber();
-    my $TicketID = $Self->{TicketObject}->TicketCreate(
+    my $NewTn    = $TicketObject->TicketCreateNumber();
+    my $TicketID = $TicketObject->TicketCreate(
         TN           => $NewTn,
         Title        => $GetParam{Subject},
         QueueID      => $QueueID,
@@ -259,12 +290,15 @@ sub Run {
 
             $Seconds = $Seconds * $UnitMultiplier{$Unit};
 
-            $TargetTimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
-                SystemTime => $Self->{TimeObject}->SystemTime() + $Seconds,
+            # get time object
+            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+            $TargetTimeStamp = $TimeObject->SystemTime2TimeStamp(
+                SystemTime => $TimeObject->SystemTime() + $Seconds,
             );
         }
 
-        my $Set = $Self->{TicketObject}->TicketPendingTimeSet(
+        my $Set = $TicketObject->TicketPendingTimeSet(
             String   => $TargetTimeStamp,
             TicketID => $TicketID,
             UserID   => $Param{InmailUserID},
@@ -354,17 +388,25 @@ sub Run {
     # set ticket free time
     # for backward compatibility (should be removed in a future version)
     for my $Count ( 1 .. 6 ) {
+
         my $Key = 'X-OTRS-TicketTime' . $Count;
+
         if ( $GetParam{$Key} ) {
-            my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+
+            # get time object
+            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+            my $SystemTime = $TimeObject->TimeStamp2SystemTime(
                 String => $GetParam{$Key},
             );
+
             if ( $SystemTime && $DynamicFieldListReversed{ 'TicketFreeTime' . $Count } ) {
 
                 # get dynamic field config
                 my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
                     ID => $DynamicFieldListReversed{ 'TicketFreeTime' . $Count },
                 );
+
                 if ($DynamicFieldGet) {
                     my $Success = $DynamicFieldBackendObject->ValueSet(
                         DynamicFieldConfig => $DynamicFieldGet,
@@ -382,7 +424,7 @@ sub Run {
     }
 
     # do article db insert
-    my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+    my $ArticleID = $TicketObject->ArticleCreate(
         TicketID         => $TicketID,
         ArticleType      => $GetParam{'X-OTRS-ArticleType'},
         SenderType       => $GetParam{'X-OTRS-SenderType'},
@@ -406,11 +448,11 @@ sub Run {
 
     # close ticket if article create failed!
     if ( !$ArticleID ) {
-        $Self->{TicketObject}->TicketDelete(
+        $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => $Param{InmailUserID},
         );
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't process email with MessageID <$GetParam{'Message-ID'}>! "
                 . "Please create a bug report with this email (From: $GetParam{From}, Located "
@@ -420,10 +462,11 @@ sub Run {
     }
 
     if ( $Param{LinkToTicketID} ) {
+
         my $SourceKey = $Param{LinkToTicketID};
         my $TargetKey = $TicketID;
 
-        $Self->{LinkObject}->LinkAdd(
+        $Kernel::OM->Get('Kernel::System::LinkObject')->LinkAdd(
             SourceObject => 'Ticket',
             SourceKey    => $SourceKey,
             TargetObject => 'Ticket',
@@ -448,8 +491,8 @@ sub Run {
         $DynamicFieldObject->DynamicFieldList(
         Valid      => 1,
         ResultType => 'HASH',
-        ObjectType => 'Article'
-        );
+        ObjectType => 'Article',
+    );
 
     # set dynamic fields for Article object type
     DYNAMICFIELDID:
@@ -514,15 +557,15 @@ sub Run {
     }
 
     # write plain email to the storage
-    $Self->{TicketObject}->ArticleWritePlain(
+    $TicketObject->ArticleWritePlain(
         ArticleID => $ArticleID,
-        Email     => $Self->{ParserObject}->GetPlainEmail(),
+        Email     => $EmailParserObject->GetPlainEmail(),
         UserID    => $Param{InmailUserID},
     );
 
     # write attachments to the storage
-    for my $Attachment ( $Self->{ParserObject}->GetAttachments() ) {
-        $Self->{TicketObject}->ArticleWriteAttachment(
+    for my $Attachment ( $EmailParserObject->GetAttachments() ) {
+        $TicketObject->ArticleWriteAttachment(
             Filename           => $Attachment->{Filename},
             Content            => $Attachment->{Content},
             ContentType        => $Attachment->{ContentType},
