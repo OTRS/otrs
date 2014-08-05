@@ -14,7 +14,6 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::EmailParser',
     'Kernel::System::Log',
 );
 our $ObjectManagerAware = 1;
@@ -25,6 +24,9 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
+
+    # get parser object
+    $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
     return $Self;
 }
@@ -57,7 +59,7 @@ sub Run {
     ## no critic
     if ( open my $Prog, '|-', "$Config{CMD} > $TmpFile" ) {
         ## use critic
-        print $Prog $Kernel::OM->Get('Kernel::System::EmailParser')->GetPlainEmail();
+        print $Prog $Self->{ParserObject}->GetPlainEmail();
         close $Prog;
     }
 

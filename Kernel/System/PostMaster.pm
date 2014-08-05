@@ -13,16 +13,16 @@ use strict;
 use warnings;
 
 use Kernel::System::EmailParser;
+use Kernel::System::PostMaster::DestQueue;
+use Kernel::System::PostMaster::NewTicket;
+use Kernel::System::PostMaster::FollowUp;
+use Kernel::System::PostMaster::Reject;
 
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DynamicField',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::PostMaster::DestQueue',
-    'Kernel::System::PostMaster::FollowUp',
-    'Kernel::System::PostMaster::NewTicket',
-    'Kernel::System::PostMaster::Reject',
     'Kernel::System::Queue',
     'Kernel::System::State',
     'Kernel::System::Ticket',
@@ -74,6 +74,12 @@ sub new {
     $Self->{ParserObject} = Kernel::System::EmailParser->new(
         Email => $Param{Email},
     );
+
+    # create needed objects
+    $Self->{DestQueueObject} = Kernel::System::PostMaster::DestQueue->new( %{$Self} );
+    $Self->{NewTicketObject} = Kernel::System::PostMaster::NewTicket->new( %{$Self} );
+    $Self->{FollowUpObject}  = Kernel::System::PostMaster::FollowUp->new( %{$Self} );
+    $Self->{RejectObject}    = Kernel::System::PostMaster::Reject->new( %{$Self} );
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -164,7 +170,9 @@ sub Run {
 
             return if !$MainObject->Require( $Jobs{$Job}->{Module} );
 
-            my $FilterObject = $Jobs{$Job}->{Module}->new();
+            my $FilterObject = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+            );
 
             if ( !$FilterObject ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -207,12 +215,6 @@ sub Run {
 
     # check if follow up (again, with new GetParam)
     ( $Tn, $TicketID ) = $Self->CheckFollowUp( %{$GetParam} );
-
-    # get database object
-    my $DestQueueObject = $Kernel::OM->Get('Kernel::System::PostMaster::DestQueue');
-    my $NewTicketObject = $Kernel::OM->Get('Kernel::System::PostMaster::NewTicket');
-    my $FollowUpObject  = $Kernel::OM->Get('Kernel::System::PostMaster::FollowUp');
-    my $RejectObject    = $Kernel::OM->Get('Kernel::System::PostMaster::Reject');
 
     # check if it's a follow up ...
     if ( $Tn && $TicketID ) {
@@ -257,11 +259,11 @@ sub Run {
             # send mail && create new article
             # get queue if of From: and To:
             if ( !$Param{QueueID} ) {
-                $Param{QueueID} = $DestQueueObject->GetQueueID( Params => $GetParam, );
+                $Param{QueueID} = $Self->{DestQueueObject}->GetQueueID( Params => $GetParam, );
             }
 
             # check if trusted returns a new queue id
-            my $TQueueID = $DestQueueObject->GetTrustedQueueID( Params => $GetParam, );
+            my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID( Params => $GetParam, );
             if ($TQueueID) {
                 $Param{QueueID} = $TQueueID;
             }
@@ -275,7 +277,7 @@ sub Run {
                 );
             }
 
-            $TicketID = $NewTicketObject->Run(
+            $TicketID = $Self->{NewTicketObject}->Run(
                 InmailUserID     => $Self->{PostmasterUserID},
                 GetParam         => $GetParam,
                 QueueID          => $Param{QueueID},
@@ -300,7 +302,7 @@ sub Run {
             );
 
             # send reject mail && and add article to ticket
-            my $Run = $RejectObject->Run(
+            my $Run = $Self->{RejectObject}->Run(
                 TicketID         => $TicketID,
                 InmailUserID     => $Self->{PostmasterUserID},
                 GetParam         => $GetParam,
@@ -320,7 +322,7 @@ sub Run {
         # create normal follow up
         else {
 
-            my $Run = $FollowUpObject->Run(
+            my $Run = $Self->{FollowUpObject}->Run(
                 TicketID         => $TicketID,
                 InmailUserID     => $Self->{PostmasterUserID},
                 GetParam         => $GetParam,
@@ -350,15 +352,15 @@ sub Run {
 
         # get queue if of From: and To:
         if ( !$Param{QueueID} ) {
-            $Param{QueueID} = $DestQueueObject->GetQueueID( Params => $GetParam );
+            $Param{QueueID} = $Self->{DestQueueObject}->GetQueueID( Params => $GetParam );
         }
 
         # check if trusted returns a new queue id
-        my $TQueueID = $DestQueueObject->GetTrustedQueueID( Params => $GetParam, );
+        my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID( Params => $GetParam, );
         if ($TQueueID) {
             $Param{QueueID} = $TQueueID;
         }
-        $TicketID = $NewTicketObject->Run(
+        $TicketID = $Self->{NewTicketObject}->Run(
             InmailUserID     => $Self->{PostmasterUserID},
             GetParam         => $GetParam,
             QueueID          => $Param{QueueID},
@@ -383,7 +385,9 @@ sub Run {
 
             return if !$MainObject->Require( $Jobs{$Job}->{Module} );
 
-            my $FilterObject = $Jobs{$Job}->{Module}->new();
+            my $FilterObject = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+            );
 
             if ( !$FilterObject ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(

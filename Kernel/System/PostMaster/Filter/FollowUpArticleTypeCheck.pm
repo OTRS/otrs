@@ -13,7 +13,6 @@ use strict;
 use warnings;
 
 our @ObjectDependencies = (
-    'Kernel::System::EmailParser',
     'Kernel::System::Log',
     'Kernel::System::Ticket',
 );
@@ -25,6 +24,9 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
+
+    # get parser object
+    $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
     return $Self;
 }
@@ -67,9 +69,6 @@ sub Run {
         return 1 if lc $ArticleIndex[0]->{CustomerUserID} eq lc $Param{GetParam}->{'X-Sender'};
     }
 
-    # get email parser object
-    my $EmailParserObject = $Kernel::OM->Get('Kernel::System::EmailParser');
-
     # check if current sender got an internal forward
     my $InternalForward;
     ARTICLE:
@@ -84,17 +83,17 @@ sub Run {
         # check recipients
         next ARTICLE if !$Article->{To};
 
-        my @ToEmailAddresses = $EmailParserObject->SplitAddressLine(
+        my @ToEmailAddresses = $Self->{ParserObject}->SplitAddressLine(
             Line => $Article->{To},
         );
-        my @CcEmailAddresses = $EmailParserObject->SplitAddressLine(
+        my @CcEmailAddresses = $Self->{ParserObject}->SplitAddressLine(
             Line => $Article->{Cc},
         );
         my @EmailAdresses = ( @ToEmailAddresses, @CcEmailAddresses );
 
         EMAIL:
         for my $Email (@EmailAdresses) {
-            my $Recipient = $EmailParserObject->GetEmailAddress(
+            my $Recipient = $Self->{ParserObject}->GetEmailAddress(
                 Email => $Email,
             );
             if ( lc $Recipient eq lc $Param{GetParam}->{'X-Sender'} ) {

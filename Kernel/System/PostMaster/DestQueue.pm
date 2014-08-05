@@ -14,7 +14,6 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::EmailParser',
     'Kernel::System::Log',
     'Kernel::System::Queue',
     'Kernel::System::SystemAddress',
@@ -27,6 +26,9 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
+
+    # get parser object
+    $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
     $Self->{Debug} = $Param{Debug} || 0;
 
@@ -53,12 +55,11 @@ sub GetQueueID {
         $Recipient .= $GetParam{$Key};
     }
 
-    # get email parser object
-    my $EmailParserObject = $Kernel::OM->Get('Kernel::System::EmailParser');
+    # get system address object
     my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 
     # get addresses
-    my @EmailAddresses = $EmailParserObject->SplitAddressLine( Line => $Recipient );
+    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $Recipient );
 
     # check addresses
     my $QueueID;
@@ -67,7 +68,7 @@ sub GetQueueID {
 
         next EMAIL if !$Email;
 
-        my $Address = $EmailParserObject->GetEmailAddress( Email => $Email );
+        my $Address = $Self->{ParserObject}->GetEmailAddress( Email => $Email );
 
         next EMAIL if !$Address;
 

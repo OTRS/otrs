@@ -17,7 +17,6 @@ our @ObjectDependencies = (
     'Kernel::System::CustomerUser',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
-    'Kernel::System::EmailParser',
     'Kernel::System::LinkObject',
     'Kernel::System::Log',
     'Kernel::System::Priority',
@@ -35,6 +34,9 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
+
+    # get parser object
+    $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
     $Self->{Debug} = $Param{Debug} || 0;
 
@@ -104,13 +106,10 @@ sub Run {
         }
     }
 
-    # get email parser object
-    my $EmailParserObject = $Kernel::OM->Get('Kernel::System::EmailParser');
-
     # get sender email
-    my @EmailAddresses = $EmailParserObject->SplitAddressLine( Line => $GetParam{From}, );
+    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $GetParam{From}, );
     for my $Address (@EmailAddresses) {
-        $GetParam{SenderEmailAddress} = $EmailParserObject->GetEmailAddress(
+        $GetParam{SenderEmailAddress} = $Self->{ParserObject}->GetEmailAddress(
             Email => $Address,
         );
     }
@@ -137,12 +136,12 @@ sub Run {
         my %CustomerData;
         if ( $GetParam{From} ) {
 
-            my @EmailAddresses = $EmailParserObject->SplitAddressLine(
+            my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
                 Line => $GetParam{From},
             );
 
             for my $Address (@EmailAddresses) {
-                $GetParam{EmailFrom} = $EmailParserObject->GetEmailAddress(
+                $GetParam{EmailFrom} = $Self->{ParserObject}->GetEmailAddress(
                     Email => $Address,
                 );
             }
@@ -559,12 +558,12 @@ sub Run {
     # write plain email to the storage
     $TicketObject->ArticleWritePlain(
         ArticleID => $ArticleID,
-        Email     => $EmailParserObject->GetPlainEmail(),
+        Email     => $Self->{ParserObject}->GetPlainEmail(),
         UserID    => $Param{InmailUserID},
     );
 
     # write attachments to the storage
-    for my $Attachment ( $EmailParserObject->GetAttachments() ) {
+    for my $Attachment ( $Self->{ParserObject}->GetAttachments() ) {
         $TicketObject->ArticleWriteAttachment(
             Filename           => $Attachment->{Filename},
             Content            => $Attachment->{Content},

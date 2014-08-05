@@ -15,7 +15,6 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
-    'Kernel::System::EmailParser',
     'Kernel::System::Log',
     'Kernel::System::Ticket',
 );
@@ -27,6 +26,9 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
+
+    # get parser object
+    $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
     $Self->{Debug} = $Param{Debug} || 0;
 
@@ -93,18 +95,15 @@ sub Run {
         }
     }
 
-    # get email parser object
-    my $EmailParserObject = $Kernel::OM->Get('Kernel::System::EmailParser');
-
     # write plain email to the storage
     $TicketObject->ArticleWritePlain(
         ArticleID => $ArticleID,
-        Email     => $EmailParserObject->GetPlainEmail(),
+        Email     => $Self->{ParserObject}->GetPlainEmail(),
         UserID    => $Param{InmailUserID},
     );
 
     # write attachments to the storage
-    for my $Attachment ( $EmailParserObject->GetAttachments() ) {
+    for my $Attachment ( $Self->{ParserObject}->GetAttachments() ) {
         $TicketObject->ArticleWriteAttachment(
             Filename           => $Attachment->{Filename},
             Content            => $Attachment->{Content},

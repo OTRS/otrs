@@ -13,7 +13,6 @@ use strict;
 use warnings;
 
 our @ObjectDependencies = (
-    'Kernel::System::EmailParser',
     'Kernel::System::Log',
     'Kernel::System::PostMaster::Filter',
 );
@@ -25,6 +24,9 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
+
+    # get parser object
+    $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
     $Self->{Debug} = $Param{Debug} || 0;
 
@@ -67,9 +69,6 @@ sub Run {
             $Prefix = "Filter: '$Config{Name}' ";
         }
 
-        # get email parser object
-        my $EmailParserObject = $Kernel::OM->Get('Kernel::System::EmailParser');
-
         # match 'Match => ???' stuff
         my $Matched       = '';
         my $MatchedNot    = 0;
@@ -79,13 +78,13 @@ sub Run {
             # match only email addresses
             if ( defined $Param{GetParam}->{$_} && $Match{$_} =~ /^EMAILADDRESS:(.*)$/ ) {
                 my $SearchEmail    = $1;
-                my @EmailAddresses = $EmailParserObject->SplitAddressLine(
+                my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
                     Line => $Param{GetParam}->{$_},
                 );
                 my $LocalMatched;
                 RECIPIENT:
                 for my $Recipients (@EmailAddresses) {
-                    my $Email = $EmailParserObject->GetEmailAddress( Email => $Recipients );
+                    my $Email = $Self->{ParserObject}->GetEmailAddress( Email => $Recipients );
                     next RECIPIENT if !$Email;
                     if ( $Email =~ /^$SearchEmail$/i ) {
                         $LocalMatched = 1;
