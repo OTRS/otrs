@@ -66,9 +66,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(Email)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    $Self->{Email} = $Param{Email} || die "Got no Email!";
 
     # for debug 0=off; 1=info; 2=on; 3=with GetHeaderParam;
     $Self->{Debug} = $Param{Debug} || 0;
