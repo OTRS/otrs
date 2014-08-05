@@ -14,6 +14,7 @@ use warnings;
 
 use if $^O eq 'MSWin32', "Win32::Console::ANSI";
 use Term::ANSIColor;
+use SOAP::Lite;
 
 use Kernel::System::Environment;
 use Kernel::System::ObjectManager;
@@ -101,6 +102,8 @@ Run all tests located in scripts/test/*.t and print result to stdout.
     $UnitTestObject->Run(
         Name      => 'JSON:User:Auth',  # optional, control which tests to select
         Directory => 'Selenium',        # optional, control which tests to select
+
+        SubmitURL => $URL,              # optional, send results to unit test result server
     );
 
 =cut
@@ -201,7 +204,7 @@ sub Run {
     my %OSInfo = $Self->{EnvironmentObject}->OSInfoGet();
     $ResultSummary{OS}        = $OSInfo{OS};
     $ResultSummary{Vendor}    = $OSInfo{OSName};
-    $ResultSummary{Database}  = $Self->{DBObject}->Version();
+    $ResultSummary{Database}  = lc $Self->{DBObject}->Version();
     $ResultSummary{TestOk}    = $Self->{TestCountOk};
     $ResultSummary{TestNotOk} = $Self->{TestCountNotOk};
 
@@ -210,40 +213,53 @@ sub Run {
         print $Self->{Content};
     }
 
+    my $XML = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
+    $XML .= "<otrs_test>\n";
+    $XML .= "<Summary>\n";
+    for my $Key ( sort keys %ResultSummary ) {
+        $ResultSummary{$Key} =~ s/&/&amp;/g;
+        $ResultSummary{$Key} =~ s/</&lt;/g;
+        $ResultSummary{$Key} =~ s/>/&gt;/g;
+        $ResultSummary{$Key} =~ s/"/&quot;/g;
+        $XML .= "  <Item Name=\"$Key\">$ResultSummary{$Key}</Item>\n";
+    }
+    $XML .= "</Summary>\n";
+    for my $Key ( sort keys %{ $Self->{XML}->{Test} } ) {
+
+        # extract duration time
+        my $Duration = $Self->{Duration}->{$Key};
+
+        $XML .= "<Unit Name=\"$Key\" Duration=\"$Duration\">\n";
+
+        for my $TestCount ( sort { $a <=> $b } keys %{ $Self->{XML}->{Test}->{$Key} } ) {
+            my $Result  = $Self->{XML}->{Test}->{$Key}->{$TestCount}->{Result};
+            my $Content = $Self->{XML}->{Test}->{$Key}->{$TestCount}->{Name};
+            $Content =~ s/&/&amp;/g;
+            $Content =~ s/</&lt;/g;
+            $Content =~ s/>/&gt;/g;
+            $XML .= qq|  <Test Result="$Result" Count="$TestCount">$Content</Test>\n|;
+        }
+
+        $XML .= "</Unit>\n";
+    }
+    $XML .= "</otrs_test>\n";
+
     if ( $Self->{Output} eq 'XML' ) {
-        my $XML = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
-        $XML .= "<otrs_test>\n";
-        $XML .= "<Summary>\n";
-        for my $Key ( sort keys %ResultSummary ) {
-            $ResultSummary{$Key} =~ s/&/&amp;/g;
-            $ResultSummary{$Key} =~ s/</&lt;/g;
-            $ResultSummary{$Key} =~ s/>/&gt;/g;
-            $ResultSummary{$Key} =~ s/"/&quot;/g;
-            $XML .= "  <Item Name=\"$Key\">$ResultSummary{$Key}</Item>\n";
-        }
-        $XML .= "</Summary>\n";
-        for my $Key ( sort keys %{ $Self->{XML}->{Test} } ) {
-
-            # extract duration time
-            my $Duration = $Self->{Duration}->{$Key};
-
-            $XML .= "<Unit Name=\"$Key\" Duration=\"$Duration\">\n";
-
-            for my $TestCount ( sort { $a <=> $b } keys %{ $Self->{XML}->{Test}->{$Key} } ) {
-                my $Result  = $Self->{XML}->{Test}->{$Key}->{$TestCount}->{Result};
-                my $Content = $Self->{XML}->{Test}->{$Key}->{$TestCount}->{Name};
-                $Content =~ s/&/&amp;/g;
-                $Content =~ s/</&lt;/g;
-                $Content =~ s/>/&gt;/g;
-                $XML .= qq|  <Test Result="$Result" Count="$TestCount">$Content</Test>\n|;
-            }
-
-            $XML .= "</Unit>\n";
-        }
-        $XML .= "</otrs_test>\n";
-
         print $XML;
     }
+
+    if ($Param{SubmitURL}) {
+        $Self->{EncodeObject}->EncodeOutput( \$XML );
+
+        my $RPC = SOAP::Lite->new (
+            proxy => $Param{SubmitURL},
+            uri => 'http://localhost/Core',
+        );
+
+        my $Key = $RPC->Submit( '', '', $XML )->result();
+        print STDERR "NOTICE: Sent to $Param{SubmitURL} with SubmitID: '$Key'.\n";
+    }
+
     return 1;
 }
 
