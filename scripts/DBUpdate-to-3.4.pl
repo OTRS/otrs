@@ -170,8 +170,7 @@ Please run it as the 'otrs' user or with the help of su:
 
     # Clean up the cache completely at the end.
     print "Step $Step of $Steps: Clean up the cache... ";
-    my $CacheObject = Kernel::System::Cache->new( %{$CommonObject} ) || die;
-    $CacheObject->CleanUp();
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
     print "done.\n\n";
     $Step++;
 
