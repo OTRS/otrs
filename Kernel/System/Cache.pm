@@ -20,11 +20,16 @@ our $ObjectManagerAware = 1;
 
 =head1 NAME
 
-Kernel::System::Cache - cache lib
+Kernel::System::Cache - Key/value based data cache for OTRS
 
 =head1 SYNOPSIS
 
-All cache functions.
+This is a simple data cache. It can store key/value data both
+in memory and in a configured cache backend for persistent caching.
+
+This can be controlled via the config settings C<Cache::InMemory> and
+C<Cache::InBackend>. The backend can also be selected with the config setting
+C<Cache::Module> and defaults to file system based storage for permanent caching.
 
 =head1 PUBLIC INTERFACE
 
@@ -66,13 +71,36 @@ sub new {
 
 =item Set()
 
-set a new cache
+store a value in the cache.
 
     $CacheObject->Set(
-        Type  => 'ObjectName', # only [a-zA-Z0-9_] chars usable
+        Type  => 'ObjectName',      # only [a-zA-Z0-9_] chars usable
         Key   => 'SomeKey',
         Value => 'Some Value',
-        TTL   => 24*60*60,     # in sec. in this case 24h
+        TTL   => 60 * 60 * 24 * 20, # seconds, this means 20 days
+    );
+
+The Type here refers to the group of entries that should be cached and cleaned up together,
+usually this will represent the OTRS object that is supposed to be cached, like 'Ticket'.
+
+The Key identifies the entry (together with the type) for retrieval and deletion of this value.
+
+The TTL controls when the cache will expire. Please note that the in-memory cache is not persistent
+and thus has no TTL/expiry mechanism.
+
+Please note that if you store complex data, you have to make sure that the data is not modified
+in other parts of the code as the in-memory cache only refers to it. Otherwise also the cache would
+contain the modifications. If you cannot avoid this, you can disable the in-memory cache for this
+value:
+
+    $CacheObject->Set(
+        Type  => 'ObjectName',
+        Key   => 'SomeKey',
+        Value => { ... complex data ... },
+        TTL   => 60 * 60 * 24 * 20,
+
+        CacheInMemory => 0,     # optional, defaults to 1
+        CacheInBackend => 1,    # optional, defaults to 1
     );
 
 =cut
@@ -80,12 +108,11 @@ set a new cache
 sub Set {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(Type Key Value TTL)) {
-        if ( !defined $Param{$_} ) {
+    for my $Needed (qw(Type Key Value TTL)) {
+        if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!",
+                Message  => "Need $Needed!",
             );
             return;
         }
@@ -124,35 +151,40 @@ sub Set {
 
 =item Get()
 
-return a cache
+fetch a value from the cache.
 
     my $Value = $CacheObject->Get(
-        Type => 'ObjectName', # only A-z chars usable
+        Type => 'ObjectName',       # only [a-zA-Z0-9_] chars usable
         Key  => 'SomeKey',
     );
+
+Please note that if you store complex data, you have to make sure that the data is not modified
+in other parts of the code as the in-memory cache only refers to it. Otherwise also the cache would
+contain the modifications. If you cannot avoid this, you can disable the in-memory cache for this
+value:
+
+    my $Value = $CacheObject->Get(
+        Type => 'ObjectName',
+        Key  => 'SomeKey',
+
+        CacheInMemory => 0,     # optional, defaults to 1
+        CacheInBackend => 1,    # optional, defaults to 1
+    );
+
 
 =cut
 
 sub Get {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(Type Key)) {
-        if ( !$Param{$_} ) {
+    for my $Needed (qw(Type Key)) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!",
+                Message  => "Need $Needed!",
             );
             return;
         }
-    }
-
-    # debug
-    if ( $Self->{Debug} > 1 ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'notice',
-            Message  => "Get Key:$Param{Key}!",
-        );
     }
 
     # check in-memory cache
@@ -160,52 +192,46 @@ sub Get {
         return $Self->{Cache}->{ $Param{Type} }->{ $Param{Key} };
     }
 
-    return if ( !$Self->{CacheInBackend} );
+    return if ( !$Self->{CacheInBackend} || !($Param{CacheInBackend} // 1) );
 
     # check persistent cache
     my $Value = $Self->{CacheObject}->Get(%Param);
+
+    # set in-memory cache
     if ( defined $Value ) {
-        if ( $Self->{Debug} > 0 ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'notice',
-                Message  => "Get cached Key:$Param{Key}!",
-            );
+        if ( $Self->{CacheInMemory} && ($Param{CacheInMemory} // 1) ) {
+            $Self->{Cache}->{ $Param{Type} }->{ $Param{Key} } = $Value;
         }
     }
+
     return $Value;
 }
 
 =item Delete()
 
-delete a cache
+deletes a single value from the cache.
 
     $CacheObject->Delete(
-        Type => 'ObjectName', # only A-z chars usable
+        Type => 'ObjectName',       # only [a-zA-Z0-9_] chars usable
         Key  => 'SomeKey',
     );
+
+Please note that despite the cache configuration, Delete and CleanUp will always
+be executed both in memory and in the backend to avoid inconsistent cache states.
 
 =cut
 
 sub Delete {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(Type Key)) {
-        if ( !$Param{$_} ) {
+    for my $Needed (qw(Type Key)) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!",
+                Message  => "Need $Needed!",
             );
             return;
         }
-    }
-
-    # debug
-    if ( $Self->{Debug} > 1 ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'notice',
-            Message  => "Delete Key:$Param{Key}!",
-        );
     }
 
     # Delete and cleanup operations should also be done if the cache is disabled
@@ -220,49 +246,41 @@ sub Delete {
 
 =item CleanUp()
 
-delete chache or parts of the cache
+delete parts of the cache or the full cache data.
 
-    To delete the whole cache
+To delete the whole cache:
 
     $CacheObject->CleanUp();
 
-    of if you want to cleanup only one object cache
+To delete the data of only one cache type:
 
     $CacheObject->CleanUp(
-        Type => 'ObjectName', # only A-z chars are usable
+        Type => 'ObjectName',   # only [a-zA-Z0-9_] chars usable
     );
 
-    of if you want to cleanup only one object cache with expired caches
+To delete only expired cache data:
 
     $CacheObject->CleanUp(
-        Type    => 'ObjectName', # only A-z chars are usable
-        Expired => 1, # 1|0, default 0
+        Expired => 1,   # optional, defaults to 0
     );
+
+Type and Expired can be combined to only delete expired data of a single type.
+
+Please note that despite the cache configuration, Delete and CleanUp will always
+be executed both in memory and in the backend to avoid inconsistent cache states.
 
 =cut
 
 sub CleanUp {
     my ( $Self, %Param ) = @_;
 
-    # debug
-    if ( $Self->{Debug} > 1 ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'notice',
-            Message  => 'CleanUp cache!',
-        );
-    }
-
-    # Delete and cleanup operations should also be done if the cache is disabled
-    #   to avoid inconsistent states.
-
     # cleanup in-memory cache
-    if ( !$Param{Expired} ) {
-        if ( $Param{Type} ) {
-            delete $Self->{Cache}->{ $Param{Type} };
-        }
-        else {
-            delete $Self->{Cache};
-        }
+    # We don't have TTL/expiry information here, so just always delete to be sure.
+    if ( $Param{Type} ) {
+        delete $Self->{Cache}->{ $Param{Type} };
+    }
+    else {
+        delete $Self->{Cache};
     }
 
     # cleanup persistent cache

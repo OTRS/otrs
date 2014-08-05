@@ -209,6 +209,8 @@ sub XMLHashGet {
         my $Cache = $CacheObject->Get(
             Type => 'XML',
             Key  => "$Param{Type}-$Param{Key}",
+            # Don't store complex structure in memory as it will be modified later.
+            CacheInMemory => 0,
         );
         return @{$Cache} if $Cache;
     }
