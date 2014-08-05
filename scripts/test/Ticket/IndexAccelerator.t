@@ -13,25 +13,20 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::Ticket;
-use Kernel::System::Queue;
-
 # create local objects
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # ticket index accelerator tests
 for my $Module ( 'RuntimeDB', 'StaticDB' ) {
+
     my $QueueID = $QueueObject->QueueLookup( Queue => 'Raw' );
+
     $ConfigObject->Set(
         Key   => 'Ticket::IndexModule',
         Value => "Kernel::System::Ticket::IndexAccelerator::$Module",
-    );
-    my $TicketObject = Kernel::System::Ticket->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
     );
 
     my @TicketIDs;
