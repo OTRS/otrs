@@ -44,7 +44,6 @@ my $Debug = 0;
 while ( my $WebRequest = new CGI::Fast ) {
 
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-
     my $Interface = Kernel::System::Web::InterfaceInstaller->new(
         Debug      => $Debug,
         WebRequest => $WebRequest
