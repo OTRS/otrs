@@ -15,7 +15,7 @@ use vars (qw($Self));
 
 use Kernel::System::Ticket;
 
-# create local objects
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');

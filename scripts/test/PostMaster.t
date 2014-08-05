@@ -14,35 +14,12 @@ use vars (qw($Self));
 use Kernel::System::PostMaster;
 use Kernel::System::PostMaster::Filter;
 use Kernel::System::Ticket;
-use Kernel::Config;
 
-use Kernel::System::Log;
-use Kernel::System::Time;
-use Kernel::System::Encode;
-use Kernel::System::DB;
-use Kernel::System::Main;
-use Kernel::System::DynamicField;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::User;
-
-# helper object
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 1,
-);
-
-# create local config object
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-
-# user object
-my $UserObject = Kernel::System::User->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-# add or update dynamic fields if needed
-my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$Self} );
+# get needed objects
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
+my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
 my @DynamicfieldIDs;
 my @DynamicFieldUpdate;
