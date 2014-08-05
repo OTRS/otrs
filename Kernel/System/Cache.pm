@@ -258,13 +258,20 @@ To delete the data of only one cache type:
         Type => 'ObjectName',   # only [a-zA-Z0-9_] chars usable
     );
 
+To delete all data except of some types:
+
+    $CacheObject->CleanUp(
+        KeepTypes => ['Object1', 'Object2'],
+    );
+
 To delete only expired cache data:
 
     $CacheObject->CleanUp(
         Expired => 1,   # optional, defaults to 0
     );
 
-Type and Expired can be combined to only delete expired data of a single type.
+Type/KeepTypes and Expired can be combined to only delete expired data of a single type
+or of all types except the types to keep.
 
 Please note that despite the cache configuration, Delete and CleanUp will always
 be executed both in memory and in the backend to avoid inconsistent cache states.
@@ -278,6 +285,15 @@ sub CleanUp {
     # We don't have TTL/expiry information here, so just always delete to be sure.
     if ( $Param{Type} ) {
         delete $Self->{Cache}->{ $Param{Type} };
+    }
+    elsif ( $Param{KeepTypes} ) {
+        my %KeepTypeLookup;
+        @KeepTypeLookup{ @{ $Param{KeepTypes} } } = undef;
+        TYPE:
+        for my $Type (sort keys %{$Self->{Cache} || {}}) {
+            next TYPE if exists $KeepTypeLookup{$Type};
+            delete $Self->{Cache}->{ $Type };
+        }
     }
     else {
         delete $Self->{Cache};

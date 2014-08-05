@@ -175,6 +175,11 @@ sub CleanUp {
         Filter => $Param{Type} || '*',
     );
 
+    if ( $Param{KeepTypes} ) {
+        my $KeepTypesRegex = join('|', map {"\Q$_\E"} @{$Param{KeepTypes}});
+        @TypeList = grep { $_ !~ m{/$KeepTypesRegex/?$}smx} @TypeList;
+    }
+
     return 1 if !@TypeList;
 
     my $FileCallback = sub {

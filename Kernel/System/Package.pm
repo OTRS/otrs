@@ -547,7 +547,9 @@ sub PackageInstall {
         );
     }
 
-    $Self->{CacheObject}->CleanUp();
+    $Self->{CacheObject}->CleanUp(
+        KeepTypes => ['XMLParse'],
+    );
     $Self->{LoaderObject}->CacheDelete();
 
     # trigger event
@@ -625,7 +627,9 @@ sub PackageReinstall {
         );
     }
 
-    $Self->{CacheObject}->CleanUp();
+    $Self->{CacheObject}->CleanUp(
+        KeepTypes => ['XMLParse'],
+    );
     $Self->{LoaderObject}->CacheDelete();
 
     # trigger event
@@ -1024,7 +1028,9 @@ sub PackageUpgrade {
         );
     }
 
-    $Self->{CacheObject}->CleanUp();
+    $Self->{CacheObject}->CleanUp(
+        KeepTypes => ['XMLParse'],
+    );
     $Self->{LoaderObject}->CacheDelete();
 
     # trigger event
@@ -1114,7 +1120,9 @@ sub PackageUninstall {
     # install config
     $Self->{ConfigObject} = Kernel::Config->new( %{$Self} );
 
-    $Self->{CacheObject}->CleanUp();
+    $Self->{CacheObject}->CleanUp(
+        KeepTypes => ['XMLParse'],
+    );
     $Self->{LoaderObject}->CacheDelete();
 
     # trigger event
@@ -3406,7 +3414,9 @@ sub _PackageUninstallMerged {
         Name => $Param{Name},
     );
 
-    $Self->{CacheObject}->CleanUp();
+    $Self->{CacheObject}->CleanUp(
+        KeepTypes => ['XMLParse'],
+    );
     $Self->{LoaderObject}->CacheDelete();
 
     return $PackageRemove;
