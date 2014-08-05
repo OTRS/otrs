@@ -188,6 +188,11 @@ sub _ObjectBuild {
             $Dependencies = \@DefaultObjectDependencies;
         }
         $ObjectManagerAware = ${ $Package . '::ObjectManagerAware' } // 0;
+
+        if ( ${ $Package . '::ObjectManagerDisabled' } ) {
+            $Self->_DieWithError(Error => "$Package cannot be loaded via ObjectManager!");
+        }
+
         use strict 'refs';
     }
     $Self->{ObjectDependencies}->{$Package} = $Dependencies;
