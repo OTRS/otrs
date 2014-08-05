@@ -54,10 +54,18 @@ Kernel::System::ObjectManager - object and dependency manager
 
 =head1 SYNOPSIS
 
-    use Kernel::System::ObjectManager;
+The ObjectManager is the central place to create and access singleton OTRS objects.
 
-    # it's important to store the object in this variable,
-    # since many modules expect it that way.
+=head2 How does it work?
+
+It creates objects as late as possible and keeps references to them. Upon destruction the objects
+are destroyed in the correct order, based on their dependencies (see below).
+
+=head2 How to use it?
+
+The ObjectManager must always be provided to OTRS by the toplevel script like this:
+
+    use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         # options for module constructors here
         LogObject {
@@ -65,11 +73,36 @@ Kernel::System::ObjectManager - object and dependency manager
         },
     );
 
-    # now you can retrieve any configured object:
+Then in the code any object can be retrieved that the ObjectManager can handle,
+like Kernel::System::DB:
 
-    if ( !$Kernel::OM->Get('DBObject')->Prepare('SELECT 1') ) {
-        die "Houston, we have a problem!";
-    }
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Prepare('SELECT 1');
+
+
+=head2 Which objects can be loaded?
+
+The ObjectManager can load every object that declares its dependencies like this in the perl package:
+
+    package Kernel::System::Valid;
+
+    use strict;
+    use warnings;
+
+    our @ObjectDependencies = (
+        'Kernel::System::Cache',
+        'Kernel::System::DB',
+        'Kernel::System::Log',
+    );
+    our $ObjectManagerAware = 1;
+
+The C<@ObjectDependencies> is the list of objects that the current object will depend on. They will
+be destroyed only after this object is destroyed. If the dependencies are not specified the
+C<@DefaultObjectDependencies> will be assumed.
+
+The C<$ObjectManagerAware> flag signals that the object knows about the ObjectManager and will use
+it to fetch any objects it needs on demand. If this flag is not set the ObjectManager will create all
+dependencies before creating the objects and pass it to its constructor. This is useful to load old
+OTRS objects which don't know about the ObjectManager yet.
 
 =head1 PUBLIC INTERFACE
 
@@ -80,12 +113,20 @@ Kernel::System::ObjectManager - object and dependency manager
 Creates a new instance of Kernel::System::ObjectManager.
 
     use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
 
-    local $Kernel::OM = Kernel::System::ObjectManager->new(%Options)
+Sometimes objects need parameters to be sent to their constructors,
+these can also be passed to the ObjectManager's constructor like in the following example.
+The hash reference will be flattened and passed to the constructor of the object(s).
 
-Options to this constructor should have object names as keys, and hash
-references as values. The hash reference will be flattened and passed
-to the constructor of the object with the same name as option key.
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
+        Kernel::System::Log => {
+            LogPrefix => 'OTRS-MyTestScript',
+        },
+    );
+
+Alternatively, C<ObjectParamAdd()> can be used to set these parameters at runtime (but this
+must happen before the object was created).
 
 If the C<< Debug => 1 >> option is present, destruction of objects
 is checked, and a warning is emitted if objects persist after the
@@ -120,7 +161,7 @@ Retrieves a singleton object, and if it not yet exists, implicitly creates one f
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-For backwards compatibility reasons, object aliases can be defined in L<Kernel::Config::Defaults>.
+DEPRECATED: For backwards compatibility reasons, object aliases can be defined in L<Kernel::Config::Defaults>.
 For example C<< ->Get('TicketObject') >> retrieves a L<Kernel::System::Ticket> object.
 
     my $ConfigObject = $Kernel::OM->Get('ConfigObject'); # returns the same ConfigObject as above
@@ -270,8 +311,7 @@ Please note that this method is DEPRECATED and will be removed in a future versi
 Returns a hash of already instantiated objects.
 The keys are the object names, and the values are the objects themselves.
 
-This method is useful for creating objects of classes that are
-not aware of the object manager yet.
+This method is useful for creating objects of classes that are not aware of the object manager yet.
 
     $SomeModule->new(
         $Kernel::OM->ObjectHash(
@@ -341,7 +381,7 @@ Mostly used for tests that rely on fresh objects, or to avoid large
 memory consumption in long-running processes.
 
 Note that if you pass a list of objects to be destroyed, they are destroyed
-in in the order they were passed; otherwise they are passed in reverse
+in in the order they were passed; otherwise they are destroyed in reverse
 dependency order.
 
 =cut
