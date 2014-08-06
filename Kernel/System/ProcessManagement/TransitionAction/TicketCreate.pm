@@ -11,15 +11,22 @@ package Kernel::System::ProcessManagement::TransitionAction::TicketCreate;
 
 use strict;
 use warnings;
-use Kernel::System::VariableCheck qw(:all);
-
 use utf8;
 
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
-use Kernel::System::LinkObject;
+use Kernel::System::VariableCheck qw(:all);
 
 use base qw(Kernel::System::ProcessManagement::TransitionAction::Base);
+
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
+    'Kernel::System::Link',
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+    'Kernel::System::Time',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -37,57 +44,11 @@ All TicketArticleCreate functions.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::Ticket;
-    use Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $TicketObject = Kernel::System::Ticket->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
-    );
-    my $TicketArticleCreateActionObject = Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        EncodeObject       => $EncodeObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        TicketObject       => $TicketObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $TicketCreateObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketCreate');
 
 =cut
 
@@ -97,19 +58,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Needed (
-        qw(ConfigObject LogObject EncodeObject DBObject MainObject TimeObject TicketObject)
-        )
-    {
-        die "Got no $Needed!" if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
-    $Self->{LinkObject}         = Kernel::System::LinkObject->new(%Param);
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
     return $Self;
 }
@@ -245,18 +193,20 @@ sub Run {
     for my $Attribute (qw(Queue State Lock Priority)) {
 
         if ( !$TicketParam{$Attribute} && !$TicketParam{ $Attribute . "ID" } ) {
-            $TicketParam{$Attribute}
-                = $Self->{ConfigObject}->Get("Process::Default$Attribute") || '';
+            $TicketParam{$Attribute} = $Kernel::OM->Get('Kernel::Config')->Get("Process::Default$Attribute") || '';
         }
     }
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # create ticket
-    my $TicketID = $Self->{TicketObject}->TicketCreate(
+    my $TicketID = $TicketObject->TicketCreate(
         %TicketParam,
         UserID => $Param{UserID},
     );
     if ( !$TicketID ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage
                 . "Couldn't create New Ticket from Ticket: "
@@ -268,12 +218,12 @@ sub Run {
     # get state information
     my %StateData;
     if ( $TicketParam{StateID} ) {
-        %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+        %StateData = $TicketObject->{StateObject}->StateGet(
             ID => $TicketParam{StateID},
         );
     }
     else {
-        %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+        %StateData = $TicketObject->{StateObject}->StateGet(
             Name => $TicketParam{State},
         );
     }
@@ -282,7 +232,7 @@ sub Run {
     if ( $StateData{TypeName} =~ /^close/i ) {
 
         # set lock
-        $Self->{TicketObject}->TicketLockSet(
+        $TicketObject->TicketLockSet(
             TicketID => $TicketID,
             Lock     => 'unlock',
             UserID   => $Param{UserID},
@@ -294,18 +244,21 @@ sub Run {
 
         if ( $Param{Config}->{PendingTime} ) {
 
+            # get time object
+            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
             # convert pending time to system time
-            my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            my $SystemTime = $TimeObject->TimeStamp2SystemTime(
                 String => $Param{Config}->{PendingTime},
             );
 
             # convert it back again so we are sure the sting is correct
-            my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+            my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
                 SystemTime => $SystemTime,
             );
 
             # set pending time
-            $Self->{TicketObject}->TicketPendingTimeSet(
+            $TicketObject->TicketPendingTimeSet(
                 UserID   => $Param{UserID},
                 TicketID => $TicketID,
                 String   => $TimeStamp,
@@ -314,7 +267,7 @@ sub Run {
         elsif ( $Param{Config}->{PendingTimeDiff} ) {
 
             # set pending time
-            $Self->{TicketObject}->TicketPendingTimeSet(
+            $TicketObject->TicketPendingTimeSet(
                 UserID   => $Param{UserID},
                 TicketID => $TicketID,
                 Diff     => $Param{Config}->{PendingTimeDiff},
@@ -339,7 +292,7 @@ sub Run {
 
     # check ArticleType
     if ( $ArticleParam{ArticleType} =~ m{\A email }msxi ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage
                 . "ArticleType $Param{Config}->{ArticleType} is not supported",
@@ -348,13 +301,13 @@ sub Run {
     }
 
     # create article for the new ticket
-    my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+    my $ArticleID = $TicketObject->ArticleCreate(
         %ArticleParam,
         TicketID => $TicketID,
         UserID   => $Param{UserID},
     );
     if ( !$ArticleID ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage
                 . "Couldn't create Article on Ticket: $TicketID from Ticket: "
@@ -365,7 +318,7 @@ sub Run {
 
     # set time units
     if ( $Param{Config}->{TimeUnit} ) {
-        $Self->{TicketObject}->TicketAccountTime(
+        $TicketObject->TicketAccountTime(
             TicketID  => $TicketID,
             ArticleID => $ArticleID,
             TimeUnit  => $Param{Config}->{TimeUnit},
@@ -383,8 +336,12 @@ sub Run {
         }
     }
 
+    # get dynamic field objects
+    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
     # get the dynamic fields for ticket
-    my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+    my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
         Valid       => 1,
         ObjectType  => [ 'Ticket', 'Article' ],
         FieldFilter => \%FieldFilter,
@@ -401,7 +358,7 @@ sub Run {
         }
 
         # set the value
-        my $Success = $Self->{BackendObject}->ValueSet(
+        my $Success = $DynamicFieldBackendObject->ValueSet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ObjectID           => $ObjectID,
             Value              => $Param{Config}->{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
@@ -409,7 +366,7 @@ sub Run {
         );
 
         if ( !$Success ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
                     . "Couldn't set DynamicField Value on $DynamicFieldConfig->{ObjectType}:"
@@ -423,8 +380,11 @@ sub Run {
     # link ticket
     if ( $Param{Config}->{LinkAs} ) {
 
+        # get link object
+        my $LinkObject = $Kernel::OM->Get('Kernel::System::Link');
+
         # get config of all types
-        my %ConfiguredTypes = $Self->{LinkObject}->TypeList(
+        my %ConfiguredTypes = $LinkObject->TypeList(
             UserID => 1,
         );
 
@@ -449,7 +409,7 @@ sub Run {
         }
 
         if ( !$SelectedType ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
                     . "LinkAs $Param{LinkAs} is invalid!"
@@ -464,7 +424,7 @@ sub Run {
             $TargetObjectID = $TicketID;
         }
 
-        my $Success = $Self->{LinkObject}->LinkAdd(
+        my $Success = $LinkObject->LinkAdd(
             SourceObject => 'Ticket',
             SourceKey    => $SourceObjectID,
             TargetObject => 'Ticket',
@@ -475,7 +435,7 @@ sub Run {
         );
 
         if ( !$Success ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
                     . "Couldn't Link Tickets $SourceObjectID with $TargetObjectID as $Param{LinkAs}!",

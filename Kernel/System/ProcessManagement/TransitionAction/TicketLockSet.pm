@@ -11,11 +11,17 @@ package Kernel::System::ProcessManagement::TransitionAction::TicketLockSet;
 
 use strict;
 use warnings;
-use Kernel::System::VariableCheck qw(:all);
-
 use utf8;
 
+use Kernel::System::VariableCheck qw(:all);
+
 use base qw(Kernel::System::ProcessManagement::TransitionAction::Base);
+
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -33,57 +39,11 @@ All TicketLockSet functions.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::Ticket;
-    use Kernel::System::ProcessManagement::TransitionAction::TicketLockSet;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $TicketObject = Kernel::System::Ticket->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
-    );
-    my $TicketLockSetActionObject = Kernel::System::ProcessManagement::TransitionAction::TicketLockSet->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        EncodeObject       => $EncodeObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        TicketObject       => $TicketObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $TicketLockSetObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketLockSet');
 
 =cut
 
@@ -93,23 +53,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Needed (
-        qw(ConfigObject LogObject EncodeObject DBObject MainObject TimeObject TicketObject)
-        )
-    {
-        die "Got no $Needed!" if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
-
-    $Self->{LockObject} = Kernel::System::Lock->new(
-        %Param,
-        DBObject   => $Self->{DBObject},
-        MainObject => $Self->{MainObject},
-        TimeObject => $Self->{TimeObject},
-    );
 
     return $Self;
 }
@@ -162,7 +105,7 @@ sub Run {
     $Self->_ReplaceTicketAttributes(%Param);
 
     if ( !$Param{Config}->{LockID} && !$Param{Config}->{Lock} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage . "No Lock or LockID configured!",
         );
@@ -188,14 +131,18 @@ sub Run {
         && $Param{Config}->{LockID} ne $Param{Ticket}->{LockID}
         )
     {
-        $Success = $Self->{TicketObject}->TicketLockSet(
+
+        # get ticket object
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        $Success = $TicketObject->TicketLockSet(
             TicketID => $Param{Ticket}->{TicketID},
             LockID   => $Param{Config}->{LockID},
             UserID   => $Param{UserID},
         );
 
         if ( !$Success ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
                     . 'Ticket LockID '
@@ -223,14 +170,17 @@ sub Run {
         && $Param{Config}->{Lock} ne $Param{Ticket}->{Lock}
         )
     {
-        $Success = $Self->{TicketObject}->TicketLockSet(
+        # get ticket object
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        $Success = $TicketObject->TicketLockSet(
             TicketID => $Param{Ticket}->{TicketID},
             Lock     => $Param{Config}->{Lock},
             UserID   => $Param{UserID},
         );
 
         if ( !$Success ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
                     . 'Ticket Lock '
@@ -241,7 +191,7 @@ sub Run {
         }
     }
     else {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage
                 . "Couldn't update Ticket Lock - can't find valid Lock parameter!",

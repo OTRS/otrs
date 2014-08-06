@@ -16,6 +16,11 @@ use utf8;
 
 use Kernel::System::VariableCheck qw(:all);
 
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 sub _CheckParams {
     my ( $Self, %Param ) = @_;
 
@@ -28,7 +33,7 @@ sub _CheckParams {
         )
     {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
@@ -38,7 +43,7 @@ sub _CheckParams {
 
     # Check if we have Ticket to deal with
     if ( !IsHashRefWithData( $Param{Ticket} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage . "Ticket has no values!",
         );
@@ -47,7 +52,7 @@ sub _CheckParams {
 
     # Check if we have a ConfigHash
     if ( !IsHashRefWithData( $Param{Config} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage . "Config has no values!",
         );
@@ -64,6 +69,7 @@ sub _OverrideUserID {
         $Param{UserID} = $Param{Config}->{UserID};
         delete $Param{Config}->{UserID};
     }
+
     return $Param{UserID};
 }
 
@@ -71,6 +77,7 @@ sub _ReplaceTicketAttributes {
     my ( $Self, %Param ) = @_;
 
     for my $Attribute ( sort keys %{ $Param{Config} } ) {
+
         if (
             $Param{Config}->{$Attribute}
             && $Param{Config}->{$Attribute} =~ m{\A<OTRS_Ticket_([A-Za-z0-9_]+)>\z}msx
@@ -80,11 +87,13 @@ sub _ReplaceTicketAttributes {
             $Param{Config}->{$Attribute} = $Param{Ticket}->{$TicketAttribute} //= '';
         }
     }
+
     return 1;
 }
 
 sub _ConvertScalar2ArrayRef {
     my ( $Self, %Param ) = @_;
+
     my @Data = split /,/, $Param{Data};
 
     # remove any possible heading and tailing white spaces
@@ -92,6 +101,7 @@ sub _ConvertScalar2ArrayRef {
         $Item =~ s{\A\s+}{};
         $Item =~ s{\s+\z}{};
     }
+
     return \@Data;
 }
 
