@@ -15,23 +15,11 @@ use utf8;
 # set time zone to get correct references
 #$ENV{TZ} = 'Europe/Berlin';
 
-use Kernel::System::Time;
-use Kernel::System::UnitTest::Helper;
-
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-
-my $TimeObject = Kernel::System::Time->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
+my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 my $StartSystemTime = $TimeObject->SystemTime();
 
 {
-    my $HelperObject = Kernel::System::UnitTest::Helper->new(
-        %{$Self},
-        UnitTestObject => $Self,
-    );
+    my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
     sleep 1;
 
@@ -53,19 +41,22 @@ my $StartSystemTime = $TimeObject->SystemTime();
         "Stay with fixed time",
     );
 
-    $HelperObject->FixedTimeAddSeconds(10);
+    $HelperObject->FixedTimeAddSeconds(-10);
 
     $Self->Is(
         $TimeObject->SystemTime(),
-        $FixedTime + 10,
+        $FixedTime - 10,
         "Stay with increased fixed time",
     );
+
+    # Let object be destroyed at the end of this scope
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::UnitTest::Helper'] );
 }
 
 sleep 1;
 
 $Self->True(
-    $TimeObject->SystemTime() > $StartSystemTime,
+    $TimeObject->SystemTime() >= $StartSystemTime,
     "Back to original time",
 );
 
