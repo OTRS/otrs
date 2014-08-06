@@ -7,6 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -16,15 +17,17 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
-my $DynamicFieldObject     = $Kernel::OM->Get('Kernel::System::DynamicField');
-my $HelperObject           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $ActivityObject         = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
-my $ActivityDialogObject   = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
-my $ProcessObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
-my $TransitionObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
-my $TransitionActionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
-my $YAMLObject             = $Kernel::OM->Get('Kernel::System::YAML');
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ActivityObject     = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
+my $ActivityDialogObject
+    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
+my $ProcessObject    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
+my $TransitionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
+my $TransitionActionObject
+    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
+my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
 
 # define needed variables
 my $RandomID = $HelperObject->GetRandomID();

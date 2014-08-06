@@ -7,6 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -448,17 +449,20 @@ for my $Test (@Tests) {
         my %ExpectedTransition = %{ $AddedTransitions{ $Transition->{ID} } };
         delete $ExpectedTransition{UserID};
 
+        # create a variable copy otherwise the cache will be altered
+        my %TransitionCopy = %{$Transition};
+
         for my $Attribute (qw(ID CreateTime ChangeTime)) {
             $Self->IsNot(
-                $Transition->{$Attribute},
+                $TransitionCopy{$Attribute},
                 undef,
-                "$Test->{Name} | Transition->{$Attribute} should not be undef",
+                "$Test->{Name} | TransitionCopy{$Attribute} should not be undef",
             );
-            delete $Transition->{$Attribute};
+            delete $TransitionCopy{$Attribute};
         }
 
         $Self->IsDeeply(
-            $Transition,
+            \%TransitionCopy,
             \%ExpectedTransition,
             "$Test->{Name} | Transition"
         );
@@ -758,12 +762,15 @@ for my $Test (@Tests) {
             my %ExpectedTransition = %{ $Test->{Config} };
             delete $ExpectedTransition{UserID};
 
+            # create a variable copy otherwise the cache will be altered
+            my %NewTransitionCopy = %{$NewTransition};
+
             for my $Attribute (qw(CreateTime ChangeTime)) {
-                delete $NewTransition->{$Attribute};
+                delete $NewTransitionCopy{$Attribute};
             }
 
             $Self->IsDeeply(
-                $NewTransition,
+                \%NewTransitionCopy,
                 \%ExpectedTransition,
                 "$Test->{Name} | Transition"
             );
@@ -819,19 +826,22 @@ $Self->IsNotDeeply(
     "TransitionList Test 2: All | Should be different than the original",
 );
 
+# create a variable copy otherwise the cache will be altered
+my %TestTransitionListCopy = %{$TestTransitionList};
+
 # delete original Transitions
 for my $TransitionID ( sort keys %{$OriginalTransitionList} ) {
-    delete $TestTransitionList->{$TransitionID};
+    delete $TestTransitionListCopy{$TransitionID};
 }
 
 $Self->Is(
-    scalar keys %{$TestTransitionList},
+    scalar keys %TestTransitionListCopy,
     scalar @AddedTransitionsList,
     "TransitionList Test 2: All Transition | Number of Transitions match added Transitions",
 );
 
 my $Counter = 0;
-for my $TransitionID ( sort { $a <=> $b } keys %{$TestTransitionList} ) {
+for my $TransitionID ( sort { $a <=> $b } keys %TestTransitionListCopy ) {
     $Self->Is(
         $TransitionID,
         $AddedTransitionsList[$Counter],
