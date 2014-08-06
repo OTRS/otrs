@@ -21,8 +21,9 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
-    'Kernel::System::Link',
+    'Kernel::System::LinkObject',
     'Kernel::System::Log',
+    'Kernel::System::State',
     'Kernel::System::Ticket',
     'Kernel::System::Time',
 );
@@ -218,12 +219,12 @@ sub Run {
     # get state information
     my %StateData;
     if ( $TicketParam{StateID} ) {
-        %StateData = $TicketObject->{StateObject}->StateGet(
+        %StateData = $Kernel::OM->Get('Kernel::System::State')->StateGet(
             ID => $TicketParam{StateID},
         );
     }
     else {
-        %StateData = $TicketObject->{StateObject}->StateGet(
+        %StateData = $Kernel::OM->Get('Kernel::System::State')->StateGet(
             Name => $TicketParam{State},
         );
     }
@@ -381,7 +382,7 @@ sub Run {
     if ( $Param{Config}->{LinkAs} ) {
 
         # get link object
-        my $LinkObject = $Kernel::OM->Get('Kernel::System::Link');
+        my $LinkObject = $Kernel::OM->Get('Kernel::System::LinkObject');
 
         # get config of all types
         my %ConfiguredTypes = $LinkObject->TypeList(

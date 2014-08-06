@@ -7,65 +7,24 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
-use vars qw($Self);
 
-use Kernel::Config;
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicFieldValue;
-use Kernel::System::LinkObject;
-use Kernel::System::State;
-use Kernel::System::Ticket;
-use Kernel::System::Time;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::User;
-use Kernel::System::ProcessManagement::TransitionAction::TicketCreate;
+use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-# create local objects
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 0,
-);
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-my $UserObject   = Kernel::System::User->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $DynamicFieldObject = Kernel::System::DynamicField->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $DynamicFieldValueObject = Kernel::System::DynamicFieldValue->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $TimeObject = Kernel::System::Time->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $LinkObject = Kernel::System::LinkObject->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $StateObject = Kernel::System::State->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::TicketCreate->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-    TicketObject => $TicketObject,
-);
+# get needed objects
+my $HelperObject            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DynamicFieldObject      = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
+my $TicketObject            = $Kernel::OM->Get('Kernel::System::Ticket');
+my $LinkObject              = $Kernel::OM->Get('Kernel::System::LinkObject');
+my $StateObject             = $Kernel::OM->Get('Kernel::System::State');
+my $TimeObject              = $Kernel::OM->Get('Kernel::System::Time');
+my $UserObject              = $Kernel::OM->Get('Kernel::System::User');
+my $ModuleObject            = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketCreate');
 
 # define variables
 my $UserID     = 1;

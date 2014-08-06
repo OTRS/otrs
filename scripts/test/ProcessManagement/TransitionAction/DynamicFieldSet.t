@@ -7,36 +7,21 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
-use vars qw($Self);
 
-use Kernel::Config;
-use Kernel::System::DynamicField;
-use Kernel::System::Ticket;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::User;
-use Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet;
+use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-# create local objects
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 0,
-);
-my $ConfigObject       = $Kernel::OM->Get('ConfigObject');
-my $UserObject         = $Kernel::OM->Get('UserObject');
-my $TicketObject       = $Kernel::OM->Get('TicketObject');
-my $DynamicFieldObject = $Kernel::OM->Get('DynamicFieldObject');
-my $ModuleObject       = Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-    TicketObject => $TicketObject,
-);
+# get needed objects
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
+my $ModuleObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet');
 
 # define variables
 my $UserID          = 1;
