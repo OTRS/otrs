@@ -12,6 +12,11 @@ package Kernel::System::Web::UploadCache;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::Web::UploadCache - an upload file system cache
@@ -28,41 +33,11 @@ All upload cache functions.
 
 =item new()
 
-create param object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::Web::UploadCache;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $UploadCache = Kernel::System::Web::UploadCache->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-        EncodeObject => $EncodeObject,
-        MainObject   => $MainObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $WebUploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
 =cut
 
@@ -73,19 +48,12 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(ConfigObject LogObject MainObject EncodeObject DBObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    my $GenericModule = $Kernel::OM->Get('Kernel::Config')->Get('WebUploadCacheModule') || 'Kernel::System::Web::UploadCache::DB';
 
     # load generator auth module
-    $Self->{GenericModule} = $Self->{ConfigObject}->Get('WebUploadCacheModule')
-        || 'Kernel::System::Web::UploadCache::DB';
+    $Self->{Backend} = $Kernel::OM->Get($GenericModule);
 
-    if ( $Self->{MainObject}->Require( $Self->{GenericModule} ) ) {
-        $Self->{Backend} = $Self->{GenericModule}->new( %{$Self} );
-        return $Self;
-    }
+    return $Self if $Self->{Backend};
     return;
 }
 
