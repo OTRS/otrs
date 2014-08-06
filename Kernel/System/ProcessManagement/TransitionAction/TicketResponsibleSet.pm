@@ -11,11 +11,17 @@ package Kernel::System::ProcessManagement::TransitionAction::TicketResponsibleSe
 
 use strict;
 use warnings;
-use Kernel::System::VariableCheck qw(:all);
-
 use utf8;
 
+use Kernel::System::VariableCheck qw(:all);
+
 use base qw(Kernel::System::ProcessManagement::TransitionAction::Base);
+
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -34,58 +40,11 @@ All TicketResponsibleSet functions.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::Ticket;
-    use Kernel::System::ProcessManagement::TransitionAction::TicketResponsibleSet;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $TicketObject = Kernel::System::Ticket->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
-    );
-    my $TicketResponsibleSetActionObject
-        = Kernel::System::ProcessManagement::TransitionAction::TicketResponsibleSet->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        EncodeObject       => $EncodeObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        TicketObject       => $TicketObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $TicketResponsibleSetObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketResponsibleSet');
 
 =cut
 
@@ -95,16 +54,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Needed (
-        qw(ConfigObject LogObject EncodeObject DBObject MainObject TimeObject TicketObject)
-        )
-    {
-        die "Got no $Needed!" if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
 
     return $Self;
 }
@@ -159,7 +108,7 @@ sub Run {
     $Self->_ReplaceTicketAttributes(%Param);
 
     if ( !$Param{Config}->{ResponsibleID} && !$Param{Config}->{Responsible} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage . "No Responsible or ResponsibleID configured!",
         );
@@ -173,7 +122,7 @@ sub Run {
         && $Param{Config}->{Responsible} ne $Param{Ticket}->{Responsible}
         )
     {
-        $Success = $Self->{TicketObject}->TicketResponsibleSet(
+        $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketResponsibleSet(
             TicketID => $Param{Ticket}->{TicketID},
             NewUser  => $Param{Config}->{Responsible},
             UserID   => $Param{UserID},
@@ -184,7 +133,7 @@ sub Run {
         && $Param{Config}->{ResponsibleID} ne $Param{Ticket}->{ResponsibleID}
         )
     {
-        $Success = $Self->{TicketObject}->TicketResponsibleSet(
+        $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketResponsibleSet(
             TicketID  => $Param{Ticket}->{TicketID},
             NewUserID => $Param{Config}->{ResponsibleID},
             UserID    => $Param{UserID},
@@ -204,7 +153,7 @@ sub Run {
         else {
             $CustomMessage = "ResponsibleID: $Param{Config}->{ResponsibleID},";
         }
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage
                 . 'Ticket responsible could not be updated to '

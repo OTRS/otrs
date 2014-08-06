@@ -11,11 +11,17 @@ package Kernel::System::ProcessManagement::TransitionAction::TicketOwnerSet;
 
 use strict;
 use warnings;
-use Kernel::System::VariableCheck qw(:all);
-
 use utf8;
 
+use Kernel::System::VariableCheck qw(:all);
+
 use base qw(Kernel::System::ProcessManagement::TransitionAction::Base);
+
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -33,57 +39,11 @@ All TicketOwnerSet functions.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::Ticket;
-    use Kernel::System::ProcessManagement::TransitionAction::TicketOwnerSet;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $TicketObject = Kernel::System::Ticket->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
-    );
-    my $TicketOwnerSetActionObject = Kernel::System::ProcessManagement::TransitionAction::TicketOwnerSet->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        EncodeObject       => $EncodeObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        TicketObject       => $TicketObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $TicketOwnerSetObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketOwnerSet');
 
 =cut
 
@@ -93,16 +53,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Needed (
-        qw(ConfigObject LogObject EncodeObject DBObject MainObject TimeObject TicketObject)
-        )
-    {
-        die "Got no $Needed!" if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
 
     return $Self;
 }
@@ -157,7 +107,7 @@ sub Run {
     $Self->_ReplaceTicketAttributes(%Param);
 
     if ( !$Param{Config}->{OwnerID} && !$Param{Config}->{Owner} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage . "No Owner or OwnerID configured!",
         );
@@ -171,7 +121,7 @@ sub Run {
         && $Param{Config}->{Owner} ne $Param{Ticket}->{Owner}
         )
     {
-        $Success = $Self->{TicketObject}->TicketOwnerSet(
+        $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketOwnerSet(
             TicketID => $Param{Ticket}->{TicketID},
             NewUser  => $Param{Config}->{Owner},
             UserID   => $Param{UserID},
@@ -182,7 +132,7 @@ sub Run {
         && $Param{Config}->{OwnerID} ne $Param{Ticket}->{OwnerID}
         )
     {
-        $Success = $Self->{TicketObject}->TicketOwnerSet(
+        $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketOwnerSet(
             TicketID  => $Param{Ticket}->{TicketID},
             NewUserID => $Param{Config}->{OwnerID},
             UserID    => $Param{UserID},
@@ -202,7 +152,7 @@ sub Run {
         else {
             $CustomMessage = "OwnerID: $Param{Config}->{OwnerID},";
         }
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage
                 . 'Ticket owner could not be updated to '

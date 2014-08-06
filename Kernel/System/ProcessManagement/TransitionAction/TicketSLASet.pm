@@ -11,12 +11,18 @@ package Kernel::System::ProcessManagement::TransitionAction::TicketSLASet;
 
 use strict;
 use warnings;
+use utf8;
+
 use Kernel::System::VariableCheck qw(:all);
 
-use utf8;
-use Kernel::System::SLA;
-
 use base qw(Kernel::System::ProcessManagement::TransitionAction::Base);
+
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::System::SLA',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -34,57 +40,11 @@ All TicketSLASet functions.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::Ticket;
-    use Kernel::System::ProcessManagement::TransitionAction::TicketSLASet;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $TicketObject = Kernel::System::Ticket->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
-    );
-    my $TicketSLASetActionObject = Kernel::System::ProcessManagement::TransitionAction::TicketSLASet->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        EncodeObject       => $EncodeObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        TicketObject       => $TicketObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $TicketSLASetObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketSLASet');
 
 =cut
 
@@ -94,23 +54,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Needed (
-        qw(ConfigObject LogObject EncodeObject DBObject MainObject TimeObject TicketObject)
-        )
-    {
-        die "Got no $Needed!" if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
-
-    $Self->{SLAObject} = Kernel::System::SLA->new(
-        %Param,
-        DBObject   => $Self->{DBObject},
-        MainObject => $Self->{MainObject},
-        TimeObject => $Self->{TimeObject},
-    );
 
     return $Self;
 }
@@ -163,7 +106,7 @@ sub Run {
     $Self->_ReplaceTicketAttributes(%Param);
 
     if ( !$Param{Config}->{SLAID} && !$Param{Config}->{SLA} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage . "No SLA or SLAID configured!",
         );
@@ -171,7 +114,7 @@ sub Run {
     }
 
     if ( !$Param{Ticket}->{ServiceID} && !$Param{Ticket}->{Service} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage . "To set a SLA the ticket requires a service!",
         );
@@ -210,7 +153,7 @@ sub Run {
         );
 
         if ( !$Success ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
                     . 'SLAID '
@@ -222,14 +165,14 @@ sub Run {
         }
 
         # set ticket SLA
-        $Success = $Self->{TicketObject}->TicketSLASet(
+        $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSLASet(
             TicketID => $Param{Ticket}->{TicketID},
             SLAID    => $Param{Config}->{SLAID},
             UserID   => $Param{UserID},
         );
 
         if ( !$Success ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
                     . 'Ticket SLAID '
@@ -263,12 +206,12 @@ sub Run {
         )
     {
 
-        my $SLAID = $Self->{SLAObject}->SLALookup(
+        my $SLAID = $Kernel::OM->Get('Kernel::System::SLA')->SLALookup(
             Name => $Param{Config}->{SLA},
         );
 
         if ( !$SLAID ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
                     . 'SLA '
@@ -285,7 +228,7 @@ sub Run {
         );
 
         if ( !$Success ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
                     . 'SLA '
@@ -297,14 +240,14 @@ sub Run {
         }
 
         # set ticket SLA
-        $Success = $Self->{TicketObject}->TicketSLASet(
+        $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSLASet(
             TicketID => $Param{Ticket}->{TicketID},
             SLA      => $Param{Config}->{SLA},
             UserID   => $Param{UserID},
         );
 
         if ( !$Success ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
                     . 'Ticket SLA '
@@ -315,7 +258,7 @@ sub Run {
         }
     }
     else {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage
                 . "Couldn't update Ticket SLA - can't find valid SLA parameter!",
@@ -344,7 +287,7 @@ sub _CheckSLA {
     my ( $Self, %Param ) = @_;
 
     # get a list of assigned SLAs to the Service
-    my %SLAs = $Self->{SLAObject}->SLAList(
+    my %SLAs = $Kernel::OM->Get('Kernel::System::SLA')->SLAList(
         ServiceID => $Param{ServiceID},
         UserID    => 1,
     );
@@ -358,6 +301,7 @@ sub _CheckSLA {
     # otherwise return success
     return 1;
 }
+
 1;
 
 =back

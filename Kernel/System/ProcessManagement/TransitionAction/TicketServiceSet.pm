@@ -11,12 +11,18 @@ package Kernel::System::ProcessManagement::TransitionAction::TicketServiceSet;
 
 use strict;
 use warnings;
+use utf8;
+
 use Kernel::System::VariableCheck qw(:all);
 
-use utf8;
-use Kernel::System::Service;
-
 use base qw(Kernel::System::ProcessManagement::TransitionAction::Base);
+
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::System::Service',
+    'Kernel::System::Ticket',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -34,58 +40,11 @@ All TicketServiceSet functions.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::Ticket;
-    use Kernel::System::ProcessManagement::TransitionAction::TicketServiceSet;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $TicketObject = Kernel::System::Ticket->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
-    );
-    my $TicketServiceSetActionObject
-        = Kernel::System::ProcessManagement::TransitionAction::TicketServiceSet->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        EncodeObject       => $EncodeObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        TicketObject       => $TicketObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $TicketServiceSetObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketServiceSet');
 
 =cut
 
@@ -95,23 +54,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Needed (
-        qw(ConfigObject LogObject EncodeObject DBObject MainObject TimeObject TicketObject)
-        )
-    {
-        die "Got no $Needed!" if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
-
-    $Self->{ServiceObject} = Kernel::System::Service->new(
-        %Param,
-        DBObject   => $Self->{DBObject},
-        MainObject => $Self->{MainObject},
-        TimeObject => $Self->{TimeObject},
-    );
 
     return $Self;
 }
@@ -164,7 +106,7 @@ sub Run {
     $Self->_ReplaceTicketAttributes(%Param);
 
     if ( !$Param{Config}->{ServiceID} && !$Param{Config}->{Service} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage . "No Service or ServiceID configured!",
         );
@@ -172,7 +114,7 @@ sub Run {
     }
 
     if ( !$Param{Ticket}->{CustomerUserID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage . "To set a service the ticket requires a customer!",
         );
@@ -211,7 +153,7 @@ sub Run {
         );
 
         if ( !$Success ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
                     . 'ServiceID '
@@ -223,14 +165,14 @@ sub Run {
         }
 
         # set ticket service
-        $Success = $Self->{TicketObject}->TicketServiceSet(
+        $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketServiceSet(
             TicketID  => $Param{Ticket}->{TicketID},
             ServiceID => $Param{Config}->{ServiceID},
             UserID    => $Param{UserID},
         );
 
         if ( !$Success ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
                     . 'Ticket ServiceID '
@@ -265,12 +207,12 @@ sub Run {
         )
     {
 
-        my $ServiceID = $Self->{ServiceObject}->ServiceLookup(
+        my $ServiceID = $Kernel::OM->Get('Kernel::System::Service')->ServiceLookup(
             Name => $Param{Config}->{Service},
         );
 
         if ( !$ServiceID ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
                     . 'Service '
@@ -287,7 +229,7 @@ sub Run {
         );
 
         if ( !$Success ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
                     . 'Service '
@@ -299,14 +241,14 @@ sub Run {
         }
 
         # set ticket service
-        $Success = $Self->{TicketObject}->TicketServiceSet(
+        $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketServiceSet(
             TicketID => $Param{Ticket}->{TicketID},
             Service  => $Param{Config}->{Service},
             UserID   => $Param{UserID},
         );
 
         if ( !$Success ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
                     . 'Ticket Service '
@@ -317,7 +259,7 @@ sub Run {
         }
     }
     else {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage
                 . "Couldn't update Ticket Service - can't find valid Service parameter!",
@@ -346,7 +288,7 @@ sub _CheckService {
     my ( $Self, %Param ) = @_;
 
     # get a list of assigned services to the customer user
-    my %Services = $Self->{ServiceObject}->CustomerUserServiceMemberList(
+    my %Services = $Kernel::OM->Get('Kernel::System::Service')->CustomerUserServiceMemberList(
         CustomerUserLogin => $Param{UserLogin},
         Result            => 'HASH',
         DefaultServices   => 1,
@@ -361,6 +303,7 @@ sub _CheckService {
     # otherwise return success
     return 1;
 }
+
 1;
 
 =back
