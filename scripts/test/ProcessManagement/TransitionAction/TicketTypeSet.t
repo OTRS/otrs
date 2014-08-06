@@ -7,28 +7,21 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
-use vars qw($Self);
 
-use Kernel::Config;
-use Kernel::System::Ticket;
-use Kernel::System::Type;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::User;
-use Kernel::System::ProcessManagement::TransitionAction::TicketTypeSet;
+use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-# create local objects
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 0,
-);
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TypeObject   = $Kernel::OM->Get('Kernel::System::Type');
+my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+my $ModuleObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketTypeSet');
 
 # enable ticket type for this run
 $ConfigObject->Set(
@@ -44,23 +37,6 @@ $ConfigObject->Set(
         Module      => 'Kernel::System::Ticket::Event::TicketDynamicFieldDefault',
         Transaction => 0,
     },
-);
-my $UserObject = Kernel::System::User->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $TypeObject = Kernel::System::Type->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::TicketTypeSet->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-    TicketObject => $TicketObject,
 );
 
 # define variables

@@ -7,46 +7,21 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
-use vars qw($Self);
 
-use Kernel::Config;
-use Kernel::System::Service;
-use Kernel::System::Ticket;
-use Kernel::System::User;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::ProcessManagement::TransitionAction::TicketServiceSet;
+use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-# create local objects
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 0,
-);
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-my $UserObject   = Kernel::System::User->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $ServiceObject = Kernel::System::Service->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-my $ModuleObject = Kernel::System::ProcessManagement::TransitionAction::TicketServiceSet->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-    TicketObject => $TicketObject,
-);
+# get needed objects
+my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject  = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
+my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+my $UserObject    = $Kernel::OM->Get('Kernel::System::User');
+my $ModuleObject  = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketServiceSet');
 
 # define variables
 my $UserID     = 1;
