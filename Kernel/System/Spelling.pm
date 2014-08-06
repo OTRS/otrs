@@ -13,7 +13,13 @@ use strict;
 use warnings;
 use utf8;
 
-use Kernel::System::FileTemp;
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Encode',
+    'Kernel::System::FileTemp',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -32,26 +38,11 @@ Currently, ispell and aspell are supported as spellchecker backends.
 
 =item new()
 
-create a spelling object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Spelling;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $SpellingObject = Kernel::System::Spelling->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        EncodeObject => $EncodeObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $SpellingObject = $Kernel::OM->Get('Kernel::System::Spelling');
 
 =cut
 
@@ -61,19 +52,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    $Self->{Debug} = 0;
-
-    # get needed objects
-    for (qw(ConfigObject LogObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
-    # create file template object
-    $Self->{FileTempObject} = Kernel::System::FileTemp->new( %{$Self} );
-
-    # spell checker config options
-    $Self->{SpellChecker} = $Self->{ConfigObject}->Get('SpellCheckerBin') || 'ispell';
 
     return $Self;
 }
@@ -106,7 +84,7 @@ sub Check {
     # check needed stuff
     for (qw(Text)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -118,9 +96,15 @@ sub Check {
         caldera php perl java html unsubscribe queue event day month year ticket
     );
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # spell checker config options
+    my $SpellChecker = $ConfigObject->Get('SpellCheckerBin') || 'ispell';
+
     # add configured ignored words
-    if ( ref $Self->{ConfigObject}->Get('SpellCheckerIgnore') eq 'ARRAY' ) {
-        for ( @{ $Self->{ConfigObject}->Get('SpellCheckerIgnore') } ) {
+    if ( ref $ConfigObject->Get('SpellCheckerIgnore') eq 'ARRAY' ) {
+        for ( @{ $ConfigObject->Get('SpellCheckerIgnore') } ) {
             push @Ignore, $_;
         }
     }
@@ -133,7 +117,7 @@ sub Check {
     $Param{Text} =~ s/^>.*$//gm;
 
     # ispell encoding:
-    if ( $Self->{SpellChecker} =~ /ispell/ ) {
+    if ( $SpellChecker =~ /ispell/ ) {
         $Param{Text} =~ s/ä/a"/g;
         $Param{Text} =~ s/ö/o"/g;
         $Param{Text} =~ s/ü/u"/g;
@@ -144,51 +128,54 @@ sub Check {
     }
 
     # check if spell checker exists in file system
-    if ( !-e $Self->{ConfigObject}->Get('SpellCheckerBin') ) {
+    if ( !-e $ConfigObject->Get('SpellCheckerBin') ) {
         $Self->{Error} = 1;
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't find spellchecker ("
-                . $Self->{ConfigObject}->Get('SpellCheckerBin') . "): $!",
+                . $ConfigObject->Get('SpellCheckerBin') . "): $!",
         );
         return;
     }
 
     # add -a
-    $Self->{SpellChecker} .= ' -a ';
+    $SpellChecker .= ' -a ';
 
     # set dict
     if ( $Param{SpellLanguage} ) {
-        $Self->{SpellChecker} .= " -d $Param{SpellLanguage}";
+        $SpellChecker .= " -d $Param{SpellLanguage}";
     }
 
     # get spell output
 
     # write text to file and read it with (i|a)spell
     # - can't use IPC::Open* because it's not working with mod_perl* :-/
-    my ( $FH, $TmpFile ) = $Self->{FileTempObject}->TempFile();
+    my ( $FH, $TmpFile ) = $Kernel::OM->Get('Kernel::System::FileTemp')->TempFile();
     if ( !$FH ) {
         $Self->{Error} = 1;
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't write spell tmp text to $TmpFile: $!",
         );
         return;
     }
 
-    $Self->{EncodeObject}->EncodeOutput( \$Param{Text} );
+    # get encode object
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
+    $EncodeObject->EncodeOutput( \$Param{Text} );
     print $FH $Param{Text};
 
     # aspell encoding
-    if ( $Self->{SpellChecker} =~ /aspell/ ) {
-        $Self->{SpellChecker} .= ' --encoding=utf-8';
+    if ( $SpellChecker =~ /aspell/ ) {
+        $SpellChecker .= ' --encoding=utf-8';
     }
 
     # open spell checker
     my $Spell;
-    if ( !open( $Spell, "-|", "$Self->{SpellChecker} < $TmpFile" ) ) {    ## no critic
+    if ( !open( $Spell, "-|", "$SpellChecker < $TmpFile" ) ) {    ## no critic
         $Self->{Error} = 1;
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't open spellchecker: $!",
         );
@@ -200,13 +187,14 @@ sub Check {
     my $CurrentLine = 0;
     my %Data;
     while ( my $Line = <$Spell> ) {
+
         $CurrentLine++;
 
         # set utf8 stamp if running in utf8 mode
-        $Self->{EncodeObject}->EncodeInput( \$Line );
+        $EncodeObject->EncodeInput( \$Line );
 
         # ispell encoding:
-        if ( $Self->{SpellChecker} =~ /ispell/ ) {
+        if ( $SpellChecker =~ /ispell/ ) {
             $Line =~ s/a"/ä/g;
             $Line =~ s/o"/ö/g;
             $Line =~ s/u"/ü/g;
@@ -269,7 +257,9 @@ sub Check {
             }
         }
     }
+
     close($Spell);
+
     return %Data;
 }
 
