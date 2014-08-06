@@ -12,6 +12,14 @@ package Kernel::System::VirtualFS;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::VirtualFS - virtual fs lib
@@ -28,41 +36,11 @@ All virtual fs functions.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::VirtualFS;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $VirtualFSObject = Kernel::System::VirtualFS->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-        MainObject   => $MainObject,
-        EncodeObject => $EncodeObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $VirtualFSObject = $Kernel::OM->Get('Kernel::System::VirtualFS');
 
 =cut
 
@@ -73,18 +51,15 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
     # load backend
-    $Self->{BackendDefault} = $Self->{ConfigObject}->Get('VirtualFS::Backend')
+    $Self->{BackendDefault} = $Kernel::OM->Get('Kernel::Config')->Get('VirtualFS::Backend')
         || 'Kernel::System::VirtualFS::DB';
-    if ( !$Self->{MainObject}->Require( $Self->{BackendDefault} ) ) {
+
+    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( $Self->{BackendDefault} ) ) {
         return;
     }
-    $Self->{Backend}->{ $Self->{BackendDefault} } = $Self->{BackendDefault}->new( %{$Self} );
+
+    $Self->{Backend}->{ $Self->{BackendDefault} } = $Self->{BackendDefault}->new();
 
     return $Self;
 }
@@ -129,7 +104,7 @@ sub Read {
     # check needed stuff
     for (qw(Filename Mode)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -138,7 +113,7 @@ sub Read {
     my ( $FileID, $BackendKey, $Backend ) = $Self->_FileLookup( $Param{Filename} );
     if ( !$BackendKey ) {
         if ( !$Param{DisableWarnings} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "No such file '$Param{Filename}'!",
             );
@@ -146,21 +121,28 @@ sub Read {
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # get preferences
     my %Preferences;
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => 'SELECT preferences_key, preferences_value FROM '
             . 'virtual_fs_preferences WHERE virtual_fs_id = ?',
         Bind => [ \$FileID ],
     );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Preferences{ $Row[0] } = $Row[1];
     }
 
     # load backend (if not default)
     if ( !$Self->{Backend}->{$Backend} ) {
-        return if !$Self->{MainObject}->Require($Backend);
-        $Self->{Backend}->{$Backend} = $Backend->new( %{$Self} );
+
+        return if !$Kernel::OM->Get('Kernel::System::Main')->Require($Backend);
+
+        $Self->{Backend}->{$Backend} = $Backend->new();
+
         return if !$Self->{Backend}->{$Backend};
     }
 
@@ -203,7 +185,7 @@ sub Write {
     # check needed stuff
     for (qw(Filename Content Mode)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -211,22 +193,27 @@ sub Write {
     # lookup
     my ($FileID) = $Self->_FileLookup( $Param{Filename} );
     if ($FileID) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "File already exists '$Param{Filename}'!",
         );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # insert
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'INSERT INTO virtual_fs (filename, backend_key, backend, create_time)'
             . ' VALUES ( ?, \'TMP\', ?, current_timestamp)',
         Bind => [ \$Param{Filename}, \$Self->{BackendDefault} ],
     );
+
     ($FileID) = $Self->_FileLookup( $Param{Filename} );
+
     if ( !$FileID ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Unable to store '$Param{Filename}'!",
         );
@@ -249,7 +236,7 @@ sub Write {
 
     # insert preferences
     for my $Key ( sort keys %{ $Param{Preferences} } ) {
-        return if !$Self->{DBObject}->Do(
+        return if !$DBObject->Do(
             SQL => 'INSERT INTO virtual_fs_preferences '
                 . '(virtual_fs_id, preferences_key, preferences_value) VALUES ( ?, ?, ?)',
             Bind => [ \$FileID, \$Key, \$Param{Preferences}->{$Key} ],
@@ -261,7 +248,7 @@ sub Write {
     return if !$BackendKey;
 
     # update backend key
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'UPDATE virtual_fs SET backend_key = ? WHERE id = ?',
         Bind => [ \$BackendKey, \$FileID ],
     );
@@ -288,7 +275,7 @@ sub Delete {
     # check needed stuff
     for (qw(Filename)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -297,7 +284,7 @@ sub Delete {
     my ( $FileID, $BackendKey, $Backend ) = $Self->_FileLookup( $Param{Filename} );
     if ( !$FileID ) {
         if ( !$Param{DisableWarnings} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "No such file '$Param{Filename}'!",
             );
@@ -307,19 +294,25 @@ sub Delete {
 
     # load backend (if not default)
     if ( !$Self->{Backend}->{$Backend} ) {
-        return if !$Self->{MainObject}->Require($Backend);
-        $Self->{Backend}->{$Backend} = $Backend->new( %{$Self} );
+
+        return if !$Kernel::OM->Get('Kernel::System::Main')->Require($Backend);
+
+        $Self->{Backend}->{$Backend} = $Backend->new();
+
         return if !$Self->{Backend}->{$Backend};
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # delete preferences
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM virtual_fs_preferences WHERE virtual_fs_id = ?',
         Bind => [ \$FileID ],
     );
 
     # delete
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM virtual_fs WHERE id = ?',
         Bind => [ \$FileID ],
     );
@@ -372,15 +365,18 @@ sub Find {
 
     # check needed stuff
     if ( !$Param{Filename} && !$Param{Preferences} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Filename or/and Preferences!',
         );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # get like escape string needed for some databases (e.g. oracle)
-    my $LikeEscapeString = $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
+    my $LikeEscapeString = $DBObject->GetDatabaseFunction('LikeEscapeString');
 
     # prepare file name search
     my $SQLResult = 'vfs.filename';
@@ -390,7 +386,7 @@ sub Find {
     if ( $Param{Filename} ) {
         my $Like = $Param{Filename};
         $Like =~ s/\*/%/g;
-        $Like = $Self->{DBObject}->Quote( $Like, 'Like' );
+        $Like = $DBObject->Quote( $Like, 'Like' );
         $SQLWhere .= "vfs.filename LIKE '$Like' $LikeEscapeString";
     }
 
@@ -413,7 +409,7 @@ sub Find {
             my $Value = $Param{Preferences}->{$Key};
             if ( $Value =~ /(\*|\%)/ ) {
                 $Value =~ s/\*/%/g;
-                $Value = $Self->{DBObject}->Quote( $Value, 'Like' );
+                $Value = $DBObject->Quote( $Value, 'Like' );
                 $SQL .= "vfsp.preferences_value LIKE '$Value' $LikeEscapeString";
             }
             else {
@@ -427,13 +423,13 @@ sub Find {
     }
 
     # search
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL  => "SELECT $SQLResult FROM $SQLTable WHERE $SQLWhere",
         Bind => \@SQLBind,
     );
     my @List;
     my %Result;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Param{Preferences} ) {
             for my $Key ( sort keys %{ $Param{Preferences} } ) {
                 $Result{ $Row[0] }->{ $Row[1] } = $Row[2];
@@ -482,19 +478,24 @@ file is stored
 sub _FileLookup {
     my ( $Self, $Filename ) = @_;
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # lookup
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL  => 'SELECT id, backend_key, backend FROM virtual_fs WHERE filename = ?',
         Bind => [ \$Filename ],
     );
+
     my $FileID;
     my $BackendKey;
     my $Backend;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $FileID     = $Row[0];
         $BackendKey = $Row[1];
         $Backend    = $Row[2];
     }
+
     return ( $FileID, $BackendKey, $Backend );
 }
 
