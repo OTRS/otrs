@@ -16,6 +16,7 @@ use Locale::Country qw(all_country_names);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Log',
 );
 our $ObjectManagerAware = 1;
 
@@ -88,6 +89,13 @@ sub CountryList {
     }
 
     my @CountryNames = all_country_names();
+
+    if ( !@CountryNames ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Country name list is empty!',
+        );
+    }
 
     if ( $Param{Result} ) {
 
