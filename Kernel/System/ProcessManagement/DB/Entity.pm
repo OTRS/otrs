@@ -14,9 +14,16 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
+our @ObjectDependencies = (
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
-Kernel::System::ProcessManagement::DB::Entity.pm
+Kernel::System::ProcessManagement::DB::Entity
 
 =head1 SYNOPSIS
 
@@ -30,46 +37,11 @@ Process Management DB Entity backend
 
 =item new()
 
-create an Entity object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::Time;
-    use Kernel::System::DB;
-    use Kernel::System::ProcessManagement::DB::Entity;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $EntityObject = Kernel::System::ProcessManagement::DB::Entity->new(
-        ConfigObject        => $ConfigObject,
-        EncodeObject        => $EncodeObject,
-        LogObject           => $LogObject,
-        MainObject          => $MainObject,
-        DBObject            => $DBObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $EntityObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
 
 =cut
 
@@ -79,13 +51,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Needed (qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject)) {
-        die "Got no $Needed!" if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
 
     $Self->{ValidEntities} = {
         'Process'          => 1,
@@ -120,7 +85,7 @@ sub EntityIDGenerate {
     # check needed stuff
     for my $Key (qw(EntityType UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Key!",
             );
@@ -130,7 +95,7 @@ sub EntityIDGenerate {
 
     # check entity type
     if ( !$Self->{ValidEntities}->{ $Param{EntityType} } ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "The EntityType:$Param{EntityType} is invalid!"
         );
@@ -140,7 +105,7 @@ sub EntityIDGenerate {
 
     # this is not a 'proper' GUID as defined in RFC 4122 but it's close enough for
     # our purposes and we can replace it later if needed
-    my $GUID = $Self->{MainObject}->GenerateRandomString(
+    my $GUID = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
         Length => 32,
         Dictionary => [ 0 .. 9, 'a' .. 'f' ],    # hexadecimal
     );
@@ -171,23 +136,26 @@ sub EntitySyncStateSet {
     # check needed stuff
     for my $Needed (qw(EntityType EntityID SyncState UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
     # check entity type
     if ( !$Self->{ValidEntities}->{ $Param{EntityType} } ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "The EntityType:$Param{EntityType} is invalid!"
         );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # create new
     if ( !%{ $Self->EntitySyncStateGet(%Param) || {} } ) {
-        return if !$Self->{DBObject}->Do(
+        return if !$DBObject->Do(
             SQL => '
                 INSERT INTO pm_entity_sync
                     (entity_type, entity_id, sync_state, create_time, change_time)
@@ -199,7 +167,7 @@ sub EntitySyncStateSet {
     }
     else {    # update existing
 
-        return if !$Self->{DBObject}->Do(
+        return if !$DBObject->Do(
             SQL => '
                 UPDATE pm_entity_sync
                 SET sync_state = ?, change_time = current_timestamp
@@ -246,21 +214,24 @@ sub EntitySyncStateGet {
     # check needed stuff
     for my $Needed (qw(EntityType EntityID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
     # check entity type
     if ( !$Self->{ValidEntities}->{ $Param{EntityType} } ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "The EntityType:$Param{EntityType} is invalid!"
         );
         return;
     }
 
-    return if !$Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL => '
             SELECT entity_type, entity_id, sync_state, create_time, change_time
             FROM pm_entity_sync
@@ -273,7 +244,7 @@ sub EntitySyncStateGet {
 
     my %Result;
 
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Data = $DBObject->FetchrowArray() ) {
 
         %Result = (
             EntityType => $Data[0],
@@ -309,14 +280,14 @@ sub EntitySyncStateDelete {
     # check needed stuff
     for my $Key (qw(EntityType EntityID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
 
     # check entity type
     if ( !$Self->{ValidEntities}->{ $Param{EntityType} } ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "The EntityType:$Param{EntityType} is invalid!"
         );
@@ -325,7 +296,7 @@ sub EntitySyncStateDelete {
 
     return if ( !%{ $Self->EntitySyncStateGet(%Param) || {} } );
 
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             DELETE FROM pm_entity_sync
             WHERE entity_type = ?
@@ -354,12 +325,12 @@ sub EntitySyncStatePurge {
     # check needed stuff
     for my $Needed (qw(UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
 
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             DELETE FROM pm_entity_sync',
         Bind => [],
@@ -401,7 +372,7 @@ sub EntitySyncStateList {
     # check needed stuff
     for my $Needed (qw(UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -410,7 +381,7 @@ sub EntitySyncStateList {
 
         # check entity type
         if ( !$Self->{ValidEntities}->{ $Param{EntityType} } ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "The EntityType:$Param{EntityType} is invalid!"
             );
@@ -440,14 +411,16 @@ sub EntitySyncStateList {
 
     $SQL .= ' ORDER BY entity_id ASC';
 
-    return if !$Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL  => $SQL,
         Bind => \@Bind,
     );
 
     my @Result;
-
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Data = $DBObject->FetchrowArray() ) {
 
         push @Result, {
             EntityType => $Data[0],
