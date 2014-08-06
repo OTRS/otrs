@@ -1,5 +1,5 @@
 # --
-# Kernel/System/Ticket/Event/SupportDataSend.pm - event handler module for the package manager
+# Kernel/System/Package/Event/SupportDataSend.pm - event handler module for the package manager
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
