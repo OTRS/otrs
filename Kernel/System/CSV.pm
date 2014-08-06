@@ -11,7 +11,13 @@ package Kernel::System::CSV;
 
 use strict;
 use warnings;
+
 use Text::CSV;
+
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -31,7 +37,7 @@ create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $CSVObject = $Kernel::OM->Get('CSVObject');
+    my $CSVObject = $Kernel::OM->Get('Kernel::System::CSV');
 
 =cut
 
@@ -41,11 +47,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(LogObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -74,7 +75,7 @@ sub Array2CSV {
     # check required params
     for (qw(Data)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Got no $_ param!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Got no $_ param!" );
             return;
         }
     }
@@ -130,7 +131,7 @@ sub Array2CSV {
             $Output .= $CSV->string() . "\n";
         }
         else {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Failed to build line: ' . $CSV->error_input(),
             );
@@ -194,7 +195,7 @@ sub CSV2Array {
             push @Array, \@Fields;
         }
         else {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Failed to parse line: ' . $CSV->error_input(),
             );
