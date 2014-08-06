@@ -2734,6 +2734,18 @@
             </Array>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Events###DynamicField" Required="1" Valid="1">
+        <Description Translatable="1">List of all DynamicField events to be displayed in the GUI.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin</SubGroup>
+        <Setting>
+            <Array>
+                <Item>DynamicFieldAdd</Item>
+                <Item>DynamicFieldUpdate</Item>
+                <Item>DynamicFieldDelete</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="SOAP::User" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).</Description>
         <Group>Framework</Group>
