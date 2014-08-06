@@ -7,36 +7,20 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
-use vars (qw($Self));
-
 use utf8;
 
-use Kernel::Config;
-use Kernel::System::ProcessManagement::DB::ActivityDialog;
-use Kernel::System::ProcessManagement::DB::Entity;
-use Kernel::System::UnitTest::Helper;
+use vars (qw($Self));
+
 use Kernel::System::VariableCheck qw(:all);
 
-# Create Helper instance which will restore system configuration in destructor
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 0,
-);
-
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-
-my $ActivityDialogObject = Kernel::System::ProcessManagement::DB::ActivityDialog->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $EntityObject = Kernel::System::ProcessManagement::DB::Entity->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+# get needed objects
+my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
+my $CacheObject          = $Kernel::OM->Get('Kernel::System::Cache');
+my $HelperObject         = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
+my $EntityObject         = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
 
 # set fixed time
 $HelperObject->FixedTimeSet();
@@ -494,7 +478,7 @@ for my $Test (@Tests) {
             $CacheKey = 'ActivityDialogGet::EntityID::' . $Test->{Config}->{EntityID};
         }
 
-        my $Cache = $ActivityDialogObject->{CacheObject}->Get(
+        my $Cache = $CacheObject->Get(
             Type => 'ProcessManagement_ActivityDialog',
             Key  => $CacheKey,
         );
@@ -740,7 +724,7 @@ for my $Test (@Tests) {
         # check cache
         my $CacheKey = 'ActivityDialogGet::ID::' . $Test->{Config}->{ID};
 
-        my $Cache = $ActivityDialogObject->{CacheObject}->Get(
+        my $Cache = $CacheObject->Get(
             Type => 'ProcessManagement_ActivityDialog',
             Key  => $CacheKey,
         );
@@ -767,7 +751,7 @@ for my $Test (@Tests) {
         );
 
         # check cache
-        $Cache = $ActivityDialogObject->{CacheObject}->Get(
+        $Cache = $CacheObject->Get(
             Type => 'ProcessManagement_ActivityDialog',
             Key  => $CacheKey,
         );
@@ -991,7 +975,7 @@ $Self->IsDeeply(
 # check cache
 my $CacheKey = 'ActivityDialogListGet';
 
-my $Cache = $ActivityDialogObject->{CacheObject}->Get(
+my $Cache = $CacheObject->Get(
     Type => 'ProcessManagement_ActivityDialog',
     Key  => $CacheKey,
 );

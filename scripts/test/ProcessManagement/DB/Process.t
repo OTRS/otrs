@@ -7,41 +7,21 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
-use vars (qw($Self));
-
 use utf8;
 
-use Kernel::Config;
-use Kernel::System::ProcessManagement::DB::Activity;
-use Kernel::System::ProcessManagement::DB::Entity;
-use Kernel::System::ProcessManagement::DB::Process;
-use Kernel::System::UnitTest::Helper;
+use vars (qw($Self));
+
 use Kernel::System::VariableCheck qw(:all);
 
-# Create Helper instance which will restore system configuration in destructor
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 0,
-);
-
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-
-my $ProcessObject = Kernel::System::ProcessManagement::DB::Process->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $ActivityObject = Kernel::System::ProcessManagement::DB::Activity->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $EntityObject = Kernel::System::ProcessManagement::DB::Entity->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+# get needed objects
+my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
+my $HelperObject   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ActivityObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
+my $ProcessObject  = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
+my $EntityObject   = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
 
 # set fixed time
 $HelperObject->FixedTimeSet();
@@ -615,7 +595,7 @@ for my $Test (@Tests) {
                 $TransitionActionNames;
         }
 
-        my $Cache = $ProcessObject->{CacheObject}->Get(
+        my $Cache = $CacheObject->Get(
             Type => 'ProcessManagement_Process',
             Key  => $CacheKey,
         );
@@ -884,7 +864,7 @@ for my $Test (@Tests) {
             . $Test->{Config}->{ID}
             . '::ActivityNames::0::TransitionNames::0::TransitionActionNames::0';
 
-        my $Cache = $ProcessObject->{CacheObject}->Get(
+        my $Cache = $CacheObject->Get(
             Type => 'ProcessManagement_Process',
             Key  => $CacheKey,
         );
@@ -911,7 +891,7 @@ for my $Test (@Tests) {
         );
 
         # check cache
-        $Cache = $ProcessObject->{CacheObject}->Get(
+        $Cache = $CacheObject->Get(
             Type => 'ProcessManagement_Process',
             Key  => $CacheKey,
         );
@@ -1253,7 +1233,7 @@ $Self->IsDeeply(
 # check cache
 my $CacheKey = 'ProcessListGet';
 
-my $Cache = $ProcessObject->{CacheObject}->Get(
+my $Cache = $CacheObject->Get(
     Type => 'ProcessManagement_Process',
     Key  => $CacheKey,
 );

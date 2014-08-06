@@ -7,36 +7,21 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
-use vars (qw($Self));
-
 use utf8;
 
-use Kernel::Config;
-use Kernel::System::ProcessManagement::DB::Entity;
-use Kernel::System::ProcessManagement::DB::Transition;
-use Kernel::System::UnitTest::Helper;
+use vars (qw($Self));
+
 use Kernel::System::VariableCheck qw(:all);
 
-# Create Helper instance which will restore system configuration in destructor
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 0,
-);
-
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-
-my $TransitionObject = Kernel::System::ProcessManagement::DB::Transition->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $EntityObject = Kernel::System::ProcessManagement::DB::Entity->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+# get needed objects
+my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
+my $CacheObject      = $Kernel::OM->Get('Kernel::System::Cache');
+my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ActivityObject   = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
+my $TransitionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
+my $EntityObject     = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
 
 # set fixed time
 $HelperObject->FixedTimeSet();
@@ -448,7 +433,7 @@ for my $Test (@Tests) {
             $CacheKey = 'TransitionGet::EntityID::' . $Test->{Config}->{EntityID};
         }
 
-        my $Cache = $TransitionObject->{CacheObject}->Get(
+        my $Cache = $CacheObject->Get(
             Type => 'ProcessManagement_Transition',
             Key  => $CacheKey,
         );
@@ -712,7 +697,7 @@ for my $Test (@Tests) {
         # check cache
         my $CacheKey = 'TransitionGet::ID::' . $Test->{Config}->{ID};
 
-        my $Cache = $TransitionObject->{CacheObject}->Get(
+        my $Cache = $CacheObject->Get(
             Type => 'ProcessManagement_Transition',
             Key  => $CacheKey,
         );
@@ -739,7 +724,7 @@ for my $Test (@Tests) {
         );
 
         # check cache
-        $Cache = $TransitionObject->{CacheObject}->Get(
+        $Cache = $CacheObject->Get(
             Type => 'ProcessManagement_Transition',
             Key  => $CacheKey,
         );
@@ -963,7 +948,7 @@ $Self->IsDeeply(
 # check cache
 my $CacheKey = 'TransitionListGet';
 
-my $Cache = $TransitionObject->{CacheObject}->Get(
+my $Cache = $CacheObject->Get(
     Type => 'ProcessManagement_Transition',
     Key  => $CacheKey,
 );
