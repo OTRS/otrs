@@ -9,26 +9,16 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::ProcessManagement::DB::Process::State;
-use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(:all);
 
-# Create Helper instance which will restore system configuration in destructor
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 0,
-);
-
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-
-my $StateObject = Kernel::System::ProcessManagement::DB::Process::State->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $StateObject  = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process::State');
 
 my $LocalStateList = $StateObject->{StateList};
 

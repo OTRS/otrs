@@ -9,52 +9,24 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
-
 use utf8;
 
-use Kernel::Config;
-use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::ProcessManagement::DB::Process;
-use Kernel::System::ProcessManagement::DB::Activity;
-use Kernel::System::ProcessManagement::DB::ActivityDialog;
-use Kernel::System::ProcessManagement::DB::Transition;
-use Kernel::System::ProcessManagement::DB::TransitionAction;
-use Kernel::System::UnitTest::Helper;
+use vars (qw($Self));
 
-# Create Helper instance which will restore system configuration in destructor
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 0,
-);
+use Kernel::System::VariableCheck qw(:all);
+
+# get needed objects
+my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ActivityObject         = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
+my $ActivityDialogObject   = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
+my $ProcessObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
+my $TransitionObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
+my $TransitionActionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
 
 # define needed variables
 my $RandomID = $HelperObject->GetRandomID();
 my $UserID   = 1;
-
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-
-my $ProcessObject = Kernel::System::ProcessManagement::DB::Process->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $ActivityObject = Kernel::System::ProcessManagement::DB::Activity->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $ActivityDialogObject = Kernel::System::ProcessManagement::DB::ActivityDialog->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $TransitionObject = Kernel::System::ProcessManagement::DB::Transition->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $TransitionActionObject = Kernel::System::ProcessManagement::DB::TransitionAction->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
 
 # Add process Parts
 my $ProcessID = $ProcessObject->ProcessAdd(
