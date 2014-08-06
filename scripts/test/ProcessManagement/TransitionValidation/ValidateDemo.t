@@ -10,21 +10,17 @@
 use strict;
 use warnings;
 use utf8;
-use vars qw($Self);
 
-use Kernel::Config;
-use Kernel::System::ProcessManagement::TransitionValidation::ValidateDemo;
+use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-my $ValidationObject
-    = Kernel::System::ProcessManagement::TransitionValidation::ValidateDemo->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-    );
+# get needed objects
+my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ValidationObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionValidation::ValidateDemo');
 
-# Sanity check
+# sanity check
 $Self->Is(
     ref $ValidationObject,
     'Kernel::System::ProcessManagement::TransitionValidation::ValidateDemo',
