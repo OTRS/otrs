@@ -40,7 +40,7 @@ create an object
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $StandardTemplateObject = $Kernel::OM->Get('StandardTemplateObject');
+    my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 
 =cut
 
@@ -50,8 +50,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
 
     return $Self;
 }
@@ -83,8 +81,11 @@ sub StandardTemplateAdd {
         }
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # sql
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => '
             INSERT INTO standard_template (name, valid_id, comments, text,
                 content_type, create_time, create_by, change_time, change_by, template_type)
@@ -94,18 +95,20 @@ sub StandardTemplateAdd {
             \$Param{ContentType}, \$Param{UserID},  \$Param{UserID},  \$Param{TemplateType},
         ],
     );
-    my $ID;
-    return if !$Self->{DBObject}->Prepare(
+
+    return if !$DBObject->Prepare(
         SQL => 'SELECT id FROM standard_template WHERE name = ? AND change_by = ?',
         Bind => [ \$Param{Name}, \$Param{UserID}, ],
     );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+    my $ID;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $ID = $Row[0];
     }
 
     # clear queue cache, due to Queue <-> Template relations
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'Queue'
+        Type => 'Queue',
     );
 
     return $ID;
@@ -146,8 +149,11 @@ sub StandardTemplateGet {
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # sql
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => '
             SELECT name, valid_id, comments, text, content_type, create_time, create_by,
                 change_time, change_by ,template_type
@@ -155,8 +161,9 @@ sub StandardTemplateGet {
             WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
+
     my %Data;
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Data = $DBObject->FetchrowArray() ) {
         %Data = (
             ID           => $Param{ID},
             Name         => $Data[0],
@@ -171,6 +178,7 @@ sub StandardTemplateGet {
             TemplateType => $Data[9],
         );
     }
+
     return %Data;
 }
 
@@ -193,27 +201,30 @@ sub StandardTemplateDelete {
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # delete queue<->std template relation
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM queue_standard_template WHERE standard_template_id = ?',
         Bind => [ \$Param{ID} ],
     );
 
     # delete attachment<->std template relation
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM standard_template_attachment WHERE standard_template_id = ?',
         Bind => [ \$Param{ID} ],
     );
 
     # sql
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM standard_template WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
 
     # clear queue cache, due to Queue <-> Template relations
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'Queue'
+        Type => 'Queue',
     );
 
     return 1;
@@ -247,8 +258,10 @@ sub StandardTemplateUpdate {
         }
     }
 
+
+
     # sql
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             UPDATE standard_template
             SET name = ?, text = ?, content_type = ?, comments = ?, valid_id = ?,
@@ -262,7 +275,7 @@ sub StandardTemplateUpdate {
 
     # clear queue cache, due to Queue <-> Template relations
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'Queue'
+        Type => 'Queue',
     );
 
     return 1;
@@ -319,8 +332,16 @@ sub StandardTemplateLookup {
         $SQL    = 'SELECT name FROM standard_template WHERE id = ?';
         @Bind   = ( \$Param{StandardTemplateID} );
     }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind,
+    );
+
+    while ( my @Row = $DBObject->FetchrowArray() ) {
 
         # store result
         $Self->{"StandardTemplate$Suffix"} = $Row[0];
@@ -328,8 +349,7 @@ sub StandardTemplateLookup {
 
     # check if data exists
     if ( !exists $Self->{"StandardTemplate$Suffix"} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Found no \$$Suffix!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Found no \$$Suffix!" );
         return;
     }
 
@@ -403,14 +423,19 @@ sub StandardTemplateList {
         push @Bind, \$Param{Type};
     }
 
-    return if !$Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL  => $SQL,
         Bind => \@Bind,
     );
+
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
     }
+
     return %Data;
 }
 

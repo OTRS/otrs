@@ -40,7 +40,7 @@ create an object
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $SystemAddressObject = $Kernel::OM->Get('SystemAddressObject');
+    my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 
 =cut
 
