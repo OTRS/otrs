@@ -1201,7 +1201,7 @@ sub _TicketCreate {
         );
     }
 
-    %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+    %StateData = $Self->{StateObject}->StateGet(
         ID => $StateID,
     );
 
