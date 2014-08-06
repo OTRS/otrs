@@ -12,8 +12,14 @@ package Kernel::System::SLA;
 use strict;
 use warnings;
 
-use Kernel::System::CheckItem;
-use Kernel::System::Valid;
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::CheckItem',
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+    'Kernel::System::Valid',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -31,41 +37,11 @@ All sla functions.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::System::SLA;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $SLAObject = Kernel::System::SLA->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-        MainObject   => $MainObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $SLAObject = $Kernel::OM->Get('Kernel::System::SLA');
 
 =cut
 
@@ -76,19 +52,11 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for my $Object (qw(DBObject ConfigObject EncodeObject LogObject MainObject)) {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
-    $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
-    $Self->{ValidObject}     = Kernel::System::Valid->new( %{$Self} );
+    # get configured preferences object
+    my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('SLA::PreferencesModule') || 'Kernel::System::SLA::PreferencesDB';
 
-    # load generator preferences module
-    my $GeneratorModule = $Self->{ConfigObject}->Get('SLA::PreferencesModule')
-        || 'Kernel::System::SLA::PreferencesDB';
-    if ( $Self->{MainObject}->Require($GeneratorModule) ) {
-        $Self->{PreferencesObject} = $GeneratorModule->new( %{$Self} );
-    }
+    # get preferences object
+    $Self->{PreferencesObject} = $Kernel::OM->Get($GeneratorModule);
 
     return $Self;
 }
@@ -110,7 +78,7 @@ sub SLAList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 
@@ -119,6 +87,9 @@ sub SLAList {
         $Param{Valid} = 1;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # add ServiceID
     my %SQLTable;
     $SQLTable{sla} = 'sla s';
@@ -126,7 +97,7 @@ sub SLAList {
     if ( $Param{ServiceID} ) {
 
         # quote
-        $Param{ServiceID} = $Self->{DBObject}->Quote( $Param{ServiceID}, 'Integer' );
+        $Param{ServiceID} = $DBObject->Quote( $Param{ServiceID}, 'Integer' );
 
         $SQLTable{service} = 'service_sla r';
         push @SQLWhere, "s.id = r.sla_id AND r.service_id = $Param{ServiceID}";
@@ -135,8 +106,11 @@ sub SLAList {
     # add valid part
     if ( $Param{Valid} ) {
 
+        # get valid object
+        my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
+
         # create the valid list
-        my $ValidIDs = join ', ', $Self->{ValidObject}->ValidIDsGet();
+        my $ValidIDs = join ', ', $ValidObject->ValidIDsGet();
 
         push @SQLWhere, "s.valid_id IN ( $ValidIDs )";
     }
@@ -146,13 +120,13 @@ sub SLAList {
     my $WhereString = @SQLWhere ? ' WHERE ' . join q{ AND }, @SQLWhere : '';
 
     # ask database
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL => "SELECT s.id, s.name FROM $TableString $WhereString",
     );
 
     # fetch the result
     my %SLAList;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $SLAList{ $Row[0] } = $Row[1];
     }
 
@@ -201,7 +175,7 @@ sub SLAGet {
     # check needed stuff
     for my $Argument (qw(SLAID UserID)) {
         if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Argument!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Argument!" );
             return;
         }
     }
@@ -212,8 +186,11 @@ sub SLAGet {
         return %{ $Self->{$CacheKey} };
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # get sla from db
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL => 'SELECT id, name, calendar_name, first_response_time, first_response_notify, '
             . 'update_time, update_notify, solution_time, solution_notify, '
             . 'valid_id, comments, create_time, create_by, change_time, change_by '
@@ -226,7 +203,7 @@ sub SLAGet {
 
     # fetch the result
     my %SLAData;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $SLAData{SLAID}               = $Row[0];
         $SLAData{Name}                = $Row[1];
         $SLAData{Calendar}            = $Row[2] || '';
@@ -246,7 +223,7 @@ sub SLAGet {
 
     # check sla
     if ( !$SLAData{SLAID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "No such SLAID ($Param{SLAID})!",
         );
@@ -254,14 +231,14 @@ sub SLAGet {
     }
 
     # get all service ids
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL  => 'SELECT service_id FROM service_sla WHERE sla_id = ? ORDER BY service_id ASC',
         Bind => [ \$SLAData{SLAID} ],
     );
 
     # fetch the result
     my @ServiceIDs;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         push @ServiceIDs, $Row[0];
     }
 
@@ -303,12 +280,15 @@ sub SLALookup {
 
     # check needed stuff
     if ( !$Param{SLAID} && !$Param{Name} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need SLAID or Name!',
         );
         return;
     }
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     if ( $Param{SLAID} ) {
 
@@ -319,7 +299,7 @@ sub SLALookup {
         }
 
         # lookup
-        $Self->{DBObject}->Prepare(
+        $DBObject->Prepare(
             SQL   => 'SELECT name FROM sla WHERE id = ?',
             Bind  => [ \$Param{SLAID}, ],
             Limit => 1,
@@ -327,7 +307,7 @@ sub SLALookup {
 
         # fetch the result
         my $Name;
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $Name = $Row[0];
         }
 
@@ -345,7 +325,7 @@ sub SLALookup {
         }
 
         # lookup
-        $Self->{DBObject}->Prepare(
+        $DBObject->Prepare(
             SQL   => 'SELECT id FROM sla WHERE name = ?',
             Bind  => [ \$Param{Name} ],
             Limit => 1,
@@ -353,7 +333,7 @@ sub SLALookup {
 
         # fetch the result
         my $SLAID;
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $SLAID = $Row[0];
         }
 
@@ -391,7 +371,7 @@ sub SLAAdd {
     # check needed stuff
     for my $Argument (qw(Name ValidID UserID)) {
         if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
@@ -401,7 +381,7 @@ sub SLAAdd {
 
     # check service ids
     if ( defined $Param{ServiceIDs} && ref $Param{ServiceIDs} ne 'ARRAY' ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'ServiceIDs needs to be an array reference!',
         );
@@ -419,17 +399,23 @@ sub SLAAdd {
     $Param{SolutionTime}        ||= 0;
     $Param{SolutionNotify}      ||= 0;
 
+    # get check item object
+    my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
+
     # cleanup given params
     for my $Argument (qw(Name Comment)) {
-        $Self->{CheckItemObject}->StringClean(
+        $CheckItemObject->StringClean(
             StringRef         => \$Param{$Argument},
             RemoveAllNewlines => 1,
             RemoveAllTabs     => 1,
         );
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # find exiting sla's with the same name
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL   => 'SELECT id FROM sla WHERE name = ?',
         Bind  => [ \$Param{Name} ],
         Limit => 1,
@@ -437,13 +423,13 @@ sub SLAAdd {
 
     # fetch the result
     my $NoAdd;
-    while ( $Self->{DBObject}->FetchrowArray() ) {
+    while ( $DBObject->FetchrowArray() ) {
         $NoAdd = 1;
     }
 
     # abort insert of new sla, if name already exists
     if ($NoAdd) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't add new SLA! '$Param{Name}' already exists.",
         );
@@ -451,7 +437,7 @@ sub SLAAdd {
     }
 
     # add sla to database
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'INSERT INTO sla '
             . '(name, calendar_name, first_response_time, first_response_notify, '
             . 'update_time, update_notify, solution_time, solution_notify, '
@@ -466,7 +452,7 @@ sub SLAAdd {
     );
 
     # get sla id
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL   => 'SELECT id FROM sla WHERE name = ?',
         Bind  => [ \$Param{Name} ],
         Limit => 1,
@@ -474,13 +460,13 @@ sub SLAAdd {
 
     # fetch the result
     my $SLAID;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $SLAID = $Row[0];
     }
 
     # check sla id
     if ( !$SLAID ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't find SLAID for '$Param{Name}'!",
         );
@@ -488,7 +474,7 @@ sub SLAAdd {
     }
 
     # remove all existing allocations
-    $Self->{DBObject}->Do(
+    $DBObject->Do(
         SQL  => 'DELETE FROM service_sla WHERE sla_id = ?',
         Bind => [ \$SLAID ],
     );
@@ -497,7 +483,7 @@ sub SLAAdd {
     for my $ServiceID ( @{ $Param{ServiceIDs} } ) {
 
         # add one allocation
-        $Self->{DBObject}->Do(
+        $DBObject->Do(
             SQL => 'INSERT INTO service_sla (service_id, sla_id) VALUES (?, ?)',
             Bind => [ \$ServiceID, \$SLAID ],
         );
@@ -534,7 +520,7 @@ sub SLAUpdate {
     # check needed stuff
     for my $Argument (qw(SLAID Name ValidID UserID)) {
         if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
@@ -544,7 +530,7 @@ sub SLAUpdate {
 
     # check service ids
     if ( defined $Param{ServiceIDs} && ref $Param{ServiceIDs} ne 'ARRAY' ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'ServiceIDs need to be an array reference!',
         );
@@ -562,17 +548,23 @@ sub SLAUpdate {
     $Param{SolutionTime}        ||= 0;
     $Param{SolutionNotify}      ||= 0;
 
+    # get check item object
+    my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
+
     # cleanup given params
     for my $Argument (qw(Name Comment)) {
-        $Self->{CheckItemObject}->StringClean(
+        $CheckItemObject->StringClean(
             StringRef         => \$Param{$Argument},
             RemoveAllNewlines => 1,
             RemoveAllTabs     => 1,
         );
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # find exiting sla's with the same name
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL   => 'SELECT id FROM sla WHERE name = ?',
         Bind  => [ \$Param{Name} ],
         Limit => 1,
@@ -580,7 +572,7 @@ sub SLAUpdate {
 
     # fetch the result
     my $Update = 0;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[0] != $Param{SLAID} ) {
             $Update = $Row[0];
         }
@@ -588,7 +580,7 @@ sub SLAUpdate {
 
     # abort update of sla, if name already exists
     if ($Update) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't update SLA! '$Param{Name}' already exists.",
         );
@@ -601,7 +593,7 @@ sub SLAUpdate {
     delete $Self->{ 'Cache::SLALookup::ID::' . $Param{SLAID} };
 
     # update service
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => 'UPDATE sla SET name = ?, calendar_name = ?, '
             . 'first_response_time = ?, first_response_notify = ?, '
             . 'update_time = ?, update_notify = ?, solution_time = ?, solution_notify = ?, '
@@ -616,7 +608,7 @@ sub SLAUpdate {
     );
 
     # remove all existing allocations
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM service_sla WHERE sla_id = ?',
         Bind => [ \$Param{SLAID}, ]
     );
@@ -625,7 +617,7 @@ sub SLAUpdate {
     for my $ServiceID ( @{ $Param{ServiceIDs} } ) {
 
         # add one allocation
-        return if !$Self->{DBObject}->Do(
+        return if !$DBObject->Do(
             SQL => 'INSERT INTO service_sla (service_id, sla_id) VALUES (?, ?)',
             Bind => [ \$ServiceID, \$Param{SLAID} ],
         );
