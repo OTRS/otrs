@@ -67,9 +67,6 @@ sub new {
         $Self->{Lower} = 'LOWER';
     }
 
-    # cache object in $Self is needed just for unittests in ACL/DB/ACL.t
-    $Self->{CacheObject} = $Kernel::OM->Get('Kernel::System::Cache');
-
     return $Self;
 }
 

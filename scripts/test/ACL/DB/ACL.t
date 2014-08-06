@@ -18,6 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $ACLObject    = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
+my $CacheObject  = $Kernel::OM->Get('Kernel::System::Cache');
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # set fixed time
@@ -244,7 +245,7 @@ for my $Test (@Tests) {
             $CacheKey = 'ACLGet::Name::' . $Test->{Config}->{Name};
         }
 
-        my $Cache = $ACLObject->{CacheObject}->Get(
+        my $Cache = $CacheObject->Get(
             Type => 'ACLEditor_ACL',
             Key  => $CacheKey,
         );
@@ -408,7 +409,7 @@ for my $Test (@Tests) {
             = 'ACLGet::ID::'
             . $Test->{Config}->{ID};
 
-        my $Cache = $ACLObject->{CacheObject}->Get(
+        my $Cache = $CacheObject->Get(
             Type => 'ACLEditor_ACL',
             Key  => $CacheKey,
         );
@@ -435,7 +436,7 @@ for my $Test (@Tests) {
         );
 
         # check cache
-        $Cache = $ACLObject->{CacheObject}->Get(
+        $Cache = $CacheObject->Get(
             Type => 'ACLEditor_ACL',
             Key  => $CacheKey,
         );
@@ -708,7 +709,7 @@ $Self->IsDeeply(
 # check cache
 my $CacheKey = 'ACLListGet::ValidIDs::ALL';
 
-my $Cache = $ACLObject->{CacheObject}->Get(
+my $Cache = $CacheObject->Get(
     Type => 'ACLEditor_ACL',
     Key  => $CacheKey,
 );
