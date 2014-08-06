@@ -12,6 +12,11 @@ package Kernel::System::ProcessManagement::DB::Process::State;
 use strict;
 use warnings;
 
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::ProcessManagement::DB::Process::State.pm
@@ -28,26 +33,11 @@ Process Management DB State backend
 
 =item new()
 
-create a State object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::ProcessManagement::DB::Process::State;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $StateObject = Kernel::System::ProcessManagement::DB::Process::State->new(
-        ConfigObject        => $ConfigObject,
-        EncodeObject        => $EncodeObject,
-        LogObject           => $LogObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $ProcessStateObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process::State');
 
 =cut
 
@@ -57,13 +47,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Needed (qw(ConfigObject EncodeObject LogObject)) {
-        die "Got no $Needed!" if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
 
     # create States list
     $Self->{StateList} = {
@@ -97,9 +80,9 @@ sub StateList {
 
     # check needed
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need UserID!"
+            Message  => "Need UserID!",
         );
         return;
     }
@@ -133,24 +116,23 @@ sub StateLookup {
 
     # check needed
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need UserID!"
+            Message  => "Need UserID!",
         );
         return;
     }
 
     if ( !$Param{EntityID} && !$Param{Name} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "EntityID or Name is required!"
+            Message  => "EntityID or Name is required!",
         );
         return;
     }
 
-    my $Result;
-
     # return state name
+    my $Result;
     if ( $Param{EntityID} ) {
         $Result = $Self->{StateList}->{ $Param{EntityID} };
     }
@@ -160,6 +142,7 @@ sub StateLookup {
         my %ReversedStateList = reverse %{ $Self->{StateList} };
         $Result = $ReversedStateList{ $Param{Name} }
     }
+
     return $Result;
 }
 
