@@ -12,7 +12,15 @@ package Kernel::System::Scheduler::TaskManager;
 use strict;
 use warnings;
 
-use Kernel::System::YAML;
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Time',
+    'Kernel::System::YAML',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -32,7 +40,7 @@ create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $TaskManagerObject = $Kernel::OM->Get('TaskManagerObject');
+    my $TaskManagerObject = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager');
 
 =cut
 
@@ -42,14 +50,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $TaskManager );
-
-    # check needed objects
-    for my $Object (qw(DBObject ConfigObject LogObject MainObject EncodeObject TimeObject)) {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
-
-    # create additional objects
-    $Self->{YAMLObject} = Kernel::System::YAML->new( %{$Self} );
 
     return $Self;
 }
@@ -74,14 +74,17 @@ sub TaskAdd {
     # check needed stuff
     for my $Key (qw(Type Data)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
 
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     # check if DueTime parameter is a valid date
     if ( $Param{DueTime} ) {
-        my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+        my $SystemTime = $TimeObject->TimeStamp2SystemTime(
             String => $Param{DueTime},
         );
         if ( !$SystemTime ) {
@@ -93,17 +96,17 @@ sub TaskAdd {
     if ( !$Param{DueTime} ) {
 
         # set current time stamp to DueTime parameter
-        $Param{DueTime} = $Self->{TimeObject}->CurrentTimestamp();
+        $Param{DueTime} = $TimeObject->CurrentTimestamp();
     }
 
     # dump data as string
-    my $Data = $Self->{YAMLObject}->Dump( Data => $Param{Data} );
+    my $Data = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Param{Data} );
 
     # check if Data fits in the database
-    my $MaxDataLength = $Self->{ConfigObject}->Get('Scheduler::TaskDataLength') || 8_000;
+    my $MaxDataLength = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::TaskDataLength') || 8_000;
 
     if ( length $Data > $MaxDataLength ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Task data is too large for the current Database.',
         );
@@ -111,12 +114,15 @@ sub TaskAdd {
     }
 
     # md5 of content
-    my $MD5 = $Self->{MainObject}->MD5sum(
-        String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
+    my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
+        String => $TimeObject->SystemTime() . int( rand(1000000) ),
     );
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # sql
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL =>
             'INSERT INTO scheduler_task_list '
             . '(task_data, task_data_md5, task_type, due_time, create_time)'
@@ -126,14 +132,16 @@ sub TaskAdd {
         ],
     );
 
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL  => 'SELECT id FROM scheduler_task_list WHERE task_data_md5 = ?',
         Bind => [ \$MD5 ],
     );
+
     my $ID;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $ID = $Row[0];
     }
+
     return $ID;
 }
 
@@ -161,23 +169,30 @@ sub TaskGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ID!' );
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # sql
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => 'SELECT task_data, task_type, due_time, create_time '
             . 'FROM scheduler_task_list WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
-    my %Data;
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
 
-        my $DataParam = $Self->{YAMLObject}->Load( Data => $Data[0] );
+    # get yaml object
+    my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
+
+    my %Data;
+    while ( my @Data = $DBObject->FetchrowArray() ) {
+
+        my $DataParam = $YAMLObject->Load( Data => $Data[0] );
 
         if ( !$DataParam ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Task data is not in a correct YAML format! ' . $Data[0],
             );
@@ -197,6 +212,7 @@ sub TaskGet {
     if ( $Data{DueTime} ) {
         $Data{DueTime} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
     }
+
     return %Data;
 }
 
@@ -216,7 +232,10 @@ sub TaskDelete {
     # check needed stuff
     for my $Key (qw(ID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message => "Need $Key!",
+            );
             return;
         }
     }
@@ -228,10 +247,11 @@ sub TaskDelete {
     return if !%Task;
 
     # sql
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL  => 'DELETE FROM scheduler_task_list WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
+
     return 1;
 }
 
@@ -256,20 +276,23 @@ Returns:
 sub TaskList {
     my ( $Self, %Param ) = @_;
 
-    return if !$Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL => 'SELECT id, task_type, due_time '
             . 'FROM scheduler_task_list ORDER BY create_time, id ASC',
     );
 
     my @List;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push @List,
-            {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        push @List, {
             ID      => $Row[0],
             Type    => $Row[1],
             DueTime => $Row[2],
-            };
+        };
     }
+
     return @List;
 }
 
@@ -294,7 +317,7 @@ sub TaskUpdate {
     # check needed stuff
     for my $Key (qw(ID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
@@ -304,7 +327,7 @@ sub TaskUpdate {
         ID => $Param{ID},
     );
     if ( !%Task ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Task with ID:'$Param{ID}' is invalid",
         );
@@ -312,20 +335,23 @@ sub TaskUpdate {
     }
 
     # convert Task Data to a YAML string
-    $Task{Data} = $Self->{YAMLObject}->Dump( Data => $Task{Data} );
+    $Task{Data} = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Task{Data} );
 
     # return success if there is nothing to do
     if ( !$Param{Type} && !$Param{DueTime} && !$Param{Data} ) {
         return 1;
     }
 
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     # check if DueTime parameter is a valid date
     if ( $Param{DueTime} ) {
-        my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+        my $SystemTime = $TimeObject->TimeStamp2SystemTime(
             String => $Param{DueTime},
         );
         if ( !$SystemTime ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "DueTime is invalid",
             );
@@ -337,13 +363,13 @@ sub TaskUpdate {
     if ( $Param{Data} ) {
 
         # dump data as string
-        $Data = $Self->{YAMLObject}->Dump( Data => $Param{Data} );
+        $Data = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Param{Data} );
 
         # check if Data fits in the database
-        my $MaxDataLength = $Self->{ConfigObject}->Get('Scheduler::TaskDataLength') || 8_000;
+        my $MaxDataLength = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::TaskDataLength') || 8_000;
 
         if ( length $Data > $MaxDataLength ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Task data is too large for the current Database.',
             );
@@ -352,8 +378,8 @@ sub TaskUpdate {
     }
 
     # md5 of system time
-    my $MD5 = $Self->{MainObject}->MD5sum(
-        String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
+    my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
+        String => $TimeObject->SystemTime() . int( rand(1000000) ),
     );
 
     # update task definition
@@ -362,7 +388,7 @@ sub TaskUpdate {
     $Task{Data}    = $Data           // $Task{Data};
 
     # sql
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             UPDATE scheduler_task_list
             SET  task_data = ?, task_data_md5 = ?, task_type = ?, due_time = ?
