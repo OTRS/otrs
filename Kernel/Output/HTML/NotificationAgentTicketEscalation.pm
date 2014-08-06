@@ -12,13 +12,15 @@ package Kernel::Output::HTML::NotificationAgentTicketEscalation;
 use strict;
 use warnings;
 
-use Kernel::System::Lock;
-use Kernel::System::State;
-use Kernel::System::Cache;
-
 our @ObjectDependencies = (
-    @Kernel::System::ObjectManager::DefaultObjectDependencies,
-    qw(CacheObject)
+    'Kernel::Config',
+    'Kernel::System::Cache',
+    'Kernel::System::DB',
+    'Kernel::System::Group',
+    'Kernel::System::Lock',
+    'Kernel::System::Log',
+    'Kernel::System::State',
+    'Kernel::System::Ticket',
 );
 
 sub new {
@@ -29,13 +31,19 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject TicketObject GroupObject UserID)) {
+    for (qw( LayoutObject UserID)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{LockObject}  = Kernel::System::Lock->new(%Param);
-    $Self->{StateObject} = Kernel::System::State->new(%Param);
-    $Self->{CacheObject} = $Kernel::OM->Get('CacheObject');
+    # get needed objects
+    $Self->{ConfigObject} //= $Kernel::OM->Get('Kernel::Config');
+    $Self->{CacheObject}  //= $Kernel::OM->Get('Kernel::System::Cache');
+    $Self->{DBObject}     //= $Kernel::OM->Get('Kernel::System::DB');
+    $Self->{LogObject}    //= $Kernel::OM->Get('Kernel::System::Log');
+    $Self->{GroupObject}   //= $Kernel::OM->Get('Kernel::System::Group');
+    $Self->{LockObject}   //= $Kernel::OM->Get('Kernel::System::Lock');
+    $Self->{StateObject} //= $Kernel::OM->Get('Kernel::System::State');
+    $Self->{TicketObject} //= $Kernel::OM->Get('Kernel::System::Ticket');
 
     return $Self;
 }
