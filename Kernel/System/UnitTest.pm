@@ -724,17 +724,6 @@ sub _PrintSummary {
         print " Database:    $ResultSummary{Database}\n";
         print " TestOk:      $ResultSummary{TestOk}\n";
         print " TestNotOk:   $ResultSummary{TestNotOk}\n";
-
-        if ( $ResultSummary{TestNotOk} ) {
-            print " FailedTests:\n";
-            FAILEDFILE:
-            for my $FailedFile ( @{ $Self->{NotOkInfo} || [] } ) {
-                my ( $File, @Tests ) = @{ $FailedFile || [] };
-                next FAILEDFILE if !@Tests;
-                print sprintf "  %s #%s\n", $File, join ", ", @Tests;
-            }
-        }
-
         print "=====================================================================\n";
     }
     return 1;
@@ -820,11 +809,6 @@ sub _Print {
         }
         $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Result} = 'not ok';
         $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Name}   = $Name;
-
-        my $ShortName = $Name;
-        $ShortName =~ s{\(.+\)$}{};
-        push @{ $Self->{NotOkInfo}->[-1] }, sprintf "%s - %s", $Self->{TestCount}, $ShortName;
-
         return;
     }
 }
