@@ -16,6 +16,13 @@ use POSIX;
 use ExtUtils::MakeMaker;
 use Sys::Hostname::Long;
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::Main',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::Environment - collect environment info
@@ -36,7 +43,7 @@ create environment object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $EnvironmentObject = $Kernel::OM->Get('EnvironmentObject');
+    my $EnvironmentObject = $Kernel::OM->Get('Kernel::System::Environment');
 
 =cut
 
@@ -46,11 +53,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(ConfigObject DBObject LogObject MainObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -86,6 +88,9 @@ sub OSInfoGet {
 
     my @Data = POSIX::uname();
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     # If used OS is a linux system
     my $OSName;
     my $Distribution;
@@ -93,7 +98,7 @@ sub OSInfoGet {
 
         if ( $^O eq 'linux' ) {
 
-            $Self->{MainObject}->Require('Linux::Distribution');
+            $MainObject->Require('Linux::Distribution');
 
             my $DistributionName = Linux::Distribution::distribution_name();
 
@@ -108,7 +113,7 @@ sub OSInfoGet {
         }
         elsif ( -e "/etc/issue" ) {
 
-            my $Content = $Self->{MainObject}->FileRead(
+            my $Content = $MainObject->FileRead(
                 Location => '/etc/issue',
                 Result   => 'ARRAY',
             );
@@ -130,7 +135,7 @@ sub OSInfoGet {
     }
     elsif ( $^O eq 'MSWin32' ) {
 
-        if ( $Self->{MainObject}->Require('Win32') ) {
+        if ( $MainObject->Require('Win32') ) {
 
             my @WinVersion;
             no strict 'refs';    ## no critic
@@ -335,13 +340,18 @@ returns
 sub DBInfoGet {
     my ( $Self, %Param ) = @_;
 
+
+    # get needed objects
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # collect DB data
     my %EnvDB = (
-        Host     => $Self->{ConfigObject}->Get('DatabaseHost'),
-        Database => $Self->{ConfigObject}->Get('Database'),
-        User     => $Self->{ConfigObject}->Get('DatabaseUser'),
-        Type     => $Self->{ConfigObject}->Get('Database::Type') || $Self->{DBObject}->{'DB::Type'},
-        Version  => $Self->{DBObject}->Version(),
+        Host     => $ConfigObject->Get('DatabaseHost'),
+        Database => $ConfigObject->Get('Database'),
+        User     => $ConfigObject->Get('DatabaseUser'),
+        Type     => $ConfigObject->Get('Database::Type') || $DBObject->{'DB::Type'},
+        Version  => $DBObject->Version(),
     );
 
     return %EnvDB;
@@ -369,14 +379,17 @@ returns:
 sub OTRSInfoGet {
     my ( $Self, %Param ) = @_;
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # collect OTRS data
     my %EnvOTRS = (
-        Version         => $Self->{ConfigObject}->Get('Version'),
-        Home            => $Self->{ConfigObject}->Get('Home'),
-        Host            => $Self->{ConfigObject}->Get('FQDN'),
-        Product         => $Self->{ConfigObject}->Get('Product'),
-        SystemID        => $Self->{ConfigObject}->Get('SystemID'),
-        DefaultLanguage => $Self->{ConfigObject}->Get('DefaultLanguage'),
+        Version         => $ConfigObject->Get('Version'),
+        Home            => $ConfigObject->Get('Home'),
+        Host            => $ConfigObject->Get('FQDN'),
+        Product         => $ConfigObject->Get('Product'),
+        SystemID        => $ConfigObject->Get('SystemID'),
+        DefaultLanguage => $ConfigObject->Get('DefaultLanguage'),
     );
 
     return %EnvOTRS;
