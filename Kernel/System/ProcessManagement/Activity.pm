@@ -14,6 +14,12 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::ProcessManagement::Activity - Activities lib
@@ -30,25 +36,11 @@ All Process Management Activity functions.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::ProcessManagement::Activity;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $ActivityObject = Kernel::System::ProcessManagement::Activity->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $ActivityObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity');
 
 =cut
 
@@ -58,13 +50,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Needed (qw(ConfigObject LogObject)) {
-        die "Got no $Needed!" if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
 
     return $Self;
 }
@@ -101,7 +86,7 @@ sub ActivityGet {
 
     for my $Needed (qw(ActivityEntityID Interface)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
@@ -109,10 +94,13 @@ sub ActivityGet {
         }
     }
 
-    my $Activity = $Self->{ConfigObject}->Get('Process::Activity');
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $Activity = $ConfigObject->Get('Process::Activity');
 
     if ( !IsHashRefWithData($Activity) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Activity config!'
         );
@@ -122,7 +110,7 @@ sub ActivityGet {
     my $ActivityEntity = $Activity->{ $Param{ActivityEntityID} };
 
     if ( !IsHashRefWithData($ActivityEntity) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "No data for Activity '$Param{ActivityEntityID}' found!"
         );
@@ -136,7 +124,7 @@ sub ActivityGet {
     }
 
     # get activity dialogs
-    my $ActivityDialogs = $Self->{ConfigObject}->Get('Process::ActivityDialog');
+    my $ActivityDialogs = $ConfigObject->Get('Process::ActivityDialog');
 
     if ( IsHashRefWithData( $ActivityEntity->{ActivityDialog} ) ) {
 
@@ -185,10 +173,10 @@ sub ActivityGet {
 sub ActivityList {
     my ( $Self, %Param ) = @_;
 
-    my $Activities = $Self->{ConfigObject}->Get('Process::Activity');
+    my $Activities = $Kernel::OM->Get('Kernel::Config')->Get('Process::Activity');
 
     if ( !IsHashRefWithData($Activities) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Activity config!'
         );
@@ -196,6 +184,7 @@ sub ActivityList {
     }
 
     my %ActivityList = map { $_ => $Activities->{$_}{Name} || '' } keys %{$Activities};
+
     return \%ActivityList;
 }
 

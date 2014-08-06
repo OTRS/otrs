@@ -14,6 +14,13 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::ProcessManagement::TransitionAction - action lib
@@ -30,33 +37,11 @@ All Process Management Transition Action functions.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::ProcessManagement::TransitionAction;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $TransitionActionObject = Kernel::System::ProcessManagement::TransitionAction->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $TransitionActionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction');
 
 =cut
 
@@ -66,13 +51,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Needed (qw(ConfigObject LogObject MainObject)) {
-        die "Got no $Needed!" if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
 
     return $Self;
 }
@@ -107,7 +85,7 @@ sub TransitionActionGet {
 
     for my $Needed (qw(TransitionActionEntityID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
@@ -115,10 +93,10 @@ sub TransitionActionGet {
         }
     }
 
-    my $TransitionAction = $Self->{ConfigObject}->Get('Process::TransitionAction');
+    my $TransitionAction = $Kernel::OM->Get('Kernel::Config')->Get('Process::TransitionAction');
 
     if ( !IsHashRefWithData($TransitionAction) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need TransitionAction config!',
         );
@@ -126,7 +104,7 @@ sub TransitionActionGet {
     }
 
     if ( !IsHashRefWithData( $TransitionAction->{ $Param{TransitionActionEntityID} } ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "No Data for TransitionAction '$Param{TransitionActionEntityID}' found!",
         );
@@ -135,12 +113,12 @@ sub TransitionActionGet {
 
     if (
         !$TransitionAction->{ $Param{TransitionActionEntityID} }{Module}
-        || !$Self->{MainObject}->Require(
+        || !$Kernel::OM->Get('Kernel::System::Main')->Require(
             $TransitionAction->{ $Param{TransitionActionEntityID} }{Module}
         )
         )
     {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Module for TransitionAction: $Param{TransitionActionEntityID} missing or"
                 . " not found!",
@@ -210,7 +188,7 @@ sub TransitionActionList {
 
     for my $Needed (qw(TransitionActionEntityID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
@@ -219,19 +197,19 @@ sub TransitionActionList {
     }
 
     if ( !IsArrayRefWithData( $Param{TransitionActionEntityID} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'No TransitionActionEntityID Array submitted calling TransitionActionList!',
         );
         return;
     }
 
-    my $TransitionAction = $Self->{ConfigObject}->Get('Process::TransitionAction');
+    my $TransitionAction = $Kernel::OM->Get('Kernel::Config')->Get('Process::TransitionAction');
 
     my $TransitionActionConfigs;
     for my $TransitionActionEntityID ( @{ $Param{TransitionActionEntityID} } ) {
         if ( !IsHashRefWithData( $TransitionAction->{$TransitionActionEntityID} ) ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "No Data for TransitionAction '$TransitionActionEntityID'"
                     . " found!",
@@ -241,12 +219,12 @@ sub TransitionActionList {
 
         if (
             !$TransitionAction->{$TransitionActionEntityID}{Module}
-            || !$Self->{MainObject}->Require(
+            || !$Kernel::OM->Get('Kernel::System::Main')->Require(
                 $TransitionAction->{$TransitionActionEntityID}{Module}
             )
             )
         {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Module for TransitionAction: $TransitionActionEntityID"
                     . " missing or not found!",
@@ -259,6 +237,7 @@ sub TransitionActionList {
             %{ $TransitionAction->{$TransitionActionEntityID} },
         };
     }
+
     return $TransitionActionConfigs;
 }
 

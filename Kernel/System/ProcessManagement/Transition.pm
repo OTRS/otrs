@@ -14,6 +14,13 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::System::ProcessManagement::Transition - Transition lib
@@ -30,32 +37,11 @@ All Process Management Transition functions.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::ProcessManagement::Transition;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $TransitionObject = Kernel::System::ProcessManagement::Transition->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        MainObject         => $MainObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $TransitionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Transition');
 
 =cut
 
@@ -66,24 +52,19 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for my $Needed (qw(ConfigObject LogObject MainObject)) {
-        die "Got no $Needed!" if !$Param{$Needed};
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get the debug parameters
-    $Self->{TransitionDebug}
-        = $Self->{ConfigObject}->Get('ProcessManagement::Transition::Debug::Enabled') || 0;
-    $Self->{TransitionDebugLogPriority}
-        = $Self->{ConfigObject}->Get('ProcessManagement::Transition::Debug::LogPriority')
-        || 'debug';
+    $Self->{TransitionDebug} = $ConfigObject->Get('ProcessManagement::Transition::Debug::Enabled') || 0;
+    $Self->{TransitionDebugLogPriority} = $ConfigObject->Get('ProcessManagement::Transition::Debug::LogPriority') || 'debug';
 
-    my $TransitionDebugConfigFilters
-        = $Self->{ConfigObject}->Get('ProcessManagement::Transition::Debug::Filter') || {};
+    my $TransitionDebugConfigFilters = $ConfigObject->Get('ProcessManagement::Transition::Debug::Filter') || {};
+
     for my $FilterName ( sort keys %{$TransitionDebugConfigFilters} ) {
+
         my %Filter = %{ $TransitionDebugConfigFilters->{$FilterName} };
+
         for my $FilterItem ( sort keys %Filter ) {
             $Self->{TransitionDebugFilters}->{$FilterItem} = $Filter{$FilterItem};
         }
@@ -150,7 +131,7 @@ sub TransitionGet {
 
     for my $Needed (qw(TransitionEntityID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
@@ -158,10 +139,10 @@ sub TransitionGet {
         }
     }
 
-    my $Transition = $Self->{ConfigObject}->Get('Process::Transition');
+    my $Transition = $Kernel::OM->Get('Kernel::Config')->Get('Process::Transition');
 
     if ( !IsHashRefWithData($Transition) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Transition config!',
         );
@@ -169,12 +150,13 @@ sub TransitionGet {
     }
 
     if ( !IsHashRefWithData( $Transition->{ $Param{TransitionEntityID} } ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "No data for Transition '$Param{TransitionEntityID}' found!",
         );
         return;
     }
+
     return $Transition->{ $Param{TransitionEntityID} };
 }
 
@@ -210,7 +192,7 @@ sub TransitionCheck {
     # Check if we have TransitionEntityID and Data
     for my $Needed (qw(TransitionEntityID Data)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
@@ -220,7 +202,7 @@ sub TransitionCheck {
 
     # Check if TransitionEntityID is not empty (either Array or String with length)
     if ( !length $Param{TransitionEntityID} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need TransitionEntityID or TransitionEntityID array!",
         );
@@ -284,7 +266,7 @@ sub TransitionCheck {
 
     # Check if we have Data to check against transitions conditions
     if ( !IsHashRefWithData( $Param{Data} ) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Data has no values!",
         );
@@ -292,11 +274,11 @@ sub TransitionCheck {
     }
 
     # Get all transitions
-    my $Transitions = $Self->{ConfigObject}->Get('Process::Transition');
+    my $Transitions = $Kernel::OM->Get('Kernel::Config')->Get('Process::Transition');
 
     # Check if there are Transitions
     if ( !IsHashRefWithData($Transitions) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need transition config!',
         );
@@ -323,7 +305,7 @@ sub TransitionCheck {
 
         # Check if the submitted TransitionEntityID has a config
         if ( !IsHashRefWithData( $Transitions->{$TransitionEntityID} ) ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "No config data for transition $TransitionEntityID found!",
             );
@@ -332,7 +314,7 @@ sub TransitionCheck {
 
         # Check if we have TransitionConditions
         if ( !IsHashRefWithData( $Transitions->{$TransitionEntityID}->{Condition} ) ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "No conditions for transition $TransitionEntityID found!",
             );
@@ -353,7 +335,7 @@ sub TransitionCheck {
             && !$Transitions->{$TransitionEntityID}->{Condition}->{Type}
             )
         {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => $Self->{TransitionDebugLogPriority},
                 Message =>
                     "Transition:'$Transitions->{$TransitionEntityID}->{Name}' No Condition Linking"
@@ -370,7 +352,7 @@ sub TransitionCheck {
             && $ConditionLinking ne 'xor'
             )
         {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Invalid Condition->Type in $TransitionEntityID!",
             );
@@ -393,7 +375,7 @@ sub TransitionCheck {
             # Check if we have Fields in our Cond
             if ( !IsHashRefWithData( $ActualCondition->{Fields} ) )
             {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "No Fields in Transition $TransitionEntityID->Condition->$Cond"
                         . " found!",
@@ -408,7 +390,7 @@ sub TransitionCheck {
                 && !$ActualCondition->{Type}
                 )
             {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => $Self->{TransitionDebugLogPriority},
                     Message =>
                         "Transition:'$Transitions->{$TransitionEntityID}->{Name}' Condition:'$Cond'"
@@ -419,7 +401,7 @@ sub TransitionCheck {
             # If there is something else than 'and', 'or', 'xor'
             # log defect Transition Config
             if ( $CondType ne 'and' && $CondType ne 'or' && $CondType ne 'xor' ) {
-                $Self->{LogObject}->Log(
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Invalid Condition->$Cond->Type in $TransitionEntityID!",
                 );
@@ -457,7 +439,7 @@ sub TransitionCheck {
                     && !$ActualCondition->{Fields}->{$Field}->{Type}
                     )
                 {
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => $Self->{TransitionDebugLogPriority},
                         Message =>
                             "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -476,7 +458,7 @@ sub TransitionCheck {
                     && $FieldType ne 'Module'
                     )
                 {
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
                         Message  => "Invalid Condition->Type in $TransitionEntityID!",
                     );
@@ -496,7 +478,7 @@ sub TransitionCheck {
                         || ref $ActualCondition->{Fields}->{$Field}->{Match}
                         )
                     {
-                        $Self->{LogObject}->Log(
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => 'error',
                             Message =>
                                 "$TransitionEntityID->Condition->$Cond->Fields->$Field Match must"
@@ -519,7 +501,7 @@ sub TransitionCheck {
                         $FieldSuccess++;
 
                         if ( $Self->{TransitionDebug} ) {
-                            $Self->{LogObject}->Log(
+                            $Kernel::OM->Get('Kernel::System::Log')->Log(
                                 Priority => $Self->{TransitionDebugLogPriority},
                                 Message =>
                                     "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -533,7 +515,7 @@ sub TransitionCheck {
                         # to make this Transition valid
                         if ( $ConditionLinking eq 'or' && $CondType eq 'or' ) {
                             if ( $Self->{TransitionDebug} ) {
-                                $Self->{LogObject}->Log(
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => $Self->{TransitionDebugLogPriority},
                                     Message =>
                                         "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -551,7 +533,7 @@ sub TransitionCheck {
                         $FieldFail++;
 
                         if ( $Self->{TransitionDebug} ) {
-                            $Self->{LogObject}->Log(
+                            $Kernel::OM->Get('Kernel::System::Log')->Log(
                                 Priority => $Self->{TransitionDebugLogPriority},
                                 Message =>
                                     "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -592,7 +574,7 @@ sub TransitionCheck {
                         $FieldSuccess++;
 
                         if ( $Self->{TransitionDebug} ) {
-                            $Self->{LogObject}->Log(
+                            $Kernel::OM->Get('Kernel::System::Log')->Log(
                                 Priority => $Self->{TransitionDebugLogPriority},
                                 Message =>
                                     "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -604,7 +586,7 @@ sub TransitionCheck {
                         # to make this Transition valid
                         if ( $ConditionLinking eq 'or' && $CondType eq 'or' ) {
                             if ( $Self->{TransitionDebug} ) {
-                                $Self->{LogObject}->Log(
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => $Self->{TransitionDebugLogPriority},
                                     Message =>
                                         "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -622,7 +604,7 @@ sub TransitionCheck {
                         $FieldFail++;
 
                         if ( $Self->{TransitionDebug} ) {
-                            $Self->{LogObject}->Log(
+                            $Kernel::OM->Get('Kernel::System::Log')->Log(
                                 Priority => $Self->{TransitionDebugLogPriority},
                                 Message =>
                                     "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -642,7 +624,7 @@ sub TransitionCheck {
 
                     # if our Check doesn't contain a hash
                     if ( ref $ActualCondition->{Fields}->{$Field}->{Match} ne 'HASH' ) {
-                        $Self->{LogObject}->Log(
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => 'error',
                             Message =>
                                 "$TransitionEntityID->Condition->$Cond->Fields->$Field Match must"
@@ -677,7 +659,7 @@ sub TransitionCheck {
 
                         $FieldSuccess++;
 
-                        $Self->{LogObject}->Log(
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => $Self->{TransitionDebugLogPriority},
                             Message =>
                                 "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -688,7 +670,7 @@ sub TransitionCheck {
                         # to make this Transition valid
                         if ( $ConditionLinking eq 'or' && $CondType eq 'or' ) {
                             if ( $Self->{TransitionDebug} ) {
-                                $Self->{LogObject}->Log(
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => $Self->{TransitionDebugLogPriority},
                                     Message =>
                                         "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -706,7 +688,7 @@ sub TransitionCheck {
                     else {
                         $FieldFail++;
 
-                        $Self->{LogObject}->Log(
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => $Self->{TransitionDebugLogPriority},
                             Message =>
                                 "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -734,7 +716,7 @@ sub TransitionCheck {
                         )
                         )
                     {
-                        $Self->{LogObject}->Log(
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => 'error',
                             Message =>
                                 "$TransitionEntityID->Condition->$Cond->Fields->$Field Match must"
@@ -751,7 +733,7 @@ sub TransitionCheck {
                             $ActualCondition->{Fields}->{$Field}->{Match} = qr{$Match};
                         };
                         if ($@) {
-                            $Self->{LogObject}->Log(
+                            $Kernel::OM->Get('Kernel::System::Log')->Log(
                                 Priority => 'error',
                                 Message  => $@,
                             );
@@ -770,7 +752,7 @@ sub TransitionCheck {
                     {
                         $FieldSuccess++;
 
-                        $Self->{LogObject}->Log(
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => $Self->{TransitionDebugLogPriority},
                             Message =>
                                 "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -783,7 +765,7 @@ sub TransitionCheck {
                         # to make this Transition valid
                         if ( $ConditionLinking eq 'or' && $CondType eq 'or' ) {
                             if ( $Self->{TransitionDebug} ) {
-                                $Self->{LogObject}->Log(
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => $Self->{TransitionDebugLogPriority},
                                     Message =>
                                         "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -800,7 +782,7 @@ sub TransitionCheck {
                     else {
                         $FieldFail++;
 
-                        $Self->{LogObject}->Log(
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => $Self->{TransitionDebugLogPriority},
                             Message =>
                                 "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -823,11 +805,10 @@ sub TransitionCheck {
                     # Default location for validation modules:
                     # Kernel/System/ProcessManagement/TransitionValidation/
                     if (
-                        !$Self->{MainObject}
-                        ->Require( $ActualCondition->{Fields}->{$Field}->{Match} )
+                        !$Kernel::OM->Get('Kernel::System::Main')->Require( $ActualCondition->{Fields}->{$Field}->{Match} )
                         )
                     {
-                        $Self->{LogObject}->Log(
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => 'error',
                             Message  => "Can't load "
                                 . $ActualCondition->{Fields}->{$Field}->{Type}
@@ -838,17 +819,13 @@ sub TransitionCheck {
                     }
 
                     # create new ValidateModuleObject
-                    my $ValidateModuleObject =
-                        $ActualCondition->{Fields}->{$Field}->{Match}->new(
-                        ConfigObject => $Self->{ConfigObject},
-                        LogObject    => $Self->{LogObject},
-                        );
+                    my $ValidateModuleObject = $ActualCondition->{Fields}->{$Field}->{Match}->new();
 
                     # handle "Data" Param to ValidateModule's "Validate" subroutine
                     if ( $ValidateModuleObject->Validate( Data => $Param{Data} ) ) {
                         $FieldSuccess++;
 
-                        $Self->{LogObject}->Log(
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => $Self->{TransitionDebugLogPriority},
                             Message =>
                                 "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -861,7 +838,7 @@ sub TransitionCheck {
                         # to make this Transition valid
                         if ( $ConditionLinking eq 'or' && $CondType eq 'or' ) {
                             if ( $Self->{TransitionDebug} ) {
-                                $Self->{LogObject}->Log(
+                                $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => $Self->{TransitionDebugLogPriority},
                                     Message =>
                                         "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -878,7 +855,7 @@ sub TransitionCheck {
                     else {
                         $FieldFail++;
 
-                        $Self->{LogObject}->Log(
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => $Self->{TransitionDebugLogPriority},
                             Message =>
                                 "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -907,7 +884,7 @@ sub TransitionCheck {
                     # to make this Transition valid
                     if ( $ConditionLinking eq 'or' ) {
                         if ( $Self->{TransitionDebug} ) {
-                            $Self->{LogObject}->Log(
+                            $Kernel::OM->Get('Kernel::System::Log')->Log(
                                 Priority => $Self->{TransitionDebugLogPriority},
                                 Message =>
                                     "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -937,7 +914,7 @@ sub TransitionCheck {
                     # to make this Transition valid
                     if ( $ConditionLinking eq 'or' ) {
                         if ( $Self->{TransitionDebug} ) {
-                            $Self->{LogObject}->Log(
+                            $Kernel::OM->Get('Kernel::System::Log')->Log(
                                 Priority => $Self->{TransitionDebugLogPriority},
                                 Message =>
                                     "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -967,7 +944,7 @@ sub TransitionCheck {
                     # to make this Transition valid
                     if ( $ConditionLinking eq 'or' ) {
                         if ( $Self->{TransitionDebug} ) {
-                            $Self->{LogObject}->Log(
+                            $Kernel::OM->Get('Kernel::System::Log')->Log(
                                 Priority => $Self->{TransitionDebugLogPriority},
                                 Message =>
                                     "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -992,7 +969,7 @@ sub TransitionCheck {
             # if we had no failing conditions this transition matched
             if ( !$ConditionFail ) {
                 if ( $Self->{TransitionDebug} ) {
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => $Self->{TransitionDebugLogPriority},
                         Message =>
                             "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -1008,7 +985,7 @@ sub TransitionCheck {
             # if we had at least one successful condition, this transition matched
             if ( $ConditionSuccess > 0 ) {
                 if ( $Self->{TransitionDebug} ) {
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => $Self->{TransitionDebugLogPriority},
                         Message =>
                             "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
@@ -1024,7 +1001,7 @@ sub TransitionCheck {
             # if we had exactly one successful condition, this transition matched
             if ( $ConditionSuccess == 1 ) {
                 if ( $Self->{TransitionDebug} ) {
-                    $Self->{LogObject}->Log(
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => $Self->{TransitionDebugLogPriority},
                         Message =>
                             "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
