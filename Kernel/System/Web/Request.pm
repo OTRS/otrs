@@ -16,10 +16,12 @@ use CGI ();
 use CGI::Carp;
 use File::Path qw();
 
-use Kernel::System::CheckItem;
-
-our @ObjectDependencies = (qw(ConfigObject LogObject EncodeObject MainObject));
-our $ObjectManagerAware = 0;
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::CheckItem',
+    'Kernel::System::Encode',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -45,7 +47,7 @@ create param object. Do not use it directly, instead use:
             WebRequest   => CGI::Fast->new(), # optional, e. g. if fast cgi is used
         }
     );
-    my $ParamObject = $Kernel::OM->Get('ParamObject');
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
 If Kernel::System::Web::Request is instantiated several times, they will share the
 same CGI data (this can be helpful in filters which do not have access to the
@@ -66,13 +68,11 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    for my $Object (qw(ConfigObject LogObject EncodeObject MainObject)) {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
-    $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # max 5 MB posts
-    $CGI::POST_MAX = $Self->{ConfigObject}->Get('WebMaxFileUpload') || 1024 * 1024 * 5; ## no critic
+    $CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5; ## no critic
 
     # we need to modify the tempdir
     # for windows because the users
@@ -80,11 +80,11 @@ sub new {
     # for the default tempdir c:\windows\temp
     # so we use a directory in otrs as tempdir (bug#10522)
     if ( $^O eq 'MSWin32' ) {
-        $CGITempFile::TMPDIRECTORY = $Self->{ConfigObject}->Get('TempDir');
+        $CGITempFile::TMPDIRECTORY = $ConfigObject->Get('TempDir');
     }
 
     # query object (in case use already existing WebRequest, e. g. fast cgi)
-    $Self->{Query} = $Param{WebRequest} || new CGI;
+    $Self->{Query} = $Param{WebRequest} || CGI->new();
 
     return $Self;
 }
@@ -130,7 +130,7 @@ sub GetParam {
     my ( $Self, %Param ) = @_;
 
     my $Value = $Self->{Query}->param( $Param{Param} );
-    $Self->{EncodeObject}->EncodeInput( \$Value );
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Value );
 
     my $Raw = defined $Param{Raw} ? $Param{Raw} : 0;
 
@@ -138,7 +138,7 @@ sub GetParam {
 
         # If it is a plain string, perform trimming
         if ( ref \$Value eq 'SCALAR' ) {
-            $Self->{CheckItemObject}->StringClean(
+            $Kernel::OM->Get('Kernel::System::CheckItem')->StringClean(
                 StringRef => \$Value,
                 TrimLeft  => 1,
                 TrimRight => 1,
@@ -173,7 +173,7 @@ sub GetParamNames {
 
     # is encode needed?
     for my $Name (@ParamNames) {
-        $Self->{EncodeObject}->EncodeInput( \$Name );
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Name );
     }
 
     return @ParamNames;
@@ -195,13 +195,18 @@ sub GetArray {
     my ( $Self, %Param ) = @_;
 
     my @Values = $Self->{Query}->param( $Param{Param} );
-    $Self->{EncodeObject}->EncodeInput( \@Values );
+
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \@Values );
 
     my $Raw = defined $Param{Raw} ? $Param{Raw} : 0;
 
     if ( !$Raw ) {
+
+        # get check item object
+        my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
+
         for my $Value (@Values) {
-            $Self->{CheckItemObject}->StringClean(
+            $CheckItemObject->StringClean(
                 StringRef => \$Value,
                 TrimLeft  => 1,
                 TrimRight => 1,
@@ -239,7 +244,7 @@ sub GetUploadAll {
     my $UploadFilenameOrig = $Self->GetParam( Param => $Param{Param} ) || 'unkown';
 
     my $NewFileName = "$UploadFilenameOrig";    # use "" to get filename of anony. object
-    $Self->{EncodeObject}->EncodeInput( \$NewFileName );
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$NewFileName );
 
     # replace all devices like c: or d: and dirs for IE!
     $NewFileName =~ s/.:\\(.*)/$1/g;
