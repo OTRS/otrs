@@ -12,14 +12,23 @@ package Kernel::GenericInterface::Operation::Common;
 use strict;
 use warnings;
 
-use Kernel::System::User;
-use Kernel::System::Auth;
-use Kernel::System::Group;
-use Kernel::System::AuthSession;
-use Kernel::System::CustomerUser;
-use Kernel::System::CustomerAuth;
-use Kernel::System::GenericInterface::Webservice;
+# use Kernel::System::User;
+# use Kernel::System::Auth;
+# use Kernel::System::Group;
+# use Kernel::System::AuthSession;
+# use Kernel::System::CustomerUser;
+# use Kernel::System::CustomerAuth;
+# use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
+
+our @ObjectDependencies = (
+    'Kernel::GenericInterface::Debugger',
+    'Kernel::System::Auth',
+    'Kernel::System::AuthSession',
+    'Kernel::System::CustomerAuth',
+    'Kernel::System::User',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -35,64 +44,11 @@ Kernel::GenericInterface::Operation::Common - common operation functions
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::GenericInterface::Debugger;
-    use Kernel::GenericInterface::Operation::Common;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
-
-        DebuggerConfig   => {
-            DebugThreshold  => 'debug',
-            TestMode        => 0,           # optional, in testing mode the data will not be
-                                            #   written to the DB
-            ...
-        },
-    my $CommonObject = Kernel::GenericInterface::Operation::Common->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
-        DebuggerObject     => $DebuggerObject,
-        WebserviceID       => $WebserviceID,             # ID of the currently used web service
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $CommonObject = $Kernel::OM->Get('Kernel::GenericInterface::Operation::Common');
 
 =cut
 
@@ -101,31 +57,6 @@ sub new {
 
     my $Self = {};
     bless( $Self, $Type );
-
-    # check needed objects
-    for my $Needed (
-        qw( DebuggerObject MainObject TimeObject ConfigObject LogObject DBObject EncodeObject)
-        )
-    {
-
-        if ( !$Param{$Needed} ) {
-            return {
-                Success      => 0,
-                ErrorMessage => "Got no $Needed!"
-            };
-        }
-
-        $Self->{$Needed} = $Param{$Needed};
-    }
-
-    # create additional objects
-    $Self->{UserObject}    = Kernel::System::User->new( %{$Self} );
-    $Self->{SessionObject} = Kernel::System::AuthSession->new( %{$Self} );
-    $Self->{GroupObject}   = Kernel::System::Group->new( %{$Self} );
-    $Self->{AuthObject}    = Kernel::System::Auth->new( %{$Self} );
-
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
-    $Self->{CustomerAuthObject} = Kernel::System::CustomerAuth->new( %{$Self} );
 
     return $Self;
 }
@@ -161,13 +92,17 @@ sub Auth {
     # check if a valid SessionID is present
     if ($SessionID) {
         my $ValidSessionID;
+
+        # get database object
+        my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+
         if ($SessionID) {
-            $ValidSessionID = $Self->{SessionObject}->CheckSessionID( SessionID => $SessionID );
+            $ValidSessionID = $SessionObject->CheckSessionID( SessionID => $SessionID );
         }
         return 0 if !$ValidSessionID;
 
         # get session data
-        my %UserData = $Self->{SessionObject}->GetSessionIDData(
+        my %UserData = $SessionObject->GetSessionIDData(
             SessionID => $SessionID,
         );
 
@@ -219,7 +154,7 @@ helper function to return an error message.
 sub ReturnError {
     my ( $Self, %Param ) = @_;
 
-    $Self->{DebuggerObject}->Error(
+    $Kernel::OM->Get('Kernel::GenericInterface::Debugger')->Error(
         Summary => $Param{ErrorCode},
         Data    => $Param{ErrorMessage},
     );
@@ -264,7 +199,7 @@ sub _AuthUser {
     my $PostPw   = $Param{Data}->{Password}  || '';
 
     # check submitted data
-    my $User = $Self->{AuthObject}->Auth(
+    my $User = $Kernel::OM->Get('Kernel::System::Auth')->Auth(
         User => $PostUser,
         Pw   => $PostPw,
     );
@@ -273,7 +208,7 @@ sub _AuthUser {
     if ($User) {
 
         # get UserID
-        my $UserID = $Self->{UserObject}->UserLookup(
+        my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $User,
         );
         $ReturnData = $UserID;
@@ -307,7 +242,7 @@ sub _AuthCustomerUser {
     my $PostPw   = $Param{Data}->{Password}          || '';
 
     # check submitted data
-    my $User = $Self->{CustomerAuthObject}->Auth(
+    my $User = $Kernel::OM->Get('Kernel::System::CustomerAuth')->Auth(
         User => $PostUser,
         Pw   => $PostPw,
     );
