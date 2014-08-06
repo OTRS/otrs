@@ -16,13 +16,18 @@ use IO::Socket::SSL;
 
 use base qw(Kernel::System::MailAccount::IMAP);
 
+our @ObjectDependencies = (
+'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 sub Connect {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(Login Password Host Timeout Debug)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
