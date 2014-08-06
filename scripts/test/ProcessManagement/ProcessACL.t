@@ -7,58 +7,29 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
-use vars qw($Self);
 
-use Kernel::Config;
-use Kernel::System::Group;
-use Kernel::System::ProcessManagement::Activity;
-use Kernel::System::ProcessManagement::ActivityDialog;
-use Kernel::System::ProcessManagement::Process;
-use Kernel::System::ProcessManagement::TransitionAction;
-use Kernel::System::ProcessManagement::Transition;
+use vars (qw($Self));
+
 use Kernel::System::Ticket;
-use Kernel::System::User;
-use Kernel::System::UnitTest::Helper;
+use Kernel::System::ProcessManagement::Process;
 
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    UnitTestObject => $Self,
-    %{$Self},
-    RestoreSystemConfiguration => 0,
-);
+use Kernel::System::VariableCheck qw(:all);
 
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
+my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# create common objects to be used in process object creation
+# create common objects to be used in ActivityDialog object creation
 my %CommonObject;
-$CommonObject{ActivityObject} = Kernel::System::ProcessManagement::Activity->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-$CommonObject{ActivityDialogObject} = Kernel::System::ProcessManagement::ActivityDialog->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-$CommonObject{TransitionActionObject} = Kernel::System::ProcessManagement::TransitionAction->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-$CommonObject{TransitionObject} = Kernel::System::ProcessManagement::Transition->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-my $GroupObject = Kernel::System::Group->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $UserObject = Kernel::System::User->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+$CommonObject{ActivityObject}         = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity');
+$CommonObject{ActivityDialogObject}   = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
+$CommonObject{TransitionObject}       = $Kernel::OM->Get('Kernel::System::ProcessManagement::Transition');
+$CommonObject{TransitionActionObject} = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction');
 
 # define a testing environment, set defined processes to be easy to compare, this are done in memory
 #   no changes to the real system configuration

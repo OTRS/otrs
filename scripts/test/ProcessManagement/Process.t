@@ -10,61 +10,27 @@
 use strict;
 use warnings;
 use utf8;
-use vars qw($Self);
 
-use Kernel::Config;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::Queue;
-use Kernel::System::ProcessManagement::Activity;
-use Kernel::System::ProcessManagement::ActivityDialog;
+use vars (qw($Self));
+
 use Kernel::System::ProcessManagement::Process;
-use Kernel::System::ProcessManagement::TransitionAction;
-use Kernel::System::ProcessManagement::Transition;
-use Kernel::System::Ticket;
 
 use Kernel::System::VariableCheck qw(:all);
 
-# create local objects
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    UnitTestObject => $Self,
-    %{$Self},
-    RestoreSystemConfiguration => 0,
-);
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-
+# create common objects to be used in ActivityDialog object creation
 my %CommonObject;
+$CommonObject{ActivityObject}         = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity');
+$CommonObject{ActivityDialogObject}   = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
+$CommonObject{TransitionObject}       = $Kernel::OM->Get('Kernel::System::ProcessManagement::Transition');
+$CommonObject{TransitionActionObject} = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction');
+$CommonObject{TicketObject}           = $Kernel::OM->Get('Kernel::System::Ticket');
 
-$CommonObject{ActivityObject} = Kernel::System::ProcessManagement::Activity->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-$CommonObject{ActivityDialogObject} = Kernel::System::ProcessManagement::ActivityDialog->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-$CommonObject{TransitionActionObject} = Kernel::System::ProcessManagement::TransitionAction->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-$CommonObject{TransitionObject} = Kernel::System::ProcessManagement::Transition->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-$CommonObject{TicketObject} = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-my $ProcessObject = Kernel::System::ProcessManagement::Process->new(
-    %{$Self},
-    %CommonObject,
-    ConfigObject => $ConfigObject,
-);
-my $QueueObject = Kernel::System::Queue->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $ProcessObject = Kernel::System::ProcessManagement::Process->new();
 
 my $RandomID = $HelperObject->GetRandomID();
 

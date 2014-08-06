@@ -9,27 +9,16 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use utf8;
-use Kernel::Config;
-use Kernel::System::ProcessManagement::Transition;
-use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(:all);
 
-# create local objects
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 0,
-);
-
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-
-my $TransitionObject = Kernel::System::ProcessManagement::Transition->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+# get needed objects
+my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $TransitionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Transition');
 
 # define needed variables
 my $RandomID = $HelperObject->GetRandomID();
