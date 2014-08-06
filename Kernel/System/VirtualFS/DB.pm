@@ -11,7 +11,15 @@ package Kernel::System::VirtualFS::DB;
 
 use strict;
 use warnings;
+
 use MIME::Base64;
+
+our @ObjectDependencies = (
+    'Kernel::System::DB',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -19,11 +27,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     # config (not used right now)
     $Self->{Compress} = 0;
@@ -38,7 +41,7 @@ sub Read {
     # check needed stuff
     for (qw(BackendKey Mode)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -49,25 +52,34 @@ sub Read {
     if ( lc $Param{Mode} eq 'binary' ) {
         $Encode = 0;
     }
-    return if !$Self->{DBObject}->Prepare(
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL    => 'SELECT content FROM virtual_fs_db WHERE id = ?',
         Bind   => [ \$Attributes->{FileID} ],
         Encode => [$Encode],
     );
+
+    # get encode object
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
     my $Content;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
 
         # decode attachment if it's e. g. a postgresql backend!!!
-        if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
+        if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
             $Content = decode_base64( $Row[0] );
             if ($Encode) {
-                $Self->{EncodeObject}->EncodeInput( \$Content );
+                $EncodeObject->EncodeInput( \$Content );
             }
         }
         else {
             $Content = $Row[0];
         }
     }
+
     return if !$Content;
 
     # uncompress (in case)
@@ -91,7 +103,7 @@ sub Write {
     # check needed stuff
     for (qw(Content Filename Mode)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -112,9 +124,14 @@ sub Write {
         # $Param{Content} = ...
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # encode attachment if it's a postgresql backend!!!
-    if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
-        $Self->{EncodeObject}->EncodeOutput( $Param{Content} );
+    if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
+
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( $Param{Content} );
+
         my $Content = encode_base64( ${ $Param{Content} } );
         $Param{Content} = \$Content;
     }
@@ -123,7 +140,8 @@ sub Write {
     if ( lc $Param{Mode} eq 'binary' ) {
         $Encode = 0;
     }
-    return if !$Self->{DBObject}->Do(
+
+    return if !$DBObject->Do(
         SQL => 'INSERT INTO virtual_fs_db (filename, content, create_time) '
             . 'VALUES ( ?, ?, current_timestamp )',
         Bind => [ \$Param{Filename}, $Param{Content} ],
@@ -148,32 +166,38 @@ sub Delete {
     # check needed stuff
     for (qw(BackendKey)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
     my $Attributes = $Self->_BackendKeyParse(%Param);
 
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL  => 'DELETE FROM virtual_fs_db WHERE id = ?',
         Bind => [ \$Attributes->{FileID} ],
     );
+
     return 1;
 }
 
 sub _FileLookup {
     my ( $Self, $Filename ) = @_;
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # lookup
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL  => 'SELECT id FROM virtual_fs_db WHERE filename = ?',
         Bind => [ \$Filename ],
     );
+
     my $FileID;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $FileID = $Row[0];
     }
+
     return $FileID;
 }
 
@@ -193,7 +217,7 @@ sub _BackendKeyParse {
     # check needed stuff
     for (qw(BackendKey)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
