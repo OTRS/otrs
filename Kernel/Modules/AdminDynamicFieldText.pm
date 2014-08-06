@@ -593,59 +593,66 @@ sub _ShowScreen {
         $ReadonlyInternalField = 'readonly="readonly"';
     }
 
+    # get the field id
     my $FieldID = $Self->{ParamObject}->GetParam( Param => 'ID' );
-    my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldGet(
-        ID => $FieldID,
-    );
 
-    my $FieldConfig = $DynamicField->{Config};
+    # only if the dymamic field exists and should be edited,
+    # not if the field is added for the first time
+    if ($FieldID) {
 
-    if ( !$Param{RegExCounter} ) {
+        my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldGet(
+            ID => $FieldID,
+        );
 
-        my $RegExCounter = 0;
-        for my $RegEx ( @{ $FieldConfig->{RegExList} } ) {
+        my $FieldConfig = $DynamicField->{Config};
 
-            $RegExCounter++;
-            $Param{ 'RegEx_' . $RegExCounter }                     = $RegEx->{Value};
-            $Param{ 'CustomerRegExErrorMessage_' . $RegExCounter } = $RegEx->{ErrorMessage};
+        if ( !$Param{RegExCounter} ) {
+
+            my $RegExCounter = 0;
+            for my $RegEx ( @{ $FieldConfig->{RegExList} } ) {
+
+                $RegExCounter++;
+                $Param{ 'RegEx_' . $RegExCounter }                     = $RegEx->{Value};
+                $Param{ 'CustomerRegExErrorMessage_' . $RegExCounter } = $RegEx->{ErrorMessage};
+            }
+
+            $Param{RegExCounter} = $RegExCounter;
         }
 
-        $Param{RegExCounter} = $RegExCounter;
-    }
+        if ( $Param{RegExCounter} ) {
 
-    if ( $Param{RegExCounter} ) {
+            REGEXENTRY:
+            for my $CurrentRegExEntryID ( 1 .. $Param{RegExCounter} ) {
 
-        REGEXENTRY:
-        for my $CurrentRegExEntryID ( 1 .. $Param{RegExCounter} ) {
+                # check existing regex
+                next REGEXENTRY if !$Param{ 'RegEx_' . $CurrentRegExEntryID };
 
-            # check existing regex
-            next REGEXENTRY if !$Param{ 'RegEx_' . $CurrentRegExEntryID };
-
-            $Self->{LayoutObject}->Block(
-                Name => 'RegExRow',
-                Data => {
-                    EntryCounter     => $CurrentRegExEntryID,
-                    RegEx            => $Param{ 'RegEx_' . $CurrentRegExEntryID },
-                    RegExServerError => $Param{ 'RegEx_' . $CurrentRegExEntryID . 'ServerError' }
-                        || '',
-                    RegExServerErrorMessage =>
-                        $Param{ 'RegEx_' . $CurrentRegExEntryID . 'ServerErrorMessage' } || '',
-                    CustomerRegExErrorMessage =>
-                        $Param{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID },
-                    CustomerRegExErrorMessageServerError =>
-                        $Param{
-                        'CustomerRegExErrorMessage_'
-                            . $CurrentRegExEntryID
-                            . 'ServerError'
+                $Self->{LayoutObject}->Block(
+                    Name => 'RegExRow',
+                    Data => {
+                        EntryCounter     => $CurrentRegExEntryID,
+                        RegEx            => $Param{ 'RegEx_' . $CurrentRegExEntryID },
+                        RegExServerError => $Param{ 'RegEx_' . $CurrentRegExEntryID . 'ServerError' }
+                            || '',
+                        RegExServerErrorMessage =>
+                            $Param{ 'RegEx_' . $CurrentRegExEntryID . 'ServerErrorMessage' } || '',
+                        CustomerRegExErrorMessage =>
+                            $Param{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID },
+                        CustomerRegExErrorMessageServerError =>
+                            $Param{
+                            'CustomerRegExErrorMessage_'
+                                . $CurrentRegExEntryID
+                                . 'ServerError'
+                            }
+                            || '',
+                        CustomerRegExErrorMessageServerErrorMessage =>
+                            $Param{
+                            'CustomerRegExErrorMessage_' . $CurrentRegExEntryID . 'ServerErrorMessage'
+                            }
+                            || '',
                         }
-                        || '',
-                    CustomerRegExErrorMessageServerErrorMessage =>
-                        $Param{
-                        'CustomerRegExErrorMessage_' . $CurrentRegExEntryID . 'ServerErrorMessage'
-                        }
-                        || '',
-                    }
-            );
+                );
+            }
         }
     }
 

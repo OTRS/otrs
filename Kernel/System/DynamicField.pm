@@ -12,6 +12,8 @@ package Kernel::System::DynamicField;
 use strict;
 use warnings;
 
+use base qw(Kernel::System::EventHandler);
+
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -63,6 +65,11 @@ sub new {
     if ( $Kernel::OM->Get('Kernel::System::DB')->GetDatabaseFunction('CaseSensitive') ) {
         $Self->{Lower} = 'LOWER';
     }
+
+    # init of event handler
+    $Self->EventHandlerInit(
+        Config => 'DynamicField::EventModulePost',
+    );
 
     return $Self;
 }
@@ -164,7 +171,7 @@ sub DynamicFieldAdd {
             ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$InternalField, \$Param{Name}, \$Param{Label}, \$Param{FieldOrder}, \$Param{FieldType},
-            \$Param{ObjectType}, \$Config, \$Param{ValidID}, \$Param{UserID}, \$Param{UserID}
+            \$Param{ObjectType}, \$Config, \$Param{ValidID}, \$Param{UserID}, \$Param{UserID},
         ],
     );
 
@@ -184,6 +191,15 @@ sub DynamicFieldAdd {
     );
 
     return if !$DynamicField->{ID};
+
+    # trigger event
+    $Self->EventHandler(
+        Event => 'DynamicFieldAdd',
+        Data  => {
+            %{ $DynamicField },
+        },
+        UserID => $Param{UserID},
+    );
 
     if ( !exists $Param{Reorder} || $Param{Reorder} ) {
 
@@ -404,13 +420,13 @@ sub DynamicFieldUpdate {
     }
 
     # get the old dynamic field data
-    my $DynamicField = $Self->DynamicFieldGet(
+    my $OldDynamicField = $Self->DynamicFieldGet(
         ID => $Param{ID},
     );
 
     # check if FieldOrder is changed
     my $ChangedOrder;
-    if ( $DynamicField->{FieldOrder} ne $Param{FieldOrder} ) {
+    if ( $OldDynamicField->{FieldOrder} ne $Param{FieldOrder} ) {
         $ChangedOrder = 1;
     }
 
@@ -436,13 +452,30 @@ sub DynamicFieldUpdate {
         Type => 'DynamicFieldValue',
     );
 
+    # get the new dynamic field data
+    my $NewDynamicField = $Self->DynamicFieldGet(
+        ID => $Param{ID},
+    );
+
+    # trigger event
+    $Self->EventHandler(
+        Event => 'DynamicFieldUpdate',
+        Data  => {
+            %{ $NewDynamicField },
+            OldData => {
+                %{ $OldDynamicField },
+            },
+        },
+        UserID => $Param{UserID},
+    );
+
     # re-order field list if a change in the order was made
     if ( $Reorder && $ChangedOrder ) {
         my $Success = $Self->_DynamicFieldReorder(
             ID            => $Param{ID},
             FieldOrder    => $Param{FieldOrder},
             Mode          => 'Update',
-            OldFieldOrder => $DynamicField->{FieldOrder},
+            OldFieldOrder => $OldDynamicField->{FieldOrder},
         );
     }
 
@@ -507,6 +540,15 @@ sub DynamicFieldDelete {
     );
     $CacheObject->CleanUp(
         Type => 'DynamicFieldValue',
+    );
+
+    # trigger event
+    $Self->EventHandler(
+        Event => 'DynamicFieldDelete',
+        Data  => {
+            %{ $DynamicField },
+        },
+        UserID => $Param{UserID},
     );
 
     return 1;
