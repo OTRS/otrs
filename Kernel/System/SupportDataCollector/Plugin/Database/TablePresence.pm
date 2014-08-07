@@ -14,6 +14,14 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::Main',
+    'Kernel::System::XML',
+);
+our $ObjectManagerAware = 1;
+
 sub GetDisplayPath {
     return 'Database';
 }
@@ -22,7 +30,7 @@ sub Run {
     my $Self = shift;
 
     # table check
-    my $File = $Self->{ConfigObject}->Get('Home') . '/scripts/database/otrs-schema.xml';
+    my $File = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/scripts/database/otrs-schema.xml';
     if ( !-f $File ) {
         $Self->AddResultProblem(
             Label   => 'Table Presence',
@@ -31,7 +39,7 @@ sub Run {
         );
     }
 
-    my $ContentRef = $Self->{MainObject}->FileRead(
+    my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
         Location => $File,
         Mode     => 'utf8',
     );
@@ -43,21 +51,23 @@ sub Run {
         );
     }
 
-    my @MissingTables;
+    my @XMLHash = $Kernel::OM->Get('Kernel::System::XML')->XMLParse2XMLHash( String => ${$ContentRef} );
 
-    my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => ${$ContentRef} );
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    my @MissingTables;
     TABLE:
     for my $Table ( @{ $XMLHash[1]->{database}->[1]->{Table} } ) {
         next TABLE if !$Table;
 
-        my $TableExists = $Self->{DBObject}->Prepare(
+        my $TableExists = $DBObject->Prepare(
             SQL   => "SELECT 1 FROM $Table->{Name}",
             Limit => 1
         );
 
-        if ($TableExists)
-        {
-            while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        if ($TableExists) {
+            while ( my @Row = $DBObject->FetchrowArray() ) {
 
                 # noop
             }
