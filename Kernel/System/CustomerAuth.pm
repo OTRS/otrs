@@ -12,7 +12,14 @@ package Kernel::System::CustomerAuth;
 use strict;
 use warnings;
 
-use Kernel::System::CustomerUser;
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::CustomerUser',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Time',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -30,48 +37,11 @@ The authentication module for the customer interface.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Main;
-    use Kernel::System::Time;
-    use Kernel::System::DB;
-    use Kernel::System::CustomerAuth;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $AuthObject = Kernel::System::CustomerAuth->new(
-        EncodeObject => $EncodeObject,
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-        TimeObject   => $TimeObject,
-        MainObject   => $MainObject,
-        EncodeObject => $EncodeObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
 =cut
 
@@ -82,22 +52,18 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(LogObject ConfigObject DBObject MainObject EncodeObject TimeObject)) {
-        $Self->{$_} = $Param{$_} || die "No $_!";
-    }
-
-    # get customer user object to validate customers
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
+    # get needed objects
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
     # load generator auth module
     SOURCE:
     for my $Count ( '', 1 .. 10 ) {
-        my $GenericModule = $Self->{ConfigObject}->Get("Customer::AuthModule$Count");
+        my $GenericModule = $ConfigObject->Get("Customer::AuthModule$Count");
         next SOURCE if !$GenericModule;
 
-        if ( !$Self->{MainObject}->Require($GenericModule) ) {
-            $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
+        if ( !$MainObject->Require($GenericModule) ) {
+            $MainObject->Die("Can't load backend module $GenericModule! $@");
         }
         $Self->{"Backend$Count"} = $GenericModule->new( %{$Self}, Count => $Count );
     }
@@ -137,6 +103,9 @@ The authentication function.
 sub Auth {
     my ( $Self, %Param ) = @_;
 
+    # get customer user object
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
     # use all 11 backends and return on first auth
     my $User;
     COUNT:
@@ -150,7 +119,7 @@ sub Auth {
 
         # remember auth backend
         if ($User) {
-            $Self->{CustomerUserObject}->SetPreferences(
+            $CustomerUserObject->SetPreferences(
                 Key    => 'UserAuthBackend',
                 Value  => $_,
                 UserID => $User,
@@ -161,11 +130,11 @@ sub Auth {
 
     # check if record exists
     if ( !$User ) {
-        my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Param{User} );
+        my %CustomerData = $CustomerUserObject->CustomerUserDataGet( User => $Param{User} );
         if (%CustomerData) {
             my $Count = $CustomerData{UserLoginFailed} || 0;
             $Count++;
-            $Self->{CustomerUserObject}->SetPreferences(
+            $CustomerUserObject->SetPreferences(
                 Key    => 'UserLoginFailed',
                 Value  => $Count,
                 UserID => $CustomerData{UserLogin},
@@ -175,9 +144,9 @@ sub Auth {
     }
 
     # check if user is valid
-    my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $User );
+    my %CustomerData = $CustomerUserObject->CustomerUserDataGet( User => $User );
     if ( defined $CustomerData{ValidID} && $CustomerData{ValidID} ne 1 ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "CustomerUser: '$User' is set to invalid, can't login!",
         );
@@ -187,16 +156,16 @@ sub Auth {
     return $User if !%CustomerData;
 
     # reset failed logins
-    $Self->{CustomerUserObject}->SetPreferences(
+    $CustomerUserObject->SetPreferences(
         Key    => 'UserLoginFailed',
         Value  => 0,
         UserID => $CustomerData{UserLogin},
     );
 
     # last login preferences update
-    $Self->{CustomerUserObject}->SetPreferences(
+    $CustomerUserObject->SetPreferences(
         Key    => 'UserLastLogin',
-        Value  => $Self->{TimeObject}->SystemTime(),
+        Value  => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
         UserID => $CustomerData{UserLogin},
     );
 
