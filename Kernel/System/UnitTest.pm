@@ -726,6 +726,17 @@ sub _PrintSummary {
         print " Database:    $ResultSummary{Database}\n";
         print " TestOk:      $ResultSummary{TestOk}\n";
         print " TestNotOk:   $ResultSummary{TestNotOk}\n";
+
+        if ( $ResultSummary{TestNotOk} ) {
+            print " FailedTests:\n";
+            FAILEDFILE:
+            for my $FailedFile ( @{ $Self->{NotOkInfo} || [] } ) {
+                my ( $File, @Tests ) = @{ $FailedFile || [] };
+                next FAILEDFILE if !@Tests;
+                print sprintf "  %s #%s\n", $File, join ", ", @Tests;
+            }
+        }
+
         print "=====================================================================\n";
     }
     return 1;
@@ -811,6 +822,16 @@ sub _Print {
         }
         $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Result} = 'not ok';
         $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Name}   = $Name;
+
+        my $ShortName = $Name;
+        $ShortName =~ s{\(.+\)$}{};
+
+        # Store information about failed tests, but only if we are running in a toplevel unit test object
+        #   that is actually processing filed, and not in an embedded object that just runs individual tests.
+        if (ref $Self->{NotOkInfo} eq 'ARRAY') {
+            push @{ $Self->{NotOkInfo}->[-1] }, sprintf "%s - %s", $Self->{TestCount}, $ShortName;
+        }
+
         return;
     }
 }
