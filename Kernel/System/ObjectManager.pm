@@ -39,7 +39,7 @@ use Kernel::System::User;
 # used to generate better error messages.
 our $CurrentObject;
 
-our @DefaultObjectDependencies = (
+my @DefaultObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DB',
     'Kernel::System::Encode',
