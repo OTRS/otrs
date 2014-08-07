@@ -14,6 +14,7 @@ use warnings;
 
 use Kernel::System::CustomerUser;
 use Kernel::System::Priority;
+use Kernel::System::Lock;
 use Kernel::System::SearchProfile;
 use Kernel::System::Service;
 use Kernel::System::SLA;
