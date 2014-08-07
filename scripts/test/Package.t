@@ -12,8 +12,7 @@ use warnings;
 use vars (qw($Self));
 
 use File::Copy;
-use Kernel::System::Package;
-use Kernel::System::Cache;
+
 use Kernel::System::VariableCheck qw(:all);
 
 # create local objects

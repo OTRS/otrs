@@ -68,8 +68,9 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get config object
+    # get needed objects
     $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
+    $Self->{MainObject}   = $Kernel::OM->Get('Kernel::System::Main');
 
     $Self->{PackageMap} = {
         Name            => 'SCALAR',
@@ -175,9 +176,6 @@ sub RepositoryList {
             . 'FROM package_repository ORDER BY name, create_time',
     );
 
-    # get main object
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
     # fetch the data
     my @Data;
     while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -190,7 +188,7 @@ sub RepositoryList {
 
         # correct any 'dos-style' line endings - http://bugs.otrs.org/show_bug.cgi?id=9838
         $Row[3] =~ s{\r\n}{\n}xmsg;
-        $Package{MD5sum} = $MainObject->MD5sum( String => \$Row[3] );
+        $Package{MD5sum} = $Self->{MainObject}->MD5sum( String => \$Row[3] );
 
         # get package attributes
         if ( $Row[3] && $Result eq 'Short' ) {
@@ -1500,7 +1498,7 @@ sub DeployCheck {
         }
         elsif ( -e $LocalFile ) {
 
-            my $Content = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+            my $Content = $Self->{MainObject}->FileRead(
                 Location => $Self->{Home} . '/' . $File->{Location},
                 Mode     => 'binmode',
             );
@@ -1597,7 +1595,7 @@ sub PackageVerify {
     $Param{Package} =~ s{\r\n}{\n}xmsg;
 
     # create MD5 sum
-    my $Sum = $Kernel::OM->Get('Kernel::System::Main')->MD5sum( String => $Param{Package} );
+    my $Sum = $Self->{MainObject}->MD5sum( String => $Param{Package} );
 
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
@@ -1960,9 +1958,6 @@ sub PackageBuild {
     }
     if ( $Param{Filelist} ) {
 
-        # get main object
-        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
         $XML .= "    <Filelist>\n";
 
         FILE:
@@ -1993,7 +1988,7 @@ sub PackageBuild {
             # don't use content in in index mode
             if ( !$Param{Type} ) {
                 $XML .= " Encode=\"Base64\">";
-                my $FileContent = $MainObject->FileRead(
+                my $FileContent = $Self->{MainObject}->FileRead(
                     Location => $Home . '/' . $File->{Location},
                     Mode     => 'binmode',
                 );
@@ -2126,7 +2121,7 @@ sub PackageParse {
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$CookedString );
 
     # create checksum
-    my $Checksum = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
+    my $Checksum = $Self->{MainObject}->MD5sum(
         String => \$CookedString,
     );
 
@@ -2398,11 +2393,8 @@ returns true if the distribution package (located under ) can get installed
 sub PackageInstallDefaultFiles {
     my ( $Self, %Param ) = @_;
 
-    # get main object
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
     my $Directory    = $Self->{ConfigObject}->Get('Home') . '/var/packages';
-    my @PackageFiles = $MainObject->DirectoryRead(
+    my @PackageFiles = $Self->{MainObject}->DirectoryRead(
         Directory => $Directory,
         Filter    => '*.opm',
     );
@@ -2412,7 +2404,7 @@ sub PackageInstallDefaultFiles {
     for my $Location (@PackageFiles) {
 
         # read package
-        my $ContentSCALARRef = $MainObject->FileRead(
+        my $ContentSCALARRef = $Self->{MainObject}->FileRead(
             Location => $Location,
             Mode     => 'binmode',
             Type     => 'Local',
@@ -2488,16 +2480,13 @@ sub PackageFileGetMD5Sum {
     my $Home = $Self->{Home};
     $Home =~ s{\/\z}{};
 
-    # get main object
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
     my %MD5SumLookup;
     for my $File ( @{ $Structure{Filelist} } ) {
 
         my $LocalFile = $Home . '/' . $File->{Location};
 
         # generate the MD5Sum
-        my $MD5Sum = $MainObject->MD5sum(
+        my $MD5Sum = $Self->{MainObject}->MD5sum(
             String => \$File->{Content},
         );
 
@@ -2904,9 +2893,6 @@ sub _CheckModuleRequired {
     # check required perl modules
     if ( $Param{ModuleRequired} && ref $Param{ModuleRequired} eq 'ARRAY' ) {
 
-        # get main object
-        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
         MODULE:
         for my $Module ( @{ $Param{ModuleRequired} } ) {
 
@@ -2916,7 +2902,7 @@ sub _CheckModuleRequired {
             my $InstalledVersion = 0;
 
             # check if module is installed
-            if ( $MainObject->Require( $Module->{Content} ) ) {
+            if ( $Self->{MainObject}->Require( $Module->{Content} ) ) {
                 $Installed = 1;
 
                 # check version if installed module
@@ -3064,9 +3050,6 @@ sub _FileInstall {
         return;
     }
 
-    # get main object
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
     # get real file name in fs
     my $RealFile = $Home . '/' . $Param{File}->{Location};
     $RealFile =~ s/\/\//\//g;
@@ -3085,7 +3068,7 @@ sub _FileInstall {
             if ( $Param{Reinstall} && !-e "$RealFile.save" ) {
 
                 # check if it's not the same
-                my $Content = $MainObject->FileRead(
+                my $Content = $Self->{MainObject}->FileRead(
                     Location => $RealFile,
                     Mode     => 'binmode',
                 );
@@ -3133,7 +3116,7 @@ sub _FileInstall {
     }
 
     # write file
-    return if !$MainObject->FileWrite(
+    return if !$Self->{MainObject}->FileWrite(
         Location   => $RealFile,
         Content    => \$Param{File}->{Content},
         Mode       => 'binmode',
@@ -3186,12 +3169,9 @@ sub _FileRemove {
         return;
     }
 
-    # get main object
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
     # check if we should backup this file, if it is touched/different
     if ( $Param{File}->{Content} ) {
-        my $Content = $MainObject->FileRead(
+        my $Content = $Self->{MainObject}->FileRead(
             Location => $RealFile,
             Mode     => 'binmode',
         );
@@ -3214,7 +3194,7 @@ sub _FileRemove {
     }
 
     # remove old file
-    if ( !$MainObject->FileDelete( Location => $RealFile ) ) {
+    if ( !$Self->{MainObject}->FileDelete( Location => $RealFile ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't remove file $RealFile: $!!",
@@ -3258,7 +3238,7 @@ sub _ReadDistArchive {
     }
 
     # read ARCHIVE file
-    my $Content = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+    my $Content = $Self->{MainObject}->FileRead(
         Directory => $Home,
         Filename  => 'ARCHIVE',
         Result    => 'ARRAY',
@@ -3303,16 +3283,13 @@ sub _FileSystemCheck {
         return;
     }
 
-    # get main object
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
     # create test files in following directories
     for (qw(/bin/ /Kernel/ /Kernel/System/ /Kernel/Output/ /Kernel/Output/HTML/ /Kernel/Modules/)) {
         my $Location = "$Home/$_/check_permissons.$$";
         my $Content  = 'test';
 
         # create test file
-        my $Write = $MainObject->FileWrite(
+        my $Write = $Self->{MainObject}->FileWrite(
             Location => $Location,
             Content  => \$Content,
         );
@@ -3321,7 +3298,7 @@ sub _FileSystemCheck {
         return if !$Write;
 
         # delete test file
-        $MainObject->FileDelete( Location => $Location );
+        $Self->{MainObject}->FileDelete( Location => $Location );
     }
 
     return 1;
@@ -3404,9 +3381,6 @@ sub _PackageUninstallMerged {
     # remove unneeded files (if exists)
     if ( IsArrayRefWithData( $PackageDetails{Filelist} ) ) {
 
-        # get main object
-        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
         FILE:
         for my $FileHash ( @{ $PackageDetails{Filelist} } ) {
 
@@ -3429,7 +3403,7 @@ sub _PackageUninstallMerged {
                         if ( -e $SavedFile ) {
 
                             # remove old file
-                            if ( !$MainObject->FileDelete( Location => $SavedFile ) ) {
+                            if ( !$Self->{MainObject}->FileDelete( Location => $SavedFile ) ) {
                                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                                     Priority => 'error',
                                     Message  => "Can't remove file $SavedFile: $!!",
@@ -3446,7 +3420,7 @@ sub _PackageUninstallMerged {
                 }
 
                 # remove old file
-                if ( !$MainObject->FileDelete( Location => $RealFile ) ) {
+                if ( !$Self->{MainObject}->FileDelete( Location => $RealFile ) ) {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
                         Message  => "Can't remove file $RealFile: $!!",
