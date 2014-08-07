@@ -606,7 +606,7 @@ sub SendEmail {
     my %StateData;
 
     if ( $GetParam{ComposeStateID} ) {
-        %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+        %StateData = $Self->{StateObject}->StateGet(
             ID => $GetParam{ComposeStateID},
         );
     }

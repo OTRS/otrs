@@ -373,7 +373,7 @@ sub Run {
 
         # check pending time
         if ( $GetParam{NewStateID} ) {
-            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+            my %StateData = $Self->{StateObject}->StateGet(
                 ID => $GetParam{NewStateID},
             );
 
@@ -775,7 +775,7 @@ sub Run {
             );
 
             # unlock the ticket after close
-            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+            my %StateData = $Self->{StateObject}->StateGet(
                 ID => $GetParam{NewStateID},
             );
 
@@ -1762,7 +1762,7 @@ sub _Mask {
             next STATEID if !$StateID;
 
             # get state data
-            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $StateID );
+            my %StateData = $Self->{StateObject}->StateGet( ID => $StateID );
 
             next STATEID if $StateData{TypeName} !~ /pending/i;
 

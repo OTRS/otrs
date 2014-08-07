@@ -1013,7 +1013,7 @@ sub _GetParam {
             }
 
             if ( $GetParam{StateID} ) {
-                %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                %StateData = $Self->{StateObject}->StateGet(
                     ID => $GetParam{StateID},
                 );
             }

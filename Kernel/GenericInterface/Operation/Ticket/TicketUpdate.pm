@@ -1312,7 +1312,7 @@ sub _CheckUpdatePermissions {
             );
         }
 
-        %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+        %StateData = $Self->{StateObject}->StateGet(
             ID => $StateID,
         );
 
@@ -1546,7 +1546,7 @@ sub _TicketUpdate {
             );
         }
 
-        %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+        %StateData = $Self->{StateObject}->StateGet(
             ID => $StateID,
         );
 

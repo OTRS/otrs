@@ -638,7 +638,7 @@ sub Run {
         my $NextStateID = $Self->{ParamObject}->GetParam( Param => 'NextStateID' ) || '';
         my %StateData;
         if ($NextStateID) {
-            %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $NextStateID, );
+            %StateData = $Self->{StateObject}->StateGet( ID => $NextStateID, );
         }
         my $NextState        = $StateData{Name};
         my $NewResponsibleID = $Self->{ParamObject}->GetParam( Param => 'NewResponsibleID' ) || '';

@@ -692,7 +692,7 @@ sub Run {
         my %Error;
         my %StateData;
         if ( $GetParam{NextStateID} ) {
-            %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+            %StateData = $Self->{StateObject}->StateGet(
                 ID => $GetParam{NextStateID},
             );
         }

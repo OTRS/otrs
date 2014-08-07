@@ -620,7 +620,7 @@ sub Run {
 
         # check pending time
         if ( $GetParam{NewStateID} ) {
-            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+            my %StateData = $Self->{StateObject}->StateGet(
                 ID => $GetParam{NewStateID},
             );
 
@@ -914,7 +914,7 @@ sub Run {
         );
 
         # unlock the ticket after close
-        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+        my %StateData = $Self->{StateObject}->StateGet(
             ID => $GetParam{NewStateID},
         );
 
@@ -1222,7 +1222,7 @@ sub AgentMove {
     STATE_ID:
     for my $StateID ( sort keys %{ $Param{NextStates} } ) {
         next STATE_ID if !$StateID;
-        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $StateID );
+        my %StateData = $Self->{StateObject}->StateGet( ID => $StateID );
         if ( $StateData{TypeName} =~ /pending/i ) {
             $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
                 Format           => 'DateInputFormatLong',

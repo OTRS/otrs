@@ -489,7 +489,7 @@ $Param{Signature}";
         if ( $Param{BounceStateID} ) {
 
             # set state
-            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+            my %StateData = $Self->{StateObject}->StateGet(
                 ID => $Param{BounceStateID},
             );
             $Self->{TicketObject}->TicketStateSet(

@@ -446,7 +446,7 @@ sub Run {
             $GetParam{StateID} = $Ticket{StateID};
         }
 
-        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $GetParam{StateID} );
+        my %StateData = $Self->{StateObject}->StateGet( ID => $GetParam{StateID} );
 
         my %Error;
 

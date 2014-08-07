@@ -230,12 +230,12 @@ sub Run {
         if ( $GetParam{StateID} || $GetParam{State} ) {
             my %StateData;
             if ( $GetParam{StateID} ) {
-                %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                %StateData = $Self->{StateObject}->StateGet(
                     ID => $GetParam{StateID},
                 );
             }
             else {
-                %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                %StateData = $Self->{StateObject}->StateGet(
                     Name => $GetParam{State},
                 );
             }
@@ -549,7 +549,7 @@ sub Run {
                     TicketID      => $TicketID,
                     DynamicFields => 0,
                 );
-                my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                my %StateData = $Self->{StateObject}->StateGet(
                     ID => $Ticket{StateID},
                 );
 
@@ -825,7 +825,7 @@ sub _Mask {
         STATE_ID:
         for my $StateID ( sort keys %StateList ) {
             next STATE_ID if !$StateID;
-            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $StateID );
+            my %StateData = $Self->{StateObject}->StateGet( ID => $StateID );
             next STATE_ID if $StateData{TypeName} !~ /pending/i;
             $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
                 %Param,
