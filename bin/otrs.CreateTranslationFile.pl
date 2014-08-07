@@ -325,7 +325,7 @@ sub HandleLanguage {
         print "SysConfig\n";
     }
     $Data .= "\n" . $Indent . "# SysConfig\n";
-    my @Strings = $Kernel::OM->Get('Kernel::System::SysConfigObject')->ConfigItemTranslatableStrings();
+    my @Strings = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemTranslatableStrings();
 
     STRING:
     for my $String ( sort @Strings ) {

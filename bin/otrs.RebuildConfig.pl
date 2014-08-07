@@ -44,7 +44,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 # ---
 print "otrs.RebuildConfig.pl - OTRS rebuild default config\n";
 print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
-if ( $Kernel::OM->Get('Kernel::System::SysConfigObject')->WriteDefault() ) {
+if ( $Kernel::OM->Get('Kernel::System::SysConfig')->WriteDefault() ) {
     print "Done.\n";
     exit;
 }
