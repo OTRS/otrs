@@ -345,7 +345,7 @@ else {
     if ( $Opts{R} ) {
         $Output .= "Name: $Title; Created: $Time\n";
     }
-    $Output .= $Kernel::OM->Get('Kernel::System:CSV')->Array2CSV(
+    $Output .= $Kernel::OM->Get('Kernel::System::CSV')->Array2CSV(
         Head      => $HeadArrayRef,
         Data      => \@StatArray,
         Separator => $Separator,
