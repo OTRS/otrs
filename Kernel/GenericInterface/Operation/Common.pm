@@ -12,23 +12,9 @@ package Kernel::GenericInterface::Operation::Common;
 use strict;
 use warnings;
 
-# use Kernel::System::User;
-# use Kernel::System::Auth;
-# use Kernel::System::Group;
-# use Kernel::System::AuthSession;
-# use Kernel::System::CustomerUser;
-# use Kernel::System::CustomerAuth;
-# use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(:all);
 
-our @ObjectDependencies = (
-    'Kernel::GenericInterface::Debugger',
-    'Kernel::System::Auth',
-    'Kernel::System::AuthSession',
-    'Kernel::System::CustomerAuth',
-    'Kernel::System::User',
-);
-our $ObjectManagerAware = 1;
+our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
@@ -44,11 +30,23 @@ Kernel::GenericInterface::Operation::Common - common operation functions
 
 =item new()
 
-create an object. Do not use it directly, instead use:
+create an object
+    use Kernel::GenericInterface::Debugger;
+    use Kernel::GenericInterface::Operation::Common;
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $CommonObject = $Kernel::OM->Get('Kernel::GenericInterface::Operation::Common');
+    my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+        DebuggerConfig   => {
+            DebugThreshold  => 'debug',
+            TestMode        => 0,           # optional, in testing mode the data will not be
+                                            #   written to the DB
+            #...
+
+        },
+    },
+    my $CommonObject = Kernel::GenericInterface::Operation::Common->new(
+        DebuggerObject     => $DebuggerObject,
+        WebserviceID       => $WebserviceID,             # ID of the currently used web service
+    );
 
 =cut
 
@@ -57,6 +55,16 @@ sub new {
 
     my $Self = {};
     bless( $Self, $Type );
+
+    # check needed objects
+    if ( !$Param{DebuggerObject} ) {
+        return {
+            Success      => 0,
+            ErrorMessage => "Got no DebuggerObject!"
+        };
+    }
+
+    $Self->{DebuggerObject} = $Param{DebuggerObject};
 
     return $Self;
 }
@@ -154,7 +162,7 @@ helper function to return an error message.
 sub ReturnError {
     my ( $Self, %Param ) = @_;
 
-    $Kernel::OM->Get('Kernel::GenericInterface::Debugger')->Error(
+    $Self->{DebuggerObject}->Error(
         Summary => $Param{ErrorCode},
         Data    => $Param{ErrorMessage},
     );

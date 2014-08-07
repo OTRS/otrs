@@ -15,29 +15,7 @@ use warnings;
 use MIME::Base64();
 use Kernel::System::VariableCheck qw(:all);
 
-our @ObjectDependencies = (
-    'Kernel::System::GenericInterface::Webservice',
-    'Kernel::System::DynamicField',
-    'Kernel::GenericInterface::Debugger',
-    'Kernel::System::Queue',
-    'Kernel::System::Valid',
-    'Kernel::System::Lock',
-    'Kernel::System::Type',
-    'Kernel::System::CustomerUser',
-    'Kernel::System::Service',
-    'Kernel::System::SLA',
-    'Kernel::System::State',
-    'Kernel::System::Priority',
-    'Kernel::System::Time',
-    'Kernel::System::AutoResponse',
-    'Kernel::System::Ticket',
-    'Kernel::System::CheckItem',
-    'Kernel::System::DynamicField::Backend',
-    'Kernel::System::Group',
-    'Kernel::System::CustomerGroup',
-    'Kernel::System::User',
-);
-our $ObjectManagerAware = 1;
+our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
@@ -55,14 +33,22 @@ Kernel::GenericInterface::Operation::Ticket::Common - common operation functions
 
 create an object
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
-    $Kernel::OM->ObjectParamAdd(
-        'Kernel::GenericInterface::Operation::Ticket::Common' => {
-            WebserviceID       => $WebserviceID,             # ID of the currently used web service
-        },
-    );
-    my $TicketCommonObject = $Kernel::OM->Get('Kernel::GenericInterface::Operation::Ticket::Common');
+    use Kernel::GenericInterface::Debugger;
+    use Kernel::GenericInterface::Operation::Ticket::Common;
+
+    my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+        DebuggerConfig   => {
+            DebugThreshold  => 'debug',
+            TestMode        => 0,           # optional, in testing mode the data will not be
+                                            #   written to the DB
+            #...
+        }
+    };
+
+    my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
+        DebuggerObject     => $DebuggerObject,
+        WebserviceID       => $WebserviceID,             # ID of the currently used web service
+     );
 
 =cut
 
@@ -73,11 +59,15 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    if ( !$Param{WebserviceID} ) {
-        return {
-            Success      => 0,
-            ErrorMessage => "Got no WebserviceID!"
-        };
+    for my $Needed (qw( DebuggerObject WebserviceID )) {
+        if ( !$Param{$Needed} ) {
+            return {
+                Success      => 0,
+                ErrorMessage => "Got no $Needed!"
+            };
+        }
+
+        $Self->{$Needed} = $Param{$Needed};
     }
 
     # get webservice configuration
@@ -127,7 +117,7 @@ helper function to return an error message.
 sub ReturnError {
     my ( $Self, %Param ) = @_;
 
-    $Kernel::OM->Get('Kernel::GenericInterface::Debugger')->Error(
+    $Self->{DebuggerObject}->Error(
         Summary => $Param{ErrorCode},
         Data    => $Param{ErrorMessage},
     );
