@@ -1324,6 +1324,14 @@ sub Print {
         }
     }
 
+    # There seems to be a bug in FastCGI that it cannot handle unicode output properly.
+    #   Work around this by converting to an utf8 byte stream instead.
+    #   See also http://bugs.otrs.org/show_bug.cgi?id=6284 and
+    #   http://bugs.otrs.org/show_bug.cgi?id=9802.
+    if ($ENV{FCGI_ROLE} || $ENV{FCGI_SOCKET_PATH}) { # are we on FCGI?
+        $Self->{EncodeObject}->EncodeOutput( $Param{Output} );
+    }
+
     print ${ $Param{Output} };
 
     return 1;
