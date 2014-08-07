@@ -14,6 +14,11 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+);
+our $ObjectManagerAware = 1;
+
 sub GetDisplayPath {
     return 'Operating System';
 }
@@ -27,7 +32,7 @@ sub Run {
     }
 
     # find OTRS partition
-    my $Home = $Self->{ConfigObject}->Get('Home');
+    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
     my $OTRSPartition = `df -P $Home | tail -1 | cut -d' ' -f 1`;
     chomp $OTRSPartition;
