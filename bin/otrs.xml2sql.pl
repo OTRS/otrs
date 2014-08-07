@@ -30,7 +30,6 @@ use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Std;
 
-use Kernel::Config;
 use Kernel::System::ObjectManager;
 
 my %Opts;
@@ -107,27 +106,19 @@ for my $DatabaseType (@DatabaseType) {
             AutoConnectNo => 1,    # don't try with foreign drivers
         },
     );
-    my %CommonObject = $Kernel::OM->ObjectHash(
-        Objects => ['ConfigObject'],
-    );
-    $CommonObject{ConfigObject}->Set(
+    $Kernel::OM->Get('Kernel::Config')->Set(
         Key   => 'Database::Type',
         Value => $DatabaseType,
     );
-    $CommonObject{ConfigObject}->Set(
+    $Kernel::OM->Get('Kernel::Config')->Set(
         Key   => 'Database::ShellOutput',
         Value => 1,
-    );
-
-    # now that the config is set, we can ask for all the required objects
-    %CommonObject = $Kernel::OM->ObjectHash(
-        Objects => [qw(ConfigObject XMLObject DBObject MainObject)],
     );
 
     if ( $Opts{f} ) {
 
         # read the source file
-        my $FileStringRef = $CommonObject{MainObject}->FileRead(
+        my $FileStringRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
             Location        => $Opts{f},
             Mode            => 'utf8',
             Type            => 'Local',
@@ -139,58 +130,60 @@ for my $DatabaseType (@DatabaseType) {
     }
 
     # parse xml package
-    my @XMLARRAY = $CommonObject{XMLObject}->XMLParse( String => $FileString );
+    my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $FileString );
 
-    my $Head = $CommonObject{DBObject}->{Backend}->{'DB::Comment'}
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    my $Head = $DBObject->{Backend}->{'DB::Comment'}
         . "----------------------------------------------------------\n";
-    $Head .= $CommonObject{DBObject}->{Backend}->{'DB::Comment'}
+    $Head .= $DBObject->{Backend}->{'DB::Comment'}
         . " driver: $DatabaseType\n";
-    $Head .= $CommonObject{DBObject}->{Backend}->{'DB::Comment'}
+    $Head .= $DBObject->{Backend}->{'DB::Comment'}
         . "----------------------------------------------------------\n";
 
     # get sql from parsed xml
     my @SQL;
-    if ( $CommonObject{DBObject}->{Backend}->{'DB::ShellConnect'} ) {
-        push @SQL, $CommonObject{DBObject}->{Backend}->{'DB::ShellConnect'};
+    if ( $DBObject->{Backend}->{'DB::ShellConnect'} ) {
+        push @SQL, $DBObject->{Backend}->{'DB::ShellConnect'};
     }
-    push @SQL, $CommonObject{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+    push @SQL, $DBObject->SQLProcessor( Database => \@XMLARRAY );
 
     # get port sql from parsed xml
     my @SQLPost;
-    if ( $CommonObject{DBObject}->{Backend}->{'DB::ShellConnect'} ) {
-        push @SQLPost, $CommonObject{DBObject}->{Backend}->{'DB::ShellConnect'};
+    if ( $DBObject->{Backend}->{'DB::ShellConnect'} ) {
+        push @SQLPost, $DBObject->{Backend}->{'DB::ShellConnect'};
     }
-    push @SQLPost, $CommonObject{DBObject}->SQLProcessorPost();
+    push @SQLPost, $DBObject->SQLProcessorPost();
 
     if ( $Opts{s} ) {
 
         # write create script
         Dump(
-            $CommonObject{MainObject},
+            $Kernel::OM->Get('Kernel::System::Main'),
             $Opts{o} . '/' . $Opts{n} . '.' . $DatabaseType . '.sql',
             \@SQL,
             $Head,
-            $CommonObject{DBObject}->{Backend}->{'DB::ShellCommit'},
+            $DBObject->{Backend}->{'DB::ShellCommit'},
             $Opts{o},
         );
 
         # write post script
         Dump(
-            $CommonObject{MainObject},
+            $Kernel::OM->Get('Kernel::System::Main'),
             $Opts{o} . '/' . $Opts{n} . '-post.' . $DatabaseType . '.sql',
             \@SQLPost,
             $Head,
-            $CommonObject{DBObject}->{Backend}->{'DB::ShellCommit'},
+            $DBObject->{Backend}->{'DB::ShellCommit'},
             $Opts{o},
         );
     }
     else {
         Dump(
-            $CommonObject{MainObject},
+            $Kernel::OM->Get('Kernel::System::Main'),
             $Opts{o} . '/' . $Opts{n} . '.' . $DatabaseType . '.sql',
             [ @SQL, @SQLPost ],
             $Head,
-            $CommonObject{DBObject}->{Backend}->{'DB::ShellCommit'},
+            $DBObject->{Backend}->{'DB::ShellCommit'},
             $Opts{o},
         );
     }

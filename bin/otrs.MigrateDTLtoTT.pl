@@ -54,15 +54,13 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 
 sub Run {
 
-    my %CommonObject = _CommonObjects();
-
     my $ProviderObject = Kernel::Output::Template::Provider->new();
 
     if ( !$Options{d} || !-d $Options{d} ) {
 
         my $Directory = $Options{d} || '';
 
-        $CommonObject{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Please provide a directory. '$Directory' is not a valid directory.",
         );
@@ -73,7 +71,7 @@ sub Run {
 
     # Regular DTLs
     if ( -d "$Options{d}/Kernel/Output/HTML/" ) {
-        push @FileList, $CommonObject{MainObject}->DirectoryRead(
+        push @FileList, $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => "$Options{d}/Kernel/Output/HTML/",
             Filter    => "*.dtl",
             Recursive => 1,
@@ -82,7 +80,7 @@ sub Run {
 
     # Customized DTLs
     if ( -d "$Options{d}/Custom/Kernel/Output/HTML/" ) {
-        push @FileList, $CommonObject{MainObject}->DirectoryRead(
+        push @FileList, $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => "$Options{d}/Custom/Kernel/Output/HTML/",
             Filter    => "*.dtl",
             Recursive => 1,
@@ -91,7 +89,7 @@ sub Run {
 
     # XML configuration files, may also contain DTL tags
     if ( -d "$Options{d}/Kernel/Config/Files/" ) {
-        push @FileList, $CommonObject{MainObject}->DirectoryRead(
+        push @FileList, $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => "$Options{d}/Kernel/Config/Files/",
             Filter    => "*.xml",
             Recursive => 1,
@@ -99,7 +97,7 @@ sub Run {
     }
 
     if ( !@FileList ) {
-        $CommonObject{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "No affected files found in $Options{d}.",
         );
@@ -109,7 +107,7 @@ sub Run {
     my $Success = 1;
 
     for my $File (@FileList) {
-        my $ContentRef = $CommonObject{MainObject}->FileRead(
+        my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
             Location => $File,
             Mode     => 'utf8',
         );
@@ -132,13 +130,12 @@ sub Run {
         }
 
         if ( $TTContent ne ${$ContentRef} ) {
-            $CommonObject{MainObject}->FileWrite(
+            $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
                 Location => $TTFile,
                 Content  => \$TTContent,
                 Mode     => 'utf8',
             );
         }
-
     }
 
     if ( !$Success ) {
@@ -148,18 +145,6 @@ sub Run {
 
     print STDERR "\nAll files ok.\n";
     exit 0;
-}
-
-sub _CommonObjects {
-
-    # create common objects
-    my %CommonObject = $Kernel::OM->ObjectHash(
-        Objects => [
-            qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject)
-        ],
-    );
-
-    return %CommonObject;
 }
 
 Run();
