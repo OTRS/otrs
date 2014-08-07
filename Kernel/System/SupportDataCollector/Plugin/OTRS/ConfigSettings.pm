@@ -14,6 +14,11 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+);
+our $ObjectManagerAware = 1;
+
 sub GetDisplayPath {
     return 'OTRS/Config Settings';
 }
@@ -37,8 +42,12 @@ sub Run {
         Frontend::RichText
     );
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     for my $Setting (@Settings) {
-        my $ConfigValue = $Self->{ConfigObject}->Get($Setting);
+
+        my $ConfigValue = $ConfigObject->Get($Setting);
 
         if ( defined $ConfigValue ) {
             $Self->AddResultInformation(

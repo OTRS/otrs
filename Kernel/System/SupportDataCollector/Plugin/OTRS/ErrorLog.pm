@@ -14,6 +14,11 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+);
+our $ObjectManagerAware = 1;
+
 sub GetDisplayPath {
     return 'OTRS';
 }
@@ -23,7 +28,7 @@ sub Run {
 
     my @ErrorLines;
 
-    for my $Line ( split( /\n/, $Self->{LogObject}->GetLog() ) ) {
+    for my $Line ( split( /\n/, $Kernel::OM->Get('Kernel::System::Log')->GetLog() ) ) {
         my @Row = split( /;;/, $Line );
         if ( $Row[3] && $Row[1] =~ /error/i ) {
             push @ErrorLines, $Row[3];

@@ -14,6 +14,11 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+);
+our $ObjectManagerAware = 1;
+
 sub GetDisplayPath {
     return 'OTRS';
 }
@@ -21,8 +26,11 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    my $SOAPUser     = $Self->{ConfigObject}->Get('SOAP::User')     || '';
-    my $SOAPPassword = $Self->{ConfigObject}->Get('SOAP::Password') || '';
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $SOAPUser     = $ConfigObject->Get('SOAP::User')     || '';
+    my $SOAPPassword = $ConfigObject->Get('SOAP::Password') || '';
 
     if ( $SOAPUser eq 'some_user' && ( $SOAPPassword eq 'some_pass' || $SOAPPassword eq '' ) ) {
         $Self->AddResultProblem(
