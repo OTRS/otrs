@@ -294,8 +294,8 @@ sub FixedTimeAddSeconds {
     my ( $Self, $SecondsToAdd ) = @_;
 
     return if ( !defined $FixedTime );
-
     $FixedTime += $SecondsToAdd;
+    return;
 }
 
 # See http://perldoc.perl.org/5.10.0/perlsub.html#Overriding-Built-in-Functions

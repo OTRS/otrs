@@ -18,6 +18,8 @@ use SOAP::Lite;
 
 use Kernel::System::Environment;
 use Kernel::System::ObjectManager;
+# UnitTest helper must be loaded to override the builtin time functions!
+use Kernel::System::UnitTest::Helper;
 
 our @ObjectDependencies = (
     'Kernel::Config',

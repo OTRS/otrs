@@ -7,6 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -494,17 +495,20 @@ for my $Test (@Tests) {
         my %ExpectedActivityDialog = %{ $AddedActivityDialogs{ $ActivityDialog->{ID} } };
         delete $ExpectedActivityDialog{UserID};
 
+        # create a variable copy otherwise the cache will be altered
+        my %ActivityDialogCopy = %{$ActivityDialog};
+
         for my $Attribute (qw(ID CreateTime ChangeTime)) {
             $Self->IsNot(
-                $ActivityDialog->{$Attribute},
+                $ActivityDialogCopy{$Attribute},
                 undef,
-                "$Test->{Name} | ActivityDialog->{$Attribute} should not be undef",
+                "$Test->{Name} | ActivityDialog{$Attribute} should not be undef",
             );
-            delete $ActivityDialog->{$Attribute};
+            delete $ActivityDialogCopy{$Attribute};
         }
 
         $Self->IsDeeply(
-            $ActivityDialog,
+            \%ActivityDialogCopy,
             \%ExpectedActivityDialog,
             "$Test->{Name} | ActivityDialog"
         );
@@ -786,12 +790,15 @@ for my $Test (@Tests) {
             my %ExpectedActivityDialog = %{ $Test->{Config} };
             delete $ExpectedActivityDialog{UserID};
 
+            # create a variable copy otherwise the cache will be altered
+            my %NewActivityDialogCopy = %{$NewActivityDialog};
+
             for my $Attribute (qw( Activities CreateTime ChangeTime State)) {
-                delete $NewActivityDialog->{$Attribute};
+                delete $NewActivityDialogCopy{$Attribute};
             }
 
             $Self->IsDeeply(
-                $NewActivityDialog,
+                \%NewActivityDialogCopy,
                 \%ExpectedActivityDialog,
                 "$Test->{Name} | ActivityDialog"
             );
@@ -847,19 +854,22 @@ $Self->IsNotDeeply(
     "ActivityDialogList Test 2: All | Should be different than the original",
 );
 
+# create a variable copy otherwise the cache will be altered
+my %TestActivityDialogListCopy = %{$TestActivityDialogList};
+
 # delete original ActivityDialogs
 for my $ActivityDialogID ( sort keys %{$OriginalActivityDialogList} ) {
-    delete $TestActivityDialogList->{$ActivityDialogID};
+    delete $TestActivityDialogListCopy{$ActivityDialogID};
 }
 
 $Self->Is(
-    scalar keys %{$TestActivityDialogList},
+    scalar keys %TestActivityDialogListCopy,
     scalar @AddedActivityDialogsList,
     "ActivityDialogList Test 2: All ActivityDialog | Number of ActivityDialogs match added ActivityDialogs",
 );
 
 my $Counter = 0;
-for my $ActivityDialogID ( sort { $a <=> $b } keys %{$TestActivityDialogList} ) {
+for my $ActivityDialogID ( sort { $a <=> $b } keys %TestActivityDialogListCopy ) {
     $Self->Is(
         $ActivityDialogID,
         $AddedActivityDialogsList[$Counter],

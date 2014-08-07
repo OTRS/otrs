@@ -7,6 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -520,17 +521,19 @@ for my $Test (@Tests) {
         my %ExpectedActivity = %{ $AddedActivities{ $Activity->{ID} } };
         delete $ExpectedActivity{UserID};
 
+        # create a variable copy otherwise the cache will be altered
+        my %ActivityCopy = %{$Activity};
         for my $Attribute (qw(ID ActivityDialogs CreateTime ChangeTime)) {
             $Self->IsNot(
-                $Activity->{$Attribute},
+                $ActivityCopy{$Attribute},
                 undef,
-                "$Test->{Name} | Activity->{$Attribute} should not be undef",
+                "$Test->{Name} | ActivityCopy{$Attribute} should not be undef",
             );
-            delete $Activity->{$Attribute};
+            delete $ActivityCopy{$Attribute};
         }
 
         $Self->IsDeeply(
-            $Activity,
+            \%ActivityCopy,
             \%ExpectedActivity,
             "$Test->{Name} | Activity"
         );
@@ -766,12 +769,14 @@ for my $Test (@Tests) {
             my %ExpectedActivity = %{ $Test->{Config} };
             delete $ExpectedActivity{UserID};
 
+            # create a variable copy otherwise the cache will be altered
+            my %NewActivityCopy = %{$NewActivity};
             for my $Attribute (qw( ActivityDialogs CreateTime ChangeTime )) {
-                delete $NewActivity->{$Attribute};
+                delete $NewActivityCopy{$Attribute};
             }
 
             $Self->IsDeeply(
-                $NewActivity,
+                \%NewActivityCopy,
                 \%ExpectedActivity,
                 "$Test->{Name} | Activity"
             );
@@ -827,19 +832,22 @@ $Self->IsNotDeeply(
     "ActivityList Test 2: | Should be different than the original",
 );
 
+# create a variable copy otherwise the cache will be altered
+my %TestActivityListCopy = %{$TestActivityList};
+
 # delete original activities
 for my $ActivityID ( sort keys %{$OriginalActivityList} ) {
-    delete $TestActivityList->{$ActivityID};
+    delete $TestActivityListCopy{$ActivityID};
 }
 
 $Self->Is(
-    scalar keys %{$TestActivityList},
+    scalar keys %TestActivityListCopy,
     scalar @AddedActivityList,
     "ActivityList Test 2: | Number of activities match added activities",
 );
 
 my $Counter = 0;
-for my $ActivityID ( sort { $a <=> $b } keys %{$TestActivityList} ) {
+for my $ActivityID ( sort { $a <=> $b } keys %TestActivityListCopy ) {
     $Self->Is(
         $ActivityID,
         $AddedActivityList[$Counter],
