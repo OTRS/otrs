@@ -38,9 +38,8 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-xml2docbook.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject MainObject DBObject SysConfigObject)],
-);
+
+my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
 # get options
 my %Opts = ();
@@ -68,18 +67,18 @@ else {
     print "<appendix id=\"ConfigReference\"><title>Configuration Options Reference</title>\n";
 }
 
-my %List = $CommonObject{SysConfigObject}->ConfigGroupList();
+my %List = $SysConfigObject->ConfigGroupList();
 for my $Group ( sort { $a cmp $b } keys %List ) {
-    my %SubList = $CommonObject{SysConfigObject}->ConfigSubGroupList( Name => $Group );
+    my %SubList = $SysConfigObject->ConfigSubGroupList( Name => $Group );
     print "<sect1 id=\"ConfigReference_$Group\"><title>$Group</title>\n";
     for my $SubGroup ( sort keys %SubList ) {
         print "<sect2 id=\"ConfigReference_$Group:$SubGroup\"><title>$SubGroup</title>\n";
-        my @List = $CommonObject{SysConfigObject}->ConfigSubGroupConfigItemList(
+        my @List = $SysConfigObject->ConfigSubGroupConfigItemList(
             Group    => $Group,
             SubGroup => $SubGroup
         );
         for my $Name (@List) {
-            my %Item = $CommonObject{SysConfigObject}->ConfigItemGet( Name => $Name );
+            my %Item = $SysConfigObject->ConfigItemGet( Name => $Name );
             my $Link = $Name;
             $Link =~ s/###/_/g;
             $Link =~ s/\///g;
@@ -135,7 +134,7 @@ EOF
                     }
                 }
             }
-            my %ConfigItemDefault = $CommonObject{SysConfigObject}->ConfigItemGet(
+            my %ConfigItemDefault = $SysConfigObject->ConfigItemGet(
                 Name    => $Name,
                 Default => 1,
             );
@@ -146,7 +145,7 @@ EOF
             $Key =~ s/'/\'/g;
             $Key =~ s/###/'}->{'/g;
             my $Config = " \$Self->{'$Key'} = "
-                . $CommonObject{SysConfigObject}->_XML2Perl( Data => \%ConfigItemDefault );
+                . $SysConfigObject->_XML2Perl( Data => \%ConfigItemDefault );
 
             print <<EOF;
             <row>

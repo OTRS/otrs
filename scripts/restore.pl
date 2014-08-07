@@ -73,16 +73,13 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-restore.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject MainObject DBObject)],
-);
 
-my $DatabaseHost = $CommonObject{ConfigObject}->Get('DatabaseHost');
-my $Database     = $CommonObject{ConfigObject}->Get('Database');
-my $DatabaseUser = $CommonObject{ConfigObject}->Get('DatabaseUser');
-my $DatabasePw   = $CommonObject{ConfigObject}->Get('DatabasePw');
-my $DatabaseDSN  = $CommonObject{ConfigObject}->Get('DatabaseDSN');
-my $ArticleDir   = $CommonObject{ConfigObject}->Get('ArticleDir');
+my $DatabaseHost = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseHost');
+my $Database     = $Kernel::OM->Get('Kernel::Config')->Get('Database');
+my $DatabaseUser = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseUser');
+my $DatabasePw   = $Kernel::OM->Get('Kernel::Config')->Get('DatabasePw');
+my $DatabaseDSN  = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseDSN');
+my $ArticleDir   = $Kernel::OM->Get('Kernel::Config')->Get('ArticleDir');
 
 # check db backup support
 if ( $DatabaseDSN =~ m/:mysql/i ) {
@@ -116,38 +113,36 @@ for my $CMD ( 'cp', 'tar', $DBDump ) {
 }
 
 # check database env
-if ( $CommonObject{DBObject} ) {
-    if ( $DB =~ m/mysql/i ) {
-        $CommonObject{DBObject}->Prepare( SQL => "SHOW TABLES" );
-        my $Check = 0;
-        while ( my @RowTmp = $CommonObject{DBObject}->FetchrowArray() ) {
-            $Check++;
-        }
-        if ($Check) {
-            print STDERR
-                "ERROR: Already existing tables in this database. A empty database is required for restore!\n";
-            exit 1;
-        }
+if ( $DB =~ m/mysql/i ) {
+    $Kernel::OM->Get('Kernel::System::DB')->Prepare( SQL => "SHOW TABLES" );
+    my $Check = 0;
+    while ( my @RowTmp = $Kernel::OM->Get('Kernel::System::DB')->FetchrowArray() ) {
+        $Check++;
     }
-    else {
-        $CommonObject{DBObject}->Prepare(
-            SQL =>
-                "SELECT table_name FROM information_schema.tables WHERE table_catalog = 'otrs' AND table_schema = 'public'",
-        );
-        my $Check = 0;
-        while ( my @RowTmp = $CommonObject{DBObject}->FetchrowArray() ) {
-            $Check++;
-        }
-        if ($Check) {
-            print STDERR
-                "ERROR: Already existing tables in this database. A empty database is required for restore!\n";
-            exit 1;
-        }
+    if ($Check) {
+        print STDERR
+            "ERROR: Already existing tables in this database. A empty database is required for restore!\n";
+        exit 1;
+    }
+}
+else {
+    $Kernel::OM->Get('Kernel::System::DB')->Prepare(
+        SQL =>
+            "SELECT table_name FROM information_schema.tables WHERE table_catalog = 'otrs' AND table_schema = 'public'",
+    );
+    my $Check = 0;
+    while ( my @RowTmp = $Kernel::OM->Get('Kernel::System::DB')->FetchrowArray() ) {
+        $Check++;
+    }
+    if ($Check) {
+        print STDERR
+            "ERROR: Already existing tables in this database. A empty database is required for restore!\n";
+        exit 1;
     }
 }
 
 # restore
-my $Home = $CommonObject{ConfigObject}->Get('Home');
+my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 chdir($Home);
 
 # extract application

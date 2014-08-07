@@ -244,7 +244,7 @@ if ($DBOnlyBackup) {
 else {
     if ($FullBackup) {
         print "Backup $Directory/Application.tar.gz ... ";
-        my $Excludes = "--exclude=var/tmp --exclude=js-cache --exclude=css-cache ";
+        my $Excludes = "--exclude=var/tmp --exclude=js-cache --exclude=css-cache --exclude=.git";
         if ( !system("tar $Excludes -czf $Directory/Application.tar.gz .") ) {
             print "done\n";
         }
