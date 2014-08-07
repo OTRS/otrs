@@ -121,7 +121,7 @@ sub new {
 
     # init of event handler
     $Self->EventHandlerInit(
-        Config     => 'Package::EventModule',
+        Config     => 'Package::EventModulePost',
         BaseObject => 'PackageObject',
         Objects    => {
             %{$Self},
