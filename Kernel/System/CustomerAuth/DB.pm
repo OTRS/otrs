@@ -55,10 +55,6 @@ sub new {
 
     if ( $ConfigObject->Get( 'Customer::AuthModule::DB::DSN' . $Param{Count} ) ) {
         $Self->{DBObject} = Kernel::System::DB->new(
-            LogObject    => $Param{LogObject},
-            ConfigObject => $Param{ConfigObject},
-            MainObject   => $Param{MainObject},
-            EncodeObject => $Param{EncodeObject},
             DatabaseDSN =>
                 $ConfigObject->Get( 'Customer::AuthModule::DB::DSN' . $Param{Count} ),
             DatabaseUser =>
