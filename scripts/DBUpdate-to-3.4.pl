@@ -82,30 +82,27 @@ Please run it as the 'otrs' user or with the help of su:
 
     print "\nMigration started...\n\n";
 
-    # create common objects
-    my $CommonObject = _CommonObjectsBase();
-
     # define the number of steps
     my $Steps = 10;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
-    RebuildConfig($CommonObject) || die;
+    RebuildConfig() || die;
     print "done.\n\n";
     $Step++;
 
     # create common objects with new default config
-    $CommonObject = _CommonObjectsBase();
+    $Kernel::OM->ObjectsDiscard();
 
     # check framework version
     print "Step $Step of $Steps: Check framework version... ";
-    _CheckFrameworkVersion($CommonObject) || die;
+    _CheckFrameworkVersion() || die;
     print "done.\n\n";
     $Step++;
 
     # migrate FontAwesome
     print "Step $Step of $Steps: Migrate FontAwesome icons... ";
-    if ( _MigrateFontAwesome($CommonObject) ) {
+    if ( _MigrateFontAwesome() ) {
         print "done.\n\n";
     }
     else {
@@ -115,7 +112,7 @@ Please run it as the 'otrs' user or with the help of su:
     $Step++;
 
     print "Step $Step of $Steps: Migrate ProcessManagement EntityIDs... ";
-    if ( _MigrateProcessManagementEntityIDs($CommonObject) ) {
+    if ( _MigrateProcessManagementEntityIDs() ) {
         print "done.\n\n";
     }
     else {
@@ -126,7 +123,7 @@ Please run it as the 'otrs' user or with the help of su:
 
     # migrate DB ACLs
     print "Step $Step of $Steps: Migrate ACLs stored in the DB... ";
-    if ( _MigrateDBACLs($CommonObject) ) {
+    if ( _MigrateDBACLs() ) {
         print "done.\n\n";
     }
     else {
@@ -137,7 +134,7 @@ Please run it as the 'otrs' user or with the help of su:
 
     # set service notifications
     print "Step $Step of $Steps: Set service notifications... ";
-    if ( _SetServiceNotifications($CommonObject) ) {
+    if ( _SetServiceNotifications() ) {
         print "done.\n\n";
     }
     else {
@@ -148,7 +145,7 @@ Please run it as the 'otrs' user or with the help of su:
 
     # mgrate settings
     print "Step $Step of $Steps: Migrate Settings... ";
-    if ( _MigrateSettings($CommonObject) ) {
+    if ( _MigrateSettings() ) {
         print "done.\n\n";
     }
     else {
@@ -159,7 +156,7 @@ Please run it as the 'otrs' user or with the help of su:
 
     # uninstall Merged Feature Add-Ons
     print "Step $Step of $Steps: Uninstall Merged Feature Add-Ons... ";
-    if ( _UninstallMergedFeatureAddOns($CommonObject) ) {
+    if ( _UninstallMergedFeatureAddOns() ) {
         print "done.\n\n";
     }
     else {
@@ -175,22 +172,12 @@ Please run it as the 'otrs' user or with the help of su:
     $Step++;
 
     print "Step $Step of $Steps: Refresh configuration cache another time... ";
-    RebuildConfig($CommonObject) || die;
+    RebuildConfig() || die;
     print "done.\n\n";
 
     print "Migration completed!\n";
 
     exit 0;
-}
-
-sub _CommonObjectsBase {
-    my %CommonObject = $Kernel::OM->ObjectHash(
-        Objects =>
-            [
-            qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject SysConfigObject)
-            ],
-    );
-    return \%CommonObject;
 }
 
 =item RebuildConfig($CommonObject)
@@ -203,9 +190,7 @@ after the upgrade.
 =cut
 
 sub RebuildConfig {
-    my $CommonObject = shift;
-
-    my $SysConfigObject = Kernel::System::SysConfig->new( %{$CommonObject} );
+    my $SysConfigObject = Kernel::System::SysConfig->new();
 
     # Rebuild ZZZAAuto.pm with current values
     if ( !$SysConfigObject->WriteDefault() ) {
@@ -222,7 +207,7 @@ sub RebuildConfig {
     # reload config object
     print
         "\nIf you see warnings about 'Subroutine Load redefined', that's fine, no need to worry!\n";
-    $CommonObject = _CommonObjectsBase();
+    $Kernel::OM->ObjectsDiscard();
 
     return 1;
 }
@@ -236,9 +221,7 @@ Check if framework it's the correct one for Dinamic Fields migration.
 =cut
 
 sub _CheckFrameworkVersion {
-    my $CommonObject = shift;
-
-    my $Home = $CommonObject->{ConfigObject}->Get('Home');
+    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
     # load RELEASE file
     if ( -e !"$Home/RELEASE" ) {
@@ -262,7 +245,7 @@ sub _CheckFrameworkVersion {
         close($Product);
     }
     else {
-        die "Error: Can't read $CommonObject->{Home}/RELEASE: $!";
+        die "Error: Can't read $Home/RELEASE: $!";
     }
 
     if ( $ProductName ne 'OTRS' ) {
@@ -285,9 +268,7 @@ Migrate settings that has changed it name.
 =cut
 
 sub _MigrateFontAwesome {
-    my $CommonObject = shift;
-
-    my $SysConfigObject = Kernel::System::SysConfig->new( %{$CommonObject} );
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
     # update toolbar items settings
     # otherwise the new fontawesome icons won't be displayed
@@ -329,7 +310,7 @@ sub _MigrateFontAwesome {
         },
     );
 
-    my $Setting = $CommonObject->{ConfigObject}->Get('Frontend::ToolBarModule');
+    my $Setting = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::ToolBarModule');
 
     TOOLBARMODULE:
     for my $ToolbarModule ( sort keys %ModuleAttributes ) {
@@ -382,7 +363,7 @@ sub _MigrateFontAwesome {
         },
     );
 
-    $Setting = $CommonObject->{ConfigObject}->Get('Frontend::CustomerUser::Item');
+    $Setting = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::CustomerUser::Item');
 
     CUSTOMERUSERMODULE:
     for my $CustomerUserModule ( sort keys %CustomerUserAttributes ) {
@@ -415,17 +396,15 @@ Migrate process management EntityIDs from consecutive to GUID style.
 =cut
 
 sub _MigrateProcessManagementEntityIDs {
-    my $CommonObject = shift;
-
-    my $ProcessObject  = Kernel::System::ProcessManagement::DB::Process->new( %{$CommonObject} );
-    my $EntityObject   = Kernel::System::ProcessManagement::DB::Entity->new( %{$CommonObject} );
-    my $ActivityObject = Kernel::System::ProcessManagement::DB::Activity->new( %{$CommonObject} );
+    my $ProcessObject  = Kernel::System::ProcessManagement::DB::Process->new();
+    my $EntityObject   = Kernel::System::ProcessManagement::DB::Entity->new();
+    my $ActivityObject = Kernel::System::ProcessManagement::DB::Activity->new();
     my $ActivityDialogObject
-        = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$CommonObject} );
+        = Kernel::System::ProcessManagement::DB::ActivityDialog->new();
     my $TransitionObject
-        = Kernel::System::ProcessManagement::DB::Transition->new( %{$CommonObject} );
+        = Kernel::System::ProcessManagement::DB::Transition->new();
     my $TransitionActionObject
-        = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$CommonObject} );
+        = Kernel::System::ProcessManagement::DB::TransitionAction->new();
 
     # get current process management data from the DB
     my %ProcessManagementList;
@@ -696,7 +675,7 @@ sub _MigrateProcessManagementEntityIDs {
                 UserID => 1,
             );
             if ( !$Success ) {
-                $CommonObject->{LogObject}(
+                $Kernel::OM->Get('Kernel::System::Log')->(
                     Priority => 'error',
                     Message  => "\n$PartName $Part->{Name} was not updated!!",
                 );
@@ -726,7 +705,7 @@ sub _MigrateProcessManagementEntityIDs {
             UserID => 1,
         );
         if ( !$Success ) {
-            $CommonObject->{LogObject}(
+            $Kernel::OM->Get('Kernel::System::Log')->(
                 Priority => 'error',
                 Message  => "Was not possible to migrate ACL $ACL->{Name}!",
             );
@@ -739,7 +718,7 @@ sub _MigrateProcessManagementEntityIDs {
     if ($DeployProcesses) {
 
         my $Location
-            = $CommonObject->{ConfigObject}->Get('Home')
+            = $Kernel::OM->Get('Kernel::Config')->Get('Home')
             . '/Kernel/Config/Files/ZZZProcessManagement.pm';
 
         my $ProcessDump = ${ProcessObject}->ProcessDump(
@@ -755,7 +734,7 @@ sub _MigrateProcessManagementEntityIDs {
             if ( !$Success ) {
 
                 # show error if can't set state
-                $CommonObject->{LogObject}(
+                $Kernel::OM->Get('Kernel::System::Log')->(
                     Priority => 'error',
                     Message  => "There was an error setting the entity sync status.",
                 );
@@ -765,7 +744,7 @@ sub _MigrateProcessManagementEntityIDs {
         else {
 
             # show error if can't synch
-            $CommonObject->{LogObject}(
+            $Kernel::OM->Get('Kernel::System::Log')->(
                 Priority => 'error',
                 Message  => "There was an error synchronizing the processes.",
             );
@@ -776,7 +755,7 @@ sub _MigrateProcessManagementEntityIDs {
     # deploy acls
     if ($DeployACLs) {
         my $Location
-            = $CommonObject->{ConfigObject}->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
+            = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
 
         my $ACLDump = $ACLObject->ACLDump(
             ResultType => 'FILE',
@@ -789,7 +768,7 @@ sub _MigrateProcessManagementEntityIDs {
             my $Success = $ACLObject->ACLsNeedSyncReset();
 
             if ( !$Success ) {
-                $CommonObject->{LogObject}(
+                $Kernel::OM->Get('Kernel::System::Log')->(
                     Priority => 'error',
                     Message  => "There was an error setting the ACL sync status.",
                 );
@@ -799,7 +778,7 @@ sub _MigrateProcessManagementEntityIDs {
         else {
 
             # show error if can't sync
-            $CommonObject->{LogObject}(
+            $Kernel::OM->Get('Kernel::System::Log')->(
                 Priority => 'error',
                 Message  => "There was an error synchronizing the ACLs.",
             );
@@ -808,7 +787,7 @@ sub _MigrateProcessManagementEntityIDs {
     }
 
     # check for in memory ACLs
-    my $FileACLs = $CommonObject->{ConfigObject}->Get('TicketAcl');
+    my $FileACLs = $Kernel::OM->Get('Kernel::Config')->Get('TicketAcl');
 
     # remove all DB affected ACLs from in memory ACLs
     for my $ACLName (@AffectedDBACLs) {
@@ -858,8 +837,6 @@ Set new notifications for service update.
 =cut
 
 sub _SetServiceNotifications {
-    my $CommonObject = shift;
-
     # define agent notifications
     my %AgentNotificationsLookup = (
         en => [
@@ -901,7 +878,7 @@ sub _SetServiceNotifications {
     LANGUAGE:
     for my $Language (qw(en de)) {
 
-        return if !$CommonObject->{DBObject}->Prepare(
+        return if !$Kernel::OM->Get('Kernel::System::DB')->Prepare(
             SQL => "
                 SELECT id
                 FROM notifications
@@ -910,7 +887,7 @@ sub _SetServiceNotifications {
             Bind => [ \$Language ],
         );
 
-        my @Data = $CommonObject->{DBObject}->FetchrowArray();
+        my @Data = $Kernel::OM->Get('Kernel::System::DB')->FetchrowArray();
 
         next LANGUAGE if $Data[0];
 
@@ -928,7 +905,7 @@ sub _SetServiceNotifications {
         }
 
         # do the insertion
-        return if !$CommonObject->{DBObject}->Do(
+        return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL => "
                 INSERT INTO notifications (notification_type, notification_language,
                     subject, text, notification_charset, content_type, create_time, create_by,
@@ -951,15 +928,13 @@ Migrate different settings
 =cut
 
 sub _MigrateSettings {
-    my $CommonObject = shift;
-
     my $NewValue          = 'MyQueues';
     my $OldValue          = 1;
     my $NewTicketKey      = 'UserSendNewTicketNotification';
     my $FollowUpTicketKey = 'UserSendFollowUpNotification';
 
     # do the update
-    return if !$CommonObject->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => "
             UPDATE user_preferences
             SET preferences_value = ?
@@ -980,8 +955,6 @@ Migrate ACLs stored in the DB.
 =cut
 
 sub _MigrateDBACLs {
-    my $CommonObject = shift;
-
     my $ACLObject = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
 
     # get a list of all ACLs stored in the DB
@@ -1020,7 +993,7 @@ sub _MigrateDBACLs {
             UserID => 1,
         );
         if ( !$Success ) {
-            $CommonObject->{LogObject}(
+            $Kernel::OM->Get('Kernel::System::Log')->(
                 Priority => 'error',
                 Message  => "Was not possible to migrate ACL $ACL->{Name}!",
             );
@@ -1036,7 +1009,7 @@ sub _MigrateDBACLs {
         }
         else {
             my $Location
-                = $CommonObject->{ConfigObject}->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
+                = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
 
             my $ACLDump = $ACLObject->ACLDump(
                 ResultType => 'FILE',
@@ -1049,7 +1022,7 @@ sub _MigrateDBACLs {
                 my $Success = $ACLObject->ACLsNeedSyncReset();
 
                 if ( !$Success ) {
-                    $CommonObject->{LogObject}(
+                    $Kernel::OM->Get('Kernel::System::Log')->(
                         Priority => 'error',
                         Message  => "There was an error setting the entity sync status.",
                     );
@@ -1059,7 +1032,7 @@ sub _MigrateDBACLs {
             else {
 
                 # show error if can't sync
-                $CommonObject->{LogObject}(
+                $Kernel::OM->Get('Kernel::System::Log')->(
                     Priority => 'error',
                     Message  => "There was an error synchronizing the ACLs.",
                 );
@@ -1069,7 +1042,7 @@ sub _MigrateDBACLs {
     }
 
     # check for in memory ACLs
-    my $FileACLs = $CommonObject->{ConfigObject}->Get('TicketAcl');
+    my $FileACLs = $Kernel::OM->Get('Kernel::Config')->Get('TicketAcl');
 
     # remove all DB affected ACLs from in memory ACLs
     for my $ACLName (@AffectedDBACLs) {
@@ -1111,9 +1084,7 @@ safe uninstall packages from the database.
 =cut
 
 sub _UninstallMergedFeatureAddOns {
-    my $CommonObject = shift;
-
-    my $PackageObject = Kernel::System::Package->new( %{$CommonObject} );
+    my $PackageObject = Kernel::System::Package->new();
 
     # qw( ) contains a list of the feature add-ons to uninstall
     # Also uninstalls the support assessment package which was replaced by the SupportData
