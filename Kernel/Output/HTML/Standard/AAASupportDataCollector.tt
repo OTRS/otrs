@@ -59,11 +59,6 @@
 [% Translate("Default Storage Engine") | html %]
 [% Translate("Tables with a different storage engine than the default engine were found.") | html %]
 
-# Database/mysql/TableStatus.pm
-[% Translate("Table Status") | html %]
-# add @Problems
-[% Translate("Tables found which do not have a regular status.") | html %]
-
 # Database/mysql/Version.pm
 [% Translate("MySQL 5.x or higher is required.") | html %]
 
