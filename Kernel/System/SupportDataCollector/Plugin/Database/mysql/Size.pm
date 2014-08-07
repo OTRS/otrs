@@ -14,6 +14,11 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+our @ObjectDependencies = (
+    'Kernel::System::DB',
+);
+our $ObjectManagerAware = 1;
+
 sub GetDisplayPath {
     return 'Database';
 }
@@ -21,31 +26,34 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    if ( $Self->{DBObject}->GetDatabaseFunction('Type') ne 'mysql' ) {
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    if ( $DBObject->GetDatabaseFunction('Type') ne 'mysql' ) {
         return $Self->GetResults();
     }
 
     my $DBName;
 
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL   => "SELECT DATABASE()",
         Limit => 1,
     );
 
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[0] ) {
             $DBName = $Row[0];
         }
     }
 
-    $Self->{DBObject}->Prepare(
+    $DBObject->Prepare(
         SQL => "SELECT ROUND((SUM(data_length + index_length) / 1024 / 1024 / 1024),3) "
             . "FROM information_schema.TABLES WHERE table_schema = ? GROUP BY table_schema",
         Bind  => [ \$DBName ],
         Limit => 1,
     );
 
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[0] ) {
             $Self->AddResultInformation(
                 Label => 'Database Size',

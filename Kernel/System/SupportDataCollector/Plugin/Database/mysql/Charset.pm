@@ -14,6 +14,11 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+our @ObjectDependencies = (
+    'Kernel::System::DB',
+);
+our $ObjectManagerAware = 1;
+
 sub GetDisplayPath {
     return 'Database';
 }
@@ -21,12 +26,15 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    if ( $Self->{DBObject}->GetDatabaseFunction('Type') ne 'mysql' ) {
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    if ( $DBObject->GetDatabaseFunction('Type') ne 'mysql' ) {
         return $Self->GetResults();
     }
 
-    $Self->{DBObject}->Prepare( SQL => "show variables like 'character_set_client'" );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    $DBObject->Prepare( SQL => "show variables like 'character_set_client'" );
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[1] =~ /utf8/i ) {
             $Self->AddResultOk(
                 Identifier => 'ClientEncoding',
@@ -44,8 +52,8 @@ sub Run {
         }
     }
 
-    $Self->{DBObject}->Prepare( SQL => "show variables like 'character_set_database'" );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    $DBObject->Prepare( SQL => "show variables like 'character_set_database'" );
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[1] =~ /utf8/i ) {
             $Self->AddResultOk(
                 Identifier => 'ServerEncoding',
@@ -64,8 +72,8 @@ sub Run {
     }
 
     my @TablesWithInvalidCharset;
-    $Self->{DBObject}->Prepare( SQL => 'show table status' );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    $DBObject->Prepare( SQL => 'show table status' );
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[14] !~ /^utf8/i ) {
             push @TablesWithInvalidCharset, $Row[0];
         }
