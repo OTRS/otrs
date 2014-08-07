@@ -58,7 +58,7 @@ sub new {
         'IsNotificationEventCondition' => 0,
         'IsSortable'                   => 1,
         'IsFiltrable'                  => 0,
-        'IsStatsCondition'             => 0,
+        'IsStatsCondition'             => 1,
         'IsCustomerInterfaceCapable'   => 1,
     };
 

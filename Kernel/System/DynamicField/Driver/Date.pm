@@ -61,7 +61,7 @@ sub new {
         'IsNotificationEventCondition' => 0,
         'IsSortable'                   => 1,
         'IsFiltrable'                  => 0,
-        'IsStatsCondition'             => 0,
+        'IsStatsCondition'             => 1,
         'IsCustomerInterfaceCapable'   => 1,
     };
 
@@ -1226,6 +1226,69 @@ sub SearchFieldParameterBuild {
     }
 
     return;
+}
+
+sub StatsFieldParameterBuild {
+    my ( $Self, %Param ) = @_;
+
+    return {
+        Name             => $Param{DynamicFieldConfig}->{Label},
+        Element          => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name},
+        TimePeriodFormat => 'DateInputFormat',
+        Block            => 'Time',
+    };
+}
+
+sub StatsSearchFieldParameterBuild {
+    my ( $Self, %Param ) = @_;
+
+    my $Value = $Param{Value};
+
+    # set operator
+    my $Operator = $Param{Operator};
+    return {} if !$Operator;
+
+    return { $Operator => undef } if !$Value;
+
+    # Date field is limited to full calendar days
+    # prepare restriction getting date/time fields
+    my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+        String => $Value,
+    );
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $SystemTime,
+    );
+
+    # set end of day
+    if ( $Operator eq 'SmallerThanEquals' ) {
+        $Hour = 23;
+        $Min  = 59;
+        $Sec  = 59;
+    }
+
+    # set start of day
+    elsif ( $Operator eq 'GreaterThanEquals' ) {
+        $Hour = 0;
+        $Min  = 0;
+        $Sec  = 0;
+    }
+
+    # get target time using new values (or same values for onknown operators)
+    my $TargetSystemTime = $Self->{TimeObject}->Date2SystemTime(
+        Year   => $Year,
+        Month  => $Month,
+        Day    => $Day,
+        Hour   => $Hour,
+        Minute => $Min,
+        Second => $Sec,
+    );
+    $Value = $Self->{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $TargetSystemTime,
+    );
+
+    return {
+        $Operator => $Value,
+    };
 }
 
 sub RandomValueSet {

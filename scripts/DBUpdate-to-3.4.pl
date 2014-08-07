@@ -837,6 +837,7 @@ Set new notifications for service update.
 =cut
 
 sub _SetServiceNotifications {
+
     # define agent notifications
     my %AgentNotificationsLookup = (
         en => [
@@ -1009,7 +1010,8 @@ sub _MigrateDBACLs {
         }
         else {
             my $Location
-                = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
+                = $Kernel::OM->Get('Kernel::Config')->Get('Home')
+                . '/Kernel/Config/Files/ZZZACL.pm';
 
             my $ACLDump = $ACLObject->ACLDump(
                 ResultType => 'FILE',
@@ -1094,6 +1096,7 @@ sub _UninstallMergedFeatureAddOns {
         OTRSGenericInterfaceREST
         OTRSMyServices
         Support
+        OTRSStatsRestrictionByDateTimeDF
         )
         )
     {

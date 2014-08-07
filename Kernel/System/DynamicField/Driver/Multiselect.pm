@@ -722,6 +722,7 @@ sub StatsFieldParameterBuild {
         Name               => $Param{DynamicFieldConfig}->{Label},
         Element            => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name},
         TranslatableValues => $Param{DynamicFieldconfig}->{Config}->{TranslatableValues},
+        Block              => 'MultiSelectField',
     };
 }
 

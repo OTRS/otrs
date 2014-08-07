@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-08-07 Added possibility to use Date and Date/Time dynamic fields as restrictions in statistics.
  - 2014-08-07 Removed AgentZoom.pm.
  - 2014-08-04 Removed CacheInternal.pm. Caching is now done with the global Cache object stored in the ObjectManager, which also does in-memory caching.
  - 2014-07-25 Added possibility to use process ticket information as dynamic values for transition actions.

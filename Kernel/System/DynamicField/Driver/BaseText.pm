@@ -497,6 +497,7 @@ sub StatsFieldParameterBuild {
     return {
         Name    => $Param{DynamicFieldConfig}->{Label},
         Element => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name},
+        Block   => 'InputField',
     };
 }
 

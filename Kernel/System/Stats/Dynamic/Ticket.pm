@@ -561,7 +561,20 @@ sub GetObjectAttributes {
             );
 
         if ( IsHashRefWithData($DynamicFieldStatsParameter) ) {
-            if ( IsHashRefWithData( $DynamicFieldStatsParameter->{Values} ) ) {
+
+            # backward compatibility
+            if ( !$DynamicFieldStatsParameter->{Block} ) {
+                $DynamicFieldStatsParameter->{Block} = 'InputField';
+                if ( IsHashRefWithData( $DynamicFieldStatsParameter->{Values} ) ) {
+                    $DynamicFieldStatsParameter->{Block} = 'MultiSelectField';
+                }
+            }
+
+            if ( $DynamicFieldStatsParameter->{Block} eq 'Time' ) {
+
+                # create object attributes (date/time fields)
+                my $TimePeriodFormat
+                    = $DynamicFieldStatsParameter->{TimePeriodFormat} || 'DateInputFormatLong';
 
                 my %ObjectAttribute = (
                     Name             => $DynamicFieldStatsParameter->{Name},
@@ -569,7 +582,30 @@ sub GetObjectAttributes {
                     UseAsValueSeries => 1,
                     UseAsRestriction => 1,
                     Element          => $DynamicFieldStatsParameter->{Element},
-                    Block            => 'MultiSelectField',
+                    TimePeriodFormat => $TimePeriodFormat,
+                    Block            => $DynamicFieldStatsParameter->{Block},
+                    TimePeriodFormat => $TimePeriodFormat,
+                    Values           => {
+                        TimeStart =>
+                            $DynamicFieldStatsParameter->{Element}
+                            . '_GreaterThanEquals',
+                        TimeStop  =>
+                            $DynamicFieldStatsParameter->{Element}
+                            . '_SmallerThanEquals',
+                    },
+                );
+                push @ObjectAttributes, \%ObjectAttribute;
+            }
+            elsif ( $DynamicFieldStatsParameter->{Block} eq 'MultiSelectField' ) {
+
+                # create object attributes (multiple values)
+                my %ObjectAttribute = (
+                    Name             => $DynamicFieldStatsParameter->{Name},
+                    UseAsXvalue      => 1,
+                    UseAsValueSeries => 1,
+                    UseAsRestriction => 1,
+                    Element          => $DynamicFieldStatsParameter->{Element},
+                    Block            => $DynamicFieldStatsParameter->{Block},
                     Values           => $DynamicFieldStatsParameter->{Values},
                     Translation      => 0,
                     IsDynamicField   => 1,
@@ -578,13 +614,15 @@ sub GetObjectAttributes {
                 push @ObjectAttributes, \%ObjectAttribute;
             }
             else {
+
+                # create object attributes (text fields)
                 my %ObjectAttribute = (
                     Name             => $DynamicFieldStatsParameter->{Name},
                     UseAsXvalue      => 0,
                     UseAsValueSeries => 0,
                     UseAsRestriction => 1,
                     Element          => $DynamicFieldStatsParameter->{Element},
-                    Block            => 'InputField',
+                    Block            => $DynamicFieldStatsParameter->{Block},
                 );
                 push @ObjectAttributes, \%ObjectAttribute;
             }
@@ -607,7 +645,11 @@ sub GetStatElement {
     );
 
     for my $ParameterName ( sort keys %Param ) {
-        if ( $ParameterName =~ m{\A DynamicField_ ( [a-zA-Z\d]+ ) \z}xms ) {
+        if (
+            $ParameterName =~ m{ \A DynamicField_ ( [a-zA-Z\d]+ ) (?: _ ( [a-zA-Z\d]+ ) )? \z }xms
+        ) {
+            my $FieldName = $1;
+            my $Operator  = $2;
 
             # loop over the dynamic fields configured
             DYNAMICFIELD:
@@ -615,9 +657,9 @@ sub GetStatElement {
                 next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
                 next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
 
-                # skip all fields that does not match with current field name ($1)
+                # skip all fields that do not match with current field name
                 # without the 'DynamicField_' prefix
-                next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
+                next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $FieldName;
 
                 # skip all fields not designed to be supported by statistics
                 my $IsStatsCondition = $DynamicFieldBackendObject->HasBehavior(
@@ -632,10 +674,22 @@ sub GetStatElement {
                     = $DynamicFieldBackendObject->StatsSearchFieldParameterBuild(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $Param{$ParameterName},
+                    Operator           => $Operator,
                     );
 
                 # add new search parameter
-                $Param{$ParameterName} = $DynamicFieldStatsSearchParameter;
+                if ( !IsHashRefWithData($Param{"DynamicField_$FieldName"}) ) {
+                    $Param{"DynamicField_$FieldName"} =
+                        $DynamicFieldStatsSearchParameter;
+                }
+
+                # extend search parameter
+                elsif ( IsHashRefWithData($DynamicFieldStatsSearchParameter) ) {
+                    $Param{"DynamicField_$FieldName"} = {
+                        %{ $Param{"DynamicField_$FieldName"} },
+                        %{ $DynamicFieldStatsSearchParameter },
+                    };
+                }
             }
         }
         elsif ( $AttributesToEscape{$ParameterName} ) {
@@ -840,7 +894,7 @@ sub ImportWrapper {
                 }
             }
 
-            # locks and statustype don't have to wrap because they are never different
+            # locks and status type don't have to wrap because they are never different
         }
     }
     return \%Param;

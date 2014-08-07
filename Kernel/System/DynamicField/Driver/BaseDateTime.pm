@@ -1060,15 +1060,26 @@ sub SearchFieldParameterBuild {
 sub StatsFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
-    # this field should not be shown in stats
-    return;
+    return {
+        Name             => $Param{DynamicFieldConfig}->{Label},
+        Element          => 'DynamicField_' . $Param{DynamicFieldConfig}->{Name},
+        TimePeriodFormat => 'DateInputFormatLong',
+        Block            => 'Time',
+    };
 }
 
 sub StatsSearchFieldParameterBuild {
     my ( $Self, %Param ) = @_;
 
-    # this field should not be shown in stats
-    return;
+    my $Value = $Param{Value};
+
+    # set operator
+    my $Operator = $Param{Operator};
+    return {} if !$Operator;
+
+    return {
+        $Operator => $Value,
+    };
 }
 
 sub ReadableValueRender {
