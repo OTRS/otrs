@@ -14,6 +14,12 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DB',
+);
+our $ObjectManagerAware = 1;
+
 sub GetDisplayPath {
     return 'OTRS';
 }
@@ -21,14 +27,17 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    my $Module = $Self->{ConfigObject}->Get('Ticket::IndexModule');
+    my $Module = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::IndexModule');
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     if ( $Module !~ /StaticDB/ ) {
 
         my ( $OrphanedTicketLockIndex, $OrphanedTicketIndex );
 
-        $Self->{DBObject}->Prepare( SQL => 'SELECT count(*) from ticket_lock_index' );
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $DBObject->Prepare( SQL => 'SELECT count(*) from ticket_lock_index' );
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $OrphanedTicketLockIndex = $Row[0];
         }
 
@@ -49,8 +58,8 @@ sub Run {
             );
         }
 
-        $Self->{DBObject}->Prepare( SQL => 'SELECT count(*) from ticket_index' );
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $DBObject->Prepare( SQL => 'SELECT count(*) from ticket_index' );
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $OrphanedTicketIndex = $Row[0];
         }
 

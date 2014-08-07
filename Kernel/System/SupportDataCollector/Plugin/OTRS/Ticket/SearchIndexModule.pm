@@ -14,6 +14,12 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DB',
+);
+our $ObjectManagerAware = 1;
+
 sub GetDisplayPath {
     return 'OTRS';
 }
@@ -21,12 +27,15 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    my $Module = $Self->{ConfigObject}->Get('Ticket::SearchIndexModule');
+    my $Module = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndexModule');
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     my $ArticleCount;
-    $Self->{DBObject}->Prepare( SQL => 'SELECT count(*) FROM article' );
+    $DBObject->Prepare( SQL => 'SELECT count(*) FROM article' );
 
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $ArticleCount = $Row[0];
     }
 
