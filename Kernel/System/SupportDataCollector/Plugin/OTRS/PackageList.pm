@@ -14,8 +14,12 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
-use Kernel::System::Package;
-use Kernel::System::CSV;
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::CSV',
+    'Kernel::System::Package',
+);
+our $ObjectManagerAware = 1;
 
 sub GetDisplayPath {
     return 'OTRS/Package List';
@@ -24,10 +28,11 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    my $Home = $Self->{ConfigObject}->Get('Home');
+    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
-    my $PackageObject = Kernel::System::Package->new( %{$Self} );
-    my $CSVObject     = Kernel::System::CSV->new( %{$Self} );
+    # get needed objects
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+    my $CSVObject     = $Kernel::OM->Get('Kernel::System::CSV');
 
     my @PackageList = $PackageObject->RepositoryList( Result => 'Short' );
 

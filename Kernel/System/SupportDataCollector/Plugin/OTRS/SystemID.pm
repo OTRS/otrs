@@ -14,6 +14,11 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+);
+our $ObjectManagerAware = 1;
+
 sub GetDisplayPath {
     return 'OTRS';
 }
@@ -22,7 +27,7 @@ sub Run {
     my $Self = shift;
 
     # Get the configured SystemID
-    my $SystemID = $Self->{ConfigObject}->Get('SystemID');
+    my $SystemID = $Kernel::OM->Get('Kernel::Config')->Get('SystemID');
 
     # Does the SystemID contain non-digits?
     if ( $SystemID !~ /^\d+$/ ) {

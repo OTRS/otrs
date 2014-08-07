@@ -14,7 +14,10 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
-use Kernel::System::Package;
+our @ObjectDependencies = (
+    'Kernel::System::Package',
+);
+our $ObjectManagerAware = 1;
 
 sub GetDisplayPath {
     return 'OTRS';
@@ -23,10 +26,10 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
+    # get package object
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+
     my @InvalidPackages;
-
-    my $PackageObject = Kernel::System::Package->new( %{$Self} );
-
     for my $Package ( $PackageObject->RepositoryList() ) {
         my $DeployCheck = $PackageObject->DeployCheck(
             Name    => $Package->{Name}->{Content},
