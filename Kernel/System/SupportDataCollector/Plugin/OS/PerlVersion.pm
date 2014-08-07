@@ -14,6 +14,11 @@ use warnings;
 
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
+our @ObjectDependencies = (
+    'Kernel::System::Main',
+);
+our $ObjectManagerAware = 1;
+
 sub GetDisplayPath {
     return 'Operating System';
 }
@@ -26,7 +31,7 @@ sub Run {
 
     # ActivePerl detection
     if ( $^O =~ /win32/i ) {
-        $Self->{MainObject}->Require('Win32');
+        $Kernel::OM->Get('Kernel::System::Main')->Require('Win32');
 
         # Win32::BuildNumber() is only available on ActivePerl, NOT on Strawberry.
         no strict 'refs';    ## no critic
