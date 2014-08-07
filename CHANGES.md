@@ -1,4 +1,5 @@
 #3.3.9 2014-??-??
+ - 2014-08-07 Fixed bug#[9802](http://bugs.otrs.org/show_bug.cgi?id=9802) - OTRS does not work correctly with FastCGI.
  - 2014-08-07 Updated Danish translation, thanks to Lars Jørgensen.
  - 2014-08-01 Fixed bug#[10670](http://bugs.otrs.org/show_bug.cgi?id=10670) - It is possible to start the scheduler more than once.
  - 2014-07-30 Fixed bug#[10515](http://bugs.otrs.org/show_bug.cgi?id=10515) - Problem with column filter sorting
