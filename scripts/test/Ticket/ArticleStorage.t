@@ -20,14 +20,8 @@ use Kernel::System::Ticket;
 
 # create local objects
 my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-my $UserObject   = Kernel::System::User->new(
-    ConfigObject => $ConfigObject,
-    %{$Self},
-);
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title',
@@ -67,14 +61,22 @@ $Self->True(
 
 # article attachment checks
 for my $Backend (qw(DB FS)) {
+
+    # Make sure that the TicketObject gets recreated for each loop.
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+
     $ConfigObject->Set(
         Key   => 'Ticket::StorageModule',
         Value => 'Kernel::System::Ticket::ArticleStorage' . $Backend,
     );
-    $TicketObject = Kernel::System::Ticket->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
+
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    $Self->True(
+        $TicketObject->isa('Kernel::System::Ticket::ArticleStorage' . $Backend),
+        "TicketObject loaded the correct backend",
     );
+
     for my $File (
         qw(Ticket-Article-Test1.xls Ticket-Article-Test1.txt Ticket-Article-Test1.doc
         Ticket-Article-Test1.png Ticket-Article-Test1.pdf Ticket-Article-Test-utf8-1.txt Ticket-Article-Test-utf8-1.bin)
@@ -178,13 +180,20 @@ for my $Backend (qw(DB FS)) {
 
 # filename collision checks
 for my $Backend (qw(DB FS)) {
+
+    # Make sure that the TicketObject gets recreated for each loop.
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+
     $ConfigObject->Set(
         Key   => 'Ticket::StorageModule',
         Value => 'Kernel::System::Ticket::ArticleStorage' . $Backend,
     );
-    $TicketObject = Kernel::System::Ticket->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
+
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    $Self->True(
+        $TicketObject->isa('Kernel::System::Ticket::ArticleStorage' . $Backend),
+        "TicketObject loaded the correct backend",
     );
 
     # Store file 2 times

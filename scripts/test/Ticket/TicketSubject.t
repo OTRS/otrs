@@ -18,17 +18,13 @@ use Kernel::System::Ticket;
 
 # create local objects
 my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-my $UserObject   = Kernel::System::User->new(
-    ConfigObject => $ConfigObject,
-    %{$Self},
-);
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
 
 for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
     for my $TicketSubjectConfig ( 'Right', 'Left' ) {
+
+        # Make sure that the TicketObject gets recreated for each loop.
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+
 
         $ConfigObject->Set(
             Key   => 'Ticket::Hook',
@@ -51,9 +47,11 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
             Value => 'AW',
         );
 
-        my $TicketObject = Kernel::System::Ticket->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        $Self->True(
+            $TicketObject->isa('Kernel::System::Ticket::Number::DateChecksum'),
+            "TicketObject loaded the correct backend",
         );
 
         # check GetTNByString

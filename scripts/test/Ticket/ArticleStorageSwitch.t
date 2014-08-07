@@ -13,37 +13,28 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::Ticket;
-use Kernel::System::Queue;
-use Kernel::System::PostMaster;
+use Kernel::System::Postmaster;
 
-# create local objects
 my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-my $UserObject   = Kernel::System::User->new(
-    ConfigObject => $ConfigObject,
-    %{$Self},
-);
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $QueueObject = Kernel::System::Queue->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
 
 # create tickets/article/attachments in backend for article storage switch tests
 for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
+
+    # Make sure that the TicketObject gets recreated for each loop.
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
 
     $ConfigObject->Set(
         Key   => 'Ticket::StorageModule',
         Value => 'Kernel::System::Ticket::' . $SourceBackend,
     );
-    my $TicketObject = Kernel::System::Ticket->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
+
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    $Self->True(
+        $TicketObject->isa('Kernel::System::Ticket::' . $SourceBackend),
+        "TicketObject loaded the correct backend",
     );
+
     my @TicketIDs;
     my %ArticleIDs;
     my $NamePrefix = "ArticleStorageSwitch ($SourceBackend)";
@@ -62,10 +53,6 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
         my @Content = @{$ContentRef};
 
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            %{$Self},
-            TicketObject => $TicketObject,
-            QueueObject  => $QueueObject,
-            ConfigObject => $ConfigObject,
             Email        => \@Content,
         );
 

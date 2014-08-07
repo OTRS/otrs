@@ -13,25 +13,11 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::Ticket;
-
-# create local objects
 my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject => $Self,
-);
-
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my $UserID   = 1;
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomID();
 
 my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title',
@@ -424,13 +410,20 @@ my @Tests = (
 
 for my $Test (@Tests) {
     for my $Backend (qw(DB FS)) {
+
+        # Make sure that the TicketObject gets recreated for each loop.
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+
         $ConfigObject->Set(
             Key   => 'Ticket::StorageModule',
             Value => 'Kernel::System::Ticket::ArticleStorage' . $Backend,
         );
-        $TicketObject = Kernel::System::Ticket->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
+
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        $Self->True(
+            $TicketObject->isa('Kernel::System::Ticket::ArticleStorage' . $Backend),
+            "TicketObject loaded the correct backend",
         );
 
         # create an article

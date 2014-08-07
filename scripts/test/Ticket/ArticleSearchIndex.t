@@ -18,20 +18,24 @@ use Kernel::System::Ticket;
 
 # create local objects
 my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-my $UserObject   = Kernel::System::User->new(
-    ConfigObject => $ConfigObject,
-    %{$Self},
-);
+my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
 # tests for article search index modules
 for my $Module (qw(StaticDB RuntimeDB)) {
+
+    # Make sure that the TicketObject gets recreated for each loop.
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+
     $ConfigObject->Set(
         Key   => 'Ticket::SearchIndexModule',
         Value => 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
     );
-    my $TicketObject = Kernel::System::Ticket->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
+
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    $Self->True(
+        $TicketObject->isa('Kernel::System::Ticket::ArticleSearchIndex::' . $Module),
+        "TicketObject loaded the correct backend",
     );
 
     # create some content
@@ -213,14 +217,16 @@ my @Tests = (
 
 for my $Module (qw(StaticDB)) {
     for my $Test (@Tests) {
+
+        # Make sure that the TicketObject gets recreated for each loop.
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+
         $ConfigObject->Set(
             Key   => 'Ticket::SearchIndexModule',
             Value => 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
         );
-        my $TicketObject = Kernel::System::Ticket->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
-        );
+
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         my $ListOfWords = $TicketObject->_ArticleIndexStringToWord(
             String => \$Test->{String}

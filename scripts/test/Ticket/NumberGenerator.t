@@ -13,29 +13,32 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::Ticket;
-
 # create local objects
 my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
 # check all number generators
 for my $Backend (qw(AutoIncrement Date DateChecksum Random)) {
-    $ConfigObject->Set(
-        Key   => 'Ticket::NumberGenerator',
-        Value => 'Kernel::System::Ticket::Number::' . $Backend,
-    );
 
     # check subject formats
     for my $TicketSubjectFormat (qw(Left Right)) {
+
+        # Make sure that the TicketObject gets recreated for each loop.
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+
+        $ConfigObject->Set(
+            Key   => 'Ticket::NumberGenerator',
+            Value => 'Kernel::System::Ticket::Number::' . $Backend,
+        );
         $ConfigObject->Set(
             Key   => 'Ticket::SubjectFormat',
             Value => $TicketSubjectFormat,
         );
 
-        my $TicketObject = Kernel::System::Ticket->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        $Self->True(
+            $TicketObject->isa('Kernel::System::Ticket::Number::' . $Backend),
+            "TicketObject loaded the correct backend",
         );
 
         for my $TicketHook ( 'Ticket#', 'Tickétø#', 'Reg$Ex*Special+Chars' ) {

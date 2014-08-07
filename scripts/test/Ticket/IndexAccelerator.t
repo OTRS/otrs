@@ -16,9 +16,8 @@ use vars (qw($Self));
 # ticket index accelerator tests
 for my $Module ( 'RuntimeDB', 'StaticDB' ) {
 
-    # Load all objects fresh for each loop to make sure that the TicketObject
-    #   gets recreated.
-    $Kernel::OM->ObjectsDiscard();
+    # Make sure that the TicketObject gets recreated for each loop.
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $UserObject   = $Kernel::OM->Get('Kernel::System::User');

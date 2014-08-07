@@ -22,20 +22,9 @@ use Kernel::System::DynamicField::Backend;
 my $RandomID = int rand 1_000_000_000;
 
 my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-my $UserObject   = Kernel::System::User->new(
-    ConfigObject => $ConfigObject,
-    %{$Self},
-);
-my $DynamicFieldObject = Kernel::System::DynamicField->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-# create backend object and delegates
-my $BackendObject = Kernel::System::DynamicField::Backend->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 $Self->Is(
     ref $BackendObject,
     'Kernel::System::DynamicField::Backend',
@@ -109,14 +98,20 @@ push @TestDynamicFields, $FieldIDArticle2;
 
 # tests for article search index modules
 for my $Module (qw(StaticDB RuntimeDB)) {
+
+    # Make sure that the TicketObject gets recreated for each loop.
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+
     $ConfigObject->Set(
         Key   => 'Ticket::SearchIndexModule',
         Value => 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
     );
 
-    my $TicketObject = Kernel::System::Ticket->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    $Self->True(
+        $TicketObject->isa('Kernel::System::Ticket::ArticleSearchIndex::' . $Module),
+        "TicketObject loaded the correct backend",
     );
 
     my @TestTicketIDs;
