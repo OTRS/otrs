@@ -196,7 +196,7 @@ sub DynamicFieldAdd {
     $Self->EventHandler(
         Event => 'DynamicFieldAdd',
         Data  => {
-            %{$DynamicField},
+            NewData => $DynamicField,
         },
         UserID => $Param{UserID},
     );
@@ -461,10 +461,8 @@ sub DynamicFieldUpdate {
     $Self->EventHandler(
         Event => 'DynamicFieldUpdate',
         Data  => {
-            %{$NewDynamicField},
-            OldData => {
-                %{$OldDynamicField},
-            },
+            NewData => $NewDynamicField,
+            OldData => $OldDynamicField,
         },
         UserID => $Param{UserID},
     );
@@ -546,7 +544,7 @@ sub DynamicFieldDelete {
     $Self->EventHandler(
         Event => 'DynamicFieldDelete',
         Data  => {
-            %{$DynamicField},
+            NewData => $DynamicField,
         },
         UserID => $Param{UserID},
     );
