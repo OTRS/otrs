@@ -6235,7 +6235,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Admin</SubGroup>
         <Setting>
             <Array>
-                <Item>CustomerUserCreate</Item>
+                <Item>CustomerUserAdd</Item>
                 <Item>CustomerUserUpdate</Item>
             </Array>
         </Setting>
@@ -6246,7 +6246,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Admin</SubGroup>
         <Setting>
             <Array>
-                <Item>CustomerCompanyCreate</Item>
+                <Item>CustomerCompanyAdd</Item>
                 <Item>CustomerCompanyUpdate</Item>
             </Array>
         </Setting>
