@@ -347,6 +347,9 @@ sub DESTROY {
         $Self->{UnitTestObject}->True( 1, 'Restored SSL certificates verification' );
     }
 
+    # disable email checks to create new user
+    local $Self->{ConfigObject}->{CheckEmailAddresses} = 0;
+
     # invalidate test users
     if ( ref $Self->{TestUsers} eq 'ARRAY' && @{ $Self->{TestUsers} } ) {
         for my $TestUser ( @{ $Self->{TestUsers} } ) {
