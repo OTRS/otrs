@@ -90,20 +90,17 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         AutoConnectNo => 1,
         }
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject MainObject DBObject)],
-);
 
-my $DatabaseHost = $CommonObject{ConfigObject}->Get('DatabaseHost');
-my $Database     = $CommonObject{ConfigObject}->Get('Database');
-my $DatabaseUser = $CommonObject{ConfigObject}->Get('DatabaseUser');
-my $DatabasePw   = $CommonObject{ConfigObject}->Get('DatabasePw');
-my $DatabaseDSN  = $CommonObject{ConfigObject}->Get('DatabaseDSN');
-my $ArticleDir   = $CommonObject{ConfigObject}->Get('ArticleDir');
+my $DatabaseHost = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseHost');
+my $Database     = $Kernel::OM->Get('Kernel::Config')->Get('Database');
+my $DatabaseUser = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseUser');
+my $DatabasePw   = $Kernel::OM->Get('Kernel::Config')->Get('DatabasePw');
+my $DatabaseDSN  = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseDSN');
+my $ArticleDir   = $Kernel::OM->Get('Kernel::Config')->Get('ArticleDir');
 
 # decrypt pw (if needed)
 if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
-    $DatabasePw = $CommonObject{DBObject}->_Decrypt($1);
+    $DatabasePw = $Kernel::OM->Get('Kernel::System::DB')->_Decrypt($1);
 }
 
 # check db backup support
@@ -140,13 +137,13 @@ for my $CMD ( 'cp', 'tar', $DBDump, $CompressCMD ) {
 # remove old backups
 if ( defined $Opts{r} ) {
     my %LeaveBackups;
-    my $SystemTime = $CommonObject{TimeObject}->SystemTime();
+    my $SystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
 
     # we'll be substracting days to the current time
     # we don't want DST changes to affect our dates
     # if it is < 2:00 AM, add two hours so we're sure DST will not change our timestamp
     # to another day
-    my $TimeStamp = $CommonObject{TimeObject}->SystemTime2TimeStamp(
+    my $TimeStamp = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
         SystemTime => $SystemTime,
         Type       => 'Short',
     );
@@ -157,7 +154,7 @@ if ( defined $Opts{r} ) {
 
     for ( 0 .. $Opts{r} ) {
         my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
-            = $CommonObject{TimeObject}->SystemTime2Date(
+            = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
             SystemTime => $SystemTime,
             );
 
@@ -171,7 +168,7 @@ if ( defined $Opts{r} ) {
         $SystemTime -= ( 24 * 3600 );
     }
 
-    my @Directories = $CommonObject{MainObject}->DirectoryRead(
+    my @Directories = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => $Opts{d},
         Filter    => '*',
     );
@@ -189,7 +186,7 @@ if ( defined $Opts{r} ) {
 
             # remove files and directory
             print "deleting old backup in $Directory ... ";
-            my @Files = $CommonObject{MainObject}->DirectoryRead(
+            my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
                 Directory => $Directory,
                 Filter    => '*',
             );
@@ -211,12 +208,12 @@ if ( defined $Opts{r} ) {
 }
 
 # create new backup directory
-my $Home = $CommonObject{ConfigObject}->Get('Home');
+my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 chdir($Home);
 
 my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
-    = $CommonObject{TimeObject}->SystemTime2Date(
-    SystemTime => $CommonObject{TimeObject}->SystemTime(),
+    = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
+    SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
     );
 
 # create directory name - this looks like 2013-09-09_22-19'
