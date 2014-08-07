@@ -41,11 +41,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         UserID => 1,
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [
-        qw(ConfigObject CSVObject TimeObject UserObject StatsObject CheckItemObject EmailObject PDFObject)
-    ],
-);
 
 # get options
 Getopt::Long::Configure('no_ignore_case');
@@ -108,7 +103,7 @@ if ( !$Opts{m} && $Opts{r} ) {
 }
 
 # language
-my $Lang = $CommonObject{ConfigObject}->Get('DefaultLanguage') || 'en';
+my $Lang = $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
 if ( $Opts{l} ) {
     $Lang = $Opts{l};
 }
@@ -134,19 +129,19 @@ if ( $Opts{o} && !-e $Opts{o} ) {
 # process the information
 my $StatNumber = $Opts{n};
 my $StatID =
-    $CommonObject{StatsObject}->StatNumber2StatID( StatNumber => $StatNumber );
+    $Kernel::OM->Get('Kernel::System::Stats')->StatNumber2StatID( StatNumber => $StatNumber );
 if ( !$StatID ) {
     print STDERR "ERROR: No StatNumber: $Opts{n}\n";
     exit 1;
 }
 
 my ( $s, $m, $h, $D, $M, $Y ) =
-    $CommonObject{TimeObject}->SystemTime2Date(
-    SystemTime => $CommonObject{TimeObject}->SystemTime(),
+    $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
+    SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
     );
 
 my %GetParam = ();
-my $Stat = $CommonObject{StatsObject}->StatsGet( StatID => $StatID );
+my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet( StatID => $StatID );
 
 if ( $Stat->{StatType} eq 'static' ) {
     $GetParam{Year}  = $Y;
@@ -155,7 +150,7 @@ if ( $Stat->{StatType} eq 'static' ) {
 
     # get params from -p
     # only for static files
-    my $Params = $CommonObject{StatsObject}->GetParams( StatID => $StatID );
+    my $Params = $Kernel::OM->Get('Kernel::System::Stats')->GetParams( StatID => $StatID );
     for my $ParamItem ( @{$Params} ) {
         if ( !$ParamItem->{Multiple} ) {
             my $Value = GetParam( Param => $ParamItem->{Name}, );
@@ -184,7 +179,7 @@ elsif ( $Stat->{StatType} eq 'dynamic' ) {
 
 # run stat...
 my @StatArray = @{
-    $CommonObject{StatsObject}->StatsRun(
+    $Kernel::OM->Get('Kernel::System::Stats')->StatsRun(
         StatID   => $StatID,
         GetParam => \%GetParam,
         )
@@ -201,21 +196,20 @@ if ( !@StatArray ) {
 }
 my %Attachment;
 
-if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
+if ( $Format eq 'Print' && $Kernel::OM->Get('Kernel::System::PDF') ) {
 
     # Create the PDF
-    my %User =
-        $CommonObject{UserObject}->GetUserData( UserID => $CommonObject{UserID} );
+    my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => 1 );
 
-    my $PrintedBy  = $CommonObject{LanguageObject}->Translate('printed by');
-    my $Page       = $CommonObject{LanguageObject}->Translate('Page');
-    my $SystemTime = $CommonObject{TimeObject}->SystemTime();
+    my $PrintedBy  = $Kernel::OM->Get('Kernel::Language')->Translate('printed by');
+    my $Page       = $Kernel::OM->Get('Kernel::Language')->Translate('Page');
+    my $SystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
     my $TimeStamp =
-        $CommonObject{TimeObject}->SystemTime2TimeStamp(
+        $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
         SystemTime => $SystemTime,
         );
     my $Time =
-        $CommonObject{LanguageObject}->FormatTimeString(
+        $Kernel::OM->Get('Kernel::Language')->FormatTimeString(
         $TimeStamp, 'DateFormat'
         );
 
@@ -241,7 +235,7 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
     }
     if ( !$CellData->[0]->[0] ) {
         $CellData->[0]->[0]->{Content} =
-            $CommonObject{LanguageObject}->Translate('No Result!');
+            $Kernel::OM->Get('Kernel::Language')->Translate('No Result!');
     }
 
     # page params
@@ -252,7 +246,7 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
     $PageParam{MarginBottom}    = 40;
     $PageParam{MarginLeft}      = 40;
     $PageParam{HeaderRight} =
-        $CommonObject{ConfigObject}->Get('Stats::StatsHook')
+        $Kernel::OM->Get('Kernel::Config')->Get('Stats::StatsHook')
         . $Stat->{StatNumber};
     $PageParam{FooterLeft}   = 'otrs.GenerateStats.pl';
     $PageParam{HeadlineLeft} = $Title;
@@ -276,14 +270,14 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
     $TableParam{PaddingBottom}       = 3;
 
     # get maximum number of pages
-    my $MaxPages = $CommonObject{ConfigObject}->Get('PDF::MaxPages');
+    my $MaxPages = $Kernel::OM->Get('Kernel::Config')->Get('PDF::MaxPages');
     if ( !$MaxPages || $MaxPages < 1 || $MaxPages > 1000 ) {
         $MaxPages = 100;
     }
 
     # create new pdf document
-    $CommonObject{PDFObject}->DocumentNew(
-        Title  => $CommonObject{ConfigObject}->Get('Product') . ': ' . $Title,
+    $Kernel::OM->Get('Kernel::System::PDF')->DocumentNew(
+        Title  => $Kernel::OM->Get('Kernel::Config')->Get('Product') . ': ' . $Title,
         Encode => 'utf-8',
     );
 
@@ -294,20 +288,20 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
 
         # if first page
         if ( $Counter == 1 ) {
-            $CommonObject{PDFObject}->PageNew(
+            $Kernel::OM->Get('Kernel::System::PDF')->PageNew(
                 %PageParam, FooterRight => $Page . ' ' . $Counter,
             );
         }
 
         # output table (or a fragment of it)
-        %TableParam = $CommonObject{PDFObject}->Table( %TableParam, );
+        %TableParam = $Kernel::OM->Get('Kernel::System::PDF')->Table( %TableParam, );
 
         # stop output or another page
         if ( $TableParam{State} ) {
             $Loop = 0;
         }
         else {
-            $CommonObject{PDFObject}->PageNew(
+            $Kernel::OM->Get('Kernel::System::PDF')->PageNew(
                 %PageParam,
                 FooterRight => $Page . ' ' . ( $Counter + 1 ),
             );
@@ -321,7 +315,7 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
     }
 
     # return the document
-    my $PDFString = $CommonObject{PDFObject}->DocumentOutput();
+    my $PDFString = $Kernel::OM->Get('Kernel::System::PDF')->DocumentOutput();
 
     # save the pdf with the title and timestamp as filename, or read it from param
     my $Filename;
@@ -329,7 +323,7 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
         $Filename = $Opts{F};
     }
     else {
-        $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
+        $Filename = $Kernel::OM->Get('Kernel::System::Stats')->StringAndTimestamp2Filename(
             String => $Stat->{Title} . " Created",
         );
     }
@@ -351,7 +345,7 @@ else {
     if ( $Opts{R} ) {
         $Output .= "Name: $Title; Created: $Time\n";
     }
-    $Output .= $CommonObject{CSVObject}->Array2CSV(
+    $Output .= $Kernel::OM->Get('Kernel::System:CSV')->Array2CSV(
         Head      => $HeadArrayRef,
         Data      => \@StatArray,
         Separator => $Separator,
@@ -363,7 +357,7 @@ else {
         $Filename = $Opts{F};
     }
     else {
-        $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
+        $Filename = $Kernel::OM->Get('Kernel::System::Stats')->StringAndTimestamp2Filename(
             String => $Stat->{Title} . " Created",
         );
     }
@@ -397,16 +391,16 @@ RECIPIENT:
 for my $Recipient ( @{ $Opts{r} } ) {
 
     # recipient check
-    if ( !$CommonObject{CheckItemObject}->CheckEmail( Address => $Recipient ) ) {
+    if ( !$Kernel::OM->Get('Kernel::System:CheckItem')->CheckEmail( Address => $Recipient ) ) {
         print STDERR "Warning: email address $Recipient invalid, skipping address."
-            . $CommonObject{CheckItemObject}->CheckError() . "\n";
+            . $Kernel::OM->Get('Kernel::System:CheckItem')->CheckError() . "\n";
         next RECIPIENT;
     }
-    $CommonObject{EmailObject}->Send(
+    $Kernel::OM->Get('Kernel::System::Email')->Send(
         From       => $Opts{s},
         To         => $Recipient,
         Subject    => "[Stats - $CountStatArray Records] $Title; Created: $Time",
-        Body       => $CommonObject{LanguageObject}->Translate( $Opts{m} ),
+        Body       => $Kernel::OM->Get('Kernel::Language')->Translate( $Opts{m} ),
         Charset    => 'utf-8',
         Attachment => [ {%Attachment}, ],
     );

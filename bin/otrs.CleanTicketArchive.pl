@@ -36,17 +36,13 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.CleanTicketArchive.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects =>
-        [qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject TicketObject)],
-);
 
 # print header
 print STDOUT "otrs.CleanTicketArchive.pl - clean ticket archive flag\n";
 print STDOUT "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
 
 # check if archive system is activated
-if ( !$CommonObject{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+if ( !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::ArchiveSystem') ) {
 
     print STDOUT "\nNo action required. The archive system is disabled at the moment!\n";
 
@@ -54,7 +50,7 @@ if ( !$CommonObject{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
 }
 
 # get all tickets with an archive flag and an open statetype
-my @TicketIDs = $CommonObject{TicketObject}->TicketSearch(
+my @TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
     StateType => [ 'new', 'open', 'pending reminder', 'pending auto' ],
     ArchiveFlags => ['y'],
     Result       => 'ARRAY',
@@ -68,7 +64,7 @@ my $Count        = 1;
 for my $TicketID (@TicketIDs) {
 
     # restore ticket from archive
-    $CommonObject{TicketObject}->TicketArchiveFlagSet(
+    $Kernel::OM->Get('Kernel::System::Ticket')->TicketArchiveFlagSet(
         TicketID    => $TicketID,
         UserID      => 1,
         ArchiveFlag => 'n',

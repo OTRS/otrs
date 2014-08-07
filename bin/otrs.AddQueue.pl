@@ -37,11 +37,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.AddQueue.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [
-        qw(ConfigObject EncodeObject LogObject MainObject DBObject QueueObject GroupObject SystemAddressObject)
-    ],
-);
 
 # get options
 my %Opts;
@@ -67,7 +62,7 @@ if ( !$Opts{g} ) {
 }
 
 # check group
-my $GroupID = $CommonObject{GroupObject}->GroupLookup( Group => $Opts{g} );
+my $GroupID = $Kernel::OM->Get('Kernel::System::Group')->GroupLookup( Group => $Opts{g} );
 if ( !$GroupID ) {
     print STDERR "ERROR: Found no GroupID for $Opts{g}\n";
     exit 1;
@@ -77,12 +72,12 @@ my $SystemAddressID;
 
 # check System Address
 if ( $Opts{S} ) {
-    my %SystemAddressList = $CommonObject{SystemAddressObject}->SystemAddressList(
+    my %SystemAddressList = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressList(
         Valid => 1
     );
     ADDRESS:
     for my $ID ( sort keys %SystemAddressList ) {
-        my %SystemAddressInfo = $CommonObject{SystemAddressObject}->SystemAddressGet(
+        my %SystemAddressInfo = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressGet(
             ID => $ID
         );
         if ( $SystemAddressInfo{Name} eq $Opts{S} ) {
@@ -97,7 +92,7 @@ if ( $Opts{S} ) {
 }
 
 # add queue
-my $Success = $CommonObject{QueueObject}->QueueAdd(
+my $Success = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
     Name            => $Opts{n},
     GroupID         => $GroupID,
     SystemAddressID => $SystemAddressID || $Opts{s} || undef,

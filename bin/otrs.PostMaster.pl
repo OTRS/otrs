@@ -62,9 +62,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.PostMaster.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject MainObject TimeObject)],
-);
 
 # Wrap the majority of the script in an "eval" block so that any
 # unexpected (but probably transient) fatal errors (such as the
@@ -76,7 +73,7 @@ eval {
 
     # debug info
     if ( $Opts{d} ) {
-        $CommonObject{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => 'Global OTRS email handle (otrs.PostMaster.pl) started...',
         );
@@ -85,7 +82,7 @@ eval {
     # get email from SDTIN
     my @Email = <STDIN>;
     if ( !@Email ) {
-        $CommonObject{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Got no email on STDIN!',
         );
@@ -106,7 +103,7 @@ eval {
 
     # debug info
     if ( $Opts{d} ) {
-        $CommonObject{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => 'Global OTRS email handle (otrs.PostMaster.pl) stopped.',
         );
@@ -121,7 +118,7 @@ if ($@) {
     # it; see sysexits.h. Most mail programs will retry an
     # EX_TEMPFAIL delivery for about four days, then bounce the
     # message.)
-    $CommonObject{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'error',
         Message  => $@,
     );

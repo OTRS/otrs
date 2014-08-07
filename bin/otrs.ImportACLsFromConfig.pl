@@ -37,22 +37,18 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.ImportACLsFromConfig.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects =>
-        [qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject ACLDBACLObject)],
-);
 
 # check if there are already entries in the database
 # in this case, the import can't be done.
-exit 1 if !$CommonObject{DBObject}->Prepare(
+exit 1 if !$Kernel::OM->Get('Kernel::System::DB')->Prepare(
     SQL => 'SELECT id FROM acl',
 );
 
 =cut
 # fetch the result
-my $RowCount = $CommonObject{DBObject}->FetchrowArray();
+my $RowCount = $Kernel::OM->Get('Kernel::System::DB')->FetchrowArray();
 if ($RowCount) {
-    $CommonObject{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'error',
         Message =>
             'Existing database entries found! Import stopped. Database has to be clean in order to be able to import ACLs from config.',
@@ -62,10 +58,10 @@ if ($RowCount) {
 =cut
 
 # check if there are any ACLs to import
-my $ACLs = $CommonObject{ConfigObject}->{TicketAcl};
+my $ACLs = $Kernel::OM->Get('Kernel::Config')->{TicketAcl};
 if ( !$ACLs || ref $ACLs ne 'HASH' ) {
 
-    $CommonObject{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'error',
         Message  => 'No ACLs found which could be imported. Import stopped.',
     );
@@ -74,13 +70,13 @@ if ( !$ACLs || ref $ACLs ne 'HASH' ) {
 }
 
 # get current time to add to ACL comments
-my $TimeStamp = $CommonObject{TimeObject}->CurrentTimestamp();
+my $TimeStamp = $Kernel::OM->Get('Kernel::System::Time')->CurrentTimestamp();
 
 ACL:
 for my $ACLName ( sort keys %{$ACLs} ) {
 
     # try adding the ACL
-    my $ACLID = $CommonObject{ACLDBACLObject}->ACLAdd(
+    my $ACLID = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL')->ACLAdd(
         Name           => $ACLName,
         Comment        => 'Imported at ' . $TimeStamp,
         StopAfterMatch => $ACLs->{$ACLName}->{StopAfterMatch},
@@ -98,7 +94,7 @@ for my $ACLName ( sort keys %{$ACLs} ) {
 
     # show error if can't create
     if ( !$ACLID ) {
-        $CommonObject{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "There was an error creating the ACL",
         );

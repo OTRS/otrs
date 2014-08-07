@@ -36,11 +36,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.AddSystemAddress.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [
-        qw(ConfigObject EncodeObject LogObject MainObject DBObject GroupObject QueueObject SystemAddressObject)
-    ],
-);
 
 my %Param;
 my %Options;
@@ -78,7 +73,7 @@ $Param{Queue}    = $Options{q};
 $Param{Name}     = $Options{e};
 
 # check if queue exists
-$Param{QueueID} = $CommonObject{QueueObject}->QueueLookup(
+$Param{QueueID} = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
     Queue => $Param{Queue},
 );
 if ( !$Param{QueueID} ) {
@@ -87,7 +82,7 @@ if ( !$Param{QueueID} ) {
 }
 
 # check if system address already exists
-my $SystemExists = $CommonObject{SystemAddressObject}->SystemAddressIsLocalAddress(
+my $SystemExists = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress(
     Address => $Param{Name},
 );
 if ($SystemExists) {
@@ -95,7 +90,7 @@ if ($SystemExists) {
     exit 1;
 }
 
-if ( my $ID = $CommonObject{SystemAddressObject}->SystemAddressAdd(%Param) ) {
+if ( my $ID = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressAdd(%Param) ) {
     print "System Address '$Options{e}' added. Id is '$ID'\n";
 }
 else {

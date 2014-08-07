@@ -36,9 +36,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.TicketType',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject MainObject DBObject TypeObject)],
-);
 
 my %Param;
 my %Options;
@@ -63,7 +60,7 @@ $Param{UserID} = '1';
 $Param{ValidID} = '1';
 $Param{Name} = $Options{n} || '';
 
-if ( my $RID = $CommonObject{TypeObject}->TypeAdd(%Param) ) {
+if ( my $RID = $Kernel::OM->Get('Kernel::System::Type')->TypeAdd(%Param) ) {
     print "Ticket type '$Options{n}' added. Type id is '$RID'\n";
 }
 else {

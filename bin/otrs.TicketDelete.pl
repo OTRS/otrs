@@ -38,10 +38,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.TicketDelete.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects =>
-        [qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject TicketObject)],
-);
 
 my $Help            = '';
 my @TicketNumbers   = ();
@@ -61,7 +57,7 @@ if (@TicketNumbers) {
     for my $TicketNumber (@TicketNumbers) {
 
         # lookup ticket id
-        my $TicketID = $CommonObject{TicketObject}->TicketIDLookup(
+        my $TicketID = $Kernel::OM->Get('Kernel::System::Ticket')->TicketIDLookup(
             TicketNumber => $TicketNumber,
             UserID       => 1,
         );
@@ -80,7 +76,7 @@ if (@TicketNumbers) {
 
         print "Deleting specified tickets...\n";
 
-        DeleteTickets( %CommonObject, TicketIDs => \@DeleteTicketIDs );
+        DeleteTickets( TicketIDs => \@DeleteTicketIDs );
     }
 }
 
@@ -91,7 +87,7 @@ elsif (@TicketIDs) {
     for my $TicketID (@TicketIDs) {
 
         # lookup ticket number
-        my $TicketNumber = $CommonObject{TicketObject}->TicketNumberLookup(
+        my $TicketNumber = $Kernel::OM->Get('Kernel::System::Ticket')->TicketNumberLookup(
             TicketID => $TicketID,
             UserID   => 1,
         );
@@ -109,7 +105,7 @@ elsif (@TicketIDs) {
     if (@DeleteTicketIDs) {
 
         print "Deleting specified tickets...\n";
-        DeleteTickets( %CommonObject, TicketIDs => \@DeleteTicketIDs );
+        DeleteTickets( TicketIDs => \@DeleteTicketIDs );
     }
 }
 
@@ -133,13 +129,10 @@ else {
 exit(0);
 
 sub DeleteTickets {
-
-    # get parameters
-
-    my (%CommonObject) = @_;
+    my (%Params) = @_;
 
     # unpack the ticket ids
-    my @TicketIDs = @{ $CommonObject{TicketIDs} };
+    my @TicketIDs = @{ $Params{TicketIDs} };
 
     my $DeletedTicketCount = 0;
 
@@ -148,7 +141,7 @@ sub DeleteTickets {
     for my $TicketID (@TicketIDs) {
 
         # delete the ticket
-        my $True = $CommonObject{TicketObject}->TicketDelete(
+        my $True = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
         );

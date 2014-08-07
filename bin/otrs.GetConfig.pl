@@ -36,49 +36,46 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.GetConfig',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject MainObject)],
-);
 
 # print wanted var
 my $Key = shift || '';
 if ($Key) {
     chomp $Key;
-    if ( ref( $CommonObject{ConfigObject}->{$Key} ) eq 'ARRAY' ) {
-        for ( @{ $CommonObject{ConfigObject}->{$Key} } ) {
+    if ( ref( $Kernel::OM->Get('Kernel::Config')->{$Key} ) eq 'ARRAY' ) {
+        for ( @{ $Kernel::OM->Get('Kernel::Config')->{$Key} } ) {
             print "$_;";
         }
         print "\n";
     }
-    elsif ( ref( $CommonObject{ConfigObject}->{$Key} ) eq 'HASH' ) {
-        for my $SubKey ( sort keys %{ $CommonObject{ConfigObject}->{$Key} } ) {
-            print "$SubKey=$CommonObject{ConfigObject}->{$Key}->{$SubKey};";
+    elsif ( ref( $Kernel::OM->Get('Kernel::Config')->{$Key} ) eq 'HASH' ) {
+        for my $SubKey ( sort keys %{ $Kernel::OM->Get('Kernel::Config')->{$Key} } ) {
+            print "$SubKey=$Kernel::OM->Get('Kernel::Config')->{$Key}->{$SubKey};";
         }
         print "\n";
     }
     else {
-        print $CommonObject{ConfigObject}->{$Key} . "\n";
+        print $Kernel::OM->Get('Kernel::Config')->{$Key} . "\n";
     }
 }
 else {
 
     # print all vars
-    for ( sort keys %{ $CommonObject{ConfigObject} } ) {
+    for ( sort keys %{ $Kernel::OM->Get('Kernel::Config') } ) {
         print $_. ":";
-        if ( ref( $CommonObject{ConfigObject}->{$_} ) eq 'ARRAY' ) {
-            for ( @{ $CommonObject{ConfigObject}->{$_} } ) {
+        if ( ref( $Kernel::OM->Get('Kernel::Config')->{$_} ) eq 'ARRAY' ) {
+            for ( @{ $Kernel::OM->Get('Kernel::Config')->{$_} } ) {
                 print "$_;";
             }
             print "\n";
         }
-        elsif ( ref( $CommonObject{ConfigObject}->{$_} ) eq 'HASH' ) {
-            for my $Key ( sort keys %{ $CommonObject{ConfigObject}->{$_} } ) {
-                print "$Key=$CommonObject{ConfigObject}->{$_}->{$Key};";
+        elsif ( ref( $Kernel::OM->Get('Kernel::Config')->{$_} ) eq 'HASH' ) {
+            for my $Key ( sort keys %{ $Kernel::OM->Get('Kernel::Config')->{$_} } ) {
+                print "$Key=$Kernel::OM->Get('Kernel::Config')->{$_}->{$Key};";
             }
             print "\n";
         }
         else {
-            print $CommonObject{ConfigObject}->{$_} . "\n";
+            print $Kernel::OM->Get('Kernel::Config')->{$_} . "\n";
         }
     }
 }

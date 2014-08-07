@@ -36,18 +36,13 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.PendingJobs.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [
-        qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject TicketObject UserObject StateObject)
-    ],
-);
 
 # check args
 my $Command = shift || '--help';
 print "otrs.PendingJobs.pl - check pending tickets\n";
 print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
 
-my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
+my @PendingAutoStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
     Type   => 'PendingAuto',
     Result => 'ID',
 );
@@ -58,7 +53,7 @@ if ( !@PendingAutoStateIDs ) {
 }
 
 # do ticket auto jobs
-my @TicketIDs = $CommonObject{TicketObject}->TicketSearch(
+my @TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
     Result   => 'ARRAY',
     StateIDs => [@PendingAutoStateIDs],
     UserID   => 1,
@@ -68,7 +63,7 @@ TICKETID:
 for my $TicketID (@TicketIDs) {
 
     # get ticket data
-    my %Ticket = $CommonObject{TicketObject}->TicketGet(
+    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
         TicketID      => $TicketID,
         UserID        => 1,
         DynamicFields => 0,
@@ -76,7 +71,7 @@ for my $TicketID (@TicketIDs) {
 
     next TICKETID if $Ticket{UntilTime} >= 1;
 
-    my %States = %{ $CommonObject{ConfigObject}->Get('Ticket::StateAfterPending') };
+    my %States = %{ $Kernel::OM->Get('Kernel::Config')->Get('Ticket::StateAfterPending') };
 
     # error handling
     if ( !$States{ $Ticket{State} } ) {
@@ -89,7 +84,7 @@ for my $TicketID (@TicketIDs) {
         " Update ticket state for ticket $Ticket{TicketNumber} ($TicketID) to '$States{$Ticket{State}}'...";
 
     # set new state
-    my $Success = $CommonObject{TicketObject}->StateSet(
+    my $Success = $Kernel::OM->Get('Kernel::System::Ticket')->StateSet(
         TicketID => $TicketID,
         State    => $States{ $Ticket{State} },
         UserID   => 1,
@@ -102,13 +97,13 @@ for my $TicketID (@TicketIDs) {
     }
 
     # get state type for new state
-    my %State = $CommonObject{StateObject}->StateGet(
+    my %State = $Kernel::OM->Get('Kernel::System::State')->StateGet(
         Name => $States{ $Ticket{State} },
     );
     if ( $State{TypeName} eq 'closed' ) {
 
         # set new ticket lock
-        $CommonObject{TicketObject}->LockSet(
+        $Kernel::OM->Get('Kernel::System::Ticket')->LockSet(
             TicketID     => $TicketID,
             Lock         => 'unlock',
             UserID       => 1,
@@ -119,7 +114,7 @@ for my $TicketID (@TicketIDs) {
 }
 
 # do ticket reminder notification jobs
-@TicketIDs = $CommonObject{TicketObject}->TicketSearch(
+@TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
     Result    => 'ARRAY',
     StateType => 'pending reminder',
     UserID    => 1,
@@ -129,7 +124,7 @@ TICKETID:
 for my $TicketID (@TicketIDs) {
 
     # get ticket data
-    my %Ticket = $CommonObject{TicketObject}->TicketGet(
+    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
         TicketID      => $TicketID,
         UserID        => 1,
         DynamicFields => 0,
@@ -138,27 +133,20 @@ for my $TicketID (@TicketIDs) {
     next TICKETID if $Ticket{UntilTime} >= 1;
 
     # check if it is during business hours, then send reminder
-    my $CountedTime = $CommonObject{TimeObject}->WorkingTime(
-        StartTime => $CommonObject{TimeObject}->SystemTime() - ( 30 * 60 ),
-        StopTime => $CommonObject{TimeObject}->SystemTime(),
+    my $CountedTime = $Kernel::OM->Get('Kernel::System::Time')->WorkingTime(
+        StartTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime() - ( 30 * 60 ),
+        StopTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
     );
 
     # error handling
     if ( !$CountedTime ) {
-        if ( $CommonObject{Debug} ) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'debug',
-                Message =>
-                    "Did not send pending reminder for Ticket $Ticket{TicketNumber}/$Ticket{TicketID} because it's currently outside business hours!",
-            );
-        }
         next TICKETID;
     }
 
     # send the reminder to the ticket owner, if ticket is locked
     my @UserID;
     if (
-        $CommonObject{ConfigObject}->Get('Ticket::PendingNotificationOnlyToOwner')
+        $Kernel::OM->Get('Kernel::Config')->Get('Ticket::PendingNotificationOnlyToOwner')
         || $Ticket{Lock} eq 'lock'
         )
     {
@@ -167,7 +155,7 @@ for my $TicketID (@TicketIDs) {
 
     # send the reminder to all queue subscribers and owner, if ticket is unlocked
     else {
-        @UserID = $CommonObject{TicketObject}->GetSubscribedUserIDsByQueueID(
+        @UserID = $Kernel::OM->Get('Kernel::System::Ticket')->GetSubscribedUserIDsByQueueID(
             QueueID => $Ticket{QueueID},
         );
         push @UserID, $Ticket{OwnerID};
@@ -175,8 +163,8 @@ for my $TicketID (@TicketIDs) {
 
     # add the responsible agent to the notification list
     if (
-        !$CommonObject{ConfigObject}->Get('Ticket::PendingNotificationNotToResponsible')
-        && $CommonObject{ConfigObject}->Get('Ticket::Responsible')
+        !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::PendingNotificationNotToResponsible')
+        && $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Responsible')
         && $Ticket{ResponsibleID} ne 1
         )
     {
@@ -195,18 +183,18 @@ for my $TicketID (@TicketIDs) {
         $AlreadySent{$UserID} = 1;
 
         # get user data
-        my %Preferences = $CommonObject{UserObject}->GetUserData(
+        my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
             UserID => $UserID,
         );
 
         # check if a reminder has already been sent today
         my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-            = $CommonObject{TimeObject}->SystemTime2Date(
-            SystemTime => $CommonObject{TimeObject}->SystemTime(),
+            = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
+            SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
             );
 
         # get ticket history
-        my @Lines = $CommonObject{TicketObject}->HistoryGet(
+        my @Lines = $Kernel::OM->Get('Kernel::System::Ticket')->HistoryGet(
             TicketID => $Ticket{TicketID},
             UserID   => 1,
         );
@@ -226,7 +214,7 @@ for my $TicketID (@TicketIDs) {
         next USERID if $Sent;
 
         # send agent notification
-        $CommonObject{TicketObject}->SendAgentNotification(
+        $Kernel::OM->Get('Kernel::System::Ticket')->SendAgentNotification(
             TicketID              => $Ticket{TicketID},
             Type                  => 'PendingReminder',
             RecipientID           => $UserID,

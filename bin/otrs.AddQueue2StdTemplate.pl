@@ -37,11 +37,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.AddQueue2StdTemplate.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [
-        qw(ConfigObject EncodeObject LogObject MainObject DBObject QueueObject StandardTemplateObject)
-    ],
-);
 
 # get options
 my %Opts;
@@ -64,15 +59,17 @@ if ( !$Opts{q} ) {
 }
 
 # check queue
-my $QueueID = $CommonObject{QueueObject}->QueueLookup( Queue => $Opts{q} );
+my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $Opts{q} );
 if ( !$QueueID ) {
     print STDERR "ERROR: Queue not found for $Opts{q}\n";
     exit 1;
 }
 
 # check template
-my $StandardTemplateID
-    = $CommonObject{StandardTemplateObject}->StandardTemplateLookup( StandardTemplate => $Opts{t} );
+my $StandardTemplateID = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateLookup(
+    StandardTemplate => $Opts{t}
+);
+
 if ( !$StandardTemplateID ) {
     print STDERR "ERROR: Found no Standard Template for $Opts{t}\n";
     exit 1;
@@ -80,7 +77,7 @@ if ( !$StandardTemplateID ) {
 
 # set queue standard template
 if (
-    !$CommonObject{QueueObject}->QueueStandardTemplateMemberAdd(
+    !$Kernel::OM->Get('Kernel::System::Queue')->QueueStandardTemplateMemberAdd(
         StandardTemplateID => $StandardTemplateID,
         QueueID            => $QueueID,
         Active             => 1,

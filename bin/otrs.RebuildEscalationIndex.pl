@@ -48,11 +48,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.RebuildEscalationIndex.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => ['TicketObject'],
-);
-
-# create needed objects
 
 # get all tickets
 my @TicketIDs = $Kernel::OM->Get('TicketObject')->TicketSearch(

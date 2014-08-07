@@ -37,11 +37,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 
-# create common objects
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(UserObject GroupObject)],
-);
-
 # get options
 my %Opts;
 getopt( 'ur', \%Opts );
@@ -53,12 +48,12 @@ if ( !$Opts{r} || !$Opts{u} ) {
 }
 
 # check user
-my $UserID = $CommonObject{UserObject}->UserLookup( UserLogin => $Opts{u} );
+my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup( UserLogin => $Opts{u} );
 if ( !$UserID ) {
     print STDERR "ERROR: User $Opts{u} does not exist.\n";
     exit 1;
 }
-my $RoleID = $CommonObject{GroupObject}->RoleLookup( Role => $Opts{r} );
+my $RoleID = $Kernel::OM->Get('Kernel::System::Group')->RoleLookup( Role => $Opts{r} );
 if ( !$RoleID ) {
     print STDERR "ERROR: Role $Opts{r} does not exist.\n";
     exit 1;
@@ -66,7 +61,7 @@ if ( !$RoleID ) {
 
 # add user 2 role
 if (
-    !$CommonObject{GroupObject}->GroupUserRoleMemberAdd(
+    !$Kernel::OM->Get('Kernel::System::Group')->GroupUserRoleMemberAdd(
         UID    => $UserID,
         RID    => $RoleID,
         Active => 1,

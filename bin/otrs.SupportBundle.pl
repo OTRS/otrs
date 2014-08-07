@@ -41,17 +41,6 @@ sub Run {
         },
     );
 
-    my $CommonObjects = {
-        $Kernel::OM->ObjectHash(
-            Objects => [
-                qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject UserObject)
-                ]
-        ),
-    };
-
-    $CommonObjects->{SupportBundleGeneratorObject}
-        = Kernel::System::SupportBundleGenerator->new( %{$CommonObjects} );
-
     # Refresh common objects after a certain number of loop iterations.
     #   This will call event handlers and clean up caches to avoid excessive mem usage.
     my $CommonObjectRefresh = 50;
@@ -73,19 +62,19 @@ EOF
         exit 1;
     }
 
-    my $Response = $CommonObjects->{SupportBundleGeneratorObject}->Generate();
+    my $Response = $Kernel::OM->Get('Kernel::System::SupportBundleGenerator')->Generate();
 
     if ( $Response->{Success} ) {
 
         my $FileData = $Response->{Data};
 
-        my $OutputDir = $CommonObjects->{ConfigObject}->Get('Home');
+        my $OutputDir = $Kernel::OM->Get('Kernel::Config')->Get('Home');
         if ( $Opts{o} ) {
             $OutputDir = $Opts{o};
             $OutputDir =~ s{\/\z}{};
         }
 
-        my $FileLocation = $CommonObjects->{MainObject}->FileWrite(
+        my $FileLocation = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
             Location   => $OutputDir . '/' . $FileData->{Filename},
             Content    => $FileData->{Filecontent},
             Mode       => 'binmode',
@@ -96,7 +85,7 @@ EOF
             print "\nSupport Bundle saved to: $FileLocation\n";
         }
         else {
-            $CommonObjects->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Support Bundle could not be written!",
             );

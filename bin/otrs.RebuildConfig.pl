@@ -38,21 +38,17 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.RebuildConfig.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects =>
-        [qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject SysConfigObject)],
-);
 
 # ---
 # rebuild
 # ---
 print "otrs.RebuildConfig.pl - OTRS rebuild default config\n";
 print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
-if ( $CommonObject{SysConfigObject}->WriteDefault() ) {
+if ( $Kernel::OM->Get('Kernel::System::SysConfigObject')->WriteDefault() ) {
     print "Done.\n";
     exit;
 }
 else {
-    $CommonObject{LogObject}->Log( Priority => 'error' );
+    $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error' );
     exit 1;
 }

@@ -43,11 +43,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.ExportStatsToOPM.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [
-        qw(UserID ConfigObject EncodeObject LogObject MainObject TimeObject DBObject UserObject GroupObject CSVObject StatsObject PackageObject)
-    ],
-);
 
 # ---------------------------------------------------------- #
 # get options and params
@@ -84,7 +79,7 @@ if ( $Opts{'d'} && $Opts{'d'} eq 'yes' ) {
 # check if needed directories are available
 # ---------------------------------------------------------- #
 
-my $Directory = $CommonObject{ConfigObject}->Get('Home') . "/var/";
+my $Directory = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/var/";
 if ( !opendir( DIR, $Directory ) ) {
     print "Can not open Directory: $Directory/";
     exit(1);
@@ -119,13 +114,13 @@ if ( !$OPMFlag ) {
 
 # get all stats of the system
 
-my $StatsListRef  = $CommonObject{StatsObject}->GetStatsList();
+my $StatsListRef  = $Kernel::OM->Get('Kernel::System::Stats')->GetStatsList();
 my %FileListcheck = ();
 my @Filelist      = ();
 for my $StatID ( @{$StatsListRef} ) {
 
     # use Stats export function
-    my $File = $CommonObject{StatsObject}->Export(
+    my $File = $Kernel::OM->Get('Kernel::System::Stats')->Export(
         StatID           => $StatID,
         ExportStatNumber => $DeleteStats,
 
@@ -144,7 +139,7 @@ for my $StatID ( @{$StatsListRef} ) {
     $FileListcheck{ $File->{Filename} } = $StatID;
 
     # write data in filesystem
-    my $FullFilename = $CommonObject{ConfigObject}->Get('Home') . "/var/Stats/" . $File->{Filename};
+    my $FullFilename = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/var/Stats/" . $File->{Filename};
     push( @Filelist, $File->{Filename} );
 
     my $Output;
@@ -164,8 +159,8 @@ for my $StatID ( @{$StatsListRef} ) {
 
 my %OPMS = ();
 my ( $s, $m, $h, $D, $M, $Y )
-    = $CommonObject{TimeObject}->SystemTime2Date(
-    SystemTime => $CommonObject{TimeObject}->SystemTime(),
+    = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
+    SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
     );
 
 $OPMS{Version}{Content}      = $PackageVersion;
@@ -236,13 +231,13 @@ $OPMS{CodeReinstall}{Content} = $OPMS{CodeInstall}{Content};
 $OPMS{CodeUpgrade}{Content}   = $OPMS{CodeInstall}{Content};
 
 # save the package
-my $File = $CommonObject{ConfigObject}->Get('Home')
+my $File = $Kernel::OM->Get('Kernel::Config')->Get('Home')
     . "/var/OPM/$PackageName-$OPMS{Version}{Content}.opm";
 
 my $Output;
 if ( open( $Output, ">", $File ) ) {    ## no critic
     print "Writing $File\n";
-    print $Output $CommonObject{PackageObject}->PackageBuild(%OPMS);
+    print $Output $Kernel::OM->Get('Kernel::System::Package')->PackageBuild(%OPMS);
     close($Output);
     exit 1;
 }

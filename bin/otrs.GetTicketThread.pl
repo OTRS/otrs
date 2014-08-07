@@ -49,13 +49,9 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.GetTicketThread.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects =>
-        [qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject TicketObject)],
-);
 
 # get ticket data
-my %Ticket = $CommonObject{TicketObject}->TicketGet(
+my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
     TicketID      => $Opts{t},
     DynamicFields => 0,
 );
@@ -77,7 +73,7 @@ for my $Key (qw(TicketNumber TicketID Created Queue State Priority Lock Customer
 print STDOUT "---------------------------------------------------------------------\n";
 
 # get article index
-my @Index = $CommonObject{TicketObject}->ArticleIndex(
+my @Index = $Kernel::OM->Get('Kernel::System::Ticket')->ArticleIndex(
     TicketID => $Opts{t},
 );
 
@@ -89,7 +85,7 @@ for my $ArticleID (@Index) {
     next ARTICLEID if !$ArticleID;
 
     # get article data
-    my %Article = $CommonObject{TicketObject}->ArticleGet(
+    my %Article = $Kernel::OM->Get('Kernel::System::Ticket')->ArticleGet(
         ArticleID     => $ArticleID,
         DynamicFields => 0,
     );

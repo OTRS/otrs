@@ -36,9 +36,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.ExecuteDatabaseXML.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject TimeObject MainObject DBObject XMLObject)],
-);
 
 print "otrs.ExecuteDatabaseXML.pl - Execute XML DDL in the OTRS database\n";
 print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n\n";
@@ -54,18 +51,18 @@ if ( !-e $ARGV[0] ) {
 }
 
 # read file
-my $XML = $CommonObject{MainObject}->FileRead(
+my $XML = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
     Location => $ARGV[0],
 );
 
 # convert to array
-my @XMLArray = $CommonObject{XMLObject}->XMLParse( String => $XML );
+my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $XML );
 
-my @SQL = $CommonObject{DBObject}->SQLProcessor(
+my @SQL = $Kernel::OM->Get('Kernel::System::DB')->SQLProcessor(
     Database => \@XMLArray,
 );
 
-my @SQLPost = $CommonObject{DBObject}->SQLProcessorPost();
+my @SQLPost = $Kernel::OM->Get('Kernel::System::DB')->SQLProcessorPost();
 
 _ExecuteSQL( SQL => \@SQL );
 _ExecuteSQL( SQL => \@SQLPost );
@@ -77,7 +74,7 @@ sub _ExecuteSQL {
 
     for my $SQL ( @{ $Param{SQL} } ) {
         print "$SQL\n";
-        my $Success = $CommonObject{DBObject}->Do( SQL => $SQL );
+        my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do( SQL => $SQL );
         if ( !$Success ) {
             print STDERR "WARNING: Database action failed. Exiting.\n\n";
             exit 1;

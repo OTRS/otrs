@@ -65,12 +65,9 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.GenericInterfaceDebugRead.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject)],
-);
 
 # create needed objects
-my $DebugLogObject = Kernel::System::GenericInterface::DebugLog->new(%CommonObject);
+my $DebugLogObject = Kernel::System::GenericInterface::DebugLog->new();
 print "Searching for DebugLog entries...\n\n";
 
 # LogSearch
@@ -84,7 +81,7 @@ my $LogData = $DebugLogObject->LogSearch(
     WithData          => $Opts{d},
 );
 
-#    print $CommonObject{MainObject}->Dump(\%Opts);
+#    print $Kernel::OM->Get('Kernel::System::Main')->Dump(\%Opts);
 if ( ref $LogData eq 'ARRAY' ) {
     my $Counter = 0;
     for my $Item ( @{$LogData} ) {

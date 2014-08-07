@@ -43,25 +43,25 @@ print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
 # common objects
 # ---
 my %CommonObject = ();
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
+$Kernel::OM->Get('Kernel::Config') = Kernel::Config->new();
+$Kernel::OM->Get('Kernel::System::Encode') = Kernel::System::Encode->new(%CommonObject);
+$Kernel::OM->Get('Kernel::System::Log')    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-otrs.RegistrationUpdate.pl',
     %CommonObject,
 );
-$CommonObject{TimeObject}         = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject}         = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}           = Kernel::System::DB->new(%CommonObject);
-$CommonObject{RegistrationObject} = Kernel::System::Registration->new(%CommonObject);
+$Kernel::OM->Get('Kernel::System::Time')         = Kernel::System::Time->new(%CommonObject);
+$Kernel::OM->Get('Kernel::System::Main')         = Kernel::System::Main->new(%CommonObject);
+$Kernel::OM->Get('Kernel::System::DB')           = Kernel::System::DB->new(%CommonObject);
+$Kernel::OM->Get('Kernel::System:Registration') = Kernel::System::Registration->new(%CommonObject);
 
-my %RegistrationData = $CommonObject{RegistrationObject}->RegistrationDataGet();
+my %RegistrationData = $Kernel::OM->Get('Kernel::System:Registration')->RegistrationDataGet();
 
 if ( $RegistrationData{State} ne 'registered' ) {
     print STDERR "Error: this is not a registered system. Please register your system first.\n";
     exit 1;
 }
 
-my %Result = $CommonObject{RegistrationObject}->RegistrationUpdateSend();
+my %Result = $Kernel::OM->Get('Kernel::System:Registration')->RegistrationUpdateSend();
 
 if ( !$Result{Success} ) {
     print STDERR "Error: $Result{Reason}\n";

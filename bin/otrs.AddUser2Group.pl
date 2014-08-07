@@ -36,11 +36,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.AddUser2Group',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [
-        qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject UserObject GroupObject)
-    ],
-);
 
 my %Param;
 my %Opts;
@@ -64,14 +59,14 @@ $Param{Permission}->{ $Opts{p} } = 1;
 $Param{UserLogin}                = $Opts{u};
 $Param{Group}                    = $Opts{g};
 
-$Param{UID} = $CommonObject{UserObject}->UserLookup( UserLogin => $Param{UserLogin} );
+$Param{UID} = $Kernel::OM->Get('Kernel::System::User')->UserLookup( UserLogin => $Param{UserLogin} );
 if ( !$Param{UID} )
 {
     print STDERR "ERROR: Failed to get User ID. Perhaps non-existent user..\n";
     exit 1;
 }
 
-$Param{GID} = $CommonObject{GroupObject}->GroupLookup(%Param);
+$Param{GID} = $Kernel::OM->Get('Kernel::System::Group')->GroupLookup(%Param);
 
 if ( !$Param{GID} ) {
     print STDERR "ERROR: Failed to get Group ID. Perhaps non-existent group..\n";
@@ -82,7 +77,7 @@ print "GID: $Param{Group}/$Param{GID} \n";
 print "UID: $Param{UserLogin}/$Param{UID} \n";
 print "Permission: $Opts{p} \n";
 
-if ( !$CommonObject{GroupObject}->GroupMemberAdd(%Param) ) {
+if ( !$Kernel::OM->Get('Kernel::System::Group')->GroupMemberAdd(%Param) ) {
     print STDERR "ERROR: Can't add user to group\n";
     exit 1;
 }

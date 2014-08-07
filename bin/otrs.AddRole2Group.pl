@@ -37,9 +37,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.AddRole2Group.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject MainObject DBObject GroupObject)],
-);
 
 # get options
 my %Opts;
@@ -81,14 +78,14 @@ if (
 }
 
 #check Group
-my $GroupID = $CommonObject{GroupObject}->GroupLookup( Group => $Opts{g} );
+my $GroupID = $Kernel::OM->Get('Kernel::System::Group')->GroupLookup( Group => $Opts{g} );
 if ( !$GroupID ) {
     print STDERR "ERROR: Found no GroupID for $Opts{g}\n";
     exit 1;
 }
 
 # check Role
-my $RoleID = $CommonObject{GroupObject}->RoleLookup( Role => $Opts{r} );
+my $RoleID = $Kernel::OM->Get('Kernel::System::Group')->RoleLookup( Role => $Opts{r} );
 if ( !$RoleID ) {
     print STDERR "ERROR: Found no RoleID for $Opts{r}\n";
     exit 1;
@@ -96,7 +93,7 @@ if ( !$RoleID ) {
 
 # add queue
 if (
-    !$CommonObject{GroupObject}->GroupRoleMemberAdd(
+    !$Kernel::OM->Get('Kernel::System::Group')->GroupRoleMemberAdd(
         GID        => $GroupID,
         RID        => $RoleID,
         Permission => {

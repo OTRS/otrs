@@ -63,25 +63,22 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         CryptType => 'SMIME',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject MainObject DBObject CryptObject)],
-);
 
 # check for force option to activate SMIME support in SysConfig during the execution of this script
 if ( exists $Opts{f} ) {
-    $CommonObject{ConfigObject}->Set(
+    $Kernel::OM->Get('Kernel::Config')->Set(
         Key   => 'SMIME',
         Value => 1,
     );
 }
 
-if ( !$CommonObject{CryptObject} ) {
+if ( !$Kernel::OM->Get('Kernel::System::Crypt') ) {
     print "NOTICE: No SMIME support!\n";
 
-    my $SMIMEActivated = $CommonObject{ConfigObject}->Get('SMIME');
-    my $CertPath       = $CommonObject{ConfigObject}->Get('SMIME::CertPath');
-    my $PrivatePath    = $CommonObject{ConfigObject}->Get('SMIME::PrivatePath');
-    my $OpenSSLBin     = $CommonObject{ConfigObject}->Get('SMIME::Bin');
+    my $SMIMEActivated = $Kernel::OM->Get('Kernel::Config')->Get('SMIME');
+    my $CertPath       = $Kernel::OM->Get('Kernel::Config')->Get('SMIME::CertPath');
+    my $PrivatePath    = $Kernel::OM->Get('Kernel::Config')->Get('SMIME::PrivatePath');
+    my $OpenSSLBin     = $Kernel::OM->Get('Kernel::Config')->Get('SMIME::Bin');
 
     if ( !$SMIMEActivated ) {
         print "SMIME is not activated in SysConfig!\n";
@@ -113,7 +110,7 @@ if ( !$CommonObject{CryptObject} ) {
     exit 1;
 }
 
-my $CheckCertPathResult = $CommonObject{CryptObject}->CheckCertPath();
+my $CheckCertPathResult = $Kernel::OM->Get('Kernel::System::Crypt')->CheckCertPath();
 print $CheckCertPathResult->{ $Options{Details} };
 
 exit !$CheckCertPathResult->{Success};

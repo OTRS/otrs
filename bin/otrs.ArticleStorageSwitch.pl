@@ -68,21 +68,18 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.ArticleStorageSwitch.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject TimeObject PIDObject TicketObject)],
-);
 
 # disable ticket events
-$CommonObject{ConfigObject}->{'Ticket::EventModulePost'} = {};
+$Kernel::OM->Get('Kernel::Config')->{'Ticket::EventModulePost'} = {};
 
 # create pid lock
-if ( !$Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'ArticleStorageSwitch' ) ) {
+if ( !$Opts{f} && !$Kernel::OM->Get('Kernel::System::PID')->PIDCreate( Name => 'ArticleStorageSwitch' ) ) {
     print
         "NOTICE: otrs.ArticleStorageSwitch.pl is already running (use '-f' if you want to start it ";
     print "forced)!\n";
     exit 1;
 }
-elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'ArticleStorageSwitch' ) ) {
+elsif ( $Opts{f} && !$Kernel::OM->Get('Kernel::System::PID')->PIDCreate( Name => 'ArticleStorageSwitch' ) ) {
     print "NOTICE: otrs.ArticleStorageSwitch.pl is already running but is starting again!\n";
 }
 
@@ -96,7 +93,7 @@ my %SearchParams;
 if ( $Opts{c} ) {
 
     # check time stamp format
-    if ( !$CommonObject{TimeObject}->TimeStamp2SystemTime( String => $Opts{c} ) ) {
+    if ( !$Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime( String => $Opts{c} ) ) {
         print STDERR
             "ERROR: -c '$Opts{c}' is not a valid time stamp, please use 'yyyy-mm-dd hh:mm:ss'\n";
         exit 1;
@@ -115,8 +112,8 @@ elsif ( $Opts{C} ) {
         exit 1;
     }
     $Opts{C} = $Opts{C} * 60 * 60 * 24;
-    my $TimeStamp = $CommonObject{TimeObject}->SystemTime() - $Opts{C};
-    $TimeStamp = $CommonObject{TimeObject}->SystemTime2TimeStamp(
+    my $TimeStamp = $Kernel::OM->Get('Kernel::System::Time')->SystemTime() - $Opts{C};
+    $TimeStamp = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
         SystemTime => $TimeStamp,
     );
     print "NOTICE: Searching for ticket which are closed before '$TimeStamp'\n";
@@ -127,14 +124,14 @@ elsif ( $Opts{C} ) {
 }
 
 # set new PID
-$CommonObject{PIDObject}->PIDCreate(
+$Kernel::OM->Get('Kernel::System::PID')->PIDCreate(
     Name  => 'ArticleStorageSwitch',
     Force => 1,
     TTL   => 60 * 60 * 24 * 3,
 );
 
 # get all tickets
-my @TicketIDs = $CommonObject{TicketObject}->TicketSearch(
+my @TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
 
     # additional search params
     %SearchParams,
@@ -159,7 +156,7 @@ for my $TicketID (@TicketIDs) {
 
     print "NOTICE: $Count/$CountTotal (TicketID:$TicketID)\n";
 
-    my $Success = $CommonObject{TicketObject}->TicketArticleStorageSwitch(
+    my $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketArticleStorageSwitch(
         TicketID    => $TicketID,
         Source      => $Opts{s},
         Destination => $Opts{d},
@@ -174,7 +171,7 @@ for my $TicketID (@TicketIDs) {
 }
 
 # delete pid lock
-$CommonObject{PIDObject}->PIDDelete( Name => 'ArticleStorageSwitch' );
+$Kernel::OM->Get('Kernel::System::PID')->PIDDelete( Name => 'ArticleStorageSwitch' );
 
 print "NOTICE: done.\n";
 

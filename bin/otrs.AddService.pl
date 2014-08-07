@@ -40,9 +40,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.AddService',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject MainObject DBObject ServiceObject)],
-);
 
 my $NoOptions = $ARGV[0] ? 0 : 1;
 
@@ -64,7 +61,7 @@ my $ServiceName;
 
 # lookup parent service if given
 if ( $Opts{p} ) {
-    $Param{ParentID} = $CommonObject{ServiceObject}->ServiceLookup(
+    $Param{ParentID} = $Kernel::OM->Get('Kernel::System::Service')->ServiceLookup(
         Name   => $Opts{p},
         UserID => 1,
     );
@@ -78,7 +75,7 @@ if ( $Opts{p} ) {
 $ServiceName .= $Opts{n};
 
 # check if service already exists
-my %ServiceList = $CommonObject{ServiceObject}->ServiceList(
+my %ServiceList = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
     Valid  => 0,
     UserID => 1,
 );
@@ -96,7 +93,7 @@ $Param{ValidID} = '1';
 $Param{Name}    = $Opts{n} || '';
 $Param{Comment} = $Opts{c};
 
-if ( my $ID = $CommonObject{ServiceObject}->ServiceAdd(%Param) ) {
+if ( my $ID = $Kernel::OM->Get('Kernel::System::Service')->ServiceAdd(%Param) ) {
     print "Service '$ServiceName' added. ID is '$ID'\n";
 }
 else {

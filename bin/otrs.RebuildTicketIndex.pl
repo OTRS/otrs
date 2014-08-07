@@ -36,16 +36,12 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.RebuildTicketIndex.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects =>
-        [qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject TicketObject)],
-);
 
 # rebuild
-if ( $CommonObject{TicketObject}->TicketAcceleratorRebuild() ) {
+if ( $Kernel::OM->Get('Kernel::System::Ticket')->TicketAcceleratorRebuild() ) {
     exit;
 }
 else {
-    $CommonObject{LogObject}->Log( Priority => 'error' );
+    $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error' );
     exit 1;
 }

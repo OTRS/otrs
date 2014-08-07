@@ -63,51 +63,48 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.MySQLInnoDBSwitch.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(LogObject DBObject PIDObject)],
-);
 
 # create needed objects
 
-if ( $CommonObject{DBObject}->{'DB::Type'} ne 'mysql' ) {
+if ( $Kernel::OM->Get('Kernel::System::DB')->{'DB::Type'} ne 'mysql' ) {
     print STDERR "This script can only be run on mysql databases. Aborting.\n";
     exit 1;
 }
 
 # create pid lock
-if ( !$Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'MySQLInnoDBSwitch' ) ) {
+if ( !$Opts{f} && !$Kernel::OM->Get('Kernel::System::PID')->PIDCreate( Name => 'MySQLInnoDBSwitch' ) ) {
     print
         "NOTICE: otrs.MySQLInnoDBSwitch.pl is already running (use '-f 1' if you want to start it forced)!\n";
     exit 1;
 }
-elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'MySQLInnoDBSwitch' ) ) {
+elsif ( $Opts{f} && !$Kernel::OM->Get('Kernel::System::PID')->PIDCreate( Name => 'MySQLInnoDBSwitch' ) ) {
     print "NOTICE: otrs.MySQLInnoDBSwitch.pl is already running but is starting again!\n";
 }
 
 # Get all tables that have MyISAM
-$CommonObject{DBObject}->Prepare(
+$Kernel::OM->Get('Kernel::System::DB')->Prepare(
     SQL => "SHOW TABLE STATUS WHERE ENGINE = 'MyISAM'",
 );
 
 my @Tables;
-while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+while ( my @Row = $Kernel::OM->Get('Kernel::System::DB')->FetchrowArray() ) {
     push @Tables, $Row[0];
 }
 
 # Turn off foreign key checks, this might not be needed
 if (@Tables) {
-    my $Result = $CommonObject{DBObject}->Do(
+    my $Result = $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => "SET foreign_key_checks = 0",
     );
 
     if ( !$Result ) {
 
-        $CommonObject{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Could not disable foreign key checks.',
         );
 
-        $CommonObject{PIDObject}->PIDDelete( Name => 'MySQLInnoDBSwitch' );
+        $Kernel::OM->Get('Kernel::System::PID')->PIDDelete( Name => 'MySQLInnoDBSwitch' );
         exit 1;
     }
 }
@@ -117,17 +114,17 @@ print scalar @Tables . " tables need to be converted.\n";
 # Now convert the tables.
 for my $Table (@Tables) {
     print "Changing table $Table to engine InnoDB\n";
-    my $Result = $CommonObject{DBObject}->Do(
+    my $Result = $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => "ALTER TABLE $Table ENGINE = InnoDB",
     );
     if ( !$Result ) {
 
-        $CommonObject{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Could not convert table $Table to engine InnoDB",
         );
 
-        $CommonObject{PIDObject}->PIDDelete( Name => 'MySQLInnoDBSwitch' );
+        $Kernel::OM->Get('Kernel::System::PID')->PIDDelete( Name => 'MySQLInnoDBSwitch' );
         exit 1;
     }
 }
@@ -135,6 +132,6 @@ for my $Table (@Tables) {
 print "Done.\n";
 
 # delete pid lock
-$CommonObject{PIDObject}->PIDDelete( Name => 'MySQLInnoDBSwitch' );
+$Kernel::OM->Get('Kernel::System::PID')->PIDDelete( Name => 'MySQLInnoDBSwitch' );
 
 exit 0;

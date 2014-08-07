@@ -49,11 +49,8 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.ReprocessMails.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject MainObject)],
-);
 
-my $HomeDir    = $CommonObject{ConfigObject}->Get('Home');
+my $HomeDir    = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my $SpoolDir   = File::Spec->catfile( $HomeDir, 'var/spool' );
 my $PostMaster = File::Spec->catfile( $HomeDir, 'bin/otrs.PostMaster.pl' );
 
@@ -63,7 +60,7 @@ if ( !-d $SpoolDir ) {
 
 print "Processing mails in $SpoolDir\n";
 
-my @Files = $CommonObject{MainObject}->DirectoryRead(
+my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
     Directory => $SpoolDir,
     Filter    => '*',
 );
@@ -73,7 +70,7 @@ for my $File (@Files) {
     my $Result = system("\"$^X\" \"$PostMaster\" <  $File ");
 
     if ( !$Result ) {
-        $CommonObject{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'info',
             Message  => "Successfully reprocessed email $File.",
         );
@@ -81,7 +78,7 @@ for my $File (@Files) {
         print "Ok.\n\n"
     }
     else {
-        $CommonObject{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Could not re-process email $File.",
         );

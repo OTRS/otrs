@@ -36,10 +36,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.DeleteSessionIDs.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects =>
-        [qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject SessionObject)],
-);
 
 # check args
 my $Command = shift || '--help';
@@ -52,14 +48,14 @@ if ( ( $Command eq '--all' ) || ( $Command eq '--showall' ) ) {
     print " Working on all session ids:\n";
 
     # get all sessions
-    my @List = $CommonObject{SessionObject}->GetAllSessionIDs();
+    my @List = $Kernel::OM->Get('Kernel::System::Session')->GetAllSessionIDs();
 
     for my $SessionID (@List) {
 
         if ( $Command eq '--showall' ) {
             print " SessionID $SessionID!\n";
         }
-        elsif ( $CommonObject{SessionObject}->RemoveSessionID( SessionID => $SessionID ) ) {
+        elsif ( $Kernel::OM->Get('Kernel::System::Session')->RemoveSessionID( SessionID => $SessionID ) ) {
             print " SessionID $SessionID deleted.\n";
         }
         else {
@@ -75,7 +71,7 @@ elsif ( ( $Command eq '--expired' ) || ( $Command eq '--showexpired' ) ) {
     print " Working on expired session ids:\n";
 
     # get expired session ids
-    my @Expired = $CommonObject{SessionObject}->GetExpiredSessionIDs();
+    my @Expired = $Kernel::OM->Get('Kernel::System::Session')->GetExpiredSessionIDs();
 
     # expired session
     for my $SessionID ( @{ $Expired[0] } ) {
@@ -83,7 +79,7 @@ elsif ( ( $Command eq '--expired' ) || ( $Command eq '--showexpired' ) ) {
         if ( $Command eq '--showexpired' ) {
             print " SessionID $SessionID expired!\n";
         }
-        elsif ( $CommonObject{SessionObject}->RemoveSessionID( SessionID => $SessionID ) ) {
+        elsif ( $Kernel::OM->Get('Kernel::System::Session')->RemoveSessionID( SessionID => $SessionID ) ) {
             print " SessionID $SessionID deleted (too old).\n";
         }
         else {
@@ -97,7 +93,7 @@ elsif ( ( $Command eq '--expired' ) || ( $Command eq '--showexpired' ) ) {
         if ( $Command eq '--showexpired' ) {
             print " SessionID $SessionID idle timeout!\n";
         }
-        elsif ( $CommonObject{SessionObject}->RemoveSessionID( SessionID => $SessionID ) ) {
+        elsif ( $Kernel::OM->Get('Kernel::System::Session')->RemoveSessionID( SessionID => $SessionID ) ) {
             print " SessionID $SessionID deleted (idle timeout).\n";
         }
         else {

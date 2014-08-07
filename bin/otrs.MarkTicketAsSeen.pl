@@ -50,14 +50,9 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.MarkTicketAsSeen.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [
-        qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject UserObject TicketObject)
-    ],
-);
 
 # disable ticket events
-$CommonObject{ConfigObject}->{'Ticket::EventModulePost'} = undef;
+$Kernel::OM->Get('Kernel::Config')->{'Ticket::EventModulePost'} = undef;
 
 my %Search;
 if ( !$Opts{a} ) {
@@ -69,13 +64,13 @@ else {
 }
 
 # get all users
-my %Users = $CommonObject{UserObject}->UserList(
+my %Users = $Kernel::OM->Get('Kernel::System::User')->UserList(
     Type  => 'Short',
     Valid => 1,
 );
 
 # get all tickets
-my @TicketIDs = $CommonObject{TicketObject}->TicketSearch(
+my @TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
 
     # result (required)
     Result  => 'ARRAY',
@@ -94,7 +89,7 @@ my $TicketCount = scalar @TicketIDs;
 my $Count       = 0;
 for my $TicketID (@TicketIDs) {
     $Count++;
-    my $TicketObject = Kernel::System::Ticket->new(%CommonObject);
+    my $TicketObject = Kernel::System::Ticket->new();
 
     # check permission
     my %UserAccess;

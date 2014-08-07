@@ -56,9 +56,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.WebserviceConfig.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(WebserviceObject MainObject YAMLObject)],
-);
 
 # validate -a param
 if ( !$Opts{a} ) {
@@ -73,7 +70,7 @@ if ( lc( $Opts{a} ) !~ /^(read|write|list|delete)$/ ) {
 # list webservices
 if ( lc( $Opts{a} ) eq 'list' ) {
     print "List Config: (ID:Name)\n";
-    my $List = $CommonObject{WebserviceObject}->WebserviceList();
+    my $List = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceList();
     for my $ID ( sort keys %{$List} ) {
         print "$ID:$List->{$ID}\n";
     }
@@ -94,14 +91,14 @@ if ( lc( $Opts{a} ) eq 'write' ) {
     }
 
     # read config
-    my $Content = $CommonObject{MainObject}->FileRead(
+    my $Content = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
         Location => $Opts{f},
     );
     if ( !$Content ) {
         print STDERR "ERROR: No content in file (-f '$Opts{f}')!\n";
         exit 1;
     }
-    my $Config = $CommonObject{YAMLObject}->Load( Data => ${$Content} );
+    my $Config = $Kernel::OM->Get('Kernel::System::YAML')->Load( Data => ${$Content} );
 
     if ( !$Config ) {
         print STDERR "ERROR: Unable to read config file: $! (-f '$Opts{f}')!\n";
@@ -110,19 +107,19 @@ if ( lc( $Opts{a} ) eq 'write' ) {
 
     # webservice lookup
     if ( $Opts{i} ) {
-        my $List = $CommonObject{WebserviceObject}->WebserviceList();
+        my $List = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceList();
         if ( !$List->{ $Opts{i} } ) {
             print STDERR "ERROR: No such webservice with id (-i '$Opts{i}')!\n";
             exit 1;
         }
-        my $Webservice = $CommonObject{WebserviceObject}->WebserviceGet( ID => $Opts{i} );
+        my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet( ID => $Opts{i} );
         if ( !$Webservice ) {
             print STDERR "ERROR: No such webservice with id (-i '$Opts{i}')!\n";
             exit 1;
         }
 
         # update webservice
-        my $Success = $CommonObject{WebserviceObject}->WebserviceUpdate(
+        my $Success = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceUpdate(
             ID      => $Webservice->{ID},
             Name    => $Webservice->{Name},
             Config  => $Config,
@@ -138,7 +135,7 @@ if ( lc( $Opts{a} ) eq 'write' ) {
     }
 
     # webservice add
-    my $ID = $CommonObject{WebserviceObject}->WebserviceAdd(
+    my $ID = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceAdd(
         Name    => $Opts{n},
         Config  => $Config,
         ValidID => 1,
@@ -162,21 +159,21 @@ if ( lc( $Opts{a} ) eq 'read' ) {
     }
 
     # webservice lookup
-    my $List = $CommonObject{WebserviceObject}->WebserviceList();
+    my $List = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceList();
     if ( !$List->{ $Opts{i} } ) {
         print STDERR "ERROR: No such webservice with id (-i '$Opts{i}')!\n";
         exit 1;
     }
 
     # get webservice
-    my $Webservice = $CommonObject{WebserviceObject}->WebserviceGet( ID => $Opts{i} );
+    my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet( ID => $Opts{i} );
     if ( !$Webservice ) {
         print STDERR "ERROR: No such webservice with id (-i '$Opts{i}')!\n";
         exit 1;
     }
 
     # dump config as string
-    my $Config = $CommonObject{YAMLObject}->Dump( Data => $Webservice->{Config} );
+    my $Config = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Webservice->{Config} );
     print "$Config\n";
     exit 0;
 }
@@ -191,14 +188,14 @@ if ( lc( $Opts{a} ) eq 'delete' ) {
     }
 
     # get webservice
-    my $Webservice = $CommonObject{WebserviceObject}->WebserviceGet( ID => $Opts{i} );
+    my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet( ID => $Opts{i} );
     if ( !$Webservice ) {
         print STDERR "ERROR: No such webservice with id (-i '$Opts{i}')!\n";
         exit 1;
     }
 
     # webservice lookup
-    my $Success = $CommonObject{WebserviceObject}->WebserviceDelete(
+    my $Success = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceDelete(
         ID     => $Opts{i},
         UserID => 1,
     );

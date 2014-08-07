@@ -75,12 +75,8 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.CreateTranslationFile.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects =>
-        [qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject SysConfigObject)],
-);
 
-my $Home = $CommonObject{ConfigObject}->Get('Home');
+my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 my $BreakLineAfterChars = 60;
 
@@ -93,7 +89,7 @@ my $BreakLineAfterChars = 60;
 
     # check params
     if ( $Opts{l} && $Opts{l} eq 'all' ) {
-        my %DefaultUsedLanguages = %{ $CommonObject{ConfigObject}->Get('DefaultUsedLanguages') };
+        my %DefaultUsedLanguages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
         @Languages = sort keys %DefaultUsedLanguages;
 
         # ignore en*.pm files
@@ -162,7 +158,7 @@ sub HandleLanguage {
     my $IsSubTranslation;
     my $Indent = ' ' x 8;    # 8 spaces for core files
 
-    my $DefaultTheme = $CommonObject{ConfigObject}->Get('DefaultTheme');
+    my $DefaultTheme = $Kernel::OM->Get('Kernel::Config')->Get('DefaultTheme');
 
     if ( !$Module ) {
         $LanguageFile = "$Home/Kernel/Language/$Language.pm";
@@ -206,14 +202,12 @@ sub HandleLanguage {
 
     # Language file, which only contains the OTRS core translations
     my $LanguageCoreObject = Kernel::Language->new(
-        %CommonObject,
         UserLanguage    => $Language,
         TranslationFile => 1,
     );
 
     # Language file, which contains all translations
     my $LanguageObject = Kernel::Language->new(
-        %CommonObject,
         UserLanguage => $Language,
     );
 
@@ -226,7 +220,7 @@ sub HandleLanguage {
         ? "$ModuleDirectory/Kernel/Output/HTML/$DefaultTheme"
         : "$Home/Kernel/Output/HTML/$DefaultTheme";
 
-    my @List = $CommonObject{MainObject}->DirectoryRead(
+    my @List = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => $Directory,
         Filter    => '*.tt',
     );
@@ -237,7 +231,7 @@ sub HandleLanguage {
 
     for my $File (@List) {
 
-        my $ContentRef = $CommonObject{MainObject}->FileRead(
+        my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
             Location => $File,
             Mode     => 'utf8',
         );
@@ -331,7 +325,7 @@ sub HandleLanguage {
         print "SysConfig\n";
     }
     $Data .= "\n" . $Indent . "# SysConfig\n";
-    my @Strings = $CommonObject{SysConfigObject}->ConfigItemTranslatableStrings();
+    my @Strings = $Kernel::OM->Get('Kernel::System::SysConfigObject')->ConfigItemTranslatableStrings();
 
     STRING:
     for my $String ( sort @Strings ) {
@@ -527,7 +521,7 @@ EOF
         print "Writing $TargetFile\n";
     }
 
-    $CommonObject{MainObject}->FileWrite(
+    $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Location => $TargetFile,
         Content  => \$NewOut,
         Mode     => 'utf8',        # binmode|utf8

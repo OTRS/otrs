@@ -54,31 +54,25 @@ sub Run {
         },
     );
 
-    my %CommonObject = $Kernel::OM->ObjectHash(
-        Objects => [
-            qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject PIDObject UserObject GroupObject StatsObject JSONObject)
-        ],
-    );
-
     # create pid lock
-    if ( !$Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'GenerateDashboardStats' ) ) {
+    if ( !$Opts{f} && !$Kernel::OM->Get('Kernel::System::PID')->PIDCreate( Name => 'GenerateDashboardStats' ) ) {
         print
             "NOTICE: otrs.GenerateDashboardStats.pl is already running (use '-f 1' if you want to start it forced)!\n";
         exit 1;
     }
-    elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'GenerateDashboardStats' ) ) {
+    elsif ( $Opts{f} && !$Kernel::OM->Get('Kernel::System::PID')->PIDCreate( Name => 'GenerateDashboardStats' ) ) {
         print "NOTICE: otrs.GenerateDashboardStats.pl is already running but is starting again!\n";
     }
 
     # set new PID
-    $CommonObject{PIDObject}->PIDCreate(
+    $Kernel::OM->Get('Kernel::System::PID')->PIDCreate(
         Name  => 'GenerateDashboardStats',
         Force => 1,
         TTL   => 60 * 60 * 24 * 3,
     );
 
     # get the list of stats that can be used in agent dashboards
-    my $Stats = $CommonObject{StatsObject}->StatsListGet();
+    my $Stats = $Kernel::OM->Get('Kernel::System::Stats')->StatsListGet();
 
     STATID:
     for my $StatID ( sort keys %{ $Stats || {} } ) {
@@ -92,7 +86,7 @@ sub Run {
 
         # now find out all users which have this statistic enabled in their dashboard
         my $DashboardActiveSetting = 'UserDashboard' . ( 1000 + $StatID ) . "-Stats";
-        my %UsersWithActivatedWidget = $CommonObject{UserObject}->SearchPreferences(
+        my %UsersWithActivatedWidget = $Kernel::OM->Get('Kernel::System::User')->SearchPreferences(
             Key   => $DashboardActiveSetting,
             Value => 1,
         );
@@ -106,7 +100,7 @@ sub Run {
         for my $UserID ( sort keys %UsersWithActivatedWidget ) {
 
             # ignore invalid users
-            my %UserData = $CommonObject{UserObject}->GetUserData(
+            my %UserData = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
                 UserID        => $UserID,
                 Valid         => 1,
                 NoOutOfOffice => 1,
@@ -118,20 +112,19 @@ sub Run {
 
             my $UserGetParam = {};
             if ( $UserData{$UserWidgetConfigSetting} ) {
-                $UserGetParam = $CommonObject{JSONObject}->Decode(
+                $UserGetParam = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
                     Data => $UserData{$UserWidgetConfigSetting},
                 );
             }
 
             # use an own object for the user to handle permissions correctly
             my $UserStatsObject = Kernel::System::Stats->new(
-                %CommonObject,
                 UserID => $UserID,
             );
 
             if ( $Opts{d} ) {
                 print STDERR "DEBUG: user statistic configuration data:\n";
-                print STDERR $CommonObject{MainObject}->Dump($UserGetParam);
+                print STDERR $Kernel::OM->Get('Kernel::System::Main')->Dump($UserGetParam);
             }
 
             # now run the stat to fill the cache with the current parameters
@@ -147,7 +140,7 @@ sub Run {
     }
 
     # delete pid lock
-    $CommonObject{PIDObject}->PIDDelete( Name => 'GenerateDashboardStats' );
+    $Kernel::OM->Get('Kernel::System::PID')->PIDDelete( Name => 'GenerateDashboardStats' );
 
     print "NOTICE: done.\n";
 }

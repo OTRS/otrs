@@ -62,7 +62,6 @@ if ( !$Opts{l} ) {
 # set generic agent uid
 my $UserIDOfGenericAgent = 1;
 
-# TODO: what to do with Debug => 1?
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     LogObject => {
         LogPrefix => 'OTRS-otrs.GenericAgent.pl',
@@ -71,11 +70,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         NoticeSTDOUT => 1,
         Debug        => $Opts{d},
     },
-);
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [
-        qw(ConfigObject EncodeObject LogObject MainObject DBObject PIDObject TimeObject TicketObject QueueObject GenericAgentObject)
-    ],
 );
 
 # get generic agent config (job file)
@@ -93,7 +87,7 @@ if ( $Opts{c} eq 'db' ) {
 
 # load/import config jobs
 else {
-    if ( !$CommonObject{MainObject}->Require( $Opts{c} ) ) {
+    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( $Opts{c} ) ) {
         print STDERR "ERROR: Can't load agent job file '$Opts{c}': $!\n";
         exit 1;
     }
@@ -109,11 +103,11 @@ if ( $Opts{c} eq 'db' && $Opts{b} && $Opts{b} !~ /^\d+$/ ) {
 }
 
 # create pid lock
-if ( !$Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => $JobName ) ) {
+if ( !$Opts{f} && !$Kernel::OM->Get('Kernel::System::PID')->PIDCreate( Name => $JobName ) ) {
     print "NOTICE: otrs.GenericAgent.pl is already running!\n";
     exit 1;
 }
-elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => $JobName ) ) {
+elsif ( $Opts{f} && !$Kernel::OM->Get('Kernel::System::PID')->PIDCreate( Name => $JobName ) ) {
     print "NOTICE: otrs.GenericAgent.pl is already running but is starting again!\n";
 }
 
@@ -122,19 +116,19 @@ LOOP:
 while (1) {
 
     # set new PID
-    $CommonObject{PIDObject}->PIDCreate(
+    $Kernel::OM->Get('Kernel::System::PID')->PIDCreate(
         Name  => $JobName,
         Force => 1,
     );
 
     # process all db jobs
     if ( $Opts{c} eq 'db' ) {
-        ExecuteDBJobs(%CommonObject);
+        ExecuteDBJobs();
     }
 
     # process all config file jobs
     else {
-        ExecuteConfigJobs(%CommonObject);
+        ExecuteConfigJobs();
     }
 
     # return if no interval is set
@@ -146,16 +140,15 @@ while (1) {
 }
 
 # delete pid lock
-$CommonObject{PIDObject}->PIDDelete( Name => $JobName );
+$Kernel::OM->Get('Kernel::System::PID')->PIDDelete( Name => $JobName );
 exit(0);
 
 sub ExecuteConfigJobs {
-    my (%CommonObject) = @_;
 
     for my $Job ( sort keys %Jobs ) {
 
         # log event
-        $CommonObject{GenericAgentObject}->JobRun(
+        $Kernel::OM->Get('Kernel::System:GenericAgent')->JobRun(
             Job    => $Job,
             Limit  => $Opts{l},
             Config => $Jobs{$Job},
@@ -165,16 +158,14 @@ sub ExecuteConfigJobs {
 }
 
 sub ExecuteDBJobs {
-    my (%CommonObject) = @_;
 
     # process all jobs
-
-    my %DBJobs = $CommonObject{GenericAgentObject}->JobList();
+    my %DBJobs = $Kernel::OM->Get('Kernel::System:GenericAgent')->JobList();
     DBJOB:
     for my $DBJob ( sort keys %DBJobs ) {
 
         # get job
-        my %DBJobRaw = $CommonObject{GenericAgentObject}->JobGet( Name => $DBJob );
+        my %DBJobRaw = $Kernel::OM->Get('Kernel::System:GenericAgent')->JobGet( Name => $DBJob );
 
         # check requred params (need min. one param)
         my $Schedule;
@@ -189,8 +180,8 @@ sub ExecuteDBJobs {
 
         # get time params to check last and current run
         my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
-            = $CommonObject{TimeObject}->SystemTime2Date(
-            SystemTime => $CommonObject{TimeObject}->SystemTime(),
+            = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
+            SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
             );
         if ( $Min =~ /(.)./ ) {
             $Min = ($1) . '0';
@@ -230,7 +221,7 @@ sub ExecuteDBJobs {
         }
 
         # check if job already was running less than 10 minutes (+- 5 secs) ago
-        my $CurrentTime = $CommonObject{TimeObject}->SystemTime();
+        my $CurrentTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
         if (
             $DBJobRaw{ScheduleLastRunUnixTime}
             && $CurrentTime < $DBJobRaw{ScheduleLastRunUnixTime} + ( 10 * 59 )
@@ -242,7 +233,7 @@ sub ExecuteDBJobs {
         }
 
         # log event
-        $CommonObject{GenericAgentObject}->JobRun(
+        $Kernel::OM->Get('Kernel::System:GenericAgent')->JobRun(
             Job    => $DBJob,
             Limit  => $Opts{l},
             UserID => $UserIDOfGenericAgent,

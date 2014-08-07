@@ -36,11 +36,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         LogPrefix => 'OTRS-otrs.AddCustomer2Group',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [
-        qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject CustomerUserObject CustomerGroupObject)
-    ],
-);
 
 my %Param;
 my %Opts;
@@ -64,7 +59,7 @@ $Param{Permission}->{ $Opts{p} } = 1;
 $Param{UID}                      = $Opts{u};
 $Param{Group}                    = $Opts{g};
 
-my $CustomerName = $CommonObject{CustomerUserObject}->CustomerName(
+my $CustomerName = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
     UserLogin => $Param{UID},
 );
 if ( !$CustomerName ) {
@@ -72,7 +67,7 @@ if ( !$CustomerName ) {
     exit 1;
 }
 
-$Param{GID} = $CommonObject{CustomerGroupObject}->GroupLookup(%Param);
+$Param{GID} = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupLookup(%Param);
 
 if ( !$Param{GID} ) {
     print STDERR
@@ -84,7 +79,7 @@ print "GID: $Param{Group}/$Param{GID} \n";
 print "Customer: $Param{UID} - '$CustomerName' \n";
 print "Permission: $Opts{p} \n";
 
-if ( !$CommonObject{CustomerGroupObject}->GroupMemberAdd(%Param) ) {
+if ( !$Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupMemberAdd(%Param) ) {
     print STDERR "ERROR: Can't add Customer to group\n";
     exit 1;
 }

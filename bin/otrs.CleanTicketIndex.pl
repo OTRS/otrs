@@ -34,41 +34,38 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     LogObject => {
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects => [qw(ConfigObject EncodeObject LogObject MainObject TimeObject DBObject)],
-);
 
 # check args
 my $Command = shift || '--help';
 print "otrs.CleanTicketIndex.pl - clean static index\n";
 print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
 
-my $Module = $CommonObject{ConfigObject}->Get('Ticket::IndexModule');
+my $Module = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::IndexModule');
 print "Module is $Module\n";
 if ( $Module !~ /StaticDB/ ) {
     print "OTRS is configured to use $Module as index\n";
 
-    $CommonObject{DBObject}->Prepare(
+    $Kernel::OM->Get('Kernel::System::DB')->Prepare(
         SQL => 'SELECT count(*) from ticket_index'
     );
-    while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $Kernel::OM->Get('Kernel::System::DB')->FetchrowArray() ) {
         if ( $Row[0] ) {
             print "Found $Row[0] records in StaticDB index.\n";
             print "Deleting $Row[0] records...";
-            $CommonObject{DBObject}->Do( SQL => 'DELETE FROM ticket_index' );
+            $Kernel::OM->Get('Kernel::System::DB')->Do( SQL => 'DELETE FROM ticket_index' );
             print " OK!\n";
         }
         else { print "No records found in StaticDB index.. OK!\n"; }
     }
 
-    $CommonObject{DBObject}->Prepare(
+    $Kernel::OM->Get('Kernel::System::DB')->Prepare(
         SQL => 'SELECT count(*) from ticket_lock_index'
     );
-    while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $Kernel::OM->Get('Kernel::System::DB')->FetchrowArray() ) {
         if ( $Row[0] ) {
             print "Found $Row[0] records in StaticDB lock_index.\n";
             print "Deleting $Row[0] records...";
-            $CommonObject{DBObject}->Do(
+            $Kernel::OM->Get('Kernel::System::DB')->Do(
                 SQL => 'DELETE FROM ticket_lock_index'
             );
             print " OK!\n";
