@@ -8305,7 +8305,6 @@ sub Data {
         'before' => 'avant',
         'black' => 'noir',
         'blue' => 'bleu',
-        'compat module for AgentZoom to AgentTicketZoom' => 'Module « compat » (AgentZoom et AgentTicketZoom)',
         'customer realname' => 'nom réel du client',
         'customer\'' => '\'Client\'',
         'cyan' => 'cyan',
