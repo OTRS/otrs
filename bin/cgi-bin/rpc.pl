@@ -63,14 +63,15 @@ sub Dispatch {
         },
     );
 
-    my %CommonObject = $Kernel::OM->ObjectHash(
-        Objects => [
-            qw(ConfigObject EncodeObject LogObject MainObject DBObject
-                PIDObject TimeObject UserObject GroupObject QueueObject
-                CustomerUserObject CustomerCompanyObject TicketObject
-                LinkObject)
-        ],
-    );
+    my %CommonObject;
+
+    for my $Object (qw(ConfigObject EncodeObject LogObject MainObject DBObject
+        PIDObject TimeObject UserObject GroupObject QueueObject
+        CustomerUserObject CustomerCompanyObject TicketObject
+        LinkObject)
+    ) {
+        $CommonObject{$Object} = $Kernel::OM->Get($Object);
+    }
 
     my $RequiredUser     = $CommonObject{ConfigObject}->Get('SOAP::User');
     my $RequiredPassword = $CommonObject{ConfigObject}->Get('SOAP::Password');
@@ -133,14 +134,15 @@ sub DispatchMultipleTicketMethods {
         },
     );
 
-    my %CommonObject = $Kernel::OM->ObjectHash(
-        Objects => [
-            qw(ConfigObject EncodeObject LogObject MainObject DBObject
-                PIDObject TimeObject UserObject GroupObject QueueObject
-                CustomerUserObject CustomerCompanyObject TicketObject
-                LinkObject)
-        ],
-    );
+    my %CommonObject;
+
+    for my $Object (qw(ConfigObject EncodeObject LogObject MainObject DBObject
+        PIDObject TimeObject UserObject GroupObject QueueObject
+        CustomerUserObject CustomerCompanyObject TicketObject
+        LinkObject)
+    ) {
+        $CommonObject{$Object} = $Kernel::OM->Get($Object);
+    }
 
     my $RequiredUser     = $CommonObject{ConfigObject}->Get('SOAP::User');
     my $RequiredPassword = $CommonObject{ConfigObject}->Get('SOAP::Password');
