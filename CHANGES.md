@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-08-07 Removed possibility to start scheduler from GUI.
  - 2014-08-07 Added possibility to use Date and Date/Time dynamic fields as restrictions in statistics.
  - 2014-08-07 Removed AgentZoom.pm.
  - 2014-08-04 Removed CacheInternal.pm. Caching is now done with the global Cache object stored in the ObjectManager, which also does in-memory caching.
@@ -10,7 +11,7 @@
  - 2014-07-25 Changed ProcessManagement EntityIDs to random strings.
  - 2014-07-24 Fixed bug#[8244](http://bugs.otrs.org/show_bug.cgi?id=8244) - QueueView hides queues that do not have at least one unlocked ticket.
  - 2014-07-22 Fixed bug#[10644](http://bugs.otrs.org/show_bug.cgi?id=10644) - Module parameters in GenericAgent are copied to ticket parameters
- - 2017-07-21 Changed Action based Ticket ACLs format from a hash form to an array form just like the other ACLs, including possiblilty to define Action based Ticket ACLs in the PossibleNot and PossibleAdd sections.
+ - 2017-07-21 Changed Action based Ticket ACLs format from a hash form to an array form just like the other ACLs, including possibility to define Action based Ticket ACLs in the PossibleNot and PossibleAdd sections.
  - 2017-07-21 Added new Ticket ACL debugging options.
  - 2014-07-21 Added [Not], [NotRegExp] and [Notregexp] modifiers for all Ticket ACL sections.
  - 2014-07-21 Added possibility to combine different Ticket ACLs with Possible, PossibleAdd and PossibleNot sections.

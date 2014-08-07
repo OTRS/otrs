@@ -1,0 +1,42 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  Scheduler start iformation
+ */
+
+@media screen,projection,tv,handheld {
+
+.SchedulerInfoContent .InfoParagraph {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.SchedulerInfoContent .Strong {
+    font-weight: bold;
+}
+
+.SchedulerInfoContent ul {
+    list-style-type: disc;
+    margin-left: 16px;
+}
+
+.SchedulerInfoContent li {
+    padding-bottom: 6px;
+}
+
+.SchedulerInfoContent legend {
+    border-bottom: 1px solid #ccc;
+    color: #333333;
+    display: block;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    width: 100%;
+}
+
+}

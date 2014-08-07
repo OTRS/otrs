@@ -109,7 +109,7 @@ sub Run {
     # if that is the case, extend the error with a link
     if ( $Groups{admin} ) {
         $NotificationDetails{Link} = $Self->{LayoutObject}->{Baselink} . 'Action=AdminScheduler';
-        $NotificationDetails{LinkClass} = 'StartScheduler';
+        $NotificationDetails{LinkClass} = 'SchedulerInfo';
     }
 
     # if user is not admin, add 'Please contact your administrator' to error message

@@ -40,7 +40,7 @@
             <String Regex="[1-9]\d*">86400</String><!-- default 1 day -->
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AdminScheduler" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::Module###AgentSchedulerInfo" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Scheduler</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
@@ -48,7 +48,7 @@
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title Translatable="1">GenericInterface Webservice Mapping GUI</Title>
+                <Title Translatable="1">Shows information on how to start OTRS Scheduler</Title>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -62,13 +62,23 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Loader::Agent::CommonJS###000-GenericInterface" Required="1" Valid="1">
+    <ConfigItem Name="Loader::Agent::CommonCSS###000-Scheduler" Required="1" Valid="1">
+        <Description Translatable="1">List of CSS files to always be loaded for the agent interface.</Description>
+        <Group>Scheduler</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <Array>
+                <Item>Core.Agent.SchedulerInfo.css</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Loader::Agent::CommonJS###000-Scheduler" Required="1" Valid="1">
         <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
         <Group>Scheduler</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Array>
-                <Item>Core.Agent.Admin.Scheduler.js</Item>
+                <Item>Core.Agent.SchedulerInfo.js</Item>
             </Array>
         </Setting>
     </ConfigItem>

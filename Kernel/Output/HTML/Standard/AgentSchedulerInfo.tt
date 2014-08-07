@@ -1,0 +1,32 @@
+# --
+# AgentSchedulerInfo.tt - provides HTML form for AgentSchedulerInfo
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div id="SchedulerRunDialog" class="InnerContent SchedulerInfoContent">
+    <legend>[% Translate("General Information") | html %]</legend>
+    <div class="InfoParagraph">
+        <p>[% Translate("Scheduler is an OTRS separated process that perform asynchronous tasks") | html %]</p>
+        <p class="FieldExplanation">[% Translate("(e.g. Generic Interface asynchronous invoker tasks)") | html %]</p>
+        <div class="SpacingTop"></div>
+        <p class="Strong">[% Translate("It is necessary to have the Scheduler running to make the system work correctly!") | html %]</p>
+    </div>
+    <div class="Clear Spacing"></div>
+
+    <legend>[% Translate("Starting Scheduler") | html %]</legend>
+    <div class="InfoParagraph">
+        <ul>
+            <li>[% Translate("Make sure that %s exists (without .dist extension)", Data.WatchdogCron) | html %]</li>
+            <li>[% Translate("Check that cron deamon is running in the system") | html %]</li>
+            <li>[% Translate("Confirm that OTRS cron jobs are running, execute %s start", Data.CronExecutable) | html %]</li>
+        </ul>
+    </div>
+    <div class="Clear Spacing"></div>
+</div>
+<div class="ContentFooter Center">
+    <button id="SchedulerFormCancel" class="Primary CallForAction" value="Close"><span><i class="fa fa-times"></i>[% Translate("Close") | html %]</span></button>
+</div>
