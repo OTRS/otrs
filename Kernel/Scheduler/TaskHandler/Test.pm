@@ -12,9 +12,8 @@ package Kernel::Scheduler::TaskHandler::Test;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
-
 our @ObjectDependencies = (
+    'Kernel::System::Log',
     'Kernel::System::Main',
 );
 our $ObjectManagerAware = 1;
@@ -77,7 +76,7 @@ sub Run {
 
     # check data - we need a hash ref
     if ( $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Got no valid Data!',
         );

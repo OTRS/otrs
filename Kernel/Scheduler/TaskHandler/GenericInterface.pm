@@ -12,16 +12,9 @@ package Kernel::Scheduler::TaskHandler::GenericInterface;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
-use Kernel::GenericInterface::Requester;
-
 our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::DB',
-    'Kernel::System::Encode',
+    'Kernel::GenericInterface::Requester',
     'Kernel::System::Log',
-    'Kernel::System::Main',
-    'Kernel::System::Time',
 );
 our $ObjectManagerAware = 1;
 
@@ -47,14 +40,6 @@ sub new {
 
     my $Self = {};
     bless( $Self, $Type );
-
-    # check needed objects
-    for my $Needed (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
-        $Self->{$Needed} = $Kernel::OM->Get($Needed);
-    }
-
-    # create aditional objects
-    $Self->{RequesterObject} = Kernel::GenericInterface::Requester->new( %{$Self} );
 
     return $Self;
 }
@@ -87,7 +72,7 @@ sub Run {
 
     # check data - we need a hash ref
     if ( $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Got no valid Data!',
         );
@@ -103,7 +88,7 @@ sub Run {
     # check needed parameters inside task data
     for my $Needed (qw(WebserviceID Invoker Data)) {
         if ( !$TaskData{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Got no $Needed!",
             );
@@ -115,7 +100,7 @@ sub Run {
     }
 
     # run requester
-    my $Result = $Self->{RequesterObject}->Run(
+    my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
         WebserviceID => $TaskData{WebserviceID},
         Invoker      => $TaskData{Invoker},
         Data         => $TaskData{Data},
@@ -124,7 +109,7 @@ sub Run {
     if ( !$Result->{Success} ) {
 
         # log and fail exit
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'GenericInterface task execution failed!',
         );
@@ -135,7 +120,7 @@ sub Run {
     }
 
     # log and exit successfully
-    $Self->{LogObject}->Log(
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',
         Message  => 'GenericInterface task executed correctly!',
     );

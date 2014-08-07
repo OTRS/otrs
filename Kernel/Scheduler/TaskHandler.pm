@@ -12,7 +12,7 @@ package Kernel::Scheduler::TaskHandler;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
+use Kernel::System::VariableCheck qw(IsStringWithData);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -46,7 +46,7 @@ create an object.
     local $Kernel::OM = Kernel::System::ObjectManager->new();
 
     my $OperationObject = Kernel::Scheduler::TaskHandler->new(
-        TaskHandlerType    => 'GenericInterface'    # Type of the TaskHandler backend to use
+        TaskHandlerType => 'GenericInterface'    # Type of the TaskHandler backend to use
     );
 
 =cut
