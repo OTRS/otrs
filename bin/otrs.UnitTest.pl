@@ -59,7 +59,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 
-$Kernel::OM->Get('UnitTestObject')->Run(
+$Kernel::OM->Get('Kernel::System::UnitTest')->Run(
     Name      => $Opts{n} || '',
     Directory => $Opts{d} || '',
     Product   => $Opts{p} || '',

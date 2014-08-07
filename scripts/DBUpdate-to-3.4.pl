@@ -619,7 +619,7 @@ sub _MigrateProcessManagementEntityIDs {
     }
 
     # migrate ACLs
-    my $ACLObject = $Kernel::OM->Get('ACLDBACLObject');
+    my $ACLObject = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
 
     # get a list of all ACLs stored in the DB
     my $ACLList = $ACLObject->ACLListGet(
@@ -982,7 +982,7 @@ Migrate ACLs stored in the DB.
 sub _MigrateDBACLs {
     my $CommonObject = shift;
 
-    my $ACLObject = $Kernel::OM->Get('ACLDBACLObject');
+    my $ACLObject = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
 
     # get a list of all ACLs stored in the DB
     my $ACLList = $ACLObject->ACLListGet(

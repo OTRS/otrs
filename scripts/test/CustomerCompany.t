@@ -16,7 +16,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 # create local objects
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $XMLObject    = Kernel::System::XML->new( %{$Self} );
 
 my $Data         = $ConfigObject->Get('CustomerCompany');

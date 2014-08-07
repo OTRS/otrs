@@ -53,7 +53,7 @@ create unit test object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $UnitTestObject = $Kernel::OM->Get('UnitTestObject');
+    my $UnitTestObject = $Kernel::OM->Get('Kernel::System::UnitTest');
 
 =cut
 

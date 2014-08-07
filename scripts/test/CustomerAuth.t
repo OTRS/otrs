@@ -16,7 +16,7 @@ use Kernel::System::CustomerAuth;
 use Kernel::System::User;
 
 # use local Config object because it will be modified
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # configure CustomerAuth backend to db
 $ConfigObject->Set( 'CustomerAuthBackend', 'DB' );

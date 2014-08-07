@@ -45,7 +45,7 @@ my $ServiceObject = Kernel::System::Service->new( %{$Self} );
 my $RandomID = int rand 1_000_000_000;
 
 # create local config object
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',

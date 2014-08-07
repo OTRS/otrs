@@ -22,7 +22,7 @@ use Kernel::Output::HTML::Layout;
 
 # create local objects
 my %CommonObject;
-$CommonObject{ConfigObject} = $Kernel::OM->Get('ConfigObject');
+$CommonObject{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'BuildSelection.t',

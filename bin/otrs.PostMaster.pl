@@ -96,7 +96,7 @@ eval {
             Debug   => $Opts{'d'},
         },
     );
-    my @Return = $Kernel::OM->Get('PostMasterObject')->Run( Queue => $Opts{'q'} );
+    my @Return = $Kernel::OM->Get('Kernel::System::PostMaster')->Run( Queue => $Opts{'q'} );
     if ( !$Return[0] ) {
         die "Can't process mail, see log sub system!";
     }

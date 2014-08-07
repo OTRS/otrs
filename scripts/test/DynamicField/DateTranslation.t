@@ -29,7 +29,7 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 my $RandomID = int rand 1_000_000_000;
 
 # create a new config object
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # set timezone variables
 $ConfigObject->Set(

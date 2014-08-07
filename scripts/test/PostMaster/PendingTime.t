@@ -19,7 +19,7 @@ use Kernel::System::UnitTest::Helper;
 use Kernel::System::Time;
 
 # create local config object
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},

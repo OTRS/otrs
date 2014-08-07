@@ -22,7 +22,7 @@ use Kernel::System::VariableCheck qw(:all);
 # set UserID
 my $UserID = 1;
 
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # create common objects
 my $TimeObject = Kernel::System::Time->new(

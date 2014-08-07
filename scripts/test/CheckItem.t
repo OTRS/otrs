@@ -13,8 +13,8 @@ use vars (qw($Self));
 use utf8;
 
 # get needed objects
-my $ConfigObject    = $Kernel::OM->Get('ConfigObject');
-my $CheckItemObject = $Kernel::OM->Get('CheckItemObject');
+my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
 # disable dns lookups
 $ConfigObject->Set(

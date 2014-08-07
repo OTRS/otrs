@@ -60,7 +60,7 @@ sub new {
     $Self->{PerformanceLogStart} = time();
 
     # create common framework objects 1/3
-    $Self->{ConfigObject} = $Kernel::OM->Get('ConfigObject');
+    $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
 
     $Kernel::OM->ObjectParamAdd(
         LogObject => {
@@ -152,10 +152,10 @@ sub Run {
     );
 
     # create common framework objects 2/3
-    $Self->{LayoutObject} = $Kernel::OM->Get('LayoutObject');
+    $Self->{LayoutObject} = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # check common objects
-    $Self->{DBObject} = $Kernel::OM->Get('DBObject');
+    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
     if ( !$Self->{DBObject} ) {
         $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your administrator' );
     }
@@ -167,7 +167,7 @@ sub Run {
     }
 
     # create common framework objects 3/3
-    $Self->{UserObject} = $Kernel::OM->Get('CustomerUserObject');
+    $Self->{UserObject} = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
     # application and add-on application common objects
     my %CommonObject = %{ $Self->{ConfigObject}->Get('PublicFrontend::CommonObject') };

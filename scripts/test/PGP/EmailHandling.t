@@ -24,7 +24,7 @@ use Kernel::System::Web::Request;
 use Kernel::System::HTMLUtils;
 
 # create local config object
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # set config
 $ConfigObject->Set(

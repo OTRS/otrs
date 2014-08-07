@@ -23,7 +23,7 @@ use Kernel::System::SupportDataCollector;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(:all);
 
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 my $SupportBundleGeneratorObject = Kernel::System::SupportBundleGenerator->new(
     %{$Self},

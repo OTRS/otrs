@@ -14,7 +14,7 @@ use utf8;
 
 use Kernel::System::User;
 
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,

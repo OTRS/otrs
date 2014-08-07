@@ -156,7 +156,7 @@ my %DynamicFieldConfigs = (
 );
 
 # create a new config object
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # add dynamic field registration settings to the new config object
 $ConfigObject->Set(

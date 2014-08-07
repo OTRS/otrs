@@ -15,7 +15,7 @@ use Kernel::System::PostMaster;
 use Kernel::System::Ticket;
 use Kernel::Config;
 
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject = Kernel::System::Ticket->new(
     %{$Self},
     ConfigObject => $ConfigObject,

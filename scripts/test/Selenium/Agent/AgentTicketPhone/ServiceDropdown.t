@@ -64,7 +64,7 @@ $Selenium->RunTest(
         # steps to do the selenium testing
 
         # create local objects
-        my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # do not checkmx
         $ConfigObject->Set(

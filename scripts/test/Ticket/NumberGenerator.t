@@ -14,7 +14,7 @@ use utf8;
 use vars (qw($Self));
 
 # create local objects
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # check all number generators
 for my $Backend (qw(AutoIncrement Date DateChecksum Random)) {

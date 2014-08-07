@@ -164,7 +164,7 @@ Retrieves a singleton object, and if it not yet exists, implicitly creates one f
 DEPRECATED: For backwards compatibility reasons, object aliases can be defined in L<Kernel::Config::Defaults>.
 For example C<< ->Get('TicketObject') >> retrieves a L<Kernel::System::Ticket> object.
 
-    my $ConfigObject = $Kernel::OM->Get('ConfigObject'); # returns the same ConfigObject as above
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config'); # returns the same ConfigObject as above
 
 =cut
 

@@ -61,13 +61,13 @@ my %AccountList;
 # define which object we need to operate on, default to UserObject
 # search if login exists
 if ( $Type eq 'customer' ) {
-    $AccountObject = $Kernel::OM->Get('CustomerUserObject');
+    $AccountObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
     %AccountList   = $AccountObject->CustomerSearch(
         UserLogin => $Login,
     );
 }
 else {
-    $AccountObject = $Kernel::OM->Get('UserObject');
+    $AccountObject = $Kernel::OM->Get('Kernel::System::User');
     %AccountList   = $AccountObject->UserSearch(
         UserLogin => $Login,
     );

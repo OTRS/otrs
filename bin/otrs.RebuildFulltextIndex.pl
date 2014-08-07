@@ -49,7 +49,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 );
 
 # create needed objects
-my $TicketObject = $Kernel::OM->Get('TicketObject');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # get all tickets
 my @TicketIDs = $TicketObject->TicketSearch(

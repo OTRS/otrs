@@ -21,7 +21,7 @@ use Kernel::System::User;
 use Kernel::Output::HTML::Layout;
 
 # create local objects
-my $ConfigObject  = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 my $SessionObject = Kernel::System::AuthSession->new(
     %{$Self},
     ConfigObject => $ConfigObject,

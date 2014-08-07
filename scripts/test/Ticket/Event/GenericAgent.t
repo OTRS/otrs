@@ -21,7 +21,7 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::Config;
 
 # create local config object
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # generate random string
 my $HelperObject = Kernel::System::UnitTest::Helper->new(

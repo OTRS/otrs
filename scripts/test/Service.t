@@ -20,7 +20,7 @@ use Kernel::Config;
 use Kernel::System::UnitTest::Helper;
 
 # create local objects
-my $ConfigObject  = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 my $ServiceObject = Kernel::System::Service->new(
     %{$Self},
     ConfigObject => $ConfigObject,

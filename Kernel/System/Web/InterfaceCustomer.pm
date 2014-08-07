@@ -60,7 +60,7 @@ sub new {
     $Self->{PerformanceLogStart} = time();
 
     # create common framework objects 1/2
-    $Self->{ConfigObject} = $Kernel::OM->Get('ConfigObject');
+    $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
     $Kernel::OM->ObjectParamAdd(
         LogObject => {
             LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix'),
@@ -148,9 +148,9 @@ sub Run {
     );
 
     # check common objects
-    $Self->{DBObject} = $Kernel::OM->Get('DBObject');
+    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
     if ( !$Self->{DBObject} || $Self->{ParamObject}->Error() ) {
-        my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
         if ( !$Self->{DBObject} ) {
             $LayoutObject->CustomerFatalError(
                 Comment => 'Please contact your administrator',
@@ -167,8 +167,8 @@ sub Run {
     }
 
     # create common framework objects 2/2
-    $Self->{UserObject}  = $Kernel::OM->Get('CustomerUserObject');
-    $Self->{GroupObject} = $Kernel::OM->Get('CustomerGroupObject');
+    $Self->{UserObject}  = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    $Self->{GroupObject} = $Kernel::OM->Get('Kernel::System::CustomerGroup');
     for my $Needed (qw(SessionObject)) {
         $Self->{$Needed} = $Kernel::OM->Get($Needed);
     }
@@ -184,7 +184,7 @@ sub Run {
         else {
 
             # print error
-            my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
             $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
         }
     }
@@ -206,7 +206,7 @@ sub Run {
         my $PostPw = $Self->{ParamObject}->GetParam( Param => 'Password', Raw => 1 ) || '';
 
         # create AuthObject
-        my $AuthObject = $Kernel::OM->Get('CustomerAuthObject');
+        my $AuthObject = $Kernel::OM->Get('Kernel::System::CustomerAuth');
 
         # check submitted data
         my $User = $AuthObject->Auth( User => $PostUser, Pw => $PostPw );
@@ -233,7 +233,7 @@ sub Run {
                 },
             );
 
-            my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
             # redirect to alternate login
             if ( $Self->{ConfigObject}->Get('CustomerPanelLoginURL') ) {
@@ -277,7 +277,7 @@ sub Run {
         # check needed data
         if ( !$UserData{UserID} || !$UserData{UserLogin} ) {
 
-            my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
             # redirect to alternate login
             if ( $Self->{ConfigObject}->Get('CustomerPanelLoginURL') ) {
@@ -330,7 +330,7 @@ sub Run {
             # get error message
             my $Error = $Self->{SessionObject}->SessionIDErrorMessage() || '';
 
-            my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
             # output error message
             $LayoutObject->Print(
@@ -402,7 +402,7 @@ sub Run {
         }
 
         # redirect with new session id
-        print $Kernel::OM->Get('LayoutObject')->Redirect(
+        print $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Redirect(
             OP    => $Param{RequestedURL},
             Login => 1,
         );
@@ -416,7 +416,7 @@ sub Run {
         if ( !$Self->{SessionObject}->CheckSessionID( SessionID => $Param{SessionID} ) ) {
 
             # new layout object
-            my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
             # redirect to alternate login
             if ( $Self->{ConfigObject}->Get('CustomerPanelLoginURL') ) {
@@ -457,7 +457,7 @@ sub Run {
             },
         );
 
-        my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
         # remove session id
         if ( !$Self->{SessionObject}->RemoveSessionID( SessionID => $Param{SessionID} ) ) {
@@ -493,7 +493,7 @@ sub Run {
     elsif ( $Param{Action} eq 'CustomerLostPassword' ) {
 
         # new layout object
-        my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
         # check feature
         if ( !$Self->{ConfigObject}->Get('CustomerPanelLostPassword') ) {
@@ -662,7 +662,7 @@ sub Run {
     elsif ( $Param{Action} eq 'CustomerCreateAccount' ) {
 
         # new layout object
-        my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
         # check feature
         if ( !$Self->{ConfigObject}->Get('CustomerPanelCreateAccount') ) {
@@ -799,10 +799,10 @@ sub Run {
     elsif ( !$Param{SessionID} ) {
 
         # new layout object
-        my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
         # create AuthObject
-        my $AuthObject = $Kernel::OM->Get('CustomerAuthObject');
+        my $AuthObject = $Kernel::OM->Get('Kernel::System::CustomerAuth');
         if ( $AuthObject->GetOption( What => 'PreAuth' ) ) {
 
             # automatic login
@@ -856,7 +856,7 @@ sub Run {
                     }
             );
 
-            my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
             # redirect to alternate login
             if ( $Self->{ConfigObject}->Get('CustomerPanelLoginURL') ) {
@@ -887,7 +887,7 @@ sub Run {
 
         # check needed data
         if ( !$UserData{UserID} || !$UserData{UserLogin} || $UserData{UserType} ne 'Customer' ) {
-            my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
             # redirect to alternate login
             if ( $Self->{ConfigObject}->Get('CustomerPanelLoginURL') ) {
@@ -914,7 +914,7 @@ sub Run {
         if ( !$ModuleReg ) {
 
             # new layout object
-            my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message =>
@@ -963,7 +963,7 @@ sub Run {
             if ( !$Param{AccessRo} ) {
 
                 # new layout object
-                my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+                my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message  => 'No Permission to use this frontend module!'
@@ -982,7 +982,7 @@ sub Run {
             },
         );
 
-        my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
         # updated last request time
         $Self->{SessionObject}->UpdateSessionID(
@@ -1099,7 +1099,7 @@ sub Run {
             %Data,
         },
     );
-    my $LayoutObject = $Kernel::OM->Get('LayoutObject');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
     return;
 }

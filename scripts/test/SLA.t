@@ -20,7 +20,7 @@ use Kernel::System::User;
 use Kernel::Config;
 
 # create local objects
-my $ConfigObject  = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 my $ServiceObject = Kernel::System::Service->new(
     %{$Self},
     ConfigObject => $ConfigObject,

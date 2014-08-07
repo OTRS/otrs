@@ -30,7 +30,7 @@ my $RandomID = int rand 1_000_000_000;
 my $FieldCount = 5;                     # Limit to 5 because of the UT servers.
 my @SearchSteps = ( 1, 2, 3, 4, 5 );    # Steps at which to check search performance
 
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $UserObject   = Kernel::System::User->new(
     ConfigObject => $ConfigObject,
     %{$Self},

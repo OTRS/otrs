@@ -63,7 +63,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 
 if ( $Opts{o} && lc( $Opts{o} ) eq 'delete' ) {
     print "Deleting all Loader cache files...\n";
-    my @DeletedFiles = $Kernel::OM->Get('LoaderObject')->CacheDelete();
+    my @DeletedFiles = $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
     if (@DeletedFiles) {
         print "The following files were deleted:\n\t";
         print join "\n\t", @DeletedFiles;
@@ -78,15 +78,15 @@ if ( $Opts{o} && lc( $Opts{o} ) eq 'generate' ) {
     print "Generating loader cache files...\n";
 
     # Force loader also on development systems where it might be turned off.
-    $Kernel::OM->Get('ConfigObject')->Set(
+    $Kernel::OM->Get('Kernel::Config')->Set(
         Key   => 'Loader::Enabled::JS',
         Value => 1,
     );
-    $Kernel::OM->Get('ConfigObject')->Set(
+    $Kernel::OM->Get('Kernel::Config')->Set(
         Key   => 'Loader::Enabled::CSS',
         Value => 1,
     );
-    my @FrontendModules = $Kernel::OM->Get('LoaderObject')->CacheGenerate();
+    my @FrontendModules = $Kernel::OM->Get('Kernel::System::Loader')->CacheGenerate();
     for my $FrontendModule (@FrontendModules) {
         print "    $FrontendModule\n";
 

@@ -12,10 +12,10 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-my $HelperObject       = $Kernel::OM->Get('UnitTestHelperObject');
-my $DynamicFieldObject = $Kernel::OM->Get('DynamicFieldObject');
-my $TicketObject       = $Kernel::OM->Get('TicketObject');
-my $BackendObject      = $Kernel::OM->Get('DynamicFieldBackendObject');
+my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
 my @DynamicFields = map { $HelperObject->GetRandomID() } 1 .. 2;
 my @Config;

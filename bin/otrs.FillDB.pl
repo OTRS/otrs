@@ -42,13 +42,13 @@ sub _OM {
     );
 
     # set dummy sendmail module
-    $Kernel::OM->Get('ConfigObject')->Set(
+    $Kernel::OM->Get('Kernel::Config')->Set(
         Key   => 'SendmailModule',
         Value => 'Kernel::System::Email::DoNotSendEmail',
     );
 
     # set env config
-    $Kernel::OM->Get('ConfigObject')->Set(
+    $Kernel::OM->Get('Kernel::Config')->Set(
         Key   => 'CheckEmailInvalidAddress',
         Value => 0,
     );

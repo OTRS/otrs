@@ -15,7 +15,7 @@ use vars (qw($Self));
 
 use Kernel::System::PostMaster;
 
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # create tickets/article/attachments in backend for article storage switch tests
 for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {

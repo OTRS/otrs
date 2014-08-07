@@ -17,7 +17,7 @@ use Kernel::System::Web::Request;
 {
     local $ENV{REQUEST_METHOD} = 'GET';
     local $ENV{QUERY_STRING}   = 'a=4;b=5';
-    my $Request = $Kernel::OM->Get('ParamObject');
+    my $Request = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my @ParamNames = $Request->GetParamNames();
     $Self->IsDeeply(
@@ -42,7 +42,7 @@ use Kernel::System::Web::Request;
 {
     local $CGI::POST_MAX = 1024;    ## no critic
 
-    my $Request = $Kernel::OM->Get('ParamObject');
+    my $Request = $Kernel::OM->Get('Kernel::System::Web::Request');
     $Request->{Query}->{'.cgi_error'} = 'Unittest failed ;-)';
 
     $Self->Is(

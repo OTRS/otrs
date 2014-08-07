@@ -19,7 +19,7 @@ use Kernel::System::DynamicField;
 use Kernel::System::Ticket;
 use Kernel::System::UnitTest::Helper;
 
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # don't check email address validity
 $ConfigObject->Set(

@@ -17,7 +17,7 @@ use Storable;
 use Kernel::System::AuthSession;
 
 # use local Config object because it will be modified
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # get home directory
 my $HomeDir = $ConfigObject->Get('Home');

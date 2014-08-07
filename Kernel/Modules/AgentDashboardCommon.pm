@@ -34,7 +34,7 @@ sub new {
         }
     }
 
-    $Self->{CacheObject}           = $Kernel::OM->Get('CacheObject');
+    $Self->{CacheObject}           = $Kernel::OM->Get('Kernel::System::Cache');
     $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
 
     $Self->{SlaveDBObject}     = $Self->{DBObject};

@@ -13,7 +13,7 @@ use utf8;
 use vars (qw($Self));
 
 # use local Config object because it will be modified
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # configure auth backend to db
 $ConfigObject->Set(
@@ -107,8 +107,8 @@ for my $CryptType (qw(plain crypt md5 sha1 sha2 bcrypt)) {
         Value => $CryptType
     );
 
-    my $UserObject = $Kernel::OM->Get('UserObject');
-    my $AuthObject = $Kernel::OM->Get('AuthObject');
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+    my $AuthObject = $Kernel::OM->Get('Kernel::System::Auth');
 
     TEST:
     for my $Test (@Tests) {

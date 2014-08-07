@@ -103,7 +103,7 @@ if ( $Opts{h} ) {
 my $FileString = '';
 if ( $Opts{a} !~ /^(list|file)/ && $Opts{p} ) {
     if ( -e $Opts{p} ) {
-        my $ContentRef = $Kernel::OM->Get('MainObject')->FileRead(
+        my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
             Location => $Opts{p},
             Mode     => 'utf8',      # optional - binmode|utf8
             Result   => 'SCALAR',    # optional - SCALAR|ARRAY
@@ -119,8 +119,8 @@ if ( $Opts{a} !~ /^(list|file)/ && $Opts{p} ) {
         my $URL         = $1;
         my $PackageName = $2;
         if ( $URL eq 'online' ) {
-            my %List = %{ $Kernel::OM->Get('ConfigObject')->Get('Package::RepositoryList') };
-            %List = ( %List, $Kernel::OM->Get('PackageObject')->PackageOnlineRepositories() );
+            my %List = %{ $Kernel::OM->Get('Kernel::Config')->Get('Package::RepositoryList') };
+            %List = ( %List, $Kernel::OM->Get('Kernel::System::Package')->PackageOnlineRepositories() );
             for ( sort keys %List ) {
                 if ( $List{$_} =~ /^\[-Master-\]/ ) {
                     $URL = $_;
@@ -128,9 +128,9 @@ if ( $Opts{a} !~ /^(list|file)/ && $Opts{p} ) {
             }
         }
         if ( $PackageName !~ /^.+?.opm$/ ) {
-            my @Packages = $Kernel::OM->Get('PackageObject')->PackageOnlineList(
+            my @Packages = $Kernel::OM->Get('Kernel::System::Package')->PackageOnlineList(
                 URL  => $URL,
-                Lang => $Kernel::OM->Get('ConfigObject')->Get('DefaultLanguage'),
+                Lang => $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage'),
             );
             PACKAGE:
             for my $Package (@Packages) {
@@ -140,7 +140,7 @@ if ( $Opts{a} !~ /^(list|file)/ && $Opts{p} ) {
                 }
             }
         }
-        $FileString = $Kernel::OM->Get('PackageObject')->PackageOnlineGet(
+        $FileString = $Kernel::OM->Get('Kernel::System::Package')->PackageOnlineGet(
             Source => $URL,
             File   => $PackageName,
         );
@@ -150,16 +150,16 @@ if ( $Opts{a} !~ /^(list|file)/ && $Opts{p} ) {
     }
     else {
         if ( $Opts{p} =~ /^(.*)\-(\d{1,4}\.\d{1,4}\.\d{1,4})$/ ) {
-            $FileString = $Kernel::OM->Get('PackageObject')->RepositoryGet(
+            $FileString = $Kernel::OM->Get('Kernel::System::Package')->RepositoryGet(
                 Name    => $1,
                 Version => $2,
             );
         }
         else {
             PACKAGE:
-            for my $Package ( $Kernel::OM->Get('PackageObject')->RepositoryList() ) {
+            for my $Package ( $Kernel::OM->Get('Kernel::System::Package')->RepositoryList() ) {
                 if ( $Opts{p} eq $Package->{Name}->{Content} ) {
-                    $FileString = $Kernel::OM->Get('PackageObject')->RepositoryGet(
+                    $FileString = $Kernel::OM->Get('Kernel::System::Package')->RepositoryGet(
                         Name    => $Package->{Name}->{Content},
                         Version => $Package->{Version}->{Content},
                     );
@@ -177,7 +177,7 @@ if ( $Opts{a} !~ /^(list|file)/ && $Opts{p} ) {
 if ( $Opts{a} eq 'file' ) {
     $Opts{p} =~ s/\/\//\//g;
     my $Hit = 0;
-    for my $Package ( $Kernel::OM->Get('PackageObject')->RepositoryList() ) {
+    for my $Package ( $Kernel::OM->Get('Kernel::System::Package')->RepositoryList() ) {
         for my $File ( @{ $Package->{Filelist} } ) {
             if ( $Opts{p} =~ /^\Q$File->{Location}\E$/ ) {
                 print
@@ -210,7 +210,7 @@ if ( $Opts{a} eq 'exportfile' ) {
 
     # read package
     if ( -e $Opts{p} ) {
-        my $ContentRef = $Kernel::OM->Get('MainObject')->FileRead(
+        my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
             Location => $Opts{p},
             Mode     => 'utf8',      # optional - binmode|utf8
             Result   => 'SCALAR',    # optional - SCALAR|ARRAY
@@ -240,7 +240,7 @@ if ( $Opts{a} eq 'exportfile' ) {
     print "| Package: $Opts{p}\n";
     print "| To:      $Opts{d}\n";
     print "+----------------------------------------------------------------------------+\n";
-    $Kernel::OM->Get('PackageObject')->PackageExport(
+    $Kernel::OM->Get('Kernel::System::Package')->PackageExport(
         String => $String,
         Home   => $Opts{d},
     );
@@ -249,7 +249,7 @@ if ( $Opts{a} eq 'exportfile' ) {
 
 # build
 if ( $Opts{a} eq 'build' ) {
-    my %Structure = $Kernel::OM->Get('PackageObject')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
     if ( $Opts{v} && $Opts{v} =~ m/\d{1,4}\.\d{1,4}\.\d{1,4}/ ) {
         $Structure{Version}->{Content} = $Opts{v}
     }
@@ -273,8 +273,8 @@ if ( $Opts{a} eq 'build' ) {
     }
 
     my $Filename = $Structure{Name}->{Content} . '-' . $Structure{Version}->{Content} . '.opm';
-    my $Content  = $Kernel::OM->Get('PackageObject')->PackageBuild(%Structure);
-    my $File     = $Kernel::OM->Get('MainObject')->FileWrite(
+    my $Content  = $Kernel::OM->Get('Kernel::System::Package')->PackageBuild(%Structure);
+    my $File     = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Location   => $Opts{o} . '/' . $Filename,
         Content    => \$Content,
         Mode       => 'utf8',                       # binmode|utf8
@@ -294,7 +294,7 @@ elsif ( $Opts{a} eq 'uninstall' ) {
 
     # get package file from db
     # parse package
-    my %Structure = $Kernel::OM->Get('PackageObject')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
 
     # intro screen
     if ( $Structure{IntroUninstallPre} ) {
@@ -307,7 +307,7 @@ elsif ( $Opts{a} eq 'uninstall' ) {
     }
 
     # uninstall
-    $Kernel::OM->Get('PackageObject')->PackageUninstall(
+    $Kernel::OM->Get('Kernel::System::Package')->PackageUninstall(
         String => $FileString,
         Force  => $Opts{f},
     );
@@ -326,7 +326,7 @@ elsif ( $Opts{a} eq 'uninstall' ) {
 elsif ( $Opts{a} eq 'install' ) {
 
     # parse package
-    my %Structure = $Kernel::OM->Get('PackageObject')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
 
     # intro screen
     if ( $Structure{IntroInstallPre} ) {
@@ -339,7 +339,7 @@ elsif ( $Opts{a} eq 'install' ) {
     }
 
     # install
-    $Kernel::OM->Get('PackageObject')->PackageInstall(
+    $Kernel::OM->Get('Kernel::System::Package')->PackageInstall(
         String => $FileString,
         Force  => $Opts{f},
     );
@@ -358,7 +358,7 @@ elsif ( $Opts{a} eq 'install' ) {
 elsif ( $Opts{a} eq 'reinstall' ) {
 
     # parse package
-    my %Structure = $Kernel::OM->Get('PackageObject')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
 
     # intro screen
     if ( $Structure{IntroReinstallPre} ) {
@@ -371,7 +371,7 @@ elsif ( $Opts{a} eq 'reinstall' ) {
     }
 
     # install
-    $Kernel::OM->Get('PackageObject')->PackageReinstall(
+    $Kernel::OM->Get('Kernel::System::Package')->PackageReinstall(
         String => $FileString,
         Force  => $Opts{f},
     );
@@ -392,10 +392,10 @@ elsif ( $Opts{a} eq 'reinstall-all' ) {
     my @ReinstalledPackages;
 
     # loop all locally installed packages
-    for my $Package ( $Kernel::OM->Get('PackageObject')->RepositoryList() ) {
+    for my $Package ( $Kernel::OM->Get('Kernel::System::Package')->RepositoryList() ) {
 
         # do a deploy check to see if reinstallation is needed
-        my $ReinstallNeeded = $Kernel::OM->Get('PackageObject')->DeployCheck(
+        my $ReinstallNeeded = $Kernel::OM->Get('Kernel::System::Package')->DeployCheck(
             Name    => $Package->{Name}->{Content},
             Version => $Package->{Version}->{Content},
         );
@@ -404,12 +404,12 @@ elsif ( $Opts{a} eq 'reinstall-all' ) {
 
             push @ReinstalledPackages, $Package->{Name}->{Content};
 
-            my $FileString = $Kernel::OM->Get('PackageObject')->RepositoryGet(
+            my $FileString = $Kernel::OM->Get('Kernel::System::Package')->RepositoryGet(
                 Name    => $Package->{Name}->{Content},
                 Version => $Package->{Version}->{Content},
             );
 
-            $Kernel::OM->Get('PackageObject')->PackageReinstall(
+            $Kernel::OM->Get('Kernel::System::Package')->PackageReinstall(
                 String => $FileString,
                 Force  => $Opts{f},
             );
@@ -432,7 +432,7 @@ elsif ( $Opts{a} eq 'reinstall-all' ) {
 elsif ( $Opts{a} eq 'upgrade' ) {
 
     # parse package
-    my %Structure = $Kernel::OM->Get('PackageObject')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
 
     # intro screen
     if ( $Structure{IntroUpgradePre} ) {
@@ -445,7 +445,7 @@ elsif ( $Opts{a} eq 'upgrade' ) {
     }
 
     # upgrade
-    $Kernel::OM->Get('PackageObject')->PackageUpgrade(
+    $Kernel::OM->Get('Kernel::System::Package')->PackageUpgrade(
         String => $FileString,
         Force  => $Opts{f},
     );
@@ -462,7 +462,7 @@ elsif ( $Opts{a} eq 'upgrade' ) {
     exit;
 }
 elsif ( $Opts{a} eq 'list' ) {
-    for my $Package ( $Kernel::OM->Get('PackageObject')->RepositoryList() ) {
+    for my $Package ( $Kernel::OM->Get('Kernel::System::Package')->RepositoryList() ) {
         my %Data = _MessageGet( Info => $Package->{Description}, Reformat => 'No' );
         print "+----------------------------------------------------------------------------+\n";
         print "| Name:        $Package->{Name}->{Content}\n";
@@ -478,10 +478,10 @@ elsif ( $Opts{a} eq 'list' ) {
 elsif ( $Opts{a} eq 'list-repository' ) {
     my $Count = 0;
     my %List  = ();
-    if ( $Kernel::OM->Get('ConfigObject')->Get('Package::RepositoryList') ) {
-        %List = %{ $Kernel::OM->Get('ConfigObject')->Get('Package::RepositoryList') };
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Package::RepositoryList') ) {
+        %List = %{ $Kernel::OM->Get('Kernel::Config')->Get('Package::RepositoryList') };
     }
-    %List = ( %List, $Kernel::OM->Get('PackageObject')->PackageOnlineRepositories() );
+    %List = ( %List, $Kernel::OM->Get('Kernel::System::Package')->PackageOnlineRepositories() );
     for my $URL ( sort { $List{$a} cmp $List{$b} } keys %List ) {
         $Count++;
         print "+----------------------------------------------------------------------------+\n";
@@ -502,9 +502,9 @@ elsif ( $Opts{a} eq 'list-repository' ) {
             print
                 "+----------------------------------------------------------------------------+\n";
             print "| Package Overview:\n";
-            my @Packages = $Kernel::OM->Get('PackageObject')->PackageOnlineList(
+            my @Packages = $Kernel::OM->Get('Kernel::System::Package')->PackageOnlineList(
                 URL  => $URL,
-                Lang => $Kernel::OM->Get('ConfigObject')->Get('DefaultLanguage'),
+                Lang => $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage'),
             );
             my $Count = 0;
             for my $Package (@Packages) {
@@ -528,11 +528,11 @@ elsif ( $Opts{a} eq 'list-repository' ) {
             for my $Package (@Packages) {
                 $Count++;
                 if ( $Count eq $PackageCount ) {
-                    my $FileString = $Kernel::OM->Get('PackageObject')->PackageOnlineGet(
+                    my $FileString = $Kernel::OM->Get('Kernel::System::Package')->PackageOnlineGet(
                         Source => $URL,
                         File   => $Package->{File},
                     );
-                    $Kernel::OM->Get('PackageObject')->PackageInstall(
+                    $Kernel::OM->Get('Kernel::System::Package')->PackageInstall(
                         String => $FileString,
                         Force  => $Opts{'f'},
                     );
@@ -543,13 +543,13 @@ elsif ( $Opts{a} eq 'list-repository' ) {
     exit;
 }
 elsif ( $Opts{a} eq 'p' ) {
-    my @Data = $Kernel::OM->Get('PackageObject')->PackageParse( String => $FileString, );
+    my @Data = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
     for my $Tag (@Data) {
         print STDERR "Tag: $Tag->{Type} $Tag->{Tag} $Tag->{Content}\n";
     }
 }
 elsif ( $Opts{a} eq 'parse' ) {
-    my %Structure = $Kernel::OM->Get('PackageObject')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
     for my $Key ( sort keys %Structure ) {
         if ( ref( $Structure{$Key} ) eq 'ARRAY' ) {
             for my $Data ( @{ $Structure{$Key} } ) {
@@ -595,7 +595,7 @@ else {
 sub BuildPackageIndex {
     my $In = shift;
 
-    my @List = $Kernel::OM->Get('MainObject')->DirectoryRead(
+    my @List = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => $In,
         Filter    => '*',
     );
@@ -617,7 +617,7 @@ sub BuildPackageIndex {
 
                 #               print "F: $File\n";
                 my $Content    = '';
-                my $ContentRef = $Kernel::OM->Get('MainObject')->FileRead(
+                my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
                     Location => $OrigFile,
                     Mode     => 'utf8',      # optional - binmode|utf8
                     Result   => 'SCALAR',    # optional - SCALAR|ARRAY
@@ -627,8 +627,8 @@ sub BuildPackageIndex {
                     exit 1;
                 }
                 my %Structure
-                    = $Kernel::OM->Get('PackageObject')->PackageParse( String => ${$ContentRef} );
-                my $XML = $Kernel::OM->Get('PackageObject')
+                    = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => ${$ContentRef} );
+                my $XML = $Kernel::OM->Get('Kernel::System::Package')
                     ->PackageBuild( %Structure, Type => 'Index' );
                 print "<Package>\n";
                 print $XML;

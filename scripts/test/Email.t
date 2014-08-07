@@ -17,7 +17,7 @@ use Kernel::System::EmailParser;
 use Kernel::Config;
 
 # create local object
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # do not really send emails
 $ConfigObject->Set(

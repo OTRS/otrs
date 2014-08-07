@@ -33,7 +33,7 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
     RestoreSystemConfiguration => 0,
 );
 
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 $ConfigObject->Set(
     Key   => 'Ticket::Acl::Module',
     Value => {

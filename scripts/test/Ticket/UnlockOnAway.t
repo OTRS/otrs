@@ -14,11 +14,11 @@ use utf8;
 use Kernel::System::UnitTest::Helper;
 use vars (qw($Self));
 
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-my $HelperObject = $Kernel::OM->Get('UnitTestHelperObject');
-my $UserObject   = $Kernel::OM->Get('UserObject');
-my $TicketObject = $Kernel::OM->Get('TicketObject');
-my $TimeObject   = $Kernel::OM->Get('TimeObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
 $ConfigObject->Set(
     Key   => 'Ticket::UnlockOnAway',

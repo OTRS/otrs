@@ -29,7 +29,7 @@ use Kernel::System::VariableCheck qw(:all);
 my $RandomID = int rand 1_000_000_000;
 
 # create local config object
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # helper object
 # skip SSL certificate verification

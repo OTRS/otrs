@@ -27,7 +27,7 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 $HelperObject->FixedTimeSet();
 
 # create local config object
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # new/clear ticket object
 my $TicketObject = Kernel::System::Ticket->new(

@@ -16,7 +16,7 @@ use Kernel::System::Spelling;
 use Kernel::System::VariableCheck qw(:all);
 
 # use local Config object because it will be modified
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 my $SpellCheckerBin = $ConfigObject->Get('SpellCheckerBin');
 

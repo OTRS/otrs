@@ -23,7 +23,7 @@ use Kernel::Config;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::JSON;
 
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},

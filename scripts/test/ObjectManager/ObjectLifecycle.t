@@ -20,7 +20,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new();
 # test that all configured objects can be created and then destroyed;
 # that way we know there are no cyclic references in the constructors
 
-my %ObjectAliases = %{ $Kernel::OM->Get('ConfigObject')->Get('ObjectAliases') };
+my %ObjectAliases = %{ $Kernel::OM->Get('Kernel::Config')->Get('ObjectAliases') };
 my @Objects       = sort keys %ObjectAliases;
 
 # some objects need extra data/configuration; exclude them

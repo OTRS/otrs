@@ -76,7 +76,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # create common framework objects 1/3
-    $Self->{ConfigObject} = $Kernel::OM->Get('ConfigObject');
+    $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
 
     $Kernel::OM->ObjectParamAdd(
         LogObject => {
@@ -129,7 +129,7 @@ sub Run {
         },
     );
 
-    $Self->{LayoutObject} = $Kernel::OM->Get('LayoutObject');
+    $Self->{LayoutObject} = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # check secure mode
     if ( $Self->{ConfigObject}->Get('SecureMode') ) {

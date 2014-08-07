@@ -17,7 +17,7 @@ use Kernel::Config;
 use Kernel::System::Ticket;
 
 # create local objects
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
 # tests for article search index modules
