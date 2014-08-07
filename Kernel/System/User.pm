@@ -48,7 +48,7 @@ create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $UserObject = $Kernel::OM->Get('UserObject');
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
 =cut
 
@@ -59,30 +59,22 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
-    $Self->{DBObject}     = $Kernel::OM->Get('Kernel::System::DB');
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get user table
-    $Self->{UserTable}       = $Self->{ConfigObject}->Get('DatabaseUserTable')       || 'user';
-    $Self->{UserTableUserID} = $Self->{ConfigObject}->Get('DatabaseUserTableUserID') || 'id';
-    $Self->{UserTableUserPW} = $Self->{ConfigObject}->Get('DatabaseUserTableUserPW') || 'pw';
-    $Self->{UserTableUser}   = $Self->{ConfigObject}->Get('DatabaseUserTableUser')   || 'login';
+    $Self->{UserTable}       = $ConfigObject->Get('DatabaseUserTable')       || 'user';
+    $Self->{UserTableUserID} = $ConfigObject->Get('DatabaseUserTableUserID') || 'id';
+    $Self->{UserTableUserPW} = $ConfigObject->Get('DatabaseUserTableUserPW') || 'pw';
+    $Self->{UserTableUser}   = $ConfigObject->Get('DatabaseUserTableUser')   || 'login';
 
     $Self->{CacheType} = 'User';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     # set lower if database is case sensitive
     $Self->{Lower} = '';
-    if ( $Self->{DBObject}->GetDatabaseFunction('CaseSensitive') ) {
+    if ( $Kernel::OM->Get('Kernel::System::DB')->GetDatabaseFunction('CaseSensitive') ) {
         $Self->{Lower} = 'LOWER';
-    }
-
-    # load generator preferences module
-    my $GeneratorModule = $Self->{ConfigObject}->Get('User::PreferencesModule')
-        || 'Kernel::System::User::Preferences::DB';
-    if ( $Kernel::OM->Get('Kernel::System::Main')->Require($GeneratorModule) ) {
-        $Self->{PreferencesObject} = $GeneratorModule->new( %{$Self} );
     }
 
     return $Self;
@@ -113,13 +105,18 @@ sub GetUserData {
 
     # check needed stuff
     if ( !$Param{User} && !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need User or UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need User or UserID!',
+        );
         return;
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # get configuration for the full name order
-    my $FirstnameLastNameOrder = $Self->{ConfigObject}->Get('FirstnameLastnameOrder') || 0;
+    my $FirstnameLastNameOrder = $ConfigObject->Get('FirstnameLastnameOrder') || 0;
 
     # check if result is cached
     if ( $Param{Valid} ) {
@@ -174,14 +171,17 @@ sub GetUserData {
         push @Bind, \$Param{UserID};
     }
 
-    return if !$Self->{DBObject}->Prepare(
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
         SQL   => $SQL,
         Bind  => \@Bind,
         Limit => 1,
     );
 
     my %Data;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Data{UserID}        = $Row[0];
         $Data{UserLogin}     = $Row[1];
         $Data{UserTitle}     = $Row[2];
@@ -289,7 +289,7 @@ sub GetUserData {
     %Data = ( %Data, %Preferences );
 
     # add preferences defaults
-    my $Config = $Self->{ConfigObject}->Get('PreferencesGroups');
+    my $Config = $ConfigObject->Get('PreferencesGroups');
     if ( $Config && ref $Config eq 'HASH' ) {
 
         KEY:
@@ -364,8 +364,11 @@ sub UserAdd {
         $Param{UserPw} = $Self->GenerateRandomPassword();
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # sql
-    return if !$Self->{DBObject}->Do(
+    return if !$DBObject->Do(
         SQL => "INSERT INTO $Self->{UserTable} "
             . "(title, first_name, last_name, "
             . " $Self->{UserTableUser}, $Self->{UserTableUserPW}, "
@@ -381,7 +384,7 @@ sub UserAdd {
 
     # get new user id
     my $UserLogin = lc $Param{UserLogin};
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL => "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} "
             . " WHERE $Self->{Lower}($Self->{UserTableUser}) = ?",
         Bind  => [ \$UserLogin ],
@@ -390,7 +393,7 @@ sub UserAdd {
 
     # fetch the result
     my $UserID;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $UserID = $Row[0];
     }
 
@@ -472,7 +475,7 @@ sub UserUpdate {
     }
 
     # update db
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => "UPDATE $Self->{UserTable} SET title = ?, first_name = ?, last_name = ?, "
             . " $Self->{UserTableUser} = ?, valid_id = ?, "
             . " change_time = current_timestamp, change_by = ? "
@@ -564,8 +567,11 @@ sub UserSearch {
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # get like escape string needed for some databases (e.g. oracle)
-    my $LikeEscapeString = $Self->{DBObject}->GetDatabaseFunction('LikeEscapeString');
+    my $LikeEscapeString = $DBObject->GetDatabaseFunction('LikeEscapeString');
 
     # build SQL string
     my $SQL = "SELECT $Self->{UserTableUserID}, login
@@ -574,7 +580,7 @@ sub UserSearch {
 
     if ( $Param{Search} ) {
 
-        my %QueryCondition = $Self->{DBObject}->QueryCondition(
+        my %QueryCondition = $DBObject->QueryCondition(
             Key      => [qw(login first_name last_name)],
             Value    => $Param{Search},
             BindMode => 1,
@@ -605,7 +611,7 @@ sub UserSearch {
 
         $SQL .= " $Self->{Lower}($Self->{UserTableUser}) LIKE ? $LikeEscapeString";
         $Param{UserLogin} =~ s/\*/%/g;
-        $Param{UserLogin} = $Self->{DBObject}->Quote( $Param{UserLogin}, 'Like' );
+        $Param{UserLogin} = $DBObject->Quote( $Param{UserLogin}, 'Like' );
         push @Bind, \$Param{UserLogin};
     }
 
@@ -616,14 +622,14 @@ sub UserSearch {
     }
 
     # get data
-    return if !$Self->{DBObject}->Prepare(
+    return if !$DBObject->Prepare(
         SQL   => $SQL,
         Bind  => \@Bind,
         Limit => $Self->{UserSearchListLimit} || $Param{Limit},
     );
 
     # fetch the result
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $Users{ $Row[0] } = $Row[1];
     }
 
@@ -654,8 +660,10 @@ sub SetPassword {
     # get old user data
     my %User = $Self->GetUserData( User => $Param{UserLogin} );
     if ( !$User{UserLogin} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'No such User!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'No such User!',
+        );
         return;
     }
 
@@ -663,7 +671,7 @@ sub SetPassword {
     my $CryptedPw = '';
 
     # get crypt type
-    my $CryptType = $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') || 'sha2';
+    my $CryptType = $Kernel::OM->Get('Kernel::Config')->Get('AuthModule::DB::CryptType') || 'sha2';
 
     # crypt plain (no crypt at all)
     if ( $CryptType eq 'plain' ) {
@@ -749,7 +757,7 @@ sub SetPassword {
 
     # update db
     my $UserLogin = lc $Param{UserLogin};
-    return if !$Self->{DBObject}->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => "UPDATE $Self->{UserTable} SET $Self->{UserTableUserPW} = ? "
             . " WHERE $Self->{Lower}($Self->{UserTableUser}) = ?",
         Bind => [ \$CryptedPw, \$UserLogin ],
@@ -788,6 +796,9 @@ sub UserLookup {
         return;
     }
 
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     if ( $Param{UserLogin} ) {
 
         # check cache
@@ -801,7 +812,7 @@ sub UserLookup {
         # build sql query
         my $UserLogin = lc $Param{UserLogin};
 
-        return if !$Self->{DBObject}->Prepare(
+        return if !$DBObject->Prepare(
             SQL => "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} "
                 . " WHERE $Self->{Lower}($Self->{UserTableUser}) = ?",
             Bind  => [ \$UserLogin ],
@@ -810,7 +821,7 @@ sub UserLookup {
 
         # fetch the result
         my $ID;
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $ID = $Row[0];
         }
 
@@ -844,7 +855,7 @@ sub UserLookup {
         return $Cache if $Cache;
 
         # build sql query
-        return if !$Self->{DBObject}->Prepare(
+        return if !$DBObject->Prepare(
             SQL => "SELECT $Self->{UserTableUser} FROM $Self->{UserTable} "
                 . " WHERE $Self->{UserTableUserID} = ?",
             Bind  => [ \$Param{UserID} ],
@@ -853,7 +864,7 @@ sub UserLookup {
 
         # fetch the result
         my $Login;
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $Login = $Row[0];
         }
 
@@ -922,8 +933,11 @@ sub UserList {
     # set valid option
     my $Valid = $Param{Valid} // 1;
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # get configuration for the full name order
-    my $FirstnameLastNameOrder = $Self->{ConfigObject}->Get('FirstnameLastnameOrder') || 0;
+    my $FirstnameLastNameOrder = $ConfigObject->Get('FirstnameLastnameOrder') || 0;
     my $NoOutOfOffice = $Param{NoOutOfOffice} || 0;
 
     # check cache
@@ -936,16 +950,16 @@ sub UserList {
 
     my $SelectStr;
     if ( $Type eq 'Short' ) {
-        $SelectStr = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, "
-            . " $Self->{ConfigObject}->{DatabaseUserTableUser}";
+        $SelectStr = "$ConfigObject->{DatabaseUserTableUserID}, "
+            . " $ConfigObject->{DatabaseUserTableUser}";
     }
     else {
-        $SelectStr = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, "
+        $SelectStr = "$ConfigObject->{DatabaseUserTableUserID}, "
             . " last_name, first_name, "
-            . " $Self->{ConfigObject}->{DatabaseUserTableUser}";
+            . " $ConfigObject->{DatabaseUserTableUser}";
     }
 
-    my $SQL = "SELECT $SelectStr FROM $Self->{ConfigObject}->{DatabaseUserTable}";
+    my $SQL = "SELECT $SelectStr FROM $ConfigObject->{DatabaseUserTable}";
 
     # sql query
     if ($Valid) {
@@ -953,12 +967,15 @@ sub UserList {
             .= " WHERE valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} )";
     }
 
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare( SQL => $SQL );
 
     # fetch the result
     my %UsersRaw;
     my %Users;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $UsersRaw{ $Row[0] } = \@Row;
     }
 
@@ -1078,8 +1095,14 @@ sub SetPreferences {
         Type => $Self->{CacheType},
     );
 
+    # get user preferences config
+    my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('User::PreferencesModule') || 'Kernel::System::User::Preferences::DB';
+
+    # get generator preferences module
+    my $PreferencesObject = $Kernel::OM->Get($GeneratorModule);
+
     # set preferences
-    return $Self->{PreferencesObject}->SetPreferences(%Param);
+    return $PreferencesObject->SetPreferences(%Param);
 }
 
 =item GetPreferences()
@@ -1095,7 +1118,13 @@ get user preferences
 sub GetPreferences {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{PreferencesObject}->GetPreferences(%Param);
+    # get user preferences config
+    my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('User::PreferencesModule') || 'Kernel::System::User::Preferences::DB';
+
+    # get generator preferences module
+    my $PreferencesObject = $Kernel::OM->Get($GeneratorModule);
+
+    return $PreferencesObject->GetPreferences(%Param);
 }
 
 =item SearchPreferences()
@@ -1112,7 +1141,13 @@ search in user preferences
 sub SearchPreferences {
     my $Self = shift;
 
-    return $Self->{PreferencesObject}->SearchPreferences(@_);
+    # get user preferences config
+    my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('User::PreferencesModule') || 'Kernel::System::User::Preferences::DB';
+
+    # get generator preferences module
+    my $PreferencesObject = $Kernel::OM->Get($GeneratorModule);
+
+    return $PreferencesObject->SearchPreferences(@_);
 }
 
 =item TokenGenerate()
