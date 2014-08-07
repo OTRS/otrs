@@ -21,7 +21,10 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    if ( $Self->{DBObject}->GetDatabaseFunction('Type') ne 'oracle' ) {
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    if ( $DBObject->GetDatabaseFunction('Type') ne 'oracle' ) {
         return $Self->GetResults();
     }
 
@@ -58,8 +61,8 @@ sub Run {
     }
 
     my $CreateTime;
-    $Self->{DBObject}->Prepare( SQL => "SELECT create_time FROM valid", Limit => 1 );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+    $DBObject->Prepare( SQL => "SELECT create_time FROM valid", Limit => 1 );
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $CreateTime = $Row[0];
     }
 

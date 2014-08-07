@@ -21,12 +21,15 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    if ( $Self->{DBObject}->GetDatabaseFunction('Type') ne 'oracle' ) {
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    if ( $DBObject->GetDatabaseFunction('Type') ne 'oracle' ) {
         return $Self->GetResults();
     }
 
     # version check
-    my $Version = $Self->{DBObject}->Version();
+    my $Version = $DBObject->Version();
 
     if ($Version) {
         $Self->AddResultInformation(
