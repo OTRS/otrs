@@ -185,11 +185,6 @@ my @NeededModules = (
         Comment  => 'Required for directory authentication.',
     },
     {
-        Module   => 'Net::SSL',
-        Required => 0,
-        Comment  => 'Required for Generic Interface SOAP SSL connections.',
-    },
-    {
         Module       => 'PDF::API2',
         Version      => '0.57',
         Required     => 0,
