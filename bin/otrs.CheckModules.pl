@@ -144,8 +144,8 @@ if ( $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
 my @NeededModules = (
     {
         Module    => 'Apache2::Reload',
-        Required  => 1,
-        Comment   => 'Required to use mod_perl.',
+        Required  => 0,
+        Comment   => 'Avoids web server restarts on mod_perl.',
         InstTypes => {
             aptget => 'libapache2-mod-perl2',
             ppm    => 'mod_perl-2.0',
@@ -172,7 +172,7 @@ my @NeededModules = (
     },
     {
         Module    => 'Crypt::SSLeay',
-        Required  => 1,
+        Required  => 0,
         Comment   => 'Required for Generic Interface REST transport and SOAP SSL connections.',
         InstTypes => {
             aptget => 'libcrypt-ssleay-perl',
