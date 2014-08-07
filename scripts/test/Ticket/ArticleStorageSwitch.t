@@ -13,7 +13,7 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-use Kernel::System::Postmaster;
+use Kernel::System::PostMaster;
 
 my $ConfigObject = $Kernel::OM->Get('ConfigObject');
 
