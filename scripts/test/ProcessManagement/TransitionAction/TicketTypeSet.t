@@ -21,7 +21,8 @@ my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $TypeObject   = $Kernel::OM->Get('Kernel::System::Type');
 my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
-my $ModuleObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketTypeSet');
+my $ModuleObject
+    = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketTypeSet');
 
 # enable ticket type for this run
 $ConfigObject->Set(

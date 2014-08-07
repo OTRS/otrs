@@ -161,12 +161,12 @@ sub Set {
     }
 
     # set in-memory cache
-    if ( $Self->{CacheInMemory} && ($Param{CacheInMemory} // 1) ) {
+    if ( $Self->{CacheInMemory} && ( $Param{CacheInMemory} // 1 ) ) {
         $Self->{Cache}->{ $Param{Type} }->{ $Param{Key} } = $Param{Value};
     }
 
     # set persistent cache
-    if ( $Self->{CacheInBackend} && ($Param{CacheInBackend} // 1) ) {
+    if ( $Self->{CacheInBackend} && ( $Param{CacheInBackend} // 1 ) ) {
         return $Self->{CacheObject}->Set(%Param);
     }
 
@@ -216,14 +216,14 @@ sub Get {
         return $Self->{Cache}->{ $Param{Type} }->{ $Param{Key} };
     }
 
-    return if ( !$Self->{CacheInBackend} || !($Param{CacheInBackend} // 1) );
+    return if ( !$Self->{CacheInBackend} || !( $Param{CacheInBackend} // 1 ) );
 
     # check persistent cache
     my $Value = $Self->{CacheObject}->Get(%Param);
 
     # set in-memory cache
     if ( defined $Value ) {
-        if ( $Self->{CacheInMemory} && ($Param{CacheInMemory} // 1) ) {
+        if ( $Self->{CacheInMemory} && ( $Param{CacheInMemory} // 1 ) ) {
             $Self->{Cache}->{ $Param{Type} }->{ $Param{Key} } = $Value;
         }
     }
@@ -314,9 +314,9 @@ sub CleanUp {
         my %KeepTypeLookup;
         @KeepTypeLookup{ @{ $Param{KeepTypes} } } = undef;
         TYPE:
-        for my $Type (sort keys %{$Self->{Cache} || {}}) {
+        for my $Type ( sort keys %{ $Self->{Cache} || {} } ) {
             next TYPE if exists $KeepTypeLookup{$Type};
-            delete $Self->{Cache}->{ $Type };
+            delete $Self->{Cache}->{$Type};
         }
     }
     else {

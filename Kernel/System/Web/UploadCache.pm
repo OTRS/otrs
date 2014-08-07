@@ -48,7 +48,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    my $GenericModule = $Kernel::OM->Get('Kernel::Config')->Get('WebUploadCacheModule') || 'Kernel::System::Web::UploadCache::DB';
+    my $GenericModule = $Kernel::OM->Get('Kernel::Config')->Get('WebUploadCacheModule')
+        || 'Kernel::System::Web::UploadCache::DB';
 
     # load generator auth module
     $Self->{Backend} = $Kernel::OM->Get($GenericModule);

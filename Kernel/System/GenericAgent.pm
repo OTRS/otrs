@@ -182,7 +182,8 @@ sub JobRun {
     # check needed stuff
     for (qw(Job UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -538,7 +539,8 @@ sub JobGet {
     # check needed stuff
     for (qw(Name)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -732,7 +734,8 @@ sub JobAdd {
     # check needed stuff
     for (qw(Name Data UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -800,7 +803,8 @@ sub JobDelete {
     # check needed stuff
     for (qw(Name UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -889,7 +893,8 @@ sub _JobRunTicket {
     # check needed stuff
     for (qw(TicketID TicketNumber Config UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -1001,7 +1006,7 @@ sub _JobRunTicket {
     }
 
     # set pending time, if new state is pending state
-    if ($IsPendingState && $Param{Config}->{New}->{PendingTime} ) {
+    if ( $IsPendingState && $Param{Config}->{New}->{PendingTime} ) {
 
         # pending time
         my $PendingTime = $Param{Config}->{New}->{PendingTime};
@@ -1015,9 +1020,10 @@ sub _JobRunTicket {
         $PendingTime += $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
 
         # get date
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
+            = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
             SystemTime => $PendingTime,
-        );
+            );
 
         # set pending time
         $TicketObject->TicketPendingTimeSet(
@@ -1293,7 +1299,8 @@ sub _JobRunTicket {
             );
         }
 
-        if ( $Kernel::OM->Get('Kernel::System::Main')->Require( $Param{Config}->{New}->{Module} ) ) {
+        if ( $Kernel::OM->Get('Kernel::System::Main')->Require( $Param{Config}->{New}->{Module} ) )
+        {
 
             # protect parent process
             eval {
@@ -1373,7 +1380,8 @@ sub _JobUpdateRunTime {
     # check needed stuff
     for (qw(Name UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }

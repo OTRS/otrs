@@ -49,7 +49,8 @@ sub Run {
     # check needed stuff
     for my $Needed (qw(InmailUserID GetParam)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }
@@ -491,7 +492,7 @@ sub Run {
         Valid      => 1,
         ResultType => 'HASH',
         ObjectType => 'Article',
-    );
+        );
 
     # set dynamic fields for Article object type
     DYNAMICFIELDID:

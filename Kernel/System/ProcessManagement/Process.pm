@@ -204,7 +204,8 @@ sub ProcessList {
     }
 
     # get activity dialog object
-    my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
+    my $ActivityDialogObject
+        = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
 
     # otherwise return only processes where the initial activity dialog matches given interface
     my %ReducedProcessList;
@@ -539,7 +540,8 @@ sub ProcessTransition {
     }
 
     # get transition action object
-    my $TransitionActionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction');
+    my $TransitionActionObject
+        = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction');
 
     my $TransitionActions = $TransitionActionObject->TransitionActionList(
         TransitionActionEntityID => $Transitions{$TransitionEntityID}{TransitionAction},
@@ -645,7 +647,8 @@ sub ProcessTicketActivitySet {
 
     # Get DynamicField Name that's used for storing the ActivityEntityID per ticket
     my $DynamicFieldTicketActivityEntityID
-        = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementActivityID');
+        = $Kernel::OM->Get('Kernel::Config')
+        ->Get('Process::DynamicFieldProcessManagementActivityID');
     if ( !$DynamicFieldTicketActivityEntityID ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -667,7 +670,7 @@ sub ProcessTicketActivitySet {
 
     # Grep the Field out of the config of all Ticket DynamicFields
     my @DynamicFieldConfig
-        = grep { $_->{Name} eq $DynamicFieldTicketActivityEntityID } @{ $DynamicFieldList };
+        = grep { $_->{Name} eq $DynamicFieldTicketActivityEntityID } @{$DynamicFieldList};
 
     # if the DynamicField isn't there, return 0 and log
     if ( !IsHashRefWithData( $DynamicFieldConfig[0] ) ) {
@@ -746,7 +749,8 @@ sub ProcessTicketProcessSet {
     }
 
     # Get DynamicField Name that's used for storing the ActivityEntityID per ticket
-    my $DynamicFieldTicketProcessID = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementProcessID');
+    my $DynamicFieldTicketProcessID = $Kernel::OM->Get('Kernel::Config')
+        ->Get('Process::DynamicFieldProcessManagementProcessID');
 
     if ( !$DynamicFieldTicketProcessID ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -769,7 +773,7 @@ sub ProcessTicketProcessSet {
 
     # Grep the Field out of the config of all Ticket DynamicFields
     my @DynamicFieldConfig
-        = grep { $_->{Name} eq $DynamicFieldTicketProcessID } @{ $DynamicFieldList };
+        = grep { $_->{Name} eq $DynamicFieldTicketProcessID } @{$DynamicFieldList};
 
     # if the DynamicField isn't there, return 0 and log
     if ( !IsHashRefWithData( $DynamicFieldConfig[0] ) ) {

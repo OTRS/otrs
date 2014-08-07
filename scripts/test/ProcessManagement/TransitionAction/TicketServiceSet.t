@@ -21,7 +21,8 @@ my $HelperObject  = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
 my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
 my $UserObject    = $Kernel::OM->Get('Kernel::System::User');
-my $ModuleObject  = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketServiceSet');
+my $ModuleObject
+    = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketServiceSet');
 
 # define variables
 my $UserID     = 1;

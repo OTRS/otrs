@@ -56,7 +56,8 @@ sub Run {
     # check if sender is of interest
     return 1 if !$Param{GetParam}->{From};
 
-    if ( defined $Param{JobConfig}->{FromAddressRegExp} && $Param{JobConfig}->{FromAddressRegExp} ) {
+    if ( defined $Param{JobConfig}->{FromAddressRegExp} && $Param{JobConfig}->{FromAddressRegExp} )
+    {
 
         if ( $Param{GetParam}->{From} !~ /$Param{JobConfig}->{FromAddressRegExp}/i ) {
             return 1;

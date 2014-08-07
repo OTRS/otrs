@@ -340,10 +340,9 @@ returns
 sub DBInfoGet {
     my ( $Self, %Param ) = @_;
 
-
     # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
 
     # collect DB data
     my %EnvDB = (

@@ -84,7 +84,8 @@ sub WebserviceAdd {
     # check needed stuff
     for my $Key (qw(Name Config ValidID UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
@@ -180,7 +181,8 @@ sub WebserviceAdd {
     );
 
     # get webservice history object
-    my $WebserviceHistoryObject = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory');
+    my $WebserviceHistoryObject
+        = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory');
 
     # add history
     return if !$WebserviceHistoryObject->WebserviceHistoryAdd(
@@ -219,7 +221,8 @@ sub WebserviceGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ID or Name!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need ID or Name!' );
         return;
     }
 
@@ -281,7 +284,10 @@ sub WebserviceGet {
     }
 
     # get the cache TTL (in seconds)
-    my $CacheTTL = int( $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::WebserviceConfig::CacheTTL') || 3600 );
+    my $CacheTTL
+        = int(
+        $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::WebserviceConfig::CacheTTL')
+            || 3600 );
 
     # set cache
     $CacheObject->Set(
@@ -316,7 +322,8 @@ sub WebserviceUpdate {
     # check needed stuff
     for my $Key (qw(ID Name Config ValidID UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
@@ -421,7 +428,8 @@ sub WebserviceUpdate {
     );
 
     # get webservice history object
-    my $WebserviceHistoryObject = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory');
+    my $WebserviceHistoryObject
+        = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory');
 
     # add history
     return if !$WebserviceHistoryObject->WebserviceHistoryAdd(
@@ -452,7 +460,8 @@ sub WebserviceDelete {
     # check needed stuff
     for my $Key (qw(ID UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
@@ -464,7 +473,8 @@ sub WebserviceDelete {
     return if !IsHashRefWithData($Webservice);
 
     # get webservice history object
-    my $WebserviceHistoryObject = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory');
+    my $WebserviceHistoryObject
+        = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory');
 
     # delete history
     return if !$WebserviceHistoryObject->WebserviceHistoryDelete(
@@ -473,7 +483,8 @@ sub WebserviceDelete {
     );
 
     # get object lock state object
-    my $ObjectLockStateObject = $Kernel::OM->Get('Kernel::System::GenericInterface::ObjectLockState');
+    my $ObjectLockStateObject
+        = $Kernel::OM->Get('Kernel::System::GenericInterface::ObjectLockState');
 
     # delete remaining entries in ObjectLockState
     return if !$ObjectLockStateObject->ObjectLockStatePurge(
@@ -556,7 +567,10 @@ sub WebserviceList {
     }
 
     # get the cache TTL (in seconds)
-    my $CacheTTL = int( $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::WebserviceConfig::CacheTTL') || 3600 );
+    my $CacheTTL
+        = int(
+        $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::WebserviceConfig::CacheTTL')
+            || 3600 );
 
     # set cache
     $CacheObject->Set(

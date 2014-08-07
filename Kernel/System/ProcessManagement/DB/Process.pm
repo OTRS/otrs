@@ -65,12 +65,13 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{EntityObject}           = Kernel::System::ProcessManagement::DB::Entity->new();
-    $Self->{ActivityDialogObject}   = Kernel::System::ProcessManagement::DB::ActivityDialog->new();
-    $Self->{ActivityObject}         = Kernel::System::ProcessManagement::DB::Activity->new();
-    $Self->{StateObject}            = Kernel::System::ProcessManagement::DB::Process::State->new();
-    $Self->{TransitionObject}       = Kernel::System::ProcessManagement::DB::Transition->new();
-    $Self->{TransitionActionObject} = Kernel::System::ProcessManagement::DB::TransitionAction->new();
+    $Self->{EntityObject}         = Kernel::System::ProcessManagement::DB::Entity->new();
+    $Self->{ActivityDialogObject} = Kernel::System::ProcessManagement::DB::ActivityDialog->new();
+    $Self->{ActivityObject}       = Kernel::System::ProcessManagement::DB::Activity->new();
+    $Self->{StateObject}          = Kernel::System::ProcessManagement::DB::Process::State->new();
+    $Self->{TransitionObject}     = Kernel::System::ProcessManagement::DB::Transition->new();
+    $Self->{TransitionActionObject}
+        = Kernel::System::ProcessManagement::DB::TransitionAction->new();
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL} = int( $Kernel::OM->Get('Kernel::Config')->Get('Process::CacheTTL') || 3600 );
@@ -226,7 +227,8 @@ sub ProcessDelete {
     # check needed stuff
     for my $Key (qw(ID UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
@@ -324,7 +326,8 @@ sub ProcessGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{EntityID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ID or EntityID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need ID or EntityID!' );
         return;
     }
 
@@ -590,7 +593,8 @@ sub ProcessUpdate {
     # check needed stuff
     for my $Key (qw(ID EntityID Name StateEntityID Layout Config UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }

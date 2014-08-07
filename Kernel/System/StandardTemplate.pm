@@ -258,8 +258,6 @@ sub StandardTemplateUpdate {
         }
     }
 
-
-
     # sql
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
@@ -349,7 +347,8 @@ sub StandardTemplateLookup {
 
     # check if data exists
     if ( !exists $Self->{"StandardTemplate$Suffix"} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Found no \$$Suffix!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Found no \$$Suffix!" );
         return;
     }
 

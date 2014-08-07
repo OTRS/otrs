@@ -74,7 +74,8 @@ sub TaskAdd {
     # check needed stuff
     for my $Key (qw(Type Data)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
@@ -103,7 +104,8 @@ sub TaskAdd {
     my $Data = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Param{Data} );
 
     # check if Data fits in the database
-    my $MaxDataLength = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::TaskDataLength') || 8_000;
+    my $MaxDataLength
+        = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::TaskDataLength') || 8_000;
 
     if ( length $Data > $MaxDataLength ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -234,7 +236,7 @@ sub TaskDelete {
         if ( !$Param{$Key} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message => "Need $Key!",
+                Message  => "Need $Key!",
             );
             return;
         }
@@ -317,7 +319,8 @@ sub TaskUpdate {
     # check needed stuff
     for my $Key (qw(ID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
@@ -366,7 +369,8 @@ sub TaskUpdate {
         $Data = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Param{Data} );
 
         # check if Data fits in the database
-        my $MaxDataLength = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::TaskDataLength') || 8_000;
+        my $MaxDataLength
+            = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::TaskDataLength') || 8_000;
 
         if ( length $Data > $MaxDataLength ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(

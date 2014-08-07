@@ -427,7 +427,8 @@ Returns:
 sub GeneratePackageList {
     my ( $Self, %Param ) = @_;
 
-    my @PackageList = $Kernel::OM->Get('Kernel::System::Package')->RepositoryList( Result => 'Short' );
+    my @PackageList
+        = $Kernel::OM->Get('Kernel::System::Package')->RepositoryList( Result => 'Short' );
 
     # get csv object
     my $CSVObject = $Kernel::OM->Get('Kernel::System::CSV');
@@ -572,7 +573,8 @@ sub _GetCustomFileList {
     # check needed stuff
     for my $Needed (qw(Directory)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Needed!" );
             return;
         }
     }

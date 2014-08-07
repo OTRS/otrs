@@ -147,7 +147,7 @@ sub GetSignature {
     if ( !$Param{QueueID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message => 'Need QueueID!',
+            Message  => 'Need QueueID!',
         );
         return;
     }

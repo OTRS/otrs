@@ -39,7 +39,7 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for ( qw( LayoutObject UserID ) ) {
+    for (qw( LayoutObject UserID )) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 

@@ -232,7 +232,7 @@ my $ContentARRAYRef = $MainObject->FileRead(
     Directory => $ConfigObject->Get('TempDir'),
     Filename  => $FileLocation,
     Mode      => 'utf8',
-    Result    => 'ARRAY',                                 # optional - SCALAR|ARRAY
+    Result    => 'ARRAY',                         # optional - SCALAR|ARRAY
 );
 $Self->True(
     $ContentARRAYRef || '',

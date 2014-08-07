@@ -40,9 +40,9 @@ sub new {
     $Self->{CacheObject}  //= $Kernel::OM->Get('Kernel::System::Cache');
     $Self->{DBObject}     //= $Kernel::OM->Get('Kernel::System::DB');
     $Self->{LogObject}    //= $Kernel::OM->Get('Kernel::System::Log');
-    $Self->{GroupObject}   //= $Kernel::OM->Get('Kernel::System::Group');
+    $Self->{GroupObject}  //= $Kernel::OM->Get('Kernel::System::Group');
     $Self->{LockObject}   //= $Kernel::OM->Get('Kernel::System::Lock');
-    $Self->{StateObject} //= $Kernel::OM->Get('Kernel::System::State');
+    $Self->{StateObject}  //= $Kernel::OM->Get('Kernel::System::State');
     $Self->{TicketObject} //= $Kernel::OM->Get('Kernel::System::Ticket');
 
     return $Self;

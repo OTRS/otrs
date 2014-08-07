@@ -231,7 +231,7 @@ sub _ObjectBuild {
         $ObjectManagerAware = ${ $Package . '::ObjectManagerAware' } // 0;
 
         if ( ${ $Package . '::ObjectManagerDisabled' } ) {
-            $Self->_DieWithError(Error => "$Package cannot be loaded via ObjectManager!");
+            $Self->_DieWithError( Error => "$Package cannot be loaded via ObjectManager!" );
         }
 
         use strict 'refs';
@@ -498,7 +498,7 @@ sub ObjectsDiscard {
     # (but not infinitely)
     if ( !$Param{Objects} && keys %{ $Self->{Objects} } ) {
         if ( $Self->{DestroyAttempts} && $Self->{DestroyAttempts} > 3 ) {
-            $Self->_DieWithError(Error => "Loop while destroying objects!");
+            $Self->_DieWithError( Error => "Loop while destroying objects!" );
         }
 
         $Self->{DestroyAttempts}++;
@@ -541,7 +541,7 @@ sub _DieWithError {
             Priority => 'Error',
             Message  => $Param{Error},
         );
-        confess $Param{Error}; # this will die()
+        confess $Param{Error};    # this will die()
     }
 
     carp $Param{Error};

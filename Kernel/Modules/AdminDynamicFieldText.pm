@@ -630,9 +630,10 @@ sub _ShowScreen {
                 $Self->{LayoutObject}->Block(
                     Name => 'RegExRow',
                     Data => {
-                        EntryCounter     => $CurrentRegExEntryID,
-                        RegEx            => $Param{ 'RegEx_' . $CurrentRegExEntryID },
-                        RegExServerError => $Param{ 'RegEx_' . $CurrentRegExEntryID . 'ServerError' }
+                        EntryCounter => $CurrentRegExEntryID,
+                        RegEx        => $Param{ 'RegEx_' . $CurrentRegExEntryID },
+                        RegExServerError =>
+                            $Param{ 'RegEx_' . $CurrentRegExEntryID . 'ServerError' }
                             || '',
                         RegExServerErrorMessage =>
                             $Param{ 'RegEx_' . $CurrentRegExEntryID . 'ServerErrorMessage' } || '',
@@ -647,7 +648,9 @@ sub _ShowScreen {
                             || '',
                         CustomerRegExErrorMessageServerErrorMessage =>
                             $Param{
-                            'CustomerRegExErrorMessage_' . $CurrentRegExEntryID . 'ServerErrorMessage'
+                            'CustomerRegExErrorMessage_'
+                                . $CurrentRegExEntryID
+                                . 'ServerErrorMessage'
                             }
                             || '',
                         }

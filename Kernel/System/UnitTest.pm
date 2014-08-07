@@ -248,12 +248,12 @@ sub Run {
         print $XML;
     }
 
-    if ($Param{SubmitURL}) {
+    if ( $Param{SubmitURL} ) {
         $Self->{EncodeObject}->EncodeOutput( \$XML );
 
-        my $RPC = SOAP::Lite->new (
+        my $RPC = SOAP::Lite->new(
             proxy => $Param{SubmitURL},
-            uri => 'http://localhost/Core',
+            uri   => 'http://localhost/Core',
         );
 
         my $Key = $RPC->Submit( '', '', $XML )->result();

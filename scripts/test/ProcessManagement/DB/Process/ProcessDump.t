@@ -16,13 +16,15 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $ActivityObject         = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
-my $ActivityDialogObject   = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
-my $ProcessObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
-my $TransitionObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
-my $TransitionActionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
+my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ActivityObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
+my $ActivityDialogObject
+    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
+my $ProcessObject    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
+my $TransitionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
+my $TransitionActionObject
+    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
 
 # define needed variables
 my $RandomID = $HelperObject->GetRandomID();

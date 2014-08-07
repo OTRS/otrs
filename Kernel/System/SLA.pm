@@ -53,7 +53,8 @@ sub new {
     bless( $Self, $Type );
 
     # get configured preferences object
-    my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('SLA::PreferencesModule') || 'Kernel::System::SLA::PreferencesDB';
+    my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('SLA::PreferencesModule')
+        || 'Kernel::System::SLA::PreferencesDB';
 
     # get preferences object
     $Self->{PreferencesObject} = $Kernel::OM->Get($GeneratorModule);
@@ -78,7 +79,8 @@ sub SLAList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 
@@ -175,7 +177,8 @@ sub SLAGet {
     # check needed stuff
     for my $Argument (qw(SLAID UserID)) {
         if ( !$Param{$Argument} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Argument!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Argument!" );
             return;
         }
     }

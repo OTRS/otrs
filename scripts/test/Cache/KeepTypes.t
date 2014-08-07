@@ -15,8 +15,8 @@ use vars qw($Self);
 
 use Kernel::System::Cache;
 
-my $ConfigObject = $Kernel::OM->Get('ConfigObject');
-my $HomeDir = $ConfigObject->Get('Home');
+my $ConfigObject       = $Kernel::OM->Get('ConfigObject');
+my $HomeDir            = $ConfigObject->Get('Home');
 my @BackendModuleFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
     Directory => $HomeDir . '/Kernel/System/Cache/',
     Filter    => '*.pm',
@@ -52,20 +52,20 @@ for my $ModuleFile (@BackendModuleFiles) {
     my $SetCaches = sub {
         $Self->True(
             $CacheObject->Set(
-                Type => 'A',
-                Key  => 'A',
+                Type  => 'A',
+                Key   => 'A',
                 Value => 'A',
-                TTL => 60 * 60 * 24 * 20,
+                TTL   => 60 * 60 * 24 * 20,
             ),
             "Set A/A",
         );
 
         $Self->True(
             $CacheObject->Set(
-                Type => 'B',
-                Key  => 'B',
+                Type  => 'B',
+                Key   => 'B',
                 Value => 'B',
-                TTL => 60 * 60 * 24 * 20,
+                TTL   => 60 * 60 * 24 * 20,
             ),
             "Set B/B",
         );
@@ -74,18 +74,18 @@ for my $ModuleFile (@BackendModuleFiles) {
     $SetCaches->();
 
     $Self->True(
-        $CacheObject->CleanUp( Type => 'C'),
+        $CacheObject->CleanUp( Type => 'C' ),
         "Inexistent cache type removed",
     );
 
     $Self->Is(
-        $CacheObject->Get( Type => 'A', Key => 'A'),
+        $CacheObject->Get( Type => 'A', Key => 'A' ),
         'A',
         "Cache A/A is present",
     );
 
     $Self->Is(
-        $CacheObject->Get( Type => 'B', Key => 'B'),
+        $CacheObject->Get( Type => 'B', Key => 'B' ),
         'B',
         "Cache B/B is present",
     );
@@ -93,17 +93,17 @@ for my $ModuleFile (@BackendModuleFiles) {
     $SetCaches->();
 
     $Self->True(
-        $CacheObject->CleanUp( Type => 'A'),
+        $CacheObject->CleanUp( Type => 'A' ),
         "Cache type A removed",
     );
 
     $Self->False(
-        $CacheObject->Get( Type => 'A', Key => 'A'),
+        $CacheObject->Get( Type => 'A', Key => 'A' ),
         "Cache A/A is not present",
     );
 
     $Self->Is(
-        $CacheObject->Get( Type => 'B', Key => 'B'),
+        $CacheObject->Get( Type => 'B', Key => 'B' ),
         'B',
         "Cache B/B is present",
     );
@@ -111,18 +111,18 @@ for my $ModuleFile (@BackendModuleFiles) {
     $SetCaches->();
 
     $Self->True(
-        $CacheObject->CleanUp( KeepTypes => ['A']),
+        $CacheObject->CleanUp( KeepTypes => ['A'] ),
         "All cache types removed except A",
     );
 
     $Self->Is(
-        $CacheObject->Get( Type => 'A', Key => 'A'),
+        $CacheObject->Get( Type => 'A', Key => 'A' ),
         'A',
         "Cache A/A is present",
     );
 
     $Self->False(
-        $CacheObject->Get( Type => 'B', Key => 'B'),
+        $CacheObject->Get( Type => 'B', Key => 'B' ),
         "Cache B/B is not present",
     );
 
@@ -134,12 +134,12 @@ for my $ModuleFile (@BackendModuleFiles) {
     );
 
     $Self->False(
-        $CacheObject->Get( Type => 'A', Key => 'A'),
+        $CacheObject->Get( Type => 'A', Key => 'A' ),
         "Cache A/A is not present",
     );
 
     $Self->False(
-        $CacheObject->Get( Type => 'B', Key => 'B'),
+        $CacheObject->Get( Type => 'B', Key => 'B' ),
         "Cache B/B is not present",
     );
 

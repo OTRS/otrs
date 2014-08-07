@@ -24,7 +24,8 @@ my $LinkObject              = $Kernel::OM->Get('Kernel::System::LinkObject');
 my $StateObject             = $Kernel::OM->Get('Kernel::System::State');
 my $TimeObject              = $Kernel::OM->Get('Kernel::System::Time');
 my $UserObject              = $Kernel::OM->Get('Kernel::System::User');
-my $ModuleObject            = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketCreate');
+my $ModuleObject
+    = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketCreate');
 
 # define variables
 my $UserID     = 1;

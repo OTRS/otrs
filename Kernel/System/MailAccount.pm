@@ -80,13 +80,15 @@ sub MailAccountAdd {
     # check needed stuff
     for (qw(Login Password Host ValidID Trusted DispatchingBy QueueID UserID)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "$_ not defined!" );
             return;
         }
     }
     for (qw(Login Password Host Type ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -96,7 +98,8 @@ sub MailAccountAdd {
         $Param{QueueID} = 0;
     }
     elsif ( $Param{DispatchingBy} eq 'Queue' && !$Param{QueueID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need QueueID for dispatching!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Need QueueID for dispatching!" );
         return;
     }
 
@@ -237,7 +240,8 @@ sub MailAccountUpdate {
     # check needed stuff
     for (qw(ID Login Password Host Type ValidID Trusted DispatchingBy QueueID UserID)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -247,7 +251,8 @@ sub MailAccountUpdate {
         $Param{QueueID} = 0;
     }
     elsif ( $Param{DispatchingBy} eq 'Queue' && !$Param{QueueID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need QueueID for dispatching!" );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => "Need QueueID for dispatching!" );
         return;
     }
 
@@ -353,7 +358,7 @@ sub MailAccountBackendList {
 
     my $Directory = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/System/MailAccount/';
 
-    my @List      = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+    my @List = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => $Directory,
         Filter    => '*.pm',
     );
@@ -399,7 +404,8 @@ sub MailAccountFetch {
     # check needed stuff
     for (qw(Login Password Host Type Trusted DispatchingBy QueueID UserID)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -439,7 +445,8 @@ sub MailAccountCheck {
     # check needed stuff
     for (qw(Login Password Host Type Timeout Debug)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }

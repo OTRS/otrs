@@ -16,11 +16,12 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
-my $CacheObject      = $Kernel::OM->Get('Kernel::System::Cache');
-my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $TransitionActionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
-my $EntityObject     = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $CacheObject  = $Kernel::OM->Get('Kernel::System::Cache');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $TransitionActionObject
+    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
+my $EntityObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
 
 # set fixed time
 $HelperObject->FixedTimeSet();

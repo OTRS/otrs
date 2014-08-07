@@ -49,7 +49,8 @@ sub FormIDRemove {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{FormID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need FormID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need FormID!' );
         return;
     }
 
@@ -74,7 +75,8 @@ sub FormIDAddFile {
 
     for (qw(FormID Filename Content ContentType)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -130,7 +132,8 @@ sub FormIDRemoveFile {
 
     for (qw(FormID FileID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -166,7 +169,8 @@ sub FormIDGetAllFilesData {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{FormID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need FormID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need FormID!' );
         return;
     }
 
@@ -260,7 +264,8 @@ sub FormIDGetAllFilesMeta {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{FormID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need FormID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need FormID!' );
         return;
     }
 
@@ -346,7 +351,7 @@ sub FormIDGetAllFilesMeta {
 sub FormIDCleanUp {
     my ( $Self, %Param ) = @_;
 
-    my $CurrentTile = time() - 86400;                       # 60 * 60 * 24 * 1
+    my $CurrentTile = time() - 86400;                                            # 60 * 60 * 24 * 1
     my @List        = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => $Self->{TempDir},
         Filter    => '*'

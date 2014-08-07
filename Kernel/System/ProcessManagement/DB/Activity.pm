@@ -269,7 +269,8 @@ sub ActivityGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{EntityID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ID or EntityID!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need ID or EntityID!' );
         return;
     }
 
@@ -358,7 +359,8 @@ sub ActivityGet {
         if ( IsHashRefWithData( $Data{Config}->{ActivityDialog} ) ) {
 
             # get activity dialog object
-            my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
+            my $ActivityDialogObject
+                = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
 
             my $ActivityDialogList = $ActivityDialogObject->ActivityDialogList(
                 UseEntities => 1,
@@ -416,7 +418,8 @@ sub ActivityUpdate {
     # check needed stuff
     for my $Key (qw(ID EntityID Name Config UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $Key!" );
             return;
         }
     }
