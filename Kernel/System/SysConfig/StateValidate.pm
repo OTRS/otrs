@@ -34,13 +34,11 @@ All functions for the StateValidate checks.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::System::SysConfig::StateValidate;
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-
-    my $StateValidateObject = Kernel::System::SysConfig::StateValidate->new();
+    my $StateValidateObject = $Kernel::OM->Get('Kernel::System::SysConfig::StateValidate');
 
 =cut
 
@@ -50,13 +48,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    for my $Object (
-        qw( StateObject)
-        )
-    {
-        $Self->{$Object} = $Kernel::OM->Get($Object);
-    }
 
     # set the debug flag
     $Self->{Debug} = $Param{Debug} || 0;

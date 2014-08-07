@@ -34,13 +34,11 @@ All functions for the QueueValidate checks.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::System::SysConfig::QueueValidate;
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-
-    my $QueueValidateObject = Kernel::System::SysConfig::QueueValidate->new();
+    my $QueueValidateObject = $Kernel::OM->Get('Kernel::System::SysConfig::QueueValidate');
 
 =cut
 
@@ -50,14 +48,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # check needed objects
-    for my $Object (
-        qw( QueueObject)
-        )
-    {
-        $Self->{$Object} = $Kernel::OM->Get($Object);
-    }
 
     # set the debug flag
     $Self->{Debug} = $Param{Debug} || 0;

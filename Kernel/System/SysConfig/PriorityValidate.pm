@@ -34,13 +34,11 @@ All functions for the PriorityValidate checks.
 
 =item new()
 
-create an object
+create an object. Do not use it directly, instead use:
 
-    use Kernel::System::SysConfig::PriorityValidate;
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-
-    my $PriorityValidateObject = Kernel::System::SysConfig::PriorityValidate->new();
+    my $PriorityValidateObject = $Kernel::OM->Get('Kernel::System::SysConfig::PriorityValidate');
 
 =cut
 
@@ -50,13 +48,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    for my $Object (
-        qw( PriorityObject)
-        )
-    {
-        $Self->{$Object} = $Kernel::OM->Get($Object);
-    }
 
     # set the debug flag
     $Self->{Debug} = $Param{Debug} || 0;
