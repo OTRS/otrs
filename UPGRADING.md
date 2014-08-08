@@ -90,7 +90,13 @@ In this case the RPM update automatically restores the old configuration files.
 
 Note: The OTRS themes of 3.3 are NOT compatible with 3.4, so don't use your old themes!
 
-Themes are located under `$OTRS_HOME/Kernel/Output/HTML/*/*.dtl` (default: `OTRS_HOME=/opt/otrs`)
+Themes are located under `$OTRS_HOME/Kernel/Output/HTML/*/*.tt` (default: `OTRS_HOME=/opt/otrs`)
+
+Please note that OTRS 3.4 comes with a new templating engine based on
+[Template::Toolkit](http://www.template-toolkit.org). All customized templates must be converted from
+DTL to the new format. Please see
+[the development manual](http://otrs.github.io/doc/manual/developer/3.4/en/html/package-porting.html#package-porting-template-engine)
+for detailed instructions.
 
 
 7. Set file permissions
