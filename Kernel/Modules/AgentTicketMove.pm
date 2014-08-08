@@ -653,48 +653,59 @@ sub Run {
             BodyClass => 'Popup',
         );
 
-        # get lock state && write (lock) permissions
-        if ( !$Self->{TicketObject}->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
+        # check if lock is required
+        if ( $Self->{Config}->{RequiredLock} ) {
 
-            # set owner
-            $Self->{TicketObject}->TicketOwnerSet(
-                TicketID  => $Self->{TicketID},
-                UserID    => $Self->{UserID},
-                NewUserID => $Self->{UserID},
-            );
+            # get lock state && write (lock) permissions
+            if ( !$Self->{TicketObject}->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
 
-            # set lock
-            my $Success = $Self->{TicketObject}->TicketLockSet(
-                TicketID => $Self->{TicketID},
-                Lock     => 'lock',
-                UserID   => $Self->{UserID}
-            );
+                # set owner
+                $Self->{TicketObject}->TicketOwnerSet(
+                    TicketID  => $Self->{TicketID},
+                    UserID    => $Self->{UserID},
+                    NewUserID => $Self->{UserID},
+                );
 
-            # show lock state
-            if ($Success) {
+                # set lock
+                my $Success = $Self->{TicketObject}->TicketLockSet(
+                    TicketID => $Self->{TicketID},
+                    Lock     => 'lock',
+                    UserID   => $Self->{UserID}
+                );
+
+                # show lock state
+                if ($Success) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'PropertiesLock',
+                        Data => { %Param, TicketID => $Self->{TicketID} },
+                    );
+                    $Self->{TicketUnlock} = 1;
+                }
+            }
+            else {
+                my $AccessOk = $Self->{TicketObject}->OwnerCheck(
+                    TicketID => $Self->{TicketID},
+                    OwnerID  => $Self->{UserID},
+                );
+                if ( !$AccessOk ) {
+                    $Output .= $Self->{LayoutObject}->Warning(
+                        Message => "Sorry, you need to be the ticket owner to perform this action.",
+                        Comment => 'Please change the owner first.',
+                    );
+                    $Output .= $Self->{LayoutObject}->Footer(
+                        Type => 'Small',
+                    );
+                    return $Output;
+                }
+
+                # show back link
                 $Self->{LayoutObject}->Block(
-                    Name => 'PropertiesLock',
+                    Name => 'TicketBack',
                     Data => { %Param, TicketID => $Self->{TicketID} },
                 );
-                $Self->{TicketUnlock} = 1;
             }
         }
         else {
-            my $AccessOk = $Self->{TicketObject}->OwnerCheck(
-                TicketID => $Self->{TicketID},
-                OwnerID  => $Self->{UserID},
-            );
-            if ( !$AccessOk ) {
-                $Output .= $Self->{LayoutObject}->Warning(
-                    Message => "Sorry, you need to be the ticket owner to perform this action.",
-                    Comment => 'Please change the owner first.',
-                );
-                $Output .= $Self->{LayoutObject}->Footer(
-                    Type => 'Small',
-                );
-                return $Output;
-            }
-
             # show back link
             $Self->{LayoutObject}->Block(
                 Name => 'TicketBack',
