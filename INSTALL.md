@@ -170,7 +170,7 @@ For example:
 -----------------
 
 If you use MySQL, you can use the Web based installer (http://yourhost/otrs/installer.pl).
-Otherwise, please follow README.database for instructions.
+Otherwise, please follow [README.database.md](README.database.md) for instructions.
 
 9. First login
 --------------
@@ -212,14 +212,14 @@ Make sure to execute it as the OTRS system user!
 
         shell> /opt/otrs/bin/Cron.sh stop
 
-Note: From OTRS 3.3.7 OTRS Scheduler uses a cronjob to start-up and keep alive. Please make sure
+Note: From OTRS 3.3.7 on OTRS Scheduler uses a cronjob to start-up and keep alive. Please make sure
 that scheduler_watchdog cronjob is activated.
 
 Notes
 =====
 
-We advise you to read the OTRS performance tuning chapter on our homepage:
-http://doc.otrs.org/3.3/en/html/performance-tuning.html.
+We advise you to read the OTRS performance tuning chapter in the
+[admin manual](http://doc.otrs.org/3.4/en/html/performance-tuning.html).
 
 If you encounter problems with the installation, you can send a message to our
 mailing list otrs@otrs.org (http://lists.otrs.org/).
