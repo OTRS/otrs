@@ -823,13 +823,16 @@ sub _Print {
         $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Result} = 'not ok';
         $Self->{XML}->{Test}->{ $Self->{XMLUnit} }->{ $Self->{TestCount} }->{Name}   = $Name;
 
-        my $ShortName = $Name;
-        $ShortName =~ s{\(.+\)$}{};
+        my $TestFailureDetails = $Name;
+        $TestFailureDetails =~ s{\(.+\)$}{};
+        if (length $TestFailureDetails > 200) {
+            $TestFailureDetails = substr($TestFailureDetails, 0, 200) . "...";
+        }
 
         # Store information about failed tests, but only if we are running in a toplevel unit test object
         #   that is actually processing filed, and not in an embedded object that just runs individual tests.
         if (ref $Self->{NotOkInfo} eq 'ARRAY') {
-            push @{ $Self->{NotOkInfo}->[-1] }, sprintf "%s - %s", $Self->{TestCount}, $ShortName;
+            push @{ $Self->{NotOkInfo}->[-1] }, sprintf "%s - %s", $Self->{TestCount}, $TestFailureDetails;
         }
 
         return;
