@@ -1,4 +1,5 @@
 #3.3.9 2014-??-??
+ - 2014-08-08 Fixed bug#[10606](http://bugs.otrs.org/show_bug.cgi?id=10606) - Dynamic fields in dashboard overview are empty.
  - 2014-08-07 Fixed bug#[6284](http://bugs.otrs.org/show_bug.cgi?id=6284) - Problem with unicode characters when using FastCGI.
  - 2014-08-07 Updated Danish translation, thanks to Lars Jørgensen.
  - 2014-08-01 Fixed bug#[10670](http://bugs.otrs.org/show_bug.cgi?id=10670) - It is possible to start the scheduler more than once.
