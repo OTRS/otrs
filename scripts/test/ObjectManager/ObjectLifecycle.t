@@ -32,13 +32,12 @@ my %Exclude = (
 );
 @Objects = grep { !$Exclude{$_} } @Objects;
 
-my %AllObjects = $Kernel::OM->ObjectHash(
-    Objects => \@Objects,
-);
+my %AllObjects;
 
 for my $Object (@Objects) {
     my $AliasObject   = $Kernel::OM->Get($Object);
     my $PackageObject = $Kernel::OM->Get( $ObjectAliases{$Object} );
+    $AllObjects{$Object} = $PackageObject;
     $Self->True(
         $AliasObject,
         "ObjectManager could create $Object",
@@ -63,28 +62,31 @@ for my $ObjectName ( sort keys %AllObjects ) {
     );
 }
 
-my %SomeObjects = $Kernel::OM->ObjectHash(
-    Objects => [ 'ConfigObject', 'TicketObject', 'DBObject' ],
+my %SomeObjects = (
+    'Kernel::Config'         => $Kernel::OM->Get('Kernel::Config'),
+    'Kernel::System::DB'     => $Kernel::OM->Get('Kernel::System::DB'),
+    'Kernel::System::Ticket' => $Kernel::OM->Get('Kernel::System::Ticket'),
 );
+
 for my $ObjectName ( sort keys %SomeObjects ) {
     weaken( $SomeObjects{$ObjectName} );
 }
 
 $Kernel::OM->ObjectsDiscard(
-    Objects => ['DBObject'],
+    Objects => ['Kernel::System::DB'],
 );
 
 $Self->True(
-    !$SomeObjects{DBObject},
-    'ObjectDiscard discarded DBObject',
+    !$SomeObjects{'Kernel::System::DB'},
+    'ObjectDiscard discarded Kernel::System::DB',
 );
 $Self->True(
-    !$SomeObjects{TicketObject},
-    'ObjectDiscard discarded TicketObject, because it depends on DBObject',
+    !$SomeObjects{'Kernel::System::Ticket'},
+    'ObjectDiscard discarded Kernel::System::Ticket, because it depends on Kernel::System::DB',
 );
 $Self->True(
-    $SomeObjects{ConfigObject},
-    'ObjectDiscard did not discard ConfigObject',
+    $SomeObjects{'Kernel::Config'},
+    'ObjectDiscard did not discard Kernel::Config',
 );
 
 # test custom objects

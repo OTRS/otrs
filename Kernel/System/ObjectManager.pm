@@ -304,34 +304,6 @@ sub ObjectInstanceRegister {
     return 1;
 }
 
-=item ObjectHash()
-
-Please note that this method is DEPRECATED and will be removed in a future version of OTRS.
-
-Returns a hash of already instantiated objects.
-The keys are the object names, and the values are the objects themselves.
-
-This method is useful for creating objects of classes that are not aware of the object manager yet.
-
-    $SomeModule->new(
-        $Kernel::OM->ObjectHash(
-            Objects => ['TicketObject', 'DynamicFieldObject'],
-        ),
-    );
-
-=cut
-
-sub ObjectHash {
-    my ( $Self, %Param ) = @_;
-
-    my %Result;
-    for my $Object ( @{ $Param{Objects} // [] } ) {
-        $Result{$Object} = $Self->Get($Object);
-    }
-
-    return %Result;
-}
-
 =item ObjectParamAdd()
 
 Adds arguments that will be passed to constructors of classes
