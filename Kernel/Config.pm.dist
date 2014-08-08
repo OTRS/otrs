@@ -50,8 +50,6 @@ sub Load {
 #    $Self->{DatabaseDSN} = "DBI:Pg:dbname=$Self->{Database};";
     # if you want to use a TCP/IP connection
 #    $Self->{DatabaseDSN} = "DBI:Pg:dbname=$Self->{Database};host=$Self->{DatabaseHost};";
-    # if you have PostgresSQL 8.1 or earlier, activate the legacy driver with this line:
-#    $Self->{DatabasePostgresqlBefore82} = 1;
 
     # The database DSN for Microsoft SQL Server - only supported if OTRS is
     # installed on Windows as well

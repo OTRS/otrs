@@ -121,25 +121,6 @@ if ( $DBObject->GetDatabaseFunction('Type') eq 'postgresql' ) {
         'Quote() Like-String - Block[12]Block[12]',
     );
 }
-elsif ( $DBObject->GetDatabaseFunction('Type') eq 'postgresql_before_8_2' ) {
-    $Self->Is(
-        $DBObject->Quote("Test'l"),
-        'Test\'\'l',
-        'Quote() String - Test\'l',
-    );
-
-    $Self->Is(
-        $DBObject->Quote("Test'l;"),
-        'Test\'\'l\\;',
-        'Quote() String - Test\'l;',
-    );
-
-    $Self->Is(
-        $DBObject->Quote( "Block[12]Block[12]", 'Like' ),
-        'Block[12]Block[12]',
-        'Quote() Like-String - Block[12]Block[12]',
-    );
-}
 elsif ( $DBObject->GetDatabaseFunction('Type') eq 'oracle' ) {
     $Self->Is(
         $DBObject->Quote("Test'l"),

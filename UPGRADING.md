@@ -159,22 +159,12 @@ MySQL:
 
     shell> cat scripts/DBUpdate-to-3.4.mysql.sql | mysql -p -f -u root otrs
 
-PostgreSQL 8.2+:
+PostgreSQL:
 
     shell> cat scripts/DBUpdate-to-3.4.postgresql.sql | psql --set ON_ERROR_STOP=on --single-transaction otrs otrs
 
-PostgreSQL, older versions:
 
-    shell> cat scripts/DBUpdate-to-3.4.postgresql_before_8_2.sql | psql --set ON_ERROR_STOP=on --single-transaction otrs otrs
-
-
- NOTE: If you use PostgreSQL 8.1 or earlier, you need to activate the new legacy driver
- for these older versions. Do this by adding a new line to your Kernel/Config.pm like this:
-
-    $Self->{DatabasePostgresqlBefore82} = 1;
-
-
-### DATABASE MIGRATION SCRIPT
+ ### DATABASE MIGRATION SCRIPT
 
  Run the migration script (as user `otrs`, NOT as `root`):
 

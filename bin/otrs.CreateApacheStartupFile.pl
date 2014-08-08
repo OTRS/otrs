@@ -145,9 +145,6 @@ sub GetPackageList {
     elsif ( $DBType =~ /postgresql/smxi ) {
         push @Packages, 'DBD::Pg', 'Kernel::System::DB::postgresql';
     }
-    elsif ( $DBType =~ /postgresql_before_8_2/smxi ) {
-        push @Packages, 'DBD::Pg', 'Kernel::System::DB::postgresql_before_8_2';
-    }
     elsif ( $DBType eq 'oracle' ) {
         push @Packages, 'DBD::Oracle', 'Kernel::System::DB::oracle';
     }

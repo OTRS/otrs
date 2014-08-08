@@ -2,7 +2,7 @@ Supported Database Systems
 ==========================
 
 - MySQL 5.0+
-- PostgreSQL 7+, 8.2+ recommended
+- PostgreSQL 8.4+
 - MSSQL 2005+
 - Oracle
 
@@ -18,17 +18,11 @@ MySQL files:
     $HOME_OTRS/scripts/database/otrs-initial_insert.mysql.sql
     $HOME_OTRS/scripts/database/otrs-schema-post.mysql.sql
 
-PostgreSQL 8.2+ files:
----------------------
+PostgreSQL:
+----------------
     $HOME_OTRS/scripts/database/otrs-schema.postgresql.sql
     $HOME_OTRS/scripts/database/otrs-initial_insert.postgresql.sql
     $HOME_OTRS/scripts/database/otrs-schema-post.postgresql.sql
-
-PostgreSQL files for older systems:
------------------------------------
-    $HOME_OTRS/scripts/database/otrs-schema.postgresql_before_8_2.sql
-    $HOME_OTRS/scripts/database/otrs-initial_insert.postgresql_before_8_2.sql
-    $HOME_OTRS/scripts/database/otrs-schema-post.postgresql_before_8_2.sql
 
 MSSQL files:
 ----------------
@@ -81,7 +75,7 @@ the default on most linux distributions.
 
 Please refer to your database manuals for details. You can find general
 instructions, which might be slightly different for your specific linux
-version, here: https://help.ubuntu.com/10.04/serverguide/C/postgresql.html
+version, here: https://help.ubuntu.com/14.04/serverguide/postgresql.html
 
 Create a user for the database:
 -------------------------------
@@ -94,20 +88,14 @@ Create OTRS database:
 Create the OTRS tables:
 -----------------------
     shell> psql otrs < scripts/database/otrs-schema.postgresql.sql
- or
-    shell> psql otrs < scripts/database/otrs-schema.postgresql_before_8_2.sql
 
 Insert initial data:
 -------------------
     shell> psql otrs < scripts/database/otrs-initial_insert.postgresql.sql
- or
-    shell> psql otrs < scripts/database/otrs-initial_insert.postgresql_before_8_2.sql
 
 Create foreign keys to other tables:
 ------------------------------------
     shell> psql otrs < scripts/database/otrs-schema-post.postgresql.sql
- or
-    shell> psql otrs < scripts/database/otrs-schema-post.postgresql_before_8_2.sql
 
 
 OTRS Database Driver Configuration:
@@ -131,11 +119,6 @@ If you're using PostgreSQL you should remove the comment (#)
 before this line:
 
     #    $Self->{DatabaseDSN} = "DBI:Pg:dbname=$Self->{Database};host=$Self->{DatabaseHost};";
-
-If you have PostgresSQL 8.1 or earlier, activate the legacy driver by uncommenting this line:
-
-    #    $Self->{DatabasePostgresqlBefore82} = 1;
-
 
 Now save the file and run $OTRS_HOME/bin/otrs.CheckDB.pl to see if the connection
 is successful. If this is working, you can log in to OTRS using the web frontend.
