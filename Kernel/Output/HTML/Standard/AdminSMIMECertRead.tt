@@ -8,7 +8,7 @@
 # --
 <div class="LayoutPopup ARIARoleMain">
     <div class="Header">
-        <h1>[% Translate("SMIME Certificate") | html %]: [% Data.Filename | html %]</h1>
+        <h1>[% Translate("S/MIME Certificate") | html %]: [% Data.Filename | html %]</h1>
         <p>
             <a class="CancelClosePopup" href="#">[% Translate("Close window") | html %]</a>
         </p>
@@ -16,7 +16,7 @@
     <div class="Content">
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>Certificate details:</h2>
+                <h2>[% Translate('Certificate details') | html %]:</h2>
             </div>
             <div class="Content">
                 <code>[% Data.CertificateText %]</code>

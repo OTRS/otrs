@@ -61,7 +61,7 @@ $('#[% Data.SelectName %]').bind('change', function() {
             <div class="Content">
                 <div class="FieldExplanation">
                     <p>
-                        [% Translate("To add a new field, select the field type form one of the object's list, the object defines the boundary of the field and it can't be changed after the field creation.") | html %]
+                        [% Translate("To add a new field, select the field type from one of the object's list, the object defines the boundary of the field and it can't be changed after the field creation.") | html %]
                     </p>
                 </div>
             </div>

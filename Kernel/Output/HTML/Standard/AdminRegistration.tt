@@ -244,7 +244,7 @@
 [% RenderBlockStart("OTRSIDDeregistration") %]
                             <div class="ServiceDescription">
                                 <p>
-                                    [% Translate("If you deregister your system, you will loose these benefits:") | html %]
+                                    [% Translate("If you deregister your system, you will lose these benefits:") | html %]
                                 </p>
                                 <ul>
                                     <li>
