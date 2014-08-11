@@ -47,7 +47,7 @@ Usually you do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new(
-        DBObject => {
+        'Kernel::System::DB' => {
             # if you don't supply the following parameters, the ones found in
             # Kernel/Config.pm are used instead:
             DatabaseDSN  => 'DBI:odbc:database=123;host=localhost;',
