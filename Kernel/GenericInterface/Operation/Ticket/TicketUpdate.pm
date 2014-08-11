@@ -12,17 +12,11 @@ package Kernel::GenericInterface::Operation::Ticket::TicketUpdate;
 use strict;
 use warnings;
 
-use Kernel::System::Queue;
-use Kernel::System::State;
-use Kernel::System::CustomerUser;
-use Kernel::System::User;
-use Kernel::System::Ticket;
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
-
 use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
+
+our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
@@ -50,13 +44,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (
-        qw(
-        DebuggerObject ConfigObject MainObject LogObject TimeObject DBObject EncodeObject
-        WebserviceID
-        )
-        )
-    {
+    for my $Needed (qw( DebuggerObject WebserviceID )) {
         if ( !$Param{$Needed} ) {
             return {
                 Success      => 0,
@@ -67,18 +55,8 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    $Self->{QueueObject}        = Kernel::System::Queue->new( %{$Self} );
-    $Self->{StateObject}        = Kernel::System::State->new( %{$Self} );
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
-    $Self->{UserObject}         = Kernel::System::User->new( %{$Self} );
-    $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{DFBackendObject}    = Kernel::System::DynamicField::Backend->new(%Param);
-    $Self->{CommonObject}       = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
-    $Self->{TicketCommonObject}
-        = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
-
-    $Self->{Config} = $Self->{ConfigObject}->Get('GenericInterface::Operation::TicketUpdate');
+    $Self->{Config}
+        = $Kernel::OM->Get('Kernel::System::DB')->Get('GenericInterface::Operation::TicketUpdate');
 
     return $Self;
 }
@@ -141,7 +119,7 @@ perform TicketCreate Operation. This will return the created ticket number.
                 Subject                         => 'some subject',
                 Body                            => 'some body'
 
-                ContentType                     => 'some content type',        # ContentType or MimeType and Charset is requieed
+                ContentType                     => 'some content type',        # ContentType or MimeType and Charset is required
                 MimeType                        => 'some mime type',
                 Charset                         => 'some charset',
 
@@ -203,16 +181,21 @@ perform TicketCreate Operation. This will return the created ticket number.
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
+        DebuggerObject => $Self->{DebuggerObject},
+        WebserviceID   => $Self->{WebserviceID},
+    );
+
     # check needed stuff
     if ( !IsHashRefWithData( $Param{Data} ) ) {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return $TicketCommonObject->ReturnError(
             ErrorCode    => 'TicketUpdate.EmptyRequest',
             ErrorMessage => "TicketUpdate: The request data is invalid!",
         );
     }
 
     if ( !$Param{Data}->{TicketID} && !$Param{Data}->{TicketNumber} ) {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return $TicketCommonObject->ReturnError(
             ErrorCode    => 'TicketUpdate.MissingParameter',
             ErrorMessage => "TicketUpdate: TicketID or TicketNumber is required!",
         );
@@ -224,7 +207,7 @@ sub Run {
         && !$Param{Data}->{SessionID}
         )
     {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return $TicketCommonObject->ReturnError(
             ErrorCode    => 'TicketUpdate.MissingParameter',
             ErrorMessage => "TicketUpdate: UserLogin, CustomerUserLogin or SessionID is required!",
         );
@@ -234,31 +217,38 @@ sub Run {
 
         if ( !$Param{Data}->{Password} )
         {
-            return $Self->{TicketCommonObject}->ReturnError(
+            return $TicketCommonObject->ReturnError(
                 ErrorCode    => 'TicketUpdate.MissingParameter',
                 ErrorMessage => "TicketUpdate: Password or SessionID is required!",
             );
         }
     }
 
+    my $CommonObject = Kernel::GenericInterface::Operation::Common->new(
+        DebuggerObject => $Self->{DebuggerObject},
+    );
+
     # authenticate user
-    my ( $UserID, $UserType ) = $Self->{CommonObject}->Auth(%Param);
+    my ( $UserID, $UserType ) = $CommonObject->Auth(%Param);
 
     if ( !$UserID ) {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return $TicketCommonObject->ReturnError(
             ErrorCode    => 'TicketUpdate.AuthFail',
             ErrorMessage => "TicketUpdate: User could not be authenticated!",
         );
     }
 
     if ( $UserType eq 'Customer' ) {
-        $UserID = $Self->{ConfigObject}->Get('CustomerPanelUserID')
+        $UserID = $Kernel::OM->Get('Kernel::System::DB')->Get('CustomerPanelUserID')
     }
+
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # check TicketID
     my $TicketID;
     if ( $Param{Data}->{TicketNumber} ) {
-        $TicketID = $Self->{TicketObject}->TicketIDLookup(
+        $TicketID = $TicketObject->TicketIDLookup(
             TicketNumber => $Param{Data}->{TicketNumber},
             UserID       => $UserID,
         );
@@ -269,34 +259,34 @@ sub Run {
     }
 
     if ( !($TicketID) ) {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return $TicketCommonObject->ReturnError(
             ErrorCode    => 'TicketUpdate.AccessDenied',
             ErrorMessage => "TicketUpdate: User does not have access to the ticket!",
         );
     }
 
-    my %TicketData = $Self->{TicketObject}->TicketGet(
+    my %TicketData = $TicketObject->TicketGet(
         TicketID      => $TicketID,
         DynamicFields => 0,
         UserID        => $UserID,
     );
 
     if ( !IsHashRefWithData( \%TicketData ) ) {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return $TicketCommonObject->ReturnError(
             ErrorCode    => 'TicketUpdate.AccessDenied',
             ErrorMessage => "TicketUpdate: User does not have access to the ticket!",
         );
     }
 
     # check basic needed permissions
-    my $Access = $Self->{TicketObject}->TicketPermission(
+    my $Access = $TicketObject->TicketPermission(
         Type     => 'ro',
         TicketID => $TicketID,
         UserID   => $UserID
     );
 
     if ( !$Access ) {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return $TicketCommonObject->ReturnError(
             ErrorCode    => 'TicketUpdate.AccessDenied',
             ErrorMessage => "TicketUpdate: User does not have access to the ticket!",
         );
@@ -309,7 +299,7 @@ sub Run {
             && !IsHashRefWithData( $Param{Data}->{$Optional} )
             )
         {
-            return $Self->{TicketCommonObject}->ReturnError(
+            return $TicketCommonObject->ReturnError(
                 ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage => "TicketUpdate: $Optional parameter is not valid!",
             );
@@ -324,7 +314,7 @@ sub Run {
             && !IsArrayRefWithData( $Param{Data}->{$Optional} )
             )
         {
-            return $Self->{TicketCommonObject}->ReturnError(
+            return $TicketCommonObject->ReturnError(
                 ErrorCode    => 'TicketUpdate.MissingParameter',
                 ErrorMessage => "TicketUpdate: $Optional parameter is missing or not valid!",
             );
@@ -370,7 +360,7 @@ sub Run {
         );
 
         if ( !$TicketCheck->{Success} ) {
-            return $Self->{TicketCommonObject}->ReturnError( %{$TicketCheck} );
+            return $TicketCommonObject->ReturnError( %{$TicketCheck} );
         }
     }
 
@@ -434,7 +424,7 @@ sub Run {
                     %{$ArticleCheck},
                     }
             }
-            return $Self->{TicketCommonObject}->ReturnError( %{$ArticleCheck} );
+            return $TicketCommonObject->ReturnError( %{$ArticleCheck} );
         }
     }
 
@@ -445,7 +435,7 @@ sub Run {
         # isolate DynamicField parameter
         $DynamicField = $Param{Data}->{DynamicField};
 
-        # homologate imput to array
+        # homogenate input to array
         if ( ref $DynamicField eq 'HASH' ) {
             push @DynamicFieldList, $DynamicField;
         }
@@ -482,7 +472,7 @@ sub Run {
             );
 
             if ( !$DynamicFieldCheck->{Success} ) {
-                return $Self->{TicketCommonObject}->ReturnError( %{$DynamicFieldCheck} );
+                return $TicketCommonObject->ReturnError( %{$DynamicFieldCheck} );
             }
         }
     }
@@ -494,7 +484,7 @@ sub Run {
         # isolate Attachment parameter
         $Attachment = $Param{Data}->{Attachment};
 
-        # homologate imput to array
+        # homogenate input to array
         if ( ref $Attachment eq 'HASH' ) {
             push @AttachmentList, $Attachment;
         }
@@ -531,7 +521,7 @@ sub Run {
             );
 
             if ( !$AttachmentCheck->{Success} ) {
-                return $Self->{TicketCommonObject}->ReturnError( %{$AttachmentCheck} );
+                return $TicketCommonObject->ReturnError( %{$AttachmentCheck} );
             }
         }
     }
@@ -560,7 +550,7 @@ checks if the given ticket parameters are valid.
     returns:
 
     $TicketCheck = {
-        Success => 1,                               # if everething is OK
+        Success => 1,                               # if everything is OK
     }
 
     $TicketCheck = {
@@ -576,10 +566,15 @@ sub _CheckTicket {
     my $Ticket    = $Param{Ticket};
     my $OldTicket = $Param{OldTicket};
 
+    my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
+        DebuggerObject => $Self->{DebuggerObject},
+        WebserviceID   => $Self->{WebserviceID},
+    );
+
     # check Ticket->CustomerUser
     if (
         $Ticket->{CustomerUser}
-        && !$Self->{TicketCommonObject}->ValidateCustomer( %{$Ticket} )
+        && !$TicketCommonObject->ValidateCustomer( %{$Ticket} )
         )
     {
         return {
@@ -591,7 +586,7 @@ sub _CheckTicket {
 
     # check Ticket->Queue
     if ( $Ticket->{QueueID} || $Ticket->{Queue} ) {
-        if ( !$Self->{TicketCommonObject}->ValidateQueue( %{$Ticket} ) ) {
+        if ( !$TicketCommonObject->ValidateQueue( %{$Ticket} ) ) {
             return {
                 ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage => "TicketUpdate: Ticket->QueueID or Ticket->Queue parameter is"
@@ -602,7 +597,7 @@ sub _CheckTicket {
 
     # check Ticket->Lock
     if ( $Ticket->{LockID} || $Ticket->{Lock} ) {
-        if ( !$Self->{TicketCommonObject}->ValidateLock( %{$Ticket} ) ) {
+        if ( !$TicketCommonObject->ValidateLock( %{$Ticket} ) ) {
             return {
                 ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage => "TicketUpdate: Ticket->LockID or Ticket->Lock parameter is"
@@ -613,7 +608,7 @@ sub _CheckTicket {
 
     # check Ticket->Type
     if ( $Ticket->{TypeID} || $Ticket->{Type} ) {
-        if ( !$Self->{TicketCommonObject}->ValidateType( %{$Ticket} ) ) {
+        if ( !$TicketCommonObject->ValidateType( %{$Ticket} ) ) {
             return {
                 ErrorCode => 'TicketUpdate.InvalidParameter',
                 ErrorMessage =>
@@ -628,10 +623,10 @@ sub _CheckTicket {
         # set customer user from old ticket if no new customer user is to be set
         my $CustomerUser = $Ticket->{CustomerUser} || '';
         if ( !$CustomerUser ) {
-            $CustomerUser = $OldTicket->{CustomerUserID},
+            $CustomerUser = $OldTicket->{CustomerUserID};
         }
         if (
-            !$Self->{TicketCommonObject}->ValidateService(
+            !$TicketCommonObject->ValidateService(
                 %{$Ticket},
                 CustomerUser => $CustomerUser,
             )
@@ -656,7 +651,7 @@ sub _CheckTicket {
         }
 
         if (
-            !$Self->{TicketCommonObject}->ValidateSLA(
+            !$TicketCommonObject->ValidateSLA(
                 %{$Ticket},
                 Service   => $Service,
                 ServiceID => $ServiceID,
@@ -673,7 +668,7 @@ sub _CheckTicket {
 
     # check Ticket->State
     if ( $Ticket->{StateID} || $Ticket->{State} ) {
-        if ( !$Self->{TicketCommonObject}->ValidateState( %{$Ticket} ) ) {
+        if ( !$TicketCommonObject->ValidateState( %{$Ticket} ) ) {
             return {
                 ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage => "TicketUpdate: Ticket->StateID or Ticket->State parameter is"
@@ -684,7 +679,7 @@ sub _CheckTicket {
 
     # check Ticket->Priority
     if ( $Ticket->{PriorityID} || $Ticket->{Priority} ) {
-        if ( !$Self->{TicketCommonObject}->ValidatePriority( %{$Ticket} ) ) {
+        if ( !$TicketCommonObject->ValidatePriority( %{$Ticket} ) ) {
             return {
                 ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage => "TicketUpdate: Ticket->PriorityID or Ticket->Priority parameter is"
@@ -695,7 +690,7 @@ sub _CheckTicket {
 
     # check Ticket->Owner
     if ( $Ticket->{OwnerID} || $Ticket->{Owner} ) {
-        if ( !$Self->{TicketCommonObject}->ValidateOwner( %{$Ticket} ) ) {
+        if ( !$TicketCommonObject->ValidateOwner( %{$Ticket} ) ) {
             return {
                 ErrorCode => 'TicketUpdate.InvalidParameter',
                 ErrorMessage =>
@@ -706,7 +701,7 @@ sub _CheckTicket {
 
     # check Ticket->Responsible
     if ( $Ticket->{ResponsibleID} || $Ticket->{Responsible} ) {
-        if ( !$Self->{TicketCommonObject}->ValidateResponsible( %{$Ticket} ) ) {
+        if ( !$TicketCommonObject->ValidateResponsible( %{$Ticket} ) ) {
             return {
                 ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage => "TicketUpdate: Ticket->ResponsibleID or Ticket->Responsible"
@@ -717,7 +712,7 @@ sub _CheckTicket {
 
     # check Ticket->PendingTime
     if ( $Ticket->{PendingTime} ) {
-        if ( !$Self->{TicketCommonObject}->ValidatePendingTime( %{$Ticket} ) ) {
+        if ( !$TicketCommonObject->ValidatePendingTime( %{$Ticket} ) ) {
             return {
                 ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage => "TicketUpdate: Ticket->PendingTime parameter is invalid!",
@@ -742,7 +737,7 @@ checks if the given article parameter is valid.
     returns:
 
     $ArticleCheck = {
-        Success => 1,                               # if everething is OK
+        Success => 1,                               # if everything is OK
     }
 
     $ArticleCheck = {
@@ -776,7 +771,13 @@ sub _CheckArticle {
                 . " Sysconfig ArticleTypeID setting could not be read!"
         };
     }
-    if ( !$Self->{TicketCommonObject}->ValidateAutoResponseType( %{$Article} ) ) {
+
+    my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
+        DebuggerObject => $Self->{DebuggerObject},
+        WebserviceID   => $Self->{WebserviceID},
+    );
+
+    if ( !$TicketCommonObject->ValidateAutoResponseType( %{$Article} ) ) {
         return {
             ErrorCode    => 'TicketUpdate.InvalidParameter',
             ErrorMessage => "TicketUpdate: Article->AutoResponseType parameter is invalid!",
@@ -792,7 +793,7 @@ sub _CheckArticle {
                 . " is required and Sysconfig ArticleTypeID setting could not be read!"
         };
     }
-    if ( !$Self->{TicketCommonObject}->ValidateArticleType( %{$Article} ) ) {
+    if ( !$TicketCommonObject->ValidateArticleType( %{$Article} ) ) {
         return {
             ErrorCode    => 'TicketUpdate.InvalidParameter',
             ErrorMessage => "TicketUpdate: Article->ArticleTypeID or Article->ArticleType parameter"
@@ -809,7 +810,7 @@ sub _CheckArticle {
                 . " is required and Sysconfig SenderTypeID setting could not be read!"
         };
     }
-    if ( !$Self->{TicketCommonObject}->ValidateSenderType( %{$Article} ) ) {
+    if ( !$TicketCommonObject->ValidateSenderType( %{$Article} ) ) {
         return {
             ErrorCode    => 'TicketUpdate.InvalidParameter',
             ErrorMessage => "TicketUpdate: Article->SenderTypeID or Ticket->SenderType parameter"
@@ -819,7 +820,7 @@ sub _CheckArticle {
 
     # check Article->From
     if ( $Article->{From} ) {
-        if ( !$Self->{TicketCommonObject}->ValidateFrom( %{$Article} ) ) {
+        if ( !$TicketCommonObject->ValidateFrom( %{$Article} ) ) {
             return {
                 ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage => "TicketUpdate: Article->From parameter is invalid!",
@@ -855,7 +856,7 @@ sub _CheckArticle {
 
         $Article->{MimeType} = lc $Article->{MimeType};
 
-        if ( !$Self->{TicketCommonObject}->ValidateMimeType( %{$Article} ) ) {
+        if ( !$TicketCommonObject->ValidateMimeType( %{$Article} ) ) {
             return {
                 ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage => "TicketUpdate: Article->MimeType is invalid!",
@@ -868,7 +869,7 @@ sub _CheckArticle {
 
         $Article->{Charset} = lc $Article->{Charset};
 
-        if ( !$Self->{TicketCommonObject}->ValidateCharset( %{$Article} ) ) {
+        if ( !$TicketCommonObject->ValidateCharset( %{$Article} ) ) {
             return {
                 ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage => "TicketUpdate: Article->Charset is invalid!",
@@ -890,7 +891,7 @@ sub _CheckArticle {
             $Charset =~ s/(.+?);.*/$1/g;
         }
 
-        if ( !$Self->{TicketCommonObject}->ValidateCharset( Charset => $Charset ) ) {
+        if ( !$TicketCommonObject->ValidateCharset( Charset => $Charset ) ) {
             return {
                 ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage => "TicketUpdate: Article->ContentType is invalid!",
@@ -904,7 +905,7 @@ sub _CheckArticle {
             $MimeType =~ s/"|'//g;
         }
 
-        if ( !$Self->{TicketCommonObject}->ValidateMimeType( MimeType => $MimeType ) ) {
+        if ( !$TicketCommonObject->ValidateMimeType( MimeType => $MimeType ) ) {
             return {
                 ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage => "TicketUpdate: Article->ContentType is invalid!",
@@ -921,7 +922,7 @@ sub _CheckArticle {
                 . " HistoryType setting could not be read!"
         };
     }
-    if ( !$Self->{TicketCommonObject}->ValidateHistoryType( %{$Article} ) ) {
+    if ( !$TicketCommonObject->ValidateHistoryType( %{$Article} ) ) {
         return {
             ErrorCode    => 'TicketUpdate.InvalidParameter',
             ErrorMessage => "TicketUpdate: Article->HistoryType parameter is invalid!",
@@ -938,12 +939,15 @@ sub _CheckArticle {
         };
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # check Article->TimeUnit
     # TimeUnit could be required or not depending on sysconfig option
     if (
         ( !defined $Article->{TimeUnit} || !IsStringWithData( $Article->{TimeUnit} ) )
-        && $Self->{ConfigObject}->{'Ticket::Frontend::AccountTime'}
-        && $Self->{ConfigObject}->{'Ticket::Frontend::NeedAccountedTime'}
+        && $ConfigObject->{'Ticket::Frontend::AccountTime'}
+        && $ConfigObject->{'Ticket::Frontend::NeedAccountedTime'}
         )
     {
         return {
@@ -952,7 +956,7 @@ sub _CheckArticle {
         };
     }
     if ( $Article->{TimeUnit} ) {
-        if ( !$Self->{TicketCommonObject}->ValidateTimeUnit( %{$Article} ) ) {
+        if ( !$TicketCommonObject->ValidateTimeUnit( %{$Article} ) ) {
             return {
                 ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage => "TicketUpdate: Article->TimeUnit parameter is invalid!",
@@ -987,7 +991,7 @@ sub _CheckArticle {
                     $Article->{$Attribute} = [ $Article->{$Attribute} ];
                 }
                 for my $UserID ( @{ $Article->{$Attribute} } ) {
-                    if ( !$Self->{TicketCommonObject}->ValidateUserID( UserID => $UserID ) ) {
+                    if ( !$TicketCommonObject->ValidateUserID( UserID => $UserID ) ) {
                         return {
                             ErrorCode    => 'TicketUpdate.InvalidParameter',
                             ErrorMessage => "TicketUpdate: Article->$Attribute UserID=$UserID"
@@ -1016,7 +1020,7 @@ checks if the given dynamic field parameter is valid.
     returns:
 
     $DynamicFieldCheck = {
-        Success => 1,                               # if everething is OK
+        Success => 1,                               # if everything is OK
     }
 
     $DynamicFieldCheck = {
@@ -1047,8 +1051,13 @@ sub _CheckDynamicField {
         }
     }
 
+    my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
+        DebuggerObject => $Self->{DebuggerObject},
+        WebserviceID   => $Self->{WebserviceID},
+    );
+
     # check DynamicField->Name
-    if ( !$Self->{TicketCommonObject}->ValidateDynamicFieldName( %{$DynamicField} ) ) {
+    if ( !$TicketCommonObject->ValidateDynamicFieldName( %{$DynamicField} ) ) {
         return {
             ErrorCode    => 'TicketUpdate.InvalidParameter',
             ErrorMessage => "TicketUpdate: DynamicField->Name parameter is invalid!",
@@ -1057,7 +1066,7 @@ sub _CheckDynamicField {
 
     # check objectType for dynamic field
     if (
-        !$Self->{TicketCommonObject}->ValidateDynamicFieldObjectType(
+        !$TicketCommonObject->ValidateDynamicFieldObjectType(
             %{$DynamicField},
             Article => $Article,
         )
@@ -1071,7 +1080,7 @@ sub _CheckDynamicField {
     }
 
     # check DynamicField->Value
-    if ( !$Self->{TicketCommonObject}->ValidateDynamicFieldValue( %{$DynamicField} ) ) {
+    if ( !$TicketCommonObject->ValidateDynamicFieldValue( %{$DynamicField} ) ) {
         return {
             ErrorCode    => 'TicketUpdate.InvalidParameter',
             ErrorMessage => "TicketUpdate: DynamicField->Value parameter is invalid!",
@@ -1095,7 +1104,7 @@ checks if the given attachment parameter is valid.
     returns:
 
     $AttachmentCheck = {
-        Success => 1,                               # if everething is OK
+        Success => 1,                               # if everything is OK
     }
 
     $AttachmentCheck = {
@@ -1143,7 +1152,12 @@ sub _CheckAttachment {
             $Charset =~ s/(.+?);.*/$1/g;
         }
 
-        if ( $Charset && !$Self->{TicketCommonObject}->ValidateCharset( Charset => $Charset ) ) {
+        my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
+            DebuggerObject => $Self->{DebuggerObject},
+            WebserviceID   => $Self->{WebserviceID},
+        );
+
+        if ( $Charset && !$TicketCommonObject->ValidateCharset( Charset => $Charset ) ) {
             return {
                 ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage => "TicketUpdate: Attachment->ContentType is invalid!",
@@ -1157,7 +1171,7 @@ sub _CheckAttachment {
             $MimeType =~ s/"|'//g;
         }
 
-        if ( !$Self->{TicketCommonObject}->ValidateMimeType( MimeType => $MimeType ) ) {
+        if ( !$TicketCommonObject->ValidateMimeType( MimeType => $MimeType ) ) {
             return {
                 ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage => "TicketUpdate: Attachment->ContentType is invalid!",
@@ -1187,7 +1201,7 @@ check if user has permissions to update ticket attributes.
     returns:
 
     $Response = {
-        Success => 1,                               # if everething is OK
+        Success => 1,                               # if everything is OK
     }
 
     $Response = {
@@ -1207,9 +1221,12 @@ sub _CheckUpdatePermissions {
     my $DynamicFieldList = $Param{DynamicFieldList};
     my $AttachmentList   = $Param{AttachmentList};
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # check Article permissions
     if ( IsHashRefWithData($Article) ) {
-        my $Access = $Self->{TicketObject}->TicketPermission(
+        my $Access = $TicketObject->TicketPermission(
             Type     => 'note',
             TicketID => $TicketID,
             UserID   => $Param{UserID},
@@ -1224,7 +1241,7 @@ sub _CheckUpdatePermissions {
 
     # check dynamic field permissions
     if ( IsArrayRefWithData($DynamicFieldList) ) {
-        my $Access = $Self->{TicketObject}->TicketPermission(
+        my $Access = $TicketObject->TicketPermission(
             Type     => 'rw',
             TicketID => $TicketID,
             UserID   => $Param{UserID},
@@ -1239,7 +1256,7 @@ sub _CheckUpdatePermissions {
 
     # check queue permissions
     if ( $Ticket->{Queue} || $Ticket->{QueueID} ) {
-        my $Access = $Self->{TicketObject}->TicketPermission(
+        my $Access = $TicketObject->TicketPermission(
             Type     => 'move',
             TicketID => $TicketID,
             UserID   => $Param{UserID},
@@ -1254,7 +1271,7 @@ sub _CheckUpdatePermissions {
 
     # check owner permissions
     if ( $Ticket->{Owner} || $Ticket->{OwnerID} ) {
-        my $Access = $Self->{TicketObject}->TicketPermission(
+        my $Access = $TicketObject->TicketPermission(
             Type     => 'owner',
             TicketID => $TicketID,
             UserID   => $Param{UserID},
@@ -1269,7 +1286,7 @@ sub _CheckUpdatePermissions {
 
     # check responsible permissions
     if ( $Ticket->{Responsible} || $Ticket->{ResponsibleID} ) {
-        my $Access = $Self->{TicketObject}->TicketPermission(
+        my $Access = $TicketObject->TicketPermission(
             Type     => 'responsible',
             TicketID => $TicketID,
             UserID   => $Param{UserID},
@@ -1284,7 +1301,7 @@ sub _CheckUpdatePermissions {
 
     # check priority permissions
     if ( $Ticket->{Priority} || $Ticket->{PriorityID} ) {
-        my $Access = $Self->{TicketObject}->TicketPermission(
+        my $Access = $TicketObject->TicketPermission(
             Type     => 'priority',
             TicketID => $TicketID,
             UserID   => $Param{UserID},
@@ -1303,23 +1320,27 @@ sub _CheckUpdatePermissions {
         # get State Data
         my %StateData;
         my $StateID;
+
+        # get state object
+        my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+
         if ( $Ticket->{StateID} ) {
             $StateID = $Ticket->{StateID};
         }
         else {
-            $StateID = $Self->{StateObject}->StateLookup(
+            $StateID = $StateObject->StateLookup(
                 State => $Ticket->{State},
             );
         }
 
-        %StateData = $Self->{StateObject}->StateGet(
+        %StateData = $StateObject->StateGet(
             ID => $StateID,
         );
 
         my $Access = 1;
 
         if ( $StateData{TypeName} =~ /^close/i ) {
-            $Access = $Self->{TicketObject}->TicketPermission(
+            $Access = $TicketObject->TicketPermission(
                 Type     => 'close',
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
@@ -1328,7 +1349,7 @@ sub _CheckUpdatePermissions {
 
         # set pending time
         elsif ( $StateData{TypeName} =~ /^pending/i ) {
-            $Access = $Self->{TicketObject}->TicketPermission(
+            $Access = $TicketObject->TicketPermission(
                 Type     => 'close',
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
@@ -1364,7 +1385,7 @@ updates a ticket and creates an article and sets dynamic fields and attachments 
     returns:
 
     $Response = {
-        Success => 1,                               # if everething is OK
+        Success => 1,                               # if everything is OK
         Data => {
             TicketID     => 123,
             TicketNumber => 'TN3422332',
@@ -1390,22 +1411,30 @@ sub _TicketUpdate {
 
     my $Access = $Self->_CheckUpdatePermissions(%Param);
 
+    my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
+        DebuggerObject => $Self->{DebuggerObject},
+        WebserviceID   => $Self->{WebserviceID},
+    );
+
     # if no permissions return error
     if ( !$Access->{Success} ) {
-        return $Self->{TicketCommonObject}->ReturnError( %{$Access} );
+        return $TicketCommonObject->ReturnError( %{$Access} );
     }
 
     my %CustomerUserData;
 
     # get customer information
     if ( $Ticket->{CustomerUser} ) {
-        %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+        %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
             User => $Ticket->{CustomerUser},
         );
     }
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # get current ticket data
-    my %TicketData = $Self->{TicketObject}->TicketGet(
+    my %TicketData = $TicketObject->TicketGet(
         TicketID      => $TicketID,
         DynamicFields => 0,
         UserID        => $Param{UserID},
@@ -1419,7 +1448,7 @@ sub _TicketUpdate {
         && $Ticket->{Title} ne $TicketData{Title}
         )
     {
-        my $Success = $Self->{TicketObject}->TicketTitleUpdate(
+        my $Success = $TicketObject->TicketTitleUpdate(
             Title    => $Ticket->{Title},
             TicketID => $TicketID,
             UserID   => $Param{UserID},
@@ -1437,14 +1466,14 @@ sub _TicketUpdate {
     if ( $Ticket->{Queue} || $Ticket->{QueueID} ) {
         my $Success;
         if ( defined $Ticket->{Queue} && $Ticket->{Queue} ne $TicketData{Queue} ) {
-            $Success = $Self->{TicketObject}->TicketQueueSet(
+            $Success = $TicketObject->TicketQueueSet(
                 Queue    => $Ticket->{Queue},
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
             );
         }
         elsif ( defined $Ticket->{QueueID} && $Ticket->{QueueID} ne $TicketData{QueueID} ) {
-            $Success = $Self->{TicketObject}->TicketQueueSet(
+            $Success = $TicketObject->TicketQueueSet(
                 QueueID  => $Ticket->{QueueID},
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
@@ -1469,14 +1498,14 @@ sub _TicketUpdate {
     if ( $Ticket->{Lock} || $Ticket->{LockID} ) {
         my $Success;
         if ( defined $Ticket->{Lock} && $Ticket->{Lock} ne $TicketData{Lock} ) {
-            $Success = $Self->{TicketObject}->TicketLockSet(
+            $Success = $TicketObject->TicketLockSet(
                 Lock     => $Ticket->{Lock},
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
             );
         }
         elsif ( defined $Ticket->{LockID} && $Ticket->{LockID} ne $TicketData{LockID} ) {
-            $Success = $Self->{TicketObject}->TicketLockSet(
+            $Success = $TicketObject->TicketLockSet(
                 LockID   => $Ticket->{LockID},
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
@@ -1501,7 +1530,7 @@ sub _TicketUpdate {
     if ( $Ticket->{Type} || $Ticket->{TypeID} ) {
         my $Success;
         if ( defined $Ticket->{Type} && $Ticket->{Type} ne $TicketData{Type} ) {
-            $Success = $Self->{TicketObject}->TicketTypeSet(
+            $Success = $TicketObject->TicketTypeSet(
                 Type     => $Ticket->{Type},
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
@@ -1509,7 +1538,7 @@ sub _TicketUpdate {
         }
         elsif ( defined $Ticket->{TypeID} && $Ticket->{TypeID} ne $TicketData{TypeID} )
         {
-            $Success = $Self->{TicketObject}->TicketTypeSet(
+            $Success = $TicketObject->TicketTypeSet(
                 TypeID   => $Ticket->{TypeID},
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
@@ -1537,16 +1566,20 @@ sub _TicketUpdate {
         # get State Data
         my %StateData;
         my $StateID;
+
+        # get state object
+        my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+
         if ( $Ticket->{StateID} ) {
             $StateID = $Ticket->{StateID};
         }
         else {
-            $StateID = $Self->{StateObject}->StateLookup(
+            $StateID = $StateObject->StateLookup(
                 State => $Ticket->{State},
             );
         }
 
-        %StateData = $Self->{StateObject}->StateGet(
+        %StateData = $StateObject->StateGet(
             ID => $StateID,
         );
 
@@ -1554,7 +1587,7 @@ sub _TicketUpdate {
         if ( $StateData{TypeName} =~ /^close/i ) {
 
             # set lock
-            $Self->{TicketObject}->TicketLockSet(
+            $TicketObject->TicketLockSet(
                 TicketID => $TicketID,
                 Lock     => 'unlock',
                 UserID   => $Param{UserID},
@@ -1566,7 +1599,7 @@ sub _TicketUpdate {
 
             # set pending time
             if ( defined $Ticket->{PendingTime} ) {
-                my $Success = $Self->{TicketObject}->TicketPendingTimeSet(
+                my $Success = $TicketObject->TicketPendingTimeSet(
                     UserID   => $Param{UserID},
                     TicketID => $TicketID,
                     %{ $Ticket->{PendingTime} },
@@ -1582,7 +1615,7 @@ sub _TicketUpdate {
                 }
             }
             else {
-                return $Self->{TicketCommonObject}->ReturnError(
+                return $TicketCommonObject->ReturnError(
                     ErrorCode    => 'TicketUpdate.MissingParameter',
                     ErrorMessage => 'Can\'t set a ticket on a pending state without pendig time!'
                     )
@@ -1591,7 +1624,7 @@ sub _TicketUpdate {
 
         my $Success;
         if ( defined $Ticket->{State} && $Ticket->{State} ne $TicketData{State} ) {
-            $Success = $Self->{TicketObject}->TicketStateSet(
+            $Success = $TicketObject->TicketStateSet(
                 State    => $Ticket->{State},
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
@@ -1599,7 +1632,7 @@ sub _TicketUpdate {
         }
         elsif ( defined $Ticket->{StateID} && $Ticket->{StateID} ne $TicketData{StateID} )
         {
-            $Success = $Self->{TicketObject}->TicketStateSet(
+            $Success = $TicketObject->TicketStateSet(
                 StateID  => $Ticket->{StateID},
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
@@ -1629,7 +1662,7 @@ sub _TicketUpdate {
 
             # check if old SLA is still valid
             if (
-                !$Self->{TicketCommonObject}->ValidateSLA(
+                !$TicketCommonObject->ValidateSLA(
                     SLAID     => $TicketData{SLAID},
                     Service   => $Ticket->{Service} || '',
                     ServiceID => $Ticket->{ServiceID} || '',
@@ -1638,7 +1671,7 @@ sub _TicketUpdate {
             {
 
                 # remove current SLA if is not compatible with new service
-                my $Success = $Self->{TicketObject}->TicketSLASet(
+                my $Success = $TicketObject->TicketSLASet(
                     SLAID    => '',
                     TicketID => $TicketID,
                     UserID   => $Param{UserID},
@@ -1657,7 +1690,7 @@ sub _TicketUpdate {
         }
 
         if ( defined $Ticket->{Service} && $Ticket->{Service} ne $TicketData{Service} ) {
-            $Success = $Self->{TicketObject}->TicketServiceSet(
+            $Success = $TicketObject->TicketServiceSet(
                 Service  => $Ticket->{Service},
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
@@ -1665,7 +1698,7 @@ sub _TicketUpdate {
         }
         elsif ( defined $Ticket->{ServiceID} && $Ticket->{ServiceID} ne $TicketData{ServiceID} )
         {
-            $Success = $Self->{TicketObject}->TicketServiceSet(
+            $Success = $TicketObject->TicketServiceSet(
                 ServiceID => $Ticket->{ServiceID},
                 TicketID  => $TicketID,
                 UserID    => $Param{UserID},
@@ -1699,7 +1732,7 @@ sub _TicketUpdate {
         }
 
         if ( defined $Ticket->{SLA} && $Ticket->{SLA} ne $TicketData{SLA} ) {
-            $Success = $Self->{TicketObject}->TicketSLASet(
+            $Success = $TicketObject->TicketSLASet(
                 SLA      => $Ticket->{SLA},
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
@@ -1707,7 +1740,7 @@ sub _TicketUpdate {
         }
         elsif ( defined $Ticket->{SLAID} && $Ticket->{SLAID} ne $TicketData{SLAID} )
         {
-            $Success = $Self->{TicketObject}->TicketSLASet(
+            $Success = $TicketObject->TicketSLASet(
                 SLAID    => $Ticket->{SLAID},
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
@@ -1750,7 +1783,7 @@ sub _TicketUpdate {
                 $CustomerID = $Ticket->{CustomerID};
             }
 
-            $Success = $Self->{TicketObject}->TicketCustomerSet(
+            $Success = $TicketObject->TicketCustomerSet(
                 No       => $CustomerID,
                 User     => $Ticket->{CustomerUser},
                 TicketID => $TicketID,
@@ -1776,7 +1809,7 @@ sub _TicketUpdate {
     if ( $Ticket->{Priority} || $Ticket->{PriorityID} ) {
         my $Success;
         if ( defined $Ticket->{Priority} && $Ticket->{Priority} ne $TicketData{Priority} ) {
-            $Success = $Self->{TicketObject}->TicketPrioritySet(
+            $Success = $TicketObject->TicketPrioritySet(
                 Priority => $Ticket->{Priority},
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
@@ -1784,7 +1817,7 @@ sub _TicketUpdate {
         }
         elsif ( defined $Ticket->{PriorityID} && $Ticket->{PriorityID} ne $TicketData{PriorityID} )
         {
-            $Success = $Self->{TicketObject}->TicketPrioritySet(
+            $Success = $TicketObject->TicketPrioritySet(
                 PriorityID => $Ticket->{PriorityID},
                 TicketID   => $TicketID,
                 UserID     => $Param{UserID},
@@ -1809,7 +1842,7 @@ sub _TicketUpdate {
     if ( $Ticket->{Owner} || $Ticket->{OwnerID} ) {
         my $Success;
         if ( defined $Ticket->{Owner} && $Ticket->{Owner} ne $TicketData{Owner} ) {
-            $Success = $Self->{TicketObject}->TicketOwnerSet(
+            $Success = $TicketObject->TicketOwnerSet(
                 NewUser  => $Ticket->{Owner},
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
@@ -1817,7 +1850,7 @@ sub _TicketUpdate {
         }
         elsif ( defined $Ticket->{OwnerID} && $Ticket->{OwnerID} ne $TicketData{OwnerID} )
         {
-            $Success = $Self->{TicketObject}->TicketOwnerSet(
+            $Success = $TicketObject->TicketOwnerSet(
                 NewUserID => $Ticket->{OwnerID},
                 TicketID  => $TicketID,
                 UserID    => $Param{UserID},
@@ -1846,7 +1879,7 @@ sub _TicketUpdate {
             && $Ticket->{Responsible} ne $TicketData{Responsible}
             )
         {
-            $Success = $Self->{TicketObject}->TicketResponsibleSet(
+            $Success = $TicketObject->TicketResponsibleSet(
                 NewUser  => $Ticket->{Responsible},
                 TicketID => $TicketID,
                 UserID   => $Param{UserID},
@@ -1857,7 +1890,7 @@ sub _TicketUpdate {
             && $Ticket->{ResponsibleID} ne $TicketData{ResponsibleID}
             )
         {
-            $Success = $Self->{TicketObject}->TicketResponsibleSet(
+            $Success = $TicketObject->TicketResponsibleSet(
                 NewUserID => $Ticket->{ResponsibleID},
                 TicketID  => $TicketID,
                 UserID    => $Param{UserID},
@@ -1903,7 +1936,7 @@ sub _TicketUpdate {
             }
         }
         else {
-            my %UserData = $Self->{UserObject}->GetUserData(
+            my %UserData = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
                 UserID => $Param{UserID},
             );
             $From = $UserData{UserFirstname} . ' ' . $UserData{UserLastname};
@@ -1913,7 +1946,7 @@ sub _TicketUpdate {
         my $To = '';
 
         # create article
-        $ArticleID = $Self->{TicketObject}->ArticleCreate(
+        $ArticleID = $TicketObject->ArticleCreate(
             NoAgentNotify  => $Article->{NoAgentNotify}  || 0,
             TicketID       => $TicketID,
             ArticleTypeID  => $Article->{ArticleTypeID}  || '',
@@ -1950,7 +1983,7 @@ sub _TicketUpdate {
 
         # time accounting
         if ( $Article->{TimeUnit} ) {
-            $Self->{TicketObject}->TicketAccountTime(
+            $TicketObject->TicketAccountTime(
                 TicketID  => $TicketID,
                 ArticleID => $ArticleID,
                 TimeUnit  => $Article->{TimeUnit},
@@ -1961,7 +1994,7 @@ sub _TicketUpdate {
 
     # set dynamic fields
     for my $DynamicField ( @{$DynamicFieldList} ) {
-        my $Result = $Self->{TicketCommonObject}->SetDynamicFieldValue(
+        my $Result = $TicketCommonObject->SetDynamicFieldValue(
             %{$DynamicField},
             TicketID  => $TicketID,
             ArticleID => $ArticleID || '',
@@ -1983,7 +2016,7 @@ sub _TicketUpdate {
     # set attachments
 
     for my $Attachment ( @{$AttachmentList} ) {
-        my $Result = $Self->{TicketCommonObject}->CreateAttachment(
+        my $Result = $TicketCommonObject->CreateAttachment(
             Attachment => $Attachment,
             ArticleID  => $ArticleID || '',
             UserID     => $Param{UserID}
