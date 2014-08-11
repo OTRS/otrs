@@ -48,7 +48,7 @@ sub _OM {
     );
 
     # set env config
-    $Kernel::OM->Get('ConfigObject')->Set(
+    $Kernel::OM->Get('Kernel::Config')->Set(
         Key   => 'CheckEmailAddresses',
         Value => 0,
     );
