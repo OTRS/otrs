@@ -7,6 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -255,7 +256,7 @@ my @Tests = (
             'IsNotificationEventCondition' => 0,
             'IsSortable'                   => 1,
             'IsFiltrable'                  => 0,
-            'IsStatsCondition'             => 0,
+            'IsStatsCondition'             => 1,
             'IsCustomerInterfaceCapable'   => 1,
         },
     },
@@ -269,7 +270,7 @@ my @Tests = (
             'IsNotificationEventCondition' => 0,
             'IsSortable'                   => 1,
             'IsFiltrable'                  => 0,
-            'IsStatsCondition'             => 0,
+            'IsStatsCondition'             => 1,
             'IsCustomerInterfaceCapable'   => 1,
         },
     },
