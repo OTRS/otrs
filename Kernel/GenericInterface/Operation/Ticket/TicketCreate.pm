@@ -12,17 +12,11 @@ package Kernel::GenericInterface::Operation::Ticket::TicketCreate;
 use strict;
 use warnings;
 
-use Kernel::System::Queue;
-use Kernel::System::State;
-use Kernel::System::CustomerUser;
-use Kernel::System::User;
-use Kernel::System::Ticket;
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
-
 use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
+
+our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
@@ -50,13 +44,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (
-        qw(
-        DebuggerObject ConfigObject MainObject LogObject TimeObject DBObject EncodeObject
-        WebserviceID
-        )
-        )
-    {
+    for my $Needed (qw( DebuggerObject WebserviceID )) {
         if ( !$Param{$Needed} ) {
             return {
                 Success      => 0,
@@ -67,18 +55,8 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    $Self->{QueueObject}        = Kernel::System::Queue->new( %{$Self} );
-    $Self->{StateObject}        = Kernel::System::State->new( %{$Self} );
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
-    $Self->{UserObject}         = Kernel::System::User->new( %{$Self} );
-    $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{DFBackendObject}    = Kernel::System::DynamicField::Backend->new(%Param);
-    $Self->{CommonObject}       = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
-    $Self->{TicketCommonObject}
-        = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
-
-    $Self->{Config} = $Self->{ConfigObject}->Get('GenericInterface::Operation::TicketCreate');
+    $Self->{Config}
+        = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::TicketCreate');
 
     return $Self;
 }
@@ -204,6 +182,11 @@ perform TicketCreate Operation. This will return the created ticket number.
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
+        DebuggerObject => $Self->{DebuggerObject},
+        WebserviceID   => $Self->{WebserviceID},
+    );
+
     # check needed stuff
     if (
         !$Param{Data}->{UserLogin}
@@ -211,7 +194,7 @@ sub Run {
         && !$Param{Data}->{SessionID}
         )
     {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return $TicketCommonObject->ReturnError(
             ErrorCode    => 'TicketCreate.MissingParameter',
             ErrorMessage => "TicketCreate: UserLogin, CustomerUserLogin or SessionID is required!",
         );
@@ -221,31 +204,35 @@ sub Run {
 
         if ( !$Param{Data}->{Password} )
         {
-            return $Self->{TicketCommonObject}->ReturnError(
+            return $TicketCommonObject->ReturnError(
                 ErrorCode    => 'TicketCreate.MissingParameter',
                 ErrorMessage => "TicketCreate: Password or SessionID is required!",
             );
         }
     }
 
+    my $CommonObject = Kernel::GenericInterface::Operation::Common->new(
+        DebuggerObject => $Self->{DebuggerObject},
+    );
+
     # authenticate user
-    my ( $UserID, $UserType ) = $Self->{CommonObject}->Auth(%Param);
+    my ( $UserID, $UserType ) = $CommonObject->Auth(%Param);
 
     if ( !$UserID ) {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return $TicketCommonObject->ReturnError(
             ErrorCode    => 'TicketCreate.AuthFail',
             ErrorMessage => "TicketCreate: User could not be authenticated!",
         );
     }
 
     if ( $UserType eq 'Customer' ) {
-        $UserID = $Self->{ConfigObject}->Get('CustomerPanelUserID')
+        $UserID = $Kernel::OM->Get('Kernel::Config')->Get('CustomerPanelUserID')
     }
 
     # check needed hashes
     for my $Needed (qw(Ticket Article)) {
         if ( !IsHashRefWithData( $Param{Data}->{$Needed} ) ) {
-            return $Self->{TicketCommonObject}->ReturnError(
+            return $TicketCommonObject->ReturnError(
                 ErrorCode    => 'TicketCreate.MissingParameter',
                 ErrorMessage => "TicketCreate: $Needed parameter is missing or not valid!",
             );
@@ -260,7 +247,7 @@ sub Run {
             && !IsArrayRefWithData( $Param{Data}->{$Optional} )
             )
         {
-            return $Self->{TicketCommonObject}->ReturnError(
+            return $TicketCommonObject->ReturnError(
                 ErrorCode    => 'TicketCreate.MissingParameter',
                 ErrorMessage => "TicketCreate: $Optional parameter is missing or not valid!",
             );
@@ -298,18 +285,18 @@ sub Run {
     my $TicketCheck = $Self->_CheckTicket( Ticket => $Ticket );
 
     if ( !$TicketCheck->{Success} ) {
-        return $Self->{TicketCommonObject}->ReturnError( %{$TicketCheck} );
+        return $TicketCommonObject->ReturnError( %{$TicketCheck} );
     }
 
     # check create permissions
-    my $Permission = $Self->{TicketCommonObject}->CheckCreatePermissions(
+    my $Permission = $TicketCommonObject->CheckCreatePermissions(
         Ticket   => $Ticket,
         UserID   => $UserID,
         UserType => $UserType,
     );
 
     if ( !$Permission ) {
-        return $Self->{TicketCommonObject}->ReturnError(
+        return $TicketCommonObject->ReturnError(
             ErrorCode    => 'TicketCreate.AccessDenied',
             ErrorMessage => "TicketCreate: Can not create tickets in given Queue or QueueID!",
         );
@@ -374,7 +361,7 @@ sub Run {
                 %{$ArticleCheck},
                 }
         }
-        return $Self->{TicketCommonObject}->ReturnError( %{$ArticleCheck} );
+        return $TicketCommonObject->ReturnError( %{$ArticleCheck} );
     }
 
     my $DynamicField;
@@ -385,7 +372,7 @@ sub Run {
         # isolate DynamicField parameter
         $DynamicField = $Param{Data}->{DynamicField};
 
-        # homologate imput to array
+        # homogenate input to array
         if ( ref $DynamicField eq 'HASH' ) {
             push @DynamicFieldList, $DynamicField;
         }
@@ -419,7 +406,7 @@ sub Run {
             my $DynamicFieldCheck = $Self->_CheckDynamicField( DynamicField => $DynamicFieldItem );
 
             if ( !$DynamicFieldCheck->{Success} ) {
-                return $Self->{TicketCommonObject}->ReturnError( %{$DynamicFieldCheck} );
+                return $TicketCommonObject->ReturnError( %{$DynamicFieldCheck} );
             }
         }
     }
@@ -432,7 +419,7 @@ sub Run {
         # isolate Attachment parameter
         $Attachment = $Param{Data}->{Attachment};
 
-        # homologate imput to array
+        # homogenate input to array
         if ( ref $Attachment eq 'HASH' ) {
             push @AttachmentList, $Attachment;
         }
@@ -466,7 +453,7 @@ sub Run {
             my $AttachmentCheck = $Self->_CheckAttachment( Attachment => $AttachmentItem );
 
             if ( !$AttachmentCheck->{Success} ) {
-                return $Self->{TicketCommonObject}->ReturnError( %{$AttachmentCheck} );
+                return $TicketCommonObject->ReturnError( %{$AttachmentCheck} );
             }
         }
     }
@@ -518,8 +505,13 @@ sub _CheckTicket {
         }
     }
 
+    my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
+        DebuggerObject => $Self->{DebuggerObject},
+        WebserviceID   => $Self->{WebserviceID},
+    );
+
     # check Ticket->CustomerUser
-    if ( !$Self->{TicketCommonObject}->ValidateCustomer( %{$Ticket} ) ) {
+    if ( !$TicketCommonObject->ValidateCustomer( %{$Ticket} ) ) {
         return {
             ErrorCode => 'TicketCreate.InvalidParameter',
             ErrorMessage =>
@@ -534,7 +526,7 @@ sub _CheckTicket {
             ErrorMessage => "TicketCreate: Ticket->QueueID or Ticket->Queue parameter is required!",
         };
     }
-    if ( !$Self->{TicketCommonObject}->ValidateQueue( %{$Ticket} ) ) {
+    if ( !$TicketCommonObject->ValidateQueue( %{$Ticket} ) ) {
         return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
             ErrorMessage => "TicketCreate: Ticket->QueueID or Ticket->Queue parameter is invalid!",
@@ -543,7 +535,7 @@ sub _CheckTicket {
 
     # check Ticket->Lock
     if ( $Ticket->{LockID} || $Ticket->{Lock} ) {
-        if ( !$Self->{TicketCommonObject}->ValidateLock( %{$Ticket} ) ) {
+        if ( !$TicketCommonObject->ValidateLock( %{$Ticket} ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage => "TicketCreate: Ticket->LockID or Ticket->Lock parameter is"
@@ -557,7 +549,7 @@ sub _CheckTicket {
     if (
         !$Ticket->{TypeID}
         && !$Ticket->{Type}
-        && $Self->{ConfigObject}->Get('Ticket::Type')
+        && $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type')
         )
     {
         return {
@@ -567,7 +559,7 @@ sub _CheckTicket {
         };
     }
     if ( $Ticket->{TypeID} || $Ticket->{Type} ) {
-        if ( !$Self->{TicketCommonObject}->ValidateType( %{$Ticket} ) ) {
+        if ( !$TicketCommonObject->ValidateType( %{$Ticket} ) ) {
             return {
                 ErrorCode => 'TicketCreate.InvalidParameter',
                 ErrorMessage =>
@@ -578,7 +570,7 @@ sub _CheckTicket {
 
     # check Ticket->Service
     if ( $Ticket->{ServiceID} || $Ticket->{Service} ) {
-        if ( !$Self->{TicketCommonObject}->ValidateService( %{$Ticket} ) ) {
+        if ( !$TicketCommonObject->ValidateService( %{$Ticket} ) ) {
             return {
                 ErrorCode => 'TicketCreate.InvalidParameter',
                 ErrorMessage =>
@@ -589,7 +581,7 @@ sub _CheckTicket {
 
     # check Ticket->SLA
     if ( $Ticket->{SLAID} || $Ticket->{SLA} ) {
-        if ( !$Self->{TicketCommonObject}->ValidateSLA( %{$Ticket} ) ) {
+        if ( !$TicketCommonObject->ValidateSLA( %{$Ticket} ) ) {
             return {
                 ErrorCode => 'TicketCreate.InvalidParameter',
                 ErrorMessage =>
@@ -605,7 +597,7 @@ sub _CheckTicket {
             ErrorMessage => "TicketCreate: Ticket->StateID or Ticket->State parameter is required!",
         };
     }
-    if ( !$Self->{TicketCommonObject}->ValidateState( %{$Ticket} ) ) {
+    if ( !$TicketCommonObject->ValidateState( %{$Ticket} ) ) {
         return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
             ErrorMessage => "TicketCreate: Ticket->StateID or Ticket->State parameter is invalid!",
@@ -620,7 +612,7 @@ sub _CheckTicket {
                 . " required!",
         };
     }
-    if ( !$Self->{TicketCommonObject}->ValidatePriority( %{$Ticket} ) ) {
+    if ( !$TicketCommonObject->ValidatePriority( %{$Ticket} ) ) {
         return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
             ErrorMessage => "TicketCreate: Ticket->PriorityID or Ticket->Priority parameter is"
@@ -630,7 +622,7 @@ sub _CheckTicket {
 
     # check Ticket->Owner
     if ( $Ticket->{OwnerID} || $Ticket->{Owner} ) {
-        if ( !$Self->{TicketCommonObject}->ValidateOwner( %{$Ticket} ) ) {
+        if ( !$TicketCommonObject->ValidateOwner( %{$Ticket} ) ) {
             return {
                 ErrorCode => 'TicketCreate.InvalidParameter',
                 ErrorMessage =>
@@ -641,7 +633,7 @@ sub _CheckTicket {
 
     # check Ticket->Responsible
     if ( $Ticket->{ResponsibleID} || $Ticket->{Responsible} ) {
-        if ( !$Self->{TicketCommonObject}->ValidateResponsible( %{$Ticket} ) ) {
+        if ( !$TicketCommonObject->ValidateResponsible( %{$Ticket} ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage => "TicketCreate: Ticket->ResponsibleID or Ticket->Responsible"
@@ -652,7 +644,7 @@ sub _CheckTicket {
 
     # check Ticket->PendingTime
     if ( $Ticket->{PendingTime} ) {
-        if ( !$Self->{TicketCommonObject}->ValidatePendingTime( %{$Ticket} ) ) {
+        if ( !$TicketCommonObject->ValidatePendingTime( %{$Ticket} ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage => "TicketCreate: Ticket->PendingTime parameter is invalid!",
@@ -711,7 +703,13 @@ sub _CheckArticle {
                 . " Sysconfig ArticleTypeID setting could not be read!"
         };
     }
-    if ( !$Self->{TicketCommonObject}->ValidateAutoResponseType( %{$Article} ) ) {
+
+    my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
+        DebuggerObject => $Self->{DebuggerObject},
+        WebserviceID   => $Self->{WebserviceID},
+    );
+
+    if ( !$TicketCommonObject->ValidateAutoResponseType( %{$Article} ) ) {
         return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
             ErrorMessage => "TicketCreate: Article->AutoResponseType parameter is invalid!",
@@ -727,7 +725,7 @@ sub _CheckArticle {
                 . " is required and Sysconfig ArticleTypeID setting could not be read!"
         };
     }
-    if ( !$Self->{TicketCommonObject}->ValidateArticleType( %{$Article} ) ) {
+    if ( !$TicketCommonObject->ValidateArticleType( %{$Article} ) ) {
         return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
             ErrorMessage => "TicketCreate: Article->ArticleTypeID or Article->ArticleType parameter"
@@ -744,7 +742,7 @@ sub _CheckArticle {
                 . " is required and Sysconfig SenderTypeID setting could not be read!"
         };
     }
-    if ( !$Self->{TicketCommonObject}->ValidateSenderType( %{$Article} ) ) {
+    if ( !$TicketCommonObject->ValidateSenderType( %{$Article} ) ) {
         return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
             ErrorMessage => "TicketCreate: Article->SenderTypeID or Ticket->SenderType parameter"
@@ -754,7 +752,7 @@ sub _CheckArticle {
 
     # check Article->From
     if ( $Article->{From} ) {
-        if ( !$Self->{TicketCommonObject}->ValidateFrom( %{$Article} ) ) {
+        if ( !$TicketCommonObject->ValidateFrom( %{$Article} ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage => "TicketCreate: Article->From parameter is invalid!",
@@ -790,7 +788,7 @@ sub _CheckArticle {
 
         $Article->{MimeType} = lc $Article->{MimeType};
 
-        if ( !$Self->{TicketCommonObject}->ValidateMimeType( %{$Article} ) ) {
+        if ( !$TicketCommonObject->ValidateMimeType( %{$Article} ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage => "TicketCreate: Article->MimeType is invalid!",
@@ -803,7 +801,7 @@ sub _CheckArticle {
 
         $Article->{Charset} = lc $Article->{Charset};
 
-        if ( !$Self->{TicketCommonObject}->ValidateCharset( %{$Article} ) ) {
+        if ( !$TicketCommonObject->ValidateCharset( %{$Article} ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage => "TicketCreate: Article->Charset is invalid!",
@@ -825,7 +823,7 @@ sub _CheckArticle {
             $Charset =~ s/(.+?);.*/$1/g;
         }
 
-        if ( !$Self->{TicketCommonObject}->ValidateCharset( Charset => $Charset ) ) {
+        if ( !$TicketCommonObject->ValidateCharset( Charset => $Charset ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage => "TicketCreate: Article->ContentType is invalid!",
@@ -839,7 +837,7 @@ sub _CheckArticle {
             $MimeType =~ s/"|'//g;
         }
 
-        if ( !$Self->{TicketCommonObject}->ValidateMimeType( MimeType => $MimeType ) ) {
+        if ( !$TicketCommonObject->ValidateMimeType( MimeType => $MimeType ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage => "TicketCreate: Article->ContentType is invalid!",
@@ -856,7 +854,7 @@ sub _CheckArticle {
                 . " HistoryType setting could not be read!"
         };
     }
-    if ( !$Self->{TicketCommonObject}->ValidateHistoryType( %{$Article} ) ) {
+    if ( !$TicketCommonObject->ValidateHistoryType( %{$Article} ) ) {
         return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
             ErrorMessage => "TicketCreate: Article->HistoryType parameter is invalid!",
@@ -873,12 +871,15 @@ sub _CheckArticle {
         };
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # check Article->TimeUnit
     # TimeUnit could be required or not depending on sysconfig option
     if (
         ( !defined $Article->{TimeUnit} || !IsStringWithData( $Article->{TimeUnit} ) )
-        && $Self->{ConfigObject}->{'Ticket::Frontend::AccountTime'}
-        && $Self->{ConfigObject}->{'Ticket::Frontend::NeedAccountedTime'}
+        && $ConfigObject->{'Ticket::Frontend::AccountTime'}
+        && $ConfigObject->{'Ticket::Frontend::NeedAccountedTime'}
         )
     {
         return {
@@ -887,7 +888,7 @@ sub _CheckArticle {
         };
     }
     if ( $Article->{TimeUnit} ) {
-        if ( !$Self->{TicketCommonObject}->ValidateTimeUnit( %{$Article} ) ) {
+        if ( !$TicketCommonObject->ValidateTimeUnit( %{$Article} ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage => "TicketCreate: Article->TimeUnit parameter is invalid!",
@@ -922,7 +923,7 @@ sub _CheckArticle {
                     $Article->{$Attribute} = [ $Article->{$Attribute} ];
                 }
                 for my $UserID ( @{ $Article->{$Attribute} } ) {
-                    if ( !$Self->{TicketCommonObject}->ValidateUserID( UserID => $UserID ) ) {
+                    if ( !$TicketCommonObject->ValidateUserID( UserID => $UserID ) ) {
                         return {
                             ErrorCode    => 'TicketCreate.InvalidParameter',
                             ErrorMessage => "TicketCreate: Article->$Attribute UserID=$UserID"
@@ -976,8 +977,13 @@ sub _CheckDynamicField {
         }
     }
 
+    my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
+        DebuggerObject => $Self->{DebuggerObject},
+        WebserviceID   => $Self->{WebserviceID},
+    );
+
     # check DynamicField->Name
-    if ( !$Self->{TicketCommonObject}->ValidateDynamicFieldName( %{$DynamicField} ) ) {
+    if ( !$TicketCommonObject->ValidateDynamicFieldName( %{$DynamicField} ) ) {
         return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
             ErrorMessage => "TicketCreate: DynamicField->Name parameter is invalid!",
@@ -985,7 +991,7 @@ sub _CheckDynamicField {
     }
 
     # check DynamicField->Value
-    if ( !$Self->{TicketCommonObject}->ValidateDynamicFieldValue( %{$DynamicField} ) ) {
+    if ( !$TicketCommonObject->ValidateDynamicFieldValue( %{$DynamicField} ) ) {
         return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
             ErrorMessage => "TicketCreate: DynamicField->Value parameter is invalid!",
@@ -1048,7 +1054,12 @@ sub _CheckAttachment {
             $Charset =~ s/(.+?);.*/$1/g;
         }
 
-        if ( $Charset && !$Self->{TicketCommonObject}->ValidateCharset( Charset => $Charset ) ) {
+        my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
+            DebuggerObject => $Self->{DebuggerObject},
+            WebserviceID   => $Self->{WebserviceID},
+        );
+
+        if ( $Charset && !$TicketCommonObject->ValidateCharset( Charset => $Charset ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage => "TicketCreate: Attachment->ContentType is invalid!",
@@ -1062,7 +1073,7 @@ sub _CheckAttachment {
             $MimeType =~ s/"|'//g;
         }
 
-        if ( !$Self->{TicketCommonObject}->ValidateMimeType( MimeType => $MimeType ) ) {
+        if ( !$TicketCommonObject->ValidateMimeType( MimeType => $MimeType ) ) {
             return {
                 ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage => "TicketCreate: Attachment->ContentType is invalid!",
@@ -1117,7 +1128,7 @@ sub _TicketCreate {
     # get customer information
     # with information will be used to create the ticket if customer is not defined in the
     # database, customer ticket information need to be empty strings
-    my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+    my %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
         User => $Ticket->{CustomerUser},
     );
 
@@ -1128,9 +1139,12 @@ sub _TicketCreate {
         $CustomerID = $Ticket->{CustomerID};
     }
 
+    # get database object
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
     my $OwnerID;
     if ( $Ticket->{Owner} && !$Ticket->{OwnerID} ) {
-        my %OwnerData = $Self->{UserObject}->GetUserData(
+        my %OwnerData = $UserObject->GetUserData(
             User => $Ticket->{Owner},
         );
         $OwnerID = $OwnerData{UserID};
@@ -1141,7 +1155,7 @@ sub _TicketCreate {
 
     my $ResponsibleID;
     if ( $Ticket->{Responsible} && !$Ticket->{ResponsibleID} ) {
-        my %ResponsibleData = $Self->{UserObject}->GetUserData(
+        my %ResponsibleData = $UserObject->GetUserData(
             User => $Ticket->{Responsible},
         );
         $ResponsibleID = $ResponsibleData{UserID};
@@ -1150,8 +1164,11 @@ sub _TicketCreate {
         $ResponsibleID = $Ticket->{ResponsibleID};
     }
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # create new ticket
-    my $TicketID = $Self->{TicketObject}->TicketCreate(
+    my $TicketID = $TicketObject->TicketCreate(
         Title        => $Ticket->{Title},
         QueueID      => $Ticket->{QueueID} || '',
         Queue        => $Ticket->{Queue} || '',
@@ -1181,7 +1198,7 @@ sub _TicketCreate {
 
     # set lock if specified
     if ( $Ticket->{Lock} || $Ticket->{LockID} ) {
-        $Self->{TicketObject}->TicketLockSet(
+        $TicketObject->TicketLockSet(
             TicketID => $TicketID,
             LockID   => $Ticket->{LockID} || '',
             Lock     => $Ticket->{Lock} || '',
@@ -1192,24 +1209,28 @@ sub _TicketCreate {
     # get State Data
     my %StateData;
     my $StateID;
+
+    # get state object
+    my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+
     if ( $Ticket->{StateID} ) {
         $StateID = $Ticket->{StateID};
     }
     else {
-        $StateID = $Self->{StateObject}->StateLookup(
+        $StateID = $StateObject->StateLookup(
             State => $Ticket->{State},
         );
     }
 
-    %StateData = $Self->{StateObject}->StateGet(
+    %StateData = $StateObject->StateGet(
         ID => $StateID,
     );
 
-    # forse unlock if state type is close
+    # force unlock if state type is close
     if ( $StateData{TypeName} =~ /^close/i ) {
 
         # set lock
-        $Self->{TicketObject}->TicketLockSet(
+        $TicketObject->TicketLockSet(
             TicketID => $TicketID,
             Lock     => 'unlock',
             UserID   => $Param{UserID},
@@ -1221,7 +1242,7 @@ sub _TicketCreate {
 
         # set pending time
         if ( defined $Ticket->{PendingTime} ) {
-            $Self->{TicketObject}->TicketPendingTimeSet(
+            $TicketObject->TicketPendingTimeSet(
                 UserID   => $Param{UserID},
                 TicketID => $TicketID,
                 %{ $Ticket->{PendingTime} },
@@ -1261,11 +1282,13 @@ sub _TicketCreate {
         $To = $Ticket->{Queue};
     }
     else {
-        $To = $Self->{QueueObject}->QueueLookup( QueueID => $Ticket->{QueueID} );
+        $To = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
+            QueueID => $Ticket->{QueueID},
+        );
     }
 
     # create article
-    my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+    my $ArticleID = $TicketObject->ArticleCreate(
         NoAgentNotify  => $Article->{NoAgentNotify}  || 0,
         TicketID       => $TicketID,
         ArticleTypeID  => $Article->{ArticleTypeID}  || '',
@@ -1301,7 +1324,7 @@ sub _TicketCreate {
 
     # set owner (if owner or owner id is given)
     if ($OwnerID) {
-        $Self->{TicketObject}->TicketOwnerSet(
+        $TicketObject->TicketOwnerSet(
             TicketID  => $TicketID,
             NewUserID => $OwnerID,
             UserID    => $Param{UserID},
@@ -1309,7 +1332,7 @@ sub _TicketCreate {
 
         # set lock if no lock was defined
         if ( !$Ticket->{Lock} && !$Ticket->{LockID} ) {
-            $Self->{TicketObject}->TicketLockSet(
+            $TicketObject->TicketLockSet(
                 TicketID => $TicketID,
                 Lock     => 'lock',
                 UserID   => $Param{UserID},
@@ -1319,7 +1342,7 @@ sub _TicketCreate {
 
     # else set owner to current agent but do not lock it
     else {
-        $Self->{TicketObject}->TicketOwnerSet(
+        $TicketObject->TicketOwnerSet(
             TicketID           => $TicketID,
             NewUserID          => $Param{UserID},
             SendNoNotification => 1,
@@ -1329,7 +1352,7 @@ sub _TicketCreate {
 
     # set responsible
     if ($ResponsibleID) {
-        $Self->{TicketObject}->TicketResponsibleSet(
+        $TicketObject->TicketResponsibleSet(
             TicketID  => $TicketID,
             NewUserID => $ResponsibleID,
             UserID    => $Param{UserID},
@@ -1338,7 +1361,7 @@ sub _TicketCreate {
 
     # time accounting
     if ( $Article->{TimeUnit} ) {
-        $Self->{TicketObject}->TicketAccountTime(
+        $TicketObject->TicketAccountTime(
             TicketID  => $TicketID,
             ArticleID => $ArticleID,
             TimeUnit  => $Article->{TimeUnit},
@@ -1346,11 +1369,16 @@ sub _TicketCreate {
         );
     }
 
+    my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
+        DebuggerObject => $Self->{DebuggerObject},
+        WebserviceID   => $Self->{WebserviceID},
+    );
+
     # set dynamic fields
     if ( IsArrayRefWithData($DynamicFieldList) ) {
 
         for my $DynamicField ( @{$DynamicFieldList} ) {
-            my $Result = $Self->{TicketCommonObject}->SetDynamicFieldValue(
+            my $Result = $TicketCommonObject->SetDynamicFieldValue(
                 %{$DynamicField},
                 TicketID  => $TicketID,
                 ArticleID => $ArticleID,
@@ -1374,7 +1402,7 @@ sub _TicketCreate {
     if ( IsArrayRefWithData($AttachmentList) ) {
 
         for my $Attachment ( @{$AttachmentList} ) {
-            my $Result = $Self->{TicketCommonObject}->CreateAttachment(
+            my $Result = $TicketCommonObject->CreateAttachment(
                 Attachment => $Attachment,
                 ArticleID  => $ArticleID,
                 UserID     => $Param{UserID}
@@ -1394,7 +1422,7 @@ sub _TicketCreate {
     }
 
     # get ticket data
-    my %TicketData = $Self->{TicketObject}->TicketGet(
+    my %TicketData = $TicketObject->TicketGet(
         TicketID      => $TicketID,
         DynamicFields => 0,
         UserID        => $Param{UserId},
