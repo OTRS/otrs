@@ -56,7 +56,7 @@ sub new {
     }
 
     $Self->{Config}
-        = $Kernel::OM->Get('Kernel::System::DB')->Get('GenericInterface::Operation::TicketUpdate');
+        = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::TicketUpdate');
 
     return $Self;
 }
@@ -239,7 +239,7 @@ sub Run {
     }
 
     if ( $UserType eq 'Customer' ) {
-        $UserID = $Kernel::OM->Get('Kernel::System::DB')->Get('CustomerPanelUserID')
+        $UserID = $Kernel::OM->Get('Kernel::System::CustomerUser')->Get('CustomerPanelUserID')
     }
 
     # get ticket object
