@@ -12,12 +12,11 @@ package Kernel::GenericInterface::Operation::Ticket::TicketSearch;
 use strict;
 use warnings;
 
-use Kernel::System::Ticket;
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
-use Kernel::System::VariableCheck qw( :all );
 use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
+use Kernel::System::VariableCheck qw( :all );
+
+our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
@@ -43,30 +42,20 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (
-        qw(DebuggerObject ConfigObject MainObject LogObject TimeObject DBObject EncodeObject WebserviceID)
-        )
-    {
+    for my $Needed (qw(DebuggerObject WebserviceID)) {
         if ( !$Param{$Needed} ) {
             return {
                 Success      => 0,
-                ErrorMessage => "Got no $Needed!"
+                ErrorMessage => "Got no $Needed!",
             };
         }
 
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    # create additional objects
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{DFBackendObject}    = Kernel::System::DynamicField::Backend->new(%Param);
-    $Self->{CommonObject}       = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
-    $Self->{TicketCommonObject}
-        = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
-    $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
-
     # get config for this screen
-    $Self->{Config} = $Self->{ConfigObject}->Get('GenericInterface::Operation::TicketSearch');
+    $Self->{Config}
+        = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::TicketSearch');
 
     return $Self;
 }
@@ -269,11 +258,20 @@ perform TicketSearch Operation. This will return a Ticket ID list.
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my ( $UserID, $UserType ) = $Self->{CommonObject}->Auth(
+    my $CommonObject = Kernel::GenericInterface::Operation::Common->new(
+        DebuggerObject => $Self->{DebuggerObject},
+    );
+
+    my ( $UserID, $UserType ) = $CommonObject->Auth(
         %Param
     );
 
-    return $Self->{TicketCommonObject}->ReturnError(
+    my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
+        DebuggerObject => $Self->{DebuggerObject},
+        WebserviceID   => $Self->{WebserviceID},
+    );
+
+    return $TicketCommonObject->ReturnError(
         ErrorCode    => 'TicketSearch.AuthFail',
         ErrorMessage => "TicketSearch: Authorization failing!",
     ) if !$UserID;
@@ -301,7 +299,7 @@ sub Run {
 
     # perform ticket search
     $UserType = ( $UserType eq 'Customer' ) ? 'CustomerUserID' : 'UserID';
-    my @TicketIDs = $Self->{TicketObject}->TicketSearch(
+    my @TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
         %GetParam,
         %DynamicFieldSearchParameters,
         Result              => 'ARRAY',
@@ -504,7 +502,7 @@ sub _GetDynamicFields {
     my %AttributeLookup;
 
     # get the dynamic fields for ticket object
-    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+    $Self->{DynamicField} = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid      => 1,
         ObjectType => ['Ticket'],
     );
@@ -716,7 +714,7 @@ sub _CreateTimeSettings {
     }
 
     # prepare archive flag
-    if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ArchiveSystem') ) {
 
         $GetParam{SearchInArchive} ||= '';
         if ( $GetParam{SearchInArchive} eq 'AllTickets' ) {
