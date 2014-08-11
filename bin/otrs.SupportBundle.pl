@@ -36,7 +36,7 @@ use Kernel::System::SupportBundleGenerator;
 sub Run {
 
     local $Kernel::OM = $Kernel::OM = Kernel::System::ObjectManager->new(
-        ConfigObject => {
+        'Kernel::System::Log' => {
             LogPrefix => 'OTRS-otrs.SupportBundle.pl',
         },
     );

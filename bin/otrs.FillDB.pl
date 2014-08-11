@@ -36,7 +36,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 sub _OM {
     local $Kernel::OM = Kernel::System::ObjectManager->new(
-        ConfigObject => {
+        'Kernel::System::Log' => {
             LogPrefix => 'OTRS-otrs.FillDB.pl',
         },
     );
