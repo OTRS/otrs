@@ -12,10 +12,12 @@ package Kernel::GenericInterface::Operation::Session::SessionCreate;
 use strict;
 use warnings;
 
-use Kernel::GenericInterface::Operation::Session::Common;
 use Kernel::System::VariableCheck qw(IsStringWithData IsHashRefWithData);
 
-use base qw(Kernel::GenericInterface::Operation::Common);
+use base qw(
+    Kernel::GenericInterface::Operation::Common
+    Kernel::GenericInterface::Operation::Session::Common
+);
 
 our $ObjectManagerDisabled = 1;
 
@@ -46,7 +48,7 @@ sub new {
 
     # check needed objects
     for my $Needed (
-        qw(DebuggerObject ConfigObject MainObject LogObject TimeObject DBObject EncodeObject WebserviceID)
+        qw(DebuggerObject WebserviceID)
         )
     {
         if ( !$Param{$Needed} ) {
@@ -107,11 +109,7 @@ sub Run {
         }
     }
 
-    my $SessionCommonObject = Kernel::GenericInterface::Operation::Session::Common->new(
-        DebuggerObject => $Self->{DebuggerObject},
-    );
-
-    my $SessionID = $SessionCommonObject->CreateSessionID(
+    my $SessionID = $Self->CreateSessionID(
         %Param,
     );
 

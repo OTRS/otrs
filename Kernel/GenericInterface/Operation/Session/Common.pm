@@ -18,7 +18,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::GenericInterface::Operation::Session::Common - common session operation functions
+Kernel::GenericInterface::Operation::Session::Common - Base class for Session Operations
 
 =head1 SYNOPSIS
 
@@ -27,47 +27,6 @@ Kernel::GenericInterface::Operation::Session::Common - common session operation 
 =over 4
 
 =cut
-
-=item new()
-
-create an object
-
-    use Kernel::GenericInterface::Debugger;
-    use Kernel::GenericInterface::Operation::Session::Common;
-
-    my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-        DebuggerConfig   => {
-            DebugThreshold  => 'debug',
-            TestMode        => 0,           # optional, in testing mode the data will not be
-                                            #   written to the DB
-            #...
-        }
-    };
-
-    my $SessionCommonObject = Kernel::GenericInterface::Operation::Session::Common->new(
-        DebuggerObject     => $DebuggerObject,
-    );
-
-=cut
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # check needed objects
-    if ( !$Param{DebuggerObject} ) {
-        return {
-            Success      => 0,
-            ErrorMessage => "Got no DebuggerObject!"
-        };
-    }
-
-    $Self->{DebuggerObject} = $Param{DebuggerObject};
-
-    return $Self;
-}
 
 =item CreateSessionID()
 

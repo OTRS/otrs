@@ -11,16 +11,14 @@ use strict;
 use warnings;
 use vars (qw($Self));
 
+use Kernel::GenericInterface::Debugger;
+use Kernel::GenericInterface::Operation::Session::SessionCreate;
 use Kernel::System::User;
-use Kernel::GenericInterface::Operation::Session::Common;
-
+use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::UnitTest::Helper;
 
-use Kernel::GenericInterface::Debugger;
-use Kernel::System::GenericInterface::Webservice;
-
 # helper object
-# skip SSL certiciate verification
+# skip SSL certificate verification
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},
     UnitTestObject => $Self,
@@ -80,7 +78,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
 $Self->Is(
     ref $DebuggerObject,
     'Kernel::GenericInterface::Debugger',
-    'DebuggerObject instanciate correctly',
+    'DebuggerObject instantiate correctly',
 );
 
 # create needed objects
@@ -92,15 +90,16 @@ my $GroupObject = Kernel::System::Group->new(
     %{$Self},
     ConfigObject => $ConfigObject,
 );
-my $SessionCommonObject = Kernel::GenericInterface::Operation::Session::Common->new(
-    %{$Self},
+
+# use a session operation instance to get access to the common functions
+my $OperationObject = Kernel::GenericInterface::Operation::Session::SessionCreate->new(
     DebuggerObject => $DebuggerObject,
-    ConfigObject   => $ConfigObject,
+    WebserviceID   => $WebserviceID,
 );
 $Self->Is(
-    ref $SessionCommonObject,
-    'Kernel::GenericInterface::Operation::Session::Common',
-    'CommonObject instanciate correctly',
+    ref $OperationObject,
+    'Kernel::GenericInterface::Operation::Session::SessionCreate',
+    'CommonObject instantiate correctly',
 );
 
 # set user details
@@ -194,7 +193,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    my $SessionID = $SessionCommonObject->CreateSessionID(
+    my $SessionID = $OperationObject->CreateSessionID(
         Data => $Test->{Data},
     );
 
