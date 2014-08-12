@@ -14,6 +14,8 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
+our $ObjectManagerDisabled = 1;
+
 =head1 NAME
 
 Kernel::GenericInterface::Mapping::Test - GenericInterface test data mapping backend
@@ -41,7 +43,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed params
-    for my $Needed (qw(DebuggerObject MainObject MappingConfig)) {
+    for my $Needed (qw(DebuggerObject MappingConfig)) {
         if ( !$Param{$Needed} ) {
             return {
                 Success      => 0,
