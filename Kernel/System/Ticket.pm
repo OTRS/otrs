@@ -1110,7 +1110,8 @@ sub TicketGet {
             Type  => $Self->{CacheType},
             TTL   => $Self->{CacheTTL},
             Key   => $CacheKey,
-            Value => \%Ticket,
+            # make a local copy of the ticket data to avoid it being altered in-memory later
+            Value => { %Ticket },
         );
     }
 
