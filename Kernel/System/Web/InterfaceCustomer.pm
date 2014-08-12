@@ -12,10 +12,21 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 use warnings;
 
-# There are additional dependencies that are only loaded on demand
-## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
+our $ObjectManagerAware = 1;
+
 our @ObjectDependencies = (
-    qw(EncodeObject LogObject MainObject TimeObject ParamObject),
+    'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::System::AuthSession',
+    'Kernel::System::CustomerAuth',
+    'Kernel::System::CustomerGroup',
+    'Kernel::System::CustomerUser',
+    'Kernel::System::DB',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Time',
+    'Kernel::System::Web::Request',
 );
 
 =head1 NAME
@@ -71,9 +82,11 @@ sub new {
 
     );
 
-    for my $Needed (qw( EncodeObject LogObject MainObject TimeObject ParamObject )) {
-        $Self->{$Needed} = $Kernel::OM->Get($Needed);
-    }
+    $Self->{EncodeObject} = $Kernel::OM->Get('Kernel::System::Encode');
+    $Self->{LogObject}    = $Kernel::OM->Get('Kernel::System::Log');
+    $Self->{MainObject}   = $Kernel::OM->Get('Kernel::System::Main');
+    $Self->{ParamObject}  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    $Self->{TimeObject}   = $Kernel::OM->Get('Kernel::System::Time');
 
     # debug info
     if ( $Self->{Debug} ) {
@@ -139,10 +152,10 @@ sub Run {
     }
 
     $Kernel::OM->ObjectParamAdd(
-        LayoutObject => {
+        'Kernel::Output::HTML::Layout' => {
             Lang => $Param{Lang},
         },
-        LanguageObject => {
+        'Kernel::Language' => {
             UserLanguage => $Param{Lang},
         },
     );
@@ -167,11 +180,9 @@ sub Run {
     }
 
     # create common framework objects 2/2
-    $Self->{UserObject}  = $Kernel::OM->Get('Kernel::System::CustomerUser');
-    $Self->{GroupObject} = $Kernel::OM->Get('Kernel::System::CustomerGroup');
-    for my $Needed (qw(SessionObject)) {
-        $Self->{$Needed} = $Kernel::OM->Get($Needed);
-    }
+    $Self->{UserObject}    = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    $Self->{GroupObject}   = $Kernel::OM->Get('Kernel::System::CustomerGroup');
+    $Self->{SessionObject} = $Kernel::OM->Get('Kernel::System::AuthSession');
 
     # application and add on application common objects
     my %CommonObject = %{ $Self->{ConfigObject}->Get('CustomerFrontend::CommonObject') };
@@ -219,7 +230,7 @@ sub Run {
         # login is invalid
         if ( !$User ) {
             $Kernel::OM->ObjectParamAdd(
-                LayoutObject => {
+                'Kernel::Output::HTML::Layout' => {
                     SetCookies => {
                         OTRSBrowserHasCookie => $Self->{ParamObject}->SetCookie(
                             Key      => 'OTRSBrowserHasCookie',
@@ -268,7 +279,7 @@ sub Run {
         # check if the browser supports cookies
         if ( $Self->{ParamObject}->GetCookie( Key => 'OTRSBrowserHasCookie' ) ) {
             $Kernel::OM->ObjectParamAdd(
-                LayoutObject => {
+                'Kernel::Output::HTML::Layout' => {
                     BrowserHasCookie => 1,
                 },
             );
@@ -370,7 +381,7 @@ sub Run {
         }
 
         $Kernel::OM->ObjectParamAdd(
-            LayoutObject => {
+            'Kernel::Output::HTML::Layout' => {
                 SetCookies => {
                     SessionIDCookie => $Self->{ParamObject}->SetCookie(
                         Key      => $Param{SessionName},
@@ -441,7 +452,7 @@ sub Run {
 
         # create new LayoutObject with new '%Param' and '%UserData'
         $Kernel::OM->ObjectParamAdd(
-            LayoutObject => {
+            'Kernel::Output::HTML::Layout' => {
                 SetCookies => {
                     SessionIDCookie => $Self->{ParamObject}->SetCookie(
                         Key      => $Param{SessionName},
@@ -841,7 +852,7 @@ sub Run {
 
             # create new LayoutObject with new '%Param'
             $Kernel::OM->ObjectParamAdd(
-                LayoutObject => {
+                'Kernel::Output::HTML::Layout' => {
                     SetCookies => {
                         SessionIDCookie => $Self->{ParamObject}->SetCookie(
                             Key      => $Param{SessionName},
@@ -975,7 +986,7 @@ sub Run {
 
         # create new LayoutObject with new '%Param' and '%UserData'
         $Kernel::OM->ObjectParamAdd(
-            LayoutObject => {
+            'Kernel::Output::HTML::Layout' => {
                 %Param,
                 %UserData,
                 ModuleReg => $ModuleReg,
@@ -1094,7 +1105,7 @@ sub Run {
     # print an error screen
     my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $Param{SessionID}, );
     $Kernel::OM->ObjectParamAdd(
-        LayoutObject => {
+        'Kernel::Output::HTML::Layout' => {
             %Param,
             %Data,
         },

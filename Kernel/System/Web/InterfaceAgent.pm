@@ -84,14 +84,14 @@ sub new {
         },
     );
 
-    $Self->{LogObject}     = $Kernel::OM->Get('Kernel::System::Log');
     $Self->{EncodeObject}  = $Kernel::OM->Get('Kernel::System::Encode');
-    $Self->{SessionObject} = $Kernel::OM->Get('Kernel::System::AuthSession');
-    $Self->{MainObject}    = $Kernel::OM->Get('Kernel::System::Main');
-    $Self->{TimeObject}    = $Kernel::OM->Get('Kernel::System::Time');
-    $Self->{ParamObject}   = $Kernel::OM->Get('Kernel::System::Web::Request');
-    $Self->{UserObject}    = $Kernel::OM->Get('Kernel::System::User');
     $Self->{GroupObject}   = $Kernel::OM->Get('Kernel::System::Group');
+    $Self->{LogObject}     = $Kernel::OM->Get('Kernel::System::Log');
+    $Self->{MainObject}    = $Kernel::OM->Get('Kernel::System::Main');
+    $Self->{ParamObject}   = $Kernel::OM->Get('Kernel::System::Web::Request');
+    $Self->{SessionObject} = $Kernel::OM->Get('Kernel::System::AuthSession');
+    $Self->{TimeObject}    = $Kernel::OM->Get('Kernel::System::Time');
+    $Self->{UserObject}    = $Kernel::OM->Get('Kernel::System::User');
 
     # debug info
     if ( $Self->{Debug} ) {
