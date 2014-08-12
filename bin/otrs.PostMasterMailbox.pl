@@ -58,7 +58,7 @@ if ( $Opts{b} && $Opts{b} !~ /^\d+$/ ) {
 
 # create common objects
 local $Kernel::OM = Kernel::System::ObjectManager->new(
-    LogObject => {
+    'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.PostMasterMailbox.pl',
     },
 );

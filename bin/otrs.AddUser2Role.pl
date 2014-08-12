@@ -32,7 +32,7 @@ use Getopt::Std;
 use Kernel::System::ObjectManager;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
-    LogObject => {
+    'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.AddUser2Role.pl',
     },
 );

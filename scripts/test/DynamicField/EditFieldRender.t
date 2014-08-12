@@ -30,19 +30,19 @@ $HelperObject->FixedTimeSet(
     $Self->{TimeObject}->TimeStamp2SystemTime( String => '2013-12-12 00:00:00' ),
 );
 
-my $DFBackendObject = Kernel::System::DynamicField::Backend->new( %{$Self} );
-
 my $ParamObject = Kernel::System::Web::Request->new(
     %{$Self},
     WebRequest => 0,
 );
-
 my $LayoutObject = Kernel::Output::HTML::Layout->new(
     %{$Self},
     ParamObject  => $ParamObject,
     Lang         => 'en',
     UserTimeZone => '+0',
 );
+my $DFBackendObject = Kernel::System::DynamicField::Backend->new( %{$Self} );
+
+
 
 my $UserID = 1;
 

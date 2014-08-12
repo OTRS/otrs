@@ -23,7 +23,7 @@ our @ObjectDependencies = (
     'Kernel::System::UnitTest',
     'Kernel::System::User',
 );
-our $ObjectManagerAware = 0;
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -39,7 +39,7 @@ construct a helper object.
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new(
-        UnitTestHelperObject => {
+        'Kernel::System::UnitTest::Helper' => {
             RestoreSystemConfiguration => 1,        # optional, save ZZZAuto.pm
                                                     # and restore it in the destructor
         },

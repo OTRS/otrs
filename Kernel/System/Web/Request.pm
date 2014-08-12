@@ -43,7 +43,7 @@ create param object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new(
-        ParamObject => {
+        'Kernel::System::Web::Request' => {
             WebRequest   => CGI::Fast->new(), # optional, e. g. if fast cgi is used
         }
     );

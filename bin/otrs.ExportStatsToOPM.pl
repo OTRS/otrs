@@ -39,7 +39,7 @@ use vars qw($Debug);
 
 # common objects
 local $Kernel::OM = Kernel::System::ObjectManager->new(
-    LogObject => {
+    'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.ExportStatsToOPM.pl',
     },
 );

@@ -33,7 +33,7 @@ use Getopt::Long;
 use Kernel::System::ObjectManager;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
-    LogObject => {
+    'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.CleanupTicketMetadata.pl',
     },
 );

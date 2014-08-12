@@ -140,16 +140,13 @@ sub new {
 
     $Self->{Debug} = delete $Param{Debug};
 
-    # Pre-load ConfigObject to get the ObjectAliases
+    # Pre-load ConfigObject
     my $ConfigObject = Kernel::Config->new();
     $Self->{Objects} = {
         'Kernel::Config' => $ConfigObject,
     };
-    $Self->{ObjectAliases}        = $ConfigObject->Get('ObjectAliases');
-    $Self->{ReverseObjectAliases} = { reverse %{ $Self->{ObjectAliases} } };
-
     for my $Parameter ( sort keys %Param ) {
-        $Self->{Param}->{ $Self->{ObjectAliases}->{$Parameter} // $Parameter } = $Param{$Parameter};
+        $Self->{Param}->{ $Parameter } = $Param{$Parameter};
     }
 
     return $Self;
@@ -169,15 +166,12 @@ For example C<< ->Get('TicketObject') >> retrieves a L<Kernel::System::Ticket> o
 =cut
 
 sub Get {
-
     # No param unpacking for increased performance
-    my $Package = $_[0]->{ObjectAliases}->{ $_[1] } // $_[1];
-
-    if ( $Package && $_[0]->{Objects}->{$Package} ) {
-        return $_[0]->{Objects}->{$Package};
+    if ( $_[1] && $_[0]->{Objects}->{$_[1]} ) {
+        return $_[0]->{Objects}->{$_[1]};
     }
 
-    if ( !$Package ) {
+    if ( !$_[1] ) {
         $_[0]->_DieWithError(
             Error => "Error: Missing parameter (object name)",
         );
@@ -187,9 +181,9 @@ sub Get {
     # build better error messages
     # needs to be a statement-modifying 'if', otherwise 'local'
     # is local to the scope of the 'if'-block
-    local $CurrentObject = $Package if !$CurrentObject;
+    local $CurrentObject = $_[1] if !$CurrentObject;
 
-    return $_[0]->_ObjectBuild( Package => $Package );
+    return $_[0]->_ObjectBuild( Package => $_[1] );
 }
 
 sub _ObjectBuild {
@@ -246,7 +240,7 @@ sub _ObjectBuild {
     #   short form (e.g. ConfigObject) to the constructor.
     if ( !$ObjectManagerAware && @{$Dependencies} ) {
         for my $Dependency ( @{$Dependencies} ) {
-            $ConstructorArguments{ $Self->{ReverseObjectAliases}->{$Dependency} // $Dependency }
+            $ConstructorArguments{ $Dependency }
                 //= $Self->Get($Dependency);
         }
     }
@@ -311,7 +305,7 @@ when they are created, in the same format as the C<new()> method
 receives them.
 
     $Kernel::OM->ObjectParamAdd(
-        TicketObject => {
+        'Kernel::System::Ticket' => {
             Key => 'Value',
         },
     );
@@ -321,15 +315,14 @@ receives them.
 sub ObjectParamAdd {
     my ( $Self, %Param ) = @_;
 
-    for my $Key ( sort keys %Param ) {
-        my $Package = $Self->{ObjectAliases}->{$Key} // $Key;
-        if ( ref( $Param{$Key} ) eq 'HASH' ) {
-            for my $K ( sort keys %{ $Param{$Key} } ) {
-                $Self->{Param}->{$Package}->{$K} = $Param{$Key}->{$K};
+    for my $Package ( sort keys %Param ) {
+        if ( ref( $Param{$Package} ) eq 'HASH' ) {
+            for my $Key ( sort keys %{ $Param{$Package} } ) {
+                $Self->{Param}->{$Package}->{$Key} = $Param{$Package}->{$Key};
             }
         }
         else {
-            $Self->{Param}->{$Package} = $Param{$Key};
+            $Self->{Param}->{$Package} = $Param{$Package};
         }
     }
     return;
@@ -399,7 +392,7 @@ sub ObjectsDiscard {
 
             # undef happens to be the value that uses the least amount
             # of memory in perl, and we are only interested in the keys
-            $ReverseDependencies{ $Self->{ObjectAliases}->{$Dependency} // $Dependency }->{$Object}
+            $ReverseDependencies{ $Dependency }->{$Object}
                 = undef;
         }
         push @AllObjects, $Object;
@@ -420,7 +413,7 @@ sub ObjectsDiscard {
 
     if ( $Param{Objects} ) {
         for my $Object ( @{ $Param{Objects} } ) {
-            $Traverser->( $Self->{ObjectAliases}->{$Object} // $Object );
+            $Traverser->( $Object );
         }
     }
     else {

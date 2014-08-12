@@ -57,6 +57,7 @@ sub Dispatch {
 
     my %CommonObject;
 
+    $CommonObject{ConfigObject}          = $Kernel::OM->Get('Kernel::Config');
     $CommonObject{CustomerCompanyObject} = $Kernel::OM->Get('Kernel::System::CustomerCompany');
     $CommonObject{CustomerUserObject}    = $Kernel::OM->Get('Kernel::System::CustomerUser');
     $CommonObject{EncodeObject}          = $Kernel::OM->Get('Kernel::System::Encode');
@@ -134,6 +135,7 @@ sub DispatchMultipleTicketMethods {
 
     my %CommonObject;
 
+    $CommonObject{ConfigObject}          = $Kernel::OM->Get('Kernel::Config');
     $CommonObject{CustomerCompanyObject} = $Kernel::OM->Get('Kernel::System::CustomerCompany');
     $CommonObject{CustomerUserObject}    = $Kernel::OM->Get('Kernel::System::CustomerUser');
     $CommonObject{EncodeObject}          = $Kernel::OM->Get('Kernel::System::Encode');

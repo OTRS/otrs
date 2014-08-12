@@ -45,7 +45,7 @@ if ( $Opts{h} || !$Opts{t} ) {
 
 # common objects
 local $Kernel::OM = Kernel::System::ObjectManager->new(
-    LogObject => {
+    'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.GetTicketThread.pl',
     },
 );

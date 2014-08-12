@@ -34,10 +34,10 @@ use Kernel::System::ObjectManager;
 
 # create common objects
 local $Kernel::OM = Kernel::System::ObjectManager->new(
-    LogObject => {
+    'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.GenerateStats.pl',
     },
-    StatsObject => {
+    'Kernel::System::Stats' => {
         UserID => 1,
     },
 );

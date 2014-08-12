@@ -58,7 +58,7 @@ if ( !$Opts{q} ) {
 
 # create common objects
 local $Kernel::OM = Kernel::System::ObjectManager->new(
-    LogObject => {
+    'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.PostMaster.pl',
     },
 );
@@ -90,7 +90,7 @@ eval {
     }
 
     $Kernel::OM->ObjectParamAdd(
-        PostMasterObject => {
+        'Kernel::System::PostMaster' => {
             Email   => \@Email,
             Trusted => $Opts{'t'},
             Debug   => $Opts{'d'},

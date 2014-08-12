@@ -50,7 +50,7 @@ create agent web interface object. Do not use it directly, instead use:
     use Kernel::System::ObjectManager;
     my $Debug = 0,
     local $Kernel::OM = Kernel::System::ObjectManager->new(
-        InterfaceAgentObject => {
+        'Kernel::System::Web::InterfaceAgent' => {
             Debug   => 0,
             WebRequest => CGI::Fast->new(), # optional, e. g. if fast cgi is used,
                                             # the CGI object is already provided

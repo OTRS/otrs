@@ -20,32 +20,70 @@ local $Kernel::OM = Kernel::System::ObjectManager->new();
 # test that all configured objects can be created and then destroyed;
 # that way we know there are no cyclic references in the constructors
 
-my %ObjectAliases = %{ $Kernel::OM->Get('Kernel::Config')->Get('ObjectAliases') };
-my @Objects       = sort keys %ObjectAliases;
-
-# some objects need extra data/configuration; exclude them
-my %Exclude = (
-    CryptObject          => 1,    # needs CryptType
-    PostMasterObject     => 1,    # needs Email
-    StatsObject          => 1,    # needs UserID
-    UnitTestHelperObject => 1,    # needs UnitTestObject
+my @Objects = (
+    'Kernel::Config',
+    'Kernel::Language',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::System::ACL::DB::ACL',
+    'Kernel::System::Auth',
+    'Kernel::System::AuthSession',
+    'Kernel::System::AutoResponse',
+    'Kernel::System::Cache',
+    'Kernel::System::CheckItem',
+    'Kernel::System::CSV',
+    'Kernel::System::CustomerAuth',
+    'Kernel::System::CustomerCompany',
+    'Kernel::System::CustomerGroup',
+    'Kernel::System::CustomerUser',
+    'Kernel::System::DB',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
+    'Kernel::System::Email',
+    'Kernel::System::Encode',
+    'Kernel::System::Environment',
+    'Kernel::System::FileTemp',
+    'Kernel::System::GenericAgent',
+    'Kernel::System::GenericInterface::DebugLog',
+    'Kernel::System::GenericInterface::Webservice',
+    'Kernel::System::Group',
+    'Kernel::System::HTMLUtils',
+    'Kernel::System::JSON',
+    'Kernel::System::LinkObject',
+    'Kernel::System::Loader',
+    'Kernel::System::Lock',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Package',
+    'Kernel::System::PDF',
+    'Kernel::System::PID',
+    'Kernel::System::Priority',
+    'Kernel::System::Queue',
+    'Kernel::System::Scheduler::TaskManager',
+    'Kernel::System::Service',
+    'Kernel::System::SLA',
+    'Kernel::System::StandardTemplate',
+    'Kernel::System::State',
+    'Kernel::System::SysConfig',
+    'Kernel::System::SystemAddress',
+    'Kernel::System::Ticket',
+    'Kernel::System::Time',
+    'Kernel::System::Type',
+    'Kernel::System::UnitTest',
+    'Kernel::System::User',
+    'Kernel::System::Valid',
+    'Kernel::System::Web::Request',
+    'Kernel::System::XML',
+    'Kernel::System::YAML',
 );
-@Objects = grep { !$Exclude{$_} } @Objects;
 
 my %AllObjects;
 
 for my $Object (@Objects) {
-    my $AliasObject   = $Kernel::OM->Get($Object);
-    my $PackageObject = $Kernel::OM->Get( $ObjectAliases{$Object} );
+    my $PackageObject = $Kernel::OM->Get( $Object );
     $AllObjects{$Object} = $PackageObject;
     $Self->True(
-        $AliasObject,
-        "ObjectManager could create $Object",
-    );
-    $Self->Is(
-        $AliasObject,
         $PackageObject,
-        "ObjectManager understands both $Object and $ObjectAliases{$Object}",
+        "ObjectManager could create $Object",
     );
 }
 
@@ -90,24 +128,17 @@ $Self->True(
 );
 
 # test custom objects
-# note that DummyObject creates a Dummy2Object in its destructor,
+# note that scripts::test::ObjectManager::Dummy creates a scripts::test::ObjectManager::Dummy2 in its destructor,
 # even though it didn't declare a dependency on it.
 # The object manager must be robust enough to deal with that.
-
-my $Dummy = eval { $Kernel::OM->Get('DummyObject') };
-$Self->True( !$Dummy, 'Can not get dummy object before it is registered' );
-
-$Kernel::OM->{ObjectAliases}->{DummyObject}  = 'scripts::test::ObjectManager::Dummy';
-$Kernel::OM->{ObjectAliases}->{Dummy2Object} = 'scripts::test::ObjectManager::Dummy2';
-
 $Kernel::OM->ObjectParamAdd(
-    DummyObject => {
+    'scripts::test::ObjectManager::Dummy' => {
         Data => 'Test payload',
     },
 );
 
-$Dummy = $Kernel::OM->Get('DummyObject');
-my $Dummy2 = $Kernel::OM->Get('Dummy2Object');
+my $Dummy = $Kernel::OM->Get('scripts::test::ObjectManager::Dummy');
+my $Dummy2 = $Kernel::OM->Get('scripts::test::ObjectManager::Dummy2');
 
 $Self->True( $Dummy,  'Can get Dummy object after registration' );
 $Self->True( $Dummy2, 'Can get Dummy2 object after registration' );
@@ -129,16 +160,16 @@ $Self->True( !$Dummy,  'ObjectsDiscard without arguments deleted Dummy' );
 $Self->True( !$Dummy2, 'ObjectsDiscard without arguments deleted Dummy2' );
 
 $Self->True(
-    !$Kernel::OM->{Objects}{Dummy2Object},
+    !$Kernel::OM->{Objects}{'scripts::test::ObjectManager::Dummy2'},
     'ObjecstDiscard also discarded newly autovivified objects'
 );
 
-$Dummy = $Kernel::OM->Get('DummyObject');
+$Dummy = $Kernel::OM->Get('scripts::test::ObjectManager::Dummy');
 weaken($Dummy);
 $Self->True( $Dummy, 'Object created again' );
 
 $Kernel::OM->ObjectsDiscard(
-    Objects => ['DummyObject'],
+    Objects => ['scripts::test::ObjectManager::Dummy'],
 );
 $Self->True( !$Dummy, 'ObjectsDiscard with list of objects deleted object' );
 

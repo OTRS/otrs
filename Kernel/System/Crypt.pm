@@ -48,7 +48,7 @@ create new object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new(
-        CryptObject => {
+        'Kernel::System::Crypt' => {
             CryptType   => 'PGP',   # PGP or SMIME
         },
     );

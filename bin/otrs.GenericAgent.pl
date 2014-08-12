@@ -63,10 +63,10 @@ if ( !$Opts{l} ) {
 my $UserIDOfGenericAgent = 1;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
-    LogObject => {
+    'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.GenericAgent.pl',
     },
-    GenericAgentObject => {
+    'Kernel::System::GenericAgent' => {
         NoticeSTDOUT => 1,
         Debug        => $Opts{d},
     },

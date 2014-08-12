@@ -59,7 +59,7 @@ if ( <STDIN> ne "yes\n" ) {
 
 # create common objects
 local $Kernel::OM = Kernel::System::ObjectManager->new(
-    LogObject => {
+    'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.MySQLInnoDBSwitch.pl',
     },
 );

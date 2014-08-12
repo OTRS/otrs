@@ -46,10 +46,10 @@ EOF
 
 sub Run {
     local $Kernel::OM = Kernel::System::ObjectManager->new(
-        LogObject => {
+        'Kernel::System::Log' => {
             LogPrefix => 'OTRS-otrs.GenerateDashboardStats.pl',
         },
-        StatsObject => {
+        'Kernel::System::Stats' => {
             UserID => 1,
         },
     );

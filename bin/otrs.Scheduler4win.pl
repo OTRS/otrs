@@ -37,7 +37,9 @@ use Kernel::System::ObjectManager;
 use Kernel::System::VariableCheck qw(:all);
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
-    LogPrefix => 'OTRS-otrs.Scheduler',
+    'Kernel::System::Log' => {
+        LogPrefix => 'OTRS-otrs.Scheduler',
+    },
 );
 
 # defie PID name
@@ -781,10 +783,10 @@ sub _WatchDog {
     my %Param = @_;
 
     local $Kernel::OM = Kernel::System::ObjectManager->new(
-        LogObject => {
+        'Kernel::System::Log' => {
             LogPrefix => 'OTRS-otrs.Scheduler-Watchdog',
         },
-        DBObject => {
+        'Kernel::System::DB' => {
             AutoConnectNo => 1,
         },
     );

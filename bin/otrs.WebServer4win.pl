@@ -415,7 +415,7 @@ sub _Status {
 
 sub _OM {
     return Kernel::System::ObjectManager->new(
-        LogObject => {
+        'Kernel::System::Log' => {
             LogPrefix => 'OTRS-otrs.WebServer',
             }
     );

@@ -51,10 +51,10 @@ EOF
 
 # create common objects
 local $Kernel::OM = Kernel::System::ObjectManager->new(
-    LogObject => {
+    'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.UnitTest',
     },
-    UnitTestObject => {
+    'Kernel::System::UnitTest' => {
         Output => $Opts{o} || '',
     },
 );

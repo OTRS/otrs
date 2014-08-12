@@ -33,7 +33,7 @@ use lib dirname($RealBin) . '/Custom';
 use Kernel::System::ObjectManager;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
-    LogObject => {
+    'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.ImportACLsFromConfig.pl',
     },
 );

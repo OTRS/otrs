@@ -64,7 +64,7 @@ if ( $Opts{b} && $Opts{b} !~ m{ \A \d+ \z }xms ) {
 
 # create common objects
 local $Kernel::OM = Kernel::System::ObjectManager->new(
-    LogObject => {
+    'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.ArticleStorageSwitch.pl',
     },
 );

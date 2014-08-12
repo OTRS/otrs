@@ -58,7 +58,7 @@ create a new object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new(
-        LayoutObject {
+        'Kernel::Output::HTML::Layout' => {
             Lang    => 'de',
         },
     );
@@ -69,7 +69,7 @@ to indicate that a database connection is not yet available.
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new(
-        LayoutObject {
+        'Kernel::Output::HTML::Layout' => {
             InstallerOnly => 1,
         },
     );
@@ -150,7 +150,7 @@ sub new {
     # create language object
     if ( !$Self->{LanguageObject} ) {
         $Kernel::OM->ObjectParamAdd(
-            LanguageObject => {
+            'Kernel::Language' => {
                 UserTimeZone => $Self->{UserTimeZone},
                 UserLanguage => $Self->{UserLanguage},
                 Action       => $Self->{Action},

@@ -99,7 +99,7 @@ for my $DatabaseType (@DatabaseType) {
 
     # create common objects
     local $Kernel::OM = Kernel::System::ObjectManager->new(
-        LogObject => {
+        'Kernel::System::Log' => {
             LogPrefix => 'OTRS-otrs.xml2sql.pl',
         },
         DBObject => {

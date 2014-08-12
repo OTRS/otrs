@@ -52,7 +52,7 @@ if ( $Opts{h} ) {
 
 # create common objects
 local $Kernel::OM = Kernel::System::ObjectManager->new(
-    LogObject => {
+    'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.WebserviceConfig.pl',
     },
 );

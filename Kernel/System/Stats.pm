@@ -50,7 +50,7 @@ create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new(
-        StatsObject => {
+        'Kernel::System::Stats' => {
             UserID  => 123,
         }
     );
