@@ -47,6 +47,7 @@ sub new {
         )
     {
         if ( !$Param{$Needed} ) {
+
             return {
                 Success      => 0,
                 ErrorMessage => "Got no $Needed!"
@@ -95,6 +96,7 @@ sub Run {
 
     # check needed stuff
     if ( !IsHashRefWithData( $Param{Data} ) ) {
+
         return $CommonObject->ReturnError(
             ErrorCode    => 'SessionCreate.MissingParameter',
             ErrorMessage => "SessionCreate: The request is empty!",
@@ -103,6 +105,7 @@ sub Run {
 
     for my $Needed (qw( Password )) {
         if ( !$Param{Data}->{$Needed} ) {
+
             return $CommonObject->ReturnError(
                 ErrorCode    => 'SessionCreate.MissingParameter',
                 ErrorMessage => "SessionCreate: $Needed parameter is missing!",
@@ -119,6 +122,7 @@ sub Run {
     );
 
     if ( !$SessionID ) {
+
         return $CommonObject->ReturnError(
             ErrorCode    => 'SessionCreate.AuthFail',
             ErrorMessage => "SessionCreate: Authorization failing!",
