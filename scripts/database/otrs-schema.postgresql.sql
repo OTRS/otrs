@@ -1149,6 +1149,10 @@ CREATE TABLE package_repository (
     content_size VARCHAR (30) NULL,
     content_type VARCHAR (250) NULL,
     content TEXT NOT NULL,
+    from_cloud INTEGER NULL,
+    visible INTEGER NULL,
+    downloadable INTEGER NULL,
+    removable INTEGER NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,
@@ -1368,13 +1372,6 @@ CREATE TABLE pm_transition_action (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     CONSTRAINT pm_transition_action_entity_id UNIQUE (entity_id)
-);
--- ----------------------------------------------------------
---  create table pm_entity
--- ----------------------------------------------------------
-CREATE TABLE pm_entity (
-    entity_type VARCHAR (50) NOT NULL,
-    entity_counter INTEGER NOT NULL
 );
 -- ----------------------------------------------------------
 --  create table pm_entity_sync

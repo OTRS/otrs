@@ -2385,6 +2385,10 @@ CREATE TABLE package_repository (
     content_size VARCHAR2 (30) NULL,
     content_type VARCHAR2 (250) NULL,
     content CLOB NOT NULL,
+    from_cloud NUMBER (5, 0) NULL,
+    visible NUMBER (5, 0) NULL,
+    downloadable NUMBER (5, 0) NULL,
+    removable NUMBER (5, 0) NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
@@ -2996,13 +3000,6 @@ END;
 --;
 CREATE INDEX FK_pm_transition_action_chan4f ON pm_transition_action (change_by);
 CREATE INDEX FK_pm_transition_action_crea78 ON pm_transition_action (create_by);
--- ----------------------------------------------------------
---  create table pm_entity
--- ----------------------------------------------------------
-CREATE TABLE pm_entity (
-    entity_type VARCHAR2 (50) NOT NULL,
-    entity_counter NUMBER (12, 0) NOT NULL
-);
 -- ----------------------------------------------------------
 --  create table pm_entity_sync
 -- ----------------------------------------------------------

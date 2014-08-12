@@ -23,6 +23,7 @@ ALTER TABLE ticket_history DROP CONSTRAINT FK_ticket_history_valid_id_id;
 --  alter table ticket_history
 -- ----------------------------------------------------------
 ALTER TABLE ticket_history DROP COLUMN valid_id;
+DROP TABLE pm_entity CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table personal_services
 -- ----------------------------------------------------------
@@ -33,6 +34,22 @@ CREATE TABLE personal_services (
 CREATE INDEX FK_personal_services_service14 ON personal_services (service_id);
 CREATE INDEX personal_services_queue_id ON personal_services (service_id);
 CREATE INDEX personal_services_user_id ON personal_services (user_id);
+-- ----------------------------------------------------------
+--  alter table package_repository
+-- ----------------------------------------------------------
+ALTER TABLE package_repository ADD from_cloud NUMBER (5, 0) NULL;
+-- ----------------------------------------------------------
+--  alter table package_repository
+-- ----------------------------------------------------------
+ALTER TABLE package_repository ADD visible NUMBER (5, 0) NULL;
+-- ----------------------------------------------------------
+--  alter table package_repository
+-- ----------------------------------------------------------
+ALTER TABLE package_repository ADD downloadable NUMBER (5, 0) NULL;
+-- ----------------------------------------------------------
+--  alter table package_repository
+-- ----------------------------------------------------------
+ALTER TABLE package_repository ADD removable NUMBER (5, 0) NULL;
 SET DEFINE OFF;
 SET SQLBLANKLINES ON;
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_service42 FOREIGN KEY (service_id) REFERENCES service (id);

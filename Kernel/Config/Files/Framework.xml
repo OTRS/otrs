@@ -2687,7 +2687,7 @@
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
         <Setting>
-            <String Regex="">15</String>
+            <String Regex="">120</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Package::Proxy" Required="0" Valid="0" ConfigLevel="200">
@@ -5508,7 +5508,6 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::DashboardProductNotify</Item>
                 <Item Key="Title">Product News</Item>
                 <Item Key="Description">News about OTRS releases!</Item>
-                <Item Key="URL">http://otrs.org/product.xml</Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group">admin</Item>
                 <Item Key="Default">1</Item>
@@ -5565,12 +5564,6 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::DashboardRSS</Item>
                 <Item Key="Title">OTRS News</Item>
                 <Item Key="Description"></Item>
-                <Item Key="URL">http://www.otrs.com/en/rss.xml</Item>
-                <Item Key="URL_de">http://www.otrs.com/de/rss.xml</Item>
-                <Item Key="URL_es">http://www.otrs.com/es/rss.xml</Item>
-                <Item Key="URL_nl">http://www.otrs.com/nl/rss.xml</Item>
-                <Item Key="URL_ru">http://www.otrs.com/ru/rss.xml</Item>
-                <Item Key="URL_zh">http://www.otrs.com/cn/rss.xml</Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Limit">6</Item>
                 <Item Key="Group"></Item>

@@ -26,6 +26,7 @@ use base qw(Kernel::System::EventHandler);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
+    'Kernel::System::CloudService',
     'Kernel::System::DB',
     'Kernel::System::Encode',
     'Kernel::System::JSON',
@@ -91,6 +92,11 @@ sub new {
         IntroUpgrade    => 'ARRAY',
         IntroReinstall  => 'ARRAY',
         PackageMerge    => 'ARRAY',
+
+        # package flags
+        PackageIsVisible      => 'SCALAR',
+        PackageIsDownloadable => 'SCALAR',
+        PackageIsRemovable    => 'SCALAR',
 
         # *(Pre|Post) - just for compat. to 2.2
         IntroInstallPre    => 'ARRAY',
@@ -172,7 +178,8 @@ sub RepositoryList {
 
     # get repository list
     $DBObject->Prepare(
-        SQL => 'SELECT name, version, install_status, content, vendor '
+        SQL => 'SELECT name, version, install_status, content, vendor,'
+            . ' from_cloud, visible, downloadable, removable '
             . 'FROM package_repository ORDER BY name, create_time',
     );
 
@@ -180,10 +187,14 @@ sub RepositoryList {
     my @Data;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         my %Package = (
-            Name    => $Row[0],
-            Version => $Row[1],
-            Status  => $Row[2],
-            Vendor  => $Row[4],
+            Name         => $Row[0],
+            Version      => $Row[1],
+            Status       => $Row[2],
+            Vendor       => $Row[4],
+            FromCloud    => $Row[5] || 0,
+            Visible      => $Row[6] || 0,
+            Downloadable => $Row[7] || 0,
+            Removable    => $Row[8] || 0,
         );
 
         # correct any 'dos-style' line endings - http://bugs.otrs.org/show_bug.cgi?id=9838
@@ -236,9 +247,12 @@ sub RepositoryGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Name Version)) {
-        if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "$_ not defined!" );
+    for my $Needed (qw(Name Version)) {
+        if ( !defined $Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Needed not defined!",
+            );
             return;
         }
     }
@@ -295,7 +309,10 @@ sub RepositoryGet {
 
 add a package to local repository
 
-    $PackageObject->RepositoryAdd( String => $FileString );
+    $PackageObject->RepositoryAdd(
+        String => $FileString,
+        FromCloud => 0, # optional 1 or 0
+    );
 
 =cut
 
@@ -304,23 +321,38 @@ sub RepositoryAdd {
 
     # check needed stuff
     if ( !defined $Param{String} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'String not defined!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'String not defined!',
+        );
         return;
     }
+
+    # get from cloud flag
+    $Param{FromCloud} //= 0;
 
     # get package attributes
     my %Structure = $Self->PackageParse(%Param);
 
     if ( !IsHashRefWithData( \%Structure ) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Invalid Package!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Invalid Package!',
+        );
         return;
     }
     if ( !$Structure{Name} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need Name!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Name!',
+        );
         return;
     }
     if ( !$Structure{Version} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need Version!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Version!',
+        );
         return;
     }
 
@@ -330,6 +362,11 @@ sub RepositoryAdd {
         Version => $Structure{Version}->{Content},
         Result  => 'SCALAR',
     );
+
+    # get extra flags
+    for my $Item (qw(PackageIsVisible PackageIsDownloadable PackageIsRemovable)) {
+        $Param{$Item} = $Structure{$Item} || 0;
+    }
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -341,18 +378,24 @@ sub RepositoryAdd {
         );
     }
 
+    for my $Item (qw(Visible Downloadable Removable)) {
+        $Param{$Item} = ( !defined $Param{$Item} ? 1 : $Param{$Item} );
+    }
+
     # add new package
     my $FileName = $Structure{Name}->{Content} . '-' . $Structure{Version}->{Content} . '.xml';
 
     return if !$DBObject->Do(
         SQL => 'INSERT INTO package_repository (name, version, vendor, filename, '
             . ' content_size, content_type, content, install_status, '
+            . ' from_cloud, visible, downloadable, removable, '
             . ' create_time, create_by, change_time, change_by)'
             . ' VALUES  (?, ?, ?, ?, \'213\', \'text/xml\', ?, \'not installed\', '
-            . ' current_timestamp, 1, current_timestamp, 1)',
+            . ' ?, ?, ?, ?, current_timestamp, 1, current_timestamp, 1)',
         Bind => [
             \$Structure{Name}->{Content}, \$Structure{Version}->{Content},
             \$Structure{Vendor}->{Content}, \$FileName, \$Param{String},
+            \$Param{FromCloud}, \$Param{Visible}, \$Param{Downloadable}, \$Param{Removable},
         ],
     );
 
@@ -380,7 +423,10 @@ sub RepositoryRemove {
 
     # check needed stuff
     if ( !defined $Param{Name} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Name not defined!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Name not defined!',
+        );
         return;
     }
 
@@ -412,7 +458,10 @@ sub RepositoryRemove {
 
 install a package
 
-    $PackageObject->PackageInstall( String => $FileString );
+    $PackageObject->PackageInstall(
+        String    => $FileString
+        FromCloud => 1, # optional 1 or 0
+    );
 
 =cut
 
@@ -421,9 +470,15 @@ sub PackageInstall {
 
     # check needed stuff
     if ( !defined $Param{String} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'String not defined!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'String not defined!',
+        );
         return;
     }
+
+    # get from cloud flag
+    my $FromCloud = $Param{FromCloud} || 0;
 
     # conflict check
     my %Structure = $Self->PackageParse(%Param);
@@ -526,7 +581,7 @@ sub PackageInstall {
     }
 
     # add package
-    return if !$Self->RepositoryAdd( String => $Param{String} );
+    return if !$Self->RepositoryAdd( String => $Param{String}, FromCloud => $FromCloud );
 
     # update package status
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
@@ -594,7 +649,10 @@ sub PackageReinstall {
 
     # check needed stuff
     if ( !defined $Param{String} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'String not defined!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'String not defined!',
+        );
         return;
     }
 
@@ -676,7 +734,10 @@ sub PackageUpgrade {
 
     # check needed stuff
     if ( !defined $Param{String} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'String not defined!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'String not defined!',
+        );
         return;
     }
 
@@ -1075,7 +1136,8 @@ sub PackageUninstall {
 
     # check needed stuff
     if ( !defined $Param{String} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'String not defined!' );
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'String not defined!' );
         return;
     }
 
@@ -1224,9 +1286,12 @@ sub PackageOnlineList {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(URL Lang)) {
-        if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "$_ not defined!" );
+    for my $Needed (qw(URL Lang)) {
+        if ( !defined $Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Needed not defined!",
+            );
             return;
         }
     }
@@ -1253,61 +1318,90 @@ sub PackageOnlineList {
         return @{$Cache} if $Cache;
     }
 
-    my $XML = $Self->_Download( URL => $Param{URL} . '/otrs.xml' );
-
-    return if !$XML;
-
-    my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $XML );
-
-    if ( !@XMLARRAY ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Unable to parse repository index document.',
-        );
-        return;
-    }
-
     my @Packages;
     my %Package;
     my $Filelist;
-    TAG:
-    for my $Tag (@XMLARRAY) {
+    if ( !$Param{FromCloud} ) {
 
-        # remember package
-        if ( $Tag->{TagType} eq 'End' && $Tag->{Tag} eq 'Package' ) {
-            if (%Package) {
-                push @Packages, {%Package};
-            }
-            next TAG;
+        my $XML = $Self->_Download( URL => $Param{URL} . '/otrs.xml' );
+        return if !$XML;
+
+        my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $XML );
+
+        if ( !@XMLARRAY ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => 'Unable to parse repository index document.',
+            );
+            return;
         }
 
-        # just use start tags
-        next TAG if $Tag->{TagType} ne 'Start';
+        TAG:
+        for my $Tag (@XMLARRAY) {
 
-        # reset package data
-        if ( $Tag->{Tag} eq 'Package' ) {
-            %Package  = ();
-            $Filelist = 0;
-        }
-        elsif ( $Tag->{Tag} eq 'Framework' ) {
-            push @{ $Package{Framework} }, $Tag;
-        }
-        elsif ( $Tag->{Tag} eq 'Filelist' ) {
-            $Filelist = 1;
-        }
-        elsif ( $Filelist && $Tag->{Tag} eq 'FileDoc' ) {
-            push @{ $Package{Filelist} }, $Tag;
-        }
-        elsif ( $Tag->{Tag} eq 'Description' ) {
-            if ( !$Package{Description} ) {
-                $Package{Description} = $Tag->{Content};
+            # remember package
+            if ( $Tag->{TagType} eq 'End' && $Tag->{Tag} eq 'Package' ) {
+                if (%Package) {
+                    push @Packages, {%Package};
+                }
+                next TAG;
             }
-            if ( $Tag->{Lang} eq $Param{Lang} ) {
-                $Package{Description} = $Tag->{Content};
+
+            # just use start tags
+            next TAG if $Tag->{TagType} ne 'Start';
+
+            # reset package data
+            if ( $Tag->{Tag} eq 'Package' ) {
+                %Package  = ();
+                $Filelist = 0;
+            }
+            elsif ( $Tag->{Tag} eq 'Framework' ) {
+                push @{ $Package{Framework} }, $Tag;
+            }
+            elsif ( $Tag->{Tag} eq 'Filelist' ) {
+                $Filelist = 1;
+            }
+            elsif ( $Filelist && $Tag->{Tag} eq 'FileDoc' ) {
+                push @{ $Package{Filelist} }, $Tag;
+            }
+            elsif ( $Tag->{Tag} eq 'Description' ) {
+                if ( !$Package{Description} ) {
+                    $Package{Description} = $Tag->{Content};
+                }
+                if ( $Tag->{Lang} eq $Param{Lang} ) {
+                    $Package{Description} = $Tag->{Content};
+                }
+            }
+            else {
+                $Package{ $Tag->{Tag} } = $Tag->{Content};
             }
         }
-        else {
-            $Package{ $Tag->{Tag} } = $Tag->{Content};
+
+    }
+    else {
+
+        # On this case a cloud service is used, a URL is not
+        # needed, instead a operation name, present on the URL
+        # parameter in order to match with the previous structure
+        my $Operation = $Param{URL};
+
+        # get list from cloud
+        my $ListResult = $Self->CloudFileGet(
+            Operation => $Operation,
+        );
+
+        # check result structure
+        return if !IsHashRefWithData($ListResult);
+
+        my $CurrentFramework = $Kernel::OM->Get('Kernel::Config')->Get('Version');
+        FRAMEWORKVERSION:
+        for my $FrameworkVersion ( sort keys %{$ListResult} ) {
+
+            if ( $CurrentFramework =~ m{ \A $FrameworkVersion }xms ) {
+
+                @Packages = @{ $ListResult->{$FrameworkVersion} };
+                last FRAMEWORKVERSION;
+            }
         }
     }
 
@@ -1441,11 +1535,47 @@ sub PackageOnlineGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(File Source)) {
-        if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "$_ not defined!" );
+    for my $Needed (qw(File Source)) {
+        if ( !defined $Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Needed not defined!",
+            );
             return;
         }
+    }
+
+    #check if file might be retrieved from cloud
+    my $RepositoryCloudList = $Self->RepositoryCloudList();
+    if ( IsHashRefWithData($RepositoryCloudList) && $RepositoryCloudList->{ $Param{Source} } ) {
+
+        my $PackageFromCloud;
+
+        # On this case a cloud service is used, Source contains an
+        # operation name in order to match with the previous structure
+        my $Operation = $Param{Source} . 'FileGet';
+
+        # download package from cloud
+        my $PackageResult = $Self->CloudFileGet(
+            Operation => $Operation,
+            Data      => {
+                File => $Param{File},
+            },
+        );
+
+        if (
+            IsHashRefWithData($PackageResult)
+            && $PackageResult->{Package}
+            )
+        {
+            $PackageFromCloud = $PackageResult->{Package};
+        }
+        elsif ( IsStringWithData($PackageResult) ) {
+            return 'ErrorMessage:' . $PackageResult;
+
+        }
+
+        return $PackageFromCloud;
     }
 
     return $Self->_Download( URL => $Param{Source} . '/' . $Param{File} );
@@ -1466,9 +1596,12 @@ sub DeployCheck {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Name Version)) {
-        if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "$_ not defined!" );
+    for my $Needed (qw(Name Version)) {
+        if ( !defined $Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Needed not defined!",
+            );
             return;
         }
     }
@@ -1490,7 +1623,7 @@ sub DeployCheck {
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "$Param{Name}-$Param{Version}: No such file: $LocalFile!"
+                Message  => "$Param{Name}-$Param{Version}: No such file: $LocalFile!",
             );
 
             $Self->{DeployCheckInfo}->{File}->{ $File->{Location} } = 'No file installed!';
@@ -1572,11 +1705,19 @@ sub PackageVerify {
 
     # check needed stuff
     if ( !$Param{Package} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "Need Package!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Package!",
+        );
+
         return;
     }
     if ( !$Param{Structure} && !$Param{Name} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need Structure or Name!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Structure or Name!',
+        );
+
         return;
     }
 
@@ -1607,43 +1748,60 @@ sub PackageVerify {
     );
     if ($CachedValue) {
         $Self->{PackageVerifyInfo} = $PackageVerifyInfo;
+
         return $CachedValue;
     }
 
-    # create new web user agent object -> note proxy is different from Package::Proxy
-    my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
-        Timeout => 10,
+    my $CloudService = 'PackageManagement';
+    my $Operation    = 'PackageVerify';
+
+    # prepare cloud service request
+    my %RequestParams = (
+        RequestData => {
+            $CloudService => [
+                {
+                    Operation => $Operation,
+                    Data      => {
+                        Package => [
+                            {
+                                Name   => $Name,
+                                MD5sum => $Sum,
+                            }
+                        ],
+                    },
+                },
+            ],
+        },
     );
 
-    return 'verified' if !$WebUserAgentObject;
+    # get cloud service object
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
 
-    # verify package at web server
-    my %Response = $WebUserAgentObject->Request(
-        URL  => $Self->{PackageVerifyURL},
-        Type => 'POST',
-        Data => {
-            Action  => 'PublicPackageVerification',
-            Package => $Name . '::' . $Sum,
-            }
-    );
-    return 'verified' if !$Response{Status};
-    return 'verified' if $Response{Status} ne '200 OK';
-    return 'verified' if !$Response{Content};
-    return 'verified' if ref $Response{Content} ne 'SCALAR';
+    # dispatch the cloud service request
+    my $RequestResult = $CloudServiceObject->Request(%RequestParams);
 
-    # decode JSON data
-    my $ResponseData = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
-        Data => ${ $Response{Content} },
+    # as this is the only operation an unsuccessful request means that the operation was also
+    # unsuccessful, in such case set the package as verified
+    return 'unknown' if !IsHashRefWithData($RequestResult);
+
+    my $OperationResult = $CloudServiceObject->OperationResultGet(
+        RequestResult => $RequestResult,
+        CloudService  => $CloudService,
+        Operation     => $Operation,
     );
 
-    return 'verified' if !$ResponseData;
-    return 'verified' if ref $ResponseData ne 'HASH';
+    # if there was no result for this specific operation or the operation was not success, then
+    # set the package as verified
+    return 'unknown' if !IsHashRefWithData($OperationResult);
+    return 'unknown' if !$OperationResult->{Success};
+
+    my $VerificationData = $OperationResult->{Data};
 
     # extract response
-    my $PackageVerify = $ResponseData->{$Name};
+    my $PackageVerify = $VerificationData->{$Name};
 
-    return 'verified' if !$PackageVerify;
-    return 'verified' if $PackageVerify ne 'not_verified' && $PackageVerify ne 'verified';
+    return 'unknown' if !$PackageVerify;
+    return 'unknown' if $PackageVerify ne 'not_verified' && $PackageVerify ne 'verified';
 
     # set package verification info
     if ( $PackageVerify eq 'not_verified' ) {
@@ -1728,52 +1886,64 @@ sub PackageVerifyAll {
             $Result{ $Package->{Name} } = $Verification;
         }
         else {
-            $Result{ $Package->{Name} } = 'verified';
-            push @PackagesToVerify, 'Package';
-            push @PackagesToVerify, $Package->{Name} . '::' . $Package->{MD5sum};
+            $Result{ $Package->{Name} } = 'unknown';
+            push @PackagesToVerify, {
+                Name   => $Package->{Name},
+                MD5sum => $Package->{MD5sum},
+            };
         }
     }
 
     return %Result if !@PackagesToVerify;
 
-    # create new web user agent object -> note proxy is different from Package::Proxy
-    my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
-        Timeout => 10,
+    my $CloudService = 'PackageManagement';
+    my $Operation    = 'PackageVerify';
+
+    # prepare cloud service request
+    my %RequestParams = (
+        RequestData => {
+            $CloudService => [
+                {
+                    Operation => $Operation,
+                    Data      => {
+                        Package => \@PackagesToVerify,
+                    },
+                },
+            ],
+        },
     );
 
-    return %Result if !$WebUserAgentObject;
+    # get cloud service object
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
 
-    # verify package at web server
-    my %Response = $WebUserAgentObject->Request(
-        URL  => $Self->{PackageVerifyURL},
-        Type => 'POST',
-        Data => [
-            Action => 'PublicPackageVerification',
-            @PackagesToVerify
-            ]
+    # dispatch the cloud service request
+    my $RequestResult = $CloudServiceObject->Request(%RequestParams);
+
+    # as this is the only operation an unsuccessful request means that the operation was also
+    # unsuccessful, then return all packages as verified (or cache)
+    return %Result if !IsHashRefWithData($RequestResult);
+
+    my $OperationResult = $CloudServiceObject->OperationResultGet(
+        RequestResult => $RequestResult,
+        CloudService  => $CloudService,
+        Operation     => $Operation,
     );
 
-    return %Result if !$Response{Status};
-    return %Result if $Response{Status} ne '200 OK';
-    return %Result if !$Response{Content};
-    return %Result if ref $Response{Content} ne 'SCALAR';
+    # if no operation result found or it was not successful the return all packages as verified
+    # (or cache)
+    return %Result if !IsHashRefWithData($OperationResult);
+    return %Result if !$OperationResult->{Success};
 
-    # decode the response content
-    my $ResponseData = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
-        Data => ${ $Response{Content} },
-    );
-
-    return %Result if !$ResponseData;
-    return %Result if ref $ResponseData ne 'HASH';
+    my $VerificationData = $OperationResult->{Data};
 
     PACKAGE:
     for my $Package ( sort keys %Result ) {
 
         next PACKAGE if !$Package;
-        next PACKAGE if !$ResponseData->{$Package};
+        next PACKAGE if !$VerificationData->{$Package};
 
         # extract response
-        my $PackageVerify = $ResponseData->{$Package};
+        my $PackageVerify = $VerificationData->{$Package};
 
         next PACKAGE if !$PackageVerify;
         next PACKAGE if $PackageVerify ne 'not_verified' && $PackageVerify ne 'verified';
@@ -1846,9 +2016,12 @@ sub PackageBuild {
     my $Home = $Param{Home} || $Self->{ConfigObject}->Get('Home');
 
     # check needed stuff
-    for (qw(Name Version Vendor License Description)) {
-        if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "$_ not defined!" );
+    for my $Needed (qw(Name Version Vendor License Description)) {
+        if ( !defined $Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Needed not defined!",
+            );
             return;
         }
     }
@@ -1880,6 +2053,7 @@ sub PackageBuild {
     for my $Tag (
         qw(Name Version Vendor URL License ChangeLog Description Framework OS
         IntroInstall IntroUninstall IntroReinstall IntroUpgrade
+        PackageIsVisible PackageIsDownloadable PackageIsRemovable
         PackageRequired ModuleRequired CodeInstall CodeUpgrade CodeUninstall CodeReinstall)
         )
     {
@@ -1892,15 +2066,15 @@ sub PackageBuild {
         if ( ref $Param{$Tag} eq 'HASH' ) {
 
             my %OldParam;
-            for (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
-                $OldParam{$_} = $Param{$Tag}->{$_};
-                delete $Param{$Tag}->{$_};
+            for my $Item (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
+                $OldParam{$Item} = $Param{$Tag}->{$Item};
+                delete $Param{$Tag}->{$Item};
             }
 
             $XML .= "    <$Tag";
 
-            for ( sort keys %{ $Param{$Tag} } ) {
-                $XML .= " $_=\"" . $Self->_Encode( $Param{$Tag}->{$_} ) . "\"";
+            for my $Item ( sort keys %{ $Param{$Tag} } ) {
+                $XML .= " $Item=\"" . $Self->_Encode( $Param{$Tag}->{$Item} ) . "\"";
             }
 
             $XML .= ">";
@@ -1908,15 +2082,18 @@ sub PackageBuild {
         }
         elsif ( ref $Param{$Tag} eq 'ARRAY' ) {
 
-            for ( @{ $Param{$Tag} } ) {
+            for my $Item ( @{ $Param{$Tag} } ) {
 
                 my $TagSub = $Tag;
-                my %Hash   = %{$_};
+                my %Hash   = %{$Item};
                 my %OldParam;
 
-                for (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
-                    $OldParam{$_} = $Hash{$_};
-                    delete $Hash{$_};
+                for my $HashParam (
+                    qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)
+                    )
+                {
+                    $OldParam{$HashParam} = $Hash{$HashParam};
+                    delete $Hash{$HashParam};
                 }
 
                 # compat. to 2.2
@@ -1933,8 +2110,8 @@ sub PackageBuild {
 
                 $XML .= "    <$TagSub";
 
-                for ( sort keys %Hash ) {
-                    $XML .= " $_=\"" . $Self->_Encode( $Hash{$_} ) . "\"";
+                for my $Item ( sort keys %Hash ) {
+                    $XML .= " $Item=\"" . $Self->_Encode( $Hash{$Item} ) . "\"";
                 }
 
                 $XML .= ">";
@@ -1965,9 +2142,9 @@ sub PackageBuild {
 
             my %OldParam;
 
-            for (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
-                $OldParam{$_} = $File->{$_} || '';
-                delete $File->{$_};
+            for my $Item (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
+                $OldParam{$Item} = $File->{$Item} || '';
+                delete $File->{$Item};
             }
 
             # do only use doc/* Filelist in index mode
@@ -1979,9 +2156,13 @@ sub PackageBuild {
             else {
                 $XML .= "        <FileDoc";
             }
-            for ( sort keys %{$File} ) {
-                if ( $_ ne 'Tag' && $_ ne 'Content' && $_ ne 'TagType' && $_ ne 'Size' ) {
-                    $XML .= " " . $Self->_Encode($_) . "=\"" . $Self->_Encode( $File->{$_} ) . "\"";
+            for my $Item ( sort keys %{$File} ) {
+                if ( $Item ne 'Tag' && $Item ne 'Content' && $Item ne 'TagType' && $Item ne 'Size' )
+                {
+                    $XML
+                        .= " "
+                        . $Self->_Encode($Item) . "=\""
+                        . $Self->_Encode( $File->{$Item} ) . "\"";
                 }
             }
 
@@ -2010,18 +2191,18 @@ sub PackageBuild {
     return $XML if $Param{Type};
 
     TAG:
-    for (qw(DatabaseInstall DatabaseUpgrade DatabaseReinstall DatabaseUninstall)) {
+    for my $Item (qw(DatabaseInstall DatabaseUpgrade DatabaseReinstall DatabaseUninstall)) {
 
-        if ( ref $Param{$_} ne 'HASH' ) {
+        if ( ref $Param{$Item} ne 'HASH' ) {
             next TAG;
         }
 
-        for my $Type ( sort %{ $Param{$_} } ) {
+        for my $Type ( sort %{ $Param{$Item} } ) {
 
-            if ( $Param{$_}->{$Type} ) {
+            if ( $Param{$Item}->{$Type} ) {
 
                 my $Counter = 1;
-                for my $Tag ( @{ $Param{$_}->{$Type} } ) {
+                for my $Tag ( @{ $Param{$Item}->{$Type} } ) {
 
                     if ( $Tag->{TagType} eq 'Start' ) {
 
@@ -2037,22 +2218,22 @@ sub PackageBuild {
                             $XML .= " Type=\"$Type\"";
                         }
 
-                        for ( sort keys %{$Tag} ) {
+                        for my $Key ( sort keys %{$Tag} ) {
 
                             if (
-                                $_ ne 'Tag'
-                                && $_ ne 'Content'
-                                && $_ ne 'TagType'
-                                && $_ ne 'TagLevel'
-                                && $_ ne 'TagCount'
-                                && $_ ne 'TagKey'
-                                && $_ ne 'TagLastLevel'
+                                $Key ne 'Tag'
+                                && $Key ne 'Content'
+                                && $Key ne 'TagType'
+                                && $Key ne 'TagLevel'
+                                && $Key ne 'TagCount'
+                                && $Key ne 'TagKey'
+                                && $Key ne 'TagLastLevel'
                                 )
                             {
-                                if ( defined( $Tag->{$_} ) ) {
+                                if ( defined( $Tag->{$Key} ) ) {
                                     $XML .= ' '
-                                        . $Self->_Encode($_) . '="'
-                                        . $Self->_Encode( $Tag->{$_} ) . '"';
+                                        . $Self->_Encode($Key) . '="'
+                                        . $Self->_Encode( $Tag->{$Key} ) . '"';
                                 }
                             }
                         }
@@ -2111,7 +2292,10 @@ sub PackageParse {
 
     # check needed stuff
     if ( !defined $Param{String} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'String not defined!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'String not defined!',
+        );
         return;
     }
 
@@ -2311,9 +2495,12 @@ sub PackageExport {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(String Home)) {
-        if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "$_ not defined!" );
+    for my $Needed (qw(String Home)) {
+        if ( !defined $Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Needed not defined!",
+            );
             return;
         }
     }
@@ -2354,7 +2541,7 @@ sub PackageIsInstalled {
     if ( !$Param{String} && !$Param{Name} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need String (PackageString) or Name (Name of the package)!'
+            Message  => 'Need String (PackageString) or Name (Name of the package)!',
         );
         return;
     }
@@ -2420,7 +2607,10 @@ sub PackageInstallDefaultFiles {
 
         next LOCATION if !$@;
 
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => $@ );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => $@,
+        );
     }
 
     return 1;
@@ -2513,7 +2703,10 @@ sub _Download {
 
     # check needed stuff
     if ( !defined $Param{URL} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'URL not defined!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'URL not defined!',
+        );
         return;
     }
 
@@ -2535,14 +2728,17 @@ sub _Database {
 
     # check needed stuff
     if ( !defined $Param{Database} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Database not defined!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Database not defined!',
+        );
         return;
     }
 
     if ( ref $Param{Database} ne 'ARRAY' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need array ref in Database param!'
+            Message  => 'Need array ref in Database param!',
         );
         return;
     }
@@ -2573,16 +2769,22 @@ sub _Code {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Code Type Structure)) {
-        if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "$_ not defined!" );
+    for my $Needed (qw(Code Type Structure)) {
+        if ( !defined $Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Needed not defined!",
+            );
             return;
         }
     }
 
     # check format
     if ( ref $Param{Code} ne 'ARRAY' ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need array ref in Code param!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need array ref in Code param!',
+        );
         return;
     }
 
@@ -2630,13 +2832,19 @@ sub _OSCheck {
 
     # check needed stuff
     if ( !defined $Param{OS} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'OS not defined!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'OS not defined!',
+        );
         return;
     }
 
     # check format
     if ( ref $Param{OS} ne 'ARRAY' ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need array ref in OS param!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need array ref in OS param!',
+        );
         return;
     }
 
@@ -2674,7 +2882,10 @@ sub _CheckFramework {
 
     # check needed stuff
     if ( !defined $Param{Framework} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Framework not defined!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Framework not defined!',
+        );
         return;
     }
 
@@ -2682,7 +2893,7 @@ sub _CheckFramework {
     if ( ref $Param{Framework} ne 'ARRAY' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need array ref in Framework param!'
+            Message  => 'Need array ref in Framework param!',
         );
         return;
     }
@@ -2746,11 +2957,11 @@ sub _CheckVersion {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(VersionNew VersionInstalled Type)) {
-        if ( !defined $Param{$_} ) {
+    for my $Needed (qw(VersionNew VersionInstalled Type)) {
+        if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "$_ not defined!",
+                Message  => "$Needed not defined!",
             );
             return;
         }
@@ -2823,7 +3034,10 @@ sub _CheckPackageRequired {
 
     # check needed stuff
     if ( !defined $Param{PackageRequired} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'PackageRequired not defined!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'PackageRequired not defined!',
+        );
         return;
     }
 
@@ -2886,7 +3100,10 @@ sub _CheckModuleRequired {
 
     # check needed stuff
     if ( !defined $Param{ModuleRequired} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'ModuleRequired not defined!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'ModuleRequired not defined!',
+        );
         return;
     }
 
@@ -2953,7 +3170,10 @@ sub _CheckPackageDepends {
 
     # check needed stuff
     if ( !defined $Param{Name} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Name not defined!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Name not defined!',
+        );
         return;
     }
 
@@ -2988,7 +3208,10 @@ sub _PackageFileCheck {
 
     # check needed stuff
     if ( !defined $Param{Structure} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Structure not defined!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Structure not defined!',
+        );
         return;
     }
 
@@ -3026,15 +3249,21 @@ sub _FileInstall {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(File)) {
-        if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "$_ not defined!" );
+    for my $Needed (qw(File)) {
+        if ( !defined $Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Needed not defined!",
+            );
             return;
         }
     }
-    for (qw(Location Content Permission)) {
-        if ( !defined $Param{File}->{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "$_ not defined in File!" );
+    for my $Item (qw(Location Content Permission)) {
+        if ( !defined $Param{File}->{$Item} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Item not defined in File!",
+            );
             return;
         }
     }
@@ -3132,15 +3361,21 @@ sub _FileRemove {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(File)) {
-        if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "$_ not defined!" );
+    for my $Needed (qw(File)) {
+        if ( !defined $Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Needed not defined!",
+            );
             return;
         }
     }
-    for (qw(Location)) {
-        if ( !defined $Param{File}->{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => "$_ not defined in File!" );
+    for my $Item (qw(Location)) {
+        if ( !defined $Param{File}->{$Item} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Item not defined in File!",
+            );
             return;
         }
     }
@@ -3284,8 +3519,11 @@ sub _FileSystemCheck {
     }
 
     # create test files in following directories
-    for (qw(/bin/ /Kernel/ /Kernel/System/ /Kernel/Output/ /Kernel/Output/HTML/ /Kernel/Modules/)) {
-        my $Location = "$Home/$_/check_permissons.$$";
+    for my $Filepath (
+        qw(/bin/ /Kernel/ /Kernel/System/ /Kernel/Output/ /Kernel/Output/HTML/ /Kernel/Modules/)
+        )
+    {
+        my $Location = "$Home/$Filepath/check_permissons.$$";
         my $Content  = 'test';
 
         # create test file
@@ -3678,6 +3916,145 @@ sub _CheckDBMerged {
     }
 
     return \@Parts;
+}
+
+=item RepositoryCloudList()
+
+returns a list of available cloud repositories
+
+    my $List = $PackageObject->RepositoryCloudList();
+
+=cut
+
+sub RepositoryCloudList {
+    my ( $Self, %Param ) = @_;
+
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # check cache
+    my $CacheKey = "Repository::List::From::Cloud";
+    my $Cache    = $CacheObject->Get(
+        Type => 'RepositoryCloudList',
+        Key  => $CacheKey,
+    );
+
+    $Param{NoCache} //= 0;
+
+    # check if use cache is needed
+    if ( !$Param{NoCache} ) {
+        return $Cache if IsHashRefWithData($Cache);
+    }
+
+    my $RepositoryResult = $Self->CloudFileGet(
+        Operation => 'RepositoryListAvailable',
+    );
+
+    return if !IsHashRefWithData($RepositoryResult);
+
+    # set cache
+    $CacheObject->Set(
+        Type  => 'RepositoryCloudList',
+        Key   => $CacheKey,
+        Value => $RepositoryResult,
+        TTL   => 60 * 60,
+    );
+
+    return $RepositoryResult;
+}
+
+=item CloudFileGet()
+
+returns a file from cloud
+
+    my $List = $PackageObject->CloudFileGet(
+        Operation => 'OperationName', # used as operation name by the Cloud Service API
+                                      # Possible operation names:
+                                      # - RepositoryListAvailable
+                                      # - FAOListAssigned
+                                      # - FAOListAssignedFileGet
+    );
+
+=cut
+
+sub CloudFileGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !defined $Param{Operation} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Operation not defined!',
+        );
+        return;
+    }
+
+    my %Data;
+    if ( IsHashRefWithData( $Param{Data} ) ) {
+        %Data = %{ $Param{Data} };
+    }
+
+    my $CloudService = 'PackageManagement';
+
+    # prepare cloud service request
+    my %RequestParams = (
+        RequestData => {
+            $CloudService => [
+                {
+                    Operation => $Param{Operation},
+                    Data      => \%Data,
+                },
+            ],
+        },
+    );
+
+    # get cloud service object
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
+
+    # dispatch the cloud service request
+    my $RequestResult = $CloudServiceObject->Request(%RequestParams);
+
+    # as this is the only operation an unsuccessful request means that the operation was also
+    # unsuccessful
+    if ( !IsHashRefWithData($RequestResult) ) {
+        my $ErrorMessage = "Can't connect to cloud server!";
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => $ErrorMessage,
+        );
+        return $ErrorMessage;
+    }
+
+    my $OperationResult = $CloudServiceObject->OperationResultGet(
+        RequestResult => $RequestResult,
+        CloudService  => $CloudService,
+        Operation     => $Param{Operation},
+    );
+
+    if ( !IsHashRefWithData($OperationResult) ) {
+        my $ErrorMessage = "Can't get result from server";
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => $ErrorMessage,
+        );
+        return $ErrorMessage;
+    }
+    elsif ( !$OperationResult->{Success} ) {
+        my $ErrorMessage = $OperationResult->{ErrorMessage}
+            || "Can't get list from server!";
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => $ErrorMessage,
+        );
+        return $ErrorMessage;
+    }
+
+    # return if not correct structure
+    return if !IsHashRefWithData( $OperationResult->{Data} );
+
+    # return repo list
+    return $OperationResult->{Data};
+
 }
 
 sub DESTROY {

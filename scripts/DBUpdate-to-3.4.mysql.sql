@@ -31,6 +31,7 @@ EXECUTE FKStatement;
 #  alter table ticket_history
 # ----------------------------------------------------------
 ALTER TABLE ticket_history DROP valid_id;
+DROP TABLE IF EXISTS pm_entity;
 # ----------------------------------------------------------
 #  create table personal_services
 # ----------------------------------------------------------
@@ -40,5 +41,21 @@ CREATE TABLE personal_services (
     INDEX personal_services_queue_id (service_id),
     INDEX personal_services_user_id (user_id)
 );
+# ----------------------------------------------------------
+#  alter table package_repository
+# ----------------------------------------------------------
+ALTER TABLE package_repository ADD from_cloud SMALLINT NULL;
+# ----------------------------------------------------------
+#  alter table package_repository
+# ----------------------------------------------------------
+ALTER TABLE package_repository ADD visible SMALLINT NULL;
+# ----------------------------------------------------------
+#  alter table package_repository
+# ----------------------------------------------------------
+ALTER TABLE package_repository ADD downloadable SMALLINT NULL;
+# ----------------------------------------------------------
+#  alter table package_repository
+# ----------------------------------------------------------
+ALTER TABLE package_repository ADD removable SMALLINT NULL;
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);

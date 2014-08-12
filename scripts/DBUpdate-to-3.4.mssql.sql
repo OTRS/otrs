@@ -65,6 +65,7 @@ ALTER TABLE ticket_history DROP CONSTRAINT FK_ticket_history_valid_id_id;
 --  alter table ticket_history
 -- ----------------------------------------------------------
 ALTER TABLE ticket_history DROP COLUMN valid_id;
+DROP TABLE pm_entity;
 -- ----------------------------------------------------------
 --  create table personal_services
 -- ----------------------------------------------------------
@@ -74,5 +75,21 @@ CREATE TABLE personal_services (
 );
 CREATE INDEX personal_services_queue_id ON personal_services (service_id);
 CREATE INDEX personal_services_user_id ON personal_services (user_id);
+-- ----------------------------------------------------------
+--  alter table package_repository
+-- ----------------------------------------------------------
+ALTER TABLE package_repository ADD from_cloud SMALLINT NULL;
+-- ----------------------------------------------------------
+--  alter table package_repository
+-- ----------------------------------------------------------
+ALTER TABLE package_repository ADD visible SMALLINT NULL;
+-- ----------------------------------------------------------
+--  alter table package_repository
+-- ----------------------------------------------------------
+ALTER TABLE package_repository ADD downloadable SMALLINT NULL;
+-- ----------------------------------------------------------
+--  alter table package_repository
+-- ----------------------------------------------------------
+ALTER TABLE package_repository ADD removable SMALLINT NULL;
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);

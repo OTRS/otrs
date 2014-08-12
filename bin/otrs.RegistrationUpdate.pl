@@ -28,12 +28,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Time;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::DB;
+use Kernel::System::ObjectManager;
 use Kernel::System::Registration;
 
 print "otrs.RegistrationUpdate.pl - send system registration update\n";
@@ -42,26 +37,26 @@ print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
 # ---
 # common objects
 # ---
-my %CommonObject = ();
-$Kernel::OM->Get('Kernel::Config') = Kernel::Config->new();
-$Kernel::OM->Get('Kernel::System::Encode') = Kernel::System::Encode->new(%CommonObject);
-$Kernel::OM->Get('Kernel::System::Log')    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-otrs.RegistrationUpdate.pl',
-    %CommonObject,
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    LogObject => {
+        LogPrefix => 'OTRS-otrs.RegistrationUpdate.pl',
+    },
 );
-$Kernel::OM->Get('Kernel::System::Time')         = Kernel::System::Time->new(%CommonObject);
-$Kernel::OM->Get('Kernel::System::Main')         = Kernel::System::Main->new(%CommonObject);
-$Kernel::OM->Get('Kernel::System::DB')           = Kernel::System::DB->new(%CommonObject);
-$Kernel::OM->Get('Kernel::System:Registration') = Kernel::System::Registration->new(%CommonObject);
+my %CommonObject = $Kernel::OM->ObjectHash(
+    Objects =>
+        [qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject)],
+);
 
-my %RegistrationData = $Kernel::OM->Get('Kernel::System:Registration')->RegistrationDataGet();
+$CommonObject{RegistrationObject} = Kernel::System::Registration->new(%CommonObject);
+
+my %RegistrationData = $CommonObject{RegistrationObject}->RegistrationDataGet();
 
 if ( $RegistrationData{State} ne 'registered' ) {
     print STDERR "Error: this is not a registered system. Please register your system first.\n";
     exit 1;
 }
 
-my %Result = $Kernel::OM->Get('Kernel::System:Registration')->RegistrationUpdateSend();
+my %Result = $CommonObject{RegistrationObject}->RegistrationUpdateSend();
 
 if ( !$Result{Success} ) {
     print STDERR "Error: $Result{Reason}\n";

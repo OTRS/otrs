@@ -13,11 +13,12 @@ package Kernel::Modules::AdminPackageManager;
 use strict;
 use warnings;
 
-use XML::FeedPP;
-
+use Kernel::System::CloudService;
 use Kernel::System::Package;
+use Kernel::System::SystemData;
 use Kernel::System::Web::UploadCache;
-use Kernel::System::Cache;
+
+use Kernel::System::VariableCheck qw(:all);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,6 +37,11 @@ sub new {
     $Self->{PackageObject}     = Kernel::System::Package->new(%Param);
     $Self->{UploadCacheObject} = Kernel::System::Web::UploadCache->new(%Param);
     $Self->{CacheObject}       = $Kernel::OM->Get('Kernel::System::Cache');
+    $Self->{SystemDataObject}  = Kernel::System::SystemData->new(%Param);
+    $Self->{RegistrationState} = $Self->{SystemDataObject}->SystemDataGet(
+        Key => 'Registration::State',
+    ) || '';
+    $Self->{CloudServiceObject} = Kernel::System::CloudService->new(%Param);
 
     return $Self;
 }
@@ -199,7 +205,7 @@ sub Run {
         my $Verified = $Self->{PackageObject}->PackageVerify(
             Package   => $Package,
             Structure => \%Structure,
-        ) || 'verified';
+        ) || 'unknown';
         my %VerifyInfo = $Self->{PackageObject}->PackageVerifyInfo();
 
         # translate description
@@ -219,7 +225,46 @@ sub Run {
             Name => 'Package',
             Data => { %Param, %Frontend, Name => $Name, Version => $Version, },
         );
+
+        my @RepositoryList = $Self->{PackageObject}->RepositoryList(
+            Result => 'short',
+        );
+
+        my %PackageAllowedActions;
+        for my $Item (qw(FromCloud Visible Downloadable Removable)) {
+
+            if (
+                grep { $_->{Name} eq $Name && ( defined $_->{$Item} && $_->{$Item} eq 1 ) }
+                @RepositoryList
+                )
+            {
+                $PackageAllowedActions{$Item} = 1;
+            }
+        }
+
+        # if visible property is not enable, return error screen
+        if ( !$PackageAllowedActions{Visible} ) {
+            return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
+        }
+
+        PACKAGEACTION:
         for my $PackageAction (qw(DownloadLocal Rebuild Reinstall)) {
+
+            if (
+                $PackageAction eq 'DownloadLocal'
+                && !$PackageAllowedActions{Downloadable}
+                )
+            {
+                next PACKAGEACTION;
+            }
+            if (
+                $PackageAction eq 'Rebuild'
+                && !$PackageAllowedActions{FromCloud}
+                )
+            {
+                next PACKAGEACTION;
+            }
+
             $Self->{LayoutObject}->Block(
                 Name => 'Package' . $PackageAction,
                 Data => {
@@ -463,18 +508,30 @@ sub Run {
             Source => $Source,
             File   => $File,
         );
+
         if ( !$Package ) {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
+        }
+        elsif ( substr( $Package, 0, length('ErrorMessage:') ) eq 'ErrorMessage:' ) {
+
+            # an error from the Package::CloudFileGet function
+            return $Self->{LayoutObject}->ErrorScreen( Message => $Package );
         }
         my %Structure = $Self->{PackageObject}->PackageParse( String => $Package );
         $Self->{LayoutObject}->Block(
             Name => 'Package',
             Data => { %Param, %Frontend, },
         );
+
+        # TODO: Enable condition ones new Downloadable
+        # flag come on the package structure
+        # if ( $Structure{Downloadable} ) {
         $Self->{LayoutObject}->Block(
             Name => 'PackageDownloadRemote',
             Data => { %Param, %Frontend, File => $File, },
         );
+
+        # }
 
         # check if file is requested
         if ($Location) {
@@ -1118,8 +1175,20 @@ sub Run {
     if ( $Self->{ConfigObject}->Get('Package::RepositoryRoot') ) {
         %RepositoryRoot = $Self->{PackageObject}->PackageOnlineRepositories();
     }
+
+    # show cloud repo if system is registered
+    my $RepositoryCloudList;
+    if ( $Self->{RegistrationState} eq 'registered' ) {
+
+        $RepositoryCloudList =
+            $Self->{PackageObject}->RepositoryCloudList( NoCache => 1 );
+    }
+
+    # verify if source is present on repository cloud list
+    my $FromCloud = ( $RepositoryCloudList->{$Source} ? 1 : 0 );
+
     $Frontend{SourceList} = $Self->{LayoutObject}->BuildSelection(
-        Data => { %List, %RepositoryRoot, },
+        Data => { %List, %RepositoryRoot, %{$RepositoryCloudList}, },
         Name => 'Source',
         Max  => 40,
         Translation => 0,
@@ -1131,9 +1200,11 @@ sub Run {
         Data => { %Param, %Frontend, },
     );
     if ($Source) {
+
         my @List = $Self->{PackageObject}->PackageOnlineList(
-            URL  => $Source,
-            Lang => $Self->{LayoutObject}->{UserLanguage},
+            URL       => $Source,
+            Lang      => $Self->{LayoutObject}->{UserLanguage},
+            FromCloud => $FromCloud,
         );
         if ( !@List ) {
             $OutputNotify .= $Self->{LayoutObject}->Notify( Priority => 'Error', );
@@ -1198,6 +1269,9 @@ sub Run {
 
     my @RepositoryList = $Self->{PackageObject}->RepositoryList();
 
+    # remove not visible packages
+    @RepositoryList = map { $_->{Visible} ? $_ : () } @RepositoryList;
+
     # if there are no local packages to show, a msg is displayed
     if ( !@RepositoryList ) {
         $Self->{LayoutObject}->Block(
@@ -1212,6 +1286,8 @@ sub Run {
     }
 
     my %NotVerifiedPackages;
+    my %UnknownVerficationPackages;
+
     for my $Package (@RepositoryList) {
 
         my %Data = $Self->_MessageGet( Info => $Package->{Description} );
@@ -1252,16 +1328,20 @@ sub Run {
         }
 
         if ( $Package->{Status} eq 'installed' ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'ShowLocalPackageUninstall',
-                Data => {
-                    %{$Package},
-                    Name    => $Package->{Name}->{Content},
-                    Version => $Package->{Version}->{Content},
-                    Vendor  => $Package->{Vendor}->{Content},
-                    URL     => $Package->{URL}->{Content},
-                },
-            );
+
+            if ( $Package->{Removable} ) {
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'ShowLocalPackageUninstall',
+                    Data => {
+                        %{$Package},
+                        Name    => $Package->{Name}->{Content},
+                        Version => $Package->{Version}->{Content},
+                        Vendor  => $Package->{Vendor}->{Content},
+                        URL     => $Package->{URL}->{Content},
+                    },
+                );
+            }
             if (
                 !$Self->{PackageObject}->DeployCheck(
                     Name    => $Package->{Name}->{Content},
@@ -1302,6 +1382,15 @@ sub Run {
         {
             $NotVerifiedPackages{ $Package->{Name}->{Content} } = $Package->{Version}->{Content};
         }
+        elsif (
+            $VerificationData{ $Package->{Name}->{Content} }
+            && $VerificationData{ $Package->{Name}->{Content} } eq 'unknown'
+            )
+        {
+            $UnknownVerficationPackages{ $Package->{Name}->{Content} }
+                = $Package->{Version}->{Content};
+        }
+
     }
 
     # show file upload
@@ -1389,6 +1478,21 @@ sub Run {
             Data     => "$Package $NotVerifiedPackages{$Package} - "
                 . $Self->{LayoutObject}->{LanguageObject}->Translate(
                 "Package not verified by the OTRS Group! It is recommended not to use this package."
+                ),
+        );
+    }
+
+    VERIFICATION:
+    for my $Package ( sort keys %UnknownVerficationPackages ) {
+
+        next VERIFICATION if !$Package;
+        next VERIFICATION if !$UnknownVerficationPackages{$Package};
+
+        $Output .= $Self->{LayoutObject}->Notify(
+            Priority => 'Error',
+            Data     => "$Package $UnknownVerficationPackages{$Package} - "
+                . $Self->{LayoutObject}->{LanguageObject}->Translate(
+                "Package not verified due a communication issue with verification server!"
                 ),
         );
     }
@@ -1582,6 +1686,13 @@ sub _InstallHandling {
         %Data = $Self->_MessageGet( Info => $Structure{IntroInstall}, Type => 'pre' );
     }
 
+    # get cloud repositories
+    my $RepositoryCloudList =
+        $Self->{PackageObject}->RepositoryCloudList();
+
+    # verify if source is present on repository cloud list
+    my $FromCloud = ( $RepositoryCloudList->{ $Param{Source} } ? 1 : 0 );
+
     # intro before installation
     if ( %Data && !$IntroInstallPre ) {
 
@@ -1616,7 +1727,10 @@ sub _InstallHandling {
     }
 
     # install package
-    elsif ( $Self->{PackageObject}->PackageInstall( String => $Param{Package} ) ) {
+    elsif (
+        $Self->{PackageObject}->PackageInstall( String => $Param{Package}, FromCloud => $FromCloud )
+        )
+    {
 
         # intro screen
         my %Data;
@@ -1744,22 +1858,13 @@ sub _UpgradeHandling {
 sub _GetFeatureAddonData {
     my ( $Self, %Param ) = @_;
 
-    # Default URL
-    my $FeedURL = 'http://www.otrs.com/feed/?post_type=feature_add_ons&lang=en';
-
     my $Language = $Self->{LayoutObject}->{UserLanguage};
 
-    # Check if URL for UserLanguage is available
-    if ( $Language =~ m/^de/ ) {
-        $FeedURL = 'http://www.otrs.com/feed/?post_type=feature_add_ons&lang=de';
-    }
+    # cleanup main language for languages like es_MX (es in this case)
+    $Language = substr $Language, 0, 2;
 
-    if ( $Language =~ m/^es/ ) {
-        $FeedURL = 'http://www.otrs.com/feed/?post_type=feature_add_ons&lang=es';
-    }
-
-    my $CacheKey  = "FeatureAddonData::$FeedURL";
-    my $CacheTTL  = 60 * 60 * 24;                   # 1 day
+    my $CacheKey  = "FeatureAddonData::$Language";
+    my $CacheTTL  = 60 * 60 * 24;                    # 1 day
     my $CacheType = 'PackageManager';
 
     my $CacheResult = $Self->{CacheObject}->Get(
@@ -1769,47 +1874,58 @@ sub _GetFeatureAddonData {
 
     return $CacheResult if ref $CacheResult eq 'ARRAY';
 
-    # set proxy settings can't use Kernel::System::WebAgent because of used
-    # XML::FeedPP to get RSS files
-    my $Proxy = $Self->{ConfigObject}->Get('WebUserAgent::Proxy');
-    if ($Proxy) {
-        $ENV{CGI_HTTP_PROXY} = $Proxy;
+    my $CloudService = 'PublicFeeds';
+    my $Operation    = 'FAOFeed';
+
+    # prepare cloud service request
+    my %RequestParams = (
+        RequestData => {
+            $CloudService => [
+                {
+                    Operation => $Operation,
+                    Data      => {
+                        Language => $Language,
+                    },
+                },
+            ],
+        },
+    );
+
+    # dispatch the cloud service request
+    my $RequestResult = $Self->{CloudServiceObject}->Request(%RequestParams);
+
+    # as this is the only operation an unsuccessful request means that the operation was also
+    # unsuccessful
+    if ( !IsHashRefWithData($RequestResult) ) {
+        return "Can't connect to OTRS Feature Add-on list server!";
     }
 
-    # get content
-    my $Feed = eval {
-        XML::FeedPP->new(
-            $FeedURL,
-            'xml_deref' => 1,
-            'utf8_flag' => 1,
-        );
-    };
+    my $OperationResult = $Self->{CloudServiceObject}->OperationResultGet(
+        RequestResult => $RequestResult,
+        CloudService  => $CloudService,
+        Operation     => $Operation,
+    );
 
-    return if !$Feed;
-
-    my @Result;
-    my $Count = 0;
-    ITEM:
-    for my $Item ( $Feed->get_item() ) {
-        $Count++;
-        last ITEM if $Count > 100;
-
-        push @Result, {
-            Title       => $Item->title(),
-            Link        => $Item->link(),
-            Description => $Item->get('content:encoded'),
-        };
+    if ( !IsHashRefWithData($OperationResult) ) {
+        return "Can't get OTRS Feature Add-on list from server";
     }
+    elsif ( !$OperationResult->{Success} ) {
+        return $OperationResult->{ErrorMessage} || "Can't get OTRS Feature Add-on from server!";
+    }
+
+    my $FAOFeed = $OperationResult->{Data}->{FAOs};
+
+    return if !IsArrayRefWithData($FAOFeed);
 
     # set cache
     $Self->{CacheObject}->Set(
         Type  => $CacheType,
         Key   => $CacheKey,
-        Value => \@Result,
+        Value => $FAOFeed,
         TTL   => $CacheTTL,
     );
 
-    return \@Result;
+    return $FAOFeed;
 }
 
 1;

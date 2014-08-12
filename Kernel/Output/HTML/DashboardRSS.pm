@@ -12,7 +12,9 @@ package Kernel::Output::HTML::DashboardRSS;
 use strict;
 use warnings;
 
-use XML::FeedPP;
+use Kernel::System::CloudService;
+
+use Kernel::System::VariableCheck qw(:all);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -22,12 +24,14 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (
+    for my $Needed (
         qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)
         )
     {
-        die "Got no $_!" if ( !$Self->{$_} );
+        die "Got no $Needed!" if ( !$Self->{$Needed} );
     }
+
+    $Self->{CloudServiceObject} = Kernel::System::CloudService->new(%Param);
 
     return $Self;
 }
@@ -43,59 +47,71 @@ sub Config {
 
     return (
         %{ $Self->{Config} },
-        CacheKey => 'RSS' . $Self->{Config}->{URL} . '-' . $Self->{LayoutObject}->{UserLanguage},
+        CacheKey => 'RSSNewsFeed-' . $Self->{LayoutObject}->{UserLanguage},
     );
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # Default URL
-    my $FeedURL = $Self->{Config}->{URL};
-
     my $Language = $Self->{LayoutObject}->{UserLanguage};
 
-    # Check if URL for UserLanguage is available
-    if ( $Self->{Config}->{"URL_$Language"} ) {
-        $FeedURL = $Self->{Config}->{"URL_$Language"};
-    }
-    else {
+    # cleanup main language for languages like es_MX (es in this case)
+    $Language = substr $Language, 0, 2;
 
-        # Check for main language for languages like es_MX (es in this case)
-        ($Language) = split /_/, $Language;
-        if ( $Self->{Config}->{"URL_$Language"} ) {
-            $FeedURL = $Self->{Config}->{"URL_$Language"};
-        }
+    my $CloudService = 'PublicFeeds';
+    my $Operation    = 'NewsFeed';
+
+    # prepare cloud service request
+    my %RequestParams = (
+        RequestData => {
+            $CloudService => [
+                {
+                    Operation => $Operation,
+                    Data      => {
+                        Language => $Language,
+                    },
+                },
+            ],
+        },
+    );
+
+    # dispatch the cloud service request
+    my $RequestResult = $Self->{CloudServiceObject}->Request(%RequestParams);
+
+    # as this is the only operation an unsuccessful request means that the operation was also
+    # unsuccessful
+    if ( !IsHashRefWithData($RequestResult) ) {
+        return "Can't connect to OTRS News server!";
     }
 
-    # set proxy settings can't use Kernel::System::WebAgent because of used
-    # XML::FeedPP to get RSS files
-    my $Proxy = $Self->{ConfigObject}->Get('WebUserAgent::Proxy');
-    if ($Proxy) {
-        $ENV{CGI_HTTP_PROXY} = $Proxy;
+    my $OperationResult = $Self->{CloudServiceObject}->OperationResultGet(
+        RequestResult => $RequestResult,
+        CloudService  => $CloudService,
+        Operation     => $Operation,
+    );
+
+    if ( !IsHashRefWithData($OperationResult) ) {
+        return "Can't get OTRS News from server";
+    }
+    elsif ( !$OperationResult->{Success} ) {
+        return $OperationResult->{ErrorMessage} || "Can't get OTRS News from server!";
     }
 
-    # get content
-    my $Feed = eval {
-        XML::FeedPP->new(
-            $FeedURL,
-            'xml_deref' => 1,
-            'utf8_flag' => 1,
-        );
-    };
+    my $NewsFeed = $OperationResult->{Data}->{News};
 
-    if ( !$Feed ) {
-        my $Content = "Can't connect to $FeedURL";
-        return $Content;
-    }
+    return if !IsArrayRefWithData($NewsFeed);
 
     my $Count = 0;
     ITEM:
-    for my $Item ( $Feed->get_item() ) {
+    for my $Item ( @{$NewsFeed} ) {
         $Count++;
+
         last ITEM if $Count > $Self->{Config}->{Limit};
-        my $Time = $Item->pubDate();
+
+        my $Time = $Item->{Time};
         my $Ago;
+
         if ($Time) {
             my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
                 String => $Time,
@@ -109,18 +125,14 @@ sub Run {
 
         $Self->{LayoutObject}->Block(
             Name => 'ContentSmallRSSOverviewRow',
-            Data => {
-                Title => $Item->title(),
-                Link  => $Item->link(),
-            },
+            Data => { %{$Item} },
         );
         if ($Ago) {
             $Self->{LayoutObject}->Block(
                 Name => 'ContentSmallRSSTimeStamp',
                 Data => {
-                    Ago   => $Ago,
-                    Title => $Item->title(),
-                    Link  => $Item->link(),
+                    Ago => $Ago,
+                    %{$Item},
                 },
             );
         }
@@ -128,13 +140,13 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'ContentSmallRSS',
                 Data => {
-                    Ago   => $Ago,
-                    Title => $Item->title(),
-                    Link  => $Item->link(),
+                    Ago => $Ago,
+                    %{$Item},
                 },
             );
         }
     }
+
     my $Content = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentDashboardRSSOverview',
         Data         => {
