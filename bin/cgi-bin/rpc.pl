@@ -31,14 +31,6 @@ use lib "$Bin/../../Custom";
 use SOAP::Transport::HTTP;
 use Kernel::System::ObjectManager;
 
-use Kernel::System::User;
-use Kernel::System::Group;
-use Kernel::System::Queue;
-use Kernel::System::CustomerUser;
-use Kernel::System::CustomerCompany;
-use Kernel::System::Ticket;
-use Kernel::System::LinkObject;
-
 SOAP::Transport::HTTP::CGI->dispatch_to('Core')->handle();
 
 package Core;
@@ -58,20 +50,26 @@ sub Dispatch {
     $User ||= '';
     $Pw   ||= '';
     local $Kernel::OM = Kernel::System::ObjectManager->new(
-        LogObject => {
+        'Kernel::System::Log' => {
             LogPrefix => 'OTRS-RPC',
         },
     );
 
     my %CommonObject;
 
-    for my $Object (qw(ConfigObject EncodeObject LogObject MainObject DBObject
-        PIDObject TimeObject UserObject GroupObject QueueObject
-        CustomerUserObject CustomerCompanyObject TicketObject
-        LinkObject)
-    ) {
-        $CommonObject{$Object} = $Kernel::OM->Get($Object);
-    }
+    $CommonObject{CustomerCompanyObject} = $Kernel::OM->Get('Kernel::System::CustomerCompany');
+    $CommonObject{CustomerUserObject}    = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    $CommonObject{EncodeObject}          = $Kernel::OM->Get('Kernel::System::Encode');
+    $CommonObject{GroupObject}           = $Kernel::OM->Get('Kernel::System::Group');
+    $CommonObject{LinkObject}            = $Kernel::OM->Get('Kernel::System::LinkObject');
+    $CommonObject{LogObject}             = $Kernel::OM->Get('Kernel::System::Log');
+    $CommonObject{MainObject}            = $Kernel::OM->Get('Kernel::System::Main');
+    $CommonObject{PIDObject}             = $Kernel::OM->Get('Kernel::System::PID');
+    $CommonObject{QueueObject}           = $Kernel::OM->Get('Kernel::System::Queue');
+    $CommonObject{SessionObject}         = $Kernel::OM->Get('Kernel::System::AuthSession');
+    $CommonObject{TicketObject}          = $Kernel::OM->Get('Kernel::System::Ticket');
+    $CommonObject{TimeObject}            = $Kernel::OM->Get('Kernel::System::Time');
+    $CommonObject{UserObject}            = $Kernel::OM->Get('Kernel::System::User');
 
     my $RequiredUser     = $CommonObject{ConfigObject}->Get('SOAP::User');
     my $RequiredPassword = $CommonObject{ConfigObject}->Get('SOAP::Password');
@@ -129,20 +127,26 @@ sub DispatchMultipleTicketMethods {
 
     # common objects
     local $Kernel::OM = Kernel::System::ObjectManager->new(
-        LogObject => {
+        'Kernel::System::Log' => {
             LogPrefix => 'OTRS-RPC',
         },
     );
 
     my %CommonObject;
 
-    for my $Object (qw(ConfigObject EncodeObject LogObject MainObject DBObject
-        PIDObject TimeObject UserObject GroupObject QueueObject
-        CustomerUserObject CustomerCompanyObject TicketObject
-        LinkObject)
-    ) {
-        $CommonObject{$Object} = $Kernel::OM->Get($Object);
-    }
+    $CommonObject{CustomerCompanyObject} = $Kernel::OM->Get('Kernel::System::CustomerCompany');
+    $CommonObject{CustomerUserObject}    = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    $CommonObject{EncodeObject}          = $Kernel::OM->Get('Kernel::System::Encode');
+    $CommonObject{GroupObject}           = $Kernel::OM->Get('Kernel::System::Group');
+    $CommonObject{LinkObject}            = $Kernel::OM->Get('Kernel::System::LinkObject');
+    $CommonObject{LogObject}             = $Kernel::OM->Get('Kernel::System::Log');
+    $CommonObject{MainObject}            = $Kernel::OM->Get('Kernel::System::Main');
+    $CommonObject{PIDObject}             = $Kernel::OM->Get('Kernel::System::PID');
+    $CommonObject{QueueObject}           = $Kernel::OM->Get('Kernel::System::Queue');
+    $CommonObject{SessionObject}         = $Kernel::OM->Get('Kernel::System::AuthSession');
+    $CommonObject{TicketObject}          = $Kernel::OM->Get('Kernel::System::Ticket');
+    $CommonObject{TimeObject}            = $Kernel::OM->Get('Kernel::System::Time');
+    $CommonObject{UserObject}            = $Kernel::OM->Get('Kernel::System::User');
 
     my $RequiredUser     = $CommonObject{ConfigObject}->Get('SOAP::User');
     my $RequiredPassword = $CommonObject{ConfigObject}->Get('SOAP::Password');

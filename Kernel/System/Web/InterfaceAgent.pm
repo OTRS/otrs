@@ -12,8 +12,6 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 use warnings;
 
-use Kernel::System::ObjectManager;
-
 our $ObjectManagerAware = 1;
 
 our @ObjectDependencies = (
