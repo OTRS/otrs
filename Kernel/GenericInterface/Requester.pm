@@ -19,6 +19,16 @@ use Kernel::GenericInterface::Mapping;
 use Kernel::GenericInterface::Transport;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DB',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Time',
+);
+our $ObjectManagerAware = 1;
+
 =head1 NAME
 
 Kernel::GenericInterface::Requester - GenericInterface handler for sending web service requests to remote providers
@@ -33,47 +43,11 @@ Kernel::GenericInterface::Requester - GenericInterface handler for sending web s
 
 =item new()
 
-create an object
+create an object. Do not create it directly, instead use:
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
-    use Kernel::GenericInterface::Requester;
-
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $RequesterObject = Kernel::GenericInterface::Requester->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
-    );
+    use Kernel::System::ObjectManager;
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $RequesterObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
 
 =cut
 
@@ -84,10 +58,12 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
+    $Self->{DBObject}     = $Kernel::OM->Get('Kernel::System::DB');
+    $Self->{EncodeObject} = $Kernel::OM->Get('Kernel::System::Encode');
+    $Self->{LogObject}    = $Kernel::OM->Get('Kernel::System::Log');
+    $Self->{MainObject}   = $Kernel::OM->Get('Kernel::System::Main');
+    $Self->{TimeObject}   = $Kernel::OM->Get('Kernel::System::Time');
 
     $Self->{WebserviceObject}
         = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
