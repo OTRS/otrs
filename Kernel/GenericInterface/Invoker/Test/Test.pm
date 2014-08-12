@@ -14,6 +14,8 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsString IsStringWithData);
 
+our $ObjectManagerDisabled = 1;
+
 =head1 NAME
 
 Kernel::GenericInterface::Invoker::Test::Test - GenericInterface test Invoker backend
@@ -41,16 +43,14 @@ sub new {
     bless( $Self, $Type );
 
     # check needed params
-    for my $Needed (qw(DebuggerObject MainObject TimeObject)) {
-        if ( !$Param{$Needed} ) {
-            return {
-                Success      => 0,
-                ErrorMessage => "Got no $Needed!"
-            };
-        }
-
-        $Self->{$Needed} = $Param{$Needed};
+    if ( !$Param{DebuggerObject} ) {
+        return {
+            Success      => 0,
+            ErrorMessage => "Got no DebuggerObject!"
+        };
     }
+
+    $Self->{DebuggerObject} = $Param{DebuggerObject};
 
     return $Self;
 }
@@ -94,7 +94,7 @@ sub PrepareRequest {
 
     # check request for system time
     if ( IsStringWithData( $Param{Data}->{GetSystemTime} ) && $Param{Data}->{GetSystemTime} ) {
-        $ReturnData{SystemTime} = $Self->{TimeObject}->SystemTime();
+        $ReturnData{SystemTime} = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
     }
 
     return {
