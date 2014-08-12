@@ -12,7 +12,6 @@ package Kernel::System::Web::InterfacePublic;
 use strict;
 use warnings;
 
-our $ObjectManagerAware = 1;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
@@ -24,6 +23,7 @@ our @ObjectDependencies = (
     'Kernel::System::Time',
     'Kernel::System::Web::Request',
 );
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -70,10 +70,10 @@ sub new {
     $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
 
     $Kernel::OM->ObjectParamAdd(
-        LogObject => {
+        'Kernel::System::Log' => {
             LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix'),
         },
-        ParamObject => {
+        'Kernel::System::Web::Request' => {
             WebRequest => $Param{WebRequest} || 0,
         },
     );

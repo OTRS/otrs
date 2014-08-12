@@ -12,8 +12,6 @@ package Kernel::System::Web::InterfaceInstaller;
 use strict;
 use warnings;
 
-our $ObjectManagerAware = 1;
-
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
@@ -23,6 +21,7 @@ our @ObjectDependencies = (
     'Kernel::System::Time',
     'Kernel::System::Web::Request',
 );
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 

@@ -12,8 +12,6 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 use warnings;
 
-our $ObjectManagerAware = 1;
-
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
@@ -28,6 +26,7 @@ our @ObjectDependencies = (
     'Kernel::System::Time',
     'Kernel::System::Web::Request',
 );
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -73,13 +72,12 @@ sub new {
     # create common framework objects 1/2
     $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
     $Kernel::OM->ObjectParamAdd(
-        LogObject => {
+        'Kernel::System::Log' => {
             LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix'),
         },
-        ParamObject => {
+        'Kernel::System::Web::Request' => {
             WebRequest => $Param{WebRequest} || 0,
         },
-
     );
 
     $Self->{EncodeObject} = $Kernel::OM->Get('Kernel::System::Encode');
