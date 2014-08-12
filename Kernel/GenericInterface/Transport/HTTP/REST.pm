@@ -13,12 +13,13 @@ use strict;
 use warnings;
 
 use HTTP::Status;
-use REST::Client;
 use MIME::Base64;
+use REST::Client;
 use URI::Escape;
 
-use Kernel::System::JSON;
 use Kernel::System::VariableCheck qw(:all);
+
+our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
@@ -47,16 +48,9 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (
-        qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject DebuggerObject
-        TransportConfig
-        )
-        )
-    {
+    for my $Needed (qw(DebuggerObject TransportConfig)) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
-
-    $Self->{JSONObject} = Kernel::System::JSON->new(%Param);
 
     return $Self;
 }
@@ -177,7 +171,7 @@ sub ProviderProcessRequest {
         %URIData   = %+;
         $Operation = $CurrentOperation;
 
-        # leave with the first matching regex
+        # leave with the first matching regexp
         last ROUTE;
     }
 
@@ -233,13 +227,13 @@ sub ProviderProcessRequest {
         $ContentCharset = $1;
     }
     if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
-        $Content = $Self->{EncodeObject}->Convert2CharsetInternal(
+        $Content = $Kernel::OM->Get('Kernel::System::Encode')->Convert2CharsetInternal(
             Text => $Content,
             From => $ContentCharset,
         );
     }
     else {
-        $Self->{EncodeObject}->EncodeInput( \$Content );
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Content );
     }
 
     # send received data to debugger
@@ -248,7 +242,7 @@ sub ProviderProcessRequest {
         Data    => $Content,
     );
 
-    my $ContentDecoded = $Self->{JSONObject}->Decode(
+    my $ContentDecoded = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
         Data => $Content,
     );
 
@@ -353,7 +347,7 @@ sub ProviderGenerateResponse {
     }
 
     # prepare data
-    my $JSONString = $Self->{JSONObject}->Encode(
+    my $JSONString = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
         Data => $Param{Data},
     );
 
@@ -373,7 +367,7 @@ sub ProviderGenerateResponse {
 
 =item RequesterPerformRequest()
 
-Prepare data payload as xml structure, generate an outgoing web service request,
+Prepare data payload as XML structure, generate an outgoing web service request,
 receive the response and return its data.
 
     my $Result = $TransportObject->RequesterPerformRequest(
@@ -467,9 +461,9 @@ sub RequesterPerformRequest {
 
         my $ErrorMessage = "Error while creating REST client from 'REST::Client'.";
 
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => $ErrorMessage,
+        # log to debugger
+        $Self->{DebuggerObject}->Error(
+            Summary => $ErrorMessage,
         );
         return {
             Success      => 0,
@@ -509,9 +503,9 @@ sub RequesterPerformRequest {
 
         my $ErrorMessage = "'$RestCommand' is not a valid REST command.";
 
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => $ErrorMessage,
+        # log to debugger
+        $Self->{DebuggerObject}->Error(
+            Summary => $ErrorMessage,
         );
         return {
             Success      => 0,
@@ -530,9 +524,9 @@ sub RequesterPerformRequest {
         my $ErrorMessage
             = "REST Transport: Have no Invoker <-> Controller mapping for Invoker '$Param{Operation}'.";
 
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => $ErrorMessage,
+        # log to debugger
+        $Self->{DebuggerObject}->Error(
+            Summary => $ErrorMessage,
         );
         return {
             Success      => 0,
@@ -603,6 +597,9 @@ sub RequesterPerformRequest {
         delete $Param{Data}->{$ParamName};
     }
 
+    # get JSON object
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+
     my $Body;
     if ( IsHashRefWithData( $Param{Data} ) ) {
 
@@ -618,7 +615,7 @@ sub RequesterPerformRequest {
                 Data    => $Param{Data},
             );
 
-            $Param{Data} = $Self->{JSONObject}->Encode(
+            $Param{Data} = $JSONObject->Encode(
                 Data => $Param{Data},
             );
         }
@@ -680,9 +677,9 @@ sub RequesterPerformRequest {
 
     if ($ResponseError) {
 
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => $ResponseError,
+        # log to debugger
+        $Self->{DebuggerObject}->Error(
+            Summary => $ResponseError,
         );
         return {
             Success      => 0,
@@ -695,9 +692,9 @@ sub RequesterPerformRequest {
 
         my $ResponseError = $ErrorMessage . ' No content provided.';
 
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => $ResponseError,
+        # log to debugger
+        $Self->{DebuggerObject}->Error(
+            Summary => $ResponseError,
         );
         return {
             Success      => 0,
@@ -711,22 +708,22 @@ sub RequesterPerformRequest {
         Data    => $ResponseContent,
     );
 
-    $ResponseContent = $Self->{EncodeObject}->Convert2CharsetInternal(
+    $ResponseContent = $Kernel::OM->Get('Kernel::System::Encode')->Convert2CharsetInternal(
         Text => $ResponseContent,
         From => 'utf-8',
     );
 
     # to convert the data into a hash, use the JSON module
-    my $Result = $Self->{JSONObject}->Decode(
+    my $Result = $JSONObject->Decode(
         Data => $ResponseContent,
     );
 
     if ( !$Result ) {
         my $ResponseError = $ErrorMessage . ' Error while parsing JSON data.';
 
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => $ResponseError,
+        # log to debugger
+        $Self->{DebuggerObject}->Error(
+            Summary => $ResponseError,
         );
         return {
             Success      => 0,
@@ -734,7 +731,7 @@ sub RequesterPerformRequest {
         };
     }
 
-    # all ok - return result
+    # all OK - return result
     return {
         Success => 1,
         Data => $Result || undef,
