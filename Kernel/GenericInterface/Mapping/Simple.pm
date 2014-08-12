@@ -423,7 +423,7 @@ sub _ConfigCheck {
             );
         }
 
-        # possible subvalues are ValueMapExact or ValueMapRegEx and need to be hash ref if defined
+        # possible sub-values are ValueMapExact or ValueMapRegEx and need to be hash ref if defined
         SUBKEY:
         for my $SubKeyName (qw(ValueMapExact ValueMapRegEx)) {
             my $ValueMapType = $Config->{ValueMap}->{$KeyName}->{$SubKeyName};
