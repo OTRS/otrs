@@ -14,10 +14,12 @@ use warnings;
 
 use MIME::Base64;
 
-use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
-use base qw(Kernel::GenericInterface::Operation::Common);
+use base qw(
+    Kernel::GenericInterface::Operation::Common
+    Kernel::GenericInterface::Operation::Ticket::Common
+);
 
 our $ObjectManagerDisabled = 1;
 
@@ -231,16 +233,22 @@ one or more ticket entries in one call.
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $Result = $Self->Init(
+        WebserviceID => $Self->{WebserviceID},
+    );
+
+    if ( !$Result->{Success} ) {
+        $Self->ReturnError(
+            ErrorCode    => 'Webservice.InvalidConfiguration',
+            ErrorMessage => $Result->{ErrorMessage},
+        );
+    }
+
     my ( $UserID, $UserType ) = $Self->Auth(
         %Param,
     );
 
-    my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
-        DebuggerObject => $Self->{DebuggerObject},
-        WebserviceID   => $Self->{WebserviceID},
-    );
-
-    return $TicketCommonObject->ReturnError(
+    return $Self->ReturnError(
         ErrorCode    => 'TicketGet.AuthFail',
         ErrorMessage => "TicketGet: Authorization failing!",
     ) if !$UserID;
@@ -248,7 +256,7 @@ sub Run {
     # check needed stuff
     for my $Needed (qw(TicketID)) {
         if ( !$Param{Data}->{$Needed} ) {
-            return $TicketCommonObject->ReturnError(
+            return $Self->ReturnError(
                 ErrorCode    => 'TicketGet.MissingParameter',
                 ErrorMessage => "TicketGet: $Needed parameter is missing!",
             );
@@ -265,7 +273,7 @@ sub Run {
         @TicketIDs = @{ $Param{Data}->{TicketID} };
     }
     else {
-        return $TicketCommonObject->ReturnError(
+        return $Self->ReturnError(
             ErrorCode    => 'TicketGet.WrongStructure',
             ErrorMessage => "TicketGet: Structure for TicketID is not correct!",
         );
@@ -302,7 +310,7 @@ sub Run {
             $ErrorMessage = 'Could not get Ticket data'
                 . ' in Kernel::GenericInterface::Operation::Ticket::TicketGet::Run()';
 
-            return $TicketCommonObject->ReturnError(
+            return $Self->ReturnError(
                 ErrorCode    => 'TicketGet.NotValidTicketID',
                 ErrorMessage => "TicketGet: $ErrorMessage",
             );
@@ -378,7 +386,7 @@ sub Run {
         $ErrorMessage = 'Could not get Ticket data'
             . ' in Kernel::GenericInterface::Operation::Ticket::TicketGet::Run()';
 
-        return $TicketCommonObject->ReturnError(
+        return $Self->ReturnError(
             ErrorCode    => 'TicketGet.NotTicketData',
             ErrorMessage => "TicketGet: $ErrorMessage",
         );

@@ -12,10 +12,12 @@ package Kernel::GenericInterface::Operation::Ticket::TicketSearch;
 use strict;
 use warnings;
 
-use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw( :all );
 
-use base qw(Kernel::GenericInterface::Operation::Common);
+use base qw(
+    Kernel::GenericInterface::Operation::Common
+    Kernel::GenericInterface::Operation::Ticket::Common
+);
 
 our $ObjectManagerDisabled = 1;
 
@@ -259,16 +261,22 @@ perform TicketSearch Operation. This will return a Ticket ID list.
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $Result = $Self->Init(
+        WebserviceID => $Self->{WebserviceID},
+    );
+
+    if ( !$Result->{Success} ) {
+        $Self->ReturnError(
+            ErrorCode    => 'Webservice.InvalidConfiguration',
+            ErrorMessage => $Result->{ErrorMessage},
+        );
+    }
+
     my ( $UserID, $UserType ) = $Self->Auth(
         %Param,
     );
 
-    my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(
-        DebuggerObject => $Self->{DebuggerObject},
-        WebserviceID   => $Self->{WebserviceID},
-    );
-
-    return $TicketCommonObject->ReturnError(
+    return $Self->ReturnError(
         ErrorCode    => 'TicketSearch.AuthFail',
         ErrorMessage => "TicketSearch: Authorization failing!",
     ) if !$UserID;
