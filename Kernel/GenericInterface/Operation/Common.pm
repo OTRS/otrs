@@ -18,7 +18,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::GenericInterface::Operation::Common - common operation functions
+Kernel::GenericInterface::Operation::Common - Base class for all Operations
 
 =head1 SYNOPSIS
 
@@ -27,47 +27,6 @@ Kernel::GenericInterface::Operation::Common - common operation functions
 =over 4
 
 =cut
-
-=item new()
-
-create an object
-    use Kernel::GenericInterface::Debugger;
-    use Kernel::GenericInterface::Operation::Common;
-
-    my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-        DebuggerConfig   => {
-            DebugThreshold  => 'debug',
-            TestMode        => 0,           # optional, in testing mode the data will not be
-                                            #   written to the DB
-            #...
-
-        },
-    },
-    my $CommonObject = Kernel::GenericInterface::Operation::Common->new(
-        DebuggerObject     => $DebuggerObject,
-        WebserviceID       => $WebserviceID,             # ID of the currently used web service
-    );
-
-=cut
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # check needed objects
-    if ( !$Param{DebuggerObject} ) {
-        return {
-            Success      => 0,
-            ErrorMessage => "Got no DebuggerObject!"
-        };
-    }
-
-    $Self->{DebuggerObject} = $Param{DebuggerObject};
-
-    return $Self;
-}
 
 =item Auth()
 

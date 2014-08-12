@@ -12,9 +12,10 @@ package Kernel::GenericInterface::Operation::Ticket::TicketUpdate;
 use strict;
 use warnings;
 
-use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
+
+use base qw(Kernel::GenericInterface::Operation::Common);
 
 our $ObjectManagerDisabled = 1;
 
@@ -224,12 +225,8 @@ sub Run {
         }
     }
 
-    my $CommonObject = Kernel::GenericInterface::Operation::Common->new(
-        DebuggerObject => $Self->{DebuggerObject},
-    );
-
     # authenticate user
-    my ( $UserID, $UserType ) = $CommonObject->Auth(%Param);
+    my ( $UserID, $UserType ) = $Self->Auth(%Param);
 
     if ( !$UserID ) {
         return $TicketCommonObject->ReturnError(

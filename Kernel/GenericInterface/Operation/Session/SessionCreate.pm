@@ -12,9 +12,12 @@ package Kernel::GenericInterface::Operation::Session::SessionCreate;
 use strict;
 use warnings;
 
-use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Session::Common;
 use Kernel::System::VariableCheck qw(IsStringWithData IsHashRefWithData);
+
+use base qw(Kernel::GenericInterface::Operation::Common);
+
+our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
@@ -57,11 +60,6 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    # create additional objects
-    # $CommonObject = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
-    #$SessionCommonObject
-    #    = Kernel::GenericInterface::Operation::Session::Common->new( %{$Self} );
-
     return $Self;
 }
 
@@ -90,14 +88,10 @@ Retrieve a new session id value.
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $CommonObject = Kernel::GenericInterface::Operation::Common->new(
-        DebuggerObject => $Self->{DebuggerObject},
-    );
-
     # check needed stuff
     if ( !IsHashRefWithData( $Param{Data} ) ) {
 
-        return $CommonObject->ReturnError(
+        return $Self->ReturnError(
             ErrorCode    => 'SessionCreate.MissingParameter',
             ErrorMessage => "SessionCreate: The request is empty!",
         );
@@ -106,7 +100,7 @@ sub Run {
     for my $Needed (qw( Password )) {
         if ( !$Param{Data}->{$Needed} ) {
 
-            return $CommonObject->ReturnError(
+            return $Self->ReturnError(
                 ErrorCode    => 'SessionCreate.MissingParameter',
                 ErrorMessage => "SessionCreate: $Needed parameter is missing!",
             );
@@ -123,7 +117,7 @@ sub Run {
 
     if ( !$SessionID ) {
 
-        return $CommonObject->ReturnError(
+        return $Self->ReturnError(
             ErrorCode    => 'SessionCreate.AuthFail',
             ErrorMessage => "SessionCreate: Authorization failing!",
         );

@@ -13,9 +13,11 @@ use strict;
 use warnings;
 
 use MIME::Base64;
-use Kernel::GenericInterface::Operation::Common;
+
 use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
+
+use base qw(Kernel::GenericInterface::Operation::Common);
 
 our $ObjectManagerDisabled = 1;
 
@@ -229,12 +231,8 @@ one or more ticket entries in one call.
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $CommonObject = Kernel::GenericInterface::Operation::Common->new(
-        DebuggerObject => $Self->{DebuggerObject},
-    );
-
-    my ( $UserID, $UserType ) = $CommonObject->Auth(
-        %Param
+    my ( $UserID, $UserType ) = $Self->Auth(
+        %Param,
     );
 
     my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(

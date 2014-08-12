@@ -12,9 +12,10 @@ package Kernel::GenericInterface::Operation::Ticket::TicketSearch;
 use strict;
 use warnings;
 
-use Kernel::GenericInterface::Operation::Common;
 use Kernel::GenericInterface::Operation::Ticket::Common;
 use Kernel::System::VariableCheck qw( :all );
+
+use base qw(Kernel::GenericInterface::Operation::Common);
 
 our $ObjectManagerDisabled = 1;
 
@@ -258,12 +259,8 @@ perform TicketSearch Operation. This will return a Ticket ID list.
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $CommonObject = Kernel::GenericInterface::Operation::Common->new(
-        DebuggerObject => $Self->{DebuggerObject},
-    );
-
-    my ( $UserID, $UserType ) = $CommonObject->Auth(
-        %Param
+    my ( $UserID, $UserType ) = $Self->Auth(
+        %Param,
     );
 
     my $TicketCommonObject = Kernel::GenericInterface::Operation::Ticket::Common->new(

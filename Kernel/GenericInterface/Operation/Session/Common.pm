@@ -18,7 +18,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::GenericInterface::Operation::Common - common operation functions
+Kernel::GenericInterface::Operation::Session::Common - common session operation functions
 
 =head1 SYNOPSIS
 
