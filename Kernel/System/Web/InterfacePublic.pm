@@ -12,10 +12,17 @@ package Kernel::System::Web::InterfacePublic;
 use strict;
 use warnings;
 
-# There are additional dependencies that are only loaded on demand
-## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
+our $ObjectManagerAware = 1;
 our @ObjectDependencies = (
-    qw(EncodeObject LogObject MainObject TimeObject ParamObject),
+    'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::System::CustomerUser',
+    'Kernel::System::DB',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Time',
+    'Kernel::System::Web::Request',
 );
 
 =head1 NAME
@@ -71,9 +78,11 @@ sub new {
         },
     );
 
-    for my $Needed (qw(LogObject EncodeObject MainObject TimeObject ParamObject)) {
-        $Self->{$Needed} = $Kernel::OM->Get($Needed);
-    }
+    $Self->{EncodeObject} = $Kernel::OM->Get('Kernel::System::Encode');
+    $Self->{LogObject}    = $Kernel::OM->Get('Kernel::System::Log');
+    $Self->{MainObject}   = $Kernel::OM->Get('Kernel::System::Main');
+    $Self->{ParamObject}  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    $Self->{TimeObject}   = $Kernel::OM->Get('Kernel::System::Time');
 
     # debug info
     if ( $Self->{Debug} ) {
@@ -144,7 +153,7 @@ sub Run {
     $Param{Action} =~ s/\W//g;
 
     $Kernel::OM->ObjectParamAdd(
-        LayoutObject => {
+        'Kernel::Output::HTML::Layout' => {
             %Param,
             SessionIDCookie => 1,
             Debug           => $Self->{Debug},
