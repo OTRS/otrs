@@ -12,21 +12,16 @@ package Kernel::System::Web::InterfaceInstaller;
 use strict;
 use warnings;
 
-# all framework needed  modules
-use Kernel::Config;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::Encode;
-use Kernel::System::Time;
-use Kernel::System::Web::Request;
-use Kernel::System::DB;
-use Kernel::System::CustomerUser;
-use Kernel::Output::HTML::Layout;
+our $ObjectManagerAware = 1;
 
-# There are additional dependencies that are only loaded on demand
-## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
 our @ObjectDependencies = (
-    qw(EncodeObject LogObject MainObject TimeObject ParamObject),
+    'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Time',
+    'Kernel::System::Web::Request',
 );
 
 =head1 NAME
@@ -47,19 +42,8 @@ the global installer web interface
 
 create installer web interface object
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
     use Kernel::System::Web::InterfaceInstaller;
 
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
     my $Debug = 0;
     my $Interface = Kernel::System::Web::InterfaceInstaller->new( Debug => $Debug );
 
@@ -79,20 +63,22 @@ sub new {
     $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
 
     $Kernel::OM->ObjectParamAdd(
-        LogObject => {
+        'Kernel::System::Log' => {
             LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix') || 'Installer',
         },
-        LayoutObject => {
+        'Kernel::Output::HTML::Layout' => {
             InstallerOnly => 1,
         },
-        ParamObject => {
+        'Kernel::System::Web::Request' => {
             WebRequest => $Param{WebRequest} || 0,
         },
     );
 
-    for my $Needed (qw( LogObject EncodeObject MainObject TimeObject ParamObject )) {
-        $Self->{$Needed} = $Kernel::OM->Get($Needed);
-    }
+    $Self->{EncodeObject} = $Kernel::OM->Get('Kernel::System::Encode');
+    $Self->{LogObject}    = $Kernel::OM->Get('Kernel::System::Log');
+    $Self->{MainObject}   = $Kernel::OM->Get('Kernel::System::Main');
+    $Self->{ParamObject}  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    $Self->{TimeObject}   = $Kernel::OM->Get('Kernel::System::Time');
 
     # debug info
     if ( $Self->{Debug} ) {
@@ -124,7 +110,7 @@ sub Run {
     $Param{NextScreen} = $Self->{ParamObject}->GetParam( Param => 'NextScreen' ) || '';
 
     $Kernel::OM->ObjectParamAdd(
-        LayoutObject => {
+        'Kernel::Output::HTML::Layout' => {
             %Param,
         },
     );
