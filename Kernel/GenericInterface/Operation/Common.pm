@@ -113,7 +113,7 @@ helper function to return an error message.
 
     my $Return = $CommonObject->ReturnError(
         ErrorCode    => Ticket.AccessDenied,
-        ErrorMessage => 'You dont have rights to access this ticket',
+        ErrorMessage => 'You don't have rights to access this ticket',
     );
 
 =cut
