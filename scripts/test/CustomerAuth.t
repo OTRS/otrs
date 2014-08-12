@@ -12,6 +12,7 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
+use Kernel::System::CustomerUser;
 use Kernel::System::CustomerAuth;
 use Kernel::System::User;
 
