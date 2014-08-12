@@ -88,38 +88,6 @@ sub Init {
     };
 }
 
-=item ReturnError()
-
-helper function to return an error message.
-
-    my $Return = $CommonObject->ReturnError(
-        ErrorCode    => Ticket.AccessDenied,
-        ErrorMessage => 'You do not have rights to access this ticket',
-    );
-
-=cut
-
-sub ReturnError {
-    my ( $Self, %Param ) = @_;
-
-    $Self->{DebuggerObject}->Error(
-        Summary => $Param{ErrorCode},
-        Data    => $Param{ErrorMessage},
-    );
-
-    # return structure
-    return {
-        Success      => 1,
-        ErrorMessage => "$Param{ErrorCode}: $Param{ErrorMessage}",
-        Data         => {
-            Error => {
-                ErrorCode    => $Param{ErrorCode},
-                ErrorMessage => $Param{ErrorMessage},
-            },
-        },
-    };
-}
-
 =item ValidateQueue()
 
 checks if the given queue or queue ID is valid.
