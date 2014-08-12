@@ -16,7 +16,7 @@ use HTTP::Request::Common;
 use LWP::UserAgent;
 use LWP::Protocol;
 
-use Kernel::System::Web::Request;
+our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
@@ -33,26 +33,9 @@ Kernel::GenericInterface::Transport::Test - GenericInterface network transport i
 usually, you want to create an instance of this
 by using Kernel::GenericInterface::Transport->new();
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
     use Kernel::GenericInterface::Transport;
 
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
     my $TransportObject = Kernel::GenericInterface::Transport->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
 
         TransportConfig => {
             Type => 'HTTP::Test',
@@ -75,10 +58,7 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    for my $Needed (
-        qw(LogObject EncodeObject ConfigObject MainObject DebuggerObject TransportConfig)
-        )
-    {
+    for my $Needed (qw( DebuggerObject TransportConfig)) {
         $Self->{$Needed} = $Param{$Needed} || return {
             Success      => 0,
             ErrorMessage => "Got no $Needed!"
@@ -106,12 +86,14 @@ sub ProviderProcessRequest {
         };
     }
 
-    my $ParamObject = Kernel::System::Web::Request->new( %{$Self} );
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my %Result;
     for my $ParamName ( $ParamObject->GetParamNames() ) {
         $Result{$ParamName} = $ParamObject->GetParam( Param => $ParamName );
     }
+
+    $Kernel::OM->ObjectsDiscard('Kernel::System::Web::Request');
 
     # special handling for empty post request
     if ( scalar keys %Result == 1 && exists $Result{POSTDATA} && !$Result{POSTDATA} ) {
