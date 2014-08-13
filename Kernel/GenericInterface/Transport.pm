@@ -12,6 +12,11 @@ package Kernel::GenericInterface::Transport;
 use strict;
 use warnings;
 
+# prevent 'Used once' warning for Kernel::OM
+use Kernel::System::ObjectManager;
+
+our $ObjectManagerDisabled = 1;
+
 =head1 NAME
 
 Kernel::GenericInterface::Transport - GenericInterface network transport interface
@@ -28,55 +33,21 @@ Kernel::GenericInterface::Transport - GenericInterface network transport interfa
 
 create an object.
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
     use Kernel::GenericInterface::Debugger;
     use Kernel::GenericInterface::Transport;
 
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
     my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-        TimeObject   => $TimeObject,
-        DBObject     => $DBObject,
+        DebuggerConfig   => {
+            DebugThreshold  => 'debug',
+            TestMode        => 0,           # optional, in testing mode the data will not be written to the DB
+            # ...
+        },
+        WebserviceID      => 12,
+        CommunicationType => Requester, # Requester or Provider
+        RemoteIP          => 192.168.1.1, # optional
     );
     my $TransportObject = Kernel::GenericInterface::Transport->new(
-        ConfigObject   => $ConfigObject,
-        LogObject      => $LogObject,
-        DBObject       => $DBObject,
-        MainObject     => $MainObject,
-        TimeObject     => $TimeObject,
-        EncodeObject   => $EncodeObject,
         DebuggerObject => $DebuggerObject,
-
         TransportConfig => {
             Type => 'HTTP::SOAP',
             Config => {
@@ -106,7 +77,7 @@ sub new {
     # select and instantiate the backend
     my $Backend = 'Kernel::GenericInterface::Transport::' . $Self->{TransportConfig}->{Type};
 
-    if ( !$Self->{MainObject}->Require($Backend) ) {
+    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Backend) ) {
         return $Self->{DebuggerObject}->Error( Summary => "Backend $Backend not found." );
     }
     $Self->{BackendObject} = $Backend->new( %{$Self} );
@@ -142,6 +113,7 @@ sub ProviderProcessRequest {
 
     # make sure an operation is provided in success case
     if ( $Result->{Success} && !$Result->{Operation} ) {
+
         return $Self->{DebuggerObject}->Error(
             Summary => 'TransportObject backend did not return an operation',
         );
@@ -174,12 +146,14 @@ sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
 
     if ( !defined $Param{Success} ) {
+
         return $Self->{DebuggerObject}->Error(
             Summary => 'Missing parameter Success.',
         );
     }
 
     if ( $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+
         return $Self->{DebuggerObject}->Error(
             Summary => 'Data is not a hash reference.',
         );
@@ -213,12 +187,14 @@ sub RequesterPerformRequest {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{Operation} ) {
+
         return $Self->{DebuggerObject}->Error(
             Summary => 'Missing parameter Operation.',
         );
     }
 
     if ( $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+
         return $Self->{DebuggerObject}->Error(
             Summary => 'Data is not a hash reference.',
         );
