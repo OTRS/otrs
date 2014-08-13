@@ -14,33 +14,13 @@ use vars (qw($Self));
 
 use URI::Escape();
 
-use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::GenericInterface::DebugLog;
-use Kernel::System::Ticket;
-use Kernel::System::Scheduler::TaskManager;
-use Kernel::System::UnitTest::Helper;
-
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
+my $HelperObject      = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
+my $WebserviceObject  = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+my $DebugLogObject    = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog');
+my $TaskManagerObject = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager');
 
 my $RandomID = $HelperObject->GetRandomID();
-
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $DebugLogObject = Kernel::System::GenericInterface::DebugLog->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $TaskManagerObject = Kernel::System::Scheduler::TaskManager->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
 
 my @Tests = (
     {
@@ -104,7 +84,7 @@ my @Tests = (
         Success      => 1,
     },
     {
-        Name             => 'Synchronous event call - Webservice set to invald',
+        Name             => 'Synchronous event call - Webservice set to invalid',
         WebserviceConfig => {
             Debugger => {
                 DebugThreshold => 'debug',
@@ -237,7 +217,7 @@ $ConfigObject->Set(
     Value => undef,
 );
 
-# register the genericinterface test handler only
+# register the generic interface test handler only
 $ConfigObject->Set(
     Key   => 'Ticket::EventModulePost###1000-GenericInterface',
     Value => {
@@ -255,7 +235,7 @@ $Self->Is(
 
 my $Home = $ConfigObject->Get('Home');
 
-# check if scheduler is running (start, if neccessary)
+# check if scheduler is running (start, if necessary)
 my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
 if ( $^O =~ /^mswin/i ) {
     $Scheduler = "\"$^X\" " . $Home . '/bin/otrs.Scheduler4win.pl';
@@ -278,7 +258,7 @@ if ( $PreviousSchedulerStatus =~ /^not running/i ) {
         `$Scheduler -a stop -f 1`;
         $Self->True(
             1,
-            "Force stoping due to bad status...",
+            "Force stopping due to bad status...",
         );
 
         # Wait for slow systems
@@ -364,10 +344,7 @@ for my $Test (@Tests) {
 
     # enclose in block because the events are executed in destructor of ticket object
     {
-        my $TicketObject = Kernel::System::Ticket->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
-        );
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         $TicketID = $TicketObject->TicketCreate(
             Title        => 'Some Ticket Title',
@@ -384,13 +361,15 @@ for my $Test (@Tests) {
             $TicketID,
             "$Test->{Name} TicketCreate()",
         );
+
+        $Kernel::OM->ObjectsDiscard('Kernel::System::Ticket');
     }
 
     # If this is asynchronous, wait for the scheduler to handle the task
     if ( $Test->{Asynchronous} ) {
         $Self->True(
             1,
-            "Sleeping 2s to make sure that asynchronous tasks are registered...",
+            "Sleeping 2 secs to make sure that asynchronous tasks are registered...",
         );
         sleep 2;
 
