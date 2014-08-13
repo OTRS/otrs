@@ -81,7 +81,7 @@ like Kernel::System::DB:
 
 =head2 Which objects can be loaded?
 
-The ObjectManager can load every object that declares its dependencies like this in the perl package:
+The ObjectManager can load every object that declares its dependencies like this in the Perl package:
 
     package Kernel::System::Valid;
 
@@ -146,7 +146,7 @@ sub new {
         'Kernel::Config' => $ConfigObject,
     };
     for my $Parameter ( sort keys %Param ) {
-        $Self->{Param}->{ $Parameter } = $Param{$Parameter};
+        $Self->{Param}->{$Parameter} = $Param{$Parameter};
     }
 
     return $Self;
@@ -166,9 +166,10 @@ For example C<< ->Get('TicketObject') >> retrieves a L<Kernel::System::Ticket> o
 =cut
 
 sub Get {
+
     # No param unpacking for increased performance
-    if ( $_[1] && $_[0]->{Objects}->{$_[1]} ) {
-        return $_[0]->{Objects}->{$_[1]};
+    if ( $_[1] && $_[0]->{Objects}->{ $_[1] } ) {
+        return $_[0]->{Objects}->{ $_[1] };
     }
 
     if ( !$_[1] ) {
@@ -240,7 +241,7 @@ sub _ObjectBuild {
     #   short form (e.g. ConfigObject) to the constructor.
     if ( !$ObjectManagerAware && @{$Dependencies} ) {
         for my $Dependency ( @{$Dependencies} ) {
-            $ConstructorArguments{ $Dependency }
+            $ConstructorArguments{$Dependency}
                 //= $Self->Get($Dependency);
         }
     }
@@ -256,7 +257,7 @@ sub _ObjectBuild {
         }
         else {
             $Self->_DieWithError(
-                Error => "The contrustructor of $Package returned undef.",
+                Error => "The constructor of $Package returned undef.",
             );
         }
     }
@@ -391,8 +392,8 @@ sub ObjectsDiscard {
         for my $Dependency (@$Dependencies) {
 
             # undef happens to be the value that uses the least amount
-            # of memory in perl, and we are only interested in the keys
-            $ReverseDependencies{ $Dependency }->{$Object}
+            # of memory in Perl, and we are only interested in the keys
+            $ReverseDependencies{$Dependency}->{$Object}
                 = undef;
         }
         push @AllObjects, $Object;
@@ -413,7 +414,7 @@ sub ObjectsDiscard {
 
     if ( $Param{Objects} ) {
         for my $Object ( @{ $Param{Objects} } ) {
-            $Traverser->( $Object );
+            $Traverser->($Object);
         }
     }
     else {
