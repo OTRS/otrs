@@ -14,6 +14,11 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsStringWithData);
 
+# prevent 'Used once' warning for Kernel::OM
+use Kernel::System::ObjectManager;
+
+our $ObjectManagerDisabled = 1;
+
 =head1 NAME
 
 Kernel::GenericInterface::Operation - GenericInterface Operation interface
@@ -33,47 +38,24 @@ systems.
 
 create an object.
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
+    use Kernel::GenericInterface::Debugger;
     use Kernel::GenericInterface::Operation;
 
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
+    my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+        DebuggerConfig   => {
+            DebugThreshold => 'debug',
+            TestMode       => 0,           # optional, in testing mode the data will not be written to the DB
+            # ...
+        },
+        WebserviceID      => 12,
+        CommunicationType => Provider, # Requester or Provider
+        RemoteIP          => 192.168.1.1, # optional
     );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
-    my $OperationObject = Kernel::GenericInterface::Operation->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
 
-        WebserviceID       => $WebserviceID,             # ID of the currently used web service
-        OperationType      => 'Ticket::TicketCreate',    # the local operation backend to use
+    my $OperationObject = Kernel::GenericInterface::Operation->new(
+        DebuggerObject => $DebuggerObject,
+        OperationType  => 'Ticket::TicketCreate',    # the local operation backend to use
+        WebserviceID   => $WebserviceID,             # ID of the currently used web service
     );
 
 =cut
@@ -85,11 +67,9 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (
-        qw(DebuggerObject MainObject ConfigObject LogObject EncodeObject TimeObject DBObject OperationType WebserviceID)
-        )
-    {
+    for my $Needed (qw(DebuggerObject OperationType WebserviceID)) {
         if ( !$Param{$Needed} ) {
+
             return {
                 Success      => 0,
                 ErrorMessage => "Got no $Needed!"
@@ -101,6 +81,7 @@ sub new {
 
     # check operation
     if ( !IsStringWithData( $Param{OperationType} ) ) {
+
         return $Self->{DebuggerObject}->Error(
             Summary => 'Got no Operation with content!',
         );
@@ -108,7 +89,8 @@ sub new {
 
     # load backend module
     my $GenericModule = 'Kernel::GenericInterface::Operation::' . $Param{OperationType};
-    if ( !$Self->{MainObject}->Require($GenericModule) ) {
+    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($GenericModule) ) {
+
         return $Self->{DebuggerObject}->Error(
             Summary => "Can't load operation backend module $GenericModule!"
         );
