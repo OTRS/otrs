@@ -15,14 +15,11 @@ use Kernel::System::GenericInterface::DebugLog;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::UnitTest::Helper;
 
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $RandomID = $HelperObject->GetRandomID();
 
-my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
 my $WebserviceID = $WebserviceObject->WebserviceAdd(
     Config => {
@@ -51,20 +48,23 @@ $Self->True(
 my $DebugLogObject;
 
 # with just objects
-$DebugLogObject = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
+$DebugLogObject = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog');
 $Self->Is(
     ref $DebugLogObject,
     'Kernel::System::GenericInterface::DebugLog',
     'DebugLog::new() constructor failure, just objects.',
 );
 
+my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
 my @Tests = (
 
     {
         Name   => 'Without WebserviceID',
         Config => {
-            CommunicationID => $Self->{MainObject}->MD5sum(
-                String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
+            CommunicationID => $MainObject->MD5sum(
+                String => $TimeObject->SystemTime() . int( rand(1000000) ),
             ),
             CommunicationType => 'Provider',       # 'Provider' or 'Requester'
             RemoteIP          => '192.168.0.1',    # optional
@@ -97,8 +97,8 @@ my @Tests = (
     {
         Name   => 'Without CommunicationType',
         Config => {
-            CommunicationID => $Self->{MainObject}->MD5sum(
-                String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
+            CommunicationID => $MainObject->MD5sum(
+                String => $TimeObject->SystemTime() . int( rand(1000000) ),
             ),
             WebserviceID => $WebserviceID,
             RemoteIP     => '192.168.0.1',
@@ -115,8 +115,8 @@ my @Tests = (
     {
         Name   => 'Without RemoteIP',
         Config => {
-            CommunicationID => $Self->{MainObject}->MD5sum(
-                String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
+            CommunicationID => $MainObject->MD5sum(
+                String => $TimeObject->SystemTime() . int( rand(1000000) ),
             ),
             WebserviceID      => $WebserviceID,
             CommunicationType => 'Provider',
@@ -134,8 +134,8 @@ my @Tests = (
         Name       => 'With empty data',
         SuccessAdd => '1',
         Config     => {
-            CommunicationID => $Self->{MainObject}->MD5sum(
-                String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
+            CommunicationID => $MainObject->MD5sum(
+                String => $TimeObject->SystemTime() . int( rand(1000000) ),
             ),
             CommunicationType => 'Provider',
             RemoteIP          => '192.168.0.1',
@@ -151,8 +151,8 @@ my @Tests = (
         Name       => 'Complete params',
         SuccessAdd => '1',
         Config     => {
-            CommunicationID => $Self->{MainObject}->MD5sum(
-                String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
+            CommunicationID => $MainObject->MD5sum(
+                String => $TimeObject->SystemTime() . int( rand(1000000) ),
             ),
             CommunicationType => 'Provider',
             RemoteIP          => '192.168.0.1',
@@ -170,8 +170,8 @@ my @Tests = (
         Name       => 'Complete params',
         SuccessAdd => '1',
         Config     => {
-            CommunicationID => $Self->{MainObject}->MD5sum(
-                String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
+            CommunicationID => $MainObject->MD5sum(
+                String => $TimeObject->SystemTime() . int( rand(1000000) ),
             ),
             CommunicationType => 'Provider',
             RemoteIP          => '',
@@ -188,8 +188,8 @@ my @Tests = (
         Name       => 'Complete params',
         SuccessAdd => '1',
         Config     => {
-            CommunicationID => $Self->{MainObject}->MD5sum(
-                String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
+            CommunicationID => $MainObject->MD5sum(
+                String => $TimeObject->SystemTime() . int( rand(1000000) ),
             ),
             CommunicationType => 'Requester',
             RemoteIP          => '192.168.0.1',
@@ -206,8 +206,8 @@ my @Tests = (
         Name       => 'Complete params',
         SuccessAdd => '1',
         Config     => {
-            CommunicationID => $Self->{MainObject}->MD5sum(
-                String => $Self->{TimeObject}->SystemTime() . int( rand(1000000) ),
+            CommunicationID => $MainObject->MD5sum(
+                String => $TimeObject->SystemTime() . int( rand(1000000) ),
             ),
             CommunicationType => 'Requester',
             RemoteIP          => '',
