@@ -36,18 +36,26 @@ CREATE INDEX personal_services_user_id ON personal_services (user_id);
 --  alter table package_repository
 -- ----------------------------------------------------------
 ALTER TABLE package_repository ADD from_cloud INTEGER NULL;
+UPDATE package_repository SET from_cloud = 1 WHERE from_cloud IS NULL;
+ALTER TABLE package_repository ALTER from_cloud SET DEFAULT 1;
 -- ----------------------------------------------------------
 --  alter table package_repository
 -- ----------------------------------------------------------
 ALTER TABLE package_repository ADD visible INTEGER NULL;
+UPDATE package_repository SET visible = 1 WHERE visible IS NULL;
+ALTER TABLE package_repository ALTER visible SET DEFAULT 1;
 -- ----------------------------------------------------------
 --  alter table package_repository
 -- ----------------------------------------------------------
 ALTER TABLE package_repository ADD downloadable INTEGER NULL;
+UPDATE package_repository SET downloadable = 1 WHERE downloadable IS NULL;
+ALTER TABLE package_repository ALTER downloadable SET DEFAULT 1;
 -- ----------------------------------------------------------
 --  alter table package_repository
 -- ----------------------------------------------------------
 ALTER TABLE package_repository ADD removable INTEGER NULL;
+UPDATE package_repository SET removable = 1 WHERE removable IS NULL;
+ALTER TABLE package_repository ALTER removable SET DEFAULT 1;
 SET standard_conforming_strings TO ON;
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);

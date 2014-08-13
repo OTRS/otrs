@@ -57,10 +57,10 @@
 
 <!-- Package Installation from cloud -->
 <TableAlter Name="package_repository">
-    <ColumnAdd Name="from_cloud" Required="false" Type="SMALLINT" />
-    <ColumnAdd Name="visible" Required="false" Type="SMALLINT" />
-    <ColumnAdd Name="downloadable" Required="false" Type="SMALLINT" />
-    <ColumnAdd Name="removable" Required="false" Type="SMALLINT" />
+    <ColumnAdd Name="from_cloud" Required="false" Type="SMALLINT" Default="1"/>
+    <ColumnAdd Name="visible" Required="false" Type="SMALLINT" Default="1"/>
+    <ColumnAdd Name="downloadable" Required="false" Type="SMALLINT" Default="1"/>
+    <ColumnAdd Name="removable" Required="false" Type="SMALLINT" Default="1"/>
 </TableAlter>
 
 </database>

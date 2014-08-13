@@ -45,17 +45,25 @@ CREATE TABLE personal_services (
 #  alter table package_repository
 # ----------------------------------------------------------
 ALTER TABLE package_repository ADD from_cloud SMALLINT NULL;
+UPDATE package_repository SET from_cloud = 1 WHERE from_cloud IS NULL;
+ALTER TABLE package_repository CHANGE from_cloud from_cloud SMALLINT DEFAULT 1 NULL;
 # ----------------------------------------------------------
 #  alter table package_repository
 # ----------------------------------------------------------
 ALTER TABLE package_repository ADD visible SMALLINT NULL;
+UPDATE package_repository SET visible = 1 WHERE visible IS NULL;
+ALTER TABLE package_repository CHANGE visible visible SMALLINT DEFAULT 1 NULL;
 # ----------------------------------------------------------
 #  alter table package_repository
 # ----------------------------------------------------------
 ALTER TABLE package_repository ADD downloadable SMALLINT NULL;
+UPDATE package_repository SET downloadable = 1 WHERE downloadable IS NULL;
+ALTER TABLE package_repository CHANGE downloadable downloadable SMALLINT DEFAULT 1 NULL;
 # ----------------------------------------------------------
 #  alter table package_repository
 # ----------------------------------------------------------
 ALTER TABLE package_repository ADD removable SMALLINT NULL;
+UPDATE package_repository SET removable = 1 WHERE removable IS NULL;
+ALTER TABLE package_repository CHANGE removable removable SMALLINT DEFAULT 1 NULL;
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);

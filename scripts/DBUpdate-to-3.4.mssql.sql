@@ -79,17 +79,41 @@ CREATE INDEX personal_services_user_id ON personal_services (user_id);
 --  alter table package_repository
 -- ----------------------------------------------------------
 ALTER TABLE package_repository ADD from_cloud SMALLINT NULL;
+GO
+UPDATE package_repository SET from_cloud = 1 WHERE from_cloud IS NULL;
+GO
+ALTER TABLE package_repository ALTER COLUMN from_cloud SMALLINT NULL;
+GO
+ALTER TABLE package_repository ADD CONSTRAINT DF_package_repository_from_cloud DEFAULT (1) FOR from_cloud;
 -- ----------------------------------------------------------
 --  alter table package_repository
 -- ----------------------------------------------------------
 ALTER TABLE package_repository ADD visible SMALLINT NULL;
+GO
+UPDATE package_repository SET visible = 1 WHERE visible IS NULL;
+GO
+ALTER TABLE package_repository ALTER COLUMN visible SMALLINT NULL;
+GO
+ALTER TABLE package_repository ADD CONSTRAINT DF_package_repository_visible DEFAULT (1) FOR visible;
 -- ----------------------------------------------------------
 --  alter table package_repository
 -- ----------------------------------------------------------
 ALTER TABLE package_repository ADD downloadable SMALLINT NULL;
+GO
+UPDATE package_repository SET downloadable = 1 WHERE downloadable IS NULL;
+GO
+ALTER TABLE package_repository ALTER COLUMN downloadable SMALLINT NULL;
+GO
+ALTER TABLE package_repository ADD CONSTRAINT DF_package_repository_downloadable DEFAULT (1) FOR downloadable;
 -- ----------------------------------------------------------
 --  alter table package_repository
 -- ----------------------------------------------------------
 ALTER TABLE package_repository ADD removable SMALLINT NULL;
+GO
+UPDATE package_repository SET removable = 1 WHERE removable IS NULL;
+GO
+ALTER TABLE package_repository ALTER COLUMN removable SMALLINT NULL;
+GO
+ALTER TABLE package_repository ADD CONSTRAINT DF_package_repository_removable DEFAULT (1) FOR removable;
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);
