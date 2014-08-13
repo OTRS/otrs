@@ -11,11 +11,11 @@ use strict;
 use warnings;
 use utf8;
 use vars (qw($Self));
-use Kernel::System::GenericInterface::Webservice;
 
-use Kernel::System::YAML;
+# prevent 'Used once' warning for Kernel::OM
+use Kernel::System::ObjectManager;
 
-my $Home = $Self->{ConfigObject}->Get('Home');
+my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my $PathToTest =
     $Home .
     '/scripts/test/sample/GenericInterface/Webservice/';
@@ -26,11 +26,7 @@ my $WebserviceConfig =
 if ( $^O =~ /^mswin/i ) {
     $WebserviceConfig = "\"$^X\" " . $Home . '/bin/otrs.WebserviceConfig.pl';
 }
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $YAMLObject   = Kernel::System::YAML->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
 
 my $RandomNumber = int( rand(1000000) );
 
@@ -221,8 +217,11 @@ for my $Test (@Tests) {
         }
     }
 
+    # get main object
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     # compare result with original file
-    my $Content = $Self->{MainObject}->FileRead(
+    my $Content = $MainObject->FileRead(
         Location => $Test->{FileAdd},
     );
     my $OriginalContent = $YAMLObject->Load( Data => ${$Content} );
@@ -266,7 +265,7 @@ for my $Test (@Tests) {
 
     # compare result with original file
     $WebserviceConfigResult = `$WebserviceConfig $Test->{ParamsRead} $WebserviceID`;
-    $Content                = $Self->{MainObject}->FileRead(
+    $Content                = $MainObject->FileRead(
         Location => $Test->{FileUpdate},
     );
     $OriginalContent = $YAMLObject->Load( Data => ${$Content} );
