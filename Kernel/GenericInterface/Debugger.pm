@@ -14,7 +14,7 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsString IsStringWithData IsHashRefWithData);
 
-use Kernel::System::GenericInterface::DebugLog;
+our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
@@ -39,49 +39,13 @@ based on the configured debug level.
 
 create an object.
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
     use Kernel::GenericInterface::Debugger;
 
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
     my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
-
         DebuggerConfig   => {
             DebugThreshold  => 'debug',
             TestMode        => 0,           # optional, in testing mode the data will not be written to the DB
-            ...
+            # ...
         },
 
         WebserviceID        => 12,
@@ -98,14 +62,13 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check for needed object
-    for my $Needed (qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject)) {
-        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
-    }
-
     # check DebuggerConfig - we need a hash ref with at least one entry
     if ( !IsHashRefWithData( $Param{DebuggerConfig} ) ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need DebuggerConfig!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need DebuggerConfig!',
+        );
+
         return;
     }
 
@@ -115,7 +78,11 @@ sub new {
     # check for mandatory values
     for my $Needed (qw(WebserviceID CommunicationType DebugThreshold)) {
         if ( !IsStringWithData( $Param{$Needed} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+
             return;
         }
         $Self->{$Needed} = $Param{$Needed};
@@ -123,38 +90,44 @@ sub new {
 
     # check correct DebugThreshold
     if ( $Self->{DebugThreshold} !~ /^(debug|info|notice|error)/i ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'DebugThreshold is not allowed.' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'DebugThreshold is not allowed.',
+        );
+
         return;
     }
 
     # check correct CommunicationType
     if ( lc $Self->{CommunicationType} !~ /^(provider|requester)/i ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'CommunicationType is not allowed.',
         );
+
         return;
     }
 
     # TestMode
     $Self->{TestMode} = $Param{DebuggerConfig}->{TestMode} || 0;
 
-    # remote ip optional
+    # remote IP optional
     if ( defined $Param{RemoteIP} && !IsStringWithData( $Param{RemoteIP} ) ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need RemoteIP address!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need RemoteIP address!'
+        );
+
         return;
     }
     $Self->{RemoteIP} = $Param{RemoteIP};
 
-    # comminication ID md5 (system time + random #)
-    my $CurrentTime = $Self->{TimeObject}->SystemTime();
-    my $MD5String   = $Self->{MainObject}->MD5sum(
+    # communication ID MD5 (system time + random #)
+    my $CurrentTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $MD5String   = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
         String => $CurrentTime . int( rand(1000000) ),
     );
     $Self->{CommunicationID} = $MD5String;
-
-    # create DebugLog object
-    $Self->{DebugLogObject} = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
 
     return $Self;
 }
@@ -178,7 +151,11 @@ sub DebugLog {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{Summary} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Summary!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Summary!',
+        );
+
         return;
     }
 
@@ -187,7 +164,11 @@ sub DebugLog {
 
     # check correct DebugLevel
     if ( $Param{DebugLevel} !~ /^(debug|info|notice|error)/i ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'DebugLevel is not allowed.' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'DebugLevel is not allowed.',
+        );
+
         return;
     }
     my %DebugLevels = (
@@ -200,7 +181,7 @@ sub DebugLog {
     # create log message
     my $DataString = '';
     if ( IsHashRefWithData( $Param{Data} ) ) {
-        $DataString = $Self->{MainObject}->Dump( $Param{Data} );
+        $DataString = $Kernel::OM->Get('Kernel::System::Main')->Dump( $Param{Data} );
     }
     elsif ( IsStringWithData( $Param{Data} ) ) {
         $DataString = $Param{Data};
@@ -214,7 +195,7 @@ sub DebugLog {
         if ( $DebugLevels{ $Param{DebugLevel} } >= $DebugLevels{ $Self->{DebugThreshold} } ) {
 
             # call AddLog function
-            $Self->{DebugLogObject}->LogAdd(
+            $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog')->LogAdd(
                 CommunicationID   => $Self->{CommunicationID},
                 CommunicationType => $Self->{CommunicationType},
                 RemoteIP          => $Self->{RemoteIP},
@@ -235,7 +216,7 @@ EOF
 
     if ( $Param{DebugLevel} eq 'error' ) {
         $LogMessage =~ s/\n//g;
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $LogMessage,
         );
