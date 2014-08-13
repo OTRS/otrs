@@ -14,6 +14,11 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsStringWithData);
 
+# prevent 'Used once' warning for Kernel::OM
+use Kernel::System::ObjectManager;
+
+our $ObjectManagerDisabled = 1;
+
 =head1 NAME
 
 Kernel::GenericInterface::Invoker - GenericInterface Invoker interface
@@ -27,9 +32,9 @@ For every Request, two methods are called:
 
 =over 4
 
-=item L<PrepareRequest()>
+=item L</PrepareRequest()>
 
-=item L<HandleResponse()>
+=item L</HandleResponse()>
 
 =back
 
@@ -47,45 +52,21 @@ was initiated to allow the Invoker to handle possible errors.
 
 create an object.
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
+    use Kernel::GenericInterface::Debugger;
     use Kernel::GenericInterface::Invoker;
 
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
+    my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+        DebuggerConfig   => {
+            DebugThreshold => 'debug',
+            TestMode       => 0,           # optional, in testing mode the data will not be written to the DB
+            # ...
+        },
+        WebserviceID      => 12,
+        CommunicationType => Requester, # Requester or Provider
+        RemoteIP          => 192.168.1.1, # optional
     );
     my $InvokerObject = Kernel::GenericInterface::Invoker->new(
-        ConfigObject       => $ConfigObject,
-        LogObject          => $LogObject,
-        DBObject           => $DBObject,
-        MainObject         => $MainObject,
-        TimeObject         => $TimeObject,
-        EncodeObject       => $EncodeObject,
-
+        DebuggerObject     => $DebuggerObject,
         InvokerType        => 'Nagios::TicketLock',    # the Invoker backend to use
         WebserviceID       => 1                        # the WebserviceID where the Invoker belongs
                                                        # normally this is passed by the requester
@@ -101,14 +82,9 @@ sub new {
     bless( $Self, $Type );
 
     # check needed params
-    for my $Needed (
-        qw(
-        ConfigObject DBObject DebuggerObject EncodeObject LogObject
-        MainObject InvokerType TimeObject WebserviceID
-        )
-        )
-    {
+    for my $Needed (qw( DebuggerObject InvokerType WebserviceID )) {
         if ( !$Param{$Needed} ) {
+
             return {
                 Success      => 0,
                 ErrorMessage => "Got no $Needed!"
@@ -119,6 +95,7 @@ sub new {
     }
 
     if ( !IsStringWithData( $Param{InvokerType} ) ) {
+
         return $Self->{DebuggerObject}->Error(
             Summary => 'Got no Invoker Type as string with value!',
         );
@@ -126,7 +103,8 @@ sub new {
 
     # load backend module
     my $GenericModule = 'Kernel::GenericInterface::Invoker::' . $Param{InvokerType};
-    if ( !$Self->{MainObject}->Require($GenericModule) ) {
+    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($GenericModule) ) {
+
         return $Self->{DebuggerObject}->Error( Summary => "Can't load invoker backend module!" );
     }
     $Self->{BackendObject} = $GenericModule->new( %{$Self} );
@@ -168,6 +146,7 @@ sub PrepareRequest {
 
     # check data - only accept undef or hash ref
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+
         return $Self->{DebuggerObject}->Error(
             Summary => 'Got Data but it is not a hash ref in Invoker handler (PrepareRequest)!'
         );
@@ -205,6 +184,7 @@ sub HandleResponse {
 
     # check data - only accept undef or hash ref
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+
         return $Self->{DebuggerObject}->Error(
             Summary => 'Got Data but it is not a hash ref in Invoker handler (HandleResponse)!'
         );
