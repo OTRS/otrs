@@ -64,10 +64,7 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    for my $Needed (
-        qw(MainObject ConfigObject LogObject EncodeObject TimeObject DBObject DebuggerObject TransportConfig)
-        )
-    {
+    for my $Needed (qw( DebuggerObject TransportConfig)) {
         $Self->{$Needed} = $Param{$Needed} || return {
             Success => 0,
             Summary => "Got no $Needed!",
