@@ -100,7 +100,7 @@ my @Tests = (
                 },
             ],
         },
-        Success => '0',
+        Success => '1',
     },
 
 );
@@ -117,11 +117,36 @@ for my $Test (@Tests) {
     );
 
     if ( $Test->{Success} ) {
-        $Self->Is(
-            ref $RequestResult->{Data},
-            'HASH',
-            "$Test->{Name} - Operation result Data structure",
-        );
+
+        if ( defined $RequestResult ) {
+            $Self->Is(
+                ref $RequestResult,
+                'HASH',
+                "$Test->{Name} - Operation result Data structure",
+            );
+
+            # check result for each cloud service is available
+            for my $CloudServiceName ( sort keys %{$Test->{RequestData}} ) {
+
+                $Self->True(
+                    $RequestResult->{$CloudServiceName},
+                    "$Test->{Name} - A result for each Cloud Service should be present - $CloudServiceName.",
+                );
+
+                $Self->Is(
+                    scalar @{$RequestResult->{$CloudServiceName}},
+                    scalar @{$Test->{RequestData}->{$CloudServiceName}},
+                    "$Test->{Name} - Each operation should return a result.",
+                );
+            }
+        }
+        else {
+
+                $Self->True(
+                    1,
+                    "$Test->{Name} - A result from Cloud Service is not availble perhaps web response was not successful because Internet connection.",
+                );
+        }
     }
     else {
         $Self->Is(
