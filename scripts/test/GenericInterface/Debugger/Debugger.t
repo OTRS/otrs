@@ -319,7 +319,7 @@ for my $Test (@Tests) {
     }
 
     # test LogGetWithData
-    my $LogData = $DebuggerObject->{DebugLogObject}->LogGetWithData(
+    my $LogData = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog')->LogGetWithData(
         CommunicationID => $DebuggerObject->{CommunicationID},
     );
     $Self->Is(
