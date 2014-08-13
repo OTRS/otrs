@@ -11,10 +11,6 @@ use strict;
 use warnings;
 use vars (qw($Self));
 
-use Kernel::System::GenericInterface::DebugLog;
-use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::UnitTest::Helper;
-
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $RandomID = $HelperObject->GetRandomID();

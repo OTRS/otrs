@@ -13,8 +13,6 @@ use utf8;
 use vars (qw($Self));
 
 use Kernel::GenericInterface::Debugger;
-use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::UnitTest::Helper;
 
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
