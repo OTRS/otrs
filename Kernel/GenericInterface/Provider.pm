@@ -12,22 +12,20 @@ package Kernel::GenericInterface::Provider;
 use strict;
 use warnings;
 
-use Kernel::Config;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::Encode;
-use Kernel::System::Time;
-use Kernel::System::DB;
-use Kernel::System::VariableCheck (qw(IsHashRefWithData));
+use URI::Escape;
 
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport;
 use Kernel::GenericInterface::Mapping;
 use Kernel::GenericInterface::Operation;
-
 use Kernel::System::GenericInterface::Webservice;
+use Kernel::System::VariableCheck (qw(IsHashRefWithData));
 
-use URI::Escape;
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::System::GenericInterface::Webservice',
+);
+our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -45,20 +43,10 @@ Kernel::GenericInterface::Provider - handler for incoming webservice requests.
 
 create an object
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::GenericInterface::Provider;
+    use Kernel::System::ObjectManager;
 
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $ProviderObject = Kernel::GenericInterface::Provider->new();
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+    my $ProviderObject = $Kernel::OM->Get('Kernel::GenericInterface::Provider');
 
 =cut
 
@@ -68,19 +56,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # create common framework objects 1/2
-    $Self->{ConfigObject} = Kernel::Config->new();
-    $Self->{LogObject}    = Kernel::System::Log->new(
-        LogPrefix => 'GenericInterfaceProvider',
-        %{$Self},
-    );
-    $Self->{EncodeObject} = Kernel::System::Encode->new( %{$Self} );
-    $Self->{MainObject}   = Kernel::System::Main->new( %{$Self} );
-    $Self->{TimeObject}   = Kernel::System::Time->new( %{$Self} );
-    $Self->{DBObject}     = Kernel::System::DB->new( %{$Self} );
-    $Self->{WebserviceObject}
-        = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
     return $Self;
 }
@@ -99,6 +74,13 @@ web service.
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # common objects
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
+        'Kernel::System::Log' => {
+            LogPrefix => 'GenericInterfaceProvider',
+        },
+    );
+
     #
     # First, we need to locate the desired webservice and load its configuration data.
     #
@@ -113,9 +95,10 @@ sub Run {
 
     if ($WebserviceID) {
 
-        $Webservice = $Self->{WebserviceObject}->WebserviceGet(
+        $Webservice
+            = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
             ID => $WebserviceID,
-        );
+            );
 
     }
     else {
@@ -124,7 +107,7 @@ sub Run {
             = $RequestURI =~ m{ nph-genericinterface[.]pl [/] Webservice [/] ([^/?]+) }smx;
 
         if ( !$WebserviceName ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Could not determine WebserviceID from query string $RequestURI",
             );
@@ -134,13 +117,14 @@ sub Run {
 
         $WebserviceName = URI::Escape::uri_unescape($WebserviceName);
 
-        $Webservice = $Self->{WebserviceObject}->WebserviceGet(
+        $Webservice
+            = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
             Name => $WebserviceName,
-        );
+            );
     }
 
     if ( !IsHashRefWithData($Webservice) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message =>
                 "Could not load web service configuration for web service at $RequestURI",
@@ -156,19 +140,19 @@ sub Run {
     #   communication entry.
     #
 
-    $Self->{DebuggerObject} = Kernel::GenericInterface::Debugger->new(
-        %{$Self},
+    my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
         DebuggerConfig    => $Webservice->{Config}->{Debugger},
         WebserviceID      => $WebserviceID,
         CommunicationType => 'Provider',
         RemoteIP          => $ENV{REMOTE_ADDR},
     );
 
-    if ( ref $Self->{DebuggerObject} ne 'Kernel::GenericInterface::Debugger' ) {
+    if ( ref $DebuggerObject ne 'Kernel::GenericInterface::Debugger' ) {
+
         return;    # bail out without Transport, Apache will generate 500 Error
     }
 
-    $Self->{DebuggerObject}->Debug(
+    $DebuggerObject->Debug(
         Summary => 'Communication sequence started',
         Data    => \%ENV,
     );
@@ -180,13 +164,14 @@ sub Run {
     my $ProviderConfig = $Webservice->{Config}->{Provider};
 
     $Self->{TransportObject} = Kernel::GenericInterface::Transport->new(
-        %{$Self},
+        DebuggerObject  => $DebuggerObject,
         TransportConfig => $ProviderConfig->{Transport},
     );
 
     # bail out if transport init failed
     if ( ref $Self->{TransportObject} ne 'Kernel::GenericInterface::Transport' ) {
-        return $Self->{DebuggerObject}->Error(
+
+        return $DebuggerObject->Error(
             Summary => 'TransportObject could not be initialized',
             Data    => $Self->{TransportObject},
         );
@@ -197,17 +182,20 @@ sub Run {
 
     # If the request was not processed correctly, send error to client.
     if ( !$FunctionResult->{Success} ) {
-        $Self->{DebuggerObject}->Error(
+        $DebuggerObject->Error(
             Summary => 'Request could not be processed',
             Data    => $FunctionResult->{ErrorMessage},
         );
 
-        return $Self->_GenerateErrorResponse( ErrorMessage => $FunctionResult->{ErrorMessage} );
+        return $Self->_GenerateErrorResponse(
+            DebuggerObject => $DebuggerObject,
+            ErrorMessage   => $FunctionResult->{ErrorMessage},
+        );
     }
 
     my $Operation = $FunctionResult->{Operation};
 
-    $Self->{DebuggerObject}->Debug(
+    $DebuggerObject->Debug(
         Summary => "Detected operation '$Operation'",
     );
 
@@ -217,7 +205,7 @@ sub Run {
 
     my $DataIn = $FunctionResult->{Data};
 
-    $Self->{DebuggerObject}->Debug(
+    $DebuggerObject->Debug(
         Summary => "Incoming data before mapping",
         Data    => $DataIn,
     );
@@ -228,18 +216,22 @@ sub Run {
         )
     {
         my $MappingInObject = Kernel::GenericInterface::Mapping->new(
-            %{$Self},
+            DebuggerObject => $DebuggerObject,
             MappingConfig =>
                 $ProviderConfig->{Operation}->{$Operation}->{MappingInbound},
         );
 
         # if mapping init failed, bail out
         if ( ref $MappingInObject ne 'Kernel::GenericInterface::Mapping' ) {
-            $Self->{DebuggerObject}->Error(
+            $DebuggerObject->Error(
                 Summary => 'MappingIn could not be initialized',
                 Data    => $MappingInObject,
             );
-            return $Self->_GenerateErrorResponse( ErrorMessage => $FunctionResult->{ErrorMessage} );
+
+            return $Self->_GenerateErrorResponse(
+                DebuggerObject => $DebuggerObject,
+                ErrorMessage   => $FunctionResult->{ErrorMessage},
+            );
         }
 
         $FunctionResult = $MappingInObject->Map(
@@ -247,12 +239,16 @@ sub Run {
         );
 
         if ( !$FunctionResult->{Success} ) {
-            return $Self->_GenerateErrorResponse( ErrorMessage => $FunctionResult->{ErrorMessage} );
+
+            return $Self->_GenerateErrorResponse(
+                DebuggerObject => $DebuggerObject,
+                ErrorMessage   => $FunctionResult->{ErrorMessage},
+            );
         }
 
         $DataIn = $FunctionResult->{Data};
 
-        $Self->{DebuggerObject}->Debug(
+        $DebuggerObject->Debug(
             Summary => "Incoming data after mapping",
             Data    => $DataIn,
         );
@@ -263,27 +259,30 @@ sub Run {
     #
 
     my $OperationObject = Kernel::GenericInterface::Operation->new(
-        %{$Self},
-        WebserviceID  => $WebserviceID,
-        OperationType => $ProviderConfig->{Operation}->{$Operation}->{Type},
+        DebuggerObject => $DebuggerObject,
+        OperationType  => $ProviderConfig->{Operation}->{$Operation}->{Type},
+        WebserviceID   => $WebserviceID,
     );
 
     # if operation init failed, bail out
     if ( ref $OperationObject ne 'Kernel::GenericInterface::Operation' ) {
-        $Self->{DebuggerObject}->Error(
+        $DebuggerObject->Error(
             Summary => 'Operation could not be initialized',
             Data    => $OperationObject,
         );
 
         # set default error message
-        my $ErrorMessage = 'Unknow error in Operation initialization';
+        my $ErrorMessage = 'Unknown error in Operation initialization';
 
-        # check if we got an error message from the operation and overite it
+        # check if we got an error message from the operation and overwrite it
         if ( IsHashRefWithData($OperationObject) && $OperationObject->{ErrorMessage} ) {
             $ErrorMessage = $OperationObject->{ErrorMessage};
         }
 
-        return $Self->_GenerateErrorResponse( ErrorMessage => $ErrorMessage );
+        return $Self->_GenerateErrorResponse(
+            DebuggerObject => $DebuggerObject,
+            ErrorMessage   => $ErrorMessage,
+        );
     }
 
     $FunctionResult = $OperationObject->Run(
@@ -291,7 +290,11 @@ sub Run {
     );
 
     if ( !$FunctionResult->{Success} ) {
-        return $Self->_GenerateErrorResponse( ErrorMessage => $FunctionResult->{ErrorMessage} );
+
+        return $Self->_GenerateErrorResponse(
+            DebuggerObject => $DebuggerObject,
+            ErrorMessage   => $FunctionResult->{ErrorMessage},
+        );
     }
 
     #
@@ -300,7 +303,7 @@ sub Run {
 
     my $DataOut = $FunctionResult->{Data};
 
-    $Self->{DebuggerObject}->Debug(
+    $DebuggerObject->Debug(
         Summary => "Outgoing data before mapping",
         Data    => $DataOut,
     );
@@ -313,18 +316,22 @@ sub Run {
         )
     {
         my $MappingOutObject = Kernel::GenericInterface::Mapping->new(
-            %{$Self},
+            DebuggerObject => $DebuggerObject,
             MappingConfig =>
                 $ProviderConfig->{Operation}->{$Operation}->{MappingOutbound},
         );
 
         # if mapping init failed, bail out
         if ( ref $MappingOutObject ne 'Kernel::GenericInterface::Mapping' ) {
-            $Self->{DebuggerObject}->Error(
+            $DebuggerObject->Error(
                 Summary => 'MappingOut could not be initialized',
                 Data    => $MappingOutObject,
             );
-            return $Self->_GenerateErrorResponse( ErrorMessage => $FunctionResult->{ErrorMessage} );
+
+            return $Self->_GenerateErrorResponse(
+                DebuggerObject => $DebuggerObject,
+                ErrorMessage   => $FunctionResult->{ErrorMessage},
+            );
         }
 
         $FunctionResult = $MappingOutObject->Map(
@@ -332,12 +339,16 @@ sub Run {
         );
 
         if ( !$FunctionResult->{Success} ) {
-            return $Self->_GenerateErrorResponse( ErrorMessage => $FunctionResult->{ErrorMessage} );
+
+            return $Self->_GenerateErrorResponse(
+                DebuggerObject => $DebuggerObject,
+                ErrorMessage   => $FunctionResult->{ErrorMessage},
+            );
         }
 
         $DataOut = $FunctionResult->{Data};
 
-        $Self->{DebuggerObject}->Debug(
+        $DebuggerObject->Debug(
             Summary => "Outgoing data after mapping",
             Data    => $DataOut,
         );
@@ -353,7 +364,7 @@ sub Run {
     );
 
     if ( !$FunctionResult->{Success} ) {
-        $Self->{DebuggerObject}->Error(
+        $DebuggerObject->Error(
             Summary => 'Response could not be sent',
             Data    => $FunctionResult->{ErrorMessage},
         );
@@ -381,7 +392,7 @@ sub _GenerateErrorResponse {
     );
 
     if ( !$FunctionResult->{Success} ) {
-        $Self->{DebuggerObject}->Error(
+        $Param{DebuggerObject}->Error(
             Summary => 'Error response could not be sent',
             Data    => $FunctionResult->{ErrorMessage},
         );
