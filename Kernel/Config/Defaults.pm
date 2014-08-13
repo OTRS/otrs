@@ -958,7 +958,7 @@ sub LoadDefaults {
 
     # Package::Timeout
     # (http/ftp timeout to get packages)
-    $Self->{'Package::Timeout'} = 15;
+    $Self->{'Package::Timeout'} = 120;
 
     # Package::Proxy
     # (fetch packages via proxy)
