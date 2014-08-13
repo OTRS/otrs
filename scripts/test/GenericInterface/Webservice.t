@@ -12,19 +12,13 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::GenericInterface::WebserviceHistory;
-use Kernel::System::UnitTest::Helper;
-
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $RandomID = $HelperObject->GetRandomID();
 
-my $WebserviceObject        = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
-my $WebserviceHistoryObject = Kernel::System::GenericInterface::WebserviceHistory->new( %{$Self} );
+my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+my $WebserviceHistoryObject
+    = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory');
 
 my @Tests = (
     {
@@ -523,7 +517,7 @@ my @Tests = (
         },
     },
     {
-        Name          => 'test 18 - Invalid Config Update (mssing Debugger)',
+        Name          => 'test 18 - Invalid Config Update (missing Debugger)',
         SuccessAdd    => 1,
         SuccessUpdate => 0,
         HistoryCount  => 1,
