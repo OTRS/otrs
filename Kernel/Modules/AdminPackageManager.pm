@@ -231,15 +231,9 @@ sub Run {
         );
 
         my %PackageAllowedActions;
-        for my $Item (qw(FromCloud Visible Downloadable Removable)) {
+        for my $Item (qw( IsPackageVisible IsPackageDownloadable IsPackageRemovable)) {
 
-            if (
-                grep { $_->{Name} eq $Name && ( defined $_->{$Item} && $_->{$Item} eq 1 ) }
-                @RepositoryList
-                )
-            {
-                $PackageAllowedActions{$Item} = 1;
-            }
+            $PackageAllowedActions{$Item} = 1;
         }
 
         # if visible property is not enable, return error screen
@@ -252,14 +246,7 @@ sub Run {
 
             if (
                 $PackageAction eq 'DownloadLocal'
-                && !$PackageAllowedActions{Downloadable}
-                )
-            {
-                next PACKAGEACTION;
-            }
-            if (
-                $PackageAction eq 'Rebuild'
-                && !$PackageAllowedActions{FromCloud}
+                && !$PackageAllowedActions{IsPackageDownloadable}
                 )
             {
                 next PACKAGEACTION;
@@ -1269,9 +1256,6 @@ sub Run {
 
     my @RepositoryList = $Self->{PackageObject}->RepositoryList();
 
-    # remove not visible packages
-    @RepositoryList = map { $_->{Visible} ? $_ : () } @RepositoryList;
-
     # if there are no local packages to show, a msg is displayed
     if ( !@RepositoryList ) {
         $Self->{LayoutObject}->Block(
@@ -1329,19 +1313,17 @@ sub Run {
 
         if ( $Package->{Status} eq 'installed' ) {
 
-            if ( $Package->{Removable} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ShowLocalPackageUninstall',
+                Data => {
+                    %{$Package},
+                    Name    => $Package->{Name}->{Content},
+                    Version => $Package->{Version}->{Content},
+                    Vendor  => $Package->{Vendor}->{Content},
+                    URL     => $Package->{URL}->{Content},
+                },
+            );
 
-                $Self->{LayoutObject}->Block(
-                    Name => 'ShowLocalPackageUninstall',
-                    Data => {
-                        %{$Package},
-                        Name    => $Package->{Name}->{Content},
-                        Version => $Package->{Version}->{Content},
-                        Vendor  => $Package->{Vendor}->{Content},
-                        URL     => $Package->{URL}->{Content},
-                    },
-                );
-            }
             if (
                 !$Self->{PackageObject}->DeployCheck(
                     Name    => $Package->{Name}->{Content},

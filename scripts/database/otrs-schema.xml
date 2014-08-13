@@ -1753,10 +1753,6 @@
     <Column Name="content_size" Required="false" Size="30" Type="VARCHAR"/>
     <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="content" Required="true" Type="LONGBLOB"/>
-    <Column Name="from_cloud" Required="false" Type="SMALLINT" Default="1"/>
-    <Column Name="visible" Required="false" Type="SMALLINT" Default="1"/>
-    <Column Name="downloadable" Required="false" Type="SMALLINT" Default="1"/>
-    <Column Name="removable" Required="false" Type="SMALLINT" Default="1"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>

@@ -178,23 +178,19 @@ sub RepositoryList {
 
     # get repository list
     $DBObject->Prepare(
-        SQL => 'SELECT name, version, install_status, content, vendor,'
-            . ' from_cloud, visible, downloadable, removable '
-            . 'FROM package_repository ORDER BY name, create_time',
+        SQL => 'SELECT name, version, install_status, content, vendor
+                FROM package_repository
+                ORDER BY name, create_time',
     );
 
     # fetch the data
     my @Data;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         my %Package = (
-            Name         => $Row[0],
-            Version      => $Row[1],
-            Status       => $Row[2],
-            Vendor       => $Row[4],
-            FromCloud    => $Row[5] || 0,
-            Visible      => $Row[6] || 0,
-            Downloadable => $Row[7] || 0,
-            Removable    => $Row[8] || 0,
+            Name    => $Row[0],
+            Version => $Row[1],
+            Status  => $Row[2],
+            Vendor  => $Row[4],
         );
 
         # correct any 'dos-style' line endings - http://bugs.otrs.org/show_bug.cgi?id=9838
@@ -363,11 +359,6 @@ sub RepositoryAdd {
         Result  => 'SCALAR',
     );
 
-    # get extra flags
-    for my $Item (qw(PackageIsVisible PackageIsDownloadable PackageIsRemovable)) {
-        $Param{$Item} = $Structure{$Item} || 0;
-    }
-
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -378,24 +369,18 @@ sub RepositoryAdd {
         );
     }
 
-    for my $Item (qw(Visible Downloadable Removable)) {
-        $Param{$Item} = ( !defined $Param{$Item} ? 1 : $Param{$Item} );
-    }
-
     # add new package
     my $FileName = $Structure{Name}->{Content} . '-' . $Structure{Version}->{Content} . '.xml';
 
     return if !$DBObject->Do(
         SQL => 'INSERT INTO package_repository (name, version, vendor, filename, '
             . ' content_size, content_type, content, install_status, '
-            . ' from_cloud, visible, downloadable, removable, '
             . ' create_time, create_by, change_time, change_by)'
             . ' VALUES  (?, ?, ?, ?, \'213\', \'text/xml\', ?, \'not installed\', '
-            . ' ?, ?, ?, ?, current_timestamp, 1, current_timestamp, 1)',
+            . ' current_timestamp, 1, current_timestamp, 1)',
         Bind => [
             \$Structure{Name}->{Content}, \$Structure{Version}->{Content},
             \$Structure{Vendor}->{Content}, \$FileName, \$Param{String},
-            \$Param{FromCloud}, \$Param{Visible}, \$Param{Downloadable}, \$Param{Removable},
         ],
     );
 

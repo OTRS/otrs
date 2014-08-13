@@ -1150,20 +1150,12 @@ CREATE TABLE package_repository (
     content_size NVARCHAR (30) NULL,
     content_type NVARCHAR (250) NULL,
     content NVARCHAR (MAX) NOT NULL,
-    from_cloud SMALLINT NULL,
-    visible SMALLINT NULL,
-    downloadable SMALLINT NULL,
-    removable SMALLINT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
-ALTER TABLE package_repository ADD CONSTRAINT DF_package_repository_downloadable DEFAULT (1) FOR downloadable;
-ALTER TABLE package_repository ADD CONSTRAINT DF_package_repository_from_cloud DEFAULT (1) FOR from_cloud;
-ALTER TABLE package_repository ADD CONSTRAINT DF_package_repository_removable DEFAULT (1) FOR removable;
-ALTER TABLE package_repository ADD CONSTRAINT DF_package_repository_visible DEFAULT (1) FOR visible;
 -- ----------------------------------------------------------
 --  create table gi_webservice_config
 -- ----------------------------------------------------------
