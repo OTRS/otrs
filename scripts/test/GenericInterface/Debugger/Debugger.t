@@ -16,14 +16,11 @@ use Kernel::GenericInterface::Debugger;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::UnitTest::Helper;
 
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $RandomID = $HelperObject->GetRandomID();
 
-my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
 my $WebserviceID = $WebserviceObject->WebserviceAdd(
     Config => {
@@ -51,28 +48,17 @@ $Self->True(
 
 my $DebuggerObject;
 
-# a few tests to instanciate incorrectly
+# a few tests to instantiate incorrectly
 eval {
     $DebuggerObject = Kernel::GenericInterface::Debugger->new();
 };
 $Self->False(
     ref $DebuggerObject,
-    'DebuggerObject instanciate no objects',
+    'DebuggerObject instantiate with objects, no options',
 );
 
 eval {
     $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-        %{$Self},
-    );
-};
-$Self->False(
-    ref $DebuggerObject,
-    'DebuggerObject instanciate with objects, no options',
-);
-
-eval {
-    $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-        %{$Self},
         DebuggerConfig => {
             DebugThreshold => 'debug',
             TestMode       => 1,
@@ -81,23 +67,21 @@ eval {
 };
 $Self->False(
     ref $DebuggerObject,
-    'DebuggerObject instanciate without WebserviceID',
+    'DebuggerObject instantiate without WebserviceID',
 );
 
 eval {
     $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-        %{$Self},
         WebserviceID => $WebserviceID,
     );
 };
 $Self->False(
     ref $DebuggerObject,
-    'DebuggerObject instanciate without DebuggerConfig',
+    'DebuggerObject instantiate without DebuggerConfig',
 );
 
 eval {
     $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-        %{$Self},
         DebuggerConfig => {
             TestMode => 1,
         },
@@ -107,12 +91,11 @@ eval {
 };
 $Self->True(
     ref $DebuggerObject,
-    'DebuggerObject instanciate without DebugThreshold',
+    'DebuggerObject instantiate without DebugThreshold',
 );
 
 eval {
     $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-        %{$Self},
         DebuggerConfig => {
             DebugThreshold => 'nonexistinglevel',
             TestMode       => 1,
@@ -123,12 +106,11 @@ eval {
 };
 $Self->False(
     ref $DebuggerObject,
-    'DebuggerObject instanciate with non existing DebugThreshold',
+    'DebuggerObject instantiate with non existing DebugThreshold',
 );
 
 # correctly now
 $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %{$Self},
     DebuggerConfig => {
         DebugThreshold => 'notice',
         TestMode       => 1,
@@ -139,7 +121,7 @@ $DebuggerObject = Kernel::GenericInterface::Debugger->new(
 $Self->Is(
     ref $DebuggerObject,
     'Kernel::GenericInterface::Debugger',
-    'DebuggerObject instanciate correctly',
+    'DebuggerObject instantiate correctly',
 );
 
 my $Result;
@@ -275,7 +257,7 @@ for my $Test (@Tests) {
 
     # create a Webservice
     my $RandomID         = $HelperObject->GetRandomID();
-    my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+    my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
     my $WebserviceID = $WebserviceObject->WebserviceAdd(
         Config => {
@@ -301,7 +283,6 @@ for my $Test (@Tests) {
 
     # debugger object
     $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-        %{$Self},
         DebuggerConfig => {
             DebugThreshold => $Test->{DebugThreshold},
             TestMode       => 0,
