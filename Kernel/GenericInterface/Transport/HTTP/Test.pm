@@ -16,6 +16,9 @@ use HTTP::Request::Common;
 use LWP::UserAgent;
 use LWP::Protocol;
 
+# prevent 'Used once' warning for Kernel::OM
+use Kernel::System::ObjectManager;
+
 our $ObjectManagerDisabled = 1;
 
 =head1 NAME
@@ -92,8 +95,6 @@ sub ProviderProcessRequest {
     for my $ParamName ( $ParamObject->GetParamNames() ) {
         $Result{$ParamName} = $ParamObject->GetParam( Param => $ParamName );
     }
-
-    $Kernel::OM->ObjectsDiscard('Kernel::System::Web::Request');
 
     # special handling for empty post request
     if ( scalar keys %Result == 1 && exists $Result{POSTDATA} && !$Result{POSTDATA} ) {

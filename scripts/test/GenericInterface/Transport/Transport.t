@@ -145,6 +145,10 @@ for my $Fail ( 0 .. 1 ) {
     );
 
     for my $TestEntry (@RPRTestData) {
+
+        # discard Web::Request from OM to prevent errors
+        $Kernel::OM->ObjectsDiscard('Kernel::System::Web::Request');
+
         my $Result = $TransportObject->RequesterPerformRequest(
             Operation => $TestEntry->{Operation},
             Data      => $TestEntry->{Data},
@@ -238,6 +242,9 @@ for my $Fail ( 0 .. 1 ) {
             # reset CGI object from previous runs
             CGI::initialize_globals();
 
+            # discard Web::Request from OM to prevent errors
+            $Kernel::OM->ObjectsDiscard('Kernel::System::Web::Request');
+
             $Result = $TransportObject->ProviderProcessRequest();
         }
 
@@ -324,6 +331,9 @@ for my $Fail ( 0 .. 1 ) {
                 local *STDOUT;
                 open STDOUT, '>:utf8', \$ResultData;    ## no critic
 
+                # discard Web::Request from OM to prevent errors
+                $Kernel::OM->ObjectsDiscard('Kernel::System::Web::Request');
+
                 $Result = $TransportObject->ProviderGenerateResponse(
                     Success      => $OptionSuccess,
                     ErrorMessage => 'Custom Test Error',
@@ -367,9 +377,7 @@ for my $Fail ( 0 .. 1 ) {
                     $Result->{ErrorMessage},
                     "$TestEntry->{Name} error message found",
                 );
-
             }
-
         }
     }
 }
