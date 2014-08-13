@@ -14,6 +14,11 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 
+# prevent 'Used once' warning for Kernel::OM
+use Kernel::System::ObjectManager;
+
+our $ObjectManagerDisabled = 1;
+
 =head1 NAME
 
 Kernel::GenericInterface::Mapping - GenericInterface data mapping interface
@@ -30,59 +35,25 @@ Kernel::GenericInterface::Mapping - GenericInterface data mapping interface
 
 create an object.
 
-    use Kernel::Config;
-    use Kernel::System::Encode;
-    use Kernel::System::Log;
-    use Kernel::System::Time;
-    use Kernel::System::Main;
-    use Kernel::System::DB;
     use Kernel::GenericInterface::Debugger;
     use Kernel::GenericInterface::Mapping;
 
-    my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-    );
-    my $TimeObject = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-    );
-    my $MainObject = Kernel::System::Main->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-    );
-    my $DBObject = Kernel::System::DB->new(
-        ConfigObject => $ConfigObject,
-        EncodeObject => $EncodeObject,
-        LogObject    => $LogObject,
-        MainObject   => $MainObject,
-    );
     my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-        ConfigObject       => $ConfigObject,
-        EncodeObject       => $EncodeObject,
-        LogObject          => $LogObject,
-        MainObject         => $MainObject,
-        DBObject           => $DBObject,
-        TimeObject         => $TimeObject,
+        DebuggerConfig   => {
+            DebugThreshold  => 'debug',
+            TestMode        => 0,           # optional, in testing mode the data will not be written to the DB
+            # ...
+        },
+        WebserviceID      => 12,
+        CommunicationType => Requester, # Requester or Provider
+        RemoteIP          => 192.168.1.1, # optional
     );
     my $MappingObject = Kernel::GenericInterface::Mapping->new(
-        ConfigObject       => $ConfigObject,
-        EncodeObject       => $EncodeObject,
-        LogObject          => $LogObject,
-        MainObject         => $MainObject,
-        DBObject           => $DBObject,
-        TimeObject         => $TimeObject,
-        DebuggerObject     => $DebuggerObject,
-
-        MappingConfig   => {
+        DebuggerObject => $DebuggerObject,
+        MappingConfig => {
             Type => 'MappingSimple',
             Config => {
-                ...
+                # ...
             },
         },
     );
@@ -97,8 +68,9 @@ sub new {
     bless( $Self, $Type );
 
     # check needed params
-    for my $Needed (qw(ConfigObject DBObject DebuggerObject MainObject MappingConfig)) {
+    for my $Needed (qw(DebuggerObject MappingConfig)) {
         if ( !$Param{$Needed} ) {
+
             return {
                 Success      => 0,
                 ErrorMessage => "Got no $Needed!"
@@ -110,11 +82,13 @@ sub new {
 
     # check config - we need at least a config type
     if ( !IsHashRefWithData( $Param{MappingConfig} ) ) {
+
         return $Self->{DebuggerObject}->Error(
             Summary => 'Got no MappingConfig as hash ref with content!',
         );
     }
     if ( !IsStringWithData( $Param{MappingConfig}->{Type} ) ) {
+
         return $Self->{DebuggerObject}->Error(
             Summary => 'Got no MappingConfig with Type as string with value!',
         );
@@ -126,6 +100,7 @@ sub new {
         && !IsHashRefWithData( $Param{MappingConfig}->{Config} )
         )
     {
+
         return $Self->{DebuggerObject}->Error(
             Summary => 'Got MappingConfig with Data, but Data is no hash ref with content!',
         );
@@ -133,7 +108,8 @@ sub new {
 
     # load backend module
     my $GenericModule = 'Kernel::GenericInterface::Mapping::' . $Param{MappingConfig}->{Type};
-    if ( !$Self->{MainObject}->Require($GenericModule) ) {
+    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($GenericModule) ) {
+
         return $Self->{DebuggerObject}->Error( Summary => "Can't load mapping backend module!" );
     }
     $Self->{BackendObject} = $GenericModule->new( %{$Self} );
@@ -169,6 +145,7 @@ sub Map {
 
     # check data - only accept undef or hash ref
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+
         return $Self->{DebuggerObject}->Error(
             Summary => 'Got Data but it is not a hash ref in Mapping handler!'
         );
@@ -176,6 +153,7 @@ sub Map {
 
     # return if data is empty
     if ( !defined $Param{Data} || !%{ $Param{Data} } ) {
+
         return {
             Success => 1,
             Data    => {},
