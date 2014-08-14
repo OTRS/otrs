@@ -23,23 +23,24 @@ my @Tests = (
         Success => '0',
     },
     {
-        Name    => 'Test ' . $Index . '.- RequestData is not an array, HASH',
+        Name        => 'Test ' . $Index . '.- RequestData is not an array, HASH',
         RequestData => {},
-        Success => '0',
+        Success     => '0',
     },
     {
-        Name    => 'Test ' . $Index . '.- RequestData is not an array, STRING',
+        Name        => 'Test ' . $Index . '.- RequestData is not an array, STRING',
         RequestData => 'Array',
-        Success => '0',
+        Success     => '0',
     },
     {
-        Name    => 'Test ' . $Index . '.- RequestData without Webservice',
+        Name        => 'Test ' . $Index . '.- RequestData without Webservice',
         RequestData => {
             '' => [
                 {
-                    InstanceName => 'AnyName', # optional
+                    InstanceName => 'AnyName',            # optional
                     Operation    => "ConfigurationSet",
                     Data         => {
+
                         # ... request operation data ...
                     },
                 },
@@ -48,12 +49,13 @@ my @Tests = (
         Success => '0',
     },
     {
-        Name    => 'Test ' . $Index . '.- RequestData without Operation',
+        Name        => 'Test ' . $Index . '.- RequestData without Operation',
         RequestData => {
             CloudServiceTest => [
                 {
-                    InstanceName => 'AnyName', # optional
+                    InstanceName => 'AnyName',    # optional
                     Data         => {
+
                         # ... request operation data ...
                     },
                 },
@@ -62,11 +64,11 @@ my @Tests = (
         Success => '0',
     },
     {
-        Name    => 'Test ' . $Index . '.- Wrong Data structure - STRING',
+        Name        => 'Test ' . $Index . '.- Wrong Data structure - STRING',
         RequestData => {
             CloudServiceTest => [
                 {
-                    InstanceName => 'MyInstance', # optional
+                    InstanceName => 'MyInstance',               # optional
                     Operation    => "ConfigurationSet",
                     Data         => 'NoCorrectDataStructure',
                 },
@@ -75,26 +77,27 @@ my @Tests = (
         Success => '0',
     },
     {
-        Name    => 'Test ' . $Index . '.- Wrong Data structure - ARRAY',
+        Name        => 'Test ' . $Index . '.- Wrong Data structure - ARRAY',
         RequestData => {
             CloudServiceTest => [
                 {
-                    InstanceName => 'MyInstance', # optional
+                    InstanceName => 'MyInstance',             # optional
                     Operation    => "ConfigurationSet",
-                    Data         => ['a', 'b', 'c', 'd'],
+                    Data         => [ 'a', 'b', 'c', 'd' ],
                 },
             ],
         },
         Success => '0',
     },
     {
-        Name    => 'Test ' . $Index . '.- Correct Request data structure - Not a real CloudService',
+        Name => 'Test ' . $Index . '.- Correct Request data structure - Not a real CloudService',
         RequestData => {
             CloudServiceTest => [
                 {
-                    InstanceName => 'AnyName', # optional
+                    InstanceName => 'AnyName',            # optional
                     Operation    => "ConfigurationSet",
                     Data         => {
+
                         # ... request operation data ...
                     },
                 },
@@ -104,7 +107,6 @@ my @Tests = (
     },
 
 );
-
 
 my $CloudServiceObject = Kernel::System::CloudService->new(
     %{$Self},
@@ -126,7 +128,7 @@ for my $Test (@Tests) {
             );
 
             # check result for each cloud service is available
-            for my $CloudServiceName ( sort keys %{$Test->{RequestData}} ) {
+            for my $CloudServiceName ( sort keys %{ $Test->{RequestData} } ) {
 
                 $Self->True(
                     $RequestResult->{$CloudServiceName},
@@ -134,18 +136,18 @@ for my $Test (@Tests) {
                 );
 
                 $Self->Is(
-                    scalar @{$RequestResult->{$CloudServiceName}},
-                    scalar @{$Test->{RequestData}->{$CloudServiceName}},
+                    scalar @{ $RequestResult->{$CloudServiceName} },
+                    scalar @{ $Test->{RequestData}->{$CloudServiceName} },
                     "$Test->{Name} - Each operation should return a result.",
                 );
             }
         }
         else {
 
-                $Self->True(
-                    1,
-                    "$Test->{Name} - A result from Cloud Service is not availble perhaps web response was not successful because Internet connection.",
-                );
+            $Self->True(
+                1,
+                "$Test->{Name} - A result from Cloud Service is not availble perhaps web response was not successful because Internet connection.",
+            );
         }
     }
     else {
