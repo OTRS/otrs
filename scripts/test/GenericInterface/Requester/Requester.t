@@ -15,19 +15,7 @@ use vars (qw($Self));
 use CGI ();
 use URI::Escape();
 
-use Kernel::System::GenericInterface::Webservice;
-use Kernel::GenericInterface::Requester;
-use Kernel::System::UnitTest::Helper;
-
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
-
-my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
-my $RequesterObject  = Kernel::GenericInterface::Requester->new( %{$Self} );
-
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomID();
 
 my @Tests = (
     {
@@ -107,7 +95,7 @@ my @Tests = (
         ResponseSuccess => 1,
     },
     {
-        Name             => 'Simple HTTP request with unicode',
+        Name             => 'Simple HTTP request with Unicode',
         WebserviceConfig => {
             Debugger => {
                 DebugThreshold => 'debug',
@@ -174,6 +162,10 @@ my @Tests = (
         ResponseSuccess => 0,
     },
 );
+
+# get objects
+my $WebserviceObject = Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+my $RequesterObject  = Kernel::OM->Get('Kernel::GenericInterface::Requester');
 
 for my $Test (@Tests) {
 
@@ -244,7 +236,7 @@ for my $Test (@Tests) {
 }
 
 #
-# Test nonexisting webservice
+# Test non existing webservice
 #
 my $FunctionResult = $RequesterObject->Run(
     WebserviceID => -1,
@@ -256,7 +248,7 @@ my $FunctionResult = $RequesterObject->Run(
 
 $Self->False(
     $FunctionResult->{Success},
-    "Nonexisting web service error status",
+    "Non existing web service error status",
 );
 
 1;
