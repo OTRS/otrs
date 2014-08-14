@@ -18,8 +18,8 @@ use Encode ();
 
 use Kernel::System::EventHandler;
 use Kernel::System::Ticket::Article;
-use Kernel::System::TicketACL;
-use Kernel::System::TicketSearch;
+use Kernel::System::Ticket::TicketACL;
+use Kernel::System::Ticket::TicketSearch;
 use Kernel::System::VariableCheck qw(:all);
 
 use vars qw(@ISA);
@@ -91,8 +91,8 @@ sub new {
 
     @ISA = qw(
         Kernel::System::Ticket::Article
-        Kernel::System::TicketACL
-        Kernel::System::TicketSearch
+        Kernel::System::Ticket::TicketACL
+        Kernel::System::Ticket::TicketSearch
         Kernel::System::EventHandler
     );
 

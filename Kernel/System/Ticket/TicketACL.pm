@@ -1,5 +1,5 @@
 # --
-# Kernel/System/TicketACL.pm - all ticket ACL functions
+# Kernel/System/Ticket/TicketACL.pm - all ticket ACL functions
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,7 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::TicketACL;
+package Kernel::System::Ticket::TicketACL;
 
 use strict;
 use warnings;
@@ -18,7 +18,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::System::TicketACL - ticket ACL lib
+Kernel::System::Ticket::TicketACL - ticket ACL lib
 
 =head1 SYNOPSIS
 
