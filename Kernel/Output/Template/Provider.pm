@@ -27,7 +27,6 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
 );
-our $ObjectManagerAware = 1;
 
 # Force the use of our own document class.
 $Template::Provider::DOCUMENT = 'Kernel::Output::Template::Document';

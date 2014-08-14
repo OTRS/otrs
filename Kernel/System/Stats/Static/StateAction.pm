@@ -20,7 +20,6 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Time',
 );
-our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;

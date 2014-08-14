@@ -21,7 +21,6 @@ our @ObjectDependencies = (
     'Kernel::System::SystemData',
     'Kernel::System::Time',
 );
-our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;

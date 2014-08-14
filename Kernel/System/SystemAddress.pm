@@ -18,7 +18,6 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Valid',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

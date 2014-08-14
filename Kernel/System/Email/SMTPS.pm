@@ -19,7 +19,6 @@ use base qw(Kernel::System::Email::SMTP);
 our @ObjectDependencies = (
     'Kernel::System::Log',
 );
-our $ObjectManagerAware = 1;
 
 sub _Connect {
     my ( $Self, %Param ) = @_;

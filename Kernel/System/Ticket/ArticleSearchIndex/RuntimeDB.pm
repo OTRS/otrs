@@ -16,7 +16,6 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
 );
-our $ObjectManagerAware = 1;
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;

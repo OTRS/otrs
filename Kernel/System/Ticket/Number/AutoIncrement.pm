@@ -21,7 +21,6 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
 );
-our $ObjectManagerAware = 1;
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;

@@ -18,7 +18,6 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicFieldValue',
     'Kernel::System::Log',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

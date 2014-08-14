@@ -20,7 +20,6 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::XML',
 );
-our $ObjectManagerAware = 1;
 
 sub GetDisplayPath {
     return 'Database';
@@ -30,7 +29,8 @@ sub Run {
     my $Self = shift;
 
     # table check
-    my $File = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/scripts/database/otrs-schema.xml';
+    my $File
+        = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/scripts/database/otrs-schema.xml';
     if ( !-f $File ) {
         $Self->AddResultProblem(
             Label   => 'Table Presence',
@@ -51,7 +51,8 @@ sub Run {
         );
     }
 
-    my @XMLHash = $Kernel::OM->Get('Kernel::System::XML')->XMLParse2XMLHash( String => ${$ContentRef} );
+    my @XMLHash
+        = $Kernel::OM->Get('Kernel::System::XML')->XMLParse2XMLHash( String => ${$ContentRef} );
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');

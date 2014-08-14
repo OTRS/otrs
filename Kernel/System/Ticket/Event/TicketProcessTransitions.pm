@@ -18,7 +18,6 @@ our @ObjectDependencies = (
     'Kernel::System::ProcessManagement::Process',
     'Kernel::System::Ticket',
 );
-our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;

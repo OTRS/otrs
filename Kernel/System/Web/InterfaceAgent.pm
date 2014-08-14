@@ -27,7 +27,6 @@ our @ObjectDependencies = (
     'Kernel::System::User',
     'Kernel::System::Web::Request',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

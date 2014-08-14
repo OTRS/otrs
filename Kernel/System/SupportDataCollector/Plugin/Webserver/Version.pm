@@ -15,7 +15,6 @@ use warnings;
 use base qw(Kernel::System::SupportDataCollector::PluginBase);
 
 our @ObjectDependencies = ();
-our $ObjectManagerAware = 1;
 
 sub GetDisplayPath {
     return 'Webserver';

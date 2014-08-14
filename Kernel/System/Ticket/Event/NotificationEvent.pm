@@ -29,7 +29,6 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket',
     'Kernel::System::User',
 );
-our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;

@@ -24,7 +24,6 @@ our @ObjectDependencies = (
     'Kernel::System::Valid',
     'Kernel::System::YAML',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

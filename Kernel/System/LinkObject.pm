@@ -22,7 +22,6 @@ our @ObjectDependencies = (
     'Kernel::System::Time',
     'Kernel::System::Valid',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

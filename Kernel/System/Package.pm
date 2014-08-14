@@ -36,7 +36,6 @@ our @ObjectDependencies = (
     'Kernel::System::Time',
     'Kernel::System::XML',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

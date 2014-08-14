@@ -17,7 +17,6 @@ use Kernel::System::VariableCheck qw(:all);
 our @ObjectDependencies = (
     'Kernel::System::Log',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

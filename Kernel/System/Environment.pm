@@ -21,7 +21,6 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Main',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

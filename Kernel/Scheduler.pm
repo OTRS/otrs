@@ -23,7 +23,6 @@ our @ObjectDependencies = (
     'Kernel::System::Scheduler::TaskManager',
     'Kernel::System::Time',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

@@ -25,7 +25,6 @@ our @ObjectDependencies = (
     'Kernel::System::ProcessManagement::TransitionAction',
     'Kernel::System::Ticket',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

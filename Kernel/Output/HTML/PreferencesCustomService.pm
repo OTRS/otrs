@@ -19,7 +19,6 @@ our @ObjectDependencies = (
     'Kernel::System::Service',
     'Kernel::System::Web::Request',
 );
-our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;

@@ -17,7 +17,6 @@ use Encode::Locale;
 use IO::Interactive qw(is_interactive);
 
 our @ObjectDependencies = ();
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

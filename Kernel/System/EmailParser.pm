@@ -25,7 +25,6 @@ our @ObjectDependencies = (
     'Kernel::System::HTMLUtils',
     'Kernel::System::Log',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

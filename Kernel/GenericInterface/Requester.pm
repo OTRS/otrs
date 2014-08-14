@@ -22,7 +22,6 @@ our @ObjectDependencies = (
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Log',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

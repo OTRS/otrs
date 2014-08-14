@@ -30,7 +30,6 @@ our @ObjectDependencies = (
     'Kernel::System::Type',
     'Kernel::System::User',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

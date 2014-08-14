@@ -43,7 +43,6 @@ our @ObjectDependencies = (
     'Kernel::System::User',
     'Kernel::System::Valid',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

@@ -17,7 +17,6 @@ our @ObjectDependencies = (
     'Kernel::System::Registration',
     'Kernel::System::Time',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

@@ -12,6 +12,8 @@ package scripts::test::ObjectManager::Dummy2;    ## no critic
 use strict;
 use warnings;
 
+our @ObjectDependencies = ();
+
 sub new {
     my ( $Class, %Param ) = @_;
 

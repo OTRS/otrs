@@ -29,7 +29,6 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::Time',
 );
-our $ObjectManagerAware = 1;
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;

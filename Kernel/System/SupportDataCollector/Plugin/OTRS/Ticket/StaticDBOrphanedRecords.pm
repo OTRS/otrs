@@ -18,7 +18,6 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DB',
 );
-our $ObjectManagerAware = 1;
 
 sub GetDisplayPath {
     return 'OTRS';

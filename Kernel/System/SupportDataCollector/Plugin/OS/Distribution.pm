@@ -17,7 +17,6 @@ use base qw(Kernel::System::SupportDataCollector::PluginBase);
 our @ObjectDependencies = (
     'Kernel::System::Environment',
 );
-our $ObjectManagerAware = 1;
 
 sub GetDisplayPath {
     return 'Operating System';

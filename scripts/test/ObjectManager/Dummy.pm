@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 ## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
+our @ObjectDependencies = ();    # we want to use an undeclared dependency for testing
 
 sub new {
     my ( $Class, %Param ) = @_;

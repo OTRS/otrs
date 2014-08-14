@@ -16,7 +16,6 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::PostMaster::Filter',
 );
-our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;

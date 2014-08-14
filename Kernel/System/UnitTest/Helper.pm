@@ -23,7 +23,6 @@ our @ObjectDependencies = (
     'Kernel::System::UnitTest',
     'Kernel::System::User',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

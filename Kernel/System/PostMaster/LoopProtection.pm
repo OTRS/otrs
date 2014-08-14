@@ -16,7 +16,6 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Main',
 );
-our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;

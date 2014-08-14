@@ -19,7 +19,6 @@ use YAML qw();
 our @ObjectDependencies = (
     'Kernel::System::Log',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

@@ -17,7 +17,6 @@ use base qw(Kernel::System::SupportDataCollector::PluginBase);
 our @ObjectDependencies = (
     'Kernel::System::Log',
 );
-our $ObjectManagerAware = 1;
 
 sub GetDisplayPath {
     return 'OTRS';

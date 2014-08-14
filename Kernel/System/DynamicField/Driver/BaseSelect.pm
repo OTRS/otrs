@@ -22,7 +22,6 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket::ColumnFilter',
     'Kernel::System::Log',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

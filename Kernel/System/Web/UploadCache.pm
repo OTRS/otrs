@@ -15,7 +15,6 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::Config',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

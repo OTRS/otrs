@@ -21,7 +21,6 @@ our @ObjectDependencies = (
     'Kernel::System::State',
     'Kernel::System::Time',
 );
-our $ObjectManagerAware = 1;
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;

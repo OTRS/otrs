@@ -36,7 +36,6 @@ use File::stat;
 use Digest::MD5;
 
 our @ObjectDependencies = ();
-our $ObjectManagerAware = 1;
 
 sub LoadDefaults {
     my $Self = shift;

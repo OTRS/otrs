@@ -27,7 +27,6 @@ our @ObjectDependencies = (
     'Kernel::System::State',
     'Kernel::System::Ticket',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

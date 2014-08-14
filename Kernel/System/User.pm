@@ -26,7 +26,6 @@ our @ObjectDependencies = (
     'Kernel::System::Time',
     'Kernel::System::Valid',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -1096,7 +1095,8 @@ sub SetPreferences {
     );
 
     # get user preferences config
-    my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('User::PreferencesModule') || 'Kernel::System::User::Preferences::DB';
+    my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('User::PreferencesModule')
+        || 'Kernel::System::User::Preferences::DB';
 
     # get generator preferences module
     my $PreferencesObject = $Kernel::OM->Get($GeneratorModule);
@@ -1119,7 +1119,8 @@ sub GetPreferences {
     my ( $Self, %Param ) = @_;
 
     # get user preferences config
-    my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('User::PreferencesModule') || 'Kernel::System::User::Preferences::DB';
+    my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('User::PreferencesModule')
+        || 'Kernel::System::User::Preferences::DB';
 
     # get generator preferences module
     my $PreferencesObject = $Kernel::OM->Get($GeneratorModule);
@@ -1142,7 +1143,8 @@ sub SearchPreferences {
     my $Self = shift;
 
     # get user preferences config
-    my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('User::PreferencesModule') || 'Kernel::System::User::Preferences::DB';
+    my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('User::PreferencesModule')
+        || 'Kernel::System::User::Preferences::DB';
 
     # get generator preferences module
     my $PreferencesObject = $Kernel::OM->Get($GeneratorModule);

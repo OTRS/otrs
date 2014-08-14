@@ -21,7 +21,6 @@ our @ObjectDependencies = (
     'Kernel::System::CheckItem',
     'Kernel::System::Encode',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

@@ -44,7 +44,6 @@ our @ObjectDependencies = (
     'Kernel::System::Type',
     'Kernel::System::User',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -1107,11 +1106,12 @@ sub TicketGet {
         }
 
         $Kernel::OM->Get('Kernel::System::Cache')->Set(
-            Type  => $Self->{CacheType},
-            TTL   => $Self->{CacheTTL},
-            Key   => $CacheKey,
+            Type => $Self->{CacheType},
+            TTL  => $Self->{CacheTTL},
+            Key  => $CacheKey,
+
             # make a local copy of the ticket data to avoid it being altered in-memory later
-            Value => { %Ticket },
+            Value => {%Ticket},
         );
     }
 

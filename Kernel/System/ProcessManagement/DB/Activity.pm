@@ -22,7 +22,6 @@ our @ObjectDependencies = (
     'Kernel::System::ProcessManagement::DB::ActivityDialog',
     'Kernel::System::YAML',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

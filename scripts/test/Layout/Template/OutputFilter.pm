@@ -13,7 +13,6 @@ use strict;
 use warnings;
 
 our @ObjectDependencies = ();
-our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;

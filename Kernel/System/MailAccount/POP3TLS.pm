@@ -19,7 +19,6 @@ use base qw(Kernel::System::MailAccount::POP3);
 our @ObjectDependencies = (
     'Kernel::System::Log',
 );
-our $ObjectManagerAware = 1;
 
 sub Connect {
     my ( $Self, %Param ) = @_;

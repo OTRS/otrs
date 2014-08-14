@@ -19,7 +19,6 @@ our @ObjectDependencies = (
     'Kernel::System::Group',
     'Kernel::System::User',
 );
-our $ObjectManagerAware = 1;
 
 sub GetDisplayPath {
     return 'OTRS';
@@ -32,7 +31,7 @@ sub Run {
     my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
     my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
-    my %UserList    = $UserObject->UserList(
+    my %UserList = $UserObject->UserList(
         Type  => 'Short',
         Valid => '1',
     );

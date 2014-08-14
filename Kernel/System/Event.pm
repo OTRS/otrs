@@ -16,7 +16,6 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DynamicField',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 

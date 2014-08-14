@@ -27,7 +27,6 @@ our @ObjectDependencies = (
     'Kernel::System::Valid',
     'Kernel::System::YAML',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 
@@ -287,7 +286,8 @@ sub WebserviceGet {
     my $CacheTTL
         = int(
         $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::WebserviceConfig::CacheTTL')
-            || 3600 );
+            || 3600
+        );
 
     # set cache
     $CacheObject->Set(
@@ -570,7 +570,8 @@ sub WebserviceList {
     my $CacheTTL
         = int(
         $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::WebserviceConfig::CacheTTL')
-            || 3600 );
+            || 3600
+        );
 
     # set cache
     $CacheObject->Set(

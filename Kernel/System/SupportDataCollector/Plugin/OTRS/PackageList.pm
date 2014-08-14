@@ -19,7 +19,6 @@ our @ObjectDependencies = (
     'Kernel::System::CSV',
     'Kernel::System::Package',
 );
-our $ObjectManagerAware = 1;
 
 sub GetDisplayPath {
     return 'OTRS/Package List';

@@ -33,7 +33,6 @@ our @ObjectDependencies = (
     'Kernel::System::Type',
     'Kernel::System::User',
 );
-our $ObjectManagerAware = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -694,7 +693,7 @@ sub GetObjectAttributes {
                         TimeStart =>
                             $DynamicFieldStatsParameter->{Element}
                             . '_GreaterThanEquals',
-                        TimeStop  =>
+                        TimeStop =>
                             $DynamicFieldStatsParameter->{Element}
                             . '_SmallerThanEquals',
                     },
@@ -794,7 +793,8 @@ sub GetStatTable {
     for my $ParameterName ( sort keys %{ $Param{Restrictions} } ) {
         if (
             $ParameterName =~ m{ \A DynamicField_ ( [a-zA-Z\d]+ ) (?: _ ( [a-zA-Z\d]+ ) )? \z }xms
-        ) {
+            )
+        {
             my $FieldName = $1;
             my $Operator  = $2;
 
@@ -825,7 +825,7 @@ sub GetStatTable {
                     );
 
                 # add new search parameter
-                if ( !IsHashRefWithData($DynamicFieldRestrictions{"DynamicField_$FieldName"}) ) {
+                if ( !IsHashRefWithData( $DynamicFieldRestrictions{"DynamicField_$FieldName"} ) ) {
                     $DynamicFieldRestrictions{"DynamicField_$FieldName"} =
                         $DynamicFieldStatsSearchParameter;
                 }
@@ -834,7 +834,7 @@ sub GetStatTable {
                 elsif ( IsHashRefWithData($DynamicFieldStatsSearchParameter) ) {
                     $DynamicFieldRestrictions{"DynamicField_$FieldName"} = {
                         %{ $DynamicFieldRestrictions{"DynamicField_$FieldName"} },
-                        %{ $DynamicFieldStatsSearchParameter },
+                        %{$DynamicFieldStatsSearchParameter},
                     };
                 }
             }
