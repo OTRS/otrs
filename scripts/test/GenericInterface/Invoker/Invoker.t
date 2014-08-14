@@ -14,8 +14,8 @@ use vars (qw($Self));
 # create needed objects
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Invoker;
+
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %{$Self},
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -36,7 +36,6 @@ $Self->IsNot(
 
 # correct call (without invoker info)
 $InvokerObject = Kernel::GenericInterface::Invoker->new(
-    %{$Self},
     DebuggerObject => $DebuggerObject,
     WebserviceID   => 1,
 );
@@ -48,7 +47,6 @@ $Self->IsNot(
 
 # provide incorrect invoker
 $InvokerObject = Kernel::GenericInterface::Invoker->new(
-    %{$Self},
     DebuggerObject => $DebuggerObject,
     InvokerType    => 'ItShouldNotBeUsed::ItShouldNotBeUsed',
     WebserviceID   => 1,
@@ -61,7 +59,6 @@ $Self->IsNot(
 
 # provide no WebserviceID
 $InvokerObject = Kernel::GenericInterface::Invoker->new(
-    %{$Self},
     DebuggerObject => $DebuggerObject,
     InvokerType    => 'Test::Test',
 );
@@ -73,7 +70,6 @@ $Self->IsNot(
 
 # correct call
 $InvokerObject = Kernel::GenericInterface::Invoker->new(
-    %{$Self},
     DebuggerObject => $DebuggerObject,
     InvokerType    => 'Test::Test',
     WebserviceID   => 1,
