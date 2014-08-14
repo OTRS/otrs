@@ -332,7 +332,7 @@ $Self->IsDeeply(
     'Returned data should match with expected data.',
 );
 
-# handleresponse call
+# HandleResponse call
 $InvokerResult = $InvokerObject->HandleResponse(
     Data => {
         Action       => $InvokerResult->{Data}->{Action},
@@ -342,7 +342,7 @@ $InvokerResult = $InvokerObject->HandleResponse(
     ResponseErrorMessage => $InvokerResult->{ErrorMessage},
 );
 
-# check handleresponse call success
+# check HandleResponse call success
 $Self->True(
     $InvokerResult->{Success},
     '(Complete Cycle) Check HandleResponse call success.',
