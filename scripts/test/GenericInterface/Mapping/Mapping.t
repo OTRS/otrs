@@ -15,12 +15,11 @@ use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Mapping;
 
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %{$Self},
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
     },
-    WebserviceID      => 1,            # hardcoded because it is not used
+    WebserviceID      => 1,            # hard coded because it is not used
     CommunicationType => 'Provider',
 );
 
@@ -35,7 +34,6 @@ $Self->IsNot(
 );
 
 $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %{$Self},
     DebuggerObject => $DebuggerObject,
     MappingConfig  => {},
 );
@@ -46,7 +44,6 @@ $Self->IsNot(
 );
 
 $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %{$Self},
     DebuggerObject => $DebuggerObject,
     MappingConfig  => {
         Type => 'ThisIsCertainlyNotBeingUsed',
@@ -60,7 +57,6 @@ $Self->IsNot(
 
 # call with empty config
 $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %{$Self},
     DebuggerObject => $DebuggerObject,
     MappingConfig  => {
         Type   => 'Test',
@@ -75,7 +71,6 @@ $Self->IsNot(
 
 # call with invalid config
 $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %{$Self},
     DebuggerObject => $DebuggerObject,
     MappingConfig  => {
         Type   => 'Test',
@@ -90,7 +85,6 @@ $Self->IsNot(
 
 # call with invalid config
 $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %{$Self},
     DebuggerObject => $DebuggerObject,
     MappingConfig  => {
         Type   => 'Test',
@@ -105,7 +99,6 @@ $Self->IsNot(
 
 # call with invalid config
 $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %{$Self},
     DebuggerObject => $DebuggerObject,
     MappingConfig  => {
         Type   => 'Test',
@@ -120,7 +113,6 @@ $Self->IsNot(
 
 # call without config
 $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %{$Self},
     DebuggerObject => $DebuggerObject,
     MappingConfig  => {
         Type => 'Test',
