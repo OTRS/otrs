@@ -14,23 +14,22 @@ use utf8;
 
 use SOAP::Lite;
 use XML::TreePP;
-use Kernel::System::VariableCheck qw(:all);
+
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport::HTTP::SOAP;
-use Kernel::System::UnitTest::Helper;
+use Kernel::System::VariableCheck qw(:all);
 
 # helper object
-# skip SSL certiciate verification
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 1,
-    SkipSSLVerify              => 1,
+# skip SSL certificate verification
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        SkipSSLVerify => 1,
+    },
 );
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # create soap object to use the soap output recursion
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %{$Self},
     DebuggerConfig => {
         DebugThreshold => 'error',
         TestMode       => 1,
@@ -39,7 +38,6 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     WebserviceID      => 1,             # not used
 );
 my $SOAPObject = Kernel::GenericInterface::Transport::HTTP::SOAP->new(
-    %{$Self},
     DebuggerObject  => $DebuggerObject,
     TransportConfig => {
         Config => undef,
@@ -357,11 +355,11 @@ for my $Test (@SoapTests) {
             . $SOAPFooter;
     }
 
-    # convert soap XML back to perl structure for easy handling
+    # convert soap XML back to Perl structure for easy handling
     $XMLObject->set( attr_prefix => '' );
     if ( $Test->{IsEmpty} ) {
 
-        # clean xml ('null' tag is interpreted by xml parser)
+        # clean XML ('null' tag is interpreted by XML parser)
         $Content =~ s{ [ ] xsi:nil="true" [ ] }{}xms;
     }
     my $XMLContent = $XMLObject->parse($Content);
