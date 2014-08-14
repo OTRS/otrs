@@ -28,6 +28,9 @@ my $ParamObject   = Kernel::System::Web::Request->new(
     %{$Self},
     WebRequest => $Param{WebRequest} || 0,
 );
+
+local $ENV{SCRIPT_NAME} = 'index.pl';
+
 my $LayoutObject = Kernel::Output::HTML::Layout->new(
     ConfigObject       => $Self->{ConfigObject},
     LogObject          => $Self->{LogObject},
@@ -62,7 +65,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;SessionID=123">',
+                '<img src="index.pl?Action=SomeAction;FileID=0;SessionID=123">',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -81,7 +84,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                '<img border="0" src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;SessionID=123">',
+                '<img border="0" src="index.pl?Action=SomeAction;FileID=0;SessionID=123">',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -100,7 +103,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                "<img border=\"0\" \nsrc=\"No-\$ENV{\"SCRIPT_NAME\"}?Action=SomeAction;FileID=0;SessionID=123\">",
+                "<img border=\"0\" \nsrc=\"index.pl?Action=SomeAction;FileID=0;SessionID=123\">",
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -119,7 +122,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;SessionID=123">',
+                '<img src="index.pl?Action=SomeAction;FileID=0;SessionID=123">',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -138,7 +141,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;SessionID=123" />',
+                '<img src="index.pl?Action=SomeAction;FileID=0;SessionID=123" />',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -157,7 +160,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                '<img src=\'No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;SessionID=123\' />',
+                '<img src=\'index.pl?Action=SomeAction;FileID=0;SessionID=123\' />',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -176,7 +179,7 @@ my @Tests = (
         },
         Result => {
             Content =>
-                '<img src=\'No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;SessionID=123\' />',
+                '<img src=\'index.pl?Action=SomeAction;FileID=0;SessionID=123\' />',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -233,7 +236,7 @@ my @Tests = (
 <div style="margin: 5px 0; padding: 0px; border: 1px solid #999; border-radius: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px;">
     <div style="padding: 5px; background-color: #DDD; font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 11px; text-align: center;">
         Zum Schutz Ihrer Privatsphäre wurden entfernte Inhalte blockiert.
-        <a href="No-$ENV{"SCRIPT_NAME"}?;LoadExternalImages=1">Blockierte Inhalte laden.</a>
+        <a href="index.pl?;LoadExternalImages=1;SessionID=123">Blockierte Inhalte laden.</a>
     </div>
 </div>
 1',
