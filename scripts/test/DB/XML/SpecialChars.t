@@ -9,9 +9,9 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
-
 use utf8;
+
+use vars (qw($Self));
 
 use Encode;
 
