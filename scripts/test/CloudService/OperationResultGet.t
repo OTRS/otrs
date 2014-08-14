@@ -7,18 +7,15 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::CloudService;
-use Kernel::System::VariableCheck qw(:all);
-
-my $CloudServiceObject = Kernel::System::CloudService->new(
-    %{$Self},
-);
+# get needed objects
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
 
 my %RequestResult = (
     CloudServiceTest => [

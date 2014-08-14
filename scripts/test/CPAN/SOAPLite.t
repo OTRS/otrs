@@ -9,13 +9,13 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
-
 use utf8;
+
+use vars (qw($Self));
 
 use SOAP::Lite;
 
-use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
+use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');

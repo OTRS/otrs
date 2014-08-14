@@ -11,11 +11,13 @@ use strict;
 use warnings;
 use utf8;
 
-use vars qw($Self);
+use vars (qw($Self));
 
 use Kernel::System::Cache;
 
+# get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+
 my $HomeDir            = $ConfigObject->Get('Home');
 my @BackendModuleFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
     Directory => $HomeDir . '/Kernel/System/Cache/',
@@ -39,10 +41,7 @@ for my $ModuleFile (@BackendModuleFiles) {
     );
 
     # create a local cache object
-    my $CacheObject = Kernel::System::Cache->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
+    my $CacheObject = Kernel::System::Cache->new();
 
     next MODULEFILE if !$CacheObject;
 
