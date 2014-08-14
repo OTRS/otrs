@@ -14,38 +14,26 @@ use vars (qw($Self));
 use Socket;
 
 use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Requester;
 use Kernel::GenericInterface::Operation::Session::SessionCreate;
-use Kernel::System::AuthSession;
-use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::User;
 
 # set UserID to root because in public interface there is no user
 $Self->{UserID} = 1;
 
 # helper object
-# skip SSL certiciate verification
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 1,
-    SkipSSLVerify              => 1,
+# skip SSL certificate verification
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        SkipSSLVerify => 1,
+    },
 );
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $RandomID = $HelperObject->GetRandomID();
-
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-my $UserObject = Kernel::System::User->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
 
 # set user details
 my $UserLogin    = $HelperObject->TestUserCreate();
 my $UserPassword = $UserLogin;
-my $UserID       = $UserObject->UserLookup(
+my $UserID       = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserLogin => $UserLogin,
 );
 
@@ -55,10 +43,7 @@ my $CustomerUserPassword = $CustomerUserLogin;
 my $CustomerUserID       = $CustomerUserLogin;
 
 # create webservice object
-my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 $Self->Is(
     'Kernel::System::GenericInterface::Webservice',
     ref $WebserviceObject,
@@ -92,7 +77,7 @@ $Self->True(
 my $Host;
 my $FQDN = $Self->{ConfigObject}->Get('FQDN');
 
-# try to resolve fqdn host
+# try to resolve FQDN host
 if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
     $Host = $FQDN;
 }
@@ -102,7 +87,7 @@ if ( !$Host && gethostbyname('localhost') ) {
     $Host = 'localhost';
 }
 
-# use hardcoded localhost ip address
+# use hard coded localhost IP address
 if ( !$Host ) {
     $Host = '127.0.0.1';
 }
@@ -334,8 +319,6 @@ my @Tests = (
 
 # debugger object
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %{$Self},
-    ConfigObject   => $ConfigObject,
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -346,15 +329,13 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
 $Self->Is(
     ref $DebuggerObject,
     'Kernel::GenericInterface::Debugger',
-    'DebuggerObject instanciate correctly',
+    'DebuggerObject instantiate correctly',
 );
 
 for my $Test (@Tests) {
 
     # create local object
     my $LocalObject = "Kernel::GenericInterface::Operation::Session::$Test->{Operation}"->new(
-        %{$Self},
-        ConfigObject   => $ConfigObject,
         DebuggerObject => $DebuggerObject,
         WebserviceID   => $WebserviceID,
     );
@@ -386,10 +367,7 @@ for my $Test (@Tests) {
     );
 
     # create requester object
-    my $RequesterObject = Kernel::GenericInterface::Requester->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
+    my $RequesterObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
     $Self->Is(
         'Kernel::GenericInterface::Requester',
         ref $RequesterObject,
@@ -435,8 +413,8 @@ for my $Test (@Tests) {
             "$Test->{Name} - Requester result SessonID",
         );
 
-        # local and remote request shoudl be different since each time the SessionCreate is called
-        # shold return different SessionID
+        # local and remote request should be different since each time the SessionCreate is called
+        # should return different SessionID
         $Self->IsNotDeeply(
             $LocalResult,
             $RequesterResult,
@@ -461,7 +439,7 @@ for my $Test (@Tests) {
         # sanity check
         $Self->False(
             $LocalResult->{ErrorMessage},
-            "$Test->{Name} - Local result ErroMessage (outsise Data hash) got removed to compare"
+            "$Test->{Name} - Local result ErroMessage (outside Data hash) got removed to compare"
                 . " local and remote tests.",
         );
 
@@ -483,13 +461,7 @@ $Self->True(
     "Deleted Webservice $WebserviceID",
 );
 
-# create needed object to cleanup the sessions
-my $SessionObject = Kernel::System::AuthSession->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
 # cleanup sessions
-my $CleanUp = $SessionObject->CleanUp();
+my $CleanUp = $Kernel::OM->Get('Kernel::System::AuthSession')->CleanUp();
 
 1;
