@@ -16,13 +16,6 @@ use MIME::Base64;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation::Session::SessionCreate;
 use Kernel::GenericInterface::Operation::Ticket::TicketGet;
-use Kernel::GenericInterface::Requester;
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
-use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::User;
-use Kernel::System::Ticket;
 use Kernel::System::VariableCheck qw(:all);
 
 #get a random id
@@ -33,24 +26,19 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # helper object
 # skip SSL certificate verification
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 1,
-    SkipSSLVerify              => 1,
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreSystemConfiguration => 1,
+        SkipSSLVerify              => 1,
+    },
 );
-
-# new user object
-my $UserObject = Kernel::System::User->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # create a new user for current test
 my $UserLogin = $HelperObject->TestUserCreate();
 my $Password  = $UserLogin;
 
-$Self->{UserID} = $UserObject->UserLookup(
+$Self->{UserID} = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserLogin => $UserLogin,
 );
 
@@ -68,24 +56,9 @@ my %SkipFields = (
 );
 
 # start DynamicFields
-
-my $DynamicFieldObject = Kernel::System::DynamicField->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-# create backend object and delegates
-my $BackendObject = Kernel::System::DynamicField::Backend->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-$Self->Is(
-    ref $BackendObject,
-    'Kernel::System::DynamicField::Backend',
-    'Backend object was created successfuly',
-);
-
 my @TestDynamicFields;
+
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
 # create a dynamic field
 my $FieldID1 = $DynamicFieldObject->DynamicFieldAdd(
@@ -206,10 +179,7 @@ push @TestDynamicFields, $FieldID5;
 # finish DynamicFields
 
 # create ticket object
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # create 3 tickets
 
@@ -233,6 +203,14 @@ my $TicketID1 = $TicketObject->TicketCreate(
 $Self->True(
     $TicketID1,
     "TicketCreate() successful for Ticket One ID $TicketID1",
+);
+
+# create backend object and delegates
+my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+$Self->Is(
+    ref $BackendObject,
+    'Kernel::System::DynamicField::Backend',
+    'Backend object was created successfully',
 );
 
 $BackendObject->ValueSet(
@@ -377,7 +355,7 @@ $BackendObject->ValueSet(
 );
 
 # get the Ticket entry
-# withpout DF
+# without DF
 my %TicketEntryTwo = $TicketObject->TicketGet(
     TicketID      => $TicketID2,
     DynamicFields => 0,
@@ -643,10 +621,7 @@ push @TicketIDs, $TicketID4;
 my $WebserviceName = '-Test-' . $RandomID;
 
 # create webservice object
-my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 $Self->Is(
     'Kernel::System::GenericInterface::Webservice',
     ref $WebserviceObject,
@@ -677,7 +652,7 @@ $Self->True(
 my $Host;
 my $FQDN = $Self->{ConfigObject}->Get('FQDN');
 
-# try to resolve fqdn host
+# try to resolve FQDN host
 if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
     $Host = $FQDN;
 }
@@ -687,7 +662,7 @@ if ( !$Host && gethostbyname('localhost') ) {
     $Host = 'localhost';
 }
 
-# use hardcoded localhost ip address
+# use hard coded localhost IP address
 if ( !$Host ) {
     $Host = '127.0.0.1';
 }
@@ -766,10 +741,7 @@ $Self->True(
 
 # Get SessionID
 # create requester object
-my $RequesterSessionObject = Kernel::GenericInterface::Requester->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $RequesterSessionObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
 $Self->Is(
     'Kernel::GenericInterface::Requester',
     ref $RequesterSessionObject,
@@ -1096,8 +1068,6 @@ my @Tests        = (
 
 # debugger object
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %{$Self},
-    ConfigObject   => $ConfigObject,
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -1108,15 +1078,13 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
 $Self->Is(
     ref $DebuggerObject,
     'Kernel::GenericInterface::Debugger',
-    'DebuggerObject instanciate correctly',
+    'DebuggerObject instantiate correctly',
 );
 
 for my $Test (@Tests) {
 
     # create local object
     my $LocalObject = "Kernel::GenericInterface::Operation::Ticket::$Test->{Operation}"->new(
-        %{$Self},
-        ConfigObject   => $ConfigObject,
         DebuggerObject => $DebuggerObject,
         WebserviceID   => $WebserviceID,
     );
@@ -1135,7 +1103,7 @@ for my $Test (@Tests) {
             UserLogin => $UserLogin,
             Password  => $Password,
             %{ $Test->{RequestData} },
-            }
+        },
     );
 
     # check result
@@ -1146,10 +1114,7 @@ for my $Test (@Tests) {
     );
 
     # create requester object
-    my $RequesterObject = Kernel::GenericInterface::Requester->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
+    my $RequesterObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
     $Self->Is(
         'Kernel::GenericInterface::Requester',
         ref $RequesterObject,
@@ -1215,7 +1180,6 @@ for my $Test (@Tests) {
                     }
                 }
             }
-
         }
 
         if (
@@ -1266,7 +1230,6 @@ for my $Test (@Tests) {
                 }
             }
         }
-
     }
 
     # remove ErrorMessage parameter from direct call
