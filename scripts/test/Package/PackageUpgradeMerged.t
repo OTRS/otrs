@@ -12,13 +12,9 @@ use strict;
 use warnings;
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::Package;
-
 # create local objects
-my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
-my $PackageObject = Kernel::System::Package->new( %{$Self} );
-my $DBObject      = Kernel::System::DB->new( %{$Self} );
+my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
 
 # get OTRS Version
 my $OTRSVersion = $Self->{ConfigObject}->Get('Version');
@@ -29,7 +25,7 @@ $OTRSVersion =~ s{ (\d+ \. \d+) .+ }{$1}msx;
 # add x as patch level version
 $OTRSVersion .= '.x';
 
-my $Home = $ConfigObject->Get('Home');
+my $Home = $Self->{ConfigObject}->Get('Home');
 
 # install package normally
 my $MergeOne = '<?xml version="1.0" encoding="utf-8" ?>
@@ -236,7 +232,7 @@ for my $File (qw( Delete DeleteMe )) {
 }
 
 # check that the framework file still exists including the .save file
-for my $File (qw( bin/otrs.CheckDB.pl bin/otrs.CheckDB.pl.save )) {
+for my $File (qw( bin/otrs.CheckDB.pl )) {
     my $RealFile = $Home . '/' . $File;
     $RealFile =~ s/\/\//\//g;
     $Self->True(
@@ -316,9 +312,9 @@ $Self->False(
 # database merge script might be executed, so insert a record
 # should be possible
 
-$Self->{DBObject}->Prepare( SQL => 'SELECT description FROM merge_package' );
+$DBObject->Prepare( SQL => 'SELECT description FROM merge_package' );
 my $Result;
-while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+while ( my @Row = $DBObject->FetchrowArray() ) {
     $Result = $Row[0];
 }
 
@@ -572,14 +568,14 @@ for my $Test (@Tests) {
     # ------- Check Results ------- #
 
     # if everything is OK was possible to create test_package table
-    $Self->{DBObject}->Prepare( SQL => 'SELECT name_a FROM test_package' );
+    my $SQLResult = '';
+    if ( $DBObject->Prepare( SQL => 'SELECT name_a FROM test_package' ) ){
 
-    my $SQLResult;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $SQLResult = $Row[0];
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            $SQLResult = $Row[0];
+            last;
+        }
     }
-
-    $SQLResult //= '';
 
     my $SQLTest = $Test->{SQLTest};
     $Self->$SQLTest(
