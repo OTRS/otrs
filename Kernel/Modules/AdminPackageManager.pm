@@ -230,14 +230,8 @@ sub Run {
             Result => 'short',
         );
 
-        my %PackageAllowedActions;
-        for my $Item (qw( IsPackageVisible IsPackageDownloadable IsPackageRemovable)) {
-
-            $PackageAllowedActions{$Item} = 1;
-        }
-
         # if visible property is not enable, return error screen
-        if ( !$PackageAllowedActions{Visible} ) {
+        if ( defined $Structure{PackageIsVisible} && $Structure{PackageIsVisible}->{Content} eq '0'  ) {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
         }
 
@@ -246,7 +240,7 @@ sub Run {
 
             if (
                 $PackageAction eq 'DownloadLocal'
-                && !$PackageAllowedActions{IsPackageDownloadable}
+                && ( defined $Structure{PackageIsDownloadable} && $Structure{PackageIsDownloadable}->{Content} eq '0' )
                 )
             {
                 next PACKAGEACTION;
@@ -510,15 +504,14 @@ sub Run {
             Data => { %Param, %Frontend, },
         );
 
-        # TODO: Enable condition ones new Downloadable
-        # flag come on the package structure
-        # if ( $Structure{Downloadable} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'PackageDownloadRemote',
-            Data => { %Param, %Frontend, File => $File, },
-        );
+        # allow to download only is package is allow to do it
+        if ( !defined $Structure{PackageIsDownloadable} || $Structure{PackageIsDownloadable}->{Content} eq '1' ) {
 
-        # }
+            $Self->{LayoutObject}->Block(
+                Name => 'PackageDownloadRemote',
+                Data => { %Param, %Frontend, File => $File, },
+            );
+        }
 
         # check if file is requested
         if ($Location) {
@@ -1256,6 +1249,9 @@ sub Run {
 
     my @RepositoryList = $Self->{PackageObject}->RepositoryList();
 
+    # remove not visible packages
+    @RepositoryList = map { ( !defined $_->{PackageIsVisible} || $_->{PackageIsVisible}->{Content} eq '1' ) ? $_ : () } @RepositoryList;
+
     # if there are no local packages to show, a msg is displayed
     if ( !@RepositoryList ) {
         $Self->{LayoutObject}->Block(
@@ -1313,16 +1309,19 @@ sub Run {
 
         if ( $Package->{Status} eq 'installed' ) {
 
-            $Self->{LayoutObject}->Block(
-                Name => 'ShowLocalPackageUninstall',
-                Data => {
-                    %{$Package},
-                    Name    => $Package->{Name}->{Content},
-                    Version => $Package->{Version}->{Content},
-                    Vendor  => $Package->{Vendor}->{Content},
-                    URL     => $Package->{URL}->{Content},
-                },
-            );
+            if ( !defined $Package->{PackageIsRemovable} || $Package->{PackageIsRemovable}->{Content} eq '1' ) {
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'ShowLocalPackageUninstall',
+                    Data => {
+                        %{$Package},
+                        Name    => $Package->{Name}->{Content},
+                        Version => $Package->{Version}->{Content},
+                        Vendor  => $Package->{Vendor}->{Content},
+                        URL     => $Package->{URL}->{Content},
+                    },
+                );
+            }
 
             if (
                 !$Self->{PackageObject}->DeployCheck(
