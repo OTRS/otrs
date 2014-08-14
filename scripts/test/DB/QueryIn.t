@@ -7,13 +7,11 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
-
 use strict;
 use warnings;
-use vars (qw($Self));
-
 use utf8;
+
+use vars (qw($Self));
 
 # get needed objects
 my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');

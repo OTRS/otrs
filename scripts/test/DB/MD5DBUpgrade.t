@@ -9,9 +9,9 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
-
 use utf8;
+
+use vars (qw($Self));
 
 # get needed objects
 my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');

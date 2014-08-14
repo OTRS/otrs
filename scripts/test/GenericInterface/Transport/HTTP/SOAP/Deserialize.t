@@ -13,22 +13,22 @@ use utf8;
 use vars (qw($Self));
 
 use SOAP::Lite;
-use Kernel::System::VariableCheck qw(:all);
+
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport::HTTP::SOAP;
-use Kernel::System::UnitTest::Helper;
+use Kernel::System::VariableCheck qw(:all);
 
 # helper object
-# skip SSL certiciate verification
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject => $Self,
-    SkipSSLVerify  => 1,
+# skip SSL certificate verification
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        SkipSSLVerify => 1,
+    },
 );
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # create soap object to use the soap output recursion
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %{$Self},
     DebuggerConfig => {
         DebugThreshold => 'error',
         TestMode       => 1,
@@ -37,7 +37,6 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     WebserviceID      => 1,             # not used
 );
 my $SOAPObject = Kernel::GenericInterface::Transport::HTTP::SOAP->new(
-    %{$Self},
     DebuggerObject  => $DebuggerObject,
     TransportConfig => {
         Config => undef,
@@ -189,7 +188,7 @@ my @Tests = (
                                         'Green'
                                         ]
                                 }
-                                ]
+                            ],
                         },
                         {
                             'item_number' => 'QWERTY2',
@@ -222,12 +221,11 @@ my @Tests = (
                                         'Black'
                                         ]
                                 }
-                                ]
-                        }
-                        ]
-                    }
-                }
-
+                            ],
+                        },
+                    ],
+                },
+            },
         },
     },
 );
@@ -298,7 +296,6 @@ for my $Test (@Tests) {
         $ExpectedResult,
         "$Test->{Name} - Deserialize",
     );
-
 }
 
 # end tests
