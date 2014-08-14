@@ -13,17 +13,11 @@ use vars (qw($Self));
 
 use Kernel::GenericInterface::Mapping;
 use Kernel::GenericInterface::Debugger;
-use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::UnitTest::Helper;
 
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
+my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
 my $RandomID = $HelperObject->GetRandomID();
-
-my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
 my $WebserviceID = $WebserviceObject->WebserviceAdd(
     Config => {
@@ -47,10 +41,9 @@ $Self->True(
     "WebserviceAdd()",
 );
 
-# create a debbuger object
+# create a debugger object
 
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %$Self,
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -419,7 +412,7 @@ my @MappingTests = (
         CheckTime     => 1,
     },
     {
-        Name   => 'Test KeyMapDefault & ValueMapDefault large atachments hash',
+        Name   => 'Test KeyMapDefault & ValueMapDefault large attachments hash',
         Config => {
             KeyMapDefault => {
                 MapType => 'Keep',
@@ -685,9 +678,8 @@ for my $Test (@MappingTests) {
     my $StartSeconds;
     $StartSeconds = $Self->{TimeObject}->SystemTime() if ( $Test->{CheckTime} );
 
-    # instanciate mapping object to catch config errors
+    # instantiate mapping object to catch config errors
     my $MappingObject = Kernel::GenericInterface::Mapping->new(
-        %{$Self},
         DebuggerObject => $DebuggerObject,
         MappingConfig  => {
             Type   => 'Simple',
