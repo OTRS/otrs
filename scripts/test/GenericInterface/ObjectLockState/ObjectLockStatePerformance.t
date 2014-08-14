@@ -14,9 +14,6 @@ use utf8;
 
 use Time::HiRes ();
 
-use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::GenericInterface::ObjectLockState;
-
 =head1 ObjectLockState performance tests
 
 This test script will create 10000 records in the object lock table,
@@ -25,8 +22,8 @@ they take not more than 0.5s (default config) each.
 
 =cut
 
-my $WebserviceObject      = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
-my $ObjectLockStateObject = Kernel::System::GenericInterface::ObjectLockState->new( %{$Self} );
+my $WebserviceObject      = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+my $ObjectLockStateObject = $Kernel::OM->Get('Kernel::System::GenericInterface::ObjectLockState');
 
 my $RandomNumber     = int rand 10000000;
 my $CustomObjectType = "TestObject$RandomNumber";
