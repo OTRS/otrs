@@ -40,7 +40,7 @@ sub Run {
             Value      => $ENV{MOD_PERL},
         );
     }
-    elsif ( $ENV{SERVER_SOFTWARE} =~ /fastcgi/i ) {
+    elsif ( $INC{'CGI/Fast.pm'} || $ENV{FCGI_ROLE} || $ENV{FCGI_SOCKET_PATH} ) {
         $Self->AddResultOk(
             Identifier => "CGIAcceleratorUsed",
             Label      => 'CGI Accelerator Usage',
