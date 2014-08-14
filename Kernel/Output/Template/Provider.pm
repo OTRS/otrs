@@ -24,6 +24,7 @@ use Kernel::Output::Template::Document;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
 );
@@ -347,6 +348,8 @@ this is our template pre processor.
 It handles pre output filters, some OTRS specific tags like [% InsertTemplate("TemplateName.tt") %]
 and also performs compile-time code injection (ChallengeToken element into forms).
 
+Besides that, it also makes sure the template is treated as UTF8.
+
 This is run at compile time. If a template is cached, this method does not have to be executed on it
 any more.
 
@@ -356,6 +359,9 @@ sub _PreProcessTemplateContent {
     my ( $Self, %Param ) = @_;
 
     my $Content = $Param{Content};
+
+    # Make sure the template is treated as utf8.
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Content );
 
     #
     # pre putput filter handling
