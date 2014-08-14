@@ -16,20 +16,18 @@ use CGI ();
 use URI::Escape();
 use LWP::UserAgent;
 
-use Kernel::System::GenericInterface::Webservice;
-use Kernel::GenericInterface::Provider;
-use Kernel::System::UnitTest::Helper;
-
 # helper object
-# skip SSL certiciate verification
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject => $Self,
-    SkipSSLVerify  => 1,
+# skip SSL certificate verification
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreSystemConfiguration => 1,
+        SkipSSLVerify              => 1,
+    },
 );
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
-my $ProviderObject   = Kernel::GenericInterface::Provider->new( %{$Self} );
+my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+my $ProviderObject   = $Kernel::OM->Get('Kernel::GenericInterface::Provider');
 
 my $RandomID = $HelperObject->GetRandomID();
 
@@ -107,7 +105,7 @@ my @Tests = (
         ResponseSuccess => 1,
     },
     {
-        Name             => 'HTTP request unicode',
+        Name             => 'HTTP request Unicode',
         WebserviceConfig => {
             Debugger => {
                 DebugThreshold => 'debug',
@@ -202,7 +200,7 @@ my $CreateQueryString = sub {
 my $Host;
 my $FQDN = $Self->{ConfigObject}->Get('FQDN');
 
-# try to resolve fqdn host
+# try to resolve FQDN host
 if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
     $Host = $FQDN;
 }
@@ -212,12 +210,12 @@ if ( !$Host && gethostbyname('localhost') ) {
     $Host = 'localhost';
 }
 
-# use hardcoded localhost ip address
+# use hard coded localhost IP address
 if ( !$Host ) {
     $Host = '127.0.0.1';
 }
 
-# create url
+# create URL
 my $ScriptAlias   = $Self->{ConfigObject}->Get('ScriptAlias');
 my $ApacheBaseURL = "http://$Host/${ScriptAlias}/nph-genericinterface.pl/";
 my $PlackBaseURL;
@@ -428,7 +426,7 @@ for my $Test (@Tests) {
 }
 
 #
-# Test nonexisting webservice
+# Test non existing webservice
 #
 for my $RequestMethod (qw(get post)) {
 
@@ -441,7 +439,7 @@ for my $RequestMethod (qw(get post)) {
     $Self->Is(
         $Response->code(),
         500,
-        "Nonexisting Webservice real HTTP $RequestMethod request result error status ($URL)",
+        "Non existing Webservice real HTTP $RequestMethod request result error status ($URL)",
     );
 }
 
