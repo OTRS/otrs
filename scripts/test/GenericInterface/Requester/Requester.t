@@ -164,8 +164,8 @@ my @Tests = (
 );
 
 # get objects
-my $WebserviceObject = Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
-my $RequesterObject  = Kernel::OM->Get('Kernel::GenericInterface::Requester');
+my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+my $RequesterObject  = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
 
 for my $Test (@Tests) {
 
