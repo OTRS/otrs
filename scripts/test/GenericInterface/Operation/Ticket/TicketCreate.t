@@ -28,7 +28,8 @@ $Self->{UserID} = 1;
 # skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-        SkipSSLVerify => 1,
+        RestoreSystemConfiguration => 1,
+        SkipSSLVerify              => 1,
     },
 );
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
