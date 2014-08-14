@@ -13,13 +13,13 @@ use vars (qw($Self));
 
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation::Ticket::TicketCreate;
-use Kernel::GenericInterface::Operation::Session::Common;
+use Kernel::GenericInterface::Operation::Session::SessionCreate;
 use Kernel::System::AuthSession;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::User;
 
-# skip SSL certiciate verification
+# skip SSL certificate verification
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %{$Self},
     UnitTestObject => $Self,
@@ -93,24 +93,26 @@ my $GroupObject = Kernel::System::Group->new(
 );
 
 # Operation::Common is not an Object but a base class, instantiate any operation that uses it.
-my $OperationObject = Kernel::GenericInterface::Operation::Ticket::TicketCreate->new(
+my $TicketOperationObject = Kernel::GenericInterface::Operation::Ticket::TicketCreate->new(
     DebuggerObject => $DebuggerObject,
     WebserviceID   => $WebserviceID,
 );
 $Self->Is(
-    ref $OperationObject,
+    ref $TicketOperationObject,
     'Kernel::GenericInterface::Operation::Ticket::TicketCreate',
     'OperationObject instantiate correctly',
 );
 
-my $SessionCommonObject = Kernel::GenericInterface::Operation::Session::Common->new(
+# Session::Common is not an Object but a base class, instantiate any operation that uses it.
+my $SessionOperationObject = Kernel::GenericInterface::Operation::Session::SessionCreate->new(
     %{$Self},
     DebuggerObject => $DebuggerObject,
     ConfigObject   => $ConfigObject,
+    WebserviceID   => $WebserviceID,
 );
 $Self->Is(
-    ref $SessionCommonObject,
-    'Kernel::GenericInterface::Operation::Session::Common',
+    ref $SessionOperationObject,
+    'Kernel::GenericInterface::Operation::Session::SessionCreate',
     'SessionCommonObject instantiate correctly',
 );
 
@@ -120,7 +122,7 @@ my $UserPassword = $UserLogin;
 my $UserID       = $UserObject->UserLookup(
     UserLogin => $UserLogin,
 );
-my $UserSessionID = $SessionCommonObject->CreateSessionID(
+my $UserSessionID = $SessionOperationObject->CreateSessionID(
     Data => {
         UserLogin => $UserLogin,
         Password  => $UserPassword,
@@ -131,7 +133,7 @@ my $UserSessionID = $SessionCommonObject->CreateSessionID(
 my $CustomerUserLogin     = $HelperObject->TestCustomerUserCreate();
 my $CustomerUserPassword  = $CustomerUserLogin;
 my $CustomerUserID        = $CustomerUserLogin;
-my $CustomerUserSessionID = $SessionCommonObject->CreateSessionID(
+my $CustomerUserSessionID = $SessionOperationObject->CreateSessionID(
     Data => {
         CustomerUserLogin => $CustomerUserLogin,
         Password          => $CustomerUserPassword,
@@ -271,7 +273,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    my ( $User, $UserType ) = $OperationObject->Auth(
+    my ( $User, $UserType ) = $TicketOperationObject->Auth(
         Data => $Test->{Data},
     );
 
