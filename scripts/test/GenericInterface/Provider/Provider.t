@@ -20,16 +20,11 @@ use LWP::UserAgent;
 # skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-        RestoreSystemConfiguration => 1,
-        SkipSSLVerify              => 1,
+        SkipSSLVerify => 1,
     },
 );
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
-my $ProviderObject   = $Kernel::OM->Get('Kernel::GenericInterface::Provider');
-
-my $RandomID = $HelperObject->GetRandomID();
+my $RandomID = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomID();
 
 my @Tests = (
     {
@@ -225,6 +220,10 @@ if ( $Self->{ConfigObject}->Get('UnitTestPlackServerPort') ) {
         . $Self->{ConfigObject}->Get('UnitTestPlackServerPort')
         . '/nph-genericinterface.pl/';
 }
+
+# get objects
+my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+my $ProviderObject   = $Kernel::OM->Get('Kernel::GenericInterface::Provider');
 
 for my $Test (@Tests) {
 
