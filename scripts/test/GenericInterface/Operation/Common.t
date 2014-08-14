@@ -14,28 +14,20 @@ use vars (qw($Self));
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation::Ticket::TicketCreate;
 use Kernel::GenericInterface::Operation::Session::SessionCreate;
-use Kernel::System::AuthSession;
-use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::User;
 
 # skip SSL certificate verification
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject => $Self,
-    SkipSSLVerify  => 1,
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        SkipSSLVerify => 1,
+    },
 );
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $RandomID = $HelperObject->GetRandomID();
 
-# create local config object
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
 # create webservice object
-my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+
 $Self->Is(
     'Kernel::System::GenericInterface::Webservice',
     ref $WebserviceObject,
@@ -67,8 +59,6 @@ $Self->True(
 
 # debugger object
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %{$Self},
-    ConfigObject   => $ConfigObject,
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -80,16 +70,6 @@ $Self->Is(
     ref $DebuggerObject,
     'Kernel::GenericInterface::Debugger',
     'DebuggerObject instantiate correctly',
-);
-
-# create needed objects
-my $UserObject = Kernel::System::User->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $GroupObject = Kernel::System::Group->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
 );
 
 # Operation::Common is not an Object but a base class, instantiate any operation that uses it.
@@ -105,9 +85,7 @@ $Self->Is(
 
 # Session::Common is not an Object but a base class, instantiate any operation that uses it.
 my $SessionOperationObject = Kernel::GenericInterface::Operation::Session::SessionCreate->new(
-    %{$Self},
     DebuggerObject => $DebuggerObject,
-    ConfigObject   => $ConfigObject,
     WebserviceID   => $WebserviceID,
 );
 $Self->Is(
@@ -119,7 +97,7 @@ $Self->Is(
 # set user details
 my $UserLogin    = $HelperObject->TestUserCreate();
 my $UserPassword = $UserLogin;
-my $UserID       = $UserObject->UserLookup(
+my $UserID       = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserLogin => $UserLogin,
 );
 my $UserSessionID = $SessionOperationObject->CreateSessionID(
@@ -314,13 +292,7 @@ $Self->True(
     "Deleted Webservice $WebserviceID",
 );
 
-# create needed object to cleanup the sessions
-my $SessionObject = Kernel::System::AuthSession->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
 # cleanup sessions
-my $CleanUp = $SessionObject->CleanUp();
+my $CleanUp = $Kernel::OM->Get('Kernel::System::AuthSession')->CleanUp();
 
 1;
