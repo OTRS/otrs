@@ -72,25 +72,10 @@ $Self->Is(
     'DebuggerObject instantiate correctly',
 );
 
-# create needed objects
-my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
-my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
-
-# use a session operation instance to get access to the common functions
-my $OperationObject = Kernel::GenericInterface::Operation::Session::SessionCreate->new(
-    DebuggerObject => $DebuggerObject,
-    WebserviceID   => $WebserviceID,
-);
-$Self->Is(
-    ref $OperationObject,
-    'Kernel::GenericInterface::Operation::Session::SessionCreate',
-    'CommonObject instantiate correctly',
-);
-
 # set user details
 my $UserLogin    = $HelperObject->TestUserCreate();
 my $UserPassword = $UserLogin;
-my $UserID       = $UserObject->UserLookup(
+my $UserID       = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserLogin => $UserLogin,
 );
 
@@ -175,6 +160,17 @@ my @Tests = (
         },
         Success => 1,
     },
+);
+
+# use a session operation instance to get access to the common functions
+my $OperationObject = Kernel::GenericInterface::Operation::Session::SessionCreate->new(
+    DebuggerObject => $DebuggerObject,
+    WebserviceID   => $WebserviceID,
+);
+$Self->Is(
+    ref $OperationObject,
+    'Kernel::GenericInterface::Operation::Session::SessionCreate',
+    'CommonObject instantiate correctly',
 );
 
 for my $Test (@Tests) {
