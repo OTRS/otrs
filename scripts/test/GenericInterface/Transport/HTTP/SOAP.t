@@ -14,22 +14,18 @@ use utf8;
 use vars (qw($Self));
 
 use Socket;
-use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Requester;
-use Kernel::GenericInterface::Transport;
-use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::UnitTest::Helper;
 
 # helper object
-# skip SSL certiciate verification
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject => $Self,
-    SkipSSLVerify  => 1,
+# skip SSL certificate verification
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        SkipSSLVerify => 1,
+    },
 );
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # add webservice to be used (empty config)
-my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 $Self->Is(
     'Kernel::System::GenericInterface::Webservice',
     ref $WebserviceObject,
@@ -710,6 +706,14 @@ my @Tests = (
     },
 );
 
+# create requester object
+my $RequesterObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
+$Self->Is(
+    'Kernel::GenericInterface::Requester',
+    ref $RequesterObject,
+    "Create requester object",
+);
+
 TEST:
 for my $Test (@Tests) {
 
@@ -725,14 +729,6 @@ for my $Test (@Tests) {
     $Self->True(
         $WebserviceUpdate,
         "$Test->{Name} - Updated Webservice $WebserviceID",
-    );
-
-    # create requester object
-    my $RequesterObject = Kernel::GenericInterface::Requester->new( %{$Self} );
-    $Self->Is(
-        'Kernel::GenericInterface::Requester',
-        ref $RequesterObject,
-        "$Test->{Name} - Create requester object",
     );
 
     # start requester with our webservice
