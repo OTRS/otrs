@@ -12,21 +12,19 @@ use warnings;
 use vars (qw($Self));
 
 # create needed objects
-use Kernel::System::DB;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation;
-use Kernel::System::UnitTest::Helper;
 
 # helper object
-# skip SSL certiciate verification
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject => $Self,
-    SkipSSLVerify  => 1,
+# skip SSL certificate verification
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        SkipSSLVerify => 1,
+    },
 );
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %{$Self},
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -48,7 +46,6 @@ $Self->IsNot(
 
 # provide empty operation
 $OperationObject = Kernel::GenericInterface::Operation->new(
-    %{$Self},
     DebuggerObject => $DebuggerObject,
     WebserviceID   => 1,
     OperationType  => {},
@@ -61,7 +58,6 @@ $Self->IsNot(
 
 # provide incorrect operation
 $OperationObject = Kernel::GenericInterface::Operation->new(
-    %{$Self},
     DebuggerObject => $DebuggerObject,
     WebserviceID   => 1,
     OperationType  => 'Test::ThisIsCertainlyNotBeingUsed',
@@ -74,7 +70,6 @@ $Self->IsNot(
 
 # provide no WebserviceID
 $OperationObject = Kernel::GenericInterface::Operation->new(
-    %{$Self},
     DebuggerObject => $DebuggerObject,
     OperationType  => 'Test::Test',
 );
@@ -86,7 +81,6 @@ $Self->IsNot(
 
 # create object
 $OperationObject = Kernel::GenericInterface::Operation->new(
-    %{$Self},
     DebuggerObject => $DebuggerObject,
     WebserviceID   => 1,
     OperationType  => 'Test::Test',
