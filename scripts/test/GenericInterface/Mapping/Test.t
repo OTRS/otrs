@@ -12,11 +12,10 @@ use warnings;
 use vars (qw($Self));
 
 # create needed objects
-use Kernel::System::DB;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Mapping;
+
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %{$Self},
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -27,7 +26,6 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
 
 # create a mapping instance
 my $MappingObject = Kernel::GenericInterface::Mapping->new(
-    %{$Self},
     DebuggerObject => $DebuggerObject,
     MappingConfig  => {
         Type => 'Test',
