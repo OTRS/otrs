@@ -18,31 +18,7 @@ use Kernel::System::EmailParser;
 
 use Kernel::System::VariableCheck qw(:all);
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::Cache',
-    'Kernel::System::CustomerUser',
-    'Kernel::System::DB',
-    'Kernel::System::DynamicField',
-    'Kernel::System::DynamicField::Backend',
-    'Kernel::System::HTMLUtils',
-    'Kernel::System::Lock',
-    'Kernel::System::Log',
-    'Kernel::System::Email',
-    'Kernel::System::Main',
-    'Kernel::System::Notification',
-    'Kernel::System::PostMaster::LoopProtection',
-    'Kernel::System::Priority',
-    'Kernel::System::Queue',
-    'Kernel::System::SLA',
-    'Kernel::System::Service',
-    'Kernel::System::State',
-    'Kernel::System::TemplateGenerator',
-    'Kernel::System::Time',
-    'Kernel::System::Type',
-    'Kernel::System::User',
-    'Kernel::System::Valid',
-);
+our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 

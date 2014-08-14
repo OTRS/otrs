@@ -12,25 +12,7 @@ package Kernel::System::TicketSearch;
 use strict;
 use warnings;
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::Cache',
-    'Kernel::System::CustomerGroup',
-    'Kernel::System::CustomerUser',
-    'Kernel::System::DB',
-    'Kernel::System::DynamicField',
-    'Kernel::System::DynamicField::Backend',
-    'Kernel::System::Group',
-    'Kernel::System::Lock',
-    'Kernel::System::Log',
-    'Kernel::System::Priority',
-    'Kernel::System::Queue',
-    'Kernel::System::SLA',
-    'Kernel::System::Service',
-    'Kernel::System::State',
-    'Kernel::System::Time',
-    'Kernel::System::Type',
-);
+our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 

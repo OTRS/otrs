@@ -12,6 +12,10 @@ use warnings;
 
 package scripts::test::Ticket::TicketACL::DummyModule;    ## no critic
 
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+);
+
 sub new {
     my ( $Type, %Param ) = @_;
 

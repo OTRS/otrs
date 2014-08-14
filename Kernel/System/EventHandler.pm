@@ -15,6 +15,8 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
+our $ObjectManagerDisabled = 1;
+
 =head1 NAME
 
 Kernel::System::EventHandler - event handler interface

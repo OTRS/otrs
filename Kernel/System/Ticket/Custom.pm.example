@@ -12,6 +12,8 @@ package Kernel::System::Ticket::Custom;
 use strict;
 use warnings;
 
+our $ObjectManagerDisabled = 1;
+
 # disable redefine warnings in this scope
 {
 no warnings 'redefine';

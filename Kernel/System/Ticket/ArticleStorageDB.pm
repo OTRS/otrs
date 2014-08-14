@@ -17,16 +17,7 @@ use MIME::Words qw(:all);
 
 use Kernel::System::VariableCheck qw(:all);
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::DB',
-    'Kernel::System::DynamicField',
-    'Kernel::System::DynamicField::Backend',
-    'Kernel::System::Encode',
-    'Kernel::System::Log',
-    'Kernel::System::Main',
-    'Kernel::System::Time',
-);
+our $ObjectManagerDisabled = 1;
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;

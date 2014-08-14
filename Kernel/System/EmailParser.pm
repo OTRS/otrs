@@ -19,12 +19,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 use Mail::Address;
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::Encode',
-    'Kernel::System::HTMLUtils',
-    'Kernel::System::Log',
-);
+our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
@@ -44,9 +39,21 @@ A module to parse and encode an email.
 
 create an object. Do not use it directly, instead use:
 
+    use Kernel::System::EmailParser;
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $EmailParserObject = $Kernel::OM->Get('Kernel::System::EmailParser');
+
+    # as string (takes more memory!)
+    my $ParserObject = Kernel::System::EmailParser->new(
+        Email        => $EmailString,
+        Debug        => 0,
+    );
+
+    # as stand alone mode, without parsing emails
+    my $ParserObject = Kernel::System::EmailParser->new(
+        Mode         => 'Standalone',
+        Debug        => 0,
+    );
 
 =cut
 

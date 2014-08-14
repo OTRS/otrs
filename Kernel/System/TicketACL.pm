@@ -14,22 +14,7 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::CustomerGroup',
-    'Kernel::System::CustomerUser',
-    'Kernel::System::Group',
-    'Kernel::System::Log',
-    'Kernel::System::Main',
-    'Kernel::System::Priority',
-    'Kernel::System::ProcessManagement::ActivityDialog',
-    'Kernel::System::Queue',
-    'Kernel::System::SLA',
-    'Kernel::System::Service',
-    'Kernel::System::State',
-    'Kernel::System::Type',
-    'Kernel::System::User',
-);
+our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
