@@ -322,7 +322,7 @@ sub Request {
 
     # add params to webuseragent object
     $Kernel::OM->ObjectParamAdd(
-        WebUserAgentObject => {
+        'Kernel::System::WebUserAgent' => {
             Timeout => $RequestTimeout,
             Proxy   => $RequestProxy,
         },

@@ -149,7 +149,7 @@ sub Run {
             Lang         => $Param{Lang},
             UserLanguage => $Param{Lang},
         },
-        LanguageObject => {
+        'Kernel::Lanugage' => {
             UserLanguage => $Param{Lang}
         },
     );
