@@ -10,7 +10,7 @@ You need to perform a full upgrade to every version in between, including
 database changes and the upgrading perl script.
 
 Please note that if you upgrade from OTRS 2.2 or earlier, you have to
-take an extra step; please read http://bugs.otrs.org/show_bug.cgi?id=6798
+take [http://bugs.otrs.org/show_bug.cgi?id=6798](an extra step).
 
 Within a single minor version you can skip patch level releases if you want to
 upgrade. For instance you can upgrade directly from OTRS 3.4.1 to version
@@ -241,7 +241,7 @@ that scheduler_watchdog cronjob is activated.
 If you're using an external customer database and this database does NOT provide the OTRS specific fields
 create_time, create_by, change_time and change_by, please set ```ForeignDB => 1```
 for ```$Self->{CustomerUser}``` and ```$Self->{CustomerCompany}```
-(see [Kernel/Config/Defaults.pm](Defaults.pm)).
+(see [Defaults.pm](Kernel/Config/Defaults.pm)).
 
 
 15. Rebuild Ticket index
