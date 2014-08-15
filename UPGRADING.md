@@ -10,7 +10,7 @@ You need to perform a full upgrade to every version in between, including
 database changes and the upgrading perl script.
 
 Please note that if you upgrade from OTRS 2.2 or earlier, you have to
-take [http://bugs.otrs.org/show_bug.cgi?id=6798](an extra step).
+take [an extra step](http://bugs.otrs.org/show_bug.cgi?id=6798).
 
 Within a single minor version you can skip patch level releases if you want to
 upgrade. For instance you can upgrade directly from OTRS 3.4.1 to version
