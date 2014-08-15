@@ -54,7 +54,7 @@ Stop OTRS cronjobs and the scheduler (in this order):
 4. Install the new release (tar or RPM)
 ---------------------------------------
 
-### With the tarball:
+### 4.1 With the tarball:
 
     shell> cd /opt
     shell> mv otrs otrs-old
@@ -101,7 +101,7 @@ with the permissions needed for your system setup. For example:
 
         shell> bin/otrs.SetPermissions.pl --otrs-user=otrs --web-user=www-data --otrs-group=www-data --web-group=www-data /opt/otrs
 
-### With the RPM:
+### 4.2 With the RPM:
 
     shell> rpm -Uvh otrs-x.x.x.-01.rpm
 
@@ -120,7 +120,7 @@ any modules that might be missing.
 6. Apply the database changes
 -----------------------------
 
-### Database schema update
+### 6.1 Database schema update
 
 #### MySQL:
 
@@ -146,7 +146,7 @@ Any problems with regards to the storage engine will be reported by the
     shell> cd /opt/otrs/
     shell> cat scripts/DBUpdate-to-3.4.postgresql.sql | psql --set ON_ERROR_STOP=on --single-transaction otrs otrs
 
-### Database migration script
+### 6.2 Database migration script
 
 Run the migration script (as user `otrs`, NOT as `root`):
 
