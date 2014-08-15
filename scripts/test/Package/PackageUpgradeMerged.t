@@ -569,11 +569,10 @@ for my $Test (@Tests) {
 
     # if everything is OK was possible to create test_package table
     my $SQLResult = '';
-    if ( $DBObject->Prepare( SQL => 'SELECT name_a FROM test_package' ) ){
+    if ( $DBObject->Prepare( SQL => 'SELECT name_a FROM test_package' ) ) {
 
         while ( my @Row = $DBObject->FetchrowArray() ) {
             $SQLResult = $Row[0];
-            last;
         }
     }
 
