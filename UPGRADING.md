@@ -105,7 +105,7 @@ with the permissions needed for your system setup. For example:
 
     shell> rpm -Uvh otrs-x.x.x.-01.rpm
 
-In this case the RPM update automatically restores the old configuration files.
+In this case the RPM update automatically restores the old configuration files and sets file permissions.
 
 
 5. Check needed Perl modules
@@ -122,7 +122,7 @@ any modules that might be missing.
 
 ### Database schema update
 
-MySQL:
+#### MySQL:
 
 Note: new tables created in the MySQL UPGRADING process will be created with the
 default table storage engine set in your MySQL server.
@@ -141,7 +141,7 @@ Any problems with regards to the storage engine will be reported by the
     shell> bin/otrs.CheckDB.pl
     shell> cat scripts/DBUpdate-to-3.4.mysql.sql | mysql -p -f -u root otrs
 
-PostgreSQL:
+#### PostgreSQL:
 
     shell> cd /opt/otrs/
     shell> cat scripts/DBUpdate-to-3.4.postgresql.sql | psql --set ON_ERROR_STOP=on --single-transaction otrs otrs
@@ -161,7 +161,7 @@ Otherwise data loss may occur.
 
 Note: The OTRS themes of 3.3 are NOT compatible with 3.4, so don't use your old themes!
 
-Themes are located under `$OTRS_HOME/Kernel/Output/HTML/*/*.tt` (default: `OTRS_HOME=/opt/otrs`)
+Themes are located under `/opt/otrs/Kernel/Output/HTML/*/*.tt`.
 
 Please note that OTRS 3.4 comes with a new templating engine based on
 [Template::Toolkit](http://www.template-toolkit.org). All customized templates must be converted from
@@ -173,7 +173,7 @@ for detailed instructions.
 8. Refresh the configuration cache and delete caches
 -----------------------------------------------------
 
-Please run (as user `otrs`, NOT as `root`):
+Please run (as user `otrs`, *not* as `root`):
 
     shell> bin/otrs.RebuildConfig.pl
     shell> bin/otrs.DeleteCache.pl
@@ -194,12 +194,12 @@ Now you can log into your system.
 10. Update and activate cronjobs
 --------------------------------
 
-There are several OTRS default cronjobs in `$OTRS_HOME/var/cron/*.dist`.
+There are several OTRS default cronjobs in `/opt/otrs/var/cron/*.dist`.
 They can be activated by copying them without the ".dist" filename extension.
 Do this to make sure you get the latest versions of the cronjobs and new cronjobs
 as well.
 
-    shell> cd var/cron
+    shell> cd /opt/otrs/var/cron
     shell> for foo in *.dist; do cp $foo `basename $foo .dist`; done
 
 Please check the copied files and re-apply any customizations that you might have made.
@@ -208,9 +208,6 @@ To schedule these cronjobs on your system, you can use the script `Cron.sh`.
 Make sure to execute it as the `otrs` user!
 
     shell> /opt/otrs/bin/Cron.sh start
-
-Note: From OTRS 3.3.7 OTRS Scheduler uses a cronjob to start-up and keep alive. Please make sure
-that scheduler_watchdog cronjob is activated.
 
 
 11. Check installed packages
