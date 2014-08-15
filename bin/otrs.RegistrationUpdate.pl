@@ -38,25 +38,19 @@ print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
 # common objects
 # ---
 local $Kernel::OM = Kernel::System::ObjectManager->new(
-    LogObject => {
+    'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.RegistrationUpdate.pl',
     },
 );
-my %CommonObject = $Kernel::OM->ObjectHash(
-    Objects =>
-        [qw(ConfigObject EncodeObject LogObject TimeObject MainObject DBObject)],
-);
 
-$CommonObject{RegistrationObject} = Kernel::System::Registration->new(%CommonObject);
-
-my %RegistrationData = $CommonObject{RegistrationObject}->RegistrationDataGet();
+my %RegistrationData = $Kernel::OM->Get('Kernel::System::Registration')->RegistrationDataGet();
 
 if ( $RegistrationData{State} ne 'registered' ) {
     print STDERR "Error: this is not a registered system. Please register your system first.\n";
     exit 1;
 }
 
-my %Result = $CommonObject{RegistrationObject}->RegistrationUpdateSend();
+my %Result = $Kernel::OM->Get('Kernel::System::Registration')->RegistrationUpdateSend();
 
 if ( !$Result{Success} ) {
     print STDERR "Error: $Result{Reason}\n";

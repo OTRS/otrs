@@ -86,7 +86,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-backup.pl',
     },
-    DBObject => {
+    'Kernel::System::DB' => {
         AutoConnectNo => 1,
         }
 );

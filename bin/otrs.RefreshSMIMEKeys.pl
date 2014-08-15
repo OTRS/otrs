@@ -59,7 +59,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.RefreshSMIMEKeys.pl',
     },
-    CryptObject => {
+    'Kernel::System::Crypt' => {
         CryptType => 'SMIME',
     },
 );

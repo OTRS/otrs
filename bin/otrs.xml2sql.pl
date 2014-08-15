@@ -102,7 +102,7 @@ for my $DatabaseType (@DatabaseType) {
         'Kernel::System::Log' => {
             LogPrefix => 'OTRS-otrs.xml2sql.pl',
         },
-        DBObject => {
+        'Kernel::System::DB' => {
             AutoConnectNo => 1,    # don't try with foreign drivers
         },
     );
