@@ -31,7 +31,7 @@ use lib dirname($RealBin) . '/Custom';
 use Getopt::Std;
 use Proc::Daemon;
 
-use Kernel::Scheduler;
+use Kernel::System::Scheduler;
 use Kernel::System::ObjectManager;
 use Kernel::System::VariableCheck qw(:all);
 
@@ -326,7 +326,7 @@ sub _Start {
     # forked scheduler executing RegistrationUpdate tasks using PostgreSQL looses the connection
     #   to the server and this produces errors in SQL statements in different parts of the chain
     #   from Kernel/System/SystemData.pm (trying to list the registration variables) to
-    #   Kernel/Scheduler.pm to bin/otrs.Scheduler.pl (trying to get the PID form the DB).
+    #   Kernel/System/Scheduler.pm to bin/otrs.Scheduler.pl (trying to get the PID form the DB).
     #
     # The results are that the RegistrationUpdate task is not executed and the scheduler stops.
     #
@@ -476,7 +476,7 @@ sub _Start {
         }
 
         # Call Scheduler
-        my $SchedulerObject = Kernel::Scheduler->new();
+        my $SchedulerObject = Kernel::System::Scheduler->new();
         $SchedulerObject->Run();
 
         my $CurrentTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();

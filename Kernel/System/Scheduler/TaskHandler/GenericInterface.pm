@@ -1,5 +1,5 @@
 # --
-# Kernel/Scheduler/TaskHandler/GenericInterface.pm - Scheduler task handler Generic Interface backend
+# Kernel/System/Scheduler/TaskHandler/GenericInterface.pm - Scheduler task handler Generic Interface backend
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,7 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Scheduler::TaskHandler::GenericInterface;
+package Kernel::System::Scheduler::TaskHandler::GenericInterface;
 
 use strict;
 use warnings;
@@ -19,7 +19,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::Scheduler::TaskHandler::GenericInterface - GenericInterface backend of the TaskHandler for the Scheduler
+Kernel::System::Scheduler::TaskHandler::GenericInterface - GenericInterface backend of the TaskHandler for the Scheduler
 
 =head1 PUBLIC INTERFACE
 
@@ -30,7 +30,7 @@ Kernel::Scheduler::TaskHandler::GenericInterface - GenericInterface backend of t
 =item new()
 
 usually, you want to create an instance of this
-by using Kernel::Scheduler::TaskHandler->new();
+by using Kernel::System::Scheduler::TaskHandler->new();
 
 =cut
 

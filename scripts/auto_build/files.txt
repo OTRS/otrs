@@ -40,7 +40,6 @@
 /opt/otrs/Kernel/Output/HTML/Standard/
 /opt/otrs/Kernel/Output/HTML/*.pm
 
-/opt/otrs/Kernel/Scheduler*
 /opt/otrs/Kernel/System*
 /opt/otrs/bin*
 /opt/otrs/scripts*

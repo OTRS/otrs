@@ -14,7 +14,7 @@ use vars (qw($Self));
 
 use Storable qw();
 
-use Kernel::Scheduler;
+use Kernel::System::Scheduler;
 use Kernel::System::Scheduler::TaskManager;
 use Kernel::System::PID;
 
@@ -159,7 +159,7 @@ if ( $CurrentSchedulerStatus !~ /^running/i ) {
     die "Scheduler could not be started.";
 }
 
-my $SchedulerObject   = $Kernel::OM->Get('Kernel::Scheduler');
+my $SchedulerObject   = $Kernel::OM->Get('Kernel::System::Scheduler');
 my $TaskManagerObject = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager');
 my $PIDObject         = $Kernel::OM->Get('Kernel::System::PID');
 
@@ -171,8 +171,8 @@ my $TotalWaitToReSchedule = 130;
 
 $Self->Is(
     ref $SchedulerObject,
-    'Kernel::Scheduler',
-    "Kernel::Scheduler->new()",
+    'Kernel::System::Scheduler',
+    "Kernel::System::Scheduler->new()",
 );
 
 $Self->Is(
@@ -255,7 +255,7 @@ for my $Test (@Tests) {
         $Self->IsNot(
             $TaskID,
             undef,
-            "$Test->{Name} - asap- Kernel::Scheduler->TaskRegister() Count:$TaskCounter Type:$Task->{Type} TaskID",
+            "$Test->{Name} - asap- Kernel::System::Scheduler->TaskRegister() Count:$TaskCounter Type:$Task->{Type} TaskID",
         );
 
         # for debuging, could be removed if needed
@@ -377,7 +377,7 @@ for my $Test (@Tests) {
         $Self->IsNot(
             $TaskID,
             undef,
-            "$Test->{Name} - future - Kernel::Scheduler->TaskRegister() Count:$TaskCounter Type$Task->{Type} TaskID",
+            "$Test->{Name} - future - Kernel::System::Scheduler->TaskRegister() Count:$TaskCounter Type$Task->{Type} TaskID",
         );
     }
 
@@ -548,7 +548,7 @@ for my $Test (@Tests) {
         $Self->IsNot(
             $TaskID,
             undef,
-            "$Test->{Name} - re-schedule - Kernel::Scheduler->TaskRegister() Count:$TaskCount Type:$Task->{Type} TaskID",
+            "$Test->{Name} - re-schedule - Kernel::System::Scheduler->TaskRegister() Count:$TaskCount Type:$Task->{Type} TaskID",
         );
     }
 

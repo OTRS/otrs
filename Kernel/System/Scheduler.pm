@@ -1,5 +1,5 @@
 # --
-# Kernel/Scheduler.pm - The otrs Scheduler Daemon
+# Kernel/System/Scheduler.pm - The otrs Scheduler Daemon
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,14 +7,14 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Scheduler;
+package Kernel::System::Scheduler;
 
 use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
 use Kernel::System::Scheduler::TaskManager;
-use Kernel::Scheduler::TaskHandler;
+use Kernel::System::Scheduler::TaskHandler;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::Scheduler - Scheduler lib
+Kernel::System::Scheduler - Scheduler lib
 
 =head1 SYNOPSIS
 
@@ -55,7 +55,7 @@ create a time object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $TimeObject = $Kernel::OM->Get('Kernel::Scheduler');
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Scheduler');
 
 
 =cut
@@ -158,7 +158,7 @@ sub Run {
 
         # create task handler object
         my $TaskHandlerObject = eval {
-            Kernel::Scheduler::TaskHandler->new(
+            Kernel::System::Scheduler::TaskHandler->new(
                 TaskHandlerType => $TaskItem->{Type},
             );
         };

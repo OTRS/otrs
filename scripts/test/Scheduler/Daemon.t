@@ -15,7 +15,7 @@ use vars (qw($Self));
 
 use Storable qw();
 
-use Kernel::Scheduler;
+use Kernel::System::Scheduler;
 use Kernel::System::PID;
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::SysConfig;

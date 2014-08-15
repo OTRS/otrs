@@ -12,7 +12,7 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-use Kernel::Scheduler::TaskHandler;
+use Kernel::System::Scheduler::TaskHandler;
 
 my @Tests = (
     {
@@ -84,7 +84,7 @@ my @Tests = (
 TEST:
 for my $Test (@Tests) {
 
-    my $Object = Kernel::Scheduler::TaskHandler->new(
+    my $Object = Kernel::System::Scheduler::TaskHandler->new(
         %{$Self},
         TaskHandlerType => $Test->{TaskHandlerType},
     );

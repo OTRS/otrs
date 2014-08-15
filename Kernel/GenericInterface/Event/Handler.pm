@@ -16,7 +16,7 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::GenericInterface::Requester',
-    'Kernel::Scheduler',
+    'Kernel::System::Scheduler',
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Log',
 );
@@ -94,7 +94,7 @@ sub Run {
                     # create a scheduler task for later execution
                     if ( $Event->{Asynchronous} ) {
 
-                        my $TaskID = $Kernel::OM->Get('Kernel::Scheduler')->TaskRegister(
+                        my $TaskID = $Kernel::OM->Get('Kernel::System::Scheduler')->TaskRegister(
                             Type => 'GenericInterface',
                             Data => {
                                 WebserviceID => $WebserviceID,

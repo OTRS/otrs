@@ -515,7 +515,7 @@ sub _ServiceStart {
             }
 
             # Call Scheduler
-            my $SchedulerObject = $Kernel::OM->Get('Kernel::Scheduler');
+            my $SchedulerObject = $Kernel::OM->Get('Kernel::System::Scheduler');
             $SchedulerObject->Run();
 
             my $CurrentTime = $TimeObject->SystemTime();

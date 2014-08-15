@@ -1,5 +1,5 @@
 # --
-# Kernel/Scheduler/TaskHandler.pm - Scheduler task handler interface
+# Kernel/System/Scheduler/TaskHandler.pm - Scheduler task handler interface
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,7 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Scheduler::TaskHandler;
+package Kernel::System::Scheduler::TaskHandler;
 
 use strict;
 use warnings;
@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::Scheduler::TaskHandler - Scheduler Task Handler interface
+Kernel::System::Scheduler::TaskHandler - Scheduler Task Handler interface
 
 =head1 SYNOPSIS
 
@@ -40,11 +40,11 @@ how to execute this particular task.
 create an object.
 
 
-    use Kernel::Scheduler::TaskHandler;
+    use Kernel::System::Scheduler::TaskHandler;
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
 
-    my $OperationObject = Kernel::Scheduler::TaskHandler->new(
+    my $OperationObject = Kernel::System::Scheduler::TaskHandler->new(
         TaskHandlerType => 'GenericInterface'    # Type of the TaskHandler backend to use
     );
 
@@ -66,7 +66,7 @@ sub new {
     }
 
     # load backend module
-    my $GenericModule = 'Kernel::Scheduler::TaskHandler::' . $Param{TaskHandlerType};
+    my $GenericModule = 'Kernel::System::Scheduler::TaskHandler::' . $Param{TaskHandlerType};
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($GenericModule) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',

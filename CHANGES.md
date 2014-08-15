@@ -1,4 +1,5 @@
 #3.4.0.beta1 20??-??-??
+ - 2014-08-15 Moved Scheduler backend files from Kernel/Scheduler to Kernel/System/Scheduler.
  - 2014-08-07 Removed possibility to start scheduler from GUI.
  - 2014-08-07 Added possibility to use Date and Date/Time dynamic fields as restrictions in statistics.
  - 2014-08-07 Removed AgentZoom.pm.

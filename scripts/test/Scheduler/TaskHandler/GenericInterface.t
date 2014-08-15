@@ -14,7 +14,7 @@ use vars (qw($Self));
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::GenericInterface::Requester;
 use Kernel::System::UnitTest::Helper;
-use Kernel::Scheduler::TaskHandler;
+use Kernel::System::Scheduler::TaskHandler;
 
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     %$Self,
@@ -23,7 +23,7 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 
 my $WebserviceObject  = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 my $RequesterObject   = Kernel::GenericInterface::Requester->new( %{$Self} );
-my $TaskHandlerObject = Kernel::Scheduler::TaskHandler->new(
+my $TaskHandlerObject = Kernel::System::Scheduler::TaskHandler->new(
     %{$Self},
     TaskHandlerType => 'GenericInterface',
 );

@@ -1,5 +1,5 @@
 # --
-# Kernel/Scheduler/TaskHandler/RegistrationUpdate.pm - Scheduler task handler RegistrationUpdate backend
+# Kernel/System/Scheduler/TaskHandler/Test.pm - Scheduler task handler test backend
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,20 +7,19 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Scheduler::TaskHandler::RegistrationUpdate;
+package Kernel::System::Scheduler::TaskHandler::Test;
 
 use strict;
 use warnings;
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
-    'Kernel::System::Registration',
-    'Kernel::System::Time',
+    'Kernel::System::Main',
 );
 
 =head1 NAME
 
-Kernel::Scheduler::TaskHandler::RegistrationUpdate - RegistrationUpdate backend of the TaskHandler for the Scheduler
+Kernel::System::Scheduler::TaskHandler::Test - test backend of the TaskHandler for the Scheduler
 
 =head1 SYNOPSIS
 
@@ -33,7 +32,7 @@ Kernel::Scheduler::TaskHandler::RegistrationUpdate - RegistrationUpdate backend 
 =item new()
 
 usually, you want to create an instance of this
-by using Kernel::Scheduler::TaskHandler->new();
+by using Kernel::System::Scheduler::TaskHandler->new();
 
 =cut
 
@@ -48,12 +47,13 @@ sub new {
 
 =item Run()
 
-performs the selected RegistrationUpdate task.
+performs the selected test task.
 
     my $Result = $TaskHandlerObject->Run(
         Data     => {
+            File              => $Filename,        # optional, create file $FileName
             Success           => 1,                # 0 or 1, controls return value
-            ReSchedule        => $ReSchedule,      # 0 or 1, constrols re-scheduling
+            ReSchedule        => $ReSchedule,      # 0 or 1, controls re-scheduling
             ReScheduleDueTime => $TimeStamp,
             ReScheduleData    => $Data,
         },
@@ -85,31 +85,21 @@ sub Run {
         };
     }
 
-    $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Priority => 'info',
-        Message  => "Registration - RegistrationUpdate running.",
-    );
-    my %Result = $Kernel::OM->Get('Kernel::System::Registration')->RegistrationUpdateSend();
+    # create tmp file
+    if ( $Param{Data}->{File} ) {
+        my $Content = 123;
+        return if !$Kernel::OM->Get('Kernel::System::Main')->FileWrite(
+            Location => $Param{Data}->{File},
+            Content  => \$Content,
+        );
+    }
 
-    # if we sent a successful Update, reschedule in whatever the OTRS
-    # portal tells us. Otherwise, retry in two hours
-    my $ReSchedule = $Result{ReScheduleIn} // ( 3600 * 2 );
-
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    my $SystemTime = $TimeObject->SystemTime();
-
-    my $ReScheduleTime = $TimeObject->SystemTime2TimeStamp(
-        SystemTime => ( $SystemTime + $ReSchedule ),
-    );
-
-    # re-schedule with new time
+    # re schedule with new time
     return {
-        Success    => $Result{Success},
+        Success    => $Param{Data}->{Success},
         ReSchedule => $Param{Data}->{ReSchedule},
-        DueTime    => $ReScheduleTime,
-        Data       => { ReSchedule => $Param{Data}->{ReSchedule} },
+        DueTime    => $Param{Data}->{ReScheduleDueTime},
+        Data       => $Param{Data}->{ReScheduleData},
     };
 }
 
