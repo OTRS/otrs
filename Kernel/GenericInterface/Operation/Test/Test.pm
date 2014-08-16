@@ -14,6 +14,8 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
+our $ObjectManagerDisabled = 1;
+
 =head1 NAME
 
 Kernel::GenericInterface::Operation::Test - GenericInterface Operation Test backend
@@ -102,12 +104,14 @@ sub Run {
 
     # check data - only accept undef or hash ref
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+
         return $Self->{DebuggerObject}->Error(
             Summary => 'Got Data but it is not a hash ref in Operation Test backend)!'
         );
     }
 
     if ( defined $Param{Data} && $Param{Data}->{TestError} ) {
+
         return {
             Success      => 0,
             ErrorMessage => "Error message for error code: $Param{Data}->{TestError}",
