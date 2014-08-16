@@ -14,6 +14,9 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsString IsStringWithData);
 
+# prevent 'Used once' warning for Kernel::OM
+use Kernel::System::ObjectManager;
+
 our $ObjectManagerDisabled = 1;
 
 =head1 NAME
@@ -131,10 +134,12 @@ sub HandleResponse {
     # if there was an error in the response, forward it
     if ( !$Param{ResponseSuccess} ) {
         if ( !IsStringWithData( $Param{ResponseErrorMessage} ) ) {
+
             return $Self->{DebuggerObject}->Error(
                 Summary => 'Got response error, but no response error message!',
             );
         }
+
         return {
             Success      => 0,
             ErrorMessage => $Param{ResponseErrorMessage},
@@ -143,6 +148,7 @@ sub HandleResponse {
 
     # we need a TicketNumber
     if ( !IsStringWithData( $Param{Data}->{TicketNumber} ) ) {
+
         return $Self->{DebuggerObject}->Error( Summary => 'Got no TicketNumber!' );
     }
 
@@ -154,6 +160,7 @@ sub HandleResponse {
     # check Action
     if ( IsStringWithData( $Param{Data}->{Action} ) ) {
         if ( $Param{Data}->{Action} !~ m{ \A ( .*? ) Test \z }xms ) {
+
             return $Self->{DebuggerObject}->Error(
                 Summary => 'Got Action but it is not in required format!',
             );
