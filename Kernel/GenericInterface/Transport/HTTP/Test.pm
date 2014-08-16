@@ -82,6 +82,7 @@ sub ProviderProcessRequest {
     my ( $Self, %Param ) = @_;
 
     if ( $Self->{TransportConfig}->{Config}->{Fail} ) {
+
         return {
             Success      => 0,
             ErrorMessage => "HTTP status code: 500",
@@ -102,6 +103,7 @@ sub ProviderProcessRequest {
     }
 
     if ( !%Result ) {
+
         return $Self->{DebuggerObject}->Error(
             Summary => 'No request data found.',
         );
@@ -127,6 +129,7 @@ sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
 
     if ( $Self->{TransportConfig}->{Config}->{Fail} ) {
+
         return {
             Success      => 0,
             ErrorMessage => 'Test response generation failed',
@@ -195,6 +198,7 @@ sub RequesterPerformRequest {
     my ( $Self, %Param ) = @_;
 
     if ( $Self->{TransportConfig}->{Config}->{Fail} ) {
+
         return {
             Success      => 0,
             ErrorMessage => "HTTP status code: 500",
