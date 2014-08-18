@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+
+[OTRS.otrs]
+#file_filter = i18n/otrs.<lang>.po
+trans.de    = i18n/otrs.de.po
+source_file = i18n/otrs.pot
+source_lang = en
+type = PO
