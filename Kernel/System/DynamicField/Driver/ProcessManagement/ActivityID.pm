@@ -23,7 +23,6 @@ our @ObjectDependencies = (
     'Kernel::System::ProcessManagement::Activity',
     'Kernel::System::Ticket::ColumnFilter',
 );
-our $ObjectManagerAware = 1;
 
 =head1 NAME
 
