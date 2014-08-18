@@ -64,7 +64,7 @@ sub Run {
     );
 }
 
-# AJAX subaction
+# AJAX sub-action
 sub _DynamicFieldDelete {
     my ( $Self, %Param ) = @_;
 
@@ -128,7 +128,7 @@ sub _ShowOverview {
     my $Output = $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
 
-    # check for posible order collisions or gaps
+    # check for possible order collisions or gaps
     my $OrderSuccess = $Self->{DynamicFieldObject}->DynamicFieldOrderCheck();
     if ( !$OrderSuccess ) {
         return $Self->_DynamicFieldOrderReset(
@@ -136,7 +136,7 @@ sub _ShowOverview {
         );
     }
 
-    # call all needed dtl blocks
+    # call all needed template blocks
     $Self->{LayoutObject}->Block(
         Name => 'Main',
         Data => \%Param,
@@ -154,7 +154,9 @@ sub _ShowOverview {
     # get the field types (backends) and its config dialogs
     FIELDTYPE:
     for my $FieldType ( sort keys %{ $Self->{FieldTypeConfig} } ) {
+
         next FIELDTYPE if !$Self->{FieldTypeConfig}->{$FieldType};
+        next FIELDTYPE if $Self->{FieldTypeConfig}->{$FieldType}->{DisabledAdd};
 
         # add the field type to the list
         $FieldTypes{$FieldType} = $Self->{FieldTypeConfig}->{$FieldType}->{DisplayName};
@@ -399,7 +401,7 @@ sub _DynamicFieldOrderReset {
     # show error message if the order reset was not successful
     if ( !$ResetSuccess ) {
         return $Self->{LayoutObject}->ErrorScreen(
-            Message => "Could not reset Dynamic Field order propertly, please check the error log"
+            Message => "Could not reset Dynamic Field order properly, please check the error log"
                 . " for more details",
         );
     }

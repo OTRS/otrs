@@ -2198,9 +2198,9 @@ Ihr OTRS Benachrichtigungs-Master
         <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="internal_field">1</Data>
         <Data Key="name" Type="Quote">ProcessManagementProcessID</Data>
-        <Data Key="label" Type="Quote">ProcessManagementProcessID</Data>
+        <Data Key="label" Type="Quote">Process</Data>
         <Data Key="field_order">1</Data>
-        <Data Key="field_type" Type="Quote">Text</Data>
+        <Data Key="field_type" Type="Quote">ProcessID</Data>
         <Data Key="object_type" Type="Quote">Ticket</Data>
         <Data Key="config" Type="Quote">---
 DefaultValue: ''
@@ -2215,9 +2215,9 @@ DefaultValue: ''
         <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="internal_field">1</Data>
         <Data Key="name" Type="Quote">ProcessManagementActivityID</Data>
-        <Data Key="label" Type="Quote">ProcessManagementActivityID</Data>
+        <Data Key="label" Type="Quote">Activity</Data>
         <Data Key="field_order">1</Data>
-        <Data Key="field_type" Type="Quote">Text</Data>
+        <Data Key="field_type" Type="Quote">ActivityID</Data>
         <Data Key="object_type" Type="Quote">Ticket</Data>
         <Data Key="config" Type="Quote">---
 DefaultValue: ''

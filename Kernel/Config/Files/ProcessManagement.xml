@@ -394,4 +394,79 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="DashboardBackend###0140-RunningTicketProcess" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for the dashboard backend of the running process tickets overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
+        <Group>ProcessManagement</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
+                <Item Key="Title">Running Process Tickets</Item>
+                <Item Key="Description">All tickets with a reminder set where the reminder date has been reached</Item>
+                <Item Key="Attributes">StateType=new;StateType=open;StateType=pending reminder;StateType=pending auto</Item>
+                <Item Key="Time">UntilTime</Item>
+                <Item Key="IsProcessWidget">1</Item>
+                <Item Key="Limit">10</Item>
+                <Item Key="Permission">rw</Item>
+                <Item Key="Block">ContentLarge</Item>
+                <Item Key="Group"></Item>
+                <Item Key="Default">0</Item>
+                <Item Key="CacheTTLLocal">0.5</Item>
+                <Item Key="DefaultColumns">
+                    <Hash>
+                        <Item Key="Age">2</Item>
+                        <Item Key="DynamicField_ProcessManagementProcessID">2</Item>
+                        <Item Key="DynamicField_ProcessManagementActivityID">2</Item>
+                        <Item Key="Changed">1</Item>
+                        <Item Key="CustomerID">1</Item>
+                        <Item Key="CustomerName">1</Item>
+                        <Item Key="CustomerUserID">1</Item>
+                        <Item Key="EscalationResponseTime">1</Item>
+                        <Item Key="EscalationSolutionTime">1</Item>
+                        <Item Key="EscalationTime">1</Item>
+                        <Item Key="EscalationUpdateTime">1</Item>
+                        <Item Key="TicketNumber">2</Item>
+                        <Item Key="Lock">1</Item>
+                        <Item Key="Owner">1</Item>
+                        <Item Key="PendingTime">1</Item>
+                        <Item Key="Queue">1</Item>
+                        <Item Key="Responsible">1</Item>
+                        <Item Key="Priority">1</Item>
+                        <Item Key="Service">1</Item>
+                        <Item Key="State">1</Item>
+                        <Item Key="SLA">1</Item>
+                        <Item Key="Title">2</Item>
+                        <Item Key="Type">1</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DynamicFields::Driver###ProcessID" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Group>ProcessManagement</Group>
+        <SubGroup>DynamicFields::Driver::Registration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">ProcessID</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::ProcessManagement::ProcessID</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
+                <Item Key="DisabledAdd">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DynamicFields::Driver###ActivityID" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField backend registration.</Description>
+        <Group>ProcessManagement</Group>
+        <SubGroup>DynamicFields::Driver::Registration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">ActivityID</Item>
+                <Item Key="Module">Kernel::System::DynamicField::Driver::ProcessManagement::ActivityID</Item>
+                <Item Key="ConfigDialog">AdminDynamicFieldText</Item>
+                <Item Key="DisabledAdd">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
 </otrs_config>

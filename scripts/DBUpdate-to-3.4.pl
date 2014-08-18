@@ -83,7 +83,7 @@ Please run it as the 'otrs' user or with the help of su:
     print "\nMigration started...\n\n";
 
     # define the number of steps
-    my $Steps = 10;
+    my $Steps = 11;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
@@ -121,6 +121,17 @@ Please run it as the 'otrs' user or with the help of su:
     }
     $Step++;
 
+    # migrate ProcessManagement dynamic fields.
+    print "Step $Step of $Steps: Migrate ProcessManagement Dynamic Fields... ";
+    if ( _MigrateProcessManagementDynamicFields() ) {
+        print "done.\n\n";
+    }
+    else {
+        print "error.\n\n";
+        die;
+    }
+    $Step++;
+
     # migrate DB ACLs
     print "Step $Step of $Steps: Migrate ACLs stored in the DB... ";
     if ( _MigrateDBACLs() ) {
@@ -143,7 +154,7 @@ Please run it as the 'otrs' user or with the help of su:
     }
     $Step++;
 
-    # mgrate settings
+    # migrate settings
     print "Step $Step of $Steps: Migrate Settings... ";
     if ( _MigrateSettings() ) {
         print "done.\n\n";
@@ -214,7 +225,7 @@ sub RebuildConfig {
 
 =item _CheckFrameworkVersion()
 
-Check if framework it's the correct one for Dinamic Fields migration.
+Check if framework it's the correct one for Dynamic Fields migration.
 
     _CheckFrameworkVersion();
 
@@ -431,6 +442,7 @@ sub _MigrateProcessManagementEntityIDs {
 
         ENTITYID:
         for my $EntityID ( sort keys %PartList ) {
+
             next ENTITYID if !$EntityID;
             next ENTITYID if $EntityID =~ m{\A $Part - [0-9a-f]{32}? \z}msx;
 
@@ -509,7 +521,7 @@ sub _MigrateProcessManagementEntityIDs {
                     my $NewTransition;
                     for my $TransitionActionEntityID ( @{ $Transition->{TransitionAction} } ) {
 
-                        # set new transition action EntityID from process path aticivity transition
+                        # set new transition action EntityID from process path activity transition
                         my $NewTransitionActionEntityID
                             = $EntityLookup{TransitionAction}->{$TransitionActionEntityID};
                         if ( !$NewTransitionActionEntityID ) {
@@ -568,7 +580,7 @@ sub _MigrateProcessManagementEntityIDs {
             # get old activity dialog EntityID
             my $ActivityDialogEntityID = $CurrentActivityDialogs->{$OrderKey};
 
-            # set new actvity dialog EntityID
+            # set new activity dialog EntityID
             my $NewActivityDialogEntityID
                 = $EntityLookup{ActivityDialog}->{$ActivityDialogEntityID};
             if ( !$NewActivityDialogEntityID ) {
@@ -660,7 +672,7 @@ sub _MigrateProcessManagementEntityIDs {
     my $DeployProcesses = 1;
     if ( IsArrayRefWithData($EntitySyncStateList) ) {
         print "\nThere are process parts that are not yet deployed, automatic deployment is not"
-            . " possbible, please review all processes and deploy then manually\n";
+            . " possible, please review all processes and deploy then manually\n";
         $DeployProcesses = 0;
     }
 
@@ -743,7 +755,7 @@ sub _MigrateProcessManagementEntityIDs {
         }
         else {
 
-            # show error if can't synch
+            # show error if can't sync
             $Kernel::OM->Get('Kernel::System::Log')->(
                 Priority => 'error',
                 Message  => "There was an error synchronizing the processes.",
@@ -752,7 +764,7 @@ sub _MigrateProcessManagementEntityIDs {
         }
     }
 
-    # deploy acls
+    # deploy ACLs
     if ($DeployACLs) {
         my $Location
             = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
@@ -826,6 +838,65 @@ sub _MigrateProcessManagementEntityIDs {
 
     return if $Error;
     return 1;
+}
+
+=item _MigrateProcessManagementDynamicfields()
+
+Migrate process management Dynamic Fields to use their own driver.
+
+    _MigrateProcessManagementDynamicfields();
+
+=cut
+
+sub _MigrateProcessManagementDynamicFields {
+
+    my $ProcessManagementProcessID = $Kernel::OM->Get('Kernel::Config')
+        ->Get('Process::DynamicFieldProcessManagementProcessID') || '';
+
+    if ( !$ProcessManagementProcessID ) {
+        print "\tProcess Management dynamic field for Process ID configuration is invalid!\n";
+
+        return;
+    }
+
+    my $ProcessManagementActivityID = $Kernel::OM->Get('Kernel::Config')
+        ->Get('Process::DynamicFieldProcessManagementActivityID') || '';
+
+    if ( !$ProcessManagementActivityID ) {
+        print "\tProcess Management dynamic field for Activity ID configuration is invalid!\n";
+
+        return;
+    }
+
+    my %UpdateFields = (
+        Process => {
+            Name      => $ProcessManagementProcessID,
+            Label     => 'Process',
+            FieldType => 'ProcessID',
+        },
+        Activity => {
+            Name      => $ProcessManagementActivityID,
+            Label     => 'Activity',
+            FieldType => 'ActivityID',
+        },
+    );
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    for my $Part (qw(Process Activity)) {
+        return if !$DBObject->Do(
+            SQL => '
+                UPDATE dynamic_field
+                SET label = ?, field_type = ?
+                WHERE name = ?',
+            Bind => [
+                \$UpdateFields{$Part}->{Label}, \$UpdateFields{$Part}->{FieldType},
+                \$UpdateFields{$Part}->{Name},
+            ],
+        );
+    }
+
+    return 1
 }
 
 =item _SetServiceNotifications()

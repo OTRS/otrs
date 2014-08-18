@@ -11,13 +11,14 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarLast">
     <h1>[% Translate("Dashboard") | html %]</h1>
 
+[% InsertTemplate("AgentDashboardCommon.tt") %]
+
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     Core.Agent.Dashboard.Init();
 //]]></script>
 [% END %]
 
-[% InsertTemplate("AgentDashboardCommon.tt") %]
 
 </div>
 [% RenderBlockEnd("Content") %]
