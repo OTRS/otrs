@@ -55,4 +55,9 @@
     </ForeignKey>
 </TableCreate>
 
+<!-- package_repository column table remove  -->
+<TableAlter Name="package_repository">
+    <ColumnDrop Name="content_size"/>
+</TableAlter>
+
 </database>

@@ -75,5 +75,31 @@ CREATE TABLE personal_services (
 );
 CREATE INDEX personal_services_queue_id ON personal_services (service_id);
 CREATE INDEX personal_services_user_id ON personal_services (user_id);
+                DECLARE @defnamepackage_repositorycontent_size VARCHAR(200), @cmdpackage_repositorycontent_size VARCHAR(2000)
+                SET @defnamepackage_repositorycontent_size = (
+                    SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
+                    WHERE object_name(so.parent_obj) = 'package_repository' AND so.xtype = 'D' AND sc.colid = (
+                        SELECT colid FROM syscolumns WHERE id = object_id('package_repository') AND name = 'content_size'
+                    )
+                )
+                SET @cmdpackage_repositorycontent_size = 'ALTER TABLE package_repository DROP CONSTRAINT ' + @defnamepackage_repositorycontent_size
+                EXEC(@cmdpackage_repositorycontent_size)
+;
+                    DECLARE @sqlpackage_repositorycontent_size NVARCHAR(4000)
+
+                    WHILE 1=1
+                    BEGIN
+                        SET @sqlpackage_repositorycontent_size = (SELECT TOP 1 'ALTER TABLE package_repository DROP CONSTRAINT [' + constraint_name + ']'
+                        -- SELECT *
+                        FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='package_repository' and column_name='content_size'
+                        )
+                        IF @sqlpackage_repositorycontent_size IS NULL BREAK
+                        EXEC (@sqlpackage_repositorycontent_size)
+                    END
+;
+-- ----------------------------------------------------------
+--  alter table package_repository
+-- ----------------------------------------------------------
+ALTER TABLE package_repository DROP COLUMN content_size;
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);

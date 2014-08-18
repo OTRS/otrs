@@ -2382,7 +2382,6 @@ CREATE TABLE package_repository (
     vendor VARCHAR2 (250) NOT NULL,
     install_status VARCHAR2 (250) NOT NULL,
     filename VARCHAR2 (250) NULL,
-    content_size VARCHAR2 (30) NULL,
     content_type VARCHAR2 (250) NULL,
     content CLOB NOT NULL,
     create_time DATE NOT NULL,

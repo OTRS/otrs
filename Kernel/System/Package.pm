@@ -373,9 +373,9 @@ sub RepositoryAdd {
 
     return if !$DBObject->Do(
         SQL => 'INSERT INTO package_repository (name, version, vendor, filename, '
-            . ' content_size, content_type, content, install_status, '
+            . ' content_type, content, install_status, '
             . ' create_time, create_by, change_time, change_by)'
-            . ' VALUES  (?, ?, ?, ?, \'213\', \'text/xml\', ?, \'not installed\', '
+            . ' VALUES  (?, ?, ?, ?, \'text/xml\', ?, \'not installed\', '
             . ' current_timestamp, 1, current_timestamp, 1)',
         Bind => [
             \$Structure{Name}->{Content}, \$Structure{Version}->{Content},

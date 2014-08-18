@@ -41,5 +41,9 @@ CREATE TABLE personal_services (
     INDEX personal_services_queue_id (service_id),
     INDEX personal_services_user_id (user_id)
 );
+# ----------------------------------------------------------
+#  alter table package_repository
+# ----------------------------------------------------------
+ALTER TABLE package_repository DROP content_size;
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);

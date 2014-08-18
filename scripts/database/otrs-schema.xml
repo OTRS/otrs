@@ -1750,7 +1750,6 @@
     <Column Name="vendor" Required="true" Size="250" Type="VARCHAR"/>
     <Column Name="install_status" Required="true" Size="250" Type="VARCHAR"/>
     <Column Name="filename" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="content_size" Required="false" Size="30" Type="VARCHAR"/>
     <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="content" Required="true" Type="LONGBLOB"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
