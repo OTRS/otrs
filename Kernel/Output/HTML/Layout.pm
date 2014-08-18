@@ -1724,7 +1724,7 @@ sub Print {
     #   Work around this by converting to an utf8 byte stream instead.
     #   See also http://bugs.otrs.org/show_bug.cgi?id=6284 and
     #   http://bugs.otrs.org/show_bug.cgi?id=9802.
-    if ( $INC{'CGI/Fast.pm'} || $ENV{FCGI_ROLE} || $ENV{FCGI_SOCKET_PATH} ) { # are we on FCGI?
+    if ( $INC{'CGI/Fast.pm'} || $ENV{FCGI_ROLE} || $ENV{FCGI_SOCKET_PATH} ) {    # are we on FCGI?
         $Self->{EncodeObject}->EncodeOutput( $Param{Output} );
     }
 
