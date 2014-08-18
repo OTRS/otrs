@@ -25,7 +25,6 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         # Make sure that the TicketObject gets recreated for each loop.
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
 
-
         $ConfigObject->Set(
             Key   => 'Ticket::Hook',
             Value => $TicketHook,

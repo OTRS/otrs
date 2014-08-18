@@ -59,7 +59,8 @@ $Param{Permission}->{ $Opts{p} } = 1;
 $Param{UserLogin}                = $Opts{u};
 $Param{Group}                    = $Opts{g};
 
-$Param{UID} = $Kernel::OM->Get('Kernel::System::User')->UserLookup( UserLogin => $Param{UserLogin} );
+$Param{UID}
+    = $Kernel::OM->Get('Kernel::System::User')->UserLookup( UserLogin => $Param{UserLogin} );
 if ( !$Param{UID} )
 {
     print STDERR "ERROR: Failed to get User ID. Perhaps non-existent user..\n";

@@ -31,7 +31,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     $Self->True(
-        $TicketObject->isa('Kernel::System::Ticket::' . $SourceBackend),
+        $TicketObject->isa( 'Kernel::System::Ticket::' . $SourceBackend ),
         "TicketObject loaded the correct backend",
     );
 
@@ -53,7 +53,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
         my @Content = @{$ContentRef};
 
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            Email        => \@Content,
+            Email => \@Content,
         );
 
         my @Return = $PostMasterObject->Run();

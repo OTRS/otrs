@@ -86,7 +86,8 @@ if ( $Options{g} ) {
     }
 }
 
-if ( $Param{UID} = $Kernel::OM->Get('Kernel::System::User')->UserAdd( %Param, ChangeUserID => 1 ) ) {
+if ( $Param{UID} = $Kernel::OM->Get('Kernel::System::User')->UserAdd( %Param, ChangeUserID => 1 ) )
+{
     print "User $Param{UserLogin} added. User id is $Param{UID}.\n";
 }
 else {

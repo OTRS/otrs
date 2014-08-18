@@ -139,7 +139,8 @@ for my $StatID ( @{$StatsListRef} ) {
     $FileListcheck{ $File->{Filename} } = $StatID;
 
     # write data in filesystem
-    my $FullFilename = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/var/Stats/" . $File->{Filename};
+    my $FullFilename
+        = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/var/Stats/" . $File->{Filename};
     push( @Filelist, $File->{Filename} );
 
     my $Output;

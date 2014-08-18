@@ -16,7 +16,7 @@ use Kernel::System::PostMaster::Filter;
 use Kernel::System::Ticket;
 
 # get needed objects
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 my @DynamicfieldIDs;
 my @DynamicFieldUpdate;
@@ -76,17 +76,19 @@ for my $FieldName ( sort keys %NeededDynamicfields ) {
     }
     else {
         my $DynamicField
-            = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
+            = $Kernel::OM->Get('Kernel::System::DynamicField')
+            ->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
 
         if ( $DynamicField->{ValidID} > 1 ) {
             push @DynamicFieldUpdate, $DynamicField;
             $DynamicField->{ValidID} = 1;
-            my $SuccessUpdate = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldUpdate(
+            my $SuccessUpdate
+                = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldUpdate(
                 %{$DynamicField},
                 Reorder => 0,
                 UserID  => 1,
                 ValidID => 1,
-            );
+                );
 
             # verify dynamic field creation
             $Self->True(
@@ -171,7 +173,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
             );
 
             # Recreate Ticket object for every loop.
-            $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket']);
+            $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
             $Kernel::OM->Get('Kernel::System::Ticket');
 
             # add rand postmaster filter
@@ -306,7 +308,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 # new/clear ticket object
                 $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
                 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-                my %Ticket = $TicketObject->TicketGet(
+                my %Ticket       = $TicketObject->TicketGet(
                     TicketID      => $Return[1],
                     DynamicFields => 1,
                 );

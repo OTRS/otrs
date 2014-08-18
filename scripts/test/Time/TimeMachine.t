@@ -15,7 +15,7 @@ use utf8;
 # set time zone to get correct references
 #$ENV{TZ} = 'Europe/Berlin';
 
-my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+my $TimeObject      = $Kernel::OM->Get('Kernel::System::Time');
 my $StartSystemTime = $TimeObject->SystemTime();
 
 {

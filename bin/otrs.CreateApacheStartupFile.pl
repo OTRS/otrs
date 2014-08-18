@@ -134,7 +134,7 @@ EOF
 =cut
 
 sub GetPackageList {
-    my %Param        = @_;
+    my %Param = @_;
 
     my @Packages = ( 'Apache::DBI', 'Kernel::Config' );
 
@@ -160,7 +160,7 @@ sub GetPackageList {
         );
         for my $LanguageFile ( sort @LanguageFiles ) {
             my $Package = CheckPerlPackage(
-                Filename     => $LanguageFile,
+                Filename => $LanguageFile,
             );
             next FILE if !$Package;
             push @Packages, $Package;
@@ -203,7 +203,7 @@ sub GetPackageList {
     FILE:
     for my $File ( sort @Files ) {
         my $Package = CheckPerlPackage(
-            Filename     => $File,
+            Filename => $File,
         );
         next FILE if !$Package;
         push @Packages, $Package;
@@ -229,8 +229,8 @@ Returns the package name, if it is valid, undef otherwise.
 =cut
 
 sub CheckPerlPackage {
-    my %Param        = @_;
-    my $Filename     = $Param{Filename};
+    my %Param    = @_;
+    my $Filename = $Param{Filename};
 
     my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 

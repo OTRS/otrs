@@ -37,7 +37,7 @@ for my $Backend (qw(AutoIncrement Date DateChecksum Random)) {
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         $Self->True(
-            $TicketObject->isa('Kernel::System::Ticket::Number::' . $Backend),
+            $TicketObject->isa( 'Kernel::System::Ticket::Number::' . $Backend ),
             "TicketObject loaded the correct backend",
         );
 

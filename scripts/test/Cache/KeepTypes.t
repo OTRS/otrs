@@ -16,7 +16,7 @@ use vars (qw($Self));
 use Kernel::System::Cache;
 
 # get needed objects
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 my $HomeDir            = $ConfigObject->Get('Home');
 my @BackendModuleFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(

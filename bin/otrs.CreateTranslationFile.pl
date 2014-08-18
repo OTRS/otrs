@@ -89,7 +89,8 @@ my $BreakLineAfterChars = 60;
 
     # check params
     if ( $Opts{l} && $Opts{l} eq 'all' ) {
-        my %DefaultUsedLanguages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
+        my %DefaultUsedLanguages
+            = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
         @Languages = sort keys %DefaultUsedLanguages;
 
         # ignore en*.pm files

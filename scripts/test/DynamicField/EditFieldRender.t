@@ -42,8 +42,6 @@ my $LayoutObject = Kernel::Output::HTML::Layout->new(
 );
 my $DFBackendObject = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
-
-
 my $UserID = 1;
 
 # theres is not really needed to add the dynamic fields for this test, we can define a static

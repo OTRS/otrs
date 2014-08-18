@@ -21,10 +21,10 @@ use Kernel::System::DynamicField::Backend;
 # create local objects
 my $RandomID = int rand 1_000_000_000;
 
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 $Self->Is(
     ref $BackendObject,
     'Kernel::System::DynamicField::Backend',
@@ -110,7 +110,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     $Self->True(
-        $TicketObject->isa('Kernel::System::Ticket::ArticleSearchIndex::' . $Module),
+        $TicketObject->isa( 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module ),
         "TicketObject loaded the correct backend",
     );
 

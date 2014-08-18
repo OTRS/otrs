@@ -34,7 +34,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     $Self->True(
-        $TicketObject->isa('Kernel::System::Ticket::ArticleSearchIndex::' . $Module),
+        $TicketObject->isa( 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module ),
         "TicketObject loaded the correct backend",
     );
 

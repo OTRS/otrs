@@ -206,7 +206,7 @@ sub _ObjectBuild {
 
     # Kernel::Config does not declare its dependencies (they would have to be in
     #   Kernel::Config::Defaults), so assume [] in this case.
-    my $Dependencies       = [];
+    my $Dependencies = [];
 
     if ( $Package ne 'Kernel::Config' ) {
         no strict 'refs';    ## no critic

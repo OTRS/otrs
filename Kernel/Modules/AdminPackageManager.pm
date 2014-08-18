@@ -231,7 +231,9 @@ sub Run {
         );
 
         # if visible property is not enable, return error screen
-        if ( defined $Structure{PackageIsVisible} && $Structure{PackageIsVisible}->{Content} eq '0'  ) {
+        if ( defined $Structure{PackageIsVisible}
+            && $Structure{PackageIsVisible}->{Content} eq '0' )
+        {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
         }
 
@@ -240,7 +242,8 @@ sub Run {
 
             if (
                 $PackageAction eq 'DownloadLocal'
-                && ( defined $Structure{PackageIsDownloadable} && $Structure{PackageIsDownloadable}->{Content} eq '0' )
+                && ( defined $Structure{PackageIsDownloadable}
+                    && $Structure{PackageIsDownloadable}->{Content} eq '0' )
                 )
             {
                 next PACKAGEACTION;
@@ -505,7 +508,9 @@ sub Run {
         );
 
         # allow to download only is package is allow to do it
-        if ( !defined $Structure{PackageIsDownloadable} || $Structure{PackageIsDownloadable}->{Content} eq '1' ) {
+        if ( !defined $Structure{PackageIsDownloadable}
+            || $Structure{PackageIsDownloadable}->{Content} eq '1' )
+        {
 
             $Self->{LayoutObject}->Block(
                 Name => 'PackageDownloadRemote',
@@ -1250,7 +1255,9 @@ sub Run {
     my @RepositoryList = $Self->{PackageObject}->RepositoryList();
 
     # remove not visible packages
-    @RepositoryList = map { ( !defined $_->{PackageIsVisible} || $_->{PackageIsVisible}->{Content} eq '1' ) ? $_ : () } @RepositoryList;
+    @RepositoryList = map {
+        ( !defined $_->{PackageIsVisible} || $_->{PackageIsVisible}->{Content} eq '1' ) ? $_ : ()
+    } @RepositoryList;
 
     # if there are no local packages to show, a msg is displayed
     if ( !@RepositoryList ) {
@@ -1309,7 +1316,9 @@ sub Run {
 
         if ( $Package->{Status} eq 'installed' ) {
 
-            if ( !defined $Package->{PackageIsRemovable} || $Package->{PackageIsRemovable}->{Content} eq '1' ) {
+            if ( !defined $Package->{PackageIsRemovable}
+                || $Package->{PackageIsRemovable}->{Content} eq '1' )
+            {
 
                 $Self->{LayoutObject}->Block(
                     Name => 'ShowLocalPackageUninstall',

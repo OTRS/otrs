@@ -55,7 +55,10 @@ if ( ( $Command eq '--all' ) || ( $Command eq '--showall' ) ) {
         if ( $Command eq '--showall' ) {
             print " SessionID $SessionID!\n";
         }
-        elsif ( $Kernel::OM->Get('Kernel::System::Session')->RemoveSessionID( SessionID => $SessionID ) ) {
+        elsif (
+            $Kernel::OM->Get('Kernel::System::Session')->RemoveSessionID( SessionID => $SessionID )
+            )
+        {
             print " SessionID $SessionID deleted.\n";
         }
         else {
@@ -79,7 +82,10 @@ elsif ( ( $Command eq '--expired' ) || ( $Command eq '--showexpired' ) ) {
         if ( $Command eq '--showexpired' ) {
             print " SessionID $SessionID expired!\n";
         }
-        elsif ( $Kernel::OM->Get('Kernel::System::Session')->RemoveSessionID( SessionID => $SessionID ) ) {
+        elsif (
+            $Kernel::OM->Get('Kernel::System::Session')->RemoveSessionID( SessionID => $SessionID )
+            )
+        {
             print " SessionID $SessionID deleted (too old).\n";
         }
         else {
@@ -93,7 +99,10 @@ elsif ( ( $Command eq '--expired' ) || ( $Command eq '--showexpired' ) ) {
         if ( $Command eq '--showexpired' ) {
             print " SessionID $SessionID idle timeout!\n";
         }
-        elsif ( $Kernel::OM->Get('Kernel::System::Session')->RemoveSessionID( SessionID => $SessionID ) ) {
+        elsif (
+            $Kernel::OM->Get('Kernel::System::Session')->RemoveSessionID( SessionID => $SessionID )
+            )
+        {
             print " SessionID $SessionID deleted (idle timeout).\n";
         }
         else {

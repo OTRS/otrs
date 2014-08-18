@@ -107,25 +107,28 @@ if ( lc( $Opts{a} ) eq 'write' ) {
 
     # webservice lookup
     if ( $Opts{i} ) {
-        my $List = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceList();
+        my $List
+            = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceList();
         if ( !$List->{ $Opts{i} } ) {
             print STDERR "ERROR: No such webservice with id (-i '$Opts{i}')!\n";
             exit 1;
         }
-        my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet( ID => $Opts{i} );
+        my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')
+            ->WebserviceGet( ID => $Opts{i} );
         if ( !$Webservice ) {
             print STDERR "ERROR: No such webservice with id (-i '$Opts{i}')!\n";
             exit 1;
         }
 
         # update webservice
-        my $Success = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceUpdate(
+        my $Success
+            = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceUpdate(
             ID      => $Webservice->{ID},
             Name    => $Webservice->{Name},
             Config  => $Config,
             ValidID => 1,
             UserID  => 1,
-        );
+            );
         if ( !$Success ) {
             print STDERR "ERROR: Unable to update webservice!\n";
             exit 1;
@@ -166,7 +169,8 @@ if ( lc( $Opts{a} ) eq 'read' ) {
     }
 
     # get webservice
-    my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet( ID => $Opts{i} );
+    my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')
+        ->WebserviceGet( ID => $Opts{i} );
     if ( !$Webservice ) {
         print STDERR "ERROR: No such webservice with id (-i '$Opts{i}')!\n";
         exit 1;
@@ -188,17 +192,19 @@ if ( lc( $Opts{a} ) eq 'delete' ) {
     }
 
     # get webservice
-    my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet( ID => $Opts{i} );
+    my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')
+        ->WebserviceGet( ID => $Opts{i} );
     if ( !$Webservice ) {
         print STDERR "ERROR: No such webservice with id (-i '$Opts{i}')!\n";
         exit 1;
     }
 
     # webservice lookup
-    my $Success = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceDelete(
+    my $Success
+        = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceDelete(
         ID     => $Opts{i},
         UserID => 1,
-    );
+        );
     if ( !$Success ) {
         print STDERR "ERROR: No such webservice with id (-i '$Opts{i}')!\n";
         exit 1;

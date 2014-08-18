@@ -120,7 +120,8 @@ if ( $Opts{a} !~ /^(list|file)/ && $Opts{p} ) {
         my $PackageName = $2;
         if ( $URL eq 'online' ) {
             my %List = %{ $Kernel::OM->Get('Kernel::Config')->Get('Package::RepositoryList') };
-            %List = ( %List, $Kernel::OM->Get('Kernel::System::Package')->PackageOnlineRepositories() );
+            %List = ( %List,
+                $Kernel::OM->Get('Kernel::System::Package')->PackageOnlineRepositories() );
             for ( sort keys %List ) {
                 if ( $List{$_} =~ /^\[-Master-\]/ ) {
                     $URL = $_;
@@ -249,7 +250,8 @@ if ( $Opts{a} eq 'exportfile' ) {
 
 # build
 if ( $Opts{a} eq 'build' ) {
-    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure
+        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
     if ( $Opts{v} && $Opts{v} =~ m/\d{1,4}\.\d{1,4}\.\d{1,4}/ ) {
         $Structure{Version}->{Content} = $Opts{v}
     }
@@ -294,7 +296,8 @@ elsif ( $Opts{a} eq 'uninstall' ) {
 
     # get package file from db
     # parse package
-    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure
+        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
 
     # intro screen
     if ( $Structure{IntroUninstallPre} ) {
@@ -326,7 +329,8 @@ elsif ( $Opts{a} eq 'uninstall' ) {
 elsif ( $Opts{a} eq 'install' ) {
 
     # parse package
-    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure
+        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
 
     # intro screen
     if ( $Structure{IntroInstallPre} ) {
@@ -358,7 +362,8 @@ elsif ( $Opts{a} eq 'install' ) {
 elsif ( $Opts{a} eq 'reinstall' ) {
 
     # parse package
-    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure
+        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
 
     # intro screen
     if ( $Structure{IntroReinstallPre} ) {
@@ -432,7 +437,8 @@ elsif ( $Opts{a} eq 'reinstall-all' ) {
 elsif ( $Opts{a} eq 'upgrade' ) {
 
     # parse package
-    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure
+        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
 
     # intro screen
     if ( $Structure{IntroUpgradePre} ) {
@@ -549,7 +555,8 @@ elsif ( $Opts{a} eq 'p' ) {
     }
 }
 elsif ( $Opts{a} eq 'parse' ) {
-    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure
+        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
     for my $Key ( sort keys %Structure ) {
         if ( ref( $Structure{$Key} ) eq 'ARRAY' ) {
             for my $Data ( @{ $Structure{$Key} } ) {
@@ -627,7 +634,8 @@ sub BuildPackageIndex {
                     exit 1;
                 }
                 my %Structure
-                    = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => ${$ContentRef} );
+                    = $Kernel::OM->Get('Kernel::System::Package')
+                    ->PackageParse( String => ${$ContentRef} );
                 my $XML = $Kernel::OM->Get('Kernel::System::Package')
                     ->PackageBuild( %Structure, Type => 'Index' );
                 print "<Package>\n";

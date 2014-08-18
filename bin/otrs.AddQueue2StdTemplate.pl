@@ -66,9 +66,10 @@ if ( !$QueueID ) {
 }
 
 # check template
-my $StandardTemplateID = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateLookup(
+my $StandardTemplateID
+    = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateLookup(
     StandardTemplate => $Opts{t}
-);
+    );
 
 if ( !$StandardTemplateID ) {
     print STDERR "ERROR: Found no Standard Template for $Opts{t}\n";

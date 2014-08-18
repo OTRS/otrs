@@ -73,7 +73,7 @@ for my $Backend (qw(DB FS)) {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     $Self->True(
-        $TicketObject->isa('Kernel::System::Ticket::ArticleStorage' . $Backend),
+        $TicketObject->isa( 'Kernel::System::Ticket::ArticleStorage' . $Backend ),
         "TicketObject loaded the correct backend",
     );
 
@@ -192,7 +192,7 @@ for my $Backend (qw(DB FS)) {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     $Self->True(
-        $TicketObject->isa('Kernel::System::Ticket::ArticleStorage' . $Backend),
+        $TicketObject->isa( 'Kernel::System::Ticket::ArticleStorage' . $Backend ),
         "TicketObject loaded the correct backend",
     );
 

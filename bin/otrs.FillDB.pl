@@ -188,7 +188,8 @@ EOF
                 push @Values, "($TicketID, 'Seen', 1, current_timestamp, $UserID)";
             }
             while ( my @ValuesPart = splice( @Values, 0, 50 ) ) {
-                $Kernel::OM->Get('Kernel::System::DB')->Do( SQL => $SQL . join( ',', @ValuesPart ) );
+                $Kernel::OM->Get('Kernel::System::DB')
+                    ->Do( SQL => $SQL . join( ',', @ValuesPart ) );
             }
         }
 
@@ -223,7 +224,8 @@ EOF
                         push @Values, "($ArticleID, 'Seen', 1, current_timestamp, $UserID)";
                     }
                     while ( my @ValuesPart = splice( @Values, 0, 50 ) ) {
-                        $Kernel::OM->Get('Kernel::System::DB')->Do( SQL => $SQL . join( ',', @ValuesPart ) );
+                        $Kernel::OM->Get('Kernel::System::DB')
+                            ->Do( SQL => $SQL . join( ',', @ValuesPart ) );
                     }
                 }
 
@@ -234,11 +236,12 @@ EOF
                     next DYNAMICFIELD if $DynamicFieldConfig->{InternalField};
 
                     # set a random value
-                    my $Result = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->RandomValueSet(
+                    my $Result
+                        = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->RandomValueSet(
                         DynamicFieldConfig => $DynamicFieldConfig,
                         ObjectID           => $ArticleID,
                         UserID             => $UserIDs[ int( rand($#UserIDs) ) ],
-                    );
+                        );
 
                     if ( $Result->{Success} ) {
                         print "NOTICE: Article with ID '$ArticleID' set dynamic field "
@@ -256,11 +259,12 @@ EOF
                 next DYNAMICFIELD if $DynamicFieldConfig->{InternalField};
 
                 # set a random value
-                my $Result = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->RandomValueSet(
+                my $Result
+                    = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->RandomValueSet(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     ObjectID           => $TicketID,
                     UserID             => $UserIDs[ int( rand($#UserIDs) ) ],
-                );
+                    );
 
                 if ( $Result->{Success} ) {
                     print "NOTICE: Ticket with ID '$TicketID' set dynamic field "
@@ -271,7 +275,7 @@ EOF
             push( @TicketIDs, $TicketID );
 
             if ( $Counter++ % $CommonObjectRefresh == 0 ) {
-                $Kernel::OM  = _OM();
+                $Kernel::OM = _OM();
             }
         }
     }
@@ -313,10 +317,11 @@ EOF
             #    binmode(IN);
             while ( my $Line = <$Input> ) {
                 if ( $Line =~ /^Subject:/ ) {
-                    $Line = 'Subject: ' . $Kernel::OM->Get('Kernel::System::Ticket')->TicketSubjectBuild(
+                    $Line = 'Subject: '
+                        . $Kernel::OM->Get('Kernel::System::Ticket')->TicketSubjectBuild(
                         TicketNumber => $Ticket{TicketNumber},
                         Subject      => $Line,
-                    );
+                        );
                 }
                 push( @Content, $Line );
             }
@@ -509,8 +514,8 @@ sub QueueGet {
 }
 
 sub QueueCreate {
-    my $Count         = shift || return;
-    my @GroupIDs      = @{ shift() };
+    my $Count = shift || return;
+    my @GroupIDs = @{ shift() };
 
     my @QueueIDs = ();
     for ( 1 .. $Count ) {
@@ -550,7 +555,7 @@ sub GroupGet {
 }
 
 sub GroupCreate {
-   my $Count = shift || return;
+    my $Count = shift || return;
 
     my @GroupIDs = ();
     for ( 1 .. $Count ) {
@@ -596,8 +601,8 @@ sub UserGet {
 }
 
 sub UserCreate {
-   my $Count         = shift || return;
-    my @GroupIDs      = @{ shift() };
+    my $Count = shift || return;
+    my @GroupIDs = @{ shift() };
 
     my @UserIDs = ();
     for ( 1 .. $Count ) {
@@ -652,7 +657,7 @@ sub UserCreate {
 }
 
 sub CustomerCreate {
-   my $Count = shift || return;
+    my $Count = shift || return;
 
     for ( 1 .. $Count ) {
         my $Name      = 'fill-up-user' . int( rand(100_000_000) );

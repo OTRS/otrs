@@ -79,7 +79,7 @@ my @Objects = (
 my %AllObjects;
 
 for my $Object (@Objects) {
-    my $PackageObject = $Kernel::OM->Get( $Object );
+    my $PackageObject = $Kernel::OM->Get($Object);
     $AllObjects{$Object} = $PackageObject;
     $Self->True(
         $PackageObject,
@@ -137,7 +137,7 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 
-my $Dummy = $Kernel::OM->Get('scripts::test::ObjectManager::Dummy');
+my $Dummy  = $Kernel::OM->Get('scripts::test::ObjectManager::Dummy');
 my $Dummy2 = $Kernel::OM->Get('scripts::test::ObjectManager::Dummy2');
 
 $Self->True( $Dummy,  'Can get Dummy object after registration' );
