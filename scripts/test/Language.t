@@ -76,8 +76,6 @@ my %Test = (
 
 for my $OriginalString ( sort keys %Test ) {
 
-    # build the parameter string, it looks strange but is correct:
-    # History::NewTicket", "2011031110000023", "Postmaster", "3 normal", "open", "9
     my @Parameters = @{ $Test{$OriginalString}->{Parameters} };
 
     # add translation string to language object
