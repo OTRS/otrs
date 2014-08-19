@@ -50,7 +50,7 @@ Core.Agent.Scheduler = (function (TargetNS) {
     TargetNS.OpenSchedulerStartDialog = function(){
 
         var Data = {
-            Action: 'AgentSchedulerInfo',
+            Action: 'AgentSchedulerInfo'
         };
 
         ShowWaitingDialog();
