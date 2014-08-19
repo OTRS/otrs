@@ -269,7 +269,7 @@ my @Tests = (
             UserID         => 1,
         },
         ExpectedResults => [$TicketID1],
-        ForBothStorages => 0,
+        ForBothStorages => 1,
     },
     {
         Name   => 'AttachmentName (AsCustomer)',
@@ -278,7 +278,7 @@ my @Tests = (
             CustomerUserID => 'customerOne@example.com',
         },
         ExpectedResults => [ $TicketID1, $TicketID2 ],
-        ForBothStorages => 0,
+        ForBothStorages => 1,
     },
     {
         Name   => 'AttachmentName (AsCustomer) Ticket2 Article2',
