@@ -72,6 +72,18 @@
                 <div class="Clear"></div>
 [% RenderBlockEnd("DynamicField") %]
             </fieldset>
+
+[% RenderBlockStart("Attachment") %]
+            <fieldset>
+                <h2>[% Translate("Attachments") | html %]</h2>
+                <div>
+                    <label for="AttachmentName">[% Translate("Attachment Name") | html %]:</label>
+                    <input title="[% Translate("Attachment Name") | html %]" type="text" name="AttachmentName" value="[% Data.AttachmentName | html %]" size="20" />
+                    <p>[% Translate("e. g. m*file or myfi*") | html %]</p>
+                </div>
+            </fieldset>
+[% RenderBlockEnd("Attachment") %]
+
             <fieldset class="Columns">
                 <div class="Column">
                     <h2><label for="ServiceIDs">[% Translate("Services") | html %]:</label></h2>

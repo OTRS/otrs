@@ -182,7 +182,7 @@ sub Run {
     else {
         for my $Key (
             qw(TicketNumber From To Cc Subject Body CustomerID ResultForm TimeSearchType StateType
-            SearchInArchive
+            SearchInArchive AttachmentName
             TicketCreateTimePointFormat TicketCreateTimePoint
             TicketCreateTimePointStart
             TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
@@ -1569,6 +1569,17 @@ sub MaskForm {
                 },
             );
         }
+    }
+
+    if (
+        $Self->{ConfigObject}->Get('Ticket::StorageModule') eq
+        'Kernel::System::Ticket::ArticleStorageDB'
+        )
+    {
+        $Self->{LayoutObject}->Block(
+            Name => 'Attachment',
+            Data => \%Param
+        );
     }
 
     # html search mask output

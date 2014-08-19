@@ -144,6 +144,9 @@ To find tickets in your system.
         Subject => '%VIRUS 32%',
         Body    => '%VIRUS 32%',
 
+        # attachment stuff (optional, applies only for ArticleStorageDB)
+        AttachmentName => '%anyfile.txt%',
+
         # use full article text index if configured (optional, default off)
         FullTextIndex => 1,
 
@@ -457,6 +460,26 @@ sub TicketSearch {
 
     # sql, use also article table if needed
     $SQLFrom .= $ArticleJoinSQL;
+
+    # only search for attachment name if Article Storage is set to DB
+    if (
+        $Param{AttachmentName}
+        && (
+            $Kernel::OM->Get('Kernel::Config')->Get('Ticket::StorageModule') eq
+            'Kernel::System::Ticket::ArticleStorageDB'
+        )
+        )
+    {
+
+        # joins to article and article_attachments are needed, it can not use existing article joins
+        # otherwise the search will be limited to already matching articles
+        my $AttachmentJoinSQL = '
+        INNER JOIN article art_for_att ON st.id = art_for_att.ticket_id
+        INNER JOIN article_attachment att ON att.article_id = art_for_att.id ';
+
+        # SQL, use also article_attachment table if needed
+        $SQLFrom .= $AttachmentJoinSQL;
+    }
 
     # use also history table if required
     ARGUMENT:
@@ -1106,17 +1129,55 @@ sub TicketSearch {
     my $ArticleIndexSQLExt = $Self->_ArticleIndexQuerySQLExt( Data => \%Param );
     $SQLExt .= $ArticleIndexSQLExt;
 
-    # restrict search from customers to only customer articles
-    if ( $Param{CustomerUserID} && $ArticleIndexSQLExt ) {
-        my %CustomerArticleTypes = $Self->ArticleTypeList(
+    my %CustomerArticleTypes;
+    my @CustomerArticleTypeIDs;
+    if ( $Param{CustomerUserID} ) {
+        %CustomerArticleTypes = $Self->ArticleTypeList(
             Result => 'HASH',
             Type   => 'Customer',
         );
-        my @CustomerArticleTypeIDs = keys %CustomerArticleTypes;
+        @CustomerArticleTypeIDs = keys %CustomerArticleTypes;
+    }
+
+    # restrict search from customers to only customer articles
+    if ( $Param{CustomerUserID} && $ArticleIndexSQLExt ) {
         $SQLExt .= $Self->_InConditionGet(
             TableColumn => 'art.article_type_id',
             IDRef       => \@CustomerArticleTypeIDs,
         );
+    }
+
+    # only search for attachment name if Article Storage is set to DB
+    if (
+        $Param{AttachmentName}
+        && (
+            $Kernel::OM->Get('Kernel::Config')->Get('Ticket::StorageModule') eq
+            'Kernel::System::Ticket::ArticleStorageDB'
+        )
+        )
+    {
+        $SQLExt .= ' AND ';
+
+        # replace wild card search
+        my $Key   = 'att.filename';
+        my $Value = $Param{AttachmentName};
+        $Value =~ s/\*/%/gi;
+
+        # use search condition extension
+        $SQLExt .= $DBObject->QueryCondition(
+            Key          => $Key,
+            Value        => $Value,
+            SearchPrefix => $Param{ContentSearchPrefix},
+            SearchSuffix => $Param{ContentSearchSuffix},
+        );
+
+        # restrict search from customers to only customer articles
+        if ( $Param{CustomerUserID} ) {
+            $SQLExt .= $Self->_InConditionGet(
+                TableColumn => 'art_for_att.article_type_id',
+                IDRef       => \@CustomerArticleTypeIDs,
+            );
+        }
     }
 
     # Remember already joined tables for sorting.

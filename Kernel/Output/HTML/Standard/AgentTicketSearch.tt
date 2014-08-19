@@ -65,9 +65,9 @@
             </div>
         </div>
         <div class="Clear"></div>
-        <label for="TicketNumber" id="LabelTicketNumber">[% Config("Ticket::Hook") %] [% Translate("(e. g. 10*5155 or 105658*)") | html %]:</label>
+        <label for="TicketNumber" id="LabelTicketNumber">[% Config("Ticket::Hook") %]:</label>
         <div class="Field">
-            <input type="text" name="TicketNumber" value="[% Data.TicketNumber | html %]" class="W50pc"/>
+            <input type="text" name="TicketNumber" placeholder="[% Translate("(e. g. 10*5155 or 105658*)") | html %]" value="[% Data.TicketNumber | html %]" class="W50pc"/>
             <button type="button" class="Remove" value="Remove" title="[% Translate("Remove this entry") | html %]">[% Translate("Remove") | html %]</button>
         </div>
         <div class="Clear"></div>
@@ -83,9 +83,9 @@
             <button type="button" class="Remove" value="Remove" title="[% Translate("Remove this entry") | html %]">[% Translate("Remove") | html %]</button>
         </div>
         <div class="Clear"></div>
-        <label for="CustomerUserLogin" id="LabelCustomerUserLogin">[% Translate("Customer User Login") | html %] [% Translate("(e. g. U5150)") | html %]:</label>
+        <label for="CustomerUserLogin" id="LabelCustomerUserLogin">[% Translate("Customer User Login") | html %] :</label>
         <div class="Field">
-            <input type="text" name="CustomerUserLogin" value="[% Data.CustomerUserLogin | html %]" class="W50pc"/>
+            <input type="text" name="CustomerUserLogin" placeholder="% Translate("(e. g. U5150)") | html %]" value="[% Data.CustomerUserLogin | html %]" class="W50pc"/>
             <button type="button" class="Remove" value="Remove" title="[% Translate("Remove this entry") | html %]">[% Translate("Remove") | html %]</button>
         </div>
         <div class="Clear"></div>
@@ -122,6 +122,12 @@
         <label for="Body" id="LabelBody">[% Translate("Text") | html %]:</label>
         <div class="Field">
             <input type="text" name="Body" value="[% Data.Body | html %]" class="W50pc"/>
+            <button type="button" class="Remove" value="Remove" title="[% Translate("Remove this entry") | html %]">[% Translate("Remove") | html %]</button>
+        </div>
+        <div class="Clear"></div>
+        <label for="AttachmentName" id="LabelAttachmentName">[% Translate("Attachment Name") | html %]:</label>
+        <div class="Field">
+            <input type="text" name="AttachmentName" placeholder="[% Translate("(e. g. m*file or myfi*)") | html %]" value="[% Data.AttachmentName | html %]" class="W50pc"/>
             <button type="button" class="Remove" value="Remove" title="[% Translate("Remove this entry") | html %]">[% Translate("Remove") | html %]</button>
         </div>
         <div class="Clear"></div>

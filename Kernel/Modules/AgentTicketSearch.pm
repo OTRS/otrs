@@ -12,7 +12,11 @@ package Kernel::Modules::AgentTicketSearch;
 use strict;
 use warnings;
 
+use Kernel::System::CSV;
 use Kernel::System::CustomerUser;
+use Kernel::System::DynamicField;
+use Kernel::System::DynamicField::Backend;
+use Kernel::System::Lock;
 use Kernel::System::Priority;
 use Kernel::System::Lock;
 use Kernel::System::SearchProfile;
@@ -20,9 +24,6 @@ use Kernel::System::Service;
 use Kernel::System::SLA;
 use Kernel::System::State;
 use Kernel::System::Type;
-use Kernel::System::CSV;
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
 sub new {
@@ -181,7 +182,7 @@ sub Run {
         for my $Key (
             qw(TicketNumber Title From To Cc Subject Body CustomerID CustomerUserLogin StateType
             Agent ResultForm TimeSearchType ChangeTimeSearchType CloseTimeSearchType EscalationTimeSearchType
-            UseSubQueues
+            UseSubQueues AttachmentName
             ArticleTimeSearchType SearchInArchive
             Fulltext ShownAttributes
             ArticleCreateTimePointFormat ArticleCreateTimePoint
@@ -1173,6 +1174,18 @@ sub Run {
                 Value => 'Fulltext',
             },
         );
+
+        # show Article Name option only if the ArticleStorage is in the DB
+        if (
+            $Self->{ConfigObject}->Get('Ticket::StorageModule') eq
+            'Kernel::System::Ticket::ArticleStorageDB'
+            )
+        {
+            push @Attributes, {
+                Key   => 'AttachmentName',
+                Value => 'Attachment Name',
+                },
+        }
 
         if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
             push @Attributes, (

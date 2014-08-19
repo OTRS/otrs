@@ -155,6 +155,9 @@ perform TicketSearch Operation. This will return a Ticket ID list.
         Subject => '%VIRUS 32%',
         Body    => '%VIRUS 32%',
 
+        # attachment stuff (optional, applies only for ArticleStorageDB)
+        AttachmentName => '%anyfile.txt%',
+
         # use full article text index if configured (optional, default off)
         FullTextIndex => 1,
 
@@ -363,7 +366,7 @@ sub _GetParams {
         qw(TicketNumber Title From To Cc Subject Body
         Agent ResultForm TimeSearchType ChangeTimeSearchType CloseTimeSearchType UseSubQueues
         ArticleTimeSearchType SearchInArchive
-        Fulltext ShownAttributes
+        Fulltext ShownAttributes AttachmentName
         )
         )
     {
