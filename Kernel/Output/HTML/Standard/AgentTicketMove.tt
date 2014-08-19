@@ -61,7 +61,10 @@
                     <div class="Field">
                         <input type="radio" name="UserSelection" value="New" [% Data.item("UserSelection::New") %]/>
                         [% Data.OwnerStrg %]
-                        <a href="#" id="OwnerSelectionGetAll" class="GetAllAJAX" title="[% Translate("Get all") | html %]">[% Translate("Get all") | html %]</a>
+                        <a href="#" id="OwnerSelectionGetAll" class="GetAllAJAX" title="[% Translate("Get all") | html %]">
+                            <span>[% Translate("Get all") | html %]</span>
+                            <i class="fa fa-refresh"></i>
+                        </a>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#OwnerSelectionGetAll').bind('click', function (Event) {

@@ -326,8 +326,8 @@ sub EditFieldRender {
         $HTMLString
             .= ' <a href="#" title="'
             . $TreeSelectionMessage
-            . '" class="ShowTreeSelection">'
-            . $TreeSelectionMessage . '</a>';
+            . '" class="ShowTreeSelection"><span>'
+            . $TreeSelectionMessage . '</span><i class="fa fa-code-fork"></i></a>';
     }
 
     if ( $Param{Mandatory} ) {

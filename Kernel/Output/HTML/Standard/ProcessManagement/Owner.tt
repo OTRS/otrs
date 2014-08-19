@@ -22,7 +22,10 @@
 </label>
 <div class="Field">
     [% Data.Content %]
-    <a href="#" id="OwnerSelectionGetAll" class="GetAllAJAX" title="[% Translate("Get all") | html %]">[% Translate("Get all") | html %]</a>
+    <a href="#" id="OwnerSelectionGetAll" class="GetAllAJAX" title="[% Translate("Get all") | html %]">
+        <span>[% Translate("Get all") | html %]</span>
+        <i class="fa fa-refresh"></i>
+    </a>
     <div id="[% Data.FieldID | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
     <div id="[% Data.FieldID | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 [% WRAPPER JSOnDocumentComplete %]

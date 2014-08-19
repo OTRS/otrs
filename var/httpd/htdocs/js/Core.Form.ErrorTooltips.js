@@ -54,7 +54,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
         /*
          * Now create and fill the tooltip with the error message.
          */
-        $Tooltip = $('<div class="Tooltip ' + TongueClass + '"><div class="Tongue"></div></div>');
+        $Tooltip = $('<div class="Tooltip ' + TongueClass + '"></div>');
         $TooltipContent.html(TooltipContent);
         $Tooltip.append($TooltipContent);
 

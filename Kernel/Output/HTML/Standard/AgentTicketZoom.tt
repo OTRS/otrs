@@ -566,7 +566,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
                                 </th>
                                 <th class="No Sortable"><a href="#">[% Translate("No.") | html %]</a></th>
                                 <th class="Type Sortable"><a href="#">[% Translate("Type") | html %]</a></th>
-                                <th class="Direction Sortable"><a href="#" title="[% Translate("Direction") | html %]"><span class="Direction"><!--Direction--></span></a></th>
+                                <th class="Direction Sortable"><a href="#" title="[% Translate("Direction") | html %]"><i class="fa fa-exchange"></i></a></th>
                                 <th class="From Sortable"><a href="#">[% Translate("From") | html %]</a></th>
                                 <th class="Subject Sortable"><a href="#">[% Translate("Subject") | html %]</a></th>
                                 <th class="Created Sortable"><a href="#">[% Translate("Created") | html %]</a></th>
@@ -609,15 +609,23 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
                                 </td>
                                 <td class="Direction">
 [% RenderBlockStart("TreeItemDirectionIncoming") %]
-                                    <span class="Direction Incoming" title="[% Translate("Incoming message") | html %]"></span>
+                                    <span class="Direction Incoming" title="[% Translate("Incoming message") | html %]">
+                                        <i class="fa fa-long-arrow-left"></i>
+                                        <i class="fa fa-square-o"></i>
+                                    </span>
                                     <input type="hidden" class="SortData" value="0" />
 [% RenderBlockEnd("TreeItemDirectionIncoming") %]
 [% RenderBlockStart("TreeItemDirectionOutgoing") %]
-                                    <span class="Direction Outgoing" title="[% Translate("Outgoing message") | html %]"></span>
+                                    <span class="Direction Outgoing" title="[% Translate("Outgoing message") | html %]">
+                                        <i class="fa fa-long-arrow-right"></i>
+                                        <i class="fa fa-square-o"></i>
+                                    </span>
                                     <input type="hidden" class="SortData" value="1" />
 [% RenderBlockEnd("TreeItemDirectionOutgoing") %]
 [% RenderBlockStart("TreeItemDirectionInternal") %]
-                                    <span class="Direction Internal" title="[% Translate("Internal message") | html %]"></span>
+                                    <span class="Direction Internal" title="[% Translate("Internal message") | html %]">
+                                        <i class="fa fa-square-o"></i>
+                                    </span>
                                     <input type="hidden" class="SortData" value="2" />
 [% RenderBlockEnd("TreeItemDirectionInternal") %]
                                 </td>

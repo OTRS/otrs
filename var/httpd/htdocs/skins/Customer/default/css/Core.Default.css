@@ -256,9 +256,9 @@ div.Clear {
     margin: 0 0 0 4px;
     height: 16px;
     width: 16px;
-    background: transparent url(../img/icons/calendar.png) no-repeat;
     display: inline-block;
-    vertical-align: top;
+    vertical-align: middle;
+    color: #333;
 }
 
 .RTL .DatepickerIcon {

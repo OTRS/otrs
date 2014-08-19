@@ -174,7 +174,10 @@
                             <td>[% Data.ShortStartDate | html %]</td>
                             <td>[% Data.ShortEndDate | html %]</td>
                             <td class="Center">
-                                <a class="TrashCan" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;Type=[% Data.Type | uri %];Filename=[% Data.Filename | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this certificate") | html %]">[% Translate("Delete this certificate") | html %]</a>
+                                <a class="TrashCan" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;Type=[% Data.Type | uri %];Filename=[% Data.Filename | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this certificate") | html %]">
+                                    [% Translate("Delete this certificate") | html %]
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
                             </td>
                         </tr>
 [% RenderBlockEnd("Row") %]

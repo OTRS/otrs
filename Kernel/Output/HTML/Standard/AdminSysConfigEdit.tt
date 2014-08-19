@@ -75,8 +75,8 @@
                         <h3>
                             <input type="checkbox" value="1" id="[% Data.ItemKeyID | html %]ItemActive" name="[% Data.ItemKey | html %]ItemActive" [% Data.Valid %] [% Data.Required %]/>
 [% RenderBlockStart("ConfigElementBlockReset") %]
-                            <button class="Reset" type="submit" name="Reset[% Data.ItemKey | html %]" title="[% Translate("Reset this setting") | html %]" value="[% Translate("Reset this setting") | html %]">
-                                [% Translate("Reset this setting") | html %]
+                            <button type="submit" class="ResetButton" name="Reset[% Data.ItemKey | html %]" title="[% Translate("Reset this setting") | html %]" value="[% Translate("Reset this setting") | html %]">
+                                <i class="fa fa-undo"></i>
                             </button>
 [% RenderBlockEnd("ConfigElementBlockReset") %]
                             <label for="[% Data.ItemKeyID | html %]ItemActive">[% Data.ItemKey | html %]</label>

@@ -154,7 +154,9 @@
                                 <li title="Name: [% Data.FieldnameTranslated | html %]" data-id="[% Data.Field | html %]" data-config="">
                                     [% Data.FieldnameTranslated | html %]
                                     <span class="Functions ShowOnAssignedList">
-                                        <a href="#" data-id="[% Data.Field | html %]" data-entity="[% Data.Field | html %]" class="FieldDetailsOverlay Icon Icon_Edit" title="[% Translate("Edit") | html %]"></a>
+                                        <a href="#" data-id="[% Data.Field | html %]" data-entity="[% Data.Field | html %]" class="FieldDetailsOverlay Icon" title="[% Translate("Edit") | html %]">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
                                     </span>
                                 </li>
 [% RenderBlockEnd("AvailableFieldRow") %]
@@ -171,7 +173,9 @@
                                 <li data-id="[% Data.Field | html %]" data-entity="[% Data.Field | html %]" data-config='[% Data.FieldConfig %]' title="Name: [% Translate(Data.Field) | html %]">
                                     [% Translate(Data.Field) | html %]
                                     <span class="Functions ShowOnAssignedList">
-                                        <a href="#" data-id="[% Data.Field | html %]" data-entity="[% Data.Field | html %]" class="FieldDetailsOverlay Icon Icon_Edit" title="[% Translate("Edit") | html %]"></a>
+                                        <a href="#" data-id="[% Data.Field | html %]" data-entity="[% Data.Field | html %]" class="FieldDetailsOverlay Icon" title="[% Translate("Edit") | html %]">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
                                     </span>
                                 </li>
 [% RenderBlockEnd("AssignedFieldRow") %]

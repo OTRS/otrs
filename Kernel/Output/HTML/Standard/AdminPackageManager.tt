@@ -281,7 +281,7 @@
                                 </td>
                                 <td>
 [% RenderBlockStart("ShowRemotePackageDocumentation") %]
-                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ViewRemote;Source=[% Data.Source | uri %];File=[% Data.File | uri %];Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];Location=[% Data.Location | uri %]" class="AsBlock IconPDF" title="[% Translate("Module documentation") | html %]"></a>
+                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ViewRemote;Source=[% Data.Source | uri %];File=[% Data.File | uri %];Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];Location=[% Data.Location | uri %]" class="AsBlock" title="[% Translate("Module documentation") | html %]"><i class="fa fa-file-pdf-o"></i></a>
 [% RenderBlockEnd("ShowRemotePackageDocumentation") %]
                                 </td>
                                 <td>[% Data.Version | html %]</td>
@@ -340,7 +340,7 @@
                                 </td>
                                 <td>
 [% RenderBlockStart("ShowLocalPackageDocumentation") %]
-                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=View;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];File=[% Data.File | uri %];Location=[% Data.Location | uri %]" class="AsBlock IconPDF" title="[% Translate("Module documentation") | html %]"></a>
+                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=View;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];File=[% Data.File | uri %];Location=[% Data.Location | uri %]" class="AsBlock" title="[% Translate("Module documentation") | html %]"><i class="fa fa-file-pdf-o"></i></a>
 [% RenderBlockEnd("ShowLocalPackageDocumentation") %]
                                 </td>
                                 <td>[% Data.Version | html %]</td>
@@ -529,7 +529,7 @@
 [% RenderBlockEnd("PackageItemFilelistFileNote") %]
                                 </td>
                                 <td>
-                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Env("Subaction") %];Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];File=[% Data.File | uri %];Location=[% Data.Location | uri %]" class="IconSave IconInline" title="[% Translate("Download file from package!") | html %]"></a>
+                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Env("Subaction") %];Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];File=[% Data.File | uri %];Location=[% Data.Location | uri %]" class="IconInline" title="[% Translate("Download file from package!") | html %]"><i class="fa fa-save"></i></a>
                                     [% Data.Size | html %]
                                 </td>
                             </tr>

@@ -19,11 +19,6 @@
     padding: 4px;
 }
 
-a.Export {
-    background: url("../img/database_export.png") no-repeat left center;
-    padding-left: 24px;
-}
-
 a.Copy {
     background: url(../img/icons/reports.png) no-repeat left center;
     padding-left: 24px;
@@ -72,14 +67,6 @@ a.Copy {
     -webkit-border-radius: 5px;
     border-radius: 5px;
     font-size: 12px;
-}
-
-.Help {
-    display: inline-block;
-    width: 18px;
-    height: 12px;
-    background: url(../img/contexthelp.png) no-repeat center;
-    cursor: help;
 }
 
 .AddAll {

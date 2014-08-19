@@ -26,12 +26,21 @@
             <ul id="TicketOptions">
 
 [% RenderBlockStart("Print") %]
-                <li><a href="[% Env("Baselink") %]Action=CustomerTicketPrint;TicketID=[% Data.TicketID | uri %]" class="Print AsPopup" title="[% Translate("Print") | html %]">[% Translate("Print") | html %]</a></li>
+                <li>
+                    <a href="[% Env("Baselink") %]Action=CustomerTicketPrint;TicketID=[% Data.TicketID | uri %]" class="Print AsPopup" title="[% Translate("Print") | html %]">
+                        <i class="fa fa-print"></i>
+                        <span>[% Translate("Print") | html %]</span>
+                    </a>
+                </li>
 [% RenderBlockEnd("Print") %]
 
 [% RenderBlockStart("Expand") %]
                 <li>
-                    <a href="[% Env("Baselink") %]Action=CustomerTicketZoom;TicketID=[% Data.TicketID | uri %];ZoomExpand=[% Data.ZoomExpand | uri %]" class="ZoomExpand[% Data.ExpandOption %]"} title="[% Translate(Data.ExpandText) | html %]">[% Translate(Data.ExpandText) | html %]</a>
+                    <a href="[% Env("Baselink") %]Action=CustomerTicketZoom;TicketID=[% Data.TicketID | uri %];ZoomExpand=[% Data.ZoomExpand | uri %]" class="ZoomExpand Expand[% Data.ExpandOption %]"} title="[% Translate(Data.ExpandText) | html %]">
+                        <i class="fa fa-bars"></i>
+                        <i class="fa fa-minus"></i>
+                        <span>[% Translate(Data.ExpandText) | html %]</span>
+                    </a>
                     <input type="hidden" name="ZoomExpand" id="ZoomExpand" value="[% Data.ZoomExpand | html %]" />
                 </li>
 [% RenderBlockEnd("Expand") %]
@@ -105,6 +114,7 @@
                                 <div class="Label">[% Translate(Data.Key) | html %]:</div>
                                 <div>
 [% RenderBlockStart("ArticleAttachmentRow") %]
+                                    <i class="fa fa-paperclip"></i>
                                     <span class="DownloadAttachment" title="[% Data.Filename | html %] - [% Data.Filesize | html %]">
 [% RenderBlockStart("ArticleAttachmentRowLink") %]
                                         <a href="[% Data.Link %]" [% Data.Target %] title="[% Translate(Data.Action) | html %]">[% Data.Filename | html %]</a>, [% Data.Filesize | html %]
@@ -352,7 +362,7 @@
                         <button type="submit" value="[% Translate("Submit") | html %]">[% Translate("Submit") | html %]</button> [% Translate("or") | html %] <a id="CloseButton" href="">[% Translate("Cancel") | html %]</a>
                     </div>
                 </div>
-                <a id="ReplyButton" class="DontPrint" href="">[% Translate("Reply") | html %]</a>
+                <a id="ReplyButton" class="DontPrint" href=""><i class="fa fa-reply"></i> [% Translate("Reply") | html %]</a>
             </div>
 [% RenderBlockEnd("FollowUp") %]
             <div class="Clear"></div>

@@ -244,7 +244,10 @@
                     <label for="NewUserID">[% Translate("Owner") | html %]:</label>
                     <div class="Field">
                         [% Data.OptionStrg %]
-                        <a href="#" id="OwnerSelectionGetAll" class="GetAllAJAX" title="[% Translate("Get all") | html %]">[% Translate("Get all") | html %]</a>
+                        <a href="#" id="OwnerSelectionGetAll" class="GetAllAJAX" title="[% Translate("Get all") | html %]">
+                            <span>[% Translate("Get all") | html %]</span>
+                            <i class="fa fa-refresh"></i>
+                        </a>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#OwnerSelectionGetAll').bind('click', function (Event) {
@@ -268,7 +271,10 @@
                     <label for="NewResponsibleID">[% Translate("Responsible") | html %]:</label>
                     <div class="Field">
                         [% Data.ResponsibleOptionStrg %]
-                        <a href="#" id="ResponsibleSelectionGetAll" class="GetAllAJAX" title="[% Translate("Get all") | html %]">[% Translate("Get all") | html %]</a>
+                        <a href="#" id="ResponsibleSelectionGetAll" class="GetAllAJAX" title="[% Translate("Get all") | html %]">
+                            <span>[% Translate("Get all") | html %]</span>
+                            <i class="fa fa-refresh"></i>
+                        </a>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#ResponsibleSelectionGetAll').bind('click', function (Event) {

@@ -92,7 +92,9 @@
                                     [% Data.Name | html %]
                                     <span class="Functions">
                                         <span class="AvailableIn">[% Translate(Data.AvailableIn) | html %]</span>
-                                        <a href="#" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog Icon Icon_Edit" title="[% Translate("Edit") | html %]"></a>
+                                        <a href="#" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog Icon" title="[% Translate("Edit") | html %]">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
                                     </span>
                                 </li>
 [% RenderBlockEnd("AvailableActivityDialogRow") %]
@@ -117,7 +119,9 @@
                                     [% Data.Name | html %]
                                     <span class="Functions">
                                         <span class="AvailableIn">[% Translate(Data.AvailableIn) | html %]</span>
-                                        <a href="#" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog Icon Icon_Edit" title="[% Translate("Edit") | html %]"></a>
+                                        <a href="#" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]" data-action="AdminProcessManagementActivityDialog" data-subaction="ActivityDialogEdit" class="AsPopup_Redirect Edit_Confirm PopupType_ActivityDialog Icon" title="[% Translate("Edit") | html %]">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
                                     </span>
                                 </li>
 [% RenderBlockEnd("AssignedActivityDialogRow") %]

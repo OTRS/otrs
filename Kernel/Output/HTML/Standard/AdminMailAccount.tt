@@ -87,7 +87,7 @@
                             <td>[% Data.ChangeTime | Localize("TimeShort") %]</td>
                             <td>[% Data.CreateTime | Localize("TimeShort") %]</td>
                             <td class="Center">
-                                <a class="TrashCan" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete account") | html %]">[% Translate("Delete account") | html %]</a>
+                                <a class="TrashCan" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete account") | html %]">[% Translate("Delete account") | html %]<i class="fa fa-trash-o"></i></a>
                             </td>
                             <td>
                                 <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Run;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Fetch mail") | html %]</a>

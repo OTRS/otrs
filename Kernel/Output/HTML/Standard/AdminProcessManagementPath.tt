@@ -84,7 +84,9 @@
                                 <li data-id="[% Data.ID | html %]" id="[% Data.EntityID | html %]" title="Name: [% Data.Name | html %] EntityID: [% Data.EntityID | html %]">
                                     [% Data.Name | html %] ([% Data.EntityID | html %])
                                     <span class="Functions">
-                                        <a href="#" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]" data-action="AdminProcessManagementTransitionAction" data-subaction="TransitionActionEdit" class="AsPopup_Redirect Edit_Confirm PopupType_TransitionAction Icon Icon_Edit" title="[% Translate("Edit") | html %]"></a>
+                                        <a href="#" data-entity="[% Data.EntityID | html %]" data-id="[% Data.ID | html %]" data-action="AdminProcessManagementTransitionAction" data-subaction="TransitionActionEdit" class="AsPopup_Redirect Edit_Confirm PopupType_TransitionAction Icon" title="[% Translate("Edit") | html %]">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
                                     </span>
                                 </li>
 [% RenderBlockEnd("AvailableTransitionActionRow") %]

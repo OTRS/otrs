@@ -408,16 +408,19 @@ div.TooltipErrorMessage {
     width: 16px;
     height: 16px;
     margin-left: 1px;
-    text-indent: -9999px;
-    background: url(../img/icons/tree.png);
     display: inline-block;
-    font-size: 2px;
     position: relative;
-    top: -5px;
+    color: #333;
+}
+
+.ShowTreeSelection span {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
 }
 
 .ShowTreeSelection:focus {
-    background-color: #ddd;
+    color: #f92;
 }
 
 fieldset .ShowTreeSelection {

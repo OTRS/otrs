@@ -104,6 +104,7 @@
                             <td class="Center">
                                 <a class="TrashCan" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this entry") | html %]">
                                     [% Translate("Delete this entry") | html %]
+                                    <i class="fa fa-trash-o"></i>
                                 </a>
                             </td>
                         </tr>

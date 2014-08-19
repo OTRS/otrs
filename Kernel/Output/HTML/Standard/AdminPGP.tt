@@ -139,7 +139,10 @@
                             <td>[% Data.Created | html %]</td>
                             <td>[% Data.Expires | html %]</td>
                             <td class="Center">
-                                <a class="TrashCan" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;Type=[% Data.Type | uri %];Key=[% Data.FingerprintShort | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this key") | html %]">[% Translate("Delete this key") | html %]</a>
+                                <a class="TrashCan" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;Type=[% Data.Type | uri %];Key=[% Data.FingerprintShort | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this key") | html %]">
+                                    [% Translate("Delete this key") | html %]
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
                             </td>
                         </tr>
 [% RenderBlockEnd("Row") %]

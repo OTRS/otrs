@@ -317,7 +317,8 @@ td.UnreadArticles {
 
 th.Direction,
 td.Direction {
-    width: 40px;
+    width: 30px;
+    text-align: center;
 }
 
 th.Attachment,
@@ -397,13 +398,6 @@ thead .headerSortDown a {
     width: 16px;
     display: block;
     text-align: center;
-}
-
-.TableSmall thead a span.Direction,
-.DataTable thead a span.Direction {
-    display: inline-block;
-    height: 10px;
-    background: url(../img/direction_header.png) no-repeat center;
 }
 
 .TableSmall thead a span.Flag {
@@ -506,25 +500,33 @@ thead .headerSortDown a {
 
 .TableSmall tbody td span.Direction,
 .DataTable tbody td span.Direction {
+    text-align: center;
     display: block;
-    width: 24px;
-    height: 15px;
-    text-indent: -9999px;
+    position: relative;
+    font-size: 14px;
 }
 
-.TableSmall tbody td span.Direction.Incoming,
-.DataTable tbody td span.Direction.Incoming {
-    background: url(../img/direction_incoming.png) no-repeat center;
+.TableSmall tbody td span.Direction i,
+.DataTable tbody td span.Direction i {
+    color: #555;
 }
 
-.TableSmall tbody td span.Direction.Outgoing,
-.DataTable tbody td span.Direction.Outgoing {
-    background: url(../img/direction_outgoing.png) no-repeat center;
+.TableSmall tbody td span.Direction.Incoming .fa-long-arrow-left,
+.DataTable tbody td span.Direction.Incoming .fa-long-arrow-left {
+    position: absolute;
+    left: 2px;
+    top: 4px;
+    color: #000;
+    font-size: 12px;
 }
 
-.TableSmall tbody td span.Direction.Internal,
-.DataTable tbody td span.Direction.Internal {
-    background: url(../img/direction_internal.png) no-repeat center;
+.TableSmall tbody td span.Direction.Outgoing .fa-long-arrow-right,
+.DataTable tbody td span.Direction.Outgoing .fa-long-arrow-right {
+    position: absolute;
+    right: 2px;
+    top: 4px;
+    color: #000;
+    font-size: 12px;
 }
 
 .TableSmall tbody td.Attachment,
@@ -712,7 +714,7 @@ thead .headerSortDown > a:before {
 .TableSmall thead th.OverviewHeader .ColumnSettingsTrigger {
     display: block;
     width: 17px;
-    height: 15px;
+    height: 17px;
     float: right;
     opacity: 0.5;
     padding: 0px;
@@ -729,7 +731,7 @@ thead .headerSortDown > a:before {
 }
 
 .TableSmall thead th.OverviewHeader .ColumnSettingsTrigger {
-    margin: 0px -18px 0px 0px;
+    margin: 2px -18px 0px 0px;
 }
 
 .DataTable thead th.DashboardHeader.FilterActive .ColumnSettingsTrigger,
@@ -852,7 +854,6 @@ thead .headerSortDown > a:before {
 .ContextSettings.RemoveFilters a i {
     display: block !important;
     font-size: 14px;
-    margin-top: 5px;
     text-align: center;
     vertical-align: middle;
 }

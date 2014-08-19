@@ -624,9 +624,9 @@ span.ImportantArticles em {
     margin: 0 0 0 4px;
     height: 16px;
     width: 16px;
-    background: transparent url(../img/icons/calendar.png) no-repeat;
     display: inline-block;
     vertical-align: top;
+    color: #333;
 }
 
 .RTL .DatepickerIcon {
@@ -670,18 +670,6 @@ td.Highlight a.ui-state-default {
  */
 .IconInline {
     display: inline-block;
-}
-
-.IconPDF {
-    width: 16px;
-    height: 16px;
-    background-image: url(../img/icons/document-pdf.png);
-}
-
-.IconSave {
-    width: 16px;
-    height: 16px;
-    background-image: url(../img/icons/disk.png);
 }
 
 .IconReady {

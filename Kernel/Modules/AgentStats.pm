@@ -1578,8 +1578,8 @@ sub Run {
                     $BlockData{SelectField}
                         .= ' <a href="#" title="'
                         . $TreeSelectionMessage
-                        . '" class="ShowTreeSelection">'
-                        . $TreeSelectionMessage . '</a>';
+                        . '" class="ShowTreeSelection"><span>'
+                        . $TreeSelectionMessage . '</span><i class="fa fa-code-fork"></i></a>';
                 }
             }
 
@@ -1682,8 +1682,8 @@ sub Run {
                     $BlockData{SelectField}
                         .= ' <a href="#" title="'
                         . $TreeSelectionMessage
-                        . '" class="ShowTreeSelection">'
-                        . $TreeSelectionMessage . '</a>';
+                        . '" class="ShowTreeSelection"><span>'
+                        . $TreeSelectionMessage . '</span><i class="fa fa-code-fork"></i></a>';
                 }
             }
 
@@ -1819,8 +1819,8 @@ sub Run {
                     $BlockData{SelectField}
                         .= ' <a href="#" title="'
                         . $TreeSelectionMessage
-                        . '" class="ShowTreeSelection">'
-                        . $TreeSelectionMessage . '</a>';
+                        . '" class="ShowTreeSelection"><span>'
+                        . $TreeSelectionMessage . '</span><i class="fa fa-code-fork"></i></a>';
                 }
             }
 

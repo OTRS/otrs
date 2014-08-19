@@ -159,42 +159,29 @@
     margin-left: 5px;
 }
 
-#TicketOptions .Print {
-    width: 16px;
-    height: 16px;
-    margin: 0 0 0 2px;
-    line-height: 16px;
-    background: url(../img/printer.png) no-repeat;
+#TicketOptions .Print,
+#TicketOptions .ZoomExpand {
+    color: #777;
+    font-size: 15px;
+}
+
+#TicketOptions .Print:hover,
+#TicketOptions .ZoomExpand:hover {
+    color: #f92;
+}
+
+#TicketOptions .Print span,
+#TicketOptions .ZoomExpand span {
     text-indent: -9999px;
     display: block;
 }
 
-.RTL #TicketOptions .Print {
-    margin: -2px 4px 0 0;
+#TicketOptions .ZoomExpand.ExpandAll .fa-minus {
+    display: none;
 }
 
-#TicketOptions .ZoomExpandOne {
-    width: 16px;
-    height: 16px;
-    margin: 0 0 0 2px;
-    line-height: 16px;
-    background: url(../img/zoomexpandone.png) no-repeat;
-    text-indent: -9999px;
-    display: block;
-}
-
-.RTL #TicketOptions .ZoomExpandOne {
-    margin: -2px 4px 0 0;
-}
-
-#TicketOptions .ZoomExpandAll {
-    width: 16px;
-    height: 16px;
-    margin: 0 0 0 2px;
-    line-height: 16px;
-    background: url(../img/zoomexpandall.png) no-repeat;
-    text-indent: -9999px;
-    display: block;
+#TicketOptions .ZoomExpand.ExpandOne .fa-bars {
+    display: none;
 }
 
 .RTL #TicketOptions .ZoomExpandAll {
@@ -370,12 +357,10 @@
 }
 
 .Details .Attachments .Label {
-    background: url(../img/paper-clip.png) no-repeat right;
     text-indent: -9999px;
     text-align:left;
 }
 .RTL .Details .Attachments .Label {
-    background-position: left;
     text-indent: -9999px;
     text-align:right;
 }
@@ -488,15 +473,15 @@
     bottom: -22px;
     height: 10px;
     margin: 0 13px;
-    padding: 4px 8px 7px 24px;
+    padding: 4px 8px 7px 8px;
     color: #999;
-    background: #F0F0F0 url(../img/reply.png) no-repeat 6px 6px;
-    background: url(../img/reply.png) -moz-linear-gradient(top,  #f0f0f0 0%, #eeeeee 100%);
-    background: url(../img/reply.png) -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0f0f0), color-stop(100%,#eeeeee));
-    background: url(../img/reply.png) -webkit-linear-gradient(top,  #f0f0f0 0%,#eeeeee 100%);
-    background: url(../img/reply.png) -o-linear-gradient(top,  #f0f0f0 0%,#eeeeee 100%);
-    background: url(../img/reply.png) -ms-linear-gradient(top,  #f0f0f0 0%,#eeeeee 100%);
-    background: url(../img/reply.png) linear-gradient(to bottom,  #f0f0f0 0%,#eeeeee 100%);
+    background: #F0F0F0 no-repeat 6px 6px;
+    background: -moz-linear-gradient(top,  #f0f0f0 0%, #eeeeee 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0f0f0), color-stop(100%,#eeeeee));
+    background: -webkit-linear-gradient(top,  #f0f0f0 0%,#eeeeee 100%);
+    background: -o-linear-gradient(top,  #f0f0f0 0%,#eeeeee 100%);
+    background: -ms-linear-gradient(top,  #f0f0f0 0%,#eeeeee 100%);
+    background: linear-gradient(to bottom,  #f0f0f0 0%,#eeeeee 100%);
     border: 1px solid #D6D6D6;
     border-top: none;
     border-bottom-right-radius: 5px;

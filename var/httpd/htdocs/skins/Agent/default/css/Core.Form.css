@@ -105,7 +105,6 @@ button.Remove,
 a.Remove,
 button.TrashCan,
 a.TrashCan,
-a.ViewAttachment,
 button.Reset,
 a.Reset {
     height: 16px;
@@ -118,6 +117,7 @@ a.Reset {
     display: inline-block;
     vertical-align: middle;
     cursor: pointer;
+    position: relative;
 }
 
 button.Add,
@@ -153,9 +153,11 @@ a.Remove:focus {
     background: url(../img/filter_remove_hover.png) no-repeat center;
 }
 
-button.TrashCan,
-a.TrashCan {
-    background: url(../img/icons/trash-can.png) no-repeat center;
+a.TrashCan i.fa-trash-o {
+    text-indent: 0px;
+    position: absolute;
+    left: 0px;
+    top: 4px;
 }
 
 button.Reset,
@@ -163,11 +165,6 @@ a.Reset{
     height: 22px;
     width: 22px;
     padding: 3px;
-    background: transparent url(../img/icons/undo.png) no-repeat center;
-}
-
-a.ViewAttachment {
-    background: url(../img/icons/monitor.png) no-repeat center;
 }
 
 /**
@@ -189,10 +186,14 @@ button.Reset:active {
     width: 16px;
     height: 16px;
     margin-left: 3px;
-    text-indent: -9999px;
-    background: url(../img/icons/reload.png);
     display: inline-block;
-    font-size: 2px;
+    color: #333;
+}
+
+.GetAllAJAX span {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
 }
 
 .RTL .GetAllAJAX {
@@ -207,14 +208,18 @@ button.Reset:active {
     width: 16px;
     height: 16px;
     margin-left: 3px;
-    text-indent: -9999px;
-    background: url(../img/icons/tree.png);
     display: none;
-    font-size: 2px;
+    color: #333;
+}
+
+.ShowTreeSelection span {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
 }
 
 .ShowTreeSelection:focus {
-    background-color: #ddd;
+    color: #f92;
 }
 
 .Field .ShowTreeSelection, .WidgetSettingsForm .ShowTreeSelection {

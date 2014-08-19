@@ -16,11 +16,6 @@
  * @subsubsection     Icon Definition
  */
 
-a.Export {
-    background: url("../img/database_export.png") no-repeat left center;
-    padding-left: 24px;
-}
-
 a.Copy {
     background: url(../img/icons/reports.png) no-repeat left center;
     padding-left: 24px;
@@ -47,14 +42,6 @@ a.Print span {
     background-position: center;
     float: right;
     margin-left: 5px;
-}
-
-.Icon_Delete {
-    background-image: url(../img/icons/trash-can.png);
-}
-
-.Icon_Edit {
-    background-image: url(../img/icons/edit.png);
 }
 
 .AvailableIn {
