@@ -122,8 +122,8 @@ Please run it as the 'otrs' user or with the help of su:
     $Step++;
 
     # migrate ProcessManagement dynamic fields.
-    print "Step $Step of $Steps: Migrate ProcessManagement Dynamic Fields... ";
-    if ( _MigrateProcessManagementDynamicFields() ) {
+    print "Step $Step of $Steps: Migrate ProcessManagement Dynamic Field Types... ";
+    if ( _MigrateProcessManagementDynamicFieldTypes() ) {
         print "done.\n\n";
     }
     else {
@@ -454,7 +454,16 @@ sub _MigrateProcessManagementEntityIDs {
         }
     }
 
+    my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # migrate processes
+    my $ProcessDFName = $ConfigObject->Get('Process::DynamicFieldProcessManagementProcessID');
+
+    my $ProcessDF = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+        Name => $ProcessDFName,
+    );
+
     PROCESS:
     for my $Process ( @{ $ProcessManagementList{Process} } ) {
 
@@ -463,6 +472,8 @@ sub _MigrateProcessManagementEntityIDs {
         if ( !$EntityLookup{Process}->{ $Process->{EntityID} } ) {
             die "Error: No new EntityID was created for Process: $Process->{EntityID}";
         }
+
+        my $OldentityID = $Process->{EntityID};
 
         # set new process EntityID:
         $Process->{EntityID} = $EntityLookup{Process}->{ $Process->{EntityID} };
@@ -554,9 +565,25 @@ sub _MigrateProcessManagementEntityIDs {
             }
         }
         $Process->{Config}->{Path} = \%NewPath;
+
+        # update dynamic fields
+        return if !$DBObject->Do(
+            SQL => '
+                UPDATE dynamic_field_value
+                SET value_text = ?
+                WHERE field_id = ?
+                    AND value_text =?',
+            Bind => [ \$Process->{EntityID}, \$ProcessDF->{ID}, \$OldentityID, ],
+        );
     }
 
     # migrate activities
+    my $ActivityDFName = $ConfigObject->Get('Process::DynamicFieldProcessManagementActivityID');
+
+    my $ActivityDF = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+        Name => $ActivityDFName,
+    );
+
     ACTIVITY:
     for my $Activity ( @{ $ProcessManagementList{Activity} } ) {
 
@@ -565,6 +592,8 @@ sub _MigrateProcessManagementEntityIDs {
         if ( !$EntityLookup{Activity}->{ $Activity->{EntityID} } ) {
             die "Error: No new EntityID was created for Activity: $Activity->{EntityID}";
         }
+
+        my $OldentityID = $Activity->{EntityID};
 
         # set new Activity EntityID:
         $Activity->{EntityID} = $EntityLookup{Activity}->{ $Activity->{EntityID} };
@@ -590,6 +619,16 @@ sub _MigrateProcessManagementEntityIDs {
             $Activity->{Config}->{ActivityDialog}->{$OrderKey}
                 = $NewActivityDialogEntityID;
         }
+
+        # update dynamic fields
+        return if !$DBObject->Do(
+            SQL => '
+                UPDATE dynamic_field_value
+                SET value_text = ?
+                WHERE field_id = ?
+                    AND value_text =?',
+            Bind => [ \$Activity->{EntityID}, \$ActivityDF->{ID}, \$OldentityID, ],
+        );
     }
 
     # migrate all other process parts
@@ -840,15 +879,15 @@ sub _MigrateProcessManagementEntityIDs {
     return 1;
 }
 
-=item _MigrateProcessManagementDynamicfields()
+=item _MigrateProcessManagementDynamicfieldTypes()
 
 Migrate process management Dynamic Fields to use their own driver.
 
-    _MigrateProcessManagementDynamicfields();
+    _MigrateProcessManagementDynamicfieldTypes();
 
 =cut
 
-sub _MigrateProcessManagementDynamicFields {
+sub _MigrateProcessManagementDynamicFieldTypes {
 
     my $ProcessManagementProcessID = $Kernel::OM->Get('Kernel::Config')
         ->Get('Process::DynamicFieldProcessManagementProcessID') || '';
