@@ -1720,7 +1720,7 @@ sub _GetColumnValues {
         }
 
         $ColumnFilterValues{$HeaderColumn}
-            = $Kernel::OM->('Kernel::System::Ticket::ColumnFilter')->$FunctionName(
+            = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->$FunctionName(
             TicketIDs    => $TicketIDs,
             HeaderColumn => $HeaderColumn,
             UserID       => $Self->{UserID},
