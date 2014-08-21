@@ -39,6 +39,7 @@
 %dir /opt/otrs/Kernel/Output/HTML/
 /opt/otrs/Kernel/Output/HTML/Standard/
 /opt/otrs/Kernel/Output/HTML/*.pm
+/opt/otrs/Kernel/Output/Template*
 
 /opt/otrs/Kernel/System*
 /opt/otrs/bin*
