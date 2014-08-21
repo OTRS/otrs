@@ -261,6 +261,7 @@ sub Run {
                         Type => 'Info',
                         What => 'Message',
                         )
+                        || $AuthObject->GetLastErrorMessage()
                         || 'Login failed! Your user name or password was entered incorrectly.',
                     User        => $PostUser,
                     LoginFailed => 1,

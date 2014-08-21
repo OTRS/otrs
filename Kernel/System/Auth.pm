@@ -88,6 +88,9 @@ sub new {
         $Self->{"AuthSyncBackend$Count"} = $GenericModule->new( %{$Self}, Count => $Count );
     }
 
+    # Initialize last error message
+    $Self->{LastErrorMessage} = '';
+
     return $Self;
 }
 
@@ -282,6 +285,11 @@ sub Auth {
         # check if the user is in the Admin group
         # if that is not the case return
         if ( !$Groups{admin} ) {
+
+            $Self->{LastErrorMessage} =
+                $ConfigObject->Get('SystemMaintenance::IsActiveDefaultLoginErrorMessage')
+                || "Is not possible to perform a login, system maintenance is active.";
+
             return;
         }
     }
@@ -294,6 +302,24 @@ sub Auth {
     );
 
     return $User;
+}
+
+=item GetLastErrorMessage()
+
+Retrieve $Self->{LastErrorMessage} content.
+
+    my $AuthErrorMessage = $AuthObject->GetLastErrorMessage();
+
+    Result:
+
+        $AuthErrorMessage = "An error string message.";
+
+=cut
+
+sub GetLastErrorMessage {
+    my ( $Self, %Param ) = @_;
+
+    return $Self->{LastErrorMessage};
 }
 
 1;
