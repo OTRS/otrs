@@ -258,10 +258,17 @@ sub Auth {
     my $ActiveMaintenance
         = $Kernel::OM->Get('Kernel::System::SystemMaintenance')->SystemMaintenanceIsActive();
 
+    # reset failed logins
+    $UserObject->SetPreferences(
+        Key    => 'UserLoginFailed',
+        Value  => 0,
+        UserID => $UserID,
+    );
+
     # check if system maintenance is active
     if ($ActiveMaintenance) {
 
-        # check if user needs to be notified
+        # check if user is allow to login
         # get current user groups
         my %Groups = $Kernel::OM->Get('Kernel::System::Group')->GroupMemberList(
             UserID => $UserID,
@@ -273,18 +280,11 @@ sub Auth {
         %Groups = reverse %Groups;
 
         # check if the user is in the Admin group
-        # if that is the case, extend the error with a link
+        # if that is not the case return
         if ( !$Groups{admin} ) {
             return;
         }
     }
-
-    # reset failed logins
-    $UserObject->SetPreferences(
-        Key    => 'UserLoginFailed',
-        Value  => 0,
-        UserID => $UserID,
-    );
 
     # last login preferences update
     $UserObject->SetPreferences(

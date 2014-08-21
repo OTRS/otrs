@@ -6434,4 +6434,12 @@ via the Preferences button after logging in.
             <String Regex="">A system maintenance period is active</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="SystemMaintenance::IsActiveDefaultLoginMessage" Required="0" Valid="1">
+        <Description Translatable="1">Sets the default message for the login screen on Agent and Customer interface, it's shown when a running system maintenance period is active.</Description>
+        <Group>Framework</Group>
+        <SubGroup>SystemMaintenance</SubGroup>
+        <Setting>
+            <String Regex="">System is on a scheduled maintenance period. We spect to be online promptly.</String>
+        </Setting>
+    </ConfigItem>
 </otrs_config>

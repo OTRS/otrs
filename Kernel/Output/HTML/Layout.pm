@@ -726,11 +726,18 @@ sub Login {
             ID     => $ActiveMaintenance,
             UserID => 1,
         );
+
         if ( $SystemMaintenanceData->{ShowLoginMessage} ) {
+
+            my $LoginMessage =
+                $SystemMaintenanceData->{LoginMessage}
+                || $Self->{ConfigObject}->Get('SystemMaintenance::IsActiveDefaultLoginMessage')
+                || "System maintenance is active, not possible to perform a login!";
+
             $Self->Block(
                 Name => 'SystemMaintenance',
                 Data => {
-                    %{$SystemMaintenanceData},
+                    LoginMessage => $LoginMessage,
                 },
             );
         }
@@ -3112,10 +3119,15 @@ sub CustomerLogin {
             UserID => 1,
         );
         if ( $SystemMaintenanceData->{ShowLoginMessage} ) {
+            my $LoginMessage =
+                $SystemMaintenanceData->{LoginMessage}
+                || $Self->{ConfigObject}->Get('SystemMaintenance::IsActiveDefaultLoginMessage')
+                || "System maintenance is active, not possible to perform a login!";
+
             $Self->Block(
                 Name => 'SystemMaintenance',
                 Data => {
-                    %{$SystemMaintenanceData},
+                    LoginMessage => $LoginMessage,
                 },
             );
         }

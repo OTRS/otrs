@@ -155,6 +155,13 @@ sub Auth {
 
     return $User if !%CustomerData;
 
+    # reset failed logins
+    $CustomerUserObject->SetPreferences(
+        Key    => 'UserLoginFailed',
+        Value  => 0,
+        UserID => $CustomerData{UserLogin},
+    );
+
     # on system maintenance customers
     # shouldn't be allowed get into the system
     my $ActiveMaintenance
@@ -164,13 +171,6 @@ sub Auth {
     if ($ActiveMaintenance) {
         return;
     }
-
-    # reset failed logins
-    $CustomerUserObject->SetPreferences(
-        Key    => 'UserLoginFailed',
-        Value  => 0,
-        UserID => $CustomerData{UserLogin},
-    );
 
     # last login preferences update
     $CustomerUserObject->SetPreferences(
