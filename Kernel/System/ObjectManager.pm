@@ -134,11 +134,6 @@ sub new {
 
     $Self->{Debug} = delete $Param{Debug};
 
-    # Pre-load ConfigObject
-    my $ConfigObject = Kernel::Config->new();
-    $Self->{Objects} = {
-        'Kernel::Config' => $ConfigObject,
-    };
     for my $Parameter ( sort keys %Param ) {
         $Self->{Param}->{$Parameter} = $Param{$Parameter};
     }
