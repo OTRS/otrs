@@ -66,7 +66,7 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
   <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
   <ModuleRequired Version="1.112">Encode</ModuleRequired>
-  <Framework>3.4.x</Framework>
+  <Framework>4.0.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -121,7 +121,7 @@ my $StringSecond = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
   <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
   <ModuleRequired Version="1.112">Encode</ModuleRequired>
-  <Framework>3.4.x</Framework>
+  <Framework>4.0.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -391,7 +391,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <PackageRequired Version="0.1">SomeNotExistingModule</PackageRequired>
-  <Framework>3.4.x</Framework>
+  <Framework>4.0.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -426,7 +426,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <OS>NonExistingOS</OS>
-  <Framework>3.4.x</Framework>
+  <Framework>4.0.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -464,7 +464,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <OS>linux</OS>
   <OS>freebsd</OS>
   <OS>MSWin32</OS>
-  <Framework>3.4.x</Framework>
+  <Framework>4.0.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -506,7 +506,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <ModuleRequired Version="0.1">SomeNotExistingModule</ModuleRequired>
-  <Framework>3.4.x</Framework>
+  <Framework>4.0.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -540,7 +540,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <ModuleRequired Version="12.999">Encode</ModuleRequired>
-  <Framework>3.4.x</Framework>
+  <Framework>4.0.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -575,7 +575,7 @@ my $String1 = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>3.4.x</Framework>
+  <Framework>4.0.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -607,7 +607,7 @@ my $String2 = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>3.4.x</Framework>
+  <Framework>4.0.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -640,7 +640,7 @@ my $String3 = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>3.4.x</Framework>
+  <Framework>4.0.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -668,7 +668,7 @@ my $String3a = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>3.4.x</Framework>
+  <Framework>4.0.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -704,7 +704,7 @@ my $String3b = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>3.4.x</Framework>
+  <Framework>4.0.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -859,7 +859,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>3.4.x</Framework>
+  <Framework>4.0.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -933,7 +933,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 110101</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>3.4.x</Framework>
+  <Framework>4.0.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -1017,7 +1017,7 @@ my $FileNotAllowedString = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
   <Description Lang=\"en\">A test package.</Description>
   <Description Lang=\"de\">Ein Test Paket.</Description>
-  <Framework>3.4.x</Framework>
+  <Framework>4.0.x</Framework>
   <Framework>3.3.x</Framework>
   <Framework>3.2.x</Framework>
   <Framework>3.1.x</Framework>
@@ -1095,7 +1095,7 @@ if ( !$DeveloperSystem ) {
       <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
       <Description Lang="en">A test package.</Description>
       <Description Lang="de">Ein Test Paket.</Description>
-      <Framework>3.4.x</Framework>
+      <Framework>4.0.x</Framework>
       <Framework>3.3.x</Framework>
       <Framework>3.2.x</Framework>
       <Framework>3.1.x</Framework>
@@ -1179,7 +1179,7 @@ if ( !$DeveloperSystem ) {
       <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
       <Description Lang="en">A test package.</Description>
       <Description Lang="de">Ein Test Paket.</Description>
-      <Framework>3.4.x</Framework>
+      <Framework>4.0.x</Framework>
       <Framework>3.3.x</Framework>
       <Framework>3.2.x</Framework>
       <Framework>3.1.x</Framework>
