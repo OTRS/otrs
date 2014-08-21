@@ -168,8 +168,8 @@ sub HandleLanguage {
     if ( !$Module ) {
         $LanguageFile  = "$Home/Kernel/Language/$Language.pm";
         $TargetFile    = "$Home/Kernel/Language/$Language.pm";
-        $TargetPOTFile = "$Home/i18n/otrs.pot";
-        $TargetPOFile  = "$Home/i18n/otrs.$Language.po";
+        $TargetPOTFile = "$Home/i18n/otrs/otrs.pot";
+        $TargetPOFile  = "$Home/i18n/otrs/otrs.$Language.po";
     }
     else {
         $IsSubTranslation = 1;
@@ -192,8 +192,8 @@ sub HandleLanguage {
         # save module directory in target file
         $TargetFile = "$ModuleDirectory/Kernel/Language/${Language}_$Module.pm";
 
-        $TargetPOTFile = "$ModuleDirectory/i18n/$Module.pot";
-        $TargetPOFile  = "$ModuleDirectory/i18n/$Module.$Language.po";
+        $TargetPOTFile = "$ModuleDirectory/i18n/$Module/$Module.pot";
+        $TargetPOFile  = "$ModuleDirectory/i18n/$Module/$Module.$Language.po";
     }
 
     if ( !-w $TargetFile ) {
