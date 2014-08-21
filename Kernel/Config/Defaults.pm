@@ -618,13 +618,17 @@ sub LoadDefaults {
     # (don't work with user id 1 notification)
     $Self->{'Frontend::NotifyModule'} = {
         '200-UID-Check' => {
-          'Module' => 'Kernel::Output::HTML::NotificationUIDCheck'
+          'Module' => 'Kernel::Output::HTML::NotificationUIDCheck',
         },
         '500-OutofOffice-Check' => {
-          'Module' => 'Kernel::Output::HTML::NotificationOutofOfficeCheck'
+          'Module' => 'Kernel::Output::HTML::NotificationOutofOfficeCheck',
         },
+        '600-SystemMaintenance-Check' => {
+            'Module' => 'Kernel::Output::HTML::NotificationSystemMaintenanceCheck',
+        },
+
         '800-Scheduler-Check' => {
-          'Module' => 'Kernel::Output::HTML::NotificationSchedulerCheck'
+          'Module' => 'Kernel::Output::HTML::NotificationSchedulerCheck',
         },
     };
 
