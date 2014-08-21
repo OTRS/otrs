@@ -17,6 +17,7 @@ our @ObjectDependencies = (
     'Kernel::System::CustomerUser',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::SystemMaintenance',
     'Kernel::System::Time',
 );
 
@@ -153,6 +154,16 @@ sub Auth {
     }
 
     return $User if !%CustomerData;
+
+    # on system maintenance customers
+    # shouldn't be allowed get into the system
+    my $ActiveMaintenance
+        = $Kernel::OM->Get('Kernel::System::SystemMaintenance')->SystemMaintenanceIsActive();
+
+    # check if system maintenance is active
+    if ($ActiveMaintenance) {
+        return;
+    }
 
     # reset failed logins
     $CustomerUserObject->SetPreferences(

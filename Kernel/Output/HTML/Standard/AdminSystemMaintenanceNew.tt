@@ -1,0 +1,104 @@
+# --
+# AdminSystemMaintenanceNew.tt - provides HTML for AdminSystemMaintenance
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Schedule New System Maintenance") | html %]</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center Back"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Schedule New System Maintenance") | html %]</h2>
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="SystemMaintenanceNewAction"/>
+                    <fieldset class="TableLike">
+
+                        <label class="Mandatory" ><span class="Marker">*</span> [% Translate("Start date") | html %]:</label>
+                        <div class="Field">
+                            [% Data.StartDateString %]
+                            <div id="StartDateDayServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
+                            <div id="StartDateHourServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" ><span class="Marker">*</span> [% Translate("Stop date") | html %]:</label>
+                        <div class="Field">
+                            [% Data.StopDateString %]
+                            <div id="StopDateDayServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
+                            <div id="StopDateHourServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Comment">[% Translate("Comment") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Comment" id="Comment" value="[% Data.Comment | html %]" class="W50pc [% Data.CommentServerError | html %]" maxlength="70"/>
+                        </div>
+                        <div class="Clear SpacingTop"></div>
+
+                        <label for="LoginMessage">[% Translate("Login message") | html %]:</label>
+                        <div class="Field">
+                            <textarea name="LoginMessage" id="LoginMessage" class="W50pc [% Data.DescriptionServerError | html %]" rows="5">[% Data.LoginMessage | html %]</textarea>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ShowLoginMessage">[% Translate("Show login message") | html %]:</label>
+                        <div class="Field">
+                            <input type="checkbox" name="ShowLoginMessage" id="ShowLoginMessage" value="1" [% Data.Checked %] />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="NotifyMessage">[% Translate("Notify message") | html %]:</label>
+                        <div class="Field">
+                            <textarea name="NotifyMessage" id="NotifyMessage" class="W50pc [% Data.DescriptionServerError | html %]" rows="5">[% Data.NotifyMessage | html %]</textarea>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> [% Translate("Validity") | html %]:</label>
+                        <div class="Field">
+                            [% Data.ValidOption %]
+                            <div id="ValidIDError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]">[% Translate("Save") | html %]</button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>

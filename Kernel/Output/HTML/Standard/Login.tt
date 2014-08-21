@@ -135,6 +135,13 @@ X-OTRS-Login: [% Env("Baselink") %]
                     </div>
                 </div>
 
+[% RenderBlockStart("SystemMaintenance") %]
+                <div class="MessageBox" id="SystemMaintenance">
+                    <p><i class="fa fa-exclamation-circle fa-2x"></i> [% Translate("System Maintenance") | html %]:</p>
+                    <p> [% Translate(Data.LoginMessage) | html %] </p>
+                </div>
+[% RenderBlockEnd("SystemMaintenance") %]
+
                 <div id="LoginBox">
                     <p class="Error Center Spacing">
                         [% Data.Message | html %]

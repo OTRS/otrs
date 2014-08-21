@@ -32,6 +32,7 @@ our @ObjectDependencies = (
     'Kernel::System::JSON',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::SystemMaintenance',
     'Kernel::System::Ticket',
     'Kernel::System::Time',
     'Kernel::System::User',
@@ -712,6 +713,27 @@ sub Login {
         $Self->Block(
             Name => 'LoginLogo'
         );
+    }
+
+    # get system maintenance object
+    my $SystemMaintenanceObject = $Kernel::OM->Get('Kernel::System::SystemMaintenance');
+
+    my $ActiveMaintenance = $SystemMaintenanceObject->SystemMaintenanceIsActive();
+
+    # check if system maintenance is active
+    if ($ActiveMaintenance) {
+        my $SystemMaintenanceData = $SystemMaintenanceObject->SystemMaintenanceGet(
+            ID     => $ActiveMaintenance,
+            UserID => 1,
+        );
+        if ( $SystemMaintenanceData->{ShowLoginMessage} ) {
+            $Self->Block(
+                Name => 'SystemMaintenance',
+                Data => {
+                    %{$SystemMaintenanceData},
+                },
+            );
+        }
     }
 
     # create & return output
@@ -3076,6 +3098,27 @@ sub CustomerLogin {
         $Self->Block(
             Name => 'HeaderLogo',
         );
+    }
+
+    # get system maintenance object
+    my $SystemMaintenanceObject = $Kernel::OM->Get('Kernel::System::SystemMaintenance');
+
+    my $ActiveMaintenance = $SystemMaintenanceObject->SystemMaintenanceIsActive();
+
+    # check if system maintenance is active
+    if ($ActiveMaintenance) {
+        my $SystemMaintenanceData = $SystemMaintenanceObject->SystemMaintenanceGet(
+            ID     => $ActiveMaintenance,
+            UserID => 1,
+        );
+        if ( $SystemMaintenanceData->{ShowLoginMessage} ) {
+            $Self->Block(
+                Name => 'SystemMaintenance',
+                Data => {
+                    %{$SystemMaintenanceData},
+                },
+            );
+        }
     }
 
     # create & return output

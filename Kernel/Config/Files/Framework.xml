@@ -695,6 +695,16 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::NotifyModule###600-SystemMaintenance-Check" Required="1" Valid="1">
+        <Description Translatable="1">Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NotificationSystemMaintenanceCheck</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###900-Generic" Required="0" Valid="0">
         <Description Translatable="1">Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.</Description>
         <Group>Framework</Group>
@@ -3455,6 +3465,16 @@ You can log in via the following URL:
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="CustomerFrontend::NotifyModule###6-CustomerSystemMaintenance-Check" Required="1" Valid="1">
+        <Description Translatable="1">Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer::ModuleNotify</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NotificationCustomerSystemMaintenanceCheck</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="CustomerPanelLoginURL" Required="0" Valid="0">
         <Description Translatable="1">Defines an alternate login URL for the customer panel..</Description>
         <Group>Framework</Group>
@@ -4809,6 +4829,26 @@ via the Preferences button after logging in.
                     <Description Translatable="1">Update and extend your system with software packages.</Description>
                     <Block>System</Block>
                     <Prio>1000</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminSystemMaintenance" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">System Maintenance</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name Translatable="1">System Maintenance</Name>
+                    <Description Translatable="1">Schedule a maintenance period.</Description>
+                    <Block>System</Block>
+                    <Prio>501</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
@@ -6376,6 +6416,22 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="Go to dashboard!">[% Env("CGIHandle") %]?Action=AgentDashboard</Item>
             </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="SystemMaintenance::TimeNotifyUpcomingMaintenance" Required="0" Valid="1">
+        <Description Translatable="1">Sets the minutes a notification is shown for notice about upcoming system maintenance period.</Description>
+        <Group>Framework</Group>
+        <SubGroup>SystemMaintenance</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]{1,8}$">30</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="SystemMaintenance::IsActiveDefaultNotification" Required="0" Valid="1">
+        <Description Translatable="1">Sets the default message for the notification is shown on a running system maintenance period.</Description>
+        <Group>Framework</Group>
+        <SubGroup>SystemMaintenance</SubGroup>
+        <Setting>
+            <String Regex="">A system maintenance period is active</String>
         </Setting>
     </ConfigItem>
 </otrs_config>

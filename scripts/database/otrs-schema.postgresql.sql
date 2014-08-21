@@ -229,6 +229,24 @@ CREATE TABLE system_address (
     PRIMARY KEY(id)
 );
 -- ----------------------------------------------------------
+--  create table system_maintenance
+-- ----------------------------------------------------------
+CREATE TABLE system_maintenance (
+    id serial NOT NULL,
+    start_date INTEGER NOT NULL,
+    stop_date INTEGER NOT NULL,
+    comments VARCHAR (250) NULL,
+    login_message VARCHAR (250) NULL,
+    show_login_message INTEGER NULL,
+    notify_message VARCHAR (250) NULL,
+    valid_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+-- ----------------------------------------------------------
 --  create table follow_up_possible
 -- ----------------------------------------------------------
 CREATE TABLE follow_up_possible (

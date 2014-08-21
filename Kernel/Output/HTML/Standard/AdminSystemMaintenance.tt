@@ -1,0 +1,127 @@
+# --
+# AdminSystemMaintenance.tt - provides global HTML AdminSystemMaintenance
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- start -->
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="Header">[% Translate("System Maintenance Management") | html %]</h1>
+
+    <div class="SidebarColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=SystemMaintenanceNew" class="CallForAction Fullsize Center Create"><span><i class="fa fa-plus-square"></i>[% Translate("Schedule New System Maintenance") | html %]</span></a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("Schedule a system maintenance period for announcing the Agents and Customers the system is down for a time period.") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    [% Translate("Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.") | html %]
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+
+            <div class="Header">
+                <h2>[% Translate("List") | html %]</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Start date") | html %]</th>
+                            <th>[% Translate("Stop date") | html %]</th>
+                            <th>[% Translate("Comment") | html %]</th>
+                            <th>[% Translate("Validity") | html %]</th>
+                            <th>[% Translate("Delete") | html %]</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("ViewRow") %]
+                        <tr>
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSystemMaintenance;Subaction=SystemMaintenanceEdit;SystemMaintenanceID=[% Data.ID | uri %]">[% Data.StartDateTimeStamp | html %]</a>
+                            </td>
+                            <td>
+                                <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSystemMaintenance;Subaction=SystemMaintenanceEdit;SystemMaintenanceID=[% Data.ID | uri %]">[% Data.StopDateTimeStamp | html %]</a>
+                            </td>
+                            <td>[% Data.Comment | truncate(80) | html %]</td>
+                            <td>[% Data.ValidID | html %]</td>
+
+                            <td class="Center">
+                                <a class="TrashCan SystemMaintenanceDelete" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;SystemMaintenanceID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete System Maintenance") | html %]">[% Translate("Delete System Maintenance") | html %]</a>
+                            </td>
+                        </tr>
+[% RenderBlockEnd("ViewRow") %]
+
+
+[% RenderBlockStart("NoDataRow") %]
+                        <tr>
+                            <td colspan="5">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("NoDataRow") %]
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="Clear"></div>
+</div>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('.MasterAction').bind('click', function (Event) {
+    var $MasterActionLink = $(this).find('.MasterActionLink');
+    // only act if the link was not clicked directly
+    if (Event.target !== $MasterActionLink.get(0)) {
+        window.location = $MasterActionLink.attr('href');
+        return false;
+    }
+});
+
+$('.SystemMaintenanceDelete').bind('click', function (Event) {
+
+    if (window.confirm([% Translate("Do you really want to delete this scheduled system maintenance?") | JSON %])) {
+        return true;
+    }
+
+    // don't interfere with MasterAction
+    Event.stopPropagation();
+    Event.preventDefault();
+    return false;
+});
+//]]></script>
+[% END %]
+
+<!-- end -->

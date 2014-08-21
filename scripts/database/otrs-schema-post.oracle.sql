@@ -45,6 +45,9 @@ ALTER TABLE signature ADD CONSTRAINT FK_signature_valid_id_id FOREIGN KEY (valid
 ALTER TABLE system_address ADD CONSTRAINT FK_system_address_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE system_address ADD CONSTRAINT FK_system_address_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE system_address ADD CONSTRAINT FK_system_address_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
+ALTER TABLE system_maintenance ADD CONSTRAINT FK_system_maintenance_created6 FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE system_maintenance ADD CONSTRAINT FK_system_maintenance_change48 FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE system_maintenance ADD CONSTRAINT FK_system_maintenance_valid_49 FOREIGN KEY (valid_id) REFERENCES valid (id);
 ALTER TABLE follow_up_possible ADD CONSTRAINT FK_follow_up_possible_createef FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE follow_up_possible ADD CONSTRAINT FK_follow_up_possible_change63 FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE follow_up_possible ADD CONSTRAINT FK_follow_up_possible_valid_95 FOREIGN KEY (valid_id) REFERENCES valid (id);

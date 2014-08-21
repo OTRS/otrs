@@ -14,8 +14,10 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::SystemMaintenance',
     'Kernel::System::Time',
     'Kernel::System::User',
     'Kernel::System::Valid',
@@ -250,6 +252,32 @@ sub Auth {
     );
 
     return $User if !$UserID;
+
+    # on system maintenance just admin users
+    # should be allowed to get into the system
+    my $ActiveMaintenance
+        = $Kernel::OM->Get('Kernel::System::SystemMaintenance')->SystemMaintenanceIsActive();
+
+    # check if system maintenance is active
+    if ($ActiveMaintenance) {
+
+        # check if user needs to be notified
+        # get current user groups
+        my %Groups = $Kernel::OM->Get('Kernel::System::Group')->GroupMemberList(
+            UserID => $UserID,
+            Type   => 'move_into',
+            Result => 'HASH',
+        );
+
+        # reverse groups hash for easy look up
+        %Groups = reverse %Groups;
+
+        # check if the user is in the Admin group
+        # if that is the case, extend the error with a link
+        if ( !$Groups{admin} ) {
+            return;
+        }
+    }
 
     # reset failed logins
     $UserObject->SetPreferences(

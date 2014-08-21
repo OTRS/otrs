@@ -1,0 +1,208 @@
+# --
+# AdminSystemMaintenanceEdit.tt - provides HTML for Admin System Maintenance
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Edit System Maintenance %s", Data.Name) | html %]</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Center Fullsize Back"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="ContentColumn">
+        <form action="[% Env("CGIHandle") %]" method="post" id="SystemMaintenanceForm" class="Validate PreventMultipleSubmits">
+            <div class="WidgetSimple Expanded">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate("Edit System Maintenance information") | html %]</h2>
+                </div>
+                <div class="Content">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="SystemMaintenanceEditAction"/>
+                    <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+                    <input type="hidden" name="SystemMaintenanceID" value="[% Data.ID | html %]"/>
+                    <fieldset class="TableLike">
+
+
+                        <label>[% Translate("Start date") | html %]:</label>
+                        <div class="Field">
+                            [% Data.StartDateString %]
+                            <div id="StartDateDayServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
+                            <div id="StartDateHourServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Stop date") | html %]:</label>
+                        <div class="Field">
+                            [% Data.StopDateString %]
+                            <div id="StopDateDayServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
+                            <div id="StopDateHourServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Comment">[% Translate("Comment") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Comment" id="Comment" value="[% Data.Comment | html %]" class="W50pc [% Data.CommentServerError | html %]" maxlength="70"/>
+                        </div>
+                        <div class="Clear SpacingTop"></div>
+
+                        <label for="LoginMessage">[% Translate("Login message") | html %]:</label>
+                        <div class="Field">
+                            <textarea name="LoginMessage" id="LoginMessage" class="W50pc [% Data.DescriptionServerError | html %]" rows="5">[% Data.LoginMessage | html %]</textarea>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ShowLoginMessage">[% Translate("Show login message") | html %]:</label>
+                        <div class="Field">
+                            <input type="checkbox" name="ShowLoginMessage" id="ShowLoginMessage" value="1" [% Data.Checked %] />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="NotifyMessage">[% Translate("Notify message") | html %]:</label>
+                        <div class="Field">
+                            <textarea name="NotifyMessage" id="NotifyMessage" class="W50pc [% Data.DescriptionServerError | html %]" rows="5">[% Data.NotifyMessage | html %]</textarea>
+                        </div>
+                        <div class="Clear"></div>
+
+
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> [% Translate("Validity") | html %]:</label>
+                        <div class="Field">
+                            [% Data.ValidOption %]
+                            <div id="ValidIDError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                            <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]">[% Translate("Save") | html %]</button>
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="WidgetSimple">
+                <div class="Header Expanded">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate("Sessions") | html %]</h2>
+                </div>
+                <div class="Content">
+                    <fieldset class="TableLike SpacingTop">
+
+                        <label>[% Translate("All Sessions") | html %]</label>
+                        <div class="Field">[% Data.Counter | html %] </div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Unique agents") | html %]</label>
+                        <div class="Field">[% Data.UserSessionUniq | html %] </div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate("Unique customers") | html %]</label>
+                        <div class="Field">[% Data.CustomerSessionUniq | html %] </div>
+                        <div class="Clear"></div>
+
+
+                        <h4 class="SpacingTop">[% Translate("Agent Sessions") | html %]</h4>
+                        <table class="DataTable">
+                            <thead>
+                                <tr>
+                                    <th>[% Translate("Session") | html %]</th>
+                                    <th>[% Translate("Type") | html %]</th>
+                                    <th>[% Translate("User") | html %]</th>
+                                    <th>[% Translate("Kill") | html %]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+[% RenderBlockStart("AgentSession") %]
+                                <tr>
+                                    <td>[% Data.SessionID | html %]</td>
+                                    <td>[% Data.UserType | html %]</td>
+                                    <td>[% Data.UserFirstname | html %] [% Data.UserLastname %]</td>
+                                    <td>
+                                        <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSystemMaintenance;Subaction=Kill;WantSessionID=[% Data.SessionID | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Kill this session") | html %]</a>
+                                    </td>
+                                </tr>
+[% RenderBlockEnd("AgentSession") %]
+[% RenderBlockStart("AgentNoDataRow") %]
+                                <tr>
+                                    <td colspan="4">
+                                        [% Translate("No data found.") | html %]
+                                    </td>
+                                </tr>
+[% RenderBlockEnd("AgentNoDataRow") %]
+                            </tbody>
+                        </table>
+                        <div class="Clear"></div>
+
+                        <h4 class="SpacingTop">[% Translate("Customer Sessions") | html %]</h4>
+                        <table class="DataTable">
+                            <thead>
+                                <tr>
+                                    <th>[% Translate("Session") | html %]</th>
+                                    <th>[% Translate("Type") | html %]</th>
+                                    <th>[% Translate("User") | html %]</th>
+                                    <th>[% Translate("Kill") | html %]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+[% RenderBlockStart("CustomerSession") %]
+                                <tr>
+                                    <td>[% Data.SessionID | html %]</td>
+                                    <td>[% Data.UserType | html %]</td>
+                                    <td>[% Data.UserFirstname | html %] [% Data.UserLastname %]</td>
+                                    <td>
+                                        <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSystemMaintenance;Subaction=Kill;WantSessionID=[% Data.SessionID | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Kill this session") | html %]</a>
+                                    </td>
+                                </tr>
+[% RenderBlockEnd("CustomerSession") %]
+[% RenderBlockStart("CustomerNoDataRow") %]
+                                <tr>
+                                    <td colspan="4">
+                                        [% Translate("No data found.") | html %]
+                                    </td>
+                                </tr>
+[% RenderBlockEnd("CustomerNoDataRow") %]
+                            </tbody>
+                        </table>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=KillAll;WantSessionID=[% Env("SessionID") %];[% Env("ChallengeTokenParam") | html %]" id="KillAllSessions" class="CallForAction LittleSpacingTop Fullsize Center"><span><i class="fa fa-trash-o"></i> [% Translate("Kill all Sessions, exept current") | html %]</span></a>
+                        </div>
+
+                    </fieldset>
+
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="Clear"></div>
+</div>
