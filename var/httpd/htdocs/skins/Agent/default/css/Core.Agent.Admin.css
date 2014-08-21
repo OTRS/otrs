@@ -92,6 +92,17 @@
     font-weight: normal;
 }
 
+.Header .Small {
+    position: absolute;
+    right: 0px;
+    top: 4px;
+    font-size: 11px;
+    display: block;
+    padding: 3px 4px;
+    background-color: #ccc;
+    color: #333;
+}
+
 /**
  * specific min-height for AdminNavigationBar rows
  */

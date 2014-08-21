@@ -126,7 +126,12 @@
             <div class="Size1of3">
                 <div class="WidgetSimple">
                     <div class="Header">
-                        <h2>[% Translate("System Administration") | html %]</h2>
+                        <h2>
+                            [% Translate("System Administration") | html %]
+                            <a href="http://otrs.github.io/doc/manual/admin/[% Data.ManualVersion | uri %]/en/html/index.html" class="Small" target="_blank">
+                                [% Translate("Online Admin Manual") | html %] <i class="fa fa-external-link"></i>
+                            </a>
+                        </h2>
                     </div>
                     <div class="Content">
                         <ul class="LayoutGrid ColumnsWithSpacing">
