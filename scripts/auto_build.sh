@@ -124,36 +124,21 @@ find -name ".keep" | xargs rm -f
 # mk ARCHIVE
 bin/otrs.CheckSum.pl -a create
 
-# --
-# create tar
-# --
-cd $PACKAGE_BUILD_DIR/ || exit 1;
-SOURCE_LOCATION=$SYSTEM_SOURCE_DIR/$PACKAGE-$VERSION.tar.gz
-rm $SOURCE_LOCATION
-echo "Building tar.gz..."
-tar -czf $SOURCE_LOCATION $ARCHIVE_DIR/ || exit 1;
-cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
+function CreateArchive() {
+    SUFFIX=$1
+    COMMANDLINE=$2
 
-# --
-# create bzip2
-# --
-cd $PACKAGE_BUILD_DIR/ || exit 1;
-SOURCE_LOCATION=$SYSTEM_SOURCE_DIR/$PACKAGE-$VERSION.tar.bz2
-rm $SOURCE_LOCATION
-echo "Building tar.bz2..."
-tar -cjf $SOURCE_LOCATION $ARCHIVE_DIR/ || exit 1;
-cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
+    cd $PACKAGE_BUILD_DIR/ || exit 1;
+    SOURCE_LOCATION=$SYSTEM_SOURCE_DIR/$PACKAGE-$VERSION.$SUFFIX
+    rm $SOURCE_LOCATION
+    echo "Building $SOURCE_LOCATION..."
+    $COMMANDLINE $SOURCE_LOCATION $ARCHIVE_DIR/ || exit 1;
+    cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
+}
 
-# --
-# create zip
-# --
-cd $PACKAGE_BUILD_DIR/ || exit 1;
-SOURCE_LOCATION=$SYSTEM_SOURCE_DIR/$PACKAGE-$VERSION.zip
-rm $SOURCE_LOCATION
-echo "Building zip..."
-zip -r $SOURCE_LOCATION $ARCHIVE_DIR/ > /dev/null || exit 1;
-cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
-
+CreateArchive "tar.gz"  "tar -czf"
+CreateArchive "tar.bz2" "tar -cjf"
+CreateArchive "zip"     "zip -r > /dev/null"
 
 # --
 # create rpm spec files
@@ -165,14 +150,8 @@ function CreateRPM() {
     DistroName=$1
     SpecfileName=$2
     TargetPath=$3
-    ConfigureMacros=$4
 
     echo "Building $DistroName rpm..."
-
-    if test $ConfigureMacros; then
-        echo "Applying RPM macros..."
-        cp $ARCHIVE_DIR/scripts/redhat-rpmmacros ~/.rpmmacros || exit 1
-    fi
 
     specfile=$PACKAGE_TMP_SPEC
     # replace version and release
@@ -188,16 +167,12 @@ function CreateRPM() {
     mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/$TargetPath
     mkdir -p $PACKAGE_DEST_DIR/SRPMS/$TargetPath
     mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/$TargetPath
-
-    if test $ConfigureMacros; then
-        rm ~/.rpmmacros || exit 1;
-    fi
 }
 
-CreateRPM "SuSE 11.0" "suse-otrs-11.0.spec" "suse/11.0/" 0
-CreateRPM "SuSE 10.0" "suse-otrs-10.0.spec" "suse/10.0/" 0
-CreateRPM "Fedora"    "fedora-otrs-4.spec"  "fedora/4/"  1
-CreateRPM "RHEL6"     "rhel6-otrs.spec"     "rhel/6"     1
+CreateRPM "SuSE 11.0" "suse-otrs-11.0.spec" "suse/11.0/"
+CreateRPM "SuSE 10.0" "suse-otrs-10.0.spec" "suse/10.0/"
+CreateRPM "Fedora"    "fedora-otrs-4.spec"  "fedora/4/"
+CreateRPM "RHEL6"     "rhel6-otrs.spec"     "rhel/6"
 
 echo "-----------------------------------------------------------------";
 echo "You will find your tar.gz, RPMs and SRPMs in $PACKAGE_DEST_DIR";
