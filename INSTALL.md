@@ -219,7 +219,7 @@ Notes
 =====
 
 We advise you to read the OTRS performance tuning chapter in the
-[admin manual](http://doc.otrs.org/3.4/en/html/performance-tuning.html).
+[admin manual](http://doc.otrs.org/4.0/en/html/performance-tuning.html).
 
 If you encounter problems with the installation, you can send a message to our
 mailing list otrs@otrs.org (http://lists.otrs.org/).

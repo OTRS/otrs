@@ -1,4 +1,4 @@
-#3.4.0.beta1 20??-??-??
+#4.0.0.beta1 20??-??-??
  - 2014-08-18 Added Attachment Name option in ticket search screens.
  - 2014-08-18 Added ProcessManagement Dashboard widget (for valid running process tickets).
  - 2014-08-18 Fixed bug#[10682](http://bugs.otrs.org/show_bug.cgi?id=10682) - Customers are able to search in non customer articles.

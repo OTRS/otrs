@@ -1,8 +1,8 @@
-Upgrading OTRS from 3.3 to 3.4
-==============================
+Upgrading OTRS from 3.3 to 4
+============================
 
-These instructions are for people upgrading OTRS from *3.3* to *3.4*
-or from a *3.4.x* to a later release *3.4.y* and applies both for RPM
+These instructions are for people upgrading OTRS from *3.3* to *4*
+or from a *4* to a later patchlevel release *4* and applies both for RPM
 and source code (tarball) upgrades.
 
 If you are running a lower version of OTRS you have to follow the upgrade path
@@ -14,8 +14,8 @@ Please note that if you upgrade from OTRS 2.2 or earlier, you have to
 take [an extra step](http://bugs.otrs.org/show_bug.cgi?id=6798).
 
 Within a single minor version you can skip patch level releases if you want to
-upgrade. For instance you can upgrade directly from OTRS 3.4.1 to version
-3.4.4. If you need to do such a "patch level upgrade", you should skip steps
+upgrade. For instance you can upgrade directly from OTRS 4 patchlevel 2 to version
+4 patchlevel 6. If you need to do such a "patch level upgrade", you should skip steps
 xxxxx.
 
 It is highly recommended to perform a test update on a separate testing machine first.
@@ -139,18 +139,18 @@ Any problems with regards to the storage engine will be reported by the
 
     shell> cd /opt/otrs/
     shell> bin/otrs.CheckDB.pl
-    shell> cat scripts/DBUpdate-to-3.4.mysql.sql | mysql -p -f -u root otrs
+    shell> cat scripts/DBUpdate-to-4.mysql.sql | mysql -p -f -u root otrs
 
 #### PostgreSQL:
 
     shell> cd /opt/otrs/
-    shell> cat scripts/DBUpdate-to-3.4.postgresql.sql | psql --set ON_ERROR_STOP=on --single-transaction otrs otrs
+    shell> cat scripts/DBUpdate-to-4.postgresql.sql | psql --set ON_ERROR_STOP=on --single-transaction otrs otrs
 
 ### 6.2 Database migration script
 
 Run the migration script (as user `otrs`, NOT as `root`):
 
-    shell> scripts/DBUpdate-to-3.4.pl
+    shell> scripts/DBUpdate-to-4.pl
 
 Do not continue the upgrading process if this script did not work properly for you.
 Otherwise data loss may occur.
@@ -159,14 +159,14 @@ Otherwise data loss may occur.
 7. Own themes
 -------------
 
-Note: The OTRS themes of 3.3 are NOT compatible with 3.4, so don't use your old themes!
+Note: The OTRS themes of 3.3 are NOT compatible with OTRS 4, so don't use your old themes!
 
 Themes are located under `/opt/otrs/Kernel/Output/HTML/*/*.tt`.
 
-Please note that OTRS 3.4 comes with a new templating engine based on
+Please note that OTRS 4 comes with a new templating engine based on
 [Template::Toolkit](http://www.template-toolkit.org). All customized templates must be converted from
 DTL to the new format. Please see
-[the development manual](http://otrs.github.io/doc/manual/developer/3.4/en/html/package-porting.html#package-porting-template-engine)
+[the development manual](http://otrs.github.io/doc/manual/developer/4.0/en/html/package-porting.html#package-porting-template-engine)
 for detailed instructions.
 
 
