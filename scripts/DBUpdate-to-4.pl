@@ -57,8 +57,8 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     if ( exists $Opts{h} ) {
         print <<"EOF";
 
-DBUpdate-to-3.4.pl - Upgrade scripts for OTRS 3.3.x to 3.4.x migration.
-Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+DBUpdate-to-4.pl - Upgrade script for OTRS 3.3 to 4 migration.
+Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 
 Usage: $0 [-h]
     Options are as follows:
@@ -262,7 +262,7 @@ sub _CheckFrameworkVersion {
     if ( $ProductName ne 'OTRS' ) {
         die "Error: No OTRS system found"
     }
-    if ( $Version !~ /^3\.4(.*)$/ ) {
+    if ( $Version !~ /^4\.0(.*)$/ ) {
 
         die "Error: You are trying to run this script on the wrong framework version $Version!"
     }
