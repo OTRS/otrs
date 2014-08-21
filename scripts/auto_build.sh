@@ -34,10 +34,6 @@ PACKAGE_TMP_SPEC="/tmp/$PACKAGE.spec"
 RPM_BUILD="rpmbuild"
 #RPM_BUILD="rpm"
 
-#IPHONE_PACKAGE="http://ftp.otrs.org/pub/otrs/packages/iPhoneHandle-1.1.1.opm"
-MANUAL_EN="http://ftp.otrs.org/pub/otrs/doc/doc-admin/3.3/en/pdf/otrs_admin_book.pdf"
-#MANUAL_DE="http://ftp.otrs.org/pub/otrs/doc/doc-admin/3.2/de/pdf/otrs_admin_book.pdf"
-
 
 if ! test $PATH_TO_CVS_SRC || ! test $VERSION || ! test $RELEASE; then
     # --
@@ -127,44 +123,17 @@ echo "BUILDHOST = `hostname -f`" >> $RELEASEFILE
 # --
 cd $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 
-# remove .cvs ignore files
-find -name ".gitignore" | xargs rm -rf
-
-#
 # remove old sessions, articles and spool and other stuff
 # (remainders of a running system, should not really happen)
-#
-rm -f var/sessions/*
-rm -rf var/article/*
-rm -rf var/spool/*
-rm -rf Kernel/Config.pm
-
+rm -rf .gitignore var/sessions/* var/article/* var/spool/* Kernel/Config.pm
 # remove development content
 rm -rf development
-
 # remove swap/temp stuff
 find -name ".#*" | xargs rm -rf
 find -name ".keep" | xargs rm -f
 
-# include pdf docs
-mkdir -p doc/manual/en
-wget "$MANUAL_EN" || exit 1;
-mv otrs_admin_book.pdf doc/manual/en
-
-#mkdir -p doc/manual/de
-#wget "$MANUAL_DE" || exit 1;
-#mv otrs_admin_book.pdf doc/manual/de
-
 # mk ARCHIVE
 bin/otrs.CheckSum.pl -a create
-
-# add pre installed packages
-mkdir var/packages/
-
-if test $IPHONE_PACKAGE; then
-    wget "$IPHONE_PACKAGE" || exit 1;
-    mv iPhoneHandle*.opm var/packages/
-fi
 
 # --
 # create tar

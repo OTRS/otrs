@@ -43,6 +43,7 @@
 /opt/otrs/Kernel/System*
 /opt/otrs/bin*
 /opt/otrs/scripts*
+/opt/otrs/i18n/otrs/*
 
 %dir /opt/otrs/var/
 %dir /opt/otrs/var/packages/
