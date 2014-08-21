@@ -45,5 +45,26 @@ CREATE TABLE personal_services (
 #  alter table package_repository
 # ----------------------------------------------------------
 ALTER TABLE package_repository DROP content_size;
+# ----------------------------------------------------------
+#  create table system_maintenance
+# ----------------------------------------------------------
+CREATE TABLE system_maintenance (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    start_date INTEGER NOT NULL,
+    stop_date INTEGER NOT NULL,
+    comments VARCHAR (250) NULL,
+    login_message VARCHAR (250) NULL,
+    show_login_message SMALLINT NULL,
+    notify_message VARCHAR (250) NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);
+ALTER TABLE system_maintenance ADD CONSTRAINT FK_system_maintenance_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE system_maintenance ADD CONSTRAINT FK_system_maintenance_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE system_maintenance ADD CONSTRAINT FK_system_maintenance_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
