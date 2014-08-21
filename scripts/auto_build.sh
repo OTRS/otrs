@@ -242,26 +242,6 @@ rm ~/.rpmmacros || exit 1;
 mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/rhel/6/
 mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/rhel/6/
 
-# --
-# stats
-# --
-echo "-----------------------------------------------------------------";
-echo -n "Source code lines (*.sh) : "
-find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name *.sh | xargs cat | wc -l
-echo -n "Source code lines (*.pl) : "
-find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name *.pl | xargs cat | wc -l
-echo -n "Source code lines (*.pm) : "
-find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name *.pm | xargs cat | wc -l
-echo -n "Source code lines (*.t) : "
-find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name *.t | xargs cat | wc -l
-echo -n "Source code lines (*.dtl): "
-find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name *.dtl | xargs cat | wc -l
-echo -n "Source code lines (*.xml): "
-find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name *.xml | xargs cat | wc -l
-echo -n "Source code lines (*.js): "
-find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name *.js | xargs cat | wc -l
-echo -n "Source code lines (*.css): "
-find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name *.css | xargs cat | wc -l
 echo "-----------------------------------------------------------------";
 echo "You will find your tar.gz, RPMs and SRPMs in $PACKAGE_DEST_DIR";
 cd $PACKAGE_DEST_DIR
