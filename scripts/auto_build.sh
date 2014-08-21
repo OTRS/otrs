@@ -173,9 +173,9 @@ DESCRIPTION=$PATH_TO_CVS_SRC/scripts/auto_build/description.txt
 FILES=$PATH_TO_CVS_SRC/scripts/auto_build/files.txt
 
 function CreateRPM() {
-    $DistroName   = $1
-    $SpecfileName = $2
-    $TargetPath   = $3
+    DistroName   = $1
+    SpecfileName = $2
+    TargetPath   = $3
 
     echo "Building $DistroName rpm..."
     specfile=$PACKAGE_TMP_SPEC
