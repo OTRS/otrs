@@ -132,13 +132,13 @@ function CreateArchive() {
     SOURCE_LOCATION=$SYSTEM_SOURCE_DIR/$PACKAGE-$VERSION.$SUFFIX
     rm $SOURCE_LOCATION
     echo "Building $SOURCE_LOCATION..."
-    $COMMANDLINE $SOURCE_LOCATION $ARCHIVE_DIR/ || exit 1;
+    $COMMANDLINE $SOURCE_LOCATION $ARCHIVE_DIR/ > /dev/null || exit 1;
     cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
 }
 
 CreateArchive "tar.gz"  "tar -czf"
 CreateArchive "tar.bz2" "tar -cjf"
-CreateArchive "zip"     "zip -r > /dev/null"
+CreateArchive "zip"     "zip -r"
 
 # --
 # create rpm spec files
