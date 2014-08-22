@@ -12,7 +12,7 @@ package Kernel::Output::HTML::DashboardTicketQueueOverview;
 use strict;
 use warnings;
 
-use Kernel::System::State;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -22,19 +22,12 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for my $Object (
-        qw(
-        Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject
-        QueueObject UserID
-        )
-        )
-    {
+    for my $Object (qw( Config Name UserID )) {
         die "Got no $Object!" if ( !$Self->{$Object} );
     }
 
-    $Self->{StateObject} = Kernel::System::State->new(%Param);
-    $Self->{PrefKey}     = 'UserDashboardPref' . $Self->{Name} . '-Shown';
-    $Self->{CacheKey}    = $Self->{Name} . '-' . $Self->{UserID};
+    $Self->{PrefKey}  = 'UserDashboardPref' . $Self->{Name} . '-Shown';
+    $Self->{CacheKey} = $Self->{Name} . '-' . $Self->{UserID};
 
     return $Self;
 }
@@ -78,7 +71,7 @@ sub Run {
         my $State = $ConfiguredStates{$StateOrder};
 
         # check if state is found, to record StateID
-        my $StateID = $Self->{StateObject}->StateLookup(
+        my $StateID = $Kernel::OM->Get('Kernel::System::State')->StateLookup(
             State => $State,
         ) || '';
         if ($StateID) {
@@ -94,8 +87,11 @@ sub Run {
         }
     }
 
+    # get queue object
+    my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+
     # get all queues
-    my %Queues = $Self->{QueueObject}->GetAllQueues(
+    my %Queues = $QueueObject->GetAllQueues(
         UserID => $Self->{UserID},
         Type   => 'ro',
     );
@@ -119,7 +115,7 @@ sub Run {
 
         # see if we have to remove the queue based on LimitGroup
         if ($LimitGroup) {
-            my $GroupID = $Self->{QueueObject}->GetQueueGroupID(
+            my $GroupID = $QueueObject->GetQueueGroupID(
                 QueueID => $QueueID,
             );
             if ( $GroupID != $LimitGroupID ) {
@@ -139,7 +135,7 @@ sub Run {
     for my $QueueID ( sort keys %Queues ) {
         my @Results;
         for my $StateOrderID ( sort { $a <=> $b } keys %ConfiguredStates ) {
-            my $QueueTotal = $Self->{TicketObject}->TicketSearch(
+            my $QueueTotal = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
                 UserID => $Self->{UserID},
                 Result => 'COUNT',
                 Queues => [ $Queues{$QueueID} ],
@@ -157,8 +153,11 @@ sub Run {
         push @Headers, $ConfiguredStates{$StateOrder};
     }
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     for my $HeaderItem (@Headers) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentLargeTicketQueueOverviewHeaderStatus',
             Data => {
                 Text => $HeaderItem,
@@ -180,7 +179,7 @@ sub Run {
 
         $HasContent++;
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentLargeTicketQueueOverviewQueueName',
             Data => { QueueName => $Queue, }
         );
@@ -189,7 +188,7 @@ sub Run {
         my $Counter = 0;
         my $RowTotal;
         for my $StateOrderID ( sort { $a <=> $b } keys %ConfiguredStates ) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ContentLargeTicketQueueOverviewQueueResults',
                 Data => {
                     Number  => $Results{$Queue}->[$Counter],
@@ -205,7 +204,7 @@ sub Run {
         }
 
         # print row (queue) total
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentLargeTicketQueueOverviewQueueTotal',
             Data => {
                 Number   => $RowTotal,
@@ -218,12 +217,12 @@ sub Run {
     }
 
     if ($HasContent) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentLargeTicketQueueOverviewStatusTotalRow',
         );
 
         for my $StateOrderID ( sort { $a <=> $b } keys %ConfiguredStates ) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ContentLargeTicketQueueOverviewStatusTotal',
                 Data => {
                     Number   => $StatusTotal[$StateOrderID],
@@ -235,7 +234,7 @@ sub Run {
         }
     }
     else {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentLargeTicketQueueOverviewNone',
             Data => {
                 ColumnCount => ( scalar keys %ConfiguredStates ) + 2,
@@ -249,7 +248,7 @@ sub Run {
         $Refresh = 60 * $Self->{UserRefreshTime};
         my $NameHTML = $Self->{Name};
         $NameHTML =~ s{-}{_}xmsg;
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentLargeTicketQueueOverviewRefresh',
             Data => {
                 %{ $Self->{Config} },
@@ -260,7 +259,7 @@ sub Run {
         );
     }
 
-    $Content = $Self->{LayoutObject}->Output(
+    $Content = $LayoutObject->Output(
         TemplateFile => 'AgentDashboardTicketQueueOverview',
         Data         => {
             %{ $Self->{Config} },
