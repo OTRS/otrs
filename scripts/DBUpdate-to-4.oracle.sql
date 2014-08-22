@@ -44,7 +44,7 @@ CREATE TABLE system_maintenance (
     id NUMBER (12, 0) NOT NULL,
     start_date NUMBER (12, 0) NOT NULL,
     stop_date NUMBER (12, 0) NOT NULL,
-    comments VARCHAR2 (250) NULL,
+    comments VARCHAR2 (250) NOT NULL,
     login_message VARCHAR2 (250) NULL,
     show_login_message NUMBER (5, 0) NULL,
     notify_message VARCHAR2 (250) NULL,

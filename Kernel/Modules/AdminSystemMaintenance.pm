@@ -123,11 +123,17 @@ sub Run {
             };
         }
 
+        if ( !$SystemMaintenanceData->{Comment} ) {
+
+            # add server error class
+            $Error{CommentServerError} = 'ServerError';
+
+        }
+
         if ( !$SystemMaintenanceData->{ValidID} ) {
 
-            # add server error error class
-            $Error{ValidIDServerError}        = 'ServerError';
-            $Error{ValidIDServerErrorMessage} = 'This field is required';
+            # add server error class
+            $Error{ValidIDServerError} = 'ServerError';
         }
 
         # if there is an error return to edit screen
@@ -247,12 +253,19 @@ sub Run {
             };
         }
 
+        if ( !$SystemMaintenanceData->{Comment} ) {
+
+            # add server error class
+            $Error{CommentServerError} = 'ServerError';
+
+        }
+
         if ( !$SystemMaintenanceData->{ValidID} ) {
 
-            # add server error error class
-            $Error{ValidIDServerError}        = 'ServerError';
-            $Error{ValidIDServerErrorMessage} = 'This field is required';
+            # add server error class
+            $Error{ValidIDServerError} = 'ServerError';
         }
+
 
         # if there is an error return to edit screen
         if ( IsHashRefWithData( \%Error ) ) {
@@ -435,8 +448,8 @@ sub _ShowEdit {
     $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => \%ValidList,
         Name       => 'ValidID',
-        SelectedID => $SystemMaintenanceData->{ValidID} || $ValidList{valid},
-        Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
+        SelectedID => $SystemMaintenanceData->{ValidID} || 1,
+        Class      => 'Validate_Required ' . ( $Param{ValidIDServerError} || '' ),
     );
 
     if (

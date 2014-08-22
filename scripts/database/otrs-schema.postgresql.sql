@@ -235,7 +235,7 @@ CREATE TABLE system_maintenance (
     id serial NOT NULL,
     start_date INTEGER NOT NULL,
     stop_date INTEGER NOT NULL,
-    comments VARCHAR (250) NULL,
+    comments VARCHAR (250) NOT NULL,
     login_message VARCHAR (250) NULL,
     show_login_message INTEGER NULL,
     notify_message VARCHAR (250) NULL,

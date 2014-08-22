@@ -44,7 +44,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label class="Mandatory" ><span class="Marker">*</span> [% Translate("Stop date") | html %]:</label>
+                        <label class="Mandatory"><span class="Marker">*</span> [% Translate("Stop date") | html %]:</label>
                         <div class="Field">
                             [% Data.StopDateString %]
                             <div id="StopDateDayServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
@@ -52,9 +52,11 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="Comment">[% Translate("Comment") | html %]:</label>
+                        <label for="Comment" class="Mandatory"><span class="Marker">*</span> [% Translate("Comment") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="Comment" id="Comment" value="[% Data.Comment | html %]" class="W50pc [% Data.CommentServerError | html %]" maxlength="70"/>
+                            <input type="text" name="Comment" id="Comment" value="[% Data.Comment | html %]" class="W50pc Validate_Required [% Data.CommentServerError | html %]" maxlength="70"/>
+                            <div id="CommentError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div id="CommentServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                         </div>
                         <div class="Clear SpacingTop"></div>
 

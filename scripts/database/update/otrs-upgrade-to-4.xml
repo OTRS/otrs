@@ -65,7 +65,7 @@
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="start_date" Required="true" Type="INTEGER"/>
     <Column Name="stop_date" Required="true" Type="INTEGER"/>
-    <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="comments" Required="true" Size="250" Type="VARCHAR"/>
     <Column Name="login_message" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="show_login_message" Required="false" Type="SMALLINT"/>
     <Column Name="notify_message" Required="false" Size="250" Type="VARCHAR"/>

@@ -234,7 +234,7 @@ CREATE TABLE system_maintenance (
     id INTEGER NOT NULL IDENTITY(1,1) ,
     start_date INTEGER NOT NULL,
     stop_date INTEGER NOT NULL,
-    comments NVARCHAR (250) NULL,
+    comments NVARCHAR (250) NOT NULL,
     login_message NVARCHAR (250) NULL,
     show_login_message SMALLINT NULL,
     notify_message NVARCHAR (250) NULL,

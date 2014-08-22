@@ -67,7 +67,7 @@ returns the id of the created SystemMaintenance if success or undef otherwise
     my $ID = $SystemMaintenance->SystemMaintenanceAdd(
         StartDate        => '2014-05-02 14:55:00'    # mandatory
         StopDate         => '2014-05-02 16:01:00'    # mandatory
-        Comment          => 'Comment',               # optional
+        Comment          => 'Comment',               # mandatory
         LoginMessage     => 'A login message.',      # optional
         ShowLoginMessage => 1,                       # optional
         NotifyMessage    => 'Notification message.', # optional
@@ -85,7 +85,7 @@ sub SystemMaintenanceAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Key (qw(StartDate StopDate ValidID UserID)) {
+    for my $Key (qw(StartDate StopDate Comment ValidID UserID)) {
         if ( !$Param{$Key} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -274,7 +274,7 @@ returns 1 if success or undef otherwise
         ID               => 123,                        # mandatory
         StartData        => 'NameOfSystemMaintenance',  # mandatory
         StopDate         => 'NameOfSystemMaintenance',  # mandatory
-        Comment          => 'Comment',                  # optional
+        Comment          => 'Comment',                  # mandatory
         LoginMessage     => 'Description',              # optional
         ShowLoginMessage => 1,                          # optional
         NotifyMessage    => 'Notification for showing', # optional
@@ -288,7 +288,7 @@ sub SystemMaintenanceUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Key (qw(ID StartDate StopDate ValidID UserID)) {
+    for my $Key (qw(ID StartDate StopDate Comment ValidID UserID)) {
         if ( !$Param{$Key} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
