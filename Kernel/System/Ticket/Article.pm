@@ -622,9 +622,12 @@ sub ArticleCreate {
                 );
 
                 # get subscribed users from My Services in form of a hash
-                %MyServicesUserIDs = map { $_ => 1 } $Self->GetSubscribedUserIDsByServiceID(
-                    ServiceID => $Ticket{ServiceID}
-                );
+                my %MyServicesUserIDs;
+                if ( $Ticket{ServiceID} ) {
+                    %MyServicesUserIDs = map { $_ => 1 } $Self->GetSubscribedUserIDsByServiceID(
+                        ServiceID => $Ticket{ServiceID},
+                    );
+                }
 
                 # get ticket watchers in form of a hash
                 # (ResultType HASH does not seams to help here)
@@ -758,9 +761,12 @@ sub ArticleCreate {
             );
 
             # get subscribed users from My Services in form of a hash
-            my %MyServicesUserIDs = map { $_ => 1 } $Self->GetSubscribedUserIDsByServiceID(
-                ServiceID => $Ticket{ServiceID}
-            );
+            my %MyServicesUserIDs;
+            if ( $Ticket{ServiceID} ) {
+                %MyServicesUserIDs = map { $_ => 1 } $Self->GetSubscribedUserIDsByServiceID(
+                    ServiceID => $Ticket{ServiceID},
+                );
+            }
 
             # combine both subscribed users list (this will also remove duplicates)
             my %SubscribedUserIDs = ( %MyQueuesUserIDs, %MyServicesUserIDs );
