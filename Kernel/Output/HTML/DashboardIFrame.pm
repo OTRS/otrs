@@ -13,6 +13,11 @@ package Kernel::Output::HTML::DashboardIFrame;
 use strict;
 use warnings;
 
+# prevent 'Used once' warning
+use Kernel::System::ObjectManager;
+
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -21,11 +26,8 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (
-        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)
-        )
-    {
-        die "Got no $_!" if ( !$Self->{$_} );
+    for my $Needed (qw(Config Name UserID)) {
+        die "Got no $Needed!" if ( !$Self->{$Needed} );
     }
 
     return $Self;
@@ -52,7 +54,7 @@ sub Run {
     my $Title = $Self->{Config}->{Title} || '';
     $Title =~ s/\s/_/smx;
 
-    my $Content = $Self->{LayoutObject}->Output(
+    my $Content = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Output(
         TemplateFile => 'AgentDashboardIFrame',
         Data         => {
             %{ $Self->{Config} },
