@@ -438,7 +438,7 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
                     <td>
                         <div title="[% Data.Title | html %]">
 [% RenderBlockStart("RecordDynamicFieldLink") %]
-                            <a href="[% Data.Link %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a>
+                            <a href="[% Data.Link | Interpolate %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a>
 [% RenderBlockEnd("RecordDynamicFieldLink") %]
 [% RenderBlockStart("RecordDynamicFieldPlain") %]
                             [% Data.Value %]
@@ -456,7 +456,7 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
 #                    <td>
 #                        <div title="[% Data.Title | html %]">
 #[% RenderBlockStart("RecordDynamicField_Field1_Link") %]
-#                            <a href="[% Data.Link %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a>
+#                            <a href="[% Data.Link | Interpolate %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a>
 #[% RenderBlockEnd("RecordDynamicField_Field1_Link") %]
 #[% RenderBlockStart("RecordDynamicField_Field1_Plain") %]
 #                            [% Data.Value %]
@@ -468,7 +468,7 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
 #                    <td>
 #                        <div title="[% Data.Title | html %]">
 #[% RenderBlockStart("RecordDynamicField_Field2_Link") %]
-#                            <a href="[% Data.Link %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a>
+#                            <a href="[% Data.Link | Interpolate %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a>
 #[% RenderBlockEnd("RecordDynamicField_Field2_Link") %]
 #[% RenderBlockStart("RecordDynamicField_Field2_Plain") %]
 #                            [% Data.Value %]

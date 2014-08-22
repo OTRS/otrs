@@ -198,7 +198,7 @@
                             <p class="FieldExplanation">
                                 [% Translate("Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.") | html %]
                                 <br/>
-                                [% Translate("Example") | html %]: http://some.example.com/handle?query=<span>$</span>LQData{"Field1"}
+                                [% Translate("Example") | html %]: http://some.example.com/handle?query=<span>[</span>% Data.Field1 | uri %<span>]</span>
                             </p>
                         </div>
                         <div class="Clear"></div>

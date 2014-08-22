@@ -118,7 +118,7 @@
 #                        <td>
 #                            <label>[% Translate(Data.Label) | html %]</label>
 #[% RenderBlockStart("DynamicField_Field1Link") %]
-#                            <div title="[% Data.Title | html %]"><a href="[% Data.Link %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></div>
+#                            <div title="[% Data.Title | html %]"><a href="[% Data.Link | Interpolate %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></div>
 #[% RenderBlockEnd("DynamicField_Field1Link") %]
 #[% RenderBlockStart("DynamicField_Field1Plain") %]
 #                            <div title="[% Data.Title | html %]"><span>[% Data.Value %]</span></div>
@@ -154,7 +154,7 @@
 #                        <td>
 #                            <label>[% Translate(Data.Label) | html %]</label>
 #[% RenderBlockStart("DynamicField_Field2Link") %]
-#                            <div title="[% Data.Title | html %]"><a href="[% Data.Link %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></div>
+#                            <div title="[% Data.Title | html %]"><a href="[% Data.Link | Interpolate %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></div>
 #[% RenderBlockEnd("DynamicField_Field2Link") %]
 #[% RenderBlockStart("DynamicField_Field2Plain") %]
 #                            <div title="[% Data.Title | html %]"><span>[% Data.Value %]</span></div>
@@ -193,7 +193,7 @@
 #                        <td>
 #                            <label>[% Translate(Data.Label) | html %]</label>
 #[% RenderBlockStart("DynamicField_Field3Link") %]
-#                            <div title="[% Data.Title | html %]"><a href="[% Data.Link %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></div>
+#                            <div title="[% Data.Title | html %]"><a href="[% Data.Link | Interpolate %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></div>
 #[% RenderBlockEnd("DynamicField_Field3Link") %]
 #[% RenderBlockStart("DynamicField_Field3Plain") %]
 #                            <div title="[% Data.Title | html %]"><span>[% Data.Value %]</span></div>
@@ -220,7 +220,7 @@
                         <td>
                             <label>[% Translate(Data.Label) | html %]</label>
 [% RenderBlockStart("DynamicFieldTableRowRecordLink") %]
-                            <div title="[% Data.Title | html %]"><a href="[% Data.Link %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></div>
+                            <div title="[% Data.Title | html %]"><a href="[% Data.Link | Interpolate %]" target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></div>
 [% RenderBlockEnd("DynamicFieldTableRowRecordLink") %]
 [% RenderBlockStart("DynamicFieldTableRowRecordPlain") %]
                             <div title="[% Data.Title | html %]"><span>[% Data.Value %]</span></div>
