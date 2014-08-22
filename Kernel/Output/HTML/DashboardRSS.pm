@@ -12,9 +12,9 @@ package Kernel::Output::HTML::DashboardRSS;
 use strict;
 use warnings;
 
-use Kernel::System::CloudService;
-
 use Kernel::System::VariableCheck qw(:all);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -24,14 +24,9 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for my $Needed (
-        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)
-        )
-    {
+    for my $Needed (qw(Config Name UserID)) {
         die "Got no $Needed!" if ( !$Self->{$Needed} );
     }
-
-    $Self->{CloudServiceObject} = Kernel::System::CloudService->new(%Param);
 
     return $Self;
 }
@@ -47,14 +42,18 @@ sub Config {
 
     return (
         %{ $Self->{Config} },
-        CacheKey => 'RSSNewsFeed-' . $Self->{LayoutObject}->{UserLanguage},
+        CacheKey => 'RSSNewsFeed-'
+            . $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage},
     );
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Language = $Self->{LayoutObject}->{UserLanguage};
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    my $Language = $LayoutObject->{UserLanguage};
 
     # cleanup main language for languages like es_MX (es in this case)
     $Language = substr $Language, 0, 2;
@@ -76,8 +75,11 @@ sub Run {
         },
     );
 
+    # get cloud service object
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
+
     # dispatch the cloud service request
-    my $RequestResult = $Self->{CloudServiceObject}->Request(%RequestParams);
+    my $RequestResult = $CloudServiceObject->Request(%RequestParams);
 
     # as this is the only operation an unsuccessful request means that the operation was also
     # unsuccessful
@@ -85,7 +87,7 @@ sub Run {
         return "Can't connect to OTRS News server!";
     }
 
-    my $OperationResult = $Self->{CloudServiceObject}->OperationResultGet(
+    my $OperationResult = $CloudServiceObject->OperationResultGet(
         RequestResult => $RequestResult,
         CloudService  => $CloudService,
         Operation     => $Operation,
@@ -117,18 +119,18 @@ sub Run {
                 String => $Time,
             );
             $Ago = $Self->{TimeObject}->SystemTime() - $SystemTime;
-            $Ago = $Self->{LayoutObject}->CustomerAge(
+            $Ago = $LayoutObject->CustomerAge(
                 Age   => $Ago,
                 Space => ' ',
             );
         }
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentSmallRSSOverviewRow',
             Data => { %{$Item} },
         );
         if ($Ago) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ContentSmallRSSTimeStamp',
                 Data => {
                     Ago => $Ago,
@@ -137,7 +139,7 @@ sub Run {
             );
         }
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ContentSmallRSS',
                 Data => {
                     Ago => $Ago,
@@ -147,7 +149,7 @@ sub Run {
         }
     }
 
-    my $Content = $Self->{LayoutObject}->Output(
+    my $Content = $LayoutObject->Output(
         TemplateFile => 'AgentDashboardRSSOverview',
         Data         => {
             %{ $Self->{Config} },
