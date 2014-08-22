@@ -31,8 +31,7 @@ CREATE TABLE personal_services (
     user_id NUMBER (12, 0) NOT NULL,
     service_id NUMBER (12, 0) NOT NULL
 );
-CREATE INDEX FK_personal_services_service14 ON personal_services (service_id);
-CREATE INDEX personal_services_queue_id ON personal_services (service_id);
+CREATE INDEX personal_services_service_id ON personal_services (service_id);
 CREATE INDEX personal_services_user_id ON personal_services (user_id);
 -- ----------------------------------------------------------
 --  alter table package_repository

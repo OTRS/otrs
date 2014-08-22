@@ -260,7 +260,7 @@
     <Index Name="personal_services_user_id">
         <IndexColumn Name="user_id"/>
     </Index>
-    <Index Name="personal_services_queue_id">
+    <Index Name="personal_services_service_id">
         <IndexColumn Name="service_id"/>
     </Index>
     <ForeignKey ForeignTable="users">

@@ -172,7 +172,7 @@ CREATE TABLE personal_queues (
 CREATE TABLE personal_services (
     user_id INTEGER NOT NULL,
     service_id INTEGER NOT NULL,
-    INDEX personal_services_queue_id (service_id),
+    INDEX personal_services_service_id (service_id),
     INDEX personal_services_user_id (user_id)
 );
 # ----------------------------------------------------------

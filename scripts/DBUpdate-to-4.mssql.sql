@@ -73,7 +73,7 @@ CREATE TABLE personal_services (
     user_id INTEGER NOT NULL,
     service_id INTEGER NOT NULL
 );
-CREATE INDEX personal_services_queue_id ON personal_services (service_id);
+CREATE INDEX personal_services_service_id ON personal_services (service_id);
 CREATE INDEX personal_services_user_id ON personal_services (user_id);
                 DECLARE @defnamepackage_repositorycontent_size VARCHAR(200), @cmdpackage_repositorycontent_size VARCHAR(2000)
                 SET @defnamepackage_repositorycontent_size = (
