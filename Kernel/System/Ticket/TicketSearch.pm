@@ -139,7 +139,7 @@ To find tickets in your system.
 
         # article stuff (optional)
         From    => '%spam@example.com%',
-        To      => '%support@example.com%',
+        To      => '%service@example.com%',
         Cc      => '%client@example.com%',
         Subject => '%VIRUS 32%',
         Body    => '%VIRUS 32%',

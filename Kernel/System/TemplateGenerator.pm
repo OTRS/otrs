@@ -264,11 +264,11 @@ generate sender address (FROM string) for emails
 
 returns:
 
-    John Doe at Super Support <support@example.com>
+    John Doe at Super Support <service@example.com>
 
 and it returns the quoted real name if necessary
 
-    "John Doe, Support" <support@example.tld>
+    "John Doe, Support" <service@example.tld>
 
 =cut
 

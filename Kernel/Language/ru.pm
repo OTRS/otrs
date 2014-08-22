@@ -5816,7 +5816,7 @@ sub Data {
         'You have to select two or more attributes from the select field!' =>
             'Вам необходимо выбрать два или более пунктов из выбранного поля!',
         'You need a email address (e. g. customer@example.com) in To:!' =>
-            'Укажите адрес электронной почты в поле получателя (например, support@example.ru)!',
+            'Укажите адрес электронной почты в поле получателя (например, customer@example.ru)!',
         'You need min. one selected Ticket!' => 'Вам необходимо выбрать хотя бы одну заявку!',
         'You need to account time!' => 'Вам необходимо посчитать время!',
         'You need to activate %s first to use it!' => 'Вам необходимо сначала активировать %s чтобы использовать это',

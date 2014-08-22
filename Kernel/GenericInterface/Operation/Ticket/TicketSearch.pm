@@ -150,7 +150,7 @@ perform TicketSearch Operation. This will return a Ticket ID list.
 
         # article stuff (optional)
         From    => '%spam@example.com%',
-        To      => '%support@example.com%',
+        To      => '%service@example.com%',
         Cc      => '%client@example.com%',
         Subject => '%VIRUS 32%',
         Body    => '%VIRUS 32%',

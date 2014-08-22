@@ -412,19 +412,19 @@ sub RandomAddress {
     my @Domain = (
         'example.com',
         'example-sales.com',
-        'example-support.com',
+        'example-service.com',
         'example.net',
         'example-sales.net',
-        'example-support.net',
+        'example-service.net',
         'company.com',
         'company-sales.com',
-        'company-support.com',
+        'company-service.com',
         'fast-company-example.com',
         'fast-company-example-sales.com',
-        'fast-company-example-support.com',
+        'fast-company-example-service.com',
         'slow-company-example.com',
         'slow-company-example-sales.com',
-        'slow-company-example-support.com',
+        'slow-company-example-service.com',
     );
 
     return $Name . '@' . $Domain[ int( rand( $#Domain + 1 ) ) ];
