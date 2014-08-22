@@ -39,7 +39,7 @@
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="SystemMaintenanceEditAction"/>
                     <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
-                    <input type="hidden" name="SystemMaintenanceID" value="[% Data.ID | html %]"/>
+                    <input type="hidden" name="SystemMaintenanceID" value="[% Data.SystemMaintenanceID | html %]"/>
                     <fieldset class="TableLike">
 
 
@@ -109,8 +109,8 @@
                 </div>
             </div>
 
-            <div class="WidgetSimple">
-                <div class="Header Expanded">
+            <div class="WidgetSimple [% Data.SessionVisibility | html %]">
+                <div class="Header">
                     <div class="WidgetAction Toggle">
                         <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
@@ -149,7 +149,7 @@
                                     <td>[% Data.UserType | html %]</td>
                                     <td>[% Data.UserFirstname | html %] [% Data.UserLastname %]</td>
                                     <td>
-                                        <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSystemMaintenance;Subaction=Kill;WantSessionID=[% Data.SessionID | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Kill this session") | html %]</a>
+                                        <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSystemMaintenance;Subaction=Kill;WantSessionID=[% Data.SessionID | uri %];[% Env("ChallengeTokenParam") | html %];SystemMaintenanceID=[% Data.SystemMaintenanceID | html %]">[% Translate("Kill this session") | html %]</a>
                                     </td>
                                 </tr>
 [% RenderBlockEnd("AgentSession") %]
@@ -181,7 +181,7 @@
                                     <td>[% Data.UserType | html %]</td>
                                     <td>[% Data.UserFirstname | html %] [% Data.UserLastname %]</td>
                                     <td>
-                                        <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSystemMaintenance;Subaction=Kill;WantSessionID=[% Data.SessionID | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Kill this session") | html %]</a>
+                                        <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSystemMaintenance;Subaction=Kill;WantSessionID=[% Data.SessionID | uri %];[% Env("ChallengeTokenParam") | html %];SystemMaintenanceID=[% Data.SystemMaintenanceID | html %]">[% Translate("Kill this session") | html %]</a>
                                     </td>
                                 </tr>
 [% RenderBlockEnd("CustomerSession") %]
@@ -197,7 +197,7 @@
                         <div class="Clear"></div>
 
                         <div class="Field SpacingTop">
-                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=KillAll;WantSessionID=[% Env("SessionID") %];[% Env("ChallengeTokenParam") | html %]" id="KillAllSessions" class="CallForAction LittleSpacingTop Fullsize Center"><span><i class="fa fa-trash-o"></i> [% Translate("Kill all Sessions, exept current") | html %]</span></a>
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=KillAll;WantSessionID=[% Env("SessionID") %];[% Env("ChallengeTokenParam") | html %];SystemMaintenanceID=[% Data.SystemMaintenanceID | html %]" id="KillAllSessions" class="CallForAction LittleSpacingTop Fullsize Center"><span><i class="fa fa-trash-o"></i> [% Translate("Kill all Sessions, exept current") | html %]</span></a>
                         </div>
 
                     </fieldset>
