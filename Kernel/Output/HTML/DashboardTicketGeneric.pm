@@ -34,12 +34,15 @@ sub new {
         die "Got no $Item!" if ( !$Self->{$Item} );
     }
 
+    # use customer user object if it comes in the params
+    $Self->{CustomerUserObject} = $Param{CustomerUserObject}
+        // Kernel::System::CustomerUser->new( %{$Self} );
+
     # create additional objects
     $Self->{JSONObject}         = Kernel::System::JSON->new( %{$Self} );
     $Self->{ColumnFilterObject} = Kernel::System::Ticket::ColumnFilter->new(%Param);
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     my $RemoveFilters
         = $Self->{ParamObject}->GetParam( Param => 'RemoveFilters' )

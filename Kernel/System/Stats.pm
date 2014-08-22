@@ -126,6 +126,9 @@ sub new {
     # temporary directory
     $Self->{StatsTempDir} = $Self->{ConfigObject}->Get('Home') . '/var/stats/';
 
+    # use ticket object if it comes in the params
+    $Self->{TicketObject} = $Param{TicketObject} // Kernel::System::Ticket->new( %{$Self} );
+
     return $Self;
 }
 

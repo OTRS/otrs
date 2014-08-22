@@ -35,12 +35,14 @@ sub new {
     {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
+
+    # use ticket object if it comes in the params
+    $Self->{TicketObject} = $Param{TicketObject} // Kernel::System::Ticket->new( %{$Self} );
+
     $Self->{QueueObject}        = Kernel::System::Queue->new( %{$Self} );
-    $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
     $Self->{StateObject}        = Kernel::System::State->new( %{$Self} );
     $Self->{PriorityObject}     = Kernel::System::Priority->new( %{$Self} );
     $Self->{LockObject}         = Kernel::System::Lock->new( %{$Self} );
-    $Self->{CustomerUser}       = Kernel::System::CustomerUser->new( %{$Self} );
     $Self->{ServiceObject}      = Kernel::System::Service->new( %{$Self} );
     $Self->{SLAObject}          = Kernel::System::SLA->new( %{$Self} );
     $Self->{TypeObject}         = Kernel::System::Type->new( %{$Self} );

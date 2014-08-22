@@ -30,8 +30,11 @@ sub new {
         die "Got no $_!" if ( !$Self->{$_} );
     }
 
-    $Self->{SessionObject}      = Kernel::System::AuthSession->new(%Param);
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    # use customer user object if it comes in the params
+    $Self->{CustomerUserObject} = $Param{CustomerUserObject}
+        // Kernel::System::CustomerUser->new( %{$Self} );
+
+    $Self->{SessionObject} = Kernel::System::AuthSession->new(%Param);
 
     # get current filter
     my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';

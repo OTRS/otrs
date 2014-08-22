@@ -761,6 +761,14 @@ sub _Element {
         return if !$PermissionOK;
     }
 
+    # create CustomerUserObject is it was not created before
+    if ( !$Self->{CustomerUserObject} ) {
+        $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(
+            %{$Self},
+            DBObject => $Self->{SlaveDBObject},
+        );
+    }
+
     # load backends
     my $Module = $Configs->{$Name}->{Module};
     return if !$Self->{MainObject}->Require($Module);
