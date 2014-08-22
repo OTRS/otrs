@@ -12,7 +12,7 @@ package Kernel::Output::HTML::DashboardCustomerUserList;
 use strict;
 use warnings;
 
-use Kernel::System::CustomerUser;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -22,14 +22,12 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (
-        qw(Config Name ConfigObject LogObject DBObject LayoutObject TicketObject ParamObject UserID GroupObject)
-        )
-    {
-        die "Got no $_!" if ( !$Self->{$_} );
+    for my $Needed (qw(Config Name UserID)) {
+        die "Got no $Needed!" if ( !$Self->{$Needed} );
     }
 
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
+    # get param object
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get current filter
     my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
@@ -37,7 +35,8 @@ sub new {
 
     $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';
 
-    $Self->{PageShown} = $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
+    $Self->{PageShown} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{ $Self->{PrefKey} }
+        || $Self->{Config}->{Limit};
     $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
 
     return $Self;
@@ -86,11 +85,17 @@ sub Run {
 
     return if !$Param{CustomerID};
 
+    # get customer user object
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
     my $CustomerIDs
-        = { $Self->{CustomerUserObject}->CustomerSearch( CustomerID => $Param{CustomerID} ) };
+        = { $CustomerUserObject->CustomerSearch( CustomerID => $Param{CustomerID} ) };
 
     # add page nav bar
     my $Total = scalar keys %{$CustomerIDs};
+
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     my $LinkPage
         = 'Subaction=Element;Name='
@@ -118,12 +123,18 @@ sub Run {
         },
     );
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # check the permission for the SwitchToCustomer feature
-    if ( $Self->{ConfigObject}->Get('SwitchToCustomer') ) {
+    if ( $ConfigObject->Get('SwitchToCustomer') ) {
+
+        # get group object
+        my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
         # get the group id which is allowed to use the switch to customer feature
         my $SwitchToCustomerGroupID = $Self->{GroupObject}->GroupLookup(
-            Group => $Self->{ConfigObject}->Get('SwitchToCustomer::PermissionGroup'),
+            Group => $ConfigObject->Get('SwitchToCustomer::PermissionGroup'),
         );
 
         # get user groups, where the user has the rw privilege
@@ -152,7 +163,7 @@ sub Run {
     );
 
     # get writable data sources
-    my %CustomerSource = $Self->{CustomerUserObject}->CustomerSourceList(
+    my %CustomerSource = $CustomerUserObject->CustomerSourceList(
         ReadOnly => 0,
     );
 
@@ -227,6 +238,9 @@ sub Run {
             );
         }
 
+        # get ticket object
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
         my $TicketCountOpen = $Self->{TicketObject}->TicketSearch(
             StateType            => 'Open',
             CustomerUserLoginRaw => $CustomerKey,
@@ -287,7 +301,7 @@ sub Run {
             );
         }
 
-        if ( $Self->{ConfigObject}->Get('SwitchToCustomer') && $Self->{SwitchToCustomerPermission} )
+        if ( $ConfigObject->Get('SwitchToCustomer') && $Self->{SwitchToCustomerPermission} )
         {
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewResultRowSwitchToCustomer',
