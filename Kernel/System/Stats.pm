@@ -127,7 +127,9 @@ sub new {
     $Self->{StatsTempDir} = $Self->{ConfigObject}->Get('Home') . '/var/stats/';
 
     # use ticket object if it comes in the params, but do not create it otherwise
-    $Self->{TicketObject} //= $Param{TicketObject};
+    if ( defined $Param{TicketObject} ) {
+        $Self->{TicketObject} = $Param{TicketObject}
+    }
 
     return $Self;
 }
