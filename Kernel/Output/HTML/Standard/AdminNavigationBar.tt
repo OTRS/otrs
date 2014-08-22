@@ -128,7 +128,7 @@
                     <div class="Header">
                         <h2>
                             [% Translate("System Administration") | html %]
-                            <a href="http://otrs.github.io/doc/manual/admin/[% Data.ManualVersion | uri %]/en/html/index.html" class="Small" target="_blank">
+                            <a href="http://otrs.github.io/doc/manual/admin/[% Data.ManualVersion | uri %].0/en/html/index.html" class="Small" target="_blank">
                                 [% Translate("Online Admin Manual") | html %] <i class="fa fa-external-link"></i>
                             </a>
                         </h2>
