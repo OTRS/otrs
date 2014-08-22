@@ -12,6 +12,8 @@ package Kernel::Output::HTML::DashboardCalendar;
 use strict;
 use warnings;
 
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -20,11 +22,8 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (
-        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)
-        )
-    {
-        die "Got no $_!" if ( !$Self->{$_} );
+    for my $Needed (qw(Config Name UserID)) {
+        die "Got no $Needed!" if ( !$Self->{$Needed} );
     }
 
     return $Self;
@@ -41,7 +40,9 @@ sub Config {
 
     return (
         %{ $Self->{Config} },
-        CacheKey => 'Calendar' . $Self->{UserID} . '-' . $Self->{LayoutObject}->{UserLanguage},
+        CacheKey => 'Calendar'
+            . $Self->{UserID} . '-'
+            . $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage},
     );
 }
 
@@ -49,7 +50,8 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # find tickets with reached times in near future
-    my $PendingReminderStateTypes = $Self->{ConfigObject}->Get('Ticket::PendingReminderStateType');
+    my $PendingReminderStateTypes
+        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::PendingReminderStateType');
 
     my %Map = (
         Escalation => [
@@ -88,6 +90,11 @@ sub Run {
             },
         ],
     );
+
+    # get needed objects
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     my %Date;
     for my $Type ( sort keys %Map ) {
 
@@ -97,7 +104,7 @@ sub Run {
         }
 
         # search tickets
-        my @TicketIDs = $Self->{TicketObject}->TicketSearch(
+        my @TicketIDs = $TicketObject->TicketSearch(
 
             # add search attributes
             %{ $Map{$Type}->[1] },
@@ -113,7 +120,7 @@ sub Run {
         TICKETID:
         for my $TicketID (@TicketIDs) {
 
-            my %Ticket = $Self->{TicketObject}->TicketGet(
+            my %Ticket = $TicketObject->TicketGet(
                 TicketID      => $TicketID,
                 UserID        => $Self->{UserID},
                 DynamicFields => 0,
@@ -152,7 +159,7 @@ sub Run {
                 Link         => "Action=AgentTicketZoom;TicketID=$Ticket{TicketID}",
                 TimeStamp    => $TimeStamp,
                 TimeTill     => $TimeTill,
-                In           => $Self->{LayoutObject}->CustomerAge(
+                In           => $LayoutObject->CustomerAge(
                     Age   => $TimeTill,
                     Space => ' ',
                 ),
@@ -166,22 +173,22 @@ sub Run {
     for my $Data ( sort keys %Date ) {
         $Count++;
         last DATE if $Count > $Self->{Config}->{Limit};
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentSmallCalendarOverviewRow',
             Data => $Date{$Data},
         );
     }
 
-    # fillup if no content exists
+    # fill-up if no content exists
     if ( !$Count ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentSmallCalendarOverviewNone',
             Data => {},
         );
     }
 
     # render content
-    my $Content = $Self->{LayoutObject}->Output(
+    my $Content = $LayoutObject->Output(
         TemplateFile => 'AgentDashboardCalendarOverview',
         Data         => {
             %{ $Self->{Config} },
