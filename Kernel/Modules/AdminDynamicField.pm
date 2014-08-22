@@ -174,7 +174,13 @@ sub _ShowOverview {
 
     # cycle thought all objects to create the select add field selects
     OBJECTTYPE:
-    for my $ObjectType ( sort keys %{ $Self->{ObjectTypeConfig} } ) {
+    for my $ObjectType (
+        sort {
+            ( $Self->{ObjectTypeConfig}->{$a}->{Prio} || 0 )
+                <=> ( $Self->{objectTypeConfig}->{$b}->{Prio} || 0 )
+        } keys %{ $Self->{ObjectTypeConfig} }
+        )
+    {
         next OBJECTTYPE if !$Self->{ObjectTypeConfig}->{$ObjectType};
 
         my $SelectName = $ObjectType . 'DynamicField';

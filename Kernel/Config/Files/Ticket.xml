@@ -9430,17 +9430,6 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
 
-    <ConfigItem Name="DynamicFields::ObjectType###Ticket" Required="0" Valid="1">
-        <Description Translatable="1">DynamicField object registration.</Description>
-        <Group>DynamicFields</Group>
-        <SubGroup>DynamicFields::ObjectType::Registration</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="DisplayName" Translatable="1">Ticket</Item>
-                <Item Key="Module">Kernel::System::DynamicField::ObjectType::Ticket</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="DynamicFields::ObjectType###Article" Required="0" Valid="1">
         <Description Translatable="1">DynamicField object registration.</Description>
         <Group>DynamicFields</Group>
@@ -9449,6 +9438,19 @@ Thanks for your help!
             <Hash>
                 <Item Key="DisplayName" Translatable="1">Article</Item>
                 <Item Key="Module">Kernel::System::DynamicField::ObjectType::Article</Item>
+                <Item Key="Prio">100</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DynamicFields::ObjectType###Ticket" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField object registration.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>DynamicFields::ObjectType::Registration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Ticket</Item>
+                <Item Key="Module">Kernel::System::DynamicField::ObjectType::Ticket</Item>
+                <Item Key="Prio">110</Item>
             </Hash>
         </Setting>
     </ConfigItem>
