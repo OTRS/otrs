@@ -117,10 +117,10 @@ sub SystemMaintenanceAdd {
     return if !$DBObject->Prepare(
         SQL => '
             SELECT id FROM system_maintenance
-            WHERE start_date = ? and stop_date = ?
+            WHERE start_date = ? and stop_date = ? and comments = ?
         ',
         Bind => [
-            \$Param{StartDate}, \$Param{StopDate},
+            \$Param{StartDate}, \$Param{StopDate}, \$Param{Comment},
         ],
     );
 

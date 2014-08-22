@@ -133,8 +133,8 @@ my @Tests = (
 
     {
         Name          => 'Test ' . $Index++ . '- Without Comment',
-        SuccessAdd    => 1,
-        SuccessUpdate => 1,
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
         Add           => {
             StartDate        => '2014-05-02 14:55:00',
             StopDate         => '2014-05-02 16:01:00',
@@ -152,7 +152,7 @@ my @Tests = (
         Add           => {
             StartDate        => '2014-05-02 14:55:00',
             StopDate         => '2014-05-02 16:01:00',
-            Comment          => 'Comment',
+            Comment          => 'Comment' . $RandomID,
             ShowLoginMessage => 1,
             NotifyMessage    => 'The notification text.',
             ValidID          => 1,
@@ -166,7 +166,7 @@ my @Tests = (
         Add           => {
             StartDate     => '2014-05-02 14:55:00',
             StopDate      => '2014-05-02 16:01:00',
-            Comment       => 'Comment',
+            Comment       => 'Comment' . $RandomID,
             LoginMessage  => 'A login message.',
             NotifyMessage => 'The notification text.',
             ValidID       => 1,
@@ -180,7 +180,7 @@ my @Tests = (
         Add           => {
             StartDate        => '2014-05-02 14:55:00',
             StopDate         => '2014-05-02 16:01:00',
-            Comment          => 'Comment',
+            Comment          => 'Comment' . $RandomID,
             LoginMessage     => 'A login message.',
             ShowLoginMessage => 1,
             ValidID          => 1,
@@ -194,7 +194,7 @@ my @Tests = (
         Add           => {
             StartDate        => '2014-05-02 14:55:00',
             StopDate         => '2014-05-02 16:01:00',
-            Comment          => 'Comment',
+            Comment          => 'Comment' . $RandomID,
             LoginMessage     => 'A login message.',
             ShowLoginMessage => 1,
             ValidID          => 1,
@@ -462,6 +462,7 @@ TEST:
         StartDate    => '2014-01-10 12:00:00',
         StopDate     => '2014-01-10 14:59:59',
         FixedTimeSet => '2014-01-10 13:00:00',
+        Comment      => 'Comment',
         IsActive     => 1,
         IsComming    => 0,
     },
@@ -470,6 +471,7 @@ TEST:
         StartDate    => '2014-01-10 12:00:00',
         StopDate     => '2014-01-10 14:59:59',
         FixedTimeSet => '2014-01-10 11:59:59',
+        Comment      => 'Comment',
         IsActive     => 0,
         IsComming    => 1,
     },
@@ -478,6 +480,7 @@ TEST:
         StartDate    => '2014-01-10 12:00:00',
         StopDate     => '2014-01-10 14:59:59',
         FixedTimeSet => '2014-01-10 15:00:00',
+        Comment      => 'Comment',
         IsActive     => 0,
         IsComming    => 0,
     },
@@ -495,6 +498,7 @@ for my $Test (@Tests) {
     my $SystemMaintenanceID = $SystemMaintenanceObject->SystemMaintenanceAdd(
         StartDate => $Test->{StartDate},
         StopDate  => $Test->{StopDate},
+        Comment   => 'Comment',
         ValidID   => 1,
         UserID    => $UserID,
     );
