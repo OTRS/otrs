@@ -34,7 +34,8 @@ sub Run {
 
     # generate manual link
     my $ManualVersion = $Self->{ConfigObject}->Get('Version');
-    $ManualVersion = substr($ManualVersion, 0, 3);
+    $ManualVersion =~ m{^(\d{1,2}).+};
+    $ManualVersion = $1;
 
     $Self->{LayoutObject}->Block(
         Name => 'AdminNavBar',
