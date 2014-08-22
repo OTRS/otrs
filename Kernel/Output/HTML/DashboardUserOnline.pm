@@ -12,8 +12,7 @@ package Kernel::Output::HTML::DashboardUserOnline;
 use strict;
 use warnings;
 
-use Kernel::System::AuthSession;
-use Kernel::System::CustomerUser;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -23,28 +22,25 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (
-        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserObject UserID)
-        )
-    {
-        die "Got no $_!" if ( !$Self->{$_} );
+    for my $Needed (qw(Config Name UserID)) {
+        die "Got no $Needed!" if ( !$Self->{$Needed} );
     }
 
-    $Self->{SessionObject}      = Kernel::System::AuthSession->new(%Param);
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    # get param object
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get current filter
-    my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
+    my $Name = $ParamObject->GetParam( Param => 'Name' ) || '';
     my $PreferencesKey = 'UserDashboardUserOnlineFilter' . $Self->{Name};
     if ( $Self->{Name} eq $Name ) {
-        $Self->{Filter} = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || '';
+        $Self->{Filter} = $ParamObject->GetParam( Param => 'Filter' ) || '';
     }
 
     # remember filter
     if ( $Self->{Filter} ) {
 
         # update session
-        $Self->{SessionObject}->UpdateSessionID(
+        $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => $PreferencesKey,
             Value     => $Self->{Filter},
@@ -52,7 +48,7 @@ sub new {
 
         # update preferences
         if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
-            $Self->{UserObject}->SetPreferences(
+            $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
                 UserID => $Self->{UserID},
                 Key    => $PreferencesKey,
                 Value  => $Self->{Filter},
@@ -66,15 +62,16 @@ sub new {
 
     $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';
 
-    $Self->{PageShown} = $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
+    $Self->{PageShown} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{ $Self->{PrefKey} }
+        || $Self->{Config}->{Limit};
 
-    $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
+    $Self->{StartHit} = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
 
     $Self->{CacheKey} = $Self->{Name} . '::' . $Self->{Filter};
 
-    # get configuration for the full name order for usernames
+    # get configuration for the full name order for user names
     # and append it to the cache key to make sure, that the
-    # correct data will be displayed everytime
+    # correct data will be displayed every time
     my $FirstnameLastNameOrder = $Self->{ConfigObject}->Get('FirstnameLastnameOrder') || 0;
     $Self->{CacheKey} .= '::' . $FirstnameLastNameOrder;
 
@@ -124,7 +121,7 @@ sub Run {
     my $IdleMinutes = $Self->{Config}->{IdleMinutes} || 60;
     my $SortBy      = $Self->{Config}->{SortBy}      || 'UserFullname';
 
-    # get current timestamp
+    # get current time-stamp
     my $Time = $Self->{TimeObject}->SystemTime();
 
     # check cache
@@ -153,8 +150,14 @@ sub Run {
             },
         };
 
+        # get database object
+        my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+
         # get session ids
-        my @Sessions = $Self->{SessionObject}->GetAllSessionIDs();
+        my @Sessions = $SessionObject->GetAllSessionIDs();
+
+        # get user object
+        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
         SESSIONID:
         for my $SessionID (@Sessions) {
@@ -162,7 +165,7 @@ sub Run {
             next SESSIONID if !$SessionID;
 
             # get session data
-            my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $SessionID );
+            my %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
 
             next SESSIONID if !%Data;
             next SESSIONID if !$Data{UserID};
@@ -173,15 +176,16 @@ sub Run {
                 $Data{UserType} = 'Agent';
 
                 # get user data
-                %AgentData = $Self->{UserObject}->GetUserData(
+                %AgentData = $UserObject->GetUserData(
                     UserID        => $Data{UserID},
                     NoOutOfOffice => 1,
                 );
             }
             else {
-                $Data{UserFullname} ||= $Self->{CustomerUserObject}->CustomerName(
+                $Data{UserFullname}
+                    ||= $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
                     UserLogin => $Data{UserLogin},
-                );
+                    );
             }
 
             # only show if not already shown
@@ -212,8 +216,11 @@ sub Run {
     my %Summary;
     $Summary{ $Self->{Filter} . '::Selected' } = 'Selected';
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # filter bar
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ContentSmallUserOnlineFilter',
         Data => {
             %{ $Self->{Config} },
@@ -226,11 +233,11 @@ sub Run {
     # add page nav bar
     my $Total    = $Online->{UserCount}->{ $Self->{Filter} } || 0;
     my $LinkPage = 'Subaction=Element;Name=' . $Self->{Name} . ';Filter=' . $Self->{Filter} . ';';
-    my %PageNav  = $Self->{LayoutObject}->PageNavBar(
+    my %PageNav  = $LayoutObject->PageNavBar(
         StartHit       => $Self->{StartHit},
         PageShown      => $Self->{PageShown},
         AllHits        => $Total || 1,
-        Action         => 'Action=' . $Self->{LayoutObject}->{Action},
+        Action         => 'Action=' . $LayoutObject->{Action},
         Link           => $LinkPage,
         WindowSize     => 5,
         AJAXReplace    => 'Dashboard' . $Self->{Name},
@@ -238,7 +245,7 @@ sub Run {
         KeepScriptTags => $Param{AJAX},
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ContentSmallTicketGenericFilterNavBar',
         Data => {
             %{ $Self->{Config} },
@@ -251,7 +258,7 @@ sub Run {
     my %OnlineUser = %{ $Online->{User}->{ $Self->{Filter} } };
     my %OnlineData = %{ $Online->{UserData}->{ $Self->{Filter} } };
     my $Count      = 0;
-    my $Limit      = $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
+    my $Limit      = $LayoutObject->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
 
     USERID:
     for my $UserID ( sort { $OnlineUser{$a} cmp $OnlineUser{$b} } keys %OnlineUser ) {
@@ -265,13 +272,13 @@ sub Run {
         # extract user data
         my $UserData = $OnlineData{$UserID};
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentSmallUserOnlineRow',
             Data => $UserData,
         );
 
         if ( $Self->{Config}->{ShowEmail} ) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ContentSmallUserOnlineRowEmail',
                 Data => $UserData,
             );
@@ -298,13 +305,13 @@ sub Run {
 
         next USERID if $TimeStart > $Time || $TimeEnd < $Time;
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentSmallUserOnlineRowOutOfOffice',
         );
     }
 
     if ( !%OnlineUser ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentSmallUserOnlineNone',
         );
     }
@@ -315,7 +322,7 @@ sub Run {
         $Refresh = 60 * $Self->{UserRefreshTime};
         my $NameHTML = $Self->{Name};
         $NameHTML =~ s{-}{_}xmsg;
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentSmallUserOnlineRefresh',
             Data => {
                 %{ $Self->{Config} },
@@ -326,7 +333,7 @@ sub Run {
         );
     }
 
-    my $Content = $Self->{LayoutObject}->Output(
+    my $Content = $LayoutObject->Output(
         TemplateFile => 'AgentDashboardUserOnline',
         Data         => {
             %{ $Self->{Config} },
