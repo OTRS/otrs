@@ -12,6 +12,8 @@ package Kernel::Output::HTML::DashboardUserOutOfOffice;
 use strict;
 use warnings;
 
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -20,22 +22,23 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (
-        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserObject UserID)
-        )
-    {
-        die "Got no $_!" if ( !$Self->{$_} );
+    for my $Needed (qw(Config Name UserID)) {
+        die "Got no $Needed!" if ( !$Self->{$Needed} );
     }
 
-    # get current starthit and preferences
-    my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
+    # get param object
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+    # get current start-hit and preferences
+    my $Name = $ParamObject->GetParam( Param => 'Name' ) || '';
     my $PreferencesKey = 'UserDashboardUserOutOfOffice' . $Self->{Name};
 
     $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';
 
-    $Self->{PageShown} = $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
+    $Self->{PageShown} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{ $Self->{PrefKey} }
+        || $Self->{Config}->{Limit};
 
-    $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
+    $Self->{StartHit} = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
 
     $Self->{CacheKey} = $Self->{Name};
 
@@ -106,7 +109,10 @@ sub Run {
             UserData  => {},
         };
 
-        my %UserList = $Self->{UserObject}->SearchPreferences(
+        # get user object
+        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
+        my %UserList = $UserObject->SearchPreferences(
             Key   => 'OutOfOffice',
             Value => 1,
         );
@@ -117,7 +123,7 @@ sub Run {
             next USERID if !$UserID;
 
             # get user data
-            my %Data = $Self->{UserObject}->GetUserData(
+            my %Data = $UserObject->GetUserData(
                 UserID        => $UserID,
                 NoOutOfOffice => 1,
                 Valid         => 1,
@@ -166,16 +172,19 @@ sub Run {
         );
     }
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # add page nav bar if needed
     my $Total = $OutOfOffice->{UserCount} || 0;
     if ( $OutOfOffice->{UserCount} > $Self->{PageShown} ) {
 
         my $LinkPage = 'Subaction=Element;Name=' . $Self->{Name} . ';';
-        my %PageNav  = $Self->{LayoutObject}->PageNavBar(
+        my %PageNav  = $LayoutObject->PageNavBar(
             StartHit       => $Self->{StartHit},
             PageShown      => $Self->{PageShown},
             AllHits        => $Total || 1,
-            Action         => 'Action=' . $Self->{LayoutObject}->{Action},
+            Action         => 'Action=' . $LayoutObject->{Action},
             Link           => $LinkPage,
             WindowSize     => 5,
             AJAXReplace    => 'Dashboard' . $Self->{Name},
@@ -183,7 +192,7 @@ sub Run {
             KeepScriptTags => $Param{AJAX},
         );
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentSmallTicketGenericNavBar',
             Data => {
                 %{ $Self->{Config} },
@@ -197,7 +206,7 @@ sub Run {
     my %OutOfOfficeUser = %{ $OutOfOffice->{User} };
     my %OutOfOfficeData = %{ $OutOfOffice->{UserData} };
     my $Count           = 0;
-    my $Limit           = $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
+    my $Limit           = $LayoutObject->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
 
     USERID:
     for my $UserID ( sort { $OutOfOfficeUser{$a} cmp $OutOfOfficeUser{$b} } keys %OutOfOfficeUser )
@@ -209,13 +218,13 @@ sub Run {
         next USERID if $Count < $Self->{StartHit};
         last USERID if $Count >= ( $Self->{StartHit} + $Self->{PageShown} );
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentSmallUserOutOfOfficeRow',
             Data => $OutOfOfficeData{$UserID},
         );
     }
 
-    my $Content = $Self->{LayoutObject}->Output(
+    my $Content = $LayoutObject->Output(
         TemplateFile => 'AgentDashboardUserOutOfOffice',
         Data         => {
             %{ $Self->{Config} },
