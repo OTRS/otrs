@@ -12,8 +12,7 @@ package Kernel::Output::HTML::DashboardCustomerIDStatus;
 use strict;
 use warnings;
 
-#use Kernel::System::CustomerCompany;
-#use Kernel::System::Valid;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -23,15 +22,9 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (
-        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)
-        )
-    {
-        die "Got no $_!" if ( !$Self->{$_} );
+    for my $Needed (qw(Config Name ConfigObject UserID)) {
+        die "Got no $Needed!" if ( !$Self->{$Needed} );
     }
-
-    #    $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new( %{$Self} );
-    #    $Self->{ValidObject}           = Kernel::System::Valid->new( %{$Self} );
 
     $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';
 
@@ -65,6 +58,9 @@ sub Run {
 
     my $CustomerIDRaw = $Param{CustomerID};
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # escalated tickets
     my $Count = $Self->{TicketObject}->TicketSearch(
         TicketEscalationTimeOlderMinutes => 1,
@@ -74,6 +70,9 @@ sub Run {
         UserID                           => $Self->{UserID},
         CacheTTL                         => $Self->{Config}->{CacheTTLLocal} * 60,
     );
+
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     $Self->{LayoutObject}->Block(
         Name => 'ContentSmallCustomerIDStatusEscalatedTickets',
@@ -137,7 +136,7 @@ sub Run {
     );
 
     # archived tickets
-    if ( $Self->{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ArchiveSystem') ) {
         $Count = $Self->{TicketObject}->TicketSearch(
             CustomerIDRaw => $CustomerIDRaw,
             ArchiveFlags  => ['y'],
