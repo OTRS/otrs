@@ -30,6 +30,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use Getopt::Std qw();
 use Kernel::Config;
+use Kernel::Output::Template::Provider;
 use Kernel::System::ObjectManager;
 use Kernel::System::SysConfig;
 use Kernel::System::Cache;
@@ -83,7 +84,7 @@ Please run it as the 'otrs' user or with the help of su:
     print "\nMigration started...\n\n";
 
     # define the number of steps
-    my $Steps = 11;
+    my $Steps = 12;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
@@ -168,6 +169,16 @@ Please run it as the 'otrs' user or with the help of su:
     # uninstall Merged Feature Add-Ons
     print "Step $Step of $Steps: Uninstall Merged Feature Add-Ons... ";
     if ( _UninstallMergedFeatureAddOns() ) {
+        print "done.\n\n";
+    }
+    else {
+        print "error.\n\n";
+        die;
+    }
+    $Step++;
+
+    print "Step $Step of $Steps: Migrate SysConfig settings from DT to Template::Toolkit... ";
+    if ( _MigrateDTLInSysConfig() ) {
         print "done.\n\n";
     }
     else {
@@ -1219,6 +1230,50 @@ sub _UninstallMergedFeatureAddOns {
         }
     }
     return 1;
+}
+
+=item _MigrateDTLInSysConfig()
+
+migrate settings that contain DTL to TT.
+
+    _MigrateDTLInSysConfig($CommonObject);
+
+=cut
+
+sub _MigrateDTLInSysConfig {
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+    my $Setting = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::ResponseFormat');
+
+    my $ProviderObject = Kernel::Output::Template::Provider->new();
+
+    my $TTContent;
+    eval {
+        $TTContent = $ProviderObject->MigrateDTLtoTT( Content => $Setting );
+    };
+    if ($@) {
+        print STDERR <<EOF;
+
+The Sysconfig setting Ticket::Frontend::ResponseFormat could not be automatically converted
+from DTL to Template::Toolkit. The error was:
+$@
+
+The upgrading script will continue, please check and update this setting manually.
+See also http://otrs.github.io/doc/manual/developer/4.0/en/html/package-porting.html#package-porting-template-engine.
+
+EOF
+        return 1;   # Treat as success, the user should fix this manually.
+    }
+
+    return 1 if $TTContent eq $Setting;
+
+    my $Success = $SysConfigObject->ConfigItemUpdate(
+        Valid => 1,
+        Key   => 'Ticket::Frontend::ResponseFormat',
+        Value => $TTContent,
+    );
+
+    return $Success;
 }
 
 1;
