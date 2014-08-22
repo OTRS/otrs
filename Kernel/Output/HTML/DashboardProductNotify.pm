@@ -12,9 +12,9 @@ package Kernel::Output::HTML::DashboardProductNotify;
 use strict;
 use warnings;
 
-use Kernel::System::CloudService;
-
 use Kernel::System::VariableCheck qw(:all);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -24,14 +24,9 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for my $Needed (
-        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject CacheObject UserID)
-        )
-    {
+    for my $Needed (qw(Config Name UserID)) {
         die "Got no $Needed!" if ( !$Self->{$Needed} );
     }
-
-    $Self->{CloudServiceObject} = Kernel::System::CloudService->new(%Param);
 
     return $Self;
 }
@@ -53,17 +48,27 @@ sub Config {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # get current
-    my $Product = $Self->{ConfigObject}->Get('Product');
-    my $Version = $Self->{ConfigObject}->Get('Version');
+    my $Product = $ConfigObject->Get('Product');
+    my $Version = $ConfigObject->Get('Version');
 
     my $CloudService = 'PublicFeeds';
     my $Operation    = 'ProductFeed';
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # check cache
     my $CacheKey = "CloudService::" . $CloudService . "::Operation::" . $Operation . "::Language::"
-        . $Self->{LayoutObject}->{UserLanguage} . "::Product::" . $Product . "::Version::$Version";
-    my $CacheContent = $Self->{CacheObject}->Get(
+        . $LayoutObject->{UserLanguage} . "::Product::" . $Product . "::Version::$Version";
+
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    my $CacheContent = $CacheObject->Get(
         Type => 'DashboardProductNotify',
         Key  => $CacheKey,
     );
@@ -85,8 +90,11 @@ sub Run {
         },
     );
 
+    # get cloud service object
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
+
     # dispatch the cloud service request
-    my $RequestResult = $Self->{CloudServiceObject}->Request(%RequestParams);
+    my $RequestResult = $CloudServiceObject->Request(%RequestParams);
 
     # as this is the only operation an unsuccessful request means that the operation was also
     # unsuccessful
@@ -94,7 +102,7 @@ sub Run {
         return "Can't connect to Product News server!";
     }
 
-    my $OperationResult = $Self->{CloudServiceObject}->OperationResultGet(
+    my $OperationResult = $CloudServiceObject->OperationResultGet(
         RequestResult => $RequestResult,
         CloudService  => $CloudService,
         Operation     => $Operation,
@@ -122,7 +130,7 @@ sub Run {
 
             # remember if content got shown
             $ContentFound = 1;
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ContentProductMessage',
                 Data => {
                     Message => $Message,
@@ -147,7 +155,7 @@ sub Run {
 
             # remember if content got shown
             $ContentFound = 1;
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ContentProductRelease',
                 Data => {
                     Name     => $Release->{Name},
@@ -162,7 +170,7 @@ sub Run {
     # check if content got shown, if true, render block
     my $Content;
     if ($ContentFound) {
-        $Content = $Self->{LayoutObject}->Output(
+        $Content = $LayoutObject->Output(
             TemplateFile => 'AgentDashboardProductNotify',
             Data         => {
                 %{ $Self->{Config} },
@@ -177,7 +185,7 @@ sub Run {
 
     # cache result
     if ( $Self->{Config}->{CacheTTLLocal} ) {
-        $Self->{CacheObject}->Set(
+        $CacheObject->Set(
             Type  => 'DashboardProductNotify',
             Key   => $CacheKey,
             Value => $Content || '',
@@ -195,7 +203,7 @@ sub _CheckVersion {
     # check needed stuff
     for my $Needed (qw(Version1 Version2)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "$Needed not defined!",
             );
