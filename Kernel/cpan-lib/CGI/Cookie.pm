@@ -5,19 +5,6 @@ use warnings;
 
 use if $] >= 5.019, 'deprecate';
 
-# See the bottom of this file for the POD documentation.  Search for the
-# string '=head'.
-
-# You can run this file through either pod2man or pod2html to produce pretty
-# documentation in manual or html file format (these utilities are part of the
-# Perl 5 distribution).
-
-# Copyright 1995-1999, Lincoln D. Stein.  All rights reserved.
-# It may be used and modified freely, but I do request that this copyright
-# notice remain attached to the file.  You may modify this module as you
-# wish, but if you redistribute a modified version, please attach a note
-# listing the modifications you have made.
-
 our $VERSION='1.31';
 
 use CGI::Util qw(rearrange unescape escape);
@@ -139,7 +126,7 @@ sub new {
   $self->domain( $domain )     if defined $domain;
   $self->secure( $secure )     if defined $secure;
   $self->expires( $expires )   if defined $expires;
-  $self->max_age($expires)     if defined $max_age;
+  $self->max_age( $max_age )   if defined $max_age;
   $self->httponly( $httponly ) if defined $httponly;
   return $self;
 }
@@ -270,17 +257,15 @@ CGI::Cookie - Interface to HTTP Cookies
 
 =head1 DESCRIPTION
 
-CGI::Cookie is an interface to HTTP/1.1 cookies, an
-innovation that allows Web servers to store persistent information on
+CGI::Cookie is an interface to HTTP/1.1 cookies, a mechanism
+that allows Web servers to store persistent information on
 the browser's side of the connection.  Although CGI::Cookie is
 intended to be used in conjunction with CGI.pm (and is in fact used by
 it internally), you can use this module independently.
 
 For full information on cookies see 
 
-	http://tools.ietf.org/html/rfc2109
-	http://tools.ietf.org/html/rfc2965
-	http://tools.ietf.org/html/draft-ietf-httpstate-cookie
+    https://tools.ietf.org/html/rfc6265
 
 =head1 USING CGI::Cookie
 
@@ -340,7 +325,7 @@ This feature is supported by nearly all modern browsers.
 
 See these URLs for more information:
 
-	http://msdn.microsoft.com/en-us/library/ms533046.aspx
+    http://msdn.microsoft.com/en-us/library/ms533046.aspx
     http://www.browserscope.org/?category=security&v=top
 
 =back
@@ -350,6 +335,7 @@ See these URLs for more information:
 	my $c = CGI::Cookie->new(-name    =>  'foo',
                              -value   =>  'bar',
                              -expires =>  '+3M',
+                           '-max-age' =>  '+3M',
                              -domain  =>  '.capricorn.com',
                              -path    =>  '/cgi-bin/database',
                              -secure  =>  1
@@ -516,17 +502,27 @@ Get or set the cookie's path.
 
 Get or set the cookie's expiration time.
 
+=item B<max_age()>
+
+Get or set the cookie's max_age value.
+
 =back
 
 
 =head1 AUTHOR INFORMATION
 
-Copyright 1997-1998, Lincoln D. Stein.  All rights reserved.  
+The CGI.pm distribution is copyright 1995-2007, Lincoln D. Stein. It is
+distributed under GPL and the Artistic License 2.0. It is currently
+maintained by Lee Johnson with help from many contributors.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+Address bug reports and comments to: https://github.com/leejo/CGI.pm/issues
 
-Address bug reports and comments to: lstein@cshl.org
+The original bug tracker can be found at: https://rt.cpan.org/Public/Dist/Display.html?Queue=CGI.pm
+
+When sending bug reports, please provide the version of CGI.pm, the version of
+Perl, the name and version of your Web server, and the name and version of the
+operating system you are using.  If the problem is even remotely browser
+dependent, please provide information about the affected browsers as well.
 
 =head1 BUGS
 

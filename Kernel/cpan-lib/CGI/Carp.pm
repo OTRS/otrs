@@ -185,7 +185,7 @@ attempting to set SIG{__DIE__} yourself, you may interfere with
 this module's functionality, or this module may interfere with 
 your module's functionality.
 
-=head2 SUPPRESSING PERL ERRORS APPEARING IN THE BROWSER WINDOW
+=head1 SUPPRESSING PERL ERRORS APPEARING IN THE BROWSER WINDOW
 
 A problem sometimes encountered when using fatalsToBrowser is
 when a C<die()> is done inside an C<eval> body or expression.
@@ -266,61 +266,34 @@ You can set the program back to the default by calling
 Note that this override doesn't happen until after the program has
 compiled, so any compile-time errors will still show up with the
 non-overridden program name
-  
-=head1 CHANGE LOG
 
-3.51 Added $CGI::Carp::TO_BROWSER
+=head1 TURNING OFF TIMESTAMPS IN MESSAGES
 
-1.29 Patch from Peter Whaite to fix the unfixable problem of CGI::Carp
-     not behaving correctly in an eval() context.
+If your web server automatically adds a timestamp to each log line,
+you may not need CGI::Carp to add its own. You can disable timestamping
+by importing "noTimestamp":
 
-1.05 carpout() added and minor corrections by Marc Hedlund
-     <hedlund@best.com> on 11/26/95.
+    use CGI::Carp qw(noTimestamp);
 
-1.06 fatalsToBrowser() no longer aborts for fatal errors within
-     eval() statements.
+Alternatively you can set C<$CGI::Carp::NO_TIMESTAMP> to 1.
 
-1.08 set_message() added and carpout() expanded to allow for FileHandle
-     objects.
+Note that the name of the program is still automatically included in
+the message.
 
-1.09 set_message() now allows users to pass a code REFERENCE for 
-     really custom error messages.  croak and carp are now
-     exported by default.  Thanks to Gunther Birznieks for the
-     patches.
+=head1 AUTHOR INFORMATION
 
-1.10 Patch from Chris Dean (ctdean@cogit.com) to allow 
-     module to run correctly under mod_perl.
+The CGI.pm distribution is copyright 1995-2007, Lincoln D. Stein. It is
+distributed under GPL and the Artistic License 2.0. It is currently
+maintained by Lee Johnson with help from many contributors.
 
-1.11 Changed order of &gt; and &lt; escapes.
+Address bug reports and comments to: https://github.com/leejo/CGI.pm/issues
 
-1.12 Changed die() on line 217 to CORE::die to avoid B<-w> warning.
+The original bug tracker can be found at: https://rt.cpan.org/Public/Dist/Display.html?Queue=CGI.pm
 
-1.13 Added cluck() to make the module orthogonal with Carp.
-     More mod_perl related fixes.
-
-1.20 Patch from Ilmari Karonen (perl@itz.pp.sci.fi):  Added
-     warningsToBrowser().  Replaced <CODE> tags with <PRE> in
-     fatalsToBrowser() output.
-
-1.23 ineval() now checks both $^S and inspects the message for the "eval" pattern
-     (hack alert!) in order to accommodate various combinations of Perl and
-     mod_perl.
-
-1.24 Patch from Scott Gifford (sgifford@suspectclass.com): Add support
-     for overriding program name.
-
-1.26 Replaced CORE::GLOBAL::die with the evil $SIG{__DIE__} because the
-     former isn't working in some people's hands.  There is no such thing
-     as reliable exception handling in Perl.
-
-1.27 Replaced tell STDOUT with bytes=tell STDOUT.
-
-=head1 AUTHORS
-
-Copyright 1995-2002, Lincoln D. Stein.  All rights reserved.  
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+When sending bug reports, please provide the version of CGI.pm, the version of
+Perl, the name and version of your Web server, and the name and version of the
+operating system you are using.  If the problem is even remotely browser
+dependent, please provide information about the affected browsers as well.
 
 =head1 SEE ALSO
 
@@ -341,7 +314,7 @@ use File::Spec;
 
 @ISA = qw(Exporter);
 @EXPORT = qw(confess croak carp);
-@EXPORT_OK = qw(carpout fatalsToBrowser warningsToBrowser wrap set_message set_die_handler set_progname cluck ^name= die);
+@EXPORT_OK = qw(carpout fatalsToBrowser warningsToBrowser wrap noTimestamp set_message set_die_handler set_progname cluck ^name= die);
 
 $main::SIG{__WARN__}=\&CGI::Carp::warn;
 
@@ -349,6 +322,7 @@ $CGI::Carp::VERSION     = '3.64';
 $CGI::Carp::CUSTOM_MSG  = undef;
 $CGI::Carp::DIE_HANDLER = undef;
 $CGI::Carp::TO_BROWSER  = 1;
+$CGI::Carp::NO_TIMESTAMP= 0;
 
 
 # fancy import routine detects and handles 'errorWrap' specially.
@@ -371,7 +345,7 @@ sub import {
     Exporter::import($pkg,keys %routines);
     $Exporter::ExportLevel = $oldlevel;
     $main::SIG{__DIE__} =\&CGI::Carp::die if $routines{'fatalsToBrowser'};
-#    $pkg->export('CORE::GLOBAL','die');
+    $CGI::Carp::NO_TIMESTAMP = 1 if $routines{'noTimestamp'};
 }
 
 # These are the originals
@@ -386,7 +360,6 @@ sub id {
 }
 
 sub stamp {
-    my $time = scalar(localtime);
     my $frame = 0;
     my ($id,$pack,$file,$dev,$dirs);
     if (defined($CGI::Carp::PROGNAME)) {
@@ -398,6 +371,8 @@ sub stamp {
         } until !$file;
     }
     ($dev,$dirs,$id) = File::Spec->splitpath($id);
+    return "$id: " if $CGI::Carp::NO_TIMESTAMP;
+    my $time = scalar(localtime);
     return "[$time] $id: ";
 }
 

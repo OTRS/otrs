@@ -3,25 +3,7 @@ require 5.008001;
 use if $] >= 5.019, 'deprecate';
 use Carp 'croak';
 
-# See the bottom of this file for the POD documentation.  Search for the
-# string '=head'.
-
-# You can run this file through either pod2man or pod2html to produce pretty
-# documentation in manual or html file format (these utilities are part of the
-# Perl 5 distribution).
-
-# Copyright 1995-1998 Lincoln D. Stein.  All rights reserved.
-# It may be used and modified freely, but I do request that this copyright
-# notice remain attached to the file.  You may modify this module as you 
-# wish, but if you redistribute a modified version, please attach a note
-# listing the modifications you have made.
-
-# The most recent version and complete docs are available at:
-#   http://search.cpan.org/dist/CGI.pm
-
-# The revision is no longer being updated since moving to git.
-$CGI::revision = '$Id: CGI.pm,v 1.266 2009/07/30 16:32:34 lstein Exp $';
-$CGI::VERSION='3.65';
+$CGI::VERSION='4.03';
 
 # HARD-CODED LOCATION FOR FILE UPLOAD TEMPORARY FILES.
 # UNCOMMENT THIS ONLY IF YOU KNOW WHAT YOU'RE DOING.
@@ -226,35 +208,44 @@ if ($needs_binmode) {
 }
 
 %EXPORT_TAGS = (
-		':html2'=>['h1'..'h6',qw/p br hr ol ul li dl dt dd menu code var strong em
-			   tt u i b blockquote pre img a address cite samp dfn html head
-			   base body Link nextid title meta kbd start_html end_html
-			   input Select option comment charset escapeHTML/],
-		':html3'=>[qw/div table caption th td TR Tr sup Sub strike applet Param nobr
-			   embed basefont style span layer ilayer font frameset frame script small big Area Map/],
-                ':html4'=>[qw/abbr acronym bdo col colgroup del fieldset iframe
-                            ins label legend noframes noscript object optgroup Q 
-                            thead tbody tfoot/], 
-		':netscape'=>[qw/blink fontsize center/],
-		':form'=>[qw/textfield textarea filefield password_field hidden checkbox checkbox_group 
-			  submit reset defaults radio_group popup_menu button autoEscape
-			  scrolling_list image_button start_form end_form startform endform
-			  start_multipart_form end_multipart_form isindex tmpFileName uploadInfo URL_ENCODED MULTIPART/],
-		':cgi'=>[qw/param upload path_info path_translated request_uri url self_url script_name 
-			 cookie Dump
-			 raw_cookie request_method query_string Accept user_agent remote_host content_type
-			 remote_addr referer server_name server_software server_port server_protocol virtual_port
-			 virtual_host remote_ident auth_type http append
-			 save_parameters restore_parameters param_fetch
-			 remote_user user_name header redirect import_names put 
-			 Delete Delete_all url_param cgi_error/],
-		':ssl' => [qw/https/],
-		':cgi-lib' => [qw/ReadParse PrintHeader HtmlTop HtmlBot SplitParam Vars/],
-		':html' => [qw/:html2 :html3 :html4 :netscape/],
-		':standard' => [qw/:html2 :html3 :html4 :form :cgi/],
-		':push' => [qw/multipart_init multipart_start multipart_end multipart_final/],
-		':all' => [qw/:html2 :html3 :netscape :form :cgi :internal :html4/]
-		);
+	':html2' => [ 'h1' .. 'h6', qw/
+		p br hr ol ul li dl dt dd menu code var strong em
+		tt u i b blockquote pre img a address cite samp dfn html head
+		base body Link nextid title meta kbd start_html end_html
+		input Select option comment charset escapeHTML
+	/ ],
+	':html3' => [ qw/
+		div table caption th td TR Tr sup Sub strike applet Param nobr
+		embed basefont style span layer ilayer font frameset frame script small big Area Map
+	/ ],
+	':html4' => [ qw/
+		abbr acronym bdo col colgroup del fieldset iframe
+		ins label legend noframes noscript object optgroup Q
+		thead tbody tfoot
+	/ ],
+	':form'     => [ qw/
+		textfield textarea filefield password_field hidden checkbox checkbox_group
+		submit reset defaults radio_group popup_menu button autoEscape
+		scrolling_list image_button start_form end_form startform endform
+		start_multipart_form end_multipart_form isindex tmpFileName uploadInfo URL_ENCODED MULTIPART
+	/ ],
+	':cgi' => [ qw/
+		param upload path_info path_translated request_uri url self_url script_name
+		cookie Dump raw_cookie request_method query_string Accept user_agent remote_host content_type
+		remote_addr referer server_name server_software server_port server_protocol virtual_port
+		virtual_host remote_ident auth_type http append save_parameters restore_parameters param_fetch
+		remote_user user_name header redirect import_names put Delete Delete_all url_param cgi_error
+	/ ],
+	':netscape' => [qw/blink fontsize center/],
+	':ssl'      => [qw/https/],
+	':cgi-lib'  => [qw/ReadParse PrintHeader HtmlTop HtmlBot SplitParam Vars/],
+	':push'     => [qw/multipart_init multipart_start multipart_end multipart_final/],
+
+	# bulk export/import
+	':html'     => [qw/:html2 :html3 :html4 :netscape/],
+	':standard' => [qw/:html2 :html3 :html4 :form :cgi :ssl/],
+	':all'      => [qw/:html2 :html3 :html4 :netscape :form :cgi :ssl :push/]
+);
 
 # Custom 'can' method for both autoloaded and non-autoloaded subroutines.
 # Author: Cees Hek <cees@sitesuite.com.au>
@@ -598,12 +589,7 @@ sub init {
                       $self->add_parameter($param);
                       my($value) = $self->read_multipart_related($start,$boundary,$content_length,0);
                       push (@{$self->{param}{$param}},$value);
-                      if ($MOD_PERL) {
-                              $query_string = $self->r->args;
-                      } else {
-                              $query_string = $ENV{'QUERY_STRING'} if defined $ENV{'QUERY_STRING'};
-                              $query_string ||= $ENV{'REDIRECT_QUERY_STRING'} if defined $ENV{'REDIRECT_QUERY_STRING'};
-                      }
+					  $query_string = $self->_get_query_string_from_env;
                       $is_xforms = 1;
               }
       }
@@ -648,13 +634,8 @@ sub init {
       # If method is GET, HEAD or DELETE, fetch the query from
       # the environment.
       if ($is_xforms || $meth=~/^(GET|HEAD|DELETE)$/) {
-	  if ($MOD_PERL) {
-	    $query_string = $self->r->args;
-	  } else {
-	      $query_string = $ENV{'QUERY_STRING'} if defined $ENV{'QUERY_STRING'};
-	      $query_string ||= $ENV{'REDIRECT_QUERY_STRING'} if defined $ENV{'REDIRECT_QUERY_STRING'};
-	  }
-	  last METHOD;
+          $query_string = $self->_get_query_string_from_env;
+	      last METHOD;
       }
 
       if ($meth eq 'POST' || $meth eq 'PUT') {
@@ -724,6 +705,38 @@ sub init {
     $self->delete('.cgifields');
 
     $self->save_request unless defined $initializer;
+}
+
+sub _get_query_string_from_env {
+    my $self = shift;
+    my $query_string = '';
+
+    if ( $MOD_PERL ) {
+        $query_string = $self->r->args;
+        if ( ! $query_string && $MOD_PERL == 2 ) {
+            # possibly a redirect, inspect prev request
+            # (->prev only supported under mod_perl2)
+            if ( my $prev = $self->r->prev ) {
+                $query_string = $prev->args;
+            }
+        }
+    }
+
+    $query_string ||= $ENV{'QUERY_STRING'}
+        if defined $ENV{'QUERY_STRING'};
+
+    if ( ! $query_string ) {
+        # try to get from REDIRECT_ env variables, support
+        # 5 levels of redirect and no more (RT #36312)
+        REDIRECT: foreach my $r ( 1 .. 5 ) {
+            my $key = join( '',( 'REDIRECT_' x $r ) );
+            $query_string ||= $ENV{"${key}QUERY_STRING"}
+                if defined $ENV{"${key}QUERY_STRING"};
+            last REDIRECT if $query_string;
+        }
+    }
+
+    return $query_string;
 }
 
 # FUNCTIONS TO OVERRIDE:
@@ -1405,7 +1418,7 @@ END_OF_FUNC
 'multipart_init' => <<'END_OF_FUNC',
 sub multipart_init {
     my($self,@p) = self_or_default(@_);
-    my($boundary,@other) = rearrange_header([BOUNDARY],@p);
+    my($boundary,$charset,@other) = rearrange_header([BOUNDARY,CHARSET],@p);
     if (!$boundary) {
         $boundary = '------- =_';
         my @chrs = ('0'..'9', 'A'..'Z', 'a'..'z');
@@ -1420,6 +1433,7 @@ sub multipart_init {
     return $self->header(
 	-nph => 0,
 	-type => $type,
+    -charset => $charset,
 	(map { split "=", $_, 2 } @other),
     ) . "WARNING: YOUR BROWSER DOESN'T SUPPORT THIS SERVER-PUSH TECHNOLOGY." . $self->multipart_end;
 }
@@ -1436,16 +1450,20 @@ END_OF_FUNC
 sub multipart_start {
     my(@header);
     my($self,@p) = self_or_default(@_);
-    my($type,@other) = rearrange([TYPE],@p);
+    my($type,$charset,@other) = rearrange([TYPE,CHARSET],@p);
     $type = $type || 'text/html';
-    push(@header,"Content-Type: $type");
+    if ($charset) {
+        push(@header,"Content-Type: $type; charset=$charset");
+    } else {
+        push(@header,"Content-Type: $type");
+    }
 
     # rearrange() was designed for the HTML portion, so we
     # need to fix it up a little.
     for (@other) {
         # Don't use \s because of perl bug 21951
         next unless my($header,$value) = /([^ \r\n\t=]+)=\"?(.+?)\"?$/;
-	($_ = $header) =~ s/^(\w)(.*)/$1 . lc ($2) . ': '.$self->unescapeHTML($value)/e;
+        ($_ = $header) =~ s/^(\w)(.*)/$1 . lc ($2) . ': '.$self->unescapeHTML($value)/e;
     }
     push(@header,@other);
     my $header = join($CRLF,@header)."${CRLF}${CRLF}";
@@ -1494,7 +1512,7 @@ sub header {
 
     my($type,$status,$cookie,$target,$expires,$nph,$charset,$attachment,$p3p,@other) = 
 	rearrange([['TYPE','CONTENT_TYPE','CONTENT-TYPE'],
-			    'STATUS',['COOKIE','COOKIES'],'TARGET',
+			    'STATUS',['COOKIE','COOKIES','SET-COOKIE'],'TARGET',
                             'EXPIRES','NPH','CHARSET',
                             'ATTACHMENT','P3P'],@p);
 
@@ -1598,7 +1616,7 @@ END_OF_FUNC
 sub redirect {
     my($self,@p) = self_or_default(@_);
     my($url,$target,$status,$cookie,$nph,@other) = 
-         rearrange([[LOCATION,URI,URL],TARGET,STATUS,['COOKIE','COOKIES'],NPH],@p);
+         rearrange([[LOCATION,URI,URL],TARGET,STATUS,['COOKIE','COOKIES','SET-COOKIE'],NPH],@p);
     $status = '302 Found' unless defined $status;
     $url ||= $self->self_url;
     my(@o);
@@ -1785,8 +1803,10 @@ sub _style {
            my @v = ref($verbatim) eq 'ARRAY' ? @$verbatim : $verbatim;
            push(@result, "<style type=\"text/css\">\n$_\n</style>") for @v;
       }
-      my @c = ref($code) eq 'ARRAY' ? @$code : $code if $code;
-      push(@result,style({'type'=>$type},"$cdata_start\n$_\n$cdata_end")) for @c;
+       if ($code) {
+         my @c = ref($code) eq 'ARRAY' ? @$code : $code;
+         push(@result,style({'type'=>$type},"$cdata_start\n$_\n$cdata_end")) for @c;
+       }
 
       } else {
            my $src = $s;
@@ -2547,6 +2567,9 @@ sub popup_menu {
                                 : $default;
     }
     $name=$self->_maybe_escapeHTML($name);
+    # RT #30057 - ignore -multiple, if you need this
+    # then use scrolling_list
+    @other = grep { $_ !~ /^multiple=/i } @other;
     my($other) = @other ? " @other" : '';
 
     my(@values);
@@ -4329,7 +4352,28 @@ from dozens of contributors and being deployed on thousands of websites.
 CGI.pm has been included in the Perl distribution since Perl 5.4, and has
 become a de-facto standard.
 
-=head2 PROGRAMMING STYLE
+=head1 CGI.pm HAS BEEN REMOVED FROM THE PERL CORE
+
+  L<http://perl5.git.perl.org/perl.git/commitdiff/e9fa5a80>
+
+If you upgrade to a new version of perl or if you rely on a
+system or vendor perl and get an updated version of perl through a system
+update, then you will have to install CGI.pm yourself with cpan/cpanm/a vendor
+package/manually. To make this a little easier the L<CGI::Fast> module has been
+split into its own distribution, meaning you do not need acces to a compiler
+to install CGI.pm
+
+The rational for this decision is that CGI.pm is no longer considered good
+practice for developing web applications, B<including> quick prototyping and
+small web scripts. There are far better, cleaner, quicker, easier, safer,
+more scalable, more extensible, more modern alternatives available at this point
+in time. These will be documented with L<CGI::Alternatives>.
+
+For more discussion on the removal of CGI.pm from core please see:
+
+  L<http://www.nntp.perl.org/group/perl.perl5.porters/2013/05/msg202130.html>
+
+=head2 Programming style
 
 There are two styles of programming with CGI.pm, an object-oriented
 style and a function-oriented style.  In the object-oriented style you
@@ -4374,7 +4418,7 @@ The examples in this document mainly use the object-oriented style.
 See HOW TO IMPORT FUNCTIONS for important information on
 function-oriented programming in CGI.pm
 
-=head2 CALLING CGI.PM ROUTINES
+=head2 Calling CGI.pm routines
 
 Most CGI.pm routines accept several arguments, sometimes as many as 20
 optional ones!  To simplify this interface, all routines use a named
@@ -4484,7 +4528,7 @@ translation.
 This feature allows you to keep up with the rapidly changing HTTP and
 HTML "standards".
 
-=head2 CREATING A NEW QUERY OBJECT (OBJECT-ORIENTED STYLE):
+=head2 Creating a new query object (object-oriented style):
 
      $query = CGI->new;
 
@@ -4494,7 +4538,7 @@ it into a perl5 object called $query.
 Any filehandles from file uploads will have their position reset to 
 the beginning of the file. 
 
-=head2 CREATING A NEW QUERY OBJECT FROM AN INPUT FILE
+=head2 Creating a new query object from an input file
 
      $query = CGI->new(INPUTFILE);
 
@@ -4550,14 +4594,14 @@ To create an empty query, initialize it from an empty string or hash:
 
    $empty_query = CGI->new({});
 
-=head2 FETCHING A LIST OF KEYWORDS FROM THE QUERY:
+=head2 Fetching a list of keywords from the query:
 
      @keywords = $query->keywords
 
 If the script was invoked as the result of an <ISINDEX> search, the
 parsed keywords can be obtained as an array using the keywords() method.
 
-=head2 FETCHING THE NAMES OF ALL THE PARAMETERS PASSED TO YOUR SCRIPT:
+=head2 Fetching the names of all the parameters passed to your script:
 
      @names = $query->param
 
@@ -4574,7 +4618,7 @@ Usually this order is the same as the order in which the
 parameters are defined in the form (however, this isn't part
 of the spec, and so isn't guaranteed).
 
-=head2 FETCHING THE VALUE OR VALUES OF A SINGLE NAMED PARAMETER:
+=head2 Fetching the value or values of a single named parameter:
 
     @values = $query->param('foo');
 
@@ -4595,7 +4639,7 @@ If the parameter does not exist at all, then param() will return undef
 in a scalar context, and the empty list in a list context.
 
 
-=head2 SETTING THE VALUE(S) OF A NAMED PARAMETER:
+=head2 Setting the value(s) of a named parameter:
 
     $query->param('foo','an','array','of','values');
 
@@ -4614,7 +4658,7 @@ in more detail later:
 
     $query->param(-name=>'foo',-value=>'the value');
 
-=head2 APPENDING ADDITIONAL VALUES TO A NAMED PARAMETER:
+=head2 Appending additional values to a named parameter:
 
    $query->append(-name=>'foo',-values=>['yet','more','values']);
 
@@ -4623,7 +4667,7 @@ values are appended to the end of the parameter if it already exists.
 Otherwise the parameter is created.  Note that this method only
 recognizes the named argument calling syntax.
 
-=head2 IMPORTING ALL PARAMETERS INTO A NAMESPACE:
+=head2 Importing all parameters into a namespace:
 
    $query->import_names('R');
 
@@ -4642,7 +4686,7 @@ NOTE 2: In older versions, this method was called B<import()>.  As of version 2.
 this name has been removed completely to avoid conflict with the built-in
 Perl module B<import> operator.
 
-=head2 DELETING A PARAMETER COMPLETELY:
+=head2 Deleting a parameter completely:
 
     $query->delete('foo','bar','baz');
 
@@ -4653,7 +4697,7 @@ invocations.
 If you are using the function call interface, use "Delete()" instead
 to avoid conflicts with Perl's built-in delete operator.
 
-=head2 DELETING ALL PARAMETERS:
+=head2 Deleting all parameters:
 
    $query->delete_all();
 
@@ -4662,7 +4706,7 @@ that all the defaults are taken when you create a fill-out form.
 
 Use Delete_all() instead if you are using the function call interface.
 
-=head2 HANDLING NON-URLENCODED ARGUMENTS
+=head2 Handling non-urlencoded arguments
 
 
 If POSTed data is not of type application/x-www-form-urlencoded or
@@ -4681,7 +4725,7 @@ only affects people trying to use CGI for XML processing and other
 specialized tasks.)
 
 
-=head2 DIRECT ACCESS TO THE PARAMETER LIST:
+=head2 Direct access to the parameter list:
 
    $q->param_fetch('address')->[1] = '1313 Mockingbird Lane';
    unshift @{$q->param_fetch(-name=>'address')},'George Munster';
@@ -4695,7 +4739,7 @@ can manipulate in any way you like.
 
 You can also use a named argument style using the B<-name> argument.
 
-=head2 FETCHING THE PARAMETER LIST AS A HASH:
+=head2 Fetching the parameter list as a hash:
 
     $params = $q->Vars;
     print $params->{'address'};
@@ -4725,7 +4769,7 @@ module for Perl version 4.
 If you wish to use Vars() as a function, import the I<:cgi-lib> set of
 function calls (also see the section on CGI-LIB compatibility).
 
-=head2 SAVING THE STATE OF THE SCRIPT TO A FILE:
+=head2 Saving the state of the script to a file:
 
     $query->save(\*FILEHANDLE)
 
@@ -4772,14 +4816,14 @@ The file format used for save/restore is identical to that used by the
 Whitehead Genome Center's data exchange format "Boulderio", and can be
 manipulated and even databased using Boulderio utilities.  See
 
-  http://stein.cshl.org/boulder/
+  L<Boulder>
 
 for further details.
 
 If you wish to use this method from the function-oriented (non-OO)
 interface, the exported name for this method is B<save_parameters()>.
 
-=head2 RETRIEVING CGI ERRORS
+=head2 Retrieving cgi errors
 
 Errors can occur while processing user input, particularly when
 processing uploaded files.  When these errors occur, CGI will stop
@@ -4802,7 +4846,7 @@ When using the function-oriented interface (see the next section),
 errors may only occur the first time you call I<param()>. Be ready
 for this!
 
-=head2 USING THE FUNCTION-ORIENTED INTERFACE
+=head2 Using the function-oriented interface
 
 To use the function-oriented interface, you must specify which CGI.pm
 routines or sets of routines to import into your script's namespace.
@@ -4861,12 +4905,14 @@ Import all HTML-generating shortcuts (i.e. 'html2', 'html3', 'html4' and 'netsca
 
 =item B<:standard>
 
-Import "standard" features, 'html2', 'html3', 'html4', 'form' and 'cgi'.
+Import "standard" features, 'html2', 'html3', 'html4', 'ssl', 'form' and 'cgi'.
 
 =item B<:all>
 
 Import all the available methods.  For the full list, see the CGI.pm
-code, where the variable %EXPORT_TAGS is defined.
+code, where the variable %EXPORT_TAGS is defined. (N.B. the :cgi-lib
+imports will B<not> be included in the :all import, you will have to
+import :cgi-lib to get those)
 
 =back
 
@@ -4920,7 +4966,7 @@ importing CGI.pm methods, you can create visually elegant scripts:
     }
     print end_html;
 
-=head2 PRAGMAS
+=head2 Pragmas
 
 In addition to the function sets, there are a number of pragmas that
 you can import.  Pragmas, which are always preceded by a hyphen,
@@ -5108,7 +5154,7 @@ writable.  If not, the algorithm tries the next choice.
 
 =back
 
-=head2 SPECIAL FORMS FOR IMPORTING HTML-TAG FUNCTIONS
+=head2 Special forms for importing HTML-tag functions
 
 Many of the methods generate HTML tags.  As described below, tag
 functions automatically generate both the opening and closing tags.
@@ -5164,7 +5210,7 @@ Each of these functions produces a fragment of HTML or HTTP which you
 can print out directly so that it displays in the browser window,
 append to a string, or save to a file for later use.
 
-=head2 CREATING A STANDARD HTTP HEADER:
+=head2 Creating a standard http header:
 
 Normally the first thing you will do in any CGI script is print out an
 HTTP header.  This tells the browser what type of document to expect,
@@ -5267,7 +5313,7 @@ Invalid multi-line header input will trigger in an exception. When multi-line he
 are received, CGI.pm will always output them back as a single line, according to the
 folding rules of RFC 2616: the newlines will be removed, while the white space remains.
 
-=head2 GENERATING A REDIRECTION HEADER
+=head2 Generating a redirection header
 
    print $q->redirect('http://somewhere.else/in/movie/land');
 
@@ -5313,7 +5359,7 @@ advised that changing the status to anything other than 301, 302 or
 Note that the human-readable phrase is also expected to be present to conform
 with RFC 2616, section 6.1.
 
-=head2 CREATING THE HTML DOCUMENT HEADER
+=head2 Creating the HTML document header
 
    print start_html(-title=>'Secrets of the Pyramids',
 			    -author=>'fred@capricorn.org',
@@ -5531,13 +5577,13 @@ Other parameters you want to include in the <body> tag may be appended
 to these.  This is a good place to put HTML extensions, such as colors and
 wallpaper patterns.
 
-=head2 ENDING THE HTML DOCUMENT:
+=head2 Ending the Html document:
 
 	print $q->end_html;
 
 This ends an HTML document by printing the </body></html> tags.
 
-=head2 CREATING A SELF-REFERENCING URL THAT PRESERVES STATE INFORMATION:
+=head2 Creating a self-referencing url that preserves state information:
 
     $myself = $q->self_url;
     print q(<a href="$myself">I'm talking to myself.</a>);
@@ -5556,14 +5602,15 @@ of the form(s).  Something like this will do the trick.
 If you want more control over what's returned, using the B<url()>
 method instead.
 
-You can also retrieve the unprocessed query string with query_string():
+You can also retrieve a query string representation of the current object
+state with query_string():
 
     $the_string = $q->query_string();
 
 The behavior of calling query_string is currently undefined when the HTTP method is
 something other than GET.
 
-=head2 OBTAINING THE SCRIPT'S URL
+=head2 Obtaining the script's url
 
     $full_url      = url();
     $full_url      = url(-full=>1);  #alternative syntax
@@ -5627,7 +5674,7 @@ the URL after mod_rewrite's rules have run.
 
 =back
 
-=head2 MIXING POST AND URL PARAMETERS
+=head2 Mixing post and url parameters
 
    $color = url_param('color');
 
@@ -5682,7 +5729,7 @@ completely (see the next section for more details):
       ),
       hr;
 
-=head2 PROVIDING ARGUMENTS TO HTML SHORTCUTS
+=head2 Providing arguments to HTML shortcuts
 
 The HTML methods will accept zero, one or multiple arguments.  If you
 provide no arguments, you get a single tag:
@@ -5724,7 +5771,7 @@ changed in order to accommodate those who want to create tags of the form
    img({alt=>undef})      <img alt>
    img({alt=>''})         <img alt="">
 
-=head2 THE DISTRIBUTIVE PROPERTY OF HTML SHORTCUTS
+=head2 The distributive property of HTML shortcuts
 
 One of the cool features of the HTML shortcuts is that they are
 distributive.  If you give them an argument consisting of a
@@ -5759,7 +5806,7 @@ This is extremely useful for creating tables.  For example:
            )
         );
 
-=head2 HTML SHORTCUTS AND LIST INTERPOLATION
+=head2 HTML shortcuts and list interpolation
 
 Consider this bit of code:
 
@@ -5785,7 +5832,7 @@ I suggest you put the code in a block as shown here.  Otherwise the
 change to $" will affect all subsequent code until you explicitly
 reset it.
 
-=head2 NON-STANDARD HTML SHORTCUTS
+=head2 Non-standard HTML shortcuts
 
 A few HTML tags don't follow the standard pattern for various
 reasons.  
@@ -5809,7 +5856,7 @@ In addition, start_html(), end_html(), start_form(), end_form(),
 start_multipart_form() and all the fill-out form tags are special.
 See their respective sections.
 
-=head2 AUTOESCAPING HTML
+=head2 Autoescaping HTML
 
 By default, all HTML that is emitted by the form-generating functions
 is passed through a function called escapeHTML():
@@ -5859,7 +5906,7 @@ Get or set the value of the autoescape flag.
 
 =back
 
-=head2 PRETTY-PRINTING HTML
+=head2 Pretty-printing HTML
 
 By default, all the HTML produced by these functions comes out as one
 long line without carriage returns or indentation. This is yuck, but
@@ -5923,7 +5970,7 @@ printed because the format only expects one value.
 <p>
 
 
-=head2 CREATING AN ISINDEX TAG
+=head2 Creating an isindex tag
 
    print isindex(-action=>$action);
 
@@ -5935,7 +5982,7 @@ Prints out an <isindex> tag.  Not very exciting.  The parameter
 -action specifies the URL of the script to process the query.  The
 default is to process the query with the current script.
 
-=head2 STARTING AND ENDING A FORM
+=head2 Starting and ending a form
 
     print start_form(-method=>$method,
 		    -action=>$action,
@@ -6014,7 +6061,7 @@ Usually the bulk of JavaScript functions are defined in a <script>
 block in the HTML header and -onSubmit points to one of these function
 call.  See start_html() for details.
 
-=head2 FORM ELEMENTS
+=head2 Form elements
 
 After starting a form, you will typically create one or more
 textfields, popup menus, radio groups and other form elements.  Each
@@ -6064,7 +6111,7 @@ Other common arguments are described in the next section. In addition
 to these, all attributes described in the HTML specifications are
 supported.
 
-=head2 CREATING A TEXT FIELD
+=head2 Creating a text field
 
     print textfield(-name=>'field_name',
 		    -value=>'starting value',
@@ -6113,7 +6160,7 @@ called once, you can do so like this:
 
        param('foo',"I'm taking over this value!");
 
-=head2 CREATING A BIG TEXT FIELD
+=head2 Creating a big text field
 
    print textarea(-name=>'foo',
 			  -default=>'starting value',
@@ -6129,7 +6176,7 @@ rows and columns for a multiline text entry box.  You can provide
 a starting value for the field, which can be long and contain
 multiple lines.
 
-=head2 CREATING A PASSWORD FIELD
+=head2 Creating a password field
 
    print password_field(-name=>'secret',
 				-value=>'starting value',
@@ -6142,7 +6189,7 @@ multiple lines.
 password_field() is identical to textfield(), except that its contents 
 will be starred out on the web page.
 
-=head2 CREATING A FILE UPLOAD FIELD
+=head2 Creating a file upload field
 
     print filefield(-name=>'uploaded_file',
 			    -default=>'starting value',
@@ -6194,7 +6241,7 @@ JAVASCRIPTING: The B<-onChange>, B<-onFocus>, B<-onBlur>,
 B<-onMouseOver>, B<-onMouseOut> and B<-onSelect> parameters are
 recognized.  See textfield() for details.
 
-=head2 PROCESSING A FILE UPLOAD FIELD
+=head2 Processing a file upload field
 
 =head3 Basics
 
@@ -6345,7 +6392,7 @@ That upgrades the handle to an IO::Handle. It's a big win for compatibility for
 a small penalty of loading IO::Handle the first time you call it.
 
 
-=head2 CREATING A POPUP MENU
+=head2 Creating a popup menu
 
    print popup_menu('menu_name',
 			    ['eenie','meenie','minie'],
@@ -6369,7 +6416,9 @@ a small penalty of loading IO::Handle the first time you call it.
           -labels=>\%labels,
           -attributes=>\%attributes);
 
-popup_menu() creates a menu.
+popup_menu() creates a menu. Please note that the -multiple option will be
+ignored if passed - use scrolling_list() if you want to create a menu that
+supports multiple selections
 
 =over 4
 
@@ -6415,7 +6464,7 @@ be retrieved using:
 
       $popup_menu_value = param('menu_name');
 
-=head2 CREATING AN OPTION GROUP
+=head2 Creating an option group
 
 Named parameter style
 
@@ -6490,7 +6539,7 @@ attribute's value as the value.
 
 =back
 
-=head2 CREATING A SCROLLING LIST
+=head2 Creating a scrolling list
 
    print scrolling_list('list_name',
 				['eenie','meenie','minie','moe'],
@@ -6565,7 +6614,7 @@ selected items can be retrieved with:
 
 =back
 
-=head2 CREATING A GROUP OF RELATED CHECKBOXES
+=head2 Creating a group of related checkboxes
 
    print checkbox_group(-name=>'group_name',
 				-values=>['eenie','meenie','minie','moe'],
@@ -6668,7 +6717,7 @@ or in other creative ways:
     @h = checkbox_group(-name=>'group_name',-values=>\@values);
     &use_in_creative_way(@h);
 
-=head2 CREATING A STANDALONE CHECKBOX
+=head2 Creating a standalone checkbox
 
     print checkbox(-name=>'checkbox_name',
 			   -checked=>1,
@@ -6715,7 +6764,7 @@ The value of the checkbox can be retrieved using:
 
     $turned_on = param('checkbox_name');
 
-=head2 CREATING A RADIO BUTTON GROUP
+=head2 Creating a radio button group
 
    print radio_group(-name=>'group_name',
 			     -values=>['eenie','meenie','minie'],
@@ -6826,7 +6875,7 @@ or in other creative ways:
     @h = radio_group(-name=>'group_name',-values=>\@values);
     &use_in_creative_way(@h);
 
-=head2 CREATING A SUBMIT BUTTON 
+=head2 Creating a submit button 
 
    print submit(-name=>'button_name',
 			-value=>'value');
@@ -6867,7 +6916,7 @@ values for each one:
 
      $which_one = param('button_name');
 
-=head2 CREATING A RESET BUTTON
+=head2 Creating a reset button
 
    print reset
 
@@ -6878,7 +6927,7 @@ NOT necessarily to the defaults.
 Note that this conflicts with the Perl reset() built-in.  Use
 CORE::reset() to get the original reset function.
 
-=head2 CREATING A DEFAULT BUTTON
+=head2 Creating a default button
 
    print defaults('button_label')
 
@@ -6886,7 +6935,7 @@ defaults() creates a button that, when invoked, will cause the
 form to be completely reset to its defaults, wiping out all the
 changes the user ever made.
 
-=head2 CREATING A HIDDEN FIELD
+=head2 Creating a hidden field
 
 	print hidden(-name=>'hidden_name',
 			     -default=>['value1','value2'...]);
@@ -6927,7 +6976,7 @@ do it manually:
 
      param('hidden_name','new','values','here');
 
-=head2 CREATING A CLICKABLE IMAGE BUTTON
+=head2 Creating a clickable image button
 
      print image_button(-name=>'button_name',
 				-src=>'/source/URL',
@@ -6966,7 +7015,7 @@ Fetch the value of the button this way:
      $x = param('button_name.x');
      $y = param('button_name.y');
 
-=head2 CREATING A JAVASCRIPT ACTION BUTTON
+=head2 Creating a javascript action button
 
      print button(-name=>'button_name',
 			  -value=>'user visible label',
@@ -7474,7 +7523,7 @@ name/value parameter with the path followed by a question mark (?):
 
     your_script.pl /your/path/here?name1=value1&name2=value2
 
-=head2 DUMPING OUT ALL THE NAME/VALUE PAIRS
+=head2 Dumping out all the name/value pairs
 
 The Dump() method produces a string consisting of all the query's
 name/value pairs formatted nicely as a nested list.  This is useful
@@ -7713,7 +7762,7 @@ in the B<header()> and B<redirect()>  statements:
 
 =back
 
-=head1 Server Push
+=head1 SERVER PUSH
 
 CGI.pm provides four simple functions for producing multipart
 documents of the type needed to implement server push.  These
@@ -7751,18 +7800,21 @@ B<multipart_end()>.
 
 =item multipart_init()
 
-  multipart_init(-boundary=>$boundary);
+  multipart_init(-boundary=>$boundary, -charset=>$charset);
 
 Initialize the multipart system.  The -boundary argument specifies
 what MIME boundary string to use to separate parts of the document.
 If not provided, CGI.pm chooses a reasonable boundary for you.
 
+The -charset provides the character set, if not provided this will
+default to ISO-8859-1
+
 =item multipart_start()
 
-  multipart_start(-type=>$type)
+  multipart_start(-type=>$type, -charset=>$charset)
 
 Start a new part of the multipart document using the specified MIME
-type.  If not specified, text/html is assumed.
+type and charset. If not specified, text/html ISO-8859-1 is assumed.
 
 =item multipart_end()
 
@@ -7784,7 +7836,7 @@ multipart_end() at the end of the last part of the multipart document.
 Users interested in server push applications should also have a look
 at the CGI::Push module.
 
-=head1 Avoiding Denial of Service Attacks
+=head1 AVOIDING DENIAL OF SERVICE ATTACKS
 
 A potential problem with CGI.pm is that, by default, it attempts to
 process form POSTings no matter how large they are.  A wily hacker
@@ -7960,9 +8012,12 @@ available for your use:
 
 The CGI.pm distribution is copyright 1995-2007, Lincoln D. Stein. It is
 distributed under GPL and the Artistic License 2.0. It is currently
-maintained by Mark Stosberg with help from many contributors.
+maintained by Lee Johnson with help from many contributors.
 
-Address bug reports and comments to: https://rt.cpan.org/Public/Dist/Display.html?Queue=CGI.pm
+Address bug reports and comments to: https://github.com/leejo/CGI.pm/issues
+
+The original bug tracker can be found at: https://rt.cpan.org/Public/Dist/Display.html?Queue=CGI.pm
+
 When sending bug reports, please provide the version of CGI.pm, the version of
 Perl, the name and version of your Web server, and the name and version of the
 operating system you are using.  If the problem is even remotely browser
@@ -7973,6 +8028,8 @@ dependent, please provide information about the affected browsers as well.
 Thanks very much to:
 
 =over 4
+
+=item Mark Stosberg (mark@stosberg.com)
 
 =item Matt Heffron (heffron@falstaff.css.beckman.com)
 

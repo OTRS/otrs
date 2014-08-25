@@ -15,14 +15,4 @@ CGI::Apache - Backward compatibility module for CGI.pm
 
 Do not use this module.  It is deprecated.
 
-=head1 ABSTRACT
-
-=head1 DESCRIPTION
-
-=head1 AUTHOR INFORMATION
-
-=head1 BUGS
-
-=head1 SEE ALSO
-
 =cut

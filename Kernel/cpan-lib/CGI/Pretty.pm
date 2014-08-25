@@ -1,12 +1,5 @@
 package CGI::Pretty;
 
-# See the bottom of this file for the POD documentation.  Search for the
-# string '=head'.
-
-# You can run this file through either pod2man or pod2html to produce pretty
-# documentation in manual or html file format (these utilities are part of the
-# Perl 5 distribution).
-
 use strict;
 use if $] >= 5.019, 'deprecate';
 use CGI ();
@@ -302,9 +295,14 @@ Copyright 1999, Brian Paulsen.  All rights reserved.
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
-Bug reports and comments to Brian@ThePaulsens.com.  You can also write
-to lstein@cshl.org, but this code looks pretty hairy to me and I'm not
-sure I understand it!
+Address bug reports and comments to: https://github.com/leejo/CGI.pm/issues
+
+The original bug tracker can be found at: https://rt.cpan.org/Public/Dist/Display.html?Queue=CGI.pm
+
+When sending bug reports, please provide the version of CGI.pm, the version of
+Perl, the name and version of your Web server, and the name and version of the
+operating system you are using.  If the problem is even remotely browser
+dependent, please provide information about the affected browsers as well.
 
 =head1 SEE ALSO
 
