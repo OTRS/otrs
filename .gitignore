@@ -9,6 +9,7 @@
 *~
 
 # OTRS
+.procmailrc
 /ARCHIVE
 doc/manual/en
 Kernel/Config/Files/ZZZ*.pm
@@ -82,11 +83,23 @@ Kernel/cpan-lib/Pod/Strip.pm
 scripts/install-git-hooks.pl
 scripts/uninstall-git-hooks.pl
 OTRSCodePolicy*
+perltidy.LOG
 
 # ITSM
 var/stats/*.xml.installed
 bin/CodeInstall.pl
 bin/ModuleCode.pl
 bin/DatabaseInstall.pl
-perltidy.LOG
-.procmailrc
+
+# OTRSBusiness
+OTRSBusiness.*
+Kernel/Modules/*Chat*
+Kernel/System/*Chat*
+Kernel/Output/HTML/*Chat*
+Kernel/Output/HTML/Standard/*Chat*
+scripts/test/Chat
+var/httpd/htdocs/js/*Chat*
+var/httpd/htdocs/js/*ChronicalView*
+var/httpd/htdocs/skins/Agent/default/css/*Chat*
+var/httpd/htdocs/skins/Customer/default/css/*Chat*
+
