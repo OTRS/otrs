@@ -1,4 +1,5 @@
 #4.0.0.beta1 20??-??-??
+ - 2014-08-25 Updated CPAN module YAML to version 1.09.
  - 2014-08-25 Updated CPAN module URI to version 1.64.
  - 2014-08-25 Updated CPAN module Selenium::Remote::Driver to version 0.2102.
  - 2014-08-25 Updated CPAN module Net::SSLGlue to version 1.053.

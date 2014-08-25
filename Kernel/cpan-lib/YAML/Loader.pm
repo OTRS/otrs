@@ -1,5 +1,5 @@
 package YAML::Loader;
-$YAML::Loader::VERSION = '0.90';
+
 use YAML::Mo;
 extends 'YAML::Loader::Base';
 
@@ -514,7 +514,7 @@ sub _parse_inline_double_quoted {
     my $self = shift;
     my $node;
     # https://rt.cpan.org/Public/Bug/Display.html?id=90593
-    if ($self->inline =~ /^"((?>(?>(?:\\"|[^"]){0,32766}){0,32766}))"\s*(.*)$/) {
+    if ($self->inline =~ /^"((?:(?:\\"|[^"]){0,32766}){0,32766})"\s*(.*)$/) {
         $node = $1;
         $self->inline($2);
         $node =~ s/\\"/"/g;
@@ -530,7 +530,7 @@ sub _parse_inline_double_quoted {
 sub _parse_inline_single_quoted {
     my $self = shift;
     my $node;
-    if ($self->inline =~ /^'((?:''|[^'])*)'\s*(.*)$/) {
+    if ($self->inline =~ /^'((?:(?:''|[^']){0,32766}){0,32766})'\s*(.*)$/) {
         $node = $1;
         $self->inline($2);
         $node =~ s/''/'/g;
@@ -752,37 +752,3 @@ sub _unescape {
 }
 
 1;
-
-=encoding UTF-8
-
-=head1 NAME
-
-YAML::Loader - YAML class for loading Perl objects to YAML
-
-=head1 SYNOPSIS
-
-    use YAML::Loader;
-    my $loader = YAML::Loader->new;
-    my $hash = $loader->load(<<'...');
-    foo: bar
-    ...
-
-=head1 DESCRIPTION
-
-YAML::Loader is the module that YAML.pm used to deserialize YAML to Perl
-objects. It is fully object oriented and usable on its own.
-
-=head1 AUTHOR
-
-Ingy döt Net <ingy@cpan.org>
-
-=head1 COPYRIGHT
-
-Copyright (c) 2006, 2011-2014. Ingy döt Net. All rights reserved.
-
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
-
-See L<http://www.perl.com/perl/misc/Artistic.html>
-
-=cut
