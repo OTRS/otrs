@@ -42,6 +42,9 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.ExportStatsToOPM.pl',
     },
+    'Kernel::System::Stats' => {
+        UserID => 1,
+    },
 );
 
 # ---------------------------------------------------------- #
