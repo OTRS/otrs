@@ -77,7 +77,8 @@ sub Run {
 
     # get options
     my %Opts = ();
-    getopt( 'hqugtramc', \%Opts );
+    getopt( 'hqugtramcf', \%Opts );
+
     if ( $Opts{h} ) {
         print <<EOF;
 otrs.FillDB.pl - OTRS fill db with data
