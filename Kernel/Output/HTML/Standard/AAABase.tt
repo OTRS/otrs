@@ -245,6 +245,7 @@
 
 # misc
 [% Translate("Login is needed!") | html %]
+[% Translate("It is currently not possible to login due to a scheduled system maintenance.") | html %]
 [% Translate("Password is needed!") | html %]
 [% Translate("License") | html %]
 [% Translate("Take this Customer") | html %]

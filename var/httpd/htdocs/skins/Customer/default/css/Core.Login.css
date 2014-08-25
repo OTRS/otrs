@@ -191,10 +191,8 @@
  */
 
 .ErrorBox {
+    display: block;
     margin: -13px 136px 20px;
-}
-
-.ErrorBox span {
     padding: 5px 8px 4px;
     color: #FFF;
     background: #D41111;
@@ -210,12 +208,9 @@
     cursor: default;
 }
 
-
 .WarningBox {
-    margin: 10px 136px 20px;
-}
-
-.WarningBox span {
+    display: block;
+    margin: -13px 136px 20px;
     padding: 5px 8px 4px;
     color: #555;
     background: #FFDD50;
@@ -229,6 +224,17 @@
     box-shadow: 1px 1px 0 #DDD;
     -webkit-box-shadow: 1px 1px 0 #DDD;
     cursor: default;
+}
+
+.WarningBox.WithIcon {
+    position: relative;
+    padding-left: 25px;
+}
+
+.WarningBox.WithIcon > i {
+    position: absolute;
+    left: 10px;
+    top: 6px;
 }
 
 

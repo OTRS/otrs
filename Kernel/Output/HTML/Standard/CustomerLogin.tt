@@ -35,7 +35,9 @@ X-OTRS-Login: [% Env("Baselink") %]
     </div>
 
 [% RenderBlockStart("SystemMaintenance") %]
-    <div class="WarningBox SpacingTop"><span><i class="fa fa-exclamation-circle"></i> [% Translate(Data.LoginMessage) | html %]</span></div>
+    <div class="WarningBox WithIcon">
+        <i class="fa fa-exclamation-circle"></i> [% Translate(Data.LoginMessage) | html %]
+    </div>
 [% RenderBlockEnd("SystemMaintenance") %]
 
     <div id="Slider">

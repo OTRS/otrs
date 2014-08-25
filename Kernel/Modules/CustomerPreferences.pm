@@ -129,7 +129,10 @@ sub Run {
             );
         }
         elsif ($Message) {
-            $Output .= $Self->{LayoutObject}->Notify( Info => $Message, );
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Success',
+                Info     => $Message,
+            );
         }
 
         # get user data

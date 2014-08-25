@@ -288,7 +288,7 @@ sub Auth {
 
             $Self->{LastErrorMessage} =
                 $ConfigObject->Get('SystemMaintenance::IsActiveDefaultLoginErrorMessage')
-                || "Is not possible to perform a login, system maintenance is active.";
+                || "It is currently not possible to login due to a scheduled system maintenance.";
 
             return;
         }
