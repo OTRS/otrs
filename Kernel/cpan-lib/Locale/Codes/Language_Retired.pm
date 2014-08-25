@@ -3,7 +3,7 @@ Locale::Codes::Language_Retired;
 
 # This file was automatically generated.  Any changes to this file will
 # be lost the next time 'deprecate_codes' is run.
-#    Generated on: Fri Jan 24 09:18:46 EST 2014
+#    Generated on: Wed May 28 11:24:54 EDT 2014
 
 use strict;
 require 5.006;
@@ -11,7 +11,7 @@ use warnings;
 use utf8;
 
 our($VERSION);
-$VERSION='3.29';
+$VERSION='3.31';
 
 $Locale::Codes::Retired{'language'}{'alpha-2'}{'code'} = {
    q(in) => q(Indonesian),
@@ -35,6 +35,7 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'code'} = {
    q(dkl) => q(Kolum So Dogon),
    q(dwl) => q(Walo Kumbe Dogon),
    q(elp) => q(Elpaputih),
+   q(emo) => q(Emok),
    q(gbc) => q(Garawa),
    q(ggr) => q(Aghu Tharnggalu),
    q(gio) => q(Gelao),
@@ -48,8 +49,11 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'code'} = {
    q(kpp) => q(Paku Karen),
    q(kzh) => q(Kenuzi-Dongola),
    q(lcq) => q(Luhu),
+   q(leg) => q(Lengua),
+   q(lmm) => q(Lamam),
    q(meg) => q(Mea),
    q(mgx) => q(Omati),
+   q(mhh) => q(Maskoy Pidgin),
    q(mja) => q(Mahei),
    q(mld) => q(Malakhel),
    q(mnt) => q(Maykulan),
@@ -64,6 +68,8 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'code'} = {
    q(pcr) => q(Panang),
    q(pgy) => q(Pongyong),
    q(ppr) => q(Piru),
+   q(puz) => q(Purum Naga),
+   q(sap) => q(Sanapana),
    q(sca) => q(Sansu),
    q(tgg) => q(Tangga),
    q(tie) => q(Tingal),
@@ -78,6 +84,7 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'code'} = {
    q(yiy) => q(Yir Yoront),
    q(yma) => q(Yamphe),
    q(yos) => q(Yos),
+   q(yuu) => q(Yugh),
 };
 
 $Locale::Codes::Retired{'language'}{'term'}{'code'} = {
@@ -88,12 +95,16 @@ $Locale::Codes::Retired{'language'}{'alpha-2'}{'name'} = {
    q(bengali; bangla) => [ q(bn), q(Bengali; Bangla) ],
    q(bhutani) => [ q(dz), q(Bhutani) ],
    q(bihari) => [ q(bh), q(Bihari) ],
+   q(bokmal, norwegian) => [ q(nb), q(Bokmal, Norwegian) ],
    q(byelorussian) => [ q(be), q(Byelorussian) ],
    q(cambodian) => [ q(km), q(Cambodian) ],
+   q(chichewa) => [ q(ny), q(Chichewa) ],
    q(chichewa; nyanja) => [ q(ny), q(Chichewa; Nyanja) ],
+   q(divehi) => [ q(dv), q(Divehi) ],
    q(faeroese) => [ q(fo), q(Faeroese) ],
    q(fiji) => [ q(fj), q(Fiji) ],
    q(frisian) => [ q(fy), q(Frisian) ],
+   q(gaelic) => [ q(gd), q(Gaelic) ],
    q(gaelic (scots)) => [ q(gd), q(Gaelic (Scots)) ],
    q(gallegan) => [ q(gl), q(Gallegan) ],
    q(greek) => [ q(el), q(Greek) ],
@@ -109,6 +120,8 @@ $Locale::Codes::Retired{'language'}{'alpha-2'}{'name'} = {
    q(malay) => [ q(ms), q(Malay) ],
    q(marshall) => [ q(mh), q(Marshall) ],
    q(moldavian) => [ q(mo), q(Moldavian) ],
+   q(ndebele, north) => [ q(nd), q(Ndebele, North) ],
+   q(ndebele, south) => [ q(nr), q(Ndebele, South) ],
    q(nepali) => [ q(ne), q(Nepali) ],
    q(norwegian bokmal) => [ q(nb), q(Norwegian Bokmal) ],
    q(occitan) => [ q(oc), q(Occitan) ],
@@ -139,6 +152,7 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(amarag) => [ q(amg), q(Amarag) ],
    q(anu) => [ q(anl), q(Anu) ],
    q(apalik) => [ q(apo), q(Apalik) ],
+   q(aromanian) => [ q(rup), q(Aromanian) ],
    q(ayi (china)) => [ q(ayx), q(Ayi (China)) ],
    q(bandjigali) => [ q(bjd), q(Bandjigali) ],
    q(bangi me) => [ q(dba), q(Bangi Me) ],
@@ -150,6 +164,7 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(begbere-ejar) => [ q(bqv), q(Begbere-Ejar) ],
    q(bekwil) => [ q(bkw), q(Bekwil) ],
    q(bemba) => [ q(bem), q(Bemba) ],
+   q(blin) => [ q(byn), q(Blin) ],
    q(brek karen) => [ q(kvl), q(Brek Karen) ],
    q(burum-mindik) => [ q(bmu), q(Burum-Mindik) ],
    q(central bicolano) => [ q(bcl), q(Central Bicolano) ],
@@ -163,12 +178,14 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(dhangu) => [ q(dhg), q(Dhangu) ],
    q(dhanwar (india)) => [ q(dha), q(Dhanwar (India)) ],
    q(dimir) => [ q(dmc), q(Dimir) ],
+   q(djangu) => [ q(dhg), q(Djangu) ],
    q(dogri) => [ q(doi), q(Dogri) ],
    q(duduela) => [ q(duk), q(Duduela) ],
    q(dumpu) => [ q(wtf), q(Dumpu) ],
    q(durango nahuatl) => [ q(nln), q(Durango Nahuatl) ],
    q(dutch, middle (ca.1050-1350)) => [ q(dum), q(Dutch, Middle (ca.1050-1350)) ],
    q(elpaputih) => [ q(elp), q(Elpaputih) ],
+   q(emok) => [ q(emo), q(Emok) ],
    q(english, middle (1100-1500)) => [ q(enm), q(English, Middle (1100-1500)) ],
    q(english, old (ca.450-1100)) => [ q(ang), q(English, Old (ca.450-1100)) ],
    q(fang) => [ q(fan), q(Fang) ],
@@ -182,7 +199,9 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(german, middle high (ca.1050-1500)) => [ q(gmh), q(German, Middle High (ca.1050-1500)) ],
    q(german, old high (ca.750-1050)) => [ q(goh), q(German, Old High (ca.750-1050)) ],
    q(greek, ancient (to 1453)) => [ q(grc), q(Greek, Ancient (to 1453)) ],
+   q(guwinmal) => [ q(xgm), q(Guwinmal) ],
    q(hainyaxo bozo) => [ q(bzx), q(Hainyaxo Bozo) ],
+   q(hawai'i pidgin sign language) => [ q(hps), q(Hawai'i Pidgin Sign Language) ],
    q(horuru) => [ q(hrr), q(Horuru) ],
    q(ibilo) => [ q(ibi), q(Ibilo) ],
    q(idun) => [ q(ldb), q(Idun) ],
@@ -205,6 +224,9 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(kutang ghale) => [ q(ght), q(Kutang Ghale) ],
    q(kwato) => [ q(kop), q(Kwato) ],
    q(kyenga) => [ q(tye), q(Kyenga) ],
+   q(lama (myanmar)) => [ q(lay), q(Lama (Myanmar)) ],
+   q(lamam) => [ q(lmm), q(Lamam) ],
+   q(lengua) => [ q(leg), q(Lengua) ],
    q(lowa) => [ q(loy), q(Lowa) ],
    q(lower tanudan kalinga) => [ q(kml), q(Lower Tanudan Kalinga) ],
    q(luhu) => [ q(lcq), q(Luhu) ],
@@ -213,6 +235,7 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(malasanga) => [ q(mqz), q(Malasanga) ],
    q(mann) => [ q(mev), q(Mann) ],
    q(mari) => [ q(chm), q(Mari) ],
+   q(maskoy pidgin) => [ q(mhh), q(Maskoy Pidgin) ],
    q(maykulan) => [ q(mnt), q(Maykulan) ],
    q(mbabaram) => [ q(vmb), q(Mbabaram) ],
    q(mbedam) => [ q(xmd), q(Mbedam) ],
@@ -232,6 +255,7 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(nanggu) => [ q(ngr), q(Nanggu) ],
    q(nangikurrunggurr) => [ q(nam), q(Nangikurrunggurr) ],
    q(ndrag'ngith) => [ q(dgt), q(Ndrag'ngith) ],
+   q(nepal bhasa) => [ q(new), q(Nepal Bhasa) ],
    q(nga la) => [ q(hlt), q(Nga La) ],
    q(ngalkbun) => [ q(ngk), q(Ngalkbun) ],
    q(ngura) => [ q(nbx), q(Ngura) ],
@@ -239,6 +263,7 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(nootka) => [ q(noo), q(Nootka) ],
    q(norse, old) => [ q(non), q(Norse, Old) ],
    q(north wemale) => [ q(weo), q(North Wemale) ],
+   q(northern bai) => [ q(bfc), q(Northern Bai) ],
    q(northern catanduanes bicolano) => [ q(cts), q(Northern Catanduanes Bicolano) ],
    q(northern lorung) => [ q(lbr), q(Northern Lorung) ],
    q(nsari) => [ q(asj), q(Nsari) ],
@@ -251,6 +276,7 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(piru) => [ q(ppr), q(Piru) ],
    q(pongyong) => [ q(pgy), q(Pongyong) ],
    q(provencal, old (to 1500)) => [ q(pro), q(Provencal, Old (to 1500)) ],
+   q(purum naga) => [ q(puz), q(Purum Naga) ],
    q(sakam) => [ q(skm), q(Sakam) ],
    q(sansu) => [ q(sca), q(Sansu) ],
    q(sauk) => [ q(skc), q(Sauk) ],
@@ -268,6 +294,7 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(tangkhul naga) => [ q(nmf), q(Tangkhul Naga) ],
    q(tina sambal) => [ q(xsb), q(Tina Sambal) ],
    q(tingal) => [ q(tie), q(Tingal) ],
+   q(tsotsitaal) => [ q(fly), q(Tsotsitaal) ],
    q(turkish, ottoman (1500-1928)) => [ q(ota), q(Turkish, Ottoman (1500-1928)) ],
    q(unggarranggu) => [ q(xun), q(Unggarranggu) ],
    q(upper tanudan kalinga) => [ q(kgh), q(Upper Tanudan Kalinga) ],
@@ -285,6 +312,7 @@ $Locale::Codes::Retired{'language'}{'alpha-3'}{'name'} = {
    q(yonggom) => [ q(yon), q(Yonggom) ],
    q(yos) => [ q(yos), q(Yos) ],
    q(yuaga) => [ q(nua), q(Yuaga) ],
+   q(yugh) => [ q(yuu), q(Yugh) ],
    q(zyphe) => [ q(zyp), q(Zyphe) ],
 };
 
