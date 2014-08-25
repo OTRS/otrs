@@ -161,6 +161,14 @@ my @NeededModules = (
         },
     },
     {
+        Module   => 'Archive::Zip', # required for OTRSBusiness
+        Required => 1,
+        Comment  => 'Required for compressed file generation (in perlcore).',
+        InstTypes => {
+            zypper => 'perl-Archive-Zip',
+        },
+    },
+    {
         Module    => 'Crypt::Eksblowfish::Bcrypt',
         Required  => 0,
         Comment   => 'For strong password hashing.',

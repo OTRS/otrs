@@ -169,11 +169,17 @@ Core.UI = (function (TargetNS) {
                 return;
             }
 
+            if ($(Event.target).is('input:checkbox')) {
+                return;
+            }
+
+            Event.stopPropagation();
+
             $Checkbox
                 .prop('checked', !$Checkbox.prop('checked'))
                 .triggerHandler('click');
 
-            Event.stopPropagation();
+
         });
     };
 

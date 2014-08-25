@@ -657,7 +657,7 @@ sub ArticleAttachment {
             ORDER BY filename, id',
         Bind   => [ \$Param{ArticleID} ],
         Limit  => $Param{FileID},
-        Encode => [ 1, 0, 0, 0 ],
+        Encode => [ 1, 0, 0, 0, 1, 1 ],
     );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {

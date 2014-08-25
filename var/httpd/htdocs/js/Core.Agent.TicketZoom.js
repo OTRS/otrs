@@ -159,6 +159,28 @@ Core.Agent.TicketZoom = (function (TargetNS) {
     /**
      * @function
      * @return nothing
+     *      Used in OTRSBusiness
+     */
+    TargetNS.LoadArticleFromExternal = function (ArticleID, WindowObject) {
+        var $Element = $('#ArticleTable td.No input.ArticleID[value=' + ArticleID +']'),
+            ArticleURL;
+
+        if (!$Element.length) {
+            if (typeof WindowObject === 'undefined') {
+                WindowObject = window;
+            }
+            WindowObject.alert(Core.Config.Get('Language.AttachmentViewMessage'));
+
+            return;
+        }
+
+        ArticleURL = $Element.siblings('.ArticleInfo').val();
+        LoadArticle(ArticleURL, ArticleID);
+    };
+
+    /**
+     * @function
+     * @return nothing
      *      This function checks if the url hash (representing the current article)
      *      has changed and initiates an article load. A change can happen by clicking
      *      'back' in the browser, for example.
