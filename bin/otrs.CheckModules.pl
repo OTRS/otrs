@@ -161,9 +161,9 @@ my @NeededModules = (
         },
     },
     {
-        Module   => 'Archive::Zip', # required for OTRSBusiness
-        Required => 1,
-        Comment  => 'Required for compressed file generation.',
+        Module    => 'Archive::Zip',                               # required for OTRSBusiness
+        Required  => 1,
+        Comment   => 'Required for compressed file generation.',
         InstTypes => {
             aptget => 'libarchive-zip-perl',
             zypper => 'Archive-Zip',

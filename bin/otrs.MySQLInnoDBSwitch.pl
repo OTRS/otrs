@@ -72,15 +72,19 @@ if ( $Kernel::OM->Get('Kernel::System::DB')->{'DB::Type'} ne 'mysql' ) {
 }
 
 # create pid lock
-if (   !$Opts{f}
-    && !$Kernel::OM->Get('Kernel::System::PID')->PIDCreate( Name => 'MySQLInnoDBSwitch' ) )
+if (
+    !$Opts{f}
+    && !$Kernel::OM->Get('Kernel::System::PID')->PIDCreate( Name => 'MySQLInnoDBSwitch' )
+    )
 {
     print
         "NOTICE: otrs.MySQLInnoDBSwitch.pl is already running (use '-f 1' if you want to start it forced)!\n";
     exit 1;
 }
-elsif ( $Opts{f}
-    && !$Kernel::OM->Get('Kernel::System::PID')->PIDCreate( Name => 'MySQLInnoDBSwitch' ) )
+elsif (
+    $Opts{f}
+    && !$Kernel::OM->Get('Kernel::System::PID')->PIDCreate( Name => 'MySQLInnoDBSwitch' )
+    )
 {
     print "NOTICE: otrs.MySQLInnoDBSwitch.pl is already running but is starting again!\n";
 }

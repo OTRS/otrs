@@ -64,7 +64,8 @@ $Param{UserLogin}      = $ARGV[0];
 $Param{UserPassword}   = $Options{p};
 $Param{UserEmail}      = $Options{e};
 
-if ( $Param{UID}
+if (
+    $Param{UID}
     = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd( %Param, ChangeUserID => 1 )
     )
 {

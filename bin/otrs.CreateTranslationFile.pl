@@ -382,12 +382,12 @@ sub LoadPOFile {
     ENTRY:
     for my $Entry ( @{$POEntries} ) {
         if ( $Entry->msgstr() ) {
-            my $Source      = $Entry->dequote( $Entry->msgid() );
+            my $Source = $Entry->dequote( $Entry->msgid() );
             $Source =~ s/\\{2}/\\/g;
-            $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput(\$Source);
+            $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Source );
             my $Translation = $Entry->dequote( $Entry->msgstr() );
             $Translation =~ s/\\{2}/\\/g;
-            $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput(\$Translation);
+            $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Translation );
             $POTranslations{$Source} = $Translation;
         }
     }
@@ -407,27 +407,26 @@ sub WritePOFile {
     my %POLookup;
 
     for my $Entry ( @{$POEntries} ) {
-        my $Source =  $Entry->dequote( $Entry->msgid() );
+        my $Source = $Entry->dequote( $Entry->msgid() );
         $Source =~ s/\\{2}/\\/g;
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput(\$Source);
-        $POLookup{ $Source } = $Entry;
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Source );
+        $POLookup{$Source} = $Entry;
     }
 
     for my $String ( @{ $Param{TranslationStrings} } ) {
 
         my $Source = $String->{Source};
         $Source =~ s/\\/\\\\/g;
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput(\$Source);
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Source );
         my $Translation = $String->{Translation};
         $Translation =~ s/\\/\\\\/g;
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput(\$Translation);
-
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Translation );
 
         # Is there an entry in the PO already?
         if ( exists $POLookup{ $String->{Source} } ) {
 
             # Yes, update it
-            $POLookup{ $String->{Source} }->msgstr( $Translation );
+            $POLookup{ $String->{Source} }->msgstr($Translation);
             $POLookup{ $String->{Source} }->automatic( $String->{Location} );
         }
         else {
@@ -471,7 +470,7 @@ sub WritePOTFile {
     for my $String ( @{ $Param{TranslationStrings} } ) {
         my $Source = $String->{Source};
         $Source =~ s/\\/\\\\/g;
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput(\$Source);
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Source );
 
         push @POTEntries, Locale::PO->new(
             -msgid     => $Source,
@@ -573,7 +572,7 @@ EOF
         ## use critic
         while (<$In>) {
             my $Line = $_;
-            $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput(\$Line);
+            $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Line );
             if ( !$MetaData{DataPrinted} ) {
                 $NewOut .= $Line;
             }

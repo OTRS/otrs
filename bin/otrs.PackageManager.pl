@@ -120,8 +120,10 @@ if ( $Opts{a} !~ /^(list|file)/ && $Opts{p} ) {
         my $PackageName = $2;
         if ( $URL eq 'online' ) {
             my %List = %{ $Kernel::OM->Get('Kernel::Config')->Get('Package::RepositoryList') };
-            %List = ( %List,
-                $Kernel::OM->Get('Kernel::System::Package')->PackageOnlineRepositories() );
+            %List = (
+                %List,
+                $Kernel::OM->Get('Kernel::System::Package')->PackageOnlineRepositories()
+            );
             for ( sort keys %List ) {
                 if ( $List{$_} =~ /^\[-Master-\]/ ) {
                     $URL = $_;
