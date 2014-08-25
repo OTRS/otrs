@@ -1,4 +1,5 @@
 #4.0.0.beta1 20??-??-??
+ - 2014-08-25 Updated CPAN module Net::SSLGlue to version 1.053.
  - 2014-08-25 Updated CPAN module Net::IMAP::Simple to version 1.2205.
  - 2014-08-25 Updated CPAN module Net::HTTP to version 6.07.
  - 2014-08-25 Updated CPAN module Locale::Codes to version 3.31.

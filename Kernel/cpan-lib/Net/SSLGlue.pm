@@ -1,5 +1,5 @@
 package Net::SSLGlue;
-our $VERSION = '1.052';
+our $VERSION = '1.053';
 
 =head1 NAME
 
@@ -25,7 +25,7 @@ available:
 
 =item Net::LDAP - add proper certificate checking
 
-=item LWP - add proper certificate checking
+=item LWP - add proper certificate checking for older LWP versions
 
 =back
 
