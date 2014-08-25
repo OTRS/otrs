@@ -58,7 +58,7 @@ else {
 }
 
 print "Cleaning up SessionData...";
-if ( $Kernel::OM->Get('Kernel::System::Session')->CleanUp() ) {
+if ( $Kernel::OM->Get('Kernel::System::AuthSession')->CleanUp() ) {
     print " done.\n";
 }
 else {
