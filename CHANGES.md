@@ -1,4 +1,5 @@
 #4.0.0.beta1 20??-??-??
+ - 2014-08-25 Updated CPAN module CGI::Emulate::PSGI to version 0.18.
  - 2014-08-25 Updated CPAN module CGI::Fast to version 2.02.
  - 2014-08-25 Updated CPAN module CGI to version 4.03.
  - 2014-08-18 Added Attachment Name option in ticket search screens.

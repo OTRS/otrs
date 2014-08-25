@@ -6,9 +6,9 @@ use POSIX 'SEEK_SET';
 use IO::File ();
 use SelectSaver;
 use Carp qw(croak);
-use 5.00800;
+use 5.008001;
 
-our $VERSION = '0.15';
+our $VERSION = '0.18';
 
 sub handler {
     my ($class, $code, ) = @_;
@@ -21,9 +21,11 @@ sub handler {
         {
             local %ENV = (%ENV, $class->emulate_environment($env));
 
-            local *STDIN  = $env->{'psgi.input'};
-            local *STDOUT = $stdout;
-            local *STDERR = $env->{'psgi.errors'};
+            local *STDIN;
+            tie (*STDIN, 'CGI::Emulate::PSGI::InputHandle', $env->{'psgi.input'});
+            local *STDOUT = *$stdout;
+            local *STDERR;
+            tie (*STDERR, 'CGI::Emulate::PSGI::ErrorsHandle', $env->{'psgi.errors'});
 
             my $saver = SelectSaver->new("::STDOUT");
             $code->();
@@ -52,6 +54,41 @@ sub emulate_environment {
     };
 
     return wantarray ? %$environment : $environment;
+}
+
+package CGI::Emulate::PSGI::InputHandle;
+
+require Tie::Handle;
+our @ISA = qw(Tie::Handle);
+
+sub READ {
+  my $self = shift;
+  my $bufref = \$_[0];
+  my (undef, $len, $offset) = @_;
+  my $buf;
+  my $ret = $$self->read($buf, $len, $offset);
+  $$bufref = $buf;
+  $ret;
+}
+
+sub TIEHANDLE {
+  my ($class, $ref) = @_;
+  bless \$ref, shift
+}
+
+package CGI::Emulate::PSGI::ErrorsHandle;
+
+require Tie::Handle;
+our @ISA = qw(Tie::Handle);
+
+sub PRINT {
+  my ($self, $msg) = @_;
+  $$self->print($msg);
+}
+
+sub TIEHANDLE {
+  my ($class, $ref) = @_;
+  bless \$ref, shift
 }
 
 1;
