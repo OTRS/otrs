@@ -391,9 +391,9 @@ RECIPIENT:
 for my $Recipient ( @{ $Opts{r} } ) {
 
     # recipient check
-    if ( !$Kernel::OM->Get('Kernel::System:CheckItem')->CheckEmail( Address => $Recipient ) ) {
+    if ( !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( Address => $Recipient ) ) {
         print STDERR "Warning: email address $Recipient invalid, skipping address."
-            . $Kernel::OM->Get('Kernel::System:CheckItem')->CheckError() . "\n";
+            . $Kernel::OM->Get('Kernel::System::CheckItem')->CheckError() . "\n";
         next RECIPIENT;
     }
     $Kernel::OM->Get('Kernel::System::Email')->Send(
