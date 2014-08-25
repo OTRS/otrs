@@ -9,7 +9,7 @@ use IO::Socket;
 use IO::Select;
 use Net::IMAP::Simple::PipeSocket;
 
-our $VERSION = "1.2204";
+our $VERSION = "1.2205";
 
 BEGIN {
     # I'd really rather the pause/cpan indexers miss this "package"
@@ -112,6 +112,7 @@ sub new {
 
         } else {
             $self->{server} = $server;
+            $self->{port}   = $opts{port};
         }
 
         $self->{port} = $self->_port unless defined $self->{port};
