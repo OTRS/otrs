@@ -46,10 +46,11 @@ GetOptions(
     'l=s',
     'p=s',
     'g=s@',
-    'e=s'
+    'e=s',
+    'h=s',
 );
 
-if ( !$ARGV[0] ) {
+if ( !$ARGV[0] || $Options{h} ) {
     print
         "$FindBin::Script [-f firstname] [-l lastname] [-p password] [-g groupname]... [-e email] username\n";
     print "\tif you define -g with a valid group name then the user will be added that group\n";
