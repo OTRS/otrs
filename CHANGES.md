@@ -7,7 +7,6 @@
  - 2014-08-25 Updated CPAN module LWP::Protocol::https to version 6.06.
  - 2014-08-25 Updated CPAN module LWP to version 6.08.
  - 2014-08-25 Updated CPAN module Email::Valid to version 1.194.
- - 2014-08-25 Updated CPAN module Date::Pcalc to version 6.1.
  - 2014-08-25 Updated CPAN module CGI::Emulate::PSGI to version 0.18.
  - 2014-08-25 Updated CPAN module CGI::Fast to version 2.02.
  - 2014-08-25 Updated CPAN module CGI to version 4.03.
