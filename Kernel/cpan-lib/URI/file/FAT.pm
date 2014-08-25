@@ -1,7 +1,9 @@
 package URI::file::FAT;
 
-require URI::file::Win32;
-@ISA=qw(URI::file::Win32);
+use strict;
+use warnings;
+
+use parent 'URI::file::Win32';
 
 sub fix_path
 {

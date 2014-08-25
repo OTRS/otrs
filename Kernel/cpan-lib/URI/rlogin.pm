@@ -1,6 +1,9 @@
 package URI::rlogin;
-require URI::_login;
-@ISA = qw(URI::_login);
+
+use strict;
+use warnings;
+
+use parent 'URI::_login';
 
 sub default_port { 513 }
 

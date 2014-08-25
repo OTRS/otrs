@@ -1,9 +1,10 @@
 package URI::urn::isbn;  # RFC 3187
 
-require URI::urn;
-@ISA=qw(URI::urn);
-
 use strict;
+use warnings;
+
+use parent 'URI::urn';
+
 use Carp qw(carp);
 
 BEGIN {

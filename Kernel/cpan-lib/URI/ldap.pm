@@ -5,13 +5,11 @@
 package URI::ldap;
 
 use strict;
+use warnings;
 
-use vars qw(@ISA $VERSION);
-$VERSION = "1.12";
+our $VERSION = "1.64";
 
-require URI::_server;
-require URI::_ldap;
-@ISA=qw(URI::_ldap URI::_server);
+use parent qw(URI::_ldap URI::_server);
 
 sub default_port { 389 }
 

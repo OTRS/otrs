@@ -1,7 +1,9 @@
 package URI::rtspu;
 
-require URI::rtsp;
-@ISA=qw(URI::rtsp);
+use strict;
+use warnings;
+
+use parent 'URI::rtsp';
 
 sub default_port { 554 }
 

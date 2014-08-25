@@ -4,6 +4,8 @@ package URI::_segment;
 # a string too.
 
 use strict;
+use warnings;
+
 use URI::Escape qw(uri_unescape);
 
 use overload '""' => sub { $_[0]->[0] },

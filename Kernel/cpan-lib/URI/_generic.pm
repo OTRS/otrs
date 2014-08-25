@@ -1,9 +1,10 @@
 package URI::_generic;
-require URI;
-require URI::_query;
-@ISA=qw(URI URI::_query);
 
 use strict;
+use warnings;
+
+use parent qw(URI URI::_query);
+
 use URI::Escape qw(uri_unescape);
 use Carp ();
 
@@ -148,7 +149,8 @@ sub abs
 	my $abs = $base->clone;
 	my $query = $self->query;
 	$abs->query($query) if defined $query;
-	$abs->fragment($self->fragment);
+	my $fragment = $self->fragment;
+	$abs->fragment($fragment) if defined $fragment;
 	return $abs;
     }
 

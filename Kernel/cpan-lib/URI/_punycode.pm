@@ -1,10 +1,11 @@
 package URI::_punycode;
 
 use strict;
-our $VERSION = "0.04";
+use warnings;
 
-require Exporter;
-our @ISA    = qw(Exporter);
+our $VERSION = "1.64";
+
+use Exporter 'import';
 our @EXPORT = qw(encode_punycode decode_punycode);
 
 use integer;

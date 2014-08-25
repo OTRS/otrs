@@ -1,6 +1,8 @@
 package URI::_query;
 
 use strict;
+use warnings;
+
 use URI ();
 use URI::Escape qw(uri_unescape);
 
@@ -88,6 +90,6 @@ sub query_keywords
 }
 
 # Some URI::URL compatibility stuff
-*equery = \&query;
+sub equery { goto &query }
 
 1;

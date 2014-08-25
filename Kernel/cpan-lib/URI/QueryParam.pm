@@ -1,6 +1,7 @@
 package URI::QueryParam;
 
 use strict;
+use warnings;
 
 sub URI::_query::query_param {
     my $self = shift;

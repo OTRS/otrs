@@ -5,9 +5,9 @@
 package URI::_ldap;
 
 use strict;
+use warnings;
 
-use vars qw($VERSION);
-$VERSION = "1.12";
+our $VERSION = "1.64";
 
 use URI::Escape qw(uri_unescape);
 
@@ -47,7 +47,7 @@ sub attributes {
 sub _scope {
   my $self = shift;
   my $old = _ldap_elem($self,1, @_);
-  return unless defined wantarray && defined $old;
+  return undef unless defined wantarray && defined $old;
   uri_unescape($old);
 }
 
@@ -60,7 +60,7 @@ sub scope {
 sub _filter {
   my $self = shift;
   my $old = _ldap_elem($self,2, @_);
-  return unless defined wantarray && defined $old;
+  return undef unless defined wantarray && defined $old;
   uri_unescape($old); # || "(objectClass=*)";
 }
 

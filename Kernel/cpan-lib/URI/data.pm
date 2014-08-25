@@ -1,9 +1,11 @@
 package URI::data;  # RFC 2397
 
-require URI;
-@ISA=qw(URI);
-
 use strict;
+use warnings;
+
+use parent 'URI';
+
+our $VERSION = '1.64';
 
 use MIME::Base64 qw(encode_base64 decode_base64);
 use URI::Escape  qw(uri_unescape);

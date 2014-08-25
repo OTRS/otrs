@@ -1,6 +1,9 @@
 package URI::sips;
-require URI::sip;
-@ISA=qw(URI::sip);
+
+use strict;
+use warnings;
+
+use parent 'URI::sip';
 
 sub default_port { 5061 }
 

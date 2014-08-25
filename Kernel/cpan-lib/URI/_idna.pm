@@ -4,6 +4,8 @@ package URI::_idna;
 # based on Python-2.6.4/Lib/encodings/idna.py
 
 use strict;
+use warnings;
+
 use URI::_punycode qw(encode_punycode decode_punycode);
 use Carp qw(croak);
 

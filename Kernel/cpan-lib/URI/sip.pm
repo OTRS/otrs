@@ -7,15 +7,14 @@
 
 package URI::sip;
 
-require URI::_server;
-require URI::_userpass;
-@ISA=qw(URI::_server URI::_userpass);
-
 use strict;
-use vars qw(@ISA $VERSION);
+use warnings;
+
+use parent qw(URI::_server URI::_userpass);
+
 use URI::Escape qw(uri_unescape);
 
-$VERSION = "0.11";
+our $VERSION = "1.64";
 
 sub default_port { 5060 }
 
