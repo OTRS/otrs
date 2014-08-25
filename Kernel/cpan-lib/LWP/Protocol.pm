@@ -2,7 +2,7 @@ package LWP::Protocol;
 
 require LWP::MemberMixin;
 @ISA = qw(LWP::MemberMixin);
-$VERSION = "6.00";
+$VERSION = "6.06";
 
 use strict;
 use Carp ();
@@ -207,7 +207,7 @@ This class is used a the base class for all protocol implementations
 supported by the LWP library.
 
 When creating an instance of this class using
-C<LWP::Protocol::create($url)>, and you get an initialised subclass
+C<LWP::Protocol::create($url)>, and you get an initialized subclass
 appropriate for that access method. In other words, the
 LWP::Protocol::create() function calls the constructor for one of its
 subclasses.
@@ -260,7 +260,7 @@ routine, then content is passed to this routine.
 The $collector is a routine that will be called and which is
 responsible for returning pieces (as ref to scalar) of the content to
 process.  The $collector signals EOF by returning a reference to an
-empty sting.
+empty string.
 
 The return value from collect() is the $response object reference.
 

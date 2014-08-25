@@ -58,7 +58,14 @@ sub auth_header {
     my @pairs;
     for (@order) {
 	next unless defined $resp{$_};
-	push(@pairs, "$_=" . qq("$resp{$_}"));
+
+	# RFC2617 sais that qop-value and nc-value should be unquoted.
+	if ( $_ eq 'qop' || $_ eq 'nc' ) {
+		push(@pairs, "$_=" . $resp{$_});
+	}
+	else {
+		push(@pairs, "$_=" . qq("$resp{$_}"));
+	}
     }
 
     my $auth_value  = "Digest " . join(", ", @pairs);

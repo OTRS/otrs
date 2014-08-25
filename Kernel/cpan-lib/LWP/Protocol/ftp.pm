@@ -160,7 +160,7 @@ sub request
     my $user     = $url->user;
     my $password = $url->password;
 
-    # If a basic autorization header is present than we prefer these over
+    # If a basic authorization header is present than we prefer these over
     # the username/password specified in the URL.
     {
 	my($u,$p) = $request->authorization_basic;

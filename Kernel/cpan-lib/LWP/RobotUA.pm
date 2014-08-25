@@ -2,7 +2,7 @@ package LWP::RobotUA;
 
 require LWP::UserAgent;
 @ISA = qw(LWP::UserAgent);
-$VERSION = "6.03";
+$VERSION = "6.06";
 
 require WWW::RobotRules;
 require HTTP::Request;
@@ -215,7 +215,7 @@ and they should not make requests too frequently.
 But before you consider writing a robot, take a look at
 <URL:http://www.robotstxt.org/>.
 
-When you use a I<LWP::RobotUA> object as your user agent, then you do not
+When you use an I<LWP::RobotUA> object as your user agent, then you do not
 really have to think about these things yourself; C<robots.txt> files
 are automatically consulted and obeyed, the server isn't queried
 too rapidly, and so on.  Just send requests
@@ -264,7 +264,7 @@ Get/set a value indicating whether the UA should sleep() if requests
 arrive too fast, defined as $ua->delay minutes not passed since
 last request to the given server.  The default is TRUE.  If this value is
 FALSE then an internal SERVICE_UNAVAILABLE response will be generated.
-It will have an Retry-After header that indicates when it is OK to
+It will have a Retry-After header that indicates when it is OK to
 send another request to this server.
 
 =item $ua->rules

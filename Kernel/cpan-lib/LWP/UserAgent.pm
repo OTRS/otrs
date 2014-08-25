@@ -5,7 +5,7 @@ use vars qw(@ISA $VERSION);
 
 require LWP::MemberMixin;
 @ISA = qw(LWP::MemberMixin);
-$VERSION = "6.05";
+$VERSION = "6.06";
 
 use HTTP::Request ();
 use HTTP::Response ();
@@ -346,7 +346,8 @@ sub request
 	    )
     {
 	my $proxy = ($code == &HTTP::Status::RC_PROXY_AUTHENTICATION_REQUIRED);
-	my $ch_header = $proxy ?  "Proxy-Authenticate" : "WWW-Authenticate";
+	my $ch_header = $proxy || $request->method eq 'CONNECT'
+	    ?  "Proxy-Authenticate" : "WWW-Authenticate";
 	my @challenge = $response->header($ch_header);
 	unless (@challenge) {
 	    $response->header("Client-Warning" => 
@@ -935,7 +936,7 @@ sub mirror
         else {
             # Replace the stale file with a fresh copy
             if ( -e $file ) {
-                # Some dosish systems fail to rename if the target exists
+                # Some DOSish systems fail to rename if the target exists
                 chmod 0777, $file;
                 unlink $file;
             }
@@ -1195,8 +1196,8 @@ method for the more general interface that allow any header to be defaulted.
 =item $ua->cookie_jar( $cookie_jar_obj )
 
 Get/set the cookie jar object to use.  The only requirement is that
-the cookie jar object must implement the extract_cookies($request) and
-add_cookie_header($response) methods.  These methods will then be
+the cookie jar object must implement the extract_cookies($response) and
+add_cookie_header($request) methods.  These methods will then be
 invoked by the user agent as requests are sent and responses are
 received.  Normally this will be a C<HTTP::Cookies> object or some
 subclass.
@@ -1345,7 +1346,7 @@ change to include 'POST', consider:
 =item $ua->show_progress( $boolean )
 
 Get/set a value indicating whether a progress bar should be displayed
-on on the terminal as requests are processed. The default is FALSE.
+on the terminal as requests are processed. The default is FALSE.
 
 =item $ua->timeout
 
@@ -1480,7 +1481,7 @@ The possible values $phase and the corresponding callback signatures are:
 =item request_preprepare => sub { my($request, $ua, $h) = @_; ... }
 
 The handler is called before the C<request_prepare> and other standard
-initialization of of the request.  This can be used to set up headers
+initialization of the request.  This can be used to set up headers
 and attributes that the C<request_prepare> handler depends on.  Proxy
 initialization should take place here; but in general don't register
 handlers for this phase.
@@ -1547,7 +1548,7 @@ this request instead.
 Remove handlers that match the given %matchspec.  If $phase is not
 provided remove handlers from all phases.
 
-Be careful as calling this function with %matchspec that is not not
+Be careful as calling this function with %matchspec that is not
 specific enough can remove handlers not owned by you.  It's probably
 better to use the set_my_handler() method instead.
 
@@ -1567,7 +1568,7 @@ If $cb is passed as C<undef>, remove the handler.
 
 Will retrieve the matching handler as hash ref.
 
-If C<$init> is passed passed as a TRUE value, create and add the
+If C<$init> is passed as a TRUE value, create and add the
 handler if it's not found.  If $init is a subroutine reference, then
 it's called with the created handler hash as argument.  This sub might
 populate the hash with extra fields; especially the callback.  If
@@ -1709,7 +1710,7 @@ this time, then nothing happens.  If the document has been updated, it
 will be downloaded again.  The modification time of the file will be
 forced to match that of the server.
 
-The return value is the the response object.
+The return value is the response object.
 
 =item $ua->request( $request )
 

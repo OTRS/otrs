@@ -16,15 +16,13 @@ my $CRLF = "\015\012";
 sub _new_socket
 {
     my($self, $host, $port, $timeout) = @_;
-    my $conn_cache = $self->{ua}{conn_cache};
-    if ($conn_cache) {
-	if (my $sock = $conn_cache->withdraw($self->socket_type, "$host:$port")) {
-	    return $sock if $sock && !$sock->can_read(0);
-	    # if the socket is readable, then either the peer has closed the
-	    # connection or there are some garbage bytes on it.  In either
-	    # case we abandon it.
-	    $sock->close;
-	}
+
+    # IPv6 literal IP address should be [bracketed] to remove
+    # ambiguity between ip address and port number.
+    # Extra cautious to ensure that $host is _just_ an IPv6 address
+    # (at least as best as we can tell).
+    if ( ($host =~ /:/) && ($host =~ /^[0-9a-f:.]+$/i) ) {
+      $host = "[$host]";
     }
 
     local($^W) = 0;  # IO::Socket::INET can be noisy
@@ -33,7 +31,7 @@ sub _new_socket
 					LocalAddr => $self->{ua}{local_address},
 					Proto    => 'tcp',
 					Timeout  => $timeout,
-					KeepAlive => !!$conn_cache,
+					KeepAlive => !!$self->{ua}{conn_cache},
 					SendTE    => 1,
 					$self->_extra_sock_opts($host, $port),
 				       );
@@ -104,9 +102,10 @@ sub _fixup_header
     }
     $h->init_header('Host' => $hhost);
 
-    if ($proxy) {
+    if ($proxy && $url->scheme ne 'https') {
 	# Check the proxy URI's userinfo() for proxy credentials
-	# export http_proxy="http://proxyuser:proxypass@proxyhost:port"
+	# export http_proxy="http://proxyuser:proxypass@proxyhost:port".
+	# For https only the initial CONNECT requests needs authorization.
 	my $p_auth = $proxy->userinfo();
 	if(defined $p_auth) {
 	    require URI::Escape;
@@ -140,26 +139,80 @@ sub request
     }
 
     my $url = $request->uri;
-    my($host, $port, $fullpath);
 
-    # Check if we're proxy'ing
-    if (defined $proxy) {
-	# $proxy is an URL to an HTTP server which will proxy this request
-	$host = $proxy->host;
-	$port = $proxy->port;
-	$fullpath = $method eq "CONNECT" ?
-                       ($url->host . ":" . $url->port) :
-                       $url->as_string;
-    }
-    else {
-	$host = $url->host;
-	$port = $url->port;
-	$fullpath = $url->path_query;
-	$fullpath = "/$fullpath" unless $fullpath =~ m,^/,;
+    # Proxying SSL with a http proxy needs issues a CONNECT request to build a
+    # tunnel and then upgrades the tunnel to SSL. But when doing keep-alive the
+    # https request does not need to be the first request in the connection, so
+    # we need to distinguish between
+    # - not yet connected (create socket and ssl upgrade)
+    # - connected but not inside ssl tunnel (ssl upgrade)
+    # - inside ssl tunnel to the target - once we are in the tunnel to the
+    #   target we cannot only reuse the tunnel for more https requests with the
+    #   same target
+
+    my $ssl_tunnel = $proxy && $url->scheme eq 'https'
+	&& $url->host.":".$url->port;
+
+    my ($host,$port) = $proxy
+	? ($proxy->host,$proxy->port)
+	: ($url->host,$url->port);
+    my $fullpath =
+	$method eq 'CONNECT' ? $url->host . ":" . $url->port :
+	$proxy && ! $ssl_tunnel ? $url->as_string :
+	do {
+	    my $path = $url->path_query;
+	    $path = "/$path" if $path !~m{^/};
+	    $path
+	};
+
+    my $socket;
+    my $conn_cache = $self->{ua}{conn_cache};
+    my $cache_key;
+    if ( $conn_cache ) {
+	$cache_key = "$host:$port";
+	# For https we reuse the socket immediatly only if it has an established
+	# tunnel to the target. Otherwise a CONNECT request followed by an SSL
+	# upgrade need to be done first. The request itself might reuse an
+	# existing non-ssl connection to the proxy
+	$cache_key .= "!".$ssl_tunnel if $ssl_tunnel;
+	if ( $socket = $conn_cache->withdraw($self->socket_type,$cache_key)) {
+	    if ($socket->can_read(0)) {
+		# if the socket is readable, then either the peer has closed the
+		# connection or there are some garbage bytes on it.  In either
+		# case we abandon it.
+		$socket->close;
+		$socket = undef;
+	    } # else use $socket
+	}
     }
 
-    # connect to remote site
-    my $socket = $self->_new_socket($host, $port, $timeout);
+    if ( ! $socket && $ssl_tunnel ) {
+	my $proto_https = LWP::Protocol::create('https',$self->{ua})
+	    or die "no support for scheme https found";
+
+	# only if ssl socket class is IO::Socket::SSL we can upgrade
+	# a plain socket to SSL. In case of Net::SSL we fall back to
+	# the old version
+	if ( my $upgrade_sub = $proto_https->can('_upgrade_sock')) {
+	    my $response = $self->request(
+		HTTP::Request->new('CONNECT',"http://$ssl_tunnel"),
+		$proxy,
+		undef,$size,$timeout
+	    );
+	    $response->is_success or die
+		"establishing SSL tunnel failed: ".$response->status_line;
+	    $socket = $upgrade_sub->($proto_https,
+		$response->{client_socket},$url)
+		or die "SSL upgrade failed: $@";
+	} else {
+	    $socket = $proto_https->_new_socket($url->host,$url->port,$timeout);
+	}
+    }
+
+    if ( ! $socket ) {
+	# connect to remote site w/o reusing established socket
+	$socket = $self->_new_socket($host, $port, $timeout );
+    }
 
     my $http_version = "";
     if (my $proto = $request->protocol) {
@@ -410,7 +463,7 @@ sub request
 	{
 	    $n = $socket->read_entity_body($buf, $size);
             unless (defined $n) {
-                redo READ if $!{EINTR} || $!{EAGAIN};
+                redo READ if $!{EINTR} || $!{EAGAIN} || $!{ENOTTY};
                 die "read failed: $!";
             }
 	    redo READ if $n == -1;
@@ -428,13 +481,13 @@ sub request
 
     # keep-alive support
     unless ($drop_connection) {
-	if (my $conn_cache = $self->{ua}{conn_cache}) {
+	if ($cache_key) {
 	    my %connection = map { (lc($_) => 1) }
 		             split(/\s*,\s*/, ($response->header("Connection") || ""));
 	    if (($peer_http_version eq "1.1" && !$connection{close}) ||
 		$connection{"keep-alive"})
 	    {
-		$conn_cache->deposit($self->socket_type, "$host:$port", $socket);
+		$conn_cache->deposit($self->socket_type, $cache_key, $socket);
 	    }
 	}
     }
