@@ -48,7 +48,7 @@ if ( ( $Command eq '--all' ) || ( $Command eq '--showall' ) ) {
     print " Working on all session ids:\n";
 
     # get all sessions
-    my @List = $Kernel::OM->Get('Kernel::System::Session')->GetAllSessionIDs();
+    my @List = $Kernel::OM->Get('Kernel::System::AuthSession')->GetAllSessionIDs();
 
     for my $SessionID (@List) {
 
@@ -56,7 +56,8 @@ if ( ( $Command eq '--all' ) || ( $Command eq '--showall' ) ) {
             print " SessionID $SessionID!\n";
         }
         elsif (
-            $Kernel::OM->Get('Kernel::System::Session')->RemoveSessionID( SessionID => $SessionID )
+            $Kernel::OM->Get('Kernel::System::AuthSession')
+            ->RemoveSessionID( SessionID => $SessionID )
             )
         {
             print " SessionID $SessionID deleted.\n";
@@ -74,7 +75,7 @@ elsif ( ( $Command eq '--expired' ) || ( $Command eq '--showexpired' ) ) {
     print " Working on expired session ids:\n";
 
     # get expired session ids
-    my @Expired = $Kernel::OM->Get('Kernel::System::Session')->GetExpiredSessionIDs();
+    my @Expired = $Kernel::OM->Get('Kernel::System::AuthSession')->GetExpiredSessionIDs();
 
     # expired session
     for my $SessionID ( @{ $Expired[0] } ) {
@@ -83,7 +84,8 @@ elsif ( ( $Command eq '--expired' ) || ( $Command eq '--showexpired' ) ) {
             print " SessionID $SessionID expired!\n";
         }
         elsif (
-            $Kernel::OM->Get('Kernel::System::Session')->RemoveSessionID( SessionID => $SessionID )
+            $Kernel::OM->Get('Kernel::System::AuthSession')
+            ->RemoveSessionID( SessionID => $SessionID )
             )
         {
             print " SessionID $SessionID deleted (too old).\n";
@@ -100,7 +102,8 @@ elsif ( ( $Command eq '--expired' ) || ( $Command eq '--showexpired' ) ) {
             print " SessionID $SessionID idle timeout!\n";
         }
         elsif (
-            $Kernel::OM->Get('Kernel::System::Session')->RemoveSessionID( SessionID => $SessionID )
+            $Kernel::OM->Get('Kernel::System::AuthSession')
+            ->RemoveSessionID( SessionID => $SessionID )
             )
         {
             print " SessionID $SessionID deleted (idle timeout).\n";
