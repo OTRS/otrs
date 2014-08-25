@@ -244,6 +244,12 @@ o Name:    CPAN SOAP::Lite
            # Copyright (C) 2007-2008 Martin Kutter
            # Copyright (C) 2013 Fred Moyer
 
+o Name:    Locale::PO
+  Web:     n/a
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  Note     # Maintainer: Ken Prows, perl@xev.net
+           # Original version by: Alan Schwartz, alansz@pennmush.org
+
 # --
 # JavaScript
 # --
