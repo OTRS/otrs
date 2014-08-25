@@ -16,7 +16,7 @@ Version:      0.0
 Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 Group:        Applications/Mail
 Provides:     otrs
-Requires:     cronie httpd mod_perl perl perl(Crypt::SSLeay) perl(Date::Format) perl(DBI) perl(Digest::SHA) perl(IO::Socket::SSL) perl(LWP::UserAgent) perl(Net::DNS) perl(Net::LDAP) perl(Template) perl(URI) perl(XML::Parser) perl-core procmail
+Requires:     cronie httpd mod_perl perl perl(Archive::Zip) perl(Crypt::SSLeay) perl(Date::Format) perl(DBI) perl(Digest::SHA) perl(IO::Socket::SSL) perl(LWP::UserAgent) perl(Net::DNS) perl(Net::LDAP) perl(Template) perl(URI) perl(XML::Parser) perl-core procmail
 Autoreqprov:  no
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
