@@ -148,7 +148,7 @@ sub ExecuteConfigJobs {
     for my $Job ( sort keys %Jobs ) {
 
         # log event
-        $Kernel::OM->Get('Kernel::System:GenericAgent')->JobRun(
+        $Kernel::OM->Get('Kernel::System::GenericAgent')->JobRun(
             Job    => $Job,
             Limit  => $Opts{l},
             Config => $Jobs{$Job},
@@ -160,12 +160,12 @@ sub ExecuteConfigJobs {
 sub ExecuteDBJobs {
 
     # process all jobs
-    my %DBJobs = $Kernel::OM->Get('Kernel::System:GenericAgent')->JobList();
+    my %DBJobs = $Kernel::OM->Get('Kernel::System::GenericAgent')->JobList();
     DBJOB:
     for my $DBJob ( sort keys %DBJobs ) {
 
         # get job
-        my %DBJobRaw = $Kernel::OM->Get('Kernel::System:GenericAgent')->JobGet( Name => $DBJob );
+        my %DBJobRaw = $Kernel::OM->Get('Kernel::System::GenericAgent')->JobGet( Name => $DBJob );
 
         # check requred params (need min. one param)
         my $Schedule;
@@ -233,7 +233,7 @@ sub ExecuteDBJobs {
         }
 
         # log event
-        $Kernel::OM->Get('Kernel::System:GenericAgent')->JobRun(
+        $Kernel::OM->Get('Kernel::System::GenericAgent')->JobRun(
             Job    => $DBJob,
             Limit  => $Opts{l},
             UserID => $UserIDOfGenericAgent,
