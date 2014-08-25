@@ -4,8 +4,9 @@ require 5.005;  # 4-arg substr
 
 use strict;
 use vars qw($VERSION);
+use URI;
 
-$VERSION = "6.06";
+$VERSION = "6.07";
 
 my $CRLF = "\015\012";   # "\r\n" is not portable
 
@@ -44,20 +45,30 @@ sub http_configure {
 	$cnf->{PeerAddr} = $peer = $host;
     }
 
-    if ($peer =~ s,:(\d+)$,,) {
-	$cnf->{PeerPort} = int($1);  # always override
-    }
-    if (!$cnf->{PeerPort}) {
-	$cnf->{PeerPort} = $self->http_default_port;
-    }
+    # CONNECTIONS
+    # PREFER: port number from PeerAddr, then PeerPort, then http_default_port
+    my $peer_uri = URI->new("http://$peer");
+    $cnf->{"PeerPort"} =  $peer_uri->_port || $cnf->{PeerPort} ||  $self->http_default_port;
+    $cnf->{"PeerAddr"} = $peer_uri->host;
 
-    if (!$explict_host) {
-	$host = $peer;
-	$host =~ s/:.*//;
-    }
-    if ($host && $host !~ /:/) {
-	my $p = $cnf->{PeerPort};
-	$host .= ":$p" if $p != $self->http_default_port;
+    # HOST header:
+    # If specified but blank, ignore.
+    # If specified with a value, add the port number
+    # If not specified, set to PeerAddr and port number
+    # ALWAYS: If IPv6 address, use [brackets]  (thanks to the URI package)
+    # ALWAYS: omit port number if http_default_port
+    if (($host) || (! $explict_host)) {
+        my $uri =  ($explict_host) ? URI->new("http://$host") : $peer_uri->clone;
+        if (!$uri->_port) {
+            # Always use *our*  $self->http_default_port  instead of URI's  (Covers HTTP, HTTPS)
+            $uri->port( $cnf->{PeerPort} ||  $self->http_default_port);
+        }
+        my $host_port = $uri->host_port;               # Returns host:port or [ipv6]:port
+        my $remove = ":" . $self->http_default_port;   # we want to remove the default port number
+        if (substr($host_port,0-length($remove)) eq $remove) {
+            substr($host_port,0-length($remove)) = "";
+        }
+        $host = $host_port;
     }
 
     $cnf->{Proto} = 'tcp';

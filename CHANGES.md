@@ -1,4 +1,5 @@
 #4.0.0.beta1 20??-??-??
+ - 2014-08-25 Updated CPAN module Net::HTTP to version 6.07.
  - 2014-08-25 Updated CPAN module Locale::Codes to version 3.31.
  - 2014-08-25 Updated CPAN module LWP::Protocol::https to version 6.06.
  - 2014-08-25 Updated CPAN module LWP to version 6.08.
