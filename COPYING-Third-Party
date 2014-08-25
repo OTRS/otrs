@@ -246,7 +246,8 @@ o Name:    CPAN SOAP::Lite
 
 o Name:    Locale::PO
   Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+  License: # This program is free software; you can redistribute it
+           # and/or modify it under the same terms as Perl itself.
   Note     # Maintainer: Ken Prows, perl@xev.net
            # Original version by: Alan Schwartz, alansz@pennmush.org
 
