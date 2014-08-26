@@ -10,23 +10,18 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::Ticket;
-
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
+# get needed objects
+my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # always random number with the same number of figure
 my $RandomID = 1_000_000 + int rand( 9_999_999 - 1_000_000 + 1 );
 
-my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$Self} );
-my $TicketObject       = Kernel::System::Ticket->new( %{$Self} );
 my @FieldIDs;
 
 # create a dynamic field with short name length (21 characters)
@@ -91,9 +86,6 @@ $Self->IsNotDeeply(
     {},
     'Dynamic Field confguration is not empty',
 );
-
-# create backend object and delegates
-my $BackendObject = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
 $Self->True(
     $BackendObject,

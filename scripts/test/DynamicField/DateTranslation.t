@@ -13,9 +13,10 @@ use utf8;
 
 use vars (qw($Self));
 
-use CGI qw(:cgi);
+use CGI;
 
 use Kernel::Output::HTML::Layout;
+use Kernel::System::Web::Request;
 
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
@@ -498,11 +499,12 @@ for my $Test (@Tests) {
         else {
 
             # creatate a new CGI object to simulate a web request
-            my $WebRequest = new CGI( $Test->{Config}->{EditFieldRender}->{$Type}->{CGIParam} );
+            my $WebRequest = CGI->new( $Test->{Config}->{EditFieldRender}->{$Type}->{CGIParam} );
 
             my $LocalParamObject = Kernel::System::Web::Request->new(
                 WebRequest => $WebRequest,
             );
+
             %Config = (
                 %{ $Test->{Config}->{Common} },
                 %{ $Test->{Config}->{EditFieldRender}->{$Type} },
@@ -563,7 +565,7 @@ for my $Test (@Tests) {
     }
 
     # creatate a new CGI object to simulate a web request
-    my $WebRequest = new CGI( $Test->{Config}->{EditFieldValueGet}->{CGIParam} );
+    my $WebRequest = CGI->new( $Test->{Config}->{EditFieldValueGet}->{CGIParam} );
 
     my $LocalParamObject = Kernel::System::Web::Request->new(
         WebRequest => $WebRequest,

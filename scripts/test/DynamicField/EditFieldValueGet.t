@@ -10,26 +10,19 @@
 use strict;
 use warnings;
 use utf8;
-use CGI;
+
 use vars (qw($Self));
 
-use Kernel::System::DynamicField::Backend;
-use Kernel::System::UnitTest::Helper;
+use CGI;
+
 use Kernel::System::Web::Request;
 
 use Kernel::System::VariableCheck qw(:all);
 
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
-
-my $DFBackendObject = Kernel::System::DynamicField::Backend->new( %{$Self} );
-
-my $ParamObject = Kernel::System::Web::Request->new(
-    %{$Self},
-    WebRequest => 0,
-);
+# get needed objects
+my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
 
 my $UserID = 1;
 
@@ -2571,10 +2564,9 @@ for my $Test (@Tests) {
         if ( IsHashRefWithData( $Test->{Config}->{CGIParam} ) ) {
 
             # creatate a new CGI object to simulate a web request
-            my $WebRequest = new CGI( $Test->{Config}->{CGIParam} );
+            my $WebRequest = CGI->new( $Test->{Config}->{CGIParam} );
 
             my $LocalParamObject = Kernel::System::Web::Request->new(
-                %{$Self},
                 WebRequest => $WebRequest,
             );
 

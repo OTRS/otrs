@@ -10,21 +10,13 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::DynamicField::Backend;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::Time;
-
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
-my $TimeObject = Kernel::System::Time->new(
-    %$Self,
-);
-
-my $DFBackendObject = Kernel::System::DynamicField::Backend->new( %{$Self} );
+# get needed objects
+my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+my $TimeObject      = $Kernel::OM->Get('Kernel::System::Time');
 
 my $UserID = 1;
 

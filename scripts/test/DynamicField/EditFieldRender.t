@@ -10,37 +10,28 @@
 use strict;
 use warnings;
 use utf8;
-use CGI;
+
 use vars (qw($Self));
 
-use Kernel::System::DynamicField::Backend;
 use Kernel::Output::HTML::Layout;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::Web::Request;
 
 use Kernel::System::VariableCheck qw(:all);
 
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
+# get needed objects
+my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
+my $TimeObject      = $Kernel::OM->Get('Kernel::System::Time');
 
-# Use a fixed year to compare the time selection results
+# use a fixed year to compare the time selection results
 $HelperObject->FixedTimeSet(
-    $Self->{TimeObject}->TimeStamp2SystemTime( String => '2013-12-12 00:00:00' ),
+    $TimeObject->TimeStamp2SystemTime( String => '2013-12-12 00:00:00' ),
 );
 
-my $ParamObject = Kernel::System::Web::Request->new(
-    %{$Self},
-    WebRequest => 0,
-);
 my $LayoutObject = Kernel::Output::HTML::Layout->new(
-    %{$Self},
-    ParamObject  => $ParamObject,
     Lang         => 'en',
     UserTimeZone => '+0',
 );
-my $DFBackendObject = Kernel::System::DynamicField::Backend->new( %{$Self} );
 
 my $UserID = 1;
 
@@ -3090,10 +3081,9 @@ for my $Test (@Tests) {
         if ( IsHashRefWithData( $Test->{Config}->{CGIParam} ) ) {
 
             # creatate a new CGI object to simulate a web request
-            my $WebRequest = new CGI( $Test->{Config}->{CGIParam} );
+            my $WebRequest = CGI->new( $Test->{Config}->{CGIParam} );
 
             my $LocalParamObject = Kernel::System::Web::Request->new(
-                %{$Self},
                 WebRequest => $WebRequest,
             );
 

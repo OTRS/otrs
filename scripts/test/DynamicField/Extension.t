@@ -10,16 +10,12 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::DynamicField::Backend;
-use Kernel::System::UnitTest::Helper;
-
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
+# get needed objects
+my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # theres is not really needed to add the dynamic fields for this test, we can define a static
 # set of configurations
@@ -155,9 +151,6 @@ my %DynamicFieldConfigs = (
     },
 );
 
-# create a new config object
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
 # add dynamic field registration settings to the new config object
 $ConfigObject->Set(
     Key   => 'DynamicFields::Extension::Backend###100-DFDummy',
@@ -231,11 +224,8 @@ $ConfigObject->Set(
     },
 );
 
-# create a new backend object includign the extension registrations from the new config object
-my $DFBackendObject = Kernel::System::DynamicField::Backend->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+# get a new backend object including the extension registrations from the config object
+my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
 my @Behaviors = (qw(Dummy1 Dummy2));
 my %Functions = (

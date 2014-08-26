@@ -10,17 +10,12 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::DynamicField::Backend;
-use Kernel::System::UnitTest::Helper;
-
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
-
-my $DFBackendObject = Kernel::System::DynamicField::Backend->new( %{$Self} );
+# get needed objects
+my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
 # theres is not really needed to add the dynamic fields for this test, we can define a static
 # set of configurations
