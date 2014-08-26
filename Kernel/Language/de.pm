@@ -233,9 +233,9 @@ sub Data {
         'There is no acount with that user name.' => 'Es gibt kein Benutzerkonto mit diesem Benutzernamen.',
         'Please contact your administrator' => 'Bitte kontaktieren Sie Ihren Administrator',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
-            '',
+            'Authentifizierung erfolgreich, aber im Kunden Backend wurde kein Kunden Eintrag gefunden. Bitte kontaktieren Sie Ihren Administrator.',
         'This e-mail address already exists. Please log in or reset your password.' =>
-            '',
+            'Diese E-Mail Adresse existiert bereits. Bitte meldne Sie sich an oder setzen Ihr Passwort zurück.',
         'Logout' => 'Abmelden',
         'Logout successful. Thank you for using %s!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  %s!',
         'Feature not active!' => 'Funktion nicht aktiviert!',
@@ -258,7 +258,7 @@ sub Data {
         'Database already contains data - it should be empty!' => 'Die Datenbank enthält bereits Daten obwohl sie leer sein sollte!',
         'Login is needed!' => 'Login wird benötigt!',
         'It is currently not possible to login due to a scheduled system maintenance.' =>
-            '',
+            'Die Anmeldung ist derzeit aufgrund einer geplanten Systemwartung nicht verfügbar.',
         'Password is needed!' => 'Passwort wird benötigt!',
         'Take this Customer' => 'Kunden übernehmen',
         'Take this User' => 'Benutzer übernehmen',
@@ -349,7 +349,7 @@ sub Data {
             'Keine oder keine neuen Pakete im ausgewählten Verzeichnis gefunden.',
         'Edit the system configuration settings.' => 'Systemeinstellungen bearbeiten.',
         'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
-            '',
+            'ACL Konfiguration laut Datenbank nicht synchron mit der System Configuration, bitte ACLs in Betrieb nehmen.',
         'printed at' => 'gedruckt am',
         'Loading...' => 'Laden...',
         'Dear Mr. %s,' => 'Sehr geehrter Herr %s,',
@@ -973,7 +973,7 @@ sub Data {
         'Export ACLs' => 'ACLs exportieren',
         'Configuration import' => 'Konfiguration importieren',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            '',
+            'Hier können Sie über eine Konfigurationsdatei ACLs ins System importieren. Diese Datei muss das vom ACL Editor verwendeten .yml Format haben.',
         'This field is required.' => 'Dieses Feld wird benötigt.',
         'Overwrite existing ACLs?' => 'Existierende ACLs überschreiben?',
         'Upload ACL configuration' => 'ACL-Konfiguration hochladen',
@@ -1019,7 +1019,7 @@ sub Data {
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
-            '',
+            'Neue ACL Erstellen, durch Eingabe der Daten. Nach Anlage der ACL ist es möglich Konfigurations Parameter im Änderungsmodus einzufügen.',
 
         # Template: AdminAttachment
         'Attachment Management' => 'Anlagenverwaltung',
@@ -1096,7 +1096,7 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Sie können diese Gruppen mit der Konfigurationseinstellung "CustomerGroupAlwaysGroups" bearbeiten.',
         'Filter for Groups' => 'Filter für Gruppen',
-        'Just start typing to filter...' => '',
+        'Just start typing to filter...' => 'Beginnen Sie mit der Eingabe zum zu filtern...',
         'Select the customer:group permissions.' => 'Wählen sie die Kunde:Gruppe-Rechte aus',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Wenn nichts ausgewählt ist, hat der Kunde in dieser Gruppe keine Rechte (und kann nicht auf Tickets zugreifen).',
@@ -1210,8 +1210,8 @@ sub Data {
         'Check RegEx' => 'Auf RegEx prüfen',
         'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
             'Hier können Sie einen regulären Ausdruck definieren um den Wert zu prüfen. Der RegEx wird mit den Modifikatoren xms ausgeführt.',
-        'RegEx' => '',
-        'Invalid RegEx' => '',
+        'RegEx' => 'RegEx',
+        'Invalid RegEx' => 'Ungültige RegEx',
         'Error Message' => 'Fehlermeldung',
         'Add RegEx' => 'RegEx hinzufügen',
 
@@ -1265,7 +1265,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             'Dieses Event ist dem Job bereits zugeordnet. Bitte wählen Sie ein anderes aus.',
         'Delete this Event Trigger' => 'Diesen Event-Trigger löschen',
-        'Select Tickets' => '',
+        'Select Tickets' => 'Tickets selektieren',
         '(e. g. 10*5155 or 105658*)' => 'z .B. 10*5144 oder 105658*',
         '(e. g. 234321)' => 'z. B. 234321',
         'Customer login' => 'Kundenlogin',
@@ -1303,7 +1303,7 @@ sub Data {
         'Ticket solution time reached' => 'Ticket-Lösungszeit erreicht',
         'Ticket solution time reached between' => 'Ticket-Lösungszeit erreicht zwischen',
         'Archive search option' => 'Im Archiv suchen',
-        'Update/Add Ticket Attributes' => '',
+        'Update/Add Ticket Attributes' => 'Ticket Attribute Aktualisieren/Hinzufügen',
         'Set new service' => 'Neuen Service setzen',
         'Set new Service Level Agreement' => 'Neues Service-Level-Abkommen setzen',
         'Set new priority' => 'Neue Priorität setzen',
@@ -1322,7 +1322,7 @@ sub Data {
         'Archive selected tickets' => 'Ausgewählte Tickets archivieren',
         'Add Note' => 'Notiz hinzufügen',
         'Time units' => 'Zeiteinheiten',
-        'Execute Ticket Commands' => '',
+        'Execute Ticket Commands' => 'Ticket Kommandos ausführen',
         'Send agent/customer notifications on changes' => 'Sende eine Agent/Kunden Benachrichtigung bei Änderungen',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
@@ -2356,30 +2356,30 @@ sub Data {
             'Der Anzeigename und die E-Mail-Adresse werden für die gesendeten Mail verwendet.',
 
         # Template: AdminSystemMaintenance
-        'System Maintenance Management' => '',
-        'Schedule New System Maintenance' => '',
+        'System Maintenance Management' => 'Systemwartungs-Verwaltung',
+        'Schedule New System Maintenance' => 'Neue Systemwartung planen',
         'Schedule a system maintenance period for announcing the Agents and Customers the system is down for a time period.' =>
-            '',
+            'Ein Systemwartungs-Zeitfenster planen, um Agenten und Kunden auf die Downtime hinzuweisen.',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
-            '',
-        'Start date' => '',
-        'Stop date' => '',
-        'Delete System Maintenance' => '',
+            'Einige Zeit vor der Systemwartung werden die Nutzer einen Hinweis auf jedem Bildschirm sehen.',
+        'Start date' => 'Startzeitpunkt',
+        'Stop date' => 'Endzeitpunkt',
+        'Delete System Maintenance' => 'Systemwartung entfernen',
         'Do you really want to delete this scheduled system maintenance?' =>
-            '',
+            'Wollen Sie diese geplante Systemwartung wirklich löschen?',
 
         # Template: AdminSystemMaintenanceEdit
-        'Edit System Maintenance %s' => '',
-        'Edit System Maintenance information' => '',
+        'Edit System Maintenance %s' => 'Systemwartung %s bearbeiten',
+        'Edit System Maintenance information' => 'Systemwartungs-Information bearbeiten',
         'Date invalid!' => 'Ungültiges Datum',
-        'Login message' => '',
-        'Show login message' => '',
-        'Notify message' => '',
-        'Manage Sessions' => '',
-        'All Sessions' => '',
-        'Agent Sessions' => '',
-        'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Login message' => 'Anmeldungs-Nachricht',
+        'Show login message' => 'Anmeldungs-Nachricht anzeigen',
+        'Notify message' => 'Hinweistext',
+        'Manage Sessions' => 'Sitzungen verwalten',
+        'All Sessions' => 'Alle Sitzungen',
+        'Agent Sessions' => 'Agenten-Sitzungen',
+        'Customer Sessions' => 'Kunden-Sitzungen',
+        'Kill all Sessions, exept current' => 'Alle Sitzungen außer der aktuellen löschen',
 
         # Template: AdminTemplate
         'Manage Templates' => 'Vorlagen verwalten',

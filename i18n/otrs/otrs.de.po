@@ -1,11 +1,12 @@
 #
 # Translators:
 # Martin Gruner <martin.gruner@otrs.com>, 2014
+# mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-08-18 12:54+0000\n"
+"PO-Revision-Date: 2014-08-26 11:31+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -808,11 +809,11 @@ msgstr "Bitte kontaktieren Sie Ihren Administrator"
 
 #. Template: AAABase
 msgid "Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator."
-msgstr ""
+msgstr "Authentifizierung erfolgreich, aber im Kunden Backend wurde kein Kunden Eintrag gefunden. Bitte kontaktieren Sie Ihren Administrator."
 
 #. Template: AAABase
 msgid "This e-mail address already exists. Please log in or reset your password."
-msgstr ""
+msgstr "Diese E-Mail Adresse existiert bereits. Bitte meldne Sie sich an oder setzen Ihr Passwort zurück."
 
 #. Template: AAABase
 msgid "Logout"
@@ -893,6 +894,10 @@ msgstr "Die Datenbank enthält bereits Daten obwohl sie leer sein sollte!"
 #. Template: AAABase
 msgid "Login is needed!"
 msgstr "Login wird benötigt!"
+
+#. Template: AAABase
+msgid "It is currently not possible to login due to a scheduled system maintenance."
+msgstr "Die Anmeldung ist derzeit aufgrund einer geplanten Systemwartung nicht verfügbar."
 
 #. Template: AAABase
 msgid "Password is needed!"
@@ -1228,7 +1233,7 @@ msgstr "Systemeinstellungen bearbeiten."
 
 #. Template: AAABase
 msgid "ACL information from database is not in sync with the system configuration, please deploy all ACLs."
-msgstr ""
+msgstr "ACL Konfiguration laut Datenbank nicht synchron mit der System Configuration, bitte ACLs in Betrieb nehmen."
 
 #. Template: AAABase
 msgid "printed at"
@@ -3456,7 +3461,7 @@ msgstr "Konfiguration importieren"
 
 #. Template: AdminACL
 msgid "Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module."
-msgstr ""
+msgstr "Hier können Sie über eine Konfigurationsdatei ACLs ins System importieren. Diese Datei muss das vom ACL Editor verwendeten .yml Format haben."
 
 #. Template: AdminACL
 msgid "This field is required."
@@ -3596,7 +3601,7 @@ msgstr "Beim Lesen der ACL-Daten ist ein Fehler aufgetreten."
 
 #. Template: AdminACLNew
 msgid "Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode."
-msgstr ""
+msgstr "Neue ACL Erstellen, durch Eingabe der Daten. Nach Anlage der ACL ist es möglich Konfigurations Parameter im Änderungsmodus einzufügen."
 
 #. Template: AdminAttachment
 msgid "Attachment Management"
@@ -3836,7 +3841,7 @@ msgstr "Filter für Gruppen"
 
 #. Template: AdminCustomerUserGroup
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "Beginnen Sie mit der Eingabe zum zu filtern..."
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer:group permissions."
@@ -4176,11 +4181,11 @@ msgstr "Hier können Sie einen regulären Ausdruck definieren um den Wert zu pr�
 
 #. Template: AdminDynamicFieldText
 msgid "RegEx"
-msgstr ""
+msgstr "RegEx"
 
 #. Template: AdminDynamicFieldText
 msgid "Invalid RegEx"
-msgstr ""
+msgstr "Ungültige RegEx"
 
 #. Template: AdminDynamicFieldText
 msgid "Error Message"
@@ -4352,7 +4357,7 @@ msgstr "Diesen Event-Trigger löschen"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
-msgstr ""
+msgstr "Tickets selektieren"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. 10*5155 or 105658*)"
@@ -4504,7 +4509,7 @@ msgstr "Im Archiv suchen"
 
 #. Template: AdminGenericAgent
 msgid "Update/Add Ticket Attributes"
-msgstr ""
+msgstr "Ticket Attribute Aktualisieren/Hinzufügen"
 
 #. Template: AdminGenericAgent
 msgid "Set new service"
@@ -4580,7 +4585,7 @@ msgstr "Zeiteinheiten"
 
 #. Template: AdminGenericAgent
 msgid "Execute Ticket Commands"
-msgstr ""
+msgstr "Ticket Kommandos ausführen"
 
 #. Template: AdminGenericAgent
 msgid "Send agent/customer notifications on changes"
@@ -5541,6 +5546,10 @@ msgstr "Ticket-Einstellungen"
 #. Template: AdminNavigationBar
 msgid "System Administration"
 msgstr "Systemverwaltung"
+
+#. Template: AdminNavigationBar
+msgid "Online Admin Manual"
+msgstr ""
 
 #. Template: AdminNotification
 msgid "Notification Management"
@@ -7710,6 +7719,82 @@ msgstr "System-E-Mail-Adresse bearbeiten"
 msgid "The display name and email address will be shown on mail you send."
 msgstr "Der Anzeigename und die E-Mail-Adresse werden für die gesendeten Mail verwendet."
 
+#. Template: AdminSystemMaintenance
+msgid "System Maintenance Management"
+msgstr "Systemwartungs-Verwaltung"
+
+#. Template: AdminSystemMaintenance
+msgid "Schedule New System Maintenance"
+msgstr "Neue Systemwartung planen"
+
+#. Template: AdminSystemMaintenance
+msgid "Schedule a system maintenance period for announcing the Agents and Customers the system is down for a time period."
+msgstr "Ein Systemwartungs-Zeitfenster planen, um Agenten und Kunden auf die Downtime hinzuweisen."
+
+#. Template: AdminSystemMaintenance
+msgid "Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact."
+msgstr "Einige Zeit vor der Systemwartung werden die Nutzer einen Hinweis auf jedem Bildschirm sehen."
+
+#. Template: AdminSystemMaintenance
+msgid "Start date"
+msgstr "Startzeitpunkt"
+
+#. Template: AdminSystemMaintenance
+msgid "Stop date"
+msgstr "Endzeitpunkt"
+
+#. Template: AdminSystemMaintenance
+msgid "Delete System Maintenance"
+msgstr "Systemwartung entfernen"
+
+#. Template: AdminSystemMaintenance
+msgid "Do you really want to delete this scheduled system maintenance?"
+msgstr "Wollen Sie diese geplante Systemwartung wirklich löschen?"
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Edit System Maintenance %s"
+msgstr "Systemwartung %s bearbeiten"
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Edit System Maintenance information"
+msgstr "Systemwartungs-Information bearbeiten"
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Date invalid!"
+msgstr "Ungültiges Datum"
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Login message"
+msgstr "Anmeldungs-Nachricht"
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Show login message"
+msgstr "Anmeldungs-Nachricht anzeigen"
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Notify message"
+msgstr "Hinweistext"
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Manage Sessions"
+msgstr "Sitzungen verwalten"
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "All Sessions"
+msgstr "Alle Sitzungen"
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Agent Sessions"
+msgstr "Agenten-Sitzungen"
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Customer Sessions"
+msgstr "Kunden-Sitzungen"
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Kill all Sessions, exept current"
+msgstr "Alle Sitzungen außer der aktuellen löschen"
+
 #. Template: AdminTemplate
 msgid "Manage Templates"
 msgstr "Vorlagen verwalten"
@@ -7953,6 +8038,10 @@ msgstr "Telefon-Ticket"
 #. Template: AgentDashboardCustomerUserList
 msgid "Email ticket"
 msgstr "E-Mail-Ticket"
+
+#. Template: AgentDashboardCustomerUserList
+msgid "Start Chat"
+msgstr ""
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
@@ -8494,10 +8583,6 @@ msgstr "Notiztyp"
 msgid "Next state"
 msgstr "Nächster Status"
 
-#. Template: AdminSystemMaintenanceEdit
-msgid "Date invalid!"
-msgstr "Ungültiges Datum"
-
 #. Template: AgentTicketBounce
 msgid "Bounce Ticket"
 msgstr "Ticket umleiten"
@@ -8731,6 +8816,14 @@ msgid "Column Filters Form"
 msgstr "Spalten-Filter-Formular"
 
 #. Template: AgentTicketPhone
+msgid "Split Into New Phone Ticket"
+msgstr ""
+
+#. Template: AgentTicketPhone
+msgid "Save Chat Into New Phone Ticket"
+msgstr ""
+
+#. Template: AgentTicketPhone
 msgid "Create New Phone Ticket"
 msgstr "Neues Telefon-Ticket anlegen"
 
@@ -8741,6 +8834,10 @@ msgstr "Bitte geben Sie mindestens einen Kunden für das Ticket an."
 #. Template: AgentTicketPhone
 msgid "To queue"
 msgstr "An Queue"
+
+#. Template: AgentTicketPhone
+msgid "Chat protocol"
+msgstr ""
 
 #. Template: AgentTicketPlain
 msgid "Email Text Plain View"
@@ -8833,6 +8930,14 @@ msgstr "Sucht in den Attributen Von, Cc, Betreff, Artikelinhalt und überschreib
 #. Template: AgentTicketSearch
 msgid "Customer User Login"
 msgstr "Anmeldung Kundenkontakt"
+
+#. Template: AgentTicketSearch
+msgid "Attachment Name"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "(e. g. m*file or myfi*)"
+msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Created in Queue"
@@ -9123,6 +9228,10 @@ msgid "Your email address (this will become your username)"
 msgstr "Ihre E-Mail-Adresse (das wird Ihr Benutzername)"
 
 #. Template: CustomerNavigationBar
+msgid "Incoming Chat Requests"
+msgstr ""
+
+#. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
 msgstr "Persönliche Einstellungen vornehmen"
 
@@ -9169,6 +9278,10 @@ msgstr "Volltextsuche in Tickets (z. B. \"Max*\" oder \"Muster*\")"
 #. Template: CustomerTicketSearch
 msgid "Carbon Copy"
 msgstr "Kopie an"
+
+#. Template: CustomerTicketSearch
+msgid "e. g. m*file or myfi*"
+msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Types"
@@ -9820,6 +9933,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Activates time accounting."
+msgstr ""
+
+#. SysConfig
+msgid "ActivityID"
 msgstr ""
 
 #. SysConfig
@@ -11388,6 +11505,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the module to display a notification in the agent interface, if the agent is logged in while having out-of-office active."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active."
 msgstr ""
 
 #. SysConfig
@@ -13115,6 +13236,10 @@ msgid "Parameters for the dashboard backend of the queue overview widget of the 
 msgstr ""
 
 #. SysConfig
+msgid "Parameters for the dashboard backend of the running process tickets overview of the agent interface . \"Limit\" is the number of entries shown by default. \"Group\" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin is enabled by default or if the user needs to enable it manually. \"CacheTTLLocal\" is the cache time in minutes for the plugin."
+msgstr ""
+
+#. SysConfig
 msgid "Parameters for the dashboard backend of the ticket calendar of the agent interface. \"Limit\" is the number of entries shown by default. \"Group\" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin is enabled by default or if the user needs to enable it manually. \"CacheTTLLocal\" is the cache time in minutes for the plugin."
 msgstr ""
 
@@ -13228,6 +13353,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Process Management Transition GUI"
+msgstr ""
+
+#. SysConfig
+msgid "ProcessID"
 msgstr ""
 
 #. SysConfig
@@ -13348,6 +13477,10 @@ msgstr "S/MIME Zertifikat hochladen"
 
 #. SysConfig
 msgid "Saves the attachments of articles. \"DB\" stores all data in the database (not recommended for storing big attachments). \"FS\" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data."
+msgstr ""
+
+#. SysConfig
+msgid "Schedule a maintenance period."
 msgstr ""
 
 #. SysConfig
@@ -13539,7 +13672,19 @@ msgid "Sets the default body text for notes added in the ticket responsible scre
 msgstr ""
 
 #. SysConfig
+msgid "Sets the default error message for the login screen on Agent and Customer interface, it's shown when a running system maintenance period is active."
+msgstr ""
+
+#. SysConfig
 msgid "Sets the default link type of splitted tickets in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the default message for the login screen on Agent and Customer interface, it's shown when a running system maintenance period is active."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the default message for the notification is shown on a running system maintenance period."
 msgstr ""
 
 #. SysConfig
@@ -13636,6 +13781,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Sets the minimal ticket counter size (if \"AutoIncrement\" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the minutes a notification is shown for notice about upcoming system maintenance period."
 msgstr ""
 
 #. SysConfig
@@ -14407,6 +14556,10 @@ msgid "Subscribe the output filter at the system."
 msgstr ""
 
 #. SysConfig
+msgid "System Maintenance"
+msgstr ""
+
+#. SysConfig
 msgid "System Request (%s)."
 msgstr "Systemanfrage (%s)."
 
@@ -14704,157 +14857,5 @@ msgstr "Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen übe
 
 #. SysConfig
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
-msgstr ""
-
-#. Template: AAABase
-msgid "It is currently not possible to login due to a scheduled system maintenance."
-msgstr ""
-
-#. Template: AdminNavigationBar
-msgid "Online Admin Manual"
-msgstr ""
-
-#. Template: AdminSystemMaintenance
-msgid "System Maintenance Management"
-msgstr ""
-
-#. Template: AdminSystemMaintenance
-msgid "Schedule New System Maintenance"
-msgstr ""
-
-#. Template: AdminSystemMaintenance
-msgid "Schedule a system maintenance period for announcing the Agents and Customers the system is down for a time period."
-msgstr ""
-
-#. Template: AdminSystemMaintenance
-msgid "Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact."
-msgstr ""
-
-#. Template: AdminSystemMaintenance
-msgid "Start date"
-msgstr ""
-
-#. Template: AdminSystemMaintenance
-msgid "Stop date"
-msgstr ""
-
-#. Template: AdminSystemMaintenance
-msgid "Delete System Maintenance"
-msgstr ""
-
-#. Template: AdminSystemMaintenance
-msgid "Do you really want to delete this scheduled system maintenance?"
-msgstr ""
-
-#. Template: AdminSystemMaintenanceEdit
-msgid "Edit System Maintenance %s"
-msgstr ""
-
-#. Template: AdminSystemMaintenanceEdit
-msgid "Edit System Maintenance information"
-msgstr ""
-
-#. Template: AdminSystemMaintenanceEdit
-msgid "Login message"
-msgstr ""
-
-#. Template: AdminSystemMaintenanceEdit
-msgid "Show login message"
-msgstr ""
-
-#. Template: AdminSystemMaintenanceEdit
-msgid "Notify message"
-msgstr ""
-
-#. Template: AdminSystemMaintenanceEdit
-msgid "Manage Sessions"
-msgstr ""
-
-#. Template: AdminSystemMaintenanceEdit
-msgid "All Sessions"
-msgstr ""
-
-#. Template: AdminSystemMaintenanceEdit
-msgid "Agent Sessions"
-msgstr ""
-
-#. Template: AdminSystemMaintenanceEdit
-msgid "Customer Sessions"
-msgstr ""
-
-#. Template: AdminSystemMaintenanceEdit
-msgid "Kill all Sessions, exept current"
-msgstr ""
-
-#. Template: AgentDashboardCustomerUserList
-msgid "Start Chat"
-msgstr ""
-
-#. Template: AgentTicketPhone
-msgid "Split Into New Phone Ticket"
-msgstr ""
-
-#. Template: AgentTicketPhone
-msgid "Save Chat Into New Phone Ticket"
-msgstr ""
-
-#. Template: AgentTicketPhone
-msgid "Chat protocol"
-msgstr ""
-
-#. Template: AgentTicketSearch
-msgid "Attachment Name"
-msgstr ""
-
-#. Template: AgentTicketSearch
-msgid "(e. g. m*file or myfi*)"
-msgstr ""
-
-#. Template: CustomerNavigationBar
-msgid "Incoming Chat Requests"
-msgstr ""
-
-#. Template: CustomerTicketSearch
-msgid "e. g. m*file or myfi*"
-msgstr ""
-
-#. SysConfig
-msgid "ActivityID"
-msgstr ""
-
-#. SysConfig
-msgid "Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active."
-msgstr ""
-
-#. SysConfig
-msgid "Parameters for the dashboard backend of the running process tickets overview of the agent interface . \"Limit\" is the number of entries shown by default. \"Group\" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin is enabled by default or if the user needs to enable it manually. \"CacheTTLLocal\" is the cache time in minutes for the plugin."
-msgstr ""
-
-#. SysConfig
-msgid "ProcessID"
-msgstr ""
-
-#. SysConfig
-msgid "Schedule a maintenance period."
-msgstr ""
-
-#. SysConfig
-msgid "Sets the default error message for the login screen on Agent and Customer interface, it's shown when a running system maintenance period is active."
-msgstr ""
-
-#. SysConfig
-msgid "Sets the default message for the login screen on Agent and Customer interface, it's shown when a running system maintenance period is active."
-msgstr ""
-
-#. SysConfig
-msgid "Sets the default message for the notification is shown on a running system maintenance period."
-msgstr ""
-
-#. SysConfig
-msgid "Sets the minutes a notification is shown for notice about upcoming system maintenance period."
-msgstr ""
-
-#. SysConfig
-msgid "System Maintenance"
 msgstr ""
 
