@@ -3371,8 +3371,6 @@ sub Data {
         'Customer request via web.' => 'Kunde stellte Anfrage über Web.',
         'CustomerName' => 'Kundenname',
         'Customers <-> Groups' => '',
-        'Customizable system name. If empty, config item \'Home\' is being used for display.' =>
-            '',
         'Data used to export the search result in CSV format.' => '',
         'Date / Time' => 'Datum / Zeit',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
@@ -3870,8 +3868,6 @@ sub Data {
             '',
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             '',
-        'Defines the opacity of the Fred console, e.g. 0.9 for 10% transparency.' =>
-            '',
         'Defines the parameters for the customer preferences table.' => '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
             '',
@@ -3973,7 +3969,6 @@ sub Data {
             '',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             '',
-        'Defines the width of the Fred console in percent.' => '',
         'Defines the width of the legend.' => '',
         'Defines which article sender types should be shown in the preview of a ticket.' =>
             'Gibt an, welche Artikel-Sendertypen in der Vorschau eines Tickets angezeigt werden sollen.',
@@ -4197,9 +4192,6 @@ sub Data {
             '',
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
-        'Frontend module registration for the devel fred object in the admin area.' =>
-            '',
-        'Frontend module registration for the public interface.' => '',
         'Frontend theme' => 'Oberflächen-Schema',
         'Fulltext index regex filters to remove parts of the text.' => '',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
@@ -4492,8 +4484,6 @@ sub Data {
         'Old: "%s" New: "%s"' => 'Alt: "%s" Neu: "%s"',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
-        'Output filter to show the name of the current system in the system header.' =>
-            '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => 'Übersicht eskalierte Tickets',
@@ -5113,7 +5103,6 @@ sub Data {
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
-        'Subscribe the output filter at the system.' => '',
         'System Maintenance' => '',
         'System Request (%s).' => 'Systemanfrage (%s).',
         'Templates <-> Queues' => 'Vorlagen <-> Queues',
@@ -5151,8 +5140,6 @@ sub Data {
             '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '',
-        'This option defines the background color for the sytem name box.' =>
-            '',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             '',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -5177,18 +5164,6 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => '',
-        'Turn on if you want a JavaScript code quality checker. Only works in CVS Head / OTRS 3 with jQuery.' =>
-            '',
-        'Turn on if you want an realtime HTML-checker.' => '',
-        'Turn on if you want an realtime SQL statement log function.' => '',
-        'Turn on if you want the translation debugger.' => '',
-        'Turn on if you want to see the STDERRLog.' => '',
-        'Turn on if you want to see the data in the environment of the layout object.' =>
-            '',
-        'Turn on if you want to see the data in the serverside session object.' =>
-            '',
-        'Turn on if you want to use the config log mechanism.' => '',
-        'Turn on if you want to use the fred console.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             '',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
@@ -5224,7 +5199,6 @@ sub Data {
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
-        'Which order should the config log data have?' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Queues versendet.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>

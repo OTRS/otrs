@@ -10527,10 +10527,6 @@ msgid "Customers <-> Groups"
 msgstr ""
 
 #. SysConfig
-msgid "Customizable system name. If empty, config item 'Home' is being used for display."
-msgstr ""
-
-#. SysConfig
 msgid "Data used to export the search result in CSV format."
 msgstr ""
 
@@ -11611,10 +11607,6 @@ msgid "Defines the number of header fields in frontend modules for add and updat
 msgstr ""
 
 #. SysConfig
-msgid "Defines the opacity of the Fred console, e.g. 0.9 for 10% transparency."
-msgstr ""
-
-#. SysConfig
 msgid "Defines the parameters for the customer preferences table."
 msgstr ""
 
@@ -11840,10 +11832,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative)."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the width of the Fred console in percent."
 msgstr ""
 
 #. SysConfig
@@ -12392,14 +12380,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Frontend module registration for the customer interface."
-msgstr ""
-
-#. SysConfig
-msgid "Frontend module registration for the devel fred object in the admin area."
-msgstr ""
-
-#. SysConfig
-msgid "Frontend module registration for the public interface."
 msgstr ""
 
 #. SysConfig
@@ -13132,10 +13112,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Open tickets (customer)"
-msgstr ""
-
-#. SysConfig
-msgid "Output filter to show the name of the current system in the system header."
 msgstr ""
 
 #. SysConfig
@@ -14547,10 +14523,6 @@ msgid "Strips empty lines on the ticket preview in the service view."
 msgstr ""
 
 #. SysConfig
-msgid "Subscribe the output filter at the system."
-msgstr ""
-
-#. SysConfig
 msgid "System Maintenance"
 msgstr ""
 
@@ -14635,10 +14607,6 @@ msgid "This module and its PreRun() function will be executed, if defined, for e
 msgstr ""
 
 #. SysConfig
-msgid "This option defines the background color for the sytem name box."
-msgstr ""
-
-#. SysConfig
 msgid "This option defines the dynamic field in which a Process Management activity entity id is stored."
 msgstr ""
 
@@ -14704,42 +14672,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Toolbar Item for a shortcut."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want a JavaScript code quality checker. Only works in CVS Head / OTRS 3 with jQuery."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want an realtime HTML-checker."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want an realtime SQL statement log function."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want the translation debugger."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want to see the STDERRLog."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want to see the data in the environment of the layout object."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want to see the data in the serverside session object."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want to use the config log mechanism."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want to use the fred console."
 msgstr ""
 
 #. SysConfig
@@ -14840,10 +14772,6 @@ msgstr ""
 
 #. SysConfig
 msgid "When tickets are merged, the customer can be informed per email by setting the check box \"Inform Sender\". In this text area, you can define a pre-formatted text which can later be modified by the agents."
-msgstr ""
-
-#. SysConfig
-msgid "Which order should the config log data have?"
 msgstr ""
 
 #. SysConfig

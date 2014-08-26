@@ -265,6 +265,8 @@ sub Data {
             'Se è impostata una password di root per il database inserirla qui, altrimenti lasciare il campo vuoto',
         'Database already contains data - it should be empty!' => 'Il database risulta contenere dati - dovrebbe essere vuoto!',
         'Login is needed!' => 'Devi fare il login',
+        'It is currently not possible to login due to a scheduled system maintenance.' =>
+            '',
         'Password is needed!' => 'La password è richiesta',
         'Take this Customer' => 'Prendi questo Cliente',
         'Take this User' => 'Prendi questo Utente',
@@ -595,8 +597,6 @@ sub Data {
         'Default Storage Engine' => '',
         'Tables with a different storage engine than the default engine were found.' =>
             '',
-        'Table Status' => '',
-        'Tables found which do not have a regular status.' => '',
         'MySQL 5.x or higher is required.' => '',
         'NLS_LANG Setting' => '',
         'NLS_LANG must be set to AL32UTF8 (e.g. GERMAN_GERMANY.AL32UTF8).' =>
@@ -960,46 +960,6 @@ sub Data {
         'Archived tickets' => 'Ticket archiviati',
         'Unarchived tickets' => 'Ticket non archiviati',
         'Ticket Information' => 'Informazioni sul Ticket',
-        'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => 'Richiesta mossa nella coda "%s" (%s) dalla coda "%s" (%s).',
-        'Updated Type to %s (ID=%s).' => 'Tipo Ticket aggiornato: %s (ID=%s).',
-        'Updated Service to %s (ID=%s).' => 'Servizio aggiornato: %s (ID=%s).',
-        'Updated SLA to %s (ID=%s).' => 'SLA aggiornato: %s (ID=%s).',
-        'New Ticket [%s] created (Q=%s;P=%s;S=%s).' => 'Nuova richiesta [%s] creata (Q=%s;P=%s;S=%s).',
-        'FollowUp for [%s]. %s' => 'Prosecuzione per [%s]. %s',
-        'AutoReject sent to "%s".' => 'Rifiuto automatico inviato a "%s".',
-        'AutoReply sent to "%s".' => 'Risposta automatica inviata a "%s".',
-        'AutoFollowUp sent to "%s".' => 'Prosecuzione automatica inviata a "%s".',
-        'Forwarded to "%s".' => 'Inoltrato a "%s".',
-        'Bounced to "%s".' => 'Rispedito a "%s".',
-        'Email sent to "%s".' => 'Email inviata a "%s".',
-        '"%s"-notification sent to "%s".' => '"%s"-notifica inviata a "%s".',
-        'Notification sent to "%s".' => 'Notifica inviata a "%s".',
-        'Email sent to customer.' => 'Email inviata al cliente.',
-        'Added email. %s' => 'Email. %s aggiunta',
-        'Agent called customer.' => 'L\'operatore ha chiamato il cliente.',
-        'Customer called us.' => 'Il cliente ha chiamato noi.',
-        'Added note (%s)' => 'Aggiunta nota (%s)',
-        'Locked ticket.' => 'Richiesta bloccata.',
-        'Unlocked ticket.' => 'Richiesta lasciata.',
-        '%s time unit(s) accounted. Now total %s time unit(s).' => '%s unita\' temporali addebitate. Nuovo totale: %s.',
-        '%s' => 'Rimosso da %s',
-        'Updated: %s' => 'Aggiornato: %s',
-        'Changed priority from "%s" (%s) to "%s" (%s).' => 'Priorita\' cambiata da "%s" (%s) a "%s" (%s).',
-        'New owner is "%s" (ID=%s).' => 'Nuovo operatore assegnato = "%s" (ID=%s).',
-        'Loop-Protection! No auto-response sent to "%s".' => 'Loop-Protection! Nessuna risposta automatica inviata a "%s".',
-        '%s' => '%s',
-        'Updated: %s' => 'Aggiornato: %s',
-        'Old: "%s" New: "%s"' => 'Vecchio: "%s" Nuovo: "%s"',
-        'Updated: %s=%s;%s=%s;%s=%s;' => 'Aggiornato: %s=%s;%s=%s;%s=%s;',
-        'Customer request via web.' => 'Richiesta del cliente via web.',
-        'Added link to ticket "%s".' => 'Aggiunto link alla richiesta "%s".',
-        'Deleted link to ticket "%s".' => 'Eliminato link alla richiesta "%s".',
-        'Added subscription for user "%s".' => 'Aggiunta sottoscrizione per l\'utente "%s".',
-        'Removed subscription for user "%s".' => 'Rimossa sottoscrizione per l\'utente "%s".',
-        'System Request (%s).' => 'Richiesta di sistema',
-        'New responsible is "%s" (ID=%s).' => 'Aggiornamento responsabile',
-        'Archive state changed: "%s"' => 'Aggiornamento Flag Archivio',
-        'Title updated: Old: "%s", New: "%s"' => 'Aggiornamento Titolo Ticket',
 
         # Template: AAAWeekDay
         'Sun' => 'Dom',
@@ -1032,8 +992,7 @@ sub Data {
             '',
         'ACLs' => '',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
-            '
-Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necessario modificare l\'ordine in cui vengono eseguite le ACL, si prega di modificare i nomi delle ACL interessate.',
+            'Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necessario modificare l\'ordine in cui vengono eseguite le ACL, si prega di modificare i nomi delle ACL interessate.',
         'ACL name' => 'Nome ACL',
         'Validity' => 'Validità',
         'Copy' => 'Copia',
@@ -1177,8 +1136,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Gestione Campi Dinamici',
         'Add new field for object' => 'Aggiungi un nuovo campo per l\'oggetto',
-        'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
-            'Per aggiungere un nuovo campo, selezionare il tipo di campo dalla lista, l\'oggetto definisce i confini del campo e non può essere cambiato.',
+        'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
+            '',
         'Dynamic Fields List' => 'Elenco Campi Dinamici',
         'Dynamic fields per page' => 'Campi Dinamici per pagina',
         'Label' => 'Etichetta',
@@ -1248,8 +1207,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Note' => 'Nota',
         'You need to add the translations manually into the language translation files.' =>
             'Occorre aggiungere le traduzioni manualmente nei file di traduzione.',
-
-        # Template: AdminDynamicFieldMultiselect
 
         # Template: AdminDynamicFieldText
         'Number of rows' => 'Numero di righe',
@@ -1492,10 +1449,55 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             'I dati ricevuti saranno trasformati con questo mapping, per modificarli secondole aspettative del sistema remoto.',
         'Delete this Operation' => 'Cancella questa Operazione',
 
-        # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'GenericInterface Transport HTTP::SOAP for Web Service %s' => 'GenericInterface Trassporto HTTP::SOAP per il Web Service %s',
+        # Template: AdminGenericInterfaceTransportHTTPREST
+        'GenericInterface Transport HTTP::REST for Web Service %s' => '',
         'Network transport' => '',
         'Properties' => 'Proprietà',
+        'Route mapping for Operation' => '',
+        'Define the route that should get mapped to this operation. Variables marked by a \':\' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID).' =>
+            '',
+        'Valid request methods for Operation' => '',
+        'Limit this Operation to specific request methods. If no method is selected all requests will be accepted.' =>
+            '',
+        'Maximum message length' => 'Lunghezza massima del interazione',
+        'This field should be an integer number.' => 'Questo campo deve essere un numero intero.',
+        'Here you can specify the maximum size (in bytes) of REST messages that OTRS will process.' =>
+            '',
+        'Send Keep-Alive' => '',
+        'This configuration defines if incoming connections should get closed or kept alive.' =>
+            '',
+        'Host' => '',
+        'Remote host URL for the REST requests.' => '',
+        'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
+            '',
+        'Controller mapping for Invoker' => '',
+        'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
+            '',
+        'Valid request command for Invoker' => '',
+        'A specific HTTP command to use for the requests with this Invoker (optional).' =>
+            '',
+        'Default command' => '',
+        'The default HTTP command to use for the requests.' => '',
+        'Authentication' => 'Autenticazione',
+        'The authentication mechanism to access the remote system.' => 'Meccanismo di autenticazione per accedere al sistema remoto',
+        'A "-" value means no authentication.' => '"-" indica nessuna autenticazione',
+        'The user name to be used to access the remote system.' => 'Utente per accesso al sistema remoto.',
+        'The password for the privileged user.' => 'Password per l\'utente',
+        'Use SSL Options' => 'Opzione per utilizzo di SSL',
+        'Show or hide SSL options to connect to the remote system.' => 'Mostra o nascondi l\'opzione SSL per connettersi al sistema remoto.',
+        'Certificate File' => 'File del Certificato',
+        'The full path and name of the SSL certificate file.' => '',
+        'e.g. /opt/otrs/var/certificates/REST/ssl.crt' => '',
+        'Certificate Password File' => '',
+        'The full path and name of the SSL key file.' => '',
+        'e.g. /opt/otrs/var/certificates/REST/ssl.key' => '',
+        'Certification Authority (CA) File' => '',
+        'The full path and name of the certification authority certificate file that validates the SSL certificate.' =>
+            '',
+        'e.g. /opt/otrs/var/certificates/REST/CA/ca.file' => '',
+
+        # Template: AdminGenericInterfaceTransportHTTPSOAP
+        'GenericInterface Transport HTTP::SOAP for Web Service %s' => 'GenericInterface Trassporto HTTP::SOAP per il Web Service %s',
         'Endpoint' => '',
         'URI to indicate a specific location for accessing a service.' =>
             'URI per indicare una specifica locazione per accedere al servizio',
@@ -1504,8 +1506,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI per indicare ai metodi SOAP il contesto, per ridurre le ambiguità',
         'e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
             'es. rn:otrs-com:soap:functions o http://www.otrs.com/GenericInterface/actions',
-        'Maximum message length' => 'Lunghezza massima del interazione',
-        'This field should be an integer number.' => 'Questo campo deve essere un numero intero.',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             'Specificare il la dimensione massima in in bytes del interazione SOAP che OTRS processerà',
         'Encoding' => '',
@@ -1518,20 +1518,10 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Character to use as separator between name space and SOAP method.' =>
             'Carattere da utilizzare come separatore tra il namespace ed il metodo SOAP',
         'Usually .Net web services uses a "/" as separator.' => 'Normalmente i web service .Net utilizzano "/" come separatore.',
-        'Authentication' => 'Autenticazione',
-        'The authentication mechanism to access the remote system.' => 'Meccanismo di autenticazione per accedere al sistema remoto',
-        'A "-" value means no authentication.' => '"-" indica nessuna autenticazione',
-        'The user name to be used to access the remote system.' => 'Utente per accesso al sistema remoto.',
-        'The password for the privileged user.' => 'Password per l\'utente',
-        'Use SSL Options' => 'Opzione per utilizzo di SSL',
-        'Show or hide SSL options to connect to the remote system.' => 'Mostra o nascondi l\'opzione SSL per connettersi al sistema remoto.',
-        'Certificate File' => 'File del Certificato',
         'The full path and name of the SSL certificate file (must be in .p12 format).' =>
             'Percorso completo e nome del certificato SSL, in formato .p12',
         'e.g. /opt/otrs/var/certificates/SOAP/certificate.p12' => 'es. /opt/otrs/var/certificates/SOAP/certificate.p12',
-        'Certificate Password File' => '',
         'The password to open the SSL certificate.' => 'Password per aprire il certificato SSL',
-        'Certification Authority (CA) File' => '',
         'The full path and name of the certification authority certificate file that validates SSL certificate.' =>
             'Percorso completo e nome del file della certification Authority per validare il certificato SSL, in formato .pem',
         'e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem' => 'es. /opt/otrs/var/certificates/SOAP/CA/ca.pem',
@@ -1633,7 +1623,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             'Tutti le interazioni in arrivo saranno smistati nella coda selezionata!',
         'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' =>
             'Se il tuo account è fidato (trusted), verrà utilizzato l\'header X-OTRS dell\'istante di arrivo (priorità, ...)! Il filtro di ingresso verrà utilizzato in ogni caso.',
-        'Host' => '',
         'Delete account' => 'Elimina account',
         'Fetch mail' => 'Scarica posta',
         'Add Mail Account' => 'Aggiungi account di posta',
@@ -1651,6 +1640,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Queue Settings' => 'Impostazioni delle code',
         'Ticket Settings' => 'Impostazioni dei ticket',
         'System Administration' => 'Amministrazione di sistema',
+        'Online Admin Manual' => '',
 
         # Template: AdminNotification
         'Notification Management' => 'Gestione delle notifiche',
@@ -1877,8 +1867,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Available Transition Actions' => 'Azoni di transizione disponibili',
         'Create New Transition Action' => 'Crea nuova azione di transizione',
         'Assigned Transition Actions' => 'Azione di transizione assegnate',
-
-        # Template: AdminProcessManagementPopupResponse
 
         # Template: AdminProcessManagementProcessAccordion
         'Activities' => 'Attività',
@@ -2120,7 +2108,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'If you have any questions that have not been answered by this Data Protection Policy or if you require more detailed information about a specific topic, please contact info@otrs.com.' =>
             '',
-        'If you deregister your system, you will loose these benefits:' =>
+        'If you deregister your system, you will lose these benefits:' =>
             '',
         'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
@@ -2190,12 +2178,12 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Add certificate' => 'Aggiungi certificato',
         'Add private key' => 'Aggiungi chiave privata',
         'Filter for certificates' => 'Filtro per i certificati',
-        'Filter for SMIME certs' => 'Filtro per i certificari SMIME',
+        'Filter for S/MIME certs' => '',
         'To show certificate details click on a certificate icon.' => '',
         'To manage private certificate relations click on a private key icon.' =>
             '',
-        'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
-            'Qui puoi aggiungere relazioni al tuo certificato privato, e sarà incluso nella firma SMIME ad ogni firma',
+        'Here you can add relations to your private certificate, these will be embedded to the S/MIME signature every time you use this certificate to sign an email.' =>
+            '',
         'See also' => 'Vedi anche',
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Puoi modificare il certificato e la chiave privata direttamente sul filesystem.',
@@ -2212,7 +2200,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Relate this certificate' => 'Collegati a questo certificato',
 
         # Template: AdminSMIMECertRead
-        'SMIME Certificate' => 'Certificato SMIME',
         'Close window' => 'Chiudi finestra',
 
         # Template: AdminSalutation
@@ -2221,13 +2208,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Add Salutation' => 'Aggiungi il template di saluti',
         'Edit Salutation' => 'Modifica saluto',
         'Example salutation' => 'Saluto di esempio',
-
-        # Template: AdminScheduler
-        'This option will force Scheduler to start even if the process is still registered in the database' =>
-            'Questa opzione forza lo start dello Scheduler, anche se il processo è ancora registrato nel database',
-        'Start scheduler' => 'Fai partire lo schedulatore',
-        'Scheduler could not be started. Check if scheduler is not running and try it again with Force Start option' =>
-            'Lo Scheduler non è partito. Controllare che lo Scheduler non sia attivo e usare l\'opzione "Force Start"',
 
         # Template: AdminSecureMode
         'Secure mode needs to be enabled!' => 'E\' necessario abilitare la modalità sicura!',
@@ -2383,6 +2363,32 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'The display name and email address will be shown on mail you send.' =>
             'Il nome visualizzato e l\'indirizzo email verranno visualizzati sulle email inviate da qui.',
 
+        # Template: AdminSystemMaintenance
+        'System Maintenance Management' => '',
+        'Schedule New System Maintenance' => '',
+        'Schedule a system maintenance period for announcing the Agents and Customers the system is down for a time period.' =>
+            '',
+        'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
+            '',
+        'Start date' => '',
+        'Stop date' => '',
+        'Delete System Maintenance' => '',
+        'Do you really want to delete this scheduled system maintenance?' =>
+            '',
+
+        # Template: AdminSystemMaintenanceEdit
+        'Edit System Maintenance %s' => '',
+        'Edit System Maintenance information' => '',
+        'Date invalid!' => 'Data invalida!',
+        'Login message' => '',
+        'Show login message' => '',
+        'Notify message' => '',
+        'Manage Sessions' => '',
+        'All Sessions' => '',
+        'Agent Sessions' => '',
+        'Customer Sessions' => '',
+        'Kill all Sessions, exept current' => '',
+
         # Template: AdminTemplate
         'Manage Templates' => '',
         'Add template' => '',
@@ -2447,8 +2453,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         # Template: AgentCustomerInformationCenter
         'Customer Information Center' => 'Centro Informazioni Cliente',
 
-        # Template: AgentCustomerInformationCenterBlank
-
         # Template: AgentCustomerInformationCenterSearch
         'Customer User' => 'Clienti',
 
@@ -2470,8 +2474,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Available Columns' => '',
         'Visible Columns (order by drag & drop)' => '',
 
-        # Template: AgentDashboardCustomerCompanyInformation
-
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => '',
 
@@ -2479,14 +2481,11 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Customer information' => 'Informazioni sul Cliente',
         'Phone ticket' => 'Ticket da Telefonata',
         'Email ticket' => 'Ticket da Email',
+        'Start Chat' => '',
         '%s open ticket(s) of %s' => '%s Ticket aperti su %s',
         '%s closed ticket(s) of %s' => '%s Ticket chiusi su %s',
         'New phone ticket from %s' => 'Nuovo Ticket telefonico da %s',
         'New email ticket to %s' => 'Nuovo Ticket via email da %s',
-
-        # Template: AgentDashboardIFrame
-
-        # Template: AgentDashboardImage
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s e\' disponibile!',
@@ -2512,23 +2511,18 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'My watched tickets' => 'Ticket che sorveglio',
         'My responsibilities' => 'Ticket di cui sono responsabile',
         'Tickets in My Queues' => 'Ticket nelle mie code',
+        'Tickets in My Services' => '',
         'Service Time' => 'Tempo per Servizio',
         'Remove active filters for this widget.' => '',
 
         # Template: AgentDashboardTicketQueueOverview
         'Totals' => '',
 
-        # Template: AgentDashboardTicketStats
-
         # Template: AgentDashboardUserOnline
         'out of office' => 'Fuori Ufficio',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'Fino a',
-
-        # Template: AgentHTMLReferenceForms
-
-        # Template: AgentHTMLReferenceOverview
 
         # Template: AgentHTMLReferencePageLayout
         'The ticket has been locked' => 'Il Ticket è stato assegnato',
@@ -2547,10 +2541,20 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Unlink Object: %s' => 'Scollega oggetto: %s ',
         'go to link add screen' => 'vai alla schermata di aggiunta link',
 
-        # Template: AgentNavigationBar
-
         # Template: AgentPreferences
         'Edit your preferences' => 'Modifica preferenze',
+
+        # Template: AgentSchedulerInfo
+        'General Information' => '',
+        'Scheduler is an OTRS separated process that perform asynchronous tasks' =>
+            '',
+        '(e.g. Generic Interface asynchronous invoker tasks)' => '',
+        'It is necessary to have the Scheduler running to make the system work correctly!' =>
+            '',
+        'Starting Scheduler' => '',
+        'Make sure that %s exists (without .dist extension)' => '',
+        'Check that cron deamon is running in the system' => '',
+        'Confirm that OTRS cron jobs are running, execute %s start' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Verifica ortografica',
@@ -2675,11 +2679,9 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Optional' => 'Opzionale',
         'Inform involved Agents' => 'Informa gli operatori coinvolti',
         'Spell check' => 'Controllo ortografico',
+        'Text Template' => '',
         'Note type' => 'Tipologia della nota',
         'Next state' => 'Stato successivo',
-        'Date invalid!' => 'Data invalida!',
-
-        # Template: AgentTicketActionPopupClose
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Rispedici Ticket',
@@ -2700,8 +2702,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Link together' => 'Collega',
         'Link to parent' => 'Collega a genitore',
         'Unlock tickets' => 'Sblocca ticket',
-
-        # Template: AgentTicketClose
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Componi la risposta alla richiesta',
@@ -2729,14 +2729,9 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Select this customer as the main customer.' => '',
         'Remove Ticket Customer User' => '',
         'Get all' => 'Prendi tutto',
-        'Text Template' => '',
-
-        # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Inoltra ticket: %s - %s',
-
-        # Template: AgentTicketFreeText
 
         # Template: AgentTicketHistory
         'History of' => 'Storico di',
@@ -2753,8 +2748,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Move Ticket' => 'Sposta la richiesta',
         'New Queue' => 'Nuova coda',
 
-        # Template: AgentTicketNote
-
         # Template: AgentTicketOverviewMedium
         'Select all' => 'Seleziona tutto',
         'No ticket data found.' => 'Non sono stati trovati dati ticket.',
@@ -2770,22 +2763,17 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Remove active filters for this screen.' => '',
         'Tickets per page' => 'Numero di ticket per pagina',
 
-        # Template: AgentTicketOverviewPreview
-
         # Template: AgentTicketOverviewSmall
         'Reset overview' => '',
         'Column Filters Form' => '',
 
-        # Template: AgentTicketOwner
-
-        # Template: AgentTicketPending
-
         # Template: AgentTicketPhone
+        'Split Into New Phone Ticket' => '',
+        'Save Chat Into New Phone Ticket' => '',
         'Create New Phone Ticket' => 'Crea nuovo ticket telefonico',
         'Please include at least one customer for the ticket.' => '',
         'To queue' => 'Alla coda',
-
-        # Template: AgentTicketPhoneCommon
+        'Chat protocol' => '',
 
         # Template: AgentTicketPlain
         'Email Text Plain View' => 'Visualizzazione nativa del corpo dell\'email',
@@ -2798,17 +2786,12 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Linked-Object' => 'Oggetto Collegato',
         'by' => 'da',
 
-        # Template: AgentTicketPriority
-
         # Template: AgentTicketProcess
         'Create New Process Ticket' => 'Crea Nuovo Ticket con Processo',
         'Process' => 'Processo',
 
-        # Template: AgentTicketProcessNavigationBar
-
-        # Template: AgentTicketQueue
-
-        # Template: AgentTicketResponsible
+        # Template: AgentTicketProcessSmall
+        'Enroll Ticket into a Process' => '',
 
         # Template: AgentTicketSearch
         'Search template' => 'Modello di ricerca',
@@ -2825,6 +2808,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             '',
         'Customer User Login' => 'Identificativo di Accesso del Cliente',
+        'Attachment Name' => '',
+        '(e. g. m*file or myfi*)' => '',
         'Created in Queue' => 'Creata nella Coda',
         'Lock state' => 'Blocca stato',
         'Watcher' => 'Osservatore',
@@ -2840,12 +2825,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Ticket Escalation Time (between)' => '',
         'Archive Search' => 'Ricerca archivio',
         'Run search' => 'Esegui ricerca',
-
-        # Template: AgentTicketSearchOpenSearchDescriptionFulltext
-
-        # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
-
-        # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketZoom
         'Article filter' => 'Filtro articolo',
@@ -2881,10 +2860,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'To protect your privacy, remote content was blocked.' => 'per proteggere la vstra privacy, il contenuto remoto è stato rimosso.',
         'Load blocked content.' => 'Carica contenuto bloccato.',
 
-        # Template: Copyright
-
-        # Template: CustomerAccept
-
         # Template: CustomerError
         'Traceback' => 'Dettaglio della tracciatura ',
 
@@ -2897,14 +2872,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Impossibile aprire una finestra di popup. Si prega di disabilitare ogni bloccatore di popup per questa applicazione.',
         'There are currently no elements available to select from.' => '',
-
-        # Template: CustomerFooterSmall
-
-        # Template: CustomerHTMLHead
-
-        # Template: CustomerHeader
-
-        # Template: CustomerHeaderSmall
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript non disponibile',
@@ -2934,11 +2901,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Your email address (this will become your username)' => '',
 
         # Template: CustomerNavigationBar
+        'Incoming Chat Requests' => '',
         'Edit personal preferences' => 'Modifica impostazioni personali',
-
-        # Template: CustomerPreferences
-
-        # Template: CustomerRichTextEditor
 
         # Template: CustomerTicketMessage
         'Service level agreement' => '',
@@ -2952,16 +2916,13 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Ticket Print' => 'Stampa Ticket',
         'Ticket Dynamic Fields' => '',
 
-        # Template: CustomerTicketProcess
-
-        # Template: CustomerTicketProcessNavigationBar
-
         # Template: CustomerTicketSearch
         'Profile' => 'Profilo',
         'e. g. 10*5155 or 105658*' => 'es 10*5155 or 105658*',
         'Customer ID' => 'ID Cliente',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Ricerca a testo nei ticket (es "John*n" or "Will*")',
         'Carbon Copy' => 'Copia',
+        'e. g. m*file or myfi*' => '',
         'Types' => 'Tipi',
         'Time restrictions' => 'Restrizioni di tempo',
         'No time settings' => 'Nessuna impostazione per il tempo',
@@ -2975,10 +2936,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Pick a profile name' => 'Scegli un profilo',
         'Output to' => 'Output',
 
-        # Template: CustomerTicketSearchOpenSearchDescription
-
-        # Template: CustomerTicketSearchResultPrint
-
         # Template: CustomerTicketSearchResultShort
         'of' => 'di',
         'Page' => 'Pagina',
@@ -2989,8 +2946,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Expand article' => 'Espandi l\'articolo',
         'Next Steps' => 'Prossime attività',
         'Reply' => 'Risposta',
-
-        # Template: CustomerWarning
 
         # Template: DashboardEventsTicketCalendar
         'All-day' => '',
@@ -3039,20 +2994,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
 
-        # Template: FooterSmall
-
-        # Template: HTMLHead
-
-        # Template: HTMLHeadBlockEvents
-
-        # Template: HTMLHeadRefresh
-
-        # Template: HTTPHeaders
-
         # Template: Header
         'You are logged in as' => 'Si è effettuato l\'accesso come',
-
-        # Template: HeaderSmall
 
         # Template: Installer
         'JavaScript not available' => 'JavaScript non disponibile',
@@ -3116,8 +3059,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'SID' => '',
         'Port' => '',
 
-        # Template: InstallerDBpostgresql
-
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
             'Per poter usare OTRS devi inserire questa riga di comando in una shell come utente root.',
@@ -3129,8 +3070,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         # Template: InstallerLicense
         'Accept license' => 'Accetto la licenza',
         'Don\'t accept license' => 'Non accetto la licenza',
-
-        # Template: InstallerLicenseText
 
         # Template: InstallerSystem
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -3183,18 +3122,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'No file found!' => 'Nessun file trovato!',
         'The file is not an image that can be shown inline!' => 'Il file non è un\'immagine che può essere mostrata in linea!',
 
-        # Template: PrintFooter
-
         # Template: PrintHeader
         'printed by' => 'stampato da',
-
-        # Template: PublicDefault
-
-        # Template: Redirect
-
-        # Template: RichTextEditor
-
-        # Template: SpellingInline
 
         # Template: Test
         'OTRS Test Page' => 'Pagina di test OTRS',
@@ -3204,6 +3133,9 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Go back to the previous page' => 'Torna alla pagina precedente',
 
         # SysConfig
+        '"%s"-notification sent to "%s".' => '"%s"-notifica inviata a "%s".',
+        '%s' => '%s',
+        '%s time unit(s) accounted. Now total %s time unit(s).' => '%s unita\' temporali addebitate. Nuovo totale: %s.',
         '(UserLogin) Firstname Lastname' => '',
         '(UserLogin) Lastname, Firstname' => '',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
@@ -3227,6 +3159,11 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
             'Attiva il sistema di archivio dei ticket per avere un sistema più veloce spostando alcuni ticket fuori dallo scopo giornaliero. Per cercare questi ticket, la flag archivio deve essere abilitata nella ricerca dei ticket.',
         'Activates time accounting.' => 'Attiva Rendicontazione Tempo.',
+        'ActivityID' => '',
+        'Added email. %s' => 'Email. %s aggiunta',
+        'Added link to ticket "%s".' => 'Aggiunto link alla richiesta "%s".',
+        'Added note (%s)' => 'Aggiunta nota (%s)',
+        'Added subscription for user "%s".' => 'Aggiunta sottoscrizione per l\'utente "%s".',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'Aggiunge un suffisso con l\'attuale anno e mese nel log di OTRS. Verrà creato un log per ogni mese.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
@@ -3240,6 +3177,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Aggiunge i giorni di vacanza permanenti. Si prega di usare una cifra sola per i numeri da 1 a 9 (invece di 01 - 09).',
         'Agent Notifications' => 'Notifiche degli agenti',
+        'Agent called customer.' => 'L\'operatore ha chiamato il cliente.',
         'Agent interface article notification module to check PGP.' => 'Modulo di notifica degli articoli dell\'interfaccia agente per il controllo PGP',
         'Agent interface article notification module to check S/MIME.' =>
             'Modulo di notifica degli articoli dell\'interfaccia agente per il controllo S/MIME',
@@ -3254,6 +3192,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             'Modulo dell\'interfaccia degli agenti per controllare il charset usato.',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
             'Modulo dell\'interfaccia degli agenti per vedere il numero di ticket di cui è responsabile l\'agente.',
+        'Agent interface notification module to see the number of tickets in My Services.' =>
+            '',
         'Agent interface notification module to see the number of watched tickets.' =>
             'Modulo dell\'interfaccia degli agenti per vedere il numero di ticket sotto osservazione.',
         'Agents <-> Groups' => 'Agenti <-> Gruppi',
@@ -3313,11 +3253,17 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             'Permette agli amministratori di effettuare l\'accesso come altri utenti, tramite il pannelo di amministrazione.',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             'Permette di impostare un nuovo stato di ticket nella schermata di movimento ticket dell\'interfaccia degli agenti.',
+        'Archive state changed: "%s"' => 'Aggiornamento Flag Archivio',
         'ArticleTree' => '',
         'Attachments <-> Templates' => '',
         'Auto Responses <-> Queues' => 'Risposte automatiche <-> Code',
+        'AutoFollowUp sent to "%s".' => 'Prosecuzione automatica inviata a "%s".',
+        'AutoReject sent to "%s".' => 'Rifiuto automatico inviato a "%s".',
+        'AutoReply sent to "%s".' => 'Risposta automatica inviata a "%s".',
         'Automated line break in text messages after x number of chars.' =>
             'A capo automatico nelle linee dopo X caratteri',
+        'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
+            '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
             'Prendi in carico automaticamente sull\'agente corrente dopo aver selezionato un\'azione multipla.',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled).' =>
@@ -3330,6 +3276,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             'Blocca tutte le email in entrata che non hanno un numero di ticket valdo nell\'oggetto con indirizzi Da: @esempio.com',
+        'Bounced to "%s".' => 'Rispedito a "%s".',
         'Builds an article index right after the article\'s creation.' =>
             'Costruisce un indice degli articoli subito dopo la creazione dell\'articolo.',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' =>
@@ -3350,6 +3297,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Change the free fields for this ticket' => 'Cambia i campi liberi per questa richiesta',
         'Change the priority for this ticket' => 'Cambia la priorità di questa richiesta',
         'Change the responsible person for this ticket' => '',
+        'Changed priority from "%s" (%s) to "%s" (%s).' => 'Priorita\' cambiata da "%s" (%s) a "%s" (%s).',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             'Cambia il proprietario del ticket a tutti (utile per ASP). Normalmente solo gli agenti con permessi R/W sulla coda del ticket verranno mostrati.',
         'Checkbox' => 'Caselle a scelta obbligata',
@@ -3366,6 +3314,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Columns that can be filtered in the responsible view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
+        'Columns that can be filtered in the service view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
+            '',
         'Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
         'Columns that can be filtered in the ticket search result view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
@@ -3381,6 +3331,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Configure and manage ACLs.' => '',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
+            '',
+        'Controls how to display the ticket history entries as readable values.' =>
             '',
         'Controls if customers have the ability to sort their tickets.' =>
             'Controlla se i clienti hanno la possibilità di ordinare i loro ticket.',
@@ -3419,10 +3371,12 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Customer User <-> Services' => '',
         'Customer User Administration' => 'Amministrazione utenti cliente',
         'Customer Users' => 'Utenti Cliente',
+        'Customer called us.' => 'Il cliente ha chiamato noi.',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
+        'Customer request via web.' => 'Richiesta del cliente via web.',
         'CustomerName' => '',
         'Customers <-> Groups' => 'Clienti <-> Gruppi',
         'Data used to export the search result in CSV format.' => 'Dati usati per esportare i risultati di ricerca in formato CSV',
@@ -3503,6 +3457,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
             'Definisce l\'aspetto del campo Da: delle email (inviate come risposte nei ticket email).',
         'Defines if a pre-sorting by priority should be done in the queue view.' =>
+            '',
+        'Defines if a pre-sorting by priority should be done in the service view.' =>
             '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Definisce se una presa in carico è necessaria nella schermata di chiusura ticket dell\'interfaccia degli agenti (se il ticket non è ancora preso in carico, il ticket viene preso in carico automaticamente e l\'agente viene automaticamente impostato come proprietario).',
@@ -3647,7 +3603,11 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             '',
+        'Defines the default sort criteria for all services displayed in the service view.' =>
+            '',
         'Defines the default sort order for all queues in the queue view, after priority sort.' =>
+            '',
+        'Defines the default sort order for all services in the service view, after priority sort.' =>
             '',
         'Defines the default spell checker dictionary.' => '',
         'Defines the default state of new customer tickets in the customer interface.' =>
@@ -3864,6 +3824,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having out-of-office active.' =>
             '',
+        'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
+            '',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             '',
         'Defines the module to generate html refresh headers of html sites, in the customer interface.' =>
@@ -3951,6 +3913,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Defines the placement of the legend. This should be a two letter key of the form: \'B[LCR]|R[TCB]\'. The first letter indicates the placement (Bottom or Right), and the second letter the alignment (Left, Right, Center, Top, or Bottom).' =>
             '',
         'Defines the postmaster default queue.' => '',
+        'Defines the priority in which the information is logged and presented.' =>
+            '',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -4028,6 +3992,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Defines, which tickets of which ticket state types should not be listed in linked ticket lists.' =>
             '',
+        'Deleted link to ticket "%s".' => 'Eliminato link alla richiesta "%s".',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -4141,6 +4106,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'DynamicField object registration.' => '',
         'Edit customer company' => '',
         'Email Addresses' => 'Indirizzi Email',
+        'Email sent to "%s".' => 'Email inviata a "%s".',
+        'Email sent to customer.' => 'Email inviata al cliente.',
         'Enable keep-alive connection header for SOAP responses.' => '',
         'Enabled filters.' => '',
         'Enables PDF output. The CPAN module PDF::API2 is required, if not installed, PDF output will be disabled.' =>
@@ -4165,6 +4132,16 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Enables ticket responsible feature, to keep track of a specific ticket.' =>
             '',
         'Enables ticket watcher feature only for the listed groups.' => '',
+        'Enroll this ticket into a process' => '',
+        'Escalation response time finished' => '',
+        'Escalation response time forewarned' => '',
+        'Escalation response time in effect' => '',
+        'Escalation solution time finished' => '',
+        'Escalation solution time forewarned' => '',
+        'Escalation solution time in effect' => '',
+        'Escalation update time finished' => '',
+        'Escalation update time forewarned' => '',
+        'Escalation update time in effect' => '',
         'Escalation view' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
@@ -4193,6 +4170,10 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' =>
             '',
+        'Filter for debugging ACLs. Note: More ticket attributes can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
+            '',
+        'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
+            '',
         'Filter incoming emails.' => 'Filtra email in ingresso',
         'FirstLock' => '',
         'FirstResponse' => '',
@@ -4200,13 +4181,17 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'FirstResponseInMin' => '',
         'Firstname Lastname' => '',
         'Firstname Lastname (UserLogin)' => '',
+        'FollowUp for [%s]. %s' => 'Prosecuzione per [%s]. %s',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
             '',
         'Forces to unlock tickets after being moved to another queue.' =>
             '',
+        'Forwarded to "%s".' => 'Inoltrato a "%s".',
         'Frontend language' => '',
+        'Frontend module registration (disable AgentTicketService link if Ticket Serivice feature is not used).' =>
+            '',
         'Frontend module registration (disable company link if no company feature is used).' =>
             '',
         'Frontend module registration (disable ticket processes screen if no process available) for Customer.' =>
@@ -4223,6 +4208,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
         'GenericInterface Operation GUI' => '',
+        'GenericInterface TransportHTTPREST GUI' => '',
         'GenericInterface TransportHTTPSOAP GUI' => '',
         'GenericInterface Web Service GUI' => '',
         'GenericInterface Webservice History GUI' => '',
@@ -4327,6 +4313,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             '',
+        'If enabled debugging information for ACLs is logged.' => '',
+        'If enabled debugging information for transitions is logged.' => '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             '',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
@@ -4397,12 +4385,15 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'List of all CustomerCompany events to be displayed in the GUI.' =>
             '',
         'List of all CustomerUser events to be displayed in the GUI.' => '',
+        'List of all DynamicField events to be displayed in the GUI.' => '',
         'List of all Package events to be displayed in the GUI.' => '',
         'List of all article events to be displayed in the GUI.' => '',
         'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
+        'Locked ticket.' => 'Richiesta bloccata.',
         'Log file for the ticket counter.' => '',
+        'Loop-Protection! No auto-response sent to "%s".' => 'Loop-Protection! Nessuna risposta automatica inviata a "%s".',
         'Mail Accounts' => '',
         'Main menu registration.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
@@ -4472,17 +4463,24 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Module to use database filter storage.' => '',
         'Multiselect' => '',
+        'My Services' => '',
         'My Tickets' => 'I miei ticket',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
+        'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
+            '',
         'NameX' => '',
+        'New Ticket [%s] created (Q=%s;P=%s;S=%s).' => 'Nuova richiesta [%s] creata (Q=%s;P=%s;S=%s).',
         'New email ticket' => 'Nuova richiesta da Email',
+        'New owner is "%s" (ID=%s).' => 'Nuovo operatore assegnato = "%s" (ID=%s).',
         'New phone ticket' => 'Nuova richiesta da telefonata',
         'New process ticket' => '',
+        'New responsible is "%s" (ID=%s).' => 'Aggiornamento responsabile',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
+        'Notification sent to "%s".' => 'Notifica inviata a "%s".',
         'Notifications (Event)' => 'Notifiche (Event)',
         'Number of displayed tickets' => 'Numero di richieste mostrate',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
@@ -4491,6 +4489,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
+        'Old: "%s" New: "%s"' => 'Vecchio: "%s" Nuovo: "%s"',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
@@ -4507,6 +4506,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
             '',
+        'Parameters for the CustomService object in the preference view of the agent interface.' =>
+            '',
         'Parameters for the FollowUpNotify object in the preference view of the agent interface.' =>
             '',
         'Parameters for the LockTimeoutNotify object in the preference view of the agent interface.' =>
@@ -4517,6 +4518,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Parameters for the RefreshTime object in the preference view of the agent interface.' =>
             '',
+        'Parameters for the ServiceUpdateNotify object in the preference view of the agent interface.' =>
+            '',
         'Parameters for the WatcherNotify object in the preference view of the agent interface.' =>
             '',
         'Parameters for the dashboard backend of the customer company information of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
@@ -4525,17 +4528,19 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Parameters for the dashboard backend of the customer user list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
-        'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
         'Parameters for the dashboard backend of the queue overview widget of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "QueuePermissionGroup" is not mandatory, queues are only listed if they belong to this permission group if you enable it. "States" is a list of states, the key is the sort order of the state in the widget. "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
+        'Parameters for the dashboard backend of the running process tickets overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+            '',
         'Parameters for the dashboard backend of the ticket calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
-        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
-        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
-        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
         'Parameters for the dashboard backend of the ticket stats of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
@@ -4573,6 +4578,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Process Management Path GUI' => '',
         'Process Management Transition Action GUI' => '',
         'Process Management Transition GUI' => '',
+        'ProcessID' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Provides a matrix overview of the tickets per state per queue.' =>
@@ -4582,6 +4588,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Refresh Overviews after' => 'Aggiornare Vista Globale dopo',
         'Refresh interval' => 'Intervallo di aggiornamento',
+        'Removed subscription for user "%s".' => 'Rimossa sottoscrizione per l\'utente "%s".',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
@@ -4626,6 +4633,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'S/MIME Certificate Upload' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
+        'Schedule a maintenance period.' => '',
         'Search Customer' => 'Ricerca cliente',
         'Search User' => '',
         'Search backend default router.' => '',
@@ -4636,7 +4644,16 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             '',
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscriptions.' =>
+            '',
+        'Send me a notification if the service of a ticket is changed to a service in "My Services" and the ticket is in a queue where I have read permissions.' =>
+            '',
+        'Send me a notification if there is a new ticket in my subscriptions.' =>
+            '',
+        'Send new ticket notifications if subscribed to:' => '',
         'Send notifications to users.' => '',
+        'Send service update notifications' => '',
+        'Send ticket follow up notifications if subscribed to:' => '',
         'Sender type for new tickets from the customer inteface.' => '',
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             '',
@@ -4648,6 +4665,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
             '',
+        'Service update notification' => '',
+        'Service view' => '',
         'Set sender email addresses for this system.' => '',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
@@ -4689,7 +4708,13 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Sets the default body text for notes added in the ticket responsible screen of the agent interface.' =>
             '',
+        'Sets the default error message for the login screen on Agent and Customer interface, it\'s shown when a running system maintenance period is active.' =>
+            '',
         'Sets the default link type of splitted tickets in the agent interface.' =>
+            '',
+        'Sets the default message for the login screen on Agent and Customer interface, it\'s shown when a running system maintenance period is active.' =>
+            '',
+        'Sets the default message for the notification is shown on a running system maintenance period.' =>
             '',
         'Sets the default next state for new phone tickets in the agent interface.' =>
             '',
@@ -4738,6 +4763,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Sets the maximum number of active sessions per customers within the timespan defined in SessionActiveTime.' =>
             '',
         'Sets the minimal ticket counter size (if "AutoIncrement" was selected as TicketNumberGenerator). Default is 5, this means the counter starts from 10000.' =>
+            '',
+        'Sets the minutes a notification is shown for notice about upcoming system maintenance period.' =>
             '',
         'Sets the number of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).' =>
             '',
@@ -4838,6 +4865,9 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Sets the user time zone per user based on java script / browser time zone offset feature at login time.' =>
             '',
+        'Should the cache data be help in memory?' => '',
+        'Should the cache data be stored in the selected cache backend?' =>
+            '',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
             '',
         'Show article as rich text even if rich text writing is disabled.' =>
@@ -4867,6 +4897,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Shows a link in the menu to delete a ticket in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Shows a link in the menu to delete a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
+            '',
+        'Shows a link in the menu to enroll a ticket into a process in the ticket zoom view of the agent interface.' =>
             '',
         'Shows a link in the menu to go back in the ticket zoom view of the agent interface.' =>
             '',
@@ -4936,6 +4968,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Shows a select of ticket attributes to order the queue view ticket list. The possible selections can be configured via \'TicketOverviewMenuSort###SortAttributes\'.' =>
             '',
         'Shows all both ro and rw queues in the queue view.' => '',
+        'Shows all both ro and rw tickets in the service view.' => '',
         'Shows all open tickets (even if they are locked) in the escalation view of the agent interface.' =>
             '',
         'Shows all open tickets (even if they are locked) in the status view of the agent interface.' =>
@@ -4954,6 +4987,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Shows existing parent/child queue lists in the system in the form of a tree or a list.' =>
             '',
+        'Shows information on how to start OTRS Scheduler' => '',
         'Shows the activated ticket attributes in the customer interface (0 = Disabled and 1 = Enabled).' =>
             '',
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
@@ -5007,6 +5041,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'SolutionDiffInMin' => '',
         'SolutionInMin' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
+            '',
+        'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
             '',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
             '',
@@ -5073,6 +5109,10 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
+        'Strips empty lines on the ticket preview in the service view.' =>
+            '',
+        'System Maintenance' => '',
+        'System Request (%s).' => 'Richiesta di sistema',
         'Templates <-> Queues' => '',
         'Textarea' => '',
         'The "bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.' =>
@@ -5123,10 +5163,12 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Ticket Queue Overview' => '',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
+        'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => 'Richiesta mossa nella coda "%s" (%s) dalla coda "%s" (%s).',
         'Ticket overview' => 'Vista Globale delle richieste',
         'TicketNumber' => '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
+        'Title updated: Old: "%s", New: "%s"' => 'Aggiornamento Titolo Ticket',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => '',
@@ -5136,9 +5178,15 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
             '',
+        'Unlocked ticket.' => 'Richiesta lasciata.',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '',
         'Update and extend your system with software packages.' => '',
+        'Updated SLA to %s (ID=%s).' => 'SLA aggiornato: %s (ID=%s).',
+        'Updated Service to %s (ID=%s).' => 'Servizio aggiornato: %s (ID=%s).',
+        'Updated Type to %s (ID=%s).' => 'Tipo Ticket aggiornato: %s (ID=%s).',
+        'Updated: %s' => 'Aggiornato: %s',
+        'Updated: %s=%s;%s=%s;%s=%s;' => 'Aggiornato: %s=%s;%s=%s;%s=%s;',
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             '',
         'Updates the ticket index accelerator.' => '',
@@ -5161,99 +5209,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'La vostra selezione delle code preferite. Se attivato, sarete anche notificati delle modifiche su questa coda',
-
-        #
-        # OBSOLETE ENTRIES FOR REFERENCE, DO NOT TRANSLATE!
-        #
-        ' (work units)' => ' (unità di lavoro)',
-        'A response is a default text which helps your agents to write faster answers to customers.' =>
-            'Una risposta è costituita dal testo standard per facilitare gli agenti nella risposta ai clienti.',
-        'Add Customer Company' => 'Aggiungi Società Cliente',
-        'Add Response' => 'Aggiungi risposta',
-        'Add customer company' => 'Aggiungi Società Cliente',
-        'Add response' => 'Aggiungi risposta',
-        'Adds customers email addresses to recipients in the ticket compose screen of the agent interface.' =>
-            'Aggiunge gli indirizzi email dei clienti per i destinatari nella schermata di composizione del ticket dell\'interfaccia dell\'agente.',
-        'Allows extended search conditions in ticket search of the agent interface. With this feature you can search w. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
-            'Permette di usare le condizioni avanzate di ricerca nell\'interfaccia degli agenti. Con questa funzione si può cercare con condizioni del tipo "(chiave1&&chiave2)" o "(chiave1||chiave2)"',
-        'Attachments <-> Responses' => 'Allegati <-> Risposte',
-        'Change Attachment Relations for Response' => 'Cambia relazioni degli allegati per le risposte',
-        'Change Queue Relations for Response' => 'Cambia le relazioni delle code con la risposta',
-        'Change Response Relations for Attachment' => 'Cambia relazioni delle risposte per gli allegati',
-        'Change Response Relations for Queue' => 'Cambia le relazioni delle risposte con la coda',
-        'Closed tickets of customer' => 'Richieste completate per il cliente',
-        'Company name for the customer web interface. Will also be included in emails as an X-Header.' =>
-            'Nome società per interfaccia web. Viene incluso nelle email come X-Header.',
-        'Complete registration and continue' => 'Completa la registrazione e prosegui',
-        'Configures the full-text index. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
-            'Configura l\'indice full-text. Eseguire "bin/otrs.RebuildFulltextIndex.pl" per generare un nuovo indice.',
-        'Create and manage companies.' => 'Crea e gestisce le compagnie',
-        'Create and manage response templates.' => 'Crea e gestisce i template di risposta.',
-        'Currently only MySQL is supported in the web installer.' => 'Momentaneamente è supportato sulo MySQL dall\'installer web.',
-        'Customer Company' => 'Società del Cliente',
-        'Customer Company Administration' => 'Amministrazione società cliente',
-        'Customer Company Information' => 'Informazioni società cliente',
-        'Customer Company Management' => 'Gestione Società Cliente',
-        'Customer Data' => 'Dati del cliente',
-        'Customer will be needed to have a customer history and to login via customer panel.' =>
-            'Il cliente necessiterà di uno storico, e di effettuare il login tramite il pannello cliente.',
-        'CustomerID Search' => 'Ricerca per Identificativo Cliente',
-        'CustomerUser Search' => 'Ricerca per Cliente',
-        'Customers <-> Services' => 'Clienti <-> Servizi',
-        'Database-User' => 'Utente DB',
-        'Default skin for interface.' => 'Tema di default per l\'interfaccia.',
-        'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=$Data{"CustomerID"}\' or \'\').' =>
-            'Definisce un link esterno al database del cliente (e.g. \'http://yourhost/customer.php=CID=$Data{"CustomerID"}\' o \'\'.',
-        'Did not find a required feature? OTRS Group provides their subscription customers with exclusive Add-Ons:' =>
-            'Non hai trovato una feature ? il Gruppo OTRS offre ai clienti paganti degli addon esclusivi:',
-        'Don\'t forget to add new responses to queues.' => 'Non dimentare di aggiungere nuove risposte standard alle code',
-        'Edit Customer Company' => 'Modifica Società Cliente',
-        'Edit Response' => 'Modifica risposta',
-        'Escalation in' => 'Escalation in',
-        'False' => 'Falso',
-        'Filter for Responses' => 'Filtro per le risposte',
-        'Filter name' => 'Nome del filtro',
-        'For more info see:' => 'Per maggior informazioni vedi:',
-        'From customer' => 'Dal cliente',
-        'Fulltext search' => 'Ricerca testo libero',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
-            'Se hei una passwd per accesso al db , devi inserirla qui. Se no lascia il campo vuoto. Per maggiori info sulla sicurezza sul db consulta il manuale ',
-        'If you want to install OTRS on another database type, please refer to the file README.database.' =>
-            'Se si desidera installare OTRS su un altro database, riferirsi al file README.database',
-        'Log file location is only needed for File-LogModule!' => 'La posizione del file di log serve solo per File-LogModule!',
-        'Logout %s' => 'Disconnessione %s',
-        'Logout successful. Thank you for using OTRS!' => 'Disconnessione avvenuta con successo. Grazie per aver usato OTRS!',
-        'Manage Response-Queue Relations' => 'Imposta le relazioni Risposta-Coda',
-        'Manage Responses' => 'Gestione risposte',
-        'Manage Responses <-> Attachments Relations' => 'Gestisci relazioni Risposte <-> Allegati',
-        'Only for ArticleCreate event' => 'Solo per l\'evento ArticleCreate',
-        'Open tickets of customer' => 'Richieste aperte per il cliente',
-        'Package verification failed!' => 'Verifica del pacchetto fallita! ',
-        'Password is required.' => 'La password è obbligatoria',
-        'Please enter a search term to look for customer companies.' => 'Inserire una chiave di ricerca per le aziende dei clienti.',
-        'Please fill in all fields marked as mandatory.' => 'Completare tutti i campi obbligatori',
-        'Please supply a' => 'Si prega di inserire un',
-        'Please supply a first name' => 'Si prega di inserire un nome',
-        'Please supply a last name' => 'Si prega di inserire un cognome',
-        'Position' => 'Ruolo',
-        'Registration' => 'Registrazione',
-        'Responses' => 'Risposte',
-        'Responses <-> Queues' => 'Risposte <-> Code',
-        'Search for customers.' => 'Ricerca clienti.',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' =>
-            'La Modalita Sicura deve essere tolta per installare usando il web-installer.',
-        'Show  article' => 'Mostra Articolo',
-        'Synchronize All Processes' => 'Sincronizza tutti i Processi',
-        'There are currently no steps available for this process.' => 'Al momento non ci sono attività disponibili per questo processo.',
-        'There are no further steps in this process' => 'Non ci sono ulteriori attività in questo processo',
-        'Ticket Action' => 'Azione ticket',
-        'Ticket Commands' => 'Comandi Ticket',
-        'To customer' => 'Al cliente',
-        'Welcome %s' => 'Benvenuto/a %s',
-        'Welcome to %s' => 'Benvenuto in %s',
-        'before' => 'precedente',
-        'default \'hot\'' => '\'hot\' predefinito',
-        'settings' => 'Configura',
+        'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
+            '',
 
     };
     # $$STOP$$
