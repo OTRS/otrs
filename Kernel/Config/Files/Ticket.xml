@@ -8533,10 +8533,8 @@
             <Hash>
                 <Item Key="Ticket">Ticket</Item>
                 <Item Key="Action">Action</Item>
-                <!-- Not Implemented Yet
                 <Item Key="ActivityDialog">ActivityDialog</Item>
                 <Item Key="Process">Process</Item>
-                -->
             </Hash>
         </Setting>
     </ConfigItem>
