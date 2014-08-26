@@ -594,8 +594,8 @@ sub ShowTicketStatus {
         for my $ArticleID ( reverse @ArticleIDs ) {
             my %CurrentArticle = $Self->{TicketObject}->ArticleGet( ArticleID => $ArticleID );
 
-            # check for non-internal article
-            next ARTICLEID if $CurrentArticle{ArticleType} =~ m{internal}smx;
+            # check for non-internal and non-chat article
+            next ARTICLEID if $CurrentArticle{ArticleType} =~ m{internal|chat}smx;
 
             # check for customer article
             if ( $CurrentArticle{SenderType} eq 'customer' ) {

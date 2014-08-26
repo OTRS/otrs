@@ -14,12 +14,12 @@
 <div id="Navigation">
     <ul>
 [% RenderBlockStart("Item") %]
-        <li class="[% Data.Class | html %]" title="[% Translate(Data.Description) | html %]">
-            <a href="[% Env("Baselink") %][% Data.Link %]" accesskey="[% Data.AccessKey | html %]" title="[% Translate(Data.Name) | html %] ([% Data.AccessKey | html %])">[% Translate(Data.Name) | html %]</a>
+        <li class="[% Data.Class | html %]">
+            <a href="[% Env("Baselink") %][% Data.Link %]" accesskey="[% Data.AccessKey | html %]" title="[% Translate(Data.Description || Data.Name) | html %] ([% Data.AccessKey | html %])" [% Data.LinkOption %]>[% Translate(Data.Name) | html %]</a>
 [% RenderBlockStart("ItemAreaSub") %]
             <ul>
 [% RenderBlockStart("ItemAreaSubItem") %]
-                <li><a class="[% Data.Class | html %]" href="[% Env("Baselink") %][% Data.Link %]" accesskey="[% Data.AccessKey | html %]" title="[% Translate(Data.Name) | html %] ([% Data.AccessKey | html %])">[% Translate(Data.Name) | html %]</a></li>
+                <li><a class="[% Data.Class | html %]" href="[% Env("Baselink") %][% Data.Link %]" accesskey="[% Data.AccessKey | html %]" title="[% Translate(Data.Description || Data.Name) | html %] ([% Data.AccessKey | html %])"  [% Data.LinkOption %]>[% Translate(Data.Name) | html %]</a></li>
 [% RenderBlockEnd("ItemAreaSubItem") %]
                 <li class="Footer"></li>
             </ul>
@@ -28,6 +28,45 @@
 [% RenderBlockEnd("Item") %]
     </ul>
     <ul class="Individual">
+[% RenderBlockStart("ChatRequests") %]
+        <li class="ChatRequests [% Data.Class | html %]">
+            <a href="[% Env("Baselink") %]Action=CustomerChat;Subaction=ChatOverview;Filter=IncomingChatRequests;" title="[% Translate("Incoming Chat Requests") %]"><i class="fa fa-comments-o"></i> (<span class="Counter">[% Data.Count | html %]</span>)</a>
+        </li>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    window.setInterval(function() {
+
+        var Data = {
+            Action: 'CustomerChat',
+            Subaction: 'ChatGetOpenRequests'
+        };
+
+        Core.AJAX.FunctionCall(
+            Core.Config.Get('Baselink'),
+            Data,
+            function(Response) {
+
+                if (!Response || parseInt(Response, 10) < 1) {
+                    $('.Individual .ChatRequests').fadeOut(function() {
+                        $(this).addClass('Hidden');
+                    });
+                }
+                else {
+                    $('.Individual .ChatRequests')
+                        .fadeIn(function() {
+                            $(this).removeClass('Hidden');
+                        })
+                        .find('.Counter')
+                        .text(Response);
+                }
+            },
+            'json'
+        );
+
+    }, 10000);
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ChatRequests") %]
 [% RenderBlockStart("Preferences") %]
         <li class="[% Data.Class | html %]"><a href="[% Env("Baselink") %]Action=CustomerPreferences" title="[% Translate("Edit personal preferences") | html %]">[% Translate("Preferences") | html %]</a></li>
 [% RenderBlockEnd("Preferences") %]

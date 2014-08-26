@@ -8372,7 +8372,7 @@
                     <NavBar>Ticket</NavBar>
                     <Link>Action=CustomerTicketOverview;Subaction=CompanyTickets</Link>
                     <LinkOption></LinkOption>
-                    <AccessKey>c</AccessKey>
+                    <AccessKey>M</AccessKey>
                     <Prio>120</Prio>
                 </NavBar>
             </FrontendModuleReg>

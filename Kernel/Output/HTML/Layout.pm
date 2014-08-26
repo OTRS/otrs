@@ -21,6 +21,9 @@ use Kernel::System::VariableCheck qw(:all);
 use Storable;
 use URI::Escape qw();
 
+## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
+# Chat may not be declared as external dependency and is only needed on demand
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Language',
@@ -3610,6 +3613,29 @@ sub CustomerNavigationBar {
             $Self->Block(
                 Name => 'Preferences',
                 Data => \%Param,
+            );
+        }
+
+        # show open chat requests (if chat engine is active)
+        if ( $Self->{ConfigObject}->Get('ChatEngine::Active') ) {
+
+            my $ChatObject = $Kernel::OM->Get('Kernel::System::Chat');
+            my $Chats      = $ChatObject->ChatList(
+                Status        => 'request',
+                TargetType    => 'Customer',
+                ChatterID     => $Self->{UserID},
+                ChatterType   => 'Customer',
+                ChatterActive => 0,
+            );
+
+            my $Count = scalar $Chats;
+
+            $Self->Block(
+                Name => 'ChatRequests',
+                Data => {
+                    Count => $Count,
+                    Class => ($Count) ? '' : 'Hidden',
+                },
             );
         }
     }

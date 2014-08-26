@@ -245,9 +245,13 @@
                                         </tr>
                                     </table>
 [% Data.TextNote %]
+[% IF Data.IsChat == 1 %]
+[% INCLUDE "ChatDisplay.tt" %]
+[% ELSE %]
                                     <pre>
 [% Data.Body %]
                                     </pre>
+[% END %]
                                 </td>
                             </tr>
                         </table>

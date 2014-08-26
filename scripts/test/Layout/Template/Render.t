@@ -262,6 +262,26 @@ b1
 ',
     },
     {
+        Name => 'Block with single quotes',
+        Data => {
+            Title => 'Template',
+        },
+        BlockData => [
+            {
+                Name => 'b1',
+                Data => { Title => 'b1', },
+            },
+        ],
+        Template  => "
+[% RenderBlockStart('b1') %]
+[% Data.Title %]
+[% RenderBlockEnd('b1') %]
+",
+        Result => '
+b1
+',
+    },
+    {
         Name     => 'JSOnDocumentComplete 1',
         Template => '
 [% WRAPPER JSOnDocumentComplete -%]

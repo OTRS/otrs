@@ -39,13 +39,16 @@
         <tr>
             <td>
 [% RenderBlockStart("ContentLargeCustomerUserListRowCustomerKeyLink") %]
-                <a href="[% Env("Baselink") %]Action=AdminCustomerUser;Subaction=Change;ID=[% Data.CustomerKey | uri %];Nav=Agent" class="AsBlock MasterActionLink">
+                <a href="[% Env("Baselink") %]Action=AdminCustomerUser;Subaction=Change;ID=[% Data.CustomerKey | uri %];Nav=Agent" class="MasterActionLink">
                     [% Data.CustomerKey | html %]
                 </a>
 [% RenderBlockEnd("ContentLargeCustomerUserListRowCustomerKeyLink") %]
 [% RenderBlockStart("ContentLargeCustomerUserListRowCustomerKeyText") %]
                 [% Data.CustomerKey | html %]
 [% RenderBlockEnd("ContentLargeCustomerUserListRowCustomerKeyText") %]
+[% RenderBlockStart("ContentLargeCustomerUserListRowCustomerKeyChatStart") %]
+                <a href="#" title="[% Translate("Start Chat") %]" class="CreateChatRequest" data-user-type="Customer" data-user-id="[% Data.UserID | html %]" data-user-fullname="[% Data.UserFullname | html %]"><i class="fa fa-comments-o"></i></a>
+[% RenderBlockEnd("ContentLargeCustomerUserListRowCustomerKeyChatStart") %]
             </td>
             <td>
                 [% Data.CustomerListEntry | html %]
@@ -94,6 +97,40 @@
 [% RenderBlockEnd("ContentLargeCustomerUserListNone") %]
     </tbody>
 </table>
+
+[% INCLUDE "ChatStartForm.tt" %]
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('a.CreateChatRequest').bind('click', function() {
+        var UserID = $(this).data('user-id'),
+            $Dialog = $('#DashboardUserOnlineChatStartDialog').clone();
+
+        $Dialog.find('input[name=ChatStartUserID]').val($(this).data('user-id'));
+        $Dialog.find('input[name=ChatStartUserType]').val($(this).data('user-type'));
+        $Dialog.find('input[name=ChatStartUserFullname]').val($(this).data('user-fullname'));
+
+        Core.UI.Dialog.ShowContentDialog($Dialog.html(), [% Translate('Start chat') | JSON %], '100px', 'Center', true);
+
+        // Only enable button if there is a message
+        $('.Dialog input[name="ChatStartFirstMessage"]').on('keyup', function(){
+            $('.Dialog button').prop('disabled', $(this).val().length ? false : true );
+        });
+
+        $('.Dialog form').on('submit', function(){
+            if (!$('.Dialog input[name=ChatStartFirstMessage]').val().length) {
+                return false;
+            }
+            // Close after submit
+            window.setTimeout(function(){
+                Core.UI.Dialog.CloseDialog($('.Dialog'));
+            }, 1);
+        });
+
+        return false;
+    });
+//]]></script>
+[% END %]
 
 [% RenderBlockStart("ContentLargeTicketGenericRefresh") %]
 [% WRAPPER JSOnDocumentComplete %]

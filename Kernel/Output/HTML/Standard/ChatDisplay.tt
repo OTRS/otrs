@@ -1,0 +1,22 @@
+# --
+# ChatDisplay.tt - provides HTML include for chat display
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="ArticleChat">
+[% FOREACH Line IN Data.ChatMessages %]
+    <div>
+        <div class="[% IF Line.ChatterID == Env('UserID') %]Own[% ELSE %]Foreign[% END %][% IF Line.SystemGenerated %] SystemGenerated[% END %]">
+            <span class="Time">[[% Line.CreateTime | html %]]</span>
+            <span>
+                <span class="Name">[% Line.ChatterName | html %]</span>
+                <span class="Text">[% Line.MessageText | html %]</span>
+            </span>
+        </div>
+    </div>
+[% END %]
+</div>

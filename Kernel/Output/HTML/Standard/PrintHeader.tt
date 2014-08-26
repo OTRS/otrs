@@ -260,6 +260,45 @@ fieldset.TableLike.FixedLabelSmall > .Value {
     margin-right: 100px;
 }
 
+/**
+ * @subsection  Chat
+ */
+
+.ArticleChat {
+    margin-top: 10px;
+}
+
+.ArticleChat .Name {
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.ArticleChat .Time {
+    padding-right: 5px;
+    color: #888;
+}
+
+.ArticleChat .SystemGenerated .Name {
+    display: none;
+}
+
+.ArticleChat .SystemGenerated .Text {
+    font-style: italic;
+    color: #888;
+}
+
+.ArticleChat > div {
+    display: table;
+}
+
+.ArticleChat > div > div {
+    display: table-row;
+}
+
+.ArticleChat > div > div > span {
+    display: table-cell;
+}
+
 </style>
 </head>
 <body class="[% Data.BodyClass | html %]" onload="window.print();">

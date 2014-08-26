@@ -208,10 +208,14 @@
                                             <td class="contentvalue"> [% Data.item("Article::ATM") %]</td>
                                         </tr>
                                     </table>
+[% IF Data.IsChat == 1 %]
+[% INCLUDE "ChatDisplay.tt" %]
+[% ELSE %]
 [% Data.TextNote %]
                                     <pre>
 [% Data.Body %]
                                     </pre>
+[% END %]
                                 </td>
                             </tr>
                         </table>

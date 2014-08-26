@@ -911,6 +911,9 @@ $('#[% Data.FormID | html %] select[name=ResponseID]').bind('change', function (
                     <iframe sandbox="allow-same-origin allow-popups" [% Data.MSSecurityRestricted %] width="100%" frameborder="0" id="Iframe[% Data.ArticleID | html %]" onload="window.setTimeout( function (){ if (typeof Core === 'object' && typeof Core.Agent === 'object' && typeof Core.Agent.TicketZoom === 'object') { Core.Agent.TicketZoom.IframeAutoHeight($('#Iframe[% Data.ArticleID | html %]')); } }, 500);" src="[% Env("Baselink") %]Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=[% Data.ArticleID | html %];FileID=[% Data.AttachmentIDOfHTMLBody | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]"></iframe>
                 </div>
 [% RenderBlockEnd("BodyHTML") %]
+[% RenderBlockStart("BodyChat") %]
+[% INCLUDE "ChatDisplay.tt" %]
+[% RenderBlockEnd("BodyChat") %]
             </div>
         </div>
     </div>
@@ -933,12 +936,43 @@ $('#[% Data.FormID | html %] select[name=ResponseID]').bind('change', function (
 [% RenderBlockEnd("TicketItemMarkAsSeen") %]
 
 [% RenderBlockStart("TicketZoomInit") %]
+
+[% INCLUDE "ChatStartForm.tt" %]
+
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     Core.Agent.TicketZoom.Init({ ArticleTableHeight: parseInt('[% Env("UserTicketZoomArticleTableHeight") %]', 10)});
     Core.Config.Set('Ticket::Frontend::HTMLArticleHeightDefault', parseInt("[% Config("Ticket::Frontend::HTMLArticleHeightDefault") %]" || 0, 10));
     Core.Config.Set('Ticket::Frontend::HTMLArticleHeightMax', parseInt("[% Config("Ticket::Frontend::HTMLArticleHeightMax") %]" || 0, 10));
     Core.Config.Set('Language.AttachmentViewMessage', '[% Translate('Article could not be opened! Perhaps it is on another article page?') %]');
+
+    $('a.CreateChatRequest').bind('click', function() {
+        var UserID = $(this).data('user-id'),
+            $Dialog = $('#DashboardUserOnlineChatStartDialog').clone();
+
+        $Dialog.find('input[name=ChatStartUserID]').val($(this).data('user-id'));
+        $Dialog.find('input[name=ChatStartUserType]').val($(this).data('user-type'));
+        $Dialog.find('input[name=ChatStartUserFullname]').val($(this).data('user-fullname'));
+
+        Core.UI.Dialog.ShowContentDialog($Dialog.html(), [% Translate('Start chat') | JSON %], '100px', 'Center', true);
+
+        // Only enable button if there is a message
+        $('.Dialog input[name="ChatStartFirstMessage"]').on('keyup', function(){
+            $('.Dialog button').prop('disabled', $(this).val().length ? false : true );
+        });
+
+        $('.Dialog form').on('submit', function(){
+            if (!$('.Dialog input[name=ChatStartFirstMessage]').val().length) {
+                return false;
+            }
+            // Close after submit
+            window.setTimeout(function(){
+                Core.UI.Dialog.CloseDialog($('.Dialog'));
+            }, 1);
+        });
+
+        return false;
+    });
 //]]></script>
 [% END %]
 [% RenderBlockEnd("TicketZoomInit") %]

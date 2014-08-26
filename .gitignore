@@ -99,7 +99,10 @@ Kernel/Modules/AgentTicketAttachmentView.pm
 Kernel/System/*Chat*
 Kernel/Output/HTML/*Chat*
 Kernel/Output/HTML/TicketMenuAttachmentView.pm
-Kernel/Output/HTML/Standard/*Chat*
+Kernel/Output/HTML/Standard/AgentChat.tt
+Kernel/Output/HTML/Standard/AgentChatAppend.tt
+Kernel/Output/HTML/Standard/CustomerChat.tt
+Kernel/Output/HTML/Standard/PublicChat.tt
 Kernel/Output/HTML/Standard/AgentTicketAttachmentView.tt
 scripts/test/Chat
 var/httpd/htdocs/js/*Chat*

@@ -1,0 +1,22 @@
+# --
+# ChatStartForm.tt - provides HTML the chat starting form
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div id="DashboardUserOnlineChatStartDialog" class="Hidden">
+    <div id="ChatStartDialog">
+        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" target="OTRSAgentChat">
+            <input type="hidden" name="Action" value="AgentChat" />
+            <input type="hidden" name="Subaction" value="ChatStart" />
+            <input type="hidden" name="ChatStartUserID" />
+            <input type="hidden" name="ChatStartUserType" />
+            <input type="hidden" name="ChatStartUserFullname" />
+            <input type="text"   name="ChatStartFirstMessage" placeholder="[% Translate('First message') | html %]" />
+            <button type="submit" class="CallForAction Primary" disabled="disabled"><span>[% Translate('Start Chat') | html %]</span></button>
+        </form>
+    </div>
+</div>

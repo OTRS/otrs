@@ -23,6 +23,7 @@ use Kernel::System::ProcessManagement::Process;
 use Kernel::System::ProcessManagement::Transition;
 use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::SystemAddress;
+use Kernel::System::JSON;
 
 use Kernel::System::VariableCheck qw(:all);
 use POSIX qw/ceil/;
@@ -85,6 +86,7 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{LinkObject}         = Kernel::System::LinkObject->new(%Param);
     $Self->{SystemAddress}      = Kernel::System::SystemAddress->new(%Param);
+    $Self->{JSONObject}         = Kernel::System::JSON->new(%Param);
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
@@ -1911,7 +1913,7 @@ sub _ArticleItem {
     my %AclActionLookup = reverse %AclAction;
 
     # select the output template
-    if ( $Article{ArticleType} !~ /^(note|email-noti)/i ) {
+    if ( $Article{ArticleType} !~ /^(note|email-noti|chat)/i ) {
 
         # check if compose link should be shown
         if (
@@ -2234,6 +2236,7 @@ sub _ArticleItem {
     if (
         $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhone}
         && ( $AclActionLookup{AgentTicketPhone} )
+        && $Article{ArticleType} !~ /^(chat-external|chat-internal)$/i
         )
     {
         $Self->{LayoutObject}->Block(
@@ -2616,46 +2619,60 @@ sub _ArticleItem {
         }
     }
 
-    # show body as html or plain text
-    my $ViewMode = 'BodyHTML';
+    if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' ) {
 
-    # in case show plain article body (if no html body as attachment exists of if rich
-    # text is not enabled)
-    if ( !$Self->{RichText} || !$Article{AttachmentIDOfHTMLBody} ) {
-        $ViewMode = 'BodyPlain';
-
-        # remember plain body for further processing by ArticleViewModules
-        $Article{BodyPlain} = $Article{Body};
-
-        # html quoting
-        $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
-            NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
-            Text           => $Article{Body},
-            VMax           => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
-            HTMLResultMode => 1,
-            LinkFeature    => 1,
+        $Self->{LayoutObject}->Block(
+            Name => 'BodyChat',
+            Data => {
+                ChatMessages => $Self->{JSONObject}->Decode(
+                    Data => $Article{Body},
+                ),
+            },
         );
     }
-
-    # security="restricted" may break SSO - disable this feature if requested
-    if ( $Self->{ConfigObject}->Get('DisableMSIFrameSecurityRestricted') ) {
-        $Article{MSSecurityRestricted} = '';
-    }
     else {
-        $Article{MSSecurityRestricted} = 'security="restricted"';
-    }
 
-    # show body
-    # Create a reference to an anonymous copy of %Article and pass it to
-    # the LayoutObject, because %Article may be modified afterwards.
-    $Self->{LayoutObject}->Block(
-        Name => $ViewMode,
-        Data => {%Article},
-    );
+        # show body as html or plain text
+        my $ViewMode = 'BodyHTML';
 
-    # restore plain body for further processing by ArticleViewModules
-    if ( !$Self->{RichText} || !$Article{AttachmentIDOfHTMLBody} ) {
-        $Article{Body} = $Article{BodyPlain};
+        # in case show plain article body (if no html body as attachment exists of if rich
+        # text is not enabled)
+        if ( !$Self->{RichText} || !$Article{AttachmentIDOfHTMLBody} ) {
+            $ViewMode = 'BodyPlain';
+
+            # remember plain body for further processing by ArticleViewModules
+            $Article{BodyPlain} = $Article{Body};
+
+            # html quoting
+            $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
+                NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
+                Text           => $Article{Body},
+                VMax           => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
+                HTMLResultMode => 1,
+                LinkFeature    => 1,
+            );
+        }
+
+        # security="restricted" may break SSO - disable this feature if requested
+        if ( $Self->{ConfigObject}->Get('DisableMSIFrameSecurityRestricted') ) {
+            $Article{MSSecurityRestricted} = '';
+        }
+        else {
+            $Article{MSSecurityRestricted} = 'security="restricted"';
+        }
+
+        # show body
+        # Create a reference to an anonymous copy of %Article and pass it to
+        # the LayoutObject, because %Article may be modified afterwards.
+        $Self->{LayoutObject}->Block(
+            Name => $ViewMode,
+            Data => {%Article},
+        );
+
+        # restore plain body for further processing by ArticleViewModules
+        if ( !$Self->{RichText} || !$Article{AttachmentIDOfHTMLBody} ) {
+            $Article{Body} = $Article{BodyPlain};
+        }
     }
 
     return 1;

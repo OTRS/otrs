@@ -146,6 +146,9 @@
 #                           <!-- Here we need to append the session info if cookies are disabled, because the layout object cannot automatically do that here, like in the other iframe (only for src attribute). -->
                             <iframe sandbox="allow-same-origin" [% Data.MSSecurityRestricted %] src="about:blank" frameborder="0" title="[% Env("Baselink") %]Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=[% Data.ArticleID | html %];FileID=[% Data.AttachmentIDOfHTMLBody | html %];[% Data.SessionInformation | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]"></iframe>
 [% RenderBlockEnd("BodyHTMLPlaceholder") %]
+[% RenderBlockStart("BodyChat") %]
+[% INCLUDE "ChatDisplay.tt" %]
+[% RenderBlockEnd("BodyChat") %]
                         </div>
                     </div>
                 </li>

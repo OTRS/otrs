@@ -17,6 +17,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
+use Kernel::System::JSON;
 use Kernel::System::VariableCheck qw(:all);
 
 sub new {
@@ -44,6 +45,7 @@ sub new {
     $Self->{PDFObject}          = Kernel::System::PDF->new(%Param);
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{JSONObject}         = Kernel::System::JSON->new(%Param);
 
     # get dynamic field config for frontend module
     $Self->{DynamicFieldFilter}
@@ -1091,6 +1093,24 @@ sub _PDFOutputArticles {
             }
         }
 
+        if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' ) {
+            $Article{Body} = $Self->{JSONObject}->Decode(
+                Data => $Article{Body}
+            );
+            my $Lines;
+            if (IsArrayRefWithData($Article{Body})) {
+                for my $Line (@{$Article{Body}}) {
+                    if ($Line->{SystemGenerated}) {
+                        $Lines .= '[' . $Line->{CreateTime} . '] ' . $Line->{MessageText} ."\n";
+                    }
+                    else {
+                        $Lines .= '[' . $Line->{CreateTime} . '] ' . $Line->{ChatterName} . ' ' . $Line->{MessageText} ."\n";
+                    }
+                }
+            }
+            $Article{Body} = $Lines;
+        }
+
         # table params (article body)
         my %TableParam2;
         $TableParam2{CellData}[0][0]{Content} = $Article{Body} || ' ';
@@ -1279,25 +1299,35 @@ sub _HTMLMask {
                 . "$File{Filename}</a> $File{Filesize}<br/>";
         }
 
-        # check if just a only html email
-        my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(
-            %Param,
-            %Article,
-            Action => 'AgentTicketZoom',
-        );
-        if ($MimeTypeText) {
-            $Param{TextNote} = $MimeTypeText;
-            $Article{Body}   = '';
+        if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' ) {
+            $Article{ChatMessages} = $Self->{JSONObject}->Decode(
+                Data => $Article{Body},
+            );
+            $Article{IsChat} = 1;
         }
         else {
 
-            # html quoting
-            $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
-                NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
-                Text    => $Article{Body},
-                VMax    => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
+            # check if just a only html email
+            my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(
+                %Param,
+                %Article,
+                Action => 'AgentTicketZoom',
             );
+            if ($MimeTypeText) {
+                $Param{TextNote} = $MimeTypeText;
+                $Article{Body}   = '';
+            }
+            else {
+
+                # html quoting
+                $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
+                    NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
+                    Text    => $Article{Body},
+                    VMax    => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
+                );
+            }
         }
+
         $Self->{LayoutObject}->Block(
             Name => 'Article',
             Data => { %Param, %Article },

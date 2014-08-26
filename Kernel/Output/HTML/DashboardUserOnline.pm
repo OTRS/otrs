@@ -260,6 +260,37 @@ sub Run {
     my $Count      = 0;
     my $Limit      = $LayoutObject->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
 
+    # Check if agent has permission to start chats with the listed users
+    my $EnableChat = 1;
+    my $ChatStartingAgentsGroup
+        = $Self->{ConfigObject}->Get('ChatEngine::PermissionGroup::ChatStartingAgents');
+    my $ChatReceivingAgentsGroup
+        = $Self->{ConfigObject}->Get('ChatEngine::PermissionGroup::ChatReceivingAgents');
+
+    if (
+        !$Self->{ConfigObject}->Get('ChatEngine::Active')
+        || !$Self->{LayoutObject}->{"UserIsGroup[$ChatStartingAgentsGroup]"}
+        )
+    {
+        $EnableChat = 0;
+    }
+    if (
+        $EnableChat
+        && $Self->{Filter} eq 'Agent'
+        && !$Self->{ConfigObject}->Get('ChatEngine::ChatDirection::AgentToAgent')
+        )
+    {
+        $EnableChat = 0;
+    }
+    if (
+        $EnableChat
+        && $Self->{Filter} eq 'Customer'
+        && !$Self->{ConfigObject}->Get('ChatEngine::ChatDirection::AgentToCustomer')
+        )
+    {
+        $EnableChat = 0;
+    }
+
     USERID:
     for my $UserID ( sort { $OnlineUser{$a} cmp $OnlineUser{$b} } keys %OnlineUser ) {
 
@@ -272,9 +303,32 @@ sub Run {
         # extract user data
         my $UserData = $OnlineData{$UserID};
 
+        # we also need to check if the receiving agent has chat permissions
+        if ( $EnableChat && $Self->{Filter} eq 'Agent' && $Self->{UserID} != $UserData->{UserID} ) {
+
+            my %UserGroups = $Self->{GroupObject}->GroupGroupMemberList(
+                UserID => $UserData->{UserID},
+                Type   => 'rw',
+                Result => 'HASH',
+            );
+
+            $EnableChat = 0;
+
+            GROUPS:
+            for my $GroupID ( sort keys %UserGroups ) {
+                if ( $UserGroups{$GroupID} eq $ChatReceivingAgentsGroup ) {
+                    $EnableChat = 1;
+                    last GROUPS;
+                }
+            }
+        }
+
         $LayoutObject->Block(
             Name => 'ContentSmallUserOnlineRow',
-            Data => $UserData,
+            Data => {
+                %{$UserData},
+                EnableChat => $EnableChat,
+            },
         );
 
         if ( $Self->{Config}->{ShowEmail} ) {

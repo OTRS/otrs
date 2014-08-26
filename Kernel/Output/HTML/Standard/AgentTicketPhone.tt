@@ -10,7 +10,14 @@
 [% InsertTemplate("AgentCustomerSearch.tt") %]
 <div class="MainBox ARIARoleMain FormScreen">
 
+    [% IF Data.TicketID %]
+    <h1>[% Translate("Split Into New Phone Ticket") | html %]</h1>
+    [% ELSIF Data.FromChatID %]
+    <h1>[% Translate("Save Chat Into New Phone Ticket") | html %]</h1>
+    [% ELSE %]
     <h1>[% Translate("Create New Phone Ticket") | html %]</h1>
+    [% END %]
+
     <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
 
     <div class="LayoutFixedSidebar SidebarLast">
@@ -40,6 +47,7 @@
                 <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="[% Data.CustomerUser | html %]"/>
                 <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
                 <input type="hidden" name="LinkTicketID" value="[% Data.LinkTicketID | html %]"/>
+                <input type="hidden" name="FromChatID" value="[% Data.FromChatID | html %]"/>
 
                 <fieldset class="TableLike">
 
@@ -398,8 +406,20 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="NextStateID">[% Translate("Next ticket state") | html %]:</label>
+[% RenderBlockStart("ChatArticlePreview") %]
+                    <label>[% Translate("Chat protocol") | html %]:</label>
                     <div class="Field">
+                        <div class="ChatProtocol">
+[% INCLUDE "ChatDisplay.tt" %]
+                        </div>
+                        <p class="FieldExplanation">[% Translate('The chat will be appended as a separate article.') | html %]
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("ChatArticlePreview") %]
+
+
+                        <label for="NextStateID">[% Translate("Next ticket state") | html %]:</label>
+                        <div class="Field">
                         [% Data.NextStatesStrg %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
@@ -408,19 +428,19 @@
     });
 //]]></script>
 [% END %]
-                    </div>
-                    <div class="Clear"></div>
+                        </div>
+                        <div class="Clear"></div>
 
-                    <label>[% Translate("Pending Date") | html %] ([% Translate("for pending* states") | html %]):</label>
-                    <div class="Field">
+                        <label>[% Translate("Pending Date") | html %] ([% Translate("for pending* states") | html %]):</label>
+                        <div class="Field">
                         [% Data.PendingDateString %]
-                        <div id="DayError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
-                        <div id="HourError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
-                    </div>
-                    <div class="Clear"></div>
+                            <div id="DayError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
+                            <div id="HourError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
+                        </div>
+                        <div class="Clear"></div>
 
-                    <label for="PriorityID">[% Translate("Priority") | html %]:</label>
-                    <div class="Field">
+                        <label for="PriorityID">[% Translate("Priority") | html %]:</label>
+                        <div class="Field">
                         [% Data.PriorityStrg %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
@@ -429,17 +449,17 @@
     });
 //]]></script>
 [% END %]
-                    </div>
-                    <div class="Clear"></div>
-
-[% RenderBlockStart("DynamicField") %]
-                    <div class="Row Row_DynamicField_[% Data.Name | html %]">
-                        [% Data.Label %]
-                        <div class="Field">
-                            [% Data.Field %]
                         </div>
                         <div class="Clear"></div>
-                    </div>
+
+[% RenderBlockStart("DynamicField") %]
+                        <div class="Row Row_DynamicField_[% Data.Name | html %]">
+                        [% Data.Label %]
+                            <div class="Field">
+                            [% Data.Field %]
+                            </div>
+                            <div class="Clear"></div>
+                        </div>
 [% RenderBlockEnd("DynamicField") %]
 
 # example of how to use fixed dynamic field blocks for customizations
@@ -465,28 +485,28 @@
 #[% RenderBlockEnd("DynamicField_Field2") %]
 
 [% RenderBlockStart("TimeUnitsLabel") %]
-                    <label for="TimeUnits">[% Translate("Time units") | html %] [% Translate(Config("Ticket::Frontend::TimeUnits")) | html %]:</label>
+                        <label for="TimeUnits">[% Translate("Time units") | html %] [% Translate(Config("Ticket::Frontend::TimeUnits")) | html %]:</label>
 [% RenderBlockEnd("TimeUnitsLabel") %]
 [% RenderBlockStart("TimeUnitsLabelMandatory") %]
-                    <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span> [% Translate("Time units") | html %] [% Translate(Config("Ticket::Frontend::TimeUnits")) | html %]:</label>
+                        <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span> [% Translate("Time units") | html %] [% Translate(Config("Ticket::Frontend::TimeUnits")) | html %]:</label>
 [% RenderBlockEnd("TimeUnitsLabelMandatory") %]
 [% RenderBlockStart("TimeUnits") %]
-                    <div class="Field">
-                        <input type="text" class="W50pc Validate_TimeUnits [% Data.TimeUnitsRequired | html %] [% Data.TimeUnitsInvalid | html %]" name="TimeUnits" id="TimeUnits" value="[% Data.TimeUnits | html %]" />
-                        <div id="TimeUnitsError" class="TooltipErrorMessage"><p>[% Translate("Invalid time!") | html %]</p></div>
-                        <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                    </div>
-                    <div class="Clear"></div>
+                        <div class="Field">
+                            <input type="text" class="W50pc Validate_TimeUnits [% Data.TimeUnitsRequired | html %] [% Data.TimeUnitsInvalid | html %]" name="TimeUnits" id="TimeUnits" value="[% Data.TimeUnits | html %]" />
+                            <div id="TimeUnitsError" class="TooltipErrorMessage"><p>[% Translate("Invalid time!") | html %]</p></div>
+                            <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        </div>
+                        <div class="Clear"></div>
 [% RenderBlockEnd("TimeUnits") %]
-                    <div class="Field SpacingTop">
-                        <button class="Primary CallForAction" id="submitRichText" accesskey="g" title="[% Translate("Create") | html %] (g)" type="submit" value="[% Translate("Create") | html %]"><span><i class="fa fa-check-square-o"></i> [% Translate("Create") | html %]</span></button>
-                    </div>
-                </fieldset>
-            </form>
+                        <div class="Field SpacingTop">
+                            <button class="Primary CallForAction" id="submitRichText" accesskey="g" title="[% Translate("Create") | html %] (g)" type="submit" value="[% Translate("Create") | html %]"><span><i class="fa fa-check-square-o"></i> [% Translate("Create") | html %]</span></button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
         </div>
+        <div id="CustomerTickets"></div>
     </div>
-    <div id="CustomerTickets"></div>
-</div>
 
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[

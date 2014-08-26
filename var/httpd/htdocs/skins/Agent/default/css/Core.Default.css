@@ -751,6 +751,68 @@ iframe.TextOption.Customer {
     font-family: monospace,fixed;
 }
 
+
+/**
+ * @subsection  Chat
+ */
+
+.ArticleChat .Name {
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.ArticleChat .Time {
+    padding-right: 5px;
+    color: #888;
+    white-space: nowrap;
+}
+
+.ArticleChat .SystemGenerated .Name {
+    display: none;
+}
+
+.ArticleChat .SystemGenerated .Text {
+    font-style: italic;
+    color: #888;
+}
+
+.ArticleChat .Own .Name {
+    color: red;
+}
+
+.ArticleChat > div {
+    display: table;
+}
+
+.ArticleChat > div > div {
+    display: table-row;
+}
+
+.ArticleChat > div > div > span {
+    display: table-cell;
+}
+
+#ChatStartDialog {
+    width: 500px;
+}
+
+#ChatStartDialog form {
+    display: block;
+    padding: 10px;
+}
+
+#ChatStartDialog form input {
+    width: 375px;
+}
+
+.ChatProtocol {
+    border: 1px solid #ccc;
+    padding: 2px;
+    overflow-y: auto;
+    max-height: 150px;
+    width: 617px;
+}
+
 /**
  * @subsection global jQuery UI optimizations
  */

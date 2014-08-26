@@ -1349,71 +1349,84 @@ sub _Mask {
             );
         }
 
-        # check if just a only html email
-        if ( my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType( %Param, %Article ) ) {
-            $Param{BodyNote} = $MimeTypeText;
-            $Param{Body}     = '';
-        }
-        else {
-
-            # html quoting
-            $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
-                NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
-                Text           => $Article{Body},
-                VMax           => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
-                HTMLResultMode => 1,
-                LinkFeature    => 1,
+        if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'BodyChat',
+                Data => {
+                    ChatMessages => $Kernel::OM->Get('JSONObject')->Decode(
+                        Data => $Article{Body},
+                    ),
+                }
             );
         }
-
-        # security="restricted" may break SSO - disable this feature if requested
-        if ( $Self->{ConfigObject}->Get('DisableMSIFrameSecurityRestricted') ) {
-            $Param{MSSecurityRestricted} = '';
-        }
         else {
-            $Param{MSSecurityRestricted} = 'security="restricted"';
-        }
 
-        # in case show plain article body (if no html body as attachment exists of if rich
-        # text is not enabled)
-        my $RichText = $Self->{LayoutObject}->{BrowserRichText};
-        if ( $RichText && $Article{AttachmentIDOfHTMLBody} ) {
-            if ( $SelectedArticleID eq $Article{ArticleID} || $Self->{ZoomExpand} ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'BodyHTMLLoad',
-                    Data => {
-                        %Param,
-                        %Article,
-                    },
-                );
+            # check if just a only html email
+            if ( my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType( %Param, %Article ) ) {
+                $Param{BodyNote} = $MimeTypeText;
+                $Param{Body}     = '';
             }
             else {
-                my $SessionInformation;
 
-                # Append session information to URL if needed
-                if ( !$Self->{LayoutObject}->{SessionIDCookie} ) {
-                    $SessionInformation = $Self->{LayoutObject}->{SessionName} . '='
-                        . $Self->{LayoutObject}->{SessionID};
+                # html quoting
+                $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
+                    NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
+                    Text           => $Article{Body},
+                    VMax           => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
+                    HTMLResultMode => 1,
+                    LinkFeature    => 1,
+                );
+            }
+
+            # security="restricted" may break SSO - disable this feature if requested
+            if ( $Self->{ConfigObject}->Get('DisableMSIFrameSecurityRestricted') ) {
+                $Param{MSSecurityRestricted} = '';
+            }
+            else {
+                $Param{MSSecurityRestricted} = 'security="restricted"';
+            }
+
+            # in case show plain article body (if no html body as attachment exists of if rich
+            # text is not enabled)
+            my $RichText = $Self->{LayoutObject}->{BrowserRichText};
+            if ( $RichText && $Article{AttachmentIDOfHTMLBody} ) {
+                if ( $SelectedArticleID eq $Article{ArticleID} || $Self->{ZoomExpand} ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'BodyHTMLLoad',
+                        Data => {
+                            %Param,
+                            %Article,
+                        },
+                    );
                 }
+                else {
+                    my $SessionInformation;
 
+                    # Append session information to URL if needed
+                    if ( !$Self->{LayoutObject}->{SessionIDCookie} ) {
+                        $SessionInformation = $Self->{LayoutObject}->{SessionName} . '='
+                            . $Self->{LayoutObject}->{SessionID};
+                    }
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'BodyHTMLPlaceholder',
+                        Data => {
+                            %Param,
+                            %Article,
+                            SessionInformation => $SessionInformation,
+                        },
+                    );
+                }
+            }
+            else {
                 $Self->{LayoutObject}->Block(
-                    Name => 'BodyHTMLPlaceholder',
+                    Name => 'BodyPlain',
                     Data => {
                         %Param,
                         %Article,
-                        SessionInformation => $SessionInformation,
                     },
                 );
             }
-        }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'BodyPlain',
-                Data => {
-                    %Param,
-                    %Article,
-                },
-            );
         }
 
         # add attachment icon

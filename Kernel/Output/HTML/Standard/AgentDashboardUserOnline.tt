@@ -35,24 +35,31 @@
 [% RenderBlockEnd("ContentSmallTicketGenericFilterNavBar") %]
 
 [% RenderBlockEnd("ContentSmallUserOnlineFilter") %]
-<table class="DataTable">
+<table class="DataTable DashboardUserOnline">
     <tbody>
 [% RenderBlockStart("ContentSmallUserOnlineRow") %]
         <tr>
             <td>
-                <p title="[% Data.UserEmail | html %]">
+                <p title="[% Data.UserEmail | html %]" class="UserRow">
                 [% IF Data.UserCustomerID %]
                     <a href="[% Env("Baselink") %]Action=AgentCustomerInformationCenter;CustomerID=[% Data.UserCustomerID | uri %]">
+                [% ELSE %]
+                        <span>
                 [% END %]
                         [% Data.UserFullname | html %]
 [% RenderBlockStart("ContentSmallUserOnlineRowEmail") %]
-                        ([% Data.UserEmail | truncate(50) | html %])
+                            ([% Data.UserEmail | truncate(50) | html %])
 [% RenderBlockEnd("ContentSmallUserOnlineRowEmail") %]
 [% RenderBlockStart("ContentSmallUserOnlineRowOutOfOffice") %]
-                        - [% Translate("out of office") | html %]
+                            - [% Translate("out of office") | html %]
 [% RenderBlockEnd("ContentSmallUserOnlineRowOutOfOffice") %]
                 [% IF Data.UserCustomerID %]
-                    </a>
+                        </a>
+                [% ELSE %]
+                    </span>
+                [% END %]
+                [% IF Data.EnableChat && Data.UserID != Env('UserID') %]
+                    <a href="#" title="[% Translate('Start chat') | html %]" type="button" class="DashboardUserOnlineChatStart" data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]" data-user-fullname="[% Data.UserFullname | html %]"><i class="fa fa-comments"></i></a>
                 [% END %]
                 </p>
             </td>
@@ -67,6 +74,40 @@
 [% RenderBlockEnd("ContentSmallUserOnlineNone") %]
     </tbody>
 </table>
+
+[% INCLUDE "ChatStartForm.tt" %]
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('a.DashboardUserOnlineChatStart').off('click').on('click', function() {
+    var UserID = $(this).data('user-id'),
+        $Dialog = $('#DashboardUserOnlineChatStartDialog').clone();
+
+    $Dialog.find('input[name=ChatStartUserID]').val($(this).data('user-id'));
+    $Dialog.find('input[name=ChatStartUserType]').val($(this).data('user-type'));
+    $Dialog.find('input[name=ChatStartUserFullname]').val($(this).data('user-fullname'));
+
+    Core.UI.Dialog.ShowContentDialog($Dialog.html(), [% Translate('Start chat') | JSON %], '100px', 'Center', true);
+
+    // Only enable button if there is a message
+    $('.Dialog input[name="ChatStartFirstMessage"]').on('keyup', function(){
+        $('.Dialog button').prop('disabled', $(this).val().length ? false : true );
+    });
+
+    $('.Dialog form').on('submit', function(){
+        if (!$('.Dialog input[name=ChatStartFirstMessage]').val().length) {
+            return false;
+        }
+        // Close after submit
+        window.setTimeout(function(){
+            Core.UI.Dialog.CloseDialog($('.Dialog'));
+        }, 1);
+    });
+
+    return false;
+});
+//]]></script>
+[% END %]
 
 [% RenderBlockStart("ContentSmallUserOnlineRefresh") %]
 [% WRAPPER JSOnDocumentComplete %]

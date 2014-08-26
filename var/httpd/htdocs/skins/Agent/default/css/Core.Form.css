@@ -673,4 +673,15 @@ input[type=text].ArticleFreeKey {
     width: 50%;
 }
 
+/**
+ * @subsection Chat
+ */
+
+.ArticleChat {
+    padding: 2px 5px;
+    font-size: 11px;
+    max-height: 100px;
+    overflow: auto;
+}
+
 } /* end @media */

@@ -19,7 +19,7 @@
 [% RenderBlockStart("ToolBar") %]
         <ul id="ToolBar">
 [% RenderBlockStart("ToolBarItem") %]
-            <li class="[% Data.Class | html %]"><a href="[% Data.Link %]" accesskey="[% Data.AccessKey | html %]" title="[% Translate(Data.Description) | html %]: [% Data.Count | html %][% Data.AccessKeyReference | html %]">[% Translate(Data.Description) | html %] <i class="icon-small fa fa-clock-o icon-show-reached"></i> <i class="icon-small fa fa-star icon-show-new"></i><i class="[% Data.Icon | html %]"></i> <span class="Counter">[% Data.Count | html %]</span> </a></li>
+            <li class="[% Data.Class | html %]"><a href="[% Data.Link %]" target="[% Data.Target | html %]" accesskey="[% Data.AccessKey | html %]" title="[% Translate(Data.Description) | html %]: [% Data.Count | html %][% Data.AccessKeyReference | html %]">[% Translate(Data.Description) | html %] <i class="icon-small fa fa-clock-o icon-show-reached"></i> <i class="icon-small fa fa-star icon-show-new"></i><i class="[% Data.Icon | html %]"></i> <span class="Counter">[% Data.Count | html %]</span> </a></li>
 [% RenderBlockEnd("ToolBarItem") %]
 [% RenderBlockStart("ToolBarSearchProfile") %]
             <li class="Extended SearchProfile">
@@ -75,6 +75,74 @@
 [% END %]
 [% RenderBlockEnd("ToolBarCICSearchCustomerUser") %]
         </ul>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+if ($('#ToolBar li.ChatRequests').length) {
+
+    if ($('.ChatRequests').hasClass('DnD')) {
+        $('.ChatRequests')
+            .find('.icon-small')
+            .remove();
+        $('.ChatRequests')
+            .find('.Counter')
+            .after('<i class="icon-small fa fa-ban icon-show-reached"></i>');
+    }
+
+    window.setInterval(function() {
+
+        var Data = {
+            Action: 'AgentChat',
+            Subaction: 'ChatGetOpenRequests'
+        };
+
+        Core.AJAX.FunctionCall(
+            Core.Config.Get('Baselink'),
+            Data,
+            function(Response) {
+
+                if (Response) {
+
+                    if (parseInt(Response.IsDnD, 10) === 1) {
+                        $('.ChatRequests').fadeIn(function() {
+                                $(this).removeClass('Hidden');
+                            })
+                            .addClass('DnD Reached')
+                            .find('.icon-small')
+                            .remove();
+
+                        if (!$('.ChatRequests').find('.fa-ban').length) {
+                            $('.ChatRequests')
+                                .find('.Counter')
+                                .after('<i class="icon-small fa fa-ban icon-show-reached"></i>');
+                        }
+                    }
+                    else {
+                        $('.ChatRequests').removeClass('DnD Reached');
+                    }
+
+                    if (!$('.ChatRequests').hasClass('DnD')) {
+
+                        if (parseInt(Response.Count, 10) < 1) {
+                            $('.ChatRequests').fadeOut(function() {
+                                $(this).addClass('Hidden');
+                            });
+                        }
+                        else {
+                            $('.ChatRequests').fadeIn(function() {
+                                $(this).removeClass('Hidden');
+                            });
+                        }
+                    }
+                    $('.ChatRequests').find('.Counter').text(Response.Count);
+                }
+            },
+            'json'
+        );
+
+    }, 10000);
+}
+//]]></script>
+[% END %]
 [% RenderBlockEnd("ToolBar") %]
 
         <div id="UserInfo">

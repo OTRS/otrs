@@ -85,7 +85,8 @@ sub Run {
         qw(ArticleID LinkTicketID PriorityID NewUserID
         From Subject Body NextStateID TimeUnits
         Year Month Day Hour Minute
-        NewResponsibleID ResponsibleAll OwnerAll TypeID ServiceID SLAID StandardTemplateID
+        NewResponsibleID ResponsibleAll OwnerAll TypeID ServiceID SLAID
+        StandardTemplateID FromChatID
         )
         )
     {
@@ -204,6 +205,28 @@ sub Run {
         %GetParam = $Self->{LayoutObject}->TransformDateSelection(
             %GetParam,
         );
+    }
+
+    if ( $GetParam{FromChatID} ) {
+        if ( !$Self->{ConfigObject}->Get('ChatEngine::Active') ) {
+            return $Self->{LayoutObject}->FatalError(
+                Message => "Chat is not active.",
+            );
+        }
+
+        # Ok, take the chat
+        my %ChatParticipant = $Kernel::OM->Get('Kernel::System::Chat')->ChatParticipantCheck(
+            ChatID        => $GetParam{FromChatID},
+            ChatterType   => 'User',
+            ChatterID     => $Self->{UserID},
+            ChatterActive => 1,
+        );
+
+        if ( !%ChatParticipant ) {
+            return $Self->{LayoutObject}->FatalError(
+                Message => "No permission.",
+            );
+        }
     }
 
     if ( !$Self->{Subaction} || $Self->{Subaction} eq 'Created' ) {
@@ -676,6 +699,7 @@ sub Run {
             CustomerData => \%CustomerData,
             Attachments  => \@Attachments,
             LinkTicketID => $GetParam{LinkTicketID} || '',
+            FromChatID   => $GetParam{FromChatID} || '',
 
             #            %GetParam,
             %SplitTicketParam,
@@ -1339,6 +1363,53 @@ sub Run {
                 Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
                 UserID             => $Self->{UserID},
             );
+        }
+
+        # Permissions check were done earlier
+        if ($GetParam{FromChatID}) {
+            my $ChatObject = $Kernel::OM->Get('Kernel::System::Chat');
+            my %Chat = $ChatObject->ChatGet(
+                ChatID => $GetParam{FromChatID},
+            );
+            my @ChatMessageList = $ChatObject->ChatMessageList(
+                ChatID => $GetParam{FromChatID},
+            );
+            my $ChatArticleID;
+
+            if (@ChatMessageList) {
+                my $JSONBody = $Kernel::OM->Get('JSONObject')->Encode(
+                    Data => \@ChatMessageList,
+                );
+
+                my $ChatArticleType = 'chat-internal';
+                if ($Chat{RequesterType} eq 'Customer'
+                    || $Chat{TargetType} eq 'Customer'
+                ) {
+                    $ChatArticleType = 'chat-external';
+                }
+
+                $ChatArticleID = $Self->{TicketObject}->ArticleCreate(
+                    NoAgentNotify    => $NoAgentNotify,
+                    TicketID         => $TicketID,
+                    ArticleType      => $ChatArticleType,
+                    SenderType       => $Self->{Config}->{SenderType},
+                    # From             => $GetParam{From},
+                    # To               => $To,
+                    Subject          => $Kernel::OM->Get('LanguageObject')->Translate('Chat'),
+                    Body             => $JSONBody,
+                    MimeType         => 'application/json',
+                    Charset          => $Self->{LayoutObject}->{UserCharset},
+                    UserID           => $Self->{UserID},
+                    HistoryType      => $Self->{Config}->{HistoryType},
+                    HistoryComment   => $Self->{Config}->{HistoryComment} || '%%',
+                    Queue => $Self->{QueueObject}->QueueLookup( QueueID => $NewQueueID ),
+                );
+            }
+            if ($ChatArticleID) {
+                $ChatObject->ChatDelete(
+                    ChatID => $GetParam{FromChatID},
+                );
+            }
         }
 
         # set owner (if new user id is given)
@@ -2524,8 +2595,24 @@ sub _MaskPhoneNew {
         );
     }
 
+    # Permissions have been checked before in Run()
+    if ( $Param{FromChatID} ) {
+        my @ChatMessages = $Kernel::OM->Get('Kernel::System::Chat')->ChatMessageList(
+            ChatID => $Param{FromChatID},
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ChatArticlePreview',
+            Data => {
+                ChatMessages => \@ChatMessages,
+            },
+        );
+    }
+
     # get output back
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketPhone', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketPhone',
+        Data         => \%Param,
+    );
 }
 
 sub _GetFieldsToUpdate {

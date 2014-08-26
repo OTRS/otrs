@@ -333,6 +333,20 @@ sub GetCookie {
     return $Self->{Query}->cookie( $Param{Key} );
 }
 
+=item IsAJAXRequest()
+
+checks if the current request was sent by AJAX
+
+    my $IsAJAXRequest = $ParamObject->IsAJAXRequest();
+
+=cut
+
+sub IsAJAXRequest {
+    my ( $Self, %Param ) = @_;
+
+    return $Self->{Query}->http('X-Requested-With') eq 'XMLHttpRequest' ? 1 : 0;
+}
+
 1;
 
 =back

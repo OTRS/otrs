@@ -813,6 +813,24 @@ sub _PDFOutputArticles {
             }
         }
 
+        if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' ) {
+            $Article{Body} = $Kernel::OM->Get('JSONObject')->Decode(
+                Data => $Article{Body}
+            );
+            my $Lines;
+            if (IsArrayRefWithData($Article{Body})) {
+                for my $Line (@{$Article{Body}}) {
+                    if ($Line->{SystemGenerated}) {
+                        $Lines .= '[' . $Line->{CreateTime} . '] ' . $Line->{MessageText} ."\n";
+                    }
+                    else {
+                        $Lines .= '[' . $Line->{CreateTime} . '] ' . $Line->{ChatterName} . ' ' . $Line->{MessageText} ."\n";
+                    }
+                }
+            }
+            $Article{Body} = $Lines;
+        }
+
         # table params (article body)
         my %TableParam2;
         $TableParam2{CellData}[0][0]{Content} = $Article{Body} || ' ';
@@ -1021,23 +1039,33 @@ sub _HTMLMask {
                 . "$File{Filename}</a> $File{Filesize}<br/>";
         }
 
-        # check if just a only html email
-        my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(
-            %Param, %Article, Action => 'AgentTicketZoom',
-        );
-        if ($MimeTypeText) {
-            $Param{TextNote} = $MimeTypeText;
-            $Article{Body}   = '';
+        if ( $Article{ArticleType} eq 'chat-external') {
+            $Article{ChatMessages} = $Kernel::OM->Get('JSONObject')->Decode(
+                Data => $Article{Body}
+            );
+            $Article{IsChat} = 1;
         }
         else {
 
-            # html quoting
-            $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
-                NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
-                Text    => $Article{Body},
-                VMax    => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
+            # check if just a only html email
+            my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(
+                %Param, %Article, Action => 'AgentTicketZoom',
             );
+            if ($MimeTypeText) {
+                $Param{TextNote} = $MimeTypeText;
+                $Article{Body}   = '';
+            }
+            else {
+
+                # html quoting
+                $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
+                    NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
+                    Text    => $Article{Body},
+                    VMax    => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
+                );
+            }
         }
+
         $Self->{LayoutObject}->Block(
             Name => 'Article',
             Data => { %Param, %Article },

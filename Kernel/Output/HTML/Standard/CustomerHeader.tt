@@ -15,7 +15,9 @@
 <body class="NoJavaScript [% Data.BodyClass | html %]">
 <!-- start CI layout -->
     <div id="Header">
-        <h1 class="CompanyName"><a href="#">[% Config("CustomerHeadline") %]</a></h1>
+        <h1 class="CompanyName">
+            <a href="#">[% Config("CustomerHeadline") %]</a>
+        </h1>
 <!-- dtl_block:HeaderLogo -->
         <div id="Logo"></div>
 <!-- dtl_block:HeaderLogo -->

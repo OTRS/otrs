@@ -238,6 +238,56 @@ sub Run {
             );
         }
 
+        # do we need to show the chat link?
+        # should only be visible if
+        # 1. chat is active
+        # 2. current user has access to the chat
+        # 3. this customer user is online
+        my $ChatStartingAgentsGroup
+            = $Self->{ConfigObject}->Get('ChatEngine::PermissionGroup::ChatStartingAgents');
+
+        if (
+            $Self->{ConfigObject}->Get('ChatEngine::Active')
+            && $Self->{LayoutObject}->{"UserIsGroup[$ChatStartingAgentsGroup]"}
+            && $Self->{ConfigObject}->Get('ChatEngine::ChatDirection::AgentToCustomer')
+            )
+        {
+
+            # check if this customer is actually online
+            my @Sessions         = $Self->{SessionObject}->GetAllSessionIDs();
+            my $CustomerIsOnline = 0;
+
+            SESSIONID:
+            for my $SessionID (@Sessions) {
+
+                next SESSIONID if !$SessionID;
+
+                # get session data
+                my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $SessionID );
+
+                next SESSIONID if !%Data;
+                next SESSIONID if !$Data{UserID};
+                next SESSIONID if $Data{UserID} ne $CustomerKey;
+
+                $CustomerIsOnline = 1;
+            }
+
+            if ($CustomerIsOnline) {
+
+                my $UserFullname = $Self->{CustomerUserObject}->CustomerName(
+                    UserLogin => $CustomerKey,
+                );
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'ContentLargeCustomerUserListRowCustomerKeyChatStart',
+                    Data => {
+                        UserFullname => $UserFullname,
+                        UserID       => $CustomerKey,
+                    },
+                );
+            }
+        }
+
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 

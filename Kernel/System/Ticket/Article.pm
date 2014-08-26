@@ -202,6 +202,9 @@ sub ArticleCreate {
             String => $Param{Body},
         );
     }
+    elsif ( $Param{MimeType} && $Param{MimeType} eq "application/json" ) {
+        # Keep JSON body unchanged
+    }
 
     # if body isn't text, attach body as attachment (mostly done by OE) :-/
     elsif ( $Param{MimeType} && $Param{MimeType} !~ /\btext\b/i ) {

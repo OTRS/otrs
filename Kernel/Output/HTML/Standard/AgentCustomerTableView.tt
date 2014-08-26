@@ -39,7 +39,7 @@
 [% RenderBlockStart("CustomerItemRow") %]
         <li>
             <i class="fa [% Data.IconName %] [% Data.CSSClass %]"></i>
-            <a class="[% Data.CSSClass %]" href="[% Data.URL %]" target="[% Data.Target %]" title="[% Translate(Data.Text) | html %]">
+            <a class="[% Data.CSSClass %]" [% FOREACH Attribute IN Data.HTMLData %]data-[% Attribute.key | html %]="[% Attribute.value | html %]" [% END %]href="[% Data.URL %]" target="[% Data.Target %]" title="[% Translate(Data.Text) | html %]">
                 [% Translate(Data.Text) | html %][% Data.Extension | html %]
             </a>
         </li>

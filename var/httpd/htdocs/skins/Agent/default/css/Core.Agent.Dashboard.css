@@ -87,4 +87,23 @@ div.EventDetails {
     font: 11px Arial !important;
 }
 
+/* DashboardUserOnline */
+
+.DashboardUserOnline .UserRow {
+    padding-top: 3px;
+    clear: both;
+}
+
+.DashboardUserOnline .UserRow a:first-child,
+.DashboardUserOnline .UserRow span:first-child {
+    float: left;
+    width: 80%;
+    padding-bottom: 3px;
+}
+
+.DashboardUserOnline .UserRow a.DashboardUserOnlineChatStart {
+    float: right;
+    padding-bottom: 0px;
+}
+
 } /* end @media */
