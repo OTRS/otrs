@@ -31,20 +31,21 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
-use Kernel::Config;
-use Kernel::System::Email;
+
+use vars (qw($Self));
+
 use Kernel::System::EmailParser;
+
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $EmailObject  = $Kernel::OM->Get('Kernel::System::Email');
 
 # Constants for test(s): 1 - enabled, 0 - disabled.
 # SEND - check sending body. PARSE - check parsed body.
 
 my $SEND  = 1;
 my $PARSE = 1;
-
-# create local object
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # do not really send emails
 $ConfigObject->Set(
@@ -157,12 +158,6 @@ for my $Test (@Tests) {
 
     my $Name = "#$Count $Test->{Name}";
 
-    # generate email
-    my $EmailObject = Kernel::System::Email->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
-
     # call Send and get results
     my ( $Header, $Body ) = $EmailObject->Send(
         %{ $Test->{Data} },
@@ -199,9 +194,7 @@ for my $Test (@Tests) {
 
     # parse email
     my $ParserObject = Kernel::System::EmailParser->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-        Email        => \@Array,
+        Email => \@Array,
     );
 
     my %Result;
