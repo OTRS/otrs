@@ -12,8 +12,6 @@ use warnings;
 use vars (qw($Self));
 use utf8;
 
-use vars qw($Self);
-
 use Kernel::System::Service;
 use Kernel::System::User;
 use Kernel::Config;
