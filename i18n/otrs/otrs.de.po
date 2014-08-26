@@ -8494,7 +8494,7 @@ msgstr "Notiztyp"
 msgid "Next state"
 msgstr "Nächster Status"
 
-#. Template: AgentTicketActionCommon
+#. Template: AdminSystemMaintenanceEdit
 msgid "Date invalid!"
 msgstr "Ungültiges Datum"
 
@@ -14704,5 +14704,157 @@ msgstr "Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen übe
 
 #. SysConfig
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
+msgstr ""
+
+#. Template: AAABase
+msgid "It is currently not possible to login due to a scheduled system maintenance."
+msgstr ""
+
+#. Template: AdminNavigationBar
+msgid "Online Admin Manual"
+msgstr ""
+
+#. Template: AdminSystemMaintenance
+msgid "System Maintenance Management"
+msgstr ""
+
+#. Template: AdminSystemMaintenance
+msgid "Schedule New System Maintenance"
+msgstr ""
+
+#. Template: AdminSystemMaintenance
+msgid "Schedule a system maintenance period for announcing the Agents and Customers the system is down for a time period."
+msgstr ""
+
+#. Template: AdminSystemMaintenance
+msgid "Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact."
+msgstr ""
+
+#. Template: AdminSystemMaintenance
+msgid "Start date"
+msgstr ""
+
+#. Template: AdminSystemMaintenance
+msgid "Stop date"
+msgstr ""
+
+#. Template: AdminSystemMaintenance
+msgid "Delete System Maintenance"
+msgstr ""
+
+#. Template: AdminSystemMaintenance
+msgid "Do you really want to delete this scheduled system maintenance?"
+msgstr ""
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Edit System Maintenance %s"
+msgstr ""
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Edit System Maintenance information"
+msgstr ""
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Login message"
+msgstr ""
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Show login message"
+msgstr ""
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Notify message"
+msgstr ""
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Manage Sessions"
+msgstr ""
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "All Sessions"
+msgstr ""
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Agent Sessions"
+msgstr ""
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Customer Sessions"
+msgstr ""
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "Kill all Sessions, exept current"
+msgstr ""
+
+#. Template: AgentDashboardCustomerUserList
+msgid "Start Chat"
+msgstr ""
+
+#. Template: AgentTicketPhone
+msgid "Split Into New Phone Ticket"
+msgstr ""
+
+#. Template: AgentTicketPhone
+msgid "Save Chat Into New Phone Ticket"
+msgstr ""
+
+#. Template: AgentTicketPhone
+msgid "Chat protocol"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Attachment Name"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "(e. g. m*file or myfi*)"
+msgstr ""
+
+#. Template: CustomerNavigationBar
+msgid "Incoming Chat Requests"
+msgstr ""
+
+#. Template: CustomerTicketSearch
+msgid "e. g. m*file or myfi*"
+msgstr ""
+
+#. SysConfig
+msgid "ActivityID"
+msgstr ""
+
+#. SysConfig
+msgid "Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active."
+msgstr ""
+
+#. SysConfig
+msgid "Parameters for the dashboard backend of the running process tickets overview of the agent interface . \"Limit\" is the number of entries shown by default. \"Group\" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin is enabled by default or if the user needs to enable it manually. \"CacheTTLLocal\" is the cache time in minutes for the plugin."
+msgstr ""
+
+#. SysConfig
+msgid "ProcessID"
+msgstr ""
+
+#. SysConfig
+msgid "Schedule a maintenance period."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the default error message for the login screen on Agent and Customer interface, it's shown when a running system maintenance period is active."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the default message for the login screen on Agent and Customer interface, it's shown when a running system maintenance period is active."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the default message for the notification is shown on a running system maintenance period."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the minutes a notification is shown for notice about upcoming system maintenance period."
+msgstr ""
+
+#. SysConfig
+msgid "System Maintenance"
 msgstr ""
 
