@@ -41,15 +41,18 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 my $Key = shift || '';
 if ($Key) {
     chomp $Key;
-    if ( ref( $Kernel::OM->Get('Kernel::Config')->{$Key} ) eq 'ARRAY' ) {
-        for ( @{ $Kernel::OM->Get('Kernel::Config')->{$Key} } ) {
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    if ( ref( $ConfigObject->{$Key} ) eq 'ARRAY' ) {
+        for ( @{ $ConfigObject->{$Key} } ) {
             print "$_;";
         }
         print "\n";
     }
-    elsif ( ref( $Kernel::OM->Get('Kernel::Config')->{$Key} ) eq 'HASH' ) {
-        for my $SubKey ( sort keys %{ $Kernel::OM->Get('Kernel::Config')->{$Key} } ) {
-            print "$SubKey=$Kernel::OM->Get('Kernel::Config')->{$Key}->{$SubKey};";
+    elsif ( ref( $ConfigObject->{$Key} ) eq 'HASH' ) {
+        for my $SubKey ( sort keys %{ $ConfigObject->{$Key} } ) {
+            print "$SubKey=$ConfigObject->{$Key}->{$SubKey};";
         }
         print "\n";
     }
@@ -60,22 +63,24 @@ if ($Key) {
 else {
 
     # print all vars
-    for ( sort keys %{ $Kernel::OM->Get('Kernel::Config') } ) {
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    for ( sort keys %{$ConfigObject} ) {
         print $_. ":";
-        if ( ref( $Kernel::OM->Get('Kernel::Config')->{$_} ) eq 'ARRAY' ) {
-            for ( @{ $Kernel::OM->Get('Kernel::Config')->{$_} } ) {
+        if ( ref( $ConfigObject->{$_} ) eq 'ARRAY' ) {
+            for ( @{ $ConfigObject->{$_} } ) {
                 print "$_;";
             }
             print "\n";
         }
-        elsif ( ref( $Kernel::OM->Get('Kernel::Config')->{$_} ) eq 'HASH' ) {
-            for my $Key ( sort keys %{ $Kernel::OM->Get('Kernel::Config')->{$_} } ) {
-                print "$Key=$Kernel::OM->Get('Kernel::Config')->{$_}->{$Key};";
+        elsif ( ref( $ConfigObject->{$_} ) eq 'HASH' ) {
+            for my $Key ( sort keys %{ $ConfigObject->{$_} } ) {
+                print "$Key=$ConfigObject->{$_}->{$Key};";
             }
             print "\n";
         }
         else {
-            print $Kernel::OM->Get('Kernel::Config')->{$_} . "\n";
+            print $ConfigObject->{$_} . "\n";
         }
     }
 }
