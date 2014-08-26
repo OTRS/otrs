@@ -286,7 +286,8 @@ sub new {
         my $ProcessListHash
             = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process')->ProcessList(
             ProcessState => [ 'Active', 'FadeAway', 'Inactive' ],
-            Interface => 'all',
+            Interface    => 'all',
+            Silent       => 1,
             );
 
         # use only the process EntityIDs

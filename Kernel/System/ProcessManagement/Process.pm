@@ -142,6 +142,7 @@ sub ProcessGet {
     my $ProcessList = $ProcessObject->ProcessList(
         ProcessState => ['Active'],           # Active, FadeAway, Inactive
         Interface    => ['AgentInterface'],   # optional, ['AgentInterface'] or ['CustomerInterface'] or ['AgentInterface', 'CustomerInterface'] or 'all'
+        Silent       => 1                     # optional, 1 || 0, default 0, if set to 1 does not log errors if there are no processes configured
     );
 
     Returns:
@@ -177,10 +178,14 @@ sub ProcessList {
 
     my $Processes = $Kernel::OM->Get('Kernel::Config')->Get('Process');
     if ( !IsHashRefWithData($Processes) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need Process config!',
-        );
+
+        if ( !$Param{Silent} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => 'Need Process config!',
+            );
+        }
+
         return;
     }
 
