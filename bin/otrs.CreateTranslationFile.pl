@@ -285,7 +285,7 @@ sub HandleLanguage {
                 # if we translate a module, we must handle also that possibly
                 # there is already a translation in the core files
                 if ($IsSubTranslation) {
-                    if ($LanguageCoreObject->{Translation}->{$Word} ) {
+                    if (!exists $LanguageCoreObject->{Translation}->{$Word} ) {
 
                         # lookup for existing translation in module language object
                         $UsedWords{$Word} = $POTranslations{$Word} || $LanguageObject->{Translation}->{$Word};
