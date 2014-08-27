@@ -205,7 +205,7 @@ sub _ObjectBuild {
 
     if ( $Package ne 'Kernel::Config' ) {
         no strict 'refs';    ## no critic
-        if ( !exists ${ $Package . '::' }->{ObjectDependencies} ) {
+        if ( !exists ${ $Package . '::' }{ObjectDependencies} ) {
             $Self->_DieWithError( Error => "$Package does not declare its object dependencies!" );
         }
         $Dependencies = \@{ $Package . '::ObjectDependencies' };
@@ -428,7 +428,7 @@ sub ObjectsDiscard {
     }
     else {
         for my $Object (@OrderedObjects) {
-            delete $Self->{Objects}->{$Object};
+            delete $Self->{Objects}{$Object};
         }
     }
 
