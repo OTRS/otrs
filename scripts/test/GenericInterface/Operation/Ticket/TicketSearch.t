@@ -10,12 +10,15 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
 use MIME::Base64;
+
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation::Ticket::TicketSearch;
 use Kernel::GenericInterface::Operation::Session::SessionCreate;
+
 use Kernel::System::VariableCheck qw(:all);
 
 # skip SSL certificate verification

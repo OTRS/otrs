@@ -9,6 +9,8 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');

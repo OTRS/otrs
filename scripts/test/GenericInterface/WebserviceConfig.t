@@ -10,10 +10,8 @@
 use strict;
 use warnings;
 use utf8;
-use vars (qw($Self));
 
-# prevent 'Used once' warning for Kernel::OM
-use Kernel::System::ObjectManager;
+use vars (qw($Self));
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my $PathToTest =

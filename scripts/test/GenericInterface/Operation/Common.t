@@ -9,6 +9,8 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
 use Kernel::GenericInterface::Debugger;

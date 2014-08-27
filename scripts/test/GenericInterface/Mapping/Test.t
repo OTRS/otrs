@@ -9,9 +9,10 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-# create needed objects
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Mapping;
 

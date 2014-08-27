@@ -9,13 +9,14 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
+
+use vars (qw($Self));
 
 my $WebserviceObject      = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 my $ObjectLockStateObject = $Kernel::OM->Get('Kernel::System::GenericInterface::ObjectLockState');
 
-my $RandomNumber     = int rand(10000000);
+my $RandomNumber     = int rand 10000000;
 my $CustomObjectType = "TestObject$RandomNumber";
 my $Success;
 

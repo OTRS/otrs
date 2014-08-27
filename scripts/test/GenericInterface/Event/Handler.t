@@ -10,12 +10,13 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
 use URI::Escape();
 
-my $HelperObject      = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject      = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $WebserviceObject  = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 my $DebugLogObject    = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog');
 my $TaskManagerObject = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager');

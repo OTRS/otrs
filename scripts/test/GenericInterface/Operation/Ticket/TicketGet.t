@@ -10,12 +10,15 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
 use MIME::Base64;
+
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation::Session::SessionCreate;
 use Kernel::GenericInterface::Operation::Ticket::TicketGet;
+
 use Kernel::System::VariableCheck qw(:all);
 
 #get a random id

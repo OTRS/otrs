@@ -9,14 +9,16 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
+
+use vars (qw($Self));
 
 use SOAP::Lite;
 use XML::TreePP;
 
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport::HTTP::SOAP;
+
 use Kernel::System::VariableCheck qw(:all);
 
 # helper object

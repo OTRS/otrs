@@ -10,6 +10,7 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
 use Socket;
