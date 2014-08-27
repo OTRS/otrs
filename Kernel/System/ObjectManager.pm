@@ -249,8 +249,8 @@ This should only be used on special circumstances, e. g. in the unit tests to pa
 ObjectManager so that it is also available from there as 'Kernel::System::UnitTest'.
 
     $Kernel::OM->ObjectInstanceRegister(
-        Package => 'Kernel::System::UnitTest',
-        Object  => $UnitTestObject,
+        Package      => 'Kernel::System::UnitTest',
+        Object       => $UnitTestObject,
         Dependencies => [],         # optional, specify OM-managed packages that the object might depend on
     );
 
@@ -313,8 +313,7 @@ If no list of object names is passed, all stored objects are destroyed.
     $Kernel::OM->ObjectsDiscard();
 
     $Kernel::OM->ObjectsDiscard(
-        Objects => ['TicketObject', 'QueueObject'],
-
+        Objects => ['Kernel::System::Ticket', 'Kernel::System::Queue'],
     );
 
 Mostly used for tests that rely on fresh objects, or to avoid large
