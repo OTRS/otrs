@@ -54,6 +54,10 @@ CREATE TABLE system_maintenance (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
+-- ----------------------------------------------------------
+--  alter table postmaster_filter
+-- ----------------------------------------------------------
+ALTER TABLE postmaster_filter ADD f_not INTEGER NULL;
 SET standard_conforming_strings TO ON;
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);

@@ -119,6 +119,10 @@ CREATE TABLE system_maintenance (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
+-- ----------------------------------------------------------
+--  alter table postmaster_filter
+-- ----------------------------------------------------------
+ALTER TABLE postmaster_filter ADD f_not SMALLINT NULL;
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);
 ALTER TABLE system_maintenance ADD CONSTRAINT FK_system_maintenance_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
