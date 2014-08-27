@@ -1579,7 +1579,7 @@ sub Run {
                         .= ' <a href="#" title="'
                         . $TreeSelectionMessage
                         . '" class="ShowTreeSelection"><span>'
-                        . $TreeSelectionMessage . '</span><i class="fa fa-code-fork"></i></a>';
+                        . $TreeSelectionMessage . '</span><i class="fa fa-sitemap"></i></a>';
                 }
             }
 
@@ -1683,7 +1683,7 @@ sub Run {
                         .= ' <a href="#" title="'
                         . $TreeSelectionMessage
                         . '" class="ShowTreeSelection"><span>'
-                        . $TreeSelectionMessage . '</span><i class="fa fa-code-fork"></i></a>';
+                        . $TreeSelectionMessage . '</span><i class="fa fa-sitemap"></i></a>';
                 }
             }
 
@@ -1820,7 +1820,7 @@ sub Run {
                         .= ' <a href="#" title="'
                         . $TreeSelectionMessage
                         . '" class="ShowTreeSelection"><span>'
-                        . $TreeSelectionMessage . '</span><i class="fa fa-code-fork"></i></a>';
+                        . $TreeSelectionMessage . '</span><i class="fa fa-sitemap"></i></a>';
                 }
             }
 
