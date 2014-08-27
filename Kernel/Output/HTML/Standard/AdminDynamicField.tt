@@ -171,9 +171,9 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
                             </td>
                             <td class="Center">
 [% RenderBlockStart("DeleteLink") %]
-                                <div>
-                                    <a class="TrashCan DynamicFieldDelete" href="#" data-query-string="Action=AdminDynamicField;Subaction=DynamicFieldDelete;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this field") | html %]">[% Translate("Delete this field") | html %]</a>
-                                </div>
+                                <a class="TrashCan DynamicFieldDelete" href="#" data-query-string="Action=AdminDynamicField;Subaction=DynamicFieldDelete;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this field") | html %]">[% Translate("Delete this field") | html %]
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
 [% RenderBlockEnd("DeleteLink") %]
                             </td>
                         </tr>
