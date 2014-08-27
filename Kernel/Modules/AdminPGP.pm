@@ -36,16 +36,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    if (
-        $Self->{ConfigObject}->Get('PGP')
-        && ( !$Self->{CryptObject} || ref $Self->{CryptObject} ne 'Kernel::System::Crypt' )
-        )
-    {
-        return $Self->{LayoutObject}->FatalError(
-            Message => 'PGP object could not be loaded, please contact system administrator!',
-        );
-    }
-
     # ------------------------------------------------------------ #
     # check if feature is active
     # ------------------------------------------------------------ #
@@ -299,6 +289,20 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
 
+        my $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+
+        if ( !$Self->{CryptObject} && $Self->{ConfigObject}->Get('PGP') ) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Data     => $Self->{LayoutObject}->{LanguageObject}
+                    ->Translate( "Cannot create %s!", "CryptObject" ),
+                Link =>
+                    $Self->{LayoutObject}->{Baselink}
+                    . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::PGP',
+            );
+        }
+
         $Self->{LayoutObject}->Block( Name => 'Overview' );
         $Self->{LayoutObject}->Block( Name => 'ActionList' );
         $Self->{LayoutObject}->Block( Name => 'ActionSearch' );
@@ -324,9 +328,8 @@ sub Run {
                 Data => {},
             );
         }
-        my $Output .= $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        if ( $Self->{CryptObject}->Check() ) {
+
+        if ( $Self->{CryptObject} && $Self->{CryptObject}->Check() ) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
                 Data     => $Self->{LayoutObject}->{LanguageObject}
