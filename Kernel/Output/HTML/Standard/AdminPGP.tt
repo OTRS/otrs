@@ -57,7 +57,7 @@
                             <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                             <input type="hidden" name="Subaction" value="Search"/>
                             <input type="text" name="Search" id="Search" value="[% Data.Search | html %]" title="[% Translate("Search") | html %]"/>
-                            <button type="submit" value="[% Translate("Search") | html %]"><span>[% Translate("Search") | html %]</span></button>
+                            <button type="submit" value="[% Translate("Search") | html %]" title="[% Translate("Search") | html %]"><i class="fa fa-search"></i></button>
                             <div class="Clear"></div>
                         </form>
                     </li>
