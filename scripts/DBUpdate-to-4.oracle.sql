@@ -84,10 +84,6 @@ END;
 CREATE INDEX FK_system_maintenance_changefb ON system_maintenance (change_by);
 CREATE INDEX FK_system_maintenance_createf5 ON system_maintenance (create_by);
 CREATE INDEX FK_system_maintenance_valid_id ON system_maintenance (valid_id);
--- ----------------------------------------------------------
---  alter table postmaster_filter
--- ----------------------------------------------------------
-ALTER TABLE postmaster_filter ADD f_not NUMBER (5, 0) NULL;
 SET DEFINE OFF;
 SET SQLBLANKLINES ON;
 ALTER TABLE personal_services ADD CONSTRAINT FK_personal_services_service42 FOREIGN KEY (service_id) REFERENCES service (id);
