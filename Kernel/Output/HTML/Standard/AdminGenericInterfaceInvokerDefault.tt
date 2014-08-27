@@ -44,7 +44,7 @@
                     </li>
 [% RenderBlockStart("ActionListDelete") %]
                     <li>
-                        <button class="CallForAction Trash W75pc" type="button" id="DeleteButton"><span>[% Translate("Delete") | html %]</span></button>
+                        <button class="CallForAction Fullsize Center" type="button" id="DeleteButton"><span> <i class="fa fa-trash-o"></i> [% Translate("Delete") | html %]</span></button>
                         <div class="Hidden" id="DeleteDialogContainer">
                             <span class="WarningDialog ">&nbsp;</span>
                             <p id="DeleteDialog" class="Center Warning">
