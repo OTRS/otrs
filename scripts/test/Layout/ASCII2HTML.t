@@ -10,36 +10,17 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self %Param));
 
-use Kernel::System::AuthSession;
-use Kernel::System::Web::Request;
-use Kernel::System::Group;
-use Kernel::System::Ticket;
-use Kernel::System::User;
 use Kernel::Output::HTML::Layout;
+use Kernel::System::Web::Request;
 
-# create local objects
-my $SessionObject = Kernel::System::AuthSession->new( %{$Self} );
-my $GroupObject   = Kernel::System::Group->new( %{$Self} );
-my $TicketObject  = Kernel::System::Ticket->new( %{$Self} );
-my $UserObject    = Kernel::System::User->new( %{$Self} );
 my $ParamObject   = Kernel::System::Web::Request->new(
-    %{$Self},
     WebRequest => $Param{WebRequest} || 0,
 );
+
 my $LayoutObject = Kernel::Output::HTML::Layout->new(
-    ConfigObject       => $Self->{ConfigObject},
-    LogObject          => $Self->{LogObject},
-    TimeObject         => $Self->{TimeObject},
-    MainObject         => $Self->{MainObject},
-    EncodeObject       => $Self->{EncodeObject},
-    SessionObject      => $SessionObject,
-    DBObject           => $Self->{DBObject},
-    ParamObject        => $ParamObject,
-    TicketObject       => $TicketObject,
-    UserObject         => $UserObject,
-    GroupObject        => $GroupObject,
     UserChallengeToken => 'TestToken',
     UserID             => 1,
     Lang               => 'de',
@@ -364,10 +345,12 @@ for my $Test (@Tests) {
 );
 
 for my $Test (@Tests) {
+
     my $HTML = $LayoutObject->Ascii2Html(
         Text => $Test->{String},
         Max  => $Test->{Max},
     );
+
     $Self->Is(
         $HTML || '',
         $Test->{Result},

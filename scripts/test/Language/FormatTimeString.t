@@ -10,6 +10,7 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self %Param));
 
 use Kernel::Language;
@@ -82,7 +83,6 @@ for my $Test (@Tests) {
     my $LanguageObject = Kernel::Language->new(
         UserTimeZone => $Test->{UserTimeZone},
         UserLanguage => 'de',
-        %{$Self},
     );
 
     $LanguageObject->{ $Test->{DateFormatName} } = $Test->{DateFormat};

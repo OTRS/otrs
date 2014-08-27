@@ -10,21 +10,16 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self %Param));
 
-use Kernel::System::UnitTest::Helper;
 use Kernel::Language;
 
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
+my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $LanguageObject = Kernel::Language->new(
-
-    #UserTimeZone => $Self->{UserTimeZone},
     UserLanguage => 'de',
-    %{$Self},
 );
 
 TEST:
@@ -82,10 +77,11 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
+
     $LanguageObject->{DateFormatLong} = $Test->{DateFormatLong};
 
     $HelperObject->FixedTimeSet(
-        $Self->{TimeObject}->TimeStamp2SystemTime( String => $Test->{FixedTimeSet} ),
+        $TimeObject->TimeStamp2SystemTime( String => $Test->{FixedTimeSet} ),
     );
 
     my $Result = $LanguageObject->Time(
