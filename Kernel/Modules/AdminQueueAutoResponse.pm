@@ -15,6 +15,7 @@ use warnings;
 
 use Kernel::System::AutoResponse;
 use Kernel::System::Queue;
+use Kernel::System::Valid;
 
 sub new {
     my ( $Type, %Param ) = @_;
