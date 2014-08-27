@@ -9,26 +9,24 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
+
+use vars (qw($Self));
 
 use Kernel::System::EmailParser;
 
-my $Home = $Self->{ConfigObject}->Get('Home');
+my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # test for bug#9989
-my @Array = ();
-## no critic
-open( my $IN, "<", "$Home/scripts/test/sample/EmailParser/UTF8Filename.box" );
-## use critic
+my @Array;
+open my $IN, '<', "$Home/scripts/test/sample/EmailParser/UTF8Filename.box";   ## no critic
 while (<$IN>) {
-    push( @Array, $_ );
+    push @Array, $_;
 }
-close($IN);
+close $IN;
 
 # create local object
 my $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 

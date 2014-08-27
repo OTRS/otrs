@@ -9,26 +9,27 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-# This test should verify that an email with an unknown encoding not cause a "die".
+use vars (qw($Self));
 
 use Kernel::System::EmailParser;
 
-my $Home = $Self->{ConfigObject}->Get('Home');
+# This test should verify that an email with an unknown encoding not cause a "die".
+
+# get home
+my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # test for bug#1970
-my @Array = ();
-open( my $IN, "<", "$Home/scripts/test/sample/EmailParser/BrokenEncoding.box" );    ## no critic
+my @Array;
+open my $IN, '<', "$Home/scripts/test/sample/EmailParser/BrokenEncoding.box";    ## no critic
 while (<$IN>) {
-    push( @Array, $_ );
+    push @Array, $_;
 }
-close($IN);
+close $IN;
 
 # create local object
 my $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 
