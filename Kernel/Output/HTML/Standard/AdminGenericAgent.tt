@@ -200,6 +200,7 @@
                                         <td class="EventDelete Center">
                                             <a id="DeleteEvent" class="TrashCan DeleteEvent" href="#" title="[% Translate("Delete this event") | html %]">
                                                 [% Translate("Delete this event") | html %]
+                                                <i class="fa fa-trash-o"></i>
                                             </a>
                                             <input type="hidden" name="" class="EventValue" value="" />
                                         </td>
