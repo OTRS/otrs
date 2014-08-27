@@ -9,12 +9,14 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::HTMLUtils;
+use vars (qw($Self));
 
-my $HTMLUtilsObject = Kernel::System::HTMLUtils->new( %{$Self} );
+use Kernel::System::ObjectManager;
+
+my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+
 #
 # EmbeddedImagesExtract()
 #
