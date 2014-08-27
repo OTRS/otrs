@@ -10,42 +10,28 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self %Param));
 
-use Kernel::System::Encode;
-use Kernel::System::JSON;
-use Kernel::System::Log;
-use Kernel::System::Main;
-use Kernel::System::Time;
-use Kernel::System::Web::Request;
 use Kernel::Output::HTML::Layout;
+use Kernel::System::Web::Request;
 
-# create local objects
-my %CommonObject;
-$CommonObject{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'BuildSelection.t',
-    %CommonObject,
-);
-$CommonObject{TimeObject}  = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
-$CommonObject{JSONObject}  = Kernel::System::JSON->new(%CommonObject);
-$CommonObject{ParamObject} = Kernel::System::Web::Request->new(
-    %CommonObject,
+my $ParamObject   = Kernel::System::Web::Request->new(
     WebRequest => $Param{WebRequest} || 0,
 );
-$CommonObject{LayoutObject} = Kernel::Output::HTML::Layout->new(
-    %CommonObject,
+
+my $LayoutObject = Kernel::Output::HTML::Layout->new(
     Lang => 'de',
 );
 
+my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+
 # set JSON values
-my $JSONTrue  = $CommonObject{JSONObject}->True();
-my $JSONFalse = $CommonObject{JSONObject}->False();
+my $JSONTrue  = $JSONObject->True();
+my $JSONFalse = $JSONObject->False();
 
 # zero test for SelectedID attribute
-my $HTMLCode = $CommonObject{LayoutObject}->BuildSelection(
+my $HTMLCode = $LayoutObject->BuildSelection(
     Data => {
         0 => 'zero',
         1 => 'one',
@@ -68,7 +54,7 @@ $Self->True(
 );
 
 # Ajax and OnChange exclude each other
-$HTMLCode = $CommonObject{LayoutObject}->BuildSelection(
+$HTMLCode = $LayoutObject->BuildSelection(
     Data => {
         0 => 'zero',
         1 => 'one',
@@ -994,7 +980,7 @@ for my $Test (@Tests) {
     }
 
     # call BuildSelection
-    my $HTML = $CommonObject{LayoutObject}->BuildSelection( %{ $Test->{Definition} } );
+    my $HTML = $LayoutObject->BuildSelection( %{ $Test->{Definition} } );
 
     if ( $Test->{Success} ) {
         $Self->Is(
@@ -1022,14 +1008,14 @@ for my $Test (@Tests) {
     if ( $Test->{ExecuteJSON} ) {
 
         # call BuildSelectionJSON
-        my $JSON = $CommonObject{LayoutObject}->BuildSelectionJSON(
+        my $JSON = $LayoutObject->BuildSelectionJSON(
             [
                 $Test->{Definition},
             ],
         );
 
         # JSON ecode the expected data for easy compare
-        my $JSONResponse = $CommonObject{JSONObject}->Encode(
+        my $JSONResponse = $JSONObject->Encode(
             Data => $Test->{JSONResponse},
         );
 
@@ -1050,10 +1036,10 @@ for my $Test (@Tests) {
 
         # restore original data
         if ( ref $Test->{Definition}->{Data} eq 'HASH' ) {
-            $Test->{Definition}->{Data} = {%OriginalData};
+            $Test->{Definition}->{Data} = { %OriginalData };
         }
         elsif ( ref $Test->{Definition}->{Data} eq 'ARRAY' ) {
-            $Test->{Definition}->{Data} = [@OriginalData];
+            $Test->{Definition}->{Data} = [ @OriginalData ];
         }
     }
 }
