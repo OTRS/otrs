@@ -12,6 +12,8 @@ package Kernel::Modules::AdminEmail;
 use strict;
 use warnings;
 
+use Kernel::System::CustomerGroup;
+use Kernel::System::CustomerUser;
 use Kernel::System::Email;
 
 sub new {
