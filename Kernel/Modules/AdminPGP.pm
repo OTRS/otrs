@@ -36,6 +36,16 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    if (
+        $Self->{ConfigObject}->Get('PGP')
+        && ( !$Self->{CryptObject} || ref $Self->{CryptObject} ne 'Kernel::System::Crypt' )
+        )
+    {
+        return $Self->{LayoutObject}->FatalError(
+            Message => 'PGP object could not be loaded, please contact system administrator!',
+        );
+    }
+
     # ------------------------------------------------------------ #
     # check if feature is active
     # ------------------------------------------------------------ #
