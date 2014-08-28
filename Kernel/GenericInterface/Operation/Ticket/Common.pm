@@ -21,7 +21,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::GenericInterface::Operation::Ticket::Common - cBase class for all Ticket Operations
+Kernel::GenericInterface::Operation::Ticket::Common - Base class for all Ticket Operations
 
 =head1 SYNOPSIS
 
@@ -36,9 +36,13 @@ Kernel::GenericInterface::Operation::Ticket::Common - cBase class for all Ticket
 initialize the operation by checking the webservice configuration and gather of the dynamic fields
 
     my $Return = $CommonObject->Init(
+        WebserviceID => 1,
+    );
+
+    $Return = {
         Success => 1,                       # or 0 in case of failure,
         ErrorMessage => 'Error Message',
-    );
+    }
 
 =cut
 
@@ -84,7 +88,7 @@ sub Init {
     }
 
     return {
-        Success => 1
+        Success => 1,
     };
 }
 

@@ -48,7 +48,7 @@ All layout functions of link object (ticket).
 create an object
 
     $BackendObject = Kernel::Output::HTML::LinkObjectTicket->new(
-        UserLanguage => '',
+        UserLanguage => 'en',
         UserID       => 1,
     );
 
