@@ -313,17 +313,13 @@ If no list of object names is passed, all stored objects are destroyed.
     $Kernel::OM->ObjectsDiscard();
 
     $Kernel::OM->ObjectsDiscard(
-
-        # optional, forces the package to be reloaded from file system
-        # sometimes necessary with mod_perl when running CodeUpgrade during a package upgrade
-        ForcePackageReload => 1,
-    );
-
-    $Kernel::OM->ObjectsDiscard(
         Objects            => ['Kernel::System::Ticket', 'Kernel::System::Queue'],
 
-        # optional, forces the package to be reloaded from file system
+        # optional
+        # forces the packages to be reloaded from the file system
         # sometimes necessary with mod_perl when running CodeUpgrade during a package upgrade
+        # if no list of object names is passed, all stored objects are destroyed
+        # and forced to be reloaded
         ForcePackageReload => 1,
     );
 
