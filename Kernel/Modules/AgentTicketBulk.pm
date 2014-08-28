@@ -575,7 +575,7 @@ sub Run {
             }
 
             # time units for note
-            if ( $GetParam{'TimeUnits'} && $ArticleID ) {
+            if ( $GetParam{TimeUnits} && $ArticleID ) {
                 if ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkAccountedTime') ) {
                     $Self->{TicketObject}->TicketAccountTime(
                         TicketID  => $TicketID,
@@ -599,7 +599,7 @@ sub Run {
             }
 
             # time units for email
-            if ( $GetParam{ 'EmailTimeUnits' && $EmailArticleID } ) {
+            if ( $GetParam{EmailTimeUnits} && $EmailArticleID ) {
                 if ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkAccountedTime') ) {
                     $Self->{TicketObject}->TicketAccountTime(
                         TicketID  => $TicketID,
