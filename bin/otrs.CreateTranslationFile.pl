@@ -94,7 +94,7 @@ my $BreakLineAfterChars = 60;
         @Languages = sort keys %DefaultUsedLanguages;
 
         # ignore en*.pm files
-        @Languages = grep { $_ !~ m{ \A en .* }xms } @Languages;
+        @Languages = grep { $_ ne 'en' } @Languages;
     }
     elsif ( $Opts{l} ) {
         push @Languages, $Opts{l};
