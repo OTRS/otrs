@@ -673,25 +673,121 @@ sub _MigrateProcessManagementEntityIDs {
     ACL:
     for my $ACL ( @{$ACLList} ) {
 
-        # skip ACLs that does not include ActivityDialogs
+        # skip ACLs that does not include ActivityDialogs and Processes in the ConfigChange or
+        #    processes in ConfigMatch
         next ACL if ( !IsHashRefWithData( $ACL->{ConfigChange} ) );
         if (
-            !$ACL->{ConfigChange}->{Possible}->{ActivityDialog}
+            !$ACL->{ConfigMatch}->{Properties}->{Process}
+            && !$ACL->{ConfigMatch}->{PropertiesDatabase}->{Process}
+            && !$ACL->{ConfigChange}->{Possible}->{ActivityDialog}
             && !$ACL->{ConfigChange}->{PossibleNot}->{ActivityDialog}
+            && !$ACL->{ConfigChange}->{Possible}->{Process}
+            && !$ACL->{ConfigChange}->{PossibleNot}->{Process}
             )
         {
             next ACL;
         }
         push @AffectedDBACLs, $ACL->{Name};
 
+        for my $ACLPart (qw(Properties PropertiesDatabase)) {
+            if (
+                IsArrayRefWithData( $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ProcessEntityID} )
+                )
+            {
+
+                my @NewProcesses;
+
+                ENTITY:
+                for my $EntityID (
+                    @{ $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ProcessEntityID} }
+                    )
+                {
+
+                    if ( $EntityID =~ m{\A Process - [0-9a-f]{32}? \z}msx ) {
+                        push @NewProcesses, $EntityID;
+                        next ENTITY;
+                    }
+
+                    my $NewEntityID = $EntityLookup{Process}->{$EntityID};
+                    if ( !$NewEntityID ) {
+                        die "Error: No new EntityID was created for Process: $EntityID";
+                    }
+                    push @NewProcesses, $NewEntityID;
+                }
+                $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ProcessEntityID} = \@NewProcesses;
+            }
+
+            if (
+                IsArrayRefWithData(
+                    $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ActivityEntityID}
+                )
+                )
+            {
+
+                my @NewActivities;
+
+                ENTITY:
+                for my $EntityID (
+                    @{ $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ActivityEntityID} }
+                    )
+                {
+
+                    if ( $EntityID =~ m{\A Activity - [0-9a-f]{32}? \z}msx ) {
+                        push @NewActivities, $EntityID;
+                        next ENTITY;
+                    }
+
+                    my $NewEntityID = $EntityLookup{Activity}->{$EntityID};
+                    if ( !$NewEntityID ) {
+                        die "Error: No new EntityID was created for Activity: $EntityID";
+                    }
+                    push @NewActivities, $NewEntityID;
+                }
+                $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ActivityEntityID} = \@NewActivities;
+            }
+
+            if (
+                IsArrayRefWithData(
+                    $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ActivityDialogEntityID}
+                )
+                )
+            {
+
+                my @NewActivityDialogs;
+
+                ENTITY:
+                for my $EntityID (
+                    @{ $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ActivityDialogEntityID} }
+                    )
+                {
+
+                    if ( $EntityID =~ m{\A ActivityDialog - [0-9a-f]{32}? \z}msx ) {
+                        push @NewActivityDialogs, $EntityID;
+                        next ENTITY;
+                    }
+
+                    my $NewEntityID = $EntityLookup{ActivityDialog}->{$EntityID};
+                    if ( !$NewEntityID ) {
+                        die "Error: No new EntityID was created for ActivityDialog: $EntityID";
+                    }
+                    push @NewActivityDialogs, $NewEntityID;
+                }
+                $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ActivityDialogEntityID}
+                    = \@NewActivityDialogs;
+            }
+        }
+
         for my $ACLPart (qw(Possible PossibleNot)) {
-            my @NewActivityDialogs;
             if ( IsArrayRefWithData( $ACL->{ConfigChange}->{$ACLPart}->{ActivityDialog} ) ) {
+                my @NewActivityDialogs;
 
                 ENTITY:
                 for my $EntityID ( @{ $ACL->{ConfigChange}->{$ACLPart}->{ActivityDialog} } ) {
 
-                    next ENTITY if $EntityID =~ m{\A ActivityDialog - [0-9a-f]{32}? \z}msx;
+                    if ( $EntityID =~ m{\A ActivityDialog - [0-9a-f]{32}? \z}msx ) {
+                        push @NewActivityDialogs, $EntityID;
+                        next ENTITY;
+                    }
 
                     my $NewEntityID = $EntityLookup{ActivityDialog}->{$EntityID};
                     if ( !$NewEntityID ) {
@@ -700,6 +796,26 @@ sub _MigrateProcessManagementEntityIDs {
                     push @NewActivityDialogs, $NewEntityID;
                 }
                 $ACL->{ConfigChange}->{$ACLPart}->{ActivityDialog} = \@NewActivityDialogs;
+            }
+
+            if ( IsArrayRefWithData( $ACL->{ConfigChange}->{$ACLPart}->{Process} ) ) {
+                my @NewProcesses;
+
+                ENTITY:
+                for my $EntityID ( @{ $ACL->{ConfigChange}->{$ACLPart}->{Process} } ) {
+
+                    if ( $EntityID =~ m{\A Process - [0-9a-f]{32}? \z}msx ) {
+                        push @NewProcesses, $EntityID;
+                        next ENTITY;
+                    }
+
+                    my $NewEntityID = $EntityLookup{Process}->{$EntityID};
+                    if ( !$NewEntityID ) {
+                        die "Error: No new EntityID was created for Process: $EntityID";
+                    }
+                    push @NewProcesses, $NewEntityID;
+                }
+                $ACL->{ConfigChange}->{$ACLPart}->{Process} = \@NewProcesses;
             }
         }
     }
@@ -867,8 +983,12 @@ sub _MigrateProcessManagementEntityIDs {
 
         # skip ACLs that does not include ActivityDialogs
         if (
-            !$ACL->{ConfigChange}->{Possible}->{ActivityDialog}
+            !$ACL->{ConfigMatch}->{Properties}->{Process}
+            && !$ACL->{ConfigMatch}->{PropertiesDatabase}->{Process}
+            && !$ACL->{ConfigChange}->{Possible}->{ActivityDialog}
             && !$ACL->{ConfigChange}->{PossibleNot}->{ActivityDialog}
+            && !$ACL->{ConfigChange}->{Possible}->{Process}
+            && !$ACL->{ConfigChange}->{PossibleNot}->{Process}
             )
         {
             next ACL;
@@ -1262,7 +1382,7 @@ The upgrading script will continue, please check and update this setting manuall
 See also http://otrs.github.io/doc/manual/developer/4.0/en/html/package-porting.html#package-porting-template-engine.
 
 EOF
-        return 1;   # Treat as success, the user should fix this manually.
+        return 1;    # Treat as success, the user should fix this manually.
     }
 
     return 1 if $TTContent eq $Setting;
