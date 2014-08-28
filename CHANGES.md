@@ -1,4 +1,5 @@
 #3.3.9 2014-??-??
+ - 2014-08-28 Fixed bug#[10700](http://bugs.otrs.org/show_bug.cgi?id=10700) - Bugfix: TimeUnits not written if E-Mail is sent via BulkAction.
  - 2014-08-28 Fixed bug#[10699](http://bugs.otrs.org/show_bug.cgi?id=10699) - Cannot add new customer (company).
  - 2014-08-21 Fixed bug#[10497](http://bugs.otrs.org/show_bug.cgi?id=10497) - CustomerUser secondary database access opens multitude of database connections.
  - 2014-08-08 Fixed bug#[9756](http://bugs.otrs.org/show_bug.cgi?id=9756) - Owner will be set after QueueMove screen AND undo.
