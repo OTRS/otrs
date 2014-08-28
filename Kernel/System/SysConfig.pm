@@ -1333,9 +1333,7 @@ sub ConfigItemValidate {
     return 1 if !$ConfigItem{ValidateModule}->[1]->{Content};
 
     # load the validate module
-    my $ValidateObject = $Self->_LoadBackend(
-        Module => $ConfigItem{ValidateModule}->[1]->{Content},
-    );
+    my $ValidateObject = $Kernel::OM->Get( $ConfigItem{ValidateModule}->[1]->{Content} );
 
     # module could not be loaded
     return if !$ValidateObject;
@@ -2206,58 +2204,6 @@ sub _XML2Perl {
     }
 
     return $Data;
-}
-
-=item _LoadBackend()
-
-Returns a newly loaded backend object
-
-    my $BackendObject = $SysConfigObject->_LoadBackend(
-        Module => 'Kernel::System::SysConfig::StateValidate',
-    );
-
-=cut
-
-sub _LoadBackend {
-    my ( $Self, %Param ) = @_;
-
-    if ( !$Param{Module} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need Module!',
-        );
-        return;
-    }
-
-    # check if backend object is already cached
-    return $Self->{Cache}->{LoadSysConfigBackend}->{ $Param{Module} }
-        if $Self->{Cache}->{LoadSysConfigBackend}->{ $Param{Module} };
-
-    # load the backend module
-    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( $Param{Module} ) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Can't load sysconfig backend module $Param{Module}!",
-        );
-        return;
-    }
-
-    # create new instance
-    my $BackendObject = $Param{Module}->new();
-
-    # check for backend object
-    if ( !$BackendObject ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Can't create a new instance of sysconfig backend module $Param{Module}!",
-        );
-        return;
-    }
-
-    # cache the backend object
-    $Self->{Cache}->{LoadSysConfigBackend}->{ $Param{Module} } = $BackendObject;
-
-    return $BackendObject;
 }
 
 1;

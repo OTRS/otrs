@@ -527,19 +527,13 @@ sub LinkAdd {
         }
     }
 
-    # load backend of source object
-    my $BackendSourceObject = $Self->_LoadBackend(
-        Object => $Param{SourceObject},
-        UserID => $Param{UserID},
-    );
+    # get backend of source object
+    my $BackendSourceObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{SourceObject} );
 
     return if !$BackendSourceObject;
 
-    # load backend of target object
-    my $BackendTargetObject = $Self->_LoadBackend(
-        Object => $Param{TargetObject},
-        UserID => $Param{UserID},
-    );
+    # get backend of target object
+    my $BackendTargetObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{TargetObject} );
 
     return if !$BackendTargetObject;
 
@@ -782,19 +776,13 @@ sub LinkDelete {
         UserID  => $Param{UserID},
     );
 
-    # load backend of source object
-    my $BackendSourceObject = $Self->_LoadBackend(
-        Object => $Existing{SourceObject},
-        UserID => $Param{UserID},
-    );
+    # get backend of source object
+    my $BackendSourceObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Existing{SourceObject} );
 
     return if !$BackendSourceObject;
 
-    # load backend of target object
-    my $BackendTargetObject = $Self->_LoadBackend(
-        Object => $Existing{TargetObject},
-        UserID => $Param{UserID},
-    );
+    # get backend of target object
+    my $BackendTargetObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Existing{TargetObject} );
 
     return if !$BackendTargetObject;
 
@@ -1253,11 +1241,8 @@ sub LinkListWithData {
     OBJECT:
     for my $Object ( sort keys %{$LinkList} ) {
 
-        # load backend
-        my $BackendObject = $Self->_LoadBackend(
-            Object => $Object,
-            UserID => $Param{UserID},
-        );
+        # get backend object
+        my $BackendObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Object );
 
         # check backend object
         if ( !$BackendObject ) {
@@ -2360,10 +2345,8 @@ sub ObjectPermission {
         }
     }
 
-    my $BackendObject = $Self->_LoadBackend(
-        Object => $Param{Object},
-        UserID => $Param{UserID},
-    );
+    # get backend object
+    my $BackendObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{Object} );
 
     return   if !$BackendObject;
     return 1 if !$BackendObject->can('ObjectPermission');
@@ -2405,11 +2388,8 @@ sub ObjectDescriptionGet {
         }
     }
 
-    # load backend
-    my $BackendObject = $Self->_LoadBackend(
-        Object => $Param{Object},
-        UserID => $Param{UserID},
-    );
+    # get backend object
+    my $BackendObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{Object} );
 
     return if !$BackendObject;
 
@@ -2461,11 +2441,8 @@ sub ObjectSearch {
         }
     }
 
-    # load backend
-    my $BackendObject = $Self->_LoadBackend(
-        Object => $Param{Object},
-        UserID => $Param{UserID},
-    );
+    # get backend object
+    my $BackendObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{Object} );
 
     return if !$BackendObject;
 
@@ -2480,68 +2457,8 @@ sub ObjectSearch {
     return \%ObjectList;
 }
 
-=begin Internal:
-
-=item _LoadBackend()
-
-to load a link object backend module
-
-    $HashRef = $LinkObject->_LoadBackend(
-        Object => 'Ticket',
-        UserID => 1,
-    );
-
-=cut
-
-sub _LoadBackend {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Argument (qw(Object UserID)) {
-        if ( !$Param{$Argument} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Argument!",
-            );
-            return;
-        }
-    }
-
-    # check if object is already cached
-    return $Self->{Cache}->{LoadBackend}->{ $Param{Object} }
-        if $Self->{Cache}->{LoadBackend}->{ $Param{Object} };
-
-    my $BackendModule = "Kernel::System::LinkObject::$Param{Object}";
-
-    # load the backend module
-    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($BackendModule) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Can't load backend module $Param{Object}!"
-        );
-        return;
-    }
-
-    # create new instance
-    my $BackendObject = $BackendModule->new();
-
-    if ( !$BackendObject ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Can't load link backend module '$Param{Object}'!",
-        );
-        return;
-    }
-
-    # cache the object
-    $Self->{Cache}->{LoadBackend}->{ $Param{Object} } = $BackendObject;
-
-    return $BackendObject;
-}
 
 1;
-
-=end Internal:
 
 =back
 
