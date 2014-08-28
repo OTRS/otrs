@@ -23,7 +23,7 @@ my $YAMLObject   = $Kernel::OM->Get('Kernel::System::YAML');
 
 # define needed variables
 my $RandomID = $HelperObject->GetRandomID();
-my $Home     = $Self->{ConfigObject}->Get('Home');
+my $Home     = $ConfigObject->Get('Home');
 my $UserID   = 1;
 
 my $CheckACL = sub {
@@ -204,17 +204,20 @@ my @Tests = (
     },
 );
 
+my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
 my %ACLToDelete;
 for my $Test (@Tests) {
 
-    my $ACLData;
-
     # read process for yml file if needed
+    my $ACLData;
     my $FileRef;
     if ( $Test->{ACLFile} ) {
-        $FileRef = $Self->{MainObject}->FileRead(
+
+        $FileRef = $MainObject->FileRead(
             Location => $Home . '/scripts/test/sample/ACL/' . $Test->{ACLFile},
         );
+
         my $RandomID = $HelperObject->GetRandomID();
 
         # convert process to Perl for easy handling
