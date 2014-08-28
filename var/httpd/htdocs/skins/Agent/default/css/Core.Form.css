@@ -167,6 +167,13 @@ a.Reset{
     padding: 3px;
 }
 
+.AddButton, 
+.RemoveButton {
+    color: #000;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
 /**
  * @note    Push-lookalike for active state
  */

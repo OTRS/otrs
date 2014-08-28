@@ -183,38 +183,39 @@
                                 <div id="CustomerRegExErrorMessage_[% Data.EntryCounter | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                                 <div id="CustomerRegExErrorMessage_[% Data.EntryCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Data.CustomerRegExErrorMessageServerErrorMessage | Translate | html %]"}</p></div>
 
-                                <a id="RemoveRegEx_[% Data.EntryCounter | html %]" class="RemoveRegEx" href="#" style="float:right">
-                                    <i class="fa fa-minus-square" style="font-size:15px"></i>
+                                <a id="RemoveRegEx_[% Data.EntryCounter | html %]" class="RemoveRegEx RemoveButton" href="#">
+                                    <i class="fa fa-minus-square-o"></i>
                                 </a>
                                 <div class="Clear"></div>
                             </div>
 [% RenderBlockEnd("RegExRow") %]
                         </div>
 
-                        <div class="RegExTemplate Hidden">
-                            <label class="Mandatory" for="RegEx"><span class="Marker">*</span>[% Translate("RegEx") | html %]:</label>
-                            <input id="RegEx" class="W75pc" type="text" maxlength="500" value="" name="RegEx" style="float:right"/>
-                            <div id="CustomerRegExErrorMessage" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                            <div id="RegExServerError" class="TooltipErrorMessage"><p>[% Data.RegExServerErrorMessage | Translate | html %]</p></div>
-
+                        <fieldset class="RegExTemplate Hidden TableLike SpacingTop">
+                            <label class="Mandatory W50pc" for="RegEx"><span class="Marker">*</span>[% Translate("RegEx") | html %]:</label>
+                            <div class="Field">
+                                <input id="RegEx" class="W80pc" type="text" maxlength="500" value="" name="RegEx" />
+                                <div id="CustomerRegExErrorMessage" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="RegExServerError" class="TooltipErrorMessage"><p>[% Data.RegExServerErrorMessage | Translate | html %]</p></div>
+                            </div>
                             <div class="Clear"></div>
-
                             <label class="Mandatory" for="CustomerRegExErrorMessage"><span class="Marker">*</span>[% Translate("Error Message") | html %]:</label>
-                            <input id="CustomerRegExErrorMessage" class="W75pc" type="text" maxlength="500" value="" name="CustomerRegExErrorMessage" style="float:right"/>
-                            <div id="CustomerRegExErrorMessageError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                            <div id="CustomerRegExErrorMessageServerError" class="TooltipErrorMessage"><p>[% Data.CustomerRegExErrorMessageServerErrorMessage | Translate | html %]</p></div>
-
-                            <a id="RemoveRegEx" class="RemoveRegEx" href="#" style="float:right">
-                                <i class="fa fa-minus-square" style="font-size:15px"></i>
-                            </a>
+                            <div class="Field">
+                                <input id="CustomerRegExErrorMessage" class="W80pc" type="text" maxlength="500" value="" name="CustomerRegExErrorMessage" />
+                                <div id="CustomerRegExErrorMessageError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                <div id="CustomerRegExErrorMessageServerError" class="TooltipErrorMessage"><p>[% Data.CustomerRegExErrorMessageServerErrorMessage | Translate | html %]</p></div>
+                                <a id="RemoveRegEx" class="RemoveRegEx RemoveButton" href="#">
+                                    <i class="fa fa-minus-square-o"></i>
+                                </a>
+                            </div>
                             <div class="Clear"></div>
-                        </div>
+                        </fieldset>
                         <div class="Clear"></div>
 
                         <label for="AddRegEx">[% Translate("Add RegEx") | html %]:</label>
                         <div class="Field">
-                            <a id="AddRegEx" href="#">
-                                <i style="font-size:15px" class="fa fa-plus-square"></i>
+                            <a id="AddRegEx" href="#" class="AddButton">
+                                <i class="fa fa-plus-square-o"></i>
                             </a>
                         </div>
                         <div class="Clear"></div>

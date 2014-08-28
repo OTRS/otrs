@@ -56,7 +56,7 @@ Core.Agent.Search = (function (TargetNS) {
             $Label.next().clone().appendTo('#SearchInsert')
 
                 // bind click function to remove button now
-                .find('.Remove').bind('click', function () {
+                .find('.RemoveButton').bind('click', function () {
                     var $Element = $(this).parent();
                     TargetNS.SearchAttributeRemove($Element);
 
@@ -249,7 +249,7 @@ Core.Agent.Search = (function (TargetNS) {
                 }
 
                 // register add of attribute
-                $('.Add').bind('click', function () {
+                $('.AddButton').bind('click', function () {
                     var Attribute = $('#Attribute').val();
                     TargetNS.SearchAttributeAdd(Attribute);
                     TargetNS.AdditionalAttributeSelectionRebuild();

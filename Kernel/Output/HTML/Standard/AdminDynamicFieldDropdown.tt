@@ -131,7 +131,7 @@
                                 <div id="Value_[% Data.ValueCounter | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                                 <div id="Value_[% Data.ValueCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 
-                                <button type="button" id="RemoveValue_[% Data.ValueCounter | html %]" class="Remove ValueRemove" value="Remove value">[% Translate("Remove value") | html %]</button>
+                                <a href="#" id="RemoveValue_[% Data.ValueCounter | html %]" class="RemoveButton ValueRemove"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove value") | html %]</span></a>
                                 <div class="SpacingTopMini" ></div>
                             </div>
 [% RenderBlockEnd("ValueRow") %]
@@ -147,8 +147,7 @@
                                 <div id="ValueError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                                 <div id="ValueServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 
-                                <button type="button" id="RemoveValue_[% Data.ValueCounter | html %]" class="Remove ValueRemove" value="Remove value">[% Translate("Remove value") | html %]</button>
-                                <div class="SpacingTopMini" ></div>
+                                <a href="#" id="RemoveValue_[% Data.ValueCounter | html %]" class="RemoveButton ValueRemove"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove value") | html %]</span></a>
                             </div>
 [% RenderBlockEnd("ValueTemplate") %]
                             <input type="hidden" name="DeletedValue" value="[% Data.DeletedString | html %]" id="DeletedValue" class="DeletedValue" />
@@ -157,7 +156,7 @@
 
                         <label for="AddValue">[% Translate("Add value") | html %]:</label>
                         <div class="Field">
-                            <button id="AddValue" class="Add" type="button" value="Add Value">[% Translate("Add Value") | html %]</button>
+                            <a href="#" id="AddValue" class="AddButton"><i class="fa fa-plus-square-o"></i><span class="InvisibleText">[% Translate("Add Value") | html %]</span></a>
                         </div>
                         <div class="Clear"></div>
 

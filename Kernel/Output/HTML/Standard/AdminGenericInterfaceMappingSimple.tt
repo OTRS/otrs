@@ -32,8 +32,8 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Data.ActionFrontendModule | uri %];Subaction=Change;[% Data.ActionType | uri %]=[% Data.Action | uri %];WebserviceID=[% Data.WebserviceID | uri %]" class="CallForAction">
-                            <span>[% Translate("Go back to") | html %] [% Data.LowerCaseActionType | html %]</span>
+                        <a href="[% Env("Baselink") %]Action=[% Data.ActionFrontendModule | uri %];Subaction=Change;[% Data.ActionType | uri %]=[% Data.Action | uri %];WebserviceID=[% Data.WebserviceID | uri %]" class="CallForAction Fullsize Center">
+                            <span><i class="fa fa-caret-left"></i> [% Translate("Go back to") | html %] [% Data.LowerCaseActionType | html %]</span>
                         </a>
                     </li>
                 </ul>
@@ -102,7 +102,7 @@
                         <label for="AddKeyMapping">[% Translate("New key map") | html %]:</label>
                         <div class="Field">
                             <div class="NewRule">
-                                <button type="button" id="AddKeyMapping" class="Add" value="Add key mapping">[% Translate("Add key mapping") | html %]</button>
+                                <a href="" id="AddKeyMapping" class="AddButton" value="Add key mapping"><i class="fa fa-plus-square-o"></i><span class="InvisibleText">[% Translate("Add key mapping") | html %]</span></a>
                             </div>
                         </div>
                         <div class="Clear Spacing"></div>

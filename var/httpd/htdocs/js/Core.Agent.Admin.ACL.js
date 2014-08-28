@@ -103,7 +103,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                     .find('strong')
                     .text(Level1Key)
                     .next('ul')
-                    .find('.Icon.Add')
+                    .find('.Icon.AddButton')
                     .after($('#' + Level1Key).parent().html());
 
                 if (typeof Data[Level1Key] === 'object') {
@@ -126,7 +126,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                                 .find('strong')
                                 .text(Level2Key)
                                 .next('ul')
-                                .find('.Icon.Add')
+                                .find('.Icon.AddButton')
                                 .next('input')
                                 .attr('data-parent', Level2Key);
 
@@ -276,7 +276,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                     .find('strong')
                     .text(Value)
                     .next('ul')
-                    .find('.Icon.Add')
+                    .find('.Icon.AddButton')
                     .after($('#' + Value).parent().html());
                 $Target.append($LevelObj);
             }
@@ -299,7 +299,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
 
                 if ($.inArray(Value, KeysWithoutSubkeys) !== -1 && !IsMatchItem) {
                     $LevelObj = $('#TemplateLevel2Last > li').clone();
-                    $TriggerObj = $LevelObj.find('.Add');
+                    $TriggerObj = $LevelObj.find('.AddButton');
                 }
                 else {
                     $LevelObj = $('#TemplateLevel2 > li').clone();
@@ -310,7 +310,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                     .find('strong')
                     .text(Value)
                     .next('ul')
-                    .find('.Icon.Add')
+                    .find('.Icon.AddButton')
                     .next('input')
                     .attr('data-parent', Value);
 
@@ -343,7 +343,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
         else if (Level === 3) {
 
             $LevelObj = $('#TemplateLevel3 > li').clone();
-            $TriggerObj = $LevelObj.find('.Add');
+            $TriggerObj = $LevelObj.find('.AddButton');
 
             if (Value) {
                 $LevelObj
@@ -373,7 +373,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
         else if (Level === 4) {
 
             $LevelObj   = $('#TemplateLevel4 > li').clone();
-            $TriggerObj = $Object.next('.Add');
+            $TriggerObj = $Object.next('.AddButton');
 
             if (Value) {
 
@@ -728,7 +728,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
             });
         });
 
-        $('.ACLStructure').on('click', '.Icon.Remove', function() {
+        $('.ACLStructure').on('click', '.Icon.RemoveButton', function() {
             var Remove = false;
             if ($(this).nextAll('ul').find('li').length > 1) {
                 if (confirm(Core.Agent.Admin.ACL.Localization.ConfirmRemoval)) {

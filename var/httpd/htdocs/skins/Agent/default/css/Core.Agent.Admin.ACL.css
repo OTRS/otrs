@@ -36,6 +36,11 @@ a.Copy {
 
 .ACLFields > h4 {
     font-size: 13px;
+    margin-top: 10px;
+}
+
+fieldset:first-child .ACLFields > h4 {
+    margin-top: 0px;
 }
 
 .ACLFields > p {
@@ -233,12 +238,11 @@ a.Copy {
     height: 16px;
     width: 16px;
     padding: 1px;
-    margin-bottom: 2px;
-    margin-right: 2px;
+    margin-top: -1px;
+    margin-right: -2px;
     border-style: none;
-    text-indent: -9999px;
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: top;
     cursor: pointer;
 }
 

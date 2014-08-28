@@ -135,11 +135,11 @@
                     <ul class="Hidden" id="TemplateLevel1">
                         <li class="DataItem">
                             <span class="Trigger Collapse"></span>
-                            <span class="Icon Remove"></span>
+                            <span class="Icon RemoveButton"><i class="fa fa-minus-square-o"></i></span>
                             <strong></strong>
                             <ul>
                                 <li class="Even Last">
-                                    <span class="Icon Add"></span>
+                                    <span class="Icon AddButton"><i class="fa fa-plus-square-o"></i></span>
                                 </li>
                             </ul>
                         </li>
@@ -148,11 +148,11 @@
                     <ul class="Hidden" id="TemplateLevel2">
                         <li class="DataItem">
                             <span class="Trigger Collapse"></span>
-                            <span class="Icon Remove"></span>
+                            <span class="Icon RemoveButton"><i class="fa fa-minus-square-o"></i></span>
                             <strong></strong>
                             <ul>
                                 <li>
-                                    <span class="Icon Add NoMargin"></span>
+                                    <span class="Icon AddButton NoMargin"></span>
                                     <input type="text" class="NewDataKey" data-level="3" />
                                 </li>
                             </ul>
@@ -162,12 +162,12 @@
                     <ul class="Hidden" id="TemplateLevel2Last">
                         <li class="DataItem">
                             <span class="Trigger Collapse"></span>
-                            <span class="Icon Remove"></span>
+                            <span class="Icon RemoveButton"><i class="fa fa-minus-square-o"></i></span>
                             <strong></strong>
                             <ul class="LastLevel">
                                 <li>
                                     [% Data.ACLKeysLevel4Prefixes %]
-                                    <span class="Icon Add AddDataItem"></span>
+                                    <span class="Icon AddButton AddDataItem"></span>
                                 </li>
                             </ul>
                         </li>
@@ -175,11 +175,11 @@
 
                     <ul class="Hidden" id="TemplateLevel3">
                         <li class="DataItem Editable">
-                            <span class="Icon Remove"></span>
+                            <span class="Icon RemoveButton"><i class="fa fa-minus-square-o"></i></span>
                             <ul>
                                 <li>
                                     [% Data.ACLKeysLevel4Prefixes %]
-                                    <span class="Icon Add AddDataItem"></span>
+                                    <span class="Icon AddButton AddDataItem"></span>
                                 </li>
                             </ul>
                         </li>

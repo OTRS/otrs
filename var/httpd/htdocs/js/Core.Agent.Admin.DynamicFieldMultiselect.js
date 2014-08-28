@@ -83,7 +83,7 @@ Core.Agent.Admin.DynamicFieldMultiselect = (function (TargetNS) {
         $Clone.addClass('ValueRow');
 
         // copy values and change ids and names
-        $Clone.find(':input').each(function(){
+        $Clone.find(':input, a.RemoveButton').each(function(){
             var ID = $(this).attr('id');
             $(this).attr('id', ID + '_' + ValueCounter);
             $(this).attr('name', ID + '_' + ValueCounter);
@@ -98,7 +98,7 @@ Core.Agent.Admin.DynamicFieldMultiselect = (function (TargetNS) {
             $(this).parent().find('#' + ID + 'ServerError').attr('name', ID + '_' + ValueCounter + 'ServerError');
 
             // add event handler to remove button
-            if( $(this).hasClass('Remove') ) {
+            if( $(this).hasClass('RemoveButton') ) {
 
                 // bind click function to remove button
                 $(this).bind('click', function () {
