@@ -313,7 +313,18 @@ If no list of object names is passed, all stored objects are destroyed.
     $Kernel::OM->ObjectsDiscard();
 
     $Kernel::OM->ObjectsDiscard(
-        Objects => ['Kernel::System::Ticket', 'Kernel::System::Queue'],
+
+        # optional, forces the package to be reloaded from file system
+        # sometimes necessary with mod_perl when running CodeUpgrade during a package upgrade
+        ForcePackageReload => 1,
+    );
+
+    $Kernel::OM->ObjectsDiscard(
+        Objects            => ['Kernel::System::Ticket', 'Kernel::System::Queue'],
+
+        # optional, forces the package to be reloaded from file system
+        # sometimes necessary with mod_perl when running CodeUpgrade during a package upgrade
+        ForcePackageReload => 1,
     );
 
 Mostly used for tests that rely on fresh objects, or to avoid large
@@ -370,6 +381,37 @@ sub ObjectsDiscard {
                 = undef;
         }
         push @AllObjects, $Object;
+    }
+
+    # During an OTRS package upgrade the packagesetup code module has just
+    # recently been copied to it's location in the file system.
+    # In a persistent Perl environment an old version of the module might still be loaded,
+    # as watchdogs like Apache2::Reload haven't had a chance to reload it.
+    # So we need to make sure that the new version is being loaded.
+    # Kernel::System::Main::Require() checks the relative file path, so we need to remove that from %INC.
+    # This is only needed in persistent Perl environment, but does no harm in a CGI environment.
+    if ( $Param{ForcePackageReload} ) {
+
+        my @Objects;
+        if ( $Param{Objects} && @{ $Param{Objects} } ) {
+            @Objects = @{ $Param{Objects} };
+        }
+        else {
+            @Objects = @AllObjects;
+        }
+
+        for my $Object (@Objects) {
+
+            # convert :: to / in order to build a file system path name
+            my $ObjectPath = $Object;
+            $ObjectPath =~ s/::/\//g;
+
+            # attach .pm as file extension
+            $ObjectPath .= '.pm';
+
+            # delete from global %INC hash
+            delete $INC{$ObjectPath};
+        }
     }
 
     # second step: post-order recursive traversal
