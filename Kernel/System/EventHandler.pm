@@ -50,29 +50,14 @@ Call this to initialize the event handling mechanisms to work
 correctly with your object.
 
     $Self->EventHandlerInit(
-
         # name of configured event modules
         Config     => 'Example::EventModule',
-
-        # current object, $Self, used in events as "ExampleObject"
-        BaseObject => 'ExampleObject',
-
-        # served default objects in any event backend
-        Objects    => {
-            UserObject => $UserObject,
-            XZY        => $XYZ,
-        },
     );
 
 Example 1:
 
     $Self->EventHandlerInit(
-        Config     => 'Ticket::EventModule',
-        BaseObject => 'TicketObject',
-        Objects    => {
-            UserObject  => $UserObject,
-            GroupObject => $GroupObject,
-        },
+        Config     => 'Ticket::EventModulePost',
     );
 
 Example 1 XML config:
@@ -95,8 +80,6 @@ Example 2:
 
     $Self->EventHandlerInit(
         Config     => 'ITSM::EventModule',
-        BaseObject => 'ChangeObject',
-        Objects    => {},
     );
 
 Example 2 XML config:

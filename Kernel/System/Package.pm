@@ -128,10 +128,6 @@ sub new {
     # init of event handler
     $Self->EventHandlerInit(
         Config     => 'Package::EventModulePost',
-        BaseObject => 'PackageObject',
-        Objects    => {
-            %{$Self},
-        },
     );
 
     # reserve space for merged packages
