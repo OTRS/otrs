@@ -168,7 +168,7 @@ sub EditFieldRender {
     );
 
     my $HTMLString = <<"EOF";
-<input type="text" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" value="$ValueEscaped" />
+<input type="text" class="$FieldClass" id="$FieldName" name="$FieldName" title="\$Text{"$FieldLabelEscaped"}" value="$ValueEscaped" />
 EOF
 
     if ( $Param{Mandatory} ) {
