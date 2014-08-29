@@ -85,7 +85,7 @@
         <div class="Clear"></div>
         <label for="CustomerUserLogin" id="LabelCustomerUserLogin">[% Translate("Customer User Login") | html %] :</label>
         <div class="Field">
-            <input type="text" name="CustomerUserLogin" placeholder="% Translate("(e. g. U5150)") | html %]" value="[% Data.CustomerUserLogin | html %]" class="W50pc"/>
+            <input type="text" name="CustomerUserLogin" placeholder="[% Translate("(e. g. U5150)") | html %]" value="[% Data.CustomerUserLogin | html %]" class="W50pc"/>
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
         </div>
         <div class="Clear"></div>
