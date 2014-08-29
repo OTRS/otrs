@@ -7,20 +7,18 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::Package;
-
-# create local objects
+# get needed objects
 my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
-my $PackageObject = Kernel::System::Package->new( %{$Self} );
+my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 
 # get OTRS Version
-my $OTRSVersion = $Self->{ConfigObject}->Get('Version');
+my $OTRSVersion = $ConfigObject->Get('Version');
 
 # leave only mayor and minor level versions
 $OTRSVersion =~ s{ (\d+ \. \d+) .+ }{$1}msx;

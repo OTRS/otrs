@@ -7,15 +7,15 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::Package;
-
-# create local objects
-my $PackageObject = Kernel::System::Package->new( %{$Self} );
+# get needed objects
+my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 
 my @Tests = (
 

@@ -7,20 +7,20 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::Package;
-
-# create local objects
+# get needed objects
 my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
-my $PackageObject = Kernel::System::Package->new( %{$Self} );
+my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
+my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
 
 # get OTRS Version
-my $OTRSVersion = $Self->{ConfigObject}->Get('Version');
+my $OTRSVersion = $ConfigObject->Get('Version');
 
 # leave only mayor and minor level versions
 $OTRSVersion =~ s{ (\d+ \. \d+) .+ }{$1}msx;
@@ -110,7 +110,7 @@ if ( !$DeveloperSystem ) {
 
     # the modifications has to be at DB level, otherwise a .save file will be generated for the
     # framework file, and we are trying to prvent it
-    $Self->{DBObject}->Do(
+    $DBObject->Do(
         SQL => '
             UPDATE package_repository
             SET content = ?
@@ -121,7 +121,7 @@ if ( !$DeveloperSystem ) {
     my $Content = 'Test 12345678';
 
     # now create an .save file for the framework file, content doesn't matter as it will be deleted
-    my $Write = $Self->{MainObject}->FileWrite(
+    my $Write = $MainObject->FileWrite(
         Location   => $Home . '/bin/otrs.CheckDB.pl.save',
         Content    => \$Content,
         Mode       => 'binmode',

@@ -7,17 +7,20 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-# create local objects
-my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+# get needed objects
+my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
+my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+#my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
 
 # get OTRS Version
-my $OTRSVersion = $Self->{ConfigObject}->Get('Version');
+my $OTRSVersion = $ConfigObject->Get('Version');
 
 # leave only mayor and minor level versions
 $OTRSVersion =~ s{ (\d+ \. \d+) .+ }{$1}msx;
@@ -25,7 +28,7 @@ $OTRSVersion =~ s{ (\d+ \. \d+) .+ }{$1}msx;
 # add x as patch level version
 $OTRSVersion .= '.x';
 
-my $Home = $Self->{ConfigObject}->Get('Home');
+my $Home = $ConfigObject->Get('Home');
 
 # install package normally
 my $MergeOne = '<?xml version="1.0" encoding="utf-8" ?>
@@ -133,7 +136,7 @@ $Self->True(
 );
 
 # get tmp dir location
-my $TmpDir = $Self->{ConfigObject}->Get('TempDir');
+my $TmpDir = $ConfigObject->Get('TempDir');
 
 my $PrincipalTwo = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
@@ -166,28 +169,28 @@ my $PrincipalTwo = '<?xml version="1.0" encoding="utf-8" ?>
       </DatabaseUpgrade>
       <CodeUpgrade Type="merge" Version="2.0.3">
             my $Content = "test";
-            $Self->{MainObject}-&gt;FileWrite(
+            $Kernel::OM&gt;Get(\'Kernel::System::Main\')-&gt;FileWrite(
                 Location  =&gt; "' . $TmpDir . '/test1",
                 Content   =&gt; \$Content,
             );
       </CodeUpgrade>
       <CodeUpgrade Type="merge" Version="2.0.2">
             my $Content = "test";
-            $Self->{MainObject}-&gt;FileWrite(
+            $Kernel::OM&gt;Get(\'Kernel::System::Main\')-&gt;FileWrite(
                 Location  =&gt; "' . $TmpDir . '/test2",
                 Content   =&gt; \$Content,
             );
       </CodeUpgrade>
       <CodeUpgrade Type="merge" Version="2.0.1">
             my $Content = "test";
-            $Self->{MainObject}-&gt;FileWrite(
+            $Kernel::OM&gt;Get(\'Kernel::System::Main\')-&gt;FileWrite(
                 Location  =&gt; "' . $TmpDir . '/test3",
                 Content   =&gt; \$Content,
             );
       </CodeUpgrade>
       <CodeUpgrade Type="merge">
             my $Content = "test";
-            $Self->{MainObject}-&gt;FileWrite(
+            $Kernel::OM&gt;Get(\'Kernel::System::Main\')-&gt;FileWrite(
                 Location  =&gt; "' . $TmpDir . '/test4",
                 Content   =&gt; \$Content,
             );
@@ -408,7 +411,7 @@ my $PrincipalFour = '<?xml version="1.0" encoding="utf-8" ?>
     </DatabaseUninstall>
     <CodeInstall %LabelReplace%>
         my $Content = "test";
-        $Self->{MainObject}-&gt;FileWrite(
+        $Kernel::OM&gt;Get(\'Kernel::System::Main\')-&gt;FileWrite(
             Location  =&gt; "' . $TmpDir . '/test5",
             Content   =&gt; \$Content,
         );
