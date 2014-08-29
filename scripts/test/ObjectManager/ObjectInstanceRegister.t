@@ -21,7 +21,9 @@ $Self->Is(
 );
 
 use Kernel::System::ObjectManager;
+
 local $Kernel::OM = Kernel::System::ObjectManager->new();
+
 $Self->True( $Kernel::OM, 'Could build object manager' );
 
 $Self->False(

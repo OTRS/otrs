@@ -12,6 +12,8 @@ package scripts::test::ObjectManager::Dummy;    ## no critic
 use strict;
 use warnings;
 
+use Kernel::System::ObjectManager;
+
 ## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
 our @ObjectDependencies = ();    # we want to use an undeclared dependency for testing
 
@@ -31,7 +33,6 @@ sub DESTROY {
     # Request this object (undeclared dependency) in the desctructor.
     #   This will create it again in the OM to test that ObjectsDiscard will still work.
     $Kernel::OM->Get('scripts::test::ObjectManager::Dummy2');
-
 }
 
 1;

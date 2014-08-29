@@ -22,6 +22,7 @@ sub new {
 
 sub Data {
     my ($Self) = @_;
+
     return $Self->{Data};
 }
 
