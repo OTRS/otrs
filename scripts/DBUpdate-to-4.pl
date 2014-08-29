@@ -1361,39 +1361,125 @@ migrate settings that contain DTL to TT.
 =cut
 
 sub _MigrateDTLInSysConfig {
+
+    # create needed objects
+    my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+    my $ProviderObject  = Kernel::Output::Template::Provider->new();
 
-    my $Setting = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::ResponseFormat');
+    # initialize erro message
+    my $ErrorMessage = '';
 
-    my $ProviderObject = Kernel::Output::Template::Provider->new();
+    # define setting for migrating
+    my @SettingsToTT;
 
-    my $TTContent;
-    eval {
-        $TTContent = $ProviderObject->MigrateDTLtoTT( Content => $Setting );
-    };
-    if ($@) {
+    for my $Item (
+        qw(
+        AgentTicketMove AgentTicketResponsible AgentTicketPriority
+        AgentTicketPending AgentTicketOwner AgentTicketNote AgentTicketClose
+        AgentTicketPhoneInbound AgentTicketPhoneOutbound AgentTicketFreeText
+        )
+        )
+    {
+        push @SettingsToTT, { Key => 'Ticket::Frontend::' . $Item, SubKey => 'Subject' };
+    }
+
+    # include menu settings
+    for my $Key (qw(PreMenuModule MenuModule)) {
+        my $SettingName    = 'Ticket::Frontend::' . $Key;
+        my $SysConfigEntry = $ConfigObject->Get($SettingName);
+
+        if ( IsHashRefWithData($SysConfigEntry) ) {
+
+            for my $Item ( sort keys %{$SysConfigEntry} ) {
+                push @SettingsToTT, { Key => $SettingName, SubKey => $Item };
+            }
+        }
+    }
+
+    # add no hash setting
+    push @SettingsToTT, { Key => 'Ticket::Frontend::ResponseFormat', SubKey => '' };
+
+    SETTING:
+    for my $Values (@SettingsToTT) {
+
+        # initialize setting
+        my $Key    = $Values->{Key}    || '';
+        my $SubKey = $Values->{SubKey} || '';
+
+        next SETTING if !$Key;
+
+        # next SETTING if !$SubKey;
+
+        # get setting's content
+        my $Setting = $ConfigObject->Get($Key);
+        next SETTING if !$Setting;
+
+        my $SettingContent;
+        if ( !$SubKey ) {
+            $SettingContent = $Setting;
+        }
+        elsif ( $SubKey eq 'Subject' ) {
+            $SettingContent = $Setting->{$SubKey} || '';
+        }
+        else {
+            $SettingContent = $Setting->{$SubKey}->{Link} || '';
+        }
+
+        # do nothing no value for migrating
+        next SETTING if !$SettingContent;
+
+        my $TTContent;
+        eval {
+            $TTContent = $ProviderObject->MigrateDTLtoTT( Content => $SettingContent );
+        };
+        if ($@) {
+
+            $ErrorMessage .= " $Key : $@ \n";
+        }
+        else {
+
+            next SETTING if $TTContent eq $SettingContent;
+
+            # set migrated value
+            if ( !$SubKey ) {
+                $Setting = $TTContent;
+            }
+            elsif ( $SubKey eq 'Subject' ) {
+                $Setting->{$SubKey} = $TTContent;
+            }
+            else {
+                $Setting->{$SubKey}->{Link} = $TTContent;
+            }
+
+            my $Success = $SysConfigObject->ConfigItemUpdate(
+                Valid => 1,
+                Key   => $Key,
+                Value => $Setting,
+            );
+
+        }
+
+    }
+
+    # check if an error is present
+    if ($ErrorMessage) {
         print STDERR <<EOF;
 
-The Sysconfig setting Ticket::Frontend::ResponseFormat could not be automatically converted
+One or more sysconfig settings could not be automatically converted
 from DTL to Template::Toolkit. The error was:
-$@
+$ErrorMessage
 
-The upgrading script will continue, please check and update this setting manually.
+The upgrading script will continue, please check and update this settings manually.
 See also http://otrs.github.io/doc/manual/developer/4.0/en/html/package-porting.html#package-porting-template-engine.
 
 EOF
-        return 1;    # Treat as success, the user should fix this manually.
+
+        # Treat as success, the user should fix this manually.
     }
 
-    return 1 if $TTContent eq $Setting;
+    return 1;
 
-    my $Success = $SysConfigObject->ConfigItemUpdate(
-        Valid => 1,
-        Key   => 'Ticket::Frontend::ResponseFormat',
-        Value => $TTContent,
-    );
-
-    return $Success;
 }
 
 1;
