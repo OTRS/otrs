@@ -9,11 +9,20 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
 use Time::HiRes ();
 
 use Kernel::System::DB;
+
+use Kernel::System::VariableCheck qw(:all);
+
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 # this test only works in *nix
 if ( $^O =~ /^mswin/i ) {
@@ -82,9 +91,7 @@ my $FileWriteSleep = sub {
     }
 
     # set sleep parameter
-    if ( !defined $Param{Sleep} ) {
-        $Param{Sleep} = 0;
-    }
+    $Param{Sleep} //= 0;
 
     # set process references
     if ( !defined $Param{Who} ) {
@@ -145,7 +152,7 @@ my $FileWriteSleep = sub {
     if ( !$Param{Mode} || lc $Param{Mode} eq 'binmode' ) {
 
         # make sure, that no utf8 stamp exists (otherway perl will do auto convert to iso)
-        $Self->{EncodeObject}->EncodeOutput( $Param{Content} );
+        $EncodeObject->EncodeOutput( $Param{Content} );
 
         # set file handle to binmode
         binmode $FH;
@@ -197,7 +204,7 @@ my $FileWriteSleep = sub {
 #
 
 # set test file to read and write
-my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/flock_' . rand(1000000);
+my $File = $ConfigObject->Get('Home') . '/var/tmp/flock_' . rand(1000000);
 
 # delete test file if exists
 if ( -e $File ) {
@@ -242,7 +249,7 @@ else {
 }
 
 # write initial content in test file
-my $FileLocation = $Self->{MainObject}->FileWrite(
+my $FileLocation = $MainObject->FileWrite(
     Location => $File,
     Content  => \$InitialContent,
 );
@@ -261,7 +268,7 @@ $Self->True(
     "From Parent - Test file write took less than 1s (${TimeElapsed}s)",
 );
 
-my $ReadContentRef = $Self->{MainObject}->FileRead(
+my $ReadContentRef = $MainObject->FileRead(
     Location => $File,
 );
 
@@ -277,7 +284,7 @@ my $PID = fork();
 
 # refresh DBObject in both parent and child (otherwise when child terinates DB handlers disconect
 # on both)
-$Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
+$Self->{DBObject} = Kernel::System::DB->new();
 
 my $Who = !defined $PID || $PID != 0 ? 'Parent' : 'Child';
 $Self->Is(
@@ -300,7 +307,7 @@ if ( !defined $PID ) {
 elsif ( $PID == 0 ) {
 
     # read the test file
-    my $ReadContentRef = $Self->{MainObject}->FileRead(
+    my $ReadContentRef = $MainObject->FileRead(
         Location => $File,
     );
 
@@ -323,7 +330,7 @@ elsif ( $PID == 0 ) {
 
     # read should wait until parent (that is waiting for unlock) writes the file
     # check contents after write
-    $ReadContentRef = $Self->{MainObject}->FileRead(
+    $ReadContentRef = $MainObject->FileRead(
         Location => $File,
     );
 
@@ -346,7 +353,7 @@ else {
     sleep 1;
 
     # parent read file
-    my $ReadContentRef = $Self->{MainObject}->FileRead(
+    my $ReadContentRef = $MainObject->FileRead(
         Location => $File,
     );
 
@@ -364,7 +371,7 @@ else {
     my $TimeStart = [ Time::HiRes::gettimeofday() ];
 
     # write parent content in test file
-    my $FileLocation = $Self->{MainObject}->FileWrite(
+    my $FileLocation = $MainObject->FileWrite(
         Location => $File,
         Content  => \$ParentContent,
     );
@@ -383,7 +390,7 @@ else {
         "From Parent - Test file write took much more than ${TimeElapsed}s (${TimeElapsed2}s)",
     );
 
-    $ReadContentRef = $Self->{MainObject}->FileRead(
+    $ReadContentRef = $MainObject->FileRead(
         Location => $File,
     );
 
@@ -398,7 +405,7 @@ else {
 }
 
 # delete testfile
-my $DeleteSuccess = $Self->{MainObject}->FileDelete(
+my $DeleteSuccess = $MainObject->FileDelete(
     Location => $File,
 );
 
