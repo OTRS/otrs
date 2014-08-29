@@ -1,4 +1,5 @@
 #3.3.9 2014-??-??
+ - 2014-08-29 Fixed bug#[10652](http://bugs.otrs.org/show_bug.cgi?id=10652) - Process tickets without any articles create empty lines in AgentTicketSearch CSV result file.
  - 2014-08-29 Fixed bug#[10607](http://bugs.otrs.org/show_bug.cgi?id=10607) - SQL Box can change the database.
  - 2014-08-28 Fixed bug#[10700](http://bugs.otrs.org/show_bug.cgi?id=10700) - Bugfix: TimeUnits not written if E-Mail is sent via BulkAction.
  - 2014-08-28 Fixed bug#[10699](http://bugs.otrs.org/show_bug.cgi?id=10699) - Cannot add new customer (company).
