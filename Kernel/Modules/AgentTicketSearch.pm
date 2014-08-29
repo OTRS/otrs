@@ -615,6 +615,22 @@ sub Run {
                     DynamicFields => 1,
                 );
 
+                if ( !%Data ) {
+
+                    # get ticket data instead
+                    %Data = $Self->{TicketObjectSearch}->TicketGet(
+                        TicketID      => $TicketID,
+                        DynamicFields => 1,
+                    );
+
+                    # set missing information
+                    $Data{Subject} = $Data{Title} || 'Untitled';
+                    $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                        'This item has no articles yet.'
+                    );
+                    $Data{From} = '--';
+                }
+
                 for my $Key (qw(State Lock)) {
                     $Data{$Key} = $Self->{LayoutObject}->{LanguageObject}->Translate( $Data{$Key} );
                 }
@@ -627,13 +643,21 @@ sub Run {
                         TicketID      => $TicketID,
                         DynamicFields => 0,
                     );
-                    for my $Articles (@Article) {
-                        if ( $Articles->{Body} ) {
-                            $Data{ArticleTree}
-                                .= "\n-->||$Articles->{ArticleType}||$Articles->{From}||"
-                                . $Articles->{Created}
-                                . "||<--------------\n"
-                                . $Articles->{Body};
+
+                    if ( $#Article == -1 ) {
+                        $Data{ArticleTree}
+                            .= 'This item has no articles yet.';
+                    }
+                    else
+                    {
+                        for my $Articles (@Article) {
+                            if ( $Articles->{Body} ) {
+                                $Data{ArticleTree}
+                                    .= "\n-->||$Articles->{ArticleType}||$Articles->{From}||"
+                                    . $Articles->{Created}
+                                    . "||<--------------\n"
+                                    . $Articles->{Body};
+                            }
                         }
                     }
                 }
@@ -759,8 +783,8 @@ sub Run {
                     );
 
                     # set missing information
-                    $Data{Subject} = $Data{Title};
-                    $Data{From}    = '--';
+                    $Data{Subject} = $Data{Title} || 'Untitled';
+                    $Data{From} = '--';
                 }
 
                 # customer info

@@ -568,6 +568,7 @@ sub Run {
                     $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Translate(
                         'This item has no articles yet.'
                     );
+                    $Data{From} = '--';
                 }
 
                 for my $Key (qw(State Lock)) {
@@ -582,13 +583,20 @@ sub Run {
                         TicketID      => $TicketID,
                         DynamicFields => 0,
                     );
-                    for my $Articles (@Article) {
-                        if ( $Articles->{Body} ) {
-                            $Data{ArticleTree}
-                                .= "\n-->||$Articles->{ArticleType}||$Articles->{From}||"
-                                . $Articles->{Created}
-                                . "||<--------------\n"
-                                . $Articles->{Body};
+                    if ( $#Article == -1 ) {
+                        $Data{ArticleTree}
+                            .= 'This item has no articles yet.';
+                    }
+                    else
+                    {
+                        for my $Articles (@Article) {
+                            if ( $Articles->{Body} ) {
+                                $Data{ArticleTree}
+                                    .= "\n-->||$Articles->{ArticleType}||$Articles->{From}||"
+                                    . $Articles->{Created}
+                                    . "||<--------------\n"
+                                    . $Articles->{Body};
+                            }
                         }
                     }
                 }
@@ -712,6 +720,7 @@ sub Run {
                     $Article{Body} = $Self->{LayoutObject}->{LanguageObject}->Translate(
                         'This item has no articles yet.'
                     );
+                    $Article{From} = '--';
                 }
 
                 # customer info
