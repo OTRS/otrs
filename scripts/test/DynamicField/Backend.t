@@ -14,6 +14,7 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -61,7 +62,7 @@ $Self->True(
 );
 
 # get the Dynamic Fields configuration
-my $DynamicFieldsConfig = $Self->{ConfigObject}->Get('DynamicFields::Driver');
+my $DynamicFieldsConfig = $ConfigObject->Get('DynamicFields::Driver');
 
 # sanity check
 $Self->Is(
