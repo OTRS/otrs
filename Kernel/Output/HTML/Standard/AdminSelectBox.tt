@@ -17,7 +17,7 @@
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
-                    [% Translate("Here you can enter SQL to send it directly to the application database.") | html %]
+                    [% Translate("Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.") | html %]
                 </p>
             </div>
         </div>
@@ -44,6 +44,9 @@
 [% RenderBlockStart("FieldRequiredServerError") %]
                                     [% Translate("This field is required.") | html %]
 [% RenderBlockEnd("FieldRequiredServerError") %]
+[% RenderBlockStart("SQLIsNotSelectServerError") %]
+                                    [% Translate("Only select queries are allowed.") | html %]
+[% RenderBlockEnd("SQLIsNotSelectServerError") %]
 [% RenderBlockStart("SQLSyntaxServerError") %]
                                     [% Translate("The syntax of your SQL query has a mistake. Please check it.") | html %]
 [% RenderBlockEnd("SQLSyntaxServerError") %]

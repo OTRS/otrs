@@ -65,6 +65,12 @@ sub Run {
             $Errors{ErrorType}  = 'FieldRequired';
         }
 
+        # check SQL query, only select queries are allowed
+        if ( uc( $Param{SQL} ) !~ m{\A\s*SELECT}smx ) {
+            $Errors{SQLInvalid} = 'ServerError';
+            $Errors{ErrorType}  = 'SQLIsNotSelect';
+        }
+
         # if no errors occurred
         if ( !%Errors ) {
 
