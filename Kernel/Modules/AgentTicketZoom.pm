@@ -168,10 +168,10 @@ sub Run {
 
         my %Actions = %{ $Self->{ConfigObject}->Get('Frontend::Module') };
 
-        # only use those Actions that stats with AgentTicket
+        # only use those Actions that stats with Agent
         %PossibleActions
             = map { ++$Counter => $_ }
-            grep { substr( $_, 0, length 'AgentTicket' ) eq 'AgentTicket' }
+            grep { substr( $_, 0, length 'Agent' ) eq 'Agent' }
             sort keys %Actions;
     }
 
