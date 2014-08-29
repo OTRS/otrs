@@ -680,7 +680,7 @@ sub Run {
 
             my %HeaderMap = (
                 TicketNumber => 'Ticket Number',
-                CustomerName => 'customer realname',
+                CustomerName => 'Customer Realname',
             );
 
             my @CSVHeadTranslated
