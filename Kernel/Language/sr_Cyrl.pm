@@ -2209,8 +2209,8 @@ sub Data {
 
         # Template: AdminSelectBox
         'SQL Box' => 'SQL Box',
-        'Here you can enter SQL to send it directly to the application database.' =>
-            'Овде можете унети SQL команде и послати их директно апликационој бази података.',
+        'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
+            'Овде можете унети SQL команде и послати их директно апликационој бази података. Није могуће мењати садржај табела, дозвољен је једино \'select\' упит.',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Постоји грешка у синтакси вашег SQL упита. Молимо проверите.',
         'There is at least one parameter missing for the binding. Please check it.' =>
