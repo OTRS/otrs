@@ -221,12 +221,12 @@ $Self->Is(
 
 $Self->Is(
     $WorkingTime10 / 60 / 60,
-    4.48333333333333,
+    4.48861111111111,    # 16:13:31 - 11:44:12 => 4:29:19 = 4.4886...
     'WorkingHours - Mon-Mon',
 );
 $Self->Is(
     $WorkingTime11 / 60 / 60,
-    2.41666666666667,
+    2.42611111111111,    # 1 10:25:23 - 22:57:35 => 2:25:34 = 2,426...
     'WorkingHours - Thu-Wed',
 );
 $Self->Is(
@@ -508,6 +508,101 @@ for my $Test (@DestinationTime) {
         $Test->{EndTime},
         "DestinationTime() - $Test->{Name}",
     );
+}
+
+# WorkingTime/DestinationTime roundtrip test (random)
+my @WorkingTimeDestinationTimeRoundtrip = (
+    {
+        Name       => 'Test 1',
+        BaseDate   => '2013-12-26 15:15:00',
+        DaysBefore => 8,
+        DaysAfter  => 12,
+        Runs       => 80,
+        Calendar   => '',
+        MaxDiff    => 4 * 24 * 60 * 60,
+    },
+    {
+        Name       => 'Test 2',
+        BaseDate   => '2013-10-24 04:41:17',
+        DaysBefore => 3,
+        DaysAfter  => 12,
+        Runs       => 40,
+        Calendar   => '',
+        MaxDiff    => 3 * 24 * 60 * 60,
+    },
+    {
+        Name       => 'Test 3',
+        BaseDate   => '2013-03-01 10:11:12',
+        DaysBefore => 5,
+        DaysAfter  => 180,
+        Runs       => 40,
+        Calendar   => 7,                       # 24/7
+        MaxDiff    => 0,
+    },
+);
+
+# modify calendar 7 -- 24/7
+my $WorkingHoursFull = [ '0' .. '23' ];
+$ConfigObject->Set(
+    Key   => 'TimeWorkingHours::Calendar7',
+    Value => {
+        map { $_ => $WorkingHoursFull, } qw( Mon Tue Wed Thu Fri Sat Sun ),
+    },
+);
+
+srand(12345678);    # repeatable!
+for my $Test (@WorkingTimeDestinationTimeRoundtrip) {
+    my $BaseDate   = $Test->{BaseDate};
+    my $BaseTime   = $TimeObject->TimeStamp2SystemTime( String => $BaseDate );
+    my $DaysBefore = $Test->{DaysBefore};
+    my $DaysAfter  = $Test->{DaysAfter};
+    for my $Run ( 1 .. 40 ) {
+
+        # Use random start/stop dates around base date
+        my $StartTime = $BaseTime - int( rand( $DaysBefore * 24 * 60 * 60 ) );
+        my $StartDate = $TimeObject->SystemTime2TimeStamp( SystemTime => $StartTime );
+        my $StopTime  = $BaseTime + int( rand( $DaysAfter * 24 * 60 * 60 ) );
+        my $StopDate  = $TimeObject->SystemTime2TimeStamp( SystemTime => $StopTime );
+
+        my $WorkingTime = $TimeObject->WorkingTime(
+            StartTime => $StartTime,
+            StopTime  => $StopTime,
+            Calendar  => $Test->{Calendar},
+        );
+        my $DestinationTime = $TimeObject->DestinationTime(
+            StartTime => $StartTime,
+            Time      => $WorkingTime,
+            Calendar  => $Test->{Calendar},
+        );
+        my $WorkingTime2 = $TimeObject->WorkingTime(    # re-check
+            StartTime => $StartTime,
+            StopTime  => $DestinationTime,
+            Calendar  => $Test->{Calendar},
+        );
+        my $DestinationDate = $TimeObject->SystemTime2TimeStamp( SystemTime => $DestinationTime );
+        my $WH              = int( $WorkingTime / 3600 );
+        my $WM              = int( ( $WorkingTime - $WH * 3600 ) / 60 );
+        my $WS              = $WorkingTime - $WH * 3600 - $WM * 60;
+        my $WT              = sprintf( "%u:%02u:%02u", $WH, $WM, $WS );
+
+        my $Ok = $DestinationTime >= $StopTime - $Test->{MaxDiff}    # within MaxDiff of StopDate...
+            && $DestinationTime <= $StopTime                         # ...but not later
+            && $WorkingTime == $WorkingTime2;
+
+        $Self->Is(
+            $Ok,
+            1,
+            "WorkingTime/DestinationTime roundtrip $Test->{Name}.$Run -- $StartDate .. $DestinationDate <= $StopDate ($WT)",
+        );
+
+        if ( !$Ok ) {
+            print "\tStart: $StartTime / $StartDate\n";
+            print "\tStop:  $StopTime / $StopDate\n";
+            print "\tDest:  $DestinationTime / $DestinationDate\n";
+            print "\tWork:  $WT = $WorkingTime"
+                . ( $WorkingTime != $WorkingTime2 ? " --> $WorkingTime2" : "" ) . "\n";
+        }
+    }
 }
 
 # check the vacations

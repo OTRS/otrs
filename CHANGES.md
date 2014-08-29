@@ -1,4 +1,5 @@
 #4.0.0.beta1 20??-??-??
+ - 2014-08-29 Fixed bug#[10128](http://bugs.otrs.org/show_bug.cgi?id=10128) - WorkingTime/DestinationTime roundtrip exposes calculation errors.
  - 2014-08-25 Updated CPAN module YAML to version 1.09.
  - 2014-08-25 Updated CPAN module URI to version 1.64.
  - 2014-08-25 Updated CPAN module Net::SSLGlue to version 1.053.
