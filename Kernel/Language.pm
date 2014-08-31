@@ -216,6 +216,8 @@ translate a text with placeholders.
 sub Translate {
     my ( $Self, $Text, @Parameters ) = @_;
 
+    $Text ||= '';
+
     $Text = $Self->{Translation}->{$Text} || $Text;
 
     return $Text if !@Parameters;
