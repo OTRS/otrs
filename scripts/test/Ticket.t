@@ -21,6 +21,7 @@ my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
 my $SLAObject     = $Kernel::OM->Get('Kernel::System::SLA');
 my $StateObject   = $Kernel::OM->Get('Kernel::System::State');
 my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TimeObject    = $Kernel::OM->Get('Kernel::System::Time');
 my $TypeObject    = $Kernel::OM->Get('Kernel::System::Type');
 my $UserObject    = $Kernel::OM->Get('Kernel::System::User');
 
@@ -43,7 +44,10 @@ $Self->True(
     'TicketCreate()',
 );
 
-my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID, Extended => 1 );
+my %Ticket = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    Extended => 1,
+);
 $Self->Is(
     $Ticket{Title},
     'Some Ticket_Title',
@@ -721,7 +725,7 @@ $HelperObject->FixedTimeAddSeconds(5);
 
 # set unlock timeout
 my $UnlockTimeout = $TicketObject->TicketUnlockTimeoutUpdate(
-    UnlockTimeout => $Self->{TimeObject}->SystemTime() + 10000,
+    UnlockTimeout => $TimeObject->SystemTime() + 10000,
     TicketID      => $TicketID,
     UserID        => 1,
 );
@@ -1119,11 +1123,11 @@ $Self->False(
 );
 
 # Test TicketCreateTimeNewerDate
-my $SystemTime = $Self->{TimeObject}->SystemTime();
+my $SystemTime = $TimeObject->SystemTime();
 %TicketIDs = $TicketObject->TicketSearch(
     Result                    => 'HASH',
     Limit                     => 100,
-    TicketCreateTimeNewerDate => $Self->{TimeObject}->SystemTime2TimeStamp(
+    TicketCreateTimeNewerDate => $TimeObject->SystemTime2TimeStamp(
         SystemTime => $SystemTime - ( 60 * 60 ),
     ),
     UserID     => 1,
@@ -1135,11 +1139,11 @@ $Self->True(
 );
 
 # Test ArticleCreateTimeNewerDate
-$SystemTime = $Self->{TimeObject}->SystemTime();
+$SystemTime = $TimeObject->SystemTime();
 %TicketIDs  = $TicketObject->TicketSearch(
     Result                     => 'HASH',
     Limit                      => 100,
-    ArticleCreateTimeNewerDate => $Self->{TimeObject}->SystemTime2TimeStamp(
+    ArticleCreateTimeNewerDate => $TimeObject->SystemTime2TimeStamp(
         SystemTime => $SystemTime - ( 60 * 60 ),
     ),
     UserID     => 1,
@@ -1154,7 +1158,7 @@ $Self->True(
 %TicketIDs = $TicketObject->TicketSearch(
     Result                    => 'HASH',
     Limit                     => 100,
-    TicketCreateTimeOlderDate => $Self->{TimeObject}->SystemTime2TimeStamp(
+    TicketCreateTimeOlderDate => $TimeObject->SystemTime2TimeStamp(
         SystemTime => $SystemTime - ( 60 * 60 ),
     ),
     UserID     => 1,
@@ -1169,7 +1173,7 @@ $Self->False(
 %TicketIDs = $TicketObject->TicketSearch(
     Result                     => 'HASH',
     Limit                      => 100,
-    ArticleCreateTimeOlderDate => $Self->{TimeObject}->SystemTime2TimeStamp(
+    ArticleCreateTimeOlderDate => $TimeObject->SystemTime2TimeStamp(
         SystemTime => $SystemTime - ( 60 * 60 ),
     ),
     UserID     => 1,
@@ -1184,7 +1188,7 @@ $Self->False(
 %TicketIDs = $TicketObject->TicketSearch(
     Result                   => 'HASH',
     Limit                    => 100,
-    TicketCloseTimeNewerDate => $Self->{TimeObject}->SystemTime2TimeStamp(
+    TicketCloseTimeNewerDate => $TimeObject->SystemTime2TimeStamp(
         SystemTime => $SystemTime - ( 60 * 60 ),
     ),
     UserID     => 1,
@@ -1199,7 +1203,7 @@ $Self->True(
 %TicketIDs = $TicketObject->TicketSearch(
     Result                   => 'HASH',
     Limit                    => 100,
-    TicketCloseTimeOlderDate => $Self->{TimeObject}->SystemTime2TimeStamp(
+    TicketCloseTimeOlderDate => $TimeObject->SystemTime2TimeStamp(
         SystemTime => $SystemTime - ( 60 * 60 ),
     ),
     UserID     => 1,
@@ -1357,13 +1361,13 @@ $Self->Is(
     'ArticleAccountedTimeGet()',
 );
 
-my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
-    SystemTime => $Self->{TimeObject}->SystemTime(),
+my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
+    SystemTime => $TimeObject->SystemTime(),
 );
 
 my ( $StopSec, $StopMin, $StopHour, $StopDay, $StopMonth, $StopYear )
-    = $Self->{TimeObject}->SystemTime2Date(
-    SystemTime => $Self->{TimeObject}->SystemTime() - 60 * 60 * 24,
+    = $TimeObject->SystemTime2Date(
+    SystemTime => $TimeObject->SystemTime() - 60 * 60 * 24,
     );
 
 my %TicketStatus = $TicketObject->HistoryTicketStatusGet(
@@ -1819,7 +1823,7 @@ $Self->Is(
 );
 
 my $Diff               = 60;
-my $CurrentSystemTime  = $Self->{TimeObject}->SystemTime();
+my $CurrentSystemTime  = $TimeObject->SystemTime();
 my $PendingTimeSetDiff = $TicketObject->TicketPendingTimeSet(
     Diff     => $Diff,
     TicketID => $TicketID,
@@ -1862,7 +1866,7 @@ $Self->True(
     UserID   => 1,
 );
 
-my $PendingUntilTime = $Self->{TimeObject}->Date2SystemTime(
+my $PendingUntilTime = $TimeObject->Date2SystemTime(
     Year   => '2003',
     Month  => '08',
     Day    => '14',
@@ -1871,7 +1875,7 @@ my $PendingUntilTime = $Self->{TimeObject}->Date2SystemTime(
     Second => '00',
 );
 
-$PendingUntilTime = $Self->{TimeObject}->SystemTime() - $PendingUntilTime;
+$PendingUntilTime = $TimeObject->SystemTime() - $PendingUntilTime;
 
 $Self->Is(
     $TicketPending{UntilTime},
@@ -1921,11 +1925,11 @@ $Self->True(
     UserID   => 1,
 );
 
-$PendingUntilTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+$PendingUntilTime = $TimeObject->TimeStamp2SystemTime(
     String => '2003-09-14 22:05:00',
 );
 
-$PendingUntilTime = $Self->{TimeObject}->SystemTime() - $PendingUntilTime;
+$PendingUntilTime = $TimeObject->SystemTime() - $PendingUntilTime;
 
 $Self->Is(
     $TicketPending{UntilTime},
@@ -2003,11 +2007,11 @@ $Self->Is(
 $HelperObject->FixedTimeAddSeconds( -60 * 60 );
 
 # Test TicketCreateTimeNewerDate (future date)
-$SystemTime = $Self->{TimeObject}->SystemTime();
+$SystemTime = $TimeObject->SystemTime();
 %TicketIDs  = $TicketObject->TicketSearch(
     Result                    => 'HASH',
     Limit                     => 100,
-    TicketCreateTimeNewerDate => $Self->{TimeObject}->SystemTime2TimeStamp(
+    TicketCreateTimeNewerDate => $TimeObject->SystemTime2TimeStamp(
         SystemTime => $SystemTime + ( 60 * 60 ),
     ),
     UserID     => 1,
@@ -2019,11 +2023,11 @@ $Self->False(
 );
 
 # Test ArticleCreateTimeNewerDate (future date)
-$SystemTime = $Self->{TimeObject}->SystemTime();
+$SystemTime = $TimeObject->SystemTime();
 %TicketIDs  = $TicketObject->TicketSearch(
     Result                     => 'HASH',
     Limit                      => 100,
-    ArticleCreateTimeNewerDate => $Self->{TimeObject}->SystemTime2TimeStamp(
+    ArticleCreateTimeNewerDate => $TimeObject->SystemTime2TimeStamp(
         SystemTime => $SystemTime + ( 60 * 60 ),
     ),
     UserID     => 1,
@@ -2038,7 +2042,7 @@ $Self->False(
 %TicketIDs = $TicketObject->TicketSearch(
     Result                   => 'HASH',
     Limit                    => 100,
-    TicketCloseTimeNewerDate => $Self->{TimeObject}->SystemTime2TimeStamp(
+    TicketCloseTimeNewerDate => $TimeObject->SystemTime2TimeStamp(
         SystemTime => $SystemTime + ( 60 * 60 ),
     ),
     UserID     => 1,
