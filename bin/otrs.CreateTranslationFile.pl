@@ -43,11 +43,16 @@ Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 Translating OTRS
 ================
 
-  Make sure that you have a clean system with a current configuration. No modules
-  may be installed or linked into the system!
+Make sure that you have a clean system with a current configuration. No modules
+may be installed or linked into the system!
 
     otrs.CreateTranslationFile.pl -l <Language>
     otrs.CreateTranslationFile.pl -l all
+
+Since OTRS 4 public translations are managed in transifex. Use the -p switch to
+update the .pot/.po files.
+
+    otrs.CreateTranslationFile.pl -l <Language> -p
 
 Translating Extension Modules
 =============================
