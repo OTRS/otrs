@@ -81,9 +81,9 @@ for my $File (qw( Test var/Test DeleteMe)) {
     );
 }
 
-my $PrincipalOne = '<?xml version="1.0" encoding="utf-8" ?>
+my $MainPackageOne = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
-    <Name>TestPrincipal</Name>
+    <Name>TestMainPackage</Name>
     <Version>1.0.1</Version>
     <Vendor>OTRS AG</Vendor>
     <URL>http://otrs.org/</URL>
@@ -112,7 +112,7 @@ my $PrincipalOne = '<?xml version="1.0" encoding="utf-8" ?>
 ';
 
 # install main package where the Test package was merged
-$PackageInstall = $PackageObject->PackageInstall( String => $PrincipalOne );
+$PackageInstall = $PackageObject->PackageInstall( String => $MainPackageOne );
 
 # check that the package is not installed
 # installed version is newer than target one
@@ -137,9 +137,9 @@ $Self->True(
 # get tmp dir location
 my $TmpDir = $ConfigObject->Get('TempDir');
 
-my $PrincipalTwo = '<?xml version="1.0" encoding="utf-8" ?>
+my $MainPackageTwo = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
-    <Name>TestPrincipal</Name>
+    <Name>TestMainPackage</Name>
     <Version>1.0.1</Version>
     <Vendor>OTRS AG</Vendor>
     <URL>http://otrs.org/</URL>
@@ -202,7 +202,7 @@ my $PrincipalTwo = '<?xml version="1.0" encoding="utf-8" ?>
 ';
 
 # install main package where the Test package was merged
-$PackageInstall = $PackageObject->PackageInstall( String => $PrincipalTwo );
+$PackageInstall = $PackageObject->PackageInstall( String => $MainPackageTwo );
 
 # check that the package is installed and files exists
 $Self->True(
@@ -256,8 +256,8 @@ $Self->False(
     'Prepare() SELECT - Prepare',
 );
 
-# remove principal packages
-$PackageObject->PackageUninstall( String => $PrincipalTwo );
+# remove MainPackage packages
+$PackageObject->PackageUninstall( String => $MainPackageTwo );
 
 # reinstall merged for executing database script
 
@@ -281,16 +281,16 @@ $Self->True(
 );
 
 # copy package for installing
-my $PrincipalThree = $PrincipalTwo;
+my $MainPackageThree = $MainPackageTwo;
 
 my $PrevVersion   = 'TargetVersion="2.0.1"';
 my $ActualVersion = 'TargetVersion="2.0.2"';
 
 # change target version
-$PrincipalThree =~ s{$PrevVersion}{$ActualVersion}g;
+$MainPackageThree =~ s{$PrevVersion}{$ActualVersion}g;
 
 # install main package where the Test package was merged
-$PackageInstall = $PackageObject->PackageInstall( String => $PrincipalThree );
+$PackageInstall = $PackageObject->PackageInstall( String => $MainPackageThree );
 
 # check that the package is installed and files exists
 $Self->True(
@@ -349,10 +349,10 @@ $Self->True(
 );
 unlink $TmpDir . '/test4';
 
-# remove principal packages
+# remove MainPackage packages
 $PackageObject->PackageUninstall( String => $MergeOne );
 
-$PackageObject->PackageUninstall( String => $PrincipalThree );
+$PackageObject->PackageUninstall( String => $MainPackageThree );
 
 # define package for merging
 my $MergeThree = '<?xml version="1.0" encoding="utf-8" ?>
@@ -372,9 +372,9 @@ my $MergeThree = '<?xml version="1.0" encoding="utf-8" ?>
 </otrs_package>
 ';
 
-my $PrincipalFour = '<?xml version="1.0" encoding="utf-8" ?>
+my $MainPackageFour = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
-    <Name>TestPrincipalFour</Name>
+    <Name>TestMainPackageFour</Name>
     <Version>1.0.1</Version>
     <Vendor>OTRS AG</Vendor>
     <URL>http://otrs.org/</URL>
@@ -543,7 +543,7 @@ for my $Test (@Tests) {
     }
 
     # duplicate string for don't replace on base string
-    my $AuxPackageString = $PrincipalFour;
+    my $AuxPackageString = $MainPackageFour;
 
     # change IfPackage by IfNotPackage
     my $ReplacementOrigin = '%LabelReplace%';
@@ -558,13 +558,13 @@ for my $Test (@Tests) {
     }
     $AuxPackageString =~ s{$ReplacementOrigin}{$LabelReplacement}g;
 
-    # install principal package
-    my $PrincipalPackageInstall = $PackageObject->PackageInstall( String => $AuxPackageString );
+    # install MainPackage package
+    my $MainPackagePackageInstall = $PackageObject->PackageInstall( String => $AuxPackageString );
 
     # check that the package is installed
     $Self->True(
-        $PrincipalPackageInstall,
-        'PackageInstall() - principal package installed with true for IfPackage test.',
+        $MainPackagePackageInstall,
+        'PackageInstall() - MainPackage package installed with true for IfPackage test.',
     );
 
     # ------- Check Results ------- #
@@ -598,18 +598,18 @@ for my $Test (@Tests) {
 
     unlink $TmpDir . '/test5' if $FileExists;
 
-    # uninstall principal package
+    # uninstall MainPackage package
     $PackageObject->PackageUninstall( String => $AuxPackageString );
 
     # check if the package is installed
-    my $PrincipalPackageIsInstalled = $PackageObject->PackageIsInstalled(
-        Name => 'PrincipalFour',
+    my $MainPackagePackageIsInstalled = $PackageObject->PackageIsInstalled(
+        Name => 'MainPackageFour',
     );
 
     # check that the package is NOT installed
     $Self->False(
-        $PrincipalPackageIsInstalled,
-        "PackageIsInstalled() - principal package for IfPackage test shouldn't be installed anymore.",
+        $MainPackagePackageIsInstalled,
+        "PackageIsInstalled() - MainPackage package for IfPackage test shouldn't be installed anymore.",
     );
 
     # check if the package is installed
