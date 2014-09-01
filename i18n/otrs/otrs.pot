@@ -7263,7 +7263,11 @@ msgid "SQL Box"
 msgstr ""
 
 #. Template: AdminSelectBox
-msgid "Here you can enter SQL to send it directly to the application database."
+msgid "Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed."
+msgstr ""
+
+#. Template: AdminSelectBox
+msgid "Only select queries are allowed."
 msgstr ""
 
 #. Template: AdminSelectBox

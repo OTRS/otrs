@@ -1,12 +1,14 @@
 #
 # Translators:
+# jb_otrs <jens.bothe@otrs.com>, 2014
 # Martin Gruner <martin.gruner@otrs.com>, 2014
+# mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-08-26 11:31+0000\n"
+"PO-Revision-Date: 2014-09-01 07:41+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -813,7 +815,7 @@ msgstr "Authentifizierung erfolgreich, aber im Kunden Backend wurde kein Kunden 
 
 #. Template: AAABase
 msgid "This e-mail address already exists. Please log in or reset your password."
-msgstr "Diese E-Mail Adresse existiert bereits. Bitte meldne Sie sich an oder setzen Ihr Passwort zurück."
+msgstr "Diese E-Mail Adresse existiert bereits. Bitte melden Sie sich an oder setzen Ihr Passwort zurück."
 
 #. Template: AAABase
 msgid "Logout"
@@ -2105,7 +2107,7 @@ msgstr "OTRS-Festplattenpartition"
 
 #. Template: AAASupportDataCollector
 msgid "Disk Usage"
-msgstr ""
+msgstr "Festplatten-Verwendung"
 
 #. Template: AAASupportDataCollector
 msgid "The partition where OTRS is located is almost full."
@@ -5549,7 +5551,7 @@ msgstr "Systemverwaltung"
 
 #. Template: AdminNavigationBar
 msgid "Online Admin Manual"
-msgstr ""
+msgstr "Online-Administrationshandbuch"
 
 #. Template: AdminNotification
 msgid "Notification Management"
@@ -14857,5 +14859,13 @@ msgstr "Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen übe
 
 #. SysConfig
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
+msgstr ""
+
+#. Template: AdminSelectBox
+msgid "Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed."
+msgstr ""
+
+#. Template: AdminSelectBox
+msgid "Only select queries are allowed."
 msgstr ""
 

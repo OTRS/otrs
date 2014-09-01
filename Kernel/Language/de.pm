@@ -235,7 +235,7 @@ sub Data {
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
             'Authentifizierung erfolgreich, aber im Kunden Backend wurde kein Kunden Eintrag gefunden. Bitte kontaktieren Sie Ihren Administrator.',
         'This e-mail address already exists. Please log in or reset your password.' =>
-            'Diese E-Mail Adresse existiert bereits. Bitte meldne Sie sich an oder setzen Ihr Passwort zurück.',
+            'Diese E-Mail Adresse existiert bereits. Bitte melden Sie sich an oder setzen Ihr Passwort zurück.',
         'Logout' => 'Abmelden',
         'Logout successful. Thank you for using %s!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  %s!',
         'Feature not active!' => 'Funktion nicht aktiviert!',
@@ -602,7 +602,7 @@ sub Data {
         'Setting DateStyle needs to be ISO.' => 'Einstellung DateStyle muss ISO sein.',
         'PostgreSQL 8.x or higher is required.' => 'PostgreSQL 8.x oder höher wird benötigt.',
         'OTRS Disk Partition' => 'OTRS-Festplattenpartition',
-        'Disk Usage' => '',
+        'Disk Usage' => 'Festplatten-Verwendung',
         'The partition where OTRS is located is almost full.' => 'Die Partition, auf der OTRS sich befindet, ist fast voll.',
         'The partition where OTRS is located has no disk space problems.' =>
             'Die Partition, auf der OTRS sich befindet, hat keine Platzprobleme.',
@@ -1632,7 +1632,7 @@ sub Data {
         'Queue Settings' => 'Queue-Einstellungen',
         'Ticket Settings' => 'Ticket-Einstellungen',
         'System Administration' => 'Systemverwaltung',
-        'Online Admin Manual' => '',
+        'Online Admin Manual' => 'Online-Administrationshandbuch',
 
         # Template: AdminNotification
         'Notification Management' => 'Benachrichtigungs-Verwaltung',
@@ -2210,8 +2210,9 @@ sub Data {
 
         # Template: AdminSelectBox
         'SQL Box' => 'SQL Box',
-        'Here you can enter SQL to send it directly to the application database.' =>
-            'Hier können Sie SQL eingeben, welches direkt an die Datenbank gesendet wird.',
+        'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
+            '',
+        'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Die Syntax Ihrer SQL-Abfrage ist fehlerhaft. Bitte prüfen.',
         'There is at least one parameter missing for the binding. Please check it.' =>
