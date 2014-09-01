@@ -19,6 +19,16 @@ use Kernel::System::EmailParser;
 
 use Kernel::System::VariableCheck qw(:all);
 
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::System::DB',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::Ticket',
+);
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -27,10 +37,15 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (
-        qw(ConfigObject LogObject EncodeObject MainObject DBObject LayoutObject UserID TicketObject ArticleID)
-        )
-    {
+    $Self->{ConfigObject} = $Param{ConfigObject} || $Kernel::OM->Get('Kernel::Config');
+    $Self->{LogObject}    = $Param{LogObject}    || $Kernel::OM->Get('Kernel::System::Log');
+    $Self->{EncodeObject} = $Param{EncodeObject} || $Kernel::OM->Get('Kernel::System::Encode');
+    $Self->{MainObject}   = $Param{MainObject}   || $Kernel::OM->Get('Kernel::System::Main');
+    $Self->{DBObject}     = $Param{DBObject}     || $Kernel::OM->Get('Kernel::System::DB');
+    $Self->{TicketObject} = $Param{TicketObject} || $Kernel::OM->Get('Kernel::System::Ticket');
+    $Self->{LayoutObject} = $Param{LayoutObject} || $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    for ( qw(UserID ArticleID) ) {
         if ( $Param{$_} ) {
             $Self->{$_} = $Param{$_};
         }
