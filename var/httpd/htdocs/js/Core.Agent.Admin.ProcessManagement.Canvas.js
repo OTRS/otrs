@@ -137,7 +137,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             $EntityBox;
 
         $('#Canvas')
-            .append('<div class="Activity" id="' + EscapeHTML(EntityID) + '"><span>' + EscapeHTML(EntityName) + '</span><div class="Icon Loader"></div><div class="Icon Success"></div></div>')
+            .append('<div class="Activity Task" id="' + EscapeHTML(EntityID) + '"><span>' + EscapeHTML(EntityName) + '</span><div class="TaskTypeIcon"><i class="fa fa-user fa-lg"></i></div><div class="Icon Loader"></div><div class="Icon Success"></div></div>')
             .find('#' + EntityID)
             .css({
                 'top' : PosY + 'px',

@@ -322,6 +322,11 @@ ul#ProcessElements li.AccordionElement div.Content .ProcessElementButton {
     color: #FF9922;
 }
 
+.TaskTypeIcon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
 
 /**
  * @subsubsection     Diagram Canvas Elements
