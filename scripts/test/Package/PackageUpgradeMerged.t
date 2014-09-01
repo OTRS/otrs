@@ -166,34 +166,34 @@ my $PrincipalTwo = '<?xml version="1.0" encoding="utf-8" ?>
             <Data Key="description" Type="Quote">Lalala1</Data>
         </Insert>
       </DatabaseUpgrade>
-      <CodeUpgrade Type="merge" Version="2.0.3">
+      <CodeUpgrade Type="merge" Version="2.0.3"><![CDATA[
             my $Content = "test";
-            $Kernel::OM&gt;Get(\'Kernel::System::Main\')-&gt;FileWrite(
-                Location  =&gt; "' . $TmpDir . '/test1",
-                Content   =&gt; \$Content,
+            $Kernel::OM->Get(\'Kernel::System::Main\')->FileWrite(
+                Location => "' . $TmpDir . '/test1",
+                Content  => \$Content,
             );
-      </CodeUpgrade>
-      <CodeUpgrade Type="merge" Version="2.0.2">
+      ]]></CodeUpgrade>
+      <CodeUpgrade Type="merge" Version="2.0.2"><![CDATA[
             my $Content = "test";
-            $Kernel::OM&gt;Get(\'Kernel::System::Main\')-&gt;FileWrite(
-                Location  =&gt; "' . $TmpDir . '/test2",
-                Content   =&gt; \$Content,
+            $Kernel::OM->Get(\'Kernel::System::Main\')->FileWrite(
+                Location => "' . $TmpDir . '/test2",
+                Content  => \$Content,
             );
-      </CodeUpgrade>
-      <CodeUpgrade Type="merge" Version="2.0.1">
+      ]]></CodeUpgrade>
+      <CodeUpgrade Type="merge" Version="2.0.1"><![CDATA[
             my $Content = "test";
-            $Kernel::OM&gt;Get(\'Kernel::System::Main\')-&gt;FileWrite(
-                Location  =&gt; "' . $TmpDir . '/test3",
-                Content   =&gt; \$Content,
+            $Kernel::OM->Get(\'Kernel::System::Main\')->FileWrite(
+                Location => "' . $TmpDir . '/test3",
+                Content  => \$Content,
             );
-      </CodeUpgrade>
-      <CodeUpgrade Type="merge">
+      ]]></CodeUpgrade>
+      <CodeUpgrade Type="merge"><![CDATA[
             my $Content = "test";
-            $Kernel::OM&gt;Get(\'Kernel::System::Main\')-&gt;FileWrite(
-                Location  =&gt; "' . $TmpDir . '/test4",
-                Content   =&gt; \$Content,
+            $Kernel::OM->Get(\'Kernel::System::Main\')->FileWrite(
+                Location => "' . $TmpDir . '/test4",
+                Content  => \$Content,
             );
-      </CodeUpgrade>
+      ]]></CodeUpgrade>
     </PackageMerge>
     <DatabaseUninstall Type="post">
       <TableDrop Name="merge_package"/>
@@ -408,13 +408,13 @@ my $PrincipalFour = '<?xml version="1.0" encoding="utf-8" ?>
     <DatabaseUninstall Type="post">
         <TableDrop Name="test_package"/>
     </DatabaseUninstall>
-    <CodeInstall %LabelReplace%>
+    <CodeInstall %LabelReplace%><![CDATA[
         my $Content = "test";
-        $Kernel::OM&gt;Get(\'Kernel::System::Main\')-&gt;FileWrite(
-            Location  =&gt; "' . $TmpDir . '/test5",
-            Content   =&gt; \$Content,
+        $Kernel::OM->Get(\'Kernel::System::Main\')->FileWrite(
+            Location => "' . $TmpDir . '/test5",
+            Content  => \$Content,
         );
-    </CodeInstall>
+    ]]></CodeInstall>
 </otrs_package>
 ';
 
