@@ -1,5 +1,5 @@
 # --
-# PackageUpgradeMerged.t - Package Uninstall Merged tests
+# PackageUpgradeMerged.t - Package Upgrade Merged tests
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
