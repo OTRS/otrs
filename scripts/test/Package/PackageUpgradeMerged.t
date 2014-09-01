@@ -18,8 +18,6 @@ my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
 my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 
-#my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
-
 # get OTRS Version
 my $OTRSVersion = $ConfigObject->Get('Version');
 
