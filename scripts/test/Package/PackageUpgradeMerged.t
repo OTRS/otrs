@@ -1,5 +1,5 @@
 # --
-# PackageUpgradeMerged.t - Package Uninstall Mergerd tests
+# PackageUpgradeMerged.t - Package Uninstall Merged tests
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -17,6 +17,7 @@ use vars (qw($Self));
 my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
 my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+
 #my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
 
 # get OTRS Version
@@ -56,7 +57,7 @@ my $MergeOne = '<?xml version="1.0" encoding="utf-8" ?>
 # install package using package manager API
 my $PackageInstall = $PackageObject->PackageInstall( String => $MergeOne );
 
-# check result ok install action
+# check result OK install action
 $Self->True(
     $PackageInstall,
     'PackageInstall() - package installed with true',
@@ -220,11 +221,11 @@ $PackageIsInstalled = $PackageObject->PackageIsInstalled(
 # check that the package is NOT installed
 $Self->False(
     $PackageIsInstalled,
-    'PackageIsInstalled() - merged package shouln\'t be installed',
+    'PackageIsInstalled() - merged package should not be installed',
 );
 
 # check that the original files from the package does not exists anymore
-# this files are supose to be old files that are not required any more by the merged package
+# this files are suppose to be old files that are not required any more by the merged package
 for my $File (qw( Delete DeleteMe )) {
     my $RealFile = $Home . '/' . $File;
     $RealFile =~ s/\/\//\//g;
@@ -265,7 +266,7 @@ $PackageObject->PackageUninstall( String => $PrincipalTwo );
 # install package using package manager API
 $PackageInstall = $PackageObject->PackageInstall( String => $MergeOne );
 
-# check result ok install action
+# check result OK install action
 $Self->True(
     $PackageInstall,
     'PackageInstall() - package installed with true',
@@ -309,7 +310,7 @@ $PackageIsInstalled = $PackageObject->PackageIsInstalled(
 # check that the package is NOT installed
 $Self->False(
     $PackageIsInstalled,
-    'PackageIsInstalled() - merged package shouln\'t be installed',
+    'PackageIsInstalled() - merged package should not be installed',
 );
 
 # database merge script might be executed, so insert a record
