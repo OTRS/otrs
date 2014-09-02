@@ -121,6 +121,11 @@ Core.Form.Validate = (function (TargetNS) {
                 $Element.focus();
             }, 0);
         }
+
+        // if the element is within a collapsed widget, expand that widget to show the error message to the user
+        if ($Element.closest('.WidgetSimple.Collapsed').find('.WidgetAction.Toggle > a').length) {
+            $Element.closest('.WidgetSimple.Collapsed').find('.WidgetAction.Toggle > a').trigger('click');
+        }
     };
 
     /**
@@ -475,7 +480,7 @@ Core.Form.Validate = (function (TargetNS) {
 
         for (I = 0; I < DependentElementIDs.length; I++) {
             $DependentElement = $('#' + $.trim(DependentElementIDs[I]));
-            if (ValidatorMethodRequired($DependentElement.val(), $DependentElement[0])) {
+            if ($DependentElement.length && ValidatorMethodRequired($DependentElement.val(), $DependentElement[0])) {
                 return ValidatorMethodRequired(Value, Element);
             }
         }
@@ -500,7 +505,7 @@ Core.Form.Validate = (function (TargetNS) {
 
         for (I = 0; I < DependentElementIDs.length; I++) {
             $DependentElement = $('#' + $.trim(DependentElementIDs[I]));
-            if (ValidatorMethodRequired($DependentElement.val(), $DependentElement[0])) {
+            if ($DependentElement.length && ValidatorMethodRequired($DependentElement.val(), $DependentElement[0])) {
                 return true;
             }
         }

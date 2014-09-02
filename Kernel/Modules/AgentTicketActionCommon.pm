@@ -1444,6 +1444,21 @@ sub _Mask {
     }
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
+    # Widget Ticket Actions
+    if ( ( $Self->{ConfigObject}->Get('Ticket::Type') && $Self->{Config}->{TicketType} ) ||
+         ( $Self->{ConfigObject}->Get('Ticket::Service') && $Self->{Config}->{Service} ) ||
+         ( $Self->{ConfigObject}->Get('Ticket::Responsible') && $Self->{Config}->{Responsible} ) ||
+         $Self->{Config}->{Title} ||
+         $Self->{Config}->{Queue} ||
+         $Self->{Config}->{Owner} ||
+         $Self->{Config}->{State} ||
+         $Self->{Config}->{Priority}
+       ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'WidgetTicketActions',
+        );
+    }
+
     if ( $Self->{Config}->{Title} ) {
         $Self->{LayoutObject}->Block(
             Name => 'Title',
@@ -1486,7 +1501,6 @@ sub _Mask {
 
     # services
     if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Self->{Config}->{Service} ) {
-
         my $Services = $Self->_GetServices(
             %Param,
             Action         => $Self->{Action},
@@ -1691,6 +1705,7 @@ sub _Mask {
             Data => \%Param,
         );
     }
+
     if ( $Self->{ConfigObject}->Get('Ticket::Responsible') && $Self->{Config}->{Responsible} ) {
 
         # get user of own groups
@@ -1728,7 +1743,9 @@ sub _Mask {
             Data => \%Param,
         );
     }
+
     if ( $Self->{Config}->{State} ) {
+
         my %State;
         my %StateList = $Self->{TicketObject}->TicketStateList(
             Action   => $Self->{Action},
@@ -1789,6 +1806,7 @@ sub _Mask {
 
     # get priority
     if ( $Self->{Config}->{Priority} ) {
+
         my %Priority;
         my %PriorityList = $Self->{TicketObject}->TicketPriorityList(
             UserID   => $Self->{UserID},
@@ -1816,48 +1834,65 @@ sub _Mask {
             Data => \%Param,
         );
     }
+    # End Widget Ticket Actions
 
+    # Widget Dynamic Fields
+
+    if ( @{ $Self->{DynamicField} } ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'WidgetDynamicFields',
+        );
+    }
+
+    # Dynamic fields
+    # cycle trough the activated Dynamic Fields for this screen
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        # skip fields that HTML could not be retrieved
+        next DYNAMICFIELD if !IsHashRefWithData(
+            $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} }
+        );
+
+        # get the html strings form $Param
+        my $DynamicFieldHTML = $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} };
+
+        $Self->{LayoutObject}->Block(
+            Name => 'DynamicField',
+            Data => {
+                Name  => $DynamicFieldConfig->{Name},
+                Label => $DynamicFieldHTML->{Label},
+                Field => $DynamicFieldHTML->{Field},
+            },
+        );
+
+        # example of dynamic fields order customization
+        $Self->{LayoutObject}->Block(
+            Name => 'DynamicField_' . $DynamicFieldConfig->{Name},
+            Data => {
+                Name  => $DynamicFieldConfig->{Name},
+                Label => $DynamicFieldHTML->{Label},
+                Field => $DynamicFieldHTML->{Field},
+            },
+        );
+    }
+    # End Widget Dynamic Fields
+
+    # Widget Article
     if ( $Self->{Config}->{Note} ) {
 
+        $Param{WidgetStatus} = 'Collapsed';
+
         if ( $Self->{Config}->{NoteMandatory} ) {
-            $Param{SubjectRequired} = 'Validate_Required';
-            $Param{BodyRequired}    = 'Validate_Required';
+            $Param{WidgetStatus}    = 'Expanded';
         }
 
         $Self->{LayoutObject}->Block(
-            Name => 'Note',
+            Name => 'WidgetArticle',
             Data => {%Param},
         );
-
-        # add rich text editor
-        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-
-            # use height/width defined for this screen
-            $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
-            $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
-
-            $Self->{LayoutObject}->Block(
-                Name => 'RichText',
-                Data => \%Param,
-            );
-        }
-
-        if ( $Self->{Config}->{NoteMandatory} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'SubjectLabelMandatory',
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'RichTextLabelMandatory',
-            );
-        }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'SubjectLabel',
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'RichTextLabel',
-            );
-        }
 
         # check and retrieve involved and informed agents of ReplyTo Note
         my @ReplyToUsers;
@@ -1973,6 +2008,36 @@ sub _Mask {
             $Self->{LayoutObject}->Block(
                 Name => 'InvolvedAgent',
                 Data => \%Param,
+            );
+        }
+
+        # add rich text editor
+        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+
+            # use height/width defined for this screen
+            $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
+            $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
+
+            $Self->{LayoutObject}->Block(
+                Name => 'RichText',
+                Data => \%Param,
+            );
+        }
+
+        if ( $Self->{Config}->{NoteMandatory} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'SubjectLabelMandatory',
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'RichTextLabelMandatory',
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'SubjectLabel',
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'RichTextLabel',
             );
         }
 
@@ -2092,41 +2157,7 @@ sub _Mask {
             );
         }
     }
-
-    # Dynamic fields
-    # cycle trough the activated Dynamic Fields for this screen
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
-
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-        # skip fields that HTML could not be retrieved
-        next DYNAMICFIELD if !IsHashRefWithData(
-            $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} }
-        );
-
-        # get the html strings form $Param
-        my $DynamicFieldHTML = $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} };
-
-        $Self->{LayoutObject}->Block(
-            Name => 'DynamicField',
-            Data => {
-                Name  => $DynamicFieldConfig->{Name},
-                Label => $DynamicFieldHTML->{Label},
-                Field => $DynamicFieldHTML->{Field},
-            },
-        );
-
-        # example of dynamic fields order customization
-        $Self->{LayoutObject}->Block(
-            Name => 'DynamicField_' . $DynamicFieldConfig->{Name},
-            Data => {
-                Name  => $DynamicFieldConfig->{Name},
-                Label => $DynamicFieldHTML->{Label},
-                Field => $DynamicFieldHTML->{Field},
-            },
-        );
-    }
+    # End Widget Article
 
     # get output back
     return $Self->{LayoutObject}->Output( TemplateFile => $Self->{Action}, Data => \%Param );

@@ -146,7 +146,7 @@ body.Popup {
  */
 .LayoutPopup > .Header {
     padding: 7px 20px;
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid #ddd;
     background-color: #f6f6f6;
 }
 
@@ -192,7 +192,7 @@ body.Popup {
 
 .LayoutPopup > .Footer {
     padding: 5px;
-    border-top: 1px solid #999;
+    border-top: 1px solid #ddd;
     text-align: center;
     min-height: 28px;
 }

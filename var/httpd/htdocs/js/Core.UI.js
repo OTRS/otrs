@@ -67,6 +67,7 @@ Core.UI = (function (TargetNS) {
                         .end()
                         .end()
                         .attr('aria-expanded', $that.closest("div.Header").parent('div').hasClass('Expanded'));
+                        Core.App.Publish('Event.UI.ToggleWidget', [$WidgetElement]);
                 }
 
                 if (Animate && Core.Config.Get('AnimationEnabled')) {

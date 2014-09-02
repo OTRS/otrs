@@ -1154,6 +1154,21 @@ sub AgentMove {
         $TreeView = 1;
     }
 
+    # Widget Ticket Actions
+    if ( ( $Self->{ConfigObject}->Get('Ticket::Type') && $Self->{Config}->{TicketType} ) ||
+         ( $Self->{ConfigObject}->Get('Ticket::Service') && $Self->{Config}->{Service} ) ||
+         ( $Self->{ConfigObject}->Get('Ticket::Responsible') && $Self->{Config}->{Responsible} ) ||
+         $Self->{Config}->{Title} ||
+         $Self->{Config}->{Queue} ||
+         $Self->{Config}->{Owner} ||
+         $Self->{Config}->{State} ||
+         $Self->{Config}->{Priority}
+       ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'WidgetTicketActions',
+        );
+    }
+
     my %Data       = %{ $Param{MoveQueues} };
     my %MoveQueues = %Data;
     my %UsedData;
@@ -1222,6 +1237,11 @@ sub AgentMove {
         PossibleNone => 1,
     );
 
+    $Self->{LayoutObject}->Block(
+        Name => 'Owner',
+        Data => \%Param,
+    );
+
     # set state
     if ( $Self->{Config}->{State} ) {
         $Self->{LayoutObject}->Block(
@@ -1275,60 +1295,14 @@ sub AgentMove {
         OnChangeSubmit => 0,
     );
 
-    # show time accounting box
-    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
-        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'TimeUnitsLabelMandatory',
-                Data => \%Param,
-            );
-        }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'TimeUnitsLabel',
-                Data => \%Param,
-            );
-        }
-        $Self->{LayoutObject}->Block(
-            Name => 'TimeUnits',
-            Data => {
-                %Param,
-                TimeUnitsRequired => (
-                    $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
-                    ? 'Validate_Required'
-                    : ''
-                ),
-                }
-        );
-    }
+    $Self->{LayoutObject}->Block(
+        Name => 'Queue',
+        Data => {%Param},
+    );
 
-    # show spell check
-    if ( $Self->{LayoutObject}->{BrowserSpellChecker} ) {
+    if ( @{ $Self->{DynamicField} } ) {
         $Self->{LayoutObject}->Block(
-            Name => 'TicketOptions',
-            Data => {},
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'SpellCheck',
-            Data => {},
-        );
-    }
-
-    # show attachments
-    ATTACHMENT:
-    for my $Attachment ( @{ $Param{Attachments} } ) {
-        if (
-            $Attachment->{ContentID}
-            && $Self->{LayoutObject}->{BrowserRichText}
-            && ( $Attachment->{ContentType} =~ /image/i )
-            && ( $Attachment->{Disposition} eq 'inline' )
-            )
-        {
-            next ATTACHMENT;
-        }
-        $Self->{LayoutObject}->Block(
-            Name => 'Attachment',
-            Data => $Attachment,
+            Name => 'WidgetDynamicFields',
         );
     }
 
@@ -1368,6 +1342,17 @@ sub AgentMove {
     }
 
     if ( $Self->{Config}->{Note} ) {
+
+        $Param{WidgetStatus} = 'Collapsed';
+
+        if ( $Self->{Config}->{NoteMandatory} ) {
+            $Param{WidgetStatus}    = 'Expanded';
+        }
+
+        $Self->{LayoutObject}->Block(
+            Name => 'WidgetArticle',
+            Data => {%Param},
+        );
 
         # fillup configured default vars
         if ( $Param{Body} eq '' && $Self->{Config}->{Body} ) {
@@ -1416,6 +1401,63 @@ sub AgentMove {
             $Self->{LayoutObject}->Block(
                 Name => 'StandardTemplate',
                 Data => {%Param},
+            );
+        }
+
+        # show time accounting box
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
+            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TimeUnitsLabelMandatory',
+                    Data => \%Param,
+                );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TimeUnitsLabel',
+                    Data => \%Param,
+                );
+            }
+            $Self->{LayoutObject}->Block(
+                Name => 'TimeUnits',
+                Data => {
+                    %Param,
+                    TimeUnitsRequired => (
+                        $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+                        ? 'Validate_Required'
+                        : ''
+                    ),
+                    }
+            );
+        }
+
+        # show spell check
+        if ( $Self->{LayoutObject}->{BrowserSpellChecker} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketOptions',
+                Data => {},
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'SpellCheck',
+                Data => {},
+            );
+        }
+
+        # show attachments
+        ATTACHMENT:
+        for my $Attachment ( @{ $Param{Attachments} } ) {
+            if (
+                $Attachment->{ContentID}
+                && $Self->{LayoutObject}->{BrowserRichText}
+                && ( $Attachment->{ContentType} =~ /image/i )
+                && ( $Attachment->{Disposition} eq 'inline' )
+                )
+            {
+                next ATTACHMENT;
+            }
+            $Self->{LayoutObject}->Block(
+                Name => 'Attachment',
+                Data => $Attachment,
             );
         }
 

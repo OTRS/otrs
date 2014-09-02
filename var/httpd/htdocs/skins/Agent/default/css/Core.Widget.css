@@ -82,6 +82,11 @@ ul.Tablelike li.Header + li {
 /**
  * @subsection  WidgetSimple
  */
+
+.LayoutPopup .Content > .WidgetSimple:last-child {
+    margin-bottom: 0px;
+}
+
 .WidgetSimple {
     margin-bottom: 15px;
     background: #f5f5f5;

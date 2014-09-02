@@ -198,6 +198,30 @@ Core.Agent.TicketAction = (function (TargetNS) {
                 return false;
             }
         });
+
+        // Subscribe to ToggleWidget event to handle special behaviour in ticket action screens
+        var WidgetToggleEvent = Core.App.Subscribe('Event.UI.ToggleWidget', function ($WidgetElement) {
+            if ($WidgetElement.attr('id') !== 'WidgetArticle') {
+                return;
+            }
+
+            if ($WidgetElement.hasClass('Expanded')) {
+                $('#Subject').val($('#Subject').data('defaultvalue'));
+                $('#RichText').val($('#RichText').data('defaultvalue'));
+                Core.UI.RichTextEditor.InitAll();
+            }
+            else if ($WidgetElement.hasClass('Collapsed')) {
+                // if widget is closed and subject / body values
+                // are still the default values, remove them again
+                if ($('#Subject').val() === $('#Subject').data('defaultvalue')) {
+                    $('#Subject').val('');
+                }
+
+                if ($('#RichText').val() === $('#RichText').data('defaultvalue')) {
+                    $('#RichText').val('');
+                }
+            }
+        });
     };
 
     /**
