@@ -1681,7 +1681,10 @@ sub _InstallHandling {
         $Self->{PackageObject}->RepositoryCloudList();
 
     # verify if source is present on repository cloud list
-    my $FromCloud = ( $RepositoryCloudList->{ $Param{Source} } ? 1 : 0 );
+    my $FromCloud = 0;
+    if ( $Param{Source} && $RepositoryCloudList->{ $Param{Source} } ) {
+        $FromCloud = 1;
+    }
 
     # intro before installation
     if ( %Data && !$IntroInstallPre ) {
