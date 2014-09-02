@@ -278,7 +278,7 @@
 [% RenderBlockEnd("RichText") %]
 
                         <div id="RichTextField" class="RichTextField">
-                            <textarea id="RichText" class="RichText Validate Validate_DependingRequiredAND Validate_Depending_Subject Validate_Depending_AttachmentDeleteButton1 [% Data.BodyRequired %] [% Data.BodyInvalid %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]" data-defaultvalue="[% Data.Body | html %]">[% IF Data.WidgetStatus == 'Expanded' %] [% Data.Body | html %] [% END %]</textarea>
+                            <textarea id="RichText" class="RichText Validate [% Data.BodyRequired %] [% Data.BodyInvalid %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]" data-defaultvalue="[% Data.Body | html %]">[% IF Data.WidgetStatus == 'Expanded' %] [% Data.Body | html %] [% END %]</textarea>
                             <div id="RichTextError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <div id="RichTextServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                         </div>

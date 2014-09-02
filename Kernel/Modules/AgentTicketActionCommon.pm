@@ -1885,8 +1885,21 @@ sub _Mask {
 
         $Param{WidgetStatus} = 'Collapsed';
 
-        if ( $Self->{Config}->{NoteMandatory} ) {
+        if ( $Self->{Config}->{NoteMandatory} || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {
             $Param{WidgetStatus}    = 'Expanded';
+            $Param{SubjectRequired} = 'Validate_Required';
+            $Param{BodyRequired}    = 'Validate_Required';
+        }
+        else {
+            $Param{SubjectRequired} = 'Validate_DependingRequiredAND Validate_Depending_RichText Validate_Depending_AttachmentDeleteButton1';
+            $Param{BodyRequired}    = 'Validate_DependingRequiredAND Validate_Depending_Subject Validate_Depending_AttachmentDeleteButton1';
+
+            # time units are being stored with the article, so we need to make sure that once
+            # the time accounting field has been filled in, we also have subject and body
+            if ($Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')) {
+                $Param{SubjectRequired} .= ' Validate_Depending_TimeUnits';
+                $Param{BodyRequired}    .= ' Validate_Depending_TimeUnits';
+            }
         }
 
         $Self->{LayoutObject}->Block(
@@ -1913,6 +1926,12 @@ sub _Mask {
             }
 
             $ReplyToUsersHash{$_}++ for @ReplyToUsers;
+        }
+
+        if ( $Self->{Config}->{InformAgent} || $Self->{Config}->{InvolvedAgent} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'InformAdditionalAgents',
+            );
         }
 
         # agent list
@@ -2024,7 +2043,7 @@ sub _Mask {
             );
         }
 
-        if ( $Self->{Config}->{NoteMandatory} ) {
+        if ( $Self->{Config}->{NoteMandatory} || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {
             $Self->{LayoutObject}->Block(
                 Name => 'SubjectLabelMandatory',
             );

@@ -333,7 +333,7 @@ $('#TypeID').bind('change', function (Event) {
                             <label class="Mandatory" for="Subject"><span class="Marker">*</span>[% Translate("Subject") | html %]:</label>
 [% RenderBlockEnd("SubjectLabelMandatory") %]
                             <div class="Field">
-                                <input type="text" id="Subject" name="Subject" data-defaultvalue="[% Data.Subject | html %]" value="[% IF Data.WidgetStatus == 'Expanded' %] [% Data.Subject | html %] [% END %]" class="W75pc Validate Validate_DependingRequiredAND Validate_Depending_RichText Validate_Depending_AttachmentDeleteButton1 [% Data.SubjectInvalid %]"/>
+                                <input type="text" id="Subject" name="Subject" data-defaultvalue="[% Data.Subject | html %]" value="[% IF Data.WidgetStatus == 'Expanded' %] [% Data.Subject | html %] [% END %]" class="W75pc Validate [% Data.SubjectInvalid %] [% Data.SubjectRequired %]"/>
                                 <div id="SubjectError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                                 <div id="SubjectServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             </div>
@@ -384,7 +384,7 @@ $('#TypeID').bind('change', function (Event) {
 [% RenderBlockStart("RichText") %]
 [% InsertTemplate("RichTextEditor.tt") %]
 [% RenderBlockEnd("RichText") %]
-                                <textarea id="RichText" class="RichText Validate Validate_DependingRequiredAND Validate_Depending_Subject Validate_Depending_AttachmentDeleteButton1 [% Data.BodyInvalid %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]" data-defaultvalue="[% Data.Body | html %]">[% IF Data.WidgetStatus == 'Expanded' %] [% Data.Body | html %] [% END %]</textarea>
+                                <textarea id="RichText" class="RichText Validate [% Data.BodyInvalid %] [% Data.BodyRequired %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]" data-defaultvalue="[% Data.Body | html %]">[% IF Data.WidgetStatus == 'Expanded' %] [% Data.Body | html %] [% END %]</textarea>
                                 <div id="RichTextError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                                 <div id="RichTextServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             </div>
@@ -451,12 +451,12 @@ $('#TypeID').bind('change', function (Event) {
                             <div class="Clear"></div>
 [% RenderBlockEnd("TimeUnits") %]
                         </fieldset>
+[% RenderBlockStart("InformAdditionalAgents") %]
                         <fieldset class="TableLike FixedLabel">
 [% RenderBlockStart("InformAgent") %]
                             <label for="InformUserID">[% Translate("Inform Agent") | html %]: ([% Translate("Optional") | html %])</label>
                             <div class="Field">
                             [% Data.OptionStrg %]
-                                <p class="FieldExplanation">[% Translate("Chosen agents will only be considered if article fields are filled in.") %]</p>
                             </div>
                             <div class="Clear"></div>
 [% RenderBlockEnd("InformAgent") %]
@@ -464,11 +464,16 @@ $('#TypeID').bind('change', function (Event) {
                             <label for="InvolvedUserID">[% Translate("Inform involved Agents") | html %]:</label>
                             <div class="Field">
                             [% Data.InvolvedAgentStrg %]
-                                <p class="FieldExplanation">[% Translate("Chosen agents will only be considered if article fields are filled in.") %]</p>
                             </div>
                             <div class="Clear"></div>
 [% RenderBlockEnd("InvolvedAgent") %]
+                            <div class="Field">
+                                <p class="FieldExplanation">
+                                    [% Translate("Here you can select additional agents which should receive a notification regarding the new article.") %]
+                                </p>
+                            </div>
                         </fieldset>
+[% RenderBlockEnd("InformAdditionalAgents") %]
                     </div>
                 </div>
 [% RenderBlockEnd("WidgetArticle") %]
