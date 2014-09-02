@@ -253,12 +253,7 @@ sub Run {
             }
         }
         my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Note
-            ? $Self->{LayoutObject}->Notify(
-            Priority => 'Error',
-            Info     => $Note,
-            )
-            : '';
+        $Output .= $Note;
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
             Action    => 'Change',
