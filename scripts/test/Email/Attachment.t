@@ -163,6 +163,18 @@ for my $Test (@Tests) {
         %{ $Test->{Data} },
     );
 
+    if ( !$Header || ref $Header ne 'SCALAR' ) {
+
+        my $String = '';
+        $Header = \$String;
+    }
+
+    if ( !$Body || ref $Body ne 'SCALAR' ) {
+
+        my $String = '';
+        $Body = \$String;
+    }
+
     # some MIME::Tools workaround
     my $Email = ${$Header} . "\n" . ${$Body};
     my @Array = split '\n', $Email;
