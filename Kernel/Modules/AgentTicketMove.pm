@@ -688,10 +688,25 @@ sub Run {
                     OwnerID  => $Self->{UserID},
                 );
                 if ( !$AccessOk ) {
-                    $Output .= $Self->{LayoutObject}->Warning(
-                        Message => "Sorry, you need to be the ticket owner to perform this action.",
-                        Comment => 'Please change the owner first.',
+
+                    my $Output = $Self->{LayoutObject}->Header(
+                        Type      => 'Small',
+                        BodyClass => 'Popup',
                     );
+                    $Output .= $Self->{LayoutObject}->Warning(
+                        Message => $Self->{LayoutObject}->{LanguageObject}
+                            ->Get('Sorry, you need to be the ticket owner to perform this action.'),
+                        Comment =>
+                            $Self->{LayoutObject}->{LanguageObject}
+                            ->Get('Please change the owner first.'),
+                    );
+
+                    # show back link
+                    $Self->{LayoutObject}->Block(
+                        Name => 'TicketBack',
+                        Data => { %Param, TicketID => $Self->{TicketID} },
+                    );
+
                     $Output .= $Self->{LayoutObject}->Footer(
                         Type => 'Small',
                     );
