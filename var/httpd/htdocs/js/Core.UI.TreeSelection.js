@@ -235,12 +235,24 @@ Core.UI.TreeSelection = (function (TargetNS) {
             "json_data" : {
                 "data" : Elements
             },
+            "sort": function (a, b) {
+                var KeyA = $(a).data('id'),
+                    KeyB = $(b).data('id');
+
+                if (KeyA < KeyB) {
+                   return -1;
+                }
+                if (KeyA > KeyB) {
+                   return 1;
+                }
+                return 0;
+            },
             "themes" : {
                 "theme" : "default",
                 "icons" : false,
                 "url": StyleSheetURL
             },
-            "plugins" : [ "themes", "json_data", "ui", "hotkeys", "search" ]
+            "plugins" : [ "themes", "sort", "json_data", "ui", "hotkeys", "search" ]
         })
         .bind("select_node.jstree", function (event, data) {
             if (data.rslt.obj.hasClass('Disabled')) {
