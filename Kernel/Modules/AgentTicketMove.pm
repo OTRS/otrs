@@ -137,7 +137,7 @@ sub Run {
             );
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => $Self->{LayoutObject}->{LanguageObject}
-                    ->Get('Sorry, you need to be the ticket owner to perform this action.'),
+                    ->Translate('Sorry, you need to be the ticket owner to perform this action.'),
                 Comment =>
                     $Self->{LayoutObject}->{LanguageObject}
                     ->Translate('Please change the owner first.'),
@@ -808,7 +808,7 @@ sub Run {
                     );
                     $Output .= $Self->{LayoutObject}->Warning(
                         Message => $Self->{LayoutObject}->{LanguageObject}
-                            ->Get('Sorry, you need to be the ticket owner to perform this action.'),
+                            ->Translate('Sorry, you need to be the ticket owner to perform this action.'),
                         Comment =>
                             $Self->{LayoutObject}->{LanguageObject}
                             ->Translate('Please change the owner first.'),
