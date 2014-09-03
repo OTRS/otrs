@@ -1,4 +1,4 @@
-#3.3.9 2014-??-??
+#3.3.9 2014-09-09
  - 2014-08-29 Fixed bug#[10697](http://bugs.otrs.org/show_bug.cgi?id=10697) - Column name in CSV report of stats is lowercase.
  - 2014-08-29 Fixed bug#[10652](http://bugs.otrs.org/show_bug.cgi?id=10652) - Process tickets without any articles create empty lines in AgentTicketSearch CSV result file.
  - 2014-08-29 Fixed bug#[10607](http://bugs.otrs.org/show_bug.cgi?id=10607) - SQL Box can change the database.
@@ -7,7 +7,6 @@
  - 2014-08-21 Fixed bug#[10497](http://bugs.otrs.org/show_bug.cgi?id=10497) - CustomerUser secondary database access opens multitude of database connections.
  - 2014-08-08 Fixed bug#[9756](http://bugs.otrs.org/show_bug.cgi?id=9756) - Owner will be set after QueueMove screen AND undo.
  - 2014-08-08 Fixed bug#[10606](http://bugs.otrs.org/show_bug.cgi?id=10606) - Dynamic fields in dashboard overview are empty.
- - 2014-08-07 Fixed bug#[6284](http://bugs.otrs.org/show_bug.cgi?id=6284) - Problem with unicode characters when using FastCGI.
  - 2014-08-07 Updated Danish translation, thanks to Lars Jørgensen.
  - 2014-08-01 Fixed bug#[10670](http://bugs.otrs.org/show_bug.cgi?id=10670) - It is possible to start the scheduler more than once.
  - 2014-07-30 Fixed bug#[10515](http://bugs.otrs.org/show_bug.cgi?id=10515) - Problem with column filter sorting
