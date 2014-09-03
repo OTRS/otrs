@@ -6261,7 +6261,7 @@
                 <Item Key="Column">Email Settings</Item>
                 <Item Key="Label" Translatable="1">New ticket notification</Item>
                 <Item Key="Desc" Translatable="1">Send me a notification if there is a new ticket in my queues/services.</Item>
-                <Item Key="Key" Translatable="1">Send new ticket notifications if subscribed to:</Item>
+                <Item Key="Key" Translatable="1">Send new ticket notifications if subscribed to</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="0">No</Item>
@@ -6288,7 +6288,7 @@
                 <Item Key="Column">Email Settings</Item>
                 <Item Key="Label" Translatable="1">Ticket follow up notification</Item>
                 <Item Key="Desc" Translatable="1">Send me a notification if a customer sends a follow up and I'm the owner of the ticket or the ticket is unlocked and is in one of my queues/services.</Item>
-                <Item Key="Key" Translatable="1">Send ticket follow up notifications if subscribed to:</Item>
+                <Item Key="Key" Translatable="1">Send ticket follow up notifications if subscribed to</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="0">No</Item>
