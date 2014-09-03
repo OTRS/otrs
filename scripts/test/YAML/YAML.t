@@ -9,17 +9,13 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::YAML;
+use vars (qw($Self));
 
-# create needed objects
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $YAMLObject   = Kernel::System::YAML->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $YAMLObject   = $Kernel::OM->Get('Kernel::System::YAML');
 
 my @Tests = (
     {
@@ -141,6 +137,7 @@ for my $Engine (qw(YAML::XS YAML)) {
 
     TEST:
     for my $Test (@Tests) {
+
         next TEST if defined $Test->{SkipEngine} && $Engine eq $Test->{SkipEngine};
 
         my $YAMLString = $Test->{YAMLString} || $YAMLObject->Dump( Data => $Test->{Data} );
