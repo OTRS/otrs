@@ -12283,6 +12283,10 @@ msgid "Event module that updates tickets after an update of the Customer."
 msgstr ""
 
 #. SysConfig
+msgid "Events Ticket Calendar"
+msgstr ""
+
+#. SysConfig
 msgid "Execute SQL statements."
 msgstr ""
 
@@ -13043,6 +13047,14 @@ msgid "Multiselect"
 msgstr ""
 
 #. SysConfig
+msgid "My Queues and My Services"
+msgstr ""
+
+#. SysConfig
+msgid "My Queues or My Services"
+msgstr ""
+
+#. SysConfig
 msgid "My Services"
 msgstr ""
 
@@ -13092,6 +13104,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "No Notification"
 msgstr ""
 
 #. SysConfig
@@ -13451,6 +13467,10 @@ msgid "Roles <-> Groups"
 msgstr ""
 
 #. SysConfig
+msgid "Running Process Tickets"
+msgstr ""
+
+#. SysConfig
 msgid "Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module."
 msgstr ""
 
@@ -13515,7 +13535,7 @@ msgid "Send me a notification if there is a new ticket in my queues/services."
 msgstr ""
 
 #. SysConfig
-msgid "Send new ticket notifications if subscribed to:"
+msgid "Send new ticket notifications if subscribed to"
 msgstr ""
 
 #. SysConfig
@@ -13527,7 +13547,7 @@ msgid "Send service update notifications"
 msgstr ""
 
 #. SysConfig
-msgid "Send ticket follow up notifications if subscribed to:"
+msgid "Send ticket follow up notifications if subscribed to"
 msgstr ""
 
 #. SysConfig

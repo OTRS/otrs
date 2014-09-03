@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-09-03 13:06+0000\n"
+"PO-Revision-Date: 2014-09-03 14:41+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -5608,7 +5608,7 @@ msgstr "Artikelfilter"
 
 #. Template: AdminNotificationEvent
 msgid "Only for ArticleCreate and ArticleSend event"
-msgstr ""
+msgstr "Nur für die Events ArticleCreate und ArticleSend"
 
 #. Template: AdminNotificationEvent
 msgid "Article type"
@@ -5988,7 +5988,7 @@ msgstr "UND-Bedingung"
 
 #. Template: AdminPostMasterFilter
 msgid "Check email header"
-msgstr ""
+msgstr "Zu überprüfender E-Mail Header"
 
 #. Template: AdminPostMasterFilter
 msgid "Negate"
@@ -6008,11 +6008,11 @@ msgstr "E-Mail-Kopfzeilen setzen"
 
 #. Template: AdminPostMasterFilter
 msgid "Set email header"
-msgstr ""
+msgstr "Setze E-Mail Header"
 
 #. Template: AdminPostMasterFilter
 msgid "Set value"
-msgstr ""
+msgstr "Setze Wert"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a literal word."
@@ -6048,7 +6048,7 @@ msgstr "Neuen Prozess erstellen"
 
 #. Template: AdminProcessManagement
 msgid "Deploy All Processes"
-msgstr ""
+msgstr "Alle Prozesse speichern"
 
 #. Template: AdminProcessManagement
 msgid "Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module."
@@ -7164,7 +7164,7 @@ msgstr "Filter für Zertifikate"
 
 #. Template: AdminSMIME
 msgid "Filter for S/MIME certs"
-msgstr ""
+msgstr "Filter für S/MIME Zertifikate"
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
@@ -7276,7 +7276,7 @@ msgstr ""
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
-msgstr ""
+msgstr "Es sind nur Select Abfragen erlaubt"
 
 #. Template: AdminSelectBox
 msgid "The syntax of your SQL query has a mistake. Please check it."
@@ -8048,7 +8048,7 @@ msgstr "E-Mail-Ticket"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start Chat"
-msgstr ""
+msgstr "Starte Chat"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
@@ -8132,7 +8132,7 @@ msgstr "Tickets in meinen Queues"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
-msgstr ""
+msgstr "Tickets in Meinen Services"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Service Time"
@@ -10824,7 +10824,7 @@ msgstr "Bestimmt, ob das Zeiterfassungs-Feld für alle Tickets im Stapelverarbei
 
 #. SysConfig
 msgid "Defines queues that's tickets are used for displaying as calendar events."
-msgstr ""
+msgstr "Bestimmt die Queues, deren Tickets für die Anzeige als Kalender-Ereignisse berücksichtigt werden sollen."
 
 #. SysConfig
 msgid "Defines scheduler PID update time in seconds."
@@ -10956,59 +10956,59 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the default next state for a ticket after customer follow up in the customer interface."
-msgstr ""
+msgstr "Bestimmt den Folgestatus für Tickets, auf die ein Kunde über das Kunden-Interface geantwortet hat."
 
 #. SysConfig
 msgid "Defines the default next state of a ticket after adding a note, in the close ticket screen of the agent interface."
-msgstr ""
+msgstr "Bestimmt den Folgestatus für Tickets, für die im Schließen-Bildschirm im Agenten-Interface eine Notiz hinzugefügt wurde."
 
 #. SysConfig
 msgid "Defines the default next state of a ticket after adding a note, in the ticket bulk screen of the agent interface."
-msgstr ""
+msgstr "Bestimmt den Folgestatus für Tickets, für die im Stapelverarbeitungs-Bildschirm im Agenten-Interface eine Notiz hinzugefügt wurde."
 
 #. SysConfig
 msgid "Defines the default next state of a ticket after adding a note, in the ticket free text screen of the agent interface."
-msgstr ""
+msgstr "Bestimmt den Folgestatus für Tickets, für die im Freitextfelder-Bildschirm im Agenten-Interface eine Notiz hinzugefügt wurde."
 
 #. SysConfig
 msgid "Defines the default next state of a ticket after adding a note, in the ticket note screen of the agent interface."
-msgstr ""
+msgstr "Bestimmt den Folgestatus für Tickets, für die im Notiz-Bildschirm im Agenten-Interface eine Notiz hinzugefügt wurde."
 
 #. SysConfig
 msgid "Defines the default next state of a ticket after adding a note, in the ticket owner screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Bestimmt den Folgestatus für Tickets, für die im Besitzer-Bildschirm im Agenten-Interface eine Notiz hinzugefügt wurde."
 
 #. SysConfig
 msgid "Defines the default next state of a ticket after adding a note, in the ticket pending screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Bestimmt den Folgestatus für Tickets, für die im Warten bis-Bildschirm im Agenten-Interface eine Notiz hinzugefügt wurde."
 
 #. SysConfig
 msgid "Defines the default next state of a ticket after adding a note, in the ticket priority screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Bestimmt den Folgestatus für Tickets, für die im Prioritäts-Bildschirm im Agenten-Interface eine Notiz hinzugefügt wurde."
 
 #. SysConfig
 msgid "Defines the default next state of a ticket after adding a note, in the ticket responsible screen of the agent interface."
-msgstr ""
+msgstr "Bestimmt den Folgestatus für Tickets, für die im Verantwortlicher-Bildschirm im Agenten-Interface eine Notiz hinzugefügt wurde."
 
 #. SysConfig
 msgid "Defines the default next state of a ticket after being bounced, in the ticket bounce screen of the agent interface."
-msgstr ""
+msgstr "Bestimmt den Folgestatus für Tickets, für die im Umleiten-Bildschirm im Agenten-Interface eine Notiz hinzugefügt wurde."
 
 #. SysConfig
 msgid "Defines the default next state of a ticket after being forwarded, in the ticket forward screen of the agent interface."
-msgstr ""
+msgstr "Bestimmt den Folgestatus für Tickets, für die im Weiterleiten-Bildschirm im Agenten-Interface eine Notiz hinzugefügt wurde."
 
 #. SysConfig
 msgid "Defines the default next state of a ticket if it is composed / answered in the ticket compose screen of the agent interface."
-msgstr ""
+msgstr "Bestimmt den Folgestatus für Tickets, auf die ein Agent im Antworten-Bildschirm im Agenten-Interface geantwortet hat."
 
 #. SysConfig
 msgid "Defines the default note body text for phone tickets in the ticket phone inbound screen of the agent interface."
-msgstr ""
+msgstr "Bestimmt die Vorbelegung des Textfeldes für Telefon-Tickets im Bildschirm für eingehende Anrufe im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default note body text for phone tickets in the ticket phone outbound screen of the agent interface."
-msgstr ""
+msgstr "Bestimmt die Vorbelegung des Textfeldes für Telefon-Tickets im Bildschirm für ausgehende Anrufe im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default priority of follow up customer tickets in the ticket zoom screen in the customer interface."
@@ -12291,6 +12291,10 @@ msgid "Event module that updates tickets after an update of the Customer."
 msgstr ""
 
 #. SysConfig
+msgid "Events Ticket Calendar"
+msgstr "Ticket-Ereigniskalender"
+
+#. SysConfig
 msgid "Execute SQL statements."
 msgstr "Einen SQL-Befehl ausführen."
 
@@ -13051,8 +13055,16 @@ msgid "Multiselect"
 msgstr "Mehrfachauswahl"
 
 #. SysConfig
+msgid "My Queues and My Services"
+msgstr "Meine Queues und Meine Services"
+
+#. SysConfig
+msgid "My Queues or My Services"
+msgstr "Meine Queues oder Meine Services"
+
+#. SysConfig
 msgid "My Services"
-msgstr ""
+msgstr "Meine Services"
 
 #. SysConfig
 msgid "My Tickets"
@@ -13101,6 +13113,10 @@ msgstr ""
 #. SysConfig
 msgid "Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface."
 msgstr ""
+
+#. SysConfig
+msgid "No Notification"
+msgstr "Keine Benachrichtigung"
 
 #. SysConfig
 msgid "Notification sent to \"%s\"."
@@ -13459,6 +13475,10 @@ msgid "Roles <-> Groups"
 msgstr "Rollen <-> Gruppen"
 
 #. SysConfig
+msgid "Running Process Tickets"
+msgstr "Aktive Prozesstickets"
+
+#. SysConfig
 msgid "Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module."
 msgstr ""
 
@@ -13512,7 +13532,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Send me a notification if a customer sends a follow up and I'm the owner of the ticket or the ticket is unlocked and is in one of my queues/services."
-msgstr ""
+msgstr "Benachrichtigung, wenn ein Kunde eine Rückmeldung sendet und ich der Besitzer des Tickets bin, oder das Ticket nicht gesperrt ist und in einer meiner Queues/Services liegt. "
 
 #. SysConfig
 msgid "Send me a notification if the service of a ticket is changed to a service in \"My Services\" and the ticket is in a queue where I have read permissions."
@@ -13520,11 +13540,11 @@ msgstr "Benachrichtigung bei Zuweisung eines Services aus \"Meine Services\" an 
 
 #. SysConfig
 msgid "Send me a notification if there is a new ticket in my queues/services."
-msgstr ""
+msgstr "Benachrichtigung bei einem neuen Ticket in \"Meine Queues/Services\"."
 
 #. SysConfig
-msgid "Send new ticket notifications if subscribed to:"
-msgstr ""
+msgid "Send new ticket notifications if subscribed to"
+msgstr "Benachrichtigung über neue Tickets falls passend zu"
 
 #. SysConfig
 msgid "Send notifications to users."
@@ -13532,11 +13552,11 @@ msgstr "Benachrichtigungen an Agenten verschicken."
 
 #. SysConfig
 msgid "Send service update notifications"
-msgstr ""
+msgstr "Benachrichtigung bei Service-Zuweisung"
 
 #. SysConfig
-msgid "Send ticket follow up notifications if subscribed to:"
-msgstr ""
+msgid "Send ticket follow up notifications if subscribed to"
+msgstr "Benachrichtigung über Rückmeldung falls passend zu"
 
 #. SysConfig
 msgid "Sender type for new tickets from the customer inteface."
@@ -14664,7 +14684,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Queue Overview"
-msgstr ""
+msgstr "Ticket-Übersicht nach Queues"
 
 #. SysConfig
 msgid "Ticket event module that triggers the escalation stop events."
@@ -14804,5 +14824,5 @@ msgstr "Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen übe
 
 #. SysConfig
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
-msgstr ""
+msgstr "Auswahl der bevorzugten Services. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Services versendet. "
 

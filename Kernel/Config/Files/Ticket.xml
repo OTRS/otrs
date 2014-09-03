@@ -5946,7 +5946,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardEventsTicketCalendar</Item>
-                <Item Key="Title">Events Ticket Calendar</Item>
+                <Item Key="Title" Translatable="1">Events Ticket Calendar</Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">0</Item>
@@ -6264,11 +6264,11 @@
                 <Item Key="Key" Translatable="1">Send new ticket notifications if subscribed to</Item>
                 <Item Key="Data">
                     <Hash>
-                        <Item Key="0">No</Item>
-                        <Item Key="MyQueues">My Queues</Item>
-                        <Item Key="MyServices">My Services</Item>
-                        <Item Key="MyQueuesOrMyServices">My Queues or My Services</Item>
-                        <Item Key="MyQueuesAndMyServices">My Queues and My Services</Item>
+                        <Item Key="0" Translatable="1">No Notification</Item>
+                        <Item Key="MyQueues" Translatable="1">My Queues</Item>
+                        <Item Key="MyServices" Translatable="1">My Services</Item>
+                        <Item Key="MyQueuesOrMyServices" Translatable="1">My Queues or My Services</Item>
+                        <Item Key="MyQueuesAndMyServices" Translatable="1">My Queues and My Services</Item>
                     </Hash>
                 </Item>
                 <Item Key="DataSelected">0</Item>
@@ -6291,11 +6291,11 @@
                 <Item Key="Key" Translatable="1">Send ticket follow up notifications if subscribed to</Item>
                 <Item Key="Data">
                     <Hash>
-                        <Item Key="0">No</Item>
-                        <Item Key="MyQueues">My Queues</Item>
-                        <Item Key="MyServices">My Services</Item>
-                        <Item Key="MyQueuesOrMyServices">My Queues or My Services</Item>
-                        <Item Key="MyQueuesAndMyServices">My Queues and My Services</Item>
+                        <Item Key="0" Translatable="1">No Notification</Item>
+                        <Item Key="MyQueues" Translatable="1">My Queues</Item>
+                        <Item Key="MyServices" Translatable="1">My Services</Item>
+                        <Item Key="MyQueuesOrMyServices" Translatable="1">My Queues or My Services</Item>
+                        <Item Key="MyQueuesAndMyServices" Translatable="1">My Queues and My Services</Item>
                     </Hash>
                 </Item>
                 <Item Key="DataSelected">0</Item>

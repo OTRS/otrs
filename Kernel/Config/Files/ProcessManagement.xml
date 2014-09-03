@@ -401,7 +401,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
-                <Item Key="Title">Running Process Tickets</Item>
+                <Item Key="Title" Translatable="1">Running Process Tickets</Item>
                 <Item Key="Description">All tickets with a reminder set where the reminder date has been reached</Item>
                 <Item Key="Attributes">StateType=new;StateType=open;StateType=pending reminder;StateType=pending auto</Item>
                 <Item Key="Time">UntilTime</Item>
