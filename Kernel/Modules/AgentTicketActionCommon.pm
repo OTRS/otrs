@@ -1304,15 +1304,15 @@ sub Run {
         }
 
         # fillup configured default vars
-        if ( !defined $GetParam{Body} && $Self->{Config}->{Body} ) {
-            $GetParam{Body} = $Self->{LayoutObject}->Output(
+        if ( $Body eq '' && $Self->{Config}->{Body} ) {
+            $Body = $Self->{LayoutObject}->Output(
                 Template => $Self->{Config}->{Body},
             );
 
             # make sure body is rich text
             if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-                $GetParam{Body} = $Self->{LayoutObject}->Ascii2RichText(
-                    String => $GetParam{Body},
+                $Body = $Self->{LayoutObject}->Ascii2RichText(
+                    String => $Body,
                 );
             }
         }
@@ -1887,7 +1887,7 @@ sub _Mask {
         $Param{WidgetStatus} = 'Collapsed';
 
         if ( $Self->{Config}->{NoteMandatory} || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') || $Param{IsUpload} || $Self->{ReplyToArticle} ) {
-            $Param{WidgetStatus}    = 'Expanded';
+            $Param{WidgetStatus} = 'Expanded';
         }
 
         if ( $Self->{Config}->{NoteMandatory} || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {

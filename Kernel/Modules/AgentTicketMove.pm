@@ -890,6 +890,7 @@ sub Run {
             TicketUnlock   => $Self->{TicketUnlock},
             TimeUnits      => $GetParam{TimeUnits},
             FormID         => $Self->{FormID},
+            IsUpload       => $IsUpload,
             %Ticket,
             DynamicFieldHTML => \%DynamicFieldHTML,
             %GetParam,
@@ -1360,8 +1361,11 @@ sub AgentMove {
 
         $Param{WidgetStatus} = 'Collapsed';
 
+        if ( $Self->{Config}->{NoteMandatory} || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') || $Param{IsUpload} ) {
+            $Param{WidgetStatus} = 'Expanded';
+        }
+
         if ( $Self->{Config}->{NoteMandatory} || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {
-            $Param{WidgetStatus}    = 'Expanded';
             $Param{SubjectRequired} = 'Validate_Required';
             $Param{BodyRequired}    = 'Validate_Required';
         }

@@ -214,16 +214,28 @@ Core.Agent.TicketAction = (function (TargetNS) {
             }
 
             if ($WidgetElement.hasClass('Expanded')) {
-                $('#Subject').val($('#Subject').data('defaultvalue'));
-                $('#RichText').val($('#RichText').data('defaultvalue'));
+
+                // if widget is being opened and subject/body are not filled in,
+                // fill in the default values.
+                if (!$('#Subject').val()) {
+                    $('#Subject').val($('#Subject').data('defaultvalue'));
+                }
+                if (!$('#RichText').val()) {
+                    $('#RichText').val($('#RichText').data('defaultvalue'));
+
+                    // set RichText contents separately
+                    var Instance = CKEDITOR.instances['RichText'];
+                    Instance.setData($('#RichText').data('defaultvalue'));
+                }
+
             }
             else if ($WidgetElement.hasClass('Collapsed')) {
-                // if widget is closed and subject / body values
-                // are still the default values, remove them again
+
+                // if widget is being closed and subject / body values
+                // are still the default values, remove them again.
                 if ($('#Subject').val() === $('#Subject').data('defaultvalue')) {
                     $('#Subject').val('');
                 }
-
                 if ($('#RichText').val() === $('#RichText').data('defaultvalue')) {
                     $('#RichText').val('');
                 }
