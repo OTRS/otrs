@@ -31,8 +31,6 @@ if ( $^O =~ /^mswin/i ) {
 my $CheckAction = sub {
     my %Param = @_;
 
-    $Param{SleepAfterAction} ||= 1;
-
     my $Name = $Param{Name};
 
     my $StateBefore = `$Scheduler -a status`;
@@ -116,44 +114,47 @@ my $CheckAction = sub {
     }
 
     # slow systems needs some time to process actions and gets new PIDs
-    if ( $Param{PIDChangeExpected} ) {
-        print "Waiting at most $Param{SleepAfterAction} s until scheduler gets a new PID\n";
-        ACTIVESLEEP:
-        for my $Seconds ( 1 .. $Param{SleepAfterAction} ) {
-            my %IntPIDInfo = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
-            my $IntStateAfter = `$Scheduler -a status`;
-            if (
-                ( $IntPIDInfo{PID} || 0 ) ne ( $PIDInfoBefore{PID} || 0 )
-                && $IntStateAfter =~ m/^\Q$Param{StateAfter}\E/smxi
-                )
-            {
-                last ACTIVESLEEP;
-            }
-            print "Sleeping for $Seconds seconds...\n";
-            sleep 1;
-            if ( $Seconds == $Param{SleepAfterAction} ) {
-                $Self->True(
-                    0,
-                    "$Name timeout waiting for $Seconds seconds state is $IntStateAfter!",
-                );
+    if ( $Param{SleepAfterAction} ) {
+
+        if ( $Param{PIDChangeExpected} ) {
+            print "Waiting at most $Param{SleepAfterAction} s until scheduler gets a new PID\n";
+            ACTIVESLEEP:
+            for my $Seconds ( 1 .. $Param{SleepAfterAction} ) {
+                my %IntPIDInfo = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
+                my $IntStateAfter = `$Scheduler -a status`;
+                if (
+                    ( $IntPIDInfo{PID} || 0 ) ne ( $PIDInfoBefore{PID} || 0 )
+                    && $IntStateAfter =~ m/^\Q$Param{StateAfter}\E/smxi
+                    )
+                {
+                    last ACTIVESLEEP;
+                }
+                print "Sleeping for $Seconds seconds...\n";
+                sleep 1;
+                if ( $Seconds == $Param{SleepAfterAction} ) {
+                    $Self->True(
+                        0,
+                        "$Name timeout waiting for $Seconds seconds state is $IntStateAfter!",
+                    );
+                }
             }
         }
-    }
-    else {
-        print "Waiting at most $Param{SleepAfterAction} s until scheduler perform action\n";
-        ACTIVESLEEP:
-        for my $Seconds ( 1 .. $Param{SleepAfterAction} ) {
-            my $IntStateAfter = `$Scheduler -a status`;
-            if ( $IntStateAfter =~ m/^\Q$Param{StateAfter}\E/smxi ) {
-                last ACTIVESLEEP;
-            }
-            print "Sleeping for $Seconds seconds...\n";
-            sleep 1;
-            if ( $Seconds == $Param{SleepAfterAction} ) {
-                $Self->True(
-                    0,
-                    "$Name timeout waiting for $Seconds seconds state is $IntStateAfter!",
-                );
+        else {
+            print "Waiting at most $Param{SleepAfterAction} s until scheduler perform action\n";
+            ACTIVESLEEP:
+            for my $Seconds ( 1 .. $Param{SleepAfterAction} ) {
+                my $IntStateAfter = `$Scheduler -a status`;
+                if ( $IntStateAfter =~ m/^\Q$Param{StateAfter}\E/smxi ) {
+                    last ACTIVESLEEP;
+                }
+                print "Sleeping for $Seconds seconds...\n";
+                sleep 1;
+                if ( $Seconds == $Param{SleepAfterAction} ) {
+                    $Self->True(
+                        0,
+                        "$Name timeout waiting for $Seconds seconds state is $IntStateAfter!",
+                    );
+                }
             }
         }
     }
@@ -738,6 +739,7 @@ $CheckAction->(
     Action              => 'watchdog',
     Force               => 0,
     ExpectActionSuccess => 1,
+    SleepAfterAction    => 60,
     StateBefore         => 'not running',
     StateAfter          => 'running',
     PIDChangeExpected   => 1,
@@ -801,6 +803,7 @@ $CheckAction->(
     Action              => 'start',
     Force               => 0,
     ExpectActionSuccess => 0,
+    SleepAfterAction    => 60,
     StateBefore         => 'not running',
     StateAfter          => 'not running',
     PIDChangeExpected   => 0,
@@ -814,11 +817,11 @@ $CheckAction->(
     Action              => 'watchdog',
     Force               => 0,
     ExpectActionSuccess => 1,
+    SleepAfterAction    => 100,
     StateBefore         => 'not running',
     StateAfter          => 'running',
     PIDChangeExpected   => 1,
     PIDDifferentBefore  => 1,
-    SleepAfterAction    => 100,
 );
 
 # start scheduler with watchdog again, no changes should be made
@@ -827,6 +830,7 @@ $CheckAction->(
     Action              => 'watchdog',
     Force               => 0,
     ExpectActionSuccess => 1,
+    SleepAfterAction    => 60,
     StateBefore         => 'running',
     StateAfter          => 'running',
     PIDChangeExpected   => 0,
@@ -881,9 +885,9 @@ if ( $PreviousSchedulerStatus =~ /^running/i ) {
         Name                => 'Cleanup - restart Scheduler as it was running before this test',
         Action              => 'start',
         ExpectActionSuccess => 1,
+        SleepAfterAction    => 60,
         StateBefore         => 'not running',
         StateAfter          => 'running',
-        SleepAfterAction    => 60,
         PIDChangeExpected   => 1,
     );
 }
