@@ -9,43 +9,16 @@
 
 use strict;
 use warnings;
-
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::Ticket;
-use Kernel::System::TemplateGenerator;
-use Kernel::System::CustomerUser;
-use Kernel::System::Queue;
-
-# create local objects
+# get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$Self} );
-my $BackendObject      = Kernel::System::DynamicField::Backend->new( %{$Self} );
-my $HelperObject       = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
-my $UserObject = Kernel::System::User->new(
-    ConfigObject => $ConfigObject,
-    %{$Self},
-);
-my $CustomerUserObject = Kernel::System::CustomerUser->new(
-    ConfigObject => $ConfigObject,
-    %{$Self},
-);
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $QueueObject = Kernel::System::Queue->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my $RandomID = $HelperObject->GetRandomID();
 
@@ -88,6 +61,7 @@ my %AddedDynamicFieldIds;
 my %DynamicFieldConfigs;
 
 for my $DynamicField (@DynamicFieldsToAdd) {
+
     my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
         %{$DynamicField},
     );
@@ -115,14 +89,7 @@ for my $DynamicField (@DynamicFieldsToAdd) {
 
 # create template generator after the dynamic field are created as it gathers all DF in the
 # constructor
-my $TemplateGeneratorObject = Kernel::System::TemplateGenerator->new(
-    %{$Self},
-    ConfigObject       => $ConfigObject,
-    TicketObject       => $TicketObject,
-    UserObject         => $UserObject,
-    CustomerUserObject => $CustomerUserObject,
-    QueueObject        => $QueueObject,
-);
+my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
 
 my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title',

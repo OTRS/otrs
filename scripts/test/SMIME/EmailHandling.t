@@ -9,23 +9,18 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
+use vars (qw($Self));
+
 use Kernel::System::Crypt;
-
-use vars qw($Self);
-use Kernel::Config;
-use Kernel::System::Main;
-use Kernel::System::Email;
-use Kernel::System::Ticket;
-use Kernel::System::Web::Request;
-use Kernel::Output::HTML::Layout;
 use Kernel::Output::HTML::ArticleCheckSMIME;
-use Kernel::System::HTMLUtils;
 
-# create local objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+# get needed objects
+my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
+my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+
 my $HomeDir      = $ConfigObject->Get('Home');
 my $CertPath     = $ConfigObject->Get('SMIME::CertPath');
 my $PrivatePath  = $ConfigObject->Get('SMIME::PrivatePath');
@@ -72,9 +67,7 @@ if ( !-e $ConfigObject->Get('SMIME::Bin') ) {
 
 # create crypt object
 my $CryptObject = Kernel::System::Crypt->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-    CryptType    => 'SMIME',
+    CryptType => 'SMIME',
 );
 
 if ( !$CryptObject ) {
@@ -130,34 +123,6 @@ if ( !$CryptObject ) {
     }
     return 1;
 }
-
-# create main object
-my $MainObject = Kernel::System::Main->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-my $ParamObject = Kernel::System::Web::Request->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $LayoutObject = Kernel::Output::HTML::Layout->new(
-    %{$Self},
-    TicketObject => $TicketObject,
-    ParamObject  => $ParamObject,
-    ConfigObject => $ConfigObject,
-);
-
-my $HTMLUtilsObject = Kernel::System::HTMLUtils->new(
-    %{$Self},
-    MainObject   => $MainObject,
-    ConfigObject => $Self->{ConfigObject},
-);
 
 #
 # Setup environment
@@ -522,18 +487,11 @@ for my $Test (@TestVariations) {
     );
 
     my $CheckObject = Kernel::Output::HTML::ArticleCheckSMIME->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-        TicketObject => $TicketObject,
-        LayoutObject => $LayoutObject,
-        ArticleID    => $ArticleID,
-        UserID       => 1,
+        ArticleID => $ArticleID,
+        UserID    => 1,
     );
 
     my @CheckResult = $CheckObject->Check( Article => \%Article );
-
-    #use Data::Dumper;
-    #print STDERR "Dump: " . Dumper(\@CheckResult) . "\n";
 
     if ( $Test->{VerifySignature} ) {
         my $SignatureVerified =
