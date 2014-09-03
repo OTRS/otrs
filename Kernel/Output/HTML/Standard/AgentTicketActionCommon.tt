@@ -421,7 +421,6 @@ $('#TypeID').bind('change', function (Event) {
         var $Form = $('#FileUpload').closest('form');
         Core.Form.Validate.DisableValidation($Form);
         $Form.find('#AttachmentUpload').val('1').end().submit();
-
     });
 //]]></script>
 [% END %]

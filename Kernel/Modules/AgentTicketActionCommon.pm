@@ -605,6 +605,7 @@ sub Run {
                 ),
                 %Ticket,
                 DynamicFieldHTML => \%DynamicFieldHTML,
+                IsUpload => $IsUpload,
                 %GetParam,
                 %Error,
             );
@@ -1885,8 +1886,11 @@ sub _Mask {
 
         $Param{WidgetStatus} = 'Collapsed';
 
-        if ( $Self->{Config}->{NoteMandatory} || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {
+        if ( $Self->{Config}->{NoteMandatory} || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') || $Param{IsUpload} || $Self->{ReplyToArticle} ) {
             $Param{WidgetStatus}    = 'Expanded';
+        }
+
+        if ( $Self->{Config}->{NoteMandatory} || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {
             $Param{SubjectRequired} = 'Validate_Required';
             $Param{BodyRequired}    = 'Validate_Required';
         }

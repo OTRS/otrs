@@ -208,7 +208,6 @@ Core.Agent.TicketAction = (function (TargetNS) {
             if ($WidgetElement.hasClass('Expanded')) {
                 $('#Subject').val($('#Subject').data('defaultvalue'));
                 $('#RichText').val($('#RichText').data('defaultvalue'));
-                Core.UI.RichTextEditor.InitAll();
             }
             else if ($WidgetElement.hasClass('Collapsed')) {
                 // if widget is closed and subject / body values
