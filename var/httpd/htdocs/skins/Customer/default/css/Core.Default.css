@@ -147,6 +147,7 @@ form #cke_RichText span.cke_wrapper {
     margin-top: 3px;
     color: #CCC;
     overflow: hidden;
+    text-align: center;
 }
 
 #Footer ul {
@@ -170,8 +171,7 @@ form #cke_RichText span.cke_wrapper {
 #Footer a {
     margin: 8px 8px 7px;
     color: #CCC;
-    font-weight: bold;
-    float: left;
+    font-size: 11px;
 }
 
 #Footer a:hover {
