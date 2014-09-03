@@ -9,17 +9,15 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
 use Kernel::System::PostMaster;
-use Kernel::System::Ticket;
-use Kernel::Config;
 
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # This test checks if OTRS correctly detects that an email must not be auto-responded to.
 
@@ -150,9 +148,7 @@ for my $Test (@Tests) {
     my @Email = split( /\n/, $Test->{Email} );
 
     my $PostMasterObject = Kernel::System::PostMaster->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-        Email        => \@Email,
+        Email => \@Email,
     );
 
     my $EmailParams = $PostMasterObject->GetEmailParams();

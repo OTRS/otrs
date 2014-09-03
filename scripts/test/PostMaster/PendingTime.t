@@ -1,5 +1,5 @@
 # --
-# FollowUpPendingTime.t - PostMaster tests
+# PendingTime.t - PostMaster tests
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -9,25 +9,21 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
 use Kernel::System::PostMaster;
-use Kernel::System::PostMaster::Filter;
 use Kernel::System::Ticket;
-use Kernel::Config;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::Time;
 
-# create local config object
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+# get needed objects
+my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject     = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TimeObject       = $Kernel::OM->Get('Kernel::System::Time');
+my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $PostMasterFilter = $Kernel::OM->Get('Kernel::System::PostMaster::Filter');
 
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject => $Self,
-);
 $HelperObject->FixedTimeSet();
-
-my $TimeObject = Kernel::System::Time->new( %{$Self} );
 
 my %NeededXHeaders = (
     'X-OTRS-PendingTime'          => 1,
@@ -252,13 +248,8 @@ my @Tests = (
     },
 );
 
-# set filter
-my $PostMasterFilter = Kernel::System::PostMaster::Filter->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
 for my $Test (@Tests) {
+
     $ConfigObject->Set(
         Key   => 'PostMaster::PreFilterModule###' . $Test->{Name},
         Value => {
@@ -277,9 +268,7 @@ Some Content in Body
     my @Return;
     {
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
-            Email        => \$Email,
+            Email => \$Email,
         );
 
         @Return = $PostMasterObject->Run();
@@ -298,10 +287,8 @@ Some Content in Body
     my $TicketID = $Return[1];
 
     # new/clear ticket object
-    my $TicketObject = Kernel::System::Ticket->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
+    my $TicketObject = Kernel::System::Ticket->new();
+
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Return[1],
         DynamicFields => 1,
@@ -329,12 +316,12 @@ Some Content in Body
 
     {
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
-            Email        => \$Email2,
+            Email => \$Email2,
         );
+
         @Return = $PostMasterObject->Run();
     }
+
     $Self->Is(
         $Return[0] || 0,
         2,
@@ -351,10 +338,8 @@ Some Content in Body
     );
 
     # new/clear ticket object
-    $TicketObject = Kernel::System::Ticket->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
+    $TicketObject = Kernel::System::Ticket->new();
+
     %Ticket = $TicketObject->TicketGet(
         TicketID      => $Return[1],
         DynamicFields => 1,

@@ -9,25 +9,20 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
-
 use utf8;
 
+use vars (qw($Self));
+
 use Kernel::System::PostMaster;
-use Kernel::System::PostMaster::Filter;
 use Kernel::System::Ticket;
-use Kernel::Config;
 
-use Kernel::System::Log;
-use Kernel::System::Time;
-use Kernel::System::Encode;
-use Kernel::System::DB;
-use Kernel::System::Main;
-
-# create local config object
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
-for my $Backend (qw(DB FS)) {
+for my $Backend ( qw(DB FS) ) {
+
     $ConfigObject->Set(
         Key   => 'Ticket::StorageModule',
         Value => 'Kernel::System::Ticket::ArticleStorage' . $Backend,
@@ -35,30 +30,27 @@ for my $Backend (qw(DB FS)) {
 
     my $Location = $ConfigObject->Get('Home')
         . "/scripts/test/sample/PostMaster/UTF8Filename.box";
-    my $ContentRef = $Self->{MainObject}->FileRead(
+
+    my $ContentRef = $MainObject->FileRead(
         Location => $Location,
         Mode     => 'binmode',
         Result   => 'ARRAY',
     );
 
     # new/clear ticket object
-    my $TicketObject = Kernel::System::Ticket->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
+    my $TicketObject = Kernel::System::Ticket->new();
 
     my $TicketID;
     {
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
-            Email        => $ContentRef,
+            Email => $ContentRef,
         );
 
         my @Return = $PostMasterObject->Run();
 
         $TicketID = $Return[1];
     }
+
     $Self->True(
         $TicketID,
         "$Backend - Ticket created",

@@ -9,23 +9,16 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
-
 use utf8;
 
+use vars (qw($Self));
+
 use Kernel::System::PostMaster;
-use Kernel::System::PostMaster::Filter;
 use Kernel::System::Ticket;
-use Kernel::Config;
 
-use Kernel::System::Log;
-use Kernel::System::Time;
-use Kernel::System::Encode;
-use Kernel::System::DB;
-use Kernel::System::Main;
-
-# create local config object
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 my @Tests = (
     {
@@ -132,13 +125,14 @@ my @Tests = (
             },
         },
     },
-
 );
 
 my @AddedTicketIDs;
 
 for my $Test (@Tests) {
+
     for my $Backend (qw(DB FS)) {
+
         $ConfigObject->Set(
             Key   => 'Ticket::StorageModule',
             Value => 'Kernel::System::Ticket::ArticleStorage' . $Backend,
@@ -146,30 +140,27 @@ for my $Test (@Tests) {
 
         my $Location = $ConfigObject->Get('Home')
             . '/scripts/test/sample/PostMaster/' . $Test->{Name} . '.box';
-        my $ContentRef = $Self->{MainObject}->FileRead(
+
+        my $ContentRef = $MainObject->FileRead(
             Location => $Location,
             Mode     => 'binmode',
             Result   => 'ARRAY',
         );
 
         # new/clear ticket object
-        my $TicketObject = Kernel::System::Ticket->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
-        );
+        my $TicketObject = Kernel::System::Ticket->new();
 
         my $TicketID;
         {
             my $PostMasterObject = Kernel::System::PostMaster->new(
-                %{$Self},
-                ConfigObject => $ConfigObject,
-                Email        => $ContentRef,
+                Email => $ContentRef,
             );
 
             my @Return = $PostMasterObject->Run();
 
             $TicketID = $Return[1];
         }
+
         $Self->True(
             $TicketID,
             "$Test->{Name} | $Backend - Ticket created $TicketID",
@@ -193,6 +184,7 @@ for my $Test (@Tests) {
             = map { $AttachmentIndex{$_}->{Filename} => $_ } sort keys %AttachmentIndex;
 
         for my $AttachmentFilename ( sort keys %{ $Test->{ExpectedResults} } ) {
+
             my $AttachmentID = $AttachmentsLookup{$AttachmentFilename};
 
             # delete zise attributes for easy compare
@@ -209,12 +201,10 @@ for my $Test (@Tests) {
 }
 
 # cleanup the system
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $TicketObject = Kernel::System::Ticket->new();
 
 for my $TicketID (@AddedTicketIDs) {
+
     my $Success = $TicketObject->TicketDelete(
         TicketID => $TicketID,
         UserID   => 1,

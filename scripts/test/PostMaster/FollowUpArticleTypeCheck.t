@@ -9,31 +9,20 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use Kernel::Config;
 use Kernel::System::PostMaster;
-use Kernel::System::Ticket;
 
-use Kernel::System::UnitTest::Helper;
-
-# create local objects
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    UnitTestObject => $Self,
-    %{$Self},
-    RestoreSystemConfiguration => 0,
-);
+# get needed objects
+my $ConfigObject            = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject            = $Kernel::OM->Get('Kernel::System::Ticket');
+my $DynamicFieldObject      = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
+my $HelperObject            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 $HelperObject->FixedTimeSet();
-
-# create local config object
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-# new/clear ticket object
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
 
 my $AgentAddress    = 'agent@example.com';
 my $CustomerAddress = 'external@example.com';
@@ -213,10 +202,8 @@ for my $Test (@Tests) {
     my @Return;
     {
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
-            Email        => \$Test->{Email},
-            Debug        => 2,
+            Email => \$Test->{Email},
+            Debug => 2,
         );
 
         @Return = $PostMasterObject->Run();

@@ -9,31 +9,19 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
 use Kernel::System::PostMaster;
-use Kernel::System::PostMaster::Filter;
-use Kernel::System::Ticket;
-use Kernel::Config;
 
-use Kernel::System::Log;
-use Kernel::System::Time;
-use Kernel::System::Encode;
-use Kernel::System::DB;
-use Kernel::System::Main;
-
-# create local config object
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-# new/clear ticket object
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my @Tickets;
-
-for my $File (qw(1 2 3 5 6 11 21)) {
+for my $File ( qw(1 2 3 5 6 11 21) ) {
 
     # create random message ID
     my $MessageID = '<message' . time() . ( int rand 1000000 ) . '@example.com>';
@@ -41,11 +29,13 @@ for my $File (qw(1 2 3 5 6 11 21)) {
     # new ticket check
     my $Location = $ConfigObject->Get('Home')
         . "/scripts/test/sample/PostMaster/PostMaster-Test$File.box";
-    my $ContentRef = $Self->{MainObject}->FileRead(
+
+    my $ContentRef = $MainObject->FileRead(
         Location => $Location,
         Mode     => 'binmode',
         Result   => 'ARRAY',
     );
+
     my @Content;
     for my $Line ( @{$ContentRef} ) {
 
@@ -61,20 +51,21 @@ for my $File (qw(1 2 3 5 6 11 21)) {
         Key   => 'PostmasterDefaultState',
         Value => 'new'
     );
+
     {
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
-            Email        => \@Content,
+            Email => \@Content,
         );
 
         @Return = $PostMasterObject->Run();
     }
+
     $Self->Is(
         $Return[0] || 0,
         1,
         ' Run() - NewTicket',
     );
+
     my $TicketID = $TicketObject->ArticleGetTicketIDOfMessageID(
         MessageID => $MessageID,
     );
@@ -84,6 +75,7 @@ for my $File (qw(1 2 3 5 6 11 21)) {
         $Return[1],
         "ArticleGetTicketIDOfMessageID - TicketID for message ID $MessageID"
     );
+
     push @Tickets, $Return[1];
 }
 
@@ -93,11 +85,11 @@ for my $TicketID (@Tickets) {
         TicketID => $TicketID,
         UserID   => 1,
     );
+
     $Self->True(
         $Success,
         "TicketDelete - removed ticket $TicketID",
     );
-
 }
 
 1;

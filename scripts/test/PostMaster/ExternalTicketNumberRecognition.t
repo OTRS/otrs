@@ -9,38 +9,23 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicFieldValue;
 use Kernel::System::PostMaster;
-use Kernel::System::Ticket;
 
-# create local config object
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+# get needed objects
+my $ConfigObject            = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject            = $Kernel::OM->Get('Kernel::System::Ticket');
+my $DynamicFieldObject      = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
 
 my %Jobs = %{ $ConfigObject->Get('PostMaster::PreFilterModule') };
 my @TicketIDs;
 
-# new/clear ticket object
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-my $DynamicFieldObject = Kernel::System::DynamicField->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-my $DynamicFieldValueObject = Kernel::System::DynamicFieldValue->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
 # create a dynamic field
-my $FieldName = 'ExternalTNRecognition' . int rand(1000);
+my $FieldName = 'ExternalTNRecognition' . int rand 1000;
 my $FieldID   = $DynamicFieldObject->DynamicFieldAdd(
     Name       => $FieldName,
     Label      => $FieldName . "_test",
@@ -311,10 +296,8 @@ for my $Test (@Tests) {
     my @Return;
     {
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
-            Email        => \$Test->{Email},
-            Debug        => 2,
+            Email => \$Test->{Email},
+            Debug => 2,
         );
 
         @Return = $PostMasterObject->Run();

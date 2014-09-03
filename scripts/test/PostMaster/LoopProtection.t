@@ -9,24 +9,23 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
 use Kernel::System::PostMaster::LoopProtection;
-use Kernel::Config;
 
-# create local config object
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 for my $Module (qw(DB FS)) {
+
     $ConfigObject->Set(
         Key   => 'LoopProtectionModule',
         Value => "Kernel::System::PostMaster::LoopProtection::$Module",
     );
 
-    my $LoopProtectionObject = Kernel::System::PostMaster::LoopProtection->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
+    my $LoopProtectionObject = Kernel::System::PostMaster::LoopProtection->new();
 
     # get rand sender address
     my $UserRand1 = 'example-user' . int( rand(1000000) ) . '@example.com';
