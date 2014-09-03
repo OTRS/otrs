@@ -1385,6 +1385,9 @@ sub PackageOnlineList {
         }
     }
 
+    # if not packages found, just return
+    return if !@Packages;
+
     # just framework packages
     my @NewPackages;
     my $PackageForRequestedFramework = 0;
