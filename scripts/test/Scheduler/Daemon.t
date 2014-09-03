@@ -31,6 +31,8 @@ if ( $^O =~ /^mswin/i ) {
 my $CheckAction = sub {
     my %Param = @_;
 
+    $Param{SleepAfterAction} ||= 1;
+
     my $Name = $Param{Name};
 
     my $StateBefore = `$Scheduler -a status`;
@@ -114,46 +116,44 @@ my $CheckAction = sub {
     }
 
     # slow systems needs some time to process actions and gets new PIDs
-    if ( $Param{SleepAfterAction} ) {
-        if ( $Param{PIDChangeExpected} ) {
-            print "Waiting at most $Param{SleepAfterAction} s until scheduler gets a new PID\n";
-            ACTIVESLEEP:
-            for my $Seconds ( 1 .. $Param{SleepAfterAction} ) {
-                my %IntPIDInfo = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
-                my $IntStateAfter = `$Scheduler -a status`;
-                if (
-                    ( $IntPIDInfo{PID} || 0 ) ne ( $PIDInfoBefore{PID} || 0 )
-                    && $IntStateAfter =~ m/^\Q$Param{StateAfter}\E/smxi
-                    )
-                {
-                    last ACTIVESLEEP;
-                }
-                print "Sleeping for $Seconds seconds...\n";
-                sleep 1;
-                if ( $Seconds == $Param{SleepAfterAction} ) {
-                    $Self->True(
-                        0,
-                        "$Name timeout waiting for $Seconds seconds state is $IntStateAfter!",
-                    );
-                }
+    if ( $Param{PIDChangeExpected} ) {
+        print "Waiting at most $Param{SleepAfterAction} s until scheduler gets a new PID\n";
+        ACTIVESLEEP:
+        for my $Seconds ( 1 .. $Param{SleepAfterAction} ) {
+            my %IntPIDInfo = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
+            my $IntStateAfter = `$Scheduler -a status`;
+            if (
+                ( $IntPIDInfo{PID} || 0 ) ne ( $PIDInfoBefore{PID} || 0 )
+                && $IntStateAfter =~ m/^\Q$Param{StateAfter}\E/smxi
+                )
+            {
+                last ACTIVESLEEP;
+            }
+            print "Sleeping for $Seconds seconds...\n";
+            sleep 1;
+            if ( $Seconds == $Param{SleepAfterAction} ) {
+                $Self->True(
+                    0,
+                    "$Name timeout waiting for $Seconds seconds state is $IntStateAfter!",
+                );
             }
         }
-        else {
-            print "Waiting at most $Param{SleepAfterAction} s until scheduler perform action\n";
-            ACTIVESLEEP:
-            for my $Seconds ( 1 .. $Param{SleepAfterAction} ) {
-                my $IntStateAfter = `$Scheduler -a status`;
-                if ( $IntStateAfter =~ m/^\Q$Param{StateAfter}\E/smxi ) {
-                    last ACTIVESLEEP;
-                }
-                print "Sleeping for $Seconds seconds...\n";
-                sleep 1;
-                if ( $Seconds == $Param{SleepAfterAction} ) {
-                    $Self->True(
-                        0,
-                        "$Name timeout waiting for $Seconds seconds state is $IntStateAfter!",
-                    );
-                }
+    }
+    else {
+        print "Waiting at most $Param{SleepAfterAction} s until scheduler perform action\n";
+        ACTIVESLEEP:
+        for my $Seconds ( 1 .. $Param{SleepAfterAction} ) {
+            my $IntStateAfter = `$Scheduler -a status`;
+            if ( $IntStateAfter =~ m/^\Q$Param{StateAfter}\E/smxi ) {
+                last ACTIVESLEEP;
+            }
+            print "Sleeping for $Seconds seconds...\n";
+            sleep 1;
+            if ( $Seconds == $Param{SleepAfterAction} ) {
+                $Self->True(
+                    0,
+                    "$Name timeout waiting for $Seconds seconds state is $IntStateAfter!",
+                );
             }
         }
     }
