@@ -1,6 +1,7 @@
 #
 # Translators:
 # jb_otrs <jens.bothe@otrs.com>, 2014
+# mab_otrs <marc.bonsels@otrs.com>, 2014
 # Martin Gruner <martin.gruner@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
@@ -8,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-09-01 07:41+0000\n"
+"PO-Revision-Date: 2014-09-03 13:06+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -3947,7 +3948,7 @@ msgstr "Neues Feld hinzufügen für Objekt"
 
 #. Template: AdminDynamicField
 msgid "To add a new field, select the field type from one of the object's list, the object defines the boundary of the field and it can't be changed after the field creation."
-msgstr ""
+msgstr "Um ein neues Feld hinzuzufügen, wählen Sie den Feld-Typ aus der Liste der verfügbaren Typen für das jeweilige Objekt aus. Die Objekt-Auswahl ist bindend und kann nicht nachträglich verändert werden."
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields List"
@@ -4991,11 +4992,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request methods for Operation"
-msgstr ""
+msgstr "Gültige Anfrage-Methoden für Operation"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Limit this Operation to specific request methods. If no method is selected all requests will be accepted."
-msgstr ""
+msgstr "Beschränken Sie diese Operation auf bestimmte Anfrage-Methoden. Wenn keine Methode ausgewählt ist, werden alle Anfragen akzeptiert."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Maximum message length"
@@ -5007,15 +5008,15 @@ msgstr "Dieses Feld sollte eine Ganzzahl beinhalten."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Here you can specify the maximum size (in bytes) of REST messages that OTRS will process."
-msgstr ""
+msgstr "Bestimmen Sie die maximale Größe (in Bytes) für REST-Nachrichten, die OTRS akzeptieren soll."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Send Keep-Alive"
-msgstr ""
+msgstr "Keep-Alive senden"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "This configuration defines if incoming connections should get closed or kept alive."
-msgstr ""
+msgstr "Bestimmt, ob eingehende Verbindungen geschlossen oder am Leben erhalten werden sollen."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Host"
@@ -5023,11 +5024,11 @@ msgstr "Host"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remote host URL for the REST requests."
-msgstr ""
+msgstr "URL des Remote-Hosts für REST-Anfragen."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)"
-msgstr ""
+msgstr "z. B. https://www.otrs.com:10745/api/v1.0 (ohne abschließenden Backslash)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
@@ -7270,8 +7271,12 @@ msgid "SQL Box"
 msgstr "SQL Box"
 
 #. Template: AdminSelectBox
-msgid "Here you can enter SQL to send it directly to the application database."
-msgstr "Hier können Sie SQL eingeben, welches direkt an die Datenbank gesendet wird."
+msgid "Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed."
+msgstr ""
+
+#. Template: AdminSelectBox
+msgid "Only select queries are allowed."
+msgstr ""
 
 #. Template: AdminSelectBox
 msgid "The syntax of your SQL query has a mistake. Please check it."
@@ -8542,6 +8547,10 @@ msgid "All fields marked with an asterisk (*) are mandatory."
 msgstr "Alle mit * gekennzeichneten Felder sind Pflichtfelder."
 
 #. Template: AgentTicketActionCommon
+msgid "Ticket Actions"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
 msgid "Service invalid."
 msgstr "Ungültiger Service"
 
@@ -8558,16 +8567,12 @@ msgid "Previous Owner"
 msgstr "Vorheriger Besitzer"
 
 #. Template: AgentTicketActionCommon
-msgid "Inform Agent"
-msgstr "Agenten informieren"
+msgid "Next state"
+msgstr "Nächster Status"
 
 #. Template: AgentTicketActionCommon
-msgid "Optional"
-msgstr "Optional"
-
-#. Template: AgentTicketActionCommon
-msgid "Inform involved Agents"
-msgstr "Involvierte Agenten informieren"
+msgid "Add Article"
+msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Spell check"
@@ -8582,8 +8587,20 @@ msgid "Note type"
 msgstr "Notiztyp"
 
 #. Template: AgentTicketActionCommon
-msgid "Next state"
-msgstr "Nächster Status"
+msgid "Inform Agent"
+msgstr "Agenten informieren"
+
+#. Template: AgentTicketActionCommon
+msgid "Optional"
+msgstr "Optional"
+
+#. Template: AgentTicketActionCommon
+msgid "Inform involved Agents"
+msgstr "Involvierte Agenten informieren"
+
+#. Template: AgentTicketActionCommon
+msgid "Here you can select additional agents which should receive a notification regarding the new article."
+msgstr ""
 
 #. Template: AgentTicketBounce
 msgid "Bounce Ticket"
@@ -10534,10 +10551,6 @@ msgid "Customers <-> Groups"
 msgstr ""
 
 #. SysConfig
-msgid "Customizable system name. If empty, config item 'Home' is being used for display."
-msgstr ""
-
-#. SysConfig
 msgid "Data used to export the search result in CSV format."
 msgstr ""
 
@@ -10731,71 +10744,71 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines if a pre-sorting by priority should be done in the service view."
-msgstr ""
+msgstr "Bestimmt, ob in der Service-Ansicht eine Vorsortierung anhand der Priorität vorgenommen werden soll."
 
 #. SysConfig
 msgid "Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
-msgstr ""
+msgstr "Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt."
 
 #. SysConfig
 msgid "Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
-msgstr ""
+msgstr "Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt."
 
 #. SysConfig
 msgid "Defines if a ticket lock is required in the ticket compose screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
-msgstr ""
+msgstr "Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt."
 
 #. SysConfig
 msgid "Defines if a ticket lock is required in the ticket forward screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
-msgstr ""
+msgstr "Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt."
 
 #. SysConfig
 msgid "Defines if a ticket lock is required in the ticket free text screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
-msgstr ""
+msgstr "Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt."
 
 #. SysConfig
 msgid "Defines if a ticket lock is required in the ticket merge screen of a zoomed ticket in the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
-msgstr ""
+msgstr "Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt."
 
 #. SysConfig
 msgid "Defines if a ticket lock is required in the ticket note screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
-msgstr ""
+msgstr "Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt."
 
 #. SysConfig
 msgid "Defines if a ticket lock is required in the ticket owner screen of a zoomed ticket in the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
-msgstr ""
+msgstr "Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt."
 
 #. SysConfig
 msgid "Defines if a ticket lock is required in the ticket pending screen of a zoomed ticket in the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
-msgstr ""
+msgstr "Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt."
 
 #. SysConfig
 msgid "Defines if a ticket lock is required in the ticket phone inbound screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
-msgstr ""
+msgstr "Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt."
 
 #. SysConfig
 msgid "Defines if a ticket lock is required in the ticket phone outbound screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
-msgstr ""
+msgstr "Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt."
 
 #. SysConfig
 msgid "Defines if a ticket lock is required in the ticket priority screen of a zoomed ticket in the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
-msgstr ""
+msgstr "Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt."
 
 #. SysConfig
 msgid "Defines if a ticket lock is required in the ticket responsible screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
-msgstr ""
+msgstr "Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt."
 
 #. SysConfig
 msgid "Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
-msgstr ""
+msgstr "Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt."
 
 #. SysConfig
 msgid "Defines if composed messages have to be spell checked in the agent interface."
-msgstr ""
+msgstr "Bestimmt, ob im Agenten-Interface eine Rechtschreibprüfung für Nachrichten vorgenommen werden muss."
 
 #. SysConfig
 msgid "Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.)."
-msgstr ""
+msgstr "Bestimmt, ob der erweiterte Modus genutzt werden soll (schaltet die Benutzung von Tabellen, Suchen & Ersetzen, Tiefstellen, Hochstellen, aus Word einfügen, etc. frei)."
 
 #. SysConfig
 msgid "Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system's tickets."
@@ -10803,11 +10816,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines if time accounting is mandatory in the agent interface."
-msgstr ""
+msgstr "Bestimmt, ob das Zeiterfassungs-Feld im Agenten-Interface ein Pflichtfeld sein soll."
 
 #. SysConfig
 msgid "Defines if time accounting must be set to all tickets in bulk action."
-msgstr ""
+msgstr "Bestimmt, ob das Zeiterfassungs-Feld für alle Tickets im Stapelverarbeitungs-Bildschirm gesetzt werden soll."
 
 #. SysConfig
 msgid "Defines queues that's tickets are used for displaying as calendar events."
@@ -11618,10 +11631,6 @@ msgid "Defines the number of header fields in frontend modules for add and updat
 msgstr ""
 
 #. SysConfig
-msgid "Defines the opacity of the Fred console, e.g. 0.9 for 10% transparency."
-msgstr ""
-
-#. SysConfig
 msgid "Defines the parameters for the customer preferences table."
 msgstr ""
 
@@ -11847,10 +11856,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative)."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the width of the Fred console in percent."
 msgstr ""
 
 #. SysConfig
@@ -12399,14 +12404,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Frontend module registration for the customer interface."
-msgstr ""
-
-#. SysConfig
-msgid "Frontend module registration for the devel fred object in the admin area."
-msgstr ""
-
-#. SysConfig
-msgid "Frontend module registration for the public interface."
 msgstr ""
 
 #. SysConfig
@@ -13142,10 +13139,6 @@ msgid "Open tickets (customer)"
 msgstr ""
 
 #. SysConfig
-msgid "Output filter to show the name of the current system in the system header."
-msgstr ""
-
-#. SysConfig
 msgid "Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations."
 msgstr ""
 
@@ -13518,15 +13511,15 @@ msgid "Selects the ticket number generator module. \"AutoIncrement\" increments 
 msgstr ""
 
 #. SysConfig
-msgid "Send me a notification if a customer sends a follow up and I'm the owner of the ticket or the ticket is unlocked and is in one of my subscriptions."
+msgid "Send me a notification if a customer sends a follow up and I'm the owner of the ticket or the ticket is unlocked and is in one of my queues/services."
 msgstr ""
 
 #. SysConfig
 msgid "Send me a notification if the service of a ticket is changed to a service in \"My Services\" and the ticket is in a queue where I have read permissions."
-msgstr ""
+msgstr "Benachrichtigung bei Zuweisung eines Services aus \"Meine Services\" an ein Ticket, auf das ich Leserechte habe."
 
 #. SysConfig
-msgid "Send me a notification if there is a new ticket in my subscriptions."
+msgid "Send me a notification if there is a new ticket in my queues/services."
 msgstr ""
 
 #. SysConfig
@@ -14554,10 +14547,6 @@ msgid "Strips empty lines on the ticket preview in the service view."
 msgstr ""
 
 #. SysConfig
-msgid "Subscribe the output filter at the system."
-msgstr ""
-
-#. SysConfig
 msgid "System Maintenance"
 msgstr ""
 
@@ -14642,10 +14631,6 @@ msgid "This module and its PreRun() function will be executed, if defined, for e
 msgstr ""
 
 #. SysConfig
-msgid "This option defines the background color for the sytem name box."
-msgstr ""
-
-#. SysConfig
 msgid "This option defines the dynamic field in which a Process Management activity entity id is stored."
 msgstr ""
 
@@ -14711,42 +14696,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Toolbar Item for a shortcut."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want a JavaScript code quality checker. Only works in CVS Head / OTRS 3 with jQuery."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want an realtime HTML-checker."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want an realtime SQL statement log function."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want the translation debugger."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want to see the STDERRLog."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want to see the data in the environment of the layout object."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want to see the data in the serverside session object."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want to use the config log mechanism."
-msgstr ""
-
-#. SysConfig
-msgid "Turn on if you want to use the fred console."
 msgstr ""
 
 #. SysConfig
@@ -14850,22 +14799,10 @@ msgid "When tickets are merged, the customer can be informed per email by settin
 msgstr ""
 
 #. SysConfig
-msgid "Which order should the config log data have?"
-msgstr ""
-
-#. SysConfig
 msgid "Your queue selection of your favorite queues. You also get notified about those queues via email if enabled."
 msgstr "Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Queues versendet."
 
 #. SysConfig
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
-msgstr ""
-
-#. Template: AdminSelectBox
-msgid "Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed."
-msgstr ""
-
-#. Template: AdminSelectBox
-msgid "Only select queries are allowed."
 msgstr ""
 

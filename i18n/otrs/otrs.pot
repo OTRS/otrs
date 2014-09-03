@@ -8539,6 +8539,10 @@ msgid "All fields marked with an asterisk (*) are mandatory."
 msgstr ""
 
 #. Template: AgentTicketActionCommon
+msgid "Ticket Actions"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
 msgid "Service invalid."
 msgstr ""
 
@@ -8555,15 +8559,11 @@ msgid "Previous Owner"
 msgstr ""
 
 #. Template: AgentTicketActionCommon
-msgid "Inform Agent"
+msgid "Next state"
 msgstr ""
 
 #. Template: AgentTicketActionCommon
-msgid "Optional"
-msgstr ""
-
-#. Template: AgentTicketActionCommon
-msgid "Inform involved Agents"
+msgid "Add Article"
 msgstr ""
 
 #. Template: AgentTicketActionCommon
@@ -8579,7 +8579,19 @@ msgid "Note type"
 msgstr ""
 
 #. Template: AgentTicketActionCommon
-msgid "Next state"
+msgid "Inform Agent"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid "Optional"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid "Inform involved Agents"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid "Here you can select additional agents which should receive a notification regarding the new article."
 msgstr ""
 
 #. Template: AgentTicketBounce
@@ -13491,7 +13503,7 @@ msgid "Selects the ticket number generator module. \"AutoIncrement\" increments 
 msgstr ""
 
 #. SysConfig
-msgid "Send me a notification if a customer sends a follow up and I'm the owner of the ticket or the ticket is unlocked and is in one of my subscriptions."
+msgid "Send me a notification if a customer sends a follow up and I'm the owner of the ticket or the ticket is unlocked and is in one of my queues/services."
 msgstr ""
 
 #. SysConfig
@@ -13499,7 +13511,7 @@ msgid "Send me a notification if the service of a ticket is changed to a service
 msgstr ""
 
 #. SysConfig
-msgid "Send me a notification if there is a new ticket in my subscriptions."
+msgid "Send me a notification if there is a new ticket in my queues/services."
 msgstr ""
 
 #. SysConfig
