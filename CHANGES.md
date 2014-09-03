@@ -1,4 +1,5 @@
 #4.0.0.beta1 20??-??-??
+ - 2014-09-03 Fixed bug#[10208](http://bugs.otrs.org/show_bug.cgi?id=10208) - Added additional checks to see if something has changed and invalidates a spell check which had already been done, thanks to S7.
  - 2014-08-25 Added task type icon to activities, thanks to Nils Leideck.
  - 2014-08-29 Fixed bug#[10128](http://bugs.otrs.org/show_bug.cgi?id=10128) - WorkingTime/DestinationTime roundtrip exposes calculation errors.
  - 2014-08-25 Updated CPAN module YAML to version 1.09.
