@@ -884,7 +884,7 @@ sub PackageUpgrade {
         PARTDB:
         for my $Part ( @{ $Structure{DatabaseUpgrade}->{pre} } ) {
 
-            if ( $UseInstalled eq 0 ) {
+            if ( !$UseInstalled ) {
 
                 if (
                     $Part->{TagType} eq 'End'
@@ -981,7 +981,7 @@ sub PackageUpgrade {
         PARTDB:
         for my $Part ( @{ $Structure{DatabaseUpgrade}->{post} } ) {
 
-            if ( $UseInstalled eq 0 ) {
+            if ( !$UseInstalled ) {
 
                 if (
                     $Part->{TagType} eq 'End'
