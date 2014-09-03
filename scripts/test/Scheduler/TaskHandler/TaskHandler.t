@@ -10,6 +10,7 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
 use Kernel::System::Scheduler::TaskHandler;
@@ -85,7 +86,6 @@ TEST:
 for my $Test (@Tests) {
 
     my $Object = Kernel::System::Scheduler::TaskHandler->new(
-        %{$Self},
         TaskHandlerType => $Test->{TaskHandlerType},
     );
 

@@ -7,30 +7,20 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
-use Storable qw();
+# get needed objects
+my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+my $DBObject        = $Kernel::OM->Get('Kernel::System::DB');
+my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+my $PIDObject       = $Kernel::OM->Get('Kernel::System::PID');
 
-use Kernel::System::Scheduler;
-use Kernel::System::PID;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::SysConfig;
-
-# Create Helper instance which will restore system configuration in destructor
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 1,
-);
-
-my $SysConfigObject = Kernel::System::SysConfig->new( %{$Self} );
-my $PIDObject       = Kernel::System::PID->new( %{$Self} );
-
-my $Home = $Self->{ConfigObject}->Get('Home');
+my $Home = $ConfigObject->Get('Home');
 
 my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
 if ( $^O =~ /^mswin/i ) {
@@ -616,7 +606,7 @@ $CheckAction->(
 
 # manually modify the PID host
 my $RandomID      = $HelperObject->GetRandomID();
-my $UpdateSuccess = $Self->{DBObject}->Do(
+my $UpdateSuccess = $DBObject->Do(
     SQL => '
         UPDATE process_id
         SET process_host = ?
@@ -783,7 +773,7 @@ for my $Seconds ( 1 .. $SleepTime ) {
 # create PID manually otherwise PIDCreate() will create a valid PID and Scheduler will report as
 #   running
 my $Time    = time();
-my $Success = $Self->{DBObject}->Do(
+my $Success = $DBObject->Do(
     SQL => '
         INSERT INTO process_id
         (process_name, process_id, process_host, process_create, process_change)

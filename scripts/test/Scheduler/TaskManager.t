@@ -10,13 +10,16 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::Scheduler::TaskManager;
+# get needed objects
+my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
+my $LogObject         = $Kernel::OM->Get('Kernel::System::Log');
+my $TimeObject        = $Kernel::OM->Get('Kernel::System::Time');
+my $TaskManagerObject = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager');
 
-my $TaskManagerObject = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
-
-my $Home = $Self->{ConfigObject}->Get('Home');
+my $Home = $ConfigObject->Get('Home');
 
 my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
 if ( $^O =~ /^mswin/i ) {
@@ -72,7 +75,7 @@ $Self->Is(
     "Initial task list is empty",
 );
 
-my $CurrentTime = $Self->{TimeObject}->CurrentTimestamp();
+my $CurrentTime = $TimeObject->CurrentTimestamp();
 
 my @Tests = (
     {
@@ -254,7 +257,7 @@ my %OriginalTask = (
 my $TaskID = $TaskManagerObject->TaskAdd(%OriginalTask);
 
 if ( !$TaskID ) {
-    my $Message = $Self->{LogObject}->GetLogEntry(
+    my $Message = $LogObject->GetLogEntry(
         Type => 'error',
         What => 'Message',
     );

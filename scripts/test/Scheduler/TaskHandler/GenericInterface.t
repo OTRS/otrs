@@ -9,22 +9,18 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::GenericInterface::Webservice;
-use Kernel::GenericInterface::Requester;
-use Kernel::System::UnitTest::Helper;
 use Kernel::System::Scheduler::TaskHandler;
 
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
+# get needed objects
+my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+my $RequesterObject  = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
 
-my $WebserviceObject  = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
-my $RequesterObject   = Kernel::GenericInterface::Requester->new( %{$Self} );
 my $TaskHandlerObject = Kernel::System::Scheduler::TaskHandler->new(
-    %{$Self},
     TaskHandlerType => 'GenericInterface',
 );
 
@@ -152,7 +148,7 @@ my @TaskList = (
 
 for my $TaskData (@TaskList) {
 
-    # Result task
+    # result task
     my $Result = $TaskHandlerObject->Run( Data => $TaskData );
 
     $Self->Is(

@@ -10,13 +10,13 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
-use Storable qw();
-
-use Kernel::System::Scheduler;
-use Kernel::System::Scheduler::TaskManager;
-use Kernel::System::PID;
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
+my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
 my @Tests = (
     {
@@ -71,7 +71,7 @@ my @Tests = (
     },
 );
 
-my $Home = $Self->{ConfigObject}->Get('Home');
+my $Home = $ConfigObject->Get('Home');
 
 # check if scheduler is running (start, if neccessary)
 my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
@@ -238,7 +238,7 @@ for my $Test (@Tests) {
     for my $Task ( @{ $Test->{Tasks} } ) {
 
         if ( $Task->{Type} eq 'Test' ) {
-            my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . int rand 1000000;
+            my $File = $ConfigObject->Get('Home') . '/var/tmp/task_' . int rand 1000000;
             if ( -e $File ) {
                 unlink $File;
             }
@@ -263,7 +263,7 @@ for my $Test (@Tests) {
         if ( !$TaskID ) {
 
             # get last log entry (this might help)
-            my $Message = $Self->{LogObject}->GetLogEntry(
+            my $Message = $LogObject->GetLogEntry(
                 Type => 'error',        # error|info|notice
                 What => 'Traceback',    # Message|Traceback
             );
@@ -351,8 +351,8 @@ for my $Test (@Tests) {
     # make a deep copy to avoid changing the definition
     $Test = Storable::dclone($Test);
 
-    my $DueTime = $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => ( $Self->{TimeObject}->SystemTime() + 9 ),
+    my $DueTime = $TimeObject->SystemTime2TimeStamp(
+        SystemTime => ( $TimeObject->SystemTime() + 9 ),
     );
 
     # register tasks
@@ -360,7 +360,7 @@ for my $Test (@Tests) {
     my $TaskCounter;
     for my $Task ( @{ $Test->{Tasks} } ) {
         if ( $Task->{Type} eq 'Test' ) {
-            my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . int rand 1000000;
+            my $File = $ConfigObject->Get('Home') . '/var/tmp/task_' . int rand 1000000;
             if ( -e $File ) {
                 unlink $File;
             }
@@ -459,8 +459,8 @@ for my $Test (@Tests) {
     # make a deep copy to avoid changing the definition
     $Test = Storable::dclone($Test);
 
-    my $DueTime = $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => ( $Self->{TimeObject}->SystemTime() + 9 ),
+    my $DueTime = $TimeObject->SystemTime2TimeStamp(
+        SystemTime => ( $TimeObject->SystemTime() + 9 ),
     );
 
     # stop scheduler to prevent the early execution of tasks
@@ -522,7 +522,7 @@ for my $Test (@Tests) {
         $Task->{Data}->{ReScheduleDueTime} = $DueTime;
 
         if ( $Task->{Type} eq 'Test' ) {
-            my $File = $Self->{ConfigObject}->Get('Home') . '/var/tmp/task_' . int rand 1000000;
+            my $File = $ConfigObject->Get('Home') . '/var/tmp/task_' . int rand 1000000;
             if ( -e $File ) {
                 unlink $File;
             }
@@ -530,7 +530,7 @@ for my $Test (@Tests) {
             $Task->{Data}->{File} = $File;
 
             my $RescheduleFile
-                = $Self->{ConfigObject}->Get('Home')
+                = $ConfigObject->Get('Home')
                 . '/var/tmp/task_reschedule_'
                 . int rand 1000000;
             if ( -e $RescheduleFile ) {
