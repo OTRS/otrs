@@ -14826,3 +14826,7 @@ msgstr "Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen übe
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
 msgstr "Auswahl der bevorzugten Services. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Services versendet. "
 
+#. SysConfig
+msgid "Out Of Office"
+msgstr ""
+

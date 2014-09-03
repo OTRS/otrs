@@ -2221,8 +2221,9 @@ sub Data {
 
         # Template: AdminSelectBox
         'SQL Box' => 'Запрос SQL',
-        'Here you can enter SQL to send it directly to the application database.' =>
-            'Здесь вы можете ввести SQL-запрос и напрямую отправить его в базу данных приложения.',
+        'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
+            '',
+        'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Ошибка синтаксиса в вашем SQL-запросе, пожалуйста, проверьте его еще раз. ',
         'There is at least one parameter missing for the binding. Please check it.' =>
@@ -2678,13 +2679,16 @@ sub Data {
         'New Owner' => 'Новый владелец',
         'Please set a new owner!' => 'Пожалуйста, задайте нового владельца',
         'Previous Owner' => 'Предыдущий владелец',
-        'Inform Agent' => 'Уведомить агента',
-        'Optional' => 'Необязательно',
-        'Inform involved Agents' => 'Уведомить участвующих агентов',
+        'Next state' => 'Следующее состояние',
+        'Add Article' => '',
         'Spell check' => 'Проверка орфографии',
         'Text Template' => 'Текстовый шаблон',
         'Note type' => 'Тип заметки',
-        'Next state' => 'Следующее состояние',
+        'Inform Agent' => 'Уведомить агента',
+        'Optional' => 'Необязательно',
+        'Inform involved Agents' => 'Уведомить участвующих агентов',
+        'Here you can select additional agents which should receive a notification regarding the new article.' =>
+            '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Перенаправить заявку',
@@ -4158,6 +4162,7 @@ sub Data {
             'Модуль обработки события, который обновляет заявки клиентов после обновления учетной записи клиента.',
         'Event module that updates tickets after an update of the Customer.' =>
             '',
+        'Events Ticket Calendar' => '',
         'Execute SQL statements.' => 'Выполнить SQL запрос.',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             'Выполняет проверку ответа клиента в In-Reply-To или References заголовках для писем не имеющих в Теме номер заявки.',
@@ -4466,6 +4471,8 @@ sub Data {
             'Модуль для показа уведомлений и эскалаций (ShownMax: мак. кол-во показываемых эскалаций, EscalationInMinutes: Показать эскалированные заявки, CacheTime: Cache для вычисленных эскалаций в сек.).',
         'Module to use database filter storage.' => '',
         'Multiselect' => '',
+        'My Queues and My Services' => '',
+        'My Queues or My Services' => '',
         'My Services' => '',
         'My Tickets' => 'Мои заявки',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
@@ -4483,6 +4490,7 @@ sub Data {
             'Следующее доступное состояние после добавления заметки при регистрации входящего звонка в интерфейсе агента.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'Следующее доступное состояние после добавления заметки при регистрации исходящего звонка в интерфейсе агента.',
+        'No Notification' => '',
         'Notification sent to "%s".' => 'Уведомление отправлено на %s.',
         'Notifications (Event)' => 'Уведомление о событии',
         'Number of displayed tickets' => 'Количество отображаемых заявок',
@@ -4495,6 +4503,7 @@ sub Data {
         'Old: "%s" New: "%s"' => 'Прежнее состояние: %s, новое состояние: %s',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
+        'Out Of Office' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Переопределяет функции заданные в Kernel::System::Ticket::(имя папки с альтернативными модулями). Применяется для облегчения кастомизации.',
         'Overview Escalated Tickets' => 'Обзор эскалированных заявок',
@@ -4629,6 +4638,7 @@ sub Data {
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
             'Восстанавливает заявку из архива (только по событию изменения состояния из "закрыта" в любое другое доступное состояние).',
         'Roles <-> Groups' => 'Роли <-> Группы',
+        'Running Process Tickets' => '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             'Выполняет начальный поиск по символу подстановки в списке клиентов при доступе к модулю AdminCustomerUser.',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
@@ -4647,16 +4657,16 @@ sub Data {
             'Выбирает способ управления загрузкой через веб-интерфейс. "DB" - сохраняет загружаемые файлы в БД, "FS" использует файловую систему.',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             'Выбирает способ генерации номеров заявок. "AutoIncrement" - увеличивает номер на 1 (формат - SystemID.counter(например, 1010138, 1010139). "Date" - использует текущую дату, SystemID и счетчик (вид: Year.Month.Day.SystemID.counter (200206231010138, 200206231010139). "DateChecksum" - счетчик дополняется контрольной суммой к строке из даты и SystemID. Формат строится как Year.Month.Day.SystemID.Counter.CheckSum. Контрольная сумма обновляется ежедневно (вид: 2002070110101520, 2002070110101535). "Random" - генерирует случайный номер в формате "SystemID.Random" (напр. 100057866352, 103745394596).',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscriptions.' =>
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my queues/services.' =>
             '',
         'Send me a notification if the service of a ticket is changed to a service in "My Services" and the ticket is in a queue where I have read permissions.' =>
             '',
-        'Send me a notification if there is a new ticket in my subscriptions.' =>
+        'Send me a notification if there is a new ticket in my queues/services.' =>
             '',
-        'Send new ticket notifications if subscribed to:' => '',
+        'Send new ticket notifications if subscribed to' => '',
         'Send notifications to users.' => 'Отправить уведомление пользователям.',
         'Send service update notifications' => '',
-        'Send ticket follow up notifications if subscribed to:' => '',
+        'Send ticket follow up notifications if subscribed to' => '',
         'Sender type for new tickets from the customer inteface.' => 'Тип отправителя для новых заявок из интерфейса клиента.',
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             'Отправлять уведомления агентам об откликах только владельцу, если заявка разблокирована (по умолчанию уведомляются все агенты).',

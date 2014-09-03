@@ -2664,7 +2664,6 @@ sub Data {
         'Change Priority of Ticket' => 'Ändern der Ticket-Priorität',
         'Change Responsible of Ticket' => 'Ändern der Ticket-Verantwortlichen',
         'All fields marked with an asterisk (*) are mandatory.' => 'Alle mit * gekennzeichneten Felder sind Pflichtfelder.',
-        'Ticket Actions' => '',
         'Service invalid.' => 'Ungültiger Service',
         'New Owner' => 'Neuer Besitzer',
         'Please set a new owner!' => 'Bitte einen neuen Besitzer angeben',
@@ -4493,6 +4492,7 @@ sub Data {
         'Old: "%s" New: "%s"' => 'Alt: "%s" Neu: "%s"',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
+        'Out Of Office' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => 'Übersicht eskalierte Tickets',

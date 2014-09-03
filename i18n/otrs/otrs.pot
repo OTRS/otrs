@@ -8539,10 +8539,6 @@ msgid "All fields marked with an asterisk (*) are mandatory."
 msgstr ""
 
 #. Template: AgentTicketActionCommon
-msgid "Ticket Actions"
-msgstr ""
-
-#. Template: AgentTicketActionCommon
 msgid "Service invalid."
 msgstr ""
 
@@ -13144,6 +13140,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Open tickets (customer)"
+msgstr ""
+
+#. SysConfig
+msgid "Out Of Office"
 msgstr ""
 
 #. SysConfig

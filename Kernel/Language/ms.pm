@@ -2209,8 +2209,9 @@ sub Data {
 
         # Template: AdminSelectBox
         'SQL Box' => 'Kotak SQL',
-        'Here you can enter SQL to send it directly to the application database.' =>
-            'Sini anda boleh masukkan SQL untuk menghantar terus kepada pangkalan data permohonan.',
+        'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
+            '',
+        'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Syntax query SQL anda mempunyai kesilapan. Sila semak.',
         'There is at least one parameter missing for the binding. Please check it.' =>
@@ -2666,13 +2667,16 @@ sub Data {
         'New Owner' => 'Pemilik baru',
         'Please set a new owner!' => 'Sila tetapkan pemilik baru!',
         'Previous Owner' => 'Pemilik sebelumnya',
-        'Inform Agent' => 'Memaklumkan Agen.',
-        'Optional' => 'Pilihan',
-        'Inform involved Agents' => 'Beritahu Ejen terlibat',
+        'Next state' => 'Status Seterusnya',
+        'Add Article' => '',
         'Spell check' => 'semak ejaan',
         'Text Template' => '',
         'Note type' => 'Jenis Nota',
-        'Next state' => 'Status Seterusnya',
+        'Inform Agent' => 'Memaklumkan Agen.',
+        'Optional' => 'Pilihan',
+        'Inform involved Agents' => 'Beritahu Ejen terlibat',
+        'Here you can select additional agents which should receive a notification regarding the new article.' =>
+            '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Bounce Tiket.',
@@ -4146,6 +4150,7 @@ sub Data {
             '',
         'Event module that updates tickets after an update of the Customer.' =>
             '',
+        'Events Ticket Calendar' => '',
         'Execute SQL statements.' => 'Melaksanakan penyata SQL.',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             'Melaksanakan semakan susulan dalam pada In-Reply-To atau headers Rujukan untuk mel yang tidak mempunyai nombor tiket di dalam subjek.',
@@ -4454,6 +4459,8 @@ sub Data {
             'Modul untuk menunjukkan notifikasi dan lambungan (ShownMax: lambungan maksimum dipamerkan, EscalationInMinutes: Menunjukkan tiket dimana akan dilambungkan, CacheTimet: Cache lambungan uang dikira dalam saat).',
         'Module to use database filter storage.' => 'Modul untuk menggunakan penyimpanan penapis pangkalan data.',
         'Multiselect' => 'Multiselect',
+        'My Queues and My Services' => '',
+        'My Queues or My Services' => '',
         'My Services' => '',
         'My Tickets' => 'Tiket Saya',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
@@ -4471,6 +4478,7 @@ sub Data {
             'Status tiket yang mungkin yang seterusnya selepas menambah nota telefon dalam skrin tiket telefon masuk dari paparan ejen.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'Status tiket yang mungkin yang seterusnya selepas menambah nita telefon dalam skrin tiket telefon keluar dari paparan ejen.',
+        'No Notification' => '',
         'Notification sent to "%s".' => 'Pemberitahuan dihantar kepada "%s".',
         'Notifications (Event)' => 'Notifikasi (Acara)',
         'Number of displayed tickets' => 'Jumlah tiket yang dipamerkan',
@@ -4483,6 +4491,7 @@ sub Data {
         'Old: "%s" New: "%s"' => 'Lama: "%s" Baru: "%s"',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
+        'Out Of Office' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Terlebih muat (mentakrifkan semula) fungsi sedia ada dalam Kernel::System::Ticket. Digunakan untuk memudahkan menambah penyesuaian.',
         'Overview Escalated Tickets' => 'Overview Tiket yang Dilambung',
@@ -4617,6 +4626,7 @@ sub Data {
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
             'Memulihkan tiket daripada arkib (hanya jika acara ialah status berubah, daripada tertutup kepada mana-mana status terbuka yang tersedia).',
         'Roles <-> Groups' => 'Peranan <-> Kumpulan',
+        'Running Process Tickets' => '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             'Menjalankan carian wildcard awal daripada pengguna pelanggan yang sedia ada semasa mengakses modul AdminCustomerUser itu.',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
@@ -4635,16 +4645,16 @@ sub Data {
             'Memilih modul untuk mengendalikan Gambar melalui paparan web. "DB" menyimpan semua Gambar dalam pangkalan data, "FS" menggunakan sistem fail.',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             'Memilih nombor tiket modul penjana. "AutoIncrement" kenaikan bilangan tiket Undur dan kaunter digunakan dengan format SystemID.counter (contohnya 1010138, 1010139). Dengan "Date" nombor tiket akan dijana oleh tarikh semasa, Undur dan kaunter. Format kelihatan seperti Year.Month.Day.SystemID.counter (contohnya 200206231010138, 200206231010139). Dengan "DateChecksum" kaunter itu akan dikepilkan sebagai checksum untuk rentetan tarikh dan Undur. Checksum akan digilirkan setiap hari. Format kelihatan seperti Year.Month.Day.SystemID.Counter.CheckSum (contohnya 2002070110101520, 2002070110101535). "Random" menjana nombor tiket rawak dalam format "SystemID.Random" (contohnya 100057866352, 103745394596).',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscriptions.' =>
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my queues/services.' =>
             '',
         'Send me a notification if the service of a ticket is changed to a service in "My Services" and the ticket is in a queue where I have read permissions.' =>
             '',
-        'Send me a notification if there is a new ticket in my subscriptions.' =>
+        'Send me a notification if there is a new ticket in my queues/services.' =>
             '',
-        'Send new ticket notifications if subscribed to:' => '',
+        'Send new ticket notifications if subscribed to' => '',
         'Send notifications to users.' => 'Hantar notifikasi kepada pelanggan.',
         'Send service update notifications' => '',
-        'Send ticket follow up notifications if subscribed to:' => '',
+        'Send ticket follow up notifications if subscribed to' => '',
         'Sender type for new tickets from the customer inteface.' => '',
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             'Menghantar notifikasi susulan ejen hanya kepada pemilik, jika tiket tidak dikunci (default ialah untuk hantar notifikasi kepada kesemua ejen).',

@@ -2212,8 +2212,9 @@ sub Data {
 
         # Template: AdminSelectBox
         'SQL Box' => 'SQL संदूक',
-        'Here you can enter SQL to send it directly to the application database.' =>
-            'SQL को सीधे अनुप्रयोग डेटाबेस को भेजने के लिए यहाँ दर्ज कर सकते हैं।',
+        'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
+            '',
+        'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'आपकी SQL क्वेरी के वाक्यविन्यास मॆ गलती हैं। उसकी जाँच करें।',
         'There is at least one parameter missing for the binding. Please check it.' =>
@@ -2669,13 +2670,16 @@ sub Data {
         'New Owner' => 'नया स्वामी',
         'Please set a new owner!' => 'कृपया नया स्वामी सेट करें',
         'Previous Owner' => 'पिछला स्वामी',
-        'Inform Agent' => 'प्रतिनिधि को सूचित करें ',
-        'Optional' => 'ऐच्छिक',
-        'Inform involved Agents' => 'शामिल प्रतिनिधियॊ को सूचित करें',
+        'Next state' => 'अगली स्थिति',
+        'Add Article' => '',
         'Spell check' => 'वर्तनी की जाँच',
         'Text Template' => '',
         'Note type' => 'टिप्पणी प्रकार',
-        'Next state' => 'अगली स्थिति',
+        'Inform Agent' => 'प्रतिनिधि को सूचित करें ',
+        'Optional' => 'ऐच्छिक',
+        'Inform involved Agents' => 'शामिल प्रतिनिधियॊ को सूचित करें',
+        'Here you can select additional agents which should receive a notification regarding the new article.' =>
+            '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => '',
@@ -4149,6 +4153,7 @@ sub Data {
             '',
         'Event module that updates tickets after an update of the Customer.' =>
             '',
+        'Events Ticket Calendar' => '',
         'Execute SQL statements.' => 'SQL बयान चलाएँ।',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             'प्रत्युत्तर के लिए या मेल की संदर्भ शीर्षलेख कि विषय में कोई टिकट नंबर नहीं है के लिए अनुसरण जांच कार्यान्वित करता है।',
@@ -4457,6 +4462,8 @@ sub Data {
             'सूचनाएँ और संवर्धित को दिखाने के लिए मॉड्यूल(ShownMax: अधिकतम संवर्धित दिखाए,EscalationInMinutes:टिकट दिखाना जो संवर्धित होगें,CacheTime: सेकंड में गणना की बढ़ोतरी के संचित)।',
         'Module to use database filter storage.' => 'आंकड़ाकोष संग्रहण निस्पादक उपयोग करने के लिए मॉड्यूल।',
         'Multiselect' => '',
+        'My Queues and My Services' => '',
+        'My Queues or My Services' => '',
         'My Services' => '',
         'My Tickets' => 'मेरे टिकट',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
@@ -4474,6 +4481,7 @@ sub Data {
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के टिकट फोन आउटबाउंड स्क्रीन में एक फोन टिप्पणी जोड़ने के बाद टिकट की अगली संभव स्थिति।',
+        'No Notification' => '',
         'Notification sent to "%s".' => 'ग्राहक अधिसूचना भेजें"%s"।',
         'Notifications (Event)' => 'अधिसूचनाएँ (घटना)',
         'Number of displayed tickets' => 'प्रदर्शित टिकट की संख्या',
@@ -4486,6 +4494,7 @@ sub Data {
         'Old: "%s" New: "%s"' => 'पुराना: "%s". नया: "%s"।',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
+        'Out Of Office' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'अधिभार(पुनर्व्याख्या) मौजूदा कार्य Kernel::System::Ticket में। आसानी से अनुकूलन जोड़ने के लिए। ',
         'Overview Escalated Tickets' => 'अवलोकन संवर्धित टिकट',
@@ -4620,6 +4629,7 @@ sub Data {
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
             'संग्रह से टिकट पुनर्स्थापित करता है(केवल यदि घटना एक स्थिति परिवर्तन है,किसी भी खुले उपलब्ध स्थिति से बंद के लिए)।',
         'Roles <-> Groups' => 'भूमिकाएं <-> समूहों',
+        'Running Process Tickets' => '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
@@ -4638,16 +4648,16 @@ sub Data {
             'वेब अंतरफलक के द्वारा अपलोड संभालने के लिए मॉड्यूल चुनता है। "DB" आंकड़ाकोष में सभी अपलोड को संग्रहीत करता है,"FS" फ़ाइल प्रणाली का उपयोग करता है।',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             'टिकट संख्या उत्पादक मॉड्यूल चुनता है। "AutoIncrement" टिकट संख्या बढ़ता है,प्रणाली ID और काउंटर SystemID.काउंटर प्रारूप (जैसे. 1010138,1010139) के साथ उपयोग किया जाता है।"दिनांक " के साथ टिकट संख्या वर्तमान दिनांक के आधार पर उत्पन्न किया जाएगा,SystemID और काउंटर।प्रारूप        Year.Month.Day.SystemID.counter की तरह दिखता है(जैसे. 200206231010138, 200206231010139)।"DateChecksum" के साथ काउंटर तारीख और systemid के जाँचयोग स्ट्रिंग के रूप में जुड़ जाएगा।जाँचयोग एक दैनिक आधार पर चलाया जाएगा।प्रारूप Year.Month.Day.SystemID.Counter.CheckSum की तरह दिखता है (जैसे. 2002070110101520,2002070110101535)।"Random" यादृच्छिक टिकट संख्या उत्पन्न करता है "SystemID.Random" प्रारूप में(जैसे. 100057866352, 103745394596)।',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscriptions.' =>
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my queues/services.' =>
             '',
         'Send me a notification if the service of a ticket is changed to a service in "My Services" and the ticket is in a queue where I have read permissions.' =>
             '',
-        'Send me a notification if there is a new ticket in my subscriptions.' =>
+        'Send me a notification if there is a new ticket in my queues/services.' =>
             '',
-        'Send new ticket notifications if subscribed to:' => '',
+        'Send new ticket notifications if subscribed to' => '',
         'Send notifications to users.' => 'उपयोगकर्ताओं को अधिसूचनाएँ भेजें।',
         'Send service update notifications' => '',
-        'Send ticket follow up notifications if subscribed to:' => '',
+        'Send ticket follow up notifications if subscribed to' => '',
         'Sender type for new tickets from the customer inteface.' => 'ग्राहक अंतरफलक से नये टिकटों के लिए प्रेषक प्रकार।',
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             'प्रतिनिधि अनुवर्ती अधिसूचना स्वामी को ही भेजता है,यदि एक टिकट अनलॉक है(सभी एजेंटों को अधिसूचना भेजना तयशुदा है)',

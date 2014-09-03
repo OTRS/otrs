@@ -2210,8 +2210,9 @@ sub Data {
 
         # Template: AdminSelectBox
         'SQL Box' => 'Consola SQL',
-        'Here you can enter SQL to send it directly to the application database.' =>
-            'Aqu√≠ puede introducir SQL para ejecutarse directamente en la base de datos de la aplicaci√≥n.',
+        'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
+            '',
+        'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'La sintaxis de su consulta SQL tiene un error. Por favor, verif√≠quela.',
         'There is at least one parameter missing for the binding. Please check it.' =>
@@ -2667,13 +2668,16 @@ sub Data {
         'New Owner' => 'Propietario nuevo',
         'Please set a new owner!' => 'Por favor, defina un propietario nuevo.',
         'Previous Owner' => 'Propietario Anterior',
-        'Inform Agent' => 'Notificar a Agente',
-        'Optional' => 'Opcional',
-        'Inform involved Agents' => 'Notificar a Agentes involucrados',
+        'Next state' => 'Siguiente estado',
+        'Add Article' => '',
         'Spell check' => 'Corrector ortogr√°fico',
         'Text Template' => '',
         'Note type' => 'Tipo de nota',
-        'Next state' => 'Siguiente estado',
+        'Inform Agent' => 'Notificar a Agente',
+        'Optional' => 'Opcional',
+        'Inform involved Agents' => 'Notificar a Agentes involucrados',
+        'Here you can select additional agents which should receive a notification regarding the new article.' =>
+            '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => '',
@@ -4147,6 +4151,7 @@ sub Data {
             '',
         'Event module that updates tickets after an update of the Customer.' =>
             '',
+        'Events Ticket Calendar' => '',
         'Execute SQL statements.' => 'Ejecutar sentencias SQL.',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             'Ejecuta verificaciones de seguimiento en En-Respuesta-A o en las cabeceras de referencia, en los correos que no tienen un n√∫mero de ticket en el asunto.',
@@ -4455,6 +4460,8 @@ sub Data {
             'M√≥dulo para mostrar notificaciones y escalados (ShownMax: N√∫mero m√°ximo de escalados que se muestran, EscalationInMinutes: Mostrar el ticket que escalar√° en estos minutos, CacheTime: Cach√© de los escalados calculados en segundos).',
         'Module to use database filter storage.' => 'M√≥dulo para utilizar el almacenamiento de base de datos del filtro.',
         'Multiselect' => '',
+        'My Queues and My Services' => '',
+        'My Queues or My Services' => '',
         'My Services' => '',
         'My Tickets' => 'Mis Tickets',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
@@ -4472,6 +4479,7 @@ sub Data {
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'Lista de posibles estados siguientes de ticket, luego de haber a√±adido una nota telef√≥nica a un ticket, en la ventana de ticket telef√≥nico slaiente de la interfaz del agente.',
+        'No Notification' => '',
         'Notification sent to "%s".' => 'Notificaci√≥n; enviada a "%s".',
         'Notifications (Event)' => 'Notificaciones (Evento)',
         'Number of displayed tickets' => 'N√∫mero de t√≠ckets desplegados',
@@ -4484,6 +4492,7 @@ sub Data {
         'Old: "%s" New: "%s"' => 'Antiguo: "%s". Nuevo: "%s"',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
+        'Out Of Office' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Sobrecarga (redefine) funciones existentes en Kernel::System::Ticket. √ötil para a√±adir personalizaciones f√°cilmente.',
         'Overview Escalated Tickets' => 'Resumen de Tickets Escalados',
@@ -4618,6 +4627,7 @@ sub Data {
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
             'Restablece un ticket del archivo (s√≥lo si el evento es un cambio de estado de cerrado a cualquiera de los estados abiertos disponibles).',
         'Roles <-> Groups' => 'Roles <-> Grupos',
+        'Running Process Tickets' => '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
@@ -4636,16 +4646,16 @@ sub Data {
             'Selecciona el m√≥dulo para manejar las cargas de archivos en la interfaz web. "DB" almacena todos en la base de datos, mientras que "FS" usa el sistema de archivos.',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             'Selecciona el m√≥dulo generador de n√∫meros de ticket. "AutoIncrement" incrementa el n√∫mero de ticket, se usan el ID del sistema y el contador, en la forma IDSistema.contador (por ejemplo: 1010138, 1010139). Con "Date", el n√∫mero de ticket se genera con la fecha actual, el ID de sistema y el contador, con el formato: A√±o.Mes.D√≠a.IDSistema.Contador.SumaDeComprobaci√≥n (por ejemplo: 2002070110101520, 2002070110101535). "Random" genera n√∫meros de tickets aleatorios, con el formato IDSistema.Aleatorio (por ejemplo: 100057866352, 103745394596).',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscriptions.' =>
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my queues/services.' =>
             '',
         'Send me a notification if the service of a ticket is changed to a service in "My Services" and the ticket is in a queue where I have read permissions.' =>
             '',
-        'Send me a notification if there is a new ticket in my subscriptions.' =>
+        'Send me a notification if there is a new ticket in my queues/services.' =>
             '',
-        'Send new ticket notifications if subscribed to:' => '',
+        'Send new ticket notifications if subscribed to' => '',
         'Send notifications to users.' => 'Enviar notificaciones a usuarios.',
         'Send service update notifications' => '',
-        'Send ticket follow up notifications if subscribed to:' => '',
+        'Send ticket follow up notifications if subscribed to' => '',
         'Sender type for new tickets from the customer inteface.' => 'Tipo de destinatario para tickets nuevos, creados  en la interfaz del cliente.',
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             'Enviar notificaciones de seguimiento √∫nicamente al agente propietario, si el ticket se desbloquea (por defecto se env√≠an notificaciones a todos los agentes).',

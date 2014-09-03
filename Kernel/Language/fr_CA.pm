@@ -2217,8 +2217,9 @@ sub Data {
 
         # Template: AdminSelectBox
         'SQL Box' => 'Requêtes SQL',
-        'Here you can enter SQL to send it directly to the application database.' =>
-            'Entrez les requêtes SQL afin de les envoyer directement dans la base de données d\'application.',
+        'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
+            '',
+        'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Votre requête SQL comporte une erreur de syntaxe. Veuillez la corriger.',
         'There is at least one parameter missing for the binding. Please check it.' =>
@@ -2674,13 +2675,16 @@ sub Data {
         'New Owner' => 'Nouveau propriétaire ',
         'Please set a new owner!' => 'Veuillez configurer un nouveau propriétaire.',
         'Previous Owner' => 'Propriétaire précédent ',
-        'Inform Agent' => 'Informer l\'agent',
-        'Optional' => 'Optionnel',
-        'Inform involved Agents' => 'Informer les agents impliqués',
+        'Next state' => 'Nouvel état ',
+        'Add Article' => '',
         'Spell check' => 'Vérifier L\'orthographe',
         'Text Template' => '',
         'Note type' => 'Type de note ',
-        'Next state' => 'Nouvel état ',
+        'Inform Agent' => 'Informer l\'agent',
+        'Optional' => 'Optionnel',
+        'Inform involved Agents' => 'Informer les agents impliqués',
+        'Here you can select additional agents which should receive a notification regarding the new article.' =>
+            '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Retourner la demande',
@@ -4154,6 +4158,7 @@ sub Data {
             '',
         'Event module that updates tickets after an update of the Customer.' =>
             '',
+        'Events Ticket Calendar' => '',
         'Execute SQL statements.' => 'Exécuter des requêtes SQL.',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             'Exécute la vérification des suivis des courriels « en réponse à » ou ayant des en-têtes de référence qui n\'ont pas de numéro de demande dans le sujet.',
@@ -4462,6 +4467,8 @@ sub Data {
             'Module d\'affichage des notifications et des escalades (Affichage maximal (ShownMax) : nombre maximal d\'escalades affichées, Escalade à venir (EscalationInMinutes) : affiche les demandes qui escaladeront, Temps de cache (CacheTime) : temps de cache des escalades prévues en secondes.)',
         'Module to use database filter storage.' => 'Module qui permet d\'utiliser la mise en mémoire des filtres de base de données.',
         'Multiselect' => 'Multi-choix',
+        'My Queues and My Services' => '',
+        'My Queues or My Services' => '',
         'My Services' => '',
         'My Tickets' => 'Mes demandes',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
@@ -4479,6 +4486,7 @@ sub Data {
             'Les états de demande possibles après qu\'une note téléphonique est ajoutée dans l\'écran des demandes téléphoniques entrantes de l\'interface agent.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'Les états de demande possibles après qu\'une note téléphonique est ajoutée dans l\'écran des demandes téléphoniques sortantes de l\'interface agent.',
+        'No Notification' => '',
         'Notification sent to "%s".' => 'Notification envoyée à "%s".',
         'Notifications (Event)' => 'Notifications (Évènement)',
         'Number of displayed tickets' => 'Nombre de demandes affichées ',
@@ -4491,6 +4499,7 @@ sub Data {
         'Old: "%s" New: "%s"' => 'État Avant: "%s" Après: "%s"',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
+        'Out Of Office' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Surcharge (redéfini) les fonctions existantes dans Kernel::System::Ticket. Ce module est utilisé pour faciliter la personnalisation.',
         'Overview Escalated Tickets' => 'Visualisation des demandes escaladées',
@@ -4625,6 +4634,7 @@ sub Data {
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
             'Restaure une demande archivée (seulement si l\'événement est un changement d\'état depuis un état fermé vers n\'importe quel état ouvert disponible).',
         'Roles <-> Groups' => 'Rôles <-> Groupes',
+        'Running Process Tickets' => '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             'Lors de l\'accès au module « AdminCustomerUser », le présent module exécute une recherche initiale de caractères de remplacement des utilisateurs clients existants.',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
@@ -4643,16 +4653,16 @@ sub Data {
             'Sélection du module de gestion des téléchargements en passant par l\'interface Web. L\'option « DB » stocke tous les téléchargements dans la base de données, « FS » utilise le fichier système.',
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             'Sélection du mode de génération de numéro demande. Le mode« AutoIncrement » incrémente le numéro de la demande comme suit : l\'identification du système et le compteur (par ex. 1010128, 1010139). Le mode « Date » génère un numéro de demande selon la date du jour, l\'identification du système et le compteur ; par exemple, année.mois.jour.identification du système.compteur (200206231010138 ou 200206231010139). le mode « Datechecksum » adjoindra le compteur à la date et à l\'identification du système en tant que somme de contrôle. La somme de contrôle sera renouvelée quotidiennement. Le format va comme suit : année.mois.jour.identification du système. compteur.somme de contrôle (par ex. 2002070110101520, 2002070110101535). Le mode « Random » génère un numéro de demande aléatoire selon le format « SystemID. Random », c\'est-à-dire identification du système.numéro aléatoire (par ex. 100057866352, 103745394596 ).',
-        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscriptions.' =>
+        'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my queues/services.' =>
             '',
         'Send me a notification if the service of a ticket is changed to a service in "My Services" and the ticket is in a queue where I have read permissions.' =>
             '',
-        'Send me a notification if there is a new ticket in my subscriptions.' =>
+        'Send me a notification if there is a new ticket in my queues/services.' =>
             '',
-        'Send new ticket notifications if subscribed to:' => '',
+        'Send new ticket notifications if subscribed to' => '',
         'Send notifications to users.' => 'Envoyer des notifications aux utilisateurs.',
         'Send service update notifications' => '',
-        'Send ticket follow up notifications if subscribed to:' => '',
+        'Send ticket follow up notifications if subscribed to' => '',
         'Sender type for new tickets from the customer inteface.' => 'Type d\'expéditeur des nouvelles demandes dans l\'interface client.',
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             'N\'envoie la notification de suivi de l\'agent qu\'au propriétaire si la demande est déverrouillée (par défaut, on enverrait normalement la notification à tous les agents).',
