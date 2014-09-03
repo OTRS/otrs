@@ -203,7 +203,7 @@ sub _Start {
             # remove PID if changed time is greater than
             if ( $DeltaTime > $PIDUpdateTime ) {
 
-                # _AutoStop returns an exit code for the OS, we need the opposit value
+                # _AutoStop returns an exit code for the OS, we need the opposite value
                 my $PIDDeleteSuccess = !_AutoStop(
                     Message => 'NOTICE: otrs.Scheduler.pl is registered in the DB, but the '
                         . 'registry has not been updated in ' . $DeltaTime . ' seconds!. '
@@ -317,11 +317,7 @@ sub _Start {
         );
     }
 
-    # re-connect db
-    $Kernel::OM->ObjectsDiscard();
-    $Kernel::OM->Get('Kernel::System::DB');
-
-    # re-create entire common object again:
+    # re-create database object again:
     #
     # forked scheduler executing RegistrationUpdate tasks using PostgreSQL looses the connection
     #   to the server and this produces errors in SQL statements in different parts of the chain
@@ -335,10 +331,11 @@ sub _Start {
     #     DBD::Pg::st execute failed: lost synchronization with server: got message type "s"
     #     DBD::Pg::st execute failed: lost synchronization with server: got message type "e"
     #
-    # It has been found that just creating the entire common object again either at this point
-    #     or within the "main loop" works around the problem; re-creating just the DBObject does not
-    #     work correctly.
+    # It has been found that discarding the database object, create it again and invoking Connect()
+    #    this means a second connection fixes this problem, but just creating the database object
+    #    not.
     $Kernel::OM->ObjectsDiscard();
+    $Kernel::OM->Get('Kernel::System::DB')->Connect();
 
     # if start is forced, be sure to remove any PID from any host
     my $Force = $Param{Force} ? 1 : '';
