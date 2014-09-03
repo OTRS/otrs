@@ -9,13 +9,13 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-# set time zone to get correct references
-#$ENV{TZ} = 'Europe/Berlin';
+use vars (qw($Self));
 
-my $TimeObject      = $Kernel::OM->Get('Kernel::System::Time');
+# get needed objects
+my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
 my $StartSystemTime = $TimeObject->SystemTime();
 
 {

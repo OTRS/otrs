@@ -9,23 +9,14 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::Time;
-use Kernel::System::UnitTest::Helper;
+use vars (qw($Self));
 
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-my $TimeObject = Kernel::System::Time->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
+my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # this test only works in *nix
 if ( $^O eq 'MSWin32' ) {
@@ -85,7 +76,7 @@ for my $Test (@Tests) {
     local $ENV{TZ} = $Test->{TimeZone};
 
     $HelperObject->FixedTimeSet(
-        $Self->{TimeObject}->TimeStamp2SystemTime( String => $Test->{TimeStamp} ),
+        $TimeObject->TimeStamp2SystemTime( String => $Test->{TimeStamp} ),
     );
 
     my $MailTimeStamp = $TimeObject->MailTimeStamp();
@@ -95,7 +86,6 @@ for my $Test (@Tests) {
         $Test->{Result},
         "Timestamp $Test->{TimeStamp} for time zone $Test->{TimeZone}",
     );
-
 }
 
 1;
