@@ -86,7 +86,7 @@
 
 [% RenderBlockStart("ConfigElementString") %]
                             <div class="String">
-                                <input type="[% Data.InputType | html %]" name="[% Data.ElementKey | html %]" value="[% Data.Content | html %]"/>
+                                <input type="[% Data.InputType | html %]" name="[% Data.ElementKey | html %]" value="[% Data.Content | html %]" title="[% Data.Content | html %]" />
                                 <p class="DefaultValue">
                                     [% Translate("Default value") | html %]: [% Data.Default | html %]
                                 </p>
@@ -127,10 +127,11 @@
                                 <div class="Clear"></div>
 [% RenderBlockStart("ConfigElementHashContent") %]
 <!-- simple text value -->
-                                <input type="text" class="Key" name="[% Data.ElementKey | html %]Key[]" value="[% Data.Key | html %]"/>
-                                <input type="text" class="Content" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]"/>
-                                <button class="Remove" type="submit" name="[% Data.ElementKey | html %]#DeleteHashElement[% Data.Index %]" title="[% Translate("Remove this entry") | html %]" value="[% Translate("Remove this entry") | html %]">
-                                    [% Translate("Remove this entry") | html %]
+                                <input type="text" class="Key" name="[% Data.ElementKey | html %]Key[]" value="[% Data.Key | html %]" title="[% Data.Key | html %]"/>
+                                <input type="text" class="Content" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" title="[% Data.Content | html %]"/>
+                                <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteHashElement[% Data.Index %]" title="[% Translate("Remove this entry") | html %]" value="[% Translate("Remove this entry") | html %]">
+                                    <i class="fa fa-minus-square-o"></i>
+                                    <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
                                 </button>
                                 <input type="hidden" name="[% Data.ElementKey | html %]DeleteNumber[]" value="[% Data.Index | html %]"/>
 [% RenderBlockEnd("ConfigElementHashContent") %]
@@ -138,7 +139,7 @@
 [% RenderBlockStart("ConfigElementHashContent2") %]
 <!-- sub-hash or sub-array -->
                                 <label class="KeyWithComplexValue">
-                                    [% Data.Key | html %] =&gt;
+                                    [% Data.Key | html %]:
                                     <input type="hidden" name="[% Data.ElementKey | html %]Key[]" value="[% Data.Key | html %]" size="20"/>
                                 </label>
                                 <input type="hidden" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]"/>
@@ -147,16 +148,17 @@
                                 <div class="Hash">
 [% RenderBlockEnd("ConfigElementSubHashStart") %]
 [% RenderBlockStart("ConfigElementSubHashContent") %]
-                                    <input type="text" class="Key" name="[% Data.ElementKey | html %]Key[]" value="[% Data.Key | html %]"/>
-                                    <input type="text" class="Content" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]"/>
-                                    <button class="Remove" type="submit" name="[% Data.ElementKey | html %]#DeleteSubHashElement[% Data.Index2 %]" title="[% Translate("Remove this entry") | html %]" value="[% Translate("Remove this entry") | html %]">
-                                        [% Translate("Remove this entry") | html %]
+                                    <input type="text" class="Key" name="[% Data.ElementKey | html %]Key[]" value="[% Data.Key | html %]" title="[% Data.Key | html %]"/>
+                                    <input type="text" class="Content" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" title="[% Data.Content | html %]"/>
+                                    <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteSubHashElement[% Data.Index2 %]" title="[% Translate("Remove this entry") | html %]" value="[% Translate("Remove this entry") | html %]">
+                                        <i class="fa fa-minus-square-o"></i>
+                                        <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
                                     </button>
 [% RenderBlockEnd("ConfigElementSubHashContent") %]
 [% RenderBlockStart("ConfigElementSubHashEnd") %]
-                                    <br/>
-                                    <button class="Add" type="submit" name="[% Data.ElementKey | html %]#[% Data.Key | html %]#NewSubElement" title="[% Translate("Add entry") | html %]" value="[% Translate("Add entry") | html %]">
-                                        [% Translate("Add entry") | html %]
+                                    <button class="AddButton" type="submit" name="[% Data.ElementKey | html %]#[% Data.Key | html %]#NewSubElement" title="[% Translate("Add entry") | html %]" value="[% Translate("Add entry") | html %]">
+                                        <i class="fa fa-plus-square-o"></i>
+                                        <span class="InvisibleText">[% Translate("Add entry") | html %]</span>
                                     </button>
                                 </div>
 [% RenderBlockEnd("ConfigElementSubHashEnd") %]
@@ -165,14 +167,15 @@
 [% RenderBlockEnd("ConfigElementSubArrayStart") %]
 [% RenderBlockStart("ConfigElementSubArrayContent") %]
                                     <input type="text" class="Entry" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" />
-                                    <button class="Remove" type="submit" name="[% Data.ElementKey | html %]#DeleteSubArrayElement[% Data.Index2 %]" title="[% Translate("Remove entry") | html %]" value="[% Translate("Remove entry") | html %]">
-                                        [% Translate("Remove entry") | html %]
+                                    <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteSubArrayElement[% Data.Index2 %]" title="[% Translate("Remove entry") | html %]" value="[% Translate("Remove entry") | html %]">
+                                        <i class="fa fa-minus-square-o"></i>
+                                        <span class="InvisibleText">[% Translate("Remove entry") | html %]</span>
                                     </button>
 [% RenderBlockEnd("ConfigElementSubArrayContent") %]
 [% RenderBlockStart("ConfigElementSubArrayEnd") %]
-                                    <br/>
-                                    <button class="Add" type="submit" name="[% Data.ElementKey | html %]#[% Data.Key | html %]#NewSubElement" title="[% Translate("Add entry") | html %]" value="[% Translate("Add entry") | html %]">
-                                        [% Translate("Add entry") | html %]
+                                    <button class="AddButton" type="submit" name="[% Data.ElementKey | html %]#[% Data.Key | html %]#NewSubElement" title="[% Translate("Add entry") | html %]" value="[% Translate("Add entry") | html %]">
+                                        <i class="fa fa-plus-square-o"></i>
+                                        <span class="InvisibleText">[% Translate("Add entry") | html %]</span>
                                     </button>
                                 </div>
 [% RenderBlockEnd("ConfigElementSubArrayEnd") %]
@@ -183,9 +186,10 @@
                                 <input type="text" class="Key" name="[% Data.ElementKey | html %]Key[]" value="[% Data.Key | html %]" size="20"/>
                                 [% Data.List %]
 [% RenderBlockEnd("ConfigElementHashContent3") %]
-
-                                <br/>
-                                <button class="Add" type="submit" name="[% Data.ElementKey | html %]#NewHashElement" title="[% Translate("Add new entry") | html %]" value="[% Translate("Add new entry") | html %]">[% Translate("Add new entry") | html %]</button>
+                                <button class="AddButton" type="submit" name="[% Data.ElementKey | html %]#NewHashElement" title="[% Translate("Add new entry") | html %]" value="[% Translate("Add new entry") | html %]">
+                                    <i class="fa fa-plus-square-o"></i>
+                                    <span class="InvisibleText">[% Translate("Add new entry") | html %]</span>
+                                </button>
                             </div>
 [% RenderBlockEnd("ConfigElementHash") %]
 
@@ -194,13 +198,14 @@
                             <div class="Array">
 [% RenderBlockStart("ConfigElementArrayContent") %]
                                 <input type="text" class="Entry" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" />
-                                <button class="Remove" type="submit" name="[% Data.ElementKey | html %]#DeleteArrayElement[% Data.Index %]" title="[% Translate("Delete this entry") | html %]" value="[% Translate("Delete this entry") | html %]">
-                                    [% Translate("Delete this entry") | html %]
+                                <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteArrayElement[% Data.Index %]" title="[% Translate("Delete this entry") | html %]" value="[% Translate("Delete this entry") | html %]">
+                                    <i class="fa fa-minus-square-o"></i>
+                                    <span class="InvisibleText">[% Translate("Delete this entry") | html %]</span>
                                 </button>
-                                <br/>
 [% RenderBlockEnd("ConfigElementArrayContent") %]
-                                <button class="Add" type="submit" name="[% Data.ElementKey | html %]#NewArrayElement" title="[% Translate("Create new entry") | html %]" value="[% Translate("Create new entry") | html %]">
-                                    [% Translate("Create new entry") | html %]
+                                <button class="AddButton" type="submit" name="[% Data.ElementKey | html %]#NewArrayElement" title="[% Translate("Create new entry") | html %]" value="[% Translate("Create new entry") | html %]">
+                                    <i class="fa fa-plus-square-o"></i>
+                                    <span class="InvisibleText">[% Translate("Create new entry") | html %]</span>
                                 </button>
                             </div>
 [% RenderBlockEnd("ConfigElementArray") %]
@@ -213,32 +218,47 @@
 
 [% RenderBlockStart("ConfigElementFrontendModuleRegContentGroup") %]
                                     <input type="text" class="Entry" name="[% Data.ElementKey | html %]#Group[]" value="[% Data.Content | html %]" title="[% Translate("Group") | html %]"/>
-                                    <button class="Remove" type="submit" name="[% Data.ElementKey | html %]#DeleteGroupElement[% Data.Index %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">[% Translate("Remove this entry") | html %]</button>
-                                    <br/>
+                                    <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteGroupElement[% Data.Index %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">
+                                        <i class="fa fa-minus-square-o"></i>
+                                        <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
+                                    </button>
 [% RenderBlockEnd("ConfigElementFrontendModuleRegContentGroup") %]
-                                    <button class="Add" type="submit" name="[% Data.ElementKey | html %]#NewGroupElement" value="[% Translate("New group") | html %]" title="[% Translate("New group") | html %]">[% Translate("New group") | html %]</button>
+                                    <button class="AddButton" type="submit" name="[% Data.ElementKey | html %]#NewGroupElement" value="[% Translate("New group") | html %]" title="[% Translate("New group") | html %]">
+                                        <i class="fa fa-plus-square-o"></i>
+                                        <span class="InvisibleText">[% Translate("New group") | html %]</span>
+                                    </button>
                                 </div>
 
                                 <label class="KeyWithComplexValue">[% Translate("Group ro") | html %]:</label>
                                 <div class="Array">
 [% RenderBlockStart("ConfigElementFrontendModuleRegContentGroupRo") %]
                                     <input type="text" class="Entry" name="[% Data.ElementKey | html %]#GroupRo[]" value="[% Data.Content | html %]" title="[% Translate("Readonly group") | html %]"/>
-                                    <button class="Remove" type="submit" name="[% Data.ElementKey | html %]#DeleteGroupRoElement[% Data.Index %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">[% Translate("Remove this entry") | html %]</button>
-                                    <br/>
+                                    <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteGroupRoElement[% Data.Index %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">
+                                        <i class="fa fa-minus-square-o"></i>
+                                        <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
+                                    </button>
 [% RenderBlockEnd("ConfigElementFrontendModuleRegContentGroupRo") %]
-                                    <button class="Add" type="submit" name="[% Data.ElementKey | html %]#NewGroupRoElement" value="[% Translate("New group ro") | html %]">[% Translate("New group ro") | html %]</button>
+                                    <button class="AddButton" type="submit" name="[% Data.ElementKey | html %]#NewGroupRoElement" value="[% Translate("New group ro") | html %]">
+                                        <i class="fa fa-plus-square-o"></i>
+                                        <span class="InvisibleText">[% Translate("New group ro") | html %]</span>
+                                    </button>
                                 </div>
 
                                 <label class="KeyWithComplexValue">[% Translate("Loader") | html %]:</label>
                                 <div class="Array">
 [% RenderBlockStart("ConfigElementFrontendModuleRegContentLoader") %]
-                                    <input type="text" class="Entry" name="[% Data.ElementKey | html %]#Loader[]" value="[% Data.Content | html %]" title="[% Translate("File to load for this frontend module") | html %]"/>
-                                    <label for="[% Data.ElementKeyID | html %]LoaderType[% Data.Index %]">[% Translate("Type") | html %]:</label>
+                                    <input type="text" class="W50pc Entry" name="[% Data.ElementKey | html %]#Loader[]" value="[% Data.Content | html %]" title="[% Translate("File to load for this frontend module") | html %]"/>
+                                    <label class="InvisibleText" for="[% Data.ElementKeyID | html %]LoaderType[% Data.Index %]">[% Translate("Type") | html %]:</label>
                                     [% Data.LoaderType %]
-                                    <button class="Remove" type="submit" name="[% Data.ElementKey | html %]#DeleteLoaderElement[% Data.Index %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">[% Translate("Remove this entry") | html %]</button>
-                                    <br/>
+                                    <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteLoaderElement[% Data.Index %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">
+                                        <i class="fa fa-minus-square-o"></i>
+                                        <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
+                                    </button>
 [% RenderBlockEnd("ConfigElementFrontendModuleRegContentLoader") %]
-                                    <button class="Add" type="submit" name="[% Data.ElementKey | html %]#NewLoaderElement" value="[% Translate("New Loader File") | html %]">[% Translate("New Loader File") | html %]</button>
+                                    <button class="AddButton" type="submit" name="[% Data.ElementKey | html %]#NewLoaderElement" value="[% Translate("New Loader File") | html %]">
+                                        <i class="fa fa-plus-square-o"></i>
+                                        <span class="InvisibleText">[% Translate("New Loader File") | html %]</span>
+                                    </button>
                                 </div>
 
                                 <label class="SingleKey" for="[% Data.ElementKeyID | html %]_Title">[% Translate("Title") | html %]:</label>
@@ -253,7 +273,7 @@
                                 <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_NavBarName" name="[% Data.ElementKey | html %]#NavBarName" value="[% Data.ContentNavBarName | html %]"/>
                                 <div class="Clear"></div>
 
-                                <label class="KeyWithComplexValue">[% Translate("NavBar") | html %] =&gt;</label>
+                                <label class="KeyWithComplexValue">[% Translate("NavBar") | html %]:</label>
                                 <div class="NavBar">
 [% RenderBlockStart("ConfigElementFrontendModuleRegContentNavBar") %]
                                     <div class="NavBarListEntry">
@@ -262,20 +282,33 @@
                                         <div class="Array">
 [% RenderBlockStart("ConfigElementFrontendModuleRegContentNavBarGroup") %]
                                             <input type="text" class="Entry" name="[% Data.ElementKey | html %]#NavBar[% Data.Index %]#Group[]" value="[% Data.Content | html %]"/>
-                                            <button class="Remove" type="submit" name="[% Data.ElementKey | html %]#NavBar[% Data.Index %]#DeleteGroupElement[% Data.ArrayIndex %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">[% Translate("Remove this entry") | html %]</button>
+                                            <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#NavBar[% Data.Index %]#DeleteGroupElement[% Data.ArrayIndex %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">
+                                                <i class="fa fa-minus-square-o"></i>
+                                                <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
+                                            </button>
                                             <br/>
 [% RenderBlockEnd("ConfigElementFrontendModuleRegContentNavBarGroup") %]
-                                            <button class="Add" type="submit" name="[% Data.ElementKey | html %][% Data.Index %]#NewGroupElement" value="[% Translate("New group") | html %]" title="[% Translate("New group") | html %]">[% Translate("New group") | html %]</button>
+                                            <button class="AddButton" type="submit" name="[% Data.ElementKey | html %][% Data.Index %]#NewGroupElement" value="[% Translate("New group") | html %]" title="[% Translate("New group") | html %]">
+                                                <i class="fa fa-plus-square-o"></i>
+                                                <span class="InvisibleText">[% Translate("New group") | html %]</span>
+                                            </button>
                                         </div>
 
                                         <label class="KeyWithComplexValue">[% Translate("Group ro") | html %]:</label>
                                         <div class="Array">
 [% RenderBlockStart("ConfigElementFrontendModuleRegContentNavBarGroupRo") %]
                                             <input type="text" class="Entry" name="[% Data.ElementKey | html %]#NavBar[% Data.Index %]#GroupRo[]" value="[% Data.Content | html %]"/>
-                                            <button class="Remove" type="submit" name="[% Data.ElementKey | html %]#NavBar[% Data.Index %]#DeleteGroupRoElement[% Data.ArrayIndex %]" value="[% Translate("Remove this entry") | html %]">[% Translate("Remove this entry") | html %]</button>
+                                            <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#NavBar[% Data.Index %]#DeleteGroupRoElement[% Data.ArrayIndex %]" value="[% Translate("Remove this entry") | html %]">
+                                                <i class="fa fa-minus-square-o"></i>
+                                                <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
+                                            </button>
                                             <br/>
 [% RenderBlockEnd("ConfigElementFrontendModuleRegContentNavBarGroupRo") %]
-                                            <button class="Add" type="submit" name="[% Data.ElementKey | html %][% Data.Index %]#NewGroupRoElement" value="[% Translate("New group ro") | html %]" title="[% Translate("New group ro") | html %]">[% Translate("New group ro") | html %]</button>
+                                            <button class="AddButton" type="submit" name="[% Data.ElementKey | html %][% Data.Index %]#NewGroupRoElement" value="[% Translate("New group ro") | html %]" title="[% Translate("New group ro") | html %]">
+                                                <i class="fa fa-plus-square-o"></i>
+
+                                                <span class="InvisibleText">[% Translate("New group ro") | html %]</span>
+                                            </button>
                                         </div>
 
                                         <label class="SingleKey" for="[% Data.ElementKeyID | html %]_[% Data.Index %]_Description">[% Translate("Description") | html %]:</label>
@@ -315,18 +348,24 @@
                                         <div class="Clear"></div>
 
                                         <div>
-                                            <button class="Remove" type="submit" name="[% Data.ElementKey | html %]#[% Data.Index %]#DeleteElement" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">[% Translate("Remove this entry") | html %]</button>
+                                            <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#[% Data.Index %]#DeleteElement" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">
+                                                <i class="fa fa-minus-square-o"></i>
+                                                <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
+                                            </button>
                                         </div>
                                     </div>
 [% RenderBlockEnd("ConfigElementFrontendModuleRegContentNavBar") %]
                                     <div>
-                                        <button class="Add" type="submit" name="[% Data.ElementKey | html %]#NavBar#AddElement" value="[% Translate("Add NavBar entry") | html %]" title="[% Translate("Add NavBar entry") | html %]">[% Translate("Add NavBar entry") | html %]</button>
+                                        <button class="AddButton" type="submit" name="[% Data.ElementKey | html %]#NavBar#AddElement" value="[% Translate("Add NavBar entry") | html %]" title="[% Translate("Add NavBar entry") | html %]">
+                                            <i class="fa fa-plus-square-o"></i>
+                                            <span class="InvisibleText">[% Translate("Add NavBar entry") | html %]</span>
+                                        </button>
                                     </div>
                                 </div>
                                 <br/>
 
 [% RenderBlockStart("ConfigElementFrontendModuleRegContentNavBarModule") %]
-                                <label class="KeyWithComplexValue">NavBarModule =&gt;</label>
+                                <label class="KeyWithComplexValue">NavBarModule:</label>
                                 <div class="NavBar">
                                     <label class="SingleKey" for="[% Data.ElementKeyID | html %]_[% Data.Index %]_Module">[% Translate("Module") | html %]:</label>
                                     <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Module" name="[% Data.ElementKey | html %]#Module[]" value="[% Data.ContentModule | html %]"/>
@@ -361,7 +400,10 @@
                                 <input type="text" name="[% Data.ElementKey | html %]month[]" value="[% Data.Month | html %]" title="[% Translate("Month") | html %]" maxlength="2" class="Month"/>
                                 <input type="text" name="[% Data.ElementKey | html %]day[]" value="[% Data.Day | html %]" title="[% Translate("Day") | html %]" maxlength="2" class="Day"/>
                                 <input type="text" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" title="[% Translate("Text") | html %]" class="W20pc" />
-                                <button class="Remove" type="submit" name="[% Data.ElementKey | html %]#DeleteTimeVacationDaysOneTimeElement[% Data.Index %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">[% Translate("Remove this entry") | html %]</button>
+                                <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteTimeVacationDaysOneTimeElement[% Data.Index %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">
+                                    <i class="fa fa-minus-square-o"></i>
+                                    <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
+                                </button>
 [% RenderBlockStart("ConfigElementTimeVacationDaysOneTimeContentInvalidYear") %]
                                 <span class="Error">[% Translate("Error") | html %]: [% Translate("Invalid year") | html %].</span>
 [% RenderBlockEnd("ConfigElementTimeVacationDaysOneTimeContentInvalidYear") %]
@@ -373,7 +415,7 @@
 [% RenderBlockEnd("ConfigElementTimeVacationDaysOneTimeContentInvalidDay") %]
                                 <br/>
 [% RenderBlockEnd("ConfigElementTimeVacationDaysOneTimeContent") %]
-                                <button class="Add" type="submit" name="[% Data.ElementKey | html %]#NewTimeVacationDaysOneTimeElement" value="[% Translate("Add entry") | html %]" title="[% Translate("Add entry") | html %]">[% Translate("Add entry") | html %]</button>
+                                <button class="AddButton" type="submit" name="[% Data.ElementKey | html %]#NewTimeVacationDaysOneTimeElement" value="[% Translate("Add entry") | html %]" title="[% Translate("Add entry") | html %]"><i class="fa fa-plus-square-o"></i> <span class="InvisibleText">[% Translate("Add entry") | html %]</span></button>
                             </div>
 [% RenderBlockEnd("ConfigElementTimeVacationDaysOneTime") %]
 
@@ -385,7 +427,10 @@
                                 <input type="text" name="[% Data.ElementKey | html %]month[]" value="[% Data.Month | html %]" title="[% Translate("Month") | html %]" maxlength="2" class="Month"/>
                                 <input type="text" name="[% Data.ElementKey | html %]day[]" value="[% Data.Day | html %]" title="[% Translate("Day") | html %]" maxlength="2" class="Day"/>
                                 <input type="text" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" title="[% Translate("Text") | html %]" class="W20pc" />
-                                <button class="Remove" type="submit" name="[% Data.ElementKey | html %]#DeleteTimeVacationDaysElement[% Data.Index %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">[% Translate("Remove this entry") | html %]</button>
+                                <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteTimeVacationDaysElement[% Data.Index %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">
+                                    <i class="fa fa-minus-square-o"></i>
+                                    <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
+                                </button>
 [% RenderBlockStart("ConfigElementTimeVacationDaysContentInvalidMonth") %]
                                 <span class="Error">[% Translate("Error") | html %]: [% Translate("Invalid month") | html %].</span>
 [% RenderBlockEnd("ConfigElementTimeVacationDaysContentInvalidMonth") %]
@@ -394,7 +439,10 @@
 [% RenderBlockEnd("ConfigElementTimeVacationDaysContentInvalidDay") %]
                                 <br/>
 [% RenderBlockEnd("ConfigElementTimeVacationDaysContent") %]
-                                <button class="Add" type="submit" name="[% Data.ElementKey | html %]#NewTimeVacationDaysElement" value="[% Translate("Add entry") | html %]" title="[% Translate("Add entry") | html %]">[% Translate("Add entry") | html %]</button>
+                                <button class="AddButton" type="submit" name="[% Data.ElementKey | html %]#NewTimeVacationDaysElement" value="[% Translate("Add entry") | html %]" title="[% Translate("Add entry") | html %]">
+                                    <i class="fa fa-plus-square-o"></i>
+                                    <span class="InvisibleText">[% Translate("Add entry") | html %]</span>
+                                </button>
                             </div>
 [% RenderBlockEnd("ConfigElementTimeVacationDays") %]
 
