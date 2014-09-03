@@ -76,7 +76,10 @@
                             <td>[% Data.ValidID | html %]</td>
 
                             <td class="Center">
-                                <a class="TrashCan SystemMaintenanceDelete" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;SystemMaintenanceID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete System Maintenance") | html %]">[% Translate("Delete System Maintenance") | html %]</a>
+                                <a class="TrashCan SystemMaintenanceDelete" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;SystemMaintenanceID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete System Maintenance") | html %]">
+                                    <i class="fa fa-trash-o"></i>
+                                    <span class="InvisibeText">[% Translate("Delete System Maintenance") | html %]</span>
+                                </a>
                             </td>
                         </tr>
 [% RenderBlockEnd("ViewRow") %]
